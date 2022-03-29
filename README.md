@@ -4,7 +4,7 @@
 ## Getting Started
 ```bash
 # 저장소를 Clone
-git clone https://github.com/seoulauction/seoulauction-renewal-front.git
+git clone https://github.com/seoulauction/seoulauction-renewal.git
 ```
 
 ---
