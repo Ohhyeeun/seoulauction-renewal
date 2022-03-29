@@ -39,11 +39,11 @@ git clone https://github.com/seoulauction/seoulauction-renewal-front.git
 ---
 
 ## Server Information
-
-SPRING BOOT WEB APPLICATION
-JAVA VERSION : JAVA 11
-BUILD : GRADLE
-
+```
+- SPRING BOOT WEB APPLICATION
+- JAVA VERSION : JAVA 11
+- BUILD : GRADLE
+```
 ---
 
 ## Development
