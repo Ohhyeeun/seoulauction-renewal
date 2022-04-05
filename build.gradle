@@ -20,16 +20,30 @@ repositories {
 
 dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'org.mariadb.jdbc:mariadb-java-client'
+
+    //web
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.projectlombok:lombok:1.18.22'
     implementation 'javax.servlet:jstl'
     implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
-    compileOnly 'org.projectlombok:lombok'
+
+    //db
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.mariadb.jdbc:mariadb-java-client'
     runtimeOnly 'mysql:mysql-connector-java'
+
+    //lombok
     annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
+    implementation 'org.projectlombok:lombok:1.18.22'
+
+    //주소 모듈 관련
+    implementation group: 'org.jdom', name: 'jdom2', version: '2.0.3'
+
+    //apache commons
+    implementation "org.apache.commons:commons-lang3:3.11"
+
+    //test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 }

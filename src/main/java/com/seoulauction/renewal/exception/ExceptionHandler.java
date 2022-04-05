@@ -1,6 +1,7 @@
 package com.seoulauction.renewal.exception;
 
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -20,8 +21,8 @@ public class ExceptionHandler {
 
     //그외 심각한 오류들
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
-    public String intervalException(){
-        log.error("500");
+    public String intervalException(Exception e){
+        log.error(ExceptionUtils.getStackTrace(e));
         return "/errors/500";
     }
 

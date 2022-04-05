@@ -4,12 +4,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-
 <!DOCTYPE html>
 <html lang="ko">
 <body>
 <tr>
-<th>로그인</th>
+<th>호오옴!!!</th>
 </tr>
 
 </body>
