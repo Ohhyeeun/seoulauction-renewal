@@ -5,6 +5,7 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Log4j2
+@Component
 public final class AddressFinder {
 
 	@Value("${addr.service.url}")
@@ -23,7 +25,7 @@ public final class AddressFinder {
 	@Value("${addr.service.api.key}")
 	static String SERVICE_API_KEY;
 
-	public static final String SERVICE_TARGET		= "postNew";
+	public static final String SERVICE_TARGET = "postNew";
 	
 	/**
 	 * 공공데이터 포털 주소검색 API WebService 호출 (우체국  API)

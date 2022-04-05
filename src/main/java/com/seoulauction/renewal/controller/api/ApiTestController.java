@@ -12,13 +12,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Log4j2
 @RequiredArgsConstructor
-@RequestMapping("api/customer")
-public class RestCustomerController {
+@RequestMapping("api/test")
+public class ApiTestController {
 
-    @RequestMapping(value="/test", method = RequestMethod.GET)
+    @RequestMapping(value="/good", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> test() {
 
+        CommonMap map = new CommonMap();
+        map.put("asdfasdf","asdfasdf");
+        map.put("asdfasdf2","asdfasdf2");
+        map.put("asdfasdf3","asdfasdf3");
+        map.put("asdfasdf4","asdfasdf4");
 
-        return ResponseEntity.ok(RestResponse.ok());
+        String ddfasd ="asdfasdf";
+
+        log.info("map : {}" , map);
+
+        return ResponseEntity.ok(RestResponse.ok(map));
     }
 }

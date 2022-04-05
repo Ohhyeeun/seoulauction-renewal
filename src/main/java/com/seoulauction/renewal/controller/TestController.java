@@ -21,6 +21,8 @@ public class TestController {
 
         log.info("test");
 
+        log.info("adsfas  :  {}" , testService.selectArtistTest());
+
         model.addAttribute("test", testService.selectArtistTest());
         return "test/good";
     }

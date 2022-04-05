@@ -50,3 +50,7 @@ atlassian-ide-plugin.xml
 
 # META-INF/*
 /META-INF/*
+
+
+# logs file
+logs

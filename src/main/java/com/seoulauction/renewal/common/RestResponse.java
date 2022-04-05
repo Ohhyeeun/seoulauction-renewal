@@ -1,15 +1,12 @@
 package com.seoulauction.renewal.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RestResponse {
 
