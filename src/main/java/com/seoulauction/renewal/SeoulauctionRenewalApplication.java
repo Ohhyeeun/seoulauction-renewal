@@ -1,16 +1,18 @@
 package com.seoulauction.renewal;
 
-import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 
-@SpringBootApplication
 @Log4j2
-public class SeoulauctionRenewalApplication {
+@SpringBootApplication
+public class SeoulauctionRenewalApplication extends SpringBootServletInitializer {
+
 
     public static void main(String[] args) {
         SpringApplication.run(SeoulauctionRenewalApplication.class, args);
@@ -20,7 +22,12 @@ public class SeoulauctionRenewalApplication {
     String config;
 
     @Bean
-    public CommandLineRunner commandLineRunner(){
-        return args -> log.info("server config : {}" , config);
+    public CommandLineRunner commandLineRunner() {
+        return args -> log.info("server config : {}", config);
+    }
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(SeoulauctionRenewalApplication.class);
     }
 }

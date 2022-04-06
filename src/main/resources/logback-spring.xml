@@ -23,7 +23,7 @@
     <property name ="ERR_LOG_FILE_NAME" value = "${LOG_FILE_NAME}_error"/>
 
     <!-- 로그 파일 패턴 -->
-    <property name ="LOG_PATTERN" value = "%-5level %d{yyyy-MM-dd HH:mm:ss}[%thread] [%logger{0}:%line] - %msg%n"/>
+    <property name ="LOG_PATTERN" value = "[%d{yyyy-MM-dd HH:mm:ss}] [%thread] [%logger{0}:%line] [%-5level] - %msg%n"/>
 
     <!-- 콘솔 Appender 설정 -->
     <appender name ="CONSOLE" class ="ch.qos.logback.core.ConsoleAppender">
@@ -56,13 +56,14 @@
         </rollingPolicy>
     </appender>
 
-
+    <!-- 에러 관련 정책 -->
     <appender name = "ERROR" class ="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class ="ch.qos.logback.classic.filter.LevelFilter">
             <level>error</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
+        <!-- 에러 로그 별도로 파일 생성 -->
         <file>${LOG_PATH}/${ERR_LOG_FILE_NAME}.log</file>
 
         <!-- 로그 패턴 설정 -->
@@ -89,6 +90,7 @@
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </logger>
+
     <root level = "${LOG_LEVEL}">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
