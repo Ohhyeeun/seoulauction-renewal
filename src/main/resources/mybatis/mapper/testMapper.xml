@@ -9,5 +9,4 @@
 		LIMIT
 			10
 	</select>
-
 </mapper>

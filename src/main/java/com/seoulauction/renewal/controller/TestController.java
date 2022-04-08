@@ -12,16 +12,4 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class TestController {
 
-    private final TestService testService;
-
-    @GetMapping("/test")
-    public String test(Model model) {
-
-        log.info("test");
-
-        log.info("adsfas  :  {}" , testService.selectArtistTest());
-
-        model.addAttribute("test", testService.selectArtistTest());
-        return "test/good";
-    }
 }
