@@ -1,4 +1,4 @@
-package com.seoulauction.renewal.utill;
+package com.seoulauction.renewal.component;
 
 import com.slack.api.Slack;
 import com.slack.api.methods.MethodsClient;
@@ -8,6 +8,7 @@ import com.slack.api.methods.request.chat.ChatPostMessageRequest;
 import com.slack.api.methods.response.chat.ChatGetPermalinkResponse;
 import com.slack.api.methods.response.chat.ChatPostMessageResponse;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +16,8 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 
-@Component
 @Log4j2
+@Component
 public class SlackSender {
 
     @Value("${slack.use}")
@@ -29,9 +30,11 @@ public class SlackSender {
 
     Boolean startingQueue;
 
-    Integer CAPACITY = 10;
+    final Integer CAPACITY = 10;
 
-    Integer SLACK_MESSAGE_DELAY = 2 * 1000;
+    final Integer SLACK_MESSAGE_DELAY = 2 * 1000;
+
+    final Integer MESSAGE_MAX_SIZE = 3000;
 
     ArrayBlockingQueue<String> slackBlockingQueue = new ArrayBlockingQueue<>(CAPACITY);
 
@@ -46,9 +49,11 @@ public class SlackSender {
     public synchronized void sendMessage(String message){
         try {
             if(slackBlockingQueue.size() < CAPACITY) {
-                log.info("slackSender save!!!!");
-                log.info("slackSender : {}" , slackBlockingQueue.size());
-                slackBlockingQueue.put(message);
+
+                String msg = StringUtils.isNotEmpty(message) && message.length() > MESSAGE_MAX_SIZE
+                        ? message.substring(0 , MESSAGE_MAX_SIZE) + "...." : message;
+
+                slackBlockingQueue.put(msg);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

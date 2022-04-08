@@ -1,4 +1,4 @@
-package com.seoulauction.renewal.utill;
+package com.seoulauction.renewal.component;
 
 import lombok.extern.log4j.Log4j2;
 import org.jdom2.Document;
