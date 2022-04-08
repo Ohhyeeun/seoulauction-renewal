@@ -19,8 +19,6 @@ public class HomeController {
     @GetMapping({"/" , "/en"})
     public String index(HttpServletRequest request) {
 
-        int d = 3 / 0 ;
-
         String path = request.getServletPath();
         return StringUtils.isNotEmpty(path) && path.equals("/en") ? "/index_en" : "/index";
     }
