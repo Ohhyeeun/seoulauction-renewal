@@ -29,7 +29,7 @@ public class ExceptionHandler {
     public String intervalException(Exception e){
         String errorMsg = ExceptionUtils.getStackTrace(e);
         log.error(errorMsg);
-        slackSender.postSlackMessage(errorMsg);
+        slackSender.sendMessage(errorMsg);
         return "/errors/500";
     }
 

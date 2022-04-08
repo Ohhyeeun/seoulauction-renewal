@@ -18,7 +18,10 @@ class SeoulauctionRenewalApplicationTests {
 
     @Test
     void contextLoads() {
-        slackSender.postSlackMessage("ddddddddd");
+        slackSender.sendMessage("ddddddddd");
+        slackSender.sendMessage("ddddddddd2");
+        slackSender.sendMessage("ddddddddd3");
+        slackSender.sendMessage("ddddddddd4");
     }
 
 }
