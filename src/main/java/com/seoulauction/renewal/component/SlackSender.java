@@ -22,7 +22,6 @@ public class SlackSender {
 
     @Value("${slack.use}")
     Boolean use;
-
     @Value("${slack.token}")
     String token;
     @Value("${slack.channel.error.monitoring}")
