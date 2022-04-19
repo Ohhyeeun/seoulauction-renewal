@@ -5,8 +5,8 @@
 *.sonarj
 *.sw*
 .DS_Store
-# .settings
-#.springBeans
+.settings
+.springBeans
 bin
 build.sh
 integration-repo
