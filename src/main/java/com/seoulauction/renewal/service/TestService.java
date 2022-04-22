@@ -16,6 +16,4 @@ public class TestService {
     public List<CommonMap> selectArtistTest(){
         return testMapper.selectArtist();
     }
-
-
 }

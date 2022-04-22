@@ -39,6 +39,10 @@ public class CommonMap extends HashMap<String, Object>{
 		super.put("offset" , (size * (page - 1)));
 		return this;
 	}
+
+	public String getString(Object key){
+		return super.get(key) instanceof String ? (String) super.get(key) : null;
+	}
 	
 	@Override
 	public Object get(Object key) {
