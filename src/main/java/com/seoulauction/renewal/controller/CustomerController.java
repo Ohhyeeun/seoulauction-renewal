@@ -19,7 +19,7 @@ public class CustomerController {
     @GetMapping("/test")
     public String test(Model model) {
 
-        model.addAttribute("test", testService.selectArtistTest());
+        //model.addAttribute("test", testService.selectArtistTest());
         return "customer/login";
     }
 }

@@ -1,8 +1,10 @@
 package com.seoulauction.renewal.service;
 
 import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.mapper.TestMapper;
+import com.seoulauction.renewal.mapper.aws.AWSTestMapper;
+import com.seoulauction.renewal.mapper.kt.KTTestMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +13,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TestService {
 
-    private final TestMapper testMapper;
+    private final KTTestMapper ktTestMapper;
 
-    public List<CommonMap> selectArtistTest(){
-        return testMapper.selectArtist();
+    private final AWSTestMapper awsTestMapper;
+
+    public CommonMap selectArtistTest(){
+        CommonMap map = new CommonMap();
+        map.put("aws", awsTestMapper.selectArtist());
+        map.put("kt", ktTestMapper.selectArtist());
+        return map;
     }
 }
