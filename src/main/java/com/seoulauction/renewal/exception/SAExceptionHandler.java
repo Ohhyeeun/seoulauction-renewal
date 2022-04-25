@@ -22,8 +22,9 @@ public class SAExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String error404(){
         log.info("404");
-        return "/errors/404";
+        return "/error/404";
     }
+
 
     //그외 심각한 오류들
     @ExceptionHandler(Exception.class)
@@ -31,7 +32,7 @@ public class SAExceptionHandler {
         String errorMsg = ExceptionUtils.getStackTrace(e);
         log.error(errorMsg);
         slackSender.sendMessage(errorMsg);
-        return "/errors/500";
+        return "/error/500";
     }
 
 }

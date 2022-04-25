@@ -43,6 +43,10 @@ public class CommonMap extends HashMap<String, Object>{
 	public String getString(Object key){
 		return super.get(key) instanceof String ? (String) super.get(key) : null;
 	}
+
+	public Integer getInteger(Object key){
+		return super.get(key) instanceof Integer ? (Integer) super.get(key) : null;
+	}
 	
 	@Override
 	public Object get(Object key) {
