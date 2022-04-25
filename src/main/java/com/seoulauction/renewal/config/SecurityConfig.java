@@ -1,28 +1,59 @@
 package com.seoulauction.renewal.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import com.seoulauction.renewal.auth.FrontAuthenticationProvider;
+import com.seoulauction.renewal.auth.LoginSuccessHandler;
+import com.seoulauction.renewal.auth.PasswordEncoderAESforSA;
+import com.seoulauction.renewal.auth.RememberMeService;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	private final RememberMeService rememberMeService;
 
+	private final LoginSuccessHandler loginSuccessHandler;
+	
+    @Bean 
+    public FrontAuthenticationProvider frontAuthenticationProvider() {
+        return new FrontAuthenticationProvider(); 
+    }	
+	
+	@Bean
+	public PasswordEncoderAESforSA passwordEncoderAESforSA() {
+	    return new PasswordEncoderAESforSA();
+	}
+	
+	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.authenticationProvider(frontAuthenticationProvider());
+	}
+
+	@Bean
+    public SimpleUrlAuthenticationFailureHandler simpleUrlAuthenticationFailureHandler() {
+		SimpleUrlAuthenticationFailureHandler auth = new SimpleUrlAuthenticationFailureHandler("/login?error");
+        return auth;
+    }
+	
     @Override
     protected void configure(HttpSecurity security) throws Exception
     {
@@ -31,23 +62,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable()
             .authorizeRequests()
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-            .antMatchers("/").permitAll()
-            //.anyRequest().authenticated()
-            .and();
-            //login 설정.
-//                .formLogin()
-//                .loginPage("/customer/login.jsp")
-//                .usernameParameter("loginId")
-//                .passwordParameter("password")
-//                .loginProcessingUrl("/perform_login")
-//                .defaultSuccessUrl("/homepage.html", true)
-//                .failureUrl("/login.html?error=true")
-//                .failureHandler(null)
-//            .and()
-//                .logout()
-//                .logoutUrl("/perform_logout")
-//                .deleteCookies("JSESSIONID")
-//                .logoutSuccessHandler(null);
+	        .antMatchers("/**").permitAll()
+			.antMatchers("/customer/**").hasRole("FRONT_USER")
+			.anyRequest().authenticated()
+			.and()
+			.formLogin()
+				.loginPage("/login")
+				.loginProcessingUrl("/processLogin")
+				.usernameParameter("loginId")
+				.passwordParameter("password")
+				.failureUrl("/login?error")
+				.failureHandler(simpleUrlAuthenticationFailureHandler())
+	            .defaultSuccessUrl("/")
+	            .and()
+			.logout()
+				.logoutUrl("/processLogout")
+				.logoutSuccessUrl("/")
+				.permitAll()
+	            .and()
+	        .rememberMe()
+		        .key("SeoulAuction")
+		        .rememberMeParameter("remember-me")
+		        .tokenValiditySeconds(86400 * 30) // 1달
+		        .userDetailsService(rememberMeService)
+		        .authenticationSuccessHandler(loginSuccessHandler);
 
     }
 

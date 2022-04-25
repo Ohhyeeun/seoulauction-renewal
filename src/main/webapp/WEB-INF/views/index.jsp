@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html lang="ko">
 <head>
     <meta charset="UTF-8"> 
@@ -16,6 +17,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">  
     <link rel="stylesheet" href="/css/swiper.css" type="text/css">
+    <c:set var="is_login" scope="session" value="false" />
+    <sec:authorize access="hasRole('ROLE_FRONT_USER')">
+		<c:set var="is_login" scope="session" value="true" />
+	</sec:authorize>
 </head>  
 <body>  
     <header class="header main-header"> <!-- class="main-header fixed" --> 
@@ -44,7 +49,14 @@
                 </ul> 
             </li> <!-- login -->
             <li class="utility-login"><a href="#">로그인</a></li> <!-- !login --> 
-            <li class="utility-logout"><a href="#">로그아웃</a></li> <!-- login -->   
+            <li class="utility-logout"><a onclick="javascript:document.getElementById('logoutForm').submit();" href="#">
+<%--             <c:if test="${is_login == true}"> --%>
+<%--             <sec:authentication property="details.userNm"/> --%>
+<%--             </c:if> --%>
+            로그아웃</a></li> <!-- login -->
+			<form action="/processLogout" method="post" id="logoutForm">
+			  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			</form> 
         </ul>   
 
         <nav class="header_nav wrap_padding">

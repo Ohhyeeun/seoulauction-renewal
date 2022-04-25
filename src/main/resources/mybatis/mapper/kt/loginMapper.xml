@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seoulauction.renewal.mapper.kt.LoginMapper">
+
+	<select id="getCustomerByLoginId" parameterType="CommonMap" resultType="CommonMap">
+		select * from CUST 
+		where LOGIN_ID = #{login_id} <!-- index -->
+		and JOIN_KIND_CD = 'online' and IFNULL(DEL_YN, 'N') = 'N' 
+		and STAT_CD = #{stat_cd} 
+	</select>
+	
+	<insert id="insertConnHist" parameterType="CommonMap">
+        INSERT INTO CONN_HIST
+         (CONN_DT, IP, USER_KIND_CD, USER_NO) 
+		VALUES (NOW(), #{ip}, #{user_kind_cd},  #{user_no})
+    </insert>
+    
+    <select id="getCustomerByCustNo" parameterType="CommonMap" resultType="CommonMap">
+		select * from CUST 
+		where CUST_NO = #{cust_no}
+	</select>
+    
+</mapper>
