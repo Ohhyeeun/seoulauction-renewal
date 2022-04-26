@@ -1,9 +1,5 @@
 package com.seoulauction.renewal.config;
 
-import com.seoulauction.renewal.auth.FrontAuthenticationProvider;
-import com.seoulauction.renewal.auth.LoginSuccessHandler;
-import com.seoulauction.renewal.auth.RememberMeService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,12 +7,19 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.seoulauction.renewal.auth.FrontAuthenticationProvider;
+import com.seoulauction.renewal.auth.FrontLoginSuccessHandler;
+import com.seoulauction.renewal.auth.RememberMeLoginSuccessHandler;
+import com.seoulauction.renewal.auth.RememberMeService;
+
+import lombok.RequiredArgsConstructor;
+
 
 @Configuration
 @EnableWebSecurity
@@ -25,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private final RememberMeService rememberMeService;
 
-	private final LoginSuccessHandler loginSuccessHandler;
+	private final RememberMeLoginSuccessHandler rememberMeLoginSuccessHandler;
 
 	private final FrontAuthenticationProvider frontAuthenticationProvider;
 
@@ -38,6 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public SimpleUrlAuthenticationFailureHandler simpleUrlAuthenticationFailureHandler() {
 		return new SimpleUrlAuthenticationFailureHandler("/login?error");
     }
+	
+	@Bean
+	public AuthenticationSuccessHandler successHandler() {
+	    return new FrontLoginSuccessHandler("/"); // Default targetUrl
+	}
 	
     @Override
     protected void configure(HttpSecurity security) throws Exception
@@ -58,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.passwordParameter("password")
 				.failureUrl("/login?error")
 				.failureHandler(simpleUrlAuthenticationFailureHandler())
-	            .defaultSuccessUrl("/")
+				.successHandler(successHandler())
 	            .and()
 			.logout()
 				.logoutUrl("/processLogout")
@@ -70,8 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		        .rememberMeParameter("remember-me")
 		        .tokenValiditySeconds(86400 * 30) // 1달
 		        .userDetailsService(rememberMeService)
-		        .authenticationSuccessHandler(loginSuccessHandler);
-
+		        .authenticationSuccessHandler(rememberMeLoginSuccessHandler);
     }
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

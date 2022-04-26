@@ -18,7 +18,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Service
 @Log4j2
-public class LoginSuccessHandler implements AuthenticationSuccessHandler{
+public class RememberMeLoginSuccessHandler implements AuthenticationSuccessHandler{
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,

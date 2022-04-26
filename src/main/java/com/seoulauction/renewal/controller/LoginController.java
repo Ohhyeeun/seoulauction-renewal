@@ -21,7 +21,11 @@ public class LoginController {
     private final LoginService loginService;
     
     @GetMapping("/login")
-    public String test(Model model, HttpServletRequest request, HttpServletResponse response, Principal principal, Authentication authentication) {
+    public String login(Model model, HttpServletRequest request, HttpServletResponse response, Principal principal, Authentication authentication) {
+        // 로그인 이전페이지 기억
+    	String referrer = request.getHeader("Referer");
+        request.getSession().setAttribute("prevPage", referrer);
+    	
     	if(principal != null) {
     		//Principal (CUST_NO)
     		log.info("===== CUST_NO : " + principal.getName() + "\t=====");
@@ -39,4 +43,5 @@ public class LoginController {
 
         return "customer/login";
     }
+
 }
