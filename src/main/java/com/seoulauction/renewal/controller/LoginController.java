@@ -1,20 +1,17 @@
 package com.seoulauction.renewal.controller;
 
-import java.security.Principal;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.service.LoginService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.seoulauction.renewal.domain.SAUserDetails;
-import com.seoulauction.renewal.service.LoginService;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 
 @Controller
 @Log4j2

@@ -1,16 +1,11 @@
 package com.seoulauction.renewal.auth;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import com.seoulauction.renewal.component.Cryptography;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PasswordEncoderAESforSA implements PasswordEncoder {
-
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	//@Override
 	public String encode(CharSequence rawPassword) {

@@ -18,49 +18,26 @@ import lombok.NoArgsConstructor;
 public class SAUserDetails implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
-	
-	private String loginId;
-    private int userNo;
-    private String password;
-    private List<GrantedAuthority> authorities;
-    private String userKind;
 
+	private int userNo;
+	private String loginId;
+    private String password;
+    private String userKind;
 	private String userNm;
 	private String agreeYn;
 	private String ip;
-    
-	public SAUserDetails(String loginId, String password, int userNo, List<GrantedAuthority> authorities) {
-    	this.loginId = loginId;
-		this.password = password;
-		this.userNo = userNo;
-		this.authorities = authorities;
-	}
-    
-    public SAUserDetails(String loginId, String password, int userNo, List<GrantedAuthority> authorities, String userKind) {
-    	this.loginId = loginId;
-		this.password = password;
-		this.userNo = userNo;
-		this.authorities = authorities;
-		this.userKind = userKind;
-	}
-    
+	private List<GrantedAuthority> authorities;
+
     @Override
     public String getUsername() {
     	return this.loginId;
     }
-    
-	@Override
-	public String getPassword() {
-		return this.password;
-	}
-
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
 	}
-	
-	
+
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;

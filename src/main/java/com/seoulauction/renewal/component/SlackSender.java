@@ -40,12 +40,17 @@ public class SlackSender {
     @PostConstruct
     public void init(){
         log.info("slackSender init");
-        startingQueue = true;
+        startingQueue = false;
         slackBlockingQueue = new ArrayBlockingQueue<>(CAPACITY);
         startingQueue();
     }
 
     public synchronized void sendMessage(String message){
+
+        if(!use){
+            log.info("slack not using!!");
+            return;
+        }
         try {
             if(slackBlockingQueue.size() < CAPACITY) {
 
@@ -61,11 +66,8 @@ public class SlackSender {
 
     public void startingQueue(){
 
-        if(!use){
-            log.info("slack not using!!");
-            return;
-        }
-        if(startingQueue) {
+        if(!startingQueue) {
+            startingQueue = true;
             new Thread(() -> {
                     try {
                         while(true) {
