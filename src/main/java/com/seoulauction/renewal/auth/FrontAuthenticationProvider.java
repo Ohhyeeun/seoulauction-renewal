@@ -3,6 +3,7 @@ package com.seoulauction.renewal.auth;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +24,14 @@ import com.seoulauction.renewal.mapper.kt.LoginMapper;
 
 import lombok.RequiredArgsConstructor;
 
+@Log4j2
 @RequiredArgsConstructor
+@Component
 public class FrontAuthenticationProvider implements AuthenticationProvider {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Autowired
-	PasswordEncoderAESforSA encoder;
+	private final PasswordEncoderAESforSA encoder;
 
-	@Autowired
-	LoginMapper loginMapper;
-	
+	private final LoginMapper loginMapper;
 	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -66,7 +64,7 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
         paramMap.put("user_kind_cd", "customer");
         int insertResult = loginMapper.insertConnHist(paramMap);
         if(insertResult > 0){
-        	logger.info("userIPAddress == " + userIPAddress);
+        	log.info("userIPAddress == " + userIPAddress);
         }
 
 		List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();

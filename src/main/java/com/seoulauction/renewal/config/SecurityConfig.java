@@ -31,27 +31,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private final RememberMeService rememberMeService;
 
 	private final LoginSuccessHandler loginSuccessHandler;
-	
-    @Bean 
-    public FrontAuthenticationProvider frontAuthenticationProvider() {
-        return new FrontAuthenticationProvider(); 
-    }	
-	
-	@Bean
-	public PasswordEncoderAESforSA passwordEncoderAESforSA() {
-	    return new PasswordEncoderAESforSA();
-	}
-	
-	
+
+	private final FrontAuthenticationProvider frontAuthenticationProvider;
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(frontAuthenticationProvider());
+		auth.authenticationProvider(frontAuthenticationProvider);
 	}
 
 	@Bean
     public SimpleUrlAuthenticationFailureHandler simpleUrlAuthenticationFailureHandler() {
-		SimpleUrlAuthenticationFailureHandler auth = new SimpleUrlAuthenticationFailureHandler("/login?error");
-        return auth;
+		return new SimpleUrlAuthenticationFailureHandler("/login?error");
     }
 	
     @Override

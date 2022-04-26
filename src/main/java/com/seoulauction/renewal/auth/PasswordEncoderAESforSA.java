@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.seoulauction.renewal.component.Cryptography;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PasswordEncoderAESforSA implements PasswordEncoder {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
