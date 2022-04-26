@@ -27,8 +27,6 @@ public class SlackSender {
     @Value("${slack.channel.error.monitoring}")
     String channel;
 
-    Boolean startingQueue;
-
     final Integer CAPACITY = 10;
 
     final Integer SLACK_MESSAGE_DELAY = 2 * 1000;
@@ -40,7 +38,6 @@ public class SlackSender {
     @PostConstruct
     public void init(){
         log.info("slackSender init");
-        startingQueue = false;
         slackBlockingQueue = new ArrayBlockingQueue<>(CAPACITY);
         startingQueue();
     }
@@ -66,32 +63,27 @@ public class SlackSender {
 
     public void startingQueue(){
 
-        if(!startingQueue) {
-            startingQueue = true;
-            new Thread(() -> {
-                    try {
-                        while(true) {
-                            String meessage = slackBlockingQueue.take();
+        new Thread(() -> {
+                try {
+                    while(true) {
+                        String meessage = slackBlockingQueue.take();
 
-                            MethodsClient methods = Slack.getInstance().methods(token);
+                        MethodsClient methods = Slack.getInstance().methods(token);
 
-                            ChatPostMessageRequest request = ChatPostMessageRequest.builder()
-                                    .channel(channel)
-                                    .text(meessage)
-                                    .build();
+                        ChatPostMessageRequest request = ChatPostMessageRequest.builder()
+                                .channel(channel)
+                                .text(meessage)
+                                .build();
 
-                            methods.chatPostMessage(request);
-                            log.info("success send message");
-                            Thread.sleep(SLACK_MESSAGE_DELAY);
-                        }
-                    } catch (SlackApiException | IOException | InterruptedException e) {
-                        log.error(e.getMessage());
-                        startingQueue = false;
+                        methods.chatPostMessage(request);
+                        log.info("success send message");
+                        Thread.sleep(SLACK_MESSAGE_DELAY);
                     }
-            }).start();
-
-        }
-
-
+                } catch (SlackApiException | IOException | InterruptedException e) {
+                    log.error(e.getMessage());
+                }
+        }).start();
     }
+
+
 }

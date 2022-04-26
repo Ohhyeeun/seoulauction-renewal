@@ -1,12 +1,10 @@
 package com.seoulauction.renewal.auth;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.mapper.kt.LoginMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,13 +14,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.domain.SAUserDetails;
-import com.seoulauction.renewal.mapper.kt.LoginMapper;
-
-import lombok.RequiredArgsConstructor;
+import java.util.ArrayList;
+import java.util.List;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -53,8 +47,8 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
 			throw new BadCredentialsException("Wrong password");
 		}
 		
-		WebAuthenticationDetails wad = null;
-        String userIPAddress         = null;
+		WebAuthenticationDetails wad;
+        String userIPAddress;
 
         // Get the IP address of the user tyring to use the site
         wad = (WebAuthenticationDetails) authentication.getDetails();
