@@ -16,9 +16,6 @@ public class ApiCustomerController {
 
     @RequestMapping(value="/test", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> test() {
-
-        int d = 3 / 0;
-
         return ResponseEntity.ok(RestResponse.ok());
     }
 }

@@ -17,17 +17,12 @@ public class ApiTestController {
 
     @RequestMapping(value="/good", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> test() {
-
         CommonMap map = new CommonMap();
         map.put("asdfasdf","asdfasdf");
         map.put("asdfasdf2","asdfasdf2");
         map.put("asdfasdf3","asdfasdf3");
         map.put("asdfasdf4","asdfasdf4");
-
         String ddfasd ="asdfasdf";
-
-        log.info("map : {}" , map);
-
         return ResponseEntity.ok(RestResponse.ok(map));
     }
 }
