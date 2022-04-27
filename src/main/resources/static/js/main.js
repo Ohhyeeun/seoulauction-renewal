@@ -15,7 +15,7 @@ $(function(){
     /* visual */
     const visualSwiper = new Swiper('.visual-swiper', { 
         autoplay: {
-            delay:5000,    
+            delay:500000,
             disableOnInteraction:false, 
         },  
         pagination: {
@@ -73,8 +73,11 @@ $(function(){
         $('.auctionTab-btn').removeClass('on'); 
         $('.auctionTab-contents').removeClass('on');   
         
+        $('#AllAuction').hide(); 
+        $('#MoreAuction').show(); 
+        
         $(this).addClass('on');
-        $(".auctionTab-contents").eq(IngTab).addClass('on'); 
+        $(".auctionTab-contents").eq(IngTab).addClass('on');  
     });
     
     /* auction thumbnail hover 기능 */ 
@@ -89,20 +92,27 @@ $(function(){
     $('.wish_heart').click(function(){
         $(this).toggleClass('on');
     });
-    //auction 더보기 버튼 
+    //auction 더보기 버튼  
+    $('#AllAuction').hide();
     $('#MoreAuction').click(function(){  
-        $(".auctionTab-contents.on").css('height','100%');    
+        $('#AllAuction').show();  
+        $('#MoreAuction').hide(); 
+        $(".auctionTab-contents.on").css('height','100%'); 
     });  
     
     /*upcoming*/
     $('.upcoming-img>img').show(function(){  
         const img_on = $(window).innerWidth(); 
         //$('.swiper-slide.upcomingSlide').css('padding-right','40px');   
-        if(img_on >= 1024){     
-            $('.swiper-slide.upcomingSlide').css('padding-right','40px');  
+        if(img_on >= 1280){  
+            $('.swiper-slide.upcomingSlide').css('padding-right','40px'); 
         } else {        
             $('.swiper-slide.upcomingSlide').css('padding-right','20px');   
         } 
+        /* 영문버전 */ 
+        if(img_on <= 1919){  
+            $('.swiper-slide:lang(en).upcomingSlide').css('padding-right','20px'); 
+        }
         
         $(this).parent('.upcoming-img').addClass('on').css('display','flex');  
     });   
@@ -125,7 +135,7 @@ $(function(){
     /* platform */
     const platFormSwiper = new Swiper('.platform-swiper', {  
         autoplay: {
-            delay: 3000,
+            delay: 10000000,
         },
         slidesPerView: 1,
         spaceBetween: 10, 
@@ -181,7 +191,21 @@ $(function(){
         $(this).removeClass('on');  
     });
     
-    /* family site */ 
+    /* video popup */  
+    	$(".video-slide>a").click(function() {  
+            console.log(34234); 
+		  $(".video-popup").addClass("reveal"),
+		  $(".video-popup .video-wrapper").remove(),
+		  $(".video-popup").append("<div class='video-wrapper'><img class='videoclose_btn' src='/images/icon/close_white_24dp.svg'><div class='videoBox'><iframe width='1280' height='720' src='https://youtube.com/embed/" + $(this).data("video") + "' allow='autoplay; encrypted-media' allowfullscreen></iframe></div></div>"),
+		  $(".video-popup").find("img.videoclose_btn").click(function(){// 닫기버튼 추가 (2021.11.30 em) ,
+			  $(".video-popup .video-wrapper").remove(),
+			  $(".video-popup").removeClass("reveal")
+		  });
+	}),
+	$(".video-popup-closer").click(function() {
+	  $(".video-popup .video-wrapper").remove(),
+	  $(".video-popup").removeClass("reveal")
+	});  
 });
 
 

@@ -1355,11 +1355,19 @@
     .upcoming-datebox {
         line-height: 1.5; 
     }
+    .upcoming-preview {
+        padding-bottom: 10px;
+    }
     .auctionTab-contents.on {
         height: 469px; 
     }  
     .upcoming-img {
-        flex-basis: calc(100% / 2 - 30px);  
+        flex-basis: calc(100% / 2 - 50px); 
+        margin-top: 0;  
+    }
+    .upcoming-preview>span:first-of-type:after, 
+    .upcoming-date>span:first-of-type:after {
+        margin: 0 6px;     
     }
     .video-icon {
         width: 17px;

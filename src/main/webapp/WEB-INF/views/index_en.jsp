@@ -1,13 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8"> 
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
     <title>Seoul Auction</title>
     <link rel="stylesheet" href="/css/common.css" type="text/css" />
     <link rel="stylesheet" href="/css/main.css" type="text/css" />  
@@ -19,7 +15,7 @@
 </head> 
 <body> 
     <header class="header main-header"> <!-- class="main-header fixed" --> 
-        <div class="header_beltbox on"> <!--class="on" block-->  
+        <div class="header_beltbox on"> <!--class="on" block--> 
             <span class="header_beltTit">   
                 <a href="#">Notice of increase in purchase fee rate and amendment of terms and conditions<span class="beltbanner-triangle"></span></a>
             </span>
@@ -27,20 +23,20 @@
         </div> 
         
         <ul class="header_utilitymenu wrap_padding pc-ver">
-            <li class="utility-tab utility-lang"><a href="/en">ENG</a>
+            <li class="utility-tab utility-lang"><a href="javascript:void(0);">KOR</a> 
                 <ul class="bubble-box bubble-box01">  
-                    <li><a href="/en">ENG(English)</a></li>
-                    <li><a href="/">KOR(한국어)</a></li>
+                    <li><a href="/index.html">KOR(한국어)</a></li>
+                    <li><a href="/">ENG(English)</a></li>
                 </ul> 
             </li> 
-            <li class="utility-join"><a href="#">JOIN</a></li> <!-- !login --> 
-            <li class="utility-tab utility-account"><a href="#">ACCOUNT</a>   
+            <li class="utility-join"><a href="#">JOIN</a></li> <!-- !login -->
+            <li class="utility-tab utility-account"><a href="javascript:void(0);">ACCOUNT</a>   
                 <ul class="bubble-box bubble-box02">  
-                    <li><a href="/en">라이브 경매 관리</a></li>
-                    <li><a href="#">온라인 경매 관리</a></li> 
-                    <li><a href="#">관심작품</a></li> 
-                    <li><a href="#">아카데미 신청목록</a></li>  
-                    <li><a href="#">회원정보 수정</a></li> 
+                    <li><a href="/index_en.html">Live Auction Management</a></li>  
+                    <li><a href="#">Online Auction Management</a></li>  
+                    <li><a href="#">Wish List</a></li>  
+                    <li><a href="#">Academy Application List</a></li>   
+                    <li><a href="#">Edit member information</a></li>
                 </ul> 
             </li> <!-- login --> 
             <li class="utility-login"><a href="#">LOGIN</a></li> <!-- !login -->
@@ -54,79 +50,79 @@
                 <li><a href="#">PRIVATE SALE</a></li>
                 <li><a href="#">SELL</a></li>
                 <li><a href="#">SERVICE</a></li>
-            </ul>  
-
-            <section class="gnb_submenuBg">  
-                <section class="submenuBg"> 
+            </ul>   
+            
+            <section class="gnb_submenuBg scroll_none">  
+                <section class="submenuBg scroll_none"> 
                     <span class="submenuBg-closeBtn m-ver"></span>
-                    <div class="flex_wrap">                        
+                    <div class="flex_wrap submenuBg-box">  
                         <div class="Ingbanner-box">
-                            <a href="#" class="Ingbanner"> 
+                            <a href="#" class="Ingbanner" target="_blank"> 
                                 <figure class="border-txt-darkg Ingbanner-img">
                                     <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01"> 
                                 </figure>  
-                                <div class="Ingbanner-txt">
+                                <div class="Ingbanner-txt text-over">
                                     <span class="auctionKind-box Ingkind-auction on">LIVE</span>
-                                    <p>February Live Auction</p> 
+                                    <p class="text-over" title="February Live Auction">February Live Auction</p>   
                                     <span class="Ingbanner-arrow"></span> 
                                 </div>
                             </a>
-                            <a href="#" class="Ingbanner"> 
+                            <a href="#" class="Ingbanner" target="_blank"> 
                                 <figure class="border-txt-darkg Ingbanner-img">
                                     <img src="/images/pc/thumbnail/gnb_thubnatil_02.jpg" alt="ing_auction02"> 
                                 </figure>
-                                <div class="Ingbanner-txt">
+                                <div class="Ingbanner-txt text-over">
                                     <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                    <p>e BID Public Online Auction</p>    
+                                    <p class="text-over" title="e BID Public Online Auction">e BID Public Online Auction</p>      
                                     <span class="Ingbanner-arrow"></span>  
                                 </div>
                             </a>
-                            <a href="#" class="Ingbanner"> 
+                            <a href="#" class="Ingbanner" target="_blank"> 
                                 <figure class="border-txt-darkg Ingbanner-img">
-                                    <img src="/images/pc/thumbnail/gnb_thubnatil_02.jpg" alt="ing_auction02"> 
+                                    <img src="/images/pc/thumbnail/gnb_thubnatil_ready.jpg" alt="ing_auction03"> 
                                 </figure>
-                                <div class="Ingbanner-txt">
+                                <div class="Ingbanner-txt text-over">
                                     <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                    <p>ZEROBASE</p>   
-                                    <span class="Ingbanner-arrow"></span>  
-                                </div> 
-                            </a>
-                            <a href="#" class="Ingbanner"> 
-                                <figure class="border-txt-darkg Ingbanner-img">
-                                    <img src="/images/pc/thumbnail/gnb_thubnatil_02.jpg" alt="ing_auction02"> 
-                                </figure>
-                                <div class="Ingbanner-txt">
-                                    <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                    <p>e BID Public Online Auction</p>    
-                                    <span class="Ingbanner-arrow"></span>  
+                                    <p class="text-over" title="ZEROBASE">ZEROBASE</p>  
+                                    <span class="Ingbanner-arrow"></span> 
                                 </div>
                             </a>
-                            <a href="#" class="Ingbanner"> 
+                            <a href="#" class="Ingbanner" target="_blank"> 
+                                <figure class="border-txt-darkg Ingbanner-img">
+                                    <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01"> 
+                                </figure>  
+                                <div class="Ingbanner-txt text-over">
+                                    <span class="auctionKind-box Ingkind-auction on">LIVE</span>
+                                    <p class="text-over" title="February Live Auction">February Live Auction</p>   
+                                    <span class="Ingbanner-arrow"></span> 
+                                </div>
+                            </a>
+                            <a href="#" class="Ingbanner" target="_blank"> 
                                 <figure class="border-txt-darkg Ingbanner-img">
                                     <img src="/images/pc/thumbnail/gnb_thubnatil_02.jpg" alt="ing_auction02"> 
                                 </figure>
-                                <div class="Ingbanner-txt">
+                                <div class="Ingbanner-txt text-over">
                                     <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                    <p>e BID Public Online Auction</p>    
+                                    <p class="text-over" title="e BID Public Online Auction">e BID Public Online Auction</p>
                                     <span class="Ingbanner-arrow"></span>  
                                 </div>
                             </a>
                         </div>
-
-                        <ul class="subGnbmenu">  
-                            <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>  
+                        
+                        <ul class="subGnbmenu">   
+                            <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
                                 <ul class="submenu submenu-part01">  
-                                    <li><a href="#">Current<span class="currentIng">NOW</span></a></li>
+                                    <li><a href="http://seoulauction.m4one.co.kr/html/auction/online_sequence_deadline_before_ko.html#tab-cont-3">Current</a><span class="currentIng">NOW</span></li> 
                                     <li><a href="#">Upcoming</a></li>
                                     <li><a href="#">Result</a></li>
                                 </ul>
                             </li> 
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>  
                                 <ul class="submenu submenu-part02">
-                                    <li><a href="#">Exhibition</a></li> 
+                                    <li><a href="#">Exhibition</a><span class="currentIng">NOW</span></li>  
                                     <li><a href="#">Private Sale</a></li>
                                     <li><a href="#">Private Sale Guide</a></li>
-                                </ul> 
+                                </ul>
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>   
                                 <ul class="submenu submenu-part03">
@@ -136,12 +132,12 @@
                             </li> 
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>    
                                 <ul class="submenu submenu-part04">
-                                    <li><a href="#">Academy</a></li>
-                                    <li><a href="#">Art Collateral Loans</a></li> 
+                                    <li><a href="#">Academy</a><span class="currentIng">NOW</span></li> 
+                                    <li><a href="#">Art Collateral Loans</a></li>
                                     <li><a href="#">Art Storage</a></li> 
                                     <li><a href="#">Rental of Space</a></li> 
-                                    <li><a href="#">Art Consulting &#38; Corporate Marketing</a></li> 
-                                </ul> 
+                                    <li><a href="#">Art Consulting & <br>Corporate Marketing</a></li> 
+                                </ul>
                             </li> 
                             <li class="subGnbmenu-tit m-ver"> 
                                 <span class="gnbmenu_arrow modebox">Light Mode
@@ -149,14 +145,7 @@
                                         <input type="checkbox" id="dark" name="dark"> 
                                         <span class="mode-switch"></span>    
                                     </label> 
-                                </span>  
-                            </li> 
-                            <li class="subGnbmenu-tit m-ver">  
-                                <ul class="mobile-utility">
-                                    <li><a href="#">LOGIN</a></li> 
-                                    <li><a href="#" class="member.off">JOIN</a><a href="#" class="member">ACCOUNT</a></li>  
-                                    <li><a href="/index.html">KOR</a></li> 
-                                </ul>
+                                </span> 
                             </li> 
                         </ul> 
                         <figure class="blacklotbox">
@@ -164,31 +153,46 @@
                                 <img src="/images/pc/thumbnail/gnb_blacklot.jpg" alt="blacklot">    
                             </a> 
                         </figure>
-                    </div> 
+                    </div>
+                    
+                    <ul class="mobile-utility m-ver">  
+                        <li><a href="/index.html">KOR</a></li>
+                        <li><a href="#" class="gnb_join">JOIN</a><a href="#" class="gnb_member">ACCOUNT</a></li>     
+                        <li><a href="#" class="gnb_login">LOGIN</a><span class="gnb_logout">LOGOUT</span></li>    
+                    </ul>
                 </section>
-            </section> 
+            </section>
 
             <section class="topsearch-box">   
                 <button class="m-top-search m-ver"></button>
                 <button class="m-gnbmenu m-ver"></button>  
-                <form action="" class="scroll_none">
-                    <fieldset class="topsearch"> 
+                <form action="" class="scroll_none">  
+                    <fieldset class="topsearch topsearch-en"> 
                         <span class="submenuBg-closeBtn top-search-closeBtn m-ver"></span>  
-                        <legend class="blind-text pc-ver">topsearch</legend> 
-                        <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver" placeholder="Search by artist or work name"><button type="submit" class="topsearch-btn pc-ver"></button>
-                        <section class="search-bubble-box">  
+                        <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver"><button type="submit" class="topsearch-btn pc-ver"></button>
+                        <section class="search-bubble-box">    
                             <div class="recent-search">
-                                <span class="keyword-search-tit">최근검색<button class="keyword-all-del">전체삭제</button></span> 
-                                <a href="#" class="recent-keyword">김선우<button class="keyword-del"></button></a><a href="#" class="recent-keyword">하이에르 카예하<button class="keyword-del"></button></a><a href="#" class="recent-keyword">김환기<button class="keyword-del"></button></a><a href="#" class="recent-keyword">이우환<button class="keyword-del"></button></a><a href="#" class="recent-keyword">이우환<button class="keyword-del"></button></a> 
+                                <span class="keyword-search-tit">Recent Keyword<span class="keyword-all-del">All Delete</span></span><!-- 
+                                --><span class="recent-keyword"><a href="#">Kim SunWoo</a><span class="keyword-del"></span></span><!-- 
+                                --><span class="recent-keyword"><a href="#">Yayoi Kusama</a><span class="keyword-del"></span></span><!--
+                                --><span class="recent-keyword"><a href="#">Lee UFan</a><span class="keyword-del"></span></span><!--
+                                --><span class="recent-keyword"><a href="#">Kim WhanKi</a><span class="keyword-del"></span></span><!--
+                                --><span class="recent-keyword"><a href="#">Park SooKeun </a><span class="keyword-del"></span></span><!--
+                                -->
                             </div>
                             <div class="recommend-search-part"> 
-                                <span class="keyword-search-tit">추천검색</span> 
-                                <a href="#" class="recommend-keyword">최우영</a><a href="#" class="recommend-keyword">박성옥</a><a href="#" class="recommend-keyword">청신</a><a href="#" class="recommend-keyword">박서보</a><a href="#" class="recommend-keyword">마티스</a><a href="#" class="recommend-keyword">호크니</a>
+                                <span class="keyword-search-tit">Recommend Keyword</span><!--   
+                                --><a href="#" class="recommend-keyword">Lee Bae</a><!--
+                                --><a href="#" class="recommend-keyword">Min JoungKi</a><!--
+                                --><a href="#" class="recommend-keyword">Chungshin</a><!--
+                                --><a href="#" class="recommend-keyword">Park SeoBo</a><!--
+                                --><a href="#" class="recommend-keyword">Lim HanSoo</a><!--
+                                --><a href="#" class="recommend-keyword">David Hockney</a><!---->    
                             </div>
                         </section>  
                     </fieldset>    
                 </form>   
-            </section>  
+            </section>   
         </nav> 
     </header> 
     
@@ -201,7 +205,7 @@
             <div class="swiper-container visual-swiper">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide"> <!-- slide 구간 --> 
-                        <figure class="visual_img"> 
+                        <figure class="visual_img">
                             <img src="/images/pc/slide/main/slide01.jpg" alt="slide" class="pc-ver"> 
                             <img src="/images/mobile/slide/main/slide01.jpg" alt="slide" class="m-ver"> 
                             <figurecaption class="visual_caption">    
@@ -210,8 +214,7 @@
                                     22 February 15:00 Seoul Auction Gangnam 
                                 </p>
                                 <div class="visual_btn">
-                                    <a href="#" class="commonbtn visual-commonbtn btn-bg-b">View work</a>
-                                    <a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a>
+                                    <a href="#" class="commonbtn visual-commonbtn btn-bg-w">View More</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a> 
                                 </div>
                             </figurecaption>  
                         </figure>  
@@ -227,8 +230,7 @@
                                     22 February 15:00 Seoul Auction Gangnam 
                                 </p>
                                 <div class="visual_btn">
-                                    <a href="#" class="commonbtn visual-commonbtn btn-bg-b">View work</a>
-                                    <a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a>
+                                    <a href="#" class="commonbtn visual-commonbtn btn-bg-g">View More</a><a href="#" class="commonbtn visual-commonbtn btn-border-w">e-book</a>
                                 </div>
                             </figurecaption>  
                         </figure>  
@@ -244,8 +246,7 @@
                                     22 February 15:00 Seoul Auction Gangnam 
                                 </p>
                                 <div class="visual_btn">
-                                    <a href="#" class="commonbtn visual-commonbtn btn-bg-b">View work</a>
-                                    <a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a>
+                                    <a href="#" class="commonbtn visual-commonbtn btn-border-b">View More</a><a href="#" class="commonbtn visual-commonbtn btn-border-b">e-book</a>  
                                 </div>
                             </figurecaption>  
                         </figure>  
@@ -272,323 +273,961 @@
                 <section class="auction-contents">  
                     <div class="auction-tit">
                         <h1 class="main-sectiontit">Auction</h1>
-                        <div class="auctionTab">
-                            <span id="auctionTab" class="auctionTab-btn on">Episode 165 Artwork</span>
-                            <span id="auctionTab" class="auctionTab-btn">e BID Premium</span>
-                            <span id="auctionTab" class="auctionTab-btn">ZEROBASE</span>
+                        <div class="auctiontab-scroll">  
+                            <div class="auctionTab"> 
+                                <span id="auctionTab" class="auctionTab-btn on">Episode 165 Artwork</span> 
+                                <span id="auctionTab" class="auctionTab-btn">e BID Premium</span>
+                                <span id="auctionTab" class="auctionTab-btn">ZEROBASE</span> 
+                                <span id="auctionTab" class="auctionTab-btn"></span> 
+                                <span id="auctionTab" class="auctionTab-btn"></span>
+                            </div>  
                         </div>
                     </div>
 
                     <div class="flex_wrap auctionTab-contents on"> 
+                        <figure class="auction-thumbbox">  
+                            <img src="/images/pc/thumbnail/AuctionBanner_01_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-1.png" alt="auction 이미지" class="m-ver">   
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>Moon Hyungtae</span> 
+                                        <span>Starting  KRW 200,000,000</span>
+                                    </p>  
+                                </a>
+                            </figcaption>      
+                        </figure> 
+                       
+                        
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_02_280x280.png" alt="auction 이미지" class="pc-ver">     
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-2.png" alt="auction 이미지" class="m-ver">       
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>Moon Hyungtae</span> 
+                                        <span>Starting  KRW 200,000,000</span>
+                                    </p>  
+                                </a>
+                            </figcaption> 
+                        </figure> 
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_03_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>Moon Hyungtae</span> 
+                                        <span>Starting  KRW 200,000,000</span>
+                                    </p>  
+                                </a>
+                            </figcaption> 
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_04_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-5.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>Moon Hyungtae</span> 
+                                        <span>Starting  KRW 200,000,000</span>
+                                    </p>  
+                                </a>
+                            </figcaption> 
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_05_280x280.png" alt="auction 이미지" class="pc-ver">  
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-7.png" alt="auction 이미지" class="m-ver"> 
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>Moon Hyungtae</span> 
+                                        <span>Starting  KRW 200,000,000</span>
+                                    </p>  
+                                </a> 
+                            </figcaption> 
+                        </figure> 
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_06_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-6.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>Moon Hyungtae</span> 
+                                        <span>Starting  KRW 200,000,000</span>
+                                    </p>  
+                                </a>
+                            </figcaption> 
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_07_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>Moon Hyungtae</span> 
+                                        <span>Starting  KRW 200,000,000</span>
+                                    </p>  
+                                </a>
+                            </figcaption> 
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">   
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>Moon Hyungtae</span> 
+                                        <span>Starting  KRW 200,000,000</span>
+                                    </p>  
+                                </a>
+                            </figcaption> 
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>Moon Hyungtae</span> 
+                                        <span>Starting  KRW 200,000,000</span>
+                                    </p>  
+                                </a>
+                            </figcaption> 
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>Moon Hyungtae</span> 
+                                        <span>Starting  KRW 200,000,000</span>
+                                    </p>  
+                                </a>
+                            </figcaption>  
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>Moon Hyungtae</span> 
+                                        <span>Starting  KRW 200,000,000</span>
+                                    </p>  
+                                </a>
+                            </figcaption>  
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>Moon Hyungtae</span> 
+                                        <span>Starting  KRW 200,000,000</span>
+                                    </p>  
+                                </a>
+                            </figcaption> 
+                        </figure>
                         <figure class="auction-thumbbox"> 
                             <img src="/images/pc/thumbnail/AuctionBanner_01_280x280.png" alt="auction 이미지" class="pc-ver"> 
                             <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-1.png" alt="auction 이미지" class="m-ver">  
                             <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
                                 <a href="#">
-                                    <button class="wish_heart"></button>  
                                     <p class="auction-thumb-txt">
                                         <span>Moon Hyungtae</span> 
                                         <span>Starting  KRW 200,000,000</span>
-                                    </p> 
+                                    </p>  
                                 </a>
                             </figcaption> 
                         </figure>
                         <figure class="auction-thumbbox">
                             <img src="/images/pc/thumbnail/AuctionBanner_02_280x280.png" alt="auction 이미지" class="pc-ver">     
                             <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-2.png" alt="auction 이미지" class="m-ver">       
-                            <figcaption class="auction-thumb">
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
                                 <a href="#">
-                                    <button class="wish_heart"></button>
                                     <p class="auction-thumb-txt">
                                         <span>Moon Hyungtae</span> 
                                         <span>Starting  KRW 200,000,000</span>
-                                    </p> 
-                                </a> 
+                                    </p>  
+                                </a>
                             </figcaption> 
                         </figure> 
                         <figure class="auction-thumbbox">
-                                <img src="/images/pc/thumbnail/AuctionBanner_03_280x280.png" alt="auction 이미지" class="pc-ver"> 
-                                <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
-                            <figcaption class="auction-thumb">
+                            <img src="/images/pc/thumbnail/AuctionBanner_03_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
                                 <a href="#">
-                                    <button class="wish_heart"></button>
                                     <p class="auction-thumb-txt">
                                         <span>Moon Hyungtae</span> 
                                         <span>Starting  KRW 200,000,000</span>
-                                    </p> 
-                                </a> 
+                                    </p>  
+                                </a>
                             </figcaption> 
                         </figure>
                         <figure class="auction-thumbbox">
-                                <img src="/images/pc/thumbnail/AuctionBanner_04_280x280.png" alt="auction 이미지" class="pc-ver"> 
-                                <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-5.png" alt="auction 이미지" class="m-ver">  
-                            <figcaption class="auction-thumb">
+                            <img src="/images/pc/thumbnail/AuctionBanner_04_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-5.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
                                 <a href="#">
-                                    <button class="wish_heart"></button>
                                     <p class="auction-thumb-txt">
                                         <span>Moon Hyungtae</span> 
                                         <span>Starting  KRW 200,000,000</span>
-                                    </p> 
-                                </a> 
+                                    </p>  
+                                </a>
                             </figcaption> 
                         </figure>
                         <figure class="auction-thumbbox">
-                                <img src="/images/pc/thumbnail/AuctionBanner_05_280x280.png" alt="auction 이미지" class="pc-ver">  
-                                <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-7.png" alt="auction 이미지" class="m-ver"> 
-                            <figcaption class="auction-thumb">
+                            <img src="/images/pc/thumbnail/AuctionBanner_05_280x280.png" alt="auction 이미지" class="pc-ver">  
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-7.png" alt="auction 이미지" class="m-ver"> 
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
                                 <a href="#">
-                                    <button class="wish_heart"></button>
                                     <p class="auction-thumb-txt">
                                         <span>Moon Hyungtae</span> 
                                         <span>Starting  KRW 200,000,000</span>
-                                    </p> 
-                                </a> 
+                                    </p>  
+                                </a>
                             </figcaption> 
                         </figure> 
                         <figure class="auction-thumbbox">
-                                <img src="/images/pc/thumbnail/AuctionBanner_06_280x280.png" alt="auction 이미지" class="pc-ver"> 
-                                <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-6.png" alt="auction 이미지" class="m-ver">  
-                            <figcaption class="auction-thumb">
+                            <img src="/images/pc/thumbnail/AuctionBanner_06_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-6.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                               <button class="wish_heart"></button>      
                                 <a href="#">
-                                    <button class="wish_heart"></button>
                                     <p class="auction-thumb-txt">
                                         <span>Moon Hyungtae</span> 
                                         <span>Starting  KRW 200,000,000</span>
-                                    </p> 
-                                </a> 
+                                    </p>  
+                                </a>
                             </figcaption> 
                         </figure>
                         <figure class="auction-thumbbox">
-                                <img src="/images/pc/thumbnail/AuctionBanner_07_280x280.png" alt="auction 이미지" class="pc-ver"> 
-                                <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">  
-                            <figcaption class="auction-thumb">
-                                <a href="#">
-                                    <button class="wish_heart"></button>
-                                    <p class="auction-thumb-txt">
-                                        <span>Moon Hyungtae</span> 
-                                        <span>Starting  KRW 200,000,000</span>
-                                    </p> 
-                                </a> 
-                            </figcaption> 
-                        </figure>
-                        <figure class="auction-thumbbox">
-                                <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
-                                <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">   
-                            <figcaption class="auction-thumb">
-                                <a href="#">
-                                    <button class="wish_heart"></button>
-                                    <p class="auction-thumb-txt">
-                                        <span>Moon Hyungtae</span> 
-                                        <span>Starting  KRW 200,000,000</span>
-                                    </p> 
-                                </a> 
-                            </figcaption> 
-                        </figure>
-                        <figure class="auction-thumbbox">
-                                <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
-                                <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
-                            <figcaption class="auction-thumb">
-                                <a href="#">
-                                    <button class="wish_heart"></button>
-                                    <p class="auction-thumb-txt">
-                                        <span>Moon Hyungtae</span> 
-                                        <span>Starting  KRW 200,000,000</span>
-                                    </p> 
-                                </a> 
-                            </figcaption> 
-                        </figure>
-                        <figure class="auction-thumbbox">
-                                <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
-                                <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193.png" alt="auction 이미지" class="m-ver">  
-                            <figcaption class="auction-thumb">
-                                <a href="#">
-                                    <button class="wish_heart"></button>
-                                    <p class="auction-thumb-txt">
-                                        <span>Moon Hyungtae</span> 
-                                        <span>Starting  KRW 200,000,000</span>
-                                    </p> 
-                                </a> 
-                            </figcaption> 
-                        </figure>
-                        <figure class="auction-thumbbox">
-                                <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
-                                <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
-                            <figcaption class="auction-thumb">
-                                <a href="#">
-                                    <button class="wish_heart"></button>
-                                    <p class="auction-thumb-txt">
-                                        <span>Moon Hyungtae</span> 
-                                        <span>Starting  KRW 200,000,000</span>
-                                    </p> 
-                                </a> 
-                            </figcaption> 
-                        </figure>
-                        <figure class="auction-thumbbox">
-                                <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
-                                <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
-                            <figcaption class="auction-thumb">
-                                <a href="#">
-                                    <button class="wish_heart"></button>
-                                    <p class="auction-thumb-txt">
-                                        <span>Moon Hyungtae</span> 
-                                        <span>Starting  KRW 200,000,000</span>
-                                    </p> 
-                                </a> 
-                            </figcaption> 
-                        </figure>
-                    </div> 
-
-                    <div class="flex_wrap auctionTab-contents">  
-                        <figure class="auction-thumbbox"> 
-                            <img src="/images/pc/thumbnail/AuctionBanner_01_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/pc/thumbnail/AuctionBanner_07_280x280.png" alt="auction 이미지" class="pc-ver"> 
                             <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">  
                             <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
                                 <a href="#">
-                                    <button class="wish_heart"></button>
                                     <p class="auction-thumb-txt">
                                         <span>Moon Hyungtae</span> 
                                         <span>Starting  KRW 200,000,000</span>
-                                    </p> 
+                                    </p>  
+                                </a>
+                            </figcaption> 
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">   
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>Moon Hyungtae</span> 
+                                        <span>Starting  KRW 200,000,000</span>
+                                    </p>  
+                                </a>
+                            </figcaption>
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>Moon Hyungtae</span> 
+                                        <span>Starting  KRW 200,000,000</span>
+                                    </p>  
+                                </a>  
+                            </figcaption> 
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <p class="auction-thumb-txt">
+                                    <span>Moon Hyungtae</span> 
+                                    <span>Starting  KRW 200,000,000</span>
+                                </p> 
+                            </figcaption> 
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                               <button class="wish_heart"></button>      
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>Moon Hyungtae</span> 
+                                        <span>Starting  KRW 200,000,000</span>
+                                    </p>  
+                                </a>
+                            </figcaption>  
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>      
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>Moon Hyungtae</span> 
+                                        <span>Starting  KRW 200,000,000</span>
+                                    </p>  
+                                </a>
+                            </figcaption> 
+                        </figure> 
+                    </div> 
+
+                    <div class="flex_wrap auctionTab-contents"> <!--12*2 = 24 -->   
+                        <figure class="auction-thumbbox">  
+                            <img src="/images/pc/thumbnail/AuctionBanner_04_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">   
+                            <figcaption class="auction-thumb"> 
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
                                 </a> 
                             </figcaption> 
                         </figure>
                         <figure class="auction-thumbbox">
                             <img src="/images/pc/thumbnail/AuctionBanner_02_280x280.png" alt="auction 이미지" class="pc-ver">     
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-2.png" alt="auction 이미지" class="m-ver">
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>
+                                <p class="auction-thumb-txt">
+                                    <span>문형태</span> 
+                                    <span>시작가 200,000,000</span>
+                                </p> 
+                            </figcaption>
+                        </figure> 
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_01_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-1.png" alt="auction 이미지" class="m-ver">   
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>    
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">  
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">   
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a>  
+                            </figcaption> 
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_06_280x280.png" alt="auction 이미지" class="pc-ver">  
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-6.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>
+                        </figure> 
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_07_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-7.png" alt="auction 이미지" class="m-ver">   
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_09_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>    
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_04_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                    <a href="#">
+                                        <p class="auction-thumb-txt">
+                                            <span>문형태</span> 
+                                            <span>시작가 200,000,000</span>
+                                        </p>          
+                                    </a> 
+                            </figcaption> 
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_03_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-3.png" alt="auction 이미지" class="m-ver">   
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>    
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_02_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-2.png" alt="auction 이미지" class="m-ver">   
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                    <a href="#">
+                                        <p class="auction-thumb-txt">
+                                            <span>문형태</span> 
+                                            <span>시작가 200,000,000</span>
+                                        </p>          
+                                    </a> 
+                            </figcaption>
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_01_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-1.png" alt="auction 이미지" class="m-ver">   
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>
+                        </figure>
+                        <figure class="auction-thumbbox">
+                                <img src="/images/pc/thumbnail/AuctionBanner_09_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                                <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193.png" alt="auction 이미지" class="m-ver">  
+                                <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>
+                        </figure>
+                        <figure class="auction-thumbbox"> 
+                            <img src="/images/pc/thumbnail/AuctionBanner_06_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-6.png" alt="auction 이미지" class="m-ver">
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption> 
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_03_280x280.png" alt="auction 이미지" class="pc-ver">     
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-3.png" alt="auction 이미지" class="m-ver">
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>
+                        </figure> 
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_07_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-7.png" alt="auction 이미지" class="m-ver">   
+                            <figcaption class="auction-thumb">  
+                            <button class="wish_heart"></button>  
+                            <a href="#">
+                                <p class="auction-thumb-txt">
+                                    <span>문형태</span> 
+                                    <span>시작가 200,000,000</span>
+                                </p>          
+                            </a> 
+                            </figcaption>    
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_02_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-2.png" alt="auction 이미지" class="m-ver">
+                            <figcaption class="auction-thumb">  
+                            <button class="wish_heart"></button>  
+                            <a href="#">
+                                <p class="auction-thumb-txt">
+                                    <span>문형태</span> 
+                                    <span>시작가 200,000,000</span>
+                                </p>          
+                            </a> 
+                            </figcaption>
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_03_280x280.png" alt="auction 이미지" class="pc-ver">  
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-3.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                            <button class="wish_heart"></button>  
+                            <a href="#">
+                                <p class="auction-thumb-txt">
+                                    <span>문형태</span> 
+                                    <span>시작가 200,000,000</span>
+                                </p>          
+                            </a> 
+                            </figcaption>
+                        </figure> 
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_06_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-6.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                            <button class="wish_heart"></button>  
+                            <a href="#">
+                                <p class="auction-thumb-txt">
+                                    <span>문형태</span> 
+                                    <span>시작가 200,000,000</span>
+                                </p>          
+                            </a> 
+                            </figcaption>
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_01_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-1.png" alt="auction 이미지" class="m-ver">   
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>  
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_02_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-2.png" alt="auction 이미지" class="m-ver">
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_06_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-6.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>    
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_02_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-2.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_01_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-1.png" alt="auction 이미지" class="m-ver">    
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_03_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-3.png" alt="auction 이미지" class="m-ver">   
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>
+                        </figure>
+                    </div> 
+                    
+                    <div class="flex_wrap auctionTab-contents"> <!--12*2 = 24 -->   
+                        <figure class="auction-thumbbox">  
+                            <img src="/images/pc/thumbnail/AuctionBanner_01_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-1.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb"> 
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption> 
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_02_280x280.png" alt="auction 이미지" class="pc-ver">     
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-2.png" alt="auction 이미지" class="m-ver">       
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>
+                                <p class="auction-thumb-txt">
+                                    <span>문형태</span> 
+                                    <span>시작가 200,000,000</span>
+                                </p> 
+                            </figcaption>
+                        </figure> 
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_03_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>    
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_04_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-5.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a>  
+                            </figcaption> 
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_05_280x280.png" alt="auction 이미지" class="pc-ver">  
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-7.png" alt="auction 이미지" class="m-ver"> 
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>
+                        </figure> 
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_06_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-6.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_07_280x280.png" alt="auction 이미지" class="pc-ver"> 
                             <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">  
-                            <figcaption class="auction-thumb">
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
                                 <a href="#">
-                                    <button class="wish_heart"></button>
                                     <p class="auction-thumb-txt">
-                                        <span>Moon Hyungtae</span> 
-                                        <span>Starting  KRW 200,000,000</span>
-                                    </p> 
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>    
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">   
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                    <a href="#">
+                                        <p class="auction-thumb-txt">
+                                            <span>문형태</span> 
+                                            <span>시작가 200,000,000</span>
+                                        </p>          
+                                    </a> 
+                            </figcaption> 
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>    
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                    <a href="#">
+                                        <p class="auction-thumb-txt">
+                                            <span>문형태</span> 
+                                            <span>시작가 200,000,000</span>
+                                        </p>          
+                                    </a> 
+                            </figcaption>
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>
+                        </figure>
+                        <figure class="auction-thumbbox">
+                                <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                                <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
+                                <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>
+                        </figure>
+                        <figure class="auction-thumbbox"> 
+                            <img src="/images/pc/thumbnail/AuctionBanner_01_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-1.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
                                 </a> 
                             </figcaption> 
+                        </figure>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_02_280x280.png" alt="auction 이미지" class="pc-ver">     
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-2.png" alt="auction 이미지" class="m-ver">       
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>
                         </figure> 
                         <figure class="auction-thumbbox">
-                                <img src="/images/pc/thumbnail/AuctionBanner_03_280x280.png" alt="auction 이미지" class="pc-ver"> 
-                                <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">  
-                            <figcaption class="auction-thumb">
-                                <a href="#">
-                                    <button class="wish_heart"></button>
-                                    <p class="auction-thumb-txt">
-                                        <span>Moon Hyungtae</span> 
-                                        <span>Starting  KRW 200,000,000</span>
-                                    </p> 
-                                </a> 
-                            </figcaption> 
+                            <img src="/images/pc/thumbnail/AuctionBanner_03_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                            <button class="wish_heart"></button>  
+                            <a href="#">
+                                <p class="auction-thumb-txt">
+                                    <span>문형태</span> 
+                                    <span>시작가 200,000,000</span>
+                                </p>          
+                            </a> 
+                            </figcaption>    
                         </figure>
                         <figure class="auction-thumbbox">
-                                <img src="/images/pc/thumbnail/AuctionBanner_04_280x280.png" alt="auction 이미지" class="pc-ver"> 
-                                <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">  
-                            <figcaption class="auction-thumb">
-                                <a href="#">
-                                    <button class="wish_heart"></button>
-                                    <p class="auction-thumb-txt">
-                                        <span>Moon Hyungtae</span> 
-                                        <span>Starting  KRW 200,000,000</span>
-                                    </p> 
-                                </a> 
-                            </figcaption> 
+                            <img src="/images/pc/thumbnail/AuctionBanner_04_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-5.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                            <button class="wish_heart"></button>  
+                            <a href="#">
+                                <p class="auction-thumb-txt">
+                                    <span>문형태</span> 
+                                    <span>시작가 200,000,000</span>
+                                </p>          
+                            </a> 
+                            </figcaption>
                         </figure>
                         <figure class="auction-thumbbox">
-                                <img src="/images/pc/thumbnail/AuctionBanner_05_280x280.png" alt="auction 이미지" class="pc-ver">  
-                                <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">  
-                            <figcaption class="auction-thumb">
-                                <a href="#">
-                                    <button class="wish_heart"></button>
-                                    <p class="auction-thumb-txt">
-                                        <span>Moon Hyungtae</span> 
-                                        <span>Starting  KRW 200,000,000</span>
-                                    </p> 
-                                </a> 
-                            </figcaption> 
+                            <img src="/images/pc/thumbnail/AuctionBanner_05_280x280.png" alt="auction 이미지" class="pc-ver">  
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-7.png" alt="auction 이미지" class="m-ver"> 
+                            <figcaption class="auction-thumb">  
+                            <button class="wish_heart"></button>  
+                            <a href="#">
+                                <p class="auction-thumb-txt">
+                                    <span>문형태</span> 
+                                    <span>시작가 200,000,000</span>
+                                </p>          
+                            </a> 
+                            </figcaption>
                         </figure> 
                         <figure class="auction-thumbbox">
-                                <img src="/images/pc/thumbnail/AuctionBanner_05_280x280.png" alt="auction 이미지" class="pc-ver">  
-                                <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">  
-                            <figcaption class="auction-thumb">
-                                <a href="#">
-                                    <button class="wish_heart"></button>
-                                    <p class="auction-thumb-txt">
-                                        <span>Moon Hyungtae</span> 
-                                        <span>Starting  KRW 200,000,000</span>
-                                    </p> 
-                                </a> 
-                            </figcaption> 
+                            <img src="/images/pc/thumbnail/AuctionBanner_06_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-6.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                            <button class="wish_heart"></button>  
+                            <a href="#">
+                                <p class="auction-thumb-txt">
+                                    <span>문형태</span> 
+                                    <span>시작가 200,000,000</span>
+                                </p>          
+                            </a> 
+                            </figcaption>
                         </figure>
                         <figure class="auction-thumbbox">
-                                <img src="/images/pc/thumbnail/AuctionBanner_05_280x280.png" alt="auction 이미지" class="pc-ver">  
-                                <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">  
-                            <figcaption class="auction-thumb">
+                            <img src="/images/pc/thumbnail/AuctionBanner_07_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
                                 <a href="#">
-                                    <button class="wish_heart"></button>
                                     <p class="auction-thumb-txt">
-                                        <span>Moon Hyungtae</span> 
-                                        <span>Starting  KRW 200,000,000</span>
-                                    </p> 
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
                                 </a> 
-                            </figcaption> 
+                            </figcaption>  
                         </figure>
                         <figure class="auction-thumbbox">
-                            <figcaption class="auction-thumb">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">   
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
                                 <a href="#">
-                                    <button class="wish_heart"></button>
                                     <p class="auction-thumb-txt">
-                                        <span>Moon Hyungtae</span> 
-                                        <span>Starting  KRW 200,000,000</span>
-                                    </p> 
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
                                 </a> 
-                            </figcaption> 
+                            </figcaption>
                         </figure>
                         <figure class="auction-thumbbox">
-                            <figcaption class="auction-thumb">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
                                 <a href="#">
-                                    <button class="wish_heart"></button>
                                     <p class="auction-thumb-txt">
-                                        <span>Moon Hyungtae</span> 
-                                        <span>Starting  KRW 200,000,000</span>
-                                    </p> 
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
                                 </a> 
-                            </figcaption> 
-                        </figure> 
-                        <figure class="auction-thumbbox">
-                            <figcaption class="auction-thumb">
-                                <a href="#">
-                                    <button class="wish_heart"></button>
-                                    <p class="auction-thumb-txt">
-                                        <span>Moon Hyungtae</span> 
-                                        <span>Starting  KRW 200,000,000</span>
-                                    </p> 
-                                </a> 
-                            </figcaption> 
+                            </figcaption>    
                         </figure>
                         <figure class="auction-thumbbox">
-                            <figcaption class="auction-thumb">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
                                 <a href="#">
-                                    <button class="wish_heart"></button>
                                     <p class="auction-thumb-txt">
-                                        <span>Moon Hyungtae</span> 
-                                        <span>Starting  KRW 200,000,000</span>
-                                    </p> 
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
                                 </a> 
-                            </figcaption> 
+                            </figcaption>
                         </figure>
                         <figure class="auction-thumbbox">
-                            <figcaption class="auction-thumb">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
                                 <a href="#">
-                                    <button class="wish_heart"></button>
                                     <p class="auction-thumb-txt">
-                                        <span>Moon Hyungtae</span> 
-                                        <span>Starting  KRW 200,000,000</span>
-                                    </p> 
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
                                 </a> 
-                            </figcaption> 
+                            </figcaption>
                         </figure>
-                    </div>
+                        <figure class="auction-thumbbox">
+                            <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver"> 
+                            <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">  
+                            <figcaption class="auction-thumb">  
+                                <button class="wish_heart"></button>  
+                                <a href="#">
+                                    <p class="auction-thumb-txt">
+                                        <span>문형태</span> 
+                                        <span>시작가 200,000,000</span>
+                                    </p>          
+                                </a> 
+                            </figcaption>
+                        </figure>
+                    </div>  
 
                     <div class="commonbtn-box">  
-                        <button type="button" id="MoreAuction" class="commonbtn">More</button>  
+                        <button type="button" id="MoreAuction" class="commonbtn">More</button> 
+                        <a href="#" id="AllAuction" class="commonbtn">View All</a>
                     </div>
                 </section>
             </section>
@@ -602,14 +1241,17 @@
             <div class="upcoming-wrap"> 
                 <div class="swiper-container upcoming-swiper"> 
                     <div class="swiper-wrapper upcoming-contents"> 
-                        <div class="swiper-slide upcomingSlide">
+                        <div class="swiper-slide upcomingSlide"> 
                             <a href="#">  
                                 <div class="upcoming-caption">  
-                                    <span class="auctionKind-box on">LIVE</span><span class="d-day">D-1</span>
+                                    <span class="auctionKind-box on">LIVE</span><span class="d-day on">TODAY</span>  
                                     <h4>February Live Auction</h4> 
                                     <div class="upcoming-datebox">  
+                                        <p class="upcoming-preview"> 
+                                            <span>OPEN</span><span>10 February</span> 
+                                        </p> 
                                         <p class="upcoming-preview">
-                                            <span>PREVIEW</span><span>10 February - 15 February</span> 
+                                            <span>PREVIEW</span><span>10 February ~ 15 February</span>
                                         </p> 
                                         <p class="upcoming-date">
                                             <span>AUCTION</span><span>10 February 15:00</span> 
@@ -625,11 +1267,14 @@
                         <div class="swiper-slide upcomingSlide">
                             <a href="#">  
                                 <div class="upcoming-caption">  
-                                    <span class="auctionKind-box on">LIVE</span><span class="d-day">D-1</span>
-                                    <h4>February Live Auction</h4> 
-                                    <div class="upcoming-datebox">  
+                                    <span class="auctionKind-box on">LIVE</span><span class="d-day on">D-1</span>     
+                                    <h4>e BID Premium Online Auction in March</h4>  
+                                    <div class="upcoming-datebox"> 
+                                        <p class="upcoming-preview"> 
+                                            <span>OPEN</span><span>10 February</span> 
+                                        </p> 
                                         <p class="upcoming-preview">
-                                            <span>PREVIEW</span><span>10 February - 15 February</span> 
+                                            <span>PREVIEW</span><span>10 February ~ 15 February</span> 
                                         </p> 
                                         <p class="upcoming-date">
                                             <span>AUCTION</span><span>10 February 15:00</span> 
@@ -645,11 +1290,14 @@
                         <div class="swiper-slide upcomingSlide"> 
                             <a href="#">  
                                 <div class="upcoming-caption">  
-                                    <span class="auctionKind-box on">LIVE</span><span class="d-day">D-1</span>
-                                    <h4>February Live Auction</h4> 
+                                    <span class="auctionKind-box on">LIVE</span><span class="d-day"></span>
+                                    <h4>ZEROBASE X Art Gyeonggi</h4>  
                                     <div class="upcoming-datebox">  
+                                        <p class="upcoming-preview"> 
+                                            <span>OPEN</span><span>10 February</span> 
+                                        </p> 
                                         <p class="upcoming-preview">
-                                            <span>PREVIEW</span><span>10 February - 15 February</span> 
+                                            <span>PREVIEW</span><span>10 February ~ 15 February</span>
                                         </p> 
                                         <p class="upcoming-date">
                                             <span>AUCTION</span><span>10 February 15:00</span> 
@@ -757,7 +1405,7 @@
                         <a href="#" class="platform-img"></a>  
                     </div> 
                     <div class="swiper-slide platform-bg">
-                        <a href="#" class="platform-img"></a>  
+                        <a href="#" class="platform-img"></a>
                     </div>
                 </div> 
                 <!-- Add Arrows -->
@@ -873,17 +1521,17 @@
                             <h2 class="main-sectiontit sale-tit">Buy</h2>
                             <p>From membership registration to bidding,
                             anyone can easily participate in the auction.</p> 
+                            <a href="#">Auction Guide</a>
                         </figcaption> 
-                        <a href="#">Auction Guide</a>   
                     </figure>
                     <figure class="sale-box">  
                         <img src="/images/pc/banner/sell.jpg" alt="sell img" class="pc-ver"> 
                         <img src="/images/mobile/banner/sell.jpg" alt="sell img" class="m-ver"> 
-                        <figcaption> 
+                        <figcaption class="sale-boxinfo"> 
                             <h2 class="main-sectiontit sale-tit">Sell</h2>    
                             <p>We look forward to your valuable work. Contact Seoul Auction.</p> 
-                        </figcaption>
-                        <a href="#">Consignment information</a> 
+                            <a href="#">Consignment information</a> 
+                        </figcaption>  
                     </figure>
                 </section> 
 
@@ -933,23 +1581,21 @@
                     <div class="newsletter-box">
                         <h3 class="main-sectiontit newsLetter-tit">Newsletter</h3>
                         <form action="" class="newsletter-formbox">   
-                            <legend>
-                                <fieldset class="newsletter-form">  
-                                    <input type="email" placeholder="Email address"> 
-                                    <input type="email" placeholder="NAME"> 
-                                </fieldset>
-                                <fieldset class="newsletter-checkbox"> 
-                                    <input type="checkbox" id="terms_allAgree">   
-                                    <label for="terms_allAgree"> 
-                                        <span class="terms-checktxt">I agree to the collection and use of personal information.</span> 
-                                    </label>  
-                                </fieldset>  
-                            </legend>  
+                            <fieldset class="newsletter-form">  
+                                <input type="email" placeholder="Email address"> 
+                                <input type="email" placeholder="NAME"> 
+                            </fieldset>
+                            <fieldset class="newsletter-checkbox"> 
+                                <input type="checkbox" id="terms_allAgree">   
+                                <label for="terms_allAgree"> 
+                                    <span class="terms-checktxt">I agree to the collection and use of personal information.</span> 
+                                </label>  
+                            </fieldset>   
                         </form>
-                        <div class="flex_wrap newsletter-btnbox">
+                        <div class="flex_wrap newsletter-btnbox"> 
                             <button type="button" class="commonbtn btn-border-3">Subscribe</button> 
                             <a href="#" class="commonbtn btn-border-3">   
-                                <span>View past Newsletters</span>
+                                <span>View past<br> Newsletters</span> 
                             </a>
                         </div>
                     </div>
@@ -981,19 +1627,16 @@
                         <ul class="flex_wrap footer-infomenu"> 
                             <li><a href="#">Terms</a></li>   
                             <li><a href="#">Privacy Policy</a></li>   
-                            <li><a href="#">Information Mgmt. Rules</a></li>   
+                            <li><a href="#">Information Mgmt. Rules</a></li>    
                         </ul>
-                        <form action="">
-                            <legend class="Familysite-legned"> 
-                                <fieldset class="Familysite-selectbox">  
-                                    <select name="Familysite">
-                                        <option value="Familysite">Family Site</option> 
-                                        <option value="Print Bakery">Print Bakery</option>
-                                        <option value="Auction Blue">Auction Blue</option>  
-                                    </select>
-                                </fieldset>
-                            </legend>
-                        </form>
+                        <div class="Familysite-selectbox"> 
+                            <a href="#none" class="Familysite">Family Site</a>  
+                            <ul class="familyselect">  
+                                <li><a href="https://www.auctionblue.com/index" target="_blank">Print Bakery</a></li>  
+                                <li><a href="https://printbakery.com/" target="_blank">Auction Blue</a></li>
+                                <li><a href="https://sotwo.com/" target="_blank">SOTOW</a></li>
+                            </ul>
+                        </div>   
                     </div> 
 
                     <p class="bottom-p-spacing20">
@@ -1013,10 +1656,10 @@
     
     <!-- 다크모드 darkmode -->
     <span class="darkmodeBg">
-        <button class="darkmode" type="button"></button><span>DarkMode</span>
+        <button class="darkmode" type="button"></button><span class="darktxt darktxt-en">Dark Mode</span> 
     </span>
-    <!--scroll top--> 
-    <a href="#" class="scroll-top">    
+    <!--scroll top-->
+    <a href="#" class="scroll-top">  
         <span class="topBtn up"></span> 
     </a>  
     

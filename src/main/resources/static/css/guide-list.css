@@ -251,7 +251,7 @@ img {
     width: 220px; 
 }
 .guide-list-header>span:last-child {
-    width: auto;
+    width: 100%;
 }
 .guide-list-header {
     border-top: 2px solid #333;
@@ -289,12 +289,12 @@ img {
     background-color: #21a099;
     color: #fff; 
 }
-.guide-list-header>span.arrow { 
+.guide-list>span.arrow {
     width: 10px;
     height: 10px;
     background: url(/images/mobile/icon/ic_chevron_right_gray_16.svg) no-repeat center center;
     vertical-align: middle;  
-    display: none;
+    display: none; 
 }
 @media all and (max-width:1919px) {  
     .markup-box {
@@ -302,8 +302,7 @@ img {
         max-width: 100%;  
     }
     .root-box {
-        width: auto; 
-        table-layout: auto;  
+        table-layout: auto;
         white-space: nowrap;  
     }
     .guide-list-header>span:first-child,
@@ -327,6 +326,9 @@ img {
     .guide-list-header>span:last-child {
         display: none; 
     }
+    .guide-list>span:first-child {
+        font-weight: bold; 
+    } 
     .markup-box {
         overflow: inherit;
     }
@@ -342,17 +344,16 @@ img {
     }
     .guide-list,
     .guide-list-header,
-    .guide-list>span,
-    .guide-list-header>span.arrow { 
+    .guide-list>span { 
         display: block; 
     }  
-    .guide-list>span {  
-        line-height: 1;    
-        padding: 0;  
+    .guide-list>span {   
+        padding: 5px 0;   
     } 
     .guide-list>span:first-child, 
     .guide-list>span:nth-child(2),
-    .guide-list>span:nth-child(3) {
+    .guide-list>span:nth-child(3),
+    .guide-list>span:nth-child(5){
         display: inline-flex; 
     }
     .guide-list>span>a {
@@ -362,4 +363,11 @@ img {
     .guide-list>span.tit-blind { 
         display: none;
     }  
+    .guide-list>span.arrow {
+        display: inline-flex;   
+        padding: 0 7px;
+    }
+    .ing-txt {
+        text-align: left;
+    }
 }
