@@ -261,6 +261,12 @@ img {
     width: 100%;
     position: fixed;
     top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    -webkit-transform: translate(-50%, 0);
+    -ms-transform: translate(-50%, 0);
+    -moz-transform: translate(-50%, 0);
+    -o-transform: translate(-50%, 0);
     z-index: 2;
 }
 .darkmodeBg,
@@ -338,6 +344,7 @@ img {
     top: 0;
     left: 0;
     z-index: 3;
+    display: none;
 }
 .visual {
     margin-bottom: 60px;
