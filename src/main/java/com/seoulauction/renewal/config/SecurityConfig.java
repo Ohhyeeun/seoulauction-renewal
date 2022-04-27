@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -46,7 +47,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public AuthenticationSuccessHandler successHandler() {
 	    return new FrontLoginSuccessHandler("/"); // Default targetUrl
 	}
-	
+
+	@Override public void configure(WebSecurity web) throws Exception {
+		web.ignoring()
+				.antMatchers("/css/**, /js/**, *.ico");
+		// swagger
+		web.ignoring()
+		.antMatchers( "/v2/api-docs", "/configuration/ui", "/swagger-resources",
+		"/configuration/security", "/swagger-ui.html", "/webjars/**","/swagger/**");
+	}
+
+
     @Override
     protected void configure(HttpSecurity security) throws Exception
     {
@@ -56,6 +67,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 	        .antMatchers("/*").permitAll()
+			.antMatchers("/api/**").permitAll()
+			.antMatchers("/swagger-ui/**").permitAll()
+			.antMatchers("/swagger-resources/**").permitAll()
 			.antMatchers( "/favicon.ico").permitAll()
 			.antMatchers("/customer/**").hasRole("FRONT_USER")
 			.anyRequest().authenticated()

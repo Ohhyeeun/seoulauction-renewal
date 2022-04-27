@@ -1,3 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,22 +31,26 @@
     <ul class="header_utilitymenu wrap_padding pc-ver">
         <li class="utility-tab utility-lang"><a href="javascript:void(0);">KOR</a>
             <ul class="bubble-box bubble-box01">
-                <li><a href="/index.html">KOR(한국어)</a></li>
-                <li><a href="/">ENG(English)</a></li>
+                <li><a href="/">KOR(한국어)</a></li>
+                <li><a href="/en">ENG(English)</a></li>
             </ul>
         </li>
         <li class="utility-join"><a href="#">JOIN</a></li> <!-- !login -->
         <li class="utility-tab utility-account"><a href="javascript:void(0);">ACCOUNT</a>
             <ul class="bubble-box bubble-box02">
-                <li><a href="/index_en.html">Live Auction Management</a></li>
+                <li><a href="/">Live Auction Management</a></li>
                 <li><a href="#">Online Auction Management</a></li>
                 <li><a href="#">Wish List</a></li>
                 <li><a href="#">Academy Application List</a></li>
                 <li><a href="#">Edit member information</a></li>
             </ul>
         </li> <!-- login -->
-        <li class="utility-login"><a href="#">LOGIN</a></li> <!-- !login -->
-        <li class="utility-logout"><a href="#">LOGOUT</a></li> <!-- login -->
+        <sec:authorize access="isAnonymous()">
+            <li class="utility-login"><a href="/login">LOGIN</a></li> <!-- !login -->
+        </sec:authorize>
+        <sec:authorize access="isAuthenticated()">
+            <li class="utility-login"><a href="/processLogout">LOGOUT</a></li> <!-- !login -->
+        </sec:authorize>
     </ul>
 
     <nav class="header_nav wrap_padding">

@@ -160,8 +160,8 @@ $(function(){
     }
 
     /* utility menu */
-    $('.utility-join').hide();
-    $('.utility-login').hide();
+    //$('.utility-join').hide();
+    //$('.utility-login').hide();
     $('.gnb_join').hide();
     $('.gnb_login').hide();
 

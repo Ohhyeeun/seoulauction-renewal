@@ -1,3 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -25,22 +31,26 @@
     <ul class="header_utilitymenu wrap_padding pc-ver">
         <li class="utility-tab utility-lang"><a href="javascript:void(0);">ENG</a>
             <ul class="bubble-box bubble-box01">
-                <li><a href="/index_en.html">ENG(English)</a></li>
+                <li><a href="/en">ENG(English)</a></li>
                 <li><a href="/">KOR(한국어)</a></li>
             </ul>
         </li>
         <li class="utility-join"><a href="#">회원가입</a></li> <!-- !login -->
         <li class="utility-tab utility-account"><a href="#">마이페이지</a>
             <ul class="bubble-box bubble-box02">
-                <li><a href="/index_en.html">라이브 경매 관리</a></li>
+                <li><a href="#">라이브 경매 관리</a></li>
                 <li><a href="#">온라인 경매 관리</a></li>
                 <li><a href="#">관심작품</a></li>
                 <li><a href="#">아카데미 신청목록</a></li>
                 <li><a href="#">회원정보 수정</a></li>
             </ul>
         </li> <!-- login -->
-        <li class="utility-login"><a href="#">로그인</a></li> <!-- !login -->
-        <li class="utility-logout"><a href="#">로그아웃</a></li> <!-- login -->
+        <sec:authorize access="isAnonymous()">
+        <li class="utility-login"><a href="/login">로그인</a></li> <!-- !login -->
+        </sec:authorize>
+        <sec:authorize access="isAuthenticated()">
+            <li class="utility-login"><a href="/processLogout">로그 아웃</a></li> <!-- !login -->
+        </sec:authorize>
     </ul>
 
     <nav class="header_nav wrap_padding">
