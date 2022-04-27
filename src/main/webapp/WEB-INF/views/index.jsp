@@ -1670,13 +1670,20 @@
 </a>
 
 <!-- video, 뉴스레터 -->
-<div class="blackBg">
+<div class="blackBg newsletter-blackBg">
     <div class="newsletter-termsbox">
         <div class="newsletter-terms">
+            <div class="closebtn closebtn-b newsAgree-close"></div>
             <input type="checkbox" id="newsAgree" class="common_checkbox">
             <label for="newsAgree">
                 <span class="newsAgree-checktxt">개인정보 수집 및 이용에 동의 합니다.</span>
             </label>
+            <p class="newsAgree-txt">
+                <i></i>뉴스레터 발송을 위한 최소한의 개인정보를 수집하고 이용합니다. 수집된
+                정보는 발송 외 다른 목적으로 이용되지 않으며, 서비스가 종료되거나
+                구독을 해지할 경우 즉시 파기됩니다.
+            </p>
+            <button type="button" class="commonbtn btn-bg-g newsAgree-btn">확인</button>
         </div>
     </div>
 </div>
