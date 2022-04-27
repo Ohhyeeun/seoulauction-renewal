@@ -5,12 +5,12 @@ $(function(){
         const width = e.target.innerWidth;
         if (width > 1280) {
             console.log(76767);
-            //$('.topsearch>input').attr('placeholder','작가 또는 작품명 검색'); 
+            //$('.topsearch>input').attr('placeholder','작가 또는 작품명 검색');
         } else if (width > 720) {
             console.log(35256);
-            //$('.topsearch>input').attr('placeholder','검색'); 
+            //$('.topsearch>input').attr('placeholder','검색');
         } else {
-            //$('.topsearch>input').attr('placeholder','검색을 입력하세요.');   
+            //$('.topsearch>input').attr('placeholder','검색을 입력하세요.');
         }
     });
 
@@ -121,8 +121,8 @@ $(function(){
         });
 
         /*$('.submenuBg').click(function(){
-            $('.gnb_submenuBg').animate({'right':'-100%','transition':'ease .5s'}); 
-            $('.submenuBg').animate({'right':'-100%','transition':'ease .3s'});  
+            $('.gnb_submenuBg').animate({'right':'-100%','transition':'ease .5s'});
+            $('.submenuBg').animate({'right':'-100%','transition':'ease .3s'});
         }); */
 
         $('.subGnbmenu-tit').click(function(){
@@ -160,8 +160,8 @@ $(function(){
     }
 
     /* utility menu */
-    //$('.utility-join').hide();
-    //$('.utility-login').hide();
+    $('.utility-join').hide();
+    $('.utility-login').hide();
     $('.gnb_join').hide();
     $('.gnb_login').hide();
 
@@ -205,7 +205,7 @@ $(function(){
     /* 모바일 gnb 서치*/
     $('.m-top-search').click(function(){
         $('.topsearch-box>form').animate({'right':'0','transition':'ease .5s'});
-        //$('.topsearch-box>form').show(); 
+        //$('.topsearch-box>form').show();
         $('.topsearch>input').show();
         $('.topsearch-btn').show();
         $('.search-bubble-box').show();
@@ -269,6 +269,16 @@ function searchFilter() {
         $('.search-bubble-box').addClass('on');
     }
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
