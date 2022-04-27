@@ -737,6 +737,9 @@
 .newsletter-btnbox>button.commonbtn {
     margin-right: 10px;
 }
+.newsletter-blackBg {
+    display: none;
+}
 .newsletter-termsbox {
     position: relative;
     top: 50%;
@@ -756,6 +759,7 @@
     height: 24px;
     margin-left: auto;
     margin-bottom: 10px;
+    cursor: pointer;
 }
 #newsAgree[type="checkbox"]+label {
     padding-left: 9px;
@@ -1268,7 +1272,8 @@
     #terms_allAgree[type="checkbox"]+label {
         padding-left: 20px;
     }
-    #terms_allAgree[type="checkbox"]+label:before {
+    #terms_allAgree[type="checkbox"]+label:before,
+    #newsAgree[type="checkbox"]+label:before {
         content: "";
         position: absolute;
         width: 20px;
@@ -1276,7 +1281,8 @@
         background: url(/images/mobile/icon/check01.png) no-repeat -1px -21px;
         background-size: 23px auto;
     }
-    #terms_allAgree[type="checkbox"]:checked+label:before {
+    #terms_allAgree[type="checkbox"]:checked+label:before,
+    #newsAgree[type="checkbox"]:checked+label:before {
         width: 20px;
         height: 20px;
         background: url(/images/mobile/icon/check01.png) no-repeat -1px -1px;
@@ -1290,6 +1296,11 @@
     .terms-checktxt:lang(en) {
         padding-top: 2px;
     }
+    .newsAgree-checktxt {
+        font-size: 16px;
+        margin-top: 3px;
+        padding-left: 20px;
+    }
     .newsletter-termsbox {
         position: absolute;
         top: auto;
@@ -1300,16 +1311,22 @@
     }
     .newsletter-terms {
         max-width: 100%;
-        padding: 30px 15px;
+        padding:15px;
     }
     .newsAgree-txt {
         padding: 20px;
         line-height: 1.46;
         margin-top: 20px;
+        font-size: 13px;
     }
     #newsAgree[type="checkbox"]+label:before {
         width: 20px;
         height: 20px;
+    }
+    .newsAgree-close {
+        width: 15px;
+        height: 15px;
+        background-size: contain;
     }
 }
 @media all and (max-width: 719px) {

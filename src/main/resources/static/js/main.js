@@ -191,22 +191,35 @@ $(function(){
         $(this).removeClass('on');
     });
 
-    /* video popup */
-    $(".video-slide>a").click(function() {
-        console.log(34234);
-        $(".video-popup").addClass("reveal"),
-            $(".video-popup .video-wrapper").remove(),
-            $(".video-popup").append("<div class='video-wrapper'><img class='videoclose_btn' src='/images/icon/close_white_24dp.svg'><div class='videoBox'><iframe width='1280' height='720' src='https://youtube.com/embed/" + $(this).data("video") + "' allow='autoplay; encrypted-media' allowfullscreen></iframe></div></div>"),
-            $(".video-popup").find("img.videoclose_btn").click(function(){// 닫기버튼 추가 (2021.11.30 em) ,
-                $(".video-popup .video-wrapper").remove(),
-                    $(".video-popup").removeClass("reveal")
+    /*news letter 구독하기 */
+    $('#terms_allAgree[type="checkbox"]').click(function(){
+        if($('#terms_allAgree[type="checkbox"]:checked')){
+            $('.subscriptBtn').click(function(){
+                $('.newsletter-blackBg').fadeIn('fast');
             });
-    }),
-        $(".video-popup-closer").click(function() {
-            $(".video-popup .video-wrapper").remove(),
-                $(".video-popup").removeClass("reveal")
-        });
+        } else {
+            $('.newsletter-blackBg').hide();
+        }
+    });
+    /* news letter 동의 팝업 */
+    $('#newsAgree[type="checkbox"]').click(function(){
+        if($('#newsAgree[type="checkbox"]:checked')){
+            $('.newsAgree-btn').click(function(){
+                $('.newsletter-blackBg').fadeOut('fast');
+            });
+        } else {
+            $('.newsAgree-btn').click(function(){
+                return false;
+            });
+        }
+    });
+
+
+    $('.newsAgree-close').click(function(){
+        $('.newsletter-blackBg').fadeOut('fast');
+    });
 });
+
 
 
 

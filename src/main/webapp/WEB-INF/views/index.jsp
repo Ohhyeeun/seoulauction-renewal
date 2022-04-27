@@ -1683,7 +1683,7 @@
                 정보는 발송 외 다른 목적으로 이용되지 않으며, 서비스가 종료되거나
                 구독을 해지할 경우 즉시 파기됩니다.
             </p>
-            <button type="button" class="commonbtn btn-bg-g newsAgree-btn">확인</button>
+            <button type="submit" class="commonbtn btn-bg-g newsAgree-btn">확인</button>
         </div>
     </div>
 </div>
