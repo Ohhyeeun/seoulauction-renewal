@@ -743,7 +743,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
-.newsletter-terms {
+.newsletter-terms {   
     max-width: 620px;
     background-color: #fff;
     border-top: 5px solid #21a099;
@@ -1289,7 +1289,7 @@
     }
     .terms-checktxt:lang(en) {
         padding-top: 2px;
-    } 
+    }
 }
 @media all and (max-width: 719px) {
     .visual_caption {
