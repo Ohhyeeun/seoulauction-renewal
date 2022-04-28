@@ -22,4 +22,8 @@ public class HomeController {
         String path = request.getServletPath();
         return StringUtils.isNotEmpty(path) && path.equals("/en") ? "/index_en" : "/index";
     }
+    @GetMapping("/guide" )
+    public String guide(HttpServletRequest request) {
+        return "guide_list";
+    }
 }

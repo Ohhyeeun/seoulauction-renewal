@@ -1,16 +1,7 @@
-
-
-
-
-
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
-
-
-	
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta charset="UTF-8">
 	<title>서울옥션</title>
