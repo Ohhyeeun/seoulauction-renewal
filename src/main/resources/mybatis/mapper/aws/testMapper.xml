@@ -5,7 +5,7 @@
 		SELECT
 		    *
 		FROM
-			ARTIST a
+			admin
 		LIMIT
 			10
 	</select>
