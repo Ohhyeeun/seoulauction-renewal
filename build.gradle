@@ -16,6 +16,10 @@ configurations {
     }
 }
 
+bootWar {
+    archiveName("sa_renewal.war")
+}
+
 repositories {
     mavenCentral()
 }
