@@ -1592,14 +1592,14 @@
                             <input type="email" placeholder="이름">
                         </fieldset>
                         <fieldset class="newsletter-checkbox">
-                            <input type="checkbox" id="terms_allAgree" class="common_checkbox">
-                            <label for="terms_allAgree">
+                            <input type="checkbox" id="subscript_check" class="common_checkbox" value='subscript_check' name='subscript_check'>
+                            <label for="subscript_check">
                                 <span class="terms-checktxt">개인정보 수집 및 이용에 동의 합니다.</span>
                             </label>
                         </fieldset>
                     </form>
                     <div class="flex_wrap newsletter-btnbox">
-                        <button type="button" class="commonbtn btn-bg-b subscriptBtn">구독하기</button>
+                        <button type="button" disabled="disabled" class="commonbtn btn-bg-b subscriptBtn">구독하기</button>
                         <a href="#" class="commonbtn btn-border-3">
                             <span>지난 뉴스레터 보기</span>
                         </a>
@@ -1669,12 +1669,12 @@
     <span class="topBtn up"></span>
 </a>
 
-<!-- video, 뉴스레터 -->
+<!-- 뉴스레터 팝업 -->
 <div class="blackBg newsletter-blackBg">
     <div class="newsletter-termsbox">
         <div class="newsletter-terms">
             <div class="closebtn closebtn-b newsAgree-close"></div>
-            <input type="checkbox" id="newsAgree" class="common_checkbox">
+            <input type="checkbox" id="newsAgree" class="common_checkbox" value='newsAgree' name="newsAgree">
             <label for="newsAgree">
                 <span class="newsAgree-checktxt">개인정보 수집 및 이용에 동의 합니다.</span>
             </label>
@@ -1683,7 +1683,16 @@
                 정보는 발송 외 다른 목적으로 이용되지 않으며, 서비스가 종료되거나
                 구독을 해지할 경우 즉시 파기됩니다.
             </p>
-            <button type="submit" class="commonbtn btn-bg-g newsAgree-btn">확인</button>
+            <button type="submit" disabled="disabled" class="commonbtn btn-bg-g newsAgree-btn">확인</button>
+        </div>
+    </div>
+</div>
+
+<!-- video 팝업 -->
+<div class="blackBg video-blackBg">
+    <div class="video-playbox">
+        <div class="video-play">
+
         </div>
     </div>
 </div>

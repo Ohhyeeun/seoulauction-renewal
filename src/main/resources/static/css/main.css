@@ -52,7 +52,9 @@
     background: rgba(0, 0, 0, .5);
     z-index: 9
 }
-
+.video-blackBg {
+    display: none;
+}
 
 
 .swiper-button-prev.slide-btnright,
@@ -704,10 +706,10 @@
     margin-top: 20px;
     margin-bottom: 40px;
 }
-#terms_allAgree[type="checkbox"]+label {
+#subscript_check[type="checkbox"]+label {
     padding-left: 26px;
 }
-#terms_allAgree[type="checkbox"]+label:before {
+#subscript_check[type="checkbox"]+label:before {
     width: 23px;
     height: 23px;
 }
@@ -740,7 +742,8 @@
 .newsletter-blackBg {
     display: none;
 }
-.newsletter-termsbox {
+.newsletter-termsbox,
+.video-playbox {
     position: relative;
     top: 50%;
     left: 50%;
@@ -786,6 +789,12 @@
     margin: 0 auto;
     font-size: 16px;
 }
+.video-play {
+    max-width: 1280px;
+    max-height: 720px;
+}
+
+
 
 /* pc */
 @media all and (max-width: 1919px) {
@@ -1269,10 +1278,10 @@
         padding: 0;
         margin-right: 10px;
     }
-    #terms_allAgree[type="checkbox"]+label {
+    #subscript_check[type="checkbox"]+label {
         padding-left: 20px;
     }
-    #terms_allAgree[type="checkbox"]+label:before,
+    #subscript_check[type="checkbox"]+label:before,
     #newsAgree[type="checkbox"]+label:before {
         content: "";
         position: absolute;
@@ -1281,7 +1290,7 @@
         background: url(/images/mobile/icon/check01.png) no-repeat -1px -21px;
         background-size: 23px auto;
     }
-    #terms_allAgree[type="checkbox"]:checked+label:before,
+    #subscript_check[type="checkbox"]:checked+label:before,
     #newsAgree[type="checkbox"]:checked+label:before {
         width: 20px;
         height: 20px;

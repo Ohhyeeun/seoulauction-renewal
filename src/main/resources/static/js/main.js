@@ -191,33 +191,54 @@ $(function(){
         $(this).removeClass('on');
     });
 
-    /*news letter 구독하기 */
-    $('#terms_allAgree[type="checkbox"]').click(function(){
-        if($('#terms_allAgree[type="checkbox"]:checked')){
-            $('.subscriptBtn').click(function(){
-                $('.newsletter-blackBg').fadeIn('fast');
-            });
-        } else {
-            $('.newsletter-blackBg').hide();
-        }
+    /*뉴스레터 구독하기 팝업 */
+    $(document).ready(function(){
+        $('#subscript_check').click(function(){
+            const subscript = $('#subscript_check').prop('checked');
+            const newsAgree = $('#newsAgree').prop('checked');
+
+            if(subscript){
+                console.log(subscript);
+                $('#subscript_check').prop('checked',true);
+                $('.subscriptBtn').prop('disabled',false);
+
+                /* 구독하기 */
+                $('.subscriptBtn').click(function(){
+                    $('.newsletter-blackBg').fadeIn('fast');
+                    $('.newsAgree-close').click(function(){ /* 닫기 버튼 */
+                        $('.newsletter-blackBg').fadeOut('fast');
+                    });
+                });
+            } else {
+                console.log(newsAgree);
+                $('#subscript_check').prop('checked',false);
+                $('.subscriptBtn').prop('disabled',true);
+            };
+        });
+
+        /* 뉴스레터 개인정보 동의 팝업 */
+        $('#newsAgree').click(function(){
+            const subscript = $('#subscript_check').prop('checked');
+            const newsAgree = $('#newsAgree').prop('checked');
+
+            if(newsAgree){
+                $('#newsAgree').prop('checked',true);
+                $('.newsAgree-btn').prop('disabled',false);
+
+                $('.newsAgree-btn').click(function(){
+                    $('.newsletter-blackBg').fadeOut('fast');
+                });
+            } else {
+                $('#newsAgree').prop('checked',false);
+                $('.newsAgree-btn').prop('disabled',true);
+            }
+        });
     });
     /* news letter 동의 팝업 */
-    $('#newsAgree[type="checkbox"]').click(function(){
-        if($('#newsAgree[type="checkbox"]:checked')){
-            $('.newsAgree-btn').click(function(){
-                $('.newsletter-blackBg').fadeOut('fast');
-            });
-        } else {
-            $('.newsAgree-btn').click(function(){
-                return false;
-            });
-        }
-    });
 
 
-    $('.newsAgree-close').click(function(){
-        $('.newsletter-blackBg').fadeOut('fast');
-    });
+    /* video 팝업 */
+
 });
 
 
