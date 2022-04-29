@@ -20,7 +20,6 @@ public class ApiTestController {
         CommonMap map = new CommonMap();
         map.put("asdfasdf","asdfasdf");
         map.put("asdfasdf2","asdfasdf2");
-        map.put("asdfasdf4","asdfasdf4");
         String ddfasd ="asdfasdf";
         return ResponseEntity.ok(RestResponse.ok(map));
     }
