@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
+import java.util.Locale;
 
 @Controller
 @Log4j2
@@ -25,7 +26,7 @@ public class LoginController {
         // 로그인 이전페이지 기억
     	String referrer = request.getHeader("Referer");
         request.getSession().setAttribute("prevPage", referrer);
-    	
+
     	if(principal != null) {
     		//Principal (CUST_NO)
     		log.info("===== CUST_NO : " + principal.getName() + "\t=====");
