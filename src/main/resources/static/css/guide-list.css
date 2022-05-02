@@ -10,80 +10,80 @@ This license is copied below, and is also available with a FAQ at:
 http://scripts.sil.org/OFL
 */
 
-@font-face { 
-	font-family: 'Pretendard';
-	font-weight: 900;
-	font-display: swap; 
-	src: local('Pretendard Black'), url('/font/Pretendard-Black.woff') format('woff');  
+@font-face {
+    font-family: 'Pretendard';
+    font-weight: 900;
+    font-display: swap;
+    src: local('Pretendard Black'), url('/font/Pretendard-Black.woff') format('woff');
 }
 
 @font-face {
-	font-family: 'Pretendard'; 
-	font-weight: 800;
-	font-display: swap;
-	src: local('Pretendard ExtraBold'), url('/font/Pretendard-ExtraBold.woff') format('woff'); 
+    font-family: 'Pretendard';
+    font-weight: 800;
+    font-display: swap;
+    src: local('Pretendard ExtraBold'), url('/font/Pretendard-ExtraBold.woff') format('woff');
 }
 
 @font-face {
-	font-family: 'Pretendard';
-	font-weight: 700;
-	font-display: swap;
-	src: local('Pretendard Bold'), url('/font/Pretendard-Bold.woff') format('woff');
+    font-family: 'Pretendard';
+    font-weight: 700;
+    font-display: swap;
+    src: local('Pretendard Bold'), url('/font/Pretendard-Bold.woff') format('woff');
 }
 
 @font-face {
-	font-family: 'Pretendard';
-	font-weight: 600;
-	font-display: swap;
-	src: local('Pretendard SemiBold'), url('/font/Pretendard-SemiBold.woff') format('woff');
+    font-family: 'Pretendard';
+    font-weight: 600;
+    font-display: swap;
+    src: local('Pretendard SemiBold'), url('/font/Pretendard-SemiBold.woff') format('woff');
 }
 
 @font-face {
-	font-family: 'Pretendard';
-	font-weight: 500;
-	font-display: swap;
-	src: local('Pretendard Medium'), url('/font/Pretendard-Medium.woff') format('woff');
+    font-family: 'Pretendard';
+    font-weight: 500;
+    font-display: swap;
+    src: local('Pretendard Medium'), url('/font/Pretendard-Medium.woff') format('woff');
 }
 
 @font-face {
-	font-family: 'Pretendard';
-	font-weight: 400;
-	font-display: swap;
-	src: local('Pretendard Regular'), url('/font/Pretendard-Regular.woff') format('woff'); 
-}
-
-@font-face {
-	font-family: 'Pretendard';
-	font-weight: 300;
-	font-display: swap;
-	src: local('Pretendard Light'), url('/font/Pretendard-Light.woff') format('woff'); 
-}
-
-@font-face {
-	font-family: 'Pretendard';
-	font-weight: 200;
-	font-display: swap;
-	src: local('Pretendard ExtraLight'), url('/font/Pretendard-ExtraLight.woff') format('woff');  
-}
-
-@font-face { 
-	font-family: 'Pretendard'; 
-	font-weight: 100;
-	font-display: swap;
-	src: local('Pretendard Thin'), url('/font/Pretendard-Thin.woff') format('woff');  
-}  
-
-@font-face {
-    font-family: 'Libre Baskerville', serif; 
+    font-family: 'Pretendard';
     font-weight: 400;
     font-display: swap;
-    src: local('LibreBaskerville-Regular'), url('/font/LibreBaskerville-Regular.ttf') format('ttf'); 
+    src: local('Pretendard Regular'), url('/font/Pretendard-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    font-weight: 300;
+    font-display: swap;
+    src: local('Pretendard Light'), url('/font/Pretendard-Light.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    font-weight: 200;
+    font-display: swap;
+    src: local('Pretendard ExtraLight'), url('/font/Pretendard-ExtraLight.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    font-weight: 100;
+    font-display: swap;
+    src: local('Pretendard Thin'), url('/font/Pretendard-Thin.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Libre Baskerville', serif;
+    font-weight: 400;
+    font-display: swap;
+    src: local('LibreBaskerville-Regular'), url('/font/LibreBaskerville-Regular.ttf') format('ttf');
 }
 @font-face {
     font-family: 'Libre Baskerville', serif;
     font-weight: 700;
     font-display: swap;
-    src: local('LibreBaskerville-Bold'), url('/font/LibreBaskerville-Bold.ttf') format('ttf');  
+    src: local('LibreBaskerville-Bold'), url('/font/LibreBaskerville-Bold.ttf') format('ttf');
 }
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -92,87 +92,87 @@ http://scripts.sil.org/OFL
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,
 small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,
 aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,
-nav,output,ruby,section,summary,time,mark,audio,video,main {  
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font: inherit; 
-  font-family: 'Pretendard', sans-serif;  
-  font-size: 100%;  
-  vertical-align: baseline; 
-  box-sizing: border-box; 
+nav,output,ruby,section,summary,time,mark,audio,video,main {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-family: 'Pretendard', sans-serif;
+    font-size: 100%;
+    vertical-align: baseline;
+    box-sizing: border-box;
 }
 /* HTML5 display-role reset for older browsers */
 article,aside,details,figcaption,figure,footer,header,hgroup,menu,
 nav,section {
-  display: block;
+    display: block;
 }
 body {
-  line-height: 1; 
+    line-height: 1;
     margin: 0;
-    padding: 0; 
-}  
+    padding: 0;
+}
 blockquote, q {
-  quotes: none;
+    quotes: none;
 }
 blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
-  content: none;
+    content: "";
+    content: none;
 }
-span { 
-    display: inline-block; 
+span {
+    display: inline-block;
 }
 table {
-  border-collapse: collapse;
-  border-spacing: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 input {
-    font-family: 'Pretendard', sans-serif;  
-    box-sizing: border-box; 
-    width: 100%;  
-    border: 0;   
-} 
-input:focus {
-  outline: none;
+    font-family: 'Pretendard', sans-serif;
+    box-sizing: border-box;
+    width: 100%;
+    border: 0;
 }
-input[type="checkbox"] { 
-    width: auto; 
+input:focus {
+    outline: none;
+}
+input[type="checkbox"] {
+    width: auto;
 }
 input::placeholder {
     color: #999;
-} 
-a { 
-    color: inherit; 
-    text-decoration: none; 
-    display: block; 
-} 
-ul,li,ol { 
-    list-style: none;  
-    margin: 0; 
-}  
+}
+a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+}
+ul,li,ol {
+    list-style: none;
+    margin: 0;
+}
 h1 {
-    margin: 0;  
+    margin: 0;
 }
 fieldset {
     padding: 0;
     border: 0;
 }
 figure {
-    margin: 0; 
-    padding: 0; 
-} 
-button {
-    cursor: pointer; 
-    border: 0; 
-    background: transparent;
-    box-sizing: border-box;  
+    margin: 0;
     padding: 0;
-} 
-.blind-text {  
-    display: block; 
+}
+button {
+    cursor: pointer;
+    border: 0;
+    background: transparent;
+    box-sizing: border-box;
+    padding: 0;
+}
+.blind-text {
+    display: block;
     overflow: hidden;
     font-size: 0;
     line-height: 0;
@@ -181,47 +181,53 @@ button {
 img {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain; 
-    
-    /* 이미지 저장 드래그 방지 */  
+    object-fit: contain;
+
+    /* 이미지 저장 드래그 방지 */
     -webkit-touch-callout:none;
-    -moz-touch-callout:none; 
-    -ms-touch-callout:none; 
+    -moz-touch-callout:none;
+    -ms-touch-callout:none;
     -o-touch-callout:none;
 
-    -webkit-user-drag: none; 
+    -webkit-user-drag: none;
     -moz-user-drag: none;
-    -ms-user-drag: none; 
+    -ms-user-drag: none;
     -o-user-drag: none;
 
-    -webkit-user-select: none; 
-    -moz-user-select: none; 
-    -ms-user-select: none; 
-    -o-user-select: none; 
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
 }
 
-/* guide list 페이지 */  
-.markup_header { 
-    background-color: #333; 
-    padding: 20px 30px;  
-    align-items: center;  
+/* guide list 페이지 */
+.section_wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 0;
+    font-size: 14px;
+}
+.markup_header {
+    background-color: #333;
+    padding: 20px 30px;
+    align-items: center;
 }
 .markup_header>span {
     color: #fff;
-    font-size: 20px; 
+    font-size: 20px;
     margin-top: 10px;
 }
 .ing-info {
-    text-align: right; 
-    padding: 10px; 
+    text-align: right;
+    padding: 10px;
 }
 .ing-txt {
-    padding-top: 10px; 
+    padding-top: 10px;
 }
-.markup-box { 
-    padding: 0px 10px;
-}  
-.root-box { 
+.markup-box {
+    padding: 0px 30px;
+}
+.root-box {
     width: 100%;
     display: table;
     table-layout: fixed;
@@ -230,56 +236,59 @@ img {
 }
 .guide-list-header,
 .guide-list {
-    border-bottom: 1px solid #ddd;  
+    border-bottom: 1px solid #ddd;
     display: table-row;
 }
 .guide-list-header>span {
-    padding: 10px; 
+    padding: 10px;
     font-weight: bold;
 }
 .guide-list-header>span:first-child {
-    width: 150px; 
-} 
+    width: 150px;
+}
 .guide-list-header>span:nth-child(2),
-.guide-list-header>span:nth-child(3) {  
-    width: 300px;  
-}  
+.guide-list-header>span:nth-child(3) {
+    width: 300px;
+}
 .guide-list-header>span:nth-child(4) {
-    width: 250px;  
+    width: 250px;
 }
 .guide-list-header>span:nth-child(5) {
-    width: 220px; 
+    width: 220px;
 }
 .guide-list-header>span:last-child {
     width: 100%;
 }
 .guide-list-header {
     border-top: 2px solid #333;
-    border-bottom: 2px solid #333;  
-    background-color: #f0f0f0;    
-} 
+    border-bottom: 2px solid #333;
+    background-color: #f0f0f0;
+}
 .guide-list-header>span,
-.guide-list>span { 
+.guide-list>span {
     display: table-cell;
     text-overflow: ellipsis;
-    overflow: hidden; 
+    overflow: hidden;
     vertical-align: middle;
 }
-.guide-list { 
-    
+.guide-list {
+
 }
-.guide-list>span {  
+.guide-list>span {
     padding: 15px 10px;
-    line-height: 1.2; 
+    line-height: 1.2;
 }
-.guide-list>span:first-child { 
-    
+.guide-list>span:first-child {
+
 }
 .guide-list>span>a:hover {
-    text-decoration: underline; 
+    text-decoration: underline;
 }
 .ing-info>span {
-    padding: 10px; 
+    padding: 10px;
+}
+.ing-info>span:nth-child(3) {
+    padding: 8px;
 }
 .ing-block {
     color: #21a099;
@@ -287,84 +296,91 @@ img {
 .end-block{
     padding: 10px;
     background-color: #21a099;
-    color: #fff; 
+    color: #fff;
 }
 .guide-list>span.arrow {
     width: 10px;
     height: 10px;
     background: url(/images/mobile/icon/ic_chevron_right_gray_16.svg) no-repeat center center;
-    vertical-align: middle;  
-    display: none; 
+    vertical-align: middle;
+    display: none;
 }
-@media all and (max-width:1919px) {  
+.ing-confirm {
+    border: 2px solid #21a099;
+}
+
+@media all and (max-width:1919px) {
     .markup-box {
-        overflow: auto;  
-        max-width: 100%;  
+        overflow: auto;
+        max-width: 100%;
     }
     .root-box {
         table-layout: auto;
-        white-space: nowrap;  
+        white-space: nowrap;
     }
     .guide-list-header>span:first-child,
     .guide-list-header>span:nth-child(2),
     .guide-list-header>span:nth-child(3),
-    .guide-list-header>span:nth-child(4), 
-    .guide-list-header>span:nth-child(5) {  
-        width: auto; 
+    .guide-list-header>span:nth-child(4),
+    .guide-list-header>span:nth-child(5) {
+        width: auto;
     }
     .guide-list-header>span:last-child {
-        width: 300px; 
-    }  
+        width: 300px;
+    }
 }
 
 @media all and (max-width:1023px) {
+    .section_wrap {
+        font-size: 16px;
+    }
     .guide-list-header>span:first-child,
     .guide-list-header>span:nth-child(2),
     .guide-list-header>span:nth-child(3),
-    .guide-list-header>span:nth-child(4), 
+    .guide-list-header>span:nth-child(4),
     .guide-list-header>span:nth-child(5),
     .guide-list-header>span:last-child {
-        display: none; 
+        display: none;
     }
     .guide-list>span:first-child {
-        font-weight: bold; 
-    } 
+        font-weight: bold;
+    }
     .markup-box {
         overflow: inherit;
     }
     .root-box {
         table-layout: inherit;
-        white-space: normal; 
+        white-space: normal;
         display: block;
         border-collapse: inherit;
-        border-spacing: inherit; 
+        border-spacing: inherit;
     }
     .guide-list {
-        padding: 10px 0; 
+        padding: 10px 0;
     }
     .guide-list,
     .guide-list-header,
-    .guide-list>span { 
-        display: block; 
-    }  
-    .guide-list>span {   
-        padding: 5px 0;   
-    } 
-    .guide-list>span:first-child, 
+    .guide-list>span {
+        display: block;
+    }
+    .guide-list>span {
+        padding: 5px 0;
+    }
+    .guide-list>span:first-child,
     .guide-list>span:nth-child(2),
     .guide-list>span:nth-child(3),
     .guide-list>span:nth-child(5){
-        display: inline-flex; 
+        display: inline-flex;
     }
     .guide-list>span>a {
         font-weight: bold;
         padding: 5px 0;
-    }   
-    .guide-list>span.tit-blind { 
+    }
+    .guide-list>span.tit-blind {
         display: none;
-    }  
+    }
     .guide-list>span.arrow {
-        display: inline-flex;   
+        display: inline-flex;
         padding: 0 7px;
     }
     .ing-txt {
