@@ -85,22 +85,6 @@ $(function(){
             /*$('.main-contents').css('top','118px'); */
             $('.main-contents').css('margin-top','118px');
         });
-
-        /* scroll top */
-        $(window).scroll(function(){
-            $('.scroll-top').hide();
-            $('.darkmodeBg').hide();
-
-            clearTimeout($.data(this, 'sfcrollTimer'));
-            $.data(this, 'scrollTimer', setTimeout(function(){
-                $('.scroll-top').show();
-                $('.darkmodeBg').show();
-
-                if($(this).scrollTop() == 0) {
-                    $('.scroll-top').hide();
-                }
-            }, 300));
-        });
     } else { /* 테블릿 */
         /* 모바일 gnb */
         $('.header_gnbmenu>li>a').mouseenter(function(){
@@ -264,9 +248,9 @@ function searchFilter() {
         $('.topsearch-btn').trigger("click");
         $('.search-bubble-box').removeClass('on');
     } else if($('.topsearch-text').val().length == 0) {
-        $('.search-bubble-box').removeClass('on');
+        $('.search-bubble-box').removeClass('on').slideToggle();
     } else {
-        $('.search-bubble-box').addClass('on');
+        $('.search-bubble-box').addClass('on').slideDown();
     }
 }
 
