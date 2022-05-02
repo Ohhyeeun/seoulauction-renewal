@@ -110,6 +110,9 @@ nav,section {
 }
 html {
     font-size: 16px;
+    width: 100%;
+    height: 100%;
+    position: relative;
 }
 body {
     line-height: 1;
@@ -240,9 +243,13 @@ img {
     font-weight: 700;
     color: #111111;
 }
+.visual {
+    max-width: 2560px;
+    margin: 0 auto;
+}
 .wrap,
-.header,
-.visual,
+.header_utilitymenu,
+.header_nav,
 .container,
 .upcoming,
 .video,
@@ -267,6 +274,10 @@ img {
     -webkit-transform: translate(-50%, 0);
     -mos-transform: translate(-50%, 0);
     -moz-transform: translate(-50%, 0);
+    background-color: #fff;
+}
+.header-border {
+    border-bottom: 1px solid #dedede;
 }
 .darkmodeBg,
 .scroll-top {
@@ -524,7 +535,6 @@ img {
     display: flex;
     justify-content: flex-end;
     height: 39px;
-    border-bottom: 1px solid #dedede;
     background-color: #fff;
 }
 .header_utilitymenu>li {
@@ -659,7 +669,6 @@ img {
     margin-top: 2px;
     cursor: pointer;
 }
-
 .header_utilitymenu>li:first-child:before {
     display: none;
     margin: 0;
@@ -667,8 +676,7 @@ img {
 .header_nav {
     display: flex;
     height: 79px;
-    border-bottom: 1px solid #dedede;
-    position: relative;
+    /*position: relative;*/
     top: 0;
     padding-top: 17px;
     background-color: #fff;
@@ -733,7 +741,7 @@ img {
 }
 .submenuBg {
     position: absolute;
-    top: 79px;
+    top: 180px;
     background-color: #f2f2f2;
     width: 100%;
     left: 0px;
@@ -1209,7 +1217,9 @@ body.dark,
     .container,
     .upcoming,
     .video,
-    .platform {
+    .platform,
+    .header_utilitymenu,
+    .header_nav {
         max-width: 1440px;
         margin: 0 auto;
     }
@@ -1269,7 +1279,9 @@ body.dark,
     .container,
     .upcoming,
     .video,
-    .platform {
+    .platform,
+    .header_utilitymenu,
+    .header_nav {
         max-width: 1280px;
     }
     .submenuBg-box {
@@ -1300,7 +1312,13 @@ body.dark,
     }
 }
 @media all and (max-width: 1279px) {
-    .wrap, .container, .upcoming, .video, .platform {
+    .wrap,
+    .container,
+    .upcoming,
+    .video,
+    .platform,
+    .header_utilitymenu,
+    .header_nav {
         max-width: 1024px;
     }
     .m-ver1280 {

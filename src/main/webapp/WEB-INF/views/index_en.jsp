@@ -20,38 +20,39 @@
     <link rel="stylesheet" href="/css/swiper.css" type="text/css">
 </head>
 <body>
-<header class="header main-header"> <!-- class="main-header fixed" -->
+<header class="header main-header header-border"> <!-- class="main-header fixed" -->
     <div class="header_beltbox on"> <!--class="on" block-->
         <span class="header_beltTit">
                 <a href="#">Notice of increase in purchase fee rate and amendment of terms and conditions<span class="beltbanner-triangle"></span></a>
             </span>
         <span class="beltclose-btn closebtn closebtn-w"></span>
     </div>
-
-    <ul class="header_utilitymenu wrap_padding pc-ver">
-        <li class="utility-tab utility-lang"><a href="javascript:void(0);">KOR</a>
-            <ul class="bubble-box bubble-box01">
-                <li><a href="/">KOR(한국어)</a></li>
-                <li><a href="/en">ENG(English)</a></li>
-            </ul>
-        </li>
-        <li class="utility-join"><a href="#">JOIN</a></li> <!-- !login -->
-        <li class="utility-tab utility-account"><a href="javascript:void(0);">ACCOUNT</a>
-            <ul class="bubble-box bubble-box02">
-                <li><a href="/">Live Auction Management</a></li>
-                <li><a href="#">Online Auction Management</a></li>
-                <li><a href="#">Wish List</a></li>
-                <li><a href="#">Academy Application List</a></li>
-                <li><a href="#">Edit member information</a></li>
-            </ul>
-        </li> <!-- login -->
-        <sec:authorize access="isAnonymous()">
-            <li class="utility-login"><a href="/login">LOGIN</a></li> <!-- !login -->
-        </sec:authorize>
-        <sec:authorize access="isAuthenticated()">
-            <li class="utility-login"><a href="/processLogout">LOGOUT</a></li> <!-- !login -->
-        </sec:authorize>
-    </ul>
+    <div class="header-border">
+        <ul class="header_utilitymenu wrap_padding pc-ver">
+            <li class="utility-tab utility-lang"><a href="javascript:void(0);">KOR</a>
+                <ul class="bubble-box bubble-box01">
+                    <li><a href="/">KOR(한국어)</a></li>
+                    <li><a href="/en">ENG(English)</a></li>
+                </ul>
+            </li>
+            <li class="utility-join"><a href="#">JOIN</a></li> <!-- !login -->
+            <li class="utility-tab utility-account"><a href="javascript:void(0);">ACCOUNT</a>
+                <ul class="bubble-box bubble-box02">
+                    <li><a href="/">Live Auction Management</a></li>
+                    <li><a href="#">Online Auction Management</a></li>
+                    <li><a href="#">Wish List</a></li>
+                    <li><a href="#">Academy Application List</a></li>
+                    <li><a href="#">Edit member information</a></li>
+                </ul>
+            </li> <!-- login -->
+            <sec:authorize access="isAnonymous()">
+                <li class="utility-login"><a href="/login">LOGIN</a></li> <!-- !login -->
+            </sec:authorize>
+            <sec:authorize access="isAuthenticated()">
+                <li class="utility-login"><a href="/processLogout">LOGOUT</a></li> <!-- !login -->
+            </sec:authorize>
+        </ul>
+    </div>
 
     <nav class="header_nav wrap_padding">
         <a href="#" class="header_logo"><span class="blind-text">logo</span></a>

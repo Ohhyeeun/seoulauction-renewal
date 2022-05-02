@@ -20,38 +20,39 @@
     <link rel="stylesheet" href="/css/swiper.css" type="text/css">
 </head>
 <body>
-<header class="header main-header"> <!-- class="main-header fixed" -->
+<header class="header main-header header-border"> <!-- class="main-header fixed" -->
     <div class="header_beltbox on"> <!--class="on" block-->
         <span class="header_beltTit">
                 <a href="#">구매수수료율 인상 및 약관 개정안내<span class="beltbanner-triangle"></span></a>
             </span>
         <span class="beltclose-btn closebtn closebtn-w"></span>
     </div>
-
-    <ul class="header_utilitymenu wrap_padding pc-ver">
-        <li class="utility-tab utility-lang"><a href="javascript:void(0);">ENG</a>
-            <ul class="bubble-box bubble-box01">
-                <li><a href="/en">ENG(English)</a></li>
-                <li><a href="/">KOR(한국어)</a></li>
-            </ul>
-        </li>
-        <li class="utility-join"><a href="#">회원가입</a></li> <!-- !login -->
-        <li class="utility-tab utility-account"><a href="#">마이페이지</a>
-            <ul class="bubble-box bubble-box02">
-                <li><a href="#">라이브 경매 관리</a></li>
-                <li><a href="#">온라인 경매 관리</a></li>
-                <li><a href="#">관심작품</a></li>
-                <li><a href="#">아카데미 신청목록</a></li>
-                <li><a href="#">회원정보 수정</a></li>
-            </ul>
-        </li> <!-- login -->
-        <sec:authorize access="isAnonymous()">
-        <li class="utility-login"ref><a h="/login">로그인</a></li> <!-- !login -->
-        </sec:authorize>
-        <sec:authorize access="isAuthenticated()">
-            <li class="utility-login"><a href="/processLogout">로그 아웃</a></li> <!-- !login -->
-        </sec:authorize>
-    </ul>
+    <div class="header-border">
+        <ul class="header_utilitymenu wrap_padding pc-ver">
+            <li class="utility-tab utility-lang"><a href="javascript:void(0);">ENG</a>
+                <ul class="bubble-box bubble-box01">
+                    <li><a href="/en">ENG(English)</a></li>
+                    <li><a href="/">KOR(한국어)</a></li>
+                </ul>
+            </li>
+            <li class="utility-join"><a href="#">회원가입</a></li> <!-- !login -->
+            <li class="utility-tab utility-account"><a href="#">마이페이지</a>
+                <ul class="bubble-box bubble-box02">
+                    <li><a href="#">라이브 경매 관리</a></li>
+                    <li><a href="#">온라인 경매 관리</a></li>
+                    <li><a href="#">관심작품</a></li>
+                    <li><a href="#">아카데미 신청목록</a></li>
+                    <li><a href="#">회원정보 수정</a></li>
+                </ul>
+            </li> <!-- login -->
+            <sec:authorize access="isAnonymous()">
+            <li class="utility-login"ref><a h="/login">로그인</a></li> <!-- !login -->
+            </sec:authorize>
+            <sec:authorize access="isAuthenticated()">
+                <li class="utility-login"><a href="/processLogout">로그 아웃</a></li> <!-- !login -->
+            </sec:authorize>
+        </ul>
+    </div>
 
     <nav class="header_nav wrap_padding">
         <a href="#" class="header_logo"><span class="blind-text">logo</span></a>

@@ -197,15 +197,15 @@ $(function(){
             const subscript = $('#subscript_check').prop('checked');
             const newsAgree = $('#newsAgree').prop('checked');
 
-            if(subscript){
+            if(subscript) {
                 console.log(subscript);
                 $('#subscript_check').prop('checked',true);
                 $('.subscriptBtn').prop('disabled',false);
 
-                /* 구독하기 */
+                /*구독하기*/
                 $('.subscriptBtn').click(function(){
                     $('.newsletter-blackBg').fadeIn('fast');
-                    $('.newsAgree-close').click(function(){ /* 닫기 버튼 */
+                    $('.newsAgree-close').click(function(){  /*닫기 버튼 */
                         $('.newsletter-blackBg').fadeOut('fast');
                     });
                 });
@@ -220,6 +220,7 @@ $(function(){
         $('#newsAgree').click(function(){
             const subscript = $('#subscript_check').prop('checked');
             const newsAgree = $('#newsAgree').prop('checked');
+
 
             if(newsAgree){
                 $('#newsAgree').prop('checked',true);
@@ -239,8 +240,6 @@ $(function(){
             }
         });
     });
-    /* news letter 동의 팝업 */
-
 
     /* video 팝업 */
 
