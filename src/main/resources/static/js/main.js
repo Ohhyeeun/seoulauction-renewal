@@ -224,9 +224,14 @@ $(function(){
             if(newsAgree){
                 $('#newsAgree').prop('checked',true);
                 $('.newsAgree-btn').prop('disabled',false);
+                $('.newsAgree-comfirmbtn').prop('disabled',false);
 
                 $('.newsAgree-btn').click(function(){
-                    $('.newsletter-blackBg').fadeOut('fast');
+                    $('.newsAgree-comfirmbtn').click(function(){
+                        $('.newsletter-blackBg').fadeOut('fast');
+                    });
+                    $('.newsletter-terms').hide();
+                    $('.newsletter-comfirmbox').fadeIn(400);
                 });
             } else {
                 $('#newsAgree').prop('checked',false);
