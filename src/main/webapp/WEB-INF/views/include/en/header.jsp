@@ -141,8 +141,8 @@
                         <ul class="subGnbmenu">
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
                                 <ul class="submenu submenu-part01">
-                                    <li><a href="http://seoulauction.m4one.co.kr/html/auction/online_sequence_deadline_before_ko.html#tab-cont-3">Current</a><span class="currentIng">NOW</span></li>
-                                    <li><a href="#">Upcoming</a></li>
+                                    <li><a href="#">Current</a><span class="currentIng">NOW</span></li>
+                                    <li><a href="#">Upcoming</a><span class="currentIng">NOW</span></li>
                                     <li><a href="#">Result</a></li>
                                 </ul>
                             </li>

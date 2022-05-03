@@ -142,7 +142,7 @@
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
                                 <ul class="submenu submenu-part01">
                                     <li><a href="#">진행경매</a><span class="currentIng">NOW</span></li>
-                                    <li><a href="#">예정경매</a></li>
+                                    <li><a href="#">예정경매</a><span class="currentIng">NOW</span></li>
                                     <li><a href="#">경매결과</a></li>
                                 </ul>
                             </li>
