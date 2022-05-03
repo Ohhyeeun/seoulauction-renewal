@@ -504,8 +504,7 @@ img {
     height: 60px;
     font-size: 18px;
     text-align: center;
-    padding: 20px 30px;
-    padding-right: 90px;
+    padding: 20px 0px;
     display: none;
 }
 .header_beltTit {
@@ -513,6 +512,13 @@ img {
     height: 100%;
     /*white-space: nowrap;*/
     vertical-align: top;
+}
+.header_beltTit>a {
+    padding: 0 30px;
+}
+.belttxtbox {
+    position: relative;
+    top: 0;
 }
 .beltbanner-triangle {
     vertical-align: middle;
@@ -1384,10 +1390,10 @@ body.dark,
     }
     .header_nav,
     .wrap_padding,
-    .header_beltbox:lang(en),
     .container,
     .upcoming,
-    .video {
+    .video,
+    .header_navbox{
         padding-left: 25px;
         padding-right: 25px;
         max-width: 100%;
@@ -1421,24 +1427,11 @@ body.dark,
         padding-top: 14px;
         padding-bottom: 14px;
         position: relative;
-        padding-left: 50px;
-        padding-right: 50px;
-    }
-    .header_beltbox:lang(en){
-        padding: 0 87px;
     }
     .header_beltTit {
         max-width: 100%;
         font-size: 12px;
         padding-top: 2px;
-    }
-    .header_beltTit:lang(en) {
-        max-width: 100%;
-        white-space: inherit;
-        display: flex;
-        align-items: center;
-        line-height: 1.2;
-        justify-content: center;
     }
     .beltbanner-triangle {
         background-image: url(/images/mobile/icon/arrow01.png);
@@ -1450,13 +1443,8 @@ body.dark,
         width: 15px;
         height: 15px;
         background-image: url(/images/mobile/icon/notice_close.png);
-        position: absolute;
-        left: auto;
         right: 25px;
-        top: 16px;
-    }
-    .beltclose-btn:lang(en) {
-        left: auto;
+        top: 1px;
     }
     .header_logo {
         background-image: url(/images/mobile/logo/SA_logo_black.svg);
@@ -1966,9 +1954,6 @@ body.dark,
     .platform {
         margin-bottom: 50px;
     }
-    .header_beltbox:lang(en){
-        padding: 0 45px;
-    }
     .submenuBg {
         max-width: 350px;
     }
@@ -1982,6 +1967,9 @@ body.dark,
     .Ingkind-auction {
         padding: 0 5px;
         padding-top: 2px;
+    }
+    .footer-bottom {
+        padding-bottom: 40em;
     }
 }
 @media all and (max-width: 559px) {

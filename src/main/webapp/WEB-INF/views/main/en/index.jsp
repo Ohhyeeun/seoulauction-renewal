@@ -22,10 +22,12 @@
 <body>
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
     <div class="header_beltbox on"> <!--class="on" block-->
-        <span class="header_beltTit">
-                <a href="#">Notice of increase in purchase fee rate and amendment of terms and conditions<span class="beltbanner-triangle"></span></a>
-            </span>
-        <span class="beltclose-btn closebtn closebtn-w"></span>
+        <div class="wrap belttxtbox wrap_padding">
+                <span class="header_beltTit">
+                    <a href="#">Notice of increase in purchase fee rate and amendment of terms and conditions<span class="beltbanner-triangle"></span></a>
+                </span>
+            <span class="beltclose-btn closebtn closebtn-w"></span>
+        </div>
     </div>
     <div class="header-border">
         <ul class="header_utilitymenu wrap_padding pc-ver">
