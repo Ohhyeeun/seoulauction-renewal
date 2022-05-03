@@ -53,155 +53,157 @@
         </sec:authorize>
     </ul>
 
-    <nav class="header_nav wrap_padding">
-        <a href="#" class="header_logo"><span class="blind-text">logo</span></a>
-        <ul class="header_gnbmenu pc-ver">
-            <li><a href="#" class="">AUCTION</a></li>
-            <li><a href="#">PRIVATE SALE</a></li>
-            <li><a href="#">SELL</a></li>
-            <li><a href="#">SERVICE</a></li>
-        </ul>
-
-        <section class="gnb_submenuBg scroll_none">
-            <section class="submenuBg scroll_none">
-                <span class="submenuBg-closeBtn closebtn closebtn-b m-ver"></span>
-                <div class="flex_wrap submenuBg-box">
-                    <div class="Ingbanner-box">
-                        <a href="#" class="Ingbanner" target="_blank">
-                            <figure class="border-txt-darkg Ingbanner-img">
-                                <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
-                            </figure>
-                            <div class="Ingbanner-txt text-over">
-                                <span class="auctionKind-box Ingkind-auction on">LIVE</span>
-                                <p class="text-over" title="February Live Auction">February Live Auction</p>
-                                <span class="Ingbanner-arrow"></span>
-                            </div>
-                        </a>
-                        <a href="#" class="Ingbanner" target="_blank">
-                            <figure class="border-txt-darkg Ingbanner-img">
-                                <img src="/images/pc/thumbnail/gnb_thubnatil_02.jpg" alt="ing_auction02">
-                            </figure>
-                            <div class="Ingbanner-txt text-over">
-                                <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                <p class="text-over" title="e BID Public Online Auction">e BID Public Online Auction</p>
-                                <span class="Ingbanner-arrow"></span>
-                            </div>
-                        </a>
-                        <a href="#" class="Ingbanner" target="_blank">
-                            <figure class="border-txt-darkg Ingbanner-img">
-                                <img src="/images/pc/thumbnail/gnb_thubnatil_ready.jpg" alt="ing_auction03">
-                            </figure>
-                            <div class="Ingbanner-txt text-over">
-                                <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                <p class="text-over" title="ZEROBASE">ZEROBASE</p>
-                                <span class="Ingbanner-arrow"></span>
-                            </div>
-                        </a>
-                        <a href="#" class="Ingbanner" target="_blank">
-                            <figure class="border-txt-darkg Ingbanner-img">
-                                <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
-                            </figure>
-                            <div class="Ingbanner-txt text-over">
-                                <span class="auctionKind-box Ingkind-auction on">LIVE</span>
-                                <p class="text-over" title="February Live Auction">February Live Auction</p>
-                                <span class="Ingbanner-arrow"></span>
-                            </div>
-                        </a>
-                        <a href="#" class="Ingbanner" target="_blank">
-                            <figure class="border-txt-darkg Ingbanner-img">
-                                <img src="/images/pc/thumbnail/gnb_thubnatil_02.jpg" alt="ing_auction02">
-                            </figure>
-                            <div class="Ingbanner-txt text-over">
-                                <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                <p class="text-over" title="e BID Public Online Auction">e BID Public Online Auction</p>
-                                <span class="Ingbanner-arrow"></span>
-                            </div>
-                        </a>
-                    </div>
-
-                    <ul class="subGnbmenu">
-                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
-                            <ul class="submenu submenu-part01">
-                                <li><a href="http://seoulauction.m4one.co.kr/html/auction/online_sequence_deadline_before_ko.html#tab-cont-3">Current</a><span class="currentIng">NOW</span></li>
-                                <li><a href="#">Upcoming</a></li>
-                                <li><a href="#">Result</a></li>
-                            </ul>
-                        </li>
-                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
-                            <ul class="submenu submenu-part02">
-                                <li><a href="#">Exhibition</a><span class="currentIng">NOW</span></li>
-                                <li><a href="#">Private Sale</a></li>
-                                <li><a href="#">Private Sale Guide</a></li>
-                            </ul>
-                        </li>
-                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>
-                            <ul class="submenu submenu-part03">
-                                <li><a href="#">Consignment information</a></li>
-                                <li><a href="#">Consignment application</a></li>
-                            </ul>
-                        </li>
-                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
-                            <ul class="submenu submenu-part04">
-                                <li><a href="#">Academy</a><span class="currentIng">NOW</span></li>
-                                <li><a href="#">Art Collateral Loans</a></li>
-                                <li><a href="#">Art Storage</a></li>
-                                <li><a href="#">Rental of Space</a></li>
-                                <li><a href="#">Art Consulting & <br>Corporate Marketing</a></li>
-                            </ul>
-                        </li>
-                        <li class="subGnbmenu-tit m-ver">
-                                <span class="gnbmenu_arrow modebox">Light Mode
-                                    <label for="dark" class="mode-toggle">
-                                        <input type="checkbox" id="dark" name="dark"> 
-                                        <span class="mode-switch"></span>    
-                                    </label> 
-                                </span>
-                        </li>
-                    </ul>
-                    <figure class="blacklotbox">
-                        <a href="https://www.blacklot.com/" target="_blank">
-                            <img src="/images/pc/thumbnail/gnb_blacklot.jpg" alt="blacklot">
-                        </a>
-                    </figure>
-                </div>
-
-                <ul class="mobile-utility m-ver">
-                    <li><a href="/index.html">KOR</a></li>
-                    <li><a href="#" class="gnb_join">JOIN</a><a href="#" class="gnb_member">ACCOUNT</a></li>
-                    <li><a href="#" class="gnb_login">LOGIN</a><span class="gnb_logout">LOGOUT</span></li>
-                </ul>
-            </section>
-        </section>
-
-        <section class="topsearch-box">
-            <button class="m-top-search m-ver"></button>
-            <button class="m-gnbmenu m-ver"></button>
-            <form action="" class="scroll_none">
-                <fieldset class="topsearch topsearch-en">
-                    <span class="submenuBg-closeBtn top-search-closeBtn m-ver"></span>
-                    <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver"><button type="submit" class="topsearch-btn pc-ver"></button>
-                    <section class="search-bubble-box">
-                        <div class="recent-search">
-                            <span class="keyword-search-tit">Recent Keyword<span class="keyword-all-del">All Delete</span></span><!--
-                                --><span class="recent-keyword"><a href="#">Kim SunWoo</a><span class="keyword-del"></span></span><!-- 
+    <nav class="header_navbox">
+        <div class="header_nav wrap_padding">
+            <a href="#" class="header_logo"><span class="blind-text">logo</span></a>
+            <ul class="header_gnbmenu pc-ver">
+                <li><a href="#" class="">AUCTION</a></li>
+                <li><a href="#">PRIVATE SALE</a></li>
+                <li><a href="#">SELL</a></li>
+                <li><a href="#">SERVICE</a></li>
+            </ul>
+            <section class="topsearch-box">
+                <button class="m-top-search m-ver"></button>
+                <button class="m-gnbmenu m-ver"></button>
+                <form action="" class="scroll_none">
+                    <fieldset class="topsearch topsearch-en">
+                        <span class="submenuBg-closeBtn top-search-closeBtn m-ver"></span>
+                        <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver"><button type="submit" class="topsearch-btn pc-ver"></button>
+                        <section class="search-bubble-box">
+                            <div class="recent-search">
+                                <span class="keyword-search-tit">Recent Keyword<span class="keyword-all-del">All Delete</span></span><!--
+                                --><span class="recent-keyword"><a href="#">Kim SunWoo</a><span class="keyword-del"></span></span><!--
                                 --><span class="recent-keyword"><a href="#">Yayoi Kusama</a><span class="keyword-del"></span></span><!--
                                 --><span class="recent-keyword"><a href="#">Lee UFan</a><span class="keyword-del"></span></span><!--
                                 --><span class="recent-keyword"><a href="#">Kim WhanKi</a><span class="keyword-del"></span></span><!--
                                 --><span class="recent-keyword"><a href="#">Park SooKeun </a><span class="keyword-del"></span></span><!--
                                 -->
-                        </div>
-                        <div class="recommend-search-part">
-                            <span class="keyword-search-tit">Recommend Keyword</span><!--
+                            </div>
+                            <div class="recommend-search-part">
+                                <span class="keyword-search-tit">Recommend Keyword</span><!--
                                 --><a href="#" class="recommend-keyword">Lee Bae</a><!--
                                 --><a href="#" class="recommend-keyword">Min JoungKi</a><!--
                                 --><a href="#" class="recommend-keyword">Chungshin</a><!--
                                 --><a href="#" class="recommend-keyword">Park SeoBo</a><!--
                                 --><a href="#" class="recommend-keyword">Lim HanSoo</a><!--
                                 --><a href="#" class="recommend-keyword">David Hockney</a><!---->
+                            </div>
+                        </section>
+                    </fieldset>
+                </form>
+            </section>
+        </div>
+
+        <section class="gnb_submenuBg scroll_none">
+            <section class="submenuBg scroll_none">
+                <div class="wrap">
+                    <span class="submenuBg-closeBtn closebtn closebtn-b m-ver"></span>
+                    <div class="flex_wrap submenuBg-box">
+                        <div class="Ingbanner-box">
+                            <a href="#" class="Ingbanner" target="_blank">
+                                <figure class="border-txt-darkg Ingbanner-img">
+                                    <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
+                                </figure>
+                                <div class="Ingbanner-txt text-over">
+                                    <span class="auctionKind-box Ingkind-auction on">LIVE</span>
+                                    <p class="text-over" title="February Live Auction">February Live Auction</p>
+                                    <span class="Ingbanner-arrow"></span>
+                                </div>
+                            </a>
+                            <a href="#" class="Ingbanner" target="_blank">
+                                <figure class="border-txt-darkg Ingbanner-img">
+                                    <img src="/images/pc/thumbnail/gnb_thubnatil_02.jpg" alt="ing_auction02">
+                                </figure>
+                                <div class="Ingbanner-txt text-over">
+                                    <span class="auctionKind-box Ingkind-auction">ONLINE</span>
+                                    <p class="text-over" title="e BID Public Online Auction">e BID Public Online Auction</p>
+                                    <span class="Ingbanner-arrow"></span>
+                                </div>
+                            </a>
+                            <a href="#" class="Ingbanner" target="_blank">
+                                <figure class="border-txt-darkg Ingbanner-img">
+                                    <img src="/images/pc/thumbnail/gnb_thubnatil_ready.jpg" alt="ing_auction03">
+                                </figure>
+                                <div class="Ingbanner-txt text-over">
+                                    <span class="auctionKind-box Ingkind-auction">ONLINE</span>
+                                    <p class="text-over" title="ZEROBASE">ZEROBASE</p>
+                                    <span class="Ingbanner-arrow"></span>
+                                </div>
+                            </a>
+                            <a href="#" class="Ingbanner" target="_blank">
+                                <figure class="border-txt-darkg Ingbanner-img">
+                                    <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
+                                </figure>
+                                <div class="Ingbanner-txt text-over">
+                                    <span class="auctionKind-box Ingkind-auction on">LIVE</span>
+                                    <p class="text-over" title="February Live Auction">February Live Auction</p>
+                                    <span class="Ingbanner-arrow"></span>
+                                </div>
+                            </a>
+                            <a href="#" class="Ingbanner" target="_blank">
+                                <figure class="border-txt-darkg Ingbanner-img">
+                                    <img src="/images/pc/thumbnail/gnb_thubnatil_02.jpg" alt="ing_auction02">
+                                </figure>
+                                <div class="Ingbanner-txt text-over">
+                                    <span class="auctionKind-box Ingkind-auction">ONLINE</span>
+                                    <p class="text-over" title="e BID Public Online Auction">e BID Public Online Auction</p>
+                                    <span class="Ingbanner-arrow"></span>
+                                </div>
+                            </a>
                         </div>
-                    </section>
-                </fieldset>
-            </form>
+
+                        <ul class="subGnbmenu">
+                            <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
+                                <ul class="submenu submenu-part01">
+                                    <li><a href="http://seoulauction.m4one.co.kr/html/auction/online_sequence_deadline_before_ko.html#tab-cont-3">Current</a><span class="currentIng">NOW</span></li>
+                                    <li><a href="#">Upcoming</a></li>
+                                    <li><a href="#">Result</a></li>
+                                </ul>
+                            </li>
+                            <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
+                                <ul class="submenu submenu-part02">
+                                    <li><a href="#">Exhibition</a><span class="currentIng">NOW</span></li>
+                                    <li><a href="#">Private Sale</a></li>
+                                    <li><a href="#">Private Sale Guide</a></li>
+                                </ul>
+                            </li>
+                            <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>
+                                <ul class="submenu submenu-part03">
+                                    <li><a href="#">Consignment information</a></li>
+                                    <li><a href="#">Consignment application</a></li>
+                                </ul>
+                            </li>
+                            <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
+                                <ul class="submenu submenu-part04">
+                                    <li><a href="#">Academy</a><span class="currentIng">NOW</span></li>
+                                    <li><a href="#">Art Collateral Loans</a></li>
+                                    <li><a href="#">Art Storage</a></li>
+                                    <li><a href="#">Rental of Space</a></li>
+                                    <li><a href="#">Art Consulting & <br>Corporate Marketing</a></li>
+                                </ul>
+                            </li>
+                            <li class="subGnbmenu-tit m-ver">
+                                    <span class="gnbmenu_arrow modebox">Light Mode
+                                        <label for="dark" class="mode-toggle">
+                                            <input type="checkbox" id="dark" name="dark">
+                                            <span class="mode-switch"></span>
+                                        </label>
+                                    </span>
+                            </li>
+                        </ul>
+                        <figure class="blacklotbox">
+                            <a href="https://www.blacklot.com/" target="_blank">
+                                <img src="/images/pc/thumbnail/gnb_blacklot.jpg" alt="blacklot">
+                            </a>
+                        </figure>
+                    </div>
+                    <ul class="mobile-utility m-ver">
+                        <li><a href="/index.html">KOR</a></li>
+                        <li><a href="#" class="gnb_join">JOIN</a><a href="#" class="gnb_member">ACCOUNT</a></li>
+                        <li><a href="#" class="gnb_login">LOGIN</a><span class="gnb_logout">LOGOUT</span></li>
+                    </ul>
+                </div>
+            </section>
         </section>
     </nav>
 </header>
