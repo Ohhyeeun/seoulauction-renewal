@@ -71,17 +71,17 @@ $(function(){
         $('.header').show(function(){
             $('.main-header').show(function(){
                 /*$('.main-contents').css('top','118px'); */
-                $('.main-contents').css('margin-top','104px');
+                $('.main-contents').css('margin-top','120px');
             });
             $(this).hasClass('main-header');
         });
 
         /* 띠배너 beltbanner */
         $('.header_beltbox.on').show(function(){
-            $('.main-contents').css('margin-top','164px');
+            $('.main-contents').css('margin-top','180px');
         });
         $('.beltclose-btn').click(function(){
-            $('.main-contents').css('margin-top','104px');
+            $('.main-contents').css('margin-top','120px');
         });
     } else { /* 테블릿 */
         /* 모바일 gnb */
@@ -133,11 +133,11 @@ $(function(){
         /* 띠배너 beltbanner */
         $('.header_beltbox.on').show(function(){
             /*$('.main-contents').css('top','99px');*/
-            $('.main-contents').css('margin-top','90px');
+            $('.main-contents').css('margin-top','101px');
         });
         $('.beltclose-btn').click(function(){
             /*$('.main-contents').css('top','56px');*/
-            $('.main-contents').css('margin-top','47px');
+            $('.main-contents').css('margin-top','58px');  
         });
     }
 
