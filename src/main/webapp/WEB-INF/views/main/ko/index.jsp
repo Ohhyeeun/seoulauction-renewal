@@ -11,6 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Seoul Auction</title>
+    <script type="text/javascript" src="/js/main/main.js"></script>
 </head>
 <body>
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
@@ -1080,7 +1081,7 @@
                         <a href="#">
                             <div class="upcoming-caption">
                                 <span class="auctionKind-box">ONLINE</span><span class="d-day on">D-1</span>
-                                <h4>2월 라이브 경매</h4>
+                                <h4>2월 e BID 퍼블릭 온라인 경매</h4>
                                 <div class="upcoming-datebox">
                                     <p class="upcoming-preview">
                                         <span>오픈일</span><span>2/14(금)</span>
@@ -1095,15 +1096,15 @@
                             </div>
                             <figure class="upcoming-img">
                                 <!--<span class="upcomingImg"></span>-->
-                                <img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">
+                                <%--<img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">--%>
                             </figure>
                         </a>
                     </div>
                     <div class="swiper-slide upcomingSlide">
                         <a href="#">
                             <div class="upcoming-caption">
-                                <span class="auctionKind-box">OFFLINE</span><span class="d-day"></span>
-                                <h4>2월 라이브 경매</h4>
+                                <span class="auctionKind-box">ONLINE</span><span class="d-day"></span>
+                                <h4>ZEROBASE X 아트경기</h4>
                                 <div class="upcoming-datebox">
                                     <p class="upcoming-preview">
                                         <span>오픈일</span><span>2/14(금)</span>

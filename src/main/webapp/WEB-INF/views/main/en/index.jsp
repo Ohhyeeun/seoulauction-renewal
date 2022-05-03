@@ -11,6 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Seoul Auction</title>
+    <script type="text/javascript" src="/js/main/main.js"></script>
 </head>
 <body>
 <jsp:include page="../../include/en/header.jsp" flush="false"/>
@@ -1097,7 +1098,7 @@
                             </div>
                             <figure class="upcoming-img">
                                 <!--<span class="upcomingImg"></span>-->
-                                <img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">
+                                <%--<img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">--%>
                             </figure>
                         </a>
                     </div>
