@@ -31,7 +31,7 @@
                 </ul>
             </li> <!-- login -->
             <sec:authorize access="isAnonymous()">
-                <li class="utility-login"ref><a h="/customer/login">LOGIN</a></li> <!-- !login -->
+                <li class="utility-login"><a href="/customer/login">LOGIN</a></li> <!-- !login -->
             </sec:authorize>
             <sec:authorize access="isAuthenticated()">
                 <li class="utility-login"><a href="/processLogout">LOGOUT</a></li> <!-- !login -->
