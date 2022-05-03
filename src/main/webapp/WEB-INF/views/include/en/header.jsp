@@ -3,13 +3,6 @@
 <html lang="en">
 <jsp:include page="../../common/common.jsp" flush="false"/>
 <<jsp:include page="../../common/commonCss.jsp" flush="false"/>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Seoul Auction</title>
-    <<jsp:include page="../../common/commonCss.jsp" flush="false"/>
-</head>
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
     <div class="header_beltbox on"> <!--class="on" block-->
         <div class="wrap belttxtbox wrap_padding">
