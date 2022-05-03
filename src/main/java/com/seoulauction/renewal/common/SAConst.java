@@ -4,6 +4,9 @@ import java.util.Locale;
 
 public class SAConst {
 
+    public static final String PAGINATION_DEFAULT_SIZE = "20";
+    public static final String PAGINATION_DEFAULT_PAGE = "1";
+
     public static final String SERVICE_CUSTOMER ="customer";
     public static final String SERVICE_SALE ="sale";
     public static final String SERVICE_MAIN ="main";
@@ -44,3 +47,5 @@ public class SAConst {
         return serviceStr + localeStr + viewName;
     }
 }
+
+
