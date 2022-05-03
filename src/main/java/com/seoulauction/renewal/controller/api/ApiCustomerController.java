@@ -21,8 +21,7 @@ public class ApiCustomerController {
     @RequestMapping(value="/test", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> test() {
 
-        testService.test();
-
         return ResponseEntity.ok(RestResponse.ok());
     }
+
 }

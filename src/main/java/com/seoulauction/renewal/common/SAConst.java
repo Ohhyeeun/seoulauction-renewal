@@ -7,9 +7,8 @@ public class SAConst {
     public static final String SERVICE_CUSTOMER ="customer";
     public static final String SERVICE_SALE ="sale";
     public static final String SERVICE_MAIN ="main";
-//    public static final String SERVICE_CUSTOMER ="customer";
-//    public static final String SERVICE_CUSTOMER ="customer";
-
+    public static final String SERVICE_AUCTION ="auction";
+    public static final String SERVICE_SELL ="sell";
 
 
     public static String getUrl(String viewName){

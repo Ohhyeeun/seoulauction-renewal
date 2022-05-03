@@ -7,6 +7,6 @@
 		FROM
 			ARTIST a
 		LIMIT
-			10
+			#{offset} , #{size}
 	</select>
 </mapper>

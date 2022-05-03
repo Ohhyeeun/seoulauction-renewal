@@ -7,5 +7,5 @@ import java.util.List;
 
 @Mapper
 public interface KTTestMapper {
-    List<CommonMap> selectArtist();
+    List<CommonMap> selectArtist(CommonMap map);
 }
