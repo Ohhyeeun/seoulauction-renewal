@@ -205,7 +205,7 @@
     </nav>
 </header>
 
-<section class="main-contents">
+<section class="main-contents footer-bottom">
     <section class="visual visual-contents">
         <div class="swiper-container visual-swiper">
             <div class="swiper-wrapper">

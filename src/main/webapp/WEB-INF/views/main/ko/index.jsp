@@ -31,14 +31,14 @@
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">ENG</a>
                 <ul class="bubble-box bubble-box01">
-                    <li><a href="/index_en.html">ENG(English)</a></li>
+                    <li><a href="/">ENG(English)</a></li>
                     <li><a href="/">KOR(한국어)</a></li>
                 </ul>
             </li>
             <li class="utility-join"><a href="#">회원가입</a></li> <!-- !login -->
             <li class="utility-tab utility-account"><a href="#">마이페이지</a>
                 <ul class="bubble-box bubble-box02">
-                    <li><a href="/index_en.html">라이브 경매 관리</a></li>
+                    <li><a href="#">라이브 경매 관리</a></li>
                     <li><a href="#">온라인 경매 관리</a></li>
                     <li><a href="#">관심작품</a></li>
                     <li><a href="#">아카데미 신청목록</a></li>
@@ -199,7 +199,7 @@
                         </figure>
                     </div>
                     <ul class="mobile-utility m-ver">
-                        <li><a href="/index_en.html">ENG</a></li>
+                        <li><a href="/main/en/index.jsp">ENG</a></li>
                         <li><a href="#" class="gnb_join">회원가입</a><a href="#" class="gnb_member">마이페이지</a></li>
                         <li><a href="#" class="gnb_login">로그인</a><a class="gnb_logout">로그아웃</a></li>
                     </ul>
@@ -209,7 +209,7 @@
     </nav>
 </header>
 
-<section class="main-contents">
+<section class="main-contents footer-bottom">
     <section class="visual visual-contents">
         <div class="swiper-container visual-swiper">
             <div class="swiper-wrapper">
