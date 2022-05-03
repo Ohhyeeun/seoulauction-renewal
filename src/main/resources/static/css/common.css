@@ -755,9 +755,12 @@ img {
     background-color: #f2f2f2;
     width: 100%;
     left: 0px;
-    padding: 50px 140px 49px 139px;
+    /*padding: 50px 140px 49px 139px; */
     z-index: 2;
     height: auto;
+}
+.submenuBg>div {
+    padding: 50px 60px;
 }
 .Ingbanner-box{
     width: 387px;
@@ -818,9 +821,6 @@ img {
 .subGnbmenu-tit {
     margin: 0 50px;
 }
-.subGnbmenu-tit:lang(en) {
-    margin: 0 40px;
-}
 .subGnbmenu-tit:first-child {
     margin-left: 0;
 }
@@ -866,6 +866,7 @@ img {
     flex-basis: 240px;
     height: 240px;
     background-color: #808080;
+    margin-left: 10px;
 }
 .topsearch-box {
     display: flex;
@@ -1240,15 +1241,12 @@ body.dark,
         padding-left: 50px;
         padding-right: 50px;
     }
-    .submenuBg {
+    .submenuBg>div {
         padding: 50px;
-    }
-    .submenuBg-box {
-        /*max-width: 1440px;
-        margin: 0 auto;  */
     }
     .Ingbanner-box{
         flex-basis: 350px;
+        margin-right: 10px;
     }
     .Ingbanner-txt {
         padding: 16px 34px 20px 20px;
@@ -1267,6 +1265,9 @@ body.dark,
     .subGnbmenu-tit {
         margin: 0 30px;
     }
+    .subGnbmenu-tit:lang(en) {
+        margin: 0 20px;
+    }
     .subGnbmenu-tit:first-child {
         margin-left: 0;
     }
@@ -1284,6 +1285,9 @@ body.dark,
         height: 240px;
         max-width: 240px;
         background-color: #808080;
+    }
+    .beltclose-btn {
+        right: 50px;
     }
 }
 /* mobile,pc ui 혼용 */
@@ -1305,6 +1309,9 @@ body.dark,
     }
     .subGnbmenu-tit {
         margin: 0 35px;
+    }
+    .subGnbmenu-tit:lang(en) {
+        margin: 0 30px;
     }
     .subGnbmenu-tit:first-child {
         margin-left: 0;
@@ -1371,6 +1378,9 @@ body.dark,
     }
     .subGnbmenu-tit {
         margin: 0 60px;
+    }
+    .subGnbmenu-tit:lang(en) {
+        margin: 0 52px;
     }
     .subGnbmenu-tit:first-child {
         margin-left: 0;
@@ -1477,6 +1487,9 @@ body.dark,
         box-shadow: none;
         -webkit-box-shadow: none;
         -ms-box-shadow: none;
+    }
+    .submenuBg>div {
+        padding: 0;
     }
     .gnb_submenuBg {
         flex-direction: column;
