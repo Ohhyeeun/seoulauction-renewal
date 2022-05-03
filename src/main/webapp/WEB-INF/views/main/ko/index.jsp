@@ -18,6 +18,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/swiper.css" type="text/css">
+	<script type="text/javascript" src="/js/main/main.js"></script>
 </head>
 <body>
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
