@@ -127,7 +127,7 @@ app.run(function ($rootScope, consts, locale, common, $filter) {
 	}
 });
 
-app.factory("common", function ($rootScope, $http, _csrf, _csrf_header) {
+app.factory("common", function ($rootScope, $http) {
 	var is_processing = false;
 	var objs = {
 		errCommon: function(data, status, headers, config) {
@@ -165,22 +165,35 @@ app.factory("common", function ($rootScope, $http, _csrf, _csrf_header) {
 	    	if($error) $e = $error;
 	    	
 	    	$http.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
-	    	$http.defaults.headers.post[_csrf_header] = _csrf;
+	    	//$http.defaults.headers.post[_csrf_header] = _csrf;
 	    	$http.post($url, $data)//, {headers: {'Content-Type': 'application/json; charset=utf-8', 'X-CSRF-TOKEN' : _csrf}})
 	        .success($s)
 	        .error($e)
 	        .finally($f);
 	    },
 
-	    callActionSet: function($data, $success, $error, $final) {
-	    	objs.callAPI('/api/actionSet', $data, $success, $error, $final);
+	    callFileAPI: function($url, $data, $success, $error, $final) {
+	    	is_processing = true;
+
+	    	var $s = function(){};
+	    	if($success) $s = $success;
+
+	    	var $f = objs.finalCommon;
+	    	if($final) $f = $final;
+	    	
+	    	var $e = objs.errCommon;
+	    	if($error) $e = $error;
+	    		
+			$http({
+			    url: $url,
+			    transformRequest: angular.identity,
+			    headers: {"Content-Type": undefined },
+			    data: $data,
+			    method: "POST"
+			}).success($s)
+	        .error($e)
+	        .finally($f);
 	    },
-
-	    callCustomAction: function($actionID, $data, $success, $error, $final) {
-	 		$d = {"actionID":$actionID, "tableName": "RESULT", "parmsList":$data};
-
-	    	objs.callAPI('/api/customAction', $d, $success, $error, $final);
-	    }
 	};
 	
 	return objs;
