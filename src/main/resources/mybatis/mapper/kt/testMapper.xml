@@ -2,10 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seoulauction.renewal.mapper.kt.KTTestMapper">
 	<select id="selectArtist" parameterType="CommonMap" resultType="CommonMap">
-		SELECT
-		    *
+		SELECT SQL_CALC_FOUND_ROWS
+			*
 		FROM
 			ARTIST a
+		WHERE
+			DEL_YN ='N'
 		LIMIT
 			#{offset} , #{size}
 	</select>
