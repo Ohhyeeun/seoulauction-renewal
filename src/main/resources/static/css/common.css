@@ -1467,7 +1467,7 @@ body.dark,
     }
     .header_nav {
         height: 56px;
-        padding-top: 0;
+        padding: 0;
         max-width: 100%;
         justify-content: space-between;
         align-items: center;
