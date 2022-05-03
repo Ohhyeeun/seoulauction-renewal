@@ -1294,7 +1294,7 @@
                             </div>
                             <figure class="upcoming-img">
                                 <!--<span class="upcomingImg"></span>-->
-                                <img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">
+                                <%--<img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">--%>
                             </figure>
                         </a>
                     </div>

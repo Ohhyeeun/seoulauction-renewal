@@ -385,9 +385,12 @@
     border-top: 1px solid #555;
     background-color: #f6f6f6;
     display: flex;
-    padding: 45px 50px 45px 50px;
+    padding: 50px;
     margin-right: 20px;
     align-items: center;
+}
+.swiper-slide.upcomingSlide:lang(en) {
+    padding-left: 45px;
 }
 .swiper-slide.upcomingSlide:last-of-type {
     margin-right: 0;
@@ -434,9 +437,12 @@
     margin-left: 20px;
     text-align: right;
     display: none;
-    flex-basis: 160px;
+    flex-basis: 174px;
     height: 100%;
     flex-shrink: 0;
+}
+.upcoming-img:lang(en) {
+    flex-basis: 160px;
 }
 .upcoming-img>img {
     width: 100%;
@@ -1118,6 +1124,7 @@
     }
     .swiper-slide.upcomingSlide:lang(en) {
         min-height: 250px;
+        padding: 20px;
     }
     .upcoming-tit,
     .video-tit {
@@ -1381,6 +1388,9 @@
         font-size: 13px;
         bottom: 15px;
     }
+    .swiper-slide.upcomingSlide:lang(en) {
+        flex-basis: 100%;
+    }
     .upcoming-wrap {
         margin-bottom: 28px;
     }
@@ -1463,7 +1473,8 @@
     .auctionTab-contents.on {
         height: 287px;
     }
-    .upcoming-img {
+    .upcoming-img,
+    .upcoming-img:lang(en) {
         flex-basis: calc(100% / 2 - 50px);
         margin-top: 0;
     }
