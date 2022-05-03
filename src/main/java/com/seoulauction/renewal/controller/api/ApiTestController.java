@@ -32,11 +32,9 @@ public class ApiTestController {
     @RequestMapping(value="/pageing", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> test(
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
-            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size
     ) {
-        CommonMap map = new CommonMap();
-        map.putPage(page, size);
-        return ResponseEntity.ok(RestResponse.ok(testService.test(map)));
+        return ResponseEntity.ok(RestResponse.ok(testService.test(CommonMap.create(page,size))));
     }
 }
 
