@@ -101,7 +101,7 @@ nav,output,ruby,section,summary,time,mark,audio,video,main,button {
     font-size: 100%;
     vertical-align: baseline;
     box-sizing: border-box;
-    font-weight: normal;
+    font-weight: 500;
 }
 /* HTML5 display-role reset for older browsers */
 article,aside,details,figcaption,figure,footer,header,hgroup,menu,
@@ -497,19 +497,15 @@ img {
     height: 60px;
     font-size: 18px;
     text-align: center;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px 30px;
+    padding-right: 90px;
     display: none;
 }
 .header_beltTit {
-    max-width: 274px;
     margin: 0 auto;
     height: 100%;
-    white-space: nowrap;
+    /*white-space: nowrap;*/
     vertical-align: top;
-}
-.header_beltTit:lang(en) {
-    max-width: 660px;
 }
 .beltbanner-triangle {
     vertical-align: middle;
@@ -524,9 +520,8 @@ img {
     background-size: contain;
     width: 20px;
     height: 20px;
-    position: relative;
-    top: 0;
-    left: 270px;
+    position: absolute;
+    right: 60px;
     cursor: pointer;
     vertical-align: top;
     padding-top: 1px;
@@ -673,11 +668,13 @@ img {
     display: none;
     margin: 0;
 }
+.header_navbox{
+    position: relative;
+    top: 0;
+}
 .header_nav {
     display: flex;
     height: 79px;
-    /*position: relative;*/
-    top: 0;
     padding-top: 17px;
     background-color: #fff;
 }
@@ -741,7 +738,7 @@ img {
 }
 .submenuBg {
     position: absolute;
-    top: 180px;
+    top: 79px;
     background-color: #f2f2f2;
     width: 100%;
     left: 0px;
@@ -1375,8 +1372,8 @@ body.dark,
     .platform {
         max-width: 100%;
     }
-    .wrap_padding,
     .header_nav,
+    .wrap_padding,
     .header_beltbox:lang(en),
     .container,
     .upcoming,
@@ -1460,12 +1457,9 @@ body.dark,
     }
     .header_nav {
         height: 56px;
-        max-width: 100%;
         padding-top: 0;
+        max-width: 100%;
         justify-content: space-between;
-        padding: 0;
-        padding-left: 25px;
-        padding-right: 25px;
         align-items: center;
     }
     .m-top-search {

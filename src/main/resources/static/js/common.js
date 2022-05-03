@@ -71,19 +71,17 @@ $(function(){
         $('.header').show(function(){
             $('.main-header').show(function(){
                 /*$('.main-contents').css('top','118px'); */
-                $('.main-contents').css('margin-top','118px');
+                $('.main-contents').css('margin-top','120px');
             });
             $(this).hasClass('main-header');
         });
 
         /* 띠배너 beltbanner */
         $('.header_beltbox.on').show(function(){
-            /*$('.main-contents').css('top','178px');*/
-            $('.main-contents').css('margin-top','178px');
+            $('.main-contents').css('margin-top','180px');
         });
         $('.beltclose-btn').click(function(){
-            /*$('.main-contents').css('top','118px'); */
-            $('.main-contents').css('margin-top','118px');
+            $('.main-contents').css('margin-top','120px');
         });
     } else { /* 테블릿 */
         /* 모바일 gnb */
@@ -127,7 +125,7 @@ $(function(){
         $('.header').show(function(){
             $('.main-header').show(function(){
                 /*$('.main-contents').css('top','56px'); */
-                $('.main-contents').css('margin-top','56px');
+                $('.main-contents').css('margin-top','58px');
             });
             $(this).hasClass('main-header');
         });
@@ -135,11 +133,11 @@ $(function(){
         /* 띠배너 beltbanner */
         $('.header_beltbox.on').show(function(){
             /*$('.main-contents').css('top','99px');*/
-            $('.main-contents').css('margin-top','99px');
+            $('.main-contents').css('margin-top','101px');
         });
         $('.beltclose-btn').click(function(){
             /*$('.main-contents').css('top','56px');*/
-            $('.main-contents').css('margin-top','56px');
+            $('.main-contents').css('margin-top','58px');
         });
     }
 
@@ -248,10 +246,10 @@ function searchFilter() {
         $('.topsearch-btn').trigger("click");
         $('.search-bubble-box').removeClass('on');
     } else if($('.topsearch-text').val().length == 0) {
-        $('.search-bubble-box').removeClass('on').slideToggle();
+        $('.search-bubble-box').removeClass('on');
     } else {
-        $('.search-bubble-box').addClass('on').slideDown();
-    }
+        $('.search-bubble-box').addClass('on');
+    };
 }
 
 
