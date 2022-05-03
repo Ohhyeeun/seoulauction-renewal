@@ -31,7 +31,7 @@
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">KOR</a>
                 <ul class="bubble-box bubble-box01">
-                    <li><a href="/index.html">KOR(한국어)</a></li>
+                    <li><a href="/">KOR(한국어)</a></li>
                     <li><a href="/">ENG(English)</a></li>
                 </ul>
             </li>
@@ -195,7 +195,7 @@
                         </figure>
                     </div>
                     <ul class="mobile-utility m-ver">
-                        <li><a href="/index.html">KOR</a></li>
+                        <li><a href="#">KOR</a></li>
                         <li><a href="#" class="gnb_join">JOIN</a><a href="#" class="gnb_member">ACCOUNT</a></li>
                         <li><a href="#" class="gnb_login">LOGIN</a><span class="gnb_logout">LOGOUT</span></li>
                     </ul>

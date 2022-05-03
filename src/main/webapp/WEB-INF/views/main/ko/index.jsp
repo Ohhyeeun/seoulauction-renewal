@@ -31,8 +31,8 @@
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">ENG</a>
                 <ul class="bubble-box bubble-box01">
-                    <li><a href="/">ENG(English)</a></li>
-                    <li><a href="/">KOR(한국어)</a></li>
+                    <li><a href="#">ENG(English)</a></li>
+                    <li><a href="#">KOR(한국어)</a></li>
                 </ul>
             </li>
             <li class="utility-join"><a href="#">회원가입</a></li> <!-- !login -->
@@ -53,8 +53,8 @@
             </sec:authorize>
         </ul>
     </div>
-    <nav class="header_navbox wrap_padding">
-        <div class="header_nav">
+    <nav class="header_navbox">
+        <div class="header_nav wrap_padding">
             <a href="#" class="header_logo"><span class="blind-text">logo</span></a>
             <ul class="header_gnbmenu pc-ver">
                 <li><a href="#" class="">AUCTION</a></li>
@@ -199,7 +199,7 @@
                         </figure>
                     </div>
                     <ul class="mobile-utility m-ver">
-                        <li><a href="/main/en/index.jsp">ENG</a></li>
+                        <li><a href="#">ENG</a></li>
                         <li><a href="#" class="gnb_join">회원가입</a><a href="#" class="gnb_member">마이페이지</a></li>
                         <li><a href="#" class="gnb_login">로그인</a><a class="gnb_logout">로그아웃</a></li>
                     </ul>
