@@ -1,6 +1,7 @@
 package com.seoulauction.renewal.controller.api;
 
 import com.seoulauction.renewal.common.RestResponse;
+import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.service.TestService;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +31,8 @@ public class ApiTestController {
 
     @RequestMapping(value="/pageing", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> test(
-            @RequestParam(required = false , defaultValue = "1") int page,
-            @RequestParam(required = false , defaultValue = "20") int size
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size
     ) {
         CommonMap map = new CommonMap();
         map.putPage(page, size);

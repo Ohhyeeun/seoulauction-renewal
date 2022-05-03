@@ -31,8 +31,8 @@
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">ENG</a>
                 <ul class="bubble-box bubble-box01">
-                    <li><a href="#">ENG(English)</a></li>
-                    <li><a href="#">KOR(한국어)</a></li>
+                    <li><a href="${pageContext.request.contextPath}/?lang=en">ENG(English)</a></li>
+                    <li><a href="${pageContext.request.contextPath}/?lang=ko">KOR(한국어)</a></li>
                 </ul>
             </li>
             <li class="utility-join"><a href="#">회원가입</a></li> <!-- !login -->
@@ -46,7 +46,7 @@
                 </ul>
             </li> <!-- login -->
             <sec:authorize access="isAnonymous()">
-            <li class="utility-login"ref><a h="/login">로그인</a></li> <!-- !login -->
+            <li class="utility-login"ref><a h="/customer/login">로그인</a></li> <!-- !login -->
             </sec:authorize>
             <sec:authorize access="isAuthenticated()">
                 <li class="utility-login"><a href="/processLogout">로그 아웃</a></li> <!-- !login -->

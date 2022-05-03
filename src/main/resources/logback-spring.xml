@@ -8,7 +8,7 @@
     <!-- 루트 로그 레벨 -->
 
     <!-- 디버그로 설정하면 디비로그도 좀보임 -->
-    <property name ="LOG_LEVEL" value = "debug"/>
+    <property name ="LOG_LEVEL" value = "info"/>
 
     <!-- 분기에 따른 로그 파일 경로 -->
     <springProfile name = "local">
