@@ -1,5 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -17,11 +18,11 @@
     <div class="innerfooter">
         <section class="flex_wrap footer_menubox">
             <ul class="footer-gnbmenu">
-                <li><a href="#">ABOUT US</a></li>
-                <li><a href="#">PRESS</a></li>
-                <li><a href="#">CAREERS</a></li>
-                <li><a href="#">LOCATION</a></li>
-                <li><a href="#">CUSTOMER CENTER</a></li>
+                <li><a href="#">회사소개</a></li>
+                <li><a href="#">언론보도</a></li>
+                <li><a href="#">채용공고</a></li>
+                <li><a href="#">위치안내</a></li>
+                <li><a href="#">고객센터</a></li>
             </ul>
 
             <ul class="snsbox_icon">
@@ -35,10 +36,11 @@
         <section class="flex_wrap footer_infobox">
             <div class="footer-infomenubox">
                 <ul class="flex_wrap footer-infomenu">
-                    <li><a href="#">Terms</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Information Mgmt. Rules</a></li>
+                    <li><a href="#">경매약관</a></li>
+                    <li><a href="#">개인정보처리방침</a></li>
+                    <li><a href="#">내부관리규정</a></li>
                 </ul>
+
                 <div class="Familysite-selectbox">
                     <a href="#none" class="Familysite">Family Site</a>
                     <ul class="familyselect">
@@ -50,13 +52,13 @@
             </div>
 
             <p class="bottom-p-spacing20">
-                CEO : Lee Ok-Kyung   Tax Registration No : 101-81-46818   E-commerce Registration : Jong-Ro No. 01-2173<br>
-                11, Pyeongchang 31-gil, Jongno-gu, Seoul, Korea   T. +82-02-395-0330<br>
+                ㈜서울옥션 · 대표이사 : 이옥경   사업자등록번호 : 101-81-46818   통신판매업신고 : 종로 제01-2173호<br>
+                주소 : 서울특별시 종로구 평창31길 11 (평창동 465-10)  고객센터 : 02-395-0330<br>
                 ⓒ Seoul Auction Corp.
             </p>
             <p>
-                Any unauthorized reproduction, transmission, distribution, and/or crawling/scraping of images, videos, text, and other material or information <br>
-                (including the website screen) is strictly forbidden by the Copyright Act, the Unfair Competition Prevention and Trade Secret Protection Act, and other relevant law.
+                (주)서울옥션이 매도인인 경우를 제외하고, 사이트상의 모든 상품 및 거래에 대하여 (주)서울옥션은 통신판매중개자이며 통신판매의 당사자가 아닙니다.<br>
+                따라서 (주)서울옥션은 상품·거래정보 및 거래에 대하여 책임을 지지 않습니다.
             </p>
         </section>
     </div>
