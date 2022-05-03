@@ -29,32 +29,33 @@
     </div>
     <div class="header-border">
         <ul class="header_utilitymenu wrap_padding pc-ver">
-        <li class="utility-tab utility-lang"><a href="javascript:void(0);">KOR</a>
-            <ul class="bubble-box bubble-box01">
-                <li><a href="/">KOR(한국어)</a></li>
-                <li><a href="/en">ENG(English)</a></li>
-            </ul>
-        </li>
-        <li class="utility-join"><a href="#">JOIN</a></li> <!-- !login -->
-        <li class="utility-tab utility-account"><a href="javascript:void(0);">ACCOUNT</a>
-            <ul class="bubble-box bubble-box02">
-                <li><a href="/">Live Auction Management</a></li>
-                <li><a href="#">Online Auction Management</a></li>
-                <li><a href="#">Wish List</a></li>
-                <li><a href="#">Academy Application List</a></li>
-                <li><a href="#">Edit member information</a></li>
-            </ul>
-        </li> <!-- login -->
-        <sec:authorize access="isAnonymous()">
-            <li class="utility-login"><a href="/login">LOGIN</a></li> <!-- !login -->
-        </sec:authorize>
-        <sec:authorize access="isAuthenticated()">
-            <li class="utility-login"><a href="/processLogout">LOGOUT</a></li> <!-- !login -->
-        </sec:authorize>
-    </ul>
+            <li class="utility-tab utility-lang"><a href="javascript:void(0);">KOR</a>
+                <ul class="bubble-box bubble-box01">
+                    <li><a href="/">KOR(한국어)</a></li>
+                    <li><a href="/en">ENG(English)</a></li>
+                </ul>
+            </li>
+            <li class="utility-join"><a href="#">JOIN</a></li> <!-- !login -->
+            <li class="utility-tab utility-account"><a href="javascript:void(0);">ACCOUNT</a>
+                <ul class="bubble-box bubble-box02">
+                    <li><a href="/">Live Auction Management</a></li>
+                    <li><a href="#">Online Auction Management</a></li>
+                    <li><a href="#">Wish List</a></li>
+                    <li><a href="#">Academy Application List</a></li>
+                    <li><a href="#">Edit member information</a></li>
+                </ul>
+            </li> <!-- login -->
+            <sec:authorize access="isAnonymous()">
+                <li class="utility-login"><a href="/login">LOGIN</a></li> <!-- !login -->
+            </sec:authorize>
+            <sec:authorize access="isAuthenticated()">
+                <li class="utility-login"><a href="/processLogout">LOGOUT</a></li> <!-- !login -->
+            </sec:authorize>
+        </ul>
+    </div>
 
-    <nav class="header_navbox">
-        <div class="header_nav wrap_padding">
+    <nav class="header_navbox wrap_padding">
+        <div class="header_nav">
             <a href="#" class="header_logo"><span class="blind-text">logo</span></a>
             <ul class="header_gnbmenu pc-ver">
                 <li><a href="#" class="">AUCTION</a></li>
@@ -66,27 +67,28 @@
                 <button class="m-top-search m-ver"></button>
                 <button class="m-gnbmenu m-ver"></button>
                 <form action="" class="scroll_none">
-                    <fieldset class="topsearch topsearch-en">
+                    <fieldset class="topsearch">
                         <span class="submenuBg-closeBtn top-search-closeBtn m-ver"></span>
                         <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver"><button type="submit" class="topsearch-btn pc-ver"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">
-                                <span class="keyword-search-tit">Recent Keyword<span class="keyword-all-del">All Delete</span></span><!--
-                                --><span class="recent-keyword"><a href="#">Kim SunWoo</a><span class="keyword-del"></span></span><!--
-                                --><span class="recent-keyword"><a href="#">Yayoi Kusama</a><span class="keyword-del"></span></span><!--
-                                --><span class="recent-keyword"><a href="#">Lee UFan</a><span class="keyword-del"></span></span><!--
-                                --><span class="recent-keyword"><a href="#">Kim WhanKi</a><span class="keyword-del"></span></span><!--
-                                --><span class="recent-keyword"><a href="#">Park SooKeun </a><span class="keyword-del"></span></span><!--
-                                -->
+                                <span class="keyword-search-tit">최근검색<span class="keyword-all-del">전체삭제</span></span><!--
+                                    --><span class="recent-keyword"><a href="#">김선우</a><span class="keyword-del"></span></span><!--
+                                    --><span class="recent-keyword"><a href="#">하이에르 카예하</a><span class="keyword-del"></span></span><!--
+                                    --><span class="recent-keyword"><a href="#">김환기</a><span class="keyword-del"></span></span><!--
+                                    --><span class="recent-keyword"><a href="#">이우환</a><span class="keyword-del"></span></span><!--
+                                    --><span class="recent-keyword"><a href="#">박수근</a><span class="keyword-del"></span></span><!--
+                                    -->
                             </div>
                             <div class="recommend-search-part">
-                                <span class="keyword-search-tit">Recommend Keyword</span><!--
-                                --><a href="#" class="recommend-keyword">Lee Bae</a><!--
-                                --><a href="#" class="recommend-keyword">Min JoungKi</a><!--
-                                --><a href="#" class="recommend-keyword">Chungshin</a><!--
-                                --><a href="#" class="recommend-keyword">Park SeoBo</a><!--
-                                --><a href="#" class="recommend-keyword">Lim HanSoo</a><!--
-                                --><a href="#" class="recommend-keyword">David Hockney</a><!---->
+                                <span class="keyword-search-tit">추천검색</span>
+                                <a href="#" class="recommend-keyword">최우영</a><!--
+                                    --><a href="#" class="recommend-keyword">박성옥</a><!--
+                                    --><a href="#" class="recommend-keyword">청신</a><!--
+                                    --><a href="#" class="recommend-keyword">박서보</a><!--
+                                    --><a href="#" class="recommend-keyword">마티스</a><!--
+                                    --><a href="#" class="recommend-keyword">호크니</a><!--
+                                    -->
                             </div>
                         </section>
                     </fieldset>
@@ -106,7 +108,8 @@
                                 </figure>
                                 <div class="Ingbanner-txt text-over">
                                     <span class="auctionKind-box Ingkind-auction on">LIVE</span>
-                                    <p class="text-over" title="February Live Auction">February Live Auction</p>
+                                    <!--<span class="auctionKind-box Ingkind-auction on">LIVE</span>-->
+                                    <p class="text-over">2월 라이브 경매</p>
                                     <span class="Ingbanner-arrow"></span>
                                 </div>
                             </a>
@@ -116,7 +119,7 @@
                                 </figure>
                                 <div class="Ingbanner-txt text-over">
                                     <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                    <p class="text-over" title="e BID Public Online Auction">e BID Public Online Auction</p>
+                                    <p class="text-over">e BID 퍼블릭 온라인 경매</p>
                                     <span class="Ingbanner-arrow"></span>
                                 </div>
                             </a>
@@ -126,7 +129,7 @@
                                 </figure>
                                 <div class="Ingbanner-txt text-over">
                                     <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                    <p class="text-over" title="ZEROBASE">ZEROBASE</p>
+                                    <p class="text-over">ZEROBASE</p>
                                     <span class="Ingbanner-arrow"></span>
                                 </div>
                             </a>
@@ -136,7 +139,7 @@
                                 </figure>
                                 <div class="Ingbanner-txt text-over">
                                     <span class="auctionKind-box Ingkind-auction on">LIVE</span>
-                                    <p class="text-over" title="February Live Auction">February Live Auction</p>
+                                    <p class="text-over">2월 라이브 경매</p>
                                     <span class="Ingbanner-arrow"></span>
                                 </div>
                             </a>
@@ -146,7 +149,7 @@
                                 </figure>
                                 <div class="Ingbanner-txt text-over">
                                     <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                    <p class="text-over" title="e BID Public Online Auction">e BID Public Online Auction</p>
+                                    <p class="text-over">e BID 퍼블릭 온라인 경매</p>
                                     <span class="Ingbanner-arrow"></span>
                                 </div>
                             </a>
@@ -155,31 +158,31 @@
                         <ul class="subGnbmenu">
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
                                 <ul class="submenu submenu-part01">
-                                    <li><a href="http://seoulauction.m4one.co.kr/html/auction/online_sequence_deadline_before_ko.html#tab-cont-3">Current</a><span class="currentIng">NOW</span></li>
-                                    <li><a href="#">Upcoming</a></li>
-                                    <li><a href="#">Result</a></li>
+                                    <li><a href="#">진행경매</a><span class="currentIng">NOW</span></li>
+                                    <li><a href="#">예정경매</a></li>
+                                    <li><a href="#">경매결과</a></li>
                                 </ul>
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
                                 <ul class="submenu submenu-part02">
-                                    <li><a href="#">Exhibition</a><span class="currentIng">NOW</span></li>
-                                    <li><a href="#">Private Sale</a></li>
-                                    <li><a href="#">Private Sale Guide</a></li>
+                                    <li><a href="#">전시</a><span class="currentIng">NOW</span></li>
+                                    <li><a href="#">프라이빗 세일</a></li>
+                                    <li><a href="#">프라이빗 세일 가이드</a></li>
                                 </ul>
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>
                                 <ul class="submenu submenu-part03">
-                                    <li><a href="#">Consignment information</a></li>
-                                    <li><a href="#">Consignment application</a></li>
+                                    <li><a href="#">위탁안내</a></li>
+                                    <li><a href="#">위탁신청</a></li>
                                 </ul>
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
                                 <ul class="submenu submenu-part04">
-                                    <li><a href="#">Academy</a><span class="currentIng">NOW</span></li>
-                                    <li><a href="#">Art Collateral Loans</a></li>
-                                    <li><a href="#">Art Storage</a></li>
-                                    <li><a href="#">Rental of Space</a></li>
-                                    <li><a href="#">Art Consulting & <br>Corporate Marketing</a></li>
+                                    <li><a href="#">아카데미</a><span class="currentIng">NOW</span></li>
+                                    <li><a href="#">담보대출</a></li>
+                                    <li><a href="#">미술품보관</a></li>
+                                    <li><a href="#">전시장대관</a></li>
+                                    <li><a href="#">아트컨설팅&#38;기업마케팅</a></li>
                                 </ul>
                             </li>
                             <li class="subGnbmenu-tit m-ver">
@@ -198,9 +201,9 @@
                         </figure>
                     </div>
                     <ul class="mobile-utility m-ver">
-                        <li><a href="/index.html">KOR</a></li>
-                        <li><a href="#" class="gnb_join">JOIN</a><a href="#" class="gnb_member">ACCOUNT</a></li>
-                        <li><a href="#" class="gnb_login">LOGIN</a><span class="gnb_logout">LOGOUT</span></li>
+                        <li><a href="/index_en.html">ENG</a></li>
+                        <li><a href="#" class="gnb_join">회원가입</a><a href="#" class="gnb_member">마이페이지</a></li>
+                        <li><a href="#" class="gnb_login">로그인</a><a class="gnb_logout">로그아웃</a></li>
                     </ul>
                 </div>
             </section>
