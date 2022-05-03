@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Seoul Auction</title>
-    <script type="text/javascript" src="/js/main/main.js"></script>
+    <link rel="stylesheet" href="/css/main.css" type="text/css" />
 </head>
 <body>
 <jsp:include page="../../include/en/header.jsp" flush="false"/>
@@ -1464,4 +1464,7 @@
     </div>
 </div>
 </body>
+
+<script src="/js/main.js" type="text/javascript"></script>
+
 </html>

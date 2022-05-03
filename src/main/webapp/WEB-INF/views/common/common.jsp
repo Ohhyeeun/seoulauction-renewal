@@ -4,5 +4,4 @@
 <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
 <script src="/js/plugin/prefixfree.min.js"></script>
 <script src="/js/common.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
 <script src="/js/plugin/swiper.min.js" type="text/javascript"></script>
