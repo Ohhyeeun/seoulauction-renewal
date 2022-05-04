@@ -15,7 +15,7 @@
 </head>
 <body>
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
-<section class="main-contents footer-bottom">
+<section class="main-contents footer-bottom footer-bottom30">
     <section class="visual visual-contents">
         <div class="swiper-container visual-swiper">
             <div class="swiper-wrapper">

@@ -15,7 +15,7 @@
 </head>
 <body>
 <jsp:include page="../../include/en/header.jsp" flush="false"/>
-<section class="main-contents footer-bottom">
+<section class="main-contents footer-bottom footer-bottom40">
     <section class="visual visual-contents">
         <div class="swiper-container visual-swiper">
             <div class="swiper-wrapper">
