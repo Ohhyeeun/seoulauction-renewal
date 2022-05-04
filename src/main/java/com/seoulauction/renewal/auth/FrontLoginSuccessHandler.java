@@ -20,18 +20,17 @@ public class FrontLoginSuccessHandler extends SavedRequestAwareAuthenticationSuc
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, 
-    	Authentication authentication) throws ServletException, IOException {
+    		Authentication authentication) throws ServletException, IOException {
         HttpSession session = request.getSession();
         if (session != null) {
             String redirectUrl = (String) session.getAttribute("prevPage");
             if (redirectUrl != null) {
-                session.removeAttribute("prevPage");
-                getRedirectStrategy().sendRedirect(request, response, redirectUrl);
-            } else {
-                super.onAuthenticationSuccess(request, response, authentication);
+            	request.removeAttribute("prevPage");
+            	if(!redirectUrl.endsWith("/login")){ //이전 페이지가 로그인페이지라면 메인으로 이동
+            		getRedirectStrategy().sendRedirect(request, response, redirectUrl);
+            	}
             }
-        } else {
-            super.onAuthenticationSuccess(request, response, authentication);
         }
+        super.onAuthenticationSuccess(request, response, authentication);
     }
 }

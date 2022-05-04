@@ -33,3 +33,13 @@ if(resetPassword == 'true'){
 	//TODO 관리자 비밀번호 변경 팝업 show
 }
 
+function logout(loginId){
+	console.log(loginId)
+	//TODO 소셜타입에 따른 SNS로그아웃처리
+	sessionLogout();
+}
+	
+// 세션로그아웃
+function sessionLogout() {
+	window.location.href = "/processLogout";
+}
