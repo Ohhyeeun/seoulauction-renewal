@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="/css/common.css" type="text/css" />
-<link rel="stylesheet" href="/css/pages_common_en.css" type="text/css" />
 <link rel="stylesheet" href="/css/pages_common_ko.css" type="text/css" />
 <link rel="stylesheet" href="/css/plugin/csslibrary.css" type="text/css" />
-<link rel="stylesheet" href="/css/maps/pages_common_en.css.map" type="text/css" />
+<link rel="stylesheet" href="/css/maps/pages_common_ko.css.map" type="text/css" />
 <link rel="stylesheet" href="/css/maps/pages_common_en.css.map" type="text/css" />
 
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
