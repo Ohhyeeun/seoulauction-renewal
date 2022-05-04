@@ -7,6 +7,8 @@ import java.util.List;
 
 @Mapper
 public interface MainMapper {
+
+    List<CommonMap> selectBeltBanners();
     List<CommonMap> selectNewsletters(CommonMap map);
 
     List<CommonMap> selectNewsletterById(CommonMap map);
