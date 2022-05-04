@@ -14,6 +14,8 @@ public class SAConst {
     public static final String SERVICE_SELL ="sell";
     public static final String SERVICE_LOGIN ="login";
     public static final String API_LOGIN ="api/login";
+    public static final String SERVICE_MYPAGE ="mypage";
+
 
 
     public static String getUrl(String viewName){

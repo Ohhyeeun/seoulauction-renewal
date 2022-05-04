@@ -60,11 +60,7 @@ app.run(function ($rootScope, consts, locale, common, $filter) {
 		return hanja;
 	}
 	$rootScope.getPayTotal = function(price, lot_fee) {
-		
-		console.log("############");
-		console.log(price);
-		console.log(lot_fee);
-		
+
 		var subFee = 0.0;
 		var totalFee = 0.0;
 		var sub_price = 0;
@@ -96,8 +92,6 @@ app.run(function ($rootScope, consts, locale, common, $filter) {
 				subFee = sub_price * (lot_fee[i]["RATE"]/100);
 			}
 	
-			console.log("=======>");
-			console.log(subFee);
 			totalFee += subFee;
 			subFee = 0.0;
 		}
@@ -152,7 +146,7 @@ app.factory("common", function ($rootScope, $http) {
 	    	 if(e) e.focus();
 	    },
 
-	    callAPI: function($url, $data, $success, $error, $final) {
+	    callAPI: function($url ,$data, $success, $error, $final) {
 	    	is_processing = true;
 
 	    	var $s = function(){};
@@ -164,13 +158,13 @@ app.factory("common", function ($rootScope, $http) {
 	    	var $e = objs.errCommon;
 	    	if($error) $e = $error;
 	    	
-	    	$http.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
-	    	//$http.defaults.headers.post[_csrf_header] = _csrf;
-	    	$http.post($url, $data)//, {headers: {'Content-Type': 'application/json; charset=utf-8', 'X-CSRF-TOKEN' : _csrf}})
+	    	if($data != null) $http.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
+	    	$data != null ? $http.post($url, $data) : $http.get($url)//, {headers: {'Content-Type': 'application/json; charset=utf-8', 'X-CSRF-TOKEN' : _csrf}})
 	        .success($s)
 	        .error($e)
 	        .finally($f);
 	    },
+
 
 	    callFileAPI: function($url, $data, $success, $error, $final) {
 	    	is_processing = true;
