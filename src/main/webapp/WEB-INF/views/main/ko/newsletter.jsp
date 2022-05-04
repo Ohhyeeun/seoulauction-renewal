@@ -5,19 +5,19 @@
   Time: 4:32 PM
   To change this template use File | Settings | File Templates.
 --%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html >
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>뉴스레터 | Seoul Auction</title>
-</head>
+<!DOCTYPE html>
+<html ng-app="myApp">
+    <link rel="stylesheet" href="/css/common.css" type="text/css" />
+    <link rel="stylesheet" href="/css/pages_common_ko.css">
+    <!-- header -->
+    <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+
 <body>
 <div class="wrapper footer-bottom footer-bottom30">
     <div class="sub-wrap pageclass type-pagemain">
-        <!-- header -->
-        <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+
 
         <!-- container -->
         <div id="container">
@@ -31,7 +31,6 @@
                         </div>
                     </div>
                 </section>
-
 
 
                 <section class="basis-section last-section news_letter-section">
@@ -200,9 +199,12 @@
 </div>
 <script>
 app.value('locale', 'ko');
-app.requires.push("bw.paging");
+//app.requires.push("bw.paging");
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
 app.controller('newsLetterCtl', function($scope, consts, common, locale) {
+
+    console.log('asdfasdfasdf');
+
     $scope.pageRows = 20;
     $scope.reqRowCnt = 20;
     $scope.currentPage = 1;
@@ -239,15 +241,15 @@ app.controller('newsLetterCtl', function($scope, consts, common, locale) {
         alert('실패:'+ error);
     });
 </script>
-<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-<!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
+<%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
+<%--<!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->--%>
+<%--<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
+<%--<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
+<%--<script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>--%>
 
-<script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
-<script src="https://code.angularjs.org/1.5.8/angular.js"></script>
-<script src="/js/angular/app.js"></script>
+<%--<script type="text/javascript" src="/js/common.js" type="text/javascript"></script>--%>
+<%--<script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>--%>
+<%--<script src="https://code.angularjs.org/1.5.8/angular.js"></script>--%>
+<%--<script src="/js/angular/app.js"></script>--%>
 </body>
 </html>
