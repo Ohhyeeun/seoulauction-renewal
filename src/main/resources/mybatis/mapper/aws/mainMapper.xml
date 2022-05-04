@@ -12,4 +12,24 @@
         FROM content_newsletter
         WHERE id = #{id}
     </select>
+    <select id="insertNewsletter" parameterType="CommonMap">
+        INSERT INTO newsletter_subscriber
+            ( name , email , is_subscribe )
+        VALUES
+            ( #{name} , #{email} , 'Y' )
+    </select>
+
+    <select id="selectNewsletterForOverlapCheck" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+            *
+        FROM
+            newsletter_subscriber
+        WHERE
+            1 = 1
+            and name  = #{name}
+            and email = #{email}
+        limit
+            1
+    </select>
+
 </mapper>

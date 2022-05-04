@@ -10,4 +10,8 @@ public interface MainMapper {
     List<CommonMap> selectNewsletters(CommonMap map);
 
     List<CommonMap> selectNewsletterById(CommonMap map);
+
+    void insertNewsletter(CommonMap map);
+
+    CommonMap selectNewsletterForOverlapCheck(CommonMap map);
 }
