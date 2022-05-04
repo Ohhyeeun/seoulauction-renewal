@@ -5,10 +5,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<html lang="ko">
 <jsp:include page="../../common/common.jsp" flush="false"/>
 <jsp:include page="../../common/commonCss.jsp" flush="false"/>
-
+<html lang="ko" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
     <div class="header_beltbox on"> <!--class="on" block-->
         <div class="wrap belttxtbox wrap_padding">

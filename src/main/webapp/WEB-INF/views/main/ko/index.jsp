@@ -15,6 +15,9 @@
 </head>
 <body>
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+
+
+
 <section class="main-contents footer-bottom footer-bottom30">
     <section class="visual visual-contents">
         <div class="swiper-container visual-swiper">
@@ -1397,8 +1400,8 @@
                     <h3 class="main-sectiontit newsLetter-tit">Newsletter</h3>
                     <form action="" class="newsletter-formbox">
                         <fieldset class="newsletter-form">
-                            <input type="email" placeholder="이메일 주소">
-                            <input type="email" placeholder="이름">
+                            <input id ="newsEmail" type="email" placeholder="이메일 주소">
+                            <input id ="newsName" type="text" placeholder="이름">
                         </fieldset>
                         <fieldset class="newsletter-checkbox">
                             <input type="checkbox" id="subscript_check" class="common_checkbox" value='subscript_check' name='subscript_check'>
@@ -1408,12 +1411,13 @@
                         </fieldset>
                     </form>
                     <div class="flex_wrap newsletter-btnbox">
-                        <button type="button" disabled="disabled" class="commonbtn btn-bg-b subscriptBtn">구독하기</button>
+                        <button type="button" class="commonbtn btn-bg-b subscriptBtn">구독하기</button>
                         <a href="#" class="commonbtn btn-border-3">
                             <span>지난 뉴스레터 보기</span>
                         </a>
                     </div>
                 </div>
+
             </article>
         </section>
     </div>
@@ -1432,7 +1436,7 @@
 <!-- 뉴스레터 팝업 -->
 <div class="blackBg newsletter-blackBg">
     <div class="newsletter-termsbox">
-        <div class="newsletter-terms">
+        <div id="terms" class="newsletter-terms">
             <div class="closebtn closebtn-b newsAgree-close"></div>
             <input type="checkbox" id="newsAgree" class="common_checkbox" value='newsAgree' name="newsAgree">
             <label for="newsAgree">
@@ -1443,13 +1447,13 @@
                 정보는 발송 외 다른 목적으로 이용되지 않으며, 서비스가 종료되거나
                 구독을 해지할 경우 즉시 파기됩니다.
             </p>
-            <button type="submit" disabled="disabled" class="commonbtn btn-bg-g newsAgree-btn">확인</button>
+            <button type="submit" class="commonbtn btn-bg-g newsAgree-btn">확인</button>
         </div>
-        <div class="newsletter-terms newsletter-comfirmbox">
+        <div id="termsResult" class="newsletter-terms newsletter-comfirmbox">
             <p class="newsAgree-comfirm">
                 구독해주셔서 감사합니다.
             </p>
-            <button type="submit" disabled="disabled" class="commonbtn btn-bg-b newsAgree-comfirmbtn">확인</button>
+            <button type="submit" class="commonbtn btn-bg-b newsAgree-comfirmbtn">확인</button>
         </div>
     </div>
 </div>

@@ -193,51 +193,78 @@ $(function(){
 
     /*뉴스레터 구독하기 팝업 */
     $(document).ready(function(){
+
+        let subscript = false;
+
         $('#subscript_check').click(function(){
-            const subscript = $('#subscript_check').prop('checked');
-            const newsAgree = $('#newsAgree').prop('checked');
+            subscript = $('#subscript_check').prop('checked');
+        });
 
+        $('.subscriptBtn').click(function(){
             if(subscript) {
-                console.log(subscript);
-                $('#subscript_check').prop('checked',true);
-                $('.subscriptBtn').prop('disabled',false);
 
-                /*구독하기*/
-                $('.subscriptBtn').click(function(){
-                    $('.newsletter-blackBg').fadeIn('fast');
-                    $('.newsAgree-close').click(function(){  /*닫기 버튼 */
-                        $('.newsletter-blackBg').fadeOut('fast');
-                    });
+                $('.newsletter-blackBg').fadeIn('fast');
+
+                $('#terms').show();
+                $('#termsResult').hide();
+                $('.newsAgree-close').click(function () {  /*닫기 버튼 */
+                    $('.newsletter-blackBg').fadeOut('fast');
                 });
             } else {
-                console.log(newsAgree);
-                $('#subscript_check').prop('checked',false);
-                $('.subscriptBtn').prop('disabled',true);
-            };
+                alert("개인 정보 수집에 동의해주세요.");
+            }
         });
+
+        let newsAgree = false;
 
         /* 뉴스레터 개인정보 동의 팝업 */
         $('#newsAgree').click(function(){
-            const subscript = $('#subscript_check').prop('checked');
-            const newsAgree = $('#newsAgree').prop('checked');
+            newsAgree = $('#newsAgree').prop('checked');
+        });
 
+        $('.newsAgree-btn').click(function(){
 
             if(newsAgree){
-                $('#newsAgree').prop('checked',true);
-                $('.newsAgree-btn').prop('disabled',false);
-                $('.newsAgree-comfirmbtn').prop('disabled',false);
 
-                $('.newsAgree-btn').click(function(){
-                    $('.newsAgree-comfirmbtn').click(function(){
-                        $('.newsletter-blackBg').fadeOut('fast');
+                let email = $('#newsEmail').val();
+                let name = $('#newsName').val();
+
+                let data = {};
+                data['email'] = email;
+                data['name'] = name;
+
+                if(!email || !name){
+                    alert('이메일 혹은 이름이 올바르지않습니다.');
+                    return;
+                }
+
+                fetch('/api/main/newsletters', {
+                    method: 'POST', // 또는 'PUT'
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+                    .then((response) => response.json())
+                    .then((result) => {
+                        let success = result.success;
+                        if(!success){
+                            alert(result.data.msg);
+                        }
+                    })
+                    .catch((error) => {
+                        alert('실패:' + error);
                     });
-                    $('.newsletter-terms').hide();
-                    $('.newsletter-comfirmbox').fadeIn(400);
-                });
+
+                $('#terms').hide();
+                 $('#termsResult').fadeIn(400);
             } else {
-                $('#newsAgree').prop('checked',false);
-                $('.newsAgree-btn').prop('disabled',true);
+                alert("개인 정보 수집에 동의해주세요.");
             }
+        });
+
+        $('.newsAgree-comfirmbtn').click(function(){
+            $('.newsletter-blackBg').fadeOut('fast');
         });
     });
 
