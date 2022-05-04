@@ -1468,5 +1468,6 @@
 </div>
 </body>
 
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="/js/main/main.js" type="text/javascript"></script>
+<script src="/js/main/newsletter.js" type="text/javascript"></script>
 </html>
