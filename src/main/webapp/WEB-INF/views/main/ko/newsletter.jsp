@@ -8,19 +8,29 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>뉴스레터 | Seoul Auction</title>
+    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
+    <link rel="stylesheet" href="/css/common.css" type="text/css" />
+    <link rel="stylesheet" href="/css/pages_common_ko.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="wrapper footer-bottom footer-bottom30">
     <div class="sub-wrap pageclass type-pagemain">
-
         <!-- header -->
+        <%--<jsp:include page="../../include/ko/header.jsp" flush="false"/>--%>
         <header class="header main-header header-border"> <!-- class="main-header fixed" -->
-            <div class="header_beltbox on"> <!--class="on" block-->
+            <div class="header_beltbox"> <!--class="on" block--> 
                 <div class="wrap belttxtbox wrap_padding">
-                        <span class="header_beltTit">
-                            <a href="#">구매수수료율 인상 및 약관 개정안내<span class="beltbanner-triangle"></span></a>
-                        </span>
+                <span class="header_beltTit">
+                    <a href="#">구매수수료율 인상 및 약관 개정안내<span class="beltbanner-triangle"></span></a>
+                </span>
                     <span class="beltclose-btn closebtn closebtn-w"></span>
                 </div>
             </div>
@@ -65,22 +75,22 @@
                                 <section class="search-bubble-box">
                                     <div class="recent-search">
                                         <span class="keyword-search-tit">최근검색<span class="keyword-all-del">전체삭제</span></span><!--
-                                            --><span class="recent-keyword"><a href="#">김선우</a><span class="keyword-del"></span></span><!--
-                                            --><span class="recent-keyword"><a href="#">하이에르 카예하</a><span class="keyword-del"></span></span><!--
-                                            --><span class="recent-keyword"><a href="#">김환기</a><span class="keyword-del"></span></span><!--
-                                            --><span class="recent-keyword"><a href="#">이우환</a><span class="keyword-del"></span></span><!--
-                                            --><span class="recent-keyword"><a href="#">박수근</a><span class="keyword-del"></span></span><!--
-                                            -->
+                                    --><span class="recent-keyword"><a href="#">김선우</a><span class="keyword-del"></span></span><!--
+                                    --><span class="recent-keyword"><a href="#">하이에르 카예하</a><span class="keyword-del"></span></span><!--
+                                    --><span class="recent-keyword"><a href="#">김환기</a><span class="keyword-del"></span></span><!--
+                                    --><span class="recent-keyword"><a href="#">이우환</a><span class="keyword-del"></span></span><!--
+                                    --><span class="recent-keyword"><a href="#">박수근</a><span class="keyword-del"></span></span><!--
+                                    -->
                                     </div>
                                     <div class="recommend-search-part">
                                         <span class="keyword-search-tit">추천검색</span>
                                         <a href="#" class="recommend-keyword">최우영</a><!--
-                                            --><a href="#" class="recommend-keyword">박성옥</a><!--
-                                            --><a href="#" class="recommend-keyword">청신</a><!--
-                                            --><a href="#" class="recommend-keyword">박서보</a><!--
-                                            --><a href="#" class="recommend-keyword">마티스</a><!--
-                                            --><a href="#" class="recommend-keyword">호크니</a><!--
-                                            -->
+                                    --><a href="#" class="recommend-keyword">박성옥</a><!--
+                                    --><a href="#" class="recommend-keyword">청신</a><!--
+                                    --><a href="#" class="recommend-keyword">박서보</a><!--
+                                    --><a href="#" class="recommend-keyword">마티스</a><!--
+                                    --><a href="#" class="recommend-keyword">호크니</a><!--
+                                    -->
                                     </div>
                                 </section>
                             </fieldset>
@@ -177,12 +187,12 @@
                                         </ul>
                                     </li>
                                     <li class="subGnbmenu-tit m-ver">
-                                            <span class="gnbmenu_arrow modebox">Light Mode
-                                                <label for="dark" class="mode-toggle">
-                                                    <input type="checkbox" id="dark" name="dark">
-                                                    <span class="mode-switch"></span>
-                                                </label>
-                                            </span>
+                                    <span class="gnbmenu_arrow modebox">Light Mode
+                                        <label for="dark" class="mode-toggle">
+                                            <input type="checkbox" id="dark" name="dark">
+                                            <span class="mode-switch"></span>
+                                        </label>
+                                    </span>
                                     </li>
                                 </ul>
                                 <figure class="blacklotbox">
@@ -230,7 +240,7 @@
                                             <div class="image-area">
                                                 <figure class="img-ratio">
                                                     <div class="img-align">
-                                                        <img src="/images/mobile//main/newsletter_55.jpg" alt="newsletter. Jan. Vol.55">
+                                                        <img src="/images/mobile/main/newsletter_55.jpg" alt="newsletter. Jan. Vol.55">
                                                     </div>
                                                 </figure>
                                             </div>
@@ -246,7 +256,7 @@
                                             <div class="image-area">
                                                 <figure class="img-ratio">
                                                     <div class="img-align">
-                                                        <img src="/images/mobile//main/newsletter_54.jpg" alt="newsletter. Jan. Vol.54">
+                                                        <img src="/images/mobile/main/newsletter_54.jpg" alt="newsletter. Jan. Vol.54">
                                                     </div>
                                                 </figure>
                                             </div>
@@ -262,7 +272,7 @@
                                             <div class="image-area">
                                                 <figure class="img-ratio">
                                                     <div class="img-align">
-                                                        <img src="/images/mobile//main/newsletter_53.jpg" alt="newsletter. Jan. Vol.53">
+                                                        <img src="/images/mobile/main/newsletter_53.jpg" alt="newsletter. Jan. Vol.53">
                                                     </div>
                                                 </figure>
                                             </div>
@@ -278,7 +288,7 @@
                                             <div class="image-area">
                                                 <figure class="img-ratio">
                                                     <div class="img-align">
-                                                        <img src="/images/mobile//main/newsletter_52.jpg" alt="newsletter. Jan. Vol.52">
+                                                        <img src="/images/mobile/main/newsletter_52.jpg" alt="newsletter. Jan. Vol.52">
                                                     </div>
                                                 </figure>
                                             </div>
@@ -294,7 +304,7 @@
                                             <div class="image-area">
                                                 <figure class="img-ratio">
                                                     <div class="img-align">
-                                                        <img src="/images/mobile//main/newsletter_51.jpg" alt="newsletter. Jan. Vol.51">
+                                                        <img src="/images/mobile/main/newsletter_51.jpg" alt="newsletter. Jan. Vol.51">
                                                     </div>
                                                 </figure>
                                             </div>
@@ -310,7 +320,7 @@
                                             <div class="image-area">
                                                 <figure class="img-ratio">
                                                     <div class="img-align">
-                                                        <img src="/images/mobile//main/newsletter_49.jpg" alt="newsletter. Jan. Vol.49">
+                                                        <img src="/images/mobile/main/newsletter_49.jpg" alt="newsletter. Jan. Vol.49">
                                                     </div>
                                                 </figure>
                                             </div>
@@ -326,7 +336,7 @@
                                             <div class="image-area">
                                                 <figure class="img-ratio">
                                                     <div class="img-align">
-                                                        <img src="/images/mobile//main/newsletter_48.jpg" alt="newsletter. Jan. Vol.48">
+                                                        <img src="/images/mobile/main/newsletter_48.jpg" alt="newsletter. Jan. Vol.48">
                                                     </div>
                                                 </figure>
                                             </div>
@@ -342,7 +352,7 @@
                                             <div class="image-area">
                                                 <figure class="img-ratio">
                                                     <div class="img-align">
-                                                        <img src="/images/mobile//main/newsletter_47.jpg" alt="newsletter. Jan. Vol.47">
+                                                        <img src="/images/mobile/main/newsletter_47.jpg" alt="newsletter. Jan. Vol.47">
                                                     </div>
                                                 </figure>
                                             </div>
@@ -361,67 +371,14 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </section>
-
             </div>
         </div>
         <!-- //container -->
 
         <!-- footer -->
-        <footer class="footer">
-            <div class="innerfooter">
-                <section class="flex_wrap footer_menubox">
-                    <ul class="footer-gnbmenu">
-                        <li><a href="#">회사소개</a></li>
-                        <li><a href="#">언론보도</a></li>
-                        <li><a href="#">채용공고</a></li>
-                        <li><a href="#">위치안내</a></li>
-                        <li><a href="#">고객센터</a></li>
-                    </ul>
-
-                    <ul class="snsbox_icon">
-                        <li><a href="#" class="sns-icon sns-icon01"></a></li>
-                        <li><a href="#" class="sns-icon sns-icon02"></a></li>
-                        <li><a href="#" class="sns-icon sns-icon03"></a></li>
-                        <li><a href="#" class="sns-icon sns-icon04"></a></li>
-                        <li><a href="#" class="sns-icon sns-icon05"></a></li>
-                    </ul>
-                </section>
-                <section class="flex_wrap footer_infobox">
-                    <div class="footer-infomenubox">
-                        <ul class="flex_wrap footer-infomenu">
-                            <li><a href="#">경매약관</a></li>
-                            <li><a href="#">개인정보처리방침</a></li>
-                            <li><a href="#">내부관리규정</a></li>
-                        </ul>
-                        <form action="">
-                            <legend class="Familysite-legned">
-                                <fieldset class="Familysite-selectbox">
-                                    <select name="Familysite">
-                                        <option value="Familysite">Family Site</option>
-                                        <option value="Print Bakery">Print Bakery</option>
-                                        <option value="Auction Blue">Auction Blue</option>
-                                    </select>
-                                </fieldset>
-                            </legend>
-                        </form>
-                    </div>
-
-                    <p class="bottom-p-spacing20">
-                        ㈜서울옥션 · 대표이사 : 이옥경 사업자등록번호 : 101-81-46818 통신판매업신고 : 종로 제01-2173호<br>
-                        주소 : 서울특별시 종로구 평창31길 11 (평창동 465-10) 고객센터 : 02-395-0330<br>
-                        ⓒ Seoul Auction Corp.
-                    </p>
-                    <p>
-                        (주)서울옥션이 매도인인 경우를 제외하고, 사이트상의 모든 상품 및 거래에 대하여 (주)서울옥션은 통신판매중개자이며 통신판매의 당사자가 아닙니다.<br>
-                        따라서 (주)서울옥션은 상품·거래정보 및 거래에 대하여 책임을 지지 않습니다.
-                    </p>
-                </section>
-            </div>
-        </footer>
+        <jsp:include page="../../include/en/footer.jsp" flush="false"/>
         <!-- //footer -->
 
         <!-- stykey -->
@@ -452,5 +409,13 @@
         alert('실패:'+ error);
     });
 </script>
+<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+<!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
+<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 </body>
 </html>
