@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <jsp:include page="../../common/common.jsp" flush="false"/>
-<<jsp:include page="../../common/commonCss.jsp" flush="false"/>
+<jsp:include page="../../common/commonCss.jsp" flush="false"/>
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
     <div class="header_beltbox on"> <!--class="on" block-->
         <div class="wrap belttxtbox wrap_padding">
