@@ -1,3 +1,10 @@
+window.onload = function(){
+
+    //띠배너
+    loadBeltBanner();
+
+}
+
 function Request(){
 	this.getParameter = function(param){
     	var requestParam ="";
@@ -42,6 +49,37 @@ function logout(loginId){
 // 세션로그아웃
 function sessionLogout() {
 	window.location.href = "/processLogout";
+}
+
+
+
+
+//띠배너 호출
+const loadBeltBanner = async () => {
+
+    await fetch('/api/main/beltBanners')
+        .then(res => res.json())
+        .then(res => {
+            if (res.success) {
+                console.log(res);
+                const bannerList = res.data;
+
+                const resultDom = bannerList.map(item => {
+                    console.log(item);
+                    const content = JSON.parse(item.content);
+
+                    document.querySelector(".swiper-slide.platform-bg").style.backgroundColor = content.backgroundColor;
+
+                    return `<div class="swiper-slide platform-bg">
+                                <a href="${content.url}" class="platform-img" >
+                                    <img src="${item.cdn_url}" />
+                                </a>
+                            </div>`;
+                });
+
+                document.querySelector(".platform .swiper-wrapper").insertAdjacentHTML('beforeend', resultDom);
+        }
+    });
 }
 
 

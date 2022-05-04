@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+
 <body>
 <%--<jsp:include page="../../include/ko/header.jsp" />--%>
 
@@ -18,12 +19,6 @@
                     <img src="https://seoulauction-public.s3.ap-northeast-2.amazonaws.com/resources/images/banner/MidBanner_1204x180.png" />
                 </a>
             </div>
-<%--            <div class="swiper-slide platform-bg">--%>
-<%--                <a href="#" class="platform-img"></a>--%>
-<%--            </div>--%>
-<%--            <div class="swiper-slide platform-bg">--%>
-<%--                <a href="#" class="platform-img"></a>--%>
-<%--            </div>--%>
         </div>
         <!-- Add Arrows -->
         <div class="swiper-button-next platformBtn-right pc-ver"></div>
@@ -33,26 +28,36 @@
     <div class="swiper-pagination platform-pagination m-ver"></div>
 </section>
 
+<%--<script src="/js/main/main.js" type="text/javascript"></script>--%>
+<%--<jsp:include page="../../include/ko/footer.jsp" />--%>
 
-<jsp:include page="../../include/ko/footer.jsp" />
+<%--<script>--%>
+<%--    window.onload = function(){--%>
+<%--        loadBeltBanner();--%>
+<%--    }--%>
 
-<script>
-    window.onload = function(){
-        console.log("onload");
-        loadBeltBanner();
-    }
+<%--    const loadBeltBanner = async () => {--%>
 
-    const loadBeltBanner = async () => {
+<%--        await fetch('/api/main/beltBanners')--%>
+<%--            .then(res => res.json())--%>
+<%--            .then(res => {--%>
+<%--                if (res.success) {--%>
+<%--                    console.log(res);--%>
+<%--                    const bannerList = res.data();--%>
 
-        await fetch('/api/main/beltBanners')
-            .then(res => res.json())
-            .then(res => {
-                if (res.success) {
-                    console.log(res);
+<%--                    bannerList.map(item => {--%>
+<%--                        return `<div class="swiper-slide platform-bg">--%>
+<%--                                    <a href="#" class="platform-img" >--%>
+<%--                                        <img src="https://seoulauction-public.s3.ap-northeast-2.amazonaws.com/resources/images/banner/MidBanner_1204x180.png" />--%>
+<%--                                    </a>--%>
+<%--                                </div>`--%>
+<%--                    })--%>
 
-                }
-            });
-    }
-</script>
+
+
+<%--                }--%>
+<%--            });--%>
+<%--    }--%>
+<%--</script>--%>
 </body>
 </html>
