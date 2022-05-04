@@ -1,8 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <jsp:include page="../../common/common.jsp" flush="false"/>
 <jsp:include page="../../common/commonCss.jsp" flush="false"/>
+
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
     <div class="header_beltbox on"> <!--class="on" block-->
         <div class="wrap belttxtbox wrap_padding">
@@ -31,10 +37,10 @@
                 </ul>
             </li> <!-- login -->
             <sec:authorize access="isAnonymous()">
-                <li class="utility-login"><a href="/customer/login">로그인</a></li> <!-- !login -->
+                <li class="utility-login"><a href="/login">로그인</a></li> <!-- !login -->
             </sec:authorize>
             <sec:authorize access="isAuthenticated()">
-                <li class="utility-login"><a href="/processLogout">로그 아웃</a></li> <!-- !login -->
+                <li class="utility-login"><a onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')">로그아웃</a></li> <!-- !login -->
             </sec:authorize>
         </ul>
     </div>

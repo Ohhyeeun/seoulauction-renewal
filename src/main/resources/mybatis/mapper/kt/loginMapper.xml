@@ -2,11 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seoulauction.renewal.mapper.kt.LoginMapper">
 
-	<select id="getCustomerByLoginId" parameterType="CommonMap" resultType="CommonMap">
-		select * from CUST 
+	<select id="selectCustByLoginId" parameterType="CommonMap" resultType="CommonMap">
+		select *
+<!-- 			,IF(Date_format(Date_add(passwd_mod_dt, interval 180 day), '%y-%m-%d') <![CDATA[<=]]> Date_format(Now(), '%y-%m-%d'), 'Y', 'N') PASSWD_MOD_NECESSARY_YN Y시 180일 경과로 비밀번호변경필요   -->
+		from CUST 
 		where LOGIN_ID = #{login_id} <!-- index -->
 		and JOIN_KIND_CD = 'online' and IFNULL(DEL_YN, 'N') = 'N' 
-		and STAT_CD = #{stat_cd} 
+		and STAT_CD <![CDATA[<>]]> 'leave' 
 	</select>
 	
 	<insert id="insertConnHist" parameterType="CommonMap">
@@ -15,9 +17,23 @@
 		VALUES (NOW(), #{ip}, #{user_kind_cd},  #{user_no})
     </insert>
     
-    <select id="getCustomerByCustNo" parameterType="CommonMap" resultType="CommonMap">
-		select * from CUST 
-		where CUST_NO = #{cust_no}
+    <select id="selectCustByCustNo" parameterType="CommonMap" resultType="CommonMap">
+		select CU.*
+			, (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "정회원" ELSE "준회원" END 
+			   from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_NM
+			, (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "Y" ELSE "N" END 
+			    from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_YN
+			, (select CONCAT('[', GROUP_CONCAT('"', PW.PUSH_WAY_CD, '"'), ']')  
+				from CUST_PUSH_WAY PW where PW.CUST_NO = CU.CUST_NO) PUSH_WAY_JSON
+			, (select CONCAT('[', GROUP_CONCAT('"', IA.INTE_AREA_CD, '"'), ']') 
+				from CUST_INTE_AREA IA where IA.CUST_NO = CU.CUST_NO) INTE_AREA_JSON
+<!-- 			, CS.* -->
+		from CUST CU
+<!-- 		left outer join CUST_SOCIAL CS -->
+<!-- 		on CU.CUST_NO = CS.CUST_NO -->
+		where JOIN_KIND_CD = 'online'
+		and CU.STAT_CD = 'normal' 
+		and CU.CUST_NO = #{cust_no}
 	</select>
     
 </mapper>

@@ -8,6 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
@@ -28,13 +30,13 @@ public class RememberMeService implements UserDetailsService {
 		log.info("RememberMeService custNo : {}" , custNo);
 		CommonMap paramMap = new CommonMap();
         paramMap.put("cust_no", custNo);
-		CommonMap resultMap = loginMapper.getCustomerByCustNo(paramMap);
+		CommonMap resultMap = loginMapper.selectCustByCustNo(paramMap);
 		
 		if(resultMap == null || resultMap.isEmpty()){
 			throw new BadCredentialsException("User not found.");
 	    }
 		
-		List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
+        List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
         roles.add(new SimpleGrantedAuthority("ROLE_FRONT_USER"));
 
 		return SAUserDetails.builder()

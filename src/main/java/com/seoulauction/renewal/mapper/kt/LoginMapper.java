@@ -6,9 +6,9 @@ import com.seoulauction.renewal.domain.CommonMap;
 
 @Mapper
 public interface LoginMapper {
-    CommonMap getCustomerByLoginId(CommonMap paramMap);
+    CommonMap selectCustByLoginId(CommonMap paramMap);
 
     int insertConnHist(CommonMap paramMap);
     
-    CommonMap getCustomerByCustNo(CommonMap paramMap);
+    CommonMap selectCustByCustNo(CommonMap paramMap);
 }
