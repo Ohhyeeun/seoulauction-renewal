@@ -54,7 +54,7 @@
                                             <div class="image-area">
                                                 <figure class="img-ratio">
                                                     <div class="img-align">
-                                                        <img src="/images/mobile//main/newsletter_55.jpg" alt="newsletter. Jan. Vol.55">
+                                                        <img src="/images/mobile/main/newsletter_55.jpg" alt="newsletter. Jan. Vol.55">
                                                     </div>
                                                 </figure>
                                             </div>
@@ -70,7 +70,7 @@
                                             <div class="image-area">
                                                 <figure class="img-ratio">
                                                     <div class="img-align">
-                                                        <img src="/images/mobile//main/newsletter_54.jpg" alt="newsletter. Jan. Vol.54">
+                                                        <img src="/images/mobile/main/newsletter_54.jpg" alt="newsletter. Jan. Vol.54">
                                                     </div>
                                                 </figure>
                                             </div>
@@ -86,7 +86,7 @@
                                             <div class="image-area">
                                                 <figure class="img-ratio">
                                                     <div class="img-align">
-                                                        <img src="/images/mobile//main/newsletter_53.jpg" alt="newsletter. Jan. Vol.53">
+                                                        <img src="/images/mobile/main/newsletter_53.jpg" alt="newsletter. Jan. Vol.53">
                                                     </div>
                                                 </figure>
                                             </div>
@@ -102,7 +102,7 @@
                                             <div class="image-area">
                                                 <figure class="img-ratio">
                                                     <div class="img-align">
-                                                        <img src="/images/mobile//main/newsletter_52.jpg" alt="newsletter. Jan. Vol.52">
+                                                        <img src="/images/mobile/main/newsletter_52.jpg" alt="newsletter. Jan. Vol.52">
                                                     </div>
                                                 </figure>
                                             </div>
@@ -118,7 +118,7 @@
                                             <div class="image-area">
                                                 <figure class="img-ratio">
                                                     <div class="img-align">
-                                                        <img src="/images/mobile//main/newsletter_51.jpg" alt="newsletter. Jan. Vol.51">
+                                                        <img src="/images/mobile/main/newsletter_51.jpg" alt="newsletter. Jan. Vol.51">
                                                     </div>
                                                 </figure>
                                             </div>
@@ -134,7 +134,7 @@
                                             <div class="image-area">
                                                 <figure class="img-ratio">
                                                     <div class="img-align">
-                                                        <img src="/images/mobile//main/newsletter_49.jpg" alt="newsletter. Jan. Vol.49">
+                                                        <img src="/images/mobile/main/newsletter_49.jpg" alt="newsletter. Jan. Vol.49">
                                                     </div>
                                                 </figure>
                                             </div>
@@ -150,7 +150,7 @@
                                             <div class="image-area">
                                                 <figure class="img-ratio">
                                                     <div class="img-align">
-                                                        <img src="/images/mobile//main/newsletter_48.jpg" alt="newsletter. Jan. Vol.48">
+                                                        <img src="/images/mobile/main/newsletter_48.jpg" alt="newsletter. Jan. Vol.48">
                                                     </div>
                                                 </figure>
                                             </div>
@@ -166,7 +166,7 @@
                                             <div class="image-area">
                                                 <figure class="img-ratio">
                                                     <div class="img-align">
-                                                        <img src="/images/mobile//main/newsletter_47.jpg" alt="newsletter. Jan. Vol.47">
+                                                        <img src="/images/mobile/main/newsletter_47.jpg" alt="newsletter. Jan. Vol.47">
                                                     </div>
                                                 </figure>
                                             </div>
@@ -185,11 +185,8 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </section>
-
             </div>
         </div>
         <!-- //container -->
