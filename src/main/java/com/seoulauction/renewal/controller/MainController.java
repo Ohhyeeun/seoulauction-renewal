@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
@@ -28,4 +29,13 @@ public class MainController {
         return "guide_list";
     }
 
+    @GetMapping("/newsletter" )
+    public String newsletter(Locale locale) {
+        return SAConst.getUrl(SERVICE_MAIN , "newsletter" , locale);
+    }
+
+    @GetMapping("/newsletter/{id}" )
+    public String newsletterView(Locale locale) {
+        return SAConst.getUrl(SERVICE_MAIN , "newsletterView" , locale);
+    }
 }

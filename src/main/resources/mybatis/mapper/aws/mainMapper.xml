@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seoulauction.renewal.mapper.aws.MainMapper">
+    <select id="selectNewsletters" parameterType="CommonMap" resultType="CommonMap">
+        SELECT *
+        FROM content_newsletter
+        LIMIT #{offset} , #{size}
+    </select>
+
+    <select id="selectNewsletterById" parameterType="CommonMap" resultType="CommonMap">
+        SELECT *
+        FROM content_newsletter
+        WHERE id = #{id}
+    </select>
+</mapper>
