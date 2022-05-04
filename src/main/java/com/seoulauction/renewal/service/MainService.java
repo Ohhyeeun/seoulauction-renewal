@@ -1,16 +1,18 @@
 package com.seoulauction.renewal.service;
 
-import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.exception.SAException;
-import com.seoulauction.renewal.mapper.aws.MainMapper;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
+
+import org.springframework.stereotype.Service;
+
+import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.exception.SAException;
+import com.seoulauction.renewal.mapper.aws.MainMapper;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Service
 @RequiredArgsConstructor
@@ -74,5 +76,8 @@ public class MainService {
 
         return resultMapList;
     }
-}
 
+    public List<CommonMap> selectUpcomings(){
+        return mainMapper.selectUpcomings();
+    }
+}
