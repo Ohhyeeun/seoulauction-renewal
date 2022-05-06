@@ -1,8 +1,13 @@
 package com.seoulauction.renewal.service;
 
 import com.seoulauction.renewal.domain.CommonMap;
+<<<<<<< HEAD
 import com.seoulauction.renewal.mapper.aws.AWSTestMapper;
 import com.seoulauction.renewal.mapper.kt.KTTestMapper;
+=======
+import com.seoulauction.renewal.exception.SAException;
+import com.seoulauction.renewal.mapper.aws.MainMapper;
+>>>>>>> develop
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +17,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MainService {
 
-    private final KTTestMapper ktTestMapper;
+    private final MainMapper mainMapper;
 
-    public void
+    public List<CommonMap> selectNewsletters(CommonMap map) {
+        return mainMapper.selectNewsletters(map);
+    }
 
+    public List<CommonMap> selectNewsletterById(CommonMap map) {
+        return mainMapper.selectNewsletterById(map);
+    }
+
+    public void insertNewsletter(CommonMap map){
+
+        CommonMap checkMap = mainMapper.selectNewsletterForOverlapCheck(map);
+
+        if(checkMap != null){
+            throw new SAException("해당 정보로 이미 구독한 정보가 있습니다.");
+        }
+
+        mainMapper.insertNewsletter(map);
+    }
 }
+

@@ -153,6 +153,7 @@ $(function(){
         loop: true,
     });
 
+
     /* video */
     const videoSwiper = new Swiper(".video-swiper", {
         slidesPerView: 6,
@@ -190,61 +191,39 @@ $(function(){
     $('.video-thumbHover').mouseleave(function(){
         $(this).removeClass('on');
     });
-
-    /*뉴스레터 구독하기 팝업 */
-    $(document).ready(function(){
-        $('#subscript_check').click(function(){
-            const subscript = $('#subscript_check').prop('checked');
-            const newsAgree = $('#newsAgree').prop('checked');
-
-            if(subscript) {
-                console.log(subscript);
-                $('#subscript_check').prop('checked',true);
-                $('.subscriptBtn').prop('disabled',false);
-
-                /*구독하기*/
-                $('.subscriptBtn').click(function(){
-                    $('.newsletter-blackBg').fadeIn('fast');
-                    $('.newsAgree-close').click(function(){  /*닫기 버튼 */
-                        $('.newsletter-blackBg').fadeOut('fast');
-                    });
-                });
-            } else {
-                console.log(newsAgree);
-                $('#subscript_check').prop('checked',false);
-                $('.subscriptBtn').prop('disabled',true);
-            };
-        });
-
-        /* 뉴스레터 개인정보 동의 팝업 */
-        $('#newsAgree').click(function(){
-            const subscript = $('#subscript_check').prop('checked');
-            const newsAgree = $('#newsAgree').prop('checked');
-
-
-            if(newsAgree){
-                $('#newsAgree').prop('checked',true);
-                $('.newsAgree-btn').prop('disabled',false);
-                $('.newsAgree-comfirmbtn').prop('disabled',false);
-
-                $('.newsAgree-btn').click(function(){
-                    $('.newsAgree-comfirmbtn').click(function(){
-                        $('.newsletter-blackBg').fadeOut('fast');
-                    });
-                    $('.newsletter-terms').hide();
-                    $('.newsletter-comfirmbox').fadeIn(400);
-                });
-            } else {
-                $('#newsAgree').prop('checked',false);
-                $('.newsAgree-btn').prop('disabled',true);
-            }
-        });
-    });
-
     /* video 팝업 */
+
+
 
 });
 
 
+/*뉴스레터 구독하기 팝업 */
+$(document).ready(function() {
+    $('#subscript_check').click(function () {
+        const subscript = $('#subscript_check').prop('checked');
+        const newsAgree = $('#newsAgree').prop('checked');
 
+        if (subscript) {
+            console.log(subscript);
+            $('#subscript_check').prop('checked', true);
+            $('.subscriptBtn').prop('disabled', false);
+
+            /*구독하기*/
+            $('.subscriptBtn').click(function () {
+                /*$('.newsletter-comfirmbox').fadeIn('fast');*/
+                $('.newsletter-blackBg').fadeIn('fast');
+                $('.newsAgree-comfirmbtn').click(function () {  /*닫기 버튼 */
+                    $('.newsletter-comfirmbox').fadeOut('fast');
+                    $('.newsletter-blackBg').fadeOut('fast');
+                });
+            });
+        } else {
+            console.log(newsAgree);
+            $('#subscript_check').prop('checked', false);
+            $('.subscriptBtn').prop('disabled', true);
+        }
+        ;
+    });
+});
 

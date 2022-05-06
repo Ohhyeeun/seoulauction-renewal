@@ -137,7 +137,7 @@ $(function(){
         });
         $('.beltclose-btn').click(function(){
             /*$('.main-contents').css('top','56px');*/
-            $('.main-contents').css('margin-top','58px');
+            $('.main-contents').css('margin-top','58px');  
         });
     }
 
