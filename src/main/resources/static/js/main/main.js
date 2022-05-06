@@ -1,76 +1,13 @@
-window.onload = function(){
-
-    //띠배너
-    loadBeltBanner();
-
-}
-
-/* platform */
-const platFormSwiper = new Swiper('.platform-swiper', {
-    autoplay: {
-        delay: 10000000,
-    },
-    slidesPerView: 1,
-    spaceBetween: 10,
-    keyboard: {
-        enabled: true,
-    },
-    pagination: {
-        el: '.platform-pagination',
-        clickable: true,
-    },
-    navigation: {
-        nextEl: '.platformBtn-right',
-        prevEl: '.platformBtn-left',
-    },
-    loop: true,
-});
-
-const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
-
-//띠배너 바인딩
-async function loadBeltBanner() {
-
-    const slideArray = [];
-
-    await fetch('/api/main/beltBanners')
-        // await sleep(2000);
-        .then(res => res.json())
-        .then(res => {
-            if (res.success) {
-                console.log(res);딩
-                const bannerList = res.data;
-                bannerList.map(item => {
-                    const content = JSON.parse(item.content);
-                    const returnDom =  `<div class="swiper-slide platform-bg" style="background-color: ${content.backgroundColor} ">
-                                            <a href="${content.url_ko}" target="_blank" class="platform-img" style="background-image: url('${content.image_pc_ko_url}') " >
-<!--                                            추후 img 태그로 변경 필요-->
-<!--                                                <img src-set="${item.cdn_url}" onerror="" alt=""/> -->
-                                            </a>
-                                        </div>`;
-
-                    slideArray.push(returnDom);
-                });
-
-                platFormSwiper.appendSlide(slideArray);
-
-            }
-        });
-}
-
-
-
-
 function Request(){
 	this.getParameter = function(param){
     	var requestParam ="";
-        var url = unescape(location.href); 
-        var paramArr = (url.substring(url.indexOf("?")+1,url.length)).split("&"); 
-        
+        var url = unescape(location.href);
+        var paramArr = (url.substring(url.indexOf("?")+1,url.length)).split("&");
+
         for(var i = 0 ; i < paramArr.length ; i++){
            var temp = paramArr[i].split("=");
            if(temp[0].toUpperCase() == param.toUpperCase()){
-             requestParam = paramArr[i].split("=")[1]; 
+             requestParam = paramArr[i].split("=")[1];
              break;
            }
         }
@@ -101,11 +38,77 @@ function logout(loginId){
 	//TODO 소셜타입에 따른 SNS로그아웃처리
 	sessionLogout();
 }
-	
+
 // 세션로그아웃
 function sessionLogout() {
 	window.location.href = "/processLogout";
 }
+
+
+const locale = request.getParameter("lang");
+
+window.onload = function(){
+    //띠배너
+    loadBeltBanner();
+
+}
+
+/* platform */
+const platFormSwiper = new Swiper('.platform-swiper', {
+    autoplay: {
+        delay: 10000000,
+    },
+    slidesPerView: 1,
+    spaceBetween: 10,
+    keyboard: {
+        enabled: true,
+    },
+    pagination: {
+        el: '.platform-pagination',
+        clickable: true,
+    },
+    navigation: {
+        nextEl: '.platformBtn-right',
+        prevEl: '.platformBtn-left',
+    },
+    loop: true,
+});
+
+const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
+
+//띠배너 바인딩
+async function loadBeltBanner() {
+    const slideArray = [];
+
+    await fetch('/api/main/beltBanners')
+        // await sleep(2000);
+        .then(res => res.json())
+        .then(res => {
+            if (res.success) {
+                console.log(res);
+                const bannerList = res.data;
+                bannerList.map(item => {
+                    const content = JSON.parse(item.content);
+                    console.log(content);
+                    const returnDom =  `<div class="swiper-slide platform-bg" style="background-color: ${content.backgroundColor} ">
+                                            <a href="${ locale === 'ko' ? content.url_ko : content.url_en }" target="_blank" class="platform-img" style="background-image: url('${ locale === 'ko' ? content.image_pc_ko_url : content.image_pc_en_url }') " >
+<!--                                            추후 img 태그로 변경 필요-->
+<!--                                                <img src-set="${item.cdn_url}" onerror="" alt=""/> -->
+                                            </a>
+                                        </div>`;
+
+                    slideArray.push(returnDom);
+                });
+
+                platFormSwiper.appendSlide(slideArray);
+
+            }
+        });
+}
+
+
+
+
 
 
 

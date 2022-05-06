@@ -1208,7 +1208,7 @@
         </div>
     </section>
 
-    <jsp:include page="beltBanner.jsp" />
+    <jsp:include page="../include/beltBanner.jsp" />
 
     <article class="video">
         <h1 class="main-sectiontit video-tit">
