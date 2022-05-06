@@ -44,7 +44,7 @@ function sessionLogout() {
 	window.location.href = "/processLogout";
 }
 
-
+/************* 화면 작업 ***************/
 const locale = request.getParameter("lang");
 
 window.onload = function(){
@@ -89,7 +89,6 @@ async function loadBeltBanner() {
                 const bannerList = res.data;
                 bannerList.map(item => {
                     const content = JSON.parse(item.content);
-                    console.log(content);
                     const returnDom =  `<div class="swiper-slide platform-bg" style="background-color: ${content.backgroundColor} ">
                                             <a href="${ locale === 'ko' ? content.url_ko : content.url_en }" target="_blank" class="platform-img" style="background-image: url('${ locale === 'ko' ? content.image_pc_ko_url : content.image_pc_en_url }') " >
 <!--                                            추후 img 태그로 변경 필요-->
@@ -108,14 +107,6 @@ async function loadBeltBanner() {
 
 
 
-
-
-
-
-
-
-
-/************* 화면 작업 ***************/
 $(function(){
     console.log(window.innerWidth);
 
