@@ -1208,26 +1208,7 @@
         </div>
     </section>
 
-    <section class="platform">
-        <div class="swiper-container platform-swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide platform-bg">
-                    <a href="#" class="platform-img"></a>
-                </div>
-                <div class="swiper-slide platform-bg">
-                    <a href="#" class="platform-img"></a>
-                </div>
-                <div class="swiper-slide platform-bg">
-                    <a href="#" class="platform-img"></a>
-                </div>
-            </div>
-            <!-- Add Arrows -->
-            <div class="swiper-button-next platformBtn-right pc-ver"></div>
-            <div class="swiper-button-prev platformBtn-left pc-ver"></div>
-        </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination platform-pagination m-ver"></div>
-    </section>
+    <jsp:include page="../include/beltBanner.jsp" />
 
     <article class="video">
         <h1 class="main-sectiontit video-tit">
