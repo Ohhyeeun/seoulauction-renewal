@@ -5,13 +5,16 @@ import com.seoulauction.renewal.component.SlackSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
 
 import static com.seoulauction.renewal.common.SAConst.SERVICE_MAIN;
+import static com.seoulauction.renewal.common.SAConst.SERVICE_MAIN_POPUP;;
 
 @Controller
 @Log4j2
@@ -37,5 +40,10 @@ public class MainController {
     @GetMapping("/newsletter/{id}" )
     public String newsletterView(Locale locale) {
         return SAConst.getUrl(SERVICE_MAIN , "newsletterView" , locale);
+    }
+    
+    @GetMapping("/maxSession" )
+    public String maxSession(Locale locale) {
+        return SAConst.getUrl(SERVICE_MAIN , "popup/maxSession" , locale);
     }
 }
