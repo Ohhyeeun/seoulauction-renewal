@@ -15,4 +15,12 @@ public interface MypageMapper {
     int selectAcademyCnt(CommonMap commonMap);
  
     CommonMap selectAcademyPayInfo(CommonMap commonMap);
+
+    List<CommonMap> selectPayListByCustNo(CommonMap commonMap);
+
+    List<CommonMap> selectSaleListByCustNo(CommonMap commonMap);
+
+    CommonMap selectPayCountByCustNo(CommonMap commonMap);
+
+    CommonMap selectCustomerByCustNo(CommonMap commonMap);
 }

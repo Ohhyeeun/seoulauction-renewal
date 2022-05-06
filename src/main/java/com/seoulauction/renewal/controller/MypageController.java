@@ -36,4 +36,11 @@ public class MypageController {
     public String academyPayPopup(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "popup/academyPayPopup" , locale);
     }
+    
+    /*결제목록*/
+    @GetMapping("/onlinePayList")
+    public String onlinePayList(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "onlinePayList" , locale);
+    }
+    
 }
