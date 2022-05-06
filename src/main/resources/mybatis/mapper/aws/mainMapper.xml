@@ -3,13 +3,18 @@
 <mapper namespace="com.seoulauction.renewal.mapper.aws.MainMapper">
 
     <select id="selectBeltBanners" parameterType="CommonMap" resultType="CommonMap">
-        select mb.*, s3.id as s3id, s3.cdn_url
+        <![CDATA[
+        select mb.*
+--              , s3.id as s3id, s3.cdn_url
         from main_banner mb
-             join s3file_data s3fd on mb.id = s3fd.row_id and s3fd.group_name = 'main_banner'
-             join s3file s3 on s3fd.s3file_id = s3.id
+--              join s3file_data s3fd on mb.id = s3fd.row_id and s3fd.group_name = 'main_banner'
+--              join s3file s3 on s3fd.s3file_id = s3.id
         where banner_type = 'middle-rolling'
             and mb.status = 'A'
+            and mb.start_at <= now()
+            and mb.end_at >= now()
         order by mb.sort desc;
+        ]]>
     </select>
 
     <select id="selectNewsletters" parameterType="CommonMap" resultType="CommonMap">

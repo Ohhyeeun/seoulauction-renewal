@@ -5,6 +5,62 @@ window.onload = function(){
 
 }
 
+/* platform */
+const platFormSwiper = new Swiper('.platform-swiper', {
+    autoplay: {
+        delay: 10000000,
+    },
+    slidesPerView: 1,
+    spaceBetween: 10,
+    keyboard: {
+        enabled: true,
+    },
+    pagination: {
+        el: '.platform-pagination',
+        clickable: true,
+    },
+    navigation: {
+        nextEl: '.platformBtn-right',
+        prevEl: '.platformBtn-left',
+    },
+    loop: true,
+});
+
+const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
+
+//띠배너 바인딩
+async function loadBeltBanner() {
+
+    const slideArray = [];
+
+    await fetch('/api/main/beltBanners')
+        // await sleep(2000);
+        .then(res => res.json())
+        .then(res => {
+            if (res.success) {
+                console.log(res);딩
+                const bannerList = res.data;
+                bannerList.map(item => {
+                    const content = JSON.parse(item.content);
+                    const returnDom =  `<div class="swiper-slide platform-bg" style="background-color: ${content.backgroundColor} ">
+                                            <a href="${content.url_ko}" target="_blank" class="platform-img" style="background-image: url('${content.image_pc_ko_url}') " >
+<!--                                            추후 img 태그로 변경 필요-->
+<!--                                                <img src-set="${item.cdn_url}" onerror="" alt=""/> -->
+                                            </a>
+                                        </div>`;
+
+                    slideArray.push(returnDom);
+                });
+
+                platFormSwiper.appendSlide(slideArray);
+
+            }
+        });
+}
+
+
+
+
 function Request(){
 	this.getParameter = function(param){
     	var requestParam ="";
@@ -54,33 +110,6 @@ function sessionLogout() {
 
 
 
-//띠배너 호출
-const loadBeltBanner = async () => {
-
-    await fetch('/api/main/beltBanners')
-        .then(res => res.json())
-        .then(res => {
-            if (res.success) {
-                console.log(res);
-                const bannerList = res.data;
-
-                const resultDom = bannerList.map(item => {
-                    console.log(item);
-                    const content = JSON.parse(item.content);
-
-                    document.querySelector(".swiper-slide.platform-bg").style.backgroundColor = content.backgroundColor;
-
-                    return `<div class="swiper-slide platform-bg">
-                                <a href="${content.url}" class="platform-img" >
-                                    <img src="${item.cdn_url}" />
-                                </a>
-                            </div>`;
-                });
-
-                document.querySelector(".platform .swiper-wrapper").insertAdjacentHTML('beforeend', resultDom);
-        }
-    });
-}
 
 
 /************* 화면 작업 ***************/
@@ -218,26 +247,8 @@ $(function(){
         }
     });
 
-    /* platform */
-    const platFormSwiper = new Swiper('.platform-swiper', {
-        autoplay: {
-            delay: 10000000,
-        },
-        slidesPerView: 1,
-        spaceBetween: 10,
-        keyboard: {
-            enabled: true,
-        },
-        pagination: {
-            el: '.platform-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.platformBtn-right',
-            prevEl: '.platformBtn-left',
-        },
-        loop: true,
-    });
+
+
 
     /* video */
     const videoSwiper = new Swiper(".video-swiper", {
