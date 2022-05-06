@@ -32,6 +32,27 @@ app.controller('academyListCtl', function($scope, consts, common, ngDialog) {
 });
 
 
+app.controller('academyPayHisCtl', function($scope, consts, input, common) {	
+	$scope.parent = input.parent;
+
+	$scope.close = function(modal){
+		$scope.parent.modal.close();
+	}
+
+	var aca_pay_sum = input.academy.ACADEMY_PAY;
+	var dis_aca_pay = parseInt(aca_pay_sum) * 0.05;
+
+	$scope.academyPay = comma(input.academy.ACADEMY_PAY);
+	$scope.academyPayDiscount = comma(dis_aca_pay);
+	$scope.academyPayTotal = comma(aca_pay_sum - dis_aca_pay);
+
+
+	/*		 $d = {"academy_no" : input.academy.ACADEMY_NO}
+			common.callAPI('/api/mypage/academyPayInfo', $d, function(data, status){
+				console.log(data);
+			}); */
+});
+	
 comma = function(str) {
 	str = String(str);
 	return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
