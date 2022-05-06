@@ -47,4 +47,14 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectAcademyList(commonMap)));
 	}
 
+	/* 아카데미 결제 정보 */
+	@RequestMapping(value = "/academies/{academyNo}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<RestResponse> academyPayInfo(@PathVariable("academyNo") String academyNo, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		CommonMap commonMap = new CommonMap();
+		commonMap.put("academy_no", academyNo);
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectAcademyPayInfo(commonMap)));
+	}
+
 }

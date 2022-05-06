@@ -14,4 +14,5 @@ public interface MypageMapper {
     
     int selectAcademyCnt(CommonMap commonMap);
  
+    CommonMap selectAcademyPayInfo(CommonMap commonMap);
 }

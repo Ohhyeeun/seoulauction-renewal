@@ -33,4 +33,8 @@ public class MypageService {
     	map.put("cnt", mypageMapper.selectAcademyCnt(commonMap));
         return map;
     }
+    
+    public CommonMap selectAcademyPayInfo(CommonMap commonMap){  
+    	return mypageMapper.selectAcademyPayInfo(commonMap);
+    }
 }

@@ -26,4 +26,16 @@
 		WHERE A.CUST_NO = B.CUST_NO AND B.ACADEMY_NO = C.ACADEMY_NO AND A.CUST_NO = #{cust_no} AND B.DEL_YN = 'N'
 	</select>
 	
+	<!-- 아카데미 결제정보 -->
+	<select id="selectAcademyPayInfo" resultType="CommonMap">
+	select 		
+		ACADEMY_PAY , 
+		ACADEMY_PAY1 ,
+		ACADEMY_PAY2 ,
+		ACADEMY_PAY3 
+	from
+		ACADEMY 
+		where ACADEMY_NO = #{academy_no}
+	</select>
+	
 </mapper>
