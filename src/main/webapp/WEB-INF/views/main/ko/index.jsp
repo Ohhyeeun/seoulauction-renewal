@@ -12,11 +12,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Seoul Auction</title>
     <link rel="stylesheet" href="/css/main.css" type="text/css" />
+    <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+
 </head>
 <body>
-<jsp:include page="../../include/ko/header.jsp" flush="false"/>
-
-
 
 <section class="main-contents footer-bottom footer-bottom30">
     <section class="visual visual-contents">
