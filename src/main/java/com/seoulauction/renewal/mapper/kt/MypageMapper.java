@@ -1,0 +1,17 @@
+package com.seoulauction.renewal.mapper.kt;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.seoulauction.renewal.domain.CommonMap;
+
+@Mapper
+public interface MypageMapper {
+	
+    List<CommonMap> selectAcademyList(CommonMap commonMap);
+    
+    int selectAcademyCnt(CommonMap commonMap);
+ 
+}
