@@ -14,6 +14,11 @@ public class MainService {
 
     private final MainMapper mainMapper;
 
+
+    public List<CommonMap> selectTopNotice() {
+        return mainMapper.selectTopNotice();
+    }
+
     public List<CommonMap> selectBeltBanners() {
         return mainMapper.selectBeltBanners();
     }

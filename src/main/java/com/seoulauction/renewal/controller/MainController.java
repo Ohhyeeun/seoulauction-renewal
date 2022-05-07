@@ -43,4 +43,6 @@ public class MainController {
     public String beltBanner(Locale locale) {
         return SAConst.getUrl(SERVICE_MAIN , "beltBanner" , locale);
     }
+
+
 }
