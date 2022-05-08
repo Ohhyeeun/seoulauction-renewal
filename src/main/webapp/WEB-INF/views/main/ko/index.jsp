@@ -12,11 +12,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Seoul Auction</title>
     <link rel="stylesheet" href="/css/main.css" type="text/css" />
+    <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+
 </head>
 <body>
-<jsp:include page="../../include/ko/header.jsp" flush="false"/>
-
-
 
 <section class="main-contents footer-bottom footer-bottom30">
     <section class="visual visual-contents">
@@ -1209,26 +1208,7 @@
         </div>
     </section>
 
-    <section class="platform">
-        <div class="swiper-container platform-swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide platform-bg">
-                    <a href="#" class="platform-img"></a>
-                </div>
-                <div class="swiper-slide platform-bg">
-                    <a href="#" class="platform-img"></a>
-                </div>
-                <div class="swiper-slide platform-bg">
-                    <a href="#" class="platform-img"></a>
-                </div>
-            </div>
-            <!-- Add Arrows -->
-            <div class="swiper-button-next platformBtn-right pc-ver"></div>
-            <div class="swiper-button-prev platformBtn-left pc-ver"></div>
-        </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination platform-pagination m-ver"></div>
-    </section>
+    <jsp:include page="../include/beltBanner.jsp" />
 
     <article class="video">
         <h1 class="main-sectiontit video-tit">

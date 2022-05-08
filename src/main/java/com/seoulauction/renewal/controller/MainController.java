@@ -38,4 +38,9 @@ public class MainController {
     public String newsletterView(Locale locale) {
         return SAConst.getUrl(SERVICE_MAIN , "newsletterView" , locale);
     }
+
+    @GetMapping("/beltBanner" )
+    public String beltBanner(Locale locale) {
+        return SAConst.getUrl(SERVICE_MAIN , "beltBanner" , locale);
+    }
 }

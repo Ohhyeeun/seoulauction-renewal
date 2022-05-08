@@ -1,4 +1,4 @@
-/*뉴스레터 */
+/*뉴스레터 신청 관련*/
 $(document).ready(function(){
 
     let subscript = false;

@@ -7,6 +7,7 @@ import com.seoulauction.renewal.service.MainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,6 +16,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/main")
 public class ApiMainController {
     private final MainService mainService;
+
+
+    @RequestMapping(value = "/beltBanners", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> beltBanners(){
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectBeltBanners()));
+    }
 
     @GetMapping(value="/newsletters")
     public ResponseEntity<RestResponse> newsletters(
