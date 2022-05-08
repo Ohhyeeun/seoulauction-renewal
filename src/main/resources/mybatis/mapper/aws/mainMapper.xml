@@ -18,13 +18,16 @@
     </select>
 
     <select id="selectNewsletters" parameterType="CommonMap" resultType="CommonMap">
-        SELECT *
+        SELECT id, title, content, publish_at, status, created_at, updated_at
+            , CASE when created_at >= DATE_ADD(NOW(), INTERVAL -7 DAY) then 'Y' else 'N' end as is_new
         FROM content_newsletter
-        LIMIT #{offset} , #{size}
+        WHERE status = 'A'
+        ORDER BY publish_at desc, created_at desc
     </select>
 
     <select id="selectNewsletterById" parameterType="CommonMap" resultType="CommonMap">
-        SELECT *
+        SELECT id, title, content, publish_at, status, created_at, updated_at
+            , CASE when created_at >= DATE_ADD(NOW(), INTERVAL -7 DAY) then 'Y' else 'N' end as is_new
         FROM content_newsletter
         WHERE id = #{id}
     </select>

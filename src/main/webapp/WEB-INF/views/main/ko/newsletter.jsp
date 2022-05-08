@@ -8,7 +8,7 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html ng-app="myApp">
+<html>
     <link rel="stylesheet" href="/css/common.css" type="text/css" />
     <link rel="stylesheet" href="/css/pages_common_ko.css">
     <!-- header -->
@@ -20,7 +20,7 @@
 
 
         <!-- container -->
-        <div id="container">
+        <div id="container" ng-controller="newsLetterCtl" data-ng-init="loadNewsletter(1)">
             <div id="contents" class="contents">
 
                 <!-- page title -->
@@ -34,137 +34,27 @@
 
 
                 <section class="basis-section last-section news_letter-section">
-                    <div class="section-inner" ng-controller="newsLetterCtl"  data-ng-init="loadNewsletter(1)">
+                    <div class="section-inner">
 
                         <div class="content-panel type_panel-news_list">
 
                             <div class="panel-body">
                                 <ul class="news-list">
-                                    <li>
+                                    <li ng-repeat="newsletter in newsletterList | limitTo:totalDisplayed">
                                         <div class="li-inner">
-                                            <div class="image-area">
-                                                <figure class="img-ratio">
-                                                    <div class="img-align">
-                                                        <img src="/images/mobile/main/newsletter_55.jpg" alt="newsletter. Jan. Vol.55">
-                                                    </div>
-                                                </figure>
-                                            </div>
-                                            <div class="typo-area">
-                                                <div class="title"><span>2022년 3월호(Vol. 55)</span><i class="new">N</i></div>
-                                                <div class="desc"><span>Contemporary Art Sale</span></div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="li-inner">
-                                            <div class="image-area">
-                                                <figure class="img-ratio">
-                                                    <div class="img-align">
-                                                        <img src="/images/mobile/main/newsletter_54.jpg" alt="newsletter. Jan. Vol.54">
-                                                    </div>
-                                                </figure>
-                                            </div>
-                                            <div class="typo-area">
-                                                <div class="title"><span>2022년 2월호(Vol. 54)</span><i class="new">N</i></div>
-                                                <div class="desc"><span>165회 미술품 경매</span></div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="li-inner">
-                                            <div class="image-area">
-                                                <figure class="img-ratio">
-                                                    <div class="img-align">
-                                                        <img src="/images/mobile/main/newsletter_53.jpg" alt="newsletter. Jan. Vol.53">
-                                                    </div>
-                                                </figure>
-                                            </div>
-                                            <div class="typo-area">
-                                                <div class="title"><span>022년 1월호(Vol. 53)</span><i class="new">N</i></div>
-                                                <div class="desc"><span>2022 1월 라이브 경매</span></div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="li-inner">
-                                            <div class="image-area">
-                                                <figure class="img-ratio">
-                                                    <div class="img-align">
-                                                        <img src="/images/mobile/main/newsletter_52.jpg" alt="newsletter. Jan. Vol.52">
-                                                    </div>
-                                                </figure>
-                                            </div>
-                                            <div class="typo-area">
-                                                <div class="title"><span>2021년 12월호(Vol. 52)</span><i class="new">N</i></div>
-                                                <div class="desc"><span>164회 미술품 경매</span></div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="li-inner">
-                                            <div class="image-area">
-                                                <figure class="img-ratio">
-                                                    <div class="img-align">
-                                                        <img src="/images/mobile/main/newsletter_51.jpg" alt="newsletter. Jan. Vol.51">
-                                                    </div>
-                                                </figure>
-                                            </div>
-                                            <div class="typo-area">
-                                                <div class="title"><span>2021년 11월호(Vol. 51)</span><i class="new">N</i></div>
-                                                <div class="desc"><span>Winter Sale</span></div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="li-inner">
-                                            <div class="image-area">
-                                                <figure class="img-ratio">
-                                                    <div class="img-align">
-                                                        <img src="/images/mobile/main/newsletter_49.jpg" alt="newsletter. Jan. Vol.49">
-                                                    </div>
-                                                </figure>
-                                            </div>
-                                            <div class="typo-area">
-                                                <div class="title"><span>2021년 9월호(Vol. 49)</span><i class="new">N</i></div>
-                                                <div class="desc"><span>Autumn Sale</span></div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="li-inner">
-                                            <div class="image-area">
-                                                <figure class="img-ratio">
-                                                    <div class="img-align">
-                                                        <img src="/images/mobile/main/newsletter_48.jpg" alt="newsletter. Jan. Vol.48">
-                                                    </div>
-                                                </figure>
-                                            </div>
-                                            <div class="typo-area">
-                                                <div class="title"><span>2021년 8월호(Vol. 48)</span><i class="new">N</i></div>
-                                                <div class="desc"><span>162회 미술품 경매</span></div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="li-inner">
-                                            <div class="image-area">
-                                                <figure class="img-ratio">
-                                                    <div class="img-align">
-                                                        <img src="/images/mobile/main/newsletter_47.jpg" alt="newsletter. Jan. Vol.47">
-                                                    </div>
-                                                </figure>
-                                            </div>
-                                            <div class="typo-area">
-                                                <div class="title"><span>2021년 7월호(Vol. 47)</span><i class="new">N</i></div>
-                                                <div class="desc"><span>서울옥션 대구경매</span></div>
-                                            </div>
+                                            <a href="/newsletter/{{newsletter.id}}">
+                                                <div class="image-area">
+                                                    <figure class="img-ratio">
+                                                        <div class="img-align">
+                                                            <img src="/images/mobile/main/newsletter_55.jpg" alt="newsletter. Jan. Vol.55">
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                                <div class="typo-area">
+                                                    <div class="title"><span>{{newsletter.content['ko'].newsletter_title}}</span><i class="new" ng-if="newsletter.is_new == 'Y'">N</i></div>
+                                                    <div class="desc"><span>{{newsletter.content['ko'].newsletter_memo}}</span></div>
+                                                </div>
+                                            </a>
                                         </div>
                                     </li>
 
@@ -172,7 +62,7 @@
                             </div>
                             <div class="panel-footer">
                                 <div class="page-set">
-                                    <button class="btn btn_gray_line" type="button"><span>더보기</span></button>
+                                    <button class="btn btn_gray_line" type="button" ng-click="loadMore()" id="moreBtn"><span>더보기</span></button>
                                 </div>
                             </div>
                         </div>
@@ -199,57 +89,33 @@
 </div>
 <script>
 app.value('locale', 'ko');
-//app.requires.push("bw.paging");
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
 app.controller('newsLetterCtl', function($scope, consts, common, locale) {
-
-    console.log('asdfasdfasdf');
-
-    $scope.pageRows = 20;
-    $scope.reqRowCnt = 20;
     $scope.currentPage = 1;
-    $scope.totalCount = 0;
+    $scope.rowPerPages = 4;
     $scope.locale = locale;
-    $scope.date = 202003;
+    $scope.totalDisplayed = $scope.rowPerPages;
 
-    $scope.loadNewsletter = function($page) {
-        $scope.currentPage = $page;
-        alert("1");
+    $scope.loadNewsletter = function() {
+        common.callGetAPI('/api/main/newsletters', {}, function(data, status) {
+            $scope.newsletterList = data.data;
+            console.log( $scope.newsletterList);
+            $scope.newsletterList.map(item => {
+                item.content = JSON.parse(item.content);
+            });
+            $scope.totalCnt = $scope.newsletterList.length;
+            if( ($scope.currentPage+1)*$scope.rowPerPages >= $scope.totalCnt ) {
+                //$("#moreBtn").hide();
+            }
+        });
+
+        $scope.loadMore = function () {
+            $scope.totalDisplayed += 4;
+        };
     }
-
-    var $s = function(data, status) {
-        $scope.newletterList = data["tables"]["NEWLETTER_LIST"]["rows"];
-        console.log($scope.newletterList);
-        $scope.totalCount = data["tables"]["NEWLETTER_CNT"]["rows"][0]["CNT"];
-    };
 
 
 });
-    //const data = { username: 'example' };
-    fetch('/api/main/newsletters', {
-        method: 'GET', // 또는 'PUT'
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        //body: JSON.stringify(data),
-    })
-    .then((response) => response.json())
-    .then((data) => {
-        alert('성공:'+ data);
-    })
-    .catch((error) => {
-        alert('실패:'+ error);
-    });
 </script>
-<%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
-<%--<!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->--%>
-<%--<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
-<%--<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
-<%--<script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>--%>
-
-<%--<script type="text/javascript" src="/js/common.js" type="text/javascript"></script>--%>
-<%--<script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>--%>
-<%--<script src="https://code.angularjs.org/1.5.8/angular.js"></script>--%>
-<%--<script src="/js/angular/app.js"></script>--%>
 </body>
 </html>

@@ -22,7 +22,7 @@ public class MainService {
         return mainMapper.selectNewsletters(map);
     }
 
-    public List<CommonMap> selectNewsletterById(CommonMap map) {
+    public CommonMap selectNewsletterById(CommonMap map) {
         return mainMapper.selectNewsletterById(map);
     }
 

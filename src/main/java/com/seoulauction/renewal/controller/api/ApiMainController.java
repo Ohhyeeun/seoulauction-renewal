@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Log4j2
 @RequiredArgsConstructor
@@ -26,10 +28,15 @@ public class ApiMainController {
     @GetMapping(value="/newsletters")
     public ResponseEntity<RestResponse> newsletters(
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
-            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size) {
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size) {
 
         CommonMap map = new CommonMap();
         map.putPage(page, size);
+
+        /*List<CommonMap> commonMaps = mainService.selectNewsletters(map);
+        commonMaps.forEach(m -> {
+            m.get("created_at")
+        });*/
 
         return ResponseEntity.ok(RestResponse.ok(mainService.selectNewsletters(map)));
     }
