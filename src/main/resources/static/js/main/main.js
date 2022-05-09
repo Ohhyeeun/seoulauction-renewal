@@ -45,15 +45,37 @@ function sessionLogout() {
 }
 
 /************* 화면 작업 ***************/
-const locale = request.getParameter("lang");
+const locale = document.documentElement.lang;
+const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
 
 window.onload = function(){
+
+    //상단텍스트공지
+    loadTopNotice();
+
     //띠배너
     loadBeltBanner();
 
+
+
 }
 
-/* platform */
+// 상단텍스트공지
+async function loadTopNotice(){
+
+    await fetch('api/main/topNotice')
+    .then(res => res.json())
+    .then(res => {
+        if (res.success) {
+            const content = JSON.parse(res.data[0].content);
+            const returnDom = `<a href="${locale === 'en'? content.en_url : content.ko_url}">${locale === 'en'? content.en_text : content.ko_text }<span class="beltbanner-triangle"></span></a>`
+            document.querySelector(".header_beltTit").insertAdjacentHTML('beforeend',returnDom);
+        }
+    });
+}
+
+
+/* 띠배너 */
 const platFormSwiper = new Swiper('.platform-swiper', {
     autoplay: {
         delay: 10000000,
@@ -74,7 +96,6 @@ const platFormSwiper = new Swiper('.platform-swiper', {
     loop: true,
 });
 
-const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
 
 //띠배너 바인딩
 async function loadBeltBanner() {

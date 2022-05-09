@@ -19,6 +19,10 @@ import java.util.List;
 public class ApiMainController {
     private final MainService mainService;
 
+    @RequestMapping(value = "/topNotice", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> topNotice(){
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectTopNotice()));
+    }
 
     @RequestMapping(value = "/beltBanners", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> beltBanners(){

@@ -9,14 +9,7 @@
 <jsp:include page="../../common/commonCss.jsp" flush="false"/>
 <html lang="ko" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
-    <div class="header_beltbox on"> <!--class="on" block-->
-        <div class="wrap belttxtbox wrap_padding">
-                <span class="header_beltTit">
-                    <a href="#">구매수수료율 인상 및 약관 개정안내<span class="beltbanner-triangle"></span></a>
-                </span>
-            <span class="beltclose-btn closebtn closebtn-w"></span>
-        </div>
-    </div>
+    <jsp:include page="../../main/include/topNotice.jsp" />
     <div class="header-border">
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">ENG</a>
