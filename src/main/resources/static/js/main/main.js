@@ -191,40 +191,6 @@ $(function(){
     });
 
 
-    /*Auction*/
-    /*auction Tab 버튼*/
-    $('.auctionTab-btn').click(function(){
-        const IngTab = $(this).index();
-
-        $('.auctionTab-btn').removeClass('on');
-        $('.auctionTab-contents').removeClass('on');
-
-        $('#AllAuction').hide();
-        $('#MoreAuction').show();
-
-        $(this).addClass('on');
-        $(".auctionTab-contents").eq(IngTab).addClass('on');
-    });
-
-    /* auction thumbnail hover 기능 */
-    $('.auction-thumbbox').mouseenter(function(){
-        $('.auction-thumbbox>.auction-thumb').removeClass('on');
-        $(this).children('.auction-thumb').addClass('on');
-    });
-    $('.auction-thumb').mouseleave(function(){
-        $(this).removeClass('on');
-    });
-    //auction haert 버튼
-    $('.wish_heart').click(function(){
-        $(this).toggleClass('on');
-    });
-    //auction 더보기 버튼
-    $('#AllAuction').hide();
-    $('#MoreAuction').click(function(){
-        $('#AllAuction').show();
-        $('#MoreAuction').hide();
-        $(".auctionTab-contents.on").css('height','100%');
-    });
 
     /*upcoming*/
     $('.upcoming-img>img').show(function(){
