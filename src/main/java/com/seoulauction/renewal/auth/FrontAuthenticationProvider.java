@@ -14,6 +14,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,18 +37,26 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
 		CommonMap paramMap = new CommonMap();
         paramMap.put("login_id", loginId);
         paramMap.put("passwd", passwd);
-        paramMap.put("stat_cd", "normal");
         
-        CommonMap resultMap = loginMapper.getCustomerByLoginId(paramMap);
+        CommonMap resultMap = loginMapper.selectCustByLoginId(paramMap);
         
         if(resultMap == null || resultMap.isEmpty()){
 			throw new BadCredentialsException("User not found.");
         }
+        
+        if(!encoder.matches(passwd, resultMap.getString("PASSWD"))){
+        	throw new BadCredentialsException("Wrong password");
+        }
 
-		if(!encoder.matches(passwd, resultMap.getString("PASSWD"))){
-			throw new BadCredentialsException("Wrong password");
-		}
-		
+        if(resultMap.get("STAT_CD") != null && resultMap.get("STAT_CD").equals("stop")){
+			throw new BadCredentialsException("Stop User"); // 이용제한 아이디 STAT_CD = 'stop'
+        }
+
+		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+		// TODO 비밀번호 변경 180일 경과 여부
+        
+    	// TODO 관리자에 의한 비밀번호 초기화 여부
+        
 		WebAuthenticationDetails wad;
         String userIPAddress;
 
@@ -61,8 +71,22 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
         	log.info("userIPAddress == " + userIPAddress);
         }
 
-		List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
-        roles.add(new SimpleGrantedAuthority("ROLE_FRONT_USER"));
+        //결제여부, 직원여부에 따른 권한 분류
+        paramMap.put("cust_no", resultMap.get("CUST_NO"));
+        resultMap = loginMapper.selectCustByCustNo(paramMap);
+        
+        List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
+        //정,준회원 구분
+        if(resultMap.get("MEMBERSHIP_YN").equals("Y")) {
+        	roles.add(new SimpleGrantedAuthority("ROLE_REGULAR_USER"));
+        }else if(resultMap.get("MEMBERSHIP_YN").equals("N")) {
+        	roles.add(new SimpleGrantedAuthority("ROLE_ASSOCIATE_USER"));
+        }
+        //직원여부
+        if(resultMap.get("EMP_GB").equals("Y")) {
+        	roles.add(new SimpleGrantedAuthority("ROLE_EMPLOYEE_USER"));
+        }
+        
         
         int custNo = Integer.parseInt(resultMap.get("CUST_NO").toString());
         

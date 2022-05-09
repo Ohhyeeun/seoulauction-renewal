@@ -1,10 +1,13 @@
 package com.seoulauction.renewal.exception;
 
+import com.seoulauction.renewal.common.RestResponse;
 import com.seoulauction.renewal.component.SlackSender;
+import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.utill.ExceptionUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -23,6 +26,33 @@ public class SAExceptionHandler {
     public String error404(){
         log.info("404");
         return "/error/404";
+    }
+
+
+    //Rest API 에서 나오는 오류 캐치. ( RestResponse 리턴!! )
+    @ExceptionHandler(SAException.class)
+    public ResponseEntity<RestResponse> saException(SAException e){
+        String errorMsg = ExceptionUtils.getStackTrace(e);
+        log.error(errorMsg);
+        slackSender.sendMessage(errorMsg);
+
+        CommonMap map = new CommonMap();
+
+        String msg = e.getMessage();
+
+        SAErrorCode code = e.getErrorCode();
+
+        if(code !=null) {
+            map.put("code", code.getCode());
+            msg = code.getMsg();
+        }
+
+        map.put("msg", msg);
+
+        return ResponseEntity.ok(
+                RestResponse.builder().success(false)
+                .data(map)
+                .build());
     }
 
 

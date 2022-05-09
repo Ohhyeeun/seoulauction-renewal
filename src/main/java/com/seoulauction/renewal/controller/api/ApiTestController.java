@@ -1,12 +1,15 @@
 package com.seoulauction.renewal.controller.api;
 
 import com.seoulauction.renewal.common.RestResponse;
+import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.service.TestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("api/test")
 public class ApiTestController {
+
+    private final TestService testService;
 
     @RequestMapping(value="/good", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> test() {
@@ -23,4 +28,13 @@ public class ApiTestController {
         String ddfasd ="asdfasdf";
         return ResponseEntity.ok(RestResponse.ok(map));
     }
+
+    @RequestMapping(value="/pageing", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> test(
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size
+    ) {
+        return ResponseEntity.ok(RestResponse.ok(testService.test(CommonMap.create(page,size))));
+    }
 }
+

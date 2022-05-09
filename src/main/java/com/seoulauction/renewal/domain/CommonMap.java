@@ -3,6 +3,7 @@ package com.seoulauction.renewal.domain;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.Builder;
 import lombok.Getter;
 
 /**
@@ -39,6 +40,17 @@ public class CommonMap extends HashMap<String, Object>{
 		super.put("offset" , (size * (page - 1)));
 		return this;
 	}
+
+	public static CommonMap create(String key , Object value){
+		return new CommonMap(key , value);
+	}
+
+	public static CommonMap create(int page , int size){
+		CommonMap map = new CommonMap();
+		map.putPage(page,size);
+		return map;
+	}
+
 
 	public String getString(Object key){
 		return super.get(key) instanceof String ? (String) super.get(key) : null;
