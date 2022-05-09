@@ -35,7 +35,15 @@ public class MainController {
     }
 
     @GetMapping("/newsletter/{id}" )
-    public String newsletterView(Locale locale) {
+    public String newsletterView(@PathVariable int id, HttpServletRequest request, Locale locale) {
+        request.setAttribute("id", id);
         return SAConst.getUrl(SERVICE_MAIN , "newsletterView" , locale);
     }
+
+    @GetMapping("/beltBanner" )
+    public String beltBanner(Locale locale) {
+        return SAConst.getUrl(SERVICE_MAIN , "beltBanner" , locale);
+    }
+
+
 }

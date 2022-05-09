@@ -51,6 +51,7 @@ app.controller('academyPayHisCtl', function($scope, consts, input, common) {
 			common.callAPI('/api/mypage/academyPayInfo', $d, function(data, status){
 				console.log(data);
 			}); */
+
 });
 	
 comma = function(str) {

@@ -47,4 +47,45 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectAcademyList(commonMap)));
 	}
 
+	/* 아카데미 결제 정보 */
+	@RequestMapping(value = "/academies/{academyNo}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<RestResponse> academyPayInfo(@PathVariable("academyNo") String academyNo, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		CommonMap commonMap = new CommonMap();
+		commonMap.put("academy_no", academyNo);
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectAcademyPayInfo(commonMap)));
+	}
+	
+	/* 결제내역 select box */
+	@RequestMapping(value = "/saleList", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<RestResponse> onlinePaies(Principal principal) throws Exception {
+		CommonMap commonMap = new CommonMap();
+		commonMap.put("cust_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectSaleListByCustNo(commonMap)));
+	}
+	
+	@RequestMapping(value = "/onlinePaies", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<RestResponse> onlinePaies(
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size,
+			@RequestParam(required = false) String searchMonth,
+			@RequestParam(required = false) String searchKeyword,
+			@RequestParam(required = false) String searchStartDt,
+			@RequestParam(required = false) String searchEndDt,
+			Principal principal, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		CommonMap commonMap = new CommonMap();
+		commonMap.putPage(page, size);
+		
+		commonMap.put("searchMonth", searchMonth);
+		commonMap.put("searchKeyword", searchKeyword);
+		commonMap.put("searchStartDt", searchStartDt);
+		commonMap.put("searchEndDt", searchEndDt);
+		
+		commonMap.put("cust_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectPayListByCustNo(commonMap)));
+	}
 }

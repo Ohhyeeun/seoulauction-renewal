@@ -7,7 +7,10 @@ import com.seoulauction.renewal.service.MainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Log4j2
@@ -16,13 +19,28 @@ import org.springframework.web.bind.annotation.*;
 public class ApiMainController {
     private final MainService mainService;
 
+    @RequestMapping(value = "/topNotice", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> topNotice(){
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectTopNotice()));
+    }
+
+    @RequestMapping(value = "/beltBanners", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> beltBanners(){
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectBeltBanners()));
+    }
+
     @GetMapping(value="/newsletters")
     public ResponseEntity<RestResponse> newsletters(
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
-            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size) {
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size) {
 
         CommonMap map = new CommonMap();
         map.putPage(page, size);
+
+        /*List<CommonMap> commonMaps = mainService.selectNewsletters(map);
+        commonMaps.forEach(m -> {
+            m.get("created_at")
+        });*/
 
         return ResponseEntity.ok(RestResponse.ok(mainService.selectNewsletters(map)));
     }
