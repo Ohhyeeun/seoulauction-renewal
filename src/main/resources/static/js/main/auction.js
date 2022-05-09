@@ -14,50 +14,41 @@ $(document).ready(function(){
     //옥션 데이터 가져오기!
     function auctionDataInit(){
 
-        fetch('/api/main/auctions', {
-            method: 'GET', //
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then((response) => response.json())
-            .then((result) => {
-                let success = result.success;
+        axios.get('/api/main/auctions')
+            .then(function(response) {
+                console.log(response);
+                const data = response.data;
+                let success = data.success;
+
                 if(success){
-                    auctionData = result.data;
-
+                    auctionData = data.data;
                     //TODO 인클루드 작업.
-
                     $(".auctionTab-contents.on").css('height','100%');
                     let locale = document.documentElement.lang;
                     let starting = locale === 'ko' ? '시작가' : 'Starting KRW  ';
-
                     $.each(auctionData , function(idx , el){
-
                         let name = locale === 'ko' ? el.koName : el.enName;
-
                         let html =
-                        `<figure class="auction-thumbbox">
-                        <img src='${el.pcImgPath}' alt="/images/pc/thumbnail/AuctionBanner_05_280x280.png" class="pc-ver">
-                            <img src='${el.moImgPath}' alt="/images/pc/thumbnail/AuctionBanner_05_280x280.png" class="m-ver">
-                                <figcaption class="auction-thumb">
-                                    <button class="wish_heart"></button>
-                                    <a href="#">
-                                        <p class="auction-thumb-txt">
-                                            <span>${name}</span>
-                                            <span>${starting} ${el.price}</span>
-                                        </p>
-                                    </a>
-                                </figcaption>
-                        </figure>`;
-
+                            `<figure class="auction-thumbbox">
+                            <img src='${el.pcImgPath}' alt="/images/pc/thumbnail/AuctionBanner_05_280x280.png" class="pc-ver">
+                                <img src='${el.moImgPath}' alt="/images/pc/thumbnail/AuctionBanner_05_280x280.png" class="m-ver">
+                                    <figcaption class="auction-thumb">
+                                        <button class="wish_heart"></button>
+                                        <a href="#">
+                                            <p class="auction-thumb-txt">
+                                                <span>${name}</span>
+                                                <span>${starting} ${el.price}</span>
+                                            </p>
+                                        </a>
+                                    </figcaption>
+                            </figure>`;
                         $(".auctionTab-contents.on").append(html);
                     });
                     dynamicEvent();
                 }
             })
-            .catch((error) => {
-                alert(error);
+            .catch(function(error) {
+                console.log(error);
             });
     }
 

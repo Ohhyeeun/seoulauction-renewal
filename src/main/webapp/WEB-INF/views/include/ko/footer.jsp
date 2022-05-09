@@ -51,4 +51,4 @@
         </section>
     </div>
 </footer>
-<jsp:include page="../../common/common.jsp" flush="false"/>
+<jsp:include page="../../common/commonJs.jsp" flush="false"/>
