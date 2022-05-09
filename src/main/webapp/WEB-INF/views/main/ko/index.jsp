@@ -5,7 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" ng-app="myApp">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -14,8 +14,12 @@
     <link rel="stylesheet" href="/css/main.css" type="text/css" />
 </head>
 <body>
-<jsp:include page="../../include/ko/header.jsp" flush="false"/>
-<section class="main-contents footer-bottom">
+<%--<jsp:include page="../../main/include/topNotice.jsp" />--%>
+<jsp:include page="../../include/ko/header.jsp" flush="false">
+    <jsp:param name="main" value="true"/>
+</jsp:include>
+
+<section class="main-contents footer-bottom footer-bottom30" ng-controller="mainCtl" data-ng-init="init()">
     <section class="visual visual-contents">
         <div class="swiper-container visual-swiper">
             <div class="swiper-wrapper">
@@ -30,6 +34,7 @@
                             </p>
                             <div class="visual_btn">
                                 <a href="#" class="commonbtn visual-commonbtn btn-bg-w">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a>
+                                <a class="commonbtn visual-commonbtn btn-bg-w" ng-click="showMemHisPopup(this);">하이하이</a>
                             </div>
                         </figurecaption>
                     </figure>
@@ -83,6 +88,7 @@
         </div>
     </section>
 
+    <%--auction--%>
     <div class="wrap">
         <section class="container wrap_padding">
             <section class="auction-contents">
@@ -90,957 +96,25 @@
                     <h1 class="main-sectiontit">Auction</h1>
                     <div class="auctiontab-scroll">
                         <div class="auctionTab"> <!-- 최대 5개 까지 -->
-                            <span id="auctionTab" class="auctionTab-btn on">165회 미술품</span>
-                            <span id="auctionTab" class="auctionTab-btn">e BID 프리미엄</span>
-                            <span id="auctionTab" class="auctionTab-btn">제로베이스</span>
-                            <span id="auctionTab" class="auctionTab-btn"></span>
-                            <span id="auctionTab" class="auctionTab-btn"></span>
+                            <span class="auctionTab-btn on">165회 미술품</span>
+                            <span class="auctionTab-btn">e BID 프리미엄</span>
+                            <span class="auctionTab-btn">제로베이스</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="flex_wrap auctionTab-contents on"> <!--12*2 = 24 -->
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_01_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-1.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_02_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-2.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <p class="auction-thumb-txt">
-                                <span>문형태</span>
-                                <span>시작가 200,000,000</span>
-                            </p>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_03_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-3.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_05_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-5.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_01_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-1.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_06_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-6.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_07_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_01_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-1.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_02_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-2.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_03_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_04_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-5.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_05_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-7.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_06_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-6.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_07_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
                 </div>
 
                 <div class="flex_wrap auctionTab-contents"> <!--12*2 = 24 -->
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_04_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_02_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-2.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <p class="auction-thumb-txt">
-                                <span>문형태</span>
-                                <span>시작가 200,000,000</span>
-                            </p>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_01_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-1.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_06_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-6.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_07_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-7.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_09_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_04_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_03_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-3.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_02_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-2.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_01_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-1.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_09_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_06_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-6.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_03_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-3.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_07_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-7.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_02_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-2.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_03_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-3.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_06_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-6.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_01_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-1.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_02_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-2.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_06_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-6.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_02_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-2.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_01_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-1.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_03_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-3.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
                 </div>
 
-                <div class="flex_wrap auctionTab-contents"> <!--12*2 = 24 -->
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_01_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-1.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_02_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-2.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <p class="auction-thumb-txt">
-                                <span>문형태</span>
-                                <span>시작가 200,000,000</span>
-                            </p>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_03_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_04_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-5.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_05_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-7.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_06_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-6.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_07_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_01_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-1.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_02_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-2.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_03_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_04_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-5.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_05_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-7.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_06_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-6.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_07_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-8.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
-                    <figure class="auction-thumbbox">
-                        <img src="/images/pc/thumbnail/AuctionBanner_08_280x280.png" alt="auction 이미지" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png" alt="auction 이미지" class="m-ver">
-                        <figcaption class="auction-thumb">
-                            <button class="wish_heart"></button>
-                            <a href="#">
-                                <p class="auction-thumb-txt">
-                                    <span>문형태</span>
-                                    <span>시작가 200,000,000</span>
-                                </p>
-                            </a>
-                        </figcaption>
-                    </figure>
+                <div class="flex_wrap auctionTab-contents">
                 </div>
 
                 <div class="commonbtn-box">
                     <button type="button" id="MoreAuction" class="commonbtn">더보기</button>
-                    <a href="#" id="AllAuction" class="commonbtn">전체보기</a>
+                    <a href="#" id="AllAuction" style="display: none" class="commonbtn">전체보기</a>
                 </div>
             </section>
         </section>
@@ -1125,107 +199,13 @@
                     </div>
                 </div>
             </div>
-
-            <!--<ul class="upcoming-slidebox">
-                <li class="upcomingSlide upcomingSlide01">
-                    <a href="#">
-                        <div class="upcoming-caption">
-                            <span class="auctionKind-box on">LIVE</span><span class="d-day">D-1</span>
-                            <h4>2월 라이브 경매</h4>
-                            <div class="upcoming-datebox">
-                                <p class="upcoming-datetit">
-                                    <span>프리뷰</span>
-                                    <span>경매일</span>
-                                </p>
-                                <p class="upcoming-line">
-                                    <span class="upcomingLine"></span>
-                                    <span class="upcomingLine"></span>
-                                </p>
-                                <p class="upcoming-date">
-                                    <span>2/14(금) ~ 2/25(화)</span>
-                                    <span>2/15(화) 15:00</span>
-                                </p>
-                            </div>
-                        </div>
-                        <figure class="upcoming-img">
-                            <span class="upcomingImg"></span>
-                            <img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">
-                        </figure>
-                    </a>
-                </li>
-                <li class="upcomingSlide upcomingSlide02">
-                    <a href="#">
-                        <div class="upcoming-caption">
-                            <span class="auctionKind-box on">LIVE</span><span class="d-day">D-1</span>
-                            <h4>2월 라이브 경매</h4>
-                            <div class="upcoming-datebox">
-                                <p class="upcoming-datetit">
-                                    <span>프리뷰</span>
-                                    <span>경매일</span>
-                                </p>
-                                <p class="upcoming-line">
-                                    <span class="upcomingLine"></span>
-                                    <span class="upcomingLine"></span>
-                                </p>
-                                <p class="upcoming-date">
-                                    <span>2/14(금) ~ 2/25(화)</span>
-                                    <span>2/15(화) 15:00</span>
-                                </p>
-                            </div>
-                        </div>
-                        <figure class="upcoming-img"></figure>
-                    </a>
-                </li>
-                <li class="upcomingSlide upcomingSlide03">
-                    <a href="#">
-                        <div class="upcoming-caption">
-                            <span class="auctionKind-box on">LIVE</span><span class="d-day">D-1</span>
-                            <h4>2월 라이브 경매</h4>
-                            <div class="upcoming-datebox">
-                                <p class="upcoming-datetit">
-                                    <span>프리뷰</span>
-                                    <span>경매일</span>
-                                </p>
-                                <p class="upcoming-line">
-                                    <span class="upcomingLine"></span>
-                                    <span class="upcomingLine"></span>
-                                </p>
-                                <p class="upcoming-date">
-                                    <span>2/14(금) ~ 2/25(화)</span>
-                                    <span>2/15(화) 15:00</span>
-                                </p>
-                            </div>
-                        </div>
-                        <figure class="upcoming-img"></figure>
-                    </a>
-                </li>
-            </ul> -->
         </div>
         <div class="commonbtn-box upcomingBtn">
             <a href="#" class="commonbtn">전체보기</a>
         </div>
     </section>
 
-    <section class="platform">
-        <div class="swiper-container platform-swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide platform-bg">
-                    <a href="#" class="platform-img"></a>
-                </div>
-                <div class="swiper-slide platform-bg">
-                    <a href="#" class="platform-img"></a>
-                </div>
-                <div class="swiper-slide platform-bg">
-                    <a href="#" class="platform-img"></a>
-                </div>
-            </div>
-            <!-- Add Arrows -->
-            <div class="swiper-button-next platformBtn-right pc-ver"></div>
-            <div class="swiper-button-prev platformBtn-left pc-ver"></div>
-        </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination platform-pagination m-ver"></div>
-    </section>
+    <jsp:include page="../include/beltBanner.jsp" />
 
     <article class="video">
         <h1 class="main-sectiontit video-tit">
@@ -1397,8 +377,8 @@
                     <h3 class="main-sectiontit newsLetter-tit">Newsletter</h3>
                     <form action="" class="newsletter-formbox">
                         <fieldset class="newsletter-form">
-                            <input type="email" placeholder="이메일 주소">
-                            <input type="email" placeholder="이름">
+                            <input id ="newsEmail" type="email" placeholder="이메일 주소">
+                            <input id ="newsName" type="text" placeholder="이름">
                         </fieldset>
                         <fieldset class="newsletter-checkbox">
                             <input type="checkbox" id="subscript_check" class="common_checkbox" value='subscript_check' name='subscript_check'>
@@ -1408,12 +388,13 @@
                         </fieldset>
                     </form>
                     <div class="flex_wrap newsletter-btnbox">
-                        <button type="button" disabled="disabled" class="commonbtn btn-bg-b subscriptBtn">구독하기</button>
+                        <button type="button" class="commonbtn btn-bg-b subscriptBtn">구독하기</button>
                         <a href="#" class="commonbtn btn-border-3">
                             <span>지난 뉴스레터 보기</span>
                         </a>
                     </div>
                 </div>
+
             </article>
         </section>
     </div>
@@ -1432,24 +413,11 @@
 <!-- 뉴스레터 팝업 -->
 <div class="blackBg newsletter-blackBg">
     <div class="newsletter-termsbox">
-        <div class="newsletter-terms">
-            <div class="closebtn closebtn-b newsAgree-close"></div>
-            <input type="checkbox" id="newsAgree" class="common_checkbox" value='newsAgree' name="newsAgree">
-            <label for="newsAgree">
-                <span class="newsAgree-checktxt">개인정보 수집 및 이용에 동의 합니다.</span>
-            </label>
-            <p class="newsAgree-txt">
-                뉴스레터 발송을 위한 최소한의 개인정보를 수집하고 이용합니다. 수집된
-                정보는 발송 외 다른 목적으로 이용되지 않으며, 서비스가 종료되거나
-                구독을 해지할 경우 즉시 파기됩니다.
-            </p>
-            <button type="submit" disabled="disabled" class="commonbtn btn-bg-g newsAgree-btn">확인</button>
-        </div>
         <div class="newsletter-terms newsletter-comfirmbox">
             <p class="newsAgree-comfirm">
                 구독해주셔서 감사합니다.
             </p>
-            <button type="submit" disabled="disabled" class="commonbtn btn-bg-b newsAgree-comfirmbtn">확인</button>
+            <button type="submit" class="commonbtn btn-bg-b newsAgree-comfirmbtn">확인</button>
         </div>
     </div>
 </div>
@@ -1464,5 +432,8 @@
 </div>
 </body>
 
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="/js/main/main.js" type="text/javascript"></script>
+<script src="/js/main/auction.js" type="text/javascript"></script>
+<script src="/js/main/newsletter.js" type="text/javascript"></script>
+
 </html>

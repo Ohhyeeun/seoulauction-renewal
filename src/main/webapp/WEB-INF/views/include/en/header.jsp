@@ -1,17 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<html lang="en">
-<jsp:include page="../../common/common.jsp" flush="false"/>
-<<jsp:include page="../../common/commonCss.jsp" flush="false"/>
+<jsp:include page="../../common/commonCss.jsp" flush="false"/>
+<%--메인이 아닐 경우에만 해당 css 추가.--%>
+<c:if test="${empty param.main}">
+<jsp:include page="../../common/commonCssNotMain.jsp" flush="false"/>
+</c:if>
+
+<html lang="en" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
-    <div class="header_beltbox on"> <!--class="on" block-->
-        <div class="wrap belttxtbox wrap_padding">
-                <span class="header_beltTit">
-                    <a href="#">Notice of increase in purchase fee rate and amendment of terms and conditions<span class="beltbanner-triangle"></span></a>
-                </span>
-            <span class="beltclose-btn closebtn closebtn-w"></span>
-        </div>
-    </div>
+    <c:if test="${not empty param.main}">
+    <jsp:include page="../../main/include/topNotice.jsp" />
+    </c:if>
     <div class="header-border">
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">KOR</a>
@@ -34,7 +38,7 @@
                 <li class="utility-login"><a href="/customer/login">LOGIN</a></li> <!-- !login -->
             </sec:authorize>
             <sec:authorize access="isAuthenticated()">
-                <li class="utility-login"><a href="/processLogout">LOGOUT</a></li> <!-- !login -->
+            	<li class="utility-login"><a onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')">LOGOUT</a></li> <!-- !login -->
             </sec:authorize>
         </ul>
     </div>
