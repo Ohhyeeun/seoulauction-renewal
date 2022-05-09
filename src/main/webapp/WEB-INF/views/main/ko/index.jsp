@@ -5,7 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" ng-app="myApp">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -16,8 +16,8 @@
 
 </head>
 <body>
-
-<section class="main-contents footer-bottom footer-bottom30">
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
+<section class="main-contents footer-bottom footer-bottom30" ng-controller="mainCtl" data-ng-init="init()">
     <section class="visual visual-contents">
         <div class="swiper-container visual-swiper">
             <div class="swiper-wrapper">
@@ -32,6 +32,7 @@
                             </p>
                             <div class="visual_btn">
                                 <a href="#" class="commonbtn visual-commonbtn btn-bg-w">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a>
+                                <a class="commonbtn visual-commonbtn btn-bg-w" ng-click="showMemHisPopup(this);">하이하이</a>
                             </div>
                         </figurecaption>
                     </figure>
@@ -1435,6 +1436,11 @@
 </div>
 </body>
 
+<<<<<<< Updated upstream
 <script src="/js/main/main.js" type="text/javascript"></script>
 <script src="/js/main/newsletter.js" type="text/javascript"></script>
+=======
+<script src="/js/main.js" type="text/javascript"></script>
+<script src="/js/main/main.js" type="text/javascript"></script>
+>>>>>>> Stashed changes
 </html>
