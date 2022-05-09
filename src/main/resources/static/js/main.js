@@ -153,6 +153,7 @@ $(function(){
         loop: true,
     });
 
+
     /* video */
     const videoSwiper = new Swiper(".video-swiper", {
         slidesPerView: 6,
@@ -191,8 +192,38 @@ $(function(){
         $(this).removeClass('on');
     });
     /* video 팝업 */
+
+
+
 });
 
 
+/*뉴스레터 구독하기 팝업 */
+$(document).ready(function() {
+    $('#subscript_check').click(function () {
+        const subscript = $('#subscript_check').prop('checked');
+        const newsAgree = $('#newsAgree').prop('checked');
 
+        if (subscript) {
+            console.log(subscript);
+            $('#subscript_check').prop('checked', true);
+            $('.subscriptBtn').prop('disabled', false);
+
+            /*구독하기*/
+            $('.subscriptBtn').click(function () {
+                /*$('.newsletter-comfirmbox').fadeIn('fast');*/
+                $('.newsletter-blackBg').fadeIn('fast');
+                $('.newsAgree-comfirmbtn').click(function () {  /*닫기 버튼 */
+                    $('.newsletter-comfirmbox').fadeOut('fast');
+                    $('.newsletter-blackBg').fadeOut('fast');
+                });
+            });
+        } else {
+            console.log(newsAgree);
+            $('#subscript_check').prop('checked', false);
+            $('.subscriptBtn').prop('disabled', true);
+        }
+        ;
+    });
+});
 

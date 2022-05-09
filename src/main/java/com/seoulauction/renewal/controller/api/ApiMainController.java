@@ -19,7 +19,7 @@ public class ApiMainController {
     @GetMapping(value="/newsletters")
     public ResponseEntity<RestResponse> newsletters(
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
-            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size) {
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size) {
 
         CommonMap map = new CommonMap();
         map.putPage(page, size);
@@ -44,6 +44,14 @@ public class ApiMainController {
         mainService.insertNewsletter(map);
 
         return ResponseEntity.ok(RestResponse.ok());
+    }
+
+    @GetMapping(value="/auctions")
+    public ResponseEntity<RestResponse> auctions(
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size) {
+
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectAuctions(CommonMap.create(page,size))));
     }
 
 
