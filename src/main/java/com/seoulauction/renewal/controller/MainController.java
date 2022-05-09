@@ -1,19 +1,17 @@
 package com.seoulauction.renewal.controller;
 
-import static com.seoulauction.renewal.common.SAConst.SERVICE_MAIN;
-
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.component.SlackSender;
-
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
+
+import static com.seoulauction.renewal.common.SAConst.SERVICE_MAIN;
 
 @Controller
 @Log4j2
