@@ -2,8 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seoulauction.renewal.mapper.aws.MainMapper">
 
+    <select id="selectTopNotice" parameterType="CommonMap" resultType="CommonMap">
+    <![CDATA[
+        select *
+        from main_banner
+        where banner_type = 'top-text'
+            and status = 'A'
+            and start_at <= (now() + interval 9 hour)
+            and end_at >= (now() + interval 9 hour)
+            order by sort desc
+        limit 1;
+    ]]>
+    </select>
+
     <select id="selectBeltBanners" parameterType="CommonMap" resultType="CommonMap">
-        <![CDATA[
+    <![CDATA[
         select mb.*
 --              , s3.id as s3id, s3.cdn_url
         from main_banner mb
@@ -14,25 +27,28 @@
             and mb.start_at <= now()
             and mb.end_at >= now()
         order by mb.sort desc;
-        ]]>
+    ]]>
     </select>
 
     <select id="selectNewsletters" parameterType="CommonMap" resultType="CommonMap">
-        SELECT *
+        SELECT id, title, content, publish_at, status, created_at, updated_at
+            , CASE when created_at >= DATE_ADD(NOW(), INTERVAL -7 DAY) then 'Y' else 'N' end as is_new
         FROM content_newsletter
-        LIMIT #{offset} , #{size}
+        WHERE status = 'A'
+        ORDER BY publish_at desc, created_at desc
     </select>
 
     <select id="selectNewsletterById" parameterType="CommonMap" resultType="CommonMap">
-        SELECT *
+        SELECT id, title, content, publish_at, status, created_at, updated_at
+            , CASE when created_at >= DATE_ADD(NOW(), INTERVAL -7 DAY) then 'Y' else 'N' end as is_new
         FROM content_newsletter
         WHERE id = #{id}
     </select>
     <select id="insertNewsletter" parameterType="CommonMap">
         INSERT INTO newsletter_subscriber
-            ( name , email , is_subscribe )
+            ( name , email , lang , is_subscribe )
         VALUES
-            ( #{name} , #{email} , 'Y' )
+            ( #{name} , #{email} , #{lang} , 'Y' )
     </select>
 
     <select id="selectNewsletterForOverlapCheck" parameterType="CommonMap" resultType="CommonMap">
