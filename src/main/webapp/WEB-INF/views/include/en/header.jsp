@@ -5,11 +5,17 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<jsp:include page="../../common/common.jsp" flush="false"/>
 <jsp:include page="../../common/commonCss.jsp" flush="false"/>
+<%--메인이 아닐 경우에만 해당 css 추가.--%>
+<c:if test="${empty param.main}">
+<jsp:include page="../../common/commonCssNotMain.jsp" flush="false"/>
+</c:if>
+
 <html lang="en" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
+    <c:if test="${not empty param.main}">
     <jsp:include page="../../main/include/topNotice.jsp" />
+    </c:if>
     <div class="header-border">
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">KOR</a>

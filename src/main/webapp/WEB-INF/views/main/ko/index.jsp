@@ -12,11 +12,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Seoul Auction</title>
     <link rel="stylesheet" href="/css/main.css" type="text/css" />
-    <jsp:include page="../../include/ko/header.jsp" flush="false"/>
-
 </head>
 <body>
-<jsp:include page="../../include/ko/header.jsp" flush="false"/>
+<%--<jsp:include page="../../main/include/topNotice.jsp" />--%>
+<jsp:include page="../../include/ko/header.jsp" flush="false">
+    <jsp:param name="main" value="true"/>
+</jsp:include>
+
 <section class="main-contents footer-bottom footer-bottom30" ng-controller="mainCtl" data-ng-init="init()">
     <section class="visual visual-contents">
         <div class="swiper-container visual-swiper">
@@ -430,12 +432,8 @@
 </div>
 </body>
 
-<<<<<<< Updated upstream
 <script src="/js/main/main.js" type="text/javascript"></script>
 <script src="/js/main/auction.js" type="text/javascript"></script>
 <script src="/js/main/newsletter.js" type="text/javascript"></script>
-=======
-<script src="/js/main.js" type="text/javascript"></script>
-<script src="/js/main/main.js" type="text/javascript"></script>
->>>>>>> Stashed changes
+
 </html>

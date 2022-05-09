@@ -124,7 +124,7 @@ async function loadBeltBanner() {
 
 
 
-$(function(){
+$(function() {
     console.log(window.innerWidth);
 
     /* window.addEventListener('resize', (e) => {
@@ -141,19 +141,19 @@ $(function(){
     /* visual */
     const visualSwiper = new Swiper('.visual-swiper', {
         autoplay: {
-            delay:500000,
-            disableOnInteraction:false,
+            delay: 500000,
+            disableOnInteraction: false,
         },
         pagination: {
             el: '.visual-pagaination',
-            type:'fraction',
+            type: 'fraction',
         },
         breakpoints: {
-            1023:{
+            1023: {
                 pagination: {
                     el: '.visual-pagaination',
-                    type:'bullets',
-                    clickable:true,
+                    type: 'bullets',
+                    clickable: true,
                 },
             },
         },
@@ -177,41 +177,40 @@ $(function(){
                 $(".swiper-progressbar").eq(0).addClass("animate");
             },
         },
-        loop:true,
+        loop: true,
     });
-    $('.playBtn').on('click', function(){
+    $('.playBtn').on('click', function () {
         visualSwiper.autoplay.start('fast');
-        $(this).css({'display':'none'});
-        $('.stopBtn').css({'display':'block'});
+        $(this).css({'display': 'none'});
+        $('.stopBtn').css({'display': 'block'});
     });
-    $('.stopBtn').on('click', function(){
+    $('.stopBtn').on('click', function () {
         visualSwiper.autoplay.stop();
-        $(this).css({'display':'none'});
-        $('.playBtn').css({'display':'block'});
+        $(this).css({'display': 'none'});
+        $('.playBtn').css({'display': 'block'});
     });
-
 
 
     /*upcoming*/
-    $('.upcoming-img>img').show(function(){
+    $('.upcoming-img>img').show(function () {
         const img_on = $(window).innerWidth();
         //$('.swiper-slide.upcomingSlide').css('padding-right','40px');
-        if(img_on >= 1280){
-            $('.swiper-slide.upcomingSlide').css('padding-right','40px');
+        if (img_on >= 1280) {
+            $('.swiper-slide.upcomingSlide').css('padding-right', '40px');
         } else {
-            $('.swiper-slide.upcomingSlide').css('padding-right','20px');
+            $('.swiper-slide.upcomingSlide').css('padding-right', '20px');
         }
         /* 영문버전 */
-        if(img_on <= 1919){
-            $('.swiper-slide:lang(en).upcomingSlide').css('padding-right','20px');
+        if (img_on <= 1919) {
+            $('.swiper-slide:lang(en).upcomingSlide').css('padding-right', '20px');
         }
 
-        $(this).parent('.upcoming-img').addClass('on').css('display','flex');
+        $(this).parent('.upcoming-img').addClass('on').css('display', 'flex');
     });
 
     const upcomingSwiper = new Swiper(".upcoming-swiper", {
         slidesPerView: 'auto',
-        breakpoints:{
+        breakpoints: {
             1439: {
                 slidesPerView: 'auto',
                 //spaceBetween: 20,
@@ -219,25 +218,23 @@ $(function(){
             1023: {
                 slidesPerView: 'auto',
                 spaceBetween: 0,
-                loopedSlides:1,
+                loopedSlides: 1,
             },
         }
     });
-
-
 
 
     /* video */
     const videoSwiper = new Swiper(".video-swiper", {
         slidesPerView: 6,
         spaceBetween: 20,
-        loop:true,
+        loop: true,
         loopFillGroupWithBlank: true,
         navigation: {
             nextEl: ".videoBtn-right",
             prevEl: ".videoBtn-left",
         },
-        breakpoints:{
+        breakpoints: {
             1919: {
                 slidesPerView: 4,
                 spaceBetween: 20,
@@ -249,23 +246,23 @@ $(function(){
             1023: {
                 slidesPerView: 'auto',
                 spaceBetween: 20,
-                loopedSlides:1,
-                loop:false,
+                loopedSlides: 1,
+                loop: false,
                 loopFillGroupWithBlank: false,
             },
         }
     });
     //video hover
-    $('.video-thumb').mouseenter(function(){
+    $('.video-thumb').mouseenter(function () {
         let videoHover = $(this).index();
         $('.video-thumbHover').removeClass('on');
         $(this).children('.video-thumbHover').eq(videoHover).addClass('on');
     });
-    $('.video-thumbHover').mouseleave(function(){
+    $('.video-thumbHover').mouseleave(function () {
         $(this).removeClass('on');
     });
     /* video 팝업 */
-
+});
 app.value('locale', 'ko');
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
 app.controller('mainCtl', function($scope, consts, common, ngDialog) {
@@ -282,9 +279,9 @@ app.controller('mainCtl', function($scope, consts, common, ngDialog) {
 	}
 });
 
-
 app.controller('maxSessionPopCtl', function($scope, consts, common) {
-	$scope.init = function(){
-		
-	}
+	$scope.init = function() {
+
+    }
 });
+

@@ -21,7 +21,8 @@ public class MainController {
     private final SlackSender slackSender;
 
     @GetMapping({"/"})
-    public String index(Locale locale) {
+    public String index(HttpServletRequest request , Locale locale) {
+        request.setAttribute("main", true); // 메인 페이지 일경우에만 !
         return SAConst.getUrl(SERVICE_MAIN , "index" , locale);
     }
     @GetMapping("/guide" )
