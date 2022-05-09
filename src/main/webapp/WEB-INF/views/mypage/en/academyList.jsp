@@ -13,14 +13,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/1.3.0/moment-duration-format.min.js"></script>
 
 <body>  
-<jsp:include page="../../include/ko/header.jsp" flush="false"/>   
+<jsp:include page="../../include/en/header.jsp" flush="false"/>   
 <div id="wrap" ng-app="myApp">
 <script type="text/javascript" src="/js/mypage/academy.js"></script>
-	<section class="main-contents footer-bottom">
 	<div class="container_wrap" > <!--  ng-repeat="art in academyList" -->
 		<div id="container" ng-controller="academyListCtl" data-ng-init="loadAcademyList(1)">
 			<!-- //sub_menu_wrap -->
-
 			<div class="contents_wrap" >
 				<div class="contents">
 					<div class="tit_h2" style="padding-top:20px;">
@@ -43,7 +41,7 @@
                     <div class="onepcssgrid-1200" style="border-bottom:#e4e4e4 1px solid;" ng-repeat="art in academyList">
                     
                         <div style="border-top:#333 2px solid; border-bottom:#e4e4e4 1px solid; padding-top:20px; padding-bottom:20px;">
-                            <h2 style="font-weight:600; font-size:20px;">{{art.TITLE_KO}}</h2>
+                            <h2 style="font-weight:600; font-size:20px;">{{art.TITLE_EN}}</h2>
                         </div>
                         
                         <div class="col4" style="padding-top:20px; padding-bottom:20px;">
@@ -93,6 +91,5 @@
 			</div><!--contents_wrap-->
 		</div>
 	</div>
-	</section>
 </div>
 </body>
