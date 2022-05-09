@@ -36,7 +36,7 @@ $(document).ready(function(){
             let data = {};
             data['email'] = email;
             data['name'] = name;
-
+            data['lang'] = document.documentElement.lang;
             if(!email || !name){
                 alert('이메일 혹은 이름이 올바르지않습니다.');
                 return;
