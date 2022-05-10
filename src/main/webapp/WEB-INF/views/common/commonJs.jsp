@@ -16,7 +16,3 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/1.3.0/moment-duration-format.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.5.6/js/ngDialog.min.js"></script>
-<script src="/js/angular/checklist-model.js"></script>
-<script src="/js/angular/angular-sanitize.js"></script>
-<script src="/js/angular/angular-bind-html-compile.js"></script>
-<script src="/js/angular/app.js"></script> 

@@ -452,19 +452,13 @@
     display: block;  
 }  
 
-/* platform */  
-.swiper-slide.platform-bg {  
-    background-color: #c6eae9; 
-} 
-.platform-img {  
-    background: url(/images/pc/banner/MidBanner_1204x180.png) no-repeat center center;  
-    width: 100%; 
-    height: 180px;     
+/* platform */
+.platform-img {
+    display: block;
+    margin: 0 auto;
+    text-align: center; 
 }
-.platform-img:lang(en) {
-    background-image: url(/images/pc/banner/MidBanner_en_1204x180.png);  
-}
-.swiper-button-prev.platformBtn-left, 
+.swiper-button-prev.platformBtn-left,
 .swiper-button-next.platformBtn-right {
     width: 100px;
     height: 100%;    
@@ -914,10 +908,6 @@
     .auctiontab-scroll::-webkit-scrollbar { 
         width: 1px; 
         height: 5px;
-    } 
-    .platform-img {
-        height: 8rem;
-        background-size: contain;
     }
     .sale-contents {
         flex-direction: column; 
@@ -1163,14 +1153,6 @@
     .auction-contents {
         margin-bottom: 50px;
     }
-    .platform-img { 
-        background-image: url(/images/mobile/banner/MidBanner_720x220.png);
-        background-size: contain; 
-        padding: 2.3em 0;   
-    }
-    .platform-img:lang(en) { 
-        background-image: url(/images/mobile/banner/MidBanner_en_720x220.png); 
-    } 
     .sale-contents,
     .video {
         margin-bottom: 60px; 
