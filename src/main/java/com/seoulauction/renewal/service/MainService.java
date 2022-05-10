@@ -104,6 +104,9 @@ public class MainService {
             returnMap.put("FROM_DT", item.get("FROM_DT"));
             returnMap.put("TO_DT", item.get("TO_DT"));
 
+            returnMap.put("FILE_PATH", "/front/online0688");
+            returnMap.put("FILE_NAME", "2dc8da32-4760-471b-9bce-f087200a09e9.jpg");
+
             return returnMap;
         }).collect(Collectors.toList());
 
