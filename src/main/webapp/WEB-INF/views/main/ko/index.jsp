@@ -119,90 +119,9 @@
         </section>
     </div>
 
-    <section class="upcoming">
-        <h1 class="main-sectiontit upcoming-tit">
-            Upcoming
-        </h1>
+    <jsp:include page="../../main/include/upcoming.jsp" />
 
-        <div class="upcoming-wrap">
-            <div class="swiper-container upcoming-swiper">
-                <div class="swiper-wrapper upcoming-contents">
-                    <div class="swiper-slide upcomingSlide">
-                        <a href="#">
-                            <div class="upcoming-caption">
-                                <span class="auctionKind-box on">LIVE</span><span class="d-day on">TODAY</span>
-                                <h4>2월 라이브 경매</h4>
-                                <div class="upcoming-datebox">
-                                    <p class="upcoming-preview">
-                                        <span>오픈일</span><span>2/14(금)</span>
-                                    </p>
-                                    <p class="upcoming-preview">
-                                        <span>프리뷰</span><span>2/14(금) ~ 2/25(화)</span>
-                                    </p>
-                                    <p class="upcoming-date">
-                                        <span>경매일</span><span>2/15(화) 15:00</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <figure class="upcoming-img">
-                                <!--<span class="upcomingImg"></span>-->
-                                <img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">
-                            </figure>
-                        </a>
-                    </div>
-                    <div class="swiper-slide upcomingSlide">
-                        <a href="#">
-                            <div class="upcoming-caption">
-                                <span class="auctionKind-box">ONLINE</span><span class="d-day on">D-1</span>
-                                <h4>2월 e BID 퍼블릭 온라인 경매</h4>
-                                <div class="upcoming-datebox">
-                                    <p class="upcoming-preview">
-                                        <span>오픈일</span><span>2/14(금)</span>
-                                    </p>
-                                    <p class="upcoming-preview">
-                                        <span>프리뷰</span><span>2/14(금) ~ 2/25(화)</span>
-                                    </p>
-                                    <p class="upcoming-date">
-                                        <span>경매일</span><span>2/15(화) 15:00</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <figure class="upcoming-img">
-                                <!--<span class="upcomingImg"></span>-->
-                                <%--<img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">--%>
-                            </figure>
-                        </a>
-                    </div>
-                    <div class="swiper-slide upcomingSlide">
-                        <a href="#">
-                            <div class="upcoming-caption">
-                                <span class="auctionKind-box">ONLINE</span><span class="d-day"></span>
-                                <h4>ZEROBASE X 아트경기</h4>
-                                <div class="upcoming-datebox">
-                                    <p class="upcoming-preview">
-                                        <span>오픈일</span><span>2/14(금)</span>
-                                    </p>
-                                    <p class="upcoming-preview">
-                                        <span>프리뷰</span><span>2/14(금) ~ 2/25(화)</span>
-                                    </p>
-                                    <p class="upcoming-date">
-                                        <span>경매일</span><span>2/15(화) 15:00</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <figure class="upcoming-img">
-                                <!--<span class="upcomingImg"></span>-->
-                                <!--<img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet"> -->
-                            </figure>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="commonbtn-box upcomingBtn">
-            <a href="#" class="commonbtn">전체보기</a>
-        </div>
-    </section>
+
 
     <jsp:include page="../include/beltBanner.jsp" />
 
