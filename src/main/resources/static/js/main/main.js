@@ -157,7 +157,11 @@ async function loadUpcomings() {
                                                 </div>
                                                 <figure class="upcoming-img on" style="display: flex;">
                                                     <!--<span class="upcomingImg"></span>-->
-                                                    <img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">
+<!--                                                    <img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">-->
+<!--                                                    <img src="https://www.seoulauction.com/nas_img/front/online0688/thum/ea39a8bb-c1b9-427d-a250-62117dcc07f5.jpg" alt="alet">-->
+                                                    <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" 
+                                                        onerror="this.parentNode.remove ? this.parentNode.remove() : this.parentNode.removeNode();" 
+                                                        alt="" >
                                                 </figure>
                                             </a>
                                         </div>`;
