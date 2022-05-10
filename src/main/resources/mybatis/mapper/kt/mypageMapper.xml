@@ -17,8 +17,9 @@
 		COLUMN_GET(C.TITLE_BLOB, 'en' AS CHAR) TITLE_EN,
 		C.ACADEMY_NO
 		FROM CUST A , ACADEMY_REQ B , ACADEMY C
-		WHERE A.CUST_NO = B.CUST_NO AND B.ACADEMY_NO = C.ACADEMY_NO AND A.CUST_NO = '80722' AND B.DEL_YN = 'N'
-		order by B.REG_DT desc;
+		WHERE A.CUST_NO = B.CUST_NO AND B.ACADEMY_NO = C.ACADEMY_NO AND A.CUST_NO = #{cust_no} AND B.DEL_YN = 'N'
+		order by B.REG_DT desc
+		limit #{offset}, #{size}
 	</select>
 	
 	<select id="selectAcademyCnt" resultType="int">
