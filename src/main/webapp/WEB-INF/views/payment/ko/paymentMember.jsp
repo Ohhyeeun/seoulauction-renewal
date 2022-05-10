@@ -11,12 +11,11 @@
     <link rel="stylesheet" href="/css/common.css" type="text/css" />
     <link rel="stylesheet" href="/css/pages_common_ko.css">
 </head>
-
 <body class="">
-    <jsp:include page="../../include/ko/header.jsp" flush="false"/>
-    
+
     <div class="wrapper footer-bottom footer-bottom30"> 
         <div class="sub-wrap pageclass">
+            <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
             <!-- container -->
             <div id="container">  
@@ -183,7 +182,7 @@
 
         </div>
     </div>
-
+    <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 </body>
 
 </html>
