@@ -11,6 +11,10 @@
 <jsp:include page="../../common/commonCssNotMain.jsp" flush="false"/>
 </c:if>
 
+<%--angular 관련은 미리 로딩--%>
+<jsp:include page="../../common/angular.jsp" flush="false"/>
+
+
 <html lang="en" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
     <c:if test="${not empty param.main}">
