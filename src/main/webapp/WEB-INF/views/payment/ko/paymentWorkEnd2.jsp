@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -18,7 +19,7 @@
 </head>
 
 <body class="">
-    <div class="wrapper footer-bottom footer-bottom30">  
+    <div class="wrapper footer-bottom footer-bottom30"> 
         <div class="sub-wrap pageclass">
 
             <!-- header -->
@@ -232,13 +233,23 @@
                                     <ul class="form_table_pay">
                                         <li>
                                             <div class="account_info">
-                                                <p class="tit">낙찰 작품 안내</p>
-                                                <ul class="dot_list tb1">
-                                                    <li>경매 낙찰 작품은 구매자 직접 작품 수령을 원칙으로 합니다.</li>
-                                                    <li>판매 담당자와의 유선 연락으로 수령 방법 확인 및 방문 예약을 할 수 있습니다.</li>
+                                                <p class="tit">가상계좌 정보</p>
+                                                <p class="txt tb1">
+                                                    <span>2022년 3월 25일 23시 59분</span>까지 아래의<i class="br-mo"></i> 가상계좌로 결제금액을 입금해 주시기 바랍니다.
+                                                </p>
+                                                <ul class="pay_info tb1">
+                                                    <li>
+                                                        <span class="th">은행명</span>
+                                                        <span class="td"><strong>우리은행</strong></span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="th">계좌번호</span>
+                                                        <span class="td"><strong>100-0000-0000 서울옥션 홍길동</strong></span>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </li>
+
 
                                         <li>
                                             <div class="table_box">
@@ -296,7 +307,7 @@
                                                     <span class="th">총 결제금액</span>
                                                     <span class="td pay">낙찰가 200,000 원
                                                         <br class="only-mb" />+ 낙찰수수료 0 원
-                                                        <br class="only-mb" /></i>= <i class="total">총 결제금액 200,000 원</i></span>
+                                                        <br class="only-mb" />= <i class="total">총 결제금액 200,000 원</i></span>
                                                 </li>
                                                 <li>
                                                     <span class="th">결제방법</span>

@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -18,7 +19,7 @@
 </head>
 
 <body class="">
-    <div class="wrapper footer-bottom footer-bottom30"> 
+    <div class="wrapper footer-bottom footer-bottom30">
         <div class="sub-wrap pageclass">
 
             <!-- header -->
@@ -248,26 +249,19 @@
                                                 </ul>
                                             </div>
                                         </li>
-
-
                                         <li>
                                             <div class="table_box">
                                                 <div class="guide">
-
                                                     <div class="product-box">
-                                                        <p class="img"><img src="/images/temp/temp_img2.jpg
+                                                        <p class="img"><img src="/images/temp/temp_img5.jpg
                               " alt="" /></p>
                                                         <dl class="product_info">
                                                             <dt class="tt4">
-                                                                데미안허스트 (1965)
-                                                                <span class="sub_txt tb1">Air (From The Series The Elements)</span>
+                                                                NFT Art & Metaverse in BUSAN
                                                             </dt>
                                                             <dd class="tb2">
-                                                                <span>spray paint on canvas</span>
-                                                                <div class="size_year">
-                                                                    <span>80.9 X 73.4cm</span>
-                                                                    <span>2021</span>
-                                                                </div>
+                                                                2022-03-30 ~ 2022-04-20<br />
+                                                                매주 수요일, 7:00-8:30pm (워크숍 제외)
                                                             </dd>
                                                         </dl>
                                                     </div>
@@ -275,12 +269,12 @@
                                                 </div>
                                                 <div class="member_pay">
                                                     <p>
-                                                        <span class="tit tt5">낙찰가</span>
-                                                        <span class="won tt3">53,000,000<i class="tb1">원</i></span>
+                                                        <span class="tit tt5">수강료</span>
+                                                        <span class="won tt3">600,000<i class="tb1">원</i></span>
                                                     </p>
-                                                    <p class="fees">
-                                                        <span class="tit tb1">낙찰 수수료</span>
-                                                        <span class="won tb1">10,494,000<i class="tb2">원</i></span>
+                                                    <p>
+                                                        <span class="tit tb1">할인금액</span>
+                                                        <span class="won tb1">0<i class="tb2">원</i></span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -304,13 +298,13 @@
                                             <ul class="pay_info tb1">
                                                 <li>
                                                     <span class="th">총 결제금액</span>
-                                                    <span class="td pay">낙찰가 200,000 원
-                                                        <br class="only-mb" />+ 낙찰수수료 0 원
+                                                    <span class="td pay">수강료 200,000 원
+                                                        <br class="only-mb" />+ 할인금액 0 원
                                                         <br class="only-mb" />= <i class="total">총 결제금액 200,000 원</i></span>
                                                 </li>
                                                 <li>
                                                     <span class="th">결제방법</span>
-                                                    <span class="td">신용/체크카드</span>
+                                                    <span class="td">가상계좌</span>
                                                 </li>
                                             </ul>
                                         </li>

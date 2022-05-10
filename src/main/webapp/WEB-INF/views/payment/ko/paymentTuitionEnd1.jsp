@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -220,7 +221,7 @@
                             <div class="content-panel type_panel-payment">
                                 <div class="panel-header">
                                     <div class="title">
-                                        <span class="tt1">작품 결제</span>
+                                        <span class="tt1">결제 완료</span>
                                     </div>
                                     <div class="guide_box">
                                         <span class="tb2">통화 : KRW</span>
@@ -233,21 +234,16 @@
                                         <li>
                                             <div class="table_box">
                                                 <div class="guide">
-
                                                     <div class="product-box">
-                                                        <p class="img"><img src="/images/temp/temp_img2.jpg
+                                                        <p class="img"><img src="/images/temp/temp_img5.jpg
                               " alt="" /></p>
                                                         <dl class="product_info">
                                                             <dt class="tt4">
-                                                                데미안허스트 (1965)
-                                                                <span class="sub_txt tb1">Air (From The Series The Elements)</span>
+                                                                NFT Art & Metaverse in BUSAN
                                                             </dt>
                                                             <dd class="tb2">
-                                                                <span>spray paint on canvas</span>
-                                                                <div class="size_year">
-                                                                    <span>80.9 X 73.4cm</span>
-                                                                    <span>2021</span>
-                                                                </div>
+                                                                2022-03-30 ~ 2022-04-20<br />
+                                                                매주 수요일, 7:00-8:30pm (워크숍 제외)
                                                             </dd>
                                                         </dl>
                                                     </div>
@@ -255,16 +251,17 @@
                                                 </div>
                                                 <div class="member_pay">
                                                     <p>
-                                                        <span class="tit tt5">낙찰가</span>
-                                                        <span class="won tt3">53,000,000<i class="tb1">원</i></span>
+                                                        <span class="tit tt5">수강료</span>
+                                                        <span class="won tt3">600,000<i class="tb1">원</i></span>
                                                     </p>
-                                                    <p class="fees">
-                                                        <span class="tit tb1">낙찰 수수료</span>
-                                                        <span class="won tb1">10,494,000<i class="tb2">원</i></span>
+                                                    <p>
+                                                        <span class="tit tb1">할인금액</span>
+                                                        <span class="won tb1">0<i class="tb2">원</i></span>
                                                     </p>
                                                 </div>
                                             </div>
                                         </li>
+
                                         <li>
                                             <p class="list_tit tt4">구매자 정보</p>
                                             <ul class="pay_info tb1">
@@ -279,19 +276,19 @@
                                             </ul>
                                         </li>
                                         <li>
-                                            <p class="list_tit tt4">결제 방법</p>
-                                            <div class="btn_wrap ">
-                                                <a class="btn btn_black" href="#" role="button"><span>신용/체크카드</span></a>
-                                                <a class="btn btn_default" href="#" role="button"><span>가상 계좌</span></a>
-                                            </div>
-                                        </li>
-                                        <li class="no-line">
-                                            <p class="list_tit tt4">총 결제금액</p>
-                                            <div class="total_pay_box tt3">
-                                                낙찰가 200,000 <i class="tb1">원</i><i class="br-mo"></i>
-                                                + 낙찰 수수료 0 <i class="tb1">원</i> <i class="br-mo"></i>
-                                                = <span>총 결제금액 200,000 <i class="tb1">원</i></span>
-                                            </div>
+                                            <p class="list_tit tt4">결제 정보</p>
+                                            <ul class="pay_info tb1">
+                                                <li>
+                                                    <span class="th">총 결제금액</span>
+                                                    <span class="td pay">수강료 200,000 원
+                                                        <br class="only-mb" />+ 할인금액 0 원
+                                                        <br class="only-mb" />= <i class="total">총 결제금액 200,000 원</i></span>
+                                                </li>
+                                                <li>
+                                                    <span class="th">결제방법</span>
+                                                    <span class="td">가상계좌</span>
+                                                </li>
+                                            </ul>
                                         </li>
                                     </ul>
 
@@ -299,8 +296,9 @@
 
                                 <div class="panel-footer">
                                     <article class="button-area">
-                                        <div class="btn_set-float tac">
-                                            <a class="btn btn_point btn_lg" href="#" role="button"><span>결제하기</span></a>
+                                        <div class="btn_set tac btn_double">
+                                            <a class="btn btn_gray_line btn_lg" href="#" role="button"><span>홈으로 이동</span></a>
+                                            <a class="btn btn_black btn_lg" href="#" role="button"><span>마이페이지로 이동</span></a>
                                         </div>
                                     </article>
                                 </div>
