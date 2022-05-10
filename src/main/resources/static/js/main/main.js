@@ -18,7 +18,6 @@ function Request(){
 var request = new Request();
 var maxSession = request.getParameter("maxSession");
 var modPassword = request.getParameter("modPassword");
-var resetPassword = request.getParameter("resetPassword");
 
 if(modPassword == 'true'){
 	//alert('소중한 개인정보 보호를 위해 비밀번호를 변경해 주세요!');
