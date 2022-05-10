@@ -191,4 +191,42 @@
 	    	and	BBS_ID='inquiry' and STAT_CD='normal'
 		) CNT
 	</select>
+	
+	<!-- 문의상세 -->
+	<select id="selectInquiryInfo" resultType="CommonMap">
+		select
+		    A.*,
+		    CASE WHEN C.P_CD_NM IS NULL THEN '' ELSE C.CD_NM END AS CATE_NM,
+		    CASE WHEN C.P_CD_NM IS NULL THEN C.CD_NM ELSE C.P_CD_NM END AS P_CATE_NM,
+			case when B.reply_cnt > 0 then 'Y' else 'N' end as REPLY_YN,
+			B.LAST_REPLY_DT, 
+			D.EMP_NAME
+		from BBS_WRITE A
+		left outer join (
+			select bbs_id, write_no, count(*) REPLY_CNT, max(reg_dt) LAST_REPLY_DT from BBS_REPLY group by bbs_id, write_no
+		) B ON A.bbs_id = B.bbs_id and A.write_no = B.write_no
+		left outer join (
+			select distinct CA.CD_ID, CA.CD_NM, CC.CD_ID P_CD_ID, CC.CD_NM P_CD_NM from CODE CA 
+			join CODE_GRP CB on CA.grp_id = CB.grp_id
+			left outer join CODE CC on CA.P_cd_id = CC.cd_id
+			where CA.grp_id = 'bbs_inquiry_category'
+			and CA.use_yn = 'Y'
+		) C on A.cate_cd = C.cd_id
+		left outer join EMP D on A.EMP_NO = D.EMP_NO
+		where A.BBS_ID= 'inquiry' and A.STAT_CD='normal' and A.WRITE_NO = #{write_no}
+	</select>
+	
+	<!-- 문의 답변 -->
+	<select id="selectInquiryReply" resultType="CommonMap">
+		select A.*, B.EMP_NAME from BBS_REPLY A
+		join EMP B on A.REG_EMP_NO = B.EMP_NO
+		where A.WRITE_NO = #{write_no} 
+		and A.REPLY_NO = (select X.REPLY_NO from BBS_REPLY X where ifnull(X.DEL_YN, 'N') = 'N' and X.BBS_ID = A.BBS_ID and X.WRITE_NO = A.WRITE_NO order by X.REG_DT desc limit 1)
+	</select>
+	
+	<!-- 문의상세 파일 리스트-->
+	<select id="selectFileList" resultType="CommonMap">
+		select * from BBS_FILE where WRITE_NO = #{write_no}
+	</select>
+	
 </mapper>

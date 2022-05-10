@@ -56,4 +56,12 @@ public class MypageService {
     	map.put("cnt", mypageMapper.selectInquiryListCnt(commonMap));
         return map;
     }
+    
+    public CommonMap selectInquiry(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("inquiryInfo", mypageMapper.selectInquiryInfo(commonMap));
+    	map.put("inquiryReply", mypageMapper.selectInquiryReply(commonMap));
+    	map.put("inquiryFileList", mypageMapper.selectFileList(commonMap));
+        return map;
+    }
 }
