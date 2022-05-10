@@ -3,6 +3,7 @@ package com.seoulauction.renewal.service;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.mapper.aws.MainMapper;
+import com.seoulauction.renewal.mapper.kt.KTMainMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
@@ -18,6 +20,8 @@ import java.util.stream.IntStream;
 public class MainService {
 
     private final MainMapper mainMapper;
+    private final KTMainMapper ktMainMapper;
+
 
 
     public List<CommonMap> selectTopNotice() {
@@ -74,5 +78,28 @@ public class MainService {
 
         return resultMapList;
     }
+
+    public List<CommonMap> selectUpcomings() {
+
+        List<CommonMap> resultMapList = ktMainMapper.selectUpcomings();
+
+        resultMapList = resultMapList.stream().map(item -> {
+            CommonMap returnMap = new CommonMap();
+            returnMap.put("SALE_NO", item.get("SALE_NO"));
+            returnMap.put("SALE_KIND", item.get("SALE_KIND_CD").equals("online") || item.get("SALE_KIND_CD").equals("online_zb") ? "ONLINE" : "LIVE" );
+            returnMap.put("TITLE_BLOB", item.get("TITLE_BLOB"));
+
+//            int d_day = Integer.parseInt(item.get("DDAY").toString());
+            returnMap.put("D_DAY", item.get("DDAY"));
+
+            returnMap.put("FROM_DT", item.get("FROM_DT"));
+            returnMap.put("TO_DT", item.get("TO_DT"));
+
+            return returnMap;
+        }).collect(Collectors.toList());
+
+        return resultMapList;
+    }
+
 }
 
