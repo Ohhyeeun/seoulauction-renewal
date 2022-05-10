@@ -107,9 +107,13 @@ async function loadBeltBanner() {
                 bannerList.map(item => {
                     const content = JSON.parse(item.content);
                     const returnDom =  `<div class="swiper-slide platform-bg" style="background-color: ${content.backgroundColor} ">
-                                            <a href="${ locale === 'en' ? content.url_en : content.url_ko }" target="_blank" class="platform-img" style="background-image: url('${ locale === 'en' ? content.image_pc_en_url : content.image_pc_ko_url }') " >
+                                            <a href="${ locale === 'en' ? content.url_en : content.url_ko }" target="_blank"  >
 <!--                                            추후 img 태그로 변경 필요-->
-<!--                                                <img src-set="${item.cdn_url}" onerror="" alt=""/> -->
+                                                <img src="${locale === 'en' ? content.image_pc_en_url : content.image_pc_ko_url }" 
+                                                     srcset="${locale === 'en' ? content.image_mo_en_url : content.image_mo_ko_url } 1023w, 
+                                                             ${locale === 'en' ? content.image_pc_en_url : content.image_pc_ko_url } 1279w" 
+                                                onerror="" 
+                                                alt="" width="1204" class="platform-img"> 
                                             </a>
                                         </div>`;
 
