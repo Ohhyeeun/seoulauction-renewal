@@ -411,16 +411,7 @@
 </a>
 
 <!-- 뉴스레터 팝업 -->
-<div class="blackBg newsletter-blackBg">
-    <div class="newsletter-termsbox">
-        <div class="newsletter-terms newsletter-comfirmbox">
-            <p class="newsAgree-comfirm">
-                구독해주셔서 감사합니다.
-            </p>
-            <button type="submit" class="commonbtn btn-bg-b newsAgree-comfirmbtn">확인</button>
-        </div>
-    </div>
-</div>
+<jsp:include page="popup/newsletter.jsp" flush="false"/>
 
 <!-- video 팝업 -->
 <div class="blackBg video-blackBg">
