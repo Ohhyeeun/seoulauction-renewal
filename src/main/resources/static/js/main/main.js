@@ -113,7 +113,7 @@ async function loadBeltBanner() {
                                                      srcset="${locale === 'en' ? content.image_mo_en_url : content.image_mo_ko_url } 1023w, 
                                                              ${locale === 'en' ? content.image_pc_en_url : content.image_pc_ko_url } 1279w" 
                                                 onerror="" 
-                                                alt="" > 
+                                                alt="" width="1204" class="platform-img"> 
                                             </a>
                                         </div>`;
 
