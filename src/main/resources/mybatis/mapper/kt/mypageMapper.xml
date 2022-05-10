@@ -191,4 +191,97 @@
 	    	and	BBS_ID='inquiry' and STAT_CD='normal'
 		) CNT
 	</select>
+	
+		<!-- 카테고리 리스트 -->
+	<select id="selectInquiryCategory" resultType="Map">
+		select 		GRP_ID
+				  , CD_ID, CD_NM, CD_NM_EN, CD_NM_CN
+				  , CD_VAL, CD_VAL2, CD_VAL3
+				  , P_GRP_ID, P_CD_ID, LEVEL
+				  , CMMT, DISP_ORD
+		from 		CODE
+		where		USE_YN = 'Y'
+				<foreach collection="grp_ids" item="item" index="index" open="and GRP_ID in (" close=")" separator=",">
+					'${item}'
+				</foreach>
+		order by GRP_ID, DISP_ORD, CD_NM_EN
+	</select>
+	
+	<!-- (로그인)회원정보 -->
+	<select id="selectInquiryCustomerInfo" resultType="CommonMap">
+		select CU.*
+			, (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "정회원" ELSE "준회원" END 
+			   from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_NM
+			, (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "Y" ELSE "N" END 
+			    from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_YN
+			, (select CONCAT('[', GROUP_CONCAT('"', PW.PUSH_WAY_CD, '"'), ']')  
+				from CUST_PUSH_WAY PW where PW.CUST_NO = CU.CUST_NO) PUSH_WAY_JSON
+			, (select CONCAT('[', GROUP_CONCAT('"', IA.INTE_AREA_CD, '"'), ']') 
+				from CUST_INTE_AREA IA where IA.CUST_NO = CU.CUST_NO) INTE_AREA_JSON
+		   from CUST CU
+		   where JOIN_KIND_CD = 'online'
+		   and CU.STAT_CD = 'normal' 
+		   and CU.CUST_NO = #{action_user_no}
+	</select>
+	
+	<!-- 첨부파일 -->
+	<insert id="insertInquiryWriteFile" parameterType="Map">
+	    INSERT INTO BBS_FILE ( 
+	    	BBS_ID, 
+	    	DOWN_CNT,
+	    	FILE_NAME,
+			FILE_NAME_ORG,
+			FILE_PATH,
+			REG_DT,
+			SIZE,
+			WRITE_NO
+		) 
+		VALUES (
+			'inquiry',
+		 	0,
+			#{file_name},
+			#{file_name_org},
+			'${@com.seoulauction.renewal.component.FileManager@moveTempFile(file_path, file_name, 'inquiry')}',
+<!-- 			#{file_path}, -->
+			now(),
+			#{size},
+			#{write_no}
+		);
+	</insert>
+	
+	<!-- 문의하기 -->
+	<insert id="insertInquiryWrite" parameterType="Map" useGeneratedKeys="true" keyProperty="write_no">
+	    INSERT INTO BBS_WRITE ( 
+	    	BBS_ID,
+			CATE_CD,
+			CONTENT,
+			EMAIL,
+			EMP_NO,
+			IP,
+			NOTICE_YN,
+			REG_DT,
+			STAT_CD,
+			TITLE,
+			VIEW_CNT,
+			WRITER,
+			WRITER_KIND_CD,
+			WRITER_NO
+		) 
+		VALUES (
+			'inquiry',
+			#{cate_cd},
+			#{contents},
+			#{email},
+			#{emp_no},
+			#{action_user_ip},
+			'N',
+			now(),
+			'normal',
+			#{inquiry_subject},
+			0,
+			(SELECT CUST_NAME FROM CUST WHERE CUST_NO = #{action_user_no} LIMIT 1),
+			'customer',
+			#{action_user_no}
+		)
+	</insert>
 </mapper>
