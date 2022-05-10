@@ -49,4 +49,11 @@ public class MypageService {
     	map.put("customerInfo", mypageMapper.selectCustomerByCustNo(commonMap));
         return map;
     }
+    
+    public CommonMap selectInquiryList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectInquiryList(commonMap));
+    	map.put("cnt", mypageMapper.selectInquiryListCnt(commonMap));
+        return map;
+    }
 }

@@ -88,4 +88,15 @@ public class ApiMypageController {
 		commonMap.put("cust_no", principal.getName());
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectPayListByCustNo(commonMap)));
 	}
+	
+	@RequestMapping(value = "/inquiries", method = RequestMethod.GET)
+	public ResponseEntity<RestResponse> inquiries(
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		CommonMap commonMap = new CommonMap();
+		commonMap.putPage(page, size);
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectInquiryList(commonMap)));
+	}
 }

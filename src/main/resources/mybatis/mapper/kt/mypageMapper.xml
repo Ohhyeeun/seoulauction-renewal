@@ -85,15 +85,6 @@
 		where L.TO_DT &lt;= NOW()
 		and (B.CUST_NO = '1' and REAL_CUST_NO is null) or REAL_CUST_NO = '1'
 		and (P.CUST_NO = null or (B.CUST_NO = '1' and REAL_CUST_NO is null) or REAL_CUST_NO = '1')
-		<if test='searchMonth != null '>
-		and DATE_FORMAT(L.TO_DT,'%Y-%m') = #{searchMonth}
-		</if>
-		<if test='searchKeyword != null '>
-		and COLUMN_GET(L.TITLE_BLOB, 'ko' AS CHAR) like CONCAT('%',#{searchKeyword},'%')
-		</if>
-		<if test='searchStartDt != null and searchEndDt != null'>
-		and S.TO_DT Between DATE_FORMAT(#{searchStartDt},'%Y-%m-%d') AND DATE_FORMAT(#{searchEndDt},'%Y-%m-%d')
-		</if>
 		group by L.SALE_NO, L.LOT_NO
 	</sql>
 	
@@ -156,4 +147,48 @@
 	order by S.TO_DT DESC;
 	</select>
 	
+	<!-- 문의 리스트 -->
+	<sql id="sql_bbs_w_list">
+		select * from (
+		    select
+			    A.*,
+			    CASE WHEN C.P_CD_NM IS NULL THEN '' ELSE C.CD_NM END AS CATE_NM,
+			    CASE WHEN C.P_CD_NM IS NULL THEN C.CD_NM ELSE C.P_CD_NM END AS P_CATE_NM,
+				case when B.reply_cnt > 0 then 'Y' else 'N' end as REPLY_YN,
+				B.LAST_REPLY_DT, 
+				D.EMP_NAME
+			from BBS_WRITE A
+			left outer join (
+				select bbs_id, write_no, count(*) REPLY_CNT, max(reg_dt) LAST_REPLY_DT from BBS_REPLY group by bbs_id, write_no
+			) B ON A.bbs_id = B.bbs_id and A.write_no = B.write_no
+			left outer join (
+				select distinct CA.CD_ID, CA.CD_NM, CC.CD_ID P_CD_ID, CC.CD_NM P_CD_NM from CODE CA 
+				join CODE_GRP CB on CA.grp_id = CB.grp_id
+				left outer join CODE CC on CA.P_cd_id = CC.cd_id
+				where CA.grp_id = 'bbs_inquiry_category'
+				and CA.use_yn = 'Y'
+			) C on A.cate_cd = C.cd_id
+			left outer join EMP D on A.EMP_NO = D.EMP_NO
+			where A.writer_no = #{action_user_no}
+			<if test="emp_read_yn != null and emp_read_yn != ''">
+			    and A.EMP_READ_YN = #{emp_read_yn}
+		    </if>
+		) Z
+		where 1=1
+	    <if test="complet_yn != null and complet_yn != ''">
+	       and Z.reply_yn = #{complet_yn}
+	    </if>
+	</sql>
+	<select id="selectInquiryList" resultType="Map">
+	    <include refid="sql_bbs_w_list" />
+    	and	BBS_ID='inquiry' and STAT_CD='normal'
+	    order by Z.REG_DT desc limit #{offset}, #{size}
+	 </select>
+	 
+	<select id="selectInquiryListCnt" resultType="int">
+	    select count(*) AS ROW_CNT from (
+		    <include refid="sql_bbs_w_list" />
+	    	and	BBS_ID='inquiry' and STAT_CD='normal'
+		) CNT
+	</select>
 </mapper>
