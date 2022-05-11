@@ -1,9 +1,11 @@
 package com.seoulauction.renewal.auth;
 
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.net.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.MessageDigest;
 
 @Log4j2
 public class Cryptography {
@@ -38,5 +40,26 @@ public class Cryptography {
 		}
 
 		return strDecryptedText.trim();
+	}
+
+	//Nice Pay 전용 Hash
+	public static String encrypt(String strData){
+		String passACL = null;
+		MessageDigest md = null;
+		try{
+			md = MessageDigest.getInstance("SHA-256");
+			md.reset();
+			md.update(strData.getBytes());
+			byte[] raw = md.digest();
+			passACL = encodeHex(raw);
+		}catch(Exception e){
+			System.out.print("암호화 에러" + e.toString());
+		}
+		return passACL;
+	}
+
+	public static String encodeHex(byte [] b){
+		char [] c = Hex.encodeHex(b);
+		return new String(c);
 	}
 }
