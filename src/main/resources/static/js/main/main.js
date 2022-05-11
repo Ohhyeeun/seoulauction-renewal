@@ -49,10 +49,11 @@ window.onload = function(){
     //상단텍스트공지
     loadTopNotice();
 
+    //업커밍
+    loadUpcomings();
+
     //띠배너
     loadBeltBanner();
-
-
 
 }
 
@@ -68,6 +69,110 @@ async function loadTopNotice(){
             document.querySelector(".header_beltTit").insertAdjacentHTML('beforeend',returnDom);
         }
     });
+}
+
+/*upcoming*/
+$('.upcoming-img>img').show(function () {
+    const img_on = $(window).innerWidth();
+    //$('.swiper-slide.upcomingSlide').css('padding-right','40px');
+    if (img_on >= 1280) {
+        $('.swiper-slide.upcomingSlide').css('padding-right', '40px');
+    } else {
+        $('.swiper-slide.upcomingSlide').css('padding-right', '20px');
+    }
+    /* 영문버전 */
+    if (img_on <= 1919) {
+        $('.swiper-slide:lang(en).upcomingSlide').css('padding-right', '20px');
+    }
+
+    $(this).parent('.upcoming-img').addClass('on').css('display', 'flex');
+});
+
+const upcomingSwiper = new Swiper(".upcoming-swiper", {
+    slidesPerView: 'auto',
+    breakpoints: {
+        1439: {
+            slidesPerView: 'auto',
+            //spaceBetween: 20,
+        },
+        1023: {
+            slidesPerView: 'auto',
+            spaceBetween: 0,
+            loopedSlides: 1,
+        },
+    }
+});
+
+//업커밍 바인딩
+async function loadUpcomings() {
+    console.log("loadUpcomings");
+    const slideArray = [];
+
+    await fetch('/api/main/upcomings')
+        // await sleep(2000);
+        .then(res => res.json())
+        .then(res => {
+            if (res.success) {
+                console.log(res);
+                const bannerList = res.data;
+                bannerList.map(item => {
+                    const titleJSON = JSON.parse(item.TITLE_BLOB);
+                    const from_dt = moment(item.FROM_DT);
+                    const to_dt = moment(item.TO_DT)
+                    const returnDom =  ` <div class="swiper-slide upcomingSlide swiper-slide-active" style="padding-right: 40px;">
+                                            <a href="#">
+                                                <div class="upcoming-caption">
+                                                    <span class="auctionKind-box ${ item.SALE_KIND === 'LIVE' ? 'on' : ''}">
+                                                        ${item.SALE_KIND} 
+                                                    </span>
+                                                    ${ item.D_DAY <=7 ? 
+                                                        `<span class="d-day on">
+                                                            ${ item.D_DAY === 0 ? "TODAY" : "D-" + item.D_DAY }
+                                                        </span>` 
+                                                    : ``}
+                                                    <h4>${ titleJSON[locale] }</h4>
+                                                    <div class="upcoming-datebox">
+                                                        ${ locale === 'en'?
+                                                            `<p class="upcoming-preview">
+                                                                <span>OPEN</span><span>${ from_dt.format('DD MMMM')}</span>
+                                                            </p>
+                                                            <p class="upcoming-preview">
+                                                                <span>PREVIEW</span><span>${ from_dt.format('DD MMMM') +" - " +  to_dt.format('DD MMMM')}</span>
+                                                            </p>
+                                                            <p class="upcoming-date">
+                                                                <span>AUCTION</span><span>${ to_dt.format('DD MMMM hh:mm')}</span>
+                                                            </p>`
+                                                            :
+                                                            `<p class="upcoming-preview">
+                                                                <span>오픈일</span><span>${ from_dt.format('MM/DD(ddd)')}</span>
+                                                            </p>
+                                                            <p class="upcoming-preview">
+                                                                <span>프리뷰</span><span>${ from_dt.format('MM/DD(ddd)') +" ~ " +  to_dt.format('MM/DD(ddd)')}</span>
+                                                            </p>
+                                                            <p class="upcoming-date">
+                                                                <span>경매일</span><span>${ to_dt.format('MM/DD(ddd) hh:mm')}</span>
+                                                            </p>`
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <figure class="upcoming-img on" style="display: flex; width:160px; height:160px; overflow: hidden;">
+                                                    <!--<span class="upcomingImg"></span>-->
+<!--                                                    <img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">-->
+<!--                                                    <img src="https://www.seoulauction.com/nas_img/front/online0688/thum/ea39a8bb-c1b9-427d-a250-62117dcc07f5.jpg" alt="alet">-->
+                                                    <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" 
+                                                        style="object-fit: cover"
+                                                        onerror="this.parentNode.remove ? this.parentNode.remove() : this.parentNode.removeNode();" 
+                                                        alt="" >
+                                                </figure>
+                                            </a>
+                                        </div>`;
+                    slideArray.push(returnDom);
+                });
+
+                upcomingSwiper.appendSlide(slideArray);
+
+            }
+        });
 }
 
 
@@ -195,37 +300,6 @@ $(function() {
     });
 
 
-    /*upcoming*/
-    $('.upcoming-img>img').show(function () {
-        const img_on = $(window).innerWidth();
-        //$('.swiper-slide.upcomingSlide').css('padding-right','40px');
-        if (img_on >= 1280) {
-            $('.swiper-slide.upcomingSlide').css('padding-right', '40px');
-        } else {
-            $('.swiper-slide.upcomingSlide').css('padding-right', '20px');
-        }
-        /* 영문버전 */
-        if (img_on <= 1919) {
-            $('.swiper-slide:lang(en).upcomingSlide').css('padding-right', '20px');
-        }
-
-        $(this).parent('.upcoming-img').addClass('on').css('display', 'flex');
-    });
-
-    const upcomingSwiper = new Swiper(".upcoming-swiper", {
-        slidesPerView: 'auto',
-        breakpoints: {
-            1439: {
-                slidesPerView: 'auto',
-                //spaceBetween: 20,
-            },
-            1023: {
-                slidesPerView: 'auto',
-                spaceBetween: 0,
-                loopedSlides: 1,
-            },
-        }
-    });
 
 
     /* video */
