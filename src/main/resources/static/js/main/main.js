@@ -17,17 +17,6 @@ function Request(){
 
 var request = new Request();
 var maxSession = request.getParameter("maxSession");
-var modPassword = request.getParameter("modPassword");
-var resetPassword = request.getParameter("resetPassword");
-
-if(modPassword == 'true'){
-	//alert('소중한 개인정보 보호를 위해 비밀번호를 변경해 주세요!');
-	//TODO 180일 경과 비밀번호 변경 팝업 show
-}
-if(resetPassword == 'true'){
-	//alert('관리자에 의해 비밀번호가 초기화 되었습니다. \n 안전한 개인정보 보호를 위해 비밀번호를 변경해 주세요.');
-	//TODO 관리자 비밀번호 변경 팝업 show
-}
 
 function logout(loginId){
 	console.log(loginId)
@@ -326,6 +315,27 @@ app.controller('mainCtl', function($scope, consts, common, ngDialog) {
 				animationEndSupport: false,
 			});
 		}
+		
+		if(resetPassword == 'true'){
+			$modal = ngDialog.open({
+				template: '/resetPassword',
+				controller: 'resetPasswordPopCtl',
+				closeByDocument: false,
+				showClose: false,
+				animationEndSupport: false,
+			});
+		}
+		
+		console.log(modPassword)
+		if(modPassword == 'true'){
+			$modal = ngDialog.open({
+				template: '/modPassword',
+				controller: 'modPasswordPopCtl',
+				closeByDocument: false,
+				showClose: false,
+				animationEndSupport: false,
+			});
+		}
 	}
 });
 
@@ -334,3 +344,48 @@ app.controller('maxSessionPopCtl', function($scope, consts, common) {
 
     }
 });
+
+app.controller('resetPasswordPopCtl', function($scope, consts, common) {
+    $scope.closePopup = function(modYn){
+		axios.get('/api/main/resetPassword')
+            .then(function(response) {
+                var success = response.data.success;
+                if(!success){
+                    alert(response.data.data.msg);
+                    $scope.closeThisDialog();
+                } else {
+					$scope.closeThisDialog();
+					if(modYn == 'Y'){
+						// TODO 차후 비밀번호 변경 페이지 개발시 수정
+						location.href = '/'
+					}
+                }
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+	}
+});
+
+
+app.controller('modPasswordPopCtl', function($scope, consts, common) {
+    $scope.reAlarm = function(){
+		axios.get('/api/main/reAlarm')
+            .then(function(response) {
+                var success = response.data.success;
+                if(!success){
+                    alert(response.data.data.msg);
+                }
+                $scope.closeThisDialog();
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+	}
+	
+	$scope.modPassword = function(){
+		// TODO 차후 비밀번호 변경 페이지 개발시 수정
+		location.href = '/';
+	}
+});
+

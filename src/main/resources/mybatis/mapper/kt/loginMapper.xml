@@ -4,7 +4,7 @@
 
 	<select id="selectCustByLoginId" parameterType="CommonMap" resultType="CommonMap">
 		select *
-<!-- 			,IF(Date_format(Date_add(passwd_mod_dt, interval 180 day), '%y-%m-%d') <![CDATA[<=]]> Date_format(Now(), '%y-%m-%d'), 'Y', 'N') PASSWD_MOD_NECESSARY_YN Y시 180일 경과로 비밀번호변경필요   -->
+ 			,IF(Date_format(Date_add(passwd_mod_dt, interval 180 day), '%y-%m-%d') <![CDATA[<=]]> Date_format(Now(), '%y-%m-%d'), 'Y', 'N') PASSWD_MOD_NECESSARY_YN <!-- Y시 180일 경과로 비밀번호변경필요   -->
 		from CUST 
 		where LOGIN_ID = #{login_id} <!-- index -->
 		and JOIN_KIND_CD = 'online' and IFNULL(DEL_YN, 'N') = 'N' 
@@ -35,5 +35,20 @@
 		and CU.STAT_CD = 'normal' 
 		and CU.CUST_NO = #{cust_no}
 	</select>
+	
+	<update id="updateCustPwdResetByCustNo" parameterType="CommonMap">
+	    update CUST
+	    set 
+	    	PASSWD_RESET_YN = 'N'
+		where CUST_NO = #{cust_no}
+	</update>
+	
+	<update id="updateCustPwdModDtByCustNo" parameterType="CommonMap">
+		update CUST
+		set    PASSWD_MOD_DT = (select Date_add(now(), interval -150 day)
+		                        from   CUST
+		                        where  CUST_NO = #{cust_no})
+		where CUST_NO = #{cust_no} 
+	</update>
     
 </mapper>
