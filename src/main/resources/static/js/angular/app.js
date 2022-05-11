@@ -176,7 +176,10 @@ app.factory("common", function ($rootScope, $http) {
 			var $e = objs.errCommon;
 			if($error) $e = $error;
 
-			$http.get($url)
+			$http.get($url, {
+					params : $data,
+					headers : {'Accept' : 'application/json'}
+				})
 				.success($s)
 				.error($e)
 				.finally($f);
