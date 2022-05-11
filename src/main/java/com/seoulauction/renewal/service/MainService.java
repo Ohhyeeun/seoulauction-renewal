@@ -74,5 +74,9 @@ public class MainService {
 
         return resultMapList;
     }
+
+    public List<CommonMap> selectVideos(CommonMap map) {
+        return mainMapper.selectVideos(map);
+    }
 }
 

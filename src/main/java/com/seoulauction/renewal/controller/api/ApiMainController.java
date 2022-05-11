@@ -10,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Log4j2
@@ -72,5 +74,14 @@ public class ApiMainController {
         return ResponseEntity.ok(RestResponse.ok(mainService.selectAuctions(CommonMap.create(page,size))));
     }
 
+    @GetMapping("/videos")
+    public ResponseEntity<RestResponse> videos(
+            @RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size,
+            @RequestParam String media_type ) {
+        CommonMap map = new CommonMap();
+        map.put("size", size);
+        map.put("media_type", media_type);
 
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectVideos(map)));
+    }
 }
