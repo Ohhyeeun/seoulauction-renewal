@@ -78,5 +78,11 @@ public class ApiMainController {
     }
 
 
+    @GetMapping(value="/ingAuctions")
+    public ResponseEntity<RestResponse> ingAuctions() {
+
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectIngAuctions()));
+    }
+
 
 }

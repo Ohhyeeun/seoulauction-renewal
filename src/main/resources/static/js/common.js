@@ -1,5 +1,26 @@
+
+
 $(function(){
+const locale = document.documentElement.lang;
+const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
+
     console.log(window.innerWidth);
+
+    //진행중 경매리스트
+    loadIngAuctionList();
+
+    async function loadIngAuctionList(){
+        console.log("loadIngAuctionList")
+        await fetch('api/main/ingAuctions')
+            .then(res => res.json())
+            .then(res => {
+                if (res.success) {
+                    console.log(res)
+
+                }
+            });
+    }
+
 
     window.addEventListener('resize', (e) => {
         const width = e.target.innerWidth;
@@ -42,6 +63,7 @@ $(function(){
             $('*').removeClass('dark');
         }
     });
+
     /* 띠배너 */
     $('.beltclose-btn').click(function(){
         $('.header_beltbox').slideUp(400);

@@ -104,5 +104,9 @@ public class MainService {
         return resultMapList;
     }
 
+
+    public List<CommonMap> selectIngAuctions(){
+        return ktMainMapper.selectIngAuctions();
+    }
 }
 
