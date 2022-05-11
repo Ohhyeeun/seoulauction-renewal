@@ -19,4 +19,6 @@ public interface MainMapper {
     void insertNewsletter(CommonMap map);
 
     CommonMap selectNewsletterForOverlapCheck(CommonMap map);
+
+    List<CommonMap> selectVideos(CommonMap map);
 }

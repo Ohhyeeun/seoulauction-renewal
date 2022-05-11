@@ -88,6 +88,10 @@ public class MainService {
         return resultMapList;
     }
 
+    public List<CommonMap> selectVideos(CommonMap map) {
+        return mainMapper.selectVideos(map);
+    }
+
     public List<CommonMap> selectUpcomings() {
 
         List<CommonMap> resultMapList = ktMainMapper.selectUpcomings();

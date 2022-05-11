@@ -42,7 +42,8 @@
         SELECT id, title, content, publish_at, status, created_at, updated_at
             , CASE when created_at >= DATE_ADD(NOW(), INTERVAL -7 DAY) then 'Y' else 'N' end as is_new
         FROM content_newsletter
-        WHERE id = #{id}
+        WHERE status = 'A'
+            and id = #{id}
     </select>
     <select id="insertNewsletter" parameterType="CommonMap">
         INSERT INTO newsletter_subscriber
@@ -63,4 +64,12 @@
             1
     </select>
 
+    <select id="selectVideos" parameterType="CommonMap" resultType="CommonMap">
+        SELECT id, media_type, content_type, title, read_count, content, sort, status, created_at, updated_at, url
+        FROM content_media cm
+        WHERE status = 'A'
+            AND media_type = #{media_type}
+        ORDER BY sort
+        LIMIT #{size}
+    </select>
 </mapper>

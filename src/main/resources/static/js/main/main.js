@@ -296,35 +296,7 @@ $(function() {
 
 
 
-
     /* video */
-    const videoSwiper = new Swiper(".video-swiper", {
-        slidesPerView: 6,
-        spaceBetween: 20,
-        loop: true,
-        loopFillGroupWithBlank: true,
-        navigation: {
-            nextEl: ".videoBtn-right",
-            prevEl: ".videoBtn-left",
-        },
-        breakpoints: {
-            1919: {
-                slidesPerView: 4,
-                spaceBetween: 20,
-            },
-            1279: {
-                slidesPerView: 3,
-                spaceBetween: 20,
-            },
-            1023: {
-                slidesPerView: 'auto',
-                spaceBetween: 20,
-                loopedSlides: 1,
-                loop: false,
-                loopFillGroupWithBlank: false,
-            },
-        }
-    });
     //video hover
     $('.video-thumb').mouseenter(function () {
         let videoHover = $(this).index();
