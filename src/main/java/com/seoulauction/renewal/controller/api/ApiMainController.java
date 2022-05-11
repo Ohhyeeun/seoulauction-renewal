@@ -84,4 +84,9 @@ public class ApiMainController {
 
         return ResponseEntity.ok(RestResponse.ok(mainService.selectVideos(map)));
     }
+
+    @RequestMapping(value = "/upcomings", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> upcomings(){
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectUpcomings()));
+    }
 }

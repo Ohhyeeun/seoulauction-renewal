@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seoulauction.renewal.mapper.kt.KTMainMapper">
+	<select id="selectUpcomings" parameterType="CommonMap" resultType="CommonMap">
+		<![CDATA[
+		select SALE_NO
+			 , SALE_KIND_CD
+		     , DATEDIFF(date(TO_DT), now()) as DDAY
+			 , COLUMN_JSON(TITLE_BLOB) AS TITLE_BLOB
+			 , WWW_DISP_YN
+			 , FROM_DT
+			 , TO_DT
+-- 			 , OPEN_DT
+		from SALE
+		where DEL_YN = 'N'
+		  and STAT_CD in ('upcoming', 'open')
+		  and WWW_DISP_YN = 'Y'
+		  and DATE_FORMAT(TO_DT,'%Y-%m-%d') >= current_date
+		order by TO_DT;
+		]]>
+	</select>
+</mapper>
+
