@@ -84,12 +84,4 @@ public class ApiMainController {
         return ResponseEntity.ok(RestResponse.ok(mainService.selectUpcomings()));
     }
 
-
-
-
-    @RequestMapping(value = "/upcomings", method = RequestMethod.GET)
-    public ResponseEntity<RestResponse> upcomings(Model model){
-
-       return ResponseEntity.ok(RestResponse.ok(mainService.selectUpcomings()));
-    }
 }
