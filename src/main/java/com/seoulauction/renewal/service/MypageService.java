@@ -1,11 +1,18 @@
 package com.seoulauction.renewal.service;
 
-import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.mapper.kt.MypageMapper;
-import lombok.RequiredArgsConstructor;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.mapper.kt.MypageMapper;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -48,5 +55,35 @@ public class MypageService {
     	
     	map.put("customerInfo", mypageMapper.selectCustomerByCustNo(commonMap));
         return map;
+    }
+    
+    public CommonMap selectSaleCertByCustHp(CommonMap commonMap){  
+    	return mypageMapper.selectSaleCertByCustHp(commonMap);
+    }
+    
+    public CommonMap selectAuthNumber(CommonMap commonMap){  
+    	return mypageMapper.selectAuthNumber(commonMap);
+    }
+    
+    public CommonMap inertSaleCert(CommonMap commonMap){  
+    	mypageMapper.inertSaleCert(commonMap);
+    	return commonMap;
+    }
+    
+    // 공통
+    public Map<String,Object> formatMapRequest(HttpServletRequest request) {
+    	Map<String, Object> map = new HashMap<String, Object>();
+        Enumeration<String> enumber = request.getParameterNames();
+        while (enumber.hasMoreElements()) {
+            String key = enumber.nextElement().toString();
+            String value = request.getParameter(key);
+
+            map.put(key, value);  
+        }
+        return map;
+    }
+
+    public int updateSaleCertHp(CommonMap commonMap){  
+    	return mypageMapper.updateSaleCertHp(commonMap);
     }
 }
