@@ -50,6 +50,11 @@ public class MainController {
     public String maxSession(Locale locale) {
         return SAConst.getUrl(SERVICE_MAIN , "popup/maxSession" , locale);
     }
+    
+    @GetMapping("/resetPassword" )
+    public String resetPassword(Locale locale) {
+        return SAConst.getUrl(SERVICE_MAIN , "popup/resetPassword" , locale);
+    }
 
     @GetMapping("/beltBanner" )
     public String beltBanner(Locale locale) {

@@ -35,5 +35,12 @@
 		and CU.STAT_CD = 'normal' 
 		and CU.CUST_NO = #{cust_no}
 	</select>
+	
+	<update id="updateCustPwdResetByCustNo" parameterType="CommonMap">
+	    update CUST
+	    set 
+	    	PASSWD_RESET_YN = 'N'
+		where CUST_NO = #{cust_no}
+	</update>
     
 </mapper>
