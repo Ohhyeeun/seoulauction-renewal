@@ -127,5 +127,23 @@ public class ApiMainController {
     	
         return ResponseEntity.ok(RestResponse.ok());
     }
+    
+
+    @GetMapping(value="/reAlarm")
+    public ResponseEntity<RestResponse> reAlarm(Principal principal, HttpServletRequest request) {
+    	CommonMap paramMap = new CommonMap();
+    	if(principal != null) {
+    		paramMap.put("cust_no", principal.getName());
+    		log.info("paramMap : {}" , paramMap);
+    		int result = loginService.updateCustPwdModDtByCustNo(paramMap);
+    		if(result == 1) {
+    			request.getSession().removeAttribute("PASSWD_MOD_NECESSARY_YN");
+    		}
+    	}else {
+			throw new SAException("로그인이 필요합니다."); 
+		}
+    	
+        return ResponseEntity.ok(RestResponse.ok());
+    }
 
 }
