@@ -248,6 +248,7 @@
 
 <script>
 var resetPassword = '${sessionScope.PASSWD_RESET_YN}';
+var modPassword = '${sessionScope.PASSWD_MOD_NECESSARY_YN}';
 </script>
 
 <script src="/js/main/main.js" type="text/javascript"></script>
