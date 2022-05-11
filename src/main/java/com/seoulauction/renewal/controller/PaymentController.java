@@ -58,6 +58,9 @@ public class PaymentController {
         request.setAttribute("email" , email);
         request.setAttribute("address" , address);
 
+        request.setAttribute("mKey" , nicePaymerchantKey);
+        request.setAttribute("mId" , nicePayMerchantId);
+        request.setAttribute("signData" , signData);
         request.setAttribute("eDate" , eDate);
         request.setAttribute("signData" , signData);
 
