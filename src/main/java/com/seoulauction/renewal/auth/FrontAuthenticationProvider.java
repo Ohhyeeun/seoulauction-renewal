@@ -55,7 +55,10 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
 		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 		// TODO 비밀번호 변경 180일 경과 여부
         
-    	// TODO 관리자에 의한 비밀번호 초기화 여부
+		// 관리자에 의한 비밀번호 초기화 여부
+        if(resultMap.get("PASSWD_RESET_YN").equals("Y")){
+            attr.getRequest().getSession().setAttribute("PASSWD_RESET_YN", true);
+        }
         
 		WebAuthenticationDetails wad;
         String userIPAddress;

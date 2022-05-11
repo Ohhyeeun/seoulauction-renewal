@@ -20,5 +20,9 @@ public class LoginService {
     public int insertConnHist(CommonMap paramMap){
         return loginMapper.insertConnHist(paramMap);
     }
+    
+    public int updateCustPwdResetByCustNo(CommonMap paramMap){
+        return loginMapper.updateCustPwdResetByCustNo(paramMap);
+    }
 
 }

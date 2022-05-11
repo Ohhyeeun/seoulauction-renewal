@@ -246,6 +246,9 @@
 </div>
 </body>
 
+<script>
+var resetPassword = '${sessionScope.PASSWD_RESET_YN}';
+</script>
 
 <script src="/js/main/main.js" type="text/javascript"></script>
 <script src="/js/main/auction.js" type="text/javascript"></script>
