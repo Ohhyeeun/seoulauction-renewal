@@ -50,3 +50,4 @@
         </section>
     </div>
 </footer>
+<jsp:include page="../../common/commonJs.jsp" flush="false"/>

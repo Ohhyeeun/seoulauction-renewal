@@ -9,6 +9,7 @@ $(document).ready(function(){
     });
 
     $('.subscriptBtn').click(function(){
+
         if(subscript) {
             $('.newsletter-blackBg').fadeIn('fast');
             $('#terms').show();
@@ -36,21 +37,16 @@ $(document).ready(function(){
             let data = {};
             data['email'] = email;
             data['name'] = name;
-
+            data['lang'] = document.documentElement.lang;
             if(!email || !name){
                 alert('이메일 혹은 이름이 올바르지않습니다.');
                 return;
             }
 
-            fetch('/api/main/newsletters', {
-                method: 'POST', // 또는 'PUT'
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-                .then((response) => response.json())
-                .then((result) => {
+            axios.post('/api/main/newsletters' , data)
+                .then(function(response) {
+                    const result = response.data;
+
                     let success = result.success;
                     if(!success){
                         alert(result.data.msg);
@@ -59,10 +55,9 @@ $(document).ready(function(){
                         $('#termsResult').fadeIn(400);
                     }
                 })
-                .catch((error) => {
-                    alert('실패:' + error);
+                .catch(function(error){
+                    console.log(error);
                 });
-
 
         } else {
             alert("개인 정보 수집에 동의해주세요.");

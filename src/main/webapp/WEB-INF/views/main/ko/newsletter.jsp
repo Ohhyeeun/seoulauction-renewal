@@ -11,13 +11,12 @@
 <html>
     <link rel="stylesheet" href="/css/common.css" type="text/css" />
     <link rel="stylesheet" href="/css/pages_common_ko.css">
-    <!-- header -->
-    <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
 <body>
 <div class="wrapper footer-bottom footer-bottom30">
     <div class="sub-wrap pageclass type-pagemain">
-
+        <!-- header -->
+        <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
         <!-- container -->
         <div id="container" ng-controller="newsLetterCtl" data-ng-init="loadNewsletter(1)">

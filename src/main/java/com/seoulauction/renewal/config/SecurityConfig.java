@@ -94,7 +94,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		        .rememberMeParameter("remember-me")
 		        .tokenValiditySeconds(86400 * 30) // 1달
 		        .userDetailsService(rememberMeService)
-		        .authenticationSuccessHandler(rememberMeLoginSuccessHandler);
+		        .authenticationSuccessHandler(rememberMeLoginSuccessHandler)
+		        .and()
+		    .sessionManagement()
+	        	.maximumSessions(1)
+	        	.maxSessionsPreventsLogin(false)
+	        	.expiredUrl("/?maxSession=true")
+	        	.and();
     }
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
