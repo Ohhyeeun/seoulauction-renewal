@@ -25,7 +25,7 @@
                         <div class="section-inner">
 
                             <%--결제 폼--%>
-                            <form name="payForm" method="post" action="/payment/payResult">
+                            <form name="payForm" method="post" action="/payment/paymentMemberResult">
                                 <div class="content-panel type_panel-payment">
                                     <div class="panel-header">
                                         <div class="title">

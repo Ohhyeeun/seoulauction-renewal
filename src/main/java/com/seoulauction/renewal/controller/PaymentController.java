@@ -67,16 +67,13 @@ public class PaymentController {
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentMember" , locale);
     }
 
-    @GetMapping("/payRequest")
-    public String payRequest(Locale locale) {
-        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "/example/payRequest_utf" , locale);
-    }
-
-    @PostMapping("/payResult")
+    @PostMapping("/paymentMemberResult")
     public String payResult(HttpServletRequest request , Locale locale) {
 
 
         NicePayHttpServletRequestWrapper wrapper =new NicePayHttpServletRequestWrapper(request);
+
+        String address  = "(02123) 경기도 부천시 양지로 234-38";
 
         try {
             log.info(new ObjectMapper().writeValueAsString(wrapper.getMapToString()));
@@ -84,8 +81,20 @@ public class PaymentController {
             e.printStackTrace();
         }
 
+        //추후 개인정보는 시큐리티에서 가져올듯
+        request.setAttribute("address" , address);
+        request.setAttribute("name", wrapper.getParameter("BuyerName"));
+        request.setAttribute("tel" , wrapper.getParameter("BuyerTel"));
+        request.setAttribute("method" , wrapper.getParameter("PayMethod"));
+        request.setAttribute("amt" , wrapper.getParameter("Amt"));
 
-        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "/example/payResult_utf" , locale);
+        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentMemberResult" , locale);
     }
+
+    @GetMapping("/payRequest")
+    public String payRequest(Locale locale) {
+        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "/example/payRequest_utf" , locale);
+    }
+
 
 }

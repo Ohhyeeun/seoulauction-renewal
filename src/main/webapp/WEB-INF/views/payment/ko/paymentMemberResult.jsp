@@ -65,15 +65,15 @@
                                             <ul class="pay_info tb1">
                                                 <li>
                                                     <span class="th">이름</span>
-                                                    <span class="td">홍길동</span>
+                                                    <span class="td">${name}</span>
                                                 </li>
                                                 <li>
                                                     <span class="th">연락처</span>
-                                                    <span class="td">010-1234-5678</span>
+                                                    <span class="td">${tel}</span>
                                                 </li>
                                                 <li>
                                                     <span class="th">배송주소</span>
-                                                    <span class="td">(03403) 서울 종로구 평창 30길 24 2F</span>
+                                                    <span class="td">${address}</span>
                                                 </li>
                                             </ul>
                                         </li>
@@ -84,11 +84,11 @@
                                                     <span class="th">총 결제금액</span>
                                                     <span class="td pay">정회원 비용 200,000 원
                                                         <br class="only-mb" />+ 수수료 0 원
-                                                        <br class="only-mb" />= <i class="total">총 결제금액 200,000 원</i></span>
+                                                        <br class="only-mb" />= <i class="total">총 결제금액 ${amt} 원</i></span>
                                                 </li>
                                                 <li>
                                                     <span class="th">결제방법</span>
-                                                    <span class="td">가상계좌</span>
+                                                    <span class="td">${method}</span>
                                                 </li>
                                             </ul>
                                         </li>
