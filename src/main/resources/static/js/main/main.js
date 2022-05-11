@@ -59,9 +59,22 @@ async function loadTopNotice(){
     .then(res => res.json())
     .then(res => {
         if (res.success) {
-            const content = JSON.parse(res.data[0].content);
-            const returnDom = `<a href="${locale === 'en'? content.en_url : content.ko_url}">${locale === 'en'? content.en_text : content.ko_text }<span class="beltbanner-triangle"></span></a>`
-            document.querySelector(".header_beltTit").insertAdjacentHTML('beforeend',returnDom);
+            if(res.data[0]) {
+                const content = JSON.parse(res.data[0].content);
+                const returnDom = `<div class="header_beltbox on"> <!--class="on" block-->
+                                        <div class="wrap belttxtbox wrap_padding">
+                                                <span class="header_beltTit">
+                                                    <a href="${locale === 'en' ? content.en_url : content.ko_url}">${locale === 'en' ? content.en_text : content.ko_text}<span class="beltbanner-triangle"></span></a>
+                                                </span>
+                                            <span class="beltclose-btn closebtn closebtn-w"></span>
+                                        </div>
+                                   </div>`
+
+                document.querySelector(".header").insertAdjacentHTML('afterbegin', returnDom);
+
+
+
+            }
         }
     });
 }

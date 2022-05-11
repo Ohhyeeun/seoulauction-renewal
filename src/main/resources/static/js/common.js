@@ -42,10 +42,6 @@ $(function(){
             $('*').removeClass('dark');
         }
     });
-    /* 띠배너 */
-    $('.beltclose-btn').click(function(){
-        $('.header_beltbox').slideUp(400);
-    });
 
     /*gnb menu */
     let gnb = $(this).index();
@@ -76,13 +72,13 @@ $(function(){
             $(this).hasClass('main-header');
         });
 
-        /* 띠배너 beltbanner */
-        $('.header_beltbox.on').show(function(){
-            $('.main-contents').css('margin-top','180px');
-        });
-        $('.beltclose-btn').click(function(){
-            $('.main-contents').css('margin-top','120px');
-        });
+        // /* 띠배너 beltbanner */
+        // $('.header_beltbox.on').show(function(){
+        //     $('.main-contents').css('margin-top','180px');
+        // });
+        // $('.beltclose-btn').click(function(){
+        //     $('.main-contents').css('margin-top','120px');
+        // });
     } else { /* 테블릿 */
         /* 모바일 gnb */
         $('.header_gnbmenu>li>a').mouseenter(function(){
@@ -130,15 +126,16 @@ $(function(){
             $(this).hasClass('main-header');
         });
 
-        /* 띠배너 beltbanner */
-        $('.header_beltbox.on').show(function(){
-            /*$('.main-contents').css('top','99px');*/
-            $('.main-contents').css('margin-top','101px');
-        });
-        $('.beltclose-btn').click(function(){
-            /*$('.main-contents').css('top','56px');*/
-            $('.main-contents').css('margin-top','58px');  
-        });
+        // /* 띠배너 beltbanner */
+        // $('.header_beltbox.on').show(function(){
+        //     /*$('.main-contents').css('top','99px');*/
+        //     $('.main-contents').css('margin-top','101px');
+        // });
+        //
+        // $('.beltclose-btn').click(function(){
+        //     /*$('.main-contents').css('top','56px');*/
+        //     $('.main-contents').css('margin-top','58px');
+        // });
     }
 
     /* utility menu */
