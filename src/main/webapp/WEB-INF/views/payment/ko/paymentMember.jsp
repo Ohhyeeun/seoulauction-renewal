@@ -9,11 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>결제 | Seoul Auction</title>
     <link rel="stylesheet" href="/css/plugin/csslibrary.css">
-    <link rel="stylesheet" href="/css/common.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css" />
 </head>
-<script src="https://web.nicepay.co.kr/v3/webstd/js/nicepay-3.0.js" type="text/javascript"></script>
-<script src="/js/payment/payment.js" type="text/javascript"></script>
 <body class="">
 
     <div class="wrapper footer-bottom footer-bottom30"> 
@@ -82,9 +79,9 @@
                                             </li>
                                             <li>
                                                 <p class="list_tit tt4">결제 방법</p>
-                                                <div class="btn_wrap ">
-                                                    <a class="btn btn_black " href="#" role="button"><span>신용/체크카드</span></a>
-                                                    <a class="btn btn_default " href="#" role="button"><span>가상 계좌</span></a>
+                                                <div id="payMethod" class="btn_wrap">
+                                                    <a id="payCard" class="btn btn_default" role="button"><span>신용/체크카드</span></a>
+                                                    <a id="payVBank" class="btn btn_default" role="button"><span>가상 계좌</span></a>
                                                 </div>
                                             </li>
                                             <li class="no-line">
@@ -150,11 +147,9 @@
                                                     </li>
                                                 </ul>
                                             </li>
-
                                         </ul>
-
                                     </div>
-                                    <input type="hidden" name="PayMethod" value=""/>
+                                    <input id="inputPayMethod" type="hidden" name="PayMethod" value=""/>
 
                                     <input type="hidden" name="GoodsName" value="${goodsName}"/>
                                     <input type="hidden" name="Amt" value="${price}"/>
@@ -210,7 +205,10 @@
 
         </div>
     </div>
+    <script src="https://web.nicepay.co.kr/v3/webstd/js/nicepay-3.0.js" type="text/javascript"></script>
+    <script src="/js/payment/payment.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
+    <script src="/js/payment/paymentMember.js" type="text/javascript"></script>
 </body>
 
 </html>
