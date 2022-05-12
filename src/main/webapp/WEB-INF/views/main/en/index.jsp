@@ -332,6 +332,12 @@
     </div>
 </div>
 </body>
+
+<script>
+var resetPassword = '${sessionScope.PASSWD_RESET_YN}';
+var modPassword = '${sessionScope.PASSWD_MOD_NECESSARY_YN}';
+</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script src="/js/main/main.js" type="text/javascript"></script>
 <script src="/js/main/auction.js" type="text/javascript"></script>

@@ -1,5 +1,69 @@
+
+
 $(function(){
+const locale = document.documentElement.lang;
+const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
+
     console.log(window.innerWidth);
+
+    //진행중 경매리스트
+    loadIngAuctionList();
+
+    //now표시
+    setNowBadge();
+
+    function loadIngAuctionList(){
+
+        axios.get('api/main/ingAuctions')
+        .then(function(response){
+            const success =  response.data.success;
+            if (success) {
+                const ingAuctionList = response.data.data;
+                ingAuctionList.map(item => {
+                    const titleJSON = JSON.parse(item.TITLE_BLOB);
+                    const returnDom = `<a href="/auction/${item.SALE_NO}" class="Ingbanner" target="_blank">
+                                            <figure class="border-txt-darkg Ingbanner-img">
+                                                <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
+                                            </figure>
+                                            <div class="Ingbanner-txt text-over">
+                                                <span class="auctionKind-box Ingkind-auction ${item.SALE_KIND === 'LIVE' ? 'on' : ''}">${item.SALE_KIND}</span>
+                                                  <p class="text-over">${titleJSON[locale]}</p>
+                                                <span class="Ingbanner-arrow"></span>
+                                            </div>
+                                        </a>`;
+
+                    document.querySelector(".Ingbanner-box").insertAdjacentHTML('beforeend', returnDom);
+                });
+
+            }
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+    }
+
+    function setNowBadge(){
+
+        axios.get('api/main/ingMenuCount')
+        .then(function(response){
+            const success =  response.data.success;
+            if (success) {
+                const menuCount = response.data.data[0];
+                const badgeHtml = '<span class="currentIng">NOW</span>';
+                if(menuCount.AuctionCount > 0)
+                    document.querySelector('#menu_auction').insertAdjacentHTML('beforeend', badgeHtml);
+                if(menuCount.UpcomingCount > 0)
+                    document.querySelector('#menu_upcoming').insertAdjacentHTML('beforeend', badgeHtml);
+                if(menuCount.ExhibitionCount > 0)
+                    document.querySelector('#menu_exhibit').insertAdjacentHTML('beforeend', badgeHtml);
+                if(menuCount.AcademyCount > 0)
+                    document.querySelector('#menu_academy').insertAdjacentHTML('beforeend', badgeHtml);
+            }
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+    }
 
     window.addEventListener('resize', (e) => {
         const width = e.target.innerWidth;
@@ -42,6 +106,7 @@ $(function(){
             $('*').removeClass('dark');
         }
     });
+
     /* 띠배너 */
     $('.beltclose-btn').click(function(){
         $('.header_beltbox').slideUp(400);
@@ -76,13 +141,13 @@ $(function(){
             $(this).hasClass('main-header');
         });
 
-        /* 띠배너 beltbanner */
-        $('.header_beltbox.on').show(function(){
-            $('.main-contents').css('margin-top','180px');
-        });
-        $('.beltclose-btn').click(function(){
-            $('.main-contents').css('margin-top','120px');
-        });
+        // /* 띠배너 beltbanner */
+        // $('.header_beltbox.on').show(function(){
+        //     $('.main-contents').css('margin-top','180px');
+        // });
+        // $('.beltclose-btn').click(function(){
+        //     $('.main-contents').css('margin-top','120px');
+        // });
     } else { /* 테블릿 */
         /* 모바일 gnb */
         $('.header_gnbmenu>li>a').mouseenter(function(){
@@ -130,15 +195,16 @@ $(function(){
             $(this).hasClass('main-header');
         });
 
-        /* 띠배너 beltbanner */
-        $('.header_beltbox.on').show(function(){
-            /*$('.main-contents').css('top','99px');*/
-            $('.main-contents').css('margin-top','101px');
-        });
-        $('.beltclose-btn').click(function(){
-            /*$('.main-contents').css('top','56px');*/
-            $('.main-contents').css('margin-top','58px');  
-        });
+        // /* 띠배너 beltbanner */
+        // $('.header_beltbox.on').show(function(){
+        //     /*$('.main-contents').css('top','99px');*/
+        //     $('.main-contents').css('margin-top','101px');
+        // });
+        //
+        // $('.beltclose-btn').click(function(){
+        //     /*$('.main-contents').css('top','56px');*/
+        //     $('.main-contents').css('margin-top','58px');
+        // });
     }
 
     /* utility menu */
@@ -252,6 +318,36 @@ function searchFilter() {
     };
 }
 
+
+function closeToday(cookieName){
+    setCookie(cookieName, 'done', 1);
+}
+
+// 쿠키 가져오기
+function getCookie(name) {
+    var nameOfCookie = name + "=";
+    var x = 0;
+    while (x <= document.cookie.length) {
+        var y = (x + nameOfCookie.length);
+        if (document.cookie.substring(x, y) == nameOfCookie) {
+            if ((endOfCookie = document.cookie.indexOf(";", y)) == -1)
+                endOfCookie = document.cookie.length;
+            return unescape(document.cookie.substring(y, endOfCookie));
+        }
+        x = document.cookie.indexOf(" ", x) + 1;
+        if (x == 0)
+            break;
+    }
+    return "";
+}
+
+
+// 만료 후 클릭한 시간까지 쿠키 설정
+function setCookie(name, value, expiredays) {
+    var todayDate = new Date();
+    todayDate.setDate(todayDate.getDate() + expiredays);
+    document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+}
 
 
 

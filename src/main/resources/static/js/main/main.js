@@ -47,16 +47,51 @@ window.onload = function(){
 }
 
 // 상단텍스트공지
-async function loadTopNotice(){
+function loadTopNotice(){
 
-    await fetch('api/main/topNotice')
-    .then(res => res.json())
-    .then(res => {
-        if (res.success) {
-            const content = JSON.parse(res.data[0].content);
-            const returnDom = `<a href="${locale === 'en'? content.en_url : content.ko_url}">${locale === 'en'? content.en_text : content.ko_text }<span class="beltbanner-triangle"></span></a>`
-            document.querySelector(".header_beltTit").insertAdjacentHTML('beforeend',returnDom);
+    axios.get('api/main/topNotice')
+    .then(function(response){
+        const success =  response.data.success;
+        if (success) {
+            const data = response.data.data;
+            if(!getCookie('top-notice') && data[0]) {
+                const content = JSON.parse(data[0].content);
+                const returnDom = `<div class="header_beltbox on"> <!--class="on" block-->
+                                        <div class="wrap belttxtbox wrap_padding">
+                                                <span class="header_beltTit">
+                                                    <a href="${locale === 'en' ? content.en_url : content.ko_url}">${locale === 'en' ? content.en_text : content.ko_text}<span class="beltbanner-triangle"></span></a>
+                                                </span>
+                                            <span class="beltclose-btn closebtn closebtn-w"></span>
+                                        </div>
+                                   </div>`
+
+                document.querySelector(".header").insertAdjacentHTML('afterbegin', returnDom);
+
+                /* 상단 텍스트 동적 생성으로 인한 스타일 변경 및 이벤트 바인딩 */
+                document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                    $('.header_beltbox').slideUp(400);
+                    closeToday('top-notice');
+                });
+
+                if(matchMedia("all and (min-width: 1024px)").matches) {
+                    document.querySelector(".main-contents").style.marginTop = '180px';
+                    document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                        document.querySelector(".main-contents").style.marginTop = '120px';
+                    });
+                } else { /* 모바일, 테블릿 */
+                    /* main gnb fixed */
+                    document.querySelector(".main-contents").style.marginTop = '101px';
+                    $('.main-contents').css('margin-top','101px');
+                    document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                        document.querySelector(".main-contents").style.marginTop = '58px';
+                    });
+                }
+
+            }
         }
+    })
+    .catch(function(error){
+        console.log(error);
     });
 }
 
@@ -93,21 +128,20 @@ const upcomingSwiper = new Swiper(".upcoming-swiper", {
 });
 
 //업커밍 바인딩
-async function loadUpcomings() {
-    console.log("loadUpcomings");
+function loadUpcomings() {
     const slideArray = [];
 
-    await fetch('/api/main/upcomings')
+    axios.get('/api/main/upcomings')
         // await sleep(2000);
-        .then(res => res.json())
-        .then(res => {
-            if (res.success) {
-                console.log(res);
-                const bannerList = res.data;
+        .then(function(response){
+            const success =  response.data.success;
+            if (success) {
+                const bannerList = response.data.data;
                 bannerList.map(item => {
                     const titleJSON = JSON.parse(item.TITLE_BLOB);
                     const from_dt = moment(item.FROM_DT);
-                    const to_dt = moment(item.TO_DT)
+                    const to_dt = moment(item.TO_DT);
+                    const open_dt = moment(item.OPEN_DT);
                     const returnDom =  ` <div class="swiper-slide upcomingSlide swiper-slide-active" style="padding-right: 40px;">
                                             <a href="#">
                                                 <div class="upcoming-caption">
@@ -123,7 +157,7 @@ async function loadUpcomings() {
                                                     <div class="upcoming-datebox">
                                                         ${ locale === 'en'?
                                                             `<p class="upcoming-preview">
-                                                                <span>OPEN</span><span>${ from_dt.format('DD MMMM')}</span>
+                                                                <span>OPEN</span><span>${ open_dt.format('DD MMMM')}</span>
                                                             </p>
                                                             <p class="upcoming-preview">
                                                                 <span>PREVIEW</span><span>${ from_dt.format('DD MMMM') +" - " +  to_dt.format('DD MMMM')}</span>
@@ -133,7 +167,7 @@ async function loadUpcomings() {
                                                             </p>`
                                                             :
                                                             `<p class="upcoming-preview">
-                                                                <span>오픈일</span><span>${ from_dt.format('MM/DD(ddd)')}</span>
+                                                                <span>오픈일</span><span>${ open_dt.format('MM/DD(ddd)')}</span>
                                                             </p>
                                                             <p class="upcoming-preview">
                                                                 <span>프리뷰</span><span>${ from_dt.format('MM/DD(ddd)') +" ~ " +  to_dt.format('MM/DD(ddd)')}</span>
@@ -161,6 +195,9 @@ async function loadUpcomings() {
                 upcomingSwiper.appendSlide(slideArray);
 
             }
+        })
+        .catch(function(error){
+            console.log(error);
         });
 }
 
@@ -188,16 +225,15 @@ const platFormSwiper = new Swiper('.platform-swiper', {
 
 
 //띠배너 바인딩
-async function loadBeltBanner() {
+function loadBeltBanner() {
     const slideArray = [];
 
-    await fetch('/api/main/beltBanners')
+    axios.get('/api/main/beltBanners')
         // await sleep(2000);
-        .then(res => res.json())
-        .then(res => {
-            if (res.success) {
-                console.log(res);
-                const bannerList = res.data;
+        .then(function(response){
+            const success =  response.data.success;
+            if (success) {
+                const bannerList = response.data.data;
                 bannerList.map(item => {
                     const content = JSON.parse(item.content);
                     const returnDom =  `<div class="swiper-slide platform-bg" style="background-color: ${content.backgroundColor} ">
@@ -217,6 +253,9 @@ async function loadBeltBanner() {
                 platFormSwiper.appendSlide(slideArray);
 
             }
+        })
+        .catch(function(error){
+            console.log(error);
         });
 }
 
