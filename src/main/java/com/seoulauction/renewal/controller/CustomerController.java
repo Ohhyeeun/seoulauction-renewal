@@ -32,13 +32,9 @@ public class CustomerController {
         log.info("get niceVBankPaid");
     }
 
-    @PostMapping(value = "/niceVbankPaid", produces="text/plain")
-    @ResponseBody
-    public void niceVBankPaid(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @PostMapping(value = "/niceVbankPaid"x)
+    public void niceVBankPaid(HttpServletRequest request, HttpServletResponse response) {
         log.info("post niceVBankPaid");
-
-        request.setCharacterEncoding("euc-kr");
-        response.setContentType("text/html;charset=euc-kr");
 
         Enumeration params = request.getParameterNames();
         log.info("param start----------------------------");
@@ -47,14 +43,6 @@ public class CustomerController {
             log.info(name + " : " +request.getParameter(name));
         }
         log.info("param end----------------------------");
-
-        params = request.getAttributeNames();
-        log.info("attr start----------------------------");
-        while (params.hasMoreElements()){
-            String name = (String)params.nextElement();
-            log.info(name + " : " +request.getAttribute(name));
-        }
-        log.info("attr end----------------------------");
 
         String PayMethod    = request.getParameter("PayMethod");        //지불수단
         String MID          = request.getParameter("MID");              //상점ID
