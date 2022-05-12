@@ -110,6 +110,18 @@ public class ApiMainController {
     public ResponseEntity<RestResponse> upcomings(){
         return ResponseEntity.ok(RestResponse.ok(mainService.selectUpcomings()));
     }
+
+    @GetMapping(value="/ingAuctions")
+    public ResponseEntity<RestResponse> ingAuctions() {
+
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectIngAuctions()));
+    }
+
+    @GetMapping(value="/ingMenuCount")
+    public ResponseEntity<RestResponse> ingMenuCount() {
+
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectIngMenuCount()));
+    }
    
     @GetMapping(value="/resetPassword")
     public ResponseEntity<RestResponse> resetPassword(Principal principal, HttpServletRequest request) {

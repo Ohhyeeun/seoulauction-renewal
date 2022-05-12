@@ -5,19 +5,74 @@
 		<![CDATA[
 		select SALE_NO
 			 , SALE_KIND_CD
-		     , DATEDIFF(date(TO_DT), now()) as DDAY
+		     , DATEDIFF(date(TO_DT),
+		         now()) as DDAY
 			 , COLUMN_JSON(TITLE_BLOB) AS TITLE_BLOB
 			 , WWW_DISP_YN
 			 , FROM_DT
 			 , TO_DT
+			 , STAT_CD
+
 -- 			 , OPEN_DT
 		from SALE
 		where DEL_YN = 'N'
 		  and STAT_CD in ('upcoming', 'open')
 		  and WWW_DISP_YN = 'Y'
+		  and SALE_OUTSIDE_YN = 'N'
 		  and DATE_FORMAT(TO_DT,'%Y-%m-%d') >= current_date
 		order by TO_DT;
 		]]>
 	</select>
+
+	<select id="selectIngAuctions" parameterType="CommonMap" resultType="CommonMap">
+	<![CDATA[
+		select * from (
+			  select S.SALE_NO
+				   , IF(S.SALE_KIND_CD in ('online','online_zb'), 'ONLINE', 'LIVE') AS SALE_KIND
+				   , COLUMN_JSON(S.TITLE_BLOB) AS TITLE_BLOB
+			       , S.FROM_DT
+				   , S.TO_DT
+			  from SALE S
+			  where S.STAT_CD ='open'
+				and S.WWW_DISP_YN = 'Y'
+				and S.SALE_OUTSIDE_YN = 'N'
+			    and S.FROM_DT <= now()
+				and (
+				  case
+					  when S.SALE_KIND_CD in ('online','online_zb')
+						  then (select MAX(L.TO_DT) > now() from LOT L where L.STAT_CD = 'entry' and L.SALE_NO = S.SALE_NO)
+					  when S.SALE_KIND_CD in ('main','hongkong','plan')
+						  then (select IF(count(*) > 1, true, false) from LOT L where l.CLOSE_YN = 'N' and L.STAT_CD = 'entry' and L.SALE_NO = S.SALE_NO and s.SALE_OUTSIDE_YN = 'N')
+				  end
+				  )
+			  order by S.TO_DT desc
+			  limit 5
+		  ) SR
+		order by field(SR.SALE_KIND, 'LIVE', 'ONLINE')
+	]]>
+	</select>
+	<select id="selectIngMenuCount" parameterType="CommonMap" resultType="CommonMap" >
+	<![CDATA[
+		-- 메뉴 count (진행경매/예정경매/전시/아카데미)
+		select
+			COUNT(
+					case
+						when S.SALE_KIND_CD in ('online','online_zb')
+							then (select MAX(L.TO_DT) >= now() from LOT L where L.STAT_CD = 'entry' and L.SALE_NO = S.SALE_NO)
+						when S.SALE_KIND_CD in ('main','hongkong','plan')
+							then (select IF(count(*) > 1, true, false) from LOT L where l.CLOSE_YN = 'N' and L.STAT_CD = 'entry' and L.SALE_NO = S.SALE_NO)
+						end
+				) as AuctionCount
+			 , COUNT(case when S.STAT_CD = 'upcoming' then 1 end) as UpcomingCount
+			 , COUNT(case when S.SALE_KIND_CD IN ('exhibit', 'exhibit_sa') then 1 end) as ExhibitionCount
+			 ,(SELECT COUNT(*) FROM ACADEMY WHERE DEL_YN != 'Y' and TO_DT >= now()) as AcademyCount
+		from SALE S
+		where S.DEL_YN = 'N'
+		  and S.WWW_DISP_YN = 'Y'
+		  and S.SALE_OUTSIDE_YN = 'N'
+		  and S.TO_DT >= now();
+	]]>
+	</select>
+
 </mapper>
 

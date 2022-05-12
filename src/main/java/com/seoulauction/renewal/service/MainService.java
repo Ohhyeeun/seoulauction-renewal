@@ -117,4 +117,12 @@ public class MainService {
         return resultMapList;
     }
 
+
+    public List<CommonMap> selectIngAuctions(){
+        return ktMainMapper.selectIngAuctions();
+    }
+
+    public List<CommonMap> selectIngMenuCount(){
+        return ktMainMapper.selectIngMenuCount();
+    }
 }

@@ -1,5 +1,63 @@
+
+
 $(function(){
+const locale = document.documentElement.lang;
+const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
+
     console.log(window.innerWidth);
+
+    //진행중 경매리스트
+    loadIngAuctionList();
+
+    //now표시
+    setNowBadge();
+
+    async function loadIngAuctionList(){
+
+        await fetch('api/main/ingAuctions')
+            .then(res => res.json())
+            .then(res => {
+                if (res.success) {
+                    const ingAuctionList = res.data;
+                    ingAuctionList.map(item => {
+                        const titleJSON = JSON.parse(item.TITLE_BLOB);
+                        const returnDom = `<a href="/auction/${item.SALE_NO}" class="Ingbanner" target="_blank">
+                                                <figure class="border-txt-darkg Ingbanner-img">
+                                                    <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
+                                                </figure>
+                                                <div class="Ingbanner-txt text-over">
+                                                    <span class="auctionKind-box Ingkind-auction ${item.SALE_KIND === 'LIVE' ? 'on' : ''}">${item.SALE_KIND}</span>
+                                                      <p class="text-over">${titleJSON[locale]}</p>
+                                                    <span class="Ingbanner-arrow"></span>
+                                                </div>
+                                            </a>`;
+
+                        document.querySelector(".Ingbanner-box").insertAdjacentHTML('beforeend', returnDom);
+                    });
+
+                }
+            });
+    }
+
+    async function setNowBadge(){
+
+        await fetch('api/main/ingMenuCount')
+            .then(res => res.json())
+            .then(res => {
+                if (res.success) {
+                    const menuCount = res.data[0];
+                    const badgeHtml = '<span class="currentIng">NOW</span>';
+                    if(menuCount.AuctionCount > 0)
+                        document.querySelector('#menu_auction').insertAdjacentHTML('beforeend', badgeHtml);
+                    if(menuCount.UpcomingCount > 0)
+                        document.querySelector('#menu_upcoming').insertAdjacentHTML('beforeend', badgeHtml);
+                    if(menuCount.ExhibitionCount > 0)
+                        document.querySelector('#menu_exhibit').insertAdjacentHTML('beforeend', badgeHtml);
+                    if(menuCount.AcademyCount > 0)
+                        document.querySelector('#menu_academy').insertAdjacentHTML('beforeend', badgeHtml);
+                }
+            });
+    }
 
     window.addEventListener('resize', (e) => {
         const width = e.target.innerWidth;
@@ -41,6 +99,11 @@ $(function(){
         } else {
             $('*').removeClass('dark');
         }
+    });
+
+    /* 띠배너 */
+    $('.beltclose-btn').click(function(){
+        $('.header_beltbox').slideUp(400);
     });
 
     /*gnb menu */
