@@ -59,7 +59,7 @@ async function loadTopNotice(){
     .then(res => res.json())
     .then(res => {
         if (res.success) {
-            if(res.data[0]) {
+            if(!getCookie('top-notice') && res.data[0]) {
                 const content = JSON.parse(res.data[0].content);
                 const returnDom = `<div class="header_beltbox on"> <!--class="on" block-->
                                         <div class="wrap belttxtbox wrap_padding">
@@ -75,6 +75,7 @@ async function loadTopNotice(){
                 /* 상단 텍스트 동적 생성으로 인한 스타일 변경 및 이벤트 바인딩 */
                 document.querySelector(".beltclose-btn").addEventListener("click", function(e){
                     $('.header_beltbox').slideUp(400);
+                    closeToday('top-notice');
                 });
 
                 if(matchMedia("all and (min-width: 1024px)").matches) {
