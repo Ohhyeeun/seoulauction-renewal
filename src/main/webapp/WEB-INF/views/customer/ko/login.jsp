@@ -38,10 +38,10 @@
 				
 								<div>
 									<div id="loginFailMessage" ng-model="loginFailMessage">
-											<c:if test="${error == 'Bad credentials'}"> 
+											<c:if test="${error == 'Bad credentials' || sessionScope.USER_NOT_FOUND == 'true'}"> 
 												아이디 또는 비밀번호가 일치하지 않습니다.
 											</c:if>
-											<c:if test="${error == 'Stop User'}"> 
+											<c:if test="${error == 'Stop User' || sessionScope.STOP_USER == 'true'}"> 
 												이용제한 아이디 입니다. <br />
 												서비스 이용을 원하시면 고객센터(02-395-0330 / sos@seoulauction.com)로 연락바랍니다.
 											</c:if>

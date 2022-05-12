@@ -79,6 +79,7 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
 
         //결제여부, 직원여부에 따른 권한 분류
         paramMap.put("cust_no", resultMap.get("CUST_NO"));
+        paramMap.put("remember_me", 'N');
         resultMap = loginMapper.selectCustByCustNo(paramMap);
         
         List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
