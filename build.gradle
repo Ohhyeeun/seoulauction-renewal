@@ -79,6 +79,10 @@ dependencies {
     //static파일 수정시 서버 자동 재시작
     implementation 'org.springframework.boot:spring-boot-devtools'
 
+    //webClient
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
+
 
 }
 

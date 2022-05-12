@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seoulauction.renewal.mapper.kt.PaymentMapper">
+
+	<!--공통 페이 먼트 기록 테이블-->
+	<insert id="insertPay" parameterType="commonMap"
+			useGeneratedKeys="true"
+			keyProperty="pay_no" keyColumn="PAY_NO">
+		INSERT into PAY (
+			  CUST_NO
+			, PAY_METHOD_CD
+			, PG_YN
+			, PG_CD
+			, PG_TRANS_ID
+			, PAYER
+			, PAY_PRICE
+			, NO_VAT_PRICE
+			, VAT_PRICE
+			, VAT
+			, PAY_DT
+			, REG_DT
+		) values (
+			 #{cust_no}
+			,#{pay_method}
+			, 'Y'
+			, 'nice'
+			, #{pg_trnas_id}
+			, #{name}
+			, #{pay_price}
+			, #{no_vat_price}
+			, #{vat_price}
+			, #{vat}
+			, now()
+			, now()
+		)
+	</insert>
+
+	<!--정회원 결제 테이블-->
+	<insert id="insertCustPay" parameterType="commonMap">
+		insert into CUST_PAY (
+			   CUST_NO
+			 , PAY_NO
+			 , VALID_FROM_DT
+			 , VALID_TO_DT
+		) values (
+			   #{cust_no}
+			 , ${pay_no}
+			 , now()
+			 , DATE_ADD(DATE_ADD(now(), INTERVAL 1 YEAR), INTERVAL -1 DAY)
+			 )
+	</insert>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>
