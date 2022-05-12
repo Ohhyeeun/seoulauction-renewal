@@ -13,7 +13,7 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
     setNowBadge();
 
     async function loadIngAuctionList(){
-        console.log("loadIngAuctionList")
+
         await fetch('api/main/ingAuctions')
             .then(res => res.json())
             .then(res => {
@@ -40,7 +40,7 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
     }
 
     async function setNowBadge(){
-        console.log("setNowBadge");
+
         await fetch('api/main/ingMenuCount')
             .then(res => res.json())
             .then(res => {
