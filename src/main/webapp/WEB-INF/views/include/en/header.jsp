@@ -149,14 +149,14 @@
                         <ul class="subGnbmenu">
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
                                 <ul class="submenu submenu-part01">
-                                    <li><a href="#">Current</a><span class="currentIng">NOW</span></li>
-                                    <li><a href="#">Upcoming</a><span class="currentIng">NOW</span></li>
+                                    <li id="menu_auction"><a href="#">Current</a></li>
+                                    <li id="menu_upcoming"><a href="#">Upcoming</a></li>
                                     <li><a href="#">Result</a></li>
                                 </ul>
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
                                 <ul class="submenu submenu-part02">
-                                    <li><a href="#">Exhibition</a><span class="currentIng">NOW</span></li>
+                                    <li id="menu_exhibition"><a href="#">Exhibition</a></li>
                                     <li><a href="#">Private Sale</a></li>
                                     <li><a href="#">Private Sale Guide</a></li>
                                 </ul>
@@ -169,7 +169,7 @@
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
                                 <ul class="submenu submenu-part04">
-                                    <li><a href="#">Academy</a><span class="currentIng">NOW</span></li>
+                                    <li id="menu_academy"><a href="#">Academy</a></li>
                                     <li><a href="#">Art Collateral Loans</a></li>
                                     <li><a href="#">Art Storage</a></li>
                                     <li><a href="#">Rental of Space</a></li>

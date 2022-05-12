@@ -108,5 +108,9 @@ public class MainService {
     public List<CommonMap> selectIngAuctions(){
         return ktMainMapper.selectIngAuctions();
     }
+
+    public List<CommonMap> selectIngMenuCount(){
+        return ktMainMapper.selectIngMenuCount();
+    }
 }
 

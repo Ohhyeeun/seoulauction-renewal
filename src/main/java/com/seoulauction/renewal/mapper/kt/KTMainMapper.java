@@ -11,4 +11,5 @@ public interface KTMainMapper {
 
     List<CommonMap> selectUpcomings();
     List<CommonMap> selectIngAuctions();
+    List<CommonMap> selectIngMenuCount();
 }

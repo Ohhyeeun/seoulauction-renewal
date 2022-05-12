@@ -84,5 +84,11 @@ public class ApiMainController {
         return ResponseEntity.ok(RestResponse.ok(mainService.selectIngAuctions()));
     }
 
+    @GetMapping(value="/ingMenuCount")
+    public ResponseEntity<RestResponse> ingMenuCount() {
+
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectIngMenuCount()));
+    }
+
 
 }
