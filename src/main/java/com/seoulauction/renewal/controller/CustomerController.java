@@ -32,7 +32,7 @@ public class CustomerController {
         log.info("get niceVBankPaid");
     }
 
-    @PostMapping(value = "/niceVbankPaid"x)
+    @PostMapping(value = "/niceVbankPaid")
     public void niceVBankPaid(HttpServletRequest request, HttpServletResponse response) {
         log.info("post niceVBankPaid");
 
