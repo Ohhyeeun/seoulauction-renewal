@@ -140,6 +140,7 @@ async function loadUpcomings() {
                     const titleJSON = JSON.parse(item.TITLE_BLOB);
                     const from_dt = moment(item.FROM_DT);
                     const to_dt = moment(item.TO_DT)
+                    const open_dt = moment(item.OPEN_DT)
                     const returnDom =  ` <div class="swiper-slide upcomingSlide swiper-slide-active" style="padding-right: 40px;">
                                             <a href="#">
                                                 <div class="upcoming-caption">
@@ -155,7 +156,7 @@ async function loadUpcomings() {
                                                     <div class="upcoming-datebox">
                                                         ${ locale === 'en'?
                                                             `<p class="upcoming-preview">
-                                                                <span>OPEN</span><span>${ from_dt.format('DD MMMM')}</span>
+                                                                <span>OPEN</span><span>${ open_dt.format('DD MMMM')}</span>
                                                             </p>
                                                             <p class="upcoming-preview">
                                                                 <span>PREVIEW</span><span>${ from_dt.format('DD MMMM') +" - " +  to_dt.format('DD MMMM')}</span>
@@ -165,7 +166,7 @@ async function loadUpcomings() {
                                                             </p>`
                                                             :
                                                             `<p class="upcoming-preview">
-                                                                <span>오픈일</span><span>${ from_dt.format('MM/DD(ddd)')}</span>
+                                                                <span>오픈일</span><span>${ open_dt.format('MM/DD(ddd)')}</span>
                                                             </p>
                                                             <p class="upcoming-preview">
                                                                 <span>프리뷰</span><span>${ from_dt.format('MM/DD(ddd)') +" ~ " +  to_dt.format('MM/DD(ddd)')}</span>

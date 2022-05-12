@@ -5,15 +5,13 @@
 		<![CDATA[
 		select SALE_NO
 			 , SALE_KIND_CD
-		     , DATEDIFF(date(TO_DT),
-		         now()) as DDAY
+		     , DATEDIFF(date(TO_DT),now()) as DDAY
 			 , COLUMN_JSON(TITLE_BLOB) AS TITLE_BLOB
 			 , WWW_DISP_YN
 			 , FROM_DT
 			 , TO_DT
 			 , STAT_CD
-
--- 			 , OPEN_DT
+			 , OPEN_DT
 		from SALE
 		where DEL_YN = 'N'
 		  and STAT_CD in ('upcoming', 'open')

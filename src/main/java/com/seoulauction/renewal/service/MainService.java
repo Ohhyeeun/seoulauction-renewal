@@ -102,11 +102,11 @@ public class MainService {
             returnMap.put("SALE_KIND", item.get("SALE_KIND_CD").equals("online") || item.get("SALE_KIND_CD").equals("online_zb") ? "ONLINE" : "LIVE" );
             returnMap.put("TITLE_BLOB", item.get("TITLE_BLOB"));
 
-//            int d_day = Integer.parseInt(item.get("DDAY").toString());
             returnMap.put("D_DAY", item.get("DDAY"));
 
             returnMap.put("FROM_DT", item.get("FROM_DT"));
             returnMap.put("TO_DT", item.get("TO_DT"));
+            returnMap.put("OPEN_DT", item.get("OPEN_DT"));
 
             returnMap.put("FILE_PATH", "/front/online0688");
             returnMap.put("FILE_NAME", "2dc8da32-4760-471b-9bce-f087200a09e9.jpg");
