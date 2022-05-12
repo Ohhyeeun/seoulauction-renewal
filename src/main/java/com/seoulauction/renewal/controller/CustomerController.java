@@ -35,12 +35,12 @@ public class CustomerController {
         log.info("post niceVBankPaid");
 
         Enumeration params = request.getParameterNames();
-        System.out.println("----------------------------");
+        log.info("----------------------------");
         while (params.hasMoreElements()){
             String name = (String)params.nextElement();
             System.out.println(name + " : " +request.getParameter(name));
         }
-        System.out.println("----------------------------");
+        log.info("----------------------------");
 
         String PayMethod    = request.getParameter("PayMethod");        //지불수단
         String MID          = request.getParameter("MID");              //상점ID
