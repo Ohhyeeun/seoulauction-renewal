@@ -25,9 +25,15 @@ public class CustomerController {
         return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "login" , locale);
     }
 
+    @GetMapping(value = "/niceVbankPaid")
+    public void niceVBankPaidGet(HttpServletRequest request) {
+        log.info("get niceVBankPaid");
+    }
 
     @PostMapping(value = "/niceVbankPaid")
     public void niceVBankPaid(HttpServletRequest request) {
+        log.info("post niceVBankPaid");
+
         Enumeration params = request.getParameterNames();
         System.out.println("----------------------------");
         while (params.hasMoreElements()){
