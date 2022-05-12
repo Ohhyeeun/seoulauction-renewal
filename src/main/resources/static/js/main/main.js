@@ -53,9 +53,41 @@ async function loadTopNotice(){
     .then(res => res.json())
     .then(res => {
         if (res.success) {
-            const content = JSON.parse(res.data[0].content);
-            const returnDom = `<a href="${locale === 'en'? content.en_url : content.ko_url}">${locale === 'en'? content.en_text : content.ko_text }<span class="beltbanner-triangle"></span></a>`
-            document.querySelector(".header_beltTit").insertAdjacentHTML('beforeend',returnDom);
+            if(!getCookie('top-notice') && res.data[0]) {
+                const content = JSON.parse(res.data[0].content);
+                const returnDom = `<div class="header_beltbox on"> <!--class="on" block-->
+                                        <div class="wrap belttxtbox wrap_padding">
+                                                <span class="header_beltTit">
+                                                    <a href="${locale === 'en' ? content.en_url : content.ko_url}">${locale === 'en' ? content.en_text : content.ko_text}<span class="beltbanner-triangle"></span></a>
+                                                </span>
+                                            <span class="beltclose-btn closebtn closebtn-w"></span>
+                                        </div>
+                                   </div>`
+
+                document.querySelector(".header").insertAdjacentHTML('afterbegin', returnDom);
+
+                /* 상단 텍스트 동적 생성으로 인한 스타일 변경 및 이벤트 바인딩 */
+                document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                    $('.header_beltbox').slideUp(400);
+                    closeToday('top-notice');
+                });
+
+                if(matchMedia("all and (min-width: 1024px)").matches) {
+                    document.querySelector(".main-contents").style.marginTop = '180px';
+                    document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                        document.querySelector(".main-contents").style.marginTop = '120px';
+                    });
+                } else { /* 모바일, 테블릿 */
+                    /* main gnb fixed */
+                    document.querySelector(".main-contents").style.marginTop = '101px';
+                    $('.main-contents').css('margin-top','101px');
+                    document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                        document.querySelector(".main-contents").style.marginTop = '58px';
+                    });
+                }
+
+
+            }
         }
     });
 }
