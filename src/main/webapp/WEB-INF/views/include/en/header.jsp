@@ -94,56 +94,7 @@
                     <span class="submenuBg-closeBtn closebtn closebtn-b m-ver"></span>
                     <div class="flex_wrap submenuBg-box">
                         <div class="Ingbanner-box">
-                            <a href="#" class="Ingbanner" target="_blank">
-                                <figure class="border-txt-darkg Ingbanner-img">
-                                    <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
-                                </figure>
-                                <div class="Ingbanner-txt text-over">
-                                    <span class="auctionKind-box Ingkind-auction on">LIVE</span>
-                                    <p class="text-over" title="February Live Auction">February Live Auction</p>
-                                    <span class="Ingbanner-arrow"></span>
-                                </div>
-                            </a>
-                            <a href="#" class="Ingbanner" target="_blank">
-                                <figure class="border-txt-darkg Ingbanner-img">
-                                    <img src="/images/pc/thumbnail/gnb_thubnatil_02.jpg" alt="ing_auction02">
-                                </figure>
-                                <div class="Ingbanner-txt text-over">
-                                    <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                    <p class="text-over" title="e BID Public Online Auction">e BID Public Online Auction</p>
-                                    <span class="Ingbanner-arrow"></span>
-                                </div>
-                            </a>
-                            <a href="#" class="Ingbanner" target="_blank">
-                                <figure class="border-txt-darkg Ingbanner-img">
-                                    <img src="/images/pc/thumbnail/gnb_thubnatil_ready.jpg" alt="ing_auction03">
-                                </figure>
-                                <div class="Ingbanner-txt text-over">
-                                    <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                    <p class="text-over" title="ZEROBASE">ZEROBASE</p>
-                                    <span class="Ingbanner-arrow"></span>
-                                </div>
-                            </a>
-                            <a href="#" class="Ingbanner" target="_blank">
-                                <figure class="border-txt-darkg Ingbanner-img">
-                                    <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
-                                </figure>
-                                <div class="Ingbanner-txt text-over">
-                                    <span class="auctionKind-box Ingkind-auction on">LIVE</span>
-                                    <p class="text-over" title="February Live Auction">February Live Auction</p>
-                                    <span class="Ingbanner-arrow"></span>
-                                </div>
-                            </a>
-                            <a href="#" class="Ingbanner" target="_blank">
-                                <figure class="border-txt-darkg Ingbanner-img">
-                                    <img src="/images/pc/thumbnail/gnb_thubnatil_02.jpg" alt="ing_auction02">
-                                </figure>
-                                <div class="Ingbanner-txt text-over">
-                                    <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                    <p class="text-over" title="e BID Public Online Auction">e BID Public Online Auction</p>
-                                    <span class="Ingbanner-arrow"></span>
-                                </div>
-                            </a>
+
                         </div>
 
                         <ul class="subGnbmenu">
