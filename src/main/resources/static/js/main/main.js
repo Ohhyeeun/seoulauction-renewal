@@ -17,17 +17,6 @@ function Request(){
 
 var request = new Request();
 var maxSession = request.getParameter("maxSession");
-var modPassword = request.getParameter("modPassword");
-var resetPassword = request.getParameter("resetPassword");
-
-if(modPassword == 'true'){
-	//alert('소중한 개인정보 보호를 위해 비밀번호를 변경해 주세요!');
-	//TODO 180일 경과 비밀번호 변경 팝업 show
-}
-if(resetPassword == 'true'){
-	//alert('관리자에 의해 비밀번호가 초기화 되었습니다. \n 안전한 개인정보 보호를 위해 비밀번호를 변경해 주세요.');
-	//TODO 관리자 비밀번호 변경 팝업 show
-}
 
 function logout(loginId){
 	console.log(loginId)
@@ -64,9 +53,41 @@ async function loadTopNotice(){
     .then(res => res.json())
     .then(res => {
         if (res.success) {
-            const content = JSON.parse(res.data[0].content);
-            const returnDom = `<a href="${locale === 'en'? content.en_url : content.ko_url}">${locale === 'en'? content.en_text : content.ko_text }<span class="beltbanner-triangle"></span></a>`
-            document.querySelector(".header_beltTit").insertAdjacentHTML('beforeend',returnDom);
+            if(!getCookie('top-notice') && res.data[0]) {
+                const content = JSON.parse(res.data[0].content);
+                const returnDom = `<div class="header_beltbox on"> <!--class="on" block-->
+                                        <div class="wrap belttxtbox wrap_padding">
+                                                <span class="header_beltTit">
+                                                    <a href="${locale === 'en' ? content.en_url : content.ko_url}">${locale === 'en' ? content.en_text : content.ko_text}<span class="beltbanner-triangle"></span></a>
+                                                </span>
+                                            <span class="beltclose-btn closebtn closebtn-w"></span>
+                                        </div>
+                                   </div>`
+
+                document.querySelector(".header").insertAdjacentHTML('afterbegin', returnDom);
+
+                /* 상단 텍스트 동적 생성으로 인한 스타일 변경 및 이벤트 바인딩 */
+                document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                    $('.header_beltbox').slideUp(400);
+                    closeToday('top-notice');
+                });
+
+                if(matchMedia("all and (min-width: 1024px)").matches) {
+                    document.querySelector(".main-contents").style.marginTop = '180px';
+                    document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                        document.querySelector(".main-contents").style.marginTop = '120px';
+                    });
+                } else { /* 모바일, 테블릿 */
+                    /* main gnb fixed */
+                    document.querySelector(".main-contents").style.marginTop = '101px';
+                    $('.main-contents').css('margin-top','101px');
+                    document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                        document.querySelector(".main-contents").style.marginTop = '58px';
+                    });
+                }
+
+
+            }
         }
     });
 }
@@ -301,35 +322,7 @@ $(function() {
 
 
 
-
     /* video */
-    const videoSwiper = new Swiper(".video-swiper", {
-        slidesPerView: 6,
-        spaceBetween: 20,
-        loop: true,
-        loopFillGroupWithBlank: true,
-        navigation: {
-            nextEl: ".videoBtn-right",
-            prevEl: ".videoBtn-left",
-        },
-        breakpoints: {
-            1919: {
-                slidesPerView: 4,
-                spaceBetween: 20,
-            },
-            1279: {
-                slidesPerView: 3,
-                spaceBetween: 20,
-            },
-            1023: {
-                slidesPerView: 'auto',
-                spaceBetween: 20,
-                loopedSlides: 1,
-                loop: false,
-                loopFillGroupWithBlank: false,
-            },
-        }
-    });
     //video hover
     $('.video-thumb').mouseenter(function () {
         let videoHover = $(this).index();
@@ -354,6 +347,27 @@ app.controller('mainCtl', function($scope, consts, common, ngDialog) {
 				animationEndSupport: false,
 			});
 		}
+		
+		if(resetPassword == 'true'){
+			$modal = ngDialog.open({
+				template: '/resetPassword',
+				controller: 'resetPasswordPopCtl',
+				closeByDocument: false,
+				showClose: false,
+				animationEndSupport: false,
+			});
+		}
+		
+		console.log(modPassword)
+		if(modPassword == 'true'){
+			$modal = ngDialog.open({
+				template: '/modPassword',
+				controller: 'modPasswordPopCtl',
+				closeByDocument: false,
+				showClose: false,
+				animationEndSupport: false,
+			});
+		}
 	}
 });
 
@@ -361,5 +375,49 @@ app.controller('maxSessionPopCtl', function($scope, consts, common) {
 	$scope.init = function() {
 
     }
+});
+
+app.controller('resetPasswordPopCtl', function($scope, consts, common) {
+    $scope.closePopup = function(modYn){
+		axios.get('/api/main/resetPassword')
+            .then(function(response) {
+                var success = response.data.success;
+                if(!success){
+                    alert(response.data.data.msg);
+                    $scope.closeThisDialog();
+                } else {
+					$scope.closeThisDialog();
+					if(modYn == 'Y'){
+						// TODO 차후 비밀번호 변경 페이지 개발시 수정
+						location.href = '/'
+					}
+                }
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+	}
+});
+
+
+app.controller('modPasswordPopCtl', function($scope, consts, common) {
+    $scope.reAlarm = function(){
+		axios.get('/api/main/reAlarm')
+            .then(function(response) {
+                var success = response.data.success;
+                if(!success){
+                    alert(response.data.data.msg);
+                }
+                $scope.closeThisDialog();
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+	}
+	
+	$scope.modPassword = function(){
+		// TODO 차후 비밀번호 변경 페이지 개발시 수정
+		location.href = '/';
+	}
 });
 

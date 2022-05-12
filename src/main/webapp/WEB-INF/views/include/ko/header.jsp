@@ -17,9 +17,6 @@
 
 <html lang="ko" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
-    <c:if test="${not empty param.main}">
-        <jsp:include page="../../main/include/topNotice.jsp" />
-    </c:if>
     <div class="header-border">
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">ENG</a>

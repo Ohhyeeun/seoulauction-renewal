@@ -125,103 +125,8 @@
 
     <jsp:include page="../include/beltBanner.jsp" />
 
-    <article class="video">
-        <h1 class="main-sectiontit video-tit">
-            Video
-        </h1>
+    <jsp:include page="../include/video.jsp" />
 
-        <div class="swiper-container video-swiper">
-            <div class="swiper-wrapper video-contents">
-                <div class="swiper-slide video-slide">
-                    <a data-video="B_iGOoOR1SY">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_01_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_01_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-you"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE X 아트경기 2021: 경기문화재단
-                        </p>
-                        <div class="video-popup">
-                            <div class="video-popup-closer"></div>
-                        </div>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="#">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_02_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_02_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-in"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE X 아트경기 2021: 경기문화재단
-                        </p>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="#">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_03_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_03_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-you"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE X 아트경기 2021: 경기문화재단
-                        </p>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="#">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_04_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_04_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-in"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE X 아트경기 2021: 경기문화재단
-                        </p>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="#">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_05_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_05_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-you"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE X 아트경기 2021: 경기문화재단
-                        </p>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="#">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_06_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_06_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-in"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE X 아트경기 2021: 경기문화재단
-                        </p>
-                    </a>
-                </div>
-            </div>
-            <div class="swiper-button-prev videoBtn-left">
-                <span></span>
-            </div>
-            <div class="swiper-button-next videoBtn-right">
-                <span></span>
-            </div>
-        </div>
-    </article>
 
     <div class="wrap">
         <section class="container">
@@ -332,7 +237,7 @@
 <jsp:include page="popup/newsletter.jsp" flush="false"/>
 
 <!-- video 팝업 -->
-<div class="blackBg video-blackBg">
+<div class="blackBg video-blackBg" id="videoLayerPopup">
     <div class="video-playbox">
         <div class="video-play">
 
@@ -340,6 +245,12 @@
     </div>
 </div>
 </body>
+
+<script>
+var resetPassword = '${sessionScope.PASSWD_RESET_YN}';
+var modPassword = '${sessionScope.PASSWD_MOD_NECESSARY_YN}';
+</script>
+
 <script src="/js/main/main.js" type="text/javascript"></script>
 <script src="/js/main/auction.js" type="text/javascript"></script>
 <script src="/js/main/newsletter.js" type="text/javascript"></script>
