@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
@@ -33,8 +34,11 @@ public class CustomerController {
 
     @PostMapping(value = "/niceVbankPaid", produces="text/plain")
     @ResponseBody
-    public void niceVBankPaid(HttpServletRequest request) {
+    public void niceVBankPaid(HttpServletRequest request, HttpServletResponse response) throws Exception {
         log.info("post niceVBankPaid");
+
+        request.setCharacterEncoding("euc-kr");
+        response.setContentType("text/html;charset=euc-kr");
 
         Enumeration params = request.getParameterNames();
         log.info("----------------------------");
