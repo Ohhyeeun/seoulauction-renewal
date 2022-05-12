@@ -47,14 +47,15 @@ window.onload = function(){
 }
 
 // 상단텍스트공지
-async function loadTopNotice(){
+function loadTopNotice(){
 
-    await fetch('api/main/topNotice')
-    .then(res => res.json())
-    .then(res => {
-        if (res.success) {
-            if(!getCookie('top-notice') && res.data[0]) {
-                const content = JSON.parse(res.data[0].content);
+    axios.get('api/main/topNotice')
+    .then(function(response){
+        const success =  response.data.success;
+        if (success) {
+            const data = response.data.data;
+            if(!getCookie('top-notice') && data[0]) {
+                const content = JSON.parse(data[0].content);
                 const returnDom = `<div class="header_beltbox on"> <!--class="on" block-->
                                         <div class="wrap belttxtbox wrap_padding">
                                                 <span class="header_beltTit">
@@ -86,9 +87,11 @@ async function loadTopNotice(){
                     });
                 }
 
-
             }
         }
+    })
+    .catch(function(error){
+        console.log(error);
     });
 }
 
@@ -125,22 +128,20 @@ const upcomingSwiper = new Swiper(".upcoming-swiper", {
 });
 
 //업커밍 바인딩
-async function loadUpcomings() {
-    console.log("loadUpcomings");
+function loadUpcomings() {
     const slideArray = [];
 
-    await fetch('/api/main/upcomings')
+    axios.get('/api/main/upcomings')
         // await sleep(2000);
-        .then(res => res.json())
-        .then(res => {
-            if (res.success) {
-                console.log(res);
-                const bannerList = res.data;
+        .then(function(response){
+            const success =  response.data.success;
+            if (success) {
+                const bannerList = response.data.data;
                 bannerList.map(item => {
                     const titleJSON = JSON.parse(item.TITLE_BLOB);
                     const from_dt = moment(item.FROM_DT);
-                    const to_dt = moment(item.TO_DT)
-                    const open_dt = moment(item.OPEN_DT)
+                    const to_dt = moment(item.TO_DT);
+                    const open_dt = moment(item.OPEN_DT);
                     const returnDom =  ` <div class="swiper-slide upcomingSlide swiper-slide-active" style="padding-right: 40px;">
                                             <a href="#">
                                                 <div class="upcoming-caption">
@@ -194,6 +195,9 @@ async function loadUpcomings() {
                 upcomingSwiper.appendSlide(slideArray);
 
             }
+        })
+        .catch(function(error){
+            console.log(error);
         });
 }
 
@@ -221,16 +225,15 @@ const platFormSwiper = new Swiper('.platform-swiper', {
 
 
 //띠배너 바인딩
-async function loadBeltBanner() {
+function loadBeltBanner() {
     const slideArray = [];
 
-    await fetch('/api/main/beltBanners')
+    axios.get('/api/main/beltBanners')
         // await sleep(2000);
-        .then(res => res.json())
-        .then(res => {
-            if (res.success) {
-                console.log(res);
-                const bannerList = res.data;
+        .then(function(response){
+            const success =  response.data.success;
+            if (success) {
+                const bannerList = response.data.data;
                 bannerList.map(item => {
                     const content = JSON.parse(item.content);
                     const returnDom =  `<div class="swiper-slide platform-bg" style="background-color: ${content.backgroundColor} ">
@@ -250,6 +253,9 @@ async function loadBeltBanner() {
                 platFormSwiper.appendSlide(slideArray);
 
             }
+        })
+        .catch(function(error){
+            console.log(error);
         });
 }
 
