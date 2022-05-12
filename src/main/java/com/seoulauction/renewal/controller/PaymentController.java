@@ -8,10 +8,10 @@ import com.seoulauction.renewal.component.NicePayModule;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.service.PaymentService;
 import kr.co.nicevan.nicepay.adapter.web.NicePayHttpServletRequestWrapper;
-import kr.co.nicevan.nicepay.adapter.web.NicePayWEB;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.collections4.MapUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
@@ -99,18 +99,21 @@ public class PaymentController {
         }
 
         CommonMap resultMap = nicePayModule.payProcess(request);
-        //추후 개인정보는 시큐리티에서 가져올듯
-        resultMap.put("cust_no" , "27319"); // 로그인 한 유저 번호 가져와야함.
-        resultMap.put("pay_method", wrapper.getParameter("PayMethod"));
-        resultMap.put("pg_trnas_id", wrapper.getParameter("TxTid"));
-        resultMap.put("name", wrapper.getParameter("BuyerName"));
-        resultMap.put("pay_price", wrapper.getParameter("Amt"));
-        resultMap.put("no_vat_price", 0);
-        resultMap.put("vat_price", 0);
-        resultMap.put("vat", 0);
+        if(MapUtils.isNotEmpty(resultMap)) {
+            //추후 개인정보는 시큐리티에서 가져올듯
+            resultMap.put("cust_no", "27319"); // 로그인 한 유저 번호 가져와야함.
+            resultMap.put("pay_method", wrapper.getParameter("PayMethod"));
+            resultMap.put("pg_trnas_id", wrapper.getParameter("TxTid"));
+            resultMap.put("name", wrapper.getParameter("BuyerName"));
+            resultMap.put("pay_price", wrapper.getParameter("Amt"));
+            resultMap.put("no_vat_price", 0);
+            resultMap.put("vat_price", 0);
+            resultMap.put("vat", 0);
+            //디비 저장.
+            paymentService.insertCustPay(resultMap);
+        }
 
-        //디비 저장.
-        paymentService.insertCustPay(resultMap);
+        log.info("result : {}" , resultMap);
 
         request.setAttribute("address" , address);
         request.setAttribute("name", wrapper.getParameter("BuyerName"));

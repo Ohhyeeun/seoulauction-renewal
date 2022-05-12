@@ -4,6 +4,7 @@ $(function(){
     $("#payCard").addClass('btn_black');
     $('#inputPayMethod').val('CARD');
     let buttons = $("#payMethod").children('.btn');
+
     buttons.on('click',function (){
 
         //버튼들을 기본으로 다만듬.;

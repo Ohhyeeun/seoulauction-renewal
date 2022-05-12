@@ -89,10 +89,38 @@ public class NicePayModule {
                                 .bodyToMono(String.class).block();
 
                     resultMap = new ObjectMapper().readValue(result, CommonMap.class);
+
+                } else {
+                    //결제 성공 여부 검사!
+                    String resultCode = resultMap.getString("ResultCode");
+                    String payMethod = resultMap.getString("pay_method");
+                    Boolean paySuccess = false;
+//
+                    if(payMethod != null){
+                        if(payMethod.equals("CARD")){
+                            if(resultCode.equals("3001")) paySuccess = true; // CARD(Success:3001)
+                        }else if(payMethod.equals("BANK")){
+                            if(resultCode.equals("4000")) paySuccess = true; // BANK Transfer(Success:4000)
+                        }else if(payMethod.equals("CELLPHONE")){
+                            if(resultCode.equals("A000")) paySuccess = true; // Phone bill (Success:A000)
+                        }else if(payMethod.equals("VBANK")){
+                            if(resultCode.equals("4100")) paySuccess = true; // Virtual bank account (Success:4100)
+                        }else if(payMethod.equals("SSG_BANK")){
+                            if(resultCode.equals("0000")) paySuccess = true; // SSG bank account(Success:0000)
+                        }else if(payMethod.equals("CMS_BANK")){
+                            if(resultCode.equals("0000")) paySuccess = true; // CMS bank account(Success:0000)
+                        }
+                    }
+                    //오류 처리 ㄱㄱ
+                    if(!paySuccess){
+                        String resultMsg = resultMap.getString("ResultMsg");
+                        throw new SAException(resultMsg);
+                    }
                 }
 
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
+                throw new SAException(e.getMessage());
             }
         } else {
             throw new SAException("인증요청이 올바르지 않습니다.");
