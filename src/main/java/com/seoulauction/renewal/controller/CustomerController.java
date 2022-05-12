@@ -41,12 +41,20 @@ public class CustomerController {
         response.setContentType("text/html;charset=euc-kr");
 
         Enumeration params = request.getParameterNames();
-        log.info("----------------------------");
+        log.info("param start----------------------------");
         while (params.hasMoreElements()){
             String name = (String)params.nextElement();
-            System.out.println(name + " : " +request.getParameter(name));
+            log.info(name + " : " +request.getParameter(name));
         }
-        log.info("----------------------------");
+        log.info("param end----------------------------");
+
+        params = request.getAttributeNames();
+        log.info("attr start----------------------------");
+        while (params.hasMoreElements()){
+            String name = (String)params.nextElement();
+            log.info(name + " : " +request.getAttribute(name));
+        }
+        log.info("attr end----------------------------");
 
         String PayMethod    = request.getParameter("PayMethod");        //지불수단
         String MID          = request.getParameter("MID");              //상점ID
