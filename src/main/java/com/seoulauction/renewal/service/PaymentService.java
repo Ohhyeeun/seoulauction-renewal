@@ -28,7 +28,7 @@ public class PaymentService {
     }
 
     //가상계좌전용.
-    public void insertPayWait(CommonMap map){
+    public CommonMap insertPayWait(CommonMap map){
         //TODO 가상계좌 PAY_WAIT ㄱㄱ
     }
 

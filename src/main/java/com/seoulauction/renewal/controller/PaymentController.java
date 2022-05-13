@@ -89,14 +89,30 @@ public class PaymentController {
     @PostMapping("/memberResult")
     public String payResult(HttpServletRequest request , Locale locale) {
 
-        CommonMap map = paymentService.insertPayment(PaymentType.CUST_REGULAR , request);
+        log.info("request : {}" , request);
 
-//        String address  = "(02123) 경기도 부천시 양지로 234-38";
-//        request.setAttribute("address" , address);
-//        request.setAttribute("name", wrapper.getParameter("BuyerName"));
-//        request.setAttribute("tel" , wrapper.getParameter("BuyerTel"));
-//        request.setAttribute("method" , wrapper.getParameter("PayMethod"));
-//        request.setAttribute("amt" , wrapper.getParameter("Amt"));
+        CommonMap map = new CommonMap();
+
+        if(!"VBANK".equals(request.getParameter("PayMethod"))){
+            map = paymentService.insertPayment(PaymentType.CUST_REGULAR , request);
+        } else {
+            //가상계좌인경우.
+            map = paymentService.insertPayWait(map);
+
+            //TODO 가상계좌일경우 가상계좌정보 넣어주셈.
+            /*request.setAttribute("" , "");
+            request.setAttribute("", "");
+            request.setAttribute("" , "");*/
+        }
+
+
+        String address  = "(02123) 경기도 부천시 양지로 234-38";
+        request.setAttribute("address" , address);
+        request.setAttribute("name", request.getParameter("BuyerName"));
+        request.setAttribute("tel" , request.getParameter("BuyerTel"));
+        request.setAttribute("method" , request.getParameter("PayMethod"));
+        request.setAttribute("price" , request.getParameter("Amt"));
+        request.setAttribute("dePrice" , SAConst.DECIMAL_FORMAT.format(Integer.parseInt(request.getParameter("Amt"))));
 
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentMemberResult" , locale);
     }
