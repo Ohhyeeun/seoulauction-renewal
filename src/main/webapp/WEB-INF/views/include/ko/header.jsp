@@ -6,10 +6,9 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <jsp:include page="../../common/commonCss.jsp" flush="false"/>
-
 <%--메인이 아닐 경우에만 해당 css 추가.--%>
 <c:if test="${empty param.main}">
-    <jsp:include page="../../common/commonCssNotMain.jsp" flush="false"/>
+<jsp:include page="../../common/commonCssNotMain.jsp" flush="false"/>
 </c:if>
 
 <%--angular 관련은 미리 로딩--%>

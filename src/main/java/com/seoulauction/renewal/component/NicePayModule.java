@@ -80,7 +80,7 @@ public class NicePayModule {
                     formData.add("NetCancel","1");
                     result = webClient
                                 .post()
-                                .uri("/webapi/pay_process.jsp")
+                                .uri("/webapi/cancel_process.jsp")
                                 .body(BodyInserters
                                         .fromFormData(formData))
                                 .retrieve()

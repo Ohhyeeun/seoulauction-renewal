@@ -16,7 +16,6 @@
     <div class="wrapper footer-bottom footer-bottom30"> 
         <div class="sub-wrap pageclass">
             <jsp:include page="../../include/ko/header.jsp" flush="false"/>
-
             <!-- container -->
             <div id="container">  
                 <div id="contents" class="contents">
