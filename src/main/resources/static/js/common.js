@@ -9,8 +9,12 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
     //진행중 경매리스트
     loadIngAuctionList();
 
-    //now표시
-    setNowBadge();
+    //gnb메뉴 now표시
+    setGnbNowBadge();
+
+    //gnb메뉴 now표시
+    setMyMenuBadge();
+
 
     function loadIngAuctionList(){
 
@@ -42,7 +46,7 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
         });
     }
 
-    function setNowBadge(){
+    function setGnbNowBadge(){
 
         axios.get('api/main/ingMenuCount')
         .then(function(response){
@@ -63,6 +67,23 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
         .catch(function(error){
             console.log(error);
         });
+    }
+
+    function setMyMenuBadge(){
+
+        axios.get('api/main/isHaveToPayWorkExist')
+            .then(function(response){
+                const success =  response.data.success;
+                if (success) {
+                    const isExist = response.data.data;
+                    const badgeHtml = '<span style="color:red;">N</span>'; //마크업 나오지 않아 임시 처리
+                    if(isExist)
+                        document.querySelector('#MyMenuOnlineBadge a').insertAdjacentHTML('beforeend', badgeHtml);
+                }
+            })
+            .catch(function(error){
+                console.log(error);
+            });
     }
 
     window.addEventListener('resize', (e) => {

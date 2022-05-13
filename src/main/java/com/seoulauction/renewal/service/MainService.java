@@ -150,4 +150,13 @@ public class MainService {
     public List<CommonMap> selectIngMenuCount(){
         return ktMainMapper.selectIngMenuCount();
     }
+
+    public CommonMap selectHaveToPayWorkCount(){
+        CommonMap resultMap = new CommonMap();
+        int haveToPayCount = 1;
+        //int haveToPayCount = ktMainMapper.미결제낙찰내역();
+        resultMap.put("isExist", haveToPayCount > 0 ? true : false);
+
+        return resultMap;
+    }
 }

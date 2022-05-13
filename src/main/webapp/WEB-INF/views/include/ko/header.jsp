@@ -29,7 +29,7 @@
             <li class="utility-tab utility-account"><a href="#">마이페이지</a>
                 <ul class="bubble-box bubble-box02">
                     <li><a href="#">라이브 경매 관리</a></li>
-                    <li><a href="#">온라인 경매 관리</a></li>
+                    <li id="MyMenuOnlineBadge"><a href="#">온라인 경매 관리</a></li>
                     <li><a href="#">관심작품</a></li>
                     <li><a href="#">아카데미 신청목록</a></li>
                     <li><a href="#">회원정보 수정</a></li>

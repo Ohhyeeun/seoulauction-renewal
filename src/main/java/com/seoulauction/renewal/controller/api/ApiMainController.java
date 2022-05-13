@@ -122,6 +122,12 @@ public class ApiMainController {
 
         return ResponseEntity.ok(RestResponse.ok(mainService.selectIngMenuCount()));
     }
+
+    @GetMapping(value="/isHaveToPayWorkExist")
+    public ResponseEntity<RestResponse> isHaveToPayWorkExist() {
+
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectHaveToPayWorkCount()));
+    }
    
     @GetMapping(value="/resetPassword")
     public ResponseEntity<RestResponse> resetPassword(Principal principal, HttpServletRequest request) {
