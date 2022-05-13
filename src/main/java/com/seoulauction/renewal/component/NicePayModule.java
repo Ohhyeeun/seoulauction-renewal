@@ -89,12 +89,14 @@ public class NicePayModule {
                                 .bodyToMono(String.class).block();
 
                     resultMap = new ObjectMapper().readValue(result, CommonMap.class);
-
+                    //망취소 후 오류 처리.
+                    String resultMsg = resultMap.getString("ResultMsg");
+                    throw new SAException(resultMsg);
                 } else {
                     //결제 성공 여부 검사!
                     String resultCode = resultMap.getString("ResultCode");
-                    String payMethod = resultMap.getString("pay_method");
-                    Boolean paySuccess = false;
+                    String payMethod = resultMap.getString("PayMethod");
+                    boolean paySuccess = false;
 //
                     if(payMethod != null){
                         if(payMethod.equals("CARD")){
