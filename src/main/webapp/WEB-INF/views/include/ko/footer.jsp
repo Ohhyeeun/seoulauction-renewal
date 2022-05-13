@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
-<link rel="stylesheet" href="/css/main.css" type="text/css" />
 <footer class="footer">
     <div class="innerfooter">
         <section class="flex_wrap footer_menubox">
@@ -52,3 +51,7 @@
     </div>
 </footer>
 <jsp:include page="../../common/commonJs.jsp" flush="false"/>
+<%--메인이 아닐 경우에만 해당 JS  추가.--%>
+<c:if test="${empty param.main}">
+    <jsp:include page="../../common/commonJSNotMain.jsp" flush="false"/>
+</c:if>
