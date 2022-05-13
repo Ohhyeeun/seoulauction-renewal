@@ -23,7 +23,7 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
                     const titleJSON = JSON.parse(item.TITLE_BLOB);
                     const returnDom = `<a href="/auction/${item.SALE_NO}" class="Ingbanner" target="_blank">
                                             <figure class="border-txt-darkg Ingbanner-img">
-                                                <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
+                                                <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" alt="ing_auction01">
                                             </figure>
                                             <div class="Ingbanner-txt text-over">
                                                 <span class="auctionKind-box Ingkind-auction ${item.SALE_KIND === 'LIVE' ? 'on' : ''}">${item.SALE_KIND}</span>
