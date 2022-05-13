@@ -82,4 +82,38 @@ public class PaymentService {
         //결제 처리가 완료 시 디비 요청.
         return resultMap;
     }
+
+    @Transactional("ktTransactionManager")
+    public void niceVBankPaid(HttpServletRequest request) {
+        String PayMethod    = request.getParameter("PayMethod");        //지불수단
+        String Amt          = request.getParameter("Amt");              //금액
+        String TID          = request.getParameter("TID");              //거래번호
+        String AuthDate     = request.getParameter("AuthDate");         //입금일시 (yyMMddHHmmss)
+        String ResultCode   = request.getParameter("ResultCode");       //결과코드 ('4110' 경우 입금통보)
+        String VbankInputName = request.getParameter("VbankInputName"); //입금자 명
+
+        String RcptType     = request.getParameter("RcptType");         //현금 영수증 구분(0:미발행, 1:소득공제용, 2:지출증빙용)
+
+        String mall_reserved = request.getParameter("MallReserved");
+
+        boolean paySuccess = false;		// 결제 성공 여부
+        if(PayMethod.equals("VBANK")){		//가상계좌
+            if(ResultCode.equals("4110")) paySuccess = true;
+        }
+
+        if(paySuccess){
+            CommonMap paramMap = new CommonMap();
+            paramMap.put("uuid", mall_reserved);
+
+            CommonMap resultMap = paymentMapper.selectPayWait(paramMap);
+            resultMap.put("trans_id", TID);
+            resultMap.put("pay_dt", AuthDate);
+            resultMap.put("pay_price", Amt);
+            resultMap.put("real_payer", VbankInputName);
+            resultMap.put("uuid", mall_reserved);
+            resultMap.put("rcpt_type", RcptType);
+
+            //insertPayment(resultMap);
+        }
+    }
 }

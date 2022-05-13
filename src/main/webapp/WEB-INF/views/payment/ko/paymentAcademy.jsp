@@ -15,8 +15,9 @@
 </head>
 
 <body class="">
-<form name="payForm" method="post" action="/payment/paymentTuitionProcess">
+<form name="payForm" method="post" action="/payment/paymentAcademyProcess">
 
+    <input type="text" name="academy_no" value="124">
     <input type="text" name="LogoImage" value="">
     <input type="text" name="NpLang" value="KO">
     <input type="text" name="CurrencyCode" value="KRW">
