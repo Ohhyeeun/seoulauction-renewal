@@ -108,8 +108,12 @@ public class MainService {
             returnMap.put("TO_DT", item.get("TO_DT"));
             returnMap.put("OPEN_DT", item.get("OPEN_DT"));
 
-            returnMap.put("FILE_PATH", "/front/online0688");
-            returnMap.put("FILE_NAME", "2dc8da32-4760-471b-9bce-f087200a09e9.jpg");
+            CommonMap paramMap = new CommonMap();
+            paramMap.put("sale_no", item.get("SALE_NO"));
+            CommonMap saleImg = ktMainMapper.selectSaleImage(paramMap);
+
+            returnMap.put("FILE_PATH", saleImg.get("FILE_PATH"));
+            returnMap.put("FILE_NAME", saleImg.get("FILE_NAME"));
 
             return returnMap;
         }).collect(Collectors.toList());
