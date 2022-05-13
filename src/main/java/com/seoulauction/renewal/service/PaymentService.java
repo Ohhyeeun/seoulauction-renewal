@@ -1,5 +1,6 @@
 package com.seoulauction.renewal.service;
 
+import com.seoulauction.renewal.common.PaymentType;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.mapper.kt.PaymentMapper;
@@ -16,38 +17,41 @@ public class PaymentService {
     private final PaymentMapper paymentMapper;
 
     public void insertPay(CommonMap map){
+        paymentMapper.insertPay(map);
+    }
 
-        //가상계좌 인서트.
-        if(!"VBANK".equals(map.getString("pay_method"))){
-            paymentMapper.insertPay(map);
-        } else {
-
-        }
+    //가상계좌전용.
+    public void insertPayWait(CommonMap map){
+        //TODO 가상계좌 PAY_WAIT ㄱㄱ
     }
 
     @Transactional("ktTransactionManager")
-    public void insertCustPay(CommonMap map){
+    public void insertPayment(CommonMap map){
 
-        //공통 페이먼트 테이블 기록.
-        insertPay(map); //pay_no 값이 map 안에 있음. ㅇㅇ;
+        String method = map.getString("pay_method");
 
-        //가상계좌아닌경우 CUST 테이블에도 INSERT
-        if(!"VBANK".equals(map.getString("pay_method"))) {
-            paymentMapper.insertCustPay(map);
+        String type = map.getString("pay_type");
+
+        insertPay(map); //공통적으로 넣기. insert 후 pay_no 가 map 안에 들어감.
+
+        switch (PaymentType.valueOf(type)){
+
+            case CUST_REGULAR:
+                paymentMapper.insertCustPay(map);
+                break;
+
+            case ACADEMY:
+                //TODO 아직해야함.
+
+                break;
+
+            case WORK:
+                paymentMapper.insertLotPay(map);
+                if(!"VBANK".equals(method)) { //가상 계좌 아닌경우에만 FEE 업데이트 ㅇㅇ. 기존레가시 참조.
+                    paymentMapper.updateLotFeeForPayment(map);
+                }
+                break;
         }
     }
-
-    @Transactional("ktTransactionManager")
-    public void insertLotPay(CommonMap map){
-
-        //공통 페이먼트 테이블 기록.
-        insertPay(map); //pay_no 값이 map 안에 있음. ㅇㅇ;
-
-        if(!"VBANK".equals(map.getString("pay_method"))) {
-            paymentMapper.insertLotPay(map);
-            paymentMapper.updateLotFeeForPayment(map);
-        }
-    }
-
 
 }

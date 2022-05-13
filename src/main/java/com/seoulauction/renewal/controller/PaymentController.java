@@ -3,6 +3,7 @@ package com.seoulauction.renewal.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.auth.Cryptography;
+import com.seoulauction.renewal.common.PaymentType;
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.component.NicePayModule;
 import com.seoulauction.renewal.domain.CommonMap;
@@ -108,8 +109,11 @@ public class PaymentController {
             resultMap.put("no_vat_price", 0);
             resultMap.put("vat_price", 0);
             resultMap.put("vat", 0);
+
+
+            resultMap.put("pay_type", PaymentType.CUST_REGULAR);
             //디비 저장.
-            paymentService.insertCustPay(resultMap);
+            paymentService.insertPayment(resultMap);
         }
 
         log.info("result : {}" , resultMap);
