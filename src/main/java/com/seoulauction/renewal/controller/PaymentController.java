@@ -48,13 +48,12 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
-    private final NicePayModule nicePayModule;
 
-    @GetMapping("/paymentMember")
+    @GetMapping("/member")
     public String paymentMember(HttpServletRequest request , Locale locale) {
 
         String goodsName = "정회원"; 					// 결제상품명
-        String price = "1234"; 						// 결제상품금액
+        Integer price = 1234; 						// 결제상품금액
         String moid = "mnoid1234567890"; 			// 상품주문번호
         String returnURL = "http://localhost:8080/payment/payResult"; // 결과페이지(절대경로) - 모
 
@@ -69,6 +68,7 @@ public class PaymentController {
         /* attribute */
         request.setAttribute("goodsName" , goodsName);
         request.setAttribute("price" , price);
+        request.setAttribute("de_price" , SAConst.DECIMAL_FORMAT.format(price));
         request.setAttribute("moid" , moid);
         request.setAttribute("returnURL" , returnURL);
 
@@ -86,43 +86,17 @@ public class PaymentController {
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentMember" , locale);
     }
 
-    @PostMapping("/paymentMemberResult")
+    @PostMapping("/memberResult")
     public String payResult(HttpServletRequest request , Locale locale) {
 
-        NicePayHttpServletRequestWrapper wrapper = new NicePayHttpServletRequestWrapper(request);
-        String address  = "(02123) 경기도 부천시 양지로 234-38";
+        CommonMap map = paymentService.insertPayment(PaymentType.CUST_REGULAR , request);
 
-        try {
-            log.info(new ObjectMapper().writeValueAsString(wrapper.getMapToString()));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        CommonMap resultMap = nicePayModule.payProcess(request);
-        if(MapUtils.isNotEmpty(resultMap)) {
-            //추후 개인정보는 시큐리티에서 가져올듯
-            resultMap.put("cust_no", "27319"); // 로그인 한 유저 번호 가져와야함.
-            resultMap.put("pay_method", wrapper.getParameter("PayMethod"));
-            resultMap.put("pg_trnas_id", wrapper.getParameter("TxTid"));
-            resultMap.put("name", wrapper.getParameter("BuyerName"));
-            resultMap.put("pay_price", wrapper.getParameter("Amt"));
-            resultMap.put("no_vat_price", 0);
-            resultMap.put("vat_price", 0);
-            resultMap.put("vat", 0);
-
-
-            resultMap.put("pay_type", PaymentType.CUST_REGULAR);
-            //디비 저장.
-            paymentService.insertPayment(resultMap);
-        }
-
-        log.info("result : {}" , resultMap);
-
-        request.setAttribute("address" , address);
-        request.setAttribute("name", wrapper.getParameter("BuyerName"));
-        request.setAttribute("tel" , wrapper.getParameter("BuyerTel"));
-        request.setAttribute("method" , wrapper.getParameter("PayMethod"));
-        request.setAttribute("amt" , wrapper.getParameter("Amt"));
+//        String address  = "(02123) 경기도 부천시 양지로 234-38";
+//        request.setAttribute("address" , address);
+//        request.setAttribute("name", wrapper.getParameter("BuyerName"));
+//        request.setAttribute("tel" , wrapper.getParameter("BuyerTel"));
+//        request.setAttribute("method" , wrapper.getParameter("PayMethod"));
+//        request.setAttribute("amt" , wrapper.getParameter("Amt"));
 
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentMemberResult" , locale);
     }

@@ -25,7 +25,7 @@
                         <div class="section-inner">
 
                             <%--결제 폼--%>
-                            <form name="payForm" method="post" action="/payment/paymentMemberResult">
+                            <form name="payForm" method="post" action="/payment/memberResult">
                                 <div class="content-panel type_panel-payment">
                                     <div class="panel-header">
                                         <div class="title">
@@ -51,7 +51,7 @@
                                                     <div class="member_pay">
                                                         <p>
                                                             <span class="tit tt5">정회원 비용</span>
-                                                            <span class="won tt3">200,000<i class="tb1">원</i></span>
+                                                            <span class="won tt3">${de_price}<i class="tb1">원</i></span>
                                                         </p>
                                                         <p class="fees">
                                                             <span class="tit tb1">수수료</span>
@@ -87,9 +87,9 @@
                                             <li class="no-line">
                                                 <p class="list_tit tt4">총 결제금액</p>
                                                 <div class="total_pay_box tt3">
-                                                    정회원 비용 200,000 <i class="tb1">원</i><i class="br-mo"></i>
+                                                    정회원 비용 ${de_price} <i class="tb1">원</i><i class="br-mo"></i>
                                                     + 수수료 0 <i class="tb1">원</i> <i class="br-mo"></i>
-                                                    = <span>총 결제금액 200,000 <i class="tb1">원</i></span>
+                                                    = <span>총 결제금액 ${de_price} <i class="tb1">원</i></span>
                                                 </div>
 
                                             </li>

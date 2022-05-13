@@ -49,8 +49,6 @@
 			 , DATE_ADD(DATE_ADD(now(), INTERVAL 1 YEAR), INTERVAL -1 DAY)
 			 )
 	</insert>
-
-
 	<!--정회원 결제 테이블-->
 	<insert id="insertLotPay" parameterType="commonMap">
 		insert into LOT_PAY (
@@ -65,6 +63,37 @@
 			 , 'payment'
 		 )
 	</insert>
+	<!---->
+	<!--아카데미 결제 테이블-->
+	<insert id="insertAcademyPay" parameterType="commonMap">
+	INSERT INTO ACADEMY_PAY (
+			ACADEMY_NO,
+			CUST_NO,
+			PAY_NO
+		)
+		VALUES (
+		    #{academy_no},
+		    #{cust_no},
+		    ${pay_no}
+		)
+	</insert>
+	<insert id="insertAcademyReqPay" parameterType="commonMap">
+		INSERT INTO ACADEMY_REQ (
+			 ACADEMY_NO,
+			 CUST_NO,
+			 REG_EMP_NO,
+			 PAYER,
+			 REG_DT
+		)
+		VALUES (
+			#{academy_no},
+			#{cust_no},
+			#{reg_cust_no},
+			#{payer},
+			now(),
+		)
+	</insert>
+	<!---->
 	<update id="updateLotFeeForPayment" parameterType="commonMap">
 		update
 			LOT_FEE
