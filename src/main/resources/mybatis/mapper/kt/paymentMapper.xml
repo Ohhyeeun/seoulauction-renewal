@@ -51,23 +51,32 @@
 	</insert>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	<!--정회원 결제 테이블-->
+	<insert id="insertLotPay" parameterType="commonMap">
+		insert into LOT_PAY (
+			  SALE_NO
+			, LOT_NO
+			, PAY_NO
+			, FEE_KIND_CD
+		) values (
+			   #{sale_no}
+			 , #{lot_no}
+			 , last_insert_id()
+			 , 'payment'
+		 )
+	</insert>
+	<update id="updateLotFeeForPayment" parameterType="commonMap">
+		update
+			LOT_FEE
+		SET
+			FEE = cast(greatest(
+					   least((#{bid_price} - (ifnull(PRICE_FROM, 1) - 1))
+						   , (ifnull(PRICE_TO, #{bid_price}) - (ifnull(PRICE_FROM, 1) - 1)))
+				   , 0) * (RATE / 100) as int)
+		  , MOD_DT = now()
+		where
+			SALE_NO = #{sale_no} and LOT_NO = #{lot_no}
+	</update>
 
 
 </mapper>

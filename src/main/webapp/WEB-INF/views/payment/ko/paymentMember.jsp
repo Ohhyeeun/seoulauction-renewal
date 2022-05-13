@@ -55,7 +55,7 @@
                                                         </p>
                                                         <p class="fees">
                                                             <span class="tit tb1">수수료</span>
-                                                            <span class="won tb1">200,000<i class="tb2">원</i></span>
+                                                            <span class="won tb1">0<i class="tb2">원</i></span>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -150,7 +150,6 @@
                                         </ul>
                                     </div>
                                     <input id="inputPayMethod" type="hidden" name="PayMethod" value=""/>
-
                                     <input type="hidden" name="GoodsName" value="${goodsName}"/>
                                     <input type="hidden" name="Amt" value="${price}"/>
                                     <input type="hidden" name="MID" value="${mId}"/>

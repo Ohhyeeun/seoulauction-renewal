@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seoulauction.renewal.mapper.kt.PaymentMapper">
+
+	<select id="selectSale" resultType="commonMap" parameterType="commonMap">
+		SELECT
+			COUNT(*)	     ROW_CNT
+		FROM CUST A , ACADEMY_REQ B , ACADEMY C
+		WHERE A.CUST_NO = B.CUST_NO AND B.ACADEMY_NO = C.ACADEMY_NO AND A.CUST_NO = #{cust_no} AND B.DEL_YN = 'N'
+	</select>
+
+
+</mapper>
