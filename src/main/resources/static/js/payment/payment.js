@@ -11,8 +11,6 @@ function nicepayStart(){
 
 //[PC 결제창 전용]결제 최종 요청시 실행됩니다. <<'nicepaySubmit()' 이름 수정 불가능>>
 function nicepaySubmit(){
-    let form = document.payForm;
-
     document.payForm.submit();
 }
 
@@ -23,7 +21,6 @@ function nicepayClose(){
 
 //pc, mobile 구분(가이드를 위한 샘플 함수입니다.)
 function checkPlatform(ua) {
-
 
     if(ua === undefined) {
         ua = window.navigator.userAgent;
