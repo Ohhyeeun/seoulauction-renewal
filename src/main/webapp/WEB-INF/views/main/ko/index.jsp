@@ -221,7 +221,9 @@
             </article>
         </section>
     </div>
-    <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
+    <jsp:include page="../../include/ko/footer.jsp" flush="false">
+        <jsp:param name="main" value="true"/>
+    </jsp:include>
     <!-- //wrap -->
 </section>
 <!-- 다크모드 darkmode -->
