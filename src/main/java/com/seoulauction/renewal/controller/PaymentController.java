@@ -56,7 +56,6 @@ public class PaymentController {
         String price = "1234"; 						// 결제상품금액
         String moid = "mnoid1234567890"; 			// 상품주문번호
         String returnURL = "http://localhost:8080/payment/payResult"; // 결과페이지(절대경로) - 모
-        // 바일 결제창 전용
 
         String name = "김융훈"; 						// 구매자명
         String tel = "01000000000"; 				// 구매자연락처
@@ -436,6 +435,49 @@ public class PaymentController {
 
         }
         return dataMap;
+    }
+
+    @GetMapping("work/{id}")
+    public String work(HttpServletRequest request , Locale locale) {
+
+        String goodsName = "정회원"; 					// 결제상품명
+        String price = "1234"; 						// 결제상품금액
+        String moid = "mnoid1234567890"; 			// 상품주문번호
+        String returnURL = "http://localhost:8080/payment/payResult"; // 결과페이지(절대경로) - 모
+
+        String name = "김융훈"; 						// 구매자명
+        String tel = "01000000000"; 				// 구매자연락처
+        String email = "happy@day.co.kr"; 			// 구매자메일주소
+        String address  = "(02123) 경기도 부천시 양지로 234-38";
+
+        String eDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String signData = Cryptography.encrypt(eDate + nicePayMerchantId + price + nicePaymerchantKey);
+
+        /* attribute */
+        request.setAttribute("goodsName" , goodsName);
+        request.setAttribute("price" , price);
+        request.setAttribute("moid" , moid);
+        request.setAttribute("returnURL" , returnURL);
+
+        request.setAttribute("name" , name);
+        request.setAttribute("tel" , tel);
+        request.setAttribute("email" , email);
+        request.setAttribute("address" , address);
+
+        request.setAttribute("mKey" , nicePaymerchantKey);
+        request.setAttribute("mId" , nicePayMerchantId);
+        request.setAttribute("signData" , signData);
+        request.setAttribute("eDate" , eDate);
+        request.setAttribute("signData" , signData);
+
+        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentWork" , locale);
+    }
+
+    @GetMapping("/workResult")
+    public String paymentWorkResult(HttpServletRequest request , Locale locale) {
+
+
+        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentWorkResult" , locale);
     }
 
 }
