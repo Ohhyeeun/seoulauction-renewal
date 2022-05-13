@@ -23,39 +23,29 @@ public class PaymentService {
 
     private final NicePayModule nicePayModule;
 
-    public void insertPay(CommonMap map){
-        paymentMapper.insertPay(map);
-    }
-
     //가상계좌전용.
-    public CommonMap insertPayWait(CommonMap map){
+    public void insertPayWait(CommonMap map){
         //TODO 가상계좌 PAY_WAIT ㄱㄱ
+
     }
 
-    @Transactional("ktTransactionManager")
-    public CommonMap insertPayment(PaymentType paymentType , HttpServletRequest request){
+    //실제 결제 요청이 성공적으로 된경우.
+    public void insertPay(PaymentType paymentType ,  HttpServletRequest request){
 
-        NicePayHttpServletRequestWrapper wrapper = new NicePayHttpServletRequestWrapper(request);
+        String method = request.getParameter("PayMethod");
 
-        //결제 처리 요청.
-        CommonMap resultMap = nicePayModule.payProcess(request); //결제 처리 ㄱㄱ
-        
-        if(MapUtils.isNotEmpty(resultMap)) {
-
+        CommonMap resultMap = new CommonMap();
             //공통 페이먼트 테이블 필요한 부분 미리 넣기.
-            resultMap.put("cust_no", "27319"); // 로그인 한 유저 번호 가져와야함.
-            resultMap.put("pay_method", wrapper.getParameter("PayMethod"));
-            resultMap.put("pg_trnas_id", wrapper.getParameter("TxTid"));
-            resultMap.put("name", wrapper.getParameter("BuyerName"));
-            resultMap.put("pay_price", wrapper.getParameter("Amt"));
-            resultMap.put("no_vat_price", 0);
-            resultMap.put("vat_price", 0);
-            resultMap.put("vat", 0);
-        }
+        resultMap.put("cust_no", "27319"); // 로그인 한 유저 번호 가져와야함.
+        resultMap.put("pay_method", request.getParameter("PayMethod"));
+        resultMap.put("pg_trnas_id", request.getParameter("TxTid"));
+        resultMap.put("name", request.getParameter("BuyerName"));
+        resultMap.put("pay_price", request.getParameter("Amt"));
+        resultMap.put("no_vat_price", 0);
+        resultMap.put("vat_price", 0);
+        resultMap.put("vat", 0);
 
-        //결제 처리가 완료 시 디비 요청.
-        String method = resultMap.getString("pay_method");
-        insertPay(resultMap); //공통적으로 넣기. insert 후 pay_no 가 map 안에 들어감.
+        paymentMapper.insertPay(resultMap);//공통적으로 넣기. insert 후 pay_no 가 map 안에 들어감.
 
         switch (paymentType){
 
@@ -64,34 +54,32 @@ public class PaymentService {
                 break;
             case ACADEMY:
                 //TODO 아카데미 DB INSERT 처리ㄱㄱ.
-
-
-
-
-
-
                 break;
 
             case WORK:
-
                 //TODO 작품 DB INSERT 처리ㄱㄱ.
-                
-                
                 paymentMapper.insertLotPay(resultMap);
-
-
-
-
-
-
-                //TODO 아직해야함.
                 if(!"VBANK".equals(method)) { //가상 계좌 아닌경우에만 FEE 업데이트 ㅇㅇ. 기존레가시 참조.
                     paymentMapper.updateLotFeeForPayment(resultMap);
                 }
                 break;
         }
-
-        return resultMap;
     }
 
+    @Transactional("ktTransactionManager")
+    public CommonMap paymentProcess(PaymentType paymentType , HttpServletRequest request){
+
+        //결제 처리 요청.
+        CommonMap resultMap = nicePayModule.payProcess(request); //결제 처리
+        
+        String payMethod = request.getParameter("PayMethod");
+
+        if("VBANK".equals(payMethod)){
+            insertPayWait(resultMap);
+        } else {
+            insertPay(paymentType , request);
+        }
+        //결제 처리가 완료 시 디비 요청.
+        return resultMap;
+    }
 }

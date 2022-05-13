@@ -91,19 +91,7 @@ public class PaymentController {
 
         log.info("request : {}" , request);
 
-        CommonMap map = new CommonMap();
-
-        if(!"VBANK".equals(request.getParameter("PayMethod"))){
-            map = paymentService.insertPayment(PaymentType.CUST_REGULAR , request);
-        } else {
-            //가상계좌인경우.
-            map = paymentService.insertPayWait(map);
-
-            //TODO 가상계좌일경우 가상계좌정보 넣어주셈.
-            /*request.setAttribute("" , "");
-            request.setAttribute("", "");
-            request.setAttribute("" , "");*/
-        }
+        paymentService.paymentProcess(PaymentType.CUST_REGULAR , request);
 
 
         String address  = "(02123) 경기도 부천시 양지로 234-38";
