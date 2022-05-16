@@ -18,6 +18,7 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -29,10 +30,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Locale;
+import java.util.*;
 
 @Controller
 @Log4j2
@@ -112,20 +110,25 @@ public class PaymentController {
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "/example/payRequest_utf" , locale);
     }
 
-    @GetMapping("/paymentAcademy/{academy_id}")
-    public String paymentAcademy(HttpServletRequest request, Locale locale) {
+    @GetMapping("/paymentAcademy/{academy_no}")
+    public String paymentAcademy(@PathVariable("academy_no") int academy_no, HttpServletRequest request, Locale locale) {
         // select cust
         // select academy
 
         String merchantKey 		= nicePaymerchantKey; // 상점키
         String merchantID 		= nicePayMerchantId; 				// 상점아이디
         String goodsName 		= "나이스페이"; 					// 결제상품명
-        String price 			= "1004"; 						// 결제상품금액
+        int price 			= 1100; 						// 결제상품금액
         String buyerName 		= "김선진"; 						// 구매자명
         String buyerTel 		= "01033720384"; 				// 구매자연락처
         String buyerEmail 		= "sjk@seoulauction.com"; 			// 구매자메일주소
         String moid 			= "mnoid1234567890"; 			// 상품주문번호
         String returnURL 		= "https://re-dev.seoulauction.com/payment/paymentTuitionProcess"; // 결과페이지(절대경로) - 모바일 결제창 전용
+
+        //TODO: 과세, 면세 확인
+        int vat_price = (int) (price / 1.1);
+        int vat = price - vat_price;
+        int no_vat_price = 0;
 
         /*
          *******************************************************
@@ -141,6 +144,10 @@ public class PaymentController {
         request.setAttribute("merchantID", merchantID);
         request.setAttribute("goodsName", goodsName);
         request.setAttribute("price", price);
+        request.setAttribute("vat_price", vat_price);
+        request.setAttribute("vat", vat);
+        request.setAttribute("academy_no", academy_no);
+        request.setAttribute("no_vat_price", no_vat_price);
         request.setAttribute("buyerName", buyerName);
         request.setAttribute("buyerTel", buyerTel);
         request.setAttribute("buyerEmail", buyerEmail);
@@ -149,6 +156,7 @@ public class PaymentController {
         request.setAttribute("sha256Enc", sha256Enc);
         request.setAttribute("ediDate", ediDate);
         request.setAttribute("hashString", hashString);
+        request.setAttribute("uuid", UUID.randomUUID().toString().replace("-", ""));
 
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentAcademy" , locale);
     }
@@ -157,9 +165,22 @@ public class PaymentController {
     public String paymentAcademyProcess(HttpServletRequest request, Locale locale) {
         log.info("paymentAcademyProcess");
 
-        /*****************************************************************************************
+        paymentService.paymentProcess(PaymentType.ACADEMY, request);
+
+        request.setAttribute("name", request.getParameter("BuyerName"));
+        request.setAttribute("tel" , request.getParameter("BuyerTel"));
+        request.setAttribute("method" , request.getParameter("PayMethod"));
+        request.setAttribute("price" , request.getParameter("Amt"));
+
+        request.setAttribute("vbank_nm" , request.getParameter("vbankBankName"));
+        request.setAttribute("vbank_num" , request.getParameter("vbankNum"));
+        request.setAttribute("vbank_exp_dt" , request.getParameter("vbankExpDate"));
+
+
+        /*
+        *//*****************************************************************************************
          * <인증 결과 파라미터>
-         *****************************************************************************************/
+         *****************************************************************************************//*
         String authResultCode 	= request.getParameter("AuthResultCode"); 	// 인증결과 : 0000(성공)
         String authResultMsg 	= request.getParameter("AuthResultMsg"); 	// 인증결과 메시지
         String nextAppURL 		= request.getParameter("NextAppURL"); 		// 승인 요청 URL
@@ -173,52 +194,52 @@ public class PaymentController {
         String netCancelURL 	= request.getParameter("NetCancelURL"); 	// 망취소 요청 URL
         //String authSignature = request.getParameter("Signature");			// Nicepay에서 내려준 응답값의 무결성 검증 Data
 
-        /*
+        *//*
          ****************************************************************************************
          * Signature : 요청 데이터에 대한 무결성 검증을 위해 전달하는 파라미터로 허위 결제 요청 등 결제 및 보안 관련 이슈가 발생할 만한 요소를 방지하기 위해 연동 시 사용하시기 바라며
          * 위변조 검증 미사용으로 인해 발생하는 이슈는 당사의 책임이 없음 참고하시기 바랍니다.
          ****************************************************************************************
-         */
+         *//*
         DataEncrypt sha256Enc 	= new DataEncrypt();
         String merchantKey 		= nicePaymerchantKey; // 상점키
 
         //인증 응답 Signature = hex(sha256(AuthToken + MID + Amt + MerchantKey)
         //String authComparisonSignature = sha256Enc.encrypt(authToken + mid + amt + merchantKey);
 
-        /*
+        *//*
          ****************************************************************************************
          * <승인 결과 파라미터 정의>
          * 샘플페이지에서는 승인 결과 파라미터 중 일부만 예시되어 있으며,
          * 추가적으로 사용하실 파라미터는 연동메뉴얼을 참고하세요.
          ****************************************************************************************
-         */
+         *//*
         String ResultCode 	= ""; String ResultMsg 	= ""; String PayMethod 	= "";
         String GoodsName 	= ""; String Amt 		= ""; String TID 		= "";
         //String Signature = ""; String paySignature = "";
-        /*
+        *//*
          ****************************************************************************************
          * <인증 결과 성공시 승인 진행>
          ****************************************************************************************
-         */
+         *//*
         String resultJsonStr = "";
         System.out.println("authResultCode: "+authResultCode);
         System.out.println("authResultMsg: "+authResultMsg);
-        if(authResultCode.equals("0000") /*&& authSignature.equals(authComparisonSignature)*/){
-            /*
+        if(authResultCode.equals("0000") *//*&& authSignature.equals(authComparisonSignature)*//*){
+            *//*
              ****************************************************************************************
              * <해쉬암호화> (수정하지 마세요)
              * SHA-256 해쉬암호화는 거래 위변조를 막기위한 방법입니다.
              ****************************************************************************************
-             */
+             *//*
             String ediDate			= getyyyyMMddHHmmss();
             String signData 		= sha256Enc.encrypt(authToken + mid + amt + ediDate + merchantKey);
 
-            /*
+            *//*
              ****************************************************************************************
              * <승인 요청>
              * 승인에 필요한 데이터 생성 후 server to server 통신을 통해 승인 처리 합니다.
              ****************************************************************************************
-             */
+             *//*
             StringBuffer requestData = new StringBuffer();
             requestData.append("TID=").append(txTid).append("&");
             requestData.append("AuthToken=").append(authToken).append("&");
@@ -233,12 +254,12 @@ public class PaymentController {
                 HashMap resultData = new HashMap();
                 boolean paySuccess = false;
                 if ("9999".equals(resultJsonStr)) {
-                    /*
+                    *//*
                      *************************************************************************************
                      * <망취소 요청>
                      * 승인 통신중에 Exception 발생시 망취소 처리를 권고합니다.
                      *************************************************************************************
-                     */
+                     *//*
                     StringBuffer netCancelData = new StringBuffer();
                     requestData.append("&").append("NetCancel=").append("1");
                     String cancelResultJsonStr = connectToServer(requestData.toString(), netCancelURL);
@@ -246,9 +267,9 @@ public class PaymentController {
                     HashMap cancelResultData = jsonStringToHashMap(cancelResultJsonStr);
                     ResultCode = (String) cancelResultData.get("ResultCode");
                     ResultMsg = (String) cancelResultData.get("ResultMsg");
-                    /*Signature = (String)cancelResultData.get("Signature");
+                    *//*Signature = (String)cancelResultData.get("Signature");
                     String CancelAmt = (String)cancelResultData.get("CancelAmt");
-                    paySignature = sha256Enc.encrypt(TID + mid + CancelAmt + merchantKey);*/
+                    paySignature = sha256Enc.encrypt(TID + mid + CancelAmt + merchantKey);*//*
                 } else {
                     resultData = jsonStringToHashMap(resultJsonStr);
                     System.out.println("resultData: "+resultData);
@@ -261,14 +282,14 @@ public class PaymentController {
 
                     // Signature : Nicepay에서 내려준 응답값의 무결성 검증 Data
                     // 가맹점에서 무결성을 검증하는 로직을 구현하여야 합니다.
-                    /*Signature = (String)resultData.get("Signature");
-                    paySignature = sha256Enc.encrypt(TID + mid + Amt + merchantKey);*/
+                    *//*Signature = (String)resultData.get("Signature");
+                    paySignature = sha256Enc.encrypt(TID + mid + Amt + merchantKey);*//*
 
 
                     CommonMap map = new CommonMap();
                     map.putAll(resultData);
 
-                    /** 4. 결제 결과 */
+                    *//** 4. 결제 결과 *//*
                     String resultCode = (String) resultData.get("ResultCode"); // 결과코드 (정상 :3001 , 그 외 에러)
                     String resultMsg = (String) resultData.get("ResultMsg");   // 결과메시지
                     String authDate = (String) resultData.get("AuthDate");   // 승인일시 YYMMDDHH24mmss
@@ -330,11 +351,11 @@ public class PaymentController {
                     map.put("vbank_nm", vbankBankName);
                     map.put("vbank_num", vbankNum);
                     map.put("vbank_exp_dt", vbankExpDate);
-                    /*
+                    *//*
                      *************************************************************************************
                      * <결제 성공 여부 확인>
                      *************************************************************************************
-                     */
+                     *//*
                     if (PayMethod != null) {
                         if (PayMethod.equals("CARD")) {
                             if (ResultCode.equals("3001")) paySuccess = true; // 신용카드(정상 결과코드:3001)
@@ -363,16 +384,16 @@ public class PaymentController {
             } catch (Exception e) {
                 log.error(e.getMessage());
             }
-        }else/*if(authSignature.equals(authComparisonSignature))*/{
+        }else*//*if(authSignature.equals(authComparisonSignature))*//*{
             ResultCode 	= authResultCode;
             ResultMsg 	= authResultMsg;
-        }/*else{
+        }*//*else{
             System.out.println("인증 응답 Signature : " + authSignature);
             System.out.println("인증 생성 Signature : " + authComparisonSignature);
-        }*/
+        }*//*
 
         System.out.println("ResultCode: "+ResultCode);
-        System.out.println("authResultMsg: "+authResultMsg);
+        System.out.println("authResultMsg: "+authResultMsg);*/
         return "redirect:/payment/paymentAcademyResult";
     }
 

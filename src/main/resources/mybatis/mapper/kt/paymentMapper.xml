@@ -110,7 +110,7 @@
 	<insert id="insertPayWait" parameterType="commonMap">
 		INSERT INTO PAY_WAIT (CUST_NO, KIND_CD, REF_NO, REF_NO2, PAY_METHOD_CD, PG_CD, PG_TRANS_ID, PAYER, PAY_PRICE
 			, STAT_CD, REG_DT, NO_VAT_PRICE, VAT_PRICE, VAT, UUID, VBANK_CD, VBANK_NM, VBANK_NUM, VBANK_EXP_DT, RCPT_TYPE
-		) VALUES (#{cust_no}, #{kind_cd}, #{ref_no}, #{ref_no2}, lower(#{pay_method_cd}), #{pg_cd}, #{pg_trans_id}, #{payer}, #{pay_price}
+		) VALUES (#{cust_no}, lower(#{kind_cd}), #{ref_no}, #{ref_no2}, lower(#{pay_method_cd}), #{pg_cd}, #{pg_trans_id}, #{payer}, #{pay_price}
 			, 'wait', now(), #{no_vat_price}, #{vat_price}, #{vat}, #{uuid}, #{vbank_cd}, #{vbank_nm}, #{vbank_num}, #{vbank_exp_dt}, #{rcpt_type}
 		);
 	</insert>
