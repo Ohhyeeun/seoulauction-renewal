@@ -59,5 +59,11 @@
 		                        where  CUST_NO = #{cust_no})
 		where CUST_NO = #{cust_no} 
 	</update>
+	
+	<update id="updateCustLoginFailCntByCustNo" parameterType="CommonMap">
+		update CUST
+		set    LOGIN_FAIL_CNT = #{login_fail_cnt} 
+		where CUST_NO = #{cust_no} 
+	</update>
     
 </mapper>
