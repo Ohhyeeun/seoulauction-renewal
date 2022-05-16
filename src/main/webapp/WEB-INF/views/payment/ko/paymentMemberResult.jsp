@@ -82,9 +82,9 @@
                                             <ul class="pay_info tb1">
                                                 <li>
                                                     <span class="th">총 결제금액</span>
-                                                    <span class="td pay">정회원 비용 ${amt} 원
+                                                    <span class="td pay">정회원 비용 ${price} 원
                                                         <br class="only-mb" />+ 수수료 0 원
-                                                        <br class="only-mb" />= <i class="total">총 결제금액 ${amt} 원</i></span>
+                                                        <br class="only-mb" />= <i class="total">총 결제금액 ${price} 원</i></span>
                                                 </li>
                                                 <li>
                                                     <span class="th">결제방법</span>

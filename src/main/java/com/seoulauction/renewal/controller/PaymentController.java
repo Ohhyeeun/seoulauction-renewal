@@ -46,6 +46,9 @@ public class PaymentController {
     @Value("${nicepay.merchant.id}")
     String nicePayMerchantId;
 
+    @Value("${nipcepay.mobile.base.return.url}")
+    String nicePayMobileBaseReturnUrl;
+
     private final PaymentService paymentService;
 
 
@@ -55,7 +58,7 @@ public class PaymentController {
         String goodsName = "정회원"; 					// 결제상품명
         Integer price = 1234; 						// 결제상품금액
         String moid = "mnoid1234567890"; 			// 상품주문번호
-        String returnURL = "https://re-dev.seoulauction.com/payment/memberResult"; // 결과페이지(절대경로) - 모
+        String returnURL = nicePayMobileBaseReturnUrl + "/payment/memberResult"; // 결과페이지(절대경로) - 모
 
         String name = "김융훈"; 						// 구매자명
         String tel = "01000000000"; 				// 구매자연락처
