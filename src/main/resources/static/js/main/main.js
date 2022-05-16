@@ -47,16 +47,26 @@ window.onload = function(){
 }
 
 // 상단텍스트공지
+const topNoticeSwiper = new Swiper(".beltbox-swiper", {
+    direction : "vertical",
+    autoplay : {
+        delay: 2500,
+        disableOnInteraction: false
+    }
+});
+
 function loadTopNotice(){
+    const slideArray = [];
 
     axios.get('api/main/topNotice')
     .then(function(response){
         const success =  response.data.success;
         if (success) {
             const data = response.data.data;
-            if(!getCookie('top-notice') && data[0]) {
-                const content = JSON.parse(data[0].content);
-                const returnDom = `<div class="header_beltbox on"> <!--class="on" block-->
+            if(!getCookie('top-notice') && data) {
+                data.map(item => {
+                    const content = JSON.parse(item.content);
+                    const returnDom = `<div class="swiper-slide header_beltbox on"> <!--class="on" block-->
                                         <div class="wrap belttxtbox wrap_padding">
                                                 <span class="header_beltTit">
                                                     <a href="${locale === 'en' ? content.en_url : content.ko_url}">${locale === 'en' ? content.en_text : content.ko_text}<span class="beltbanner-triangle"></span></a>
@@ -65,7 +75,10 @@ function loadTopNotice(){
                                         </div>
                                    </div>`
 
-                document.querySelector(".header").insertAdjacentHTML('afterbegin', returnDom);
+                    slideArray.push(returnDom);
+                });
+
+                topNoticeSwiper.appendSlide(slideArray);
 
                 /* 상단 텍스트 동적 생성으로 인한 스타일 변경 및 이벤트 바인딩 */
                 document.querySelector(".beltclose-btn").addEventListener("click", function(e){
@@ -142,7 +155,7 @@ function loadUpcomings() {
                     const from_dt = moment(item.FROM_DT);
                     const to_dt = moment(item.TO_DT);
                     const open_dt = moment(item.OPEN_DT);
-                    const returnDom =  ` <div class="swiper-slide upcomingSlide swiper-slide-active" style="padding-right: 40px;">
+                    const returnDom =  ` <div class="swiper-slide upcomingSlide " style="padding-right: 40px;">
                                             <a href="#">
                                                 <div class="upcoming-caption">
                                                     <span class="auctionKind-box ${ item.SALE_KIND === 'LIVE' ? 'on' : ''}">
@@ -359,7 +372,7 @@ app.controller('mainCtl', function($scope, consts, common, ngDialog) {
 				animationEndSupport: false,
 			});
 		}
-		
+
 		if(resetPassword == 'true'){
 			$modal = ngDialog.open({
 				template: '/resetPassword',
@@ -369,7 +382,7 @@ app.controller('mainCtl', function($scope, consts, common, ngDialog) {
 				animationEndSupport: false,
 			});
 		}
-		
+
 		console.log(modPassword)
 		if(modPassword == 'true'){
 			$modal = ngDialog.open({
@@ -426,7 +439,7 @@ app.controller('modPasswordPopCtl', function($scope, consts, common) {
                 console.log(error);
             });
 	}
-	
+
 	$scope.modPassword = function(){
 		// TODO 차후 비밀번호 변경 페이지 개발시 수정
 		location.href = '/';

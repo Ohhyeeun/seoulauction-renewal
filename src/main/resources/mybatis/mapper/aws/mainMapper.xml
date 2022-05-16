@@ -11,7 +11,7 @@
             and start_at <= (now() + interval 9 hour)
             and end_at >= (now() + interval 9 hour)
             order by sort desc
-        limit 1;
+       limit 3;
     ]]>
     </select>
 
