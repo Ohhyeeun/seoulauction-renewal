@@ -29,6 +29,11 @@ public class MainController {
     public String guide(HttpServletRequest request) {
         return "guide_list";
     }
+    @GetMapping("/upcoming" )
+    public String upcoming(Locale locale) {
+        return SAConst.getUrl(SERVICE_MAIN , "upcoming" , locale);
+    }
+
 
     @GetMapping("/newsletter" )
     public String newsletter(Locale locale) {
@@ -44,6 +49,16 @@ public class MainController {
     @GetMapping("/maxSession" )
     public String maxSession(Locale locale) {
         return SAConst.getUrl(SERVICE_MAIN , "popup/maxSession" , locale);
+    }
+    
+    @GetMapping("/resetPassword" )
+    public String resetPassword(Locale locale) {
+        return SAConst.getUrl(SERVICE_MAIN , "popup/resetPassword" , locale);
+    }
+    
+    @GetMapping("/modPassword" )
+    public String modPassword(Locale locale) {
+        return SAConst.getUrl(SERVICE_MAIN , "popup/modPassword" , locale);
     }
 
     @GetMapping("/beltBanner" )

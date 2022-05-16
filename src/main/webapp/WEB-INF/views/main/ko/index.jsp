@@ -34,7 +34,6 @@
                             </p>
                             <div class="visual_btn">
                                 <a href="#" class="commonbtn visual-commonbtn btn-bg-w">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a>
-                                <a class="commonbtn visual-commonbtn btn-bg-w" ng-click="showMemHisPopup(this);">하이하이</a>
                             </div>
                         </figurecaption>
                     </figure>
@@ -120,190 +119,14 @@
         </section>
     </div>
 
-    <section class="upcoming">
-        <h1 class="main-sectiontit upcoming-tit">
-            Upcoming
-        </h1>
+    <jsp:include page="../../main/include/upcoming.jsp" />
 
-        <div class="upcoming-wrap">
-            <div class="swiper-container upcoming-swiper">
-                <div class="swiper-wrapper upcoming-contents">
-                    <div class="swiper-slide upcomingSlide">
-                        <a href="#">
-                            <div class="upcoming-caption">
-                                <span class="auctionKind-box on">LIVE</span><span class="d-day on">TODAY</span>
-                                <h4>2월 라이브 경매</h4>
-                                <div class="upcoming-datebox">
-                                    <p class="upcoming-preview">
-                                        <span>오픈일</span><span>2/14(금)</span>
-                                    </p>
-                                    <p class="upcoming-preview">
-                                        <span>프리뷰</span><span>2/14(금) ~ 2/25(화)</span>
-                                    </p>
-                                    <p class="upcoming-date">
-                                        <span>경매일</span><span>2/15(화) 15:00</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <figure class="upcoming-img">
-                                <!--<span class="upcomingImg"></span>-->
-                                <img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">
-                            </figure>
-                        </a>
-                    </div>
-                    <div class="swiper-slide upcomingSlide">
-                        <a href="#">
-                            <div class="upcoming-caption">
-                                <span class="auctionKind-box">ONLINE</span><span class="d-day on">D-1</span>
-                                <h4>2월 e BID 퍼블릭 온라인 경매</h4>
-                                <div class="upcoming-datebox">
-                                    <p class="upcoming-preview">
-                                        <span>오픈일</span><span>2/14(금)</span>
-                                    </p>
-                                    <p class="upcoming-preview">
-                                        <span>프리뷰</span><span>2/14(금) ~ 2/25(화)</span>
-                                    </p>
-                                    <p class="upcoming-date">
-                                        <span>경매일</span><span>2/15(화) 15:00</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <figure class="upcoming-img">
-                                <!--<span class="upcomingImg"></span>-->
-                                <%--<img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">--%>
-                            </figure>
-                        </a>
-                    </div>
-                    <div class="swiper-slide upcomingSlide">
-                        <a href="#">
-                            <div class="upcoming-caption">
-                                <span class="auctionKind-box">ONLINE</span><span class="d-day"></span>
-                                <h4>ZEROBASE X 아트경기</h4>
-                                <div class="upcoming-datebox">
-                                    <p class="upcoming-preview">
-                                        <span>오픈일</span><span>2/14(금)</span>
-                                    </p>
-                                    <p class="upcoming-preview">
-                                        <span>프리뷰</span><span>2/14(금) ~ 2/25(화)</span>
-                                    </p>
-                                    <p class="upcoming-date">
-                                        <span>경매일</span><span>2/15(화) 15:00</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <figure class="upcoming-img">
-                                <!--<span class="upcomingImg"></span>-->
-                                <!--<img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet"> -->
-                            </figure>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="commonbtn-box upcomingBtn">
-            <a href="#" class="commonbtn">전체보기</a>
-        </div>
-    </section>
+
 
     <jsp:include page="../include/beltBanner.jsp" />
 
-    <article class="video">
-        <h1 class="main-sectiontit video-tit">
-            Video
-        </h1>
+    <jsp:include page="../include/video.jsp" />
 
-        <div class="swiper-container video-swiper">
-            <div class="swiper-wrapper video-contents">
-                <div class="swiper-slide video-slide">
-                    <a data-video="B_iGOoOR1SY">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_01_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_01_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-you"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE X 아트경기 2021: 경기문화재단
-                        </p>
-                        <div class="video-popup">
-                            <div class="video-popup-closer"></div>
-                        </div>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="#">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_02_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_02_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-in"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE X 아트경기 2021: 경기문화재단
-                        </p>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="#">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_03_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_03_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-you"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE X 아트경기 2021: 경기문화재단
-                        </p>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="#">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_04_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_04_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-in"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE X 아트경기 2021: 경기문화재단
-                        </p>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="#">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_05_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_05_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-you"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE X 아트경기 2021: 경기문화재단
-                        </p>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="#">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_06_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_06_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-in"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE X 아트경기 2021: 경기문화재단
-                        </p>
-                    </a>
-                </div>
-            </div>
-            <div class="swiper-button-prev videoBtn-left">
-                <span></span>
-            </div>
-            <div class="swiper-button-next videoBtn-right">
-                <span></span>
-            </div>
-        </div>
-    </article>
 
     <div class="wrap">
         <section class="container">
@@ -398,7 +221,9 @@
             </article>
         </section>
     </div>
-    <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
+    <jsp:include page="../../include/ko/footer.jsp" flush="false">
+        <jsp:param name="main" value="true"/>
+    </jsp:include>
     <!-- //wrap -->
 </section>
 <!-- 다크모드 darkmode -->
@@ -414,7 +239,7 @@
 <jsp:include page="popup/newsletter.jsp" flush="false"/>
 
 <!-- video 팝업 -->
-<div class="blackBg video-blackBg">
+<div class="blackBg video-blackBg" id="videoLayerPopup">
     <div class="video-playbox">
         <div class="video-play">
 
@@ -422,6 +247,11 @@
     </div>
 </div>
 </body>
+
+<script>
+var resetPassword = '${sessionScope.PASSWD_RESET_YN}';
+var modPassword = '${sessionScope.PASSWD_MOD_NECESSARY_YN}';
+</script>
 
 <script src="/js/main/main.js" type="text/javascript"></script>
 <script src="/js/main/auction.js" type="text/javascript"></script>

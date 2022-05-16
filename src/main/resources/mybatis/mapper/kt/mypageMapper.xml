@@ -17,8 +17,9 @@
 		COLUMN_GET(C.TITLE_BLOB, 'en' AS CHAR) TITLE_EN,
 		C.ACADEMY_NO
 		FROM CUST A , ACADEMY_REQ B , ACADEMY C
-		WHERE A.CUST_NO = B.CUST_NO AND B.ACADEMY_NO = C.ACADEMY_NO AND A.CUST_NO = '80722' AND B.DEL_YN = 'N'
-		order by B.REG_DT desc;
+		WHERE A.CUST_NO = B.CUST_NO AND B.ACADEMY_NO = C.ACADEMY_NO AND A.CUST_NO = #{cust_no} AND B.DEL_YN = 'N'
+		order by B.REG_DT desc
+		limit #{offset}, #{size}
 	</select>
 	
 	<select id="selectAcademyCnt" resultType="int">
@@ -190,5 +191,136 @@
 		    <include refid="sql_bbs_w_list" />
 	    	and	BBS_ID='inquiry' and STAT_CD='normal'
 		) CNT
+	</select>	
+
+	<!-- 문의상세 -->
+	<select id="selectInquiryInfo" resultType="CommonMap">
+		select
+		    A.*,
+		    CASE WHEN C.P_CD_NM IS NULL THEN '' ELSE C.CD_NM END AS CATE_NM,
+		    CASE WHEN C.P_CD_NM IS NULL THEN C.CD_NM ELSE C.P_CD_NM END AS P_CATE_NM,
+			case when B.reply_cnt > 0 then 'Y' else 'N' end as REPLY_YN,
+			B.LAST_REPLY_DT, 
+			D.EMP_NAME
+		from BBS_WRITE A
+		left outer join (
+			select bbs_id, write_no, count(*) REPLY_CNT, max(reg_dt) LAST_REPLY_DT from BBS_REPLY group by bbs_id, write_no
+		) B ON A.bbs_id = B.bbs_id and A.write_no = B.write_no
+		left outer join (
+			select distinct CA.CD_ID, CA.CD_NM, CC.CD_ID P_CD_ID, CC.CD_NM P_CD_NM from CODE CA 
+			join CODE_GRP CB on CA.grp_id = CB.grp_id
+			left outer join CODE CC on CA.P_cd_id = CC.cd_id
+			where CA.grp_id = 'bbs_inquiry_category'
+			and CA.use_yn = 'Y'
+		) C on A.cate_cd = C.cd_id
+		left outer join EMP D on A.EMP_NO = D.EMP_NO
+		where A.BBS_ID= 'inquiry' and A.STAT_CD='normal' and A.WRITE_NO = #{write_no}
 	</select>
+	
+	<!-- 문의 답변 -->
+	<select id="selectInquiryReply" resultType="CommonMap">
+		select A.*, B.EMP_NAME from BBS_REPLY A
+		join EMP B on A.REG_EMP_NO = B.EMP_NO
+		where A.WRITE_NO = #{write_no} 
+		and A.REPLY_NO = (select X.REPLY_NO from BBS_REPLY X where ifnull(X.DEL_YN, 'N') = 'N' and X.BBS_ID = A.BBS_ID and X.WRITE_NO = A.WRITE_NO order by X.REG_DT desc limit 1)
+	</select>
+	
+	<!-- 문의상세 파일 리스트-->
+	<select id="selectFileList" resultType="CommonMap">
+		select * from BBS_FILE where WRITE_NO = #{write_no}
+	</select>
+
+		<!-- 카테고리 리스트 -->
+	<select id="selectInquiryCategory" resultType="Map">
+		select 		GRP_ID
+				  , CD_ID, CD_NM, CD_NM_EN, CD_NM_CN
+				  , CD_VAL, CD_VAL2, CD_VAL3
+				  , P_GRP_ID, P_CD_ID, LEVEL
+				  , CMMT, DISP_ORD
+		from 		CODE
+		where		USE_YN = 'Y'
+				<foreach collection="grp_ids" item="item" index="index" open="and GRP_ID in (" close=")" separator=",">
+					'${item}'
+				</foreach>
+		order by GRP_ID, DISP_ORD, CD_NM_EN
+	</select>
+	
+	<!-- (로그인)회원정보 -->
+	<select id="selectInquiryCustomerInfo" resultType="CommonMap">
+		select CU.*
+			, (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "정회원" ELSE "준회원" END 
+			   from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_NM
+			, (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "Y" ELSE "N" END 
+			    from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_YN
+			, (select CONCAT('[', GROUP_CONCAT('"', PW.PUSH_WAY_CD, '"'), ']')  
+				from CUST_PUSH_WAY PW where PW.CUST_NO = CU.CUST_NO) PUSH_WAY_JSON
+			, (select CONCAT('[', GROUP_CONCAT('"', IA.INTE_AREA_CD, '"'), ']') 
+				from CUST_INTE_AREA IA where IA.CUST_NO = CU.CUST_NO) INTE_AREA_JSON
+		   from CUST CU
+		   where JOIN_KIND_CD = 'online'
+		   and CU.STAT_CD = 'normal' 
+		   and CU.CUST_NO = #{action_user_no}
+	</select>
+	
+	<!-- 첨부파일 -->
+	<insert id="insertInquiryWriteFile" parameterType="Map">
+	    INSERT INTO BBS_FILE ( 
+	    	BBS_ID, 
+	    	DOWN_CNT,
+	    	FILE_NAME,
+			FILE_NAME_ORG,
+			FILE_PATH,
+			REG_DT,
+			SIZE,
+			WRITE_NO
+		) 
+		VALUES (
+			'inquiry',
+		 	0,
+			#{file_name},
+			#{file_name_org},
+			'${@com.seoulauction.renewal.component.FileManager@moveTempFile(file_path, file_name, 'inquiry')}',
+<!-- 			#{file_path}, -->
+			now(),
+			#{size},
+			#{write_no}
+		);
+	</insert>
+	
+	<!-- 문의하기 -->
+	<insert id="insertInquiryWrite" parameterType="Map" useGeneratedKeys="true" keyProperty="write_no">
+	    INSERT INTO BBS_WRITE ( 
+	    	BBS_ID,
+			CATE_CD,
+			CONTENT,
+			EMAIL,
+			EMP_NO,
+			IP,
+			NOTICE_YN,
+			REG_DT,
+			STAT_CD,
+			TITLE,
+			VIEW_CNT,
+			WRITER,
+			WRITER_KIND_CD,
+			WRITER_NO
+		) 
+		VALUES (
+			'inquiry',
+			#{cate_cd},
+			#{contents},
+			#{email},
+			#{emp_no},
+			#{action_user_ip},
+			'N',
+			now(),
+			'normal',
+			#{inquiry_subject},
+			0,
+			(SELECT CUST_NAME FROM CUST WHERE CUST_NO = #{action_user_no} LIMIT 1),
+			'customer',
+			#{action_user_no}
+		)
+	</insert>
+
 </mapper>

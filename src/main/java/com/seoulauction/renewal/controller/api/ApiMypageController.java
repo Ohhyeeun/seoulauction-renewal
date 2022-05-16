@@ -41,9 +41,13 @@ public class ApiMypageController {
 
 	@RequestMapping(value = "/academies", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<RestResponse> academies(Principal principal, HttpServletRequest request,
+	public ResponseEntity<RestResponse> academies(
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size,
+			Principal principal, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		CommonMap commonMap = new CommonMap("cust_no", principal.getName());
+		commonMap.putPage(page, size);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectAcademyList(commonMap)));
 	}
 
@@ -99,4 +103,34 @@ public class ApiMypageController {
 		commonMap.put("action_user_no", principal.getName());
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectInquiryList(commonMap)));
 	}
+
+	
+	@RequestMapping(value = "/inquiries/{writeNo}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<RestResponse> inquiry(@PathVariable("writeNo") String writeNo, Principal principal, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		CommonMap commonMap = new CommonMap();
+		// user정보 put 공통 함수 호출 필요.
+		commonMap.put("action_user_no", principal.getName());
+		commonMap.put("write_no", writeNo);
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectInquiry(commonMap)));
+	}
+  
+	@RequestMapping(value = "/categories", method = RequestMethod.POST)
+	public ResponseEntity<RestResponse> categories(@RequestBody CommonMap commonMap, Principal principal, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		commonMap.put("action_user_no", principal.getName());
+		commonMap.put("category", mypageService.selectInquiryCategory(commonMap));
+		commonMap.put("customerInfo", mypageService.selectInquiryCustomerInfo(commonMap));
+		return ResponseEntity.ok(RestResponse.ok(commonMap));
+	}
+
+	@RequestMapping(value = "/inquiry", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> inquiryWirte(MultipartHttpServletRequest request, Principal principal)
+			throws IOException {
+		
+		return ResponseEntity.ok(RestResponse.ok(mypageService.insertInquiry(request, principal)));
+	}
+
 }

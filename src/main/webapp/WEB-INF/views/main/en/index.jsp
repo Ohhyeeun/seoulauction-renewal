@@ -117,90 +117,7 @@
         </section>
     </div>
 
-    <section class="upcoming">
-        <h1 class="main-sectiontit upcoming-tit">
-            Upcoming
-        </h1>
-
-        <div class="upcoming-wrap">
-            <div class="swiper-container upcoming-swiper">
-                <div class="swiper-wrapper upcoming-contents">
-                    <div class="swiper-slide upcomingSlide">
-                        <a href="#">
-                            <div class="upcoming-caption">
-                                <span class="auctionKind-box on">LIVE</span><span class="d-day on">TODAY</span>
-                                <h4>February Live Auction</h4>
-                                <div class="upcoming-datebox">
-                                    <p class="upcoming-preview">
-                                        <span>OPEN</span><span>10 February</span>
-                                    </p>
-                                    <p class="upcoming-preview">
-                                        <span>PREVIEW</span><span>10 February ~ 15 February</span>
-                                    </p>
-                                    <p class="upcoming-date">
-                                        <span>AUCTION</span><span>10 February 15:00</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <figure class="upcoming-img">
-                                <!--<span class="upcomingImg"></span>-->
-                                <img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">
-                            </figure>
-                        </a>
-                    </div>
-                    <div class="swiper-slide upcomingSlide">
-                        <a href="#">
-                            <div class="upcoming-caption">
-                                <span class="auctionKind-box on">LIVE</span><span class="d-day on">D-1</span>
-                                <h4>e BID Premium Online Auction in March</h4>
-                                <div class="upcoming-datebox">
-                                    <p class="upcoming-preview">
-                                        <span>OPEN</span><span>10 February</span>
-                                    </p>
-                                    <p class="upcoming-preview">
-                                        <span>PREVIEW</span><span>10 February ~ 15 February</span>
-                                    </p>
-                                    <p class="upcoming-date">
-                                        <span>AUCTION</span><span>10 February 15:00</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <figure class="upcoming-img">
-                                <!--<span class="upcomingImg"></span>-->
-                                <%--<img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">--%>
-                            </figure>
-                        </a>
-                    </div>
-                    <div class="swiper-slide upcomingSlide">
-                        <a href="#">
-                            <div class="upcoming-caption">
-                                <span class="auctionKind-box on">LIVE</span><span class="d-day"></span>
-                                <h4>ZEROBASE X Art Gyeonggi</h4>
-                                <div class="upcoming-datebox">
-                                    <p class="upcoming-preview">
-                                        <span>OPEN</span><span>10 February</span>
-                                    </p>
-                                    <p class="upcoming-preview">
-                                        <span>PREVIEW</span><span>10 February ~ 15 February</span>
-                                    </p>
-                                    <p class="upcoming-date">
-                                        <span>AUCTION</span><span>10 February 15:00</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <figure class="upcoming-img">
-                                <!--<span class="upcomingImg"></span>-->
-                                <!--<img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet"> -->
-                            </figure>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="commonbtn-box upcomingBtn">
-            <a href="#" class="commonbtn">View all</a>
-        </div>
-    </section>
+    <jsp:include page="../include/upcoming.jsp" />
 
     <jsp:include page="../include/beltBanner.jsp" />
 
@@ -416,6 +333,12 @@
 </div>
 </body>
 
+<script>
+var resetPassword = '${sessionScope.PASSWD_RESET_YN}';
+var modPassword = '${sessionScope.PASSWD_MOD_NECESSARY_YN}';
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script src="/js/main/main.js" type="text/javascript"></script>
 <script src="/js/main/auction.js" type="text/javascript"></script>
 <script src="/js/main/newsletter.js" type="text/javascript"></script>

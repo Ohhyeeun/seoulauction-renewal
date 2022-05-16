@@ -1,4 +1,4 @@
-const baseURL = 'http://localhost:9000';
+const baseURL = '/';
 const windowAxios = window.axios;
 const axiosExtension = window['axios-extensions'];
 const axios = windowAxios.create({

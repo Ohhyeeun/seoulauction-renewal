@@ -3,21 +3,40 @@ app.value('locale', 'ko');
 
 //dialog
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"])
-
+app.requires.push.apply(app.requires, ["bw.paging"]);
 app.controller('academyListCtl', function($scope, consts, common, ngDialog) {
-	$scope.pageRows = 10;
-	$scope.currentPage = 1;
-	$scope.academyCnt = 0;
+	
 
 	$scope.loadAcademyList = function($page) {
-		common.callAPI("/api/mypage/academies?page=" + $scope.currentPage + "&size=" + $scope.pageRows, null, $s);
+		$scope.currentPage = $page;
+ 		 	
+ 		$page = $scope.currentPage;
+ 		$size = 10;
+ 		
+ 		
+ 		 $api = "/api/mypage/academies?page="+$page+"&size="+$size;
+ 	   	/*common.callAPI($api , null , $scope.showInquiry); */
+ 	   	
+        axios.get($api , null)
+        .then(function(response) {
+            const result = response.data;
+
+            let success = result.success;
+            if(!success){
+                alert(result.data.msg);
+            } else {
+			$scope.academyList = result.data.list;
+			$scope.academyCnt =result.data.cnt;
+		
+			$scope.$apply();
+            }
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+ 		
 	}
-
-	var $s = function(data, status) {
-		$scope.academyList = data["data"]["list"];
-		$scope.academyCount = data["data"]["cnt"];
-	};
-
+	
 	$scope.academyPayHis = function($input) {
 		console.log($input);
 		$input.parent.modal = ngDialog.open({

@@ -44,18 +44,44 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
 			throw new BadCredentialsException("User not found.");
         }
         
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        
+        int loginFailCnt = (int) resultMap.get("LOGIN_FAIL_CNT");
         if(!encoder.matches(passwd, resultMap.getString("PASSWD"))){
+        	// 로그인 실패 횟수 + 1
+            paramMap.put("cust_no", resultMap.get("CUST_NO"));
+            paramMap.put("login_fail_cnt", ++loginFailCnt);
+        	
+            int result = loginMapper.updateCustLoginFailCntByCustNo(paramMap);
+        	if(result > 0 && loginFailCnt >10) {
+        		attr.getRequest().getSession().setAttribute("LOGIN_FAIL_CNT_YN", true);
+        	}
         	throw new BadCredentialsException("Wrong password");
+        }else {
+        	if(loginFailCnt > 0) {
+        		paramMap.put("cust_no", resultMap.get("CUST_NO"));
+                paramMap.put("login_fail_cnt", 0);
+                int result = loginMapper.updateCustLoginFailCntByCustNo(paramMap);
+                if(result > 0) {
+            		attr.getRequest().getSession().removeAttribute("LOGIN_FAIL_CNT_YN");
+            	}
+        	}
         }
 
         if(resultMap.get("STAT_CD") != null && resultMap.get("STAT_CD").equals("stop")){
 			throw new BadCredentialsException("Stop User"); // 이용제한 아이디 STAT_CD = 'stop'
         }
 
-		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-		// TODO 비밀번호 변경 180일 경과 여부
+		
+		// 비밀번호 변경 180일 경과 여부
+		if(resultMap.get("PASSWD_MOD_NECESSARY_YN").equals("Y")){
+			attr.getRequest().getSession().setAttribute("PASSWD_MOD_NECESSARY_YN", true);
+		}
         
-    	// TODO 관리자에 의한 비밀번호 초기화 여부
+		// 관리자에 의한 비밀번호 초기화 여부
+        if(resultMap.get("PASSWD_RESET_YN").equals("Y")){
+            attr.getRequest().getSession().setAttribute("PASSWD_RESET_YN", true);
+        }
         
 		WebAuthenticationDetails wad;
         String userIPAddress;
@@ -73,6 +99,7 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
 
         //결제여부, 직원여부에 따른 권한 분류
         paramMap.put("cust_no", resultMap.get("CUST_NO"));
+        paramMap.put("remember_me", 'N');
         resultMap = loginMapper.selectCustByCustNo(paramMap);
         
         List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
