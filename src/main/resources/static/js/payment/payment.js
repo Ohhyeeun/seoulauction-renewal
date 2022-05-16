@@ -59,56 +59,10 @@ function checkPlatform(ua) {
 
     return userPlatform;
 }
-
-
-$(function(){
-
-    // 신용 / 가상계좌 선택 스크립트
-    $("#payCard").removeClass('btn_default');
-    $("#payCard").addClass('btn_black');
-    $('#inputPayMethod').val('CARD');
-    let buttons = $("#payMethod").children('.btn');
-
-    buttons.on('click',function (){
-
-        //버튼들을 기본으로 다만듬.;
-        buttons.each(function(){
-            $(this).addClass('btn_default');
-            $(this).removeClass('btn_black');
-        })
-
-        //클릭한 버튼만 블랙처리.
-        $(this).addClass('btn_black');
-        $(this).removeClass('btn_default');
-        let id = $(this).attr('id');
-        if(id === 'payCard'){
-            $('#inputPayMethod').val('CARD');
-        } else if (id === 'payVBank'){
-            $('#inputPayMethod').val('VBANK');
-        }
-    });
-
-    //약관 동의 확인
-    $("#paymentStartBtn").on('click',function (){
-
-        let checked = true;
-        $('input:checkbox[name="agree_checkbox"]').each(function (){
-
-            let checkBoxChecked = $(this).is(":checked");
-
-            if(!checkBoxChecked){
-                checked = false;
-                return false;
-            }
-        });
-
-        if(!checked){
-            alert('약관동의를 확인 후 모두 체크해주세요.');
-            return;
-        }
-
-        nicepayStart();
-
-    });
-
-});
+// 신용 / 가상계좌 선택 스크립트
+function changePayMethod(obj) {
+    let btn = $(obj).siblings().add(obj);
+    btn.removeClass("btn_black").addClass("btn_default");
+    $(obj).removeClass("btn_default").addClass("btn_black");
+    $("form[name=payForm] #inputPayMethod").val($(obj).attr("data"));
+}

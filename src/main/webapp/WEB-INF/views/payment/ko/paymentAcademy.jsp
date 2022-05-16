@@ -107,7 +107,7 @@
                                 <div class="panel-footer">
                                     <article class="button-area">
                                         <div class="btn_set-float tac">
-                                            <form name="payForm" method="post" action="/payment/paymentAcademyProcess">
+                                            <form name="payForm" method="post" action="/payment/academyProcess">
                                                 <input type="hidden" id="inputPayMethod" name="PayMethod" />            <!-- 결제 수단 -->
                                                 <input type="hidden" name="GoodsName" value="${goodsName}" />           <!-- 결제 상품금액 -->
                                                 <input type="hidden" name="Amt" value="${price}" />                     <!-- 상점 아이디 -->
@@ -174,12 +174,4 @@
 <!-- 아래 js는 PC 결제창 전용 js입니다.(모바일 결제창 사용시 필요 없음) -->
 <script src="https://web.nicepay.co.kr/v3/webstd/js/nicepay-3.0.js" type="text/javascript"></script>
 <script src="/js/payment/payment.js" type="text/javascript"></script>
-<script>
-function changePayMethod(obj) {
-    let btn = $(obj).siblings().add(obj);
-    btn.removeClass("btn_black").addClass("btn_default");
-    $(obj).removeClass("btn_default").addClass("btn_black");
-    $("form[name=payForm] #inputPayMethod").val($(obj).attr("data"));
-}
-</script>
 </html>

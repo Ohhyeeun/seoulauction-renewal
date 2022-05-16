@@ -79,8 +79,8 @@
                                             <li>
                                                 <p class="list_tit tt4">결제 방법</p>
                                                 <div id="payMethod" class="btn_wrap">
-                                                    <a id="payCard" class="btn btn_default" role="button"><span>신용/체크카드</span></a>
-                                                    <a id="payVBank" class="btn btn_default" role="button"><span>가상 계좌</span></a>
+                                                    <a class="btn btn_black" role="button" data="CARD" onclick="changePayMethod(this);"><span>신용/체크카드</span></a>
+                                                    <a class="btn btn_default" role="button" data="VBANK" onclick="changePayMethod(this);"><span>가상 계좌</span></a>
                                                 </div>
                                             </li>
                                             <li class="no-line">

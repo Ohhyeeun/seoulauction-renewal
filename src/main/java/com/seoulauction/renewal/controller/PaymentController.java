@@ -110,8 +110,8 @@ public class PaymentController {
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "/example/payRequest_utf" , locale);
     }
 
-    @GetMapping("/paymentAcademy/{academy_no}")
-    public String paymentAcademy(@PathVariable("academy_no") int academy_no, HttpServletRequest request, Locale locale) {
+    @GetMapping("/academy/{id}")
+    public String paymentAcademy(@PathVariable("id") int id, HttpServletRequest request, Locale locale) {
         // select cust
         // select academy
 
@@ -123,7 +123,7 @@ public class PaymentController {
         String buyerTel 		= "01033720384"; 				// 구매자연락처
         String buyerEmail 		= "sjk@seoulauction.com"; 			// 구매자메일주소
         String moid 			= "mnoid1234567890"; 			// 상품주문번호
-        String returnURL 		= "https://re-dev.seoulauction.com/payment/paymentTuitionProcess"; // 결과페이지(절대경로) - 모바일 결제창 전용
+        String returnURL 		= nicePayMobileBaseReturnUrl +"/payment/paymentTuitionProcess"; // 결과페이지(절대경로) - 모바일 결제창 전용
 
         //TODO: 과세, 면세 확인
         int vat_price = (int) (price / 1.1);
@@ -146,7 +146,7 @@ public class PaymentController {
         request.setAttribute("price", price);
         request.setAttribute("vat_price", vat_price);
         request.setAttribute("vat", vat);
-        request.setAttribute("academy_no", academy_no);
+        request.setAttribute("academy_no", id);
         request.setAttribute("no_vat_price", no_vat_price);
         request.setAttribute("buyerName", buyerName);
         request.setAttribute("buyerTel", buyerTel);
@@ -161,7 +161,7 @@ public class PaymentController {
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentAcademy" , locale);
     }
 
-    @PostMapping("/paymentAcademyProcess")
+    @PostMapping("/academyProcess")
     public String paymentAcademyProcess(HttpServletRequest request, Locale locale) {
         log.info("paymentAcademyProcess");
 
@@ -394,10 +394,10 @@ public class PaymentController {
 
         System.out.println("ResultCode: "+ResultCode);
         System.out.println("authResultMsg: "+authResultMsg);*/
-        return "redirect:/payment/paymentAcademyResult";
+        return "redirect:/payment/academyResult";
     }
 
-    @GetMapping("/paymentAcademyResult")
+    @GetMapping("/academyResult")
     public String paymentAcademyResult(HttpServletRequest request, Locale locale) {
         log.info("paymentAcademyResult");
 
