@@ -93,9 +93,7 @@
                                             </ul>
                                         </li>
                                     </ul>
-
                                 </div>
-
                                 <div class="panel-footer">
                                     <article class="button-area">
                                         <div class="btn_set tac btn_double">
