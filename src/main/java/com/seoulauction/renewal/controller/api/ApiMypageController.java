@@ -41,9 +41,13 @@ public class ApiMypageController {
 
 	@RequestMapping(value = "/academies", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<RestResponse> academies(Principal principal, HttpServletRequest request,
+	public ResponseEntity<RestResponse> academies(
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size,
+			Principal principal, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		CommonMap commonMap = new CommonMap("cust_no", principal.getName());
+		commonMap.putPage(page, size);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectAcademyList(commonMap)));
 	}
 
