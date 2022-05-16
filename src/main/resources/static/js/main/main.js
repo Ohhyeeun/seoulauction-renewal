@@ -449,3 +449,49 @@ app.controller('modPasswordPopCtl', function($scope, consts, common) {
 	}
 });
 
+/* video 리스트*/
+$('.video-btn').click(function(){
+    $('.video-blackBg').fadeIn();
+});
+
+/* 인스타 팝업 */
+$('.instar-btn').click(function(){
+    const instar = window.open('https://www.instagram.com/', name="_blank", width="700");
+});
+
+/* video 팝업 */
+$('.video-closebtn').click(function(){
+    $('.video-blackBg').fadeOut('fast');
+});
+
+
+/*뉴스레터 신청 관련*/
+$('#subscript_check').click(function(){
+    $('.newsAgree-close').click(function(){
+        $('.newsletter-terms').fadeOut();
+        $('.newsletter-blackBg').fadeOut('fast');
+    });
+    $('.newsletter-terms').fadeIn();
+    $('.newsletter-blackBg').fadeIn('fast');
+});
+
+$('.subscriptBtn').click(function(){
+    $('.newsAgree-comfirmbtn').click(function(){
+        $('.newsletter-comfirmbox').fadeOut();
+        $('.newsletter-blackBg').fadeOut('fast');
+    });
+    $('.newsletter-comfirmbox').fadeIn();
+    $('.newsletter-blackBg').fadeIn('fast');
+});
+
+/* 메인 레이어 팝업 */
+/*$('.main-popup-img').hide();
+$('.main-popup-txt').hide();
+
+$('.main-popup-img.on').show();
+$('.main-popup-txt.on').show(); */
+
+$('.main-popup-close').click(function(){
+    $('.main-popupbox').addClass('down');
+    $('.main-popupBg').fadeOut();
+});
