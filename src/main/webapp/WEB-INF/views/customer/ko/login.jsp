@@ -13,13 +13,16 @@
 	    <title>Seoul Auction</title>
 	    <link rel="stylesheet" href="/css/main.css" type="text/css" />
 	</head>
+	<script>
+		var loginFailCntYn = '${sessionScope.LOGIN_FAIL_CNT_YN}' == 'true' ? 'Y' : 'N';
+	</script>
 	<body>
 	<jsp:include page="../../include/ko/header.jsp" flush="false">
 	    <jsp:param name="main" value="true"/>
 	</jsp:include>
 	
 	<section class="main-contents footer-bottom footer-bottom30">
-	    <div id="container" ng-controller="loginCtl">
+	    <div id="container" ng-controller="loginCtl" data-ng-init="init();">
 				<form name="loginForm" id="loginForm" action="/processLogin" method="post">
 					<fieldset>
 						<div class="bg_img bg01">
@@ -38,14 +41,22 @@
 				
 								<div>
 									<div id="loginFailMessage" ng-model="loginFailMessage">
-											<c:if test="${error == 'Bad credentials' || sessionScope.USER_NOT_FOUND == 'true'}"> 
-												아이디 또는 비밀번호가 일치하지 않습니다.
-											</c:if>
-											<c:if test="${error == 'Stop User' || sessionScope.STOP_USER == 'true'}"> 
-												이용제한 아이디 입니다. <br />
-												서비스 이용을 원하시면 고객센터(02-395-0330 / sos@seoulauction.com)로 연락바랍니다.
-											</c:if>
-										</div>
+										<c:if test="${error == 'Bad credentials' || sessionScope.USER_NOT_FOUND == 'true'}"> 
+											아이디 또는 비밀번호가 일치하지 않습니다.
+										</c:if>
+										<c:if test="${error == 'Stop User' || sessionScope.STOP_USER == 'true'}"> 
+											이용제한 아이디 입니다. <br />
+											서비스 이용을 원하시면 고객센터(02-395-0330 / sos@seoulauction.com)로 연락바랍니다.
+										</c:if>
+										<br/>
+									</div>
+									<div ng-show="captchaShow">
+										<img title="캡차이미지" ng-src="{{form_data.captchaImg}}" alt="캡차이미지"/> 
+										<input id="reload" type="button" ng-click="getImage()" value="새로고침"/> 
+<!-- 										<div id="ccaudio" style="display:none"></div> -->
+	<!-- 									<input id="soundOn" type="button" ng-click="getAudio()" value="음성듣기"/> -->
+										<input ng-model="form_data.answer"id="answer" type="text" value=""> 
+									</div>
 									<div ng-click="login()">
 										로그인
 									</div>
@@ -58,6 +69,7 @@
 			<jsp:include page="../../include/ko/footer.jsp" flush="false"/>
 	</section>
 	</body>
+	
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
