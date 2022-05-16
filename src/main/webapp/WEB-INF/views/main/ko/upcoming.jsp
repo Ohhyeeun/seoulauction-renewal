@@ -76,7 +76,30 @@
                         </figure>
                     </a>
                 </div>
-<%--                <div class="swiper-slide upcomingSlide">--%>
+
+                <div class="swiper-slide upcomingSlide">
+                    <a href="#">
+                        <div class="upcoming-caption">
+                            <span class="auctionKind-box">ONLINE</span><span class="d-day"></span>
+                            <h4 class="text-over">ZEROBASE X 아트경기</h4>
+                            <div class="upcoming-datebox">
+                                <p class="upcoming-open">
+                                    <span>오픈일</span><span>2/14(금)</span>
+                                </p>
+                                <p class="upcoming-preview">
+                                    <span>프리뷰</span><span>2/14(금) ~ 2/25(화)</span>
+                                </p>
+                                <p class="upcoming-date">
+                                    <span>경매일</span><span>2/15(화) 15:00 <span>순차마감</span></span>
+                                </p>
+                            </div>
+                        </div>
+                        <figure class="upcoming-img">
+                            <!--<img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet"> -->
+                        </figure>
+                    </a>
+                </div>
+            <%--                <div class="swiper-slide upcomingSlide">--%>
 <%--                    <a href="#">--%>
 <%--                        <div class="upcoming-caption">--%>
 <%--                            <span class="auctionKind-box">ONLINE</span><span class="d-day"></span>--%>
