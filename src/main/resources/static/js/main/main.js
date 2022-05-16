@@ -69,7 +69,10 @@ function loadTopNotice(){
                     const returnDom = `<div class="swiper-slide header_beltbox on"> <!--class="on" block-->
                                         <div class="wrap belttxtbox wrap_padding">
                                                 <span class="header_beltTit">
-                                                    <a href="${locale === 'en' ? content.en_url : content.ko_url}">${locale === 'en' ? content.en_text : content.ko_text}<span class="beltbanner-triangle"></span></a>
+                                                    <a href="${locale === 'en' ? content.en_url : content.ko_url}">
+                                                        <span class="text-over belt_tit"> ${locale === 'en' ? content.en_text : content.ko_text}</span>
+                                                        <span class="beltbanner-triangle"></span>
+                                                    </a>
                                                 </span>
                                             <span class="beltclose-btn closebtn closebtn-w"></span>
                                         </div>
