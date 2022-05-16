@@ -84,6 +84,10 @@ dependencies {
     implementation 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
 
 
+	//mail
+	implementation 'javax.mail:mail:1.4'
+	implementation 'org.apache.velocity:velocity:1.7'
+	implementation 'org.springframework:spring-support:2.0.6'
 }
 
 tasks.named('test') {
