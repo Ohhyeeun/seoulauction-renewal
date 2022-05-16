@@ -28,6 +28,12 @@ public interface MypageMapper {
     
     int selectInquiryListCnt(CommonMap commonMap);
 
+    CommonMap selectInquiryInfo(CommonMap commonMap);
+    
+    List<CommonMap> selectInquiryReply(CommonMap commonMap);
+    
+    List<CommonMap> selectFileList(CommonMap commonMap);
+
     List<CommonMap> selectInquiryCategory(CommonMap commonMap);
     
     CommonMap selectInquiryCustomerInfo(CommonMap commonMap);
@@ -35,4 +41,5 @@ public interface MypageMapper {
     int insertInquiryWriteFile(CommonMap commonMap);
    
     int insertInquiryWrite(Map commonMap);
+
 }

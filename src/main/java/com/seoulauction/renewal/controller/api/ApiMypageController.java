@@ -104,6 +104,17 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectInquiryList(commonMap)));
 	}
 	
+	@RequestMapping(value = "/inquiries/{writeNo}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<RestResponse> inquiry(@PathVariable("writeNo") String writeNo, Principal principal, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		CommonMap commonMap = new CommonMap();
+		// user정보 put 공통 함수 호출 필요.
+		commonMap.put("action_user_no", principal.getName());
+		commonMap.put("write_no", writeNo);
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectInquiry(commonMap)));
+	}
+  
 	@RequestMapping(value = "/categories", method = RequestMethod.POST)
 	public ResponseEntity<RestResponse> categories(@RequestBody CommonMap commonMap, Principal principal, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
@@ -120,5 +131,5 @@ public class ApiMypageController {
 		
 		return ResponseEntity.ok(RestResponse.ok(mypageService.insertInquiry(request, principal)));
 	}
-	
+
 }
