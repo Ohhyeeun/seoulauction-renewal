@@ -60,9 +60,10 @@ function checkPlatform(ua) {
     return userPlatform;
 }
 
-// 신용 / 가상계좌 스크립트
+
 $(function(){
 
+    // 신용 / 가상계좌 선택 스크립트
     $("#payCard").removeClass('btn_default');
     $("#payCard").addClass('btn_black');
     $('#inputPayMethod').val('CARD');
@@ -86,4 +87,28 @@ $(function(){
             $('#inputPayMethod').val('VBANK');
         }
     });
+
+    //약관 동의 확인
+    $("#paymentStartBtn").on('click',function (){
+
+        let checked = true;
+        $('input:checkbox[name="agree_checkbox"]').each(function (){
+
+            let checkBoxChecked = $(this).is(":checked");
+
+            if(!checkBoxChecked){
+                checked = false;
+                return false;
+            }
+        });
+
+        if(!checked){
+            alert('약관동의를 확인 후 모두 체크해주세요.');
+            return;
+        }
+
+        nicepayStart();
+
+    });
+
 });

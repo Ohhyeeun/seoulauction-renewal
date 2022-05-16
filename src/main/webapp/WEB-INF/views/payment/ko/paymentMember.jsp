@@ -105,9 +105,9 @@
                                                     <li>
                                                         <p class="check check-list">
                                                             <span class="trp checkbox-box">
-                                                                <input id="checkbox1" type="checkbox" name="">
+                                                                <input type="checkbox" name="agree_checkbox">
                                                                 <i></i>
-                                                                <label for="checkbox1" class="tb1">본인은 서울옥션 경매 약관을 모두 알고 이해하였으며, 그 적용에 동의합니다.
+                                                                <label class="tb1">본인은 서울옥션 경매 약관을 모두 알고 이해하였으며, 그 적용에 동의합니다.
                                                                 </label>
                                                             </span>
                                                             <a href="#none" class="terms_link tb1">약관 바로보기</a>
@@ -116,9 +116,9 @@
                                                     <li>
                                                         <p class="check check-list">
                                                             <span class="trp checkbox-box">
-                                                                <input id="checkbox1" type="checkbox" name="">
+                                                                <input  type="checkbox" name="agree_checkbox">
                                                                 <i></i>
-                                                                <label for="checkbox1" class="tb1">응찰은 작품 실물 및 컨디션을 확인하셨음을 전제로 합니다.
+                                                                <label class="tb1">응찰은 작품 실물 및 컨디션을 확인하셨음을 전제로 합니다.
                                                                 </label>
                                                             </span>
                                                         </p>
@@ -126,9 +126,9 @@
                                                     <li>
                                                         <p class="check check-list">
                                                             <span class="trp checkbox-box">
-                                                                <input id="checkbox1" type="checkbox" name="">
+                                                                <input type="checkbox" name="agree_checkbox">
                                                                 <i></i>
-                                                                <label for="checkbox1" class="tb1">낙찰자는 낙찰 후 7일 이내(낙찰가 3억원 이상인 경우 21일 이내)에 구매수수료를 포함한 금액을 입금하여야 합니다.구매수수료는 낙찰금액의 18%(부가세 별도)입니다.
+                                                                <label class="tb1">낙찰자는 낙찰 후 7일 이내(낙찰가 3억원 이상인 경우 21일 이내)에 구매수수료를 포함한 금액을 입금하여야 합니다.구매수수료는 낙찰금액의 18%(부가세 별도)입니다.
                                                                 </label>
                                                             </span>
                                                         </p>
@@ -136,9 +136,9 @@
                                                     <li>
                                                         <p class="check check-list">
                                                             <span class="trp checkbox-box">
-                                                                <input id="checkbox1" type="checkbox" name="">
+                                                                <input type="checkbox" name="agree_checkbox">
                                                                 <i></i>
-                                                                <label for="checkbox1" class="tb1">낙찰자가 ①지정된 기일에 낙찰대금을 납부하지 않거나, ②부득이 낙찰을 철회하는 경우, 낙찰가의 30%에 해당하는 금액을 낙찰철회비(위약금)로 납부하여야 합니다.
+                                                                <label class="tb1">낙찰자가 ①지정된 기일에 낙찰대금을 납부하지 않거나, ②부득이 낙찰을 철회하는 경우, 낙찰가의 30%에 해당하는 금액을 낙찰철회비(위약금)로 납부하여야 합니다.
                                                                 </label>
                                                             </span>
                                                         </p>
@@ -172,7 +172,7 @@
                                     <div class="panel-footer">
                                         <article class="button-area">
                                             <div class="btn_set-float tac">
-                                                <a class="btn btn_point btn_lg" onClick="nicepayStart();" role="button"><span>결제하기</span></a>
+                                                <a id="paymentStartBtn" class="btn btn_point btn_lg" role="button"><span>결제하기</span></a>
                                             </div>
                                         </article>
                                     </div>
@@ -203,9 +203,9 @@
         </div>
     </div>
     <script src="https://web.nicepay.co.kr/v3/webstd/js/nicepay-3.0.js" type="text/javascript"></script>
+    <script src="/js/payment/paymentMember.js" type="text/javascript"></script>
     <script src="/js/payment/payment.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
-    <script src="/js/payment/paymentMember.js" type="text/javascript"></script>
 </body>
 
 </html>
