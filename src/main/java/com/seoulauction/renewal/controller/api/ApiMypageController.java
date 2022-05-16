@@ -92,4 +92,33 @@ public class ApiMypageController {
 		commonMap.put("cust_no", principal.getName());
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectPayListByCustNo(commonMap)));
 	}
+	
+	@RequestMapping(value = "/inquiries", method = RequestMethod.GET)
+	public ResponseEntity<RestResponse> inquiries(
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		CommonMap commonMap = new CommonMap();
+		commonMap.putPage(page, size);
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectInquiryList(commonMap)));
+	}
+	
+	@RequestMapping(value = "/categories", method = RequestMethod.POST)
+	public ResponseEntity<RestResponse> categories(@RequestBody CommonMap commonMap, Principal principal, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		commonMap.put("action_user_no", principal.getName());
+		commonMap.put("category", mypageService.selectInquiryCategory(commonMap));
+		commonMap.put("customerInfo", mypageService.selectInquiryCustomerInfo(commonMap));
+		return ResponseEntity.ok(RestResponse.ok(commonMap));
+	}
+
+	@RequestMapping(value = "/inquiry", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> inquiryWirte(MultipartHttpServletRequest request, Principal principal)
+			throws IOException {
+		
+		return ResponseEntity.ok(RestResponse.ok(mypageService.insertInquiry(request, principal)));
+	}
+	
 }

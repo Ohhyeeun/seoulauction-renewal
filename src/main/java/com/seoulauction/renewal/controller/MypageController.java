@@ -43,4 +43,14 @@ public class MypageController {
     	return SAConst.getUrl(SERVICE_MYPAGE , "onlinePayList" , locale);
     }
     
+    /*문의하기*/
+    @GetMapping("/inquiryList")
+    public String inquiryList(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "inquiryList" , locale);
+    }
+    
+    @GetMapping("/inquiryForm")
+    public String inquiryForm(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "inquiryForm" , locale);
+    }
 }
