@@ -48,7 +48,6 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
-
     @GetMapping("/member")
     public String paymentMember(HttpServletRequest request , Locale locale) {
 
