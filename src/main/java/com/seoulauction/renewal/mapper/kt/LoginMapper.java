@@ -18,4 +18,6 @@ public interface LoginMapper {
     
     int updateCustLoginFailCntByCustNo(CommonMap paramMap);
     
+    CommonMap selectCustLoginId(CommonMap paramMap);
+
 }

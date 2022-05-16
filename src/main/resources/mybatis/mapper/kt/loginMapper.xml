@@ -66,4 +66,32 @@
 		where CUST_NO = #{cust_no} 
 	</update>
     
+    
+    <select id="selectCustLoginId" resultType="CommonMap">
+		select
+		concat(rpad(substring(login_id, 1, 2), length(login_id)-1, '*'), substring(login_id, length(login_id), 1) ) LOGIN_ID ,
+		cs.CUST_NO ,
+		case
+			when cs.SOCIAL_TYPE = 'KA' then 'KAKAO'
+			when cs.SOCIAL_TYPE = 'NV' then 'NAVER'
+			when cs.SOCIAL_TYPE = 'GL' then 'GOOGLE'
+			when cs.SOCIAL_TYPE = 'AP' then 'APPLE'
+			else ''
+		   END as SOCIAL_TYPE
+		from
+			CUST c
+		left outer join cust_social cs on
+			c.CUST_NO = cs.cust_no
+		where
+		   	JOIN_KIND_CD = 'online'
+		    and STAT_CD = 'normal' 
+		    and CUST_NAME = #{cust_name}
+		    <if test="search_type == 'phone'">
+				and HP = #{search_value}
+			</if>
+		    <if test="search_type == 'email'">
+				and EMAIL = #{search_value}
+			</if>
+	</select>
+	
 </mapper>
