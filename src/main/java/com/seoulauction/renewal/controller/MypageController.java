@@ -48,7 +48,7 @@ public class MypageController {
     public String inquiryList(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "inquiryList" , locale);
     }
-    
+
     @GetMapping("/inquiryDetail")
     public String inquiryView(@RequestParam(required = true ) int writeNo, Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "inquiryDetail" , locale);
@@ -58,4 +58,5 @@ public class MypageController {
     	return SAConst.getUrl(SERVICE_MYPAGE , "inquiryForm" , locale);
 
     }
+
 }

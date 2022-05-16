@@ -3,8 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
-
 <body>  
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>   
 <div id="wrap" ng-app="myApp">
@@ -55,7 +53,7 @@
 							<tbody>
 								<tr ng-repeat="inquiry in inquiryList">
 									<td>{{inquiry.REG_DT | date:'yyyy-MM-dd'}}</td>
-									<td class="tal ellipsis"><a href="/mypage/inquiryView?writeNo={{inquiry.WRITE_NO}}">{{inquiry.TITLE}}</a></td>
+									<td class="tal ellipsis"><a href="/mypage/inquiryDetail?writeNo={{inquiry.WRITE_NO}}">{{inquiry.TITLE}}</a></td>
 									<td>{{inquiry.P_CATE_NM}}</td>
 									<td>{{inquiry.CATE_NM}}</td>
 									<!--  <td>{{inquiry.EMP_READ_YN == 'Y' ? '<spring:message code="label.membership.inqueryread" />' : '<spring:message code="label.membership.inquerynotread" />'}}</td> -->

@@ -103,6 +103,7 @@ public class ApiMypageController {
 		commonMap.put("action_user_no", principal.getName());
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectInquiryList(commonMap)));
 	}
+
 	
 	@RequestMapping(value = "/inquiries/{writeNo}", method = RequestMethod.GET)
 	@ResponseBody

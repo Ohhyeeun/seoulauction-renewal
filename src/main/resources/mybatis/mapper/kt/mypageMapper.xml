@@ -191,8 +191,7 @@
 		    <include refid="sql_bbs_w_list" />
 	    	and	BBS_ID='inquiry' and STAT_CD='normal'
 		) CNT
-	</select>
-	
+	</select>	
 
 	<!-- 문의상세 -->
 	<select id="selectInquiryInfo" resultType="CommonMap">

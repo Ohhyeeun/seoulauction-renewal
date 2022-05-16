@@ -4,7 +4,8 @@ app.value('locale', 'ko');
 app.requires.push.apply(app.requires, ["bw.paging"]);
 app.controller('inquiryListCtl', function($scope, consts, common) {
 	
-	$scope.pageRows = 3;
+	$scope.pageRows = 10;
+
 	$scope.currentPage = 1;
 
  	$scope.loadInquiryList = function($page){
@@ -12,7 +13,10 @@ app.controller('inquiryListCtl', function($scope, consts, common) {
  		$scope.currentPage = $page;
  		 	
  		$page = $scope.currentPage;
- 		$size = 3;
+
+ 		$size = 10;
+
+
  		
  		
  		 $api = "/api/mypage/inquiries?page="+$page+"&size="+$size;
@@ -399,3 +403,4 @@ app.service("inquiryService", function($rootScope, common, locale) {
 	}
 });
 	
+

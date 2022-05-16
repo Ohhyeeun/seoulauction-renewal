@@ -68,6 +68,7 @@ public class MypageService {
     	map.put("cnt", mypageMapper.selectInquiryListCnt(commonMap));
         return map;
     }
+
     
     public CommonMap selectInquiry(CommonMap commonMap){
     	CommonMap map = new CommonMap();
@@ -128,4 +129,5 @@ public class MypageService {
         }
         return map;
     }
+
 }
