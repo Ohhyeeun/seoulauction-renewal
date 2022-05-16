@@ -107,7 +107,7 @@
             <div class="swiper-btn-wrap">
                 <div class="swiper-button-next slide-btnleft pc-ver"></div>
                 <div class="swiper-button-prev slide-btnright pc-ver"></div>
-            </div> 
+            </div>
         </div>
     </section>
 
@@ -119,9 +119,11 @@
                     <h1 class="main-sectiontit">Auction</h1>
                     <div class="auctiontab-scroll">
                         <div class="auctionTab"> <!-- 최대 5개 까지 -->
-                            <span class="auctionTab-btn on">165회 미술품</span>
-                            <span class="auctionTab-btn">e BID 프리미엄</span>
-                            <span class="auctionTab-btn">제로베이스</span>
+                            <span id="auctionTab" class="auctionTab-btn on"><span class="text-over">제1회 ART SHOPPING 신세계 센텀시티 오픈 기념 경매</span></span>
+                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">제1회 Autunm Scape _ Land, Life, Inner scape</span></span>
+                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">165회 미술품 경매</span></span>
+                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">제로베이스</span></span>
+                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">e BID 프리미엄</span></span>
                         </div>
                     </div>
                 </div>
