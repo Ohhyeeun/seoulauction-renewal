@@ -16,6 +16,11 @@
 
 <html lang="en" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
+
+    <div class="swiper-container beltbox-swiper">
+        <div class="swiper-wrapper"></div>
+    </div>
+
     <div class="header-border">
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">KOR</a>
