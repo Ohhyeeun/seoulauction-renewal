@@ -17,17 +17,6 @@ function Request(){
 
 var request = new Request();
 var maxSession = request.getParameter("maxSession");
-var modPassword = request.getParameter("modPassword");
-var resetPassword = request.getParameter("resetPassword");
-
-if(modPassword == 'true'){
-	//alert('소중한 개인정보 보호를 위해 비밀번호를 변경해 주세요!');
-	//TODO 180일 경과 비밀번호 변경 팝업 show
-}
-if(resetPassword == 'true'){
-	//alert('관리자에 의해 비밀번호가 초기화 되었습니다. \n 안전한 개인정보 보호를 위해 비밀번호를 변경해 주세요.');
-	//TODO 관리자 비밀번호 변경 팝업 show
-}
 
 function logout(loginId){
 	console.log(loginId)
@@ -49,25 +38,180 @@ window.onload = function(){
     //상단텍스트공지
     loadTopNotice();
 
+    //업커밍
+    loadUpcomings();
+
     //띠배너
     loadBeltBanner();
-
-
 
 }
 
 // 상단텍스트공지
-async function loadTopNotice(){
+const topNoticeSwiper = new Swiper(".beltbox-swiper", {
+    direction : "vertical",
+    autoplay : {
+        delay: 2500,
+        disableOnInteraction: false
+    }
+});
 
-    await fetch('api/main/topNotice')
-    .then(res => res.json())
-    .then(res => {
-        if (res.success) {
-            const content = JSON.parse(res.data[0].content);
-            const returnDom = `<a href="${locale === 'en'? content.en_url : content.ko_url}">${locale === 'en'? content.en_text : content.ko_text }<span class="beltbanner-triangle"></span></a>`
-            document.querySelector(".header_beltTit").insertAdjacentHTML('beforeend',returnDom);
+function loadTopNotice(){
+    const slideArray = [];
+
+    axios.get('api/main/topNotice')
+    .then(function(response){
+        const success =  response.data.success;
+        if (success) {
+            const data = response.data.data;
+            if(!getCookie('top-notice') && data) {
+                data.map(item => {
+                    const content = JSON.parse(item.content);
+                    const returnDom = `<div class="swiper-slide header_beltbox on"> <!--class="on" block-->
+                                        <div class="wrap belttxtbox wrap_padding">
+                                                <span class="header_beltTit">
+                                                    <a href="${locale === 'en' ? content.en_url : content.ko_url}">${locale === 'en' ? content.en_text : content.ko_text}<span class="beltbanner-triangle"></span></a>
+                                                </span>
+                                            <span class="beltclose-btn closebtn closebtn-w"></span>
+                                        </div>
+                                   </div>`
+
+                    slideArray.push(returnDom);
+                });
+
+                topNoticeSwiper.appendSlide(slideArray);
+
+                /* 상단 텍스트 동적 생성으로 인한 스타일 변경 및 이벤트 바인딩 */
+                document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                    $('.header_beltbox').slideUp(400);
+                    closeToday('top-notice');
+                });
+
+                if(matchMedia("all and (min-width: 1024px)").matches) {
+                    document.querySelector(".main-contents").style.marginTop = '180px';
+                    document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                        document.querySelector(".main-contents").style.marginTop = '120px';
+                    });
+                } else { /* 모바일, 테블릿 */
+                    /* main gnb fixed */
+                    document.querySelector(".main-contents").style.marginTop = '101px';
+                    $('.main-contents').css('margin-top','101px');
+                    document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                        document.querySelector(".main-contents").style.marginTop = '58px';
+                    });
+                }
+
+            }
         }
+    })
+    .catch(function(error){
+        console.log(error);
     });
+}
+
+/*upcoming*/
+$('.upcoming-img>img').show(function () {
+    const img_on = $(window).innerWidth();
+    //$('.swiper-slide.upcomingSlide').css('padding-right','40px');
+    if (img_on >= 1280) {
+        $('.swiper-slide.upcomingSlide').css('padding-right', '40px');
+    } else {
+        $('.swiper-slide.upcomingSlide').css('padding-right', '20px');
+    }
+    /* 영문버전 */
+    if (img_on <= 1919) {
+        $('.swiper-slide:lang(en).upcomingSlide').css('padding-right', '20px');
+    }
+
+    $(this).parent('.upcoming-img').addClass('on').css('display', 'flex');
+});
+
+const upcomingSwiper = new Swiper(".upcoming-swiper", {
+    slidesPerView: 'auto',
+    breakpoints: {
+        1439: {
+            slidesPerView: 'auto',
+            //spaceBetween: 20,
+        },
+        1023: {
+            slidesPerView: 'auto',
+            spaceBetween: 0,
+            loopedSlides: 1,
+        },
+    }
+});
+
+//업커밍 바인딩
+function loadUpcomings() {
+    const slideArray = [];
+
+    axios.get('/api/main/upcomings')
+        // await sleep(2000);
+        .then(function(response){
+            const success =  response.data.success;
+            if (success) {
+                const bannerList = response.data.data;
+                bannerList.map(item => {
+                    const titleJSON = JSON.parse(item.TITLE_BLOB);
+                    const from_dt = moment(item.FROM_DT);
+                    const to_dt = moment(item.TO_DT);
+                    const open_dt = moment(item.OPEN_DT);
+                    const returnDom =  ` <div class="swiper-slide upcomingSlide " style="padding-right: 40px;">
+                                            <a href="#">
+                                                <div class="upcoming-caption">
+                                                    <span class="auctionKind-box ${ item.SALE_KIND === 'LIVE' ? 'on' : ''}">
+                                                        ${item.SALE_KIND} 
+                                                    </span>
+                                                    ${ item.D_DAY <=7 ? 
+                                                        `<span class="d-day on">
+                                                            ${ item.D_DAY === 0 ? "TODAY" : "D-" + item.D_DAY }
+                                                        </span>` 
+                                                    : ``}
+                                                    <h4>${ titleJSON[locale] }</h4>
+                                                    <div class="upcoming-datebox">
+                                                        ${ locale === 'en'?
+                                                            `<p class="upcoming-preview">
+                                                                <span>OPEN</span><span>${ open_dt.format('DD MMMM')}</span>
+                                                            </p>
+                                                            <p class="upcoming-preview">
+                                                                <span>PREVIEW</span><span>${ from_dt.format('DD MMMM') +" - " +  to_dt.format('DD MMMM')}</span>
+                                                            </p>
+                                                            <p class="upcoming-date">
+                                                                <span>AUCTION</span><span>${ to_dt.format('DD MMMM hh:mm')}</span>
+                                                            </p>`
+                                                            :
+                                                            `<p class="upcoming-preview">
+                                                                <span>오픈일</span><span>${ open_dt.format('MM/DD(ddd)')}</span>
+                                                            </p>
+                                                            <p class="upcoming-preview">
+                                                                <span>프리뷰</span><span>${ from_dt.format('MM/DD(ddd)') +" ~ " +  to_dt.format('MM/DD(ddd)')}</span>
+                                                            </p>
+                                                            <p class="upcoming-date">
+                                                                <span>경매일</span><span>${ to_dt.format('MM/DD(ddd) hh:mm')}</span>
+                                                            </p>`
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <figure class="upcoming-img on" style="display: flex; width:160px; height:160px; overflow: hidden;">
+                                                    <!--<span class="upcomingImg"></span>-->
+<!--                                                    <img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">-->
+<!--                                                    <img src="https://www.seoulauction.com/nas_img/front/online0688/thum/ea39a8bb-c1b9-427d-a250-62117dcc07f5.jpg" alt="alet">-->
+                                                    <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" 
+                                                        style="object-fit: cover"
+                                                        onerror="this.parentNode.remove ? this.parentNode.remove() : this.parentNode.removeNode();" 
+                                                        alt="" >
+                                                </figure>
+                                            </a>
+                                        </div>`;
+                    slideArray.push(returnDom);
+                });
+
+                upcomingSwiper.appendSlide(slideArray);
+
+            }
+        })
+        .catch(function(error){
+            console.log(error);
+        });
 }
 
 
@@ -94,26 +238,21 @@ const platFormSwiper = new Swiper('.platform-swiper', {
 
 
 //띠배너 바인딩
-async function loadBeltBanner() {
+function loadBeltBanner() {
     const slideArray = [];
 
-    await fetch('/api/main/beltBanners')
+    axios.get('/api/main/beltBanners')
         // await sleep(2000);
-        .then(res => res.json())
-        .then(res => {
-            if (res.success) {
-                console.log(res);
-                const bannerList = res.data;
+        .then(function(response){
+            const success =  response.data.success;
+            if (success) {
+                const bannerList = response.data.data;
                 bannerList.map(item => {
                     const content = JSON.parse(item.content);
                     const returnDom =  `<div class="swiper-slide platform-bg" style="background-color: ${content.backgroundColor} ">
                                             <a href="${ locale === 'en' ? content.url_en : content.url_ko }" target="_blank"  >
-<!--                                            추후 img 태그로 변경 필요-->
-                                                <img src="${locale === 'en' ? content.image_pc_en_url : content.image_pc_ko_url }" 
-                                                     srcset="${locale === 'en' ? content.image_mo_en_url : content.image_mo_ko_url } 1023w, 
-                                                             ${locale === 'en' ? content.image_pc_en_url : content.image_pc_ko_url } 1279w" 
-                                                onerror="" 
-                                                alt="" width="1204" class="platform-img"> 
+                                                <img src="${locale === 'en' ? content.image_pc_en_url : content.image_pc_ko_url }" alt="beltPcBanner" class="beltBannerImg-pc platform-img" >
+                                                <img src="${locale === 'en' ? content.image_mo_en_url : content.image_mo_ko_url }" alt="beltMobileBanner" class="beltBannerImg-mo platform-img" >
                                             </a>
                                         </div>`;
 
@@ -122,7 +261,19 @@ async function loadBeltBanner() {
 
                 platFormSwiper.appendSlide(slideArray);
 
+                if(matchMedia("all and (min-width: 1024px)").matches) {
+                    $(".beltBannerImg-pc").show();
+                    $(".beltBannerImg-mo").hide();
+                }else{
+                    $(".beltBannerImg-mo").show();
+                    $(".beltBannerImg-pc").hide();
+
+                }
+
             }
+        })
+        .catch(function(error){
+            console.log(error);
         });
 }
 
@@ -195,67 +346,8 @@ $(function() {
     });
 
 
-    /*upcoming*/
-    $('.upcoming-img>img').show(function () {
-        const img_on = $(window).innerWidth();
-        //$('.swiper-slide.upcomingSlide').css('padding-right','40px');
-        if (img_on >= 1280) {
-            $('.swiper-slide.upcomingSlide').css('padding-right', '40px');
-        } else {
-            $('.swiper-slide.upcomingSlide').css('padding-right', '20px');
-        }
-        /* 영문버전 */
-        if (img_on <= 1919) {
-            $('.swiper-slide:lang(en).upcomingSlide').css('padding-right', '20px');
-        }
-
-        $(this).parent('.upcoming-img').addClass('on').css('display', 'flex');
-    });
-
-    const upcomingSwiper = new Swiper(".upcoming-swiper", {
-        slidesPerView: 'auto',
-        breakpoints: {
-            1439: {
-                slidesPerView: 'auto',
-                //spaceBetween: 20,
-            },
-            1023: {
-                slidesPerView: 'auto',
-                spaceBetween: 0,
-                loopedSlides: 1,
-            },
-        }
-    });
-
 
     /* video */
-    const videoSwiper = new Swiper(".video-swiper", {
-        slidesPerView: 6,
-        spaceBetween: 20,
-        loop: true,
-        loopFillGroupWithBlank: true,
-        navigation: {
-            nextEl: ".videoBtn-right",
-            prevEl: ".videoBtn-left",
-        },
-        breakpoints: {
-            1919: {
-                slidesPerView: 4,
-                spaceBetween: 20,
-            },
-            1279: {
-                slidesPerView: 3,
-                spaceBetween: 20,
-            },
-            1023: {
-                slidesPerView: 'auto',
-                spaceBetween: 20,
-                loopedSlides: 1,
-                loop: false,
-                loopFillGroupWithBlank: false,
-            },
-        }
-    });
     //video hover
     $('.video-thumb').mouseenter(function () {
         let videoHover = $(this).index();
@@ -280,6 +372,27 @@ app.controller('mainCtl', function($scope, consts, common, ngDialog) {
 				animationEndSupport: false,
 			});
 		}
+
+		if(resetPassword == 'true'){
+			$modal = ngDialog.open({
+				template: '/resetPassword',
+				controller: 'resetPasswordPopCtl',
+				closeByDocument: false,
+				showClose: false,
+				animationEndSupport: false,
+			});
+		}
+
+		console.log(modPassword)
+		if(modPassword == 'true'){
+			$modal = ngDialog.open({
+				template: '/modPassword',
+				controller: 'modPasswordPopCtl',
+				closeByDocument: false,
+				showClose: false,
+				animationEndSupport: false,
+			});
+		}
 	}
 });
 
@@ -287,5 +400,49 @@ app.controller('maxSessionPopCtl', function($scope, consts, common) {
 	$scope.init = function() {
 
     }
+});
+
+app.controller('resetPasswordPopCtl', function($scope, consts, common) {
+    $scope.closePopup = function(modYn){
+		axios.get('/api/main/resetPassword')
+            .then(function(response) {
+                var success = response.data.success;
+                if(!success){
+                    alert(response.data.data.msg);
+                    $scope.closeThisDialog();
+                } else {
+					$scope.closeThisDialog();
+					if(modYn == 'Y'){
+						// TODO 차후 비밀번호 변경 페이지 개발시 수정
+						location.href = '/'
+					}
+                }
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+	}
+});
+
+
+app.controller('modPasswordPopCtl', function($scope, consts, common) {
+    $scope.reAlarm = function(){
+		axios.get('/api/main/reAlarm')
+            .then(function(response) {
+                var success = response.data.success;
+                if(!success){
+                    alert(response.data.data.msg);
+                }
+                $scope.closeThisDialog();
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+	}
+
+	$scope.modPassword = function(){
+		// TODO 차후 비밀번호 변경 페이지 개발시 수정
+		location.href = '/';
+	}
 });
 
