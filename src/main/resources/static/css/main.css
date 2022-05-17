@@ -493,9 +493,6 @@
 .upcoming-open {
     padding-bottom: 12px;
 }
-.upcoming-open {
-    display: none;
-}
 .upcoming-preview>span:first-of-type,
 .upcoming-date>span:first-of-type,
 .upcoming-open>span:first-of-type {
