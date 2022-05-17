@@ -464,7 +464,6 @@ $('.video-closebtn').click(function(){
     $('.video-blackBg').fadeOut('fast');
 });
 
-
 /*뉴스레터 신청 관련*/
 $('#subscript_check').click(function(){
     $('.newsAgree-close').click(function(){
@@ -485,11 +484,11 @@ $('.subscriptBtn').click(function(){
 });
 
 /* 메인 레이어 팝업 */
-/*$('.main-popup-img').hide();
-$('.main-popup-txt').hide();
+$('.main-popup-img').hide();
+$('.main-popup-txt').hide(); /* flexbox 처리로 hide */
 
 $('.main-popup-img.on').show();
-$('.main-popup-txt.on').show(); */
+$('.main-popup-txt.on').show();
 
 $('.main-popup-close').click(function(){
     $('.main-popupbox').addClass('down');

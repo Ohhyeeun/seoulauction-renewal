@@ -13,14 +13,14 @@
     <div class="swiper-container video-swiper" ng-controller="videoCtl" data-ng-init="loadVideo()">
         <div class="swiper-wrapper video-contents">
             <div class="swiper-slide video-slide" ng-repeat="video in videoList" on-finish-render-filters>
-                <a ng-click="showVideo(video.content_type, video.url)";>
+                <a ng-click="showVideo(video.content_type, video.url)"; class="video-btn">
                     <figure class="video-thumb">
                         <span class="video-thumbHover"></span>
                         <img src="/images/pc/thumbnail/VideoBanner_03_280x280.png" alt="video" class="pc-ver">
                         <img src="/images/mobile/thumbnail/VideoBanner_03_300x300.png" alt="video" class="m-ver">
                         <span class="video-icon" ng-class="{'youtube':'video-icon-you', 'instagram':'video-icon-in'}[video.content_type]"></span>
                     </figure>
-                    <p class="video-thmbtit">
+                    <p class="video-thmbtit text-over">
                         {{video.content['ko'].media_title}}
                     </p>
                 </a>
@@ -54,7 +54,7 @@
             if(content_type === 'instagram') {
                 window.open(url, 'instagram', 'width=1150,height=880,toolbar=0,resizable=yes,status=0,scrollbars=0');
             } else if(content_type === 'youtube') {
-                $("#videoLayerPopup div div").html('<iframe width="560" height="315" src="'+ url +'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
+                /*$("#videoLayerPopup div div").html('<iframe width="560" height="315" src="'+ url +'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');*/
                 $("#videoLayerPopup").show();
             }
         }
