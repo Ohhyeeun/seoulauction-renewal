@@ -14,9 +14,6 @@
 	</head>
 	<body>
 	<jsp:include page="../../include/en/header.jsp" flush="false" />
-	<script>
-		app.value('locale', 'en');
-	</script>
 	
 	<div id="container footer-bottom footer-bottom30" style="margin-top:60px" ng-controller="joinFormCtl" data-ng-init="init()">
 		<div id="contents" class="contents">
@@ -41,18 +38,24 @@
                                         <i>*</i>
                                     </div>
                                     <div class="form_body">
-                                        <input type="text" id="name-1" class="form-control" placeholder="">
+                                    	<input type="hidden" id="social_login_id" name="social_login_id" ng-model="form_data.social_login_id" />
+										<input type="hidden" id="social_email" name="social_email" ng-model="form_data.social_email" />
+                                        <input ng-hide="isSocial()" type="text" id="login_id" name="login_id" ng-model="form_data.login_id" class="form-control" placeholder="">
+                                        <div class="id_name_box" ng-show="isSocial()">
+                                            <span class="tb1">${socialLoginId }</span>
+                                            <span class="sns-icon"><img ng-src="/images/common/icon-sns_{{getSocialName()}}.png" alt="naver">네이버</span>
+                                        </div>
                                         <p class="error_text tb2">안내 메시지 출력 영역</p>
                                     </div>
                                 </li>
-                                <li>
+                                <li ng-hide="isSocial()">
                                     <div class="form_label">
-                                        <label for="label_placeholder" class="mem_txt">Password</label>
+                                        <label for="passwd" class="mem_txt">Password</label>
                                         <i>*</i>
                                     </div>
                                     <div class="form_body">
                                         <div class="pw_mask_box">
-                                            <input type="password" class="" id="label_placeholder" placeholder="비밀번호 입력">
+                                            <input type="password" class="" id="passwd" name="passwd" ng-model="form_data.passwd"  placeholder="Enter password">
                                             <span class="input-side">
                                                 <button type="button" class="btn_pw_mask js-pw_mask">비밀번호 마스킹 해제하기</button>
                                             </span>
@@ -62,11 +65,11 @@
                                 </li>
                                 <li>
                                     <div class="form_label">
-                                        <label for="name-2" class="mem_txt">Name</label>
+                                        <label for="cust_name" class="mem_txt">Name</label>
                                         <i>*</i>
                                     </div>
                                     <div class="form_body">
-                                        <input type="text" id="name-2" class="form-control" placeholder="">
+                                        <input type="text" ng-model="form_data.cust_name" name="cust_name" id="cust_name" class="form-control" placeholder="">
                                     </div>
                                 </li>
                                 
@@ -92,35 +95,48 @@
                                     </div>
                                     <div class="form_body">
                                         <div class="form_body">
-											<select />
+											<select >
+												<option value="1">
+												test
+												</option>
+												<option value="1">
+												test2
+												</option>
+												<option value="1">
+												test3
+												</option>
+												<option value="1">
+												test4
+												</option>
+											</select>
                                         </div>
                                     </div>
                                 </li>
                                 
                                 <li>
                                     <div class="form_label">
-                                        <label for="name-3" class="mem_txt">Mobile Number</label>
+                                        <label for="hp" class="mem_txt">Mobile Number</label>
                                     </div>
                                     <div class="form_body">
                                         <div class="form_body">
-                                        	<input type="text" id="name-8" class="form-control" value="" placeholder="">
+	                                         <input type="text" ng-model="form_data.hp" name="hp" id="hp" class="form-control" placeholder="">
                                         </div>
                                     </div>
                                 </li>
                                 
                                 <li>
                                     <div class="form_label ">
-                                        <label for="name-6" class="mem_txt">Address</label>
+                                        <label for="postal_code" class="mem_txt">Address</label>
                                         <i>*</i>
                                     </div>
                                     <div class="form_body">
                                         <div class="input-group">
                                         	Postal Code
-                                            <input type="text" id="name-4" class="form-control" placeholder="">
+                                            <input type="text" id="postal_code" class="form-control" placeholder="">
                                             Address Line
-                                            <input type="text" id="name-4" class="form-control" placeholder="">
+                                            <input type="text" id="address_line" class="form-control" placeholder="">
                                             Province / state. City
-                                            <input type="text" id="name-4" class="form-control" placeholder="">
+                                            <input type="text" id="province" class="form-control" placeholder="">
                                         </div>
                                     </div>
                                 </li>
@@ -149,7 +165,7 @@
                                         <div class="trp file-box">
                                             <label for="fileName" class="screen-reader-text">Select File</label>
                                             <input type="text" id="fileName" class="trp-Filetext">
-                                            <input type="button" class="btn btn_light_gray_line" value="파일첨부">
+                                            <input type="button" class="btn btn_light_gray_line" value="Select File">
                                             <input type="file" class="trp-Filehidden" onchange="javascript: document.getElementById('fileName').value = this.value" title="Insert Attachment">
                                         </div>
                                         <p class="error_text tb2">안내 메시지 출력 영역</p>
@@ -217,7 +233,7 @@
                                                     <div class="trp checkbox-box">
                                                         <input id="checkbox_all1" class="js_item" type="checkbox" name="">
                                                         <i></i>
-                                                        <label for="checkbox_all1"><span class="required">[Required]</span> 온라인 경매 약관 동의</label>
+                                                        <label for="checkbox_all1"><span class="required">[Required]</span> Agree to online auction terms and conditions</label>
                                                     </div>
                                                 </div>
                                                 <a href="#" class="acc_btn">
@@ -237,7 +253,7 @@
                                                     <div class="trp checkbox-box">
                                                         <input id="checkbox_all2" class="js_item" type="checkbox" name="">
                                                         <i></i>
-                                                        <label for="checkbox_all2"><span class="required">[Required]</span> 오프라인 경매 약관 동의</label>
+                                                        <label for="checkbox_all2"><span class="required">[Required]</span> Agree to the offline auction terms and conditions</label>
                                                     </div>
                                                 </div>
                                                 <a href="#" class="acc_btn">
@@ -257,7 +273,7 @@
                                                     <div class="trp checkbox-box">
                                                         <input id="checkbox_all3" class="js_item" type="checkbox" name="">
                                                         <i></i>
-                                                        <label for="checkbox_all3"><span class="required">[Required]</span> 개인정보 수집 및 이용 동의</label>
+                                                        <label for="checkbox_all3"><span class="required">[Required]</span> Consent to collection and use of personal information</label>
                                                     </div>
                                                 </div>
                                                 <a href="#" class="acc_btn">
@@ -342,10 +358,14 @@
     </div>
     <jsp:include page="../../include/en/footer.jsp" flush="false"/>
 	</body>
-	
-	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-	<script src="https://apis.google.com/js/api:client.js"></script>
+	<script>
+		app.value('locale', 'en');
+		var loginId = '${socialLoginId }';
+		var name = '${name }';
+		var mobile = '${mobile }';
+		var email = '${email }';
+		var socialLoginId = '${socialLoginId }';
+		var socialEmail = '${socialEmail }';
+	</script>
 	<script type="text/javascript" src="/js/customer/join.js"></script>
 </html>

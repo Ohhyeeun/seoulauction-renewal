@@ -22,41 +22,41 @@
 		            <div class="content-panel type_panel-member">
 		                <div class="panel-header">
 		                    <div class="title">
-		                        <span class="tt2">회원가입</span>
+		                        <span class="tt2">Register</span>
 		                    </div>
 		                </div>
 		                <div class="panel-body">
 		                    <div class="join_txt-wrap">
-		                        <p class="join_txt">서울옥션에 오신걸 환영합니다.</p>
+		                        <p class="join_txt">Welcome to Seoul Auction.</p>
 		                    </div>
 		                    <div class="join_guide">
 		                        <dl>
-		                            <dt class="tt4">개인 회원가입</dt>
+		                            <dt class="tt4">Sign up</dt>
 		                            <dd class="tb1">
 		                                개인의 자격으로 국내 거주하시는 회원으로 가입합니다.
 		                            </dd>
 		                            <dd>
-		                                <a class="btn btn_point btn_full" href="#" role="button" ng-click="goJoin('person')"><span>회원가입</span></a>
+		                                <a class="btn btn_point btn_full" href="#" role="button" ng-click="goJoin('person')"><span>Sign up</span></a>
 		                            </dd>
 		                            <dd>
 		                                <div class="sns_set">
 		                                    <div class="title">
-		                                        SNS 간편 회원가입
+		                                        Sign up for SNS
 		                                    </div>
 		                                    <div class="sns_icon_wrap">
 		                                        <ul>
 		                                            <li>
-		                                                <i ng-click="naverJoin()" class="icon-sns_naver">네이버</i>
+		                                                <i ng-click="naverJoin()" class="icon-sns_naver"></i>
 		                                                <div id="naverIdLogin" style="display:none"></div>
 		                                            </li>
 		                                            <li>
-		                                            	<i ng-click="joinWithKakao()" class="icon-sns_kakao">카카오</i>
+		                                            	<i ng-click="joinWithKakao()" class="icon-sns_kakao"></i>
 		                                            </li>
 		                                            <li>
-		                                            	<i id="googleIdJoin" class="icon-sns_google">구글</i>
+		                                            	<i id="googleIdJoin" class="icon-sns_google"></i>
 		                                            </li>
 		                                            <li>
-			                                            <i ng-click="joinWithApple()" class="icon-sns_apple">애플</i>
+			                                            <i ng-click="joinWithApple()" class="icon-sns_apple"></i>
 			                                            <div id="appleid-signin" data-type="sign in"  style="display:none"></div>
 		                                            </li>
 		                                        </ul>
@@ -68,12 +68,12 @@
 		
 		                    <div class="join_guide">
 		                        <dl>
-		                            <dt class="tt4">사업자 회원가입</dt>
 		                            <dd class="tb1">
-		                                국내 개인/법인 사업자의 자격으로 회원 가입합니다.
+		                                대한민국 국적자이신 경우에는 NEW Account 버튼을 이용해 주세요. <br />
+										Making a new account for Korean people is here.
 		                            </dd>
 		                            <dd>
-		                                <a class="btn btn_point btn_full" href="#" role="button" ng-click="goJoin('company')"><span>회원가입</span></a>
+		                                <a class="btn btn_point btn_full" href="#" role="button" onClick="location.href='/join?lang=ko'"><span>New Account</span></a>
 		                            </dd>
 		                        </dl>
 		                    </div>
