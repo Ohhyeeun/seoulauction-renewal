@@ -29,8 +29,8 @@ public class MainController {
     public String guide(HttpServletRequest request) {
         return "guide_list";
     }
-    @GetMapping("/upcoming" )
-    public String upcoming(Locale locale) {
+    @GetMapping("/g" )
+    public String (Locale locale) {
         return SAConst.getUrl(SERVICE_MAIN , "upcoming" , locale);
     }
 

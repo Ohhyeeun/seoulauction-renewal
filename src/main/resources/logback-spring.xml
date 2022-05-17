@@ -3,7 +3,7 @@
 <!-- 10초마다 파일 변화를 체크하여 갱신시킨다. -->
 <configuration scan="true" scanPeriod="10 seconds">
 
-    <!-- 로그 파일 명 -->
+    <!--  파일 명 -->
     <property name ="LOG_FILE_NAME" value = "logback"/>
     <!-- 루트 로그 레벨 -->
 
