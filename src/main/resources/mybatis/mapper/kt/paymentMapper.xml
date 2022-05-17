@@ -21,9 +21,9 @@
 			, REG_DT
 		) values (
 			 #{cust_no}
-			,#{pay_method}
+			,lower(#{pay_method})
 			, 'Y'
-			, 'nice'
+			, #{pg_cd}
 			, #{pg_trnas_id}
 			, #{name}
 			, #{pay_price}

@@ -1,7 +1,6 @@
 package com.seoulauction.renewal.controller;
 
 import com.seoulauction.renewal.auth.Cryptography;
-import com.seoulauction.renewal.common.PaymentType;
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.service.PaymentService;
@@ -77,7 +76,7 @@ public class PaymentController {
     @PostMapping("/memberProcess")
     public String memberProcess(HttpServletRequest request , RedirectAttributes attr) {
 
-        CommonMap resultMap = paymentService.paymentProcess(PaymentType.CUST_REGULAR , request);
+        CommonMap resultMap = paymentService.paymentProcess(SAConst.PAYMENT_KIND_MEMBERSHIP , request);
 
         attr.addAttribute("payId", resultMap.get("pay_no"));
         attr.addAttribute("payMethod", resultMap.get("PayMethod"));
@@ -160,7 +159,7 @@ public class PaymentController {
     public String academyProcess(HttpServletRequest request, Locale locale, RedirectAttributes attr) {
         log.info("academyProcess");
 
-        CommonMap resultMap = paymentService.paymentProcess(PaymentType.ACADEMY, request);
+        CommonMap resultMap = paymentService.paymentProcess(SAConst.PAYMENT_KIND_ACADEMY, request);
         attr.addAttribute("payId", resultMap.get("pay_no"));
         attr.addAttribute("payMethod", resultMap.get("PayMethod"));
 

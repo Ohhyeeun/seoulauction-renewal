@@ -1,22 +1,16 @@
 package com.seoulauction.renewal.service;
 
-import com.seoulauction.renewal.common.PaymentType;
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.component.NicePayModule;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.mapper.kt.PaymentMapper;
-import kr.co.nicevan.nicepay.adapter.web.NicePayHttpServletRequestWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
-import java.util.Enumeration;
-import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +32,7 @@ public class PaymentService {
         resultMap.put("academy_no", request.getParameter("academy_no"));
 
         //가상결제 PAY_ WAIT 테이블 입력을 위해서
-        resultMap.put("kind_cd", PaymentType.ACADEMY);
+       // resultMap.put("kind_cd", PaymentType.ACADEMY);
         resultMap.put("ref_no", request.getParameter("academy_no"));
         resultMap.put("pay_method_cd", resultMap.get("PayMethod"));
 
@@ -58,7 +52,7 @@ public class PaymentService {
     }
 
     //실제 결제 요청이 성공적으로 된경우.
-    public CommonMap insertPay(PaymentType paymentType ,  HttpServletRequest request){
+    public CommonMap insertPay(String paymentType ,  HttpServletRequest request){
 
         String method = request.getParameter("PayMethod");
 
@@ -69,7 +63,7 @@ public class PaymentService {
             resultMap = paymentMapper.selectPayWaitByUuid(paramMap);
         }
 
-            //공통 페이먼트 테이블 필요한 부분 미리 넣기.
+        //공통 페이먼트 테이블 필요한 부분 미리 넣기.
         resultMap.put("cust_no", "27319"); // 로그인 한 유저 번호 가져와야함.
         resultMap.put("pay_method", request.getParameter("PayMethod"));
         resultMap.put("pg_trnas_id", request.getParameter("TxTid"));
@@ -82,14 +76,14 @@ public class PaymentService {
 
         switch (paymentType){
 
-            case CUST_REGULAR:
+            case SAConst.PAYMENT_KIND_MEMBERSHIP:
                 paymentMapper.insertCustPay(resultMap);
                 break;
-            case ACADEMY:
+            case SAConst.PAYMENT_KIND_ACADEMY:
                 //TODO 아카데미 DB INSERT 처리ㄱㄱ.
                 break;
 
-            case WORK:
+            case SAConst.PAYMENT_KIND_WORK:
                 //TODO 작품 DB INSERT 처리ㄱㄱ.
                 paymentMapper.insertLotPay(resultMap);
                 if(!"VBANK".equals(method)) { //가상 계좌 아닌경우에만 FEE 업데이트 ㅇㅇ. 기존레가시 참조.
@@ -101,7 +95,7 @@ public class PaymentService {
     }
 
     @Transactional("ktTransactionManager")
-    public CommonMap paymentProcess(PaymentType paymentType , HttpServletRequest request){
+    public CommonMap paymentProcess(String paymentType , HttpServletRequest request){
 
         //결제 처리 요청.
         CommonMap resultMap = nicePayModule.payProcess(request); //결제 처리
