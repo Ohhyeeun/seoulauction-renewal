@@ -13,9 +13,7 @@
 	    <title>Seoul Auction</title>
 	</head>
 	<body>
-	<jsp:include page="../../include/en/header.jsp" flush="false">
-	    <jsp:param name="main" value="false"/>
-	</jsp:include>
+	<jsp:include page="../../include/en/header.jsp" flush="false" />
 	<script>
 		app.value('locale', 'en');
 	</script>

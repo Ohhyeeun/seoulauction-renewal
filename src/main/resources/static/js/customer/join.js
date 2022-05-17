@@ -188,13 +188,13 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog) {
 	
 	$scope.getSocialName = function() {
 		if($scope.socialType == "NV"){
-			return "네이버";
+			return "naver";
 		}else if($scope.socialType == "KA"){
-			return "카카오";
+			return "kakao";
 		}else if($scope.socialType == "GL"){
-			return "구글";
+			return "google";
 		}else if($scope.socialType == "AP"){
-			return "애플";
+			return "apple";
 		}
 	}
 		

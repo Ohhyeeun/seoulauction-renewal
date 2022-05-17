@@ -13,9 +13,7 @@
 	    <title>Seoul Auction</title>
 	</head>
 	<body>
-	<jsp:include page="../../include/en/header.jsp" flush="false">
-	    <jsp:param name="main" value="false"/>
-	</jsp:include>
+	<jsp:include page="../../include/en/header.jsp" flush="false" />
 	
 	<div id="container footer-bottom footer-bottom30" style="margin-top:60px" ng-controller="joinCtl">
 		<div id="contents" class="contents">

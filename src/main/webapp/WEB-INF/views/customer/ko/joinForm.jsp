@@ -13,9 +13,7 @@
 	    <title>Seoul Auction</title>
 	</head>
 	<body>
-	<jsp:include page="../../include/ko/header.jsp" flush="false">
-	    <jsp:param name="main" value="false"/>
-	</jsp:include>
+	<jsp:include page="../../include/ko/header.jsp" flush="false" />
 	
 	<div id="container footer-bottom footer-bottom30" style="margin-top:60px" ng-controller="joinFormCtl" data-ng-init="init()">
 		<div id="contents" class="contents">
@@ -43,9 +41,9 @@
 										<input type="hidden" id="social_login_id" name="social_login_id" ng-model="form_data.social_login_id" />
 										<input type="hidden" id="social_email" name="social_email" ng-model="form_data.social_email" />
                                         <input ng-hide="isSocial()" type="text" id="login_id" name="login_id" ng-model="form_data.login_id" class="form-control" placeholder="">
-                                        <div ng-show="isSocial()" type="text">
-                                        	${socialLoginId }
-                                        	{{getSocialName()}}
+                                        <div class="id_name_box" ng-show="isSocial()">
+                                            <span class="tb1">${socialLoginId }</span>
+                                            <span class="sns-icon"><img ng-src="/images/common/icon-sns_{{getSocialName()}}.png" alt="naver">네이버</span>
                                         </div>
                                         <p class="error_text tb2">안내 메시지 출력 영역</p>
                                     </div>
@@ -67,8 +65,8 @@
                                 </li>
                                 <li>
                                     <div class="form_label">
-                                        <label ng-show="isPerson() || isSocial()" for="cust_name" class="cust_name">이름</label>
-                                        <label ng-show="!isPerson() && !isSocial()" for="cust_name" class="cust_name">업체명</label>
+                                        <label ng-show="isPerson() || isSocial()" for="cust_name" class="mem_txt">이름</label>
+                                        <label ng-show="!isPerson() && !isSocial()" for="cust_name" class="mem_txt">업체명</label>
                                         <i>*</i>
                                     </div>
                                     <div class="form_body">
@@ -78,7 +76,7 @@
                                 
                                 <li ng-show="!isPerson() && !isSocial()">
                                     <div class="form_label">
-                                        <label for="name-2" class="comp_no">사업자등록번호</label>
+                                        <label for="comp_no" class="mem_txt">사업자등록번호</label>
                                         <i>*</i>
                                     </div>
                                     <div class="form_body">
@@ -88,7 +86,7 @@
                                 </li>
                                 <li ng-show="!isPerson() && !isSocial()">
                                     <div class="form_label">
-                                        <label for="name-2" class="comp_owner">대표자명</label>
+                                        <label for="comp_owner" class="mem_txt">대표자명</label>
                                     </div>
                                     <div class="form_body">
                                         <input type="text" ng-model="form_data.comp_owner" name="comp_owner" id="comp_owner" class="form-control" placeholder="">
@@ -96,7 +94,7 @@
                                 </li>
                                 <li ng-show="!isPerson() && !isSocial()">
                                     <div class="form_label">
-                                        <label for="name-2" class="comp_man_name">업무담당자</label>
+                                        <label for="comp_man_name" class="mem_txt">업무담당자</label>
                                         <i>*</i>
                                     </div>
                                     <div class="form_body">
