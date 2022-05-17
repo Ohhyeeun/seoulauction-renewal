@@ -100,14 +100,14 @@
                         <ul class="subGnbmenu">
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
                                 <ul class="submenu submenu-part01">
-                                    <li id="menu_auction"><a href="#">진행경매</a><span class="currentIng">NOW</span></li>
-                                    <li id="menu_upcoming"><a href="#">예정경매</a><span class="currentIng">NOW</span></li>
+                                    <li id="menu_auction"><a href="#">진행경매</a></li>
+                                    <li id="menu_upcoming"><a href="#">예정경매</a></li>
                                     <li><a href="#">경매결과</a></li>
                                 </ul>
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
                                 <ul class="submenu submenu-part02">
-                                    <li id="menu_exhibit"><a href="#">전시</a><span class="currentIng">NOW</span></li>
+                                    <li id="menu_exhibit"><a href="#">전시</a></li>
                                     <li><a href="#">프라이빗 세일</a></li>
                                     <li><a href="#">프라이빗 세일 가이드</a></li>
                                 </ul>
