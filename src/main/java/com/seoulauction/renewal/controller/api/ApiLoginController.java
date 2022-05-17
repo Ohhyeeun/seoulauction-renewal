@@ -84,13 +84,8 @@ public class ApiLoginController {
 	@RequestMapping(value="/findCustId", method=RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<RestResponse> findId(@RequestBody CommonMap commonMap, HttpServletRequest request, HttpServletResponse response){
-		
-		CommonMap resultMap = loginService.selectCustLoginId(commonMap);
-		 if(!MapUtils.isEmpty(resultMap)) {
-			 return ResponseEntity.ok(RestResponse.ok(resultMap));
-		 } else {
-			 throw new SAException("일치하는 회원 정보가 없습니다.");
-		 }
+			 return ResponseEntity.ok(RestResponse.ok(loginService.selectCustLoginIdByCustName(commonMap)));
+		 
    	}
 	
 	

@@ -22,11 +22,6 @@ public class SAConst {
 
     public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("###,###"); //천단위마다 콤마 ㄱ
 
-    public static final String PG_NICEPAY ="nice";
-
-    public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("###,###"); //천단위마다 콤마 ㄱ
-
-
     public static String getUrl(String viewName){
         return getUrl("",viewName,null);
     }
