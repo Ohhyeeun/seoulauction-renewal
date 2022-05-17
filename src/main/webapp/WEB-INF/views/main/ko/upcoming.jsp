@@ -36,7 +36,7 @@
                             <span class="auctionKind-box on">LIVE</span><span class="d-day on">TODAY</span>
                             <h4 class="text-over">제1회 ART SHOPPING 신세계 센텀시티 오픈 기념 경매</h4>
                             <div class="upcoming-datebox">
-                                <p class="upcoming-open on"> <!-- today 붙일 때 on 붙음 -->
+                                <p class="upcoming-preview">
                                     <span>오픈일</span><span>2/14(금)</span>
                                 </p>
                                 <p class="upcoming-preview">
@@ -59,7 +59,7 @@
                             <span class="auctionKind-box">ONLINE</span><span class="d-day on">D-1</span>
                             <h4 class="text-over">2월 라이브 경매</h4>
                             <div class="upcoming-datebox">
-                                <p class="upcoming-open">
+                                <p class="upcoming-preview">
                                     <span>오픈일</span><span>2/14(금)</span>
                                 </p>
                                 <p class="upcoming-preview">

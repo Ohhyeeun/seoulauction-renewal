@@ -1,20 +1,13 @@
 package com.seoulauction.renewal.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.auth.Cryptography;
 import com.seoulauction.renewal.common.PaymentType;
 import com.seoulauction.renewal.common.SAConst;
-import com.seoulauction.renewal.component.NicePayModule;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.service.PaymentService;
-import kr.co.nicevan.nicepay.adapter.web.NicePayHttpServletRequestWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.collections4.MapUtils;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +24,6 @@ import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 
 @Controller
@@ -188,187 +180,185 @@ public class PaymentController {
          * 추가적으로 사용하실 파라미터는 연동메뉴얼을 참고하세요.
          ****************************************************************************************
          */
-        String ResultCode 	= ""; String ResultMsg 	= ""; String PayMethod 	= "";
-        String GoodsName 	= ""; String Amt 		= ""; String TID 		= "";
-        //String Signature = ""; String paySignature = "";
-        /*
-         ****************************************************************************************
-         * <인증 결과 성공시 승인 진행>
-         ****************************************************************************************
-         */
-        String resultJsonStr = "";
-        System.out.println("authResultCode: "+authResultCode);
-        System.out.println("authResultMsg: "+authResultMsg);
-        if(authResultCode.equals("0000") /*&& authSignature.equals(authComparisonSignature)*/){
-            /*
-             ****************************************************************************************
-             * <해쉬암호화> (수정하지 마세요)
-             * SHA-256 해쉬암호화는 거래 위변조를 막기위한 방법입니다.
-             ****************************************************************************************
-             */
-            String ediDate			= getyyyyMMddHHmmss();
-            String signData 		= sha256Enc.encrypt(authToken + mid + amt + ediDate + merchantKey);
+//        String ResultCode 	= ""; String ResultMsg 	= ""; String PayMethod 	= "";
+//        String GoodsName 	= ""; String Amt 		= ""; String TID 		= "";
+//        //String Signature = ""; String paySignature = "";
+//        /*
+//         ****************************************************************************************
+//         * <인증 결과 성공시 승인 진행>
+//         ****************************************************************************************
+//         */
+//        String resultJsonStr = "";
+//        System.out.println("authResultCode: "+authResultCode);
+//        System.out.println("authResultMsg: "+authResultMsg);
+//        if(authResultCode.equals("0000") /*&& authSignature.equals(authComparisonSignature)*/){
+//            /*
+//             ****************************************************************************************
+//             * <해쉬암호화> (수정하지 마세요)
+//             * SHA-256 해쉬암호화는 거래 위변조를 막기위한 방법입니다.
+//             ****************************************************************************************
+//             */
+//            String ediDate			= getyyyyMMddHHmmss();
+//            String signData 		= sha256Enc.encrypt(authToken + mid + amt + ediDate + merchantKey);
+//
+//            /*
+//             ****************************************************************************************
+//             * <승인 요청>
+//             * 승인에 필요한 데이터 생성 후 server to server 통신을 통해 승인 처리 합니다.
+//             ****************************************************************************************
+//             */
+//            StringBuffer requestData = new StringBuffer();
+//            requestData.append("TID=").append(txTid).append("&");
+//            requestData.append("AuthToken=").append(authToken).append("&");
+//            requestData.append("MID=").append(mid).append("&");
+//            requestData.append("Amt=").append(amt).append("&");
+//            requestData.append("EdiDate=").append(ediDate).append("&");
+//            requestData.append("CharSet=").append("utf-8").append("&");
+//            requestData.append("SignData=").append(signData);
+//
+//            try {
+//                resultJsonStr = connectToServer(requestData.toString(), nextAppURL);
+//                HashMap resultData = new HashMap();
+//                boolean paySuccess = false;
+//                if ("9999".equals(resultJsonStr)) {
+//                    /*
+//                     *************************************************************************************
+//                     * <망취소 요청>
+//                     * 승인 통신중에 Exception 발생시 망취소 처리를 권고합니다.
+//                     *************************************************************************************
+//                     */
+//                    StringBuffer netCancelData = new StringBuffer();
+//                    requestData.append("&").append("NetCancel=").append("1");
+//                    String cancelResultJsonStr = connectToServer(requestData.toString(), netCancelURL);
+//
+//                    HashMap cancelResultData = jsonStringToHashMap(cancelResultJsonStr);
+//                    ResultCode = (String) cancelResultData.get("ResultCode");
+//                    ResultMsg = (String) cancelResultData.get("ResultMsg");
+//                    /*Signature = (String)cancelResultData.get("Signature");
+//                    String CancelAmt = (String)cancelResultData.get("CancelAmt");
+//                    paySignature = sha256Enc.encrypt(TID + mid + CancelAmt + merchantKey);*/
+//                } else {
+//                    resultData = jsonStringToHashMap(resultJsonStr);
+//                    System.out.println("resultData: "+resultData);
+//                    ResultCode = (String) resultData.get("ResultCode");    // 결과코드 (정상 결과코드:3001)
+//                    ResultMsg = (String) resultData.get("ResultMsg");    // 결과메시지
+//                    PayMethod = (String) resultData.get("PayMethod");    // 결제수단
+//                    GoodsName = (String) resultData.get("GoodsName");    // 상품명
+//                    Amt = (String) resultData.get("Amt");        // 결제 금액
+//                    TID = (String) resultData.get("TID");        // 거래번호
+//
+//                    // Signature : Nicepay에서 내려준 응답값의 무결성 검증 Data
+//                    // 가맹점에서 무결성을 검증하는 로직을 구현하여야 합니다.
+//                    /*Signature = (String)resultData.get("Signature");
+//                    paySignature = sha256Enc.encrypt(TID + mid + Amt + merchantKey);*/
+//
+//
+//                    CommonMap map = new CommonMap();
+//                    map.putAll(resultData);
+//
+//                    /** 4. 결제 결과 */
+//                    String resultCode = (String) resultData.get("ResultCode"); // 결과코드 (정상 :3001 , 그 외 에러)
+//                    String resultMsg = (String) resultData.get("ResultMsg");   // 결과메시지
+//                    String authDate = (String) resultData.get("AuthDate");   // 승인일시 YYMMDDHH24mmss
+//                    String authCode = (String) resultData.get("AuthCode");   // 승인번호
+//
+//                    String buyerName = (String) resultData.get("BuyerName");   // 구매자명
+//                    String mallUserID = (String) resultData.get("MallUserID");   // 회원사고객ID
+//                    String goodsName = (String) resultData.get("GoodsName");   // 상품명
+//                    //String mid = (String) resultData.get("MID");  // 상점ID
+//                    String tid = (String) resultData.get("TID");  // 거래ID
+//                    //String moid = (String) resultData.get("Moid");  // 주문번호
+//                    //String amt = (String) resultData.get("Amt");  // 금액
+//
+//                    String cardCode = (String) resultData.get("CardCode");   // 결제카드사코드
+//                    String cardName = (String) resultData.get("CardName");   // 결제카드사명
+//                    String cardQuota = (String) resultData.get("CardQuota");  // 카드 할부개월 (00:일시불,02:2개월)
+//
+//                    String bankCode = (String) resultData.get("BankCode");   // 은행코드
+//                    String bankName = (String) resultData.get("BankName");   // 은행명
+//                    String rcptType = (String) resultData.get("RcptType"); //현금 영수증 타입 (0:발행되지않음,1:소득공제,2:지출증빙)
+//                    String rcptAuthCode = (String) resultData.get("RcptAuthCode"); //현금영수증 승인 번호
+//                    String rcptTID = (String) resultData.get("RcptTID"); //현금 영수증 TID
+//
+//                    String carrier = (String) resultData.get("Carrier");       // 이통사구분
+//                    String dstAddr = (String) resultData.get("DstAddr");       // 휴대폰번호
+//
+//                    String vbankBankCode = (String) resultData.get("VbankBankCode");   // 가상계좌은행코드
+//                    String vbankBankName = (String) resultData.get("VbankBankName");   // 가상계좌은행명
+//                    String vbankNum = (String) resultData.get("VbankNum");   // 가상계좌번호
+//                    String vbankExpDate = (String) resultData.get("VbankExpDate");   // 가상계좌입금예정일
+//
+//                    String no_vat_price = request.getParameter("no_vat_price");
+//                    String vat_price = request.getParameter("vat_price");
+//                    String vat = request.getParameter("vat");
+//
+//                    String mall_reserved = request.getParameter("MallReserved");
+//
+//                    String academy_no = request.getParameter("academy_no");
+//
+//                    map.put("cust_no", "117997");
+//                    map.put("payer", buyerName);
+//                    map.put("pay_price", amt);
+//                    map.put("pg_trans_id", tid); //paramMap.put("PG_TRANS_ID", moid);
+//                    map.put("reg_emp_no",  "117997");
+//
+//                    map.put("academy_no", academy_no);
+//
+//                    //가상결제 PAY_ WAIT 테이블 입력을 위해서
+//                    map.put("kind_cd", PaymentType.ACADEMY);
+//                    map.put("ref_no", academy_no);
+//                    map.put("pay_method_cd", payMethod);
+//
+//                    map.put("no_vat_price", no_vat_price);
+//                    map.put("vat_price", vat_price);
+//                    map.put("vat", vat);
+//                    map.put("uuid", mall_reserved);
+//
+//                    map.put("vbank_cd", vbankBankCode);
+//                    map.put("vbank_nm", vbankBankName);
+//                    map.put("vbank_num", vbankNum);
+//                    map.put("vbank_exp_dt", vbankExpDate);
+//                    /*
+//                     *************************************************************************************
+//                     * <결제 성공 여부 확인>
+//                     *************************************************************************************
+//                     */
+//                    if (PayMethod != null) {
+//                        if (PayMethod.equals("CARD")) {
+//                            if (ResultCode.equals("3001")) paySuccess = true; // 신용카드(정상 결과코드:3001)
+//                        } else if (PayMethod.equals("BANK")) {
+//                            if (ResultCode.equals("4000")) paySuccess = true; // 계좌이체(정상 결과코드:4000)
+//                        } else if (PayMethod.equals("CELLPHONE")) {
+//                            if (ResultCode.equals("A000")) paySuccess = true; // 휴대폰(정상 결과코드:A000)
+//                        } else if (PayMethod.equals("VBANK")) {
+//                            if (ResultCode.equals("4100")) paySuccess = true; // 가상계좌(정상 결과코드:4100)
+//                        } else if (PayMethod.equals("SSG_BANK")) {
+//                            if (ResultCode.equals("0000")) paySuccess = true; // SSG은행계좌(정상 결과코드:0000)
+//                        } else if (PayMethod.equals("CMS_BANK")) {
+//                            if (ResultCode.equals("0000")) paySuccess = true; // 계좌간편결제(정상 결과코드:0000)
+//                        }
+//                    }
+//
+//                    map.put("pg_cd", SAConst.PG_NICEPAY);
+//                    if(paySuccess) {
+//                        if (PayMethod.equals("VBANK")) {
+//                            paymentService.insertPayWait(map);
+//                        } else {
+//
+//                        }
+//                    }
+//                }
+//            } catch (Exception e) {
+//                log.error(e.getMessage());
+//            }
+//        }else/*if(authSignature.equals(authComparisonSignature))*/{
+//            ResultCode 	= authResultCode;
+//            ResultMsg 	= authResultMsg;
+//        }/*else{
+//            System.out.println("인증 응답 Signature : " + authSignature);
+//            System.out.println("인증 생성 Signature : " + authComparisonSignature);
+//        }*/
 
-            /*
-             ****************************************************************************************
-             * <승인 요청>
-             * 승인에 필요한 데이터 생성 후 server to server 통신을 통해 승인 처리 합니다.
-             ****************************************************************************************
-             */
-            StringBuffer requestData = new StringBuffer();
-            requestData.append("TID=").append(txTid).append("&");
-            requestData.append("AuthToken=").append(authToken).append("&");
-            requestData.append("MID=").append(mid).append("&");
-            requestData.append("Amt=").append(amt).append("&");
-            requestData.append("EdiDate=").append(ediDate).append("&");
-            requestData.append("CharSet=").append("utf-8").append("&");
-            requestData.append("SignData=").append(signData);
-
-            try {
-                resultJsonStr = connectToServer(requestData.toString(), nextAppURL);
-                HashMap resultData = new HashMap();
-                boolean paySuccess = false;
-                if ("9999".equals(resultJsonStr)) {
-                    /*
-                     *************************************************************************************
-                     * <망취소 요청>
-                     * 승인 통신중에 Exception 발생시 망취소 처리를 권고합니다.
-                     *************************************************************************************
-                     */
-                    StringBuffer netCancelData = new StringBuffer();
-                    requestData.append("&").append("NetCancel=").append("1");
-                    String cancelResultJsonStr = connectToServer(requestData.toString(), netCancelURL);
-
-                    HashMap cancelResultData = jsonStringToHashMap(cancelResultJsonStr);
-                    ResultCode = (String) cancelResultData.get("ResultCode");
-                    ResultMsg = (String) cancelResultData.get("ResultMsg");
-                    /*Signature = (String)cancelResultData.get("Signature");
-                    String CancelAmt = (String)cancelResultData.get("CancelAmt");
-                    paySignature = sha256Enc.encrypt(TID + mid + CancelAmt + merchantKey);*/
-                } else {
-                    resultData = jsonStringToHashMap(resultJsonStr);
-                    System.out.println("resultData: "+resultData);
-                    ResultCode = (String) resultData.get("ResultCode");    // 결과코드 (정상 결과코드:3001)
-                    ResultMsg = (String) resultData.get("ResultMsg");    // 결과메시지
-                    PayMethod = (String) resultData.get("PayMethod");    // 결제수단
-                    GoodsName = (String) resultData.get("GoodsName");    // 상품명
-                    Amt = (String) resultData.get("Amt");        // 결제 금액
-                    TID = (String) resultData.get("TID");        // 거래번호
-
-                    // Signature : Nicepay에서 내려준 응답값의 무결성 검증 Data
-                    // 가맹점에서 무결성을 검증하는 로직을 구현하여야 합니다.
-                    /*Signature = (String)resultData.get("Signature");
-                    paySignature = sha256Enc.encrypt(TID + mid + Amt + merchantKey);*/
-
-
-                    CommonMap map = new CommonMap();
-                    map.putAll(resultData);
-
-                    /** 4. 결제 결과 */
-                    String resultCode = (String) resultData.get("ResultCode"); // 결과코드 (정상 :3001 , 그 외 에러)
-                    String resultMsg = (String) resultData.get("ResultMsg");   // 결과메시지
-                    String authDate = (String) resultData.get("AuthDate");   // 승인일시 YYMMDDHH24mmss
-                    String authCode = (String) resultData.get("AuthCode");   // 승인번호
-
-                    String buyerName = (String) resultData.get("BuyerName");   // 구매자명
-                    String mallUserID = (String) resultData.get("MallUserID");   // 회원사고객ID
-                    String goodsName = (String) resultData.get("GoodsName");   // 상품명
-                    //String mid = (String) resultData.get("MID");  // 상점ID
-                    String tid = (String) resultData.get("TID");  // 거래ID
-                    //String moid = (String) resultData.get("Moid");  // 주문번호
-                    //String amt = (String) resultData.get("Amt");  // 금액
-
-                    String cardCode = (String) resultData.get("CardCode");   // 결제카드사코드
-                    String cardName = (String) resultData.get("CardName");   // 결제카드사명
-                    String cardQuota = (String) resultData.get("CardQuota");  // 카드 할부개월 (00:일시불,02:2개월)
-
-                    String bankCode = (String) resultData.get("BankCode");   // 은행코드
-                    String bankName = (String) resultData.get("BankName");   // 은행명
-                    String rcptType = (String) resultData.get("RcptType"); //현금 영수증 타입 (0:발행되지않음,1:소득공제,2:지출증빙)
-                    String rcptAuthCode = (String) resultData.get("RcptAuthCode"); //현금영수증 승인 번호
-                    String rcptTID = (String) resultData.get("RcptTID"); //현금 영수증 TID
-
-                    String carrier = (String) resultData.get("Carrier");       // 이통사구분
-                    String dstAddr = (String) resultData.get("DstAddr");       // 휴대폰번호
-
-                    String vbankBankCode = (String) resultData.get("VbankBankCode");   // 가상계좌은행코드
-                    String vbankBankName = (String) resultData.get("VbankBankName");   // 가상계좌은행명
-                    String vbankNum = (String) resultData.get("VbankNum");   // 가상계좌번호
-                    String vbankExpDate = (String) resultData.get("VbankExpDate");   // 가상계좌입금예정일
-
-                    String no_vat_price = request.getParameter("no_vat_price");
-                    String vat_price = request.getParameter("vat_price");
-                    String vat = request.getParameter("vat");
-
-                    String mall_reserved = request.getParameter("MallReserved");
-
-                    String academy_no = request.getParameter("academy_no");
-
-                    map.put("cust_no", "117997");
-                    map.put("payer", buyerName);
-                    map.put("pay_price", amt);
-                    map.put("pg_trans_id", tid); //paramMap.put("PG_TRANS_ID", moid);
-                    map.put("reg_emp_no",  "117997");
-
-                    map.put("academy_no", academy_no);
-
-                    //가상결제 PAY_ WAIT 테이블 입력을 위해서
-                    map.put("kind_cd", PaymentType.ACADEMY);
-                    map.put("ref_no", academy_no);
-                    map.put("pay_method_cd", payMethod);
-
-                    map.put("no_vat_price", no_vat_price);
-                    map.put("vat_price", vat_price);
-                    map.put("vat", vat);
-                    map.put("uuid", mall_reserved);
-
-                    map.put("vbank_cd", vbankBankCode);
-                    map.put("vbank_nm", vbankBankName);
-                    map.put("vbank_num", vbankNum);
-                    map.put("vbank_exp_dt", vbankExpDate);
-                    /*
-                     *************************************************************************************
-                     * <결제 성공 여부 확인>
-                     *************************************************************************************
-                     */
-                    if (PayMethod != null) {
-                        if (PayMethod.equals("CARD")) {
-                            if (ResultCode.equals("3001")) paySuccess = true; // 신용카드(정상 결과코드:3001)
-                        } else if (PayMethod.equals("BANK")) {
-                            if (ResultCode.equals("4000")) paySuccess = true; // 계좌이체(정상 결과코드:4000)
-                        } else if (PayMethod.equals("CELLPHONE")) {
-                            if (ResultCode.equals("A000")) paySuccess = true; // 휴대폰(정상 결과코드:A000)
-                        } else if (PayMethod.equals("VBANK")) {
-                            if (ResultCode.equals("4100")) paySuccess = true; // 가상계좌(정상 결과코드:4100)
-                        } else if (PayMethod.equals("SSG_BANK")) {
-                            if (ResultCode.equals("0000")) paySuccess = true; // SSG은행계좌(정상 결과코드:0000)
-                        } else if (PayMethod.equals("CMS_BANK")) {
-                            if (ResultCode.equals("0000")) paySuccess = true; // 계좌간편결제(정상 결과코드:0000)
-                        }
-                    }
-
-                    map.put("pg_cd", SAConst.PG_NICEPAY);
-                    if(paySuccess) {
-                        if (PayMethod.equals("VBANK")) {
-                            paymentService.insertPayWait(map);
-                        } else {
-
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                log.error(e.getMessage());
-            }
-        }else/*if(authSignature.equals(authComparisonSignature))*/{
-            ResultCode 	= authResultCode;
-            ResultMsg 	= authResultMsg;
-        }/*else{
-            System.out.println("인증 응답 Signature : " + authSignature);
-            System.out.println("인증 생성 Signature : " + authComparisonSignature);
-        }*/
-
-        System.out.println("ResultCode: "+ResultCode);
-        System.out.println("authResultMsg: "+authResultMsg);
         return "redirect:/payment/paymentAcademyResult";
     }
 
@@ -476,25 +466,25 @@ public class PaymentController {
     }
 
     //JSON String -> HashMap 변환
-    private static HashMap jsonStringToHashMap(String str) throws Exception{
-        HashMap dataMap = new HashMap();
-        JSONParser parser = new JSONParser();
-        try{
-            Object obj = parser.parse(str);
-            JSONObject jsonObject = (JSONObject)obj;
-
-            Iterator<String> keyStr = jsonObject.keySet().iterator();
-            while(keyStr.hasNext()){
-                String key = keyStr.next();
-                Object value = jsonObject.get(key);
-
-                dataMap.put(key, value);
-            }
-        }catch(Exception e){
-
-        }
-        return dataMap;
-    }
+//    private static HashMap jsonStringToHashMap(String str) throws Exception{
+//        HashMap dataMap = new HashMap();
+//        JSONParser parser = new JSONParser();
+//        try{
+//            Object obj = parser.parse(str);
+//            JSONObject jsonObject = (JSONObject)obj;
+//
+//            Iterator<String> keyStr = jsonObject.keySet().iterator();
+//            while(keyStr.hasNext()){
+//                String key = keyStr.next();
+//                Object value = jsonObject.get(key);
+//
+//                dataMap.put(key, value);
+//            }
+//        }catch(Exception e){
+//
+//        }
+//        return dataMap;
+//    }
 
     @GetMapping("work/{id}")
     public String work(HttpServletRequest request , Locale locale) {

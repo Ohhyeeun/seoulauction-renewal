@@ -7,6 +7,11 @@
 <!DOCTYPE html>
 <jsp:include page="../../common/commonCss.jsp" flush="false"/>
 
+<%--메인일경우 main.css 추가. common.css 아래 위치에 존재해야함. --%>
+<c:if test="${not empty param.main}">
+    <link rel="stylesheet" href="/css/main.css" type="text/css" />
+</c:if>
+
 <%--메인이 아닐 경우에만 해당 css 추가.--%>
 <c:if test="${empty param.main}">
     <jsp:include page="../../common/commonCssNotMain.jsp" flush="false"/>
@@ -17,7 +22,12 @@
 
 <html lang="ko" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
-    <div class="header-border">
+
+    <div class="beltbox-swiper">
+        <div class="swiper-wrapper"></div>
+    </div>
+
+    <div>
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">ENG</a>
                 <ul class="bubble-box bubble-box01">
@@ -32,6 +42,7 @@
                     <li id="MyMenuOnlineBadge"><a href="#">온라인 경매 관리</a></li>
                     <li><a href="#">관심작품</a></li>
                     <li><a href="#">아카데미 신청목록</a></li>
+
                     <li><a href="#">회원정보 수정</a></li>
                 </ul>
             </li> <!-- login -->
