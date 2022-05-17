@@ -14,6 +14,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.springframework.stereotype.Service;
+
+import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.exception.SAException;
+import com.seoulauction.renewal.mapper.aws.MainMapper;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -79,6 +88,10 @@ public class MainService {
         return resultMapList;
     }
 
+    public List<CommonMap> selectVideos(CommonMap map) {
+        return mainMapper.selectVideos(map);
+    }
+
     public List<CommonMap> selectUpcomings() {
 
         List<CommonMap> resultMapList = ktMainMapper.selectUpcomings();
@@ -89,14 +102,18 @@ public class MainService {
             returnMap.put("SALE_KIND", item.get("SALE_KIND_CD").equals("online") || item.get("SALE_KIND_CD").equals("online_zb") ? "ONLINE" : "LIVE" );
             returnMap.put("TITLE_BLOB", item.get("TITLE_BLOB"));
 
-//            int d_day = Integer.parseInt(item.get("DDAY").toString());
             returnMap.put("D_DAY", item.get("DDAY"));
 
             returnMap.put("FROM_DT", item.get("FROM_DT"));
             returnMap.put("TO_DT", item.get("TO_DT"));
+            returnMap.put("OPEN_DT", item.get("OPEN_DT"));
 
-            returnMap.put("FILE_PATH", "/front/online0688");
-            returnMap.put("FILE_NAME", "2dc8da32-4760-471b-9bce-f087200a09e9.jpg");
+            CommonMap paramMap = new CommonMap();
+            paramMap.put("sale_no", item.get("SALE_NO"));
+            CommonMap saleImg = ktMainMapper.selectSaleImage(paramMap);
+
+            returnMap.put("FILE_PATH", saleImg.get("FILE_PATH"));
+            returnMap.put("FILE_NAME", saleImg.get("FILE_NAME"));
 
             return returnMap;
         }).collect(Collectors.toList());
@@ -104,5 +121,12 @@ public class MainService {
         return resultMapList;
     }
 
-}
 
+    public List<CommonMap> selectIngAuctions(){
+        return ktMainMapper.selectIngAuctions();
+    }
+
+    public List<CommonMap> selectIngMenuCount(){
+        return ktMainMapper.selectIngMenuCount();
+    }
+}

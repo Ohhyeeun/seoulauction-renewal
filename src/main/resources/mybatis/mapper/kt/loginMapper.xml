@@ -4,7 +4,7 @@
 
 	<select id="selectCustByLoginId" parameterType="CommonMap" resultType="CommonMap">
 		select *
-<!-- 			,IF(Date_format(Date_add(passwd_mod_dt, interval 180 day), '%y-%m-%d') <![CDATA[<=]]> Date_format(Now(), '%y-%m-%d'), 'Y', 'N') PASSWD_MOD_NECESSARY_YN Y시 180일 경과로 비밀번호변경필요   -->
+ 			,IF(Date_format(Date_add(passwd_mod_dt, interval 180 day), '%y-%m-%d') <![CDATA[<=]]> Date_format(Now(), '%y-%m-%d'), 'Y', 'N') PASSWD_MOD_NECESSARY_YN <!-- Y시 180일 경과로 비밀번호변경필요   -->
 		from CUST 
 		where LOGIN_ID = #{login_id} <!-- index -->
 		and JOIN_KIND_CD = 'online' and IFNULL(DEL_YN, 'N') = 'N' 
@@ -19,6 +19,9 @@
     
     <select id="selectCustByCustNo" parameterType="CommonMap" resultType="CommonMap">
 		select CU.*
+			<if test="remember_me == 'Y'">
+				, IF(Date_format(Date_add(passwd_mod_dt, interval 180 day), '%y-%m-%d') <![CDATA[<=]]> Date_format(Now(), '%y-%m-%d'), 'Y', 'N') PASSWD_MOD_NECESSARY_YN <!-- Y시 180일 경과로 비밀번호변경필요   -->
+			</if>
 			, (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "정회원" ELSE "준회원" END 
 			   from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_NM
 			, (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "Y" ELSE "N" END 
@@ -31,12 +34,41 @@
 		from CUST CU
 <!-- 		left outer join CUST_SOCIAL CS -->
 <!-- 		on CU.CUST_NO = CS.CUST_NO -->
-		where JOIN_KIND_CD = 'online'
-		and CU.STAT_CD = 'normal' 
+		where 1 = 1
+			and JOIN_KIND_CD = 'online'
+		<if test="remember_me == 'Y'">
+			and STAT_CD <![CDATA[<>]]> 'leave'
+		</if>
+		<if test="remember_me == 'N'">
+			and CU.STAT_CD = 'normal' 
+		</if>
 		and CU.CUST_NO = #{cust_no}
 	</select>
+	
+	<update id="updateCustPwdResetByCustNo" parameterType="CommonMap">
+	    update CUST
+	    set 
+	    	PASSWD_RESET_YN = 'N'
+		where CUST_NO = #{cust_no}
+	</update>
+	
+	<update id="updateCustPwdModDtByCustNo" parameterType="CommonMap">
+		update CUST
+		set    PASSWD_MOD_DT = (select Date_add(now(), interval -150 day)
+		                        from   CUST
+		                        where  CUST_NO = #{cust_no})
+		where CUST_NO = #{cust_no} 
+	</update>
+	
+	<update id="updateCustLoginFailCntByCustNo" parameterType="CommonMap">
+		update CUST
+		set    LOGIN_FAIL_CNT = #{login_fail_cnt} 
+		where CUST_NO = #{cust_no} 
+	</update>
     
+
     <select id="selectCustLoginIdByCustName" resultType="CommonMap">
+
 		select
 		concat(rpad(substring(login_id, 1, 2), length(login_id)-1, '*'), substring(login_id, length(login_id), 1) ) LOGIN_ID ,
 		cs.CUST_NO ,
@@ -63,6 +95,7 @@
 			</if>
 	</select>
 	
+
 	<update id="updatePasswordByLoginId" parameterType="Map">
 	    <selectKey keyProperty="passwd" resultType="String" order="BEFORE">
 		    select substring(UUID(), 1,8) passwd
@@ -85,4 +118,5 @@
 		and STAT_CD = #{stat_cd} 
 		and LOGIN_ID = #{login_id}
 	</select>
+
 </mapper>

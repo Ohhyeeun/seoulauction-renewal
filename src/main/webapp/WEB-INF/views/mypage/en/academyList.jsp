@@ -4,10 +4,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<!-- css 경로 수정 필요 -->
+
+<link href="/css/a<!-- css 경로 수정 필요 -->
 <link href="/css/angular/rzslider.css" rel="stylesheet">
-<link href="/css/angular/ngDialog.css" rel="stylesheet">  
-<link href="/css/angular/popup.css" rel="stylesheet">
+<link href="/css/angular/ngDialog.css" rel="stylesheet">  ngular/popup.css" rel="stylesheet">
 <link href="/css/jquery.modally.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/1.3.0/moment-duration-format.min.js"></script>
@@ -16,9 +16,11 @@
 <jsp:include page="../../include/en/header.jsp" flush="false"/>   
 <div id="wrap" ng-app="myApp">
 <script type="text/javascript" src="/js/mypage/academy.js"></script>
+	<section class="main-contents footer-bottom">
 	<div class="container_wrap" > <!--  ng-repeat="art in academyList" -->
 		<div id="container" ng-controller="academyListCtl" data-ng-init="loadAcademyList(1)">
 			<!-- //sub_menu_wrap -->
+
 			<div class="contents_wrap" >
 				<div class="contents">
 					<div class="tit_h2" style="padding-top:20px;">
@@ -34,14 +36,14 @@
                     <span class="btn_style01 icon02" ng-if="locale!='ko'" style="margin-top:10px; margin-bottom:30px;"><a href="/mypage/inquiryForm" class="fix">Inquiry</a><span class="ico next02"></span></span>
                       
 					<div style="padding-bottom:20px;">
-							<div class="txt">총 <span class="txt_green">{{academyCount}}</span>건의 내역이 있습니다.</div>
+							<div class="txt">총 <span class="txt_green">{{academyCnt}}</span>건의 내역이 있습니다.</div>
 					</div>
                     
                     
                     <div class="onepcssgrid-1200" style="border-bottom:#e4e4e4 1px solid;" ng-repeat="art in academyList">
                     
                         <div style="border-top:#333 2px solid; border-bottom:#e4e4e4 1px solid; padding-top:20px; padding-bottom:20px;">
-                            <h2 style="font-weight:600; font-size:20px;">{{art.TITLE_EN}}</h2>
+                            <h2 style="font-weight:600; font-size:20px;">{{art.TITLE_JSON[locale]}}</h2>
                         </div>
                         
                         <div class="col4" style="padding-top:20px; padding-bottom:20px;">
@@ -89,7 +91,27 @@
                     </div><!--onepcssgrid-1200-->
 				</div><!--contents-->
 			</div><!--contents_wrap-->
+							<div class="wrap_paging">
+						<paging page="currentPage"
+							page-size="pageRows"
+							total="academyCnt"
+							paging-action="loadAcademyList(page)"
+							scroll-top="true"
+							hide-if-empty="true"
+							show-prev-next="true"
+							show-first-last="true"
+							ul-class="page_ul"
+							active-class="page_active"
+						    disabled-class="page_disable"
+						    text-next-class="page_btn sp_btn btn_next02"
+						    text-prev-class="page_btn sp_btn btn_prev02"
+						    text-first-class="page_btn sp_btn btn_prev"
+						    text-last-class="page_btn sp_btn btn_next">
+						</paging>
+					</div> 
 		</div>
 	</div>
+	</section>
 </div>
+ <jsp:include page="../../include/en/footer.jsp" flush="false"/>
 </body>

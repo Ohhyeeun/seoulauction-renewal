@@ -1,13 +1,21 @@
 package com.seoulauction.renewal.controller;
 
 import com.seoulauction.renewal.common.SAConst;
+import com.seoulauction.renewal.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 @Controller
 @Log4j2
@@ -15,8 +23,23 @@ import java.util.Locale;
 @RequestMapping(SAConst.SERVICE_CUSTOMER)
 public class CustomerController {
 
+    private final PaymentService paymentService;
+
     @GetMapping("/login")
     public String login(Locale locale) {
         return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "login" , locale);
+    }
+
+    @GetMapping(value = "/niceVbankPaid")
+    public void niceVBankPaidGet(HttpServletRequest request) {
+        log.info("get niceVBankPaid");
+    }
+
+    @PostMapping(value = "/niceVbankPaid", produces="text/plain")
+    @ResponseBody
+    public void niceVBankPaid(HttpServletRequest request, HttpServletResponse response) {
+        log.info("post niceVBankPaid");
+
+        paymentService.niceVBankPaid(request);
     }
 }
