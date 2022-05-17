@@ -11,6 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Seoul Auction</title>
+    <%--<link rel="stylesheet" href="/css/common.css" type="text/css" />--%>
     <link rel="stylesheet" href="/css/main.css" type="text/css" />
 </head>
 <body>
@@ -19,7 +20,7 @@
     <jsp:param name="main" value="true"/>
 </jsp:include>
 
-<section class="main-contents footer-bottom footer-bottom30" ng-controller="mainCtl" data-ng-init="init()">
+<section class="main-contents footer-bottom footer-bottom40" ng-controller="mainCtl" data-ng-init="init()">
     <section class="visual visual-contents">
         <div class="swiper-container visual-swiper">
             <div class="swiper-wrapper">
@@ -61,10 +62,28 @@
 
                 <div class="swiper-slide"> <!-- slide 구간 -->
                     <figure class="visual_img">
+                        <img src="/images/pc/slide/main/slide03.jpg" alt="slide" class="pc-ver">
+                        <img src="/images/mobile/slide/main/slide03.jpg" alt="slide" class="m-ver">
+                    </figure>
+                    <figurecaption class="visual_caption black"> <%-- 흰 배경일때 버튼, 텍스트 black--%>
+                        <div>
+                            <h1 class="slide-tit">165회 미술품 경매</h1>
+                            <p>
+                                2/22(화) 15:00 서울옥션 강남
+                            </p>
+                            <div class="visual_btn">
+                                <a href="#" class="commonbtn visual-commonbtn btn-border-3">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a> <!-- figure img 배경 흰색일때 button black -->
+                            </div>
+                        </div>
+                    </figurecaption>
+                </div>
+
+                <div class="swiper-slide"> <!-- slide 구간 -->
+                    <figure class="visual_img">
                         <img src="/images/pc/slide/main/slide01.jpg" alt="slide" class="pc-ver">
                         <img src="/images/mobile/slide/main/slide01.jpg" alt="slide" class="m-ver">
                     </figure>
-                    <figurecaption class="visual_caption"> <!-- figure img 배경 흰색일때 font black -->
+                    <figurecaption class="visual_caption">
                         <div>
                             <h1 class="slide-tit">제로베이스</h1>
                             <p>
@@ -72,7 +91,7 @@
                             </p>
                             <div class="visual_btn">
                                 <a href="#" class="commonbtn visual-commonbtn btn-bg-g">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-border-w">e-book</a>
-                            </div>
+                            </div> <%-- 버튼 색상 --%>
                         </div>
                     </figurecaption>
                 </div>

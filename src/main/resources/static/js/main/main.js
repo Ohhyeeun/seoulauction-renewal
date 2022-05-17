@@ -169,10 +169,10 @@ function loadUpcomings() {
                                                             ${ item.D_DAY === 0 ? "TODAY" : "D-" + item.D_DAY }
                                                         </span>` 
                                                     : ``}
-                                                    <h4>${ titleJSON[locale] }</h4>
+                                                    <h4 class="text-over">${ titleJSON[locale] }</h4>
                                                     <div class="upcoming-datebox">
                                                         ${ locale === 'en'?
-                                                            `<p class="upcoming-preview">
+                                                            `<p class="upcoming-open on"> <!-- today 일때만 오픈일 생성 --> 
                                                                 <span>OPEN</span><span>${ open_dt.format('DD MMMM')}</span>
                                                             </p>
                                                             <p class="upcoming-preview">
@@ -182,7 +182,7 @@ function loadUpcomings() {
                                                                 <span>AUCTION</span><span>${ to_dt.format('DD MMMM hh:mm')}</span>
                                                             </p>`
                                                             :
-                                                            `<p class="upcoming-preview">
+                                                            `<p class="upcoming-open"> 
                                                                 <span>오픈일</span><span>${ open_dt.format('MM/DD(ddd)')}</span>
                                                             </p>
                                                             <p class="upcoming-preview">
