@@ -1,7 +1,9 @@
 package com.seoulauction.renewal.service;
 
+
 import java.io.IOException;
 import java.security.Principal;
+
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -10,10 +12,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.seoulauction.renewal.component.FileManager;
+
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.mapper.kt.MypageMapper;
 
@@ -62,6 +66,20 @@ public class MypageService {
         return map;
     }
     
+
+    public CommonMap selectSaleCertByCustHp(CommonMap commonMap){  
+    	return mypageMapper.selectSaleCertByCustHp(commonMap);
+    }
+    
+    public CommonMap selectAuthNumber(CommonMap commonMap){  
+    	return mypageMapper.selectAuthNumber(commonMap);
+    }
+    
+    public CommonMap inertSaleCert(CommonMap commonMap){  
+    	mypageMapper.inertSaleCert(commonMap);
+    	return commonMap;
+    }
+  
     public CommonMap selectInquiryList(CommonMap commonMap){
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectInquiryList(commonMap));
@@ -117,6 +135,7 @@ public class MypageService {
 			e.printStackTrace();
 		}
         return result;
+
     }
     
     // 공통
@@ -130,6 +149,11 @@ public class MypageService {
             map.put(key, value);  
         }
         return map;
+    }
+
+
+    public int updateSaleCertHp(CommonMap commonMap){  
+    	return mypageMapper.updateSaleCertHp(commonMap);
     }
 
 }

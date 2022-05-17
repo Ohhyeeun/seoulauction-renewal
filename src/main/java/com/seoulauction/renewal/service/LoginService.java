@@ -30,8 +30,17 @@ public class LoginService {
         return loginMapper.updateCustPwdModDtByCustNo(paramMap);
     }
     
-    public CommonMap selectCustLoginId(CommonMap paramMap){
-        return loginMapper.selectCustLoginId(paramMap);
-    }
 
+    public CommonMap selectCustLoginIdByCustName(CommonMap paramMap){
+        return loginMapper.selectCustLoginIdByCustName(paramMap);
+    }
+  
+
+    public int updatePasswordByLoginId(CommonMap commonMap){  
+    	return loginMapper.updatePasswordByLoginId(commonMap);
+    }
+     
+    public CommonMap selectCustomerByStatCdAndLoginId(CommonMap paramMap){
+        return loginMapper.selectCustomerByStatCdAndLoginId(paramMap);
+    }
 }

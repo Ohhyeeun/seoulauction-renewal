@@ -85,7 +85,14 @@ public class LoginController {
     public String findId(Locale locale) {
     	return SAConst.getUrl(SAConst.SERVICE_CUSTOMER, "findId" , locale);
     }
+
     
+    @GetMapping("/findPassword")
+    public String findPassword(Locale locale) {
+    	return SAConst.getUrl(SAConst.SERVICE_CUSTOMER, "findPassword" , locale);
+    }
+    
+
     @GetMapping("/join")
     public String join(Locale locale, Principal principal) {
     	log.debug("===== join =====");
@@ -107,7 +114,8 @@ public class LoginController {
     @GetMapping("/social/naver/callback")
 	public String socialNaverCallback(Locale locale, HttpServletRequest request, HttpServletResponse response) {
 	    log.debug("===== naverCallback =====");
-
 	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "naverCallback" , locale);
-	}
+    }
+
+
 }
