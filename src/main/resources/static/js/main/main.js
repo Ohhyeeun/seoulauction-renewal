@@ -68,12 +68,12 @@ function loadTopNotice(){
                     const content = JSON.parse(item.content);
                     const returnDom = `<div class="swiper-slide header_beltbox on"> <!--class="on" block-->
                                         <div class="wrap belttxtbox wrap_padding">
-                                                <span class="header_beltTit">
-                                                    <a href="${locale === 'en' ? content.en_url : content.ko_url}">
-                                                        <span class="text-over belt_tit"> ${locale === 'en' ? content.en_text : content.ko_text}</span>
-                                                        <span class="beltbanner-triangle"></span>
-                                                    </a>
-                                                </span>
+                                            <span class="header_beltTit">
+                                                <a href="${locale === 'en' ? content.en_url : content.ko_url}">
+                                                    <span class="text-over belt_tit"> ${locale === 'en' ? content.en_text : content.ko_text}</span>
+                                                    <!--<span class="beltbanner-triangle"></span>--> 
+                                                </a>
+                                            </span> 
                                             <span class="beltclose-btn closebtn closebtn-w"></span>
                                         </div>
                                    </div>`
@@ -490,7 +490,7 @@ $('.main-popup-txt').hide(); /* flexbox 처리로 hide */
 $('.main-popup-img.on').show();
 $('.main-popup-txt.on').show();
 
-$('.main-popup-close').click(function(){
+$('.main-popup-close, .main-popupBg').click(function(){
     $('.main-popupbox').addClass('down');
     $('.main-popupBg').fadeOut();
 });

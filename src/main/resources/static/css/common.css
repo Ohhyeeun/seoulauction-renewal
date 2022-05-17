@@ -547,6 +547,7 @@ img {
 .belttxtbox {
     position: relative;
     top: 0;
+    min-width: 1920px;
 }
 .beltbanner-triangle {
     vertical-align: middle;
@@ -1335,6 +1336,9 @@ body.dark,
         max-width: 1440px;
         margin: 0 auto;
     }
+    .belttxtbox {
+        min-width: 1440px;
+    }
     .wrap_padding, .container,
     .swiper-btn-wrap {
         padding-left: 50px;
@@ -1401,6 +1405,9 @@ body.dark,
     .swiper-btn-wrap{
         max-width: 1280px;
     }
+    .belttxtbox {
+        min-width: 1280px;
+    }
     .submenuBg-box {
         justify-content: normal;
     }
@@ -1441,6 +1448,9 @@ body.dark,
     .header_nav,
     .swiper-btn-wrap {
         max-width: 1024px;
+    }
+    .belttxtbox {
+        min-width: 1024px;
     }
     .m-ver1280 {
         display: block;
@@ -1500,6 +1510,9 @@ body.dark,
     .platform,
     .swiper-btn-wrap {
         max-width: 100%;
+    }
+    .belttxtbox {
+        min-width: 100%;
     }
     .header_nav,
     .wrap_padding,

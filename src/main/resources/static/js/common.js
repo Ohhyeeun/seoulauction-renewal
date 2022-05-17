@@ -329,11 +329,9 @@ $('.scroll-top').click(function(){
 });
 
 /* top search 클릭 할 때 filter 기능 */
-function searchDown() {
-    $('.topsearch-text').click(function(){
-        $('.search-bubble-box').addClass('on');
-    });
-}
+$('.topsearch-text').click(function(){
+    $('.search-bubble-box').toggleClass('on');
+});  
 
 /* top search filter 기능 */
 function searchFilter() {
