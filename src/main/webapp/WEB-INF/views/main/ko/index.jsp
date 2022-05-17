@@ -11,8 +11,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Seoul Auction</title>
+<<<<<<< HEAD
     <link rel="stylesheet" href="/css/common.css" type="text/css" />
     <link rel="stylesheet" href="/css/main.css" type="text/css" />
+=======
+>>>>>>> develop
 </head>
 <body>
 <%--<jsp:include page="../../main/include/topNotice.jsp" />--%>
