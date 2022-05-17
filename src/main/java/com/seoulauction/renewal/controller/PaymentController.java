@@ -68,7 +68,8 @@ public class PaymentController {
         request.setAttribute("mId" , nicePayMerchantId);
         request.setAttribute("signData" , signData);
         request.setAttribute("eDate" , eDate);
-        request.setAttribute("signData" , signData);
+
+        request.setAttribute("formProcessUrl" , "/payment/memberProcess");
 
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentMember" , locale);
     }
@@ -151,6 +152,8 @@ public class PaymentController {
         request.setAttribute("ediDate", ediDate);
         request.setAttribute("hashString", hashString);
         request.setAttribute("uuid", UUID.randomUUID().toString().replace("-", ""));
+
+        request.setAttribute("formProcessUrl" , "/payment/academyProcess");
 
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "academy" , locale);
     }

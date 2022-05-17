@@ -107,39 +107,7 @@
                                 <div class="panel-footer">
                                     <article class="button-area">
                                         <div class="btn_set-float tac">
-                                            <form name="payForm" method="post" action="/payment/academyProcess">
-                                                <input type="hidden" id="inputPayMethod" name="PayMethod" />            <!-- 결제 수단 -->
-                                                <input type="hidden" name="GoodsName" value="${goodsName}" />           <!-- 결제 상품금액 -->
-                                                <input type="hidden" name="Amt" value="${price}" />                     <!-- 상점 아이디 -->
-                                                <input type="hidden" name="MID" value="${merchantID}" />                <!-- 결제 수단 -->
-                                                <input type="hidden" name="Moid" value="${moid}" />                     <!-- 상품 주문번호 -->
-                                                <input type="hidden" name="BuyerName" value="${buyerName}" />           <!-- 구매자명 -->
-                                                <input type="hidden" name="BuyerEmail" value="${buyerEmail}" />         <!-- 구매자 이메일 -->
-                                                <input type="hidden" name="BuyerTel" value="${buyerTel}" />             <!-- 구매자 연락처 -->
-                                                <input type="hidden" name="ReturnURL" value="${returnURL}" />           <!-- 인증완료 결과처리 URL, (모바일 결제창 전용)PC 결제창 사용시 필요 없음 -->
-                                                <input type="hidden" name="VbankExpDate" value="" />                    <!-- 가상계좌입금만료일(YYYYMMDD) -->
-
-                                                <input type="hidden" name="no_vat_price" value="${no_vat_price}" />
-                                                <input type="hidden" name="vat_price" value="${vat_price}" />
-                                                <input type="hidden" name="vat" value="${vat}" />
-                                                <input type="hidden" name="MallReserved" value="${uuid}" />
-
-                                                <!-- 옵션 -->
-                                                <input type="hidden" name="GoodsCl" value="1"/>						    <!-- 상품구분(실물(1),컨텐츠(0)) -->
-                                                <input type="hidden" name="TransType" value="0"/>					    <!-- 일반(0)/에스크로(1) -->
-                                                <input type="hidden" name="CharSet" value="utf-8"/>					    <!-- 응답 파라미터 인코딩 방식 -->
-                                                <input type="hidden" name="ReqReserved" value=""/>					    <!-- 상점 예약필드 -->
-
-                                                <!-- 변경 불가능 -->
-                                                <input type="hidden" name="EdiDate" value="${ediDate}"/>			    <!-- 전문 생성일시 -->
-                                                <input type="hidden" name="SignData" value="${hashString}"/>	        <!-- 해쉬값 -->
-
-                                                <input type="hidden" name="academy_no" value="${academy_no}">
-                                                <input type="hidden" name="LogoImage" value="">
-                                                <input type="hidden" name="NpLang" value="KO">
-                                                <input type="hidden" name="CurrencyCode" value="KRW">
-
-                                            </form>
+                                            <%@ include file="../include/payForm.jsp" %>
                                             <a class="btn btn_point btn_lg" onclick="nicepayStart();" role="button"><span>결제하기</span></a>
                                         </div>
                                     </article>
