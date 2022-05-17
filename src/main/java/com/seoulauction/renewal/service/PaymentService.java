@@ -170,7 +170,7 @@ public class PaymentService {
 
             CommonMap resultMap = paymentMapper.selectPayWaitByUuid(paramMap);
 
-            insertPay(PaymentType.valueOf(resultMap.get("kind_cd").toString().toUpperCase()), request);
+            insertPay(resultMap.get("kind_cd").toString().toUpperCase(), request);
         }
     }
 
