@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 
@@ -24,7 +25,7 @@
                         <div class="section-inner">
 
                             <%--결제 폼--%>
-                            <form name="payForm" method="post" action="/payment/memberResult">
+                            <form name="payForm" method="post" action="/payment/memberProcess">
                                 <div class="content-panel type_panel-payment">
                                     <div class="panel-header">
                                         <div class="title">
@@ -50,7 +51,7 @@
                                                     <div class="member_pay">
                                                         <p>
                                                             <span class="tit tt5">정회원 비용</span>
-                                                            <span class="won tt3">${de_price}<i class="tb1">원</i></span>
+                                                            <span class="won tt3"><fmt:formatNumber type="number" maxFractionDigits="3" value="${price}" /><i class="tb1">원</i></span>
                                                         </p>
                                                         <p class="fees">
                                                             <span class="tit tb1">수수료</span>

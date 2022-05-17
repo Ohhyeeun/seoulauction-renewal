@@ -25,7 +25,7 @@ public class PaymentService {
     private final NicePayModule nicePayModule;
 
     //가상계좌전용.
-    public void insertPayWait(HttpServletRequest request, CommonMap resultMap){
+    public CommonMap insertPayWait(HttpServletRequest request, CommonMap resultMap){
         resultMap.put("cust_no", "117997");
         resultMap.put("payer", resultMap.get("BuyerName"));
         resultMap.put("pay_price", resultMap.get("Amt"));
@@ -50,10 +50,12 @@ public class PaymentService {
         resultMap.put("vbank_exp_dt", resultMap.get("vbankExpDate"));
 
         paymentMapper.insertPayWait(resultMap);
+
+        return resultMap;
     }
 
     //실제 결제 요청이 성공적으로 된경우.
-    public void insertPay(PaymentType paymentType ,  HttpServletRequest request){
+    public CommonMap insertPay(PaymentType paymentType ,  HttpServletRequest request){
 
         String method = request.getParameter("PayMethod");
 
@@ -95,6 +97,7 @@ public class PaymentService {
                 }
                 break;
         }
+        return resultMap;
     }
 
     @Transactional("ktTransactionManager")
@@ -107,13 +110,43 @@ public class PaymentService {
 
         //TODO: 로그인한 정보 가져오기
         if("VBANK".equals(payMethod)){
-            insertPayWait(request, resultMap);
+            resultMap = insertPayWait(request, resultMap);
         } else {
-            insertPay(paymentType , request);
+            resultMap = insertPay(paymentType , request);
         }
         //결제 처리가 완료 시 디비 요청.
         return resultMap;
     }
+
+
+    public CommonMap getPaymentForPayResult(String payMethod , String payId){
+
+        CommonMap resultMap = null;
+
+        String custNo = "27319"; //로그인한 유저정보를 가져와야함.
+
+
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("cust_no",custNo);
+        paramMap.put("pay_no", payId);
+
+
+        if("CARD".equals(payMethod)){
+            resultMap = paymentMapper.selectPayByPayNoAndCustNo(paramMap);
+
+        } else if("VBANK".equals(payMethod)){
+            //TODO
+        }
+
+        //찾은결과가 없다면
+        if(resultMap == null) {
+            throw new SAException("잘못된 접근 입니다.");
+        }
+
+        return resultMap;
+    };
+
+
 
     @Transactional("ktTransactionManager")
     public void niceVBankPaid(HttpServletRequest request) {

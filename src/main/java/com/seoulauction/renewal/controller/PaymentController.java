@@ -1,26 +1,19 @@
 package com.seoulauction.renewal.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.auth.Cryptography;
 import com.seoulauction.renewal.common.PaymentType;
 import com.seoulauction.renewal.common.SAConst;
-import com.seoulauction.renewal.component.NicePayModule;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.service.PaymentService;
-import kr.co.nicevan.nicepay.adapter.web.NicePayHttpServletRequestWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.collections4.MapUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
@@ -51,7 +44,7 @@ public class PaymentController {
 
 
     @GetMapping("/member")
-    public String paymentMember(HttpServletRequest request , Locale locale) {
+    public String member(HttpServletRequest request , Locale locale) {
 
         String goodsName = "정회원"; 					// 결제상품명
         Integer price = 1234; 						// 결제상품금액
@@ -87,28 +80,40 @@ public class PaymentController {
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentMember" , locale);
     }
 
-    @PostMapping("/memberResult")
-    public String payResult(HttpServletRequest request , Locale locale) {
+    @PostMapping("/memberProcess")
+    public String memberProcess(HttpServletRequest request) {
 
-        log.info("request : {}" , request.getParameterMap());
+        CommonMap resultMap = paymentService.paymentProcess(PaymentType.CUST_REGULAR , request);
 
-        paymentService.paymentProcess(PaymentType.CUST_REGULAR , request);
+        log.info("resultMap : {}" , resultMap);
+
+        return "redirect:/payment/memberResult?payId="
+                + resultMap.get("pay_no")
+                +"&payMethod="
+                + resultMap.getString("pay_method");
+    }
+
+    @GetMapping("/memberResult")
+    public String memberResult(
+             HttpServletRequest request
+            ,@RequestParam(value = "payMethod") String payMethod
+            ,@RequestParam(value = "payId") String payId
+            ,Locale locale) {
 
         String address  = "(02123) 경기도 부천시 양지로 234-38";
+        String buyerTell  = "010-9999-9843";
+        CommonMap resultMap = paymentService.getPaymentForPayResult(payMethod ,payId);
+
         request.setAttribute("address" , address);
-        request.setAttribute("name", request.getParameter("BuyerName"));
-        request.setAttribute("tel" , request.getParameter("BuyerTel"));
-        request.setAttribute("method" , request.getParameter("PayMethod"));
-        request.setAttribute("price" , request.getParameter("Amt"));
-        request.setAttribute("dePrice" , SAConst.DECIMAL_FORMAT.format(Integer.parseInt(request.getParameter("Amt"))));
+        request.setAttribute("name", resultMap.get("PAYER"));
+        request.setAttribute("tel" , buyerTell);
+        request.setAttribute("method" , payMethod);
+        request.setAttribute("price" , resultMap.get("PAY_PRICE"));
 
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentMemberResult" , locale);
     }
 
-    @GetMapping("/payRequest")
-    public String payRequest(Locale locale) {
-        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "/example/payRequest_utf" , locale);
-    }
+
 
     @GetMapping("/academy/{id}")
     public String paymentAcademy(@PathVariable("id") int id, HttpServletRequest request, Locale locale) {

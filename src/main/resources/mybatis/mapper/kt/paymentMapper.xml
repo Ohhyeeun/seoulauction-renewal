@@ -35,6 +35,17 @@
 		)
 	</insert>
 
+	<select id="selectPayByPayNoAndCustNo" resultType="commonMap" parameterType="commonMap">
+		SELECT
+			*
+		FROM
+		    PAY
+		WHERE
+			PAY_NO = #{pay_no}
+		and CUST_NO = #{cust_no}
+	</select>
+
+
 	<!--정회원 결제 테이블-->
 	<insert id="insertCustPay" parameterType="commonMap">
 		insert into CUST_PAY (
@@ -44,7 +55,7 @@
 			 , VALID_TO_DT
 		) values (
 			   #{cust_no}
-			 , ${pay_no}
+			 , #{pay_no}
 			 , now()
 			 , DATE_ADD(DATE_ADD(now(), INTERVAL 1 YEAR), INTERVAL -1 DAY)
 			 )
