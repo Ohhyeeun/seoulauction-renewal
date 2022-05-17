@@ -112,7 +112,7 @@ public class PaymentController {
         String merchantKey 		= nicePaymerchantKey; // 상점키
         String merchantID 		= nicePayMerchantId; 				// 상점아이디
         String goodsName 		= "나이스페이"; 					// 결제상품명
-        int price 			= 1100; 						// 결제상품금액
+        int price 			    = 1100; 						// 결제상품금액
         String buyerName 		= "김선진"; 						// 구매자명
         String buyerTel 		= "01033720384"; 				// 구매자연락처
         String buyerEmail 		= "sjk@seoulauction.com"; 			// 구매자메일주소
@@ -161,7 +161,7 @@ public class PaymentController {
 
         CommonMap resultMap = paymentService.paymentProcess(SAConst.PAYMENT_KIND_ACADEMY, request);
         attr.addAttribute("payId", resultMap.get("pay_no"));
-        attr.addAttribute("payMethod", resultMap.get("PayMethod"));
+        attr.addAttribute("payMethod", resultMap.get("pay_method"));
 
         return "redirect:/payment/academyResult";
     }

@@ -35,6 +35,7 @@ public class PaymentService {
        // resultMap.put("kind_cd", PaymentType.ACADEMY);
         resultMap.put("ref_no", request.getParameter("academy_no"));
         resultMap.put("pay_method_cd", resultMap.get("PayMethod"));
+        resultMap.put("pay_method", resultMap.get("PayMethod"));
 
         resultMap.put("no_vat_price", request.getParameter("no_vat_price"));
         resultMap.put("vat_price", request.getParameter("vat_price"));
@@ -53,19 +54,18 @@ public class PaymentService {
 
     //실제 결제 요청이 성공적으로 된경우.
     public CommonMap insertPay(String paymentType ,  HttpServletRequest request){
-
         String method = request.getParameter("PayMethod");
 
         CommonMap resultMap = new CommonMap();
-        if(request.getParameter("PayMethod").equals("VBANK")) {
+        if(SAConst.PAYMENT_METHOD_VBANK.equals(method)) {
             CommonMap paramMap = new CommonMap();
             paramMap.put("uuid", request.getParameter("MallReserved"));
             resultMap = paymentMapper.selectPayWaitByUuid(paramMap);
         }
 
         //공통 페이먼트 테이블 필요한 부분 미리 넣기.
-        resultMap.put("cust_no", "27319"); // 로그인 한 유저 번호 가져와야함.
-        resultMap.put("pay_method", request.getParameter("PayMethod"));
+        resultMap.put("cust_no", "117997"); //TODO: 로그인 한 유저 번호 가져와야함.
+        resultMap.put("pay_method", method);
         resultMap.put("pg_trnas_id", request.getParameter("TxTid"));
         resultMap.put("name", request.getParameter("BuyerName"));
         resultMap.put("pay_price", request.getParameter("Amt"));
@@ -81,9 +81,14 @@ public class PaymentService {
                 paymentMapper.insertCustPay(resultMap);
                 break;
             case SAConst.PAYMENT_KIND_ACADEMY:
-                //TODO 아카데미 DB INSERT 처리ㄱㄱ.
-                break;
+                resultMap.put("academy_no", request.getParameter("academy_no"));
+                paymentMapper.insertAcademyPay(resultMap);
 
+                resultMap.put("reg_emp_no", "117997"); //TODO: 로그인 한 유저 번호 가져와야함.
+                resultMap.put("payer", request.getParameter("BuyerName"));
+                paymentMapper.insertAcademyReq(resultMap);
+
+                break;
             case SAConst.PAYMENT_KIND_WORK:
                 //TODO 작품 DB INSERT 처리ㄱㄱ.
                 paymentMapper.insertLotPay(resultMap);
@@ -117,15 +122,14 @@ public class PaymentService {
             resultMap.put("academy_no", resultMap.get("ref_no"));
             resultMap.putAll(paymentMapper.selectAcademyByAcademyNo(resultMap));
         } else if(SAConst.PAYMENT_METHOD_CARD.equals(payMethod)){
-            resultMap.put("academy_no", resultMap.get("ref_no"));
+            CommonMap map = paymentMapper.selectAcademyPayByPayNo(resultMap);
+            resultMap.put("academy_no", map.get("academy_no"));
             resultMap.putAll(paymentMapper.selectAcademyByAcademyNo(resultMap));
         }
 
-
-
-
         return resultMap;
     }
+
     public CommonMap getPaymentForPayResult(String payMethod, String payId){
 
         CommonMap resultMap = null;

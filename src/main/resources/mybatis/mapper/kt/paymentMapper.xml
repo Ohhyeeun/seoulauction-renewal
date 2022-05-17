@@ -76,32 +76,12 @@
 	<!---->
 	<!--아카데미 결제 테이블-->
 	<insert id="insertAcademyPay" parameterType="commonMap">
-	INSERT INTO ACADEMY_PAY (
-			ACADEMY_NO,
-			CUST_NO,
-			PAY_NO
-		)
-		VALUES (
-		    #{academy_no},
-		    #{cust_no},
-		    ${pay_no}
-		)
+		INSERT INTO ACADEMY_PAY (ACADEMY_NO, CUST_NO, PAY_NO)
+		VALUES (#{academy_no}, #{cust_no}, #{pay_no})
 	</insert>
-	<insert id="insertAcademyReqPay" parameterType="commonMap">
-		INSERT INTO ACADEMY_REQ (
-			 ACADEMY_NO,
-			 CUST_NO,
-			 REG_EMP_NO,
-			 PAYER,
-			 REG_DT
-		)
-		VALUES (
-			#{academy_no},
-			#{cust_no},
-			#{reg_cust_no},
-			#{payer},
-			now(),
-		)
+	<insert id="insertAcademyReq" parameterType="commonMap">
+		INSERT INTO ACADEMY_REQ (ACADEMY_NO, CUST_NO, REG_EMP_NO, PAYER, REG_DT)
+		VALUES (#{academy_no}, #{cust_no}, #{reg_emp_no}, #{payer}, now())
 	</insert>
 	<!---->
 	<update id="updateLotFeeForPayment" parameterType="commonMap">
@@ -140,6 +120,12 @@
 		FROM PAY_WAIT
 		WHERE pay_wait_no = #{pay_no}
 		  AND cust_no = #{cust_no}
+	</select>
+
+	<select id="selectAcademyPayByPayNo" resultType="commonMap" parameterType="commonMap">
+		SELECT cust_no, pay_no, academy_no
+		FROM academy_pay a
+		WHERE pay_no = #{pay_no}
 	</select>
 
 	<select id="selectAcademyByAcademyNo" resultType="commonMap" parameterType="commonMap">

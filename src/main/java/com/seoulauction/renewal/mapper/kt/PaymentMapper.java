@@ -16,6 +16,9 @@ public interface PaymentMapper {
 
     void insertCustPay(CommonMap map);
     void insertLotPay(CommonMap map);
+    void insertAcademyPay(CommonMap map);
+    void insertAcademyReq(CommonMap map);
 
+    CommonMap selectAcademyPayByPayNo(CommonMap map);
     CommonMap selectAcademyByAcademyNo(CommonMap map);
 }
