@@ -15,4 +15,5 @@ public interface PaymentMapper {
 
     void insertCustPay(CommonMap map);
     void insertLotPay(CommonMap map);
+
 }

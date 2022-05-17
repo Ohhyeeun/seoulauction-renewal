@@ -11,7 +11,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Seoul Auction</title>
-    <link rel="stylesheet" href="/css/main.css" type="text/css" />
 </head>
 <body>
 <%--<jsp:include page="../../main/include/topNotice.jsp" />--%>
@@ -27,63 +26,87 @@
                     <figure class="visual_img">
                         <img src="/images/pc/slide/main/slide01.jpg" alt="slide" class="pc-ver">
                         <img src="/images/mobile/slide/main/slide01.jpg" alt="slide" class="m-ver">
-                        <figurecaption class="visual_caption">
-                            <h1 class="slide-tit">165회 미술품경매</h1>
+                    </figure>
+                    <figurecaption class="visual_caption">
+                        <div>
+                            <h1 class="slide-tit">제1회 ART SHOPPING 신세계 센텀시티 오픈 기념 경매</h1>
                             <p>
-                                2/22(화) 15:00 서울옥션 강남
+                                2/22(화) 15:00 부산 신세계백화점 센텀시티 문화홀(9층)
                             </p>
                             <div class="visual_btn">
                                 <a href="#" class="commonbtn visual-commonbtn btn-bg-w">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a>
                             </div>
-                        </figurecaption>
-                    </figure>
+                        </div>
+                    </figurecaption>
                 </div>
 
                 <div class="swiper-slide"> <!-- slide 구간 -->
                     <figure class="visual_img">
                         <img src="/images/pc/slide/main/slide01.jpg" alt="slide" class="pc-ver">
                         <img src="/images/mobile/slide/main/slide01.jpg" alt="slide" class="m-ver">
-                        <figurecaption class="visual_caption black">
-                            <h1 class="slide-tit">165회 미술품경매</h1>
+                    </figure>
+                    <figurecaption class="visual_caption">
+                        <div>
+                            <h1 class="slide-tit">제1회 Autunm Scape _ Land, Life, Inner scape</h1>
                             <p>
-                                2/22(화) 15:00 서울옥션 강남
+                                서울시 강남구 도산대로 북 33길 6 호림아트센터 1층 서울옥션 강남점
+                            </p>
+                            <div class="visual_btn">
+                                <a href="#" class="commonbtn visual-commonbtn btn-bg-w">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a>
+                            </div>
+                        </div>
+                    </figurecaption>
+                </div>
+
+                <div class="swiper-slide"> <!-- slide 구간 -->
+                    <figure class="visual_img">
+                        <img src="/images/pc/slide/main/slide01.jpg" alt="slide" class="pc-ver">
+                        <img src="/images/mobile/slide/main/slide01.jpg" alt="slide" class="m-ver">
+                    </figure>
+                    <figurecaption class="visual_caption"> <!-- figure img 배경 흰색일때 font black -->
+                        <div>
+                            <h1 class="slide-tit">제로베이스</h1>
+                            <p>
+                                2/22(화) 15:00 서울옥션 홈페이지
                             </p>
                             <div class="visual_btn">
                                 <a href="#" class="commonbtn visual-commonbtn btn-bg-g">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-border-w">e-book</a>
                             </div>
-                        </figurecaption>
-                    </figure>
+                        </div>
+                    </figurecaption>
                 </div>
 
                 <div class="swiper-slide"> <!-- slide 구간 -->
                     <figure class="visual_img">
                         <img src="/images/pc/slide/main/slide01.jpg" alt="slide" class="pc-ver">
                         <img src="/images/mobile/slide/main/slide01.jpg" alt="slide" class="m-ver">
-                        <figurecaption class="visual_caption">
-                            <h1 class="slide-tit">165회 미술품경매</h1>
+                    </figure>
+                    <figurecaption class="visual_caption">
+                        <div>
+                            <h1 class="slide-tit">e BID 프리미엄</h1>
                             <p>
-                                2/22(화) 15:00 서울옥션 강남
+                                2/22(화) 15:00 서울옥션 홈페이지
                             </p>
                             <div class="visual_btn">
-                                <a href="#" class="commonbtn visual-commonbtn btn-border-b">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-border-b">e-book</a>
+                                <a href="#" class="commonbtn visual-commonbtn btn-bg-w">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a>
                             </div>
-                        </figurecaption>
-                    </figure>
+                        </div>
+                    </figurecaption>
                 </div>
             </div>
-            <!-- 이미지 배경 화이트 일때 버튼 블랙 클래스 추가 .swiper-button-next.slide-btnleft.black -->
-            <div class="swiper-button-next slide-btnleft pc-ver"></div>
-            <div class="swiper-button-prev slide-btnright pc-ver"></div>
-
 
             <span class="visualController">
-                    <button type="button" class="playBtn pc-ver"></button>
-                    <button type="button" class="stopBtn pc-ver"></button>
-                    <span class="swiper-progressbar">
-                        <span class="visual-progressbar"></span>
-                    </span>
-                    <span class="swiper-pagination visual-pagaination"></span>
+                <button type="button" class="playBtn pc-ver"></button>
+                <button type="button" class="stopBtn pc-ver"></button>
+                <span class="swiper-progressbar">
+                    <span class="visual-progressbar"></span>
                 </span>
+                <span class="swiper-pagination visual-pagaination"></span>
+            </span>
+            <div class="swiper-btn-wrap">
+                <div class="swiper-button-next slide-btnleft pc-ver"></div>
+                <div class="swiper-button-prev slide-btnright pc-ver"></div>
+            </div>
         </div>
     </section>
 
@@ -95,9 +118,11 @@
                     <h1 class="main-sectiontit">Auction</h1>
                     <div class="auctiontab-scroll">
                         <div class="auctionTab"> <!-- 최대 5개 까지 -->
-                            <span class="auctionTab-btn on">165회 미술품</span>
-                            <span class="auctionTab-btn">e BID 프리미엄</span>
-                            <span class="auctionTab-btn">제로베이스</span>
+                            <span id="auctionTab" class="auctionTab-btn on"><span class="text-over">제1회 ART SHOPPING 신세계 센텀시티 오픈 기념 경매</span></span>
+                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">제1회 Autunm Scape _ Land, Life, Inner scape</span></span>
+                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">165회 미술품 경매</span></span>
+                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">제로베이스</span></span>
+                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">e BID 프리미엄</span></span>
                         </div>
                     </div>
                 </div>

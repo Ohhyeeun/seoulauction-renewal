@@ -59,5 +59,64 @@
 		                        where  CUST_NO = #{cust_no})
 		where CUST_NO = #{cust_no} 
 	</update>
+	
+	<update id="updateCustLoginFailCntByCustNo" parameterType="CommonMap">
+		update CUST
+		set    LOGIN_FAIL_CNT = #{login_fail_cnt} 
+		where CUST_NO = #{cust_no} 
+	</update>
     
+
+    <select id="selectCustLoginIdByCustName" resultType="CommonMap">
+
+		select
+		concat(rpad(substring(login_id, 1, 2), length(login_id)-1, '*'), substring(login_id, length(login_id), 1) ) LOGIN_ID ,
+		cs.CUST_NO ,
+		case
+			when cs.SOCIAL_TYPE = 'KA' then 'KAKAO'
+			when cs.SOCIAL_TYPE = 'NV' then 'NAVER'
+			when cs.SOCIAL_TYPE = 'GL' then 'GOOGLE'
+			when cs.SOCIAL_TYPE = 'AP' then 'APPLE'
+			else ''
+		   END as SOCIAL_TYPE
+		from
+			CUST c
+		left outer join cust_social cs on
+			c.CUST_NO = cs.cust_no
+		where
+		   	JOIN_KIND_CD = 'online'
+		    and STAT_CD = 'normal' 
+		    and CUST_NAME = #{cust_name}
+		    <if test="search_type == 'phone'">
+				and HP = #{search_value}
+			</if>
+		    <if test="search_type == 'email'">
+				and EMAIL = #{search_value}
+			</if>
+	</select>
+	
+
+	<update id="updatePasswordByLoginId" parameterType="Map">
+	    <selectKey keyProperty="passwd" resultType="String" order="BEFORE">
+		    select substring(UUID(), 1,8) passwd
+		</selectKey>
+		update CUST set
+			passwd = '${@com.seoulauction.renewal.auth.PasswordEncoderAESforSA@saPasswdEncoding(passwd.rows[0])}'
+		where login_id = #{login_id}
+		and cust_name = #{cust_name}
+		<if test="search_type == 'email'">
+			and email = #{search_value}
+		</if>
+		<if test="search_type == 'phone'">
+			and hp = #{search_value}
+		</if>
+	</update>
+	
+	<select id="selectCustomerByStatCdAndLoginId" resultType="Map">
+		select * from CUST 
+		where JOIN_KIND_CD = 'online' and IFNULL(DEL_YN, 'N') = 'N' 
+		and STAT_CD = #{stat_cd} 
+		and LOGIN_ID = #{login_id}
+	</select>
+
 </mapper>

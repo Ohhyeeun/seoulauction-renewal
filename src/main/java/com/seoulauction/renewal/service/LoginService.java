@@ -13,6 +13,7 @@ public class LoginService {
 
     private final LoginMapper loginMapper;
 
+    
     public CommonMap selectCustByLoginId(CommonMap paramMap){
         return loginMapper.selectCustByLoginId(paramMap);
     }
@@ -28,5 +29,18 @@ public class LoginService {
     public int updateCustPwdModDtByCustNo(CommonMap paramMap){
         return loginMapper.updateCustPwdModDtByCustNo(paramMap);
     }
+    
 
+    public CommonMap selectCustLoginIdByCustName(CommonMap paramMap){
+        return loginMapper.selectCustLoginIdByCustName(paramMap);
+    }
+  
+
+    public int updatePasswordByLoginId(CommonMap commonMap){  
+    	return loginMapper.updatePasswordByLoginId(commonMap);
+    }
+     
+    public CommonMap selectCustomerByStatCdAndLoginId(CommonMap paramMap){
+        return loginMapper.selectCustomerByStatCdAndLoginId(paramMap);
+    }
 }

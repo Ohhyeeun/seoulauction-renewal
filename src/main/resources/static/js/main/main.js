@@ -47,25 +47,41 @@ window.onload = function(){
 }
 
 // 상단텍스트공지
+const topNoticeSwiper = new Swiper(".beltbox-swiper", {
+    direction : "vertical",
+    autoplay : {
+        delay: 2500,
+        disableOnInteraction: false
+    }
+});
+
 function loadTopNotice(){
+    const slideArray = [];
 
     axios.get('api/main/topNotice')
     .then(function(response){
         const success =  response.data.success;
         if (success) {
             const data = response.data.data;
-            if(!getCookie('top-notice') && data[0]) {
-                const content = JSON.parse(data[0].content);
-                const returnDom = `<div class="header_beltbox on"> <!--class="on" block-->
+            if(!getCookie('top-notice') && data) {
+                data.map(item => {
+                    const content = JSON.parse(item.content);
+                    const returnDom = `<div class="swiper-slide header_beltbox on"> <!--class="on" block-->
                                         <div class="wrap belttxtbox wrap_padding">
                                                 <span class="header_beltTit">
-                                                    <a href="${locale === 'en' ? content.en_url : content.ko_url}">${locale === 'en' ? content.en_text : content.ko_text}<span class="beltbanner-triangle"></span></a>
+                                                    <a href="${locale === 'en' ? content.en_url : content.ko_url}">
+                                                        <span class="text-over belt_tit"> ${locale === 'en' ? content.en_text : content.ko_text}</span>
+                                                        <span class="beltbanner-triangle"></span>
+                                                    </a>
                                                 </span>
                                             <span class="beltclose-btn closebtn closebtn-w"></span>
                                         </div>
                                    </div>`
 
-                document.querySelector(".header").insertAdjacentHTML('afterbegin', returnDom);
+                    slideArray.push(returnDom);
+                });
+
+                topNoticeSwiper.appendSlide(slideArray);
 
                 /* 상단 텍스트 동적 생성으로 인한 스타일 변경 및 이벤트 바인딩 */
                 document.querySelector(".beltclose-btn").addEventListener("click", function(e){
@@ -142,7 +158,7 @@ function loadUpcomings() {
                     const from_dt = moment(item.FROM_DT);
                     const to_dt = moment(item.TO_DT);
                     const open_dt = moment(item.OPEN_DT);
-                    const returnDom =  ` <div class="swiper-slide upcomingSlide swiper-slide-active" style="padding-right: 40px;">
+                    const returnDom =  ` <div class="swiper-slide upcomingSlide " style="padding-right: 40px;">
                                             <a href="#">
                                                 <div class="upcoming-caption">
                                                     <span class="auctionKind-box ${ item.SALE_KIND === 'LIVE' ? 'on' : ''}">
@@ -238,12 +254,8 @@ function loadBeltBanner() {
                     const content = JSON.parse(item.content);
                     const returnDom =  `<div class="swiper-slide platform-bg" style="background-color: ${content.backgroundColor} ">
                                             <a href="${ locale === 'en' ? content.url_en : content.url_ko }" target="_blank"  >
-<!--                                            추후 img 태그로 변경 필요-->
-                                                <img src="${locale === 'en' ? content.image_pc_en_url : content.image_pc_ko_url }" 
-                                                     srcset="${locale === 'en' ? content.image_mo_en_url : content.image_mo_ko_url } 1023w, 
-                                                             ${locale === 'en' ? content.image_pc_en_url : content.image_pc_ko_url } 1279w" 
-                                                onerror="" 
-                                                alt="" width="1204" class="platform-img"> 
+                                                <img src="${locale === 'en' ? content.image_pc_en_url : content.image_pc_ko_url }" alt="beltPcBanner" class="beltBannerImg-pc platform-img" >
+                                                <img src="${locale === 'en' ? content.image_mo_en_url : content.image_mo_ko_url }" alt="beltMobileBanner" class="beltBannerImg-mo platform-img" >
                                             </a>
                                         </div>`;
 
@@ -251,6 +263,15 @@ function loadBeltBanner() {
                 });
 
                 platFormSwiper.appendSlide(slideArray);
+
+                if(matchMedia("all and (min-width: 1024px)").matches) {
+                    $(".beltBannerImg-pc").show();
+                    $(".beltBannerImg-mo").hide();
+                }else{
+                    $(".beltBannerImg-mo").show();
+                    $(".beltBannerImg-pc").hide();
+
+                }
 
             }
         })
@@ -354,7 +375,7 @@ app.controller('mainCtl', function($scope, consts, common, ngDialog) {
 				animationEndSupport: false,
 			});
 		}
-		
+
 		if(resetPassword == 'true'){
 			$modal = ngDialog.open({
 				template: '/resetPassword',
@@ -364,7 +385,7 @@ app.controller('mainCtl', function($scope, consts, common, ngDialog) {
 				animationEndSupport: false,
 			});
 		}
-		
+
 		console.log(modPassword)
 		if(modPassword == 'true'){
 			$modal = ngDialog.open({
@@ -421,10 +442,56 @@ app.controller('modPasswordPopCtl', function($scope, consts, common) {
                 console.log(error);
             });
 	}
-	
+
 	$scope.modPassword = function(){
 		// TODO 차후 비밀번호 변경 페이지 개발시 수정
 		location.href = '/';
 	}
 });
 
+/* video 리스트*/
+$('.video-btn').click(function(){
+    $('.video-blackBg').fadeIn();
+});
+
+/* 인스타 팝업 */
+$('.instar-btn').click(function(){
+    const instar = window.open('https://www.instagram.com/', name="_blank", width="700");
+});
+
+/* video 팝업 */
+$('.video-closebtn').click(function(){
+    $('.video-blackBg').fadeOut('fast');
+});
+
+
+/*뉴스레터 신청 관련*/
+$('#subscript_check').click(function(){
+    $('.newsAgree-close').click(function(){
+        $('.newsletter-terms').fadeOut();
+        $('.newsletter-blackBg').fadeOut('fast');
+    });
+    $('.newsletter-terms').fadeIn();
+    $('.newsletter-blackBg').fadeIn('fast');
+});
+
+$('.subscriptBtn').click(function(){
+    $('.newsAgree-comfirmbtn').click(function(){
+        $('.newsletter-comfirmbox').fadeOut();
+        $('.newsletter-blackBg').fadeOut('fast');
+    });
+    $('.newsletter-comfirmbox').fadeIn();
+    $('.newsletter-blackBg').fadeIn('fast');
+});
+
+/* 메인 레이어 팝업 */
+/*$('.main-popup-img').hide();
+$('.main-popup-txt').hide();
+
+$('.main-popup-img.on').show();
+$('.main-popup-txt.on').show(); */
+
+$('.main-popup-close').click(function(){
+    $('.main-popupbox').addClass('down');
+    $('.main-popupBg').fadeOut();
+});

@@ -72,5 +72,12 @@
 	]]>
 	</select>
 
+	<select id="selectSaleImage" parameterType="CommonMap" resultType="CommonMap">
+		select * from sale_img
+		where SALE_NO = #{sale_no}
+		order by DISP_ORD
+		limit 1
+	</select>
+
 </mapper>
 

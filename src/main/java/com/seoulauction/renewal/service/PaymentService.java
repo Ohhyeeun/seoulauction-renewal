@@ -75,9 +75,6 @@ public class PaymentService {
         resultMap.put("no_vat_price", 0);
         resultMap.put("vat_price", 0);
         resultMap.put("vat", 0);
-
-
-
         paymentMapper.insertPay(resultMap);//공통적으로 넣기. insert 후 pay_no 가 map 안에 들어감.
 
         switch (paymentType){
@@ -105,7 +102,6 @@ public class PaymentService {
 
         //결제 처리 요청.
         CommonMap resultMap = nicePayModule.payProcess(request); //결제 처리
-
         String payMethod = request.getParameter("PayMethod");
 
         //TODO: 로그인한 정보 가져오기
@@ -117,7 +113,6 @@ public class PaymentService {
         //결제 처리가 완료 시 디비 요청.
         return resultMap;
     }
-
 
     public CommonMap getPaymentForPayResult(String payMethod , String payId){
 
@@ -145,13 +140,15 @@ public class PaymentService {
 
         return resultMap;
     };
-
-
-
     @Transactional("ktTransactionManager")
     public void niceVBankPaid(HttpServletRequest request) {
         String PayMethod    = request.getParameter("PayMethod");        //지불수단
+        String Amt          = request.getParameter("Amt");              //금액
+        String TID          = request.getParameter("TID");              //거래번호
+        String AuthDate     = request.getParameter("AuthDate");         //입금일시 (yyMMddHHmmss)
         String ResultCode   = request.getParameter("ResultCode");       //결과코드 ('4110' 경우 입금통보)
+        String VbankInputName = request.getParameter("VbankInputName"); //입금자 명
+        String RcptType     = request.getParameter("RcptType");         //현금 영수증 구분(0:미발행, 1:소득공제용, 2:지출증빙용)
         String mall_reserved = request.getParameter("MallReserved");
 
         boolean paySuccess = false;		// 결제 성공 여부

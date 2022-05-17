@@ -17,7 +17,7 @@ public class SAConst {
     public static final String SERVICE_LOGIN ="login";
     public static final String API_LOGIN ="api/login";
     public static final String SERVICE_MYPAGE ="mypage";
-
+    public static final String SERVICE_SERV ="service";
     public static final String PG_NICEPAY ="nice";
 
     //기존 pay_wait 테이블 기반 kind 종류
@@ -26,7 +26,6 @@ public class SAConst {
     public static final String PAYMENT_KIND_WORK ="payment"; /*작품결제를 뜻함*/
 
     public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("###,###"); //천단위마다 콤마 ㄱ
-
 
     public static String getUrl(String viewName){
         return getUrl("",viewName,null);

@@ -34,9 +34,9 @@
                     <a href="#">
                         <div class="upcoming-caption">
                             <span class="auctionKind-box on">LIVE</span><span class="d-day on">TODAY</span>
-                            <h4>2월 라이브 경매</h4>
+                            <h4 class="text-over">제1회 ART SHOPPING 신세계 센텀시티 오픈 기념 경매</h4>
                             <div class="upcoming-datebox">
-                                <p class="upcoming-preview">
+                                <p class="upcoming-open on"> <!-- today 붙일 때 on 붙음 -->
                                     <span>오픈일</span><span>2/14(금)</span>
                                 </p>
                                 <p class="upcoming-preview">
@@ -57,9 +57,9 @@
                     <a href="#">
                         <div class="upcoming-caption">
                             <span class="auctionKind-box">ONLINE</span><span class="d-day on">D-1</span>
-                            <h4>2월 라이브 경매</h4>
+                            <h4 class="text-over">2월 라이브 경매</h4>
                             <div class="upcoming-datebox">
-                                <p class="upcoming-preview">
+                                <p class="upcoming-open">
                                     <span>오픈일</span><span>2/14(금)</span>
                                 </p>
                                 <p class="upcoming-preview">
@@ -72,11 +72,34 @@
                         </div>
                         <figure class="upcoming-img">
                             <!--<span class="upcomingImg"></span>-->
-                            <img src="http://publish.seoulauction.xyz/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">
+                            <%--<img src="http://publish.seoulauction.xyz/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">--%>
                         </figure>
                     </a>
                 </div>
-<%--                <div class="swiper-slide upcomingSlide">--%>
+
+                <div class="swiper-slide upcomingSlide">
+                    <a href="#">
+                        <div class="upcoming-caption">
+                            <span class="auctionKind-box">ONLINE</span><span class="d-day"></span>
+                            <h4 class="text-over">ZEROBASE X 아트경기</h4>
+                            <div class="upcoming-datebox">
+                                <p class="upcoming-open">
+                                    <span>오픈일</span><span>2/14(금)</span>
+                                </p>
+                                <p class="upcoming-preview">
+                                    <span>프리뷰</span><span>2/14(금) ~ 2/25(화)</span>
+                                </p>
+                                <p class="upcoming-date">
+                                    <span>경매일</span><span>2/15(화) 15:00 <span>순차마감</span></span>
+                                </p>
+                            </div>
+                        </div>
+                        <figure class="upcoming-img">
+                            <!--<img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet"> -->
+                        </figure>
+                    </a>
+                </div>
+            <%--                <div class="swiper-slide upcomingSlide">--%>
 <%--                    <a href="#">--%>
 <%--                        <div class="upcoming-caption">--%>
 <%--                            <span class="auctionKind-box">ONLINE</span><span class="d-day"></span>--%>
