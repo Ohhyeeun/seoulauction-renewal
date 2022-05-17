@@ -25,6 +25,8 @@ public interface LoginMapper {
     CommonMap selectCustomerByStatCdAndLoginId(CommonMap paramMap);
 
     CommonMap selectCustLoginId(CommonMap paramMap);
+    
+    CommonMap selectCustSocialBySocialLoginId(CommonMap paramMap);
 
 
 }
