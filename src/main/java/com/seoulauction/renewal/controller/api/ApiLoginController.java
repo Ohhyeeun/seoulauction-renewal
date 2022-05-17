@@ -85,7 +85,8 @@ public class ApiLoginController {
     @ResponseBody
     public ResponseEntity<RestResponse> findId(@RequestBody CommonMap commonMap, HttpServletRequest request, HttpServletResponse response){
 		
-		CommonMap resultMap = loginService.selectCustLoginId(commonMap);
+		CommonMap resultMap = loginService.selectCustLoginIdByCustName(commonMap);
+
 		 if(!MapUtils.isEmpty(resultMap)) {
 			 return ResponseEntity.ok(RestResponse.ok(resultMap));
 		 } else {
