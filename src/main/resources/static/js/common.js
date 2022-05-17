@@ -65,19 +65,6 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
         });
     }
 
-    window.addEventListener('resize', (e) => {
-        const width = e.target.innerWidth;
-        if (width > 1280) {
-            console.log(76767);
-            //$('.topsearch>input').attr('placeholder','작가 또는 작품명 검색');
-        } else if (width > 720) {
-            console.log(35256);
-            //$('.topsearch>input').attr('placeholder','검색');
-        } else {
-            //$('.topsearch>input').attr('placeholder','검색을 입력하세요.');
-        }
-    });
-
     /* pc 다크모드 */
     $('.darkmodeBg').click(function(){
         console.log(32423);
