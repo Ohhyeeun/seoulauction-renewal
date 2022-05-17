@@ -48,6 +48,7 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
 
     function setGnbNowBadge(){
 
+
         axios.get('api/main/ingMenuCount')
         .then(function(response){
             const success =  response.data.success;
@@ -75,8 +76,9 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
             .then(function(response){
                 const success =  response.data.success;
                 if (success) {
-                    const isExist = response.data.data;
-                    const badgeHtml = '<span style="color:red;">N</span>'; //마크업 나오지 않아 임시 처리
+                    const isExist = response.data.data.isExist;
+                    const badgeHtml = '<i class="utility-icon on"></i>';
+                    console.log(isExist)
                     if(isExist)
                         document.querySelector('#MyMenuOnlineBadge a').insertAdjacentHTML('beforeend', badgeHtml);
                 }

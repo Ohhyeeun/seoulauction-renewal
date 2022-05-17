@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -151,10 +152,13 @@ public class MainService {
         return ktMainMapper.selectIngMenuCount();
     }
 
-    public CommonMap selectHaveToPayWorkCount(){
+    public CommonMap selectHaveToPayWorkCount(Principal principal){
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("action_user_no", principal.getName());
+
+        int haveToPayCount = ktMainMapper.selectHaveToPayWork(paramMap) == null? 0 : ktMainMapper.selectHaveToPayWork(paramMap).size();
+
         CommonMap resultMap = new CommonMap();
-        int haveToPayCount = 1;
-        //int haveToPayCount = ktMainMapper.미결제낙찰내역();
         resultMap.put("isExist", haveToPayCount > 0 ? true : false);
 
         return resultMap;

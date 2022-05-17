@@ -79,5 +79,19 @@
 		limit 1
 	</select>
 
+	<select id="selectHaveToPayWork" parameterType="CommonMap" resultType="CommonMap">
+		<![CDATA[
+		select
+			B.SALE_NO, L.LOT_NO
+		from BID B
+		inner join LOT L on B.SALE_NO = L.SALE_NO and B.LOT_NO = L.LOT_NO
+		where B.BID_KIND_CD in ('online_auto', 'online_once')
+			and B.CUST_NO = #{action_user_no}
+			and L.TO_DT <= now()
+			and (select count(*) from LOT_PAY LP where LP.SALE_NO = B.SALE_NO and LP.LOT_NO = B.LOT_NO) < 1
+		group by B.SALE_NO, B.LOT_NO;
+		]]>
+	</select>
+
 </mapper>
 

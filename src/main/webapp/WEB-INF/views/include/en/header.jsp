@@ -33,7 +33,7 @@
             <li class="utility-tab utility-account"><a href="javascript:void(0);">ACCOUNT</a>
                 <ul class="bubble-box bubble-box02">
                     <li><a href="#">Live Auction Management</a></li>
-                    <li><a href="#">Online Auction Management</a></li>
+                    <li id="MyMenuOnlineBadge"><a href="#">Online Auction Management</a></li>
                     <li><a href="#">Wish List</a></li>
                     <li><a href="#">Academy Application List</a></li>
                     <li><a href="#">Edit member information</a></li>
