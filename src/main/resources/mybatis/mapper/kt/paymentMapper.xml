@@ -118,7 +118,7 @@
 			SALE_NO = #{sale_no} and LOT_NO = #{lot_no}
 	</update>
 
-	<insert id="insertPayWait" parameterType="commonMap">
+	<insert id="insertPayWait" parameterType="commonMap" useGeneratedKeys="true" keyProperty="pay_no" keyColumn="PAY_WAIT_NO">
 		INSERT INTO PAY_WAIT (CUST_NO, KIND_CD, REF_NO, REF_NO2, PAY_METHOD_CD, PG_CD, PG_TRANS_ID, PAYER, PAY_PRICE
 			, STAT_CD, REG_DT, NO_VAT_PRICE, VAT_PRICE, VAT, UUID, VBANK_CD, VBANK_NM, VBANK_NUM, VBANK_EXP_DT, RCPT_TYPE
 		) VALUES (#{cust_no}, lower(#{kind_cd}), #{ref_no}, #{ref_no2}, lower(#{pay_method_cd}), #{pg_cd}, #{pg_trans_id}, #{payer}, #{pay_price}
@@ -126,10 +126,30 @@
 		);
 	</insert>
 
-	<select id="selectPayWait" resultType="commonMap" parameterType="commonMap">
+	<select id="selectPayWaitByUuid" resultType="commonMap" parameterType="commonMap">
 		SELECT pay_wait_no, cust_no, kind_cd, ref_no, ref_no2, pay_method_cd, pg_cd, pg_trans_id, payer, pay_price, stat_cd, reg_dt
             , no_vat_price, vat_price, vat, uuid, vbank_cd, vbank_nm, vbank_num, vbank_exp_dt, rcpt_type
-		FROM PAY_WAIY
-		WHERE uuid = #{uuid};
+		FROM PAY_WAIT
+		WHERE uuid = #{uuid}
+				pay_wait_no = #{payId}
+				and cust_no = #{cust_no}
+	</select>
+
+	<select id="selectPayWaitByPayNoAndCustNo" resultType="commonMap" parameterType="commonMap">
+		SELECT pay_wait_no, cust_no, kind_cd, ref_no, ref_no2, pay_method_cd, pg_cd, pg_trans_id, payer, pay_price, stat_cd, reg_dt
+			 , no_vat_price, vat_price, vat, uuid, vbank_cd, vbank_nm, vbank_num, vbank_exp_dt, rcpt_type
+		FROM PAY_WAIT
+		WHERE pay_wait_no = #{pay_no}
+		  AND cust_no = #{cust_no}
+	</select>
+
+	<select id="selectAcademyByAcademyNo" resultType="commonMap" parameterType="commonMap">
+		SELECT academy_no, academy_cd, title_blob, contents_blob, from_dt, to_dt, academy_time, academy_time_en, img_path, img_view_path
+			, file_name, file_path, file_org_name, img_path_en, img_view_path_en, file_name_en
+			, file_path_en, file_org_name_en, reg_dt, reg_emp_no, mod_dt, mod_emp_no, del_yn, disp_yn, view_file_name, view_file_org_name
+			, view_file_name_en, view_file_org_name_en, application_file_name, application_file_org_name, application_file_path
+			, academy_pay, academy_pay1, academy_pay2, academy_pay3, close_yn
+		FROM academy a
+		WHERE academy_no = #{academy_no}
 	</select>
 </mapper>

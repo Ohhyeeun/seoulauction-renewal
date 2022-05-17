@@ -10,6 +10,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
@@ -107,6 +108,8 @@ public class PaymentController {
 
     @GetMapping("/academy/{id}")
     public String paymentAcademy(@PathVariable("id") int id, HttpServletRequest request, Locale locale) {
+        // select cust
+        // select academy
 
         String merchantKey 		= nicePaymerchantKey; // 상점키
         String merchantID 		= nicePayMerchantId; 				// 상점아이디
@@ -149,30 +152,26 @@ public class PaymentController {
         request.setAttribute("hashString", hashString);
         request.setAttribute("uuid", UUID.randomUUID().toString().replace("-", ""));
 
-        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentAcademy" , locale);
+        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "academy" , locale);
     }
 
     @PostMapping("/academyProcess")
-    public String paymentAcademyProcess(HttpServletRequest request, Locale locale) {
-        log.info("paymentAcademyProcess");
+    public String academyProcess(HttpServletRequest request, Locale locale, RedirectAttributes attr) {
+        log.info("academyProcess");
 
-        paymentService.paymentProcess(PaymentType.ACADEMY, request);
-
-        request.setAttribute("name", request.getParameter("BuyerName"));
-        request.setAttribute("tel" , request.getParameter("BuyerTel"));
-        request.setAttribute("method" , request.getParameter("PayMethod"));
-        request.setAttribute("price" , request.getParameter("Amt"));
-
-        request.setAttribute("vbank_nm" , request.getParameter("vbankBankName"));
-        request.setAttribute("vbank_num" , request.getParameter("vbankNum"));
-        request.setAttribute("vbank_exp_dt" , request.getParameter("vbankExpDate"));
+        CommonMap resultMap = paymentService.paymentProcess(PaymentType.ACADEMY, request);
+        attr.addAttribute("payId", resultMap.get("pay_no"));
+        attr.addAttribute("payMethod", resultMap.get("PayMethod"));
 
         return "redirect:/payment/academyResult";
     }
 
     @GetMapping("/academyResult")
-    public String paymentAcademyResult(HttpServletRequest request, Locale locale) {
+    public String academyResult(@RequestParam("payId") String payId, @RequestParam("payMethod") String payMethod, HttpServletRequest request, Locale locale) {
         log.info("academyResult");
+
+        CommonMap resultMap = paymentService.goPaymentResultAcademy(payMethod, payId);
+        request.setAttribute("resultMap", resultMap);
 
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "academyResult" , locale);
     }

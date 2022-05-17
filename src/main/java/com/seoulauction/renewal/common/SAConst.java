@@ -25,6 +25,9 @@ public class SAConst {
     public static final String PAYMENT_KIND_ACADEMY ="academy"; /*아카데미 수강료 결제를 뜻함*/
     public static final String PAYMENT_KIND_WORK ="payment"; /*작품결제를 뜻함*/
 
+    public static final String PAYMENT_METHOD_CARD = "CARD";
+    public static final String PAYMENT_METHOD_VBANK = "VBANK";
+
     public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("###,###"); //천단위마다 콤마 ㄱ
 
     public static String getUrl(String viewName){

@@ -1,6 +1,7 @@
 package com.seoulauction.renewal.service;
 
 import com.seoulauction.renewal.common.PaymentType;
+import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.component.NicePayModule;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.exception.SAException;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+import java.util.Enumeration;
 import java.util.Locale;
 
 @Service
@@ -45,9 +48,9 @@ public class PaymentService {
         resultMap.put("uuid", request.getParameter("MallReserved"));
 
         resultMap.put("vbank_cd", resultMap.get("VbankBankCode"));
-        resultMap.put("vbank_nm", resultMap.get("vbankBankName"));
-        resultMap.put("vbank_num", resultMap.get("vbankNum"));
-        resultMap.put("vbank_exp_dt", resultMap.get("vbankExpDate"));
+        resultMap.put("vbank_nm", resultMap.get("VbankBankName"));
+        resultMap.put("vbank_num", resultMap.get("VbankNum"));
+        resultMap.put("vbank_exp_dt", resultMap.get("VbankExpDate"));
 
         paymentMapper.insertPayWait(resultMap);
 
@@ -63,7 +66,7 @@ public class PaymentService {
         if(request.getParameter("PayMethod").equals("VBANK")) {
             CommonMap paramMap = new CommonMap();
             paramMap.put("uuid", request.getParameter("MallReserved"));
-            resultMap = paymentMapper.selectPayWait(paramMap);
+            resultMap = paymentMapper.selectPayWaitByUuid(paramMap);
         }
 
             //공통 페이먼트 테이블 필요한 부분 미리 넣기.
@@ -113,33 +116,44 @@ public class PaymentService {
         //결제 처리가 완료 시 디비 요청.
         return resultMap;
     }
+    public CommonMap goPaymentResultAcademy(String payMethod, String payId) {
+        CommonMap resultMap = getPaymentForPayResult(payMethod, payId);
+        if(SAConst.PAYMENT_METHOD_VBANK.equals(payMethod)){
+            resultMap.put("academy_no", resultMap.get("ref_no"));
+            resultMap.putAll(paymentMapper.selectAcademyByAcademyNo(resultMap));
+        } else if(SAConst.PAYMENT_METHOD_CARD.equals(payMethod)){
+            resultMap.put("academy_no", resultMap.get("ref_no"));
+            resultMap.putAll(paymentMapper.selectAcademyByAcademyNo(resultMap));
+        }
 
-    public CommonMap getPaymentForPayResult(String payMethod , String payId){
+
+
+
+        return resultMap;
+    }
+    public CommonMap getPaymentForPayResult(String payMethod, String payId){
 
         CommonMap resultMap = null;
-
-        String custNo = "27319"; //로그인한 유저정보를 가져와야함.
+        String custNo = "117997"; //로그인한 유저정보를 가져와야함.
 
 
         CommonMap paramMap = new CommonMap();
         paramMap.put("cust_no",custNo);
         paramMap.put("pay_no", payId);
 
-
-        if("CARD".equals(payMethod)){
+        if(SAConst.PAYMENT_METHOD_VBANK.equals(payMethod)){
+            resultMap = paymentMapper.selectPayWaitByPayNoAndCustNo(paramMap);
+        } else if(SAConst.PAYMENT_METHOD_CARD.equals(payMethod)){
             resultMap = paymentMapper.selectPayByPayNoAndCustNo(paramMap);
-
-        } else if("VBANK".equals(payMethod)){
-            //TODO
         }
 
         //찾은결과가 없다면
         if(resultMap == null) {
             throw new SAException("잘못된 접근 입니다.");
         }
-
         return resultMap;
-    };
+    }
+
     @Transactional("ktTransactionManager")
     public void niceVBankPaid(HttpServletRequest request) {
         String PayMethod    = request.getParameter("PayMethod");        //지불수단
@@ -160,9 +174,11 @@ public class PaymentService {
             CommonMap paramMap = new CommonMap();
             paramMap.put("uuid", mall_reserved);
 
-            CommonMap resultMap = paymentMapper.selectPayWait(paramMap);
+            CommonMap resultMap = paymentMapper.selectPayWaitByUuid(paramMap);
 
             insertPay(PaymentType.valueOf(resultMap.get("kind_cd").toString().toUpperCase()), request);
         }
     }
+
+
 }

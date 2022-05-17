@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -42,24 +43,26 @@
                                 <div class="panel-body">
 
                                     <ul class="form_table_pay">
+                                        <c:if test="${param.payMethod == 'VBANK'}">
                                         <li>
                                             <div class="account_info">
                                                 <p class="tit">가상계좌 정보</p>
                                                 <p class="txt tb1">
-                                                    <span>${vbank_exp_dt}</span>까지 아래의<i class="br-mo"></i> 가상계좌로 결제금액을 입금해 주시기 바랍니다.
+                                                    <span>${resultMap.vbank_exp_dt}</span>까지 아래의<i class="br-mo"></i> 가상계좌로 결제금액을 입금해 주시기 바랍니다.
                                                 </p>
                                                 <ul class="pay_info tb1">
                                                     <li>
                                                         <span class="th">은행명</span>
-                                                        <span class="td"><strong>${vbank_nm}</strong></span>
+                                                        <span class="td"><strong>${resultMap.vbank_nm}</strong></span>
                                                     </li>
                                                     <li>
                                                         <span class="th">계좌번호</span>
-                                                        <span class="td"><strong>${vbank_num} 서울옥션 홍길동</strong></span>
+                                                        <span class="td"><strong>${resultMap.vbank_num}</strong></span>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </li>
+                                        </c:if>
                                         <li>
                                             <div class="table_box">
                                                 <div class="guide">
@@ -80,7 +83,7 @@
                                                 <div class="member_pay">
                                                     <p>
                                                         <span class="tit tt5">수강료</span>
-                                                        <span class="won tt3"><fmt:formatNumber type="number" maxFractionDigits="3" value="${price}" /><i class="tb1">원</i></span>
+                                                        <span class="won tt3"><fmt:formatNumber type="number" maxFractionDigits="3" value="${resultMap.pay_price}" /><i class="tb1">원</i></span>
                                                     </p>
                                                     <p>
                                                         <span class="tit tb1">할인금액</span>
@@ -95,11 +98,11 @@
                                             <ul class="pay_info tb1">
                                                 <li>
                                                     <span class="th">이름</span>
-                                                    <span class="td">${name}</span>
+                                                    <span class="td">${resultMap.name}</span>
                                                 </li>
                                                 <li>
                                                     <span class="th">연락처</span>
-                                                    <span class="td">${tel}</span>
+                                                    <span class="td">${resultMap.tel}</span>
                                                 </li>
                                             </ul>
                                         </li>
@@ -108,13 +111,13 @@
                                             <ul class="pay_info tb1">
                                                 <li>
                                                     <span class="th">총 결제금액</span>
-                                                    <span class="td pay"><fmt:formatNumber type="number" maxFractionDigits="3" value="${price}" /> 원
+                                                    <span class="td pay"><fmt:formatNumber type="number" maxFractionDigits="3" value="${resultMap.pay_price}" /> 원
                                                         <br class="only-mb" />+ 할인금액 0 원
-                                                        <br class="only-mb" />= <i class="total">총 결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${price}" /> 원</i></span>
+                                                        <br class="only-mb" />= <i class="total">총 결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${resultMap.pay_price}" /> 원</i></span>
                                                 </li>
                                                 <li>
                                                     <span class="th">결제방법</span>
-                                                    <span class="td">가상계좌</span>
+                                                    <span class="td">${param.payMethod == 'VBANK' ? "가상계좌" : "체크/신용카드"}</span>
                                                 </li>
                                             </ul>
                                         </li>
