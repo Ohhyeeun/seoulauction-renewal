@@ -7,55 +7,61 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 	$scope.form_data.loginId = "";
 	$scope.form_data.password = "";
 	$scope.form_data.captchaImg = "";
+	$scope.validCheck = true;
 	
 	$scope.login = function(){				
 		var lang = document.documentElement.lang;
-		var validCheck = false;
-		var validMsg = "";
-		var captchaResult = "";
+		$scope.validCheck = false;
+		$scope.validMsg = "";
 		$scope.captchaShow = "";
+		if(loginFailCntYn == 'Y'){
+			$scope.captchaShow = true;
+		}else{
+			$scope.captchaShow = false;
+		}
 		
 		if($scope.loginForm.loginId.$viewValue == ""){
 			if(lang === 'en'){
-				validMsg = "Please, write your account ID to login.";
+				$scope.validMsg = "Please enter your ID.";
 			}else{
-				validMsg = "아이디를 입력해주세요.";
+				$scope.validMsg = "아이디를 입력해주세요.";
 			}
 		}else if(!$scope.loginForm.loginId.$valid){
 			if(lang === 'en'){
-				validMsg = "ID must be contain one lowercase letter, number, and a special character.";
+				$scope.validMsg = "ID must be contain one lowercase letter, number, and a special character.";
 			}else{
-				validMsg = "아이디는 영문자, 숫자 또는 특수문자이어야 합니다.";
+				$scope.validMsg = "아이디는 영문자, 숫자 또는 특수문자이어야 합니다.";
 			}
 		}else if($scope.loginForm.password.$viewValue == ""){
 			if(lang === 'en'){
-				validMsg = "Please, write your password to login.";
+				$scope.validMsg = "Please enter a password.";
 			}else{
-				validMsg = "비밀번호를 입력해주세요.";
+				$scope.validMsg = "비밀번호를 입력해주세요.";
 			}
 		}else{
-			validMsg = "";
-			validCheck = true;
+			$scope.validMsg = "";
+			$scope.validCheck = true;
 		}
 		
-		console.log(loginFailCntYn)
+		if(!$scope.validCheck){
+			return;
+		}
+				
 		if(loginFailCntYn == 'Y'){
 			console.log(document.querySelector('#answer').value)
 			if(document.querySelector('#answer').value == ''){
-				validMsg = "보안문자를 입력해주세요.";
-				validCheck = false;
+				$scope.validMsg = "보안문자를 입력해주세요.";
+				$scope.validCheck = false;
 				$scope.captchaShow = true;
 				
-				document.getElementById('loginFailMessage').innerHTML = validMsg;
-				if(!validCheck){
+				if(!$scope.validCheck){
 					return;
 				}
 			}else{
 				$scope.chkAnswer();
 			}			
 		}else{
-			document.getElementById('loginFailMessage').innerHTML = validMsg;
-			if(!validCheck){
+			if(!$scope.validCheck){
 				return;
 			}
 			
@@ -78,7 +84,7 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 			$scope.captchaShow = false;
 		}
 	}
-	
+
 	$scope.getImage = function (){ 
 		var rand = Math.random(); 
 		var url = '/api/login/captchaImg?rand='+rand; 
@@ -99,7 +105,8 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 					document.querySelector('#answer').setAttribute('value', '');
 					loginFailCntYn = 'Y';
 					$scope.captchaShow = true;
-					document.getElementById('loginFailMessage').innerHTML = "보안문자 입력값이 일치하지 않습니다.";
+					$scope.validMsg = "보안문자 입력값이 일치하지 않습니다.";
+					$scope.validCheck = false;
 					$scope.$apply();
 					return;
 				}
