@@ -75,16 +75,14 @@ public class PaymentController {
     }
 
     @PostMapping("/memberProcess")
-    public String memberProcess(HttpServletRequest request) {
+    public String memberProcess(HttpServletRequest request , RedirectAttributes attr) {
 
         CommonMap resultMap = paymentService.paymentProcess(PaymentType.CUST_REGULAR , request);
 
-        log.info("resultMap : {}" , resultMap);
+        attr.addAttribute("payId", resultMap.get("pay_no"));
+        attr.addAttribute("payMethod", resultMap.get("PayMethod"));
 
-        return "redirect:/payment/memberResult?payId="
-                + resultMap.get("pay_no")
-                +"&payMethod="
-                + resultMap.getString("pay_method");
+        return "redirect:/payment/memberResult";
     }
 
     @GetMapping("/memberResult")
