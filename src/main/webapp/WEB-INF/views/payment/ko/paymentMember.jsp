@@ -87,9 +87,9 @@
                                             <li class="no-line">
                                                 <p class="list_tit tt4">총 결제금액</p>
                                                 <div class="total_pay_box tt3">
-                                                    정회원 비용 ${de_price} <i class="tb1">원</i><i class="br-mo"></i>
+                                                    정회원 비용 <fmt:formatNumber type="number" maxFractionDigits="3" value="${price}" /> <i class="tb1">원</i><i class="br-mo"></i>
                                                     + 수수료 0 <i class="tb1">원</i> <i class="br-mo"></i>
-                                                    = <span>총 결제금액 ${de_price} <i class="tb1">원</i></span>
+                                                    = <span>총 결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${price}" /> <i class="tb1">원</i></span>
                                                 </div>
                                             </li>
 

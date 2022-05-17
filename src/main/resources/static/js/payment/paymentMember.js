@@ -30,5 +30,18 @@ $(function(){
         $('input:checkbox[name="agree_checkbox"]').prop('checked',checked);
     });
 
+    //모두 체크하거나 모두 해제된 이벤트 처리.
+    $('input:checkbox[name="agree_checkbox"]').on('click' , function (){
+
+        if( $('input:checkbox[name="agree_checkbox"]:checkbox:checked').length === 4 ) {
+            $("#checkboxall").prop('checked' , true );
+        } else {
+            $("#checkboxall").prop('checked' , false );
+        }
+    });
+
+
+
+
 
 });

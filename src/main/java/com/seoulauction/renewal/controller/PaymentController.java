@@ -62,7 +62,6 @@ public class PaymentController {
         /* attribute */
         request.setAttribute("goodsName" , goodsName);
         request.setAttribute("price" , price);
-        request.setAttribute("de_price" , SAConst.DECIMAL_FORMAT.format(price));
         request.setAttribute("moid" , moid);
         request.setAttribute("returnURL" , returnURL);
 
