@@ -5,6 +5,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<link href="/css/a<!-- css 경로 수정 필요 -->
+<link href="/css/angular/rzslider.css" rel="stylesheet">
+<link href="/css/angular/ngDialog.css" rel="stylesheet">  ngular/popup.css" rel="stylesheet">
+<link href="/css/jquery.modally.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/1.3.0/moment-duration-format.min.js"></script>
+
 <body>
 	<div id="wrap">
 		<jsp:include page="../../include/ko/header.jsp" flush="false" />
@@ -13,7 +20,7 @@
 
 				<script type="text/javascript" src="/js/mypage/onlinePay.js"></script>
 				<div class="container_wrap" ng-controller="onlinePayListCtl"
-					data-ng-init="init();">
+					data-ng-init="loadOnlinePayList(1);">
 
 					<div id="container">
 						<div class="contents_wrap">
@@ -29,47 +36,6 @@
 								<p style="font-size: 12px; line-height: 18px;">
 									문의 : 02-395-0330​​(본사) <br /> <br />
 								</p>
-								<article class="search-wrap">
-									<div class="search-bar">
-										<div class="date-wrap">
-											<div class="select-box h42-line">
-												<select id="searchMonth" ng-model="sale"
-													ng-change="loadOnlinePayList(1,'searchMonth');">
-													<option value="">전체</option>
-													<option ng-repeat="sale in saleList track by $index"
-														value="{{sale.saleMonth}}">{{sale.saleMonth}}</option>
-												</select>
-											</div>
-										</div>
-										<div class="search-detail-btnbox">
-											<a href="#" class="search-detail-btn"> <i
-												class="form-search_md" title="상세검색"></i>
-											</a>
-										</div>
-									</div>
-									<div class="search-detail-box">
-										<div class="input-wrap">
-											<input type="text" placeholder="" id="searchKeyword"
-												class="h42">
-										</div>
-										<div class="period-wrap">
-											<dl>
-												<dt>기간</dt>
-												<dd>
-													<div class="date-wrap">
-														<input type="text" placeholder="" id="searchStartDt"
-															class="h42"> <span>~</span> <input type="text"
-															placeholder="" id="searchEndDt" class="h42">
-													</div>
-													<button class="btn btn_black btn_sm" type="button"
-														ng-click="loadOnlinePayList(1, 'searchDetail')">
-														<span>검색</span>
-													</button>
-												</dd>
-											</dl>
-										</div>
-										</diiv>
-								</article>
 								<div class="tbl_top">
 									<div class="left">
 										<div class="txt" style="margin-bottom: 10px;">
@@ -130,6 +96,10 @@
 															lot.LOT_TITLE_JSON[locale] }} {{lot.LOT_TITLE_JSON.zh |
 															trimSameCheck : lot.LOT_TITLE_JSON[locale] }} </span>
 														</div>
+												<button type="button"
+						                        ng-click="onlinePayHis({'parent':this, 'lot':lot});" class="ng-scope" >
+						                          결제완료
+						                        </button>
 													</div>
 												</div>
 												<!-- //customer_bidlist_captionbox -->

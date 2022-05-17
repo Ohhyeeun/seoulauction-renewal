@@ -75,5 +75,40 @@ public class LoginController {
     	
         return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "login" , locale);
     }
+    
+    @GetMapping("/findId")
+    public String findId(Locale locale) {
+    	return SAConst.getUrl(SAConst.SERVICE_CUSTOMER, "findId" , locale);
+    }
+    
+    
+    @GetMapping("/findPassword")
+    public String findPassword(Locale locale) {
+    	return SAConst.getUrl(SAConst.SERVICE_CUSTOMER, "findPassword" , locale);
+    }
+    
+    @GetMapping("/join")
+    public String join(Locale locale, Principal principal) {
+    	log.debug("===== join =====");
+    	
+    	if(principal != null) {
+            return "redirect:/";
+    	}
+    	
+        return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "join" , locale);
+    }
+
+    @GetMapping("/joinForm")
+    public String joinForm(Locale locale) {
+    	log.debug("===== joinForm =====");
+    	
+        return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "joinForm" , locale);
+    }
+    
+    @GetMapping("/social/naver/callback")
+	public String socialNaverCallback(Locale locale, HttpServletRequest request, HttpServletResponse response) {
+	    log.debug("===== naverCallback =====");
+	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "naverCallback" , locale);
+    }
 
 }

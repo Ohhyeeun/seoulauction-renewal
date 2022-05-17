@@ -1,5 +1,7 @@
 
 app.value('locale', 'ko');
+
+
 app.controller('onlinePayListCtl', function($scope, consts, common) {
 	$scope.suc_yn = null;
 	$scope.pay_sat_cd = null;
@@ -21,7 +23,7 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 		var searchStartDt = document.getElementById('searchStartDt');
 		var searchEndDt = document.getElementById('searchEndDt');
 
-		$scope.pageRows = 20;
+		$scope.pageRows = 5;
 		$scope.currentPage = $page;
 		$api = '/api/mypage/onlinePaies?page=' + $scope.currentPage + "&size=" + $scope.pageRows;
 
