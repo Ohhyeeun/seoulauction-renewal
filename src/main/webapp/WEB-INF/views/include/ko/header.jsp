@@ -21,7 +21,7 @@
         <div class="swiper-wrapper"></div>
     </div>
 
-    <div class="header-border">
+    <div>
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">ENG</a>
                 <ul class="bubble-box bubble-box01">

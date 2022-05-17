@@ -207,10 +207,10 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
     }
 
     /* utility menu */
-    $('.utility-join').hide();
+    /*$('.utility-join').hide();
     $('.utility-login').hide();
     $('.gnb_join').hide();
-    $('.gnb_login').hide();
+    $('.gnb_login').hide();*/
 
     /* 모바일 gnb 유틸리티 */
     $('.gnb_logout').click(function(){
