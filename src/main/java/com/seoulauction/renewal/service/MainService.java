@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -123,10 +124,43 @@ public class MainService {
 
 
     public List<CommonMap> selectIngAuctions(){
-        return ktMainMapper.selectIngAuctions();
+
+        List<CommonMap> resultMapList = ktMainMapper.selectIngAuctions();
+
+        resultMapList = resultMapList.stream().map(item -> {
+            CommonMap returnMap = new CommonMap();
+            returnMap.put("SALE_NO", item.get("SALE_NO"));
+            returnMap.put("SALE_KIND", item.get("SALE_KIND"));
+            returnMap.put("TITLE_BLOB", item.get("TITLE_BLOB"));
+            returnMap.put("FROM_DT", item.get("FROM_DT"));
+            returnMap.put("TO_DT", item.get("TO_DT"));
+
+            CommonMap paramMap = new CommonMap();
+            paramMap.put("sale_no", item.get("SALE_NO"));
+            CommonMap saleImg = ktMainMapper.selectSaleImage(paramMap);
+
+            returnMap.put("FILE_PATH", saleImg.get("FILE_PATH"));
+            returnMap.put("FILE_NAME", saleImg.get("FILE_NAME"));
+
+            return returnMap;
+        }).collect(Collectors.toList());
+
+        return resultMapList;
     }
 
     public List<CommonMap> selectIngMenuCount(){
         return ktMainMapper.selectIngMenuCount();
+    }
+
+    public CommonMap selectHaveToPayWorkCount(Principal principal){
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("action_user_no", principal.getName());
+
+        int haveToPayCount = ktMainMapper.selectHaveToPayWork(paramMap) == null? 0 : ktMainMapper.selectHaveToPayWork(paramMap).size();
+
+        CommonMap resultMap = new CommonMap();
+        resultMap.put("isExist", haveToPayCount > 0 ? true : false);
+
+        return resultMap;
     }
 }

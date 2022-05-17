@@ -6,6 +6,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <jsp:include page="../../common/commonCss.jsp" flush="false"/>
+
 <%--메인일경우 main.css 추가. common.css 아래 위치에 존재해야함. --%>
 <c:if test="${not empty param.main}">
     <link rel="stylesheet" href="/css/main.css" type="text/css" />
@@ -13,7 +14,7 @@
 
 <%--메인이 아닐 경우에만 해당 css 추가.--%>
 <c:if test="${empty param.main}">
-<jsp:include page="../../common/commonCssNotMain.jsp" flush="false"/>
+    <jsp:include page="../../common/commonCssNotMain.jsp" flush="false"/>
 </c:if>
 
 <%--angular 관련은 미리 로딩--%>
@@ -38,9 +39,10 @@
             <li class="utility-tab utility-account"><a href="#">마이페이지</a>
                 <ul class="bubble-box bubble-box02">
                     <li><a href="#">라이브 경매 관리</a></li>
-                    <li><a href="#">온라인 경매 관리<i class="utility-icon on"></i></a></li>
+                    <li id="MyMenuOnlineBadge"><a href="#">온라인 경매 관리</a></li>
                     <li><a href="#">관심작품</a></li>
-                    <li><a href="#">아카데미 신청목록</a></li> 
+                    <li><a href="#">아카데미 신청목록</a></li>
+
                     <li><a href="#">회원정보 수정</a></li>
                 </ul>
             </li> <!-- login -->
