@@ -11,11 +11,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Seoul Auction</title>
-<<<<<<< HEAD
     <link rel="stylesheet" href="/css/common.css" type="text/css" />
     <link rel="stylesheet" href="/css/main.css" type="text/css" />
-=======
->>>>>>> develop
 </head>
 <body>
 <%--<jsp:include page="../../main/include/topNotice.jsp" />--%>
@@ -201,7 +198,7 @@
                 </figure>
             </section>
 
-            <article class="flex_wrap article-contents">
+            <aticle class="flex_wrap article-contents">
                 <div class="familysite-box">
                     <h3 class="main-sectiontit familySite-tit">Family Site</h3>
                     <div class="flex_wrap familysiteContents">
@@ -266,7 +263,7 @@
                     </div>
                 </div>
 
-            </article>
+            </aticle>
         </section>
     </div>
     <jsp:include page="../../include/ko/footer.jsp" flush="false">
@@ -301,12 +298,12 @@
     <div class="main-popupwrap">
         <div class="main-popupbox">
             <a href="#">
-                <div class="main-popup-img"> <!-- 이미지 레이어팝업 -->
+                <div class="main-popup-img on"> <!-- 이미지 레이어팝업 -->
                     <img src="/images/pc/main/pop_event.jpg" alt="레이어팝업 이미지">
                 </div>
 
                 <!-- 텍스트 레이어팝업 -->
-                <!--<div class="main-popup-txt">
+                <div class="main-popup-txt">
                     <div class="main-popup-caption">
                         <h2>국내 오프라인 경매 구매수수료율 인상 및 약관 개정 안내</h2>
                         <p>항상 서울옥션을 이용해 주시는 고객 여러분들께<br> 진심으로 감사의 말씀을 드리며,<br>다음과 같이 국내 오프라인 경매 구매수수료율을<br>인상함을 알려드립니다.<br>
@@ -316,7 +313,7 @@
                         항상 서울옥션을 이용해 주시는 고객 여러분들께<br> 진심으로 감사의 말씀을 드리며,<br>다음과 같이 국내 오프라인 경매 구매수수료율을<br>인상함을 알려드립니다.<br> </p>
                         <p class="main-popup-green">변경 전 -15%(부가세 별도)</p>
                     </div>
-                </div>-->
+                </div>
             </a>
             <div class="main-popup-close">
                 <span>오늘 그만보기</span><span class="main-popup-closebtn closebtn closebtn-w"></span>
