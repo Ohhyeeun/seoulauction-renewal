@@ -3,6 +3,7 @@ package com.seoulauction.renewal.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.auth.Cryptography;
+import com.seoulauction.renewal.common.PaymentType;
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.component.NicePayModule;
 import com.seoulauction.renewal.domain.CommonMap;
@@ -47,16 +48,13 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
-    private final NicePayModule nicePayModule;
-
-    @GetMapping("/paymentMember")
+    @GetMapping("/member")
     public String paymentMember(HttpServletRequest request , Locale locale) {
 
         String goodsName = "정회원"; 					// 결제상품명
-        String price = "1234"; 						// 결제상품금액
+        Integer price = 1234; 						// 결제상품금액
         String moid = "mnoid1234567890"; 			// 상품주문번호
-        String returnURL = "http://localhost:8080/payment/payResult"; // 결과페이지(절대경로) - 모
-        // 바일 결제창 전용
+        String returnURL = "https://re-dev.seoulauction.com/payment/memberResult"; // 결과페이지(절대경로) - 모
 
         String name = "김융훈"; 						// 구매자명
         String tel = "01000000000"; 				// 구매자연락처
@@ -69,6 +67,7 @@ public class PaymentController {
         /* attribute */
         request.setAttribute("goodsName" , goodsName);
         request.setAttribute("price" , price);
+        request.setAttribute("de_price" , SAConst.DECIMAL_FORMAT.format(price));
         request.setAttribute("moid" , moid);
         request.setAttribute("returnURL" , returnURL);
 
@@ -86,40 +85,20 @@ public class PaymentController {
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentMember" , locale);
     }
 
-    @PostMapping("/paymentMemberResult")
+    @PostMapping("/memberResult")
     public String payResult(HttpServletRequest request , Locale locale) {
 
-        NicePayHttpServletRequestWrapper wrapper = new NicePayHttpServletRequestWrapper(request);
+        log.info("request : {}" , request.getParameterMap());
+
+        paymentService.paymentProcess(PaymentType.CUST_REGULAR , request);
+
         String address  = "(02123) 경기도 부천시 양지로 234-38";
-
-        try {
-            log.info(new ObjectMapper().writeValueAsString(wrapper.getMapToString()));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        CommonMap resultMap = nicePayModule.payProcess(request);
-        if(MapUtils.isNotEmpty(resultMap)) {
-            //추후 개인정보는 시큐리티에서 가져올듯
-            resultMap.put("cust_no", "27319"); // 로그인 한 유저 번호 가져와야함.
-            resultMap.put("pay_method", wrapper.getParameter("PayMethod"));
-            resultMap.put("pg_trnas_id", wrapper.getParameter("TxTid"));
-            resultMap.put("name", wrapper.getParameter("BuyerName"));
-            resultMap.put("pay_price", wrapper.getParameter("Amt"));
-            resultMap.put("no_vat_price", 0);
-            resultMap.put("vat_price", 0);
-            resultMap.put("vat", 0);
-            //디비 저장.
-            paymentService.insertCustPay(resultMap);
-        }
-
-        log.info("result : {}" , resultMap);
-
         request.setAttribute("address" , address);
-        request.setAttribute("name", wrapper.getParameter("BuyerName"));
-        request.setAttribute("tel" , wrapper.getParameter("BuyerTel"));
-        request.setAttribute("method" , wrapper.getParameter("PayMethod"));
-        request.setAttribute("amt" , wrapper.getParameter("Amt"));
+        request.setAttribute("name", request.getParameter("BuyerName"));
+        request.setAttribute("tel" , request.getParameter("BuyerTel"));
+        request.setAttribute("method" , request.getParameter("PayMethod"));
+        request.setAttribute("price" , request.getParameter("Amt"));
+        request.setAttribute("dePrice" , SAConst.DECIMAL_FORMAT.format(Integer.parseInt(request.getParameter("Amt"))));
 
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentMemberResult" , locale);
     }
@@ -129,8 +108,11 @@ public class PaymentController {
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "/example/payRequest_utf" , locale);
     }
 
-    @GetMapping("/paymentTuition")
-    public String paymentTuition(HttpServletRequest request , Locale locale) {
+    @GetMapping("/paymentAcademy/{academy_id}")
+    public String paymentAcademy(HttpServletRequest request, Locale locale) {
+        // select cust
+        // select academy
+
         String merchantKey 		= nicePaymerchantKey; // 상점키
         String merchantID 		= nicePayMerchantId; 				// 상점아이디
         String goodsName 		= "나이스페이"; 					// 결제상품명
@@ -139,7 +121,7 @@ public class PaymentController {
         String buyerTel 		= "01033720384"; 				// 구매자연락처
         String buyerEmail 		= "sjk@seoulauction.com"; 			// 구매자메일주소
         String moid 			= "mnoid1234567890"; 			// 상품주문번호
-        String returnURL 		= "http://localhost:9090/nicepay3.0_utf-8/payResult_utf.jsp"; // 결과페이지(절대경로) - 모바일 결제창 전용
+        String returnURL 		= "https://re-dev.seoulauction.com/payment/paymentTuitionProcess"; // 결과페이지(절대경로) - 모바일 결제창 전용
 
         /*
          *******************************************************
@@ -164,28 +146,28 @@ public class PaymentController {
         request.setAttribute("ediDate", ediDate);
         request.setAttribute("hashString", hashString);
 
-        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentTuition" , locale);
+        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentAcademy" , locale);
     }
 
-    @PostMapping("/paymentTuitionProcess")
-    public String paymentTuitionProcess(HttpServletRequest request, Locale locale) {
-        log.info("paymentTuitionProcess");
+    @PostMapping("/paymentAcademyProcess")
+    public String paymentAcademyProcess(HttpServletRequest request, Locale locale) {
+        log.info("paymentAcademyProcess");
 
         /*****************************************************************************************
          * <인증 결과 파라미터>
          *****************************************************************************************/
         String authResultCode 	= request.getParameter("AuthResultCode"); 	// 인증결과 : 0000(성공)
-        String authResultMsg 	= (String)request.getParameter("AuthResultMsg"); 	// 인증결과 메시지
-        String nextAppURL 		= (String)request.getParameter("NextAppURL"); 		// 승인 요청 URL
-        String txTid 			= (String)request.getParameter("TxTid"); 			// 거래 ID
-        String authToken 		= (String)request.getParameter("AuthToken"); 		// 인증 TOKEN
-        String payMethod 		= (String)request.getParameter("PayMethod"); 		// 결제수단
-        String mid 				= (String)request.getParameter("MID"); 				// 상점 아이디
-        String moid 			= (String)request.getParameter("Moid"); 			// 상점 주문번호
-        String amt 				= (String)request.getParameter("Amt"); 				// 결제 금액
-        String reqReserved 		= (String)request.getParameter("ReqReserved"); 		// 상점 예약필드
-        String netCancelURL 	= (String)request.getParameter("NetCancelURL"); 	// 망취소 요청 URL
-        //String authSignature = (String)request.getParameter("Signature");			// Nicepay에서 내려준 응답값의 무결성 검증 Data
+        String authResultMsg 	= request.getParameter("AuthResultMsg"); 	// 인증결과 메시지
+        String nextAppURL 		= request.getParameter("NextAppURL"); 		// 승인 요청 URL
+        String txTid 			= request.getParameter("TxTid"); 			// 거래 ID
+        String authToken 		= request.getParameter("AuthToken"); 		// 인증 TOKEN
+        String payMethod 		= request.getParameter("PayMethod"); 		// 결제수단
+        String mid 				= request.getParameter("MID"); 				// 상점 아이디
+        String moid 			= request.getParameter("Moid"); 			// 상점 주문번호
+        String amt 				= request.getParameter("Amt"); 				// 결제 금액
+        String reqReserved 		= request.getParameter("ReqReserved"); 		// 상점 예약필드
+        String netCancelURL 	= request.getParameter("NetCancelURL"); 	// 망취소 요청 URL
+        //String authSignature = request.getParameter("Signature");			// Nicepay에서 내려준 응답값의 무결성 검증 Data
 
         /*
          ****************************************************************************************
@@ -217,7 +199,7 @@ public class PaymentController {
         String resultJsonStr = "";
         System.out.println("authResultCode: "+authResultCode);
         System.out.println("authResultMsg: "+authResultMsg);
-        if(authResultCode.equals("0000") || authResultCode.equals("A211") /*&& authSignature.equals(authComparisonSignature)*/){
+        if(authResultCode.equals("0000") /*&& authSignature.equals(authComparisonSignature)*/){
             /*
              ****************************************************************************************
              * <해쉬암호화> (수정하지 마세요)
@@ -244,7 +226,6 @@ public class PaymentController {
 
             try {
                 resultJsonStr = connectToServer(requestData.toString(), nextAppURL);
-                System.out.println("resultJsonStr: "+resultJsonStr);
                 HashMap resultData = new HashMap();
                 boolean paySuccess = false;
                 if ("9999".equals(resultJsonStr)) {
@@ -273,11 +254,78 @@ public class PaymentController {
                     GoodsName = (String) resultData.get("GoodsName");    // 상품명
                     Amt = (String) resultData.get("Amt");        // 결제 금액
                     TID = (String) resultData.get("TID");        // 거래번호
+
                     // Signature : Nicepay에서 내려준 응답값의 무결성 검증 Data
                     // 가맹점에서 무결성을 검증하는 로직을 구현하여야 합니다.
                     /*Signature = (String)resultData.get("Signature");
                     paySignature = sha256Enc.encrypt(TID + mid + Amt + merchantKey);*/
 
+
+                    CommonMap map = new CommonMap();
+                    map.putAll(resultData);
+
+                    /** 4. 결제 결과 */
+                    String resultCode = (String) resultData.get("ResultCode"); // 결과코드 (정상 :3001 , 그 외 에러)
+                    String resultMsg = (String) resultData.get("ResultMsg");   // 결과메시지
+                    String authDate = (String) resultData.get("AuthDate");   // 승인일시 YYMMDDHH24mmss
+                    String authCode = (String) resultData.get("AuthCode");   // 승인번호
+
+                    String buyerName = (String) resultData.get("BuyerName");   // 구매자명
+                    String mallUserID = (String) resultData.get("MallUserID");   // 회원사고객ID
+                    String goodsName = (String) resultData.get("GoodsName");   // 상품명
+                    //String mid = (String) resultData.get("MID");  // 상점ID
+                    String tid = (String) resultData.get("TID");  // 거래ID
+                    //String moid = (String) resultData.get("Moid");  // 주문번호
+                    //String amt = (String) resultData.get("Amt");  // 금액
+
+                    String cardCode = (String) resultData.get("CardCode");   // 결제카드사코드
+                    String cardName = (String) resultData.get("CardName");   // 결제카드사명
+                    String cardQuota = (String) resultData.get("CardQuota");  // 카드 할부개월 (00:일시불,02:2개월)
+
+                    String bankCode = (String) resultData.get("BankCode");   // 은행코드
+                    String bankName = (String) resultData.get("BankName");   // 은행명
+                    String rcptType = (String) resultData.get("RcptType"); //현금 영수증 타입 (0:발행되지않음,1:소득공제,2:지출증빙)
+                    String rcptAuthCode = (String) resultData.get("RcptAuthCode"); //현금영수증 승인 번호
+                    String rcptTID = (String) resultData.get("RcptTID"); //현금 영수증 TID
+
+                    String carrier = (String) resultData.get("Carrier");       // 이통사구분
+                    String dstAddr = (String) resultData.get("DstAddr");       // 휴대폰번호
+
+                    String vbankBankCode = (String) resultData.get("VbankBankCode");   // 가상계좌은행코드
+                    String vbankBankName = (String) resultData.get("VbankBankName");   // 가상계좌은행명
+                    String vbankNum = (String) resultData.get("VbankNum");   // 가상계좌번호
+                    String vbankExpDate = (String) resultData.get("VbankExpDate");   // 가상계좌입금예정일
+
+                    String no_vat_price = request.getParameter("no_vat_price");
+                    String vat_price = request.getParameter("vat_price");
+                    String vat = request.getParameter("vat");
+
+                    String mall_reserved = request.getParameter("MallReserved");
+
+                    String academy_no = request.getParameter("academy_no");
+
+                    map.put("cust_no", "117997");
+                    map.put("payer", buyerName);
+                    map.put("pay_price", amt);
+                    map.put("pg_trans_id", tid); //paramMap.put("PG_TRANS_ID", moid);
+                    map.put("reg_emp_no",  "117997");
+
+                    map.put("academy_no", academy_no);
+
+                    //가상결제 PAY_ WAIT 테이블 입력을 위해서
+                    map.put("kind_cd", PaymentType.ACADEMY);
+                    map.put("ref_no", academy_no);
+                    map.put("pay_method_cd", payMethod);
+
+                    map.put("no_vat_price", no_vat_price);
+                    map.put("vat_price", vat_price);
+                    map.put("vat", vat);
+                    map.put("uuid", mall_reserved);
+
+                    map.put("vbank_cd", vbankBankCode);
+                    map.put("vbank_nm", vbankBankName);
+                    map.put("vbank_num", vbankNum);
+                    map.put("vbank_exp_dt", vbankExpDate);
                     /*
                      *************************************************************************************
                      * <결제 성공 여부 확인>
@@ -298,6 +346,15 @@ public class PaymentController {
                             if (ResultCode.equals("0000")) paySuccess = true; // 계좌간편결제(정상 결과코드:0000)
                         }
                     }
+
+                    map.put("pg_cd", SAConst.PG_NICEPAY);
+                    if(paySuccess) {
+                        if (PayMethod.equals("VBANK")) {
+                            paymentService.insertPayWait(map);
+                        } else {
+
+                        }
+                    }
                 }
             } catch (Exception e) {
                 log.error(e.getMessage());
@@ -312,13 +369,14 @@ public class PaymentController {
 
         System.out.println("ResultCode: "+ResultCode);
         System.out.println("authResultMsg: "+authResultMsg);
-        return "redirect:/payment/paymentTuitionResult";
+        return "redirect:/payment/paymentAcademyResult";
     }
-    @GetMapping("/paymentTuitionResult")
-    public String paymentTuitionResult(HttpServletRequest request, Locale locale) {
-        log.info("paymentTuitionResult");
 
-        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentTuitionResult" , locale);
+    @GetMapping("/paymentAcademyResult")
+    public String paymentAcademyResult(HttpServletRequest request, Locale locale) {
+        log.info("paymentAcademyResult");
+
+        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentAcademyResult" , locale);
     }
 
     public final synchronized String getyyyyMMddHHmmss(){
@@ -436,6 +494,49 @@ public class PaymentController {
 
         }
         return dataMap;
+    }
+
+    @GetMapping("work/{id}")
+    public String work(HttpServletRequest request , Locale locale) {
+
+        String goodsName = "정회원"; 					// 결제상품명
+        String price = "1234"; 						// 결제상품금액
+        String moid = "mnoid1234567890"; 			// 상품주문번호
+        String returnURL = "http://localhost:8080/payment/payResult"; // 결과페이지(절대경로) - 모
+
+        String name = "김융훈"; 						// 구매자명
+        String tel = "01000000000"; 				// 구매자연락처
+        String email = "happy@day.co.kr"; 			// 구매자메일주소
+        String address  = "(02123) 경기도 부천시 양지로 234-38";
+
+        String eDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String signData = Cryptography.encrypt(eDate + nicePayMerchantId + price + nicePaymerchantKey);
+
+        /* attribute */
+        request.setAttribute("goodsName" , goodsName);
+        request.setAttribute("price" , price);
+        request.setAttribute("moid" , moid);
+        request.setAttribute("returnURL" , returnURL);
+
+        request.setAttribute("name" , name);
+        request.setAttribute("tel" , tel);
+        request.setAttribute("email" , email);
+        request.setAttribute("address" , address);
+
+        request.setAttribute("mKey" , nicePaymerchantKey);
+        request.setAttribute("mId" , nicePayMerchantId);
+        request.setAttribute("signData" , signData);
+        request.setAttribute("eDate" , eDate);
+        request.setAttribute("signData" , signData);
+
+        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentWork" , locale);
+    }
+
+    @GetMapping("/workResult")
+    public String paymentWorkResult(HttpServletRequest request , Locale locale) {
+
+
+        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentWorkResult" , locale);
     }
 
 }

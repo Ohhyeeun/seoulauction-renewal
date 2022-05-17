@@ -31,7 +31,7 @@
                     <li><a href="#">라이브 경매 관리</a></li>
                     <li id="MyMenuOnlineBadge"><a href="#">온라인 경매 관리</a></li>
                     <li><a href="#">관심작품</a></li>
-                    <li><a href="#">아카데미 신청목록</a></li>
+                    <li><a href="#">아카데미 신청목록<i class="utility-icon on"></i></a></li>
                     <li><a href="#">회원정보 수정</a></li>
                 </ul>
             </li> <!-- login -->
@@ -58,7 +58,7 @@
                 <form action="" class="scroll_none">
                     <fieldset class="topsearch">
                         <span class="submenuBg-closeBtn top-search-closeBtn m-ver"></span>
-                        <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver"><button type="submit" class="topsearch-btn pc-ver"></button>
+                        <input onkeydown="searchFilter()" onmousedown="searchDown()" type="text" class="topsearch-text pc-ver"><button type="submit" class="topsearch-btn pc-ver"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">
                                 <span class="keyword-search-tit">최근검색<span class="keyword-all-del">전체삭제</span></span><!--

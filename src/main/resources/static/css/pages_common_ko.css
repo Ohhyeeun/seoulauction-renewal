@@ -26746,7 +26746,7 @@ header.win_header .header-inner .header_logo {
 
 /* 경매안내  */
 .submenuBg, .gnb_submenuBg {
-  /*display: none !important;*/  
+  display: none !important;
 }
 
 /* =============================== 섹션 이름  */

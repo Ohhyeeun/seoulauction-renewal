@@ -15,4 +15,9 @@ public interface LoginMapper {
     int updateCustPwdResetByCustNo(CommonMap paramMap);
     
     int updateCustPwdModDtByCustNo(CommonMap paramMap);
+    
+    int updateCustLoginFailCntByCustNo(CommonMap paramMap);
+    
+    CommonMap selectCustLoginId(CommonMap paramMap);
+
 }

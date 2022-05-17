@@ -179,12 +179,11 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
         });
         /* mobile gnb bg */
         $('.m-gnbmenu').click(function(){
-            $('.gnb_submenuBg').animate({'right':'0','transition':'ease .3s'});
+            $('.gnb_submenuBg').show();
             $('.submenuBg').animate({'right':'0','transition':'ease .5s','display':'block'});
         });
-        $('.submenuBg-closeBtn, .gnb_submenuBg').click(function(){
-            console.log(34234);
-            $('.gnb_submenuBg').animate({'right':'-100%','transition':'ease .5s'});
+        $('.submenuBg-closeBtn').click(function(){
+            $('.gnb_submenuBg').hide();
             $('.submenuBg').animate({'right':'-100%','transition':'ease .3s'});
         });
 
@@ -211,7 +210,7 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
         $('.header').show(function(){
             $('.main-header').show(function(){
                 /*$('.main-contents').css('top','56px'); */
-                $('.main-contents').css('margin-top','58px');
+                $('.main-contents').css('margin-top','56px');
             });
             $(this).hasClass('main-header');
         });
@@ -243,12 +242,12 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
     });
 
     /*pc 유틸리티 */
-    $('.utility-logout').click(function(){
+    /*$('.utility-logout').click(function(){
         $('.utility-join').show();
         $('.utility-account').hide();
         $('.utility-login').show();
         $(this).hide();
-    });
+    });*/
     let utilityMenu = $(this).index();
     $('.utility-tab').mouseenter(function(){
         $(this).children('a').addClass('on');
@@ -327,6 +326,13 @@ $('.scroll-top').click(function(){
     $('html, body').animate({scrollTop: '0'}, 700);
 });
 
+/* top search 클릭 할 때 filter 기능 */
+function searchDown() {
+    $('.topsearch-text').click(function(){
+        $('.search-bubble-box').addClass('on');
+    });
+}
+
 /* top search filter 기능 */
 function searchFilter() {
     if(window.Event.keyCode == 13){
@@ -371,8 +377,23 @@ function setCookie(name, value, expiredays) {
 }
 
 
+//숫자를 천단위마다 콤마 해줌.
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 
 
+
+function phoneNumber(obj){
+    let mobile_len=obj.value.length;
+    
+    if(event.keyCode==8){
+        obj.value=obj.value.slice(0,mobile_len); 
+        return 0; 
+    }else if (mobile_len==3 || mobile_len==8){
+        obj.value += '-';
+    }
+}
 
 
 

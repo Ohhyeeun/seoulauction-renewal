@@ -8,4 +8,10 @@ public interface PaymentMapper {
 
     void insertPay(CommonMap map);
     void insertCustPay(CommonMap map);
+    void insertLotPay(CommonMap map);
+    void updateLotFeeForPayment(CommonMap map);
+
+    int insertPayWait(CommonMap map);
+
+    CommonMap selectPayWait(CommonMap map);
 }

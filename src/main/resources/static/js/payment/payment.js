@@ -11,8 +11,6 @@ function nicepayStart(){
 
 //[PC 결제창 전용]결제 최종 요청시 실행됩니다. <<'nicepaySubmit()' 이름 수정 불가능>>
 function nicepaySubmit(){
-    let form = document.payForm;
-
     document.payForm.submit();
 }
 
@@ -23,7 +21,6 @@ function nicepayClose(){
 
 //pc, mobile 구분(가이드를 위한 샘플 함수입니다.)
 function checkPlatform(ua) {
-
 
     if(ua === undefined) {
         ua = window.navigator.userAgent;
@@ -61,3 +58,31 @@ function checkPlatform(ua) {
 
     return userPlatform;
 }
+
+// 신용 / 가상계좌 스크립트
+$(function(){
+
+    $("#payCard").removeClass('btn_default');
+    $("#payCard").addClass('btn_black');
+    $('#inputPayMethod').val('CARD');
+    let buttons = $("#payMethod").children('.btn');
+
+    buttons.on('click',function (){
+
+        //버튼들을 기본으로 다만듬.;
+        buttons.each(function(){
+            $(this).addClass('btn_default');
+            $(this).removeClass('btn_black');
+        })
+
+        //클릭한 버튼만 블랙처리.
+        $(this).addClass('btn_black');
+        $(this).removeClass('btn_default');
+        let id = $(this).attr('id');
+        if(id === 'payCard'){
+            $('#inputPayMethod').val('CARD');
+        } else if (id === 'payVBank'){
+            $('#inputPayMethod').val('VBANK');
+        }
+    });
+});
