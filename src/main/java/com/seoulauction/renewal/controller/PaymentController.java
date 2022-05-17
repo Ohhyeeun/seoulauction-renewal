@@ -79,7 +79,7 @@ public class PaymentController {
         CommonMap resultMap = paymentService.paymentProcess(SAConst.PAYMENT_KIND_MEMBERSHIP , request);
 
         attr.addAttribute("payId", resultMap.get("pay_no"));
-        attr.addAttribute("payMethod", resultMap.get("PayMethod"));
+        attr.addAttribute("payMethod", resultMap.get("pay_method"));
 
         return "redirect:/payment/memberResult";
     }

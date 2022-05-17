@@ -39,8 +39,8 @@ public class PaymentService {
         resultMap.put("no_vat_price", request.getParameter("no_vat_price"));
         resultMap.put("vat_price", request.getParameter("vat_price"));
         resultMap.put("vat", request.getParameter("vat"));
-        resultMap.put("uuid", request.getParameter("MallReserved"));
 
+        resultMap.put("uuid", request.getParameter("MallReserved"));
         resultMap.put("vbank_cd", resultMap.get("VbankBankCode"));
         resultMap.put("vbank_nm", resultMap.get("VbankBankName"));
         resultMap.put("vbank_num", resultMap.get("VbankNum"));
@@ -69,9 +69,10 @@ public class PaymentService {
         resultMap.put("pg_trnas_id", request.getParameter("TxTid"));
         resultMap.put("name", request.getParameter("BuyerName"));
         resultMap.put("pay_price", request.getParameter("Amt"));
-        resultMap.put("no_vat_price", 0);
-        resultMap.put("vat_price", 0);
-        resultMap.put("vat", 0);
+        resultMap.put("pg_cd", SAConst.PG_NICEPAY);
+        resultMap.put("no_vat_price", request.getParameter("no_vat_price"));
+        resultMap.put("vat_price", request.getParameter("vat_price"));
+        resultMap.put("vat", request.getParameter("vat"));
         paymentMapper.insertPay(resultMap);//공통적으로 넣기. insert 후 pay_no 가 map 안에 들어감.
 
         switch (paymentType){
