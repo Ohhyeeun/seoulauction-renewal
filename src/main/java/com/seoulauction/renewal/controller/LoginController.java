@@ -2,6 +2,7 @@ package com.seoulauction.renewal.controller;
 
 import com.seoulauction.renewal.auth.PasswordEncoderAESforSA;
 import com.seoulauction.renewal.common.SAConst;
+import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.service.LoginService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,8 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -27,12 +30,11 @@ import java.util.Locale;
 @Controller
 @Log4j2
 @RequiredArgsConstructor
-@RequestMapping(SAConst.SERVICE_LOGIN)
 public class LoginController {
 
     private final LoginService loginService;
     
-    @GetMapping("")
+    @GetMapping(SAConst.SERVICE_LOGIN)
     public String login(Locale locale, Model model
     		, HttpServletRequest request, HttpServletResponse response
     		, Principal principal, Authentication authentication
@@ -79,13 +81,33 @@ public class LoginController {
         return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "login" , locale);
     }
     
-  
     @GetMapping("/findId")
     public String findId(Locale locale) {
     	return SAConst.getUrl(SAConst.SERVICE_CUSTOMER, "findId" , locale);
     }
     
+    @GetMapping("/join")
+    public String join(Locale locale, Principal principal) {
+    	log.debug("===== join =====");
+    	
+    	if(principal != null) {
+            return "redirect:/";
+    	}
+    	
+        return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "join" , locale);
+    }
+
+    @GetMapping("/joinForm")
+    public String joinForm(Locale locale) {
+    	log.debug("===== joinForm =====");
+    	
+        return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "joinForm" , locale);
+    }
     
+    @GetMapping("/social/naver/callback")
+	public String socialNaverCallback(Locale locale, HttpServletRequest request, HttpServletResponse response) {
+	    log.debug("===== naverCallback =====");
 
-
+	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "naverCallback" , locale);
+	}
 }
