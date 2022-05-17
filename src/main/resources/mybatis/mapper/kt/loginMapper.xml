@@ -66,8 +66,9 @@
 		where CUST_NO = #{cust_no} 
 	</update>
     
-    
-    <select id="selectCustLoginId" resultType="CommonMap">
+
+    <select id="selectCustLoginIdByCustName" resultType="CommonMap">
+
 		select
 		concat(rpad(substring(login_id, 1, 2), length(login_id)-1, '*'), substring(login_id, length(login_id), 1) ) LOGIN_ID ,
 		cs.CUST_NO ,
@@ -94,4 +95,28 @@
 			</if>
 	</select>
 	
+
+	<update id="updatePasswordByLoginId" parameterType="Map">
+	    <selectKey keyProperty="passwd" resultType="String" order="BEFORE">
+		    select substring(UUID(), 1,8) passwd
+		</selectKey>
+		update CUST set
+			passwd = '${@com.seoulauction.renewal.auth.PasswordEncoderAESforSA@saPasswdEncoding(passwd.rows[0])}'
+		where login_id = #{login_id}
+		and cust_name = #{cust_name}
+		<if test="search_type == 'email'">
+			and email = #{search_value}
+		</if>
+		<if test="search_type == 'phone'">
+			and hp = #{search_value}
+		</if>
+	</update>
+	
+	<select id="selectCustomerByStatCdAndLoginId" resultType="Map">
+		select * from CUST 
+		where JOIN_KIND_CD = 'online' and IFNULL(DEL_YN, 'N') = 'N' 
+		and STAT_CD = #{stat_cd} 
+		and LOGIN_ID = #{login_id}
+	</select>
+
 </mapper>
