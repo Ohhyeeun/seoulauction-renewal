@@ -50,4 +50,8 @@ public class LoginService {
     public CommonMap selectCustomerByStatCdAndLoginId(CommonMap paramMap){
         return loginMapper.selectCustomerByStatCdAndLoginId(paramMap);
     }
+    
+    public CommonMap selectCustSocialBySocialLoginId(CommonMap paramMap){
+        return loginMapper.selectCustSocialBySocialLoginId(paramMap);
+    }
 }

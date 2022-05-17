@@ -637,7 +637,7 @@ img {
     -ms-box-shadow: 0 3px 5px 0 rgba(0,0,0,0.15);
 }
 .bubble-box01 {
-    width: auto;
+    /*width: auto; */
 }
 .bubble-box02 {
     width: 170px;

@@ -9,8 +9,12 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
     //진행중 경매리스트
     loadIngAuctionList();
 
-    //now표시
-    setNowBadge();
+    //gnb메뉴 now표시
+    setGnbNowBadge();
+
+    //gnb메뉴 now표시
+    setMyMenuBadge();
+
 
     function loadIngAuctionList(){
 
@@ -23,7 +27,7 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
                     const titleJSON = JSON.parse(item.TITLE_BLOB);
                     const returnDom = `<a href="/auction/${item.SALE_NO}" class="Ingbanner" target="_blank">
                                             <figure class="border-txt-darkg Ingbanner-img">
-                                                <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
+                                                <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" alt="ing_auction01">
                                             </figure>
                                             <div class="Ingbanner-txt text-over">
                                                 <span class="auctionKind-box Ingkind-auction ${item.SALE_KIND === 'LIVE' ? 'on' : ''}">${item.SALE_KIND}</span>
@@ -42,7 +46,8 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
         });
     }
 
-    function setNowBadge(){
+    function setGnbNowBadge(){
+
 
         axios.get('api/main/ingMenuCount')
         .then(function(response){
@@ -64,6 +69,37 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
             console.log(error);
         });
     }
+
+    function setMyMenuBadge(){
+
+        axios.get('api/main/isHaveToPayWorkExist')
+            .then(function(response){
+                const success =  response.data.success;
+                if (success) {
+                    const isExist = response.data.data.isExist;
+                    const badgeHtml = '<i class="utility-icon on"></i>';
+                    console.log(isExist)
+                    if(isExist)
+                        document.querySelector('#MyMenuOnlineBadge a').insertAdjacentHTML('beforeend', badgeHtml);
+                }
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+    }
+
+    window.addEventListener('resize', (e) => {
+        const width = e.target.innerWidth;
+        if (width > 1280) {
+            console.log(76767);
+            //$('.topsearch>input').attr('placeholder','작가 또는 작품명 검색');
+        } else if (width > 720) {
+            console.log(35256);
+            //$('.topsearch>input').attr('placeholder','검색');
+        } else {
+            //$('.topsearch>input').attr('placeholder','검색을 입력하세요.');
+        }
+    });
 
     /* pc 다크모드 */
     $('.darkmodeBg').click(function(){

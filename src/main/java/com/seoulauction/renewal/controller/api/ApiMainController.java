@@ -92,16 +92,22 @@ public class ApiMainController {
         return ResponseEntity.ok(RestResponse.ok(mainService.selectUpcomings()));
     }
 
-    @GetMapping(value="/ingAuctions")
+    @RequestMapping(value="/ingAuctions", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> ingAuctions() {
 
         return ResponseEntity.ok(RestResponse.ok(mainService.selectIngAuctions()));
     }
 
-    @GetMapping(value="/ingMenuCount")
+    @RequestMapping(value="/ingMenuCount", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> ingMenuCount() {
 
         return ResponseEntity.ok(RestResponse.ok(mainService.selectIngMenuCount()));
+    }
+
+    @RequestMapping(value="/isHaveToPayWorkExist", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> isHaveToPayWorkExist(Principal principal) {
+
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectHaveToPayWorkCount(principal)));
     }
    
     @GetMapping(value="/resetPassword")

@@ -119,4 +119,10 @@
 		and LOGIN_ID = #{login_id}
 	</select>
 
+	<select id="selectCustSocialBySocialLoginId" resultType="CommonMap">
+		select * 
+		from CUST_SOCIAL 
+		where SOCIAL_LOGIN_ID = #{socialLoginId}
+	</select>
+	
 </mapper>
