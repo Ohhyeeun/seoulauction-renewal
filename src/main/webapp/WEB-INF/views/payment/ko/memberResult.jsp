@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -82,9 +83,9 @@
                                             <ul class="pay_info tb1">
                                                 <li>
                                                     <span class="th">총 결제금액</span>
-                                                    <span class="td pay">정회원 비용 ${price} 원
+                                                    <span class="td pay">정회원 비용 <fmt:formatNumber type="number" maxFractionDigits="3" value="${price}" />  원
                                                         <br class="only-mb" />+ 수수료 0 원
-                                                        <br class="only-mb" />= <i class="total">총 결제금액 ${price} 원</i></span>
+                                                        <br class="only-mb" />= <i class="total">총 결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${price}" />  원</i></span>
                                                 </li>
                                                 <li>
                                                     <span class="th">결제방법</span>
