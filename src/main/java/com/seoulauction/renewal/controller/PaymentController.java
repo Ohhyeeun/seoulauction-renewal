@@ -71,7 +71,7 @@ public class PaymentController {
 
         request.setAttribute("formProcessUrl" , "/payment/memberProcess");
 
-        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentMember" , locale);
+        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "member" , locale);
     }
 
     @PostMapping("/memberProcess")
@@ -104,7 +104,7 @@ public class PaymentController {
         request.setAttribute("method" , payMethod);
         request.setAttribute("price" , resultMap.get("PAY_PRICE"));
 
-        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentMemberResult" , locale);
+        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "memberResult" , locale);
     }
 
     @GetMapping("/academy/{id}")
