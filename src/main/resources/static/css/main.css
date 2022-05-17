@@ -496,9 +496,6 @@
 .upcoming-open {
     display: none;
 }
-.upcoming-open.on {
-    display: block;
-}
 .upcoming-preview>span:first-of-type,
 .upcoming-date>span:first-of-type,
 .upcoming-open>span:first-of-type {
@@ -534,10 +531,6 @@
     width: 100%;
     height: 100%;
 }
-.upcoming-img.on {
-    display: block;
-}
-
 /* platform */
 .platform-img {
     display: block;
@@ -605,9 +598,6 @@
     height: 100%;
     background: rgba(0,0,0,.3);
     display: none;
-}
-.video-thumbHover.on {
-    display: block;
 }
 .video-icon{
     width: 35px;
@@ -894,9 +884,6 @@
     cursor: pointer;
     display: none;
 }
-.main-popupBg.on {
-    display: block;
-}
 .main-popupwrap {
     position: relative;
     width: 100%;
@@ -979,6 +966,14 @@
 .main-popup-img>img {
     display: block;
 }
+/* on 일때 보임 */
+.upcoming-open.on,
+.upcoming-img.on,
+.video-thumbHover.on,
+.main-popupBg.on {
+    display: block;
+}
+
 /* pc */
 @media all and (max-width: 1919px) {
     .scroll-top {
@@ -1104,12 +1099,6 @@
 }
 /* mobile */
 @media all and (max-width: 1023px) {
-
-    .visual_btn {
-        margin: 0 auto;
-        text-align: center;
-
-    }
     .auctionTab-btn>span {
         max-width: 250px;
     }
@@ -1565,6 +1554,10 @@
     }
 }
 @media all and (max-width: 719px) {
+    .visual_btn {
+        margin: 0 auto;
+        text-align: center;
+    }
     .visual_caption {
         bottom: 40px;
     }

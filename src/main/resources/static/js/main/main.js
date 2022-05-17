@@ -169,10 +169,10 @@ function loadUpcomings() {
                                                             ${ item.D_DAY === 0 ? "TODAY" : "D-" + item.D_DAY }
                                                         </span>` 
                                                     : ``}
-                                                    <h4>${ titleJSON[locale] }</h4>
+                                                    <h4 class="text-over">${ titleJSON[locale] }</h4>
                                                     <div class="upcoming-datebox">
                                                         ${ locale === 'en'?
-                                                            `<p class="upcoming-preview">
+                                                            `<p class="upcoming-open on"> <!-- today 일때만 오픈일 생성 --> 
                                                                 <span>OPEN</span><span>${ open_dt.format('DD MMMM')}</span>
                                                             </p>
                                                             <p class="upcoming-preview">
@@ -182,7 +182,7 @@ function loadUpcomings() {
                                                                 <span>AUCTION</span><span>${ to_dt.format('DD MMMM hh:mm')}</span>
                                                             </p>`
                                                             :
-                                                            `<p class="upcoming-preview">
+                                                            `<p class="upcoming-open"> 
                                                                 <span>오픈일</span><span>${ open_dt.format('MM/DD(ddd)')}</span>
                                                             </p>
                                                             <p class="upcoming-preview">
@@ -464,7 +464,6 @@ $('.video-closebtn').click(function(){
     $('.video-blackBg').fadeOut('fast');
 });
 
-
 /*뉴스레터 신청 관련*/
 $('#subscript_check').click(function(){
     $('.newsAgree-close').click(function(){
@@ -485,11 +484,11 @@ $('.subscriptBtn').click(function(){
 });
 
 /* 메인 레이어 팝업 */
-/*$('.main-popup-img').hide();
-$('.main-popup-txt').hide();
+$('.main-popup-img').hide();
+$('.main-popup-txt').hide(); /* flexbox 처리로 hide */
 
 $('.main-popup-img.on').show();
-$('.main-popup-txt.on').show(); */
+$('.main-popup-txt.on').show();
 
 $('.main-popup-close').click(function(){
     $('.main-popupbox').addClass('down');

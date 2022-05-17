@@ -26,7 +26,7 @@
         <div class="swiper-wrapper"></div>
     </div>
 
-    <div class="header-border">
+    <div>
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">ENG</a>
                 <ul class="bubble-box bubble-box01">
@@ -37,10 +37,10 @@
             <li class="utility-join"><a href="#">회원가입</a></li> <!-- !login -->
             <li class="utility-tab utility-account"><a href="#">마이페이지</a>
                 <ul class="bubble-box bubble-box02">
-                    <li><a href="#">라이브 경매 관리<i class="utility-icon on"></i></a></li>
+                    <li><a href="#">라이브 경매 관리</a></li>
                     <li><a href="#">온라인 경매 관리<i class="utility-icon on"></i></a></li>
                     <li><a href="#">관심작품</a></li>
-                    <li><a href="#">아카데미 신청목록<i class="utility-icon on"></i></a></li>
+                    <li><a href="#">아카데미 신청목록</a></li> 
                     <li><a href="#">회원정보 수정</a></li>
                 </ul>
             </li> <!-- login -->
@@ -105,14 +105,14 @@
                         <ul class="subGnbmenu">
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
                                 <ul class="submenu submenu-part01">
-                                    <li id="menu_auction"><a href="#">진행경매</a><span class="currentIng">NOW</span></li>
-                                    <li id="menu_upcoming"><a href="#">예정경매</a><span class="currentIng">NOW</span></li>
+                                    <li id="menu_auction"><a href="#">진행경매</a></li>
+                                    <li id="menu_upcoming"><a href="#">예정경매</a></li>
                                     <li><a href="#">경매결과</a></li>
                                 </ul>
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
                                 <ul class="submenu submenu-part02">
-                                    <li id="menu_exhibit"><a href="#">전시</a><span class="currentIng">NOW</span></li>
+                                    <li id="menu_exhibit"><a href="#">전시</a></li>
                                     <li><a href="#">프라이빗 세일</a></li>
                                     <li><a href="#">프라이빗 세일 가이드</a></li>
                                 </ul>
