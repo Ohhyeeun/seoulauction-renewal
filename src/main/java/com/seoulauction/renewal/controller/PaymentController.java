@@ -96,10 +96,10 @@ public class PaymentController {
         CommonMap resultMap = paymentService.getPaymentForPayResult(payMethod ,payId);
 
         request.setAttribute("address" , address);
-        request.setAttribute("name", resultMap.get("PAYER"));
+        request.setAttribute("name", resultMap.get("payer"));
         request.setAttribute("tel" , buyerTell);
         request.setAttribute("method" , payMethod);
-        request.setAttribute("price" , resultMap.get("PAY_PRICE"));
+        request.setAttribute("price" , resultMap.get("pay_price"));
 
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "memberResult" , locale);
     }

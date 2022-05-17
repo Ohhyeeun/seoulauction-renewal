@@ -45,7 +45,6 @@
 		and CUST_NO = #{cust_no}
 	</select>
 
-
 	<!--정회원 결제 테이블-->
 	<insert id="insertCustPay" parameterType="commonMap">
 		insert into CUST_PAY (

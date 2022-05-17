@@ -146,7 +146,7 @@ public class PaymentService {
         if(resultMap == null) {
             throw new SAException("잘못된 접근 입니다.");
         }
-        return resultMap;
+        return resultMap.toLowerCaseMap();
     }
 
     @Transactional("ktTransactionManager")
