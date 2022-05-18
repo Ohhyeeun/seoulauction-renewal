@@ -19,10 +19,17 @@
 
 <%--angular 관련은 미리 로딩--%>
 <jsp:include page="../../common/angular.jsp" flush="false"/>
-
+<%-- 로그인 --%>
+<script>
+<sec:authorize access="isAuthenticated()">
+    sessionStorage.setItem("is_login", "true" );
+</sec:authorize>
+<sec:authorize access="isAnonymous()">
+   sessionStorage.setItem("is_login", "false" );
+</sec:authorize>
+</script>
 <html lang="ko" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
-
     <div class="beltbox-swiper">
         <div class="swiper-wrapper"></div>
     </div>
@@ -35,22 +42,21 @@
                     <li><a href="${pageContext.request.contextPath}/?lang=ko">KOR(한국어)</a></li>
                 </ul>
             </li>
-            <li class="utility-join"><a href="#">회원가입</a></li> <!-- !login -->
-            <li class="utility-tab utility-account"><a href="#">마이페이지</a>
-                <ul class="bubble-box bubble-box02">
-                    <li><a href="#">라이브 경매 관리</a></li>
-                    <li id="MyMenuOnlineBadge"><a href="#">온라인 경매 관리</a></li>
-                    <li><a href="#">관심작품</a></li>
-                    <li><a href="#">아카데미 신청목록</a></li>
-
-                    <li><a href="#">회원정보 수정</a></li>
-                </ul>
-            </li> <!-- login -->
-            <sec:authorize access="isAnonymous()">
-                <li class="utility-login"><a href="/login">로그인</a></li> <!-- !login -->
+            <sec:authorize access="isAnonymous()"> <!-- !login -->
+                <li class="utility-join"><a href="#">회원가입</a></li>
+                <li class="utility-login"><a href="/login">로그인</a></li>
             </sec:authorize>
-            <sec:authorize access="isAuthenticated()">
-                <li class="utility-login"><a onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')">로그아웃</a></li> <!-- !login -->
+            <sec:authorize access="isAuthenticated()"> <!-- login -->
+                <li class="utility-tab utility-account"><a href="#">마이페이지</a>
+                    <ul class="bubble-box bubble-box02">
+                        <li><a href="#">라이브 경매 관리</a></li>
+                        <li id="MyMenuOnlineBadge"><a href="#">온라인 경매 관리</a></li>
+                        <li><a href="#">관심작품</a></li>
+                        <li><a href="#">아카데미 신청목록</a></li>
+                        <li><a href="#">회원정보 수정</a></li>
+                    </ul>
+                </li>
+                <li class="utility-login"><a onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')">로그아웃</a></li>
             </sec:authorize>
         </ul>
     </div>
