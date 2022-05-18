@@ -363,15 +363,32 @@ function numberWithCommas(x) {
 
 
 
-function phoneNumber(obj){
-    let mobile_len=obj.value.length;
-    
-    if(event.keyCode==8){
-        obj.value=obj.value.slice(0,mobile_len); 
-        return 0; 
-    }else if (mobile_len==3 || mobile_len==8){
-        obj.value += '-';
-    }
+function onlyNumber(obj, type) {
+	const regExp = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;
+	if (regExp.test(obj.value)) {
+		obj.value = obj.value.replace(regExp, '');
+	}
+	if (type) {
+		const regExp2 = /[^0-9]/gi;
+		if (regExp2.test(obj.value)) {
+			obj.value = obj.value.replace(regExp2, '');
+		}
+	}
+}
+
+function phoneNumber(obj) {
+	if (event.keyCode < 48 || event.keyCode > 57) {
+		event.returnValue = false;
+	}
+
+	let mobile_len = obj.value.length;
+
+	if (event.keyCode == 8) {
+		obj.value = obj.value.slice(0, mobile_len);
+		return 0;
+	} else if (mobile_len == 3 || mobile_len == 8) {
+		obj.value += '-';
+	}
 }
 
 
