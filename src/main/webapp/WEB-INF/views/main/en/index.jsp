@@ -14,7 +14,9 @@
     <link rel="stylesheet" href="/css/main.css" type="text/css" />
 </head>
 <body>
-<jsp:include page="../../include/en/header.jsp" flush="false"/>
+<jsp:include page="../../include/en/header.jsp" flush="false">
+    <jsp:param name="main" value="true"/>
+</jsp:include>
 <section class="main-contents footer-bottom footer-bottom40">
     <section class="visual visual-contents">
         <div class="swiper-container visual-swiper">
@@ -115,113 +117,9 @@
         </section>
     </div>
 
-    <section class="upcoming">
-        <h1 class="main-sectiontit upcoming-tit">
-            Upcoming
-        </h1>
+    <jsp:include page="../include/upcoming.jsp" />
 
-        <div class="upcoming-wrap">
-            <div class="swiper-container upcoming-swiper">
-                <div class="swiper-wrapper upcoming-contents">
-                    <div class="swiper-slide upcomingSlide">
-                        <a href="#">
-                            <div class="upcoming-caption">
-                                <span class="auctionKind-box on">LIVE</span><span class="d-day on">TODAY</span>
-                                <h4>February Live Auction</h4>
-                                <div class="upcoming-datebox">
-                                    <p class="upcoming-preview">
-                                        <span>OPEN</span><span>10 February</span>
-                                    </p>
-                                    <p class="upcoming-preview">
-                                        <span>PREVIEW</span><span>10 February ~ 15 February</span>
-                                    </p>
-                                    <p class="upcoming-date">
-                                        <span>AUCTION</span><span>10 February 15:00</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <figure class="upcoming-img">
-                                <!--<span class="upcomingImg"></span>-->
-                                <img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">
-                            </figure>
-                        </a>
-                    </div>
-                    <div class="swiper-slide upcomingSlide">
-                        <a href="#">
-                            <div class="upcoming-caption">
-                                <span class="auctionKind-box on">LIVE</span><span class="d-day on">D-1</span>
-                                <h4>e BID Premium Online Auction in March</h4>
-                                <div class="upcoming-datebox">
-                                    <p class="upcoming-preview">
-                                        <span>OPEN</span><span>10 February</span>
-                                    </p>
-                                    <p class="upcoming-preview">
-                                        <span>PREVIEW</span><span>10 February ~ 15 February</span>
-                                    </p>
-                                    <p class="upcoming-date">
-                                        <span>AUCTION</span><span>10 February 15:00</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <figure class="upcoming-img">
-                                <!--<span class="upcomingImg"></span>-->
-                                <%--<img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">--%>
-                            </figure>
-                        </a>
-                    </div>
-                    <div class="swiper-slide upcomingSlide">
-                        <a href="#">
-                            <div class="upcoming-caption">
-                                <span class="auctionKind-box on">LIVE</span><span class="d-day"></span>
-                                <h4>ZEROBASE X Art Gyeonggi</h4>
-                                <div class="upcoming-datebox">
-                                    <p class="upcoming-preview">
-                                        <span>OPEN</span><span>10 February</span>
-                                    </p>
-                                    <p class="upcoming-preview">
-                                        <span>PREVIEW</span><span>10 February ~ 15 February</span>
-                                    </p>
-                                    <p class="upcoming-date">
-                                        <span>AUCTION</span><span>10 February 15:00</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <figure class="upcoming-img">
-                                <!--<span class="upcomingImg"></span>-->
-                                <!--<img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet"> -->
-                            </figure>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="commonbtn-box upcomingBtn">
-            <a href="#" class="commonbtn">View all</a>
-        </div>
-    </section>
-
-    <section class="platform">
-        <div class="swiper-container platform-swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide platform-bg">
-                    <a href="#" class="platform-img">
-                        <!--<figure><img src="/images/mobile/banner/MidBanner_720x220.png" alt="" clas="pc-ver"></figure>-->
-                    </a>
-                </div>
-                <div class="swiper-slide platform-bg">
-                    <a href="#" class="platform-img"></a>
-                </div>
-                <div class="swiper-slide platform-bg">
-                    <a href="#" class="platform-img"></a>
-                </div>
-            </div>
-            <!-- Add Arrows -->
-            <div class="swiper-button-next platformBtn-right pc-ver"></div>
-            <div class="swiper-button-prev platformBtn-left pc-ver"></div>
-        </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination platform-pagination m-ver"></div>
-    </section>
+    <jsp:include page="../include/beltBanner.jsp" />
 
     <article class="video">
         <h1 class="main-sectiontit video-tit">
@@ -423,29 +321,7 @@
 </a>
 
 <!-- 뉴스레터 팝업 -->
-<div class="blackBg newsletter-blackBg">
-    <div class="newsletter-termsbox">
-        <div id="terms" class="newsletter-terms">
-            <div class="closebtn closebtn-b newsAgree-close"></div>
-            <input type="checkbox" id="newsAgree" class="common_checkbox" value='newsAgree' name="newsAgree">
-            <label for="newsAgree">
-                <span class="newsAgree-checktxt">개인정보 수집 및 이용에 동의 합니다.</span>
-            </label>
-            <p class="newsAgree-txt">
-                뉴스레터 발송을 위한 최소한의 개인정보를 수집하고 이용합니다. 수집된
-                정보는 발송 외 다른 목적으로 이용되지 않으며, 서비스가 종료되거나
-                구독을 해지할 경우 즉시 파기됩니다.
-            </p>
-            <button type="submit"  class="commonbtn btn-bg-g newsAgree-btn">확인</button>
-        </div>
-        <div id="termsResult" class="newsletter-terms newsletter-comfirmbox">
-            <p class="newsAgree-comfirm">
-                구독해주셔서 감사합니다.
-            </p>
-            <button type="submit"  class="commonbtn btn-bg-b newsAgree-comfirmbtn">확인</button>
-        </div>
-    </div>
-</div>
+<jsp:include page="popup/newsletter.jsp" flush="false"/>
 
 <!-- video 팝업 -->
 <div class="blackBg video-blackBg">
@@ -457,6 +333,12 @@
 </div>
 </body>
 
+<script>
+var resetPassword = '${sessionScope.PASSWD_RESET_YN}';
+var modPassword = '${sessionScope.PASSWD_MOD_NECESSARY_YN}';
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script src="/js/main/main.js" type="text/javascript"></script>
 <script src="/js/main/auction.js" type="text/javascript"></script>
 <script src="/js/main/newsletter.js" type="text/javascript"></script>

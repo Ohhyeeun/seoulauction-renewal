@@ -1,16 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seoulauction.renewal.mapper.aws.MainMapper">
+
+    <select id="selectTopNotice" parameterType="CommonMap" resultType="CommonMap">
+    <![CDATA[
+        select *
+        from main_banner
+        where banner_type = 'top-text'
+            and status = 'A'
+            and start_at <= (now() + interval 9 hour)
+            and end_at >= (now() + interval 9 hour)
+            order by sort desc
+       limit 3;
+    ]]>
+    </select>
+
+    <select id="selectBeltBanners" parameterType="CommonMap" resultType="CommonMap">
+    <![CDATA[
+        select mb.*
+--              , s3.id as s3id, s3.cdn_url
+        from main_banner mb
+--              join s3file_data s3fd on mb.id = s3fd.row_id and s3fd.group_name = 'main_banner'
+--              join s3file s3 on s3fd.s3file_id = s3.id
+        where banner_type = 'middle-rolling'
+            and mb.status = 'A'
+            and mb.start_at <= now()
+            and mb.end_at >= now()
+        order by mb.sort desc;
+    ]]>
+    </select>
+
     <select id="selectNewsletters" parameterType="CommonMap" resultType="CommonMap">
-        SELECT *
+        SELECT id, title, content, publish_at, status, created_at, updated_at
+            , CASE when created_at >= DATE_ADD(NOW(), INTERVAL -7 DAY) then 'Y' else 'N' end as is_new
         FROM content_newsletter
-        LIMIT #{offset} , #{size}
+        WHERE status = 'A'
+        ORDER BY publish_at desc, created_at desc
     </select>
 
     <select id="selectNewsletterById" parameterType="CommonMap" resultType="CommonMap">
-        SELECT *
+        SELECT id, title, content, publish_at, status, created_at, updated_at
+            , CASE when created_at >= DATE_ADD(NOW(), INTERVAL -7 DAY) then 'Y' else 'N' end as is_new
         FROM content_newsletter
-        WHERE id = #{id}
+        WHERE status = 'A'
+            and id = #{id}
     </select>
     <select id="insertNewsletter" parameterType="CommonMap">
         INSERT INTO newsletter_subscriber
@@ -31,4 +64,12 @@
             1
     </select>
 
+    <select id="selectVideos" parameterType="CommonMap" resultType="CommonMap">
+        SELECT id, media_type, content_type, title, read_count, content, sort, status, created_at, updated_at, url
+        FROM content_media cm
+        WHERE status = 'A'
+            AND media_type = #{media_type}
+        ORDER BY sort
+        LIMIT #{size}
+    </select>
 </mapper>

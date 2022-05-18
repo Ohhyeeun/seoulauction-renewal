@@ -6,11 +6,14 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 	$scope.form_data = {};
 	$scope.form_data.loginId = "";
 	$scope.form_data.password = "";
-
+	$scope.form_data.captchaImg = "";
+	
 	$scope.login = function(){				
 		var lang = document.documentElement.lang;
 		var validCheck = false;
 		var validMsg = "";
+		var captchaResult = "";
+		$scope.captchaShow = "";
 		
 		if($scope.loginForm.loginId.$viewValue == ""){
 			if(lang === 'en'){
@@ -35,12 +38,30 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 			validCheck = true;
 		}
 		
-		document.getElementById('loginFailMessage').innerHTML = validMsg;
-		if(!validCheck){
-			return;
+		console.log(loginFailCntYn)
+		if(loginFailCntYn == 'Y'){
+			console.log(document.querySelector('#answer').value)
+			if(document.querySelector('#answer').value == ''){
+				validMsg = "보안문자를 입력해주세요.";
+				validCheck = false;
+				$scope.captchaShow = true;
+				
+				document.getElementById('loginFailMessage').innerHTML = validMsg;
+				if(!validCheck){
+					return;
+				}
+			}else{
+				$scope.chkAnswer();
+			}			
+		}else{
+			document.getElementById('loginFailMessage').innerHTML = validMsg;
+			if(!validCheck){
+				return;
+			}
+			
+			document.getElementById('loginForm').submit();
 		}
 		
-		document.getElementById('loginForm').submit();
 	}
 	
 	$scope.enterKeylogin = function(){
@@ -48,4 +69,66 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 			$scope.login();
 		}
 	}
+	
+	$scope.init = function(){
+		if(loginFailCntYn == 'Y'){
+			$scope.captchaShow = true;
+			$scope.getImage(); // 이미지 가져오기
+		}else{
+			$scope.captchaShow = false;
+		}
+	}
+	
+	$scope.getImage = function (){ 
+		var rand = Math.random(); 
+		var url = '/api/login/captchaImg?rand='+rand; 
+		$scope.form_data.captchaImg = url;
+		$scope.captchaShow = true;
+	} 
+	
+	$scope.chkAnswer = function(){
+		let data = {};
+	    data['answer'] = $scope.form_data.answer;
+		axios.post('/api/login/chkAnswer' , data)
+	        .then(function(response) {
+				console.log(response)
+				if(response.data.data == 200){ 
+					document.getElementById('loginForm').submit();
+				}else if(response.data.data == 300){
+					$scope.getImage(); 
+					document.querySelector('#answer').setAttribute('value', '');
+					loginFailCntYn = 'Y';
+					$scope.captchaShow = true;
+					document.getElementById('loginFailMessage').innerHTML = "보안문자 입력값이 일치하지 않습니다.";
+					$scope.$apply();
+					return;
+				}
+	        })
+	        .catch(function(error){
+	            console.log(error);
+	        });
+	        
+	}
+//	/*매번 랜덤값을 파라미터로 전달하는 이유 : IE의 경우 매번 다른 임의 값을 전달하지 않으면 '새로고침' 클릭해도 정상 호출되지 않아 이미지가 변경되지 않는 문제가 발생된다*/ 
+//	$scope.getAudio = function (){ 
+//		var rand = Math.random(); 
+//		var uAgent = navigator.userAgent; 
+//		var soundUrl = '/api/login/captchaAudio?rand='+rand; 
+//		if(uAgent.indexOf('Trident')>-1 || uAgent.indexOf('MISE')>-1){ /*IE 경우 */ 
+//			audioPlayer(soundUrl); 
+//		}else if(!!document.createElement('audio').canPlayType){ /*Chrome 경우 */ 
+//			try { 
+//				new Audio(soundUrl).play(); 
+//			} catch (e) { 
+//				audioPlayer(soundUrl); 
+//			}
+//		}else{ 
+//			window.open(soundUrl,'','width=1,height=1'); 
+//		} 
+//	} 
+//	function audioPlayer(objUrl){ 
+//		document.querySelector('#ccaudio').innerHTML = '<bgsoun src="' +objUrl +'">'; 
+//	}
+	
+
 });

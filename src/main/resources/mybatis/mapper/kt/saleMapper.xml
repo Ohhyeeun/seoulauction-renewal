@@ -211,5 +211,12 @@
         </choose>
     </sql>
 
+	<select id="selectSale" resultType="commonMap" parameterType="commonMap">
+		SELECT
+			COUNT(*)	     ROW_CNT
+		FROM CUST A , ACADEMY_REQ B , ACADEMY C
+		WHERE A.CUST_NO = B.CUST_NO AND B.ACADEMY_NO = C.ACADEMY_NO AND A.CUST_NO = #{cust_no} AND B.DEL_YN = 'N'
+	</select>
+
 
 </mapper>

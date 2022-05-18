@@ -5,18 +5,22 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<jsp:include page="../../common/common.jsp" flush="false"/>
 <jsp:include page="../../common/commonCss.jsp" flush="false"/>
+<%--메인이 아닐 경우에만 해당 css 추가.--%>
+<c:if test="${empty param.main}">
+<jsp:include page="../../common/commonCssNotMain.jsp" flush="false"/>
+</c:if>
+
+<%--angular 관련은 미리 로딩--%>
+<jsp:include page="../../common/angular.jsp" flush="false"/>
+
 <html lang="ko" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
-    <div class="header_beltbox on"> <!--class="on" block-->
-        <div class="wrap belttxtbox wrap_padding">
-                <span class="header_beltTit">
-                    <a href="#">구매수수료율 인상 및 약관 개정안내<span class="beltbanner-triangle"></span></a>
-                </span>
-            <span class="beltclose-btn closebtn closebtn-w"></span>
-        </div>
+
+    <div class="beltbox-swiper">
+        <div class="swiper-wrapper"></div>
     </div>
+
     <div class="header-border">
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">ENG</a>
@@ -90,70 +94,20 @@
                     <span class="submenuBg-closeBtn closebtn closebtn-b m-ver"></span>
                     <div class="flex_wrap submenuBg-box">
                         <div class="Ingbanner-box">
-                            <a href="#" class="Ingbanner" target="_blank">
-                                <figure class="border-txt-darkg Ingbanner-img">
-                                    <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
-                                </figure>
-                                <div class="Ingbanner-txt text-over">
-                                    <span class="auctionKind-box Ingkind-auction on">LIVE</span>
-                                    <!--<span class="auctionKind-box Ingkind-auction on">LIVE</span>-->
-                                    <p class="text-over">2월 라이브 경매</p>
-                                    <span class="Ingbanner-arrow"></span>
-                                </div>
-                            </a>
-                            <a href="#" class="Ingbanner" target="_blank">
-                                <figure class="border-txt-darkg Ingbanner-img">
-                                    <img src="/images/pc/thumbnail/gnb_thubnatil_02.jpg" alt="ing_auction02">
-                                </figure>
-                                <div class="Ingbanner-txt text-over">
-                                    <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                    <p class="text-over">e BID 퍼블릭 온라인 경매</p>
-                                    <span class="Ingbanner-arrow"></span>
-                                </div>
-                            </a>
-                            <a href="#" class="Ingbanner" target="_blank">
-                                <figure class="border-txt-darkg Ingbanner-img">
-                                    <img src="/images/pc/thumbnail/gnb_thubnatil_ready.jpg" alt="ing_auction03">
-                                </figure>
-                                <div class="Ingbanner-txt text-over">
-                                    <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                    <p class="text-over">ZEROBASE</p>
-                                    <span class="Ingbanner-arrow"></span>
-                                </div>
-                            </a>
-                            <a href="#" class="Ingbanner" target="_blank">
-                                <figure class="border-txt-darkg Ingbanner-img">
-                                    <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
-                                </figure>
-                                <div class="Ingbanner-txt text-over">
-                                    <span class="auctionKind-box Ingkind-auction on">LIVE</span>
-                                    <p class="text-over">2월 라이브 경매</p>
-                                    <span class="Ingbanner-arrow"></span>
-                                </div>
-                            </a>
-                            <a href="#" class="Ingbanner" target="_blank">
-                                <figure class="border-txt-darkg Ingbanner-img">
-                                    <img src="/images/pc/thumbnail/gnb_thubnatil_02.jpg" alt="ing_auction02">
-                                </figure>
-                                <div class="Ingbanner-txt text-over">
-                                    <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                    <p class="text-over">e BID 퍼블릭 온라인 경매</p>
-                                    <span class="Ingbanner-arrow"></span>
-                                </div>
-                            </a>
+
                         </div>
 
                         <ul class="subGnbmenu">
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
                                 <ul class="submenu submenu-part01">
-                                    <li><a href="#">진행경매</a><span class="currentIng">NOW</span></li>
-                                    <li><a href="#">예정경매</a><span class="currentIng">NOW</span></li>
+                                    <li id="menu_auction"><a href="#">진행경매</a></li>
+                                    <li id="menu_upcoming"><a href="#">예정경매</a></li>
                                     <li><a href="#">경매결과</a></li>
                                 </ul>
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
                                 <ul class="submenu submenu-part02">
-                                    <li><a href="#">전시</a><span class="currentIng">NOW</span></li>
+                                    <li id="menu_exhibit"><a href="#">전시</a></li>
                                     <li><a href="#">프라이빗 세일</a></li>
                                     <li><a href="#">프라이빗 세일 가이드</a></li>
                                 </ul>
@@ -166,7 +120,7 @@
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
                                 <ul class="submenu submenu-part04">
-                                    <li><a href="#">아카데미</a><span class="currentIng">NOW</span></li>
+                                    <li id="menu_academy"><a href="#">아카데미</a></li>
                                     <li><a href="#">담보대출</a></li>
                                     <li><a href="#">미술품보관</a></li>
                                     <li><a href="#">전시장대관</a></li>

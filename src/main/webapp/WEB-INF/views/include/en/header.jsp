@@ -5,18 +5,22 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<jsp:include page="../../common/common.jsp" flush="false"/>
 <jsp:include page="../../common/commonCss.jsp" flush="false"/>
+<%--메인이 아닐 경우에만 해당 css 추가.--%>
+<c:if test="${empty param.main}">
+<jsp:include page="../../common/commonCssNotMain.jsp" flush="false"/>
+</c:if>
+
+<%--angular 관련은 미리 로딩--%>
+<jsp:include page="../../common/angular.jsp" flush="false"/>
+
 <html lang="en" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
-    <div class="header_beltbox on"> <!--class="on" block-->
-        <div class="wrap belttxtbox wrap_padding">
-                <span class="header_beltTit">
-                    <a href="#">Notice of increase in purchase fee rate and amendment of terms and conditions<span class="beltbanner-triangle"></span></a>
-                </span>
-            <span class="beltclose-btn closebtn closebtn-w"></span>
-        </div>
+
+    <div class="swiper-container beltbox-swiper">
+        <div class="swiper-wrapper"></div>
     </div>
+
     <div class="header-border">
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">KOR</a>
@@ -91,69 +95,20 @@
                     <span class="submenuBg-closeBtn closebtn closebtn-b m-ver"></span>
                     <div class="flex_wrap submenuBg-box">
                         <div class="Ingbanner-box">
-                            <a href="#" class="Ingbanner" target="_blank">
-                                <figure class="border-txt-darkg Ingbanner-img">
-                                    <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
-                                </figure>
-                                <div class="Ingbanner-txt text-over">
-                                    <span class="auctionKind-box Ingkind-auction on">LIVE</span>
-                                    <p class="text-over" title="February Live Auction">February Live Auction</p>
-                                    <span class="Ingbanner-arrow"></span>
-                                </div>
-                            </a>
-                            <a href="#" class="Ingbanner" target="_blank">
-                                <figure class="border-txt-darkg Ingbanner-img">
-                                    <img src="/images/pc/thumbnail/gnb_thubnatil_02.jpg" alt="ing_auction02">
-                                </figure>
-                                <div class="Ingbanner-txt text-over">
-                                    <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                    <p class="text-over" title="e BID Public Online Auction">e BID Public Online Auction</p>
-                                    <span class="Ingbanner-arrow"></span>
-                                </div>
-                            </a>
-                            <a href="#" class="Ingbanner" target="_blank">
-                                <figure class="border-txt-darkg Ingbanner-img">
-                                    <img src="/images/pc/thumbnail/gnb_thubnatil_ready.jpg" alt="ing_auction03">
-                                </figure>
-                                <div class="Ingbanner-txt text-over">
-                                    <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                    <p class="text-over" title="ZEROBASE">ZEROBASE</p>
-                                    <span class="Ingbanner-arrow"></span>
-                                </div>
-                            </a>
-                            <a href="#" class="Ingbanner" target="_blank">
-                                <figure class="border-txt-darkg Ingbanner-img">
-                                    <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
-                                </figure>
-                                <div class="Ingbanner-txt text-over">
-                                    <span class="auctionKind-box Ingkind-auction on">LIVE</span>
-                                    <p class="text-over" title="February Live Auction">February Live Auction</p>
-                                    <span class="Ingbanner-arrow"></span>
-                                </div>
-                            </a>
-                            <a href="#" class="Ingbanner" target="_blank">
-                                <figure class="border-txt-darkg Ingbanner-img">
-                                    <img src="/images/pc/thumbnail/gnb_thubnatil_02.jpg" alt="ing_auction02">
-                                </figure>
-                                <div class="Ingbanner-txt text-over">
-                                    <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                    <p class="text-over" title="e BID Public Online Auction">e BID Public Online Auction</p>
-                                    <span class="Ingbanner-arrow"></span>
-                                </div>
-                            </a>
+
                         </div>
 
                         <ul class="subGnbmenu">
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
                                 <ul class="submenu submenu-part01">
-                                    <li><a href="#">Current</a><span class="currentIng">NOW</span></li>
-                                    <li><a href="#">Upcoming</a><span class="currentIng">NOW</span></li>
+                                    <li id="menu_auction"><a href="#">Current</a></li>
+                                    <li id="menu_upcoming"><a href="#">Upcoming</a></li>
                                     <li><a href="#">Result</a></li>
                                 </ul>
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
                                 <ul class="submenu submenu-part02">
-                                    <li><a href="#">Exhibition</a><span class="currentIng">NOW</span></li>
+                                    <li id="menu_exhibition"><a href="#">Exhibition</a></li>
                                     <li><a href="#">Private Sale</a></li>
                                     <li><a href="#">Private Sale Guide</a></li>
                                 </ul>
@@ -166,7 +121,7 @@
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
                                 <ul class="submenu submenu-part04">
-                                    <li><a href="#">Academy</a><span class="currentIng">NOW</span></li>
+                                    <li id="menu_academy"><a href="#">Academy</a></li>
                                     <li><a href="#">Art Collateral Loans</a></li>
                                     <li><a href="#">Art Storage</a></li>
                                     <li><a href="#">Rental of Space</a></li>

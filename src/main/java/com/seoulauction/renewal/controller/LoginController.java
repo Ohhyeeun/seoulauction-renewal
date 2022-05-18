@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import static com.seoulauction.renewal.common.SAConst.SERVICE_LOGIN;
+
 import java.security.Principal;
 import java.util.Locale;
 
@@ -75,5 +78,14 @@ public class LoginController {
     	
         return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "login" , locale);
     }
+    
+  
+    @GetMapping("/findId")
+    public String findId(Locale locale) {
+    	return SAConst.getUrl(SAConst.SERVICE_CUSTOMER, "findId" , locale);
+    }
+    
+    
+
 
 }

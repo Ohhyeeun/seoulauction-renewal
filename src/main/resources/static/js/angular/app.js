@@ -164,6 +164,26 @@ app.factory("common", function ($rootScope, $http) {
 	        .error($e)
 	        .finally($f);
 	    },
+		callGetAPI: function($url ,$data, $success, $error, $final) {
+			is_processing = true;
+
+			var $s = function(){};
+			if($success) $s = $success;
+
+			var $f = objs.finalCommon;
+			if($final) $f = $final;
+
+			var $e = objs.errCommon;
+			if($error) $e = $error;
+
+			$http.get($url, {
+					params : $data,
+					headers : {'Accept' : 'application/json'}
+				})
+				.success($s)
+				.error($e)
+				.finally($f);
+		},
 
 
 	    callFileAPI: function($url, $data, $success, $error, $final) {

@@ -21,13 +21,19 @@ public class MainController {
     private final SlackSender slackSender;
 
     @GetMapping({"/"})
-    public String index(Locale locale) {
+    public String index(HttpServletRequest request , Locale locale) {
+        request.setAttribute("main", true); // 메인 페이지 일경우에만 !
         return SAConst.getUrl(SERVICE_MAIN , "index" , locale);
     }
     @GetMapping("/guide" )
     public String guide(HttpServletRequest request) {
         return "guide_list";
     }
+    @GetMapping("/upcoming" )
+    public String upcoming(Locale locale) {
+        return SAConst.getUrl(SERVICE_MAIN , "upcoming" , locale);
+    }
+
 
     @GetMapping("/newsletter" )
     public String newsletter(Locale locale) {
@@ -35,7 +41,29 @@ public class MainController {
     }
 
     @GetMapping("/newsletter/{id}" )
-    public String newsletterView(Locale locale) {
+    public String newsletterView(@PathVariable int id, HttpServletRequest request, Locale locale) {
+        request.setAttribute("id", id);
         return SAConst.getUrl(SERVICE_MAIN , "newsletterView" , locale);
     }
+    
+    @GetMapping("/maxSession" )
+    public String maxSession(Locale locale) {
+        return SAConst.getUrl(SERVICE_MAIN , "popup/maxSession" , locale);
+    }
+    
+    @GetMapping("/resetPassword" )
+    public String resetPassword(Locale locale) {
+        return SAConst.getUrl(SERVICE_MAIN , "popup/resetPassword" , locale);
+    }
+    
+    @GetMapping("/modPassword" )
+    public String modPassword(Locale locale) {
+        return SAConst.getUrl(SERVICE_MAIN , "popup/modPassword" , locale);
+    }
+
+    @GetMapping("/beltBanner" )
+    public String beltBanner(Locale locale) {
+        return SAConst.getUrl(SERVICE_MAIN , "beltBanner" , locale);
+    }
+
 }
