@@ -37,7 +37,7 @@ public class LoginService {
 
     public CommonMap selectCustLoginIdByCustName(CommonMap paramMap){
     	CommonMap resultMap = loginMapper.selectCustLoginIdByCustName(paramMap);
-    	if(!MapUtils.isEmpty(resultMap)) {
+    	if(MapUtils.isEmpty(resultMap)) {
 			 throw new SAException("일치하는 회원 정보가 없습니다.");
 		 }
         return resultMap;
