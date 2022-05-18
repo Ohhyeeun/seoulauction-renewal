@@ -60,8 +60,6 @@
 	                            <li class=""><a href="#">회원정보수정</a></li>
 	                            <li class=""><a href="#">비밀번호수정</a></li>
 	                            <li class=""><a href="#">SNS연동설정</a></li>
-	                            <li class=""><a href="/mypage/deliveryList">배송지관리</a></li>
-	                            <li class=""><a href="#">회원탈퇴</a></li>
 	                        </ul>
 	                    </li>
 	                </ul>
