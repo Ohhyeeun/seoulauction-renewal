@@ -14,10 +14,85 @@ function Request(){
         return requestParam;
     }
 }
-
 var request = new Request();
-var maxSession = request.getParameter("maxSession");
 
+//이중접속 팝업
+var maxSession = request.getParameter("maxSession");
+if(maxSession == 'true'){
+	var popup_concurrent = $(".js-popup_concurrent").trpLayerFixedPopup("#popup_concurrent-wrap");
+	popup_concurrent.open(this); // or false   
+	popup_fixation("#popup_concurrent-wrap"); // pc_하단붙이기
+}
+
+$("body").on("click", "#popup_concurrent-wrap .js-closepop, #popup_concurrent-wrap .popup-dim, #confirmMaxSession", function($e) {
+    $e.preventDefault();
+    popup_concurrent.close();
+    location.href="/"
+});
+
+//비밀번호초기화 팝업
+if(resetPassword == 'true'){
+	var popup_pwsearch6 = $(".js-popup_pwsearch6").trpLayerFixedPopup("#popup_pwsearch6-wrap");
+    popup_pwsearch6.open(this); // or false 
+    popup_fixation("#popup_pwsearch6-wrap"); // pc 하단 붙이기
+}
+
+function closeResetPassword(modYn){
+	axios.get('/api/main/resetPassword')
+		.then(function(response) {
+		    var success = response.data.success;
+		    if(!success){
+		        alert(response.data.data.msg);
+		        popup_pwsearch6.close();
+		    } else {
+				popup_pwsearch6.close();
+				if(modYn == 'Y'){
+					// TODO 차후 비밀번호 변경 페이지 개발시 수정
+					location.href = '/test'
+				}
+		    }
+		})
+		.catch(function(error){
+		    console.log(error);
+		});
+}
+$("body").on("click", "#popup_pwsearch6-wrap .js-closepop, #popup_pwsearch6-wrap .popup-dim", function($e) {
+    $e.preventDefault();
+    closeResetPassword();
+});
+
+//비밀번호변경180일 팝업
+console.log(modPassword)
+if(modPassword == 'true'){
+	var popup_pwsearch5 = $(".js-popup_pwsearch5").trpLayerFixedPopup("#popup_pwsearch5-wrap");
+    popup_pwsearch5.open(this); // or false 
+    popup_fixation("#popup_pwsearch5-wrap"); // pc 하단 붙이기
+}
+//30일뒤 재알림
+function reAlarm(){
+	axios.get('/api/main/reAlarm')
+        .then(function(response) {
+            var success = response.data.success;
+            if(!success){
+                alert(response.data.data.msg);
+            }
+            popup_pwsearch5.close();
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+}
+//지금변경하기
+function goModPassword(){
+	// TODO 차후 비밀번호 변경 페이지 개발시 수정
+	location.href = '/test';
+}
+
+$("body").on("click", "#popup_pwsearch5-wrap .js-closepop, #popup_pwsearch5-wrap .popup-dim", function($e) {
+    $e.preventDefault();
+    popup_pwsearch5.close();
+});
+		
 function logout(loginId){
 	console.log(loginId)
 	//TODO 소셜타입에 따른 SNS로그아웃처리
@@ -68,12 +143,12 @@ function loadTopNotice(){
                     const content = JSON.parse(item.content);
                     const returnDom = `<div class="swiper-slide header_beltbox on"> <!--class="on" block-->
                                         <div class="wrap belttxtbox wrap_padding">
-                                                <span class="header_beltTit">
-                                                    <a href="${locale === 'en' ? content.en_url : content.ko_url}">
-                                                        <span class="text-over belt_tit"> ${locale === 'en' ? content.en_text : content.ko_text}</span>
-                                                        <span class="beltbanner-triangle"></span>
-                                                    </a>
-                                                </span>
+                                            <span class="header_beltTit">
+                                                <a href="${locale === 'en' ? content.en_url : content.ko_url}">
+                                                    <span class="text-over belt_tit"> ${locale === 'en' ? content.en_text : content.ko_text}</span>
+                                                    <!--<span class="beltbanner-triangle"></span>--> 
+                                                </a>
+                                            </span> 
                                             <span class="beltclose-btn closebtn closebtn-w"></span>
                                         </div>
                                    </div>`
@@ -169,10 +244,10 @@ function loadUpcomings() {
                                                             ${ item.D_DAY === 0 ? "TODAY" : "D-" + item.D_DAY }
                                                         </span>` 
                                                     : ``}
-                                                    <h4>${ titleJSON[locale] }</h4>
+                                                    <h4 class="text-over">${ titleJSON[locale] }</h4>
                                                     <div class="upcoming-datebox">
                                                         ${ locale === 'en'?
-                                                            `<p class="upcoming-preview">
+                                                            `<p class="upcoming-open on"> <!-- today 일때만 오픈일 생성 --> 
                                                                 <span>OPEN</span><span>${ open_dt.format('DD MMMM')}</span>
                                                             </p>
                                                             <p class="upcoming-preview">
@@ -182,7 +257,7 @@ function loadUpcomings() {
                                                                 <span>AUCTION</span><span>${ to_dt.format('DD MMMM hh:mm')}</span>
                                                             </p>`
                                                             :
-                                                            `<p class="upcoming-preview">
+                                                            `<p class="upcoming-open"> 
                                                                 <span>오픈일</span><span>${ open_dt.format('MM/DD(ddd)')}</span>
                                                             </p>
                                                             <p class="upcoming-preview">
@@ -364,90 +439,6 @@ $(function() {
 });
 app.value('locale', 'ko');
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
-app.controller('mainCtl', function($scope, consts, common, ngDialog) {
-	$scope.init = function(){
-		if(maxSession == 'true'){
-			$modal = ngDialog.open({
-				template: '/maxSession',
-				controller: 'maxSessionPopCtl',
-				closeByDocument: false,
-				showClose: false,
-				animationEndSupport: false,
-			});
-		}
-
-		if(resetPassword == 'true'){
-			$modal = ngDialog.open({
-				template: '/resetPassword',
-				controller: 'resetPasswordPopCtl',
-				closeByDocument: false,
-				showClose: false,
-				animationEndSupport: false,
-			});
-		}
-
-		console.log(modPassword)
-		if(modPassword == 'true'){
-			$modal = ngDialog.open({
-				template: '/modPassword',
-				controller: 'modPasswordPopCtl',
-				closeByDocument: false,
-				showClose: false,
-				animationEndSupport: false,
-			});
-		}
-	}
-});
-
-app.controller('maxSessionPopCtl', function($scope, consts, common) {
-	$scope.init = function() {
-
-    }
-});
-
-app.controller('resetPasswordPopCtl', function($scope, consts, common) {
-    $scope.closePopup = function(modYn){
-		axios.get('/api/main/resetPassword')
-            .then(function(response) {
-                var success = response.data.success;
-                if(!success){
-                    alert(response.data.data.msg);
-                    $scope.closeThisDialog();
-                } else {
-					$scope.closeThisDialog();
-					if(modYn == 'Y'){
-						// TODO 차후 비밀번호 변경 페이지 개발시 수정
-						location.href = '/'
-					}
-                }
-            })
-            .catch(function(error){
-                console.log(error);
-            });
-	}
-});
-
-
-app.controller('modPasswordPopCtl', function($scope, consts, common) {
-    $scope.reAlarm = function(){
-		axios.get('/api/main/reAlarm')
-            .then(function(response) {
-                var success = response.data.success;
-                if(!success){
-                    alert(response.data.data.msg);
-                }
-                $scope.closeThisDialog();
-            })
-            .catch(function(error){
-                console.log(error);
-            });
-	}
-
-	$scope.modPassword = function(){
-		// TODO 차후 비밀번호 변경 페이지 개발시 수정
-		location.href = '/';
-	}
-});
 
 /* video 리스트*/
 $('.video-btn').click(function(){
@@ -463,7 +454,6 @@ $('.instar-btn').click(function(){
 $('.video-closebtn').click(function(){
     $('.video-blackBg').fadeOut('fast');
 });
-
 
 /*뉴스레터 신청 관련*/
 $('#subscript_check').click(function(){
@@ -485,13 +475,13 @@ $('.subscriptBtn').click(function(){
 });
 
 /* 메인 레이어 팝업 */
-/*$('.main-popup-img').hide();
-$('.main-popup-txt').hide();
+$('.main-popup-img').hide();
+$('.main-popup-txt').hide(); /* flexbox 처리로 hide */
 
 $('.main-popup-img.on').show();
-$('.main-popup-txt.on').show(); */
+$('.main-popup-txt.on').show();
 
-$('.main-popup-close').click(function(){
+$('.main-popup-close, .main-popupBg').click(function(){
     $('.main-popupbox').addClass('down');
     $('.main-popupBg').fadeOut();
 });

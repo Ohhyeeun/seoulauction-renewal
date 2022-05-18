@@ -1,6 +1,7 @@
 
 
 $(function(){
+
 const locale = document.documentElement.lang;
 const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
 
@@ -9,8 +10,14 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
     //진행중 경매리스트
     loadIngAuctionList();
 
-    //now표시
-    setNowBadge();
+    //gnb메뉴 now표시
+    setGnbNowBadge();
+
+    //마이페이지 확장메뉴 now표시
+    if(sessionStorage.getItem("is_login") === "true"){
+        setMyMenuBadge();
+    }
+
 
     function loadIngAuctionList(){
 
@@ -23,7 +30,7 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
                     const titleJSON = JSON.parse(item.TITLE_BLOB);
                     const returnDom = `<a href="/auction/${item.SALE_NO}" class="Ingbanner" target="_blank">
                                             <figure class="border-txt-darkg Ingbanner-img">
-                                                <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
+                                                <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" alt="ing_auction01">
                                             </figure>
                                             <div class="Ingbanner-txt text-over">
                                                 <span class="auctionKind-box Ingkind-auction ${item.SALE_KIND === 'LIVE' ? 'on' : ''}">${item.SALE_KIND}</span>
@@ -42,7 +49,8 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
         });
     }
 
-    function setNowBadge(){
+    function setGnbNowBadge(){
+
 
         axios.get('api/main/ingMenuCount')
         .then(function(response){
@@ -63,6 +71,24 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
         .catch(function(error){
             console.log(error);
         });
+    }
+
+    function setMyMenuBadge(){
+
+        axios.get('api/main/isHaveToPayWorkExist')
+            .then(function(response){
+                const success =  response.data.success;
+                if (success) {
+                    const isExist = response.data.data.isExist;
+                    const badgeHtml = '<i class="utility-icon on"></i>';
+                    console.log(isExist)
+                    if(isExist)
+                        document.querySelector('#MyMenuOnlineBadge a').insertAdjacentHTML('beforeend', badgeHtml);
+                }
+            })
+            .catch(function(error){
+                console.log(error);
+            });
     }
 
     window.addEventListener('resize', (e) => {
@@ -207,10 +233,10 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
     }
 
     /* utility menu */
-    $('.utility-join').hide();
+    /*$('.utility-join').hide();
     $('.utility-login').hide();
     $('.gnb_join').hide();
-    $('.gnb_login').hide();
+    $('.gnb_login').hide();*/
 
     /* 모바일 gnb 유틸리티 */
     $('.gnb_logout').click(function(){
@@ -306,11 +332,9 @@ $('.scroll-top').click(function(){
 });
 
 /* top search 클릭 할 때 filter 기능 */
-function searchDown() {
-    $('.topsearch-text').click(function(){
-        $('.search-bubble-box').addClass('on');
-    });
-}
+$('.topsearch-text').click(function(){
+    $('.search-bubble-box').toggleClass('on');
+});  
 
 /* top search filter 기능 */
 function searchFilter() {
@@ -362,7 +386,6 @@ function numberWithCommas(x) {
 }
 
 
-
 function onlyNumber(obj, type) {
 	const regExp = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;
 	if (regExp.test(obj.value)) {
@@ -389,6 +412,7 @@ function phoneNumber(obj) {
 	} else if (mobile_len == 3 || mobile_len == 8) {
 		obj.value += '-';
 	}
+
 }
 
 

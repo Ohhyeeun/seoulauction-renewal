@@ -111,6 +111,36 @@ public class LoginController {
         return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "joinForm" , locale);
     }
     
+    @PostMapping("/joinForm")
+    public String joinFormPost(Locale locale, Model model, @RequestParam(value = "socialType") String socialType
+    		, HttpServletRequest request, HttpServletResponse response) {
+    	log.debug("===== joinFormPost =====");
+    	
+    	String socialLoginId = "";
+		
+		boolean duplIdCheck = true;
+		while(duplIdCheck) {
+			socialLoginId = socialType + "_" + Double.toString(Math.random() * 10).replace(".", "").substring(0, 8);
+			log.info(socialLoginId);
+			CommonMap paramMap = new CommonMap();
+			paramMap.put("socialLoginId", socialLoginId);
+	        CommonMap resultMap = loginService.selectCustSocialBySocialLoginId(paramMap);
+	        if(resultMap == null) {
+	        	duplIdCheck = false;
+	        }
+		}
+		model.addAttribute("name", request.getParameter("name"));
+		model.addAttribute("mobile", request.getParameter("mobile"));
+		model.addAttribute("email", request.getParameter("email"));
+		model.addAttribute("socialLoginId", socialLoginId);
+		model.addAttribute("socialEmail", request.getParameter("email"));
+		if(socialType.equals("AP")) {
+			model.addAttribute("socialEmail", request.getParameter("sub"));
+		}
+    	
+        return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "joinForm" , locale);
+    }
+    
     @GetMapping("/social/naver/callback")
 	public String socialNaverCallback(Locale locale, HttpServletRequest request, HttpServletResponse response) {
 	    log.debug("===== naverCallback =====");

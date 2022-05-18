@@ -19,6 +19,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Component
 @Log4j2
@@ -37,7 +39,9 @@ public class NicePayModule {
         NicePayHttpServletRequestWrapper wrapper = new NicePayHttpServletRequestWrapper(request);
 
         String authCode = wrapper.getParameter("AuthResultCode");
-        CommonMap resultMap = new CommonMap();
+        CommonMap resultMap;
+
+        String eDiDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 
         //인증요청이 성공인경우 승인 요청 고고
         if(AUTH_SUCCESS_CODE.equals(authCode)) {
@@ -46,7 +50,7 @@ public class NicePayModule {
                     wrapper.getParameter("AuthToken")
                             + wrapper.getParameter("MID")
                             + wrapper.getParameter("Amt")
-                            + wrapper.getParameter("EdiDate")
+                            + eDiDate
                             + nicePaymerchantKey);
 
             WebClient webClient = WebClient.builder()
@@ -59,7 +63,7 @@ public class NicePayModule {
             formData.add("AuthToken", wrapper.getParameter("AuthToken"));
             formData.add("MID", wrapper.getParameter("MID"));
             formData.add("Amt", wrapper.getParameter("Amt"));
-            formData.add("EdiDate", wrapper.getParameter("EdiDate"));
+            formData.add("EdiDate", eDiDate);
             formData.add("SignData", signData);
 
             String result = webClient
