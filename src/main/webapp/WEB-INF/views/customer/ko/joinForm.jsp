@@ -396,6 +396,13 @@
 	                                                            <td>{{addr.postcd}}</td>
 	                                                            <td class="tal">{{addr.address}}</td>
 	                                                        </tr>
+	                                                        <tr ng-if="addressList == undefined">
+                                                            <td colspan="2">
+                                                                <div class="data-empty_mem tb1">
+                                                                    검색결과가 없습니다.
+                                                                </div>
+                                                            </td>
+                                                        </tr>
 	                                                    </tbody>
 	                                                </table>
 	                                            </div>
