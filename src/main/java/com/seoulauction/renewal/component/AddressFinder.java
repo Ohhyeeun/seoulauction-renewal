@@ -19,11 +19,19 @@ import java.util.Map;
 @Component
 public final class AddressFinder {
 
+static String SERVICE_URL;
+	
 	@Value("${addr.service.url}")
-	static String SERVICE_URL;
+	public void setUrl(String value) {
+		SERVICE_URL = value;
+    }
 
-	@Value("${addr.service.api.key}")
 	static String SERVICE_API_KEY;
+	
+	@Value("${addr.service.api.key}")
+	public void setApiKey(String value) {
+		SERVICE_API_KEY = value;
+    }
 
 	public static final String SERVICE_TARGET = "postNew";
 	
@@ -86,13 +94,7 @@ public final class AddressFinder {
 		 }
 	  
 		  Map<String, Object> tableMap = new HashMap<String, Object>();
-			Map<String, Object> columnMap = new HashMap<String, Object>();
-			columnMap.put("postcd", "string");
-			columnMap.put("address", "string");
-			columnMap.put("addrjibun", "string");
-
-			tableMap.put("columns", columnMap);
-			tableMap.put("rows", aAddress);
+			tableMap.put("addresses", aAddress);
 			log.debug("=====>>>>> {}", tableMap);
 			return tableMap;
 		}

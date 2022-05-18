@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.seoulauction.renewal.component.AddressFinder;
 import com.seoulauction.renewal.component.FileManager;
 
 import com.seoulauction.renewal.domain.CommonMap;
@@ -155,5 +156,19 @@ public class MypageService {
     public int updateSaleCertHp(CommonMap commonMap){  
     	return mypageMapper.updateSaleCertHp(commonMap);
     }
+    
+    public HashMap<String, Object> findAddr(CommonMap action) {
+    	HashMap<String, Object> r = null;
+		
+		try {
+			r = new HashMap<String, Object>();
+			r = (HashMap<String, Object>) AddressFinder.find(action);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		
+		return r;
+	}
 
 }
