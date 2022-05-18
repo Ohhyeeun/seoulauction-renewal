@@ -23,6 +23,7 @@ import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.service.LoginService;
 import com.seoulauction.renewal.service.MessageService;
+import com.seoulauction.renewal.service.MypageService;
 import com.seoulauction.renewal.utill.CaptchaUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,8 @@ public class ApiLoginController {
 	private final LoginService loginService;
 
 	private final MessageService messageService;
+
+	private final MypageService mypageService;
 	
 	@Value("${mobile.msg.callback}")
 	String callback;
@@ -88,6 +91,58 @@ public class ApiLoginController {
 		 
    	}
 	
-	
+
+	  //비밀번호 찾기
+	    @RequestMapping(value="/findCustPassword", method=RequestMethod.POST)
+	    @ResponseBody
+	    public ResponseEntity<RestResponse> findCustPassword(Locale locale, @RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+			try{
+				paramMap.put("stat_cd", "normal");
+	        	CommonMap custMap = loginService.selectCustomerByStatCdAndLoginId(paramMap);
+	        	
+	        	Map<String, Object> resultMap = new HashMap<String, Object>();
+	        	
+	        	//소셜로그인
+	        	if(custMap.get("SOCIAL_TYPE") != null && !custMap.get("SOCIAL_TYPE").equals("")) {
+	        		resultMap.put("SOCIAL_TYPE", custMap.get("SOCIAL_TYPE").toString());
+	        		return ResponseEntity.ok(RestResponse.ok(resultMap));
+	        	}
+	        	
+		        int result = loginService.updatePasswordByLoginId(paramMap);
+		        
+		        if(result > 0 ){
+		        	if("email".equals(paramMap.get("search_type"))) {
+			        	resultMap.put("PASSWD", paramMap.get("passwd").toString());
+			        	resultMap.put("LOGIN_ID", paramMap.get("login_id").toString());
+			        	resultMap.put("CUST_NAME", paramMap.get("cust_name").toString());
+			        	
+			        	String subject = locale.equals("en") ? "[SeoulAuction] Issued a temporary password reminder" : "[서울옥션] 임시 비밀번호 발급 알림";
+			        	String template = locale.equals("en") ? "passwd_en.html" : "passwd.html";
+				        messageService.sendMail(paramMap.get("search_value").toString(), subject, template, resultMap);
+		        	} else {
+			        	String msg = locale.equals("en") ? 
+			        			"[SeoulAuction SMS] Issued a temporary password reminder\n temporary password : " + paramMap.get("passwd").toString()
+			        			: "[서울옥션 문자발송] 임시 비밀번호 발급 알림\n 임시비밀번호 : "+ paramMap.get("passwd").toString(); 
+			        	
+			        	//최종 문자 발송 데이터
+			        	paramMap.put("from_phone", callback.toString()); //02-395-0330
+			        	paramMap.put("to_phone", paramMap.get("search_value").toString());
+			        	paramMap.put("msg", msg.toString()); 
+				   		resultMap = mypageService.selectAuthNumber(paramMap);
+		        	}
+		        	//성공
+		        	return ResponseEntity.ok(RestResponse.ok(resultMap));
+		        }
+		        else{
+		        	//실패
+		        	 throw new SAException("일치하는 회원 정보가 없습니다.");
+		        }
+			}
+			catch(Exception ex){
+				//실패
+				ex.printStackTrace();
+				throw new SAException("오류가 발생하였습니다. 관리자에게 문의하세요."); 
+			}
+	    }
 
 }
