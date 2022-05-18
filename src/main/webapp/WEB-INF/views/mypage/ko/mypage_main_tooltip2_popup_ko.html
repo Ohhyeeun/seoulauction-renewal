@@ -232,10 +232,11 @@
                     <section class="basis-section last-section">
                         <div class="section-inner">
 
-                            <a class="btn btn_default js-popup_memlv2_record" href="#" role="button"><span>결제이력</span><i class="icon-page_next"></i></a>
+                            <a class="btn btn_default js-popup_tooltip" href="#" role="button"><span>정회원이력</span><i class="icon-page_next"></i></a>
 
                         </div>
                     </section>
+
 
                 </div>
             </div>
@@ -321,9 +322,9 @@
 
 
     <!-- 팝업 : 정회원 결제 이력 -->
-    <div id="popup_memlv2_record-wrap" class="trp popupfixed-wrap memlv2_record-popup">
+    <div id="popup_tooltip-wrap" class="trp popupfixed-wrap tooltip-popup">
         <div class="popup-dim"></div>
-        <div class="popup-align mode-md mode-mb_full">
+        <div class="popup-align mode-md mode-mb_fixed">
             <div class="popup-vertical">
                 <div class="popup-layer">
 
@@ -331,79 +332,35 @@
                         <div class="pop-header">
                             <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
                             <div class="title-box">
-                                <span class="txt_title type-big">결제 이력</span>
+                                <span class="txt_title type-big">정회원 이력</span>
                             </div>
                         </div>
                         <div class="pop-body scroll-type">
                             <section class="section" style="display: block;">
-                                <article class="article-area">
-                                    <div class="memlv2_record_list-wrap">
-                                        <dl class="memlv2_record-list memlv2">
-                                            <dt>
-                                                <div class="title">
-                                                    <div class="tb1"><span>2022.1.5 ~ 2022.2.5</span></div>
-                                                </div>
-                                                <div class="state icon-wrap">
-                                                    <div class="state-icon">정회원</div>
-                                                </div>
-                                            </dt>
-                                            <dd>
-                                                <div class="info-li">
-                                                    <div class="tit">결제일</div>
-                                                    <div class="txt">1.5(금) 13:26:15</div>
-                                                </div>
-                                                <div class="info-li">
-                                                    <div class="tit">결제방법</div>
-                                                    <div class="txt">무료</div>
-                                                </div>
-                                            </dd>
-                                        </dl>
-                                        <dl class="memlv2_record-list expiry">
-                                            <dt>
-                                                <div class="title">
-                                                    <div class="tb1"><span>2022.1.5 ~ 2022.2.5</span></div>
-                                                </div>
-                                                <div class="state icon-wrap">
-                                                    <div class="state-icon">기간만료</div>
-                                                </div>
-                                            </dt>
-                                            <dd>
-                                                <div class="info-li">
-                                                    <div class="tit">결제일</div>
-                                                    <div class="txt">1.5(금) 13:26:15</div>
-                                                </div>
-                                                <div class="info-li">
-                                                    <div class="tit">결제방법</div>
-                                                    <div class="txt">무료</div>
-                                                </div>
-                                            </dd>
-                                        </dl>
-                                        <dl class="memlv2_record-list expiry">
-                                            <dt>
-                                                <div class="title">
-                                                    <div class="tb1"><span>2022.1.5 ~ 2022.2.5</span></div>
-                                                </div>
-                                                <div class="state icon-wrap">
-                                                    <div class="state-icon">기간만료</div>
-                                                </div>
-                                            </dt>
-                                            <dd>
-                                                <div class="info-li">
-                                                    <div class="tit">결제일</div>
-                                                    <div class="txt">1.5(금) 13:26:15</div>
-                                                </div>
-                                                <div class="info-li">
-                                                    <div class="tit">결제방법</div>
-                                                    <div class="txt">무료</div>
-                                                </div>
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                </article>
-                                <div class="button-area">
-                                    <div class="btn_set-float tac">
-                                        <a class="btn btn_gray_line js-closepop" href="#" role="button"><span>닫기</span></a>
-                                    </div>
+                                <div class="con-wrap-line">
+                                    <article class="group-box">
+                                        <span class="box-title tt5">연회비</span>
+                                        <ul class="mark_dot-list">
+                                            <li><span class="tb1">국내 거주 20만원, 해외거주 500USD</span></li>
+                                        </ul>
+                                    </article>
+                                    <article class="group-box">
+                                        <span class="box-title tt5">혜택</span>
+                                        <ul class="mark_dot-list">
+                                            <li><span class="tb1">라이브 경매(메이저, 기획) 참여 자격 부여</span></li>
+                                            <li><span class="tb1">라이브 경매 도록 발송</span></li>
+                                            <li><span class="tb1">서울옥션 달력 발송</span></li>
+                                        </ul>
+                                    </article>
+                                    <article class="group-box">
+                                        <span class="box-title tt5">환불안내</span>
+                                        <ul class="mark_dot-list">
+                                            <li><span class="tb1">가입 직후 – 1개월 미만: 전액 환불</span></li>
+                                            <li><span class="tb1">1개월 이상 – 3개월 미만: 80% 환불</span></li>
+                                            <li><span class="tb1">3개월 이상 – 6개월 미만: 60% 환불</span></li>
+                                            <li><span class="tb1">가입 후 6개월 이상: 환불 미 진행</span></li>
+                                        </ul>
+                                    </article>
                                 </div>
                             </section>
                         </div>
@@ -415,18 +372,18 @@
     </div>
     <script>
         (function() {
-            var popup_marketing1 = $(".js-popup_memlv2_record").trpLayerFixedPopup("#popup_memlv2_record-wrap");
-            $(popup_marketing1.getBtn).on("click", function($e) {
+            var popup_tooltip = $(".js-popup_tooltip").trpLayerFixedPopup("#popup_tooltip-wrap");
+            $(popup_tooltip.getBtn).on("click", function($e) {
                 $e.preventDefault();
-                popup_marketing1.open(this); // or false   
-                popup_fixation("#popup_memlv2_record-wrap"); // pc 스크롤
-                popup_motion_open("#popup_memlv2_record-wrap"); // mb 모션 
+                popup_tooltip.open(this); // or false   
+                popup_fixation("#popup_tooltip-wrap"); // pc 스크롤
+                popup_motion_open("#popup_tooltip-wrap"); // mb 모션 
             });
 
-            $("body").on("click", "#popup_memlv2_record-wrap .js-closepop, #popup_memlv2_record-wrap .popup-dim", function($e) {
+            $("body").on("click", "#popup_tooltip-wrap .js-closepop, #popup_tooltip-wrap .popup-dim", function($e) {
                 $e.preventDefault();
-                popup_marketing1.close();
-                popup_motion_close("#popup_memlv2_record-wrap");
+                popup_tooltip.close();
+                popup_motion_close("#popup_tooltip-wrap");
             });
         })();
     </script>

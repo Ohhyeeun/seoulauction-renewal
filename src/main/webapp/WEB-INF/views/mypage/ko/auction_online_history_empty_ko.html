@@ -229,10 +229,110 @@
             <div id="container">
                 <div id="contents" class="contents">
 
-                    <section class="basis-section last-section">
+                    <section class="basis-section last-section mypage-section">
                         <div class="section-inner">
 
-                            <a class="btn btn_default js-popup_memlv2_record" href="#" role="button"><span>결제이력</span><i class="icon-page_next"></i></a>
+                            <div class="content-panel type_panel-mypage_auction online">
+                                <div class="panel-body">
+                                    <div class="mypage-container">
+
+                                        <!-- 마이페이지 싸이드 메뉴 -->
+                                        <aside class="aside-area">
+                                            <div class="aside-inner">
+                                                <div class="mem-infobox-wrap">
+                                                    <div class="mem-name-wrap">
+                                                        <span class="tt2">홍길동</span><span class="tt4">님</span>
+                                                    </div>
+                                                    <div class="mem-info-wrap">
+                                                        <div class="mem-lv-box">
+                                                            <div class="mem-lv lv-1">준회원</div>
+                                                        </div>
+                                                        <div class="mem-record-box">
+                                                            <a href="#" class="record-button">정회원 이력</a>
+                                                            <a href="#" class="tooltip-button">
+                                                                <div class="txt-icon-tooltip">툴팁</div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mem-button-wrap">
+                                                        <button class="btn btn_point btn_lg" type="button"><span>정회원 신청하기</span></button>
+                                                    </div>
+                                                </div>
+                                                <div class="mypage-lnb-wrap">
+                                                    <div class="mypage-lnb">
+                                                        <ul class="cate1">
+
+
+                                                            <li class="cate1-group">
+                                                                <span>라이브경매관리</span>
+                                                                <ul>
+                                                                    <li class=""><a href="#">응찰신청내역</a></li>
+                                                                    <li class=""><a href="#">온라인패들응찰내역</a></li>
+                                                                </ul>
+                                                            </li>
+                                                            <li class="cate1-group">
+                                                                <span>온라인경매관리</span>
+                                                                <ul>
+                                                                    <li class="on"><a href="#">응찰내역</a></li>
+                                                                    <li class=""><a href="#">결제/구매내역</a></li>
+                                                                </ul>
+                                                            </li>
+                                                            <li class="cate1-li ">
+                                                                <a href="#" class="">관심작품 <i class="icon-view_more"></i></a>
+                                                            </li>
+                                                            <li class="cate1-li ">
+                                                                <a href="#" class="">아카데미신청내역 <i class="icon-view_more"></i></a>
+                                                            </li>
+                                                            <li class="cate1-li ">
+                                                                <a href="#" class="">1:1문의 <i class="icon-view_more"></i></a>
+                                                            </li>
+                                                            <li class="cate1-group">
+                                                                <span>회원정보관리</span>
+                                                                <ul>
+                                                                    <li class=""><a href="#">회원정보수정</a></li>
+                                                                    <li class=""><a href="#">비밀번호수정</a></li>
+                                                                    <li class=""><a href="#">SNS연동설정</a></li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </aside>
+
+                                        <div class="content-area">
+                                            <div class="subtitle-wrap">
+                                                <div class="subtitle-inner">
+                                                    <div class="title">
+                                                        <span class="tt2">응찰내역</span>
+                                                    </div>
+                                                    <div class="btn-wrap js-history_back m-ver"><i class="icon-page_back"></i></div>
+                                                </div>
+                                            </div>
+                                            <div class="contents-wrap">
+                                                <article class="help-box-wrap">
+                                                    <div class="help-box">
+                                                        <i class="icon-inquiry_g"></i>
+                                                        <ul>
+                                                            <li><span>응찰내역은 경매 별 LOT 순으로 보여집니다.</span></li>
+                                                            <li><span>동일한 금액의 응찰이 있을 경우 응찰시간이 빠른 응찰자에게 우선순위가 주어집니다.</span></li>
+                                                        </ul>
+                                                    </div>
+                                                </article>
+                                                <article class="bid-list-wrap">
+                                                    <div class="bid-list">
+                                                        <div class="data-empty">
+                                                            <p class="txt_empty">결제 이력이 존재하지 않습니다.</p>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="panel-footer"></div>
+                            </div>
 
                         </div>
                     </section>
@@ -320,119 +420,26 @@
 
 
 
-    <!-- 팝업 : 정회원 결제 이력 -->
-    <div id="popup_memlv2_record-wrap" class="trp popupfixed-wrap memlv2_record-popup">
-        <div class="popup-dim"></div>
-        <div class="popup-align mode-md mode-mb_full">
-            <div class="popup-vertical">
-                <div class="popup-layer">
-
-                    <div class="pop-panel">
-                        <div class="pop-header">
-                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
-                            <div class="title-box">
-                                <span class="txt_title type-big">결제 이력</span>
-                            </div>
-                        </div>
-                        <div class="pop-body scroll-type">
-                            <section class="section" style="display: block;">
-                                <article class="article-area">
-                                    <div class="memlv2_record_list-wrap">
-                                        <dl class="memlv2_record-list memlv2">
-                                            <dt>
-                                                <div class="title">
-                                                    <div class="tb1"><span>2022.1.5 ~ 2022.2.5</span></div>
-                                                </div>
-                                                <div class="state icon-wrap">
-                                                    <div class="state-icon">정회원</div>
-                                                </div>
-                                            </dt>
-                                            <dd>
-                                                <div class="info-li">
-                                                    <div class="tit">결제일</div>
-                                                    <div class="txt">1.5(금) 13:26:15</div>
-                                                </div>
-                                                <div class="info-li">
-                                                    <div class="tit">결제방법</div>
-                                                    <div class="txt">무료</div>
-                                                </div>
-                                            </dd>
-                                        </dl>
-                                        <dl class="memlv2_record-list expiry">
-                                            <dt>
-                                                <div class="title">
-                                                    <div class="tb1"><span>2022.1.5 ~ 2022.2.5</span></div>
-                                                </div>
-                                                <div class="state icon-wrap">
-                                                    <div class="state-icon">기간만료</div>
-                                                </div>
-                                            </dt>
-                                            <dd>
-                                                <div class="info-li">
-                                                    <div class="tit">결제일</div>
-                                                    <div class="txt">1.5(금) 13:26:15</div>
-                                                </div>
-                                                <div class="info-li">
-                                                    <div class="tit">결제방법</div>
-                                                    <div class="txt">무료</div>
-                                                </div>
-                                            </dd>
-                                        </dl>
-                                        <dl class="memlv2_record-list expiry">
-                                            <dt>
-                                                <div class="title">
-                                                    <div class="tb1"><span>2022.1.5 ~ 2022.2.5</span></div>
-                                                </div>
-                                                <div class="state icon-wrap">
-                                                    <div class="state-icon">기간만료</div>
-                                                </div>
-                                            </dt>
-                                            <dd>
-                                                <div class="info-li">
-                                                    <div class="tit">결제일</div>
-                                                    <div class="txt">1.5(금) 13:26:15</div>
-                                                </div>
-                                                <div class="info-li">
-                                                    <div class="tit">결제방법</div>
-                                                    <div class="txt">무료</div>
-                                                </div>
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                </article>
-                                <div class="button-area">
-                                    <div class="btn_set-float tac">
-                                        <a class="btn btn_gray_line js-closepop" href="#" role="button"><span>닫기</span></a>
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
     <script>
-        (function() {
-            var popup_marketing1 = $(".js-popup_memlv2_record").trpLayerFixedPopup("#popup_memlv2_record-wrap");
-            $(popup_marketing1.getBtn).on("click", function($e) {
-                $e.preventDefault();
-                popup_marketing1.open(this); // or false   
-                popup_fixation("#popup_memlv2_record-wrap"); // pc 스크롤
-                popup_motion_open("#popup_memlv2_record-wrap"); // mb 모션 
-            });
+        $('.js-left_mm_2 a').on('click', function(e) {
+            e.preventDefault();
+            var tar = $(this).position().left;
+            var scrollX = tar - ($(".js-left_mm_2").parents(".tab-area").width() / 2) + $(this).width() / 2;
 
-            $("body").on("click", "#popup_memlv2_record-wrap .js-closepop, #popup_memlv2_record-wrap .popup-dim", function($e) {
-                $e.preventDefault();
-                popup_marketing1.close();
-                popup_motion_close("#popup_memlv2_record-wrap");
-            });
-        })();
+            if ($(this).parents('li').hasClass('active')) {
+                return false;
+            } else {
+                $(".js-left_mm_2 li").removeClass('active');
+                $(this).parents('li').addClass('active');
+
+                $(".js-left_mm_2").parents(".tab-area").scrollLeft(scrollX);
+            }
+        });
+
+        $(".js-history_back").click(function() {
+            window.history.back();
+        })
     </script>
-
-
-
 </body>
 
 </html>

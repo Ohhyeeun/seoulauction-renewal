@@ -232,11 +232,10 @@
                     <section class="basis-section last-section mypage-section">
                         <div class="section-inner">
 
-                            <div class="content-panel type_panel-mypage_auction">
+                            <div class="content-panel type_panel-mypage_auction online">
                                 <div class="panel-body">
                                     <div class="mypage-container">
 
-                                        <!-- 마이페이지 싸이드 메뉴 -->
                                         <aside class="aside-area">
                                             <div class="aside-inner">
                                                 <div class="mem-infobox-wrap">
@@ -250,8 +249,9 @@
                                                         <div class="mem-record-box">
                                                             <a href="#" class="record-button">정회원 이력</a>
                                                             <a href="#" class="tooltip-button">
-                                                                <div class="txt-icon-tooltip">툴팁</div>
+                                                                <i class="icon_tooltip js-tooltip" title="툴팁"></i>
                                                             </a>
+                                                            <div class="tooltip-subbox">툴팁 상세설명</div>
                                                         </div>
                                                     </div>
                                                     <div class="mem-button-wrap">
@@ -260,38 +260,36 @@
                                                 </div>
                                                 <div class="mypage-lnb-wrap">
                                                     <div class="mypage-lnb">
-                                                        <ul class="cate1">
-
-
-                                                            <li class="cate1-group">
+                                                        <ul>
+                                                            <li>
                                                                 <span>라이브경매관리</span>
                                                                 <ul>
-                                                                    <li class=""><a href="#">응찰신청내역</a></li>
-                                                                    <li class="on"><a href="#">온라인패들응찰내역</a></li>
+                                                                    <li><a href="#">응찰신청내역</a></li>
+                                                                    <li><a href="#">온라인패들응찰내역</a></li>
                                                                 </ul>
                                                             </li>
-                                                            <li class="cate1-group">
+                                                            <li>
                                                                 <span>온라인경매관리</span>
                                                                 <ul>
-                                                                    <li class=""><a href="#">응찰내역</a></li>
-                                                                    <li class=""><a href="#">결제/구매내역</a></li>
+                                                                    <li class="on"><a href="#">응찰내역</a></li>
+                                                                    <li><a href="#">결제/구매내역</a></li>
                                                                 </ul>
                                                             </li>
-                                                            <li class="cate1-li ">
-                                                                <a href="#" class="">관심작품 <i class="icon-view_more"></i></a>
+                                                            <li>
+                                                                <a href="#">관심작품 <i class="icon-view_more"></i></a>
                                                             </li>
-                                                            <li class="cate1-li ">
-                                                                <a href="#" class="">아카데미신청내역 <i class="icon-view_more"></i></a>
+                                                            <li>
+                                                                <a href="#">아카데미신청내역 <i class="icon-view_more"></i></a>
                                                             </li>
-                                                            <li class="cate1-li ">
-                                                                <a href="#" class="">1:1문의 <i class="icon-view_more"></i></a>
+                                                            <li>
+                                                                <a href="#">1:1문의 <i class="icon-view_more"></i></a>
                                                             </li>
-                                                            <li class="cate1-group">
+                                                            <li>
                                                                 <span>회원정보관리</span>
                                                                 <ul>
-                                                                    <li class=""><a href="#">회원정보수정</a></li>
-                                                                    <li class=""><a href="#">비밀번호수정</a></li>
-                                                                    <li class=""><a href="#">SNS연동설정</a></li>
+                                                                    <li><a href="#">회원정보수정</a></li>
+                                                                    <li><a href="#">비밀번호수정</a></li>
+                                                                    <li><a href="#">SNS연동설정</a></li>
                                                                 </ul>
                                                             </li>
                                                         </ul>
@@ -304,126 +302,73 @@
                                             <div class="subtitle-wrap">
                                                 <div class="subtitle-inner">
                                                     <div class="title">
-                                                        <span class="tt2">온라인패들응찰내역</span>
+                                                        <span class="tt2">응찰내역</span>
                                                     </div>
-                                                    <div class="btn-wrap js-history_back m-ver"><i class="icon-page_back"></i></div>
+                                                </div>
+                                            </div>
+                                            <div class="tabmenu-wrap">
+                                                <div class="tab-area type-left_mm_2">
+                                                    <ul class="tab-list js-left_mm_2">
+                                                        <li class="active"><a href="#tab-cont-1"><span>응찰</span></a></li>
+                                                        <li class=""><a href="#tab-cont-2"><span>자동응찰</span></a></li>
+                                                    </ul>
                                                 </div>
                                             </div>
                                             <div class="contents-wrap">
-                                                <article class="bid-list-wrap">
+                                                <article class="search-wrap">
+                                                    <div class="search-bar">
+                                                        <div class="date-wrap">
+                                                            <div class="select-box h42-line">
+                                                                <select class="" id="">
+                                                                    <option value="">2021-12</option>
+                                                                    <option value="">2021-11</option>
+                                                                    <option value="">2021-10</option>
+                                                                    <option value="">2021-09</option>
+                                                                    <option value="">2021-08</option>
+                                                                    <option value="">2021-07</option>
+                                                                </select>
+                                                                <i class="form-select_arrow_md"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="search-detail-btnbox">
+                                                            <a href="#" class="search-detail-btn js-pop_searchbox">
+                                                                <i class="form-search_md" title="상세검색"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <diiv class="search-detail-box">
+                                                        <div class="search-detail-inner">
+                                                            <div class="input-wrap">
+                                                                <input type="text" placeholder="검색어입력" id="" class="h42">
+                                                            </div>
+                                                            <div class="period-wrap">
+                                                                <dl>
+                                                                    <dt>기간</dt>
+                                                                    <dd>
+                                                                        <div class="date-wrap">
+                                                                            <input type="text" placeholder="YYYYMMDD" id="" class="h42">
+                                                                            <span>~</span>
+                                                                            <input type="text" placeholder="YYYYMMDD" id="" class="h42">
+                                                                        </div>
+                                                                    </dd>
+                                                                </dl>
+                                                            </div>
+                                                            <button class="btn btn_black btn_sm btn-search" type="button"><span>검색</span></button>
+                                                        </div>
+                                                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                                                    </diiv>
+                                                </article>
+                                                <article class="bid-list-wrap auction-detail">
                                                     <div class="bid-list">
                                                         <dl class="bid-item">
                                                             <dt>
                                                                 <div class="title-area">
-                                                                    <div class="title tt4">
-                                                                        <span>2022 4월 e-BID 온라인 프리미엄 경매 II</span>
-                                                                    </div>
-                                                                    <div class="sub">
-                                                                        <div class="desc tb1">
-                                                                            <span class="tit">경매일</span>
-                                                                            <span>2022.04.14 14:00 순차마감</span>
-                                                                        </div>
-                                                                        <div class="desc tb1">
-                                                                            <span class="tit">패들번호</span>
-                                                                            <span class="paddle-num">633</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="btn-area">
-                                                                    <button class="btn btn_black btn-view-bid" type="button"><span>낙찰결과보기</span></button>
-                                                                </div>
-                                                            </dt>
-                                                            <dd>
-                                                                <div class="product-infobox">
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction01.jpg" alt="">
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">3</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">문형태</div>
-                                                                        </div>
-                                                                        <div class="desc">Speed </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="pay-infobox">
-                                                                    <div class="pay-area">
-                                                                        <dl class="price">
-                                                                            <dt class="tit">응찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="price succ">
-                                                                            <dt class="tit">낙찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="date">
-                                                                            <dt class="tit">낙찰일</dt>
-                                                                            <dd class="txt">2022.04.14 14:43:25</dd>
-                                                                        </dl>
-                                                                    </div>
-                                                                    <div class="btn-area">
-                                                                        <button class="btn btn_default js-popup_auction_live_record" type="button"><span>응찰내역</span></button>
-                                                                    </div>
-                                                                </div>
-                                                            </dd>
-                                                            <dd>
-                                                                <div class="product-infobox">
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction02.jpg" alt="">
-                                                                                <!-- <div class="success"><span class="bid_result-icon">낙찰</span></div> -->
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">24</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">데미안허스트</div>
-                                                                        </div>
-                                                                        <div class="desc">
-                                                                            Black Neon BE2016
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="pay-infobox">
-                                                                    <div class="pay-area">
-                                                                        <dl class="price">
-                                                                            <dt class="tit">응찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="price succ">
-                                                                            <dt class="tit">낙찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="date">
-                                                                            <dt class="tit">낙찰일</dt>
-                                                                            <dd class="txt">2022.04.14 14:43:25</dd>
-                                                                        </dl>
-                                                                    </div>
-                                                                    <div class="btn-area">
-                                                                        <button class="btn btn_default js-popup_auction_live_record" type="button"><span>응찰내역</span></button>
-                                                                    </div>
-                                                                </div>
-                                                            </dd>
-                                                        </dl>
-                                                        <dl class="bid-item">
-                                                            <dt>
-                                                                <div class="title-area">
-                                                                    <div class="title tt4">
-                                                                        <span>말줄임없애기로 변경 - 2022 1월 라이브 경매 Draw a Black tiger Step by Step 제목은 최대 2줄. 2줄 이상은 말줄임 2022 1월 라이브 경매 Draw a Black tiger Step by Step 제목은 최대 2줄. 2줄 이상은 말줄임 2022 1월 라이브 경매 Draw a Black tiger Step by Step 제목은 최대 2줄. 2줄 이상은 말줄임</span>
+                                                                    <div class="title tt4 line-1">
+                                                                        <span>서울옥션 X 아트시 온라인 경매 : Crossroad 제목은 최대 1줄, 이상은 말줄임Draw a Black tiger Step by Step</span>
                                                                     </div>
                                                                     <div class="desc tb1">
-                                                                        <span class="tit">경매일</span>
-                                                                        <span>2022.04.14 14:00 순차마감</span>
+                                                                        <span>2021/12/1 ~ 2021/12/2</span>
                                                                     </div>
-                                                                </div>
-                                                                <div class="btn-area">
-                                                                    <button class="btn btn_gray_line btn-view-result" type="button"><span>경매결과보기</span></button>
                                                                 </div>
                                                             </dt>
                                                             <dd>
@@ -436,31 +381,21 @@
                                                                         </figure>
                                                                     </div>
                                                                     <div class="text-area">
-                                                                        <div class="num">3</div>
+                                                                        <div class="num">1</div>
                                                                         <div class="title">
-                                                                            <div class="titlename">문형태</div>
+                                                                            <div class="titlename">데미안허스트</div>
                                                                         </div>
-                                                                        <div class="desc">Speed </div>
+                                                                        <div class="desc">
+                                                                            Air (From The Series The Elelments)
+                                                                        </div>
+                                                                        <div class="price">
+                                                                            <div class="tit">응찰가</div>
+                                                                            <div class="txt">KRW 9,900,000,000</div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="pay-infobox">
-                                                                    <div class="pay-area">
-                                                                        <dl class="price">
-                                                                            <dt class="tit">응찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="price succ">
-                                                                            <dt class="tit">낙찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="date">
-                                                                            <dt class="tit">낙찰일</dt>
-                                                                            <dd class="txt">2022.04.14 14:43:25</dd>
-                                                                        </dl>
-                                                                    </div>
-                                                                    <div class="btn-area">
-                                                                        <button class="btn btn_default js-popup_auction_live_record" type="button"><span>응찰내역</span></button>
-                                                                    </div>
+                                                                <div class="btn-area">
+                                                                    <a class="btn btn_default js-popup_auction_live_record" href="#" role="button"><span>응찰이력</span></a>
                                                                 </div>
                                                             </dd>
                                                             <dd>
@@ -473,33 +408,24 @@
                                                                         </figure>
                                                                     </div>
                                                                     <div class="text-area">
-                                                                        <div class="num">24</div>
+                                                                        <div class="num">2
+                                                                            <div class="success m-ver"><span class="bid_result-icon">낙찰</span></div>
+                                                                        </div>
                                                                         <div class="title">
                                                                             <div class="titlename">데미안허스트</div>
+                                                                            <div class="success pc-ver"><span class="bid_result-icon">낙찰</span></div>
                                                                         </div>
                                                                         <div class="desc">
-                                                                            Black Neon BE2016
+                                                                            Air (From The Series The Elelments)
+                                                                        </div>
+                                                                        <div class="price">
+                                                                            <div class="tit">응찰가</div>
+                                                                            <div class="txt">KRW 9,900,000,000</div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="pay-infobox">
-                                                                    <div class="pay-area">
-                                                                        <dl class="price">
-                                                                            <dt class="tit">응찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="price succ">
-                                                                            <dt class="tit">낙찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="date">
-                                                                            <dt class="tit">낙찰일</dt>
-                                                                            <dd class="txt">2022.04.14 14:43:25</dd>
-                                                                        </dl>
-                                                                    </div>
-                                                                    <div class="btn-area">
-                                                                        <button class="btn btn_default js-popup_auction_live_record" type="button"><span>응찰내역</span></button>
-                                                                    </div>
+                                                                <div class="btn-area">
+                                                                    <a class="btn btn_default js-popup_auction_live_record" href="#" role="button"><span>응찰이력</span></a>
                                                                 </div>
                                                             </dd>
                                                             <dd>
@@ -512,53 +438,125 @@
                                                                         </figure>
                                                                     </div>
                                                                     <div class="text-area">
-                                                                        <div class="num">8</div>
+                                                                        <div class="num">3</div>
                                                                         <div class="title">
                                                                             <div class="titlename">데미안허스트</div>
                                                                         </div>
                                                                         <div class="desc">
                                                                             Air (From The Series The Elelments)
                                                                         </div>
+                                                                        <div class="price">
+                                                                            <div class="tit">응찰가</div>
+                                                                            <div class="txt">KRW 9,900,000,000</div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="pay-infobox">
-                                                                    <div class="pay-area">
-                                                                        <dl class="price">
-                                                                            <dt class="tit">응찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="price succ">
-                                                                            <dt class="tit">낙찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="date">
-                                                                            <dt class="tit">낙찰일</dt>
-                                                                            <dd class="txt">2022.04.14 14:43:25</dd>
-                                                                        </dl>
-                                                                    </div>
-                                                                    <div class="btn-area">
-                                                                        <button class="btn btn_default js-popup_auction_live_record" type="button"><span>응찰내역</span></button>
-                                                                    </div>
+                                                                <div class="btn-area">
+                                                                    <a class="btn btn_default js-popup_auction_live_record" href="#" role="button"><span>응찰이력</span></a>
                                                                 </div>
                                                             </dd>
                                                         </dl>
+                                                        <dl class="bid-item">
+                                                            <dt>
+                                                                <div class="title-area">
+                                                                    <div class="title tt4 line-1">
+                                                                        <span>서울옥션 X 아트시 온라인 경매 : Crossroad 제목은 최대 1줄, 이상은 말줄임</span>
+                                                                    </div>
+                                                                    <div class="desc tb1">
+                                                                        <span>2021/12/1 ~ 2021/12/2</span>
+                                                                    </div>
+                                                                </div>
+                                                            </dt>
+
+                                                            <dd>
+                                                                <div class="product-infobox">
+                                                                    <div class="thumb-area">
+                                                                        <figure class="img-ratio">
+                                                                            <div class="img-align">
+                                                                                <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                                            </div>
+                                                                        </figure>
+                                                                    </div>
+                                                                    <div class="text-area">
+                                                                        <div class="num">1</div>
+                                                                        <div class="title">
+                                                                            <div class="titlename">데미안허스트</div>
+                                                                        </div>
+                                                                        <div class="desc">
+                                                                            Air (From The Series The Elelments)
+                                                                        </div>
+                                                                        <div class="price">
+                                                                            <div class="tit">응찰가</div>
+                                                                            <div class="txt">KRW 9,900,000,000</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="btn-area">
+                                                                    <a class="btn btn_default js-popup_auction_live_record" href="#" role="button"><span>응찰이력</span></a>
+                                                                </div>
+                                                            </dd>
+
+                                                            <dd>
+                                                                <div class="product-infobox">
+                                                                    <div class="thumb-area">
+                                                                        <figure class="img-ratio">
+                                                                            <div class="img-align">
+                                                                                <img src="/images/pc/thumbnail/auction02.jpg" alt="">
+                                                                            </div>
+                                                                        </figure>
+                                                                    </div>
+                                                                    <div class="text-area">
+                                                                        <div class="num">2</div>
+                                                                        <div class="title">
+                                                                            <div class="titlename">데미안허스트</div>
+                                                                        </div>
+                                                                        <div class="desc">
+                                                                            Air (From The Series The Elelments)
+                                                                        </div>
+                                                                        <div class="price">
+                                                                            <div class="tit">응찰가</div>
+                                                                            <div class="txt">KRW 9,900,000,000</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="btn-area">
+                                                                    <a class="btn btn_default js-popup_auction_live_record" href="#" role="button"><span>응찰이력</span></a>
+                                                                </div>
+                                                            </dd>
+
+                                                            <dd>
+                                                                <div class="product-infobox">
+                                                                    <div class="thumb-area">
+                                                                        <figure class="img-ratio">
+                                                                            <div class="img-align">
+                                                                                <img src="/images/pc/thumbnail/auction03.jpg" alt="">
+                                                                            </div>
+                                                                        </figure>
+                                                                    </div>
+                                                                    <div class="text-area">
+                                                                        <div class="num">3</div>
+                                                                        <div class="title">
+                                                                            <div class="titlename">데미안허스트</div>
+                                                                        </div>
+                                                                        <div class="desc">
+                                                                            Air (From The Series The Elelments)
+                                                                        </div>
+                                                                        <div class="price">
+                                                                            <div class="tit">응찰가</div>
+                                                                            <div class="txt">KRW 9,900,000,000</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="btn-area">
+                                                                    <a class="btn btn_default js-popup_auction_live_record" href="#" role="button"><span>응찰이력</span></a>
+                                                                </div>
+                                                            </dd>
+
+                                                        </dl>
                                                     </div>
-                                                    <div class="paging-area">
-                                                        <div class="paging">
-                                                            <a href="#" class="prev_end icon-page_prevprev">FIRST</a><a href="#" class="prev icon-page_prev">PREV</a>
-                                                            <strong class="on">1</strong>
-                                                            <a href="#"><em>2</em></a>
-                                                            <a href="#"><em>3</em></a>
-                                                            <a href="#"><em>4</em></a>
-                                                            <a href="#"><em>5</em></a>
-                                                            <span class="pc-ver">
-                                                                <a href="#"><em>6</em></a>
-                                                                <a href="#"><em>7</em></a>
-                                                                <a href="#"><em>8</em></a>
-                                                                <a href="#"><em>9</em></a>
-                                                                <a href="#"><em>100</em></a>
-                                                            </span>
-                                                            <a href="#" class="next icon-page_next "><em>NEXT</em></a><a href="#" class="next_end icon-page_nextnext">END</a>
+                                                    <div class="button-area">
+                                                        <div class="btn_set-float tac">
+                                                            <a class="btn btn_gray_line" href="#" role="button"><span>더보기</span></a>
                                                         </div>
                                                     </div>
                                                 </article>
@@ -656,15 +654,90 @@
 
 
 
+    <!-- 팝업 : 검색하기 -->
+    <div id="popup_search_mobile-wrap" class="trp popupfixed-wrap default-popup popup_search_mobile">
+        <div class="popup-dim"></div>
+        <div class="popup-align mode-md mode-mb_fixed">
+            <div class="popup-vertical">
+                <div class="popup-layer">
+
+                    <div class="pop-panel">
+                        <div class="pop-header">
+                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                        </div>
+                        <div class="pop-body scroll-type">
+                            <section class="section" style="display: block;">
+                                <article class="articles-box">
+                                    <div class="search-detail-inner">
+                                        <div class="input-wrap">
+                                            <input type="text" placeholder="검색어입력" id="" class="h42">
+                                        </div>
+                                        <div class="period-wrap">
+                                            <dl>
+                                                <dt>기간</dt>
+                                                <dd>
+                                                    <div class="date-wrap">
+                                                        <input type="text" placeholder="YYYYMMDD" id="" class="h42">
+                                                        <span>~</span>
+                                                        <input type="text" placeholder="YYYYMMDD" id="" class="h42">
+                                                    </div>
+                                                    <span class="sub">YYYYMMDD 형식으로 년/월/일을 숫자만 입력하세요.</span>
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                        <div class="button-wrap">
+                                            <button class="btn btn_black" type="button"><span>검색</span></button>
+                                        </div>
+                                    </div>
+                                </article>
+                            </section>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script>
-        $(".js-history_back").click(function() {
-            window.history.back();
+        $('.js-left_mm_2 a').on('click', function(e) {
+            e.preventDefault();
+            var tar = $(this).position().left;
+            var scrollX = tar - ($(".js-left_mm_2").parents(".tab-area").width() / 2) + $(this).width() / 2;
+
+            if ($(this).parents('li').hasClass('active')) {
+                return false;
+            } else {
+                $(".js-left_mm_2 li").removeClass('active');
+                $(this).parents('li').addClass('active');
+
+                $(".js-left_mm_2").parents(".tab-area").scrollLeft(scrollX);
+            }
+        });
+
+        var isMobile = /Android|webOS|iPhone|iPand|iPod|BlackBerry/i.test(navigator.userAgent);
+        var popup_search_mobile = $(".js-pop_searchbox").trpLayerFixedPopup("#popup_search_mobile-wrap");
+        $(".js-pop_searchbox").click(function(e) {
+            e.preventDefault();
+            if (!isMobile) {
+                $(".search-detail-box").show();
+            } else {
+                popup_search_mobile.open(this); // or false   
+                popup_fixation("#popup_search_mobile-wrap"); // pc_하단붙이기
+                popup_motion_open("#popup_search_mobile-wrap"); // mb 모션 
+            }
+        })
+        $(".js-closepop").click(function(e) {
+            e.preventDefault();
+            if (!isMobile) {
+                $(".search-detail-box").hide();
+            } else {
+                popup_search_mobile.close();
+                popup_motion_close("#popup_search_mobile-wrap"); //  mb 모션 
+            }
         })
     </script>
-
-
-
 </body>
 
 </html>

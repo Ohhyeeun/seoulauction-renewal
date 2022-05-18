@@ -236,7 +236,6 @@
                                 <div class="panel-body">
                                     <div class="mypage-container">
 
-                                        <!-- 마이페이지 싸이드 메뉴 -->
                                         <aside class="aside-area">
                                             <div class="aside-inner">
                                                 <div class="mem-infobox-wrap">
@@ -252,6 +251,7 @@
                                                             <a href="#" class="tooltip-button">
                                                                 <div class="txt-icon-tooltip">툴팁</div>
                                                             </a>
+                                                            <div class="tooltip-subbox">툴팁 상세설명</div>
                                                         </div>
                                                     </div>
                                                     <div class="mem-button-wrap">
@@ -261,37 +261,39 @@
                                                 <div class="mypage-lnb-wrap">
                                                     <div class="mypage-lnb">
                                                         <ul class="cate1">
-
-
-                                                            <li class="cate1-group">
+                                                            <li>
                                                                 <span>라이브경매관리</span>
                                                                 <ul>
-                                                                    <li class=""><a href="#">응찰신청내역</a></li>
+                                                                    <li><a href="#">응찰신청내역</a></li>
                                                                     <li class="on"><a href="#">온라인패들응찰내역</a></li>
                                                                 </ul>
                                                             </li>
-                                                            <li class="cate1-group">
+                                                            <li>
                                                                 <span>온라인경매관리</span>
                                                                 <ul>
-                                                                    <li class=""><a href="#">응찰내역</a></li>
-                                                                    <li class=""><a href="#">결제/구매내역</a></li>
+                                                                    <li><a href="#">응찰내역</a></li>
+                                                                    <li><a href="#">결제/구매내역</a></li>
                                                                 </ul>
                                                             </li>
-                                                            <li class="cate1-li ">
-                                                                <a href="#" class="">관심작품 <i class="icon-view_more"></i></a>
+                                                            <li>
+                                                                <ul class="cate1">
+                                                                    <li>
+                                                                        <a href="#">관심작품 <i class="icon-view_more"></i></a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#">아카데미신청내역 <i class="icon-view_more"></i></a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#">1:1문의 <i class="icon-view_more"></i></a>
+                                                                    </li>
+                                                                </ul>
                                                             </li>
-                                                            <li class="cate1-li ">
-                                                                <a href="#" class="">아카데미신청내역 <i class="icon-view_more"></i></a>
-                                                            </li>
-                                                            <li class="cate1-li ">
-                                                                <a href="#" class="">1:1문의 <i class="icon-view_more"></i></a>
-                                                            </li>
-                                                            <li class="cate1-group">
+                                                            <li>
                                                                 <span>회원정보관리</span>
                                                                 <ul>
-                                                                    <li class=""><a href="#">회원정보수정</a></li>
-                                                                    <li class=""><a href="#">비밀번호수정</a></li>
-                                                                    <li class=""><a href="#">SNS연동설정</a></li>
+                                                                    <li><a href="#">회원정보수정</a></li>
+                                                                    <li><a href="#">비밀번호수정</a></li>
+                                                                    <li><a href="#">SNS연동설정</a></li>
                                                                 </ul>
                                                             </li>
                                                         </ul>
@@ -376,7 +378,7 @@
                                                                         <figure class="img-ratio">
                                                                             <div class="img-align">
                                                                                 <img src="/images/pc/thumbnail/auction02.jpg" alt="">
-                                                                                <!-- <div class="success"><span class="bid_result-icon">낙찰</span></div> -->
+                                                                                <div class="success"><span class="bid_result-icon">낙찰</span></div>
                                                                             </div>
                                                                         </figure>
                                                                     </div>
@@ -656,11 +658,62 @@
 
 
 
+    <!-- 팝업 : 라이브경매관리 온라인패들 응찰 이력 -->
+    <div id="popup_auction_live_record-wrap" class="trp popupfixed-wrap auction_live_record-popup">
+        <div class="popup-dim"></div>
+        <div class="popup-align mode-md mode-mb_full">
+            <div class="popup-vertical">
+                <div class="popup-layer">
 
+                    <div class="pop-panel">
+                        <div class="pop-header">
+                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                            <div class="title-box">
+                                <span class="txt_title type-big">응찰 이력</span>
+                            </div>
+                        </div>
+                        <div class="pop-body">
+                            <section class="section">
+                                <article class="article-area scroll-type">
+                                    <div class="auction_live_record_list-wrap">
+                                        <div class="data-empty">
+                                            <p class="txt_empty">결제 이력이 존재하지 않습니다.</p>
+                                        </div>
+                                    </div>
+                                </article>
+                                <div class="button-area">
+                                    <div class="btn_set-float tac">
+                                        <a class="btn btn_gray_line js-closepop" href="#" role="button"><span>닫기</span></a>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
-        $(".js-history_back").click(function() {
-            window.history.back();
-        })
+        (function() {
+            var popup_marketing1 = $(".js-popup_auction_live_record").trpLayerFixedPopup("#popup_auction_live_record-wrap");
+            $(popup_marketing1.getBtn).on("click", function($e) {
+                $e.preventDefault();
+                popup_marketing1.open(this); // or false   
+                popup_fixation("#popup_auction_live_record-wrap"); // pc 스크롤
+                popup_motion_open("#popup_auction_live_record-wrap"); // mb 모션 
+            });
+
+            $("body").on("click", "#popup_auction_live_record-wrap .js-closepop, #popup_auction_live_record-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                popup_marketing1.close();
+                popup_motion_close("#popup_auction_live_record-wrap");
+            });
+
+            $(".js-history_back").click(function() {
+                window.history.back();
+            })
+        })();
     </script>
 
 

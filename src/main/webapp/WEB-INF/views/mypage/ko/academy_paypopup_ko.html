@@ -232,7 +232,7 @@
                     <section class="basis-section last-section">
                         <div class="section-inner">
 
-                            <a class="btn btn_default js-popup_memlv2_record" href="#" role="button"><span>결제이력</span><i class="icon-page_next"></i></a>
+                            <a class="btn btn_default js-popup_myacademy_pay" href="#" role="button"><span>결제완료</span><i class="icon-page_next"></i></a>
 
                         </div>
                     </section>
@@ -320,8 +320,8 @@
 
 
 
-    <!-- 팝업 : 정회원 결제 이력 -->
-    <div id="popup_memlv2_record-wrap" class="trp popupfixed-wrap memlv2_record-popup">
+    <!-- 팝업 : 결제완료 -->
+    <div id="popup_myacademy_pay-wrap" class="trp popupfixed-wrap myacademy_pay-popup">
         <div class="popup-dim"></div>
         <div class="popup-align mode-md mode-mb_full">
             <div class="popup-vertical">
@@ -331,78 +331,37 @@
                         <div class="pop-header">
                             <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
                             <div class="title-box">
-                                <span class="txt_title type-big">결제 이력</span>
+                                <span class="txt_title type-big">결제 정보</span>
                             </div>
                         </div>
-                        <div class="pop-body scroll-type">
-                            <section class="section" style="display: block;">
+                        <div class="pop-body">
+                            <section class="section scroll-type">
                                 <article class="article-area">
-                                    <div class="memlv2_record_list-wrap">
-                                        <dl class="memlv2_record-list memlv2">
-                                            <dt>
-                                                <div class="title">
-                                                    <div class="tb1"><span>2022.1.5 ~ 2022.2.5</span></div>
-                                                </div>
-                                                <div class="state icon-wrap">
-                                                    <div class="state-icon">정회원</div>
-                                                </div>
-                                            </dt>
-                                            <dd>
-                                                <div class="info-li">
-                                                    <div class="tit">결제일</div>
-                                                    <div class="txt">1.5(금) 13:26:15</div>
-                                                </div>
-                                                <div class="info-li">
-                                                    <div class="tit">결제방법</div>
-                                                    <div class="txt">무료</div>
-                                                </div>
-                                            </dd>
-                                        </dl>
-                                        <dl class="memlv2_record-list expiry">
-                                            <dt>
-                                                <div class="title">
-                                                    <div class="tb1"><span>2022.1.5 ~ 2022.2.5</span></div>
-                                                </div>
-                                                <div class="state icon-wrap">
-                                                    <div class="state-icon">기간만료</div>
-                                                </div>
-                                            </dt>
-                                            <dd>
-                                                <div class="info-li">
-                                                    <div class="tit">결제일</div>
-                                                    <div class="txt">1.5(금) 13:26:15</div>
-                                                </div>
-                                                <div class="info-li">
-                                                    <div class="tit">결제방법</div>
-                                                    <div class="txt">무료</div>
-                                                </div>
-                                            </dd>
-                                        </dl>
-                                        <dl class="memlv2_record-list expiry">
-                                            <dt>
-                                                <div class="title">
-                                                    <div class="tb1"><span>2022.1.5 ~ 2022.2.5</span></div>
-                                                </div>
-                                                <div class="state icon-wrap">
-                                                    <div class="state-icon">기간만료</div>
-                                                </div>
-                                            </dt>
-                                            <dd>
-                                                <div class="info-li">
-                                                    <div class="tit">결제일</div>
-                                                    <div class="txt">1.5(금) 13:26:15</div>
-                                                </div>
-                                                <div class="info-li">
-                                                    <div class="tit">결제방법</div>
-                                                    <div class="txt">무료</div>
-                                                </div>
-                                            </dd>
-                                        </dl>
+                                    <div class="academy-pay-wrap tb1">
+                                        <div class="detail-wrap">
+                                            <dl>
+                                                <dt><span>수강료</span></dt>
+                                                <dd><span>KRW 500,000</span></dd>
+                                            </dl>
+                                            <dl>
+                                                <dt><span>할인금액</span></dt>
+                                                <dd><span>KRW 0</span></dd>
+                                            </dl>
+                                        </div>
+                                        <div class="total-wrap">
+                                            <dl>
+                                                <dt><span>총 결제금액</span></dt>
+                                                <dd>
+                                                    <span class="pay-amount">KRW 500,000</span>
+                                                    <span class="pay-method">신용카드</span>
+                                                </dd>
+                                            </dl>
+                                        </div>
                                     </div>
                                 </article>
                                 <div class="button-area">
                                     <div class="btn_set-float tac">
-                                        <a class="btn btn_gray_line js-closepop" href="#" role="button"><span>닫기</span></a>
+                                        <a class="btn btn_point href=" #" role="button"><span>확인</span></a>
                                     </div>
                                 </div>
                             </section>
@@ -415,19 +374,23 @@
     </div>
     <script>
         (function() {
-            var popup_marketing1 = $(".js-popup_memlv2_record").trpLayerFixedPopup("#popup_memlv2_record-wrap");
+            var popup_marketing1 = $(".js-popup_myacademy_pay").trpLayerFixedPopup("#popup_myacademy_pay-wrap");
             $(popup_marketing1.getBtn).on("click", function($e) {
                 $e.preventDefault();
                 popup_marketing1.open(this); // or false   
-                popup_fixation("#popup_memlv2_record-wrap"); // pc 스크롤
-                popup_motion_open("#popup_memlv2_record-wrap"); // mb 모션 
+                popup_fixation("#popup_myacademy_pay-wrap"); // pc 스크롤
+                popup_motion_open("#popup_myacademy_pay-wrap"); // mb 모션 
             });
 
-            $("body").on("click", "#popup_memlv2_record-wrap .js-closepop, #popup_memlv2_record-wrap .popup-dim", function($e) {
+            $("body").on("click", "#popup_myacademy_pay-wrap .js-closepop, #popup_myacademy_pay-wrap .popup-dim", function($e) {
                 $e.preventDefault();
                 popup_marketing1.close();
-                popup_motion_close("#popup_memlv2_record-wrap");
+                popup_motion_close("#popup_myacademy_pay-wrap");
             });
+
+            $(".js-history_back").click(function() {
+                window.history.back();
+            })
         })();
     </script>
 
