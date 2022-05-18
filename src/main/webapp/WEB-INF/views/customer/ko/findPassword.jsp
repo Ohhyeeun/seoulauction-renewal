@@ -54,7 +54,7 @@
                                                 </dl>
                                                 <dl class="info_number">
                                                     <dt>휴대폰 번호</dt>
-                                                    <dd><input type="text"  id="custPhone"  onkeyup="phoneNumber(this);" class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dd><input type="text"  id="custPhone"  maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);" class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                             </div>
                                             <div class="info_wrap  js-ds_item js-ds_item1" style="display: none;">
