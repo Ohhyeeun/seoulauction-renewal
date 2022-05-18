@@ -1,2 +1,7 @@
-package com.seoulauction.renewal.mapper.kt;public class AuctionMapper {
+package com.seoulauction.renewal.mapper.kt;
+
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface AuctionMapper {
 }
