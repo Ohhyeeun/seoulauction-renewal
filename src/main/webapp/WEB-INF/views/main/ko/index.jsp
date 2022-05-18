@@ -20,7 +20,7 @@
     <jsp:param name="main" value="true"/>
 </jsp:include>
 
-<section class="main-contents footer-bottom footer-bottom40" ng-controller="mainCtl" data-ng-init="init()">
+<section class="main-contents footer-bottom footer-bottom40">
     <section class="visual visual-contents">
         <div class="swiper-container visual-swiper">
             <div class="swiper-wrapper">
@@ -322,6 +322,109 @@
     </div>
 </div>
 
+<!-- 이중접속 차단 안내 -->
+<div id="popup_concurrent-wrap" class="trp popupfixed-wrap login-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-ms mode-mb_center">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                        <div class="ico_box">
+                            <img class="only_ib-pc" src="/images/mobile/login/search_ico_01_pc.png">
+                            <img class="only_ib-mb" src="/images/mobile/login/search_ico_01.png">
+                        </div>
+                        <div class="title-box_tac title_concurrent">
+                            <span class="title_tac">회원님과 동일한 아이디로 다른 PC에서 동시 접속하여 
+                                자동으로 로그아웃 되었습니다.<br>
+                                ⁠본인이 아닌 경우 다시 로그인을 하시거나,<br class="only-pc">
+                                고객센터에 문의해 주세요.</span>
+                        </div>
+                    </div>
+                    <div class="pop-body">
+                        <article class="button-area confirm_btn">
+                            <div class="btn_set-float tac">
+                                <a class="btn btn_point" id="confirmMaxSession" href="#" role="button"><span>확인</span></a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 비밀번호변경알림-비밀번호초기화 -->
+<div id="popup_pwsearch6-wrap" class="trp popupfixed-wrap login-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-ms mode-mb_center">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                        <div class="ico_box change_ico">
+                            <img class="only_ib-pc" src="/images/mobile/login/search_ico_04_pc.png">
+                            <img class="only_ib-mb" src="/images/mobile/login/search_ico_04.png">
+                        </div>
+                        <div class="title-box_tac change_title">
+                            <p class="">초기화 비밀번호 변경 안내</p>
+                            <p class="title_sub">관리자에 의해 비밀번호가 초기화 되었습니다.<br> 안전한 개인정보 보호를 위해<br class="only-mb"> 비밀번호를 변경해 주세요</p>
+                        </div>
+                    </div>
+                    <div class="pop-body">
+                        <article class="button-area confirm_btn changenew_btn">
+                            <div class="btn_set-float tac">
+                                <a class="btn btn_gray_line" onClick="closeResetPassword()" href="#" role="button"><span>닫기</span></a>
+                                <a class="btn btn_point" onClick="closeResetPassword('Y')" href="#" role="button"><span>지금 변경하기</span></a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 비밀번호변경알림-비밀번호 변경 안내 -->
+<div id="popup_pwsearch5-wrap" class="trp popupfixed-wrap login-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-ms mode-mb_center">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                        <div class="ico_box change_ico">
+                            <img class="only_ib-pc" src="/images/mobile/login/search_ico_04_pc.png">
+                            <img class="only_ib-mb" src="/images/mobile/login/search_ico_04.png">
+                        </div>
+                        <div class="title-box_tac change_title">
+                            <p class="">비밀번호 변경 안내</p>
+                            <p class="title_sub">소중한 개인정보 보호를 위해<br> 비밀번호를 변경해 주세요!</p>
+                        </div>
+                    </div>
+                    <div class="pop-body">
+                        <div class="info_box">
+                            <ul class="tb1 mark_dot-list change_txt">
+                                <li>타사이트와 동일한 로그인 정보를 사용하시는 회원님께서는 반드시 비밀번호를 변경해 주세요.</li>
+                                <li>비밀번호는 영문 대소문자, 숫자, 특수문자 중 2가지 이상 조합으로 8자~16자로 만들어 주세요.</li>
+                                <li>주기적으로 비밀번호를 변경해 주세요.</li>
+                            </ul>
+                        </div>
+                        <article class="button-area confirm_btn change_btn">
+                            <div class="btn_set-float tac">
+                                <a class="btn btn_gray_line" onclick="reAlarm();" href="#" role="button"><span>30일뒤 재알림</span></a>
+                                <a class="btn btn_point" onclick="goModPassword();" href="#" role="button"><span>지금 변경하기</span></a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
 <script>
