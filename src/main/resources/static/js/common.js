@@ -1,6 +1,7 @@
 
 
 $(function(){
+
 const locale = document.documentElement.lang;
 const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
 
@@ -12,8 +13,10 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
     //gnb메뉴 now표시
     setGnbNowBadge();
 
-    //gnb메뉴 now표시
-    setMyMenuBadge();
+    //마이페이지 확장메뉴 now표시
+    if(sessionStorage.getItem("is_login") === "true"){
+        setMyMenuBadge();
+    }
 
 
     function loadIngAuctionList(){
