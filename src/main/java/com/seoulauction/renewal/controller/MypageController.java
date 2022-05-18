@@ -74,5 +74,11 @@ public class MypageController {
     	return SAConst.getUrl(SERVICE_MYPAGE , "inquiryForm" , locale);
 
     }
+    
+    /*배송지관리*/
+    @GetMapping("/deliveryList")
+    public String deliveryList(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "deliveryList" , locale);
+    }
 
 }
