@@ -39,6 +39,12 @@ public class ApiMypageController {
 
 	private final MypageService mypageService;
 
+	@Value("${mobile.msg.callback}")
+	String callback;
+
+	@Value("${mobile.msg.auth}")
+	String auth;
+
 	@RequestMapping(value = "/academies", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<RestResponse> academies(
@@ -93,6 +99,97 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectPayListByCustNo(commonMap)));
 	}
 	
+
+	@RequestMapping(value = "/saleCert/sendAuthNum", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> sendAuthNumber(@RequestBody CommonMap commonMap, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		CommonMap existMap = mypageService.selectSaleCertByCustHp(commonMap);
+		Boolean bid = commonMap.get("bid_auth") != null && (Boolean) commonMap.get("bid_auth"); // 경매용 폰번호 인증시
+		Map<String, Object> resultMap = new HashMap<>();
+
+		// 경매전용 인증이 아니고 현재 폰인증한 내역이 없으면 무시.
+		if (!bid || MapUtils.isEmpty(existMap)) {
+
+			commonMap.put("from_phone", callback); // 02-395-0330
+			// paramMap.put("msg", "서울옥션 인증번호는 [##rand_num##] 입니다.");
+			commonMap.put("msg", auth);
+
+			resultMap = mypageService.selectAuthNumber(commonMap);
+
+			if (resultMap.containsKey("AUTH_NUM")) {
+				BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+				request.getSession().setAttribute("AUTH_NUM", encode.encode(resultMap.get("AUTH_NUM").toString()));
+			}
+			resultMap.put("AUTH_NUM", "");
+			resultMap.put("SEND_STATUS", true);
+			resultMap.put("AUTH_EXISTS", false);
+		} else { // 둘다 해당할경우 폰인증을 막음.
+			resultMap.put("AUTH_EXISTS", true);
+		}
+		return ResponseEntity.ok(RestResponse.ok(resultMap));
+	}
+
+	@RequestMapping(value = "/saleCert/confirmAuthNum4sale", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> confirmAuthNum4sale(@RequestBody CommonMap commonMap, Principal principal,
+			HttpServletRequest request, HttpServletResponse response) {
+		boolean b = this.confirmAuthNumber(commonMap, request, response);
+		if (b) {
+//	   	   	UsernamePasswordAuthenticationToken userToken = (UsernamePasswordAuthenticationToken) request.getUserPrincipal();
+//	    	SAUserDetails user = (SAUserDetails) userToken.getDetails();
+
+			commonMap.put("action_user_no", principal.getName());
+
+			return ResponseEntity.ok(RestResponse.ok(mypageService.inertSaleCert(commonMap)));
+		} else {
+			// 실패했을 때?
+			return ResponseEntity.ok(RestResponse.ok(null));
+		}
+	}
+
+	@RequestMapping(value = "/saleCert/confirmAuthNum", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean confirmAuthNumber(@RequestBody Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response) {
+		if (paramMap == null || paramMap.get("auth_num") == null || paramMap.get("auth_num").toString().equals(""))
+			return false;
+		BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+		try {
+			boolean result = encode.matches(paramMap.get("auth_num").toString(),
+					request.getSession().getAttribute("AUTH_NUM").toString());
+			request.getSession().setAttribute("AUTH_NUM", null);
+			return result;
+		} catch (Exception ex) {
+			try {
+				request.getSession().setAttribute("AUTH_NUM", null);
+			} catch (Exception e) {
+			}
+			return false;
+		}
+	}
+
+	@RequestMapping(value = "/saleCert/clearAuthNum", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean clearAuthNumber(@RequestBody Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response) {
+		try {
+			request.getSession().setAttribute("AUTH_NUM", null);
+			return true;
+		} catch (Exception ex) {
+			return false;
+		}
+	}
+
+	@RequestMapping(value = "/saleCert/updateSaleCertHp", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> updateSaleCertHp(@RequestBody CommonMap commonMap, Principal principal,
+			HttpServletRequest request, HttpServletResponse response) {
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.updateSaleCertHp(commonMap)));
+	}
+
 	@RequestMapping(value = "/inquiries", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> inquiries(
 			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
@@ -132,5 +229,17 @@ public class ApiMypageController {
 		
 		return ResponseEntity.ok(RestResponse.ok(mypageService.insertInquiry(request, principal)));
 	}
+	
+	@RequestMapping(value = "/findAddr", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> findAddr(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+		log.info(paramMap.toString());
+    	Map<String, Object> resultMap = mypageService.findAddr(paramMap);
+        if(resultMap != null) {
+        	log.info(resultMap.toString());
+        }
+		return ResponseEntity.ok(RestResponse.ok(resultMap));
+	}
+
 
 }

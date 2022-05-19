@@ -23,7 +23,7 @@
 		</div>
 		<div id="termsResult" class="newsletter-terms newsletter-comfirmbox">
 			<p class="newsAgree-comfirm">
-				구독해주셔서 감사합니다.
+				주셔서 감사합니다.
 			</p>
 			<button type="submit"  class="commonbtn btn-bg-b newsAgree-comfirmbtn">확인</button>
 		</div>

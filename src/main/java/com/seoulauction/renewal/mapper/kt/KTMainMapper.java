@@ -14,4 +14,6 @@ public interface KTMainMapper {
     List<CommonMap> selectIngMenuCount();
 
     CommonMap selectSaleImage(CommonMap map);
+
+    List<CommonMap> selectHaveToPayWork(CommonMap map);
 }

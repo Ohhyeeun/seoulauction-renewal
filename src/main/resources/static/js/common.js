@@ -1,6 +1,7 @@
 
 
 $(function(){
+
 const locale = document.documentElement.lang;
 const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
 
@@ -9,8 +10,14 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
     //진행중 경매리스트
     loadIngAuctionList();
 
-    //now표시
-    setNowBadge();
+    //gnb메뉴 now표시
+    setGnbNowBadge();
+
+    //마이페이지 확장메뉴 now표시
+    if(sessionStorage.getItem("is_login") === "true"){
+        setMyMenuBadge();
+    }
+
 
     function loadIngAuctionList(){
 
@@ -23,7 +30,7 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
                     const titleJSON = JSON.parse(item.TITLE_BLOB);
                     const returnDom = `<a href="/auction/${item.SALE_NO}" class="Ingbanner" target="_blank">
                                             <figure class="border-txt-darkg Ingbanner-img">
-                                                <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
+                                                <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" alt="ing_auction01">
                                             </figure>
                                             <div class="Ingbanner-txt text-over">
                                                 <span class="auctionKind-box Ingkind-auction ${item.SALE_KIND === 'LIVE' ? 'on' : ''}">${item.SALE_KIND}</span>
@@ -42,7 +49,8 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
         });
     }
 
-    function setNowBadge(){
+    function setGnbNowBadge(){
+
 
         axios.get('api/main/ingMenuCount')
         .then(function(response){
@@ -63,6 +71,24 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
         .catch(function(error){
             console.log(error);
         });
+    }
+
+    function setMyMenuBadge(){
+
+        axios.get('api/main/isHaveToPayWorkExist')
+            .then(function(response){
+                const success =  response.data.success;
+                if (success) {
+                    const isExist = response.data.data.isExist;
+                    const badgeHtml = '<i class="utility-icon on"></i>';
+                    console.log(isExist)
+                    if(isExist)
+                        document.querySelector('#MyMenuOnlineBadge a').insertAdjacentHTML('beforeend', badgeHtml);
+                }
+            })
+            .catch(function(error){
+                console.log(error);
+            });
     }
 
     window.addEventListener('resize', (e) => {
@@ -158,12 +184,11 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
         });
         /* mobile gnb bg */
         $('.m-gnbmenu').click(function(){
-            $('.gnb_submenuBg').animate({'right':'0','transition':'ease .3s'});
+            $('.gnb_submenuBg').show();
             $('.submenuBg').animate({'right':'0','transition':'ease .5s','display':'block'});
         });
-        $('.submenuBg-closeBtn, .gnb_submenuBg').click(function(){
-            console.log(34234);
-            $('.gnb_submenuBg').animate({'right':'-100%','transition':'ease .5s'});
+        $('.submenuBg-closeBtn').click(function(){
+            $('.gnb_submenuBg').hide();
             $('.submenuBg').animate({'right':'-100%','transition':'ease .3s'});
         });
 
@@ -190,7 +215,7 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
         $('.header').show(function(){
             $('.main-header').show(function(){
                 /*$('.main-contents').css('top','56px'); */
-                $('.main-contents').css('margin-top','58px');
+                $('.main-contents').css('margin-top','56px');
             });
             $(this).hasClass('main-header');
         });
@@ -208,10 +233,10 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
     }
 
     /* utility menu */
-    $('.utility-join').hide();
+    /*$('.utility-join').hide();
     $('.utility-login').hide();
     $('.gnb_join').hide();
-    $('.gnb_login').hide();
+    $('.gnb_login').hide();*/
 
     /* 모바일 gnb 유틸리티 */
     $('.gnb_logout').click(function(){
@@ -222,12 +247,12 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
     });
 
     /*pc 유틸리티 */
-    $('.utility-logout').click(function(){
+    /*$('.utility-logout').click(function(){
         $('.utility-join').show();
         $('.utility-account').hide();
         $('.utility-login').show();
         $(this).hide();
-    });
+    });*/
     let utilityMenu = $(this).index();
     $('.utility-tab').mouseenter(function(){
         $(this).children('a').addClass('on');
@@ -306,6 +331,11 @@ $('.scroll-top').click(function(){
     $('html, body').animate({scrollTop: '0'}, 700);
 });
 
+/* top search 클릭 할 때 filter 기능 */
+$('.topsearch-text').click(function(){
+    $('.search-bubble-box').toggleClass('on');
+});  
+
 /* top search filter 기능 */
 function searchFilter() {
     if(window.Event.keyCode == 13){
@@ -356,6 +386,34 @@ function numberWithCommas(x) {
 }
 
 
+function onlyNumber(obj, type) {
+	const regExp = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;
+	if (regExp.test(obj.value)) {
+		obj.value = obj.value.replace(regExp, '');
+	}
+	if (type) {
+		const regExp2 = /[^0-9]/gi;
+		if (regExp2.test(obj.value)) {
+			obj.value = obj.value.replace(regExp2, '');
+		}
+	}
+}
+
+function phoneNumber(obj) {
+	if (event.keyCode < 48 || event.keyCode > 57) {
+		event.returnValue = false;
+	}
+
+	let mobile_len = obj.value.length;
+
+	if (event.keyCode == 8) {
+		obj.value = obj.value.slice(0, mobile_len);
+		return 0;
+	} else if (mobile_len == 3 || mobile_len == 8) {
+		obj.value += '-';
+	}
+
+}
 
 function comma(str) {
     str = String(str);

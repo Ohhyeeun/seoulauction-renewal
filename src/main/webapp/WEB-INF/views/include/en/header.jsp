@@ -6,6 +6,11 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <jsp:include page="../../common/commonCss.jsp" flush="false"/>
+<%--메인일경우 main.css 추가. common.css 아래 위치에 존재해야함. --%>
+<c:if test="${not empty param.main}">
+    <link rel="stylesheet" href="/css/main.css" type="text/css" />
+</c:if>
+
 <%--메인이 아닐 경우에만 해당 css 추가.--%>
 <c:if test="${empty param.main}">
 <jsp:include page="../../common/commonCssNotMain.jsp" flush="false"/>
@@ -13,6 +18,15 @@
 
 <%--angular 관련은 미리 로딩--%>
 <jsp:include page="../../common/angular.jsp" flush="false"/>
+
+<script>
+<sec:authorize access="isAuthenticated()">
+    sessionStorage.setItem("is_login", "true" );
+</sec:authorize>
+<sec:authorize access="isAnonymous()">
+    sessionStorage.setItem("is_login", "false" );
+</sec:authorize>
+</script>
 
 <html lang="en" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
@@ -29,21 +43,21 @@
                     <li><a href="${pageContext.request.contextPath}/?lang=en">ENG(English)</a></li>
                 </ul>
             </li>
-            <li class="utility-join"><a href="#">JOIN</a></li> <!-- !login -->
-            <li class="utility-tab utility-account"><a href="javascript:void(0);">ACCOUNT</a>
-                <ul class="bubble-box bubble-box02">
-                    <li><a href="#">Live Auction Management</a></li>
-                    <li><a href="#">Online Auction Management</a></li>
-                    <li><a href="#">Wish List</a></li>
-                    <li><a href="#">Academy Application List</a></li>
-                    <li><a href="#">Edit member information</a></li>
-                </ul>
-            </li> <!-- login -->
-            <sec:authorize access="isAnonymous()">
-                <li class="utility-login"><a href="/customer/login">LOGIN</a></li> <!-- !login -->
+            <sec:authorize access="isAnonymous()"> <!-- !login -->
+                <li class="utility-join"><a href="#">JOIN</a></li>
+                <li class="utility-login"><a href="/customer/login">LOGIN</a></li>
             </sec:authorize>
-            <sec:authorize access="isAuthenticated()">
-            	<li class="utility-login"><a onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')">LOGOUT</a></li> <!-- !login -->
+            <sec:authorize access="isAuthenticated()"> <!-- login -->
+                <li class="utility-tab utility-account"><a href="javascript:void(0);">ACCOUNT</a>
+                    <ul class="bubble-box bubble-box02">
+                        <li><a href="#">Live Auction Management</a></li>
+                        <li id="MyMenuOnlineBadge"><a href="#">Online Auction Management</a></li>
+                        <li><a href="#">Wish List</a></li>
+                        <li><a href="#">Academy Application List</a></li>
+                        <li><a href="#">Edit member information</a></li>
+                    </ul>
+                </li>
+                <li class="utility-login"><a onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')">LOGOUT</a></li> <!-- !login -->
             </sec:authorize>
         </ul>
     </div>
