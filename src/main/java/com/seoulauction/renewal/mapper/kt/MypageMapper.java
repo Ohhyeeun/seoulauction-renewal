@@ -30,7 +30,7 @@ public interface MypageMapper {
 
     CommonMap selectInquiryInfo(CommonMap commonMap);
     
-    List<CommonMap> selectInquiryReply(CommonMap commonMap);
+    CommonMap selectInquiryReply(CommonMap commonMap);
     
     List<CommonMap> selectFileList(CommonMap commonMap);
 

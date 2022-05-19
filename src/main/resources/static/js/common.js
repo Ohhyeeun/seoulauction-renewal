@@ -357,6 +357,31 @@ function numberWithCommas(x) {
 
 
 
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
+}
+
+function moneyFormat(event, elInput) {
+	// 방향키, PageUp, PageDown 키는 허용
+	switch(event.keyCode) {
+		case 16:
+		case 35:
+		case 36:
+		case 37:
+		case 38:
+		case 39:
+		case 40: {
+			return true;
+		}
+	}
+	// 금액 입력 시 콤마 처리
+	elInput.value = comma(uncomma(elInput.value));
+}
 
 
 

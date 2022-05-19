@@ -75,6 +75,8 @@ public class MypageService {
     	map.put("inquiryInfo", mypageMapper.selectInquiryInfo(commonMap));
     	map.put("inquiryReply", mypageMapper.selectInquiryReply(commonMap));
     	map.put("inquiryFileList", mypageMapper.selectFileList(commonMap));
+    	return map;
+    }
 
     public List<CommonMap> selectInquiryCategory(CommonMap commonMap){
         return mypageMapper.selectInquiryCategory(commonMap);
@@ -91,7 +93,7 @@ public class MypageService {
     	map.put("action_user_no", principal.getName());
     	map.put("action_user_ip", request.getRemoteAddr());
     	int result = 0;
-    	//mypageMapper.insertInquiryWrite(map);
+    	mypageMapper.insertInquiryWrite(map);
 
     	try {	
     		List<MultipartFile> fileList = request.getFiles("file");
