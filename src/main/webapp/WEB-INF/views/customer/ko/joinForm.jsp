@@ -184,13 +184,13 @@
                                     </div>
                                     <div class="form_body">
                                         <div class="input-group">
-                                            <input type="text" ng-model="form_data.deli_zipno" name="deli_zipno" id="deli_zipno" class="form-control" placeholder="">
-                                            <button class="btn btn_light_gray_line" type="button"><span>주소검색</span></button>
+                                            <input type="text" ng-model="form_data.zipno" name="deli_zipno" id="deli_zipno" class="form-control" placeholder="">
+                                            <button class="btn btn_light_gray_line" type="button" ng-click="addressSearch()"><span>주소검색</span></button>
                                         </div>
 
                                         <div class="search-add">
-                                            <p class="add_txt  tb1" ng-model="form_data.deli_addr" name="deli_addr" id="deli_addr"></p>
-                                            <input type="text" ng-model="form_data.deli_addr_dtl" name="deli_addr_dtl" id="deli_addr_dtl" class="form-control" placeholder="">
+                                            <p class="add_txt tb1" name="deli_addr" id="deli_addr">{{form_data.addr}}</p>
+                                            <input type="text" ng-model="form_data.addr_dtl" name="deli_addr_dtl" id="deli_addr_dtl" class="form-control" placeholder="">
                                         </div>
                                     </div>
                                 </li>
@@ -353,6 +353,70 @@
             </section>
 
         </div>
+	    <!-- 주소검색 address_search1 -->
+	    <div id="address_search1-wrap" class="trp popupfixed-wrap default-popup ">
+	        <div class="popup-dim"></div>
+	        <div class="popup-align mode-ms mode-mb_full">
+	            <div class="popup-vertical">
+	                <div class="popup-layer">
+	
+	                    <div class="pop-panel">
+	                        <div class="pop-header">
+	                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+	                            <div class="title-box">
+	                                <span class="txt_title type-big">주소검색</span>
+	                            </div>
+	                        </div>
+	                        <div class="pop-body scroll-type">
+	                            <section class="section" style="display: block;">
+	
+	                                <div class="search-group sm">
+	                                    <input type="text" ng-model="find_word" id="name-1" class="form-control" placeholder="도로명주소 건물번호 검색">
+	                                    <button class="btn btn_black" type="button" ng-click="findAddrNewForm()"><span>검색</span></button>
+	                                </div>
+	
+	                                <article class="articles-box">
+	                                    <div class="table-panel">
+	                                        <div class="table-header">
+	                                            <div class="dataTables_length result_txt">
+	                                                검색 결과
+	                                            </div>
+	                                        </div>
+	                                        <div class="table-body">
+	                                            <div class="table_scroll scroll-type">
+	                                                <table class="table_base list-table add_list">
+	                                                    <thead>
+	                                                        <tr>
+	                                                            <th>우편번호</th>
+	                                                            <th>주소</th>
+	                                                        </tr>
+	                                                    </thead>
+	                                                    <tbody>
+	                                                    	<tr ng-repeat="addr in addressList" ng-click="setHomeAddr(addr);">
+	                                                            <td>{{addr.postcd}}</td>
+	                                                            <td class="tal">{{addr.address}}</td>
+	                                                        </tr>
+	                                                        <tr ng-if="addressList == undefined">
+                                                            <td colspan="2">
+                                                                <div class="data-empty_mem tb1">
+                                                                    검색결과가 없습니다.
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+	                                                    </tbody>
+	                                                </table>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                </article>
+	                            </section>
+	                        </div>
+	                    </div>
+	
+	                </div>
+	            </div>
+	        </div>
+	    </div>
     </div>
     <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
 	</body>
@@ -365,5 +429,9 @@
 		var socialLoginId = '${socialLoginId }';
 		var socialEmail = '${socialEmail }';
 	</script>
+	<script src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+	<script src="/js/pages_common_ko.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="/css/plugin/csslibrary.css" type="text/css">
+	<link rel="stylesheet" href="/css/pages_common_ko.css" type="text/css">
 	<script type="text/javascript" src="/js/customer/join.js"></script>
 </html>

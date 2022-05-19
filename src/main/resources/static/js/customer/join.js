@@ -156,11 +156,17 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 
 });
 
+var address_search1 = $(".js-address_search1").trpLayerFixedPopup("#address_search1-wrap")
+$("body").on("click", "#address_search1-wrap .js-closepop, #address_search1-wrap .popup-dim", function($e) {
+    $e.preventDefault();
+    address_search1.close();
+});
+            
 app.controller('joinFormCtl', function($scope, consts, common, ngDialog) {
 	$scope.type = "";
 	$scope.socialType = "";
 	$scope.langType = "";
-
+	$scope.find_word = "";
 	function Request(){
 		this.getParameter = function(param){
 	    	var requestParam ="";
@@ -220,4 +226,42 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog) {
 		console.log($scope.socialType)
 		console.log($scope.form_data)
 	}	
+	
+	//주소검색 팝업호출
+	$scope.addressSearch = function(){
+		var address_search1 = $(".js-address_search1").trpLayerFixedPopup("#address_search1-wrap")
+        address_search1.open(this); // or false   
+        popup_fixation("#address_search1-wrap");
+	}
+	
+	//주소검색
+	$scope.findAddrNewForm = function(){
+		let data = {};
+		console.log($scope.find_word)
+        data['find_word'] = $scope.find_word;
+        axios.post('/api/mypage/findAddr' , data)
+	        .then(function(response) {
+	            const result = response.data;
+	
+	            let success = result.success;
+	            if(!success){
+	                alert(result.data.msg);
+	            } else {
+					$scope.addressList = result.data.addresses;
+					$scope.$apply();
+	            }
+	        })
+	        .catch(function(error){
+	            console.log(error);
+	        });
+	}
+	
+	$scope.setHomeAddr = function(addr) {
+		console.log("test")
+		$scope.form_data.zipno = addr.postcd;
+		$scope.form_data.addr = addr.address;
+		address_search1.close();
+		common.setFocus("addr_dtl");
+	};
 });
+
