@@ -18,7 +18,7 @@ var request = new Request();
 
 //이중접속 팝업
 var maxSession = request.getParameter("maxSession");
-if(maxSession == 'true'){
+if(maxSession.startsWith('true')){
 	var popup_concurrent = $(".js-popup_concurrent").trpLayerFixedPopup("#popup_concurrent-wrap");
 	popup_concurrent.open(this); // or false   
 	popup_fixation("#popup_concurrent-wrap"); // pc_하단붙이기
