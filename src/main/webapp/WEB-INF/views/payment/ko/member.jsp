@@ -63,11 +63,11 @@
                                             <ul class="pay_info tb1">
                                                 <li>
                                                     <span class="th">이름</span>
-                                                    <span class="td">${name}</span>
+                                                    <span class="td">${cust_name}</span>
                                                 </li>
                                                 <li>
                                                     <span class="th">연락처</span>
-                                                    <span class="td">${tel}</span>
+                                                    <span class="td">${hp}</span>
                                                 </li>
                                                 <li>
                                                     <span class="th">배송주소</span>
