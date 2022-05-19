@@ -48,7 +48,9 @@
                                             <div class="account_info">
                                                 <p class="tit">가상계좌 정보</p>
                                                 <p class="txt tb1">
-                                                    <span>${resultMap.vbank_exp_dt}</span>까지 아래의<i class="br-mo"></i> 가상계좌로 결제금액을 입금해 주시기 바랍니다.
+                                                    <fmt:parseDate value="${resultMap.vbank_exp_dt}" var="vbank_exp_dt" pattern="yyyyMMdd"/>
+                                                    <fmt:formatDate value="${vbank_exp_dt}" var="vbank_exp_dt" pattern="yyyy-MM-dd"/>
+                                                    <span>${vbank_exp_dt}</span>까지 아래의<i class="br-mo"></i> 가상계좌로 결제금액을 입금해 주시기 바랍니다.
                                                 </p>
                                                 <ul class="pay_info tb1">
                                                     <li>
@@ -98,11 +100,11 @@
                                             <ul class="pay_info tb1">
                                                 <li>
                                                     <span class="th">이름</span>
-                                                    <span class="td">${resultMap.name}</span>
+                                                    <span class="td">${resultMap.cust_name}</span>
                                                 </li>
                                                 <li>
                                                     <span class="th">연락처</span>
-                                                    <span class="td">${resultMap.tel}</span>
+                                                    <span class="td">${resultMap.hp}</span>
                                                 </li>
                                             </ul>
                                         </li>
@@ -111,9 +113,10 @@
                                             <ul class="pay_info tb1">
                                                 <li>
                                                     <span class="th">총 결제금액</span>
-                                                    <span class="td pay"><fmt:formatNumber type="number" maxFractionDigits="3" value="${resultMap.pay_price}" /> 원
+                                                    <fmt:formatNumber type="number" maxFractionDigits="3" var="pay_price" value="${resultMap.pay_price}" />
+                                                    <span class="td pay">${pay_price} 원
                                                         <br class="only-mb" />+ 할인금액 0 원
-                                                        <br class="only-mb" />= <i class="total">총 결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${resultMap.pay_price}" /> 원</i></span>
+                                                        <br class="only-mb" />= <i class="total">총 결제금액 ${pay_price} 원</i></span>
                                                 </li>
                                                 <li>
                                                     <span class="th">결제방법</span>
