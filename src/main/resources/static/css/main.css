@@ -1677,7 +1677,7 @@
     }
     .upcoming-img,
     .upcoming-img:lang(en) {
-        flex-basis: calc(30% - 10px);
+        flex-basis: calc(70% - 10px);
         margin-top: 0;
     }
     .upcoming-preview>span:first-of-type:after,
