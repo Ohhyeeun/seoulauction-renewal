@@ -468,6 +468,7 @@ jQuery.fn.trpBgDim = function($opacity,$bgColor){
         popup_fixation("#popup_pwsearch2-wrap"); // pc_하단붙이기
     });
 
+
     $("body").on("click", "#popup_pwsearch2-wrap .js-closepop, #popup_pwsearch2-wrap .popup-dim", function($e) {
         $e.preventDefault();
         popup_pwsearch2.close();
