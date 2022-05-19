@@ -132,29 +132,29 @@ $(function(){
     } 
     
     /* utility menu */
-    $('.utility-join').hide();
+    /*$('.utility-join').hide();
     $('.utility-login').hide();  
     $('.gnb_join').hide(); 
-    $('.gnb_login').hide();
+    $('.gnb_login').hide();*/
     $('.utility-icon').hide(); 
     
     $('.utility-icon.on').show();
     
     /* 모바일 gnb 유틸리티 */
-    $('.gnb_logout').click(function(){
+    /*$('.gnb_logout').click(function(){
         $('.gnb_join').show();  
         $('.gnb_member').hide(); 
         $('.gnb_login').show();  
         $(this).hide(); 
-    }); 
+    });*/
     
     /*pc 유틸리티 */
-    $('.utility-logout').click(function(){
+    /*$('.utility-logout').click(function(){
         $('.utility-join').show(); 
         $('.utility-account').hide(); 
         $('.utility-login').show(); 
         $(this).hide(); 
-    });
+    });*/  
     
     let utilityMenu = $(this).index();
     $('.utility-tab').mouseenter(function(){ 
