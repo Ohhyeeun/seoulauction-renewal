@@ -120,6 +120,7 @@ body {
     padding: 0;
     width: 100%;
     height: 100%;
+    letter-spacing: -0.4px;
 }
 /*scroll style */
 body::-webkit-scrollbar {
@@ -547,6 +548,7 @@ img {
 .belttxtbox {
     position: relative;
     top: 0;
+    min-width: 1920px;
 }
 .beltbanner-triangle {
     vertical-align: middle;
@@ -1313,13 +1315,17 @@ body.dark,
 .bubble-box02.dark>li.dark>a.dark {
     color: #999;
 }
-.bubble-box01.dark:hover,
-.bubble-box02.dark:hover{
+.bubble-box01.dark>li.dark:hover,
+.bubble-box02.dark>li.dark:hover{
     background-color: #444;
     color: #fff;
 }
 .topsearch>input.dark {
     border-color: #555;
+}
+.bubble-box.dark>li.dark>a.dark:hover {
+    background-color: #444;
+    color: #fff;
 }
 /* pc */
 @media all and (max-width: 1919px) {
@@ -1334,6 +1340,9 @@ body.dark,
     .swiper-btn-wrap {
         max-width: 1440px;
         margin: 0 auto;
+    }
+    .belttxtbox {
+        min-width: 1440px;
     }
     .wrap_padding, .container,
     .swiper-btn-wrap {
@@ -1401,6 +1410,9 @@ body.dark,
     .swiper-btn-wrap{
         max-width: 1280px;
     }
+    .belttxtbox {
+        min-width: 1280px;
+    }
     .submenuBg-box {
         justify-content: normal;
     }
@@ -1441,6 +1453,9 @@ body.dark,
     .header_nav,
     .swiper-btn-wrap {
         max-width: 1024px;
+    }
+    .belttxtbox {
+        min-width: 1024px;
     }
     .m-ver1280 {
         display: block;
@@ -1500,6 +1515,9 @@ body.dark,
     .platform,
     .swiper-btn-wrap {
         max-width: 100%;
+    }
+    .belttxtbox {
+        min-width: 100%;
     }
     .header_nav,
     .wrap_padding,

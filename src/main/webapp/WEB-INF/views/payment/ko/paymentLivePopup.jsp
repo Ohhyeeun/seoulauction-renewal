@@ -159,6 +159,27 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="">
+                                                        <span>14</span>
+                                                    </td>
+                                                    <td class="">
+                                                        <span class="tb1">개인 자작품 (KTS Audio, Western Electric Replica 외), Baroque Audio, Creation, Audio Note, Silvaweld / 은제이화문화병,은제이화문담배함,건칠이화문접시,은제이화문신선로,덕수궁마차출입패,유리이화문맥주잔,은제이화문인주함,채색놀이판,주칠가죽베개 일괄
+                                                        </span>
+                                                    </td>
+                                                    <td class="tar">
+                                                        <span>13,000,000</span>
+                                                    </td>
+                                                    <td class="tar">
+                                                        <span>2,340,000</span>
+                                                    </td>
+                                                    <td class="tar">
+                                                        <span>15,340,000</span>
+                                                    </td>
+                                                    <td class="tar">
+                                                        <span>0</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="">
                                                         <strong>합계</strong>
                                                     </td>
                                                     <td class="">

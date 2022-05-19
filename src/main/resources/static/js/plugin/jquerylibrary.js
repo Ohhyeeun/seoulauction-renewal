@@ -21955,17 +21955,17 @@ jQuery.fn.trpScrollSyncTopView = function( options ){
     _getPositon.top = settings.topMagin;    
     if( winST < settings.topStart ){   // winST < wH
       $(settings.positionTar).removeClass("hold_start");
-      $(settings.positionTar2).removeClass("hold_start");
+      ///$(settings.positionTar2).removeClass("hold_start");
       $(settings.positionTar).css({ position: 'relative', top: "auto" , bottom: "auto"  });
-      $(settings.positionTar2).css({ position: 'relative', top: "auto" , bottom: "auto"  });
+      ///$(settings.positionTar2).css({ position: 'relative', top: "auto" , bottom: "auto"  });
     } else {
       $(settings.positionTar).addClass("hold_start");
-      $(settings.positionTar2).addClass("hold_start");
+      ///$(settings.positionTar2).addClass("hold_start");
       $(settings.positionTar).css({ position: 'fixed', top: _getPositon.top ,  bottom: "auto"});
-      $(settings.positionTar2).css({ position: 'fixed', top: (_getPositon.top - 172 - 56) ,  bottom: "auto"});
+      ///$(settings.positionTar2).css({ position: 'fixed', top: (_getPositon.top - 172 - 56) ,  bottom: "auto"});
     }
     
-    console.log(_bottomStop)
+    //console.log(_bottomStop)
     // scroll top botton hold
     var temp1 = (docH - _bottomStop - _bottomSpace);      
     /* 컨텐츠 하단까지 길이 > (도듀먼트에서 하단높이) */
@@ -21976,14 +21976,13 @@ jQuery.fn.trpScrollSyncTopView = function( options ){
       $(settings.positionTar).css({ left: "auto" });
       $(settings.positionTar).addClass("hold_stop");
 
-      $(settings.positionTar2).css({ position: 'absolute', top : (_stop_h - 172 - 56) , bottom:  "auto" });
-      $(settings.positionTar2).css({ left: "auto" });
-      $(settings.positionTar2).addClass("hold_stop");
+      ///$(settings.positionTar2).css({ position: 'absolute', top : (_stop_h - 172 - 56) , bottom:  "auto" });
+      ///$(settings.positionTar2).css({ left: "auto" });
+      ///$(settings.positionTar2).addClass("hold_stop");
     } else {
-      //var temp2 = (wH - _bottomSpace) + winST;
-      //$(settings.positionTar).css({ position: 'fixed', top : "auto" , bottom: settings.bottonTar });
+
       $(settings.positionTar).removeClass("hold_stop");
-      $(settings.positionTar2).removeClass("hold_stop");
+      ///$(settings.positionTar2).removeClass("hold_stop");
       _stop_switch = true;
     
     } 
