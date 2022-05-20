@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.1" xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
+
+    <description>Tag Library</description>
+    <tlib-version>2.0</tlib-version>
+    <short-name>ct</short-name>
+    <function>
+        <description>String to JSON</description>
+        <name>getJSONString</name>
+        <function-class>com.seoulauction.renewal.utill.TagLibrary</function-class>
+        <function-signature>java.lang.String getJSONString(java.lang.String, java.lang.String)</function-signature>
+    </function>
+</taglib>

@@ -8,6 +8,9 @@ import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,8 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.UUID;
+
+import static org.apache.commons.lang3.StringUtils.defaultIfEmpty;
 
 @Controller
 @Log4j2
@@ -112,12 +117,22 @@ public class PaymentController {
     }
 
     @GetMapping("/academy/{id}")
-    public String paymentAcademy(@PathVariable("id") int id, HttpServletRequest request, Locale locale) {
+    public String academy(@PathVariable("id") int id, HttpServletRequest request, Locale locale) {
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("academy_no", id);
+
+        CommonMap resultMap = paymentService.selectAcademyByAcademyNo(paramMap); //TODO: 아카데미 조회 조건을 더 강화해야함
+        if(MapUtils.isEmpty(resultMap)) {
+            request.setAttribute("message", "아카데미 정보가 없습니다.");
+            request.setAttribute("returnUrl", "/"); //TODO: 아카데미 목록으로 가야함
+            return "redirect";
+        }
+
         // select cust
-        // select academy
 
         String goodsName 		= "서울옥션-아카데미"; 					// 결제상품명
-        int price 			    = 1100; 						// 결제상품금액
+        int price 			    = 1100;//Integer.parseInt(ObjectUtils.defaultIfNull(resultMap.get("academy_pay"), "0").toString()); 						// 결제상품금액
+
         String cust_name 		= "김선진"; 						// 구매자명
         String hp 		        = "01033720384"; 				// 구매자연락처
         String email 		    = "sjk@seoulauction.com"; 			// 구매자메일주소
@@ -161,6 +176,8 @@ public class PaymentController {
         request.setAttribute("pay_kind", SAConst.PAYMENT_KIND_ACADEMY);
 
         request.setAttribute("formProcessUrl" , "/payment/academyProcess");
+
+        request.setAttribute("resultMap", resultMap);
 
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "academy" , locale);
     }
