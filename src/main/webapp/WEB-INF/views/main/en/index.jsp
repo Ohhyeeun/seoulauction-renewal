@@ -163,100 +163,7 @@
 
     <jsp:include page="../include/beltBanner.jsp" />
 
-    <article class="video">
-        <h1 class="main-sectiontit video-tit">
-            Video
-        </h1>
-
-        <div class="swiper-container video-swiper">
-            <div class="swiper-wrapper video-contents">
-                <div class="swiper-slide video-slide">
-                    <a href="javascript:void(0)" class="video-btn">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_01_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_01_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-you"></span>
-                        </figure>
-                        <p class="video-thmbtit text-over">
-                            ZEROBASE x art ZEROBASE x art x art ZEROBASE x art x art ZEROBASE x art
-                        </p>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="javascript:void(0)" class="instar-btn">
-                    <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_02_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_02_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-in"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE x art ZEROBASE x art ZEROBASE x art ZEROBASE x art
-                        </p>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="javascript:void(0)" class="video-btn">
-                    <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_03_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_03_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-you"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE x art ZEROBASE x art ZEROBASE x art ZEROBASE x art
-                        </p>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="javascript:void(0)" class="instar-btn">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_04_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_04_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-in"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE x art ZEROBASE x art ZEROBASE x art ZEROBASE x art
-                        </p>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="javascript:void(0)" class="video-btn">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_05_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_05_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-you"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE x art ZEROBASE x art ZEROBASE x art ZEROBASE x art
-                        </p>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="javascript:void(0)" class="instar-btn">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_06_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_06_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-in"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE x art ZEROBASE x art ZEROBASE x art ZEROBASE x art
-                        </p>
-                    </a>
-                </div>
-            </div>
-            <div class="swiper-button-prev videoBtn-left">
-                <span></span>
-            </div>
-            <div class="swiper-button-next videoBtn-right">
-                <span></span>
-            </div>
-        </div>
-    </article>
+    <jsp:include page="../include/video.jsp" />
 
     <div class="wrap article-contents">
         <section class="container">
@@ -346,6 +253,7 @@
                         </a>
                     </div>
                 </div>
+
             </article>
         </section>
     </div>

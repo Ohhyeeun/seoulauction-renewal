@@ -290,7 +290,7 @@
     </div>
 </div>
 
-<%-- mian 레이어 팝업 --%>
+<%-- main 레이어 팝업 --%>
 <div class="blackBg main-popupBg on">
     <div class="main-popupwrap">
         <div class="main-popupbox">
