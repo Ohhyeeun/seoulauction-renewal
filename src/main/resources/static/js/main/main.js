@@ -244,7 +244,7 @@ function loadUpcomings() {
                                                     </span>
                                                     ${ item.D_DAY <=7 ? 
                                                         `<span class="d-day on">
-                                                            ${ item.D_DAY === 0 ? "TODAY" : "D-" + item.D_DAY }
+                                                            ${ item.D_DAY <= 0 ? "TODAY" : "D-" + item.D_DAY }
                                                         </span>` 
                                                     : ``}
                                                     <h4 class="text-over">${ titleJSON[locale] }</h4>
