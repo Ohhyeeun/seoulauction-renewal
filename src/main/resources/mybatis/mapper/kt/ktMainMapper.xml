@@ -5,7 +5,7 @@
 		<![CDATA[
 		select SALE_NO
 			 , SALE_KIND_CD
-		     , DATEDIFF(date(OPEN_DT),now()) as DDAY
+		     , DATEDIFF(date(OPEN_DT), now()) as DDAY
 			 , COLUMN_JSON(TITLE_BLOB) AS TITLE_BLOB
 			 , WWW_DISP_YN
 			 , FROM_DT
@@ -18,7 +18,7 @@
 		  and WWW_DISP_YN = 'Y'
 		  and SALE_OUTSIDE_YN = 'N'
 		  and DATE_FORMAT(TO_DT,'%Y-%m-%d') >= current_date
-		order by TO_DT;
+		order by OPEN_DT;
 		]]>
 	</select>
 
