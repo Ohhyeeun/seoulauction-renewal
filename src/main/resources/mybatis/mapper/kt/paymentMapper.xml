@@ -24,7 +24,7 @@
 			,lower(#{pay_method})
 			, 'Y'
 			, #{pg_cd}
-			, #{pg_trnas_id}
+			, #{pg_trans_id}
 			, #{name}
 			, #{pay_price}
 			, #{no_vat_price}
