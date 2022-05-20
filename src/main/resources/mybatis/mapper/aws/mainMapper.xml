@@ -11,7 +11,7 @@
             and start_at <= (now() + interval 9 hour)
             and end_at >= (now() + interval 9 hour)
             order by sort desc
-        limit 1;
+       limit 3;
     ]]>
     </select>
 
@@ -29,7 +29,7 @@
         order by mb.sort desc;
     ]]>
     </select>
-
+    <!--Newsletter-->
     <select id="selectNewsletters" parameterType="CommonMap" resultType="CommonMap">
         SELECT id, title, content, publish_at, status, created_at, updated_at
             , CASE when created_at >= DATE_ADD(NOW(), INTERVAL -7 DAY) then 'Y' else 'N' end as is_new
@@ -42,7 +42,8 @@
         SELECT id, title, content, publish_at, status, created_at, updated_at
             , CASE when created_at >= DATE_ADD(NOW(), INTERVAL -7 DAY) then 'Y' else 'N' end as is_new
         FROM content_newsletter
-        WHERE id = #{id}
+        WHERE status = 'A'
+            and id = #{id}
     </select>
     <select id="insertNewsletter" parameterType="CommonMap">
         INSERT INTO newsletter_subscriber
@@ -61,6 +62,33 @@
             and email = #{email}
         limit
             1
+    </select>
+
+    <select id="selectVideos" parameterType="CommonMap" resultType="CommonMap">
+        SELECT id, media_type, content_type, title, read_count, content, sort, status, created_at, updated_at, url
+        FROM content_media cm
+        WHERE status = 'A'
+            AND media_type = #{media_type}
+        ORDER BY sort
+        LIMIT #{size}
+    </select>
+    <!--Popup-->
+    <select id="selectPopup" resultType="CommonMap">
+        <![CDATA[
+            SELECT
+                *
+            FROM
+                main_popup
+            WHERE
+                popup_type = 'bottom-right'
+                and status = 'A'
+                and start_at <= (now() + interval 9 hour)
+                and end_at >= (now() + interval 9 hour)
+            ORDER BY
+                sort DESC
+            LIMIT
+                1
+        ]]>
     </select>
 
 </mapper>

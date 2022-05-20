@@ -43,4 +43,35 @@ public class MypageController {
     	return SAConst.getUrl(SERVICE_MYPAGE , "onlinePayList" , locale);
     }
     
+
+    
+    /*본인인증 TEST*/
+    @GetMapping("/test")
+    public String test(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "test" , locale);
+    }
+    /*본인인증*/
+    @GetMapping("/saleCert")
+    public String saleCert(@RequestParam Map<String, String> params, Locale locale, Model model) {
+    	model.addAttribute("VIEW_ID", "SALE_CERT");
+    	if (params.containsKey("sale_no")) model.addAttribute("SALE_NO", params.get("sale_no"));
+    	return SAConst.getUrl(SERVICE_MYPAGE , "saleCert" , locale);
+    }
+
+    /*문의하기*/
+    @GetMapping("/inquiryList")
+    public String inquiryList(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "inquiryList" , locale);
+    }
+
+    @GetMapping("/inquiryDetail")
+    public String inquiryView(@RequestParam(required = true ) int writeNo, Locale locale) {
+        return SAConst.getUrl(SERVICE_MYPAGE, "inquiryDetail", locale);
+    }
+
+    @GetMapping("/inquiryForm")
+    public String inquiryForm(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "inquiryForm" , locale);
+    }
+
 }

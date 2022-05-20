@@ -11,6 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Seoul Auction</title>
+    <link rel="stylesheet" href="/css/common.css" type="text/css" />
     <link rel="stylesheet" href="/css/main.css" type="text/css" />
 </head>
 <body>
@@ -19,7 +20,7 @@
     <jsp:param name="main" value="true"/>
 </jsp:include>
 
-<section class="main-contents footer-bottom footer-bottom30" ng-controller="mainCtl" data-ng-init="init()">
+<section class="main-contents footer-bottom footer-bottom40">
     <section class="visual visual-contents">
         <div class="swiper-container visual-swiper">
             <div class="swiper-wrapper">
@@ -27,64 +28,105 @@
                     <figure class="visual_img">
                         <img src="/images/pc/slide/main/slide01.jpg" alt="slide" class="pc-ver">
                         <img src="/images/mobile/slide/main/slide01.jpg" alt="slide" class="m-ver">
-                        <figurecaption class="visual_caption">
-                            <h1 class="slide-tit">165회 미술품경매</h1>
+                    </figure>
+                    <figurecaption class="visual_caption">
+                        <div>
+                            <h1 class="slide-tit">제1회 ART SHOPPING 신세계 센텀시티 오픈 기념 경매</h1>
                             <p>
-                                2/22(화) 15:00 서울옥션 강남
+                                2/22(화) 15:00 부산 신세계백화점 센텀시티 문화홀(9층)
                             </p>
                             <div class="visual_btn">
                                 <a href="#" class="commonbtn visual-commonbtn btn-bg-w">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a>
-                                <a class="commonbtn visual-commonbtn btn-bg-w" ng-click="showMemHisPopup(this);">하이하이</a>
                             </div>
-                        </figurecaption>
-                    </figure>
+                        </div>
+                    </figurecaption>
                 </div>
 
                 <div class="swiper-slide"> <!-- slide 구간 -->
                     <figure class="visual_img">
                         <img src="/images/pc/slide/main/slide01.jpg" alt="slide" class="pc-ver">
                         <img src="/images/mobile/slide/main/slide01.jpg" alt="slide" class="m-ver">
-                        <figurecaption class="visual_caption black">
-                            <h1 class="slide-tit">165회 미술품경매</h1>
+                    </figure>
+                    <figurecaption class="visual_caption">
+                        <div>
+                            <h1 class="slide-tit">제1회 Autunm Scape _ Land, Life, Inner scape</h1>
+                            <p>
+                                서울시 강남구 도산대로 북 33길 6 호림아트센터 1층 서울옥션 강남점
+                            </p>
+                            <div class="visual_btn">
+                                <a href="#" class="commonbtn visual-commonbtn btn-bg-w">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a>
+                            </div>
+                        </div>
+                    </figurecaption>
+                </div>
+
+                <div class="swiper-slide"> <!-- slide 구간 -->
+                    <figure class="visual_img">
+                        <img src="/images/pc/slide/main/slide03.jpg" alt="slide" class="pc-ver">
+                        <img src="/images/mobile/slide/main/slide03.jpg" alt="slide" class="m-ver">
+                    </figure>
+                    <figurecaption class="visual_caption black"> <%-- 흰 배경일때 버튼, 텍스트 black--%>
+                        <div>
+                            <h1 class="slide-tit">165회 미술품 경매</h1>
                             <p>
                                 2/22(화) 15:00 서울옥션 강남
+                            </p>
+                            <div class="visual_btn">
+                                <a href="#" class="commonbtn visual-commonbtn btn-border-3">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a> <!-- figure img 배경 흰색일때 button black -->
+                            </div>
+                        </div>
+                    </figurecaption>
+                </div>
+
+                <div class="swiper-slide"> <!-- slide 구간 -->
+                    <figure class="visual_img">
+                        <img src="/images/pc/slide/main/slide01.jpg" alt="slide" class="pc-ver">
+                        <img src="/images/mobile/slide/main/slide01.jpg" alt="slide" class="m-ver">
+                    </figure>
+                    <figurecaption class="visual_caption">
+                        <div>
+                            <h1 class="slide-tit">제로베이스</h1>
+                            <p>
+                                2/22(화) 15:00 서울옥션 홈페이지
                             </p>
                             <div class="visual_btn">
                                 <a href="#" class="commonbtn visual-commonbtn btn-bg-g">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-border-w">e-book</a>
-                            </div>
-                        </figurecaption>
-                    </figure>
+                            </div> <%-- 버튼 색상 --%>
+                        </div>
+                    </figurecaption>
                 </div>
 
                 <div class="swiper-slide"> <!-- slide 구간 -->
                     <figure class="visual_img">
                         <img src="/images/pc/slide/main/slide01.jpg" alt="slide" class="pc-ver">
                         <img src="/images/mobile/slide/main/slide01.jpg" alt="slide" class="m-ver">
-                        <figurecaption class="visual_caption">
-                            <h1 class="slide-tit">165회 미술품경매</h1>
+                    </figure>
+                    <figurecaption class="visual_caption">
+                        <div>
+                            <h1 class="slide-tit">e BID 프리미엄</h1>
                             <p>
-                                2/22(화) 15:00 서울옥션 강남
+                                2/22(화) 15:00 서울옥션 홈페이지
                             </p>
                             <div class="visual_btn">
-                                <a href="#" class="commonbtn visual-commonbtn btn-border-b">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-border-b">e-book</a>
+                                <a href="#" class="commonbtn visual-commonbtn btn-bg-w">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a>
                             </div>
-                        </figurecaption>
-                    </figure>
+                        </div>
+                    </figurecaption>
                 </div>
             </div>
-            <!-- 이미지 배경 화이트 일때 버튼 블랙 클래스 추가 .swiper-button-next.slide-btnleft.black -->
-            <div class="swiper-button-next slide-btnleft pc-ver"></div>
-            <div class="swiper-button-prev slide-btnright pc-ver"></div>
-
 
             <span class="visualController">
-                    <button type="button" class="playBtn pc-ver"></button>
-                    <button type="button" class="stopBtn pc-ver"></button>
-                    <span class="swiper-progressbar">
-                        <span class="visual-progressbar"></span>
-                    </span>
-                    <span class="swiper-pagination visual-pagaination"></span>
+                <button type="button" class="playBtn pc-ver"></button>
+                <button type="button" class="stopBtn pc-ver"></button>
+                <span class="swiper-progressbar">
+                    <span class="visual-progressbar"></span>
                 </span>
+                <span class="swiper-pagination visual-pagaination"></span>
+            </span>
+            <div class="swiper-btn-wrap">
+                <div class="swiper-button-next slide-btnleft pc-ver"></div>
+                <div class="swiper-button-prev slide-btnright pc-ver"></div>
+            </div>
         </div>
     </section>
 
@@ -96,9 +138,11 @@
                     <h1 class="main-sectiontit">Auction</h1>
                     <div class="auctiontab-scroll">
                         <div class="auctionTab"> <!-- 최대 5개 까지 -->
-                            <span class="auctionTab-btn on">165회 미술품</span>
-                            <span class="auctionTab-btn">e BID 프리미엄</span>
-                            <span class="auctionTab-btn">제로베이스</span>
+                            <span id="auctionTab" class="auctionTab-btn on"><span class="text-over">제1회 ART SHOPPING 신세계 센텀시티 오픈 기념 경매</span></span>
+                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">제1회 Autunm Scape _ Land, Life, Inner scape</span></span>
+                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">165회 미술품 경매</span></span>
+                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">제로베이스</span></span>
+                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">e BID 프리미엄</span></span>
                         </div>
                     </div>
                 </div>
@@ -120,192 +164,13 @@
         </section>
     </div>
 
-    <section class="upcoming">
-        <h1 class="main-sectiontit upcoming-tit">
-            Upcoming
-        </h1>
-
-        <div class="upcoming-wrap">
-            <div class="swiper-container upcoming-swiper">
-                <div class="swiper-wrapper upcoming-contents">
-                    <div class="swiper-slide upcomingSlide">
-                        <a href="#">
-                            <div class="upcoming-caption">
-                                <span class="auctionKind-box on">LIVE</span><span class="d-day on">TODAY</span>
-                                <h4>2월 라이브 경매</h4>
-                                <div class="upcoming-datebox">
-                                    <p class="upcoming-preview">
-                                        <span>오픈일</span><span>2/14(금)</span>
-                                    </p>
-                                    <p class="upcoming-preview">
-                                        <span>프리뷰</span><span>2/14(금) ~ 2/25(화)</span>
-                                    </p>
-                                    <p class="upcoming-date">
-                                        <span>경매일</span><span>2/15(화) 15:00</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <figure class="upcoming-img">
-                                <!--<span class="upcomingImg"></span>-->
-                                <img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">
-                            </figure>
-                        </a>
-                    </div>
-                    <div class="swiper-slide upcomingSlide">
-                        <a href="#">
-                            <div class="upcoming-caption">
-                                <span class="auctionKind-box">ONLINE</span><span class="d-day on">D-1</span>
-                                <h4>2월 e BID 퍼블릭 온라인 경매</h4>
-                                <div class="upcoming-datebox">
-                                    <p class="upcoming-preview">
-                                        <span>오픈일</span><span>2/14(금)</span>
-                                    </p>
-                                    <p class="upcoming-preview">
-                                        <span>프리뷰</span><span>2/14(금) ~ 2/25(화)</span>
-                                    </p>
-                                    <p class="upcoming-date">
-                                        <span>경매일</span><span>2/15(화) 15:00</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <figure class="upcoming-img">
-                                <!--<span class="upcomingImg"></span>-->
-                                <%--<img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">--%>
-                            </figure>
-                        </a>
-                    </div>
-                    <div class="swiper-slide upcomingSlide">
-                        <a href="#">
-                            <div class="upcoming-caption">
-                                <span class="auctionKind-box">ONLINE</span><span class="d-day"></span>
-                                <h4>ZEROBASE X 아트경기</h4>
-                                <div class="upcoming-datebox">
-                                    <p class="upcoming-preview">
-                                        <span>오픈일</span><span>2/14(금)</span>
-                                    </p>
-                                    <p class="upcoming-preview">
-                                        <span>프리뷰</span><span>2/14(금) ~ 2/25(화)</span>
-                                    </p>
-                                    <p class="upcoming-date">
-                                        <span>경매일</span><span>2/15(화) 15:00</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <figure class="upcoming-img">
-                                <!--<span class="upcomingImg"></span>-->
-                                <!--<img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet"> -->
-                            </figure>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="commonbtn-box upcomingBtn">
-            <a href="#" class="commonbtn">전체보기</a>
-        </div>
-    </section>
+    <jsp:include page="../../main/include/upcoming.jsp" />
 
     <jsp:include page="../include/beltBanner.jsp" />
 
-    <article class="video">
-        <h1 class="main-sectiontit video-tit">
-            Video
-        </h1>
+    <jsp:include page="../include/video.jsp" />
 
-        <div class="swiper-container video-swiper">
-            <div class="swiper-wrapper video-contents">
-                <div class="swiper-slide video-slide">
-                    <a data-video="B_iGOoOR1SY">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_01_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_01_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-you"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE X 아트경기 2021: 경기문화재단
-                        </p>
-                        <div class="video-popup">
-                            <div class="video-popup-closer"></div>
-                        </div>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="#">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_02_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_02_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-in"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE X 아트경기 2021: 경기문화재단
-                        </p>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="#">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_03_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_03_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-you"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE X 아트경기 2021: 경기문화재단
-                        </p>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="#">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_04_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_04_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-in"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE X 아트경기 2021: 경기문화재단
-                        </p>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="#">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_05_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_05_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-you"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE X 아트경기 2021: 경기문화재단
-                        </p>
-                    </a>
-                </div>
-                <div class="swiper-slide video-slide">
-                    <a href="#">
-                        <figure class="video-thumb">
-                            <span class="video-thumbHover"></span>
-                            <img src="/images/pc/thumbnail/VideoBanner_06_280x280.png" alt="video" class="pc-ver">
-                            <img src="/images/mobile/thumbnail/VideoBanner_06_300x300.png" alt="video" class="m-ver">
-                            <span class="video-icon video-icon-in"></span>
-                        </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE X 아트경기 2021: 경기문화재단
-                        </p>
-                    </a>
-                </div>
-            </div>
-            <div class="swiper-button-prev videoBtn-left">
-                <span></span>
-            </div>
-            <div class="swiper-button-next videoBtn-right">
-                <span></span>
-            </div>
-        </div>
-    </article>
-
-    <div class="wrap">
+    <div class="wrap article-contents">
         <section class="container">
             <section class="flex_wrap sale-contents">
                 <figure class="sale-box">
@@ -330,7 +195,7 @@
                 </figure>
             </section>
 
-            <article class="flex_wrap article-contents">
+            <aticle class="flex_wrap article-contents">
                 <div class="familysite-box">
                     <h3 class="main-sectiontit familySite-tit">Family Site</h3>
                     <div class="flex_wrap familysiteContents">
@@ -395,10 +260,12 @@
                     </div>
                 </div>
 
-            </article>
+            </aticle>
         </section>
     </div>
-    <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
+    <jsp:include page="../../include/ko/footer.jsp" flush="false">
+        <jsp:param name="main" value="true"/>
+    </jsp:include>
     <!-- //wrap -->
 </section>
 <!-- 다크모드 darkmode -->
@@ -414,14 +281,149 @@
 <jsp:include page="popup/newsletter.jsp" flush="false"/>
 
 <!-- video 팝업 -->
-<div class="blackBg video-blackBg">
+<div class="blackBg video-blackBg" id="videoLayerPopup">
     <div class="video-playbox">
+        <div class="video-closebtn closebtn closebtn-w"></div>
         <div class="video-play">
 
         </div>
     </div>
 </div>
+
+<%-- main 레이어 팝업 --%>
+<div class="blackBg main-popupBg on">
+    <div class="main-popupwrap">
+        <div class="main-popupbox">
+            <a href="#">
+                <div class="main-popup-img"> <!-- 이미지 레이어팝업 -->
+                    <img id="main_popup_img" <%--src="/images/pc/main/pop_event.jpg"--%> alt="레이어팝업 이미지">
+                </div>
+                <!-- 텍스트 레이어팝업 -->
+                <div class="main-popup-txt">
+                    <div class="main-popup-caption">
+                        <h2 id="main_popup_title">국내 오프라인 경매 구매수수료율 인상 및 약관 개정 안내</h2>
+                        <p id="main_popup_content">항상 서울옥션을 이용해 주시는 고객 여러분들께<br> 진심으로 감사의 말씀을 드리며,<br>다음과 같이 국내 오프라인 경매 구매수수료율을<br>인상함을 알려드립니다.<br>
+                        항상 서울옥션을 이용해 주시는 고객 여러분들께<br> 진심으로 감사의 말씀을 드리며,<br>다음과 같이 국내 오프라인 경매 구매수수료율을<br>인상함을 알려드립니다.<br>
+                        <p class="main-popup-green">변경 전 -15%(부가세 별도)</p>
+                    </div>
+                </div>
+            </a>
+            <div class="main-popup-close">
+                <span id="main_popup_today_stop_btn">오늘 그만보기</span><span class="main-popup-closebtn closebtn closebtn-w"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 이중접속 차단 안내 -->
+<div id="popup_concurrent-wrap" class="trp popupfixed-wrap login-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-ms mode-mb_center">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                        <div class="ico_box">
+                            <img class="only_ib-pc" src="/images/mobile/login/search_ico_01_pc.png">
+                            <img class="only_ib-mb" src="/images/mobile/login/search_ico_01.png">
+                        </div>
+                        <div class="title-box_tac title_concurrent">
+                            <span class="title_tac">회원님과 동일한 아이디로 다른 PC에서 동시 접속하여 
+                                자동으로 로그아웃 되었습니다.<br>
+                                ⁠본인이 아닌 경우 다시 로그인을 하시거나,<br class="only-pc">
+                                고객센터에 문의해 주세요.</span>
+                        </div>
+                    </div>
+                    <div class="pop-body">
+                        <article class="button-area confirm_btn">
+                            <div class="btn_set-float tac">
+                                <a class="btn btn_point" id="confirmMaxSession" href="#" role="button"><span>확인</span></a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 비밀번호변경알림-비밀번호초기화 -->
+<div id="popup_pwsearch6-wrap" class="trp popupfixed-wrap login-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-ms mode-mb_center">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                        <div class="ico_box change_ico">
+                            <img class="only_ib-pc" src="/images/mobile/login/search_ico_04_pc.png">
+                            <img class="only_ib-mb" src="/images/mobile/login/search_ico_04.png">
+                        </div>
+                        <div class="title-box_tac change_title">
+                            <p class="">초기화 비밀번호 변경 안내</p>
+                            <p class="title_sub">관리자에 의해 비밀번호가 초기화 되었습니다.<br> 안전한 개인정보 보호를 위해<br class="only-mb"> 비밀번호를 변경해 주세요</p>
+                        </div>
+                    </div>
+                    <div class="pop-body">
+                        <article class="button-area confirm_btn changenew_btn">
+                            <div class="btn_set-float tac">
+                                <a class="btn btn_gray_line" onClick="closeResetPassword()" href="#" role="button"><span>닫기</span></a>
+                                <a class="btn btn_point" onClick="closeResetPassword('Y')" href="#" role="button"><span>지금 변경하기</span></a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 비밀번호변경알림-비밀번호 변경 안내 -->
+<div id="popup_pwsearch5-wrap" class="trp popupfixed-wrap login-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-ms mode-mb_center">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                        <div class="ico_box change_ico">
+                            <img class="only_ib-pc" src="/images/mobile/login/search_ico_04_pc.png">
+                            <img class="only_ib-mb" src="/images/mobile/login/search_ico_04.png">
+                        </div>
+                        <div class="title-box_tac change_title">
+                            <p class="">비밀번호 변경 안내</p>
+                            <p class="title_sub">소중한 개인정보 보호를 위해<br> 비밀번호를 변경해 주세요!</p>
+                        </div>
+                    </div>
+                    <div class="pop-body">
+                        <div class="info_box">
+                            <ul class="tb1 mark_dot-list change_txt">
+                                <li>타사이트와 동일한 로그인 정보를 사용하시는 회원님께서는 반드시 비밀번호를 변경해 주세요.</li>
+                                <li>비밀번호는 영문 대소문자, 숫자, 특수문자 중 2가지 이상 조합으로 8자~16자로 만들어 주세요.</li>
+                                <li>주기적으로 비밀번호를 변경해 주세요.</li>
+                            </ul>
+                        </div>
+                        <article class="button-area confirm_btn change_btn">
+                            <div class="btn_set-float tac">
+                                <a class="btn btn_gray_line" onclick="reAlarm();" href="#" role="button"><span>30일뒤 재알림</span></a>
+                                <a class="btn btn_point" onclick="goModPassword();" href="#" role="button"><span>지금 변경하기</span></a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
+
+<script>
+var resetPassword = '${sessionScope.PASSWD_RESET_YN}';
+var modPassword = '${sessionScope.PASSWD_MOD_NECESSARY_YN}';
+</script>
 
 <script src="/js/main/main.js" type="text/javascript"></script>
 <script src="/js/main/auction.js" type="text/javascript"></script>

@@ -28,6 +28,7 @@ dependencies {
 
     implementation  fileTree(dir: 'src/main/resources/static/libs', include: ['*.jar'])
 
+
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
 
     //web
@@ -78,9 +79,29 @@ dependencies {
     //static파일 수정시 서버 자동 재시작
     implementation 'org.springframework.boot:spring-boot-devtools'
 
+    //webClient
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
+
+	//mail
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework:spring-context-support:5.3.0'
+	implementation 'com.sun.mail:javax.mail:1.6.2'
+	implementation 'org.apache.geronimo.javamail:geronimo-javamail_1.6_mail:1.0.0'
+	implementation 'org.apache.velocity:velocity:1.7'
+	implementation 'org.springframework:spring-support:2.0.6'
+
+    //aws
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.0.1.RELEASE'
 
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+tasks {
+    processResources {
+        duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.INCLUDE
+    }
 }

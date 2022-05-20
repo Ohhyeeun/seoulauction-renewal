@@ -85,7 +85,7 @@ http://scripts.sil.org/OFL
     font-display: swap;
     src: local('LibreBaskerville-Bold'), url('/font/LibreBaskerville-Bold.ttf') format('ttf');
 }
-/* http://meyerweb.com/eric/tools/css/reset/ 
+/* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
 */
@@ -111,6 +111,7 @@ body {
     line-height: 1;
     margin: 0;
     padding: 0;
+    letter-spacing: -0.4px;
 }
 blockquote, q {
     quotes: none;
@@ -219,13 +220,13 @@ img {
 }
 .ing-info {
     text-align: right;
-    padding: 10px;
+    padding: 10px 20px;
 }
 .ing-txt {
     padding-top: 10px;
 }
 .markup-box {
-    padding: 0px 30px;
+    padding: 0px 20px;
 }
 .root-box {
     width: 100%;
@@ -242,8 +243,9 @@ img {
 .guide-list-header>span {
     padding: 10px;
     font-weight: bold;
+    width: 100%;
 }
-.guide-list-header>span:first-child {
+/*.guide-list-header>span:first-child {
     width: 150px;
 }
 .guide-list-header>span:nth-child(2),
@@ -255,9 +257,9 @@ img {
 }
 .guide-list-header>span:nth-child(5) {
     width: 220px;
-}
+}*/
 .guide-list-header>span:last-child {
-    width: 100%;
+    width: 300px;
 }
 .guide-list-header {
     border-top: 2px solid #333;
@@ -279,7 +281,7 @@ img {
     line-height: 1.2;
 }
 .guide-list>span:first-child {
-
+    font-weight: 700;
 }
 .guide-list>span>a:hover {
     text-decoration: underline;
@@ -306,7 +308,7 @@ img {
     display: none;
 }
 .ing-confirm {
-    border: 2px solid #21a099;
+    border: 2px dashed #21a099;
 }
 
 @media all and (max-width:1919px) {
@@ -365,12 +367,12 @@ img {
     }
     .guide-list>span {
         padding: 5px 0;
-    }
-    .guide-list>span:first-child,
-    .guide-list>span:nth-child(2),
-    .guide-list>span:nth-child(3),
-    .guide-list>span:nth-child(5){
         display: inline-flex;
+    }
+    .guide-list>span.link_go,
+    .guide-list>span:nth-child(7),
+    .guide-list>span:nth-child(8){
+        display: block;
     }
     .guide-list>span>a {
         font-weight: bold;

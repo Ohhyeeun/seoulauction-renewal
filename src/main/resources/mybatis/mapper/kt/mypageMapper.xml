@@ -86,15 +86,6 @@
 		where L.TO_DT &lt;= NOW()
 		and (B.CUST_NO = '1' and REAL_CUST_NO is null) or REAL_CUST_NO = '1'
 		and (P.CUST_NO = null or (B.CUST_NO = '1' and REAL_CUST_NO is null) or REAL_CUST_NO = '1')
-		<if test='searchMonth != null '>
-		and DATE_FORMAT(L.TO_DT,'%Y-%m') = #{searchMonth}
-		</if>
-		<if test='searchKeyword != null '>
-		and COLUMN_GET(L.TITLE_BLOB, 'ko' AS CHAR) like CONCAT('%',#{searchKeyword},'%')
-		</if>
-		<if test='searchStartDt != null and searchEndDt != null'>
-		and S.TO_DT Between DATE_FORMAT(#{searchStartDt},'%Y-%m-%d') AND DATE_FORMAT(#{searchEndDt},'%Y-%m-%d')
-		</if>
 		group by L.SALE_NO, L.LOT_NO
 	</sql>
 	
@@ -157,4 +148,230 @@
 	order by S.TO_DT DESC;
 	</select>
 	
+
+	<!--본인인증  -->
+	<select id="selectSaleCertByCustHp" resultType="CommonMap">
+		SELECT
+		    *
+		FROM
+		     SALE_CERT
+		WHERE
+		    DEL_YN = 'N'
+		  	and HP = #{to_phone}
+		  	and SALE_NO = #{sale_no}
+		LIMIT
+			1
+	</select>
+	
+	
+	<select id="selectAuthNumber" resultType="CommonMap">
+	    set @rand_num := CAST(FLOOR(100000 + RAND() * 899999) AS unsigned integer);
+	   	insert into SC_TRAN(
+			TR_PHONE,
+			TR_CALLBACK,
+			TR_MSG,
+			TR_SENDDATE
+		)
+		values(
+			#{to_phone},
+			#{from_phone},
+			replace('${msg}', '##rand_num##', @rand_num),
+			now()
+		);
+	    select @rand_num as AUTH_NUM
+	</select>
+	
+	<insert id="inertSaleCert" parameterType="Map" useGeneratedKeys="true" keyProperty="sale_cert_no">
+		insert into SALE_CERT (SALE_NO, CUST_NO, HP, CUST_HP, DONE_CD, REG_DT, REG_EMP_NO)
+		VALUES (
+			#{sale_no}, 
+			#{action_user_no}, 
+			#{to_phone},
+			(select max(A.HP) from CUST A where A.CUST_NO = #{action_user_no}),
+			#{done_cd},
+			now(),
+			#{action_user_no}
+		);
+	</insert>	
+	
+	<update id="updateSaleCertHp">
+		update CUST set HP = #{hp} where CUST_NO = #{action_user_no};
+		update SALE_CERT set DONE_CD='modify' where	SALE_CERT_NO = #{sale_cert_no};
+	</update>	
+
+	<!-- 문의 리스트 -->
+	<sql id="sql_bbs_w_list">
+		select * from (
+		    select
+			    A.*,
+			    CASE WHEN C.P_CD_NM IS NULL THEN '' ELSE C.CD_NM END AS CATE_NM,
+			    CASE WHEN C.P_CD_NM IS NULL THEN C.CD_NM ELSE C.P_CD_NM END AS P_CATE_NM,
+				case when B.reply_cnt > 0 then 'Y' else 'N' end as REPLY_YN,
+				B.LAST_REPLY_DT, 
+				D.EMP_NAME
+			from BBS_WRITE A
+			left outer join (
+				select bbs_id, write_no, count(*) REPLY_CNT, max(reg_dt) LAST_REPLY_DT from BBS_REPLY group by bbs_id, write_no
+			) B ON A.bbs_id = B.bbs_id and A.write_no = B.write_no
+			left outer join (
+				select distinct CA.CD_ID, CA.CD_NM, CC.CD_ID P_CD_ID, CC.CD_NM P_CD_NM from CODE CA 
+				join CODE_GRP CB on CA.grp_id = CB.grp_id
+				left outer join CODE CC on CA.P_cd_id = CC.cd_id
+				where CA.grp_id = 'bbs_inquiry_category'
+				and CA.use_yn = 'Y'
+			) C on A.cate_cd = C.cd_id
+			left outer join EMP D on A.EMP_NO = D.EMP_NO
+			where A.writer_no = #{action_user_no}
+			<if test="emp_read_yn != null and emp_read_yn != ''">
+			    and A.EMP_READ_YN = #{emp_read_yn}
+		    </if>
+		) Z
+		where 1=1
+	    <if test="complet_yn != null and complet_yn != ''">
+	       and Z.reply_yn = #{complet_yn}
+	    </if>
+	</sql>
+	<select id="selectInquiryList" resultType="Map">
+	    <include refid="sql_bbs_w_list" />
+    	and	BBS_ID='inquiry' and STAT_CD='normal'
+	    order by Z.REG_DT desc limit #{offset}, #{size}
+	 </select>
+	 
+	<select id="selectInquiryListCnt" resultType="int">
+	    select count(*) AS ROW_CNT from (
+		    <include refid="sql_bbs_w_list" />
+	    	and	BBS_ID='inquiry' and STAT_CD='normal'
+		) CNT
+	</select>	
+
+	<!-- 문의상세 -->
+	<select id="selectInquiryInfo" resultType="CommonMap">
+		select
+		    A.*,
+		    CASE WHEN C.P_CD_NM IS NULL THEN '' ELSE C.CD_NM END AS CATE_NM,
+		    CASE WHEN C.P_CD_NM IS NULL THEN C.CD_NM ELSE C.P_CD_NM END AS P_CATE_NM,
+			case when B.reply_cnt > 0 then 'Y' else 'N' end as REPLY_YN,
+			B.LAST_REPLY_DT, 
+			D.EMP_NAME
+		from BBS_WRITE A
+		left outer join (
+			select bbs_id, write_no, count(*) REPLY_CNT, max(reg_dt) LAST_REPLY_DT from BBS_REPLY group by bbs_id, write_no
+		) B ON A.bbs_id = B.bbs_id and A.write_no = B.write_no
+		left outer join (
+			select distinct CA.CD_ID, CA.CD_NM, CC.CD_ID P_CD_ID, CC.CD_NM P_CD_NM from CODE CA 
+			join CODE_GRP CB on CA.grp_id = CB.grp_id
+			left outer join CODE CC on CA.P_cd_id = CC.cd_id
+			where CA.grp_id = 'bbs_inquiry_category'
+			and CA.use_yn = 'Y'
+		) C on A.cate_cd = C.cd_id
+		left outer join EMP D on A.EMP_NO = D.EMP_NO
+		where A.BBS_ID= 'inquiry' and A.STAT_CD='normal' and A.WRITE_NO = #{write_no}
+	</select>
+	
+	<!-- 문의 답변 -->
+	<select id="selectInquiryReply" resultType="CommonMap">
+		select A.*, B.EMP_NAME from BBS_REPLY A
+		join EMP B on A.REG_EMP_NO = B.EMP_NO
+		where A.WRITE_NO = #{write_no} 
+		and A.REPLY_NO = (select X.REPLY_NO from BBS_REPLY X where ifnull(X.DEL_YN, 'N') = 'N' and X.BBS_ID = A.BBS_ID and X.WRITE_NO = A.WRITE_NO order by X.REG_DT desc limit 1)
+	</select>
+	
+	<!-- 문의상세 파일 리스트-->
+	<select id="selectFileList" resultType="CommonMap">
+		select * from BBS_FILE where WRITE_NO = #{write_no}
+	</select>
+
+		<!-- 카테고리 리스트 -->
+	<select id="selectInquiryCategory" resultType="Map">
+		select 		GRP_ID
+				  , CD_ID, CD_NM, CD_NM_EN, CD_NM_CN
+				  , CD_VAL, CD_VAL2, CD_VAL3
+				  , P_GRP_ID, P_CD_ID, LEVEL
+				  , CMMT, DISP_ORD
+		from 		CODE
+		where		USE_YN = 'Y'
+				<foreach collection="grp_ids" item="item" index="index" open="and GRP_ID in (" close=")" separator=",">
+					'${item}'
+				</foreach>
+		order by GRP_ID, DISP_ORD, CD_NM_EN
+	</select>
+	
+	<!-- (로그인)회원정보 -->
+	<select id="selectInquiryCustomerInfo" resultType="CommonMap">
+		select CU.*
+			, (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "정회원" ELSE "준회원" END 
+			   from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_NM
+			, (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "Y" ELSE "N" END 
+			    from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_YN
+			, (select CONCAT('[', GROUP_CONCAT('"', PW.PUSH_WAY_CD, '"'), ']')  
+				from CUST_PUSH_WAY PW where PW.CUST_NO = CU.CUST_NO) PUSH_WAY_JSON
+			, (select CONCAT('[', GROUP_CONCAT('"', IA.INTE_AREA_CD, '"'), ']') 
+				from CUST_INTE_AREA IA where IA.CUST_NO = CU.CUST_NO) INTE_AREA_JSON
+		   from CUST CU
+		   where JOIN_KIND_CD = 'online'
+		   and CU.STAT_CD = 'normal' 
+		   and CU.CUST_NO = #{action_user_no}
+	</select>
+	
+	<!-- 첨부파일 -->
+	<insert id="insertInquiryWriteFile" parameterType="Map">
+	    INSERT INTO BBS_FILE ( 
+	    	BBS_ID, 
+	    	DOWN_CNT,
+	    	FILE_NAME,
+			FILE_NAME_ORG,
+			FILE_PATH,
+			REG_DT,
+			SIZE,
+			WRITE_NO
+		) 
+		VALUES (
+			'inquiry',
+		 	0,
+			#{file_name},
+			#{file_name_org},
+			'${@com.seoulauction.renewal.component.FileManager@moveTempFile(file_path, file_name, 'inquiry')}',
+<!-- 			#{file_path}, -->
+			now(),
+			#{size},
+			#{write_no}
+		);
+	</insert>
+	
+	<!-- 문의하기 -->
+	<insert id="insertInquiryWrite" parameterType="Map" useGeneratedKeys="true" keyProperty="write_no">
+	    INSERT INTO BBS_WRITE ( 
+	    	BBS_ID,
+			CATE_CD,
+			CONTENT,
+			EMAIL,
+			EMP_NO,
+			IP,
+			NOTICE_YN,
+			REG_DT,
+			STAT_CD,
+			TITLE,
+			VIEW_CNT,
+			WRITER,
+			WRITER_KIND_CD,
+			WRITER_NO
+		) 
+		VALUES (
+			'inquiry',
+			#{cate_cd},
+			#{contents},
+			#{email},
+			#{emp_no},
+			#{action_user_ip},
+			'N',
+			now(),
+			'normal',
+			#{inquiry_subject},
+			0,
+			(SELECT CUST_NAME FROM CUST WHERE CUST_NO = #{action_user_no} LIMIT 1),
+			'customer',
+			#{action_user_no}
+		)
+	</insert>
+
 </mapper>

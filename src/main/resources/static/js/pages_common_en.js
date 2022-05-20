@@ -1,10 +1,10 @@
 "use strict";
 
-function msgFn(msg1, msg2) {
-    return msg1 + msg2;
+function msgFn(n, s) {
+    return n + s;
 }
 
 $(function() {
-    console.log("common.js"), $("body").addClass("msg_" + "hi");
+    $("body").addClass("msg_" + "hi");
 });
 //# sourceMappingURL=maps/pages_common_en.js.map
