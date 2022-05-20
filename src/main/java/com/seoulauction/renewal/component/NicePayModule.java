@@ -65,6 +65,7 @@ public class NicePayModule {
             formData.add("Amt", wrapper.getParameter("Amt"));
             formData.add("EdiDate", eDiDate);
             formData.add("SignData", signData);
+            formData.add("MallReserved", wrapper.getParameter("MallReserved"));
 
             String result = webClient
                     .post()

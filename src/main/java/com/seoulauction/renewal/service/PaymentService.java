@@ -77,7 +77,7 @@ public class PaymentService {
         CommonMap resultMap = new CommonMap();
         if(SAConst.PAYMENT_METHOD_VBANK.equals(method)) {
             CommonMap paramMap = new CommonMap();
-
+            log.info("insertPay uuid: {}", request.getAttribute("uuid"));
             paramMap.put("uuid", request.getAttribute("uuid"));
             resultMap = paymentMapper.selectPayWaitByUuid(paramMap);
         }
@@ -215,5 +215,9 @@ public class PaymentService {
         if(paySuccess){
             insertPay(request);
         }
+    }
+
+    public CommonMap selectAcademyByAcademyNo(CommonMap paramMap) {
+        return paymentMapper.selectAcademyByAcademyNo(paramMap);
     }
 }
