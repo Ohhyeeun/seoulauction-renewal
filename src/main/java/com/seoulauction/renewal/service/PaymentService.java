@@ -99,7 +99,7 @@ public class PaymentService {
                 paymentMapper.insertCustPay(resultMap);
                 break;
             case SAConst.PAYMENT_KIND_ACADEMY:
-                resultMap.put("academy_no", request.getParameter("academy_no"));
+                resultMap.put("academy_no", resultMap.get("ref_no"));
                 paymentMapper.insertAcademyPay(resultMap);
 
                 resultMap.put("reg_emp_no", "117997"); //TODO: 로그인 한 유저 번호 가져와야함.
