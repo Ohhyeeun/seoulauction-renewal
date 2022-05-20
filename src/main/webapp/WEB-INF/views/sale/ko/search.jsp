@@ -593,7 +593,7 @@
                                             </div>
                                         </div>
                                         <div class="col_item positon-col2">
-                                            <div class="select-box">
+                                            <div class="select-box select-box-width">
                                                 <select class="select2Basic42" id="">
                                                     <option value="1">경매 최신순</option>
                                                     <option value="2">2</option>
