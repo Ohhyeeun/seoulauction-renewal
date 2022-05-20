@@ -146,16 +146,28 @@
                     50:"<spring:message code='label.listup.lots' arguments='50' />",
                     100:"<spring:message code='label.listup.lots' arguments='100' />"};
 
+
+                $scope.search.sale_status = ['END', 'ING', 'READY'];
+                $scope.checkLotDays = function(){
+                    if($scope.sale_status){
+                        $scope.search.sale_status = $scope.sale_status.map(function(item) { return item.cd; });
+                    }
+                    else{
+                        $scope.search.sale_status = [];
+                    }
+                }
                 $scope.sortBy = "ENDDE";
                 $scope.orders={
                     "ENDDE": "<spring:message code="label.sort.by.latest" />",
-                    "LOTAS": "<spring:message code="label.sort.by.LOTAS" />",
-                    "LOTDE": "<spring:message code="label.sort.by.LOTDE" />",
                     "ESTAS": "<spring:message code="label.sort.by.ESTAS" />",
                     "ESTDE": "<spring:message code="label.sort.by.ESTDE" />"};
 
+                $scope.moreBy = "PAGNG";
+                $scope.mores={
+                    "PAGNG": "<spring:message code="label.more.by.PAGNG" />",
+                    "MOREP": "<spring:message code="label.more.by.MOREP" />"};
+
                 $scope.sale_kind_list = [
-                    {"text":"<spring:message code="label.all" />", "cd":"online"},
                     {"text":"<spring:message code="label.online" />", "cd":"online, online_zb"},
                     {"text":"<spring:message code="label.online_zb" />", "cd":"online_zb"},
                     {"text":"<spring:message code="label.offline" />", "cd":"main, hongkong, plan"},
@@ -183,6 +195,8 @@
                 }
 
                 $scope.init = function(){
+
+                    $scope.firstChk = 0;
 
                     $scope.checkSaleKindAll();
                     $scope.search.keyword = "${param.searchContent}";
@@ -281,6 +295,7 @@
                     data['from'] = (($scope.currentPage - 1) * parseInt($scope.reqRowCnt));
                     data['rows'] = parseInt($scope.reqRowCnt);
                     data['sort_by'] = $scope.sortBy;
+                    data['sale_satus'] = $scope.sortBy;
 
                     axios.post($api , data)
                         .then(function(response) {
@@ -295,15 +310,23 @@
                                 lotData = JSON.parse(JSON.stringify(result.data.list));
                                 $scope.lotList = lotData;
 
-                                let totalCnt = JSON.parse(JSON.stringify(result.data.cnt));
+                                let cntList = JSON.parse(JSON.stringify(result.data.cntList));
 
-                                $scope.totalCount = totalCnt.CNT;
-                                $scope.allCount = totalCnt.ALL_CNT;
-                                $scope.liveCount = totalCnt.LIVE_CNT;
-                                $scope.onlineCount = totalCnt.ONLINE_CNT;
+                                $scope.totalCount = cntList.CNT;
+                                $scope.allCount = cntList.ALL_CNT;
+                                $scope.liveCount = cntList.LIVE_CNT;
+                                $scope.onlineCount = cntList.ONLINE_CNT;
                                 $scope.pageRows = parseInt($scope.reqRowCnt);
 
                                 if(lotData.length != 0){
+
+                                    if($scope.firstChk == 0){
+                                        $("#totalCount").append($scope.totalCount);
+                                        $("#allCount").append('(' + $scope.allCount + ')');
+                                        $("#liveCount").append('(' + $scope.liveCount + ')');
+                                        $("#onlineCount").append('(' + $scope.onlineCount + ')');
+                                        $scope.firstChk = 1;
+                                    }
 
                                     $(".paging").show();
                                     let html = '<div class="paging">'
@@ -322,11 +345,6 @@
                                         + '<a href="#" class="next icon-page_next "><em>NEXT</em></a>'
                                         + '<a href="#" class="next_end icon-page_nextnext">END</a></div>';
 
-                                    /*
-                                    let html = '<paging page="'+$scope.currentPage+'"page-size="'+  $scope.pageRows + '"total="' + $scope.totalCount + '"paging-action="loadLotList(' + $page + ' ) "';
-                                    html += 'scroll-top="true" hide-if-empty="true" show-prev-next="true" show-first-last="true" ul-class="page_ul" active-class="page_active" disabled-class="page_disable"';
-                                    html += 'text-next-class="next icon-page_next" text-prev-class="prev icon-page_prev" text-first-class="prev_end icon-page_prevprev" text-last-class="next_end icon-page_nextnext"></paging>';
-                                    */
                                     $(".paging-area").append(html);
 
                                 } else {
@@ -531,7 +549,7 @@
                     <div class="section-inner">
                         <div class="content-panel type_panel-search">
                             <div class="panel-header">
-                                <div class="search_results">"<strong>${param.searchContent}</strong>" 검색결과 {{totalCount}} 개</div>
+                                <div class="search_results">"<strong>${param.searchContent}</strong>" 검색결과 <q id="totalCount"></q> 개</div>
                             </div>
                             <div class="panel-body">
                                 <div class="search-area">
@@ -569,9 +587,9 @@
                                 <div class="tab-wrap">
                                     <div class="tab-area type-left">
                                         <ul class="tab-list js-list_tab">
-                                            <li class="active"><a href="" ng-click="loadSubPage('all');" ><span>전체</span> <em>({{allCount}})</em></a></li>
-                                            <li><a href="#tab-cont-2" ng-click="loadSubPage('live');" ><span>라이브</span> <em>({{liveCount}})</em></a></li>
-                                            <li><a href="#tab-cont-3" ng-click="loadSubPage('online');" ><span>온라인</span> <em>({{onlineCount}})</em></a></li>
+                                            <li class="active"><a href="" ng-click="loadSubPage('all');" ><span>전체</span> <em id="allCount"></em></a></li>
+                                            <li><a href="#tab-cont-2" ng-click="loadSubPage('live');" ><span>라이브</span> <em id="liveCount"></em></a></li>
+                                            <li><a href="#tab-cont-3" ng-click="loadSubPage('online');" ><span>온라인</span> <em id="onlineCount"></em></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -589,23 +607,19 @@
                                                 <ul class="filter-list js-filter_del-list">
                                                     <li><span>지난경매</span><button><i class="icon-filter_del"></i></button></li>
                                                     <li><span>진행경매</span><button><i class="icon-filter_del"></i></button></li>
+                                                    <li><span>예정경매</span><button><i class="icon-filter_del"></i></button></li>
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="col_item positon-col2">
                                             <div class="select-box">
-                                                <select class="select2Basic42" id="">
-                                                    <option value="1">경매 최신순</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5">5</option>
+                                                <select class="select2Basic42" ng-model="sortBy">
+                                                    <option ng-repeat="(key, value) in orders" value="{{key}}">{{value}}</option>
                                                 </select>
                                             </div>
                                             <div class="select-box">
-                                                <select class="select2Basic42 js-select_page" id="">
-                                                    <option value="1">페이지 방식</option>
-                                                    <option value="2">더보기 방식</option>
+                                                <select class="select2Basic42 js-select_page" ng-model="moreBy">
+                                                    <option ng-repeat="(key, value) in mores" value="{{key}}">{{value}}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -766,6 +780,13 @@
                                             <label for="checkbox2">진행 경매</label>
                                         </span>
                                 </li>
+                                <li>
+                                        <span class="trp checkbox-box">
+                                            <input id="checkbox3" type="checkbox" name="">
+                                            <i></i>
+                                            <label for="checkbox3">예정 경매</label>
+                                        </span>
+                                </li>
                             </ul>
                         </div>
                     </li>
@@ -778,7 +799,7 @@
                         <div class="accordion-body">
                             <ul class="check-list">
                                 <li>
-                                    <input type="text" placeholder="작품재질 입력">
+                                    <input type="text" placeholder="작품재질 입력" ng-model="search.mate_nm">
                                 </li>
                             </ul>
                         </div>
@@ -790,7 +811,7 @@
         </div>
         <div class="panel-footer">
             <div class="btn_set">
-                <div class="btn_item"><a class="btn btn_point btn_lg" href="#" role="button"><span>필터적용</span></a> </div>
+                <div class="btn_item"><a class="btn btn_point btn_lg" href="#" role="button" ng-keypress="$event.keyCode === 13 && loadLotList(1, 'all');"><span>필터적용</span></a> </div>
             </div>
         </div>
     </div>
