@@ -25,63 +25,103 @@
                     <figure class="visual_img">
                         <img src="/images/pc/slide/main/slide01.jpg" alt="slide" class="pc-ver">
                         <img src="/images/mobile/slide/main/slide01.jpg" alt="slide" class="m-ver">
-                        <figurecaption class="visual_caption">
-                            <h1 class="slide-tit">The 165th Art Auction</h1>
+                    </figure>
+                    <figurecaption class="visual_caption">
+                        <div>
+                            <h1 class="slide-tit">1st ART SHOPPING _ Modern and Contemporary Art Auction</h1>
                             <p>
-                                22 February 15:00 Seoul Auction Gangnam
+                                22 February 15:00 F9, SHINSEGAE CENTUM CITY, Busan
                             </p>
                             <div class="visual_btn">
-                                <a href="#" class="commonbtn visual-commonbtn btn-bg-w">View More</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a>
+                                <a href="#" class="commonbtn visual-commonbtn btn-bg-w">View work</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a>
                             </div>
-                        </figurecaption>
-                    </figure>
+                        </div>
+                    </figurecaption>
                 </div>
 
                 <div class="swiper-slide"> <!-- slide 구간 -->
                     <figure class="visual_img">
-                        <img src="/images/pc/slide/main/slide02.jpg" alt="slide" class="pc-ver">
-                        <img src="/images/mobile/slide/main/slide02.jpg" alt="slide" class="m-ver">
-                        <figurecaption class="visual_caption black">
-                            <h1 class="slide-tit">The 165th Art Auction</h1>
+                        <img src="/images/pc/slide/main/slide01.jpg" alt="slide" class="pc-ver">
+                        <img src="/images/mobile/slide/main/slide01.jpg" alt="slide" class="m-ver">
+                    </figure>
+                    <figurecaption class="visual_caption">
+                        <div>
+                            <h1 class="slide-tit">Online Charity Auction for victims of wildfire</h1>
                             <p>
-                                22 February 15:00 Seoul Auction Gangnam
+                                22 February 15:00 Gangnam Center B1
                             </p>
                             <div class="visual_btn">
-                                <a href="#" class="commonbtn visual-commonbtn btn-bg-g">View More</a><a href="#" class="commonbtn visual-commonbtn btn-border-w">e-book</a>
+                                <a href="#" class="commonbtn visual-commonbtn btn-bg-g">View work</a><a href="#" class="commonbtn visual-commonbtn btn-border-w">e-book</a>
                             </div>
-                        </figurecaption>
-                    </figure>
+                        </div>
+                    </figurecaption>
                 </div>
 
                 <div class="swiper-slide"> <!-- slide 구간 -->
                     <figure class="visual_img">
                         <img src="/images/pc/slide/main/slide03.jpg" alt="slide" class="pc-ver">
                         <img src="/images/mobile/slide/main/slide03.jpg" alt="slide" class="m-ver">
-                        <figurecaption class="visual_caption">
+                    </figure>
+                    <figurecaption class="visual_caption black"> <!-- figure img 배경 흰색일때 font black -->
+                        <div>
                             <h1 class="slide-tit">The 165th Art Auction</h1>
                             <p>
                                 22 February 15:00 Seoul Auction Gangnam
                             </p>
                             <div class="visual_btn">
-                                <a href="#" class="commonbtn visual-commonbtn btn-border-b">View More</a><a href="#" class="commonbtn visual-commonbtn btn-border-b">e-book</a>
+                                <a href="#" class="commonbtn visual-commonbtn btn-border-3">View work</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a> <!-- figure img 배경 흰색일때 button black -->
                             </div>
-                        </figurecaption>
+                        </div>
+                    </figurecaption>
+                </div>
+                <div class="swiper-slide"> <!-- slide 구간 -->
+                    <figure class="visual_img">
+                        <img src="/images/pc/slide/main/slide01.jpg" alt="slide" class="pc-ver">
+                        <img src="/images/mobile/slide/main/slide01.jpg" alt="slide" class="m-ver">
                     </figure>
+                    <figurecaption class="visual_caption">
+                        <div>
+                            <h1 class="slide-tit">ZERO BASE</h1>
+                            <p>
+                                22 February 15:00 Seoul Auction Homepage
+                            </p>
+                            <div class="visual_btn">
+                                <a href="#" class="commonbtn visual-commonbtn btn-bg-g">View work</a><a href="#" class="commonbtn visual-commonbtn btn-border-w">e-book</a>
+                            </div>
+                        </div>
+                    </figurecaption>
+                </div>
+
+                <div class="swiper-slide"> <!-- slide 구간 -->
+                    <figure class="visual_img">
+                        <img src="/images/pc/slide/main/slide01.jpg" alt="slide" class="pc-ver">
+                        <img src="/images/mobile/slide/main/slide01.jpg" alt="slide" class="m-ver">
+                    </figure>
+                    <figurecaption class="visual_caption">
+                        <div>
+                            <h1 class="slide-tit">e BID Premium</h1>
+                            <p>
+                                22 February 15:00 Seoul Auction Homepage
+                            </p>
+                            <div class="visual_btn">
+                                <a href="#" class="commonbtn visual-commonbtn btn-bg-w">View work</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a>
+                            </div>
+                        </div>
+                    </figurecaption>
                 </div>
             </div>
-            <!-- 이미지 배경 화이트 일때 버튼 블랙 클래스 추가 .swiper-button-next.slide-btnleft.black -->
-            <div class="swiper-button-next slide-btnleft pc-ver"></div>
-            <div class="swiper-button-prev slide-btnright pc-ver"></div>
-
-
             <span class="visualController">
-                    <button type="button" class="playBtn pc-ver"></button>
-                    <button type="button" class="stopBtn pc-ver"></button> 
-                    <span class="swiper-progressbar">
-                        <span class="visual-progressbar"></span>
-                    </span> 
-                    <span class="swiper-pagination visual-pagaination"></span>
+                <button type="button" class="playBtn pc-ver"></button>
+                <button type="button" class="stopBtn pc-ver"></button>
+                <span class="swiper-progressbar">
+                    <span class="visual-progressbar"></span>
                 </span>
+                <span class="swiper-pagination visual-pagaination"></span>
+            </span>
+            <div class="swiper-btn-wrap">
+                <div class="swiper-button-next slide-btnleft pc-ver"></div>
+                <div class="swiper-button-prev slide-btnright pc-ver"></div>
+            </div>
         </div>
     </section>
 
@@ -93,9 +133,11 @@
                     <h1 class="main-sectiontit">Auction</h1>
                     <div class="auctiontab-scroll">
                         <div class="auctionTab">
-                            <span  class="auctionTab-btn on">Episode 165 Artwork</span>
-                            <span  class="auctionTab-btn">e BID Premium</span>
-                            <span  class="auctionTab-btn">ZEROBASE</span>
+                            <span id="auctionTab" class="auctionTab-btn on"><span class="text-over">1st ART SHOPPING _ Modern and Contemporary Art Auction</span></span>
+                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">Online Charity Auction for victims of wildfire</span></span>
+                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">The 165th Art Auction</span></span>
+                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">ZERO BASE</span></span>
+                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">e BID Premium</span></span>
                         </div>
                     </div>
                 </div>
@@ -129,21 +171,21 @@
         <div class="swiper-container video-swiper">
             <div class="swiper-wrapper video-contents">
                 <div class="swiper-slide video-slide">
-                    <a href="#">
+                    <a href="javascript:void(0)" class="video-btn">
                         <figure class="video-thumb">
                             <span class="video-thumbHover"></span>
                             <img src="/images/pc/thumbnail/VideoBanner_01_280x280.png" alt="video" class="pc-ver">
                             <img src="/images/mobile/thumbnail/VideoBanner_01_300x300.png" alt="video" class="m-ver">
                             <span class="video-icon video-icon-you"></span>
                         </figure>
-                        <p class="video-thmbtit">
-                            ZEROBASE x art ZEROBASE x art matc…
+                        <p class="video-thmbtit text-over">
+                            ZEROBASE x art ZEROBASE x art x art ZEROBASE x art x art ZEROBASE x art
                         </p>
                     </a>
                 </div>
                 <div class="swiper-slide video-slide">
-                    <a href="#">
-                        <figure class="video-thumb">
+                    <a href="javascript:void(0)" class="instar-btn">
+                    <figure class="video-thumb">
                             <span class="video-thumbHover"></span>
                             <img src="/images/pc/thumbnail/VideoBanner_02_280x280.png" alt="video" class="pc-ver">
                             <img src="/images/mobile/thumbnail/VideoBanner_02_300x300.png" alt="video" class="m-ver">
@@ -155,20 +197,20 @@
                     </a>
                 </div>
                 <div class="swiper-slide video-slide">
-                    <a href="#">
-                        <figure class="video-thumb">
+                    <a href="javascript:void(0)" class="video-btn">
+                    <figure class="video-thumb">
                             <span class="video-thumbHover"></span>
                             <img src="/images/pc/thumbnail/VideoBanner_03_280x280.png" alt="video" class="pc-ver">
                             <img src="/images/mobile/thumbnail/VideoBanner_03_300x300.png" alt="video" class="m-ver">
                             <span class="video-icon video-icon-you"></span>
                         </figure>
                         <p class="video-thmbtit">
-                            ZEROBASE x art ZEROBASE x art matc…
+                            ZEROBASE x art ZEROBASE x art ZEROBASE x art ZEROBASE x art
                         </p>
                     </a>
                 </div>
                 <div class="swiper-slide video-slide">
-                    <a href="#">
+                    <a href="javascript:void(0)" class="instar-btn">
                         <figure class="video-thumb">
                             <span class="video-thumbHover"></span>
                             <img src="/images/pc/thumbnail/VideoBanner_04_280x280.png" alt="video" class="pc-ver">
@@ -176,12 +218,12 @@
                             <span class="video-icon video-icon-in"></span>
                         </figure>
                         <p class="video-thmbtit">
-                            ZEROBASE x art ZEROBASE x art matc…
+                            ZEROBASE x art ZEROBASE x art ZEROBASE x art ZEROBASE x art
                         </p>
                     </a>
                 </div>
                 <div class="swiper-slide video-slide">
-                    <a href="#">
+                    <a href="javascript:void(0)" class="video-btn">
                         <figure class="video-thumb">
                             <span class="video-thumbHover"></span>
                             <img src="/images/pc/thumbnail/VideoBanner_05_280x280.png" alt="video" class="pc-ver">
@@ -189,12 +231,12 @@
                             <span class="video-icon video-icon-you"></span>
                         </figure>
                         <p class="video-thmbtit">
-                            ZEROBASE x art ZEROBASE x art matc…
+                            ZEROBASE x art ZEROBASE x art ZEROBASE x art ZEROBASE x art
                         </p>
                     </a>
                 </div>
                 <div class="swiper-slide video-slide">
-                    <a href="#">
+                    <a href="javascript:void(0)" class="instar-btn">
                         <figure class="video-thumb">
                             <span class="video-thumbHover"></span>
                             <img src="/images/pc/thumbnail/VideoBanner_06_280x280.png" alt="video" class="pc-ver">
@@ -202,7 +244,7 @@
                             <span class="video-icon video-icon-in"></span>
                         </figure>
                         <p class="video-thmbtit">
-                            ZEROBASE x art ZEROBASE x art matc…
+                            ZEROBASE x art ZEROBASE x art ZEROBASE x art ZEROBASE x art
                         </p>
                     </a>
                 </div>
@@ -216,7 +258,7 @@
         </div>
     </article>
 
-    <div class="wrap">
+    <div class="wrap article-contents">
         <section class="container">
             <section class="flex_wrap sale-contents">
                 <figure class="sale-box">
