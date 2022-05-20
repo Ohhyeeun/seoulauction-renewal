@@ -1,12 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.seoulauction.renewal.mapper.kt.PaymentMapper">
+<mapper namespace="com.seoulauction.renewal.mapper.kt.AuctionMapper">
 
 	<select id="selectSale" resultType="commonMap" parameterType="commonMap">
 		SELECT
 			COUNT(*)	     ROW_CNT
 		FROM CUST A , ACADEMY_REQ B , ACADEMY C
 		WHERE A.CUST_NO = B.CUST_NO AND B.ACADEMY_NO = C.ACADEMY_NO AND A.CUST_NO = #{cust_no} AND B.DEL_YN = 'N'
+	</select>
+
+	<select id="selectLotBySaleNoAndLotNo" resultType="commonMap" parameterType="commonMap">
+		select L.SALE_NO, L.LOT_NO
+		     , COLUMN_JSON(S.TITLE_BLOB) as SALE_TITLE_JSON
+			 , COLUMN_JSON(A.ARTIST_NAME_BLOB) as ARTIST_NAME_JSON
+			 , A.BORN_YEAR
+			 , COLUMN_JSON(L.TITLE_BLOB) as LOT_TITLE_JSON
+			 , CD.CD_NM as MATE_CD
+			 , COLUMN_GET(L.MAKE_YEAR_BLOB, 'ko' as CHAR) as LOT_MAKE_YEAR
+			 , CONCAT('['
+			, GROUP_CONCAT('{',
+						   '"UNIT_CD":"', ifnull(LS.UNIT_CD, 'cm') ,'",',
+						   '"SIZE1":', ifnull(LS.SIZE1,0) ,',',
+						   '"SIZE2":', ifnull(LS.SIZE2,0) ,',',
+						   '"SIZE3":', ifnull(LS.SIZE3,0) ,',',
+						   '"CANVAS":', ifnull(LS.CANVAS,0) ,',',
+						   '"DIAMETER_YN":"', ifnull(LS.DIAMETER_YN,'N') ,'",',
+						   '"PREFIX":"', ifnull(LS.PREFIX,'') ,'",',
+						   '"SUFFIX":"', ifnull(LS.SUFFIX,'') ,'",',
+						   '"MIX_CD":"', ifnull(LS.MIX_CD,'h') ,'",',
+						   '"CANVAS_EXT_YN":"', ifnull(LS.CANVAS_EXT_YN,'N'), '"',
+						   '}')
+			,']') AS LOT_SIZE_JSON
+			, LI.FILE_PATH , LI.FILE_NAME
+		from LOT L
+		    	join SALE S on L.SALE_NO = S.SALE_NO
+				 left outer join code CD on CD_ID = L.MATE_CD
+				 left outer join Artist A on L.ARTIST_NO = A.ARTIST_NO
+				 left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
+				 left outer join LOT_IMG LI on L.SALE_NO = LI.SALE_NO and L.LOT_NO = LI.LOT_NO
+								and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
+		where L.sale_no = #{sale_no}
+		  and L.lot_no = #{lot_no};
 	</select>
 
 

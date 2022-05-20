@@ -25,6 +25,8 @@ public class PaymentService {
 
     private final NicePayModule nicePayModule;
 
+    private final AuctionService auctionService;
+
     private void setRefNo(HttpServletRequest request, CommonMap resultMap) {
         switch (request.getAttribute("pay_kind").toString()){
             case SAConst.PAYMENT_KIND_MEMBERSHIP:
@@ -83,7 +85,7 @@ public class PaymentService {
         }
 
         //공통 페이먼트 테이블 필요한 부분 미리 넣기.
-        resultMap.put("cust_no", "117997"); //TODO: 로그인 한 유저 번호 가져와야함.
+        resultMap.put("cust_no", "108855"); //TODO: 로그인 한 유저 번호 가져와야함.
         resultMap.put("pay_method", method);
         resultMap.put("pg_trans_id", request.getParameter("TxTid"));
         resultMap.put("name", request.getParameter("BuyerName"));
@@ -109,8 +111,12 @@ public class PaymentService {
                 break;
             case SAConst.PAYMENT_KIND_WORK:
                 //TODO 작품 DB INSERT 처리ㄱㄱ.
+                log.info("sale_no :{}", request.getParameter("sale_no"));
+                log.info("lot_no :{}", request.getParameter("lot_no"));
+                resultMap.put("sale_no", request.getParameter("sale_no"));
+                resultMap.put("lot_no", request.getParameter("lot_no"));
                 paymentMapper.insertLotPay(resultMap);
-                if(!SAConst.PAYMENT_METHOD_VBANK.equals(method)) { //가상 계좌 아닌경우에만 FEE 업데이트 ㅇㅇ. 기존레가시 참조.
+                if(!SAConst.PAYMENT_METHOD_VBANK.equals(method)) { //가상 계좌 아닌경우에만 FEE 업데이트
                     paymentMapper.updateLotFeeForPayment(resultMap);
                 }
                 break;
@@ -147,6 +153,7 @@ public class PaymentService {
         //결제 처리가 완료 시 디비 요청.
         return resultMap;
     }
+
     public CommonMap goPaymentResultAcademy(String payMethod, String payId) {
         CommonMap resultMap = getPaymentForPayResult(payMethod, payId);
         if(SAConst.PAYMENT_METHOD_VBANK.equals(payMethod)){
@@ -164,7 +171,7 @@ public class PaymentService {
     public CommonMap getPaymentForPayResult(String payMethod, String payId){
 
         CommonMap resultMap = null;
-        String custNo = "117997"; //로그인한 유저정보를 가져와야함.
+        String custNo = "108855"; //로그인한 유저정보를 가져와야함.
 
 
         CommonMap paramMap = new CommonMap();
@@ -216,4 +223,69 @@ public class PaymentService {
             insertPay(request);
         }
     }
+
+    public  CommonMap getWorkPayInfo(CommonMap paramMap){
+        CommonMap resultMap = new CommonMap();
+        log.info("sale_no :{}", paramMap.get("sale_no"));
+        log.info("lot_no :{}", paramMap.get("lot_no"));
+        //작품정보
+        resultMap.putAll(auctionService.lot(paramMap));
+
+        //결제금액정보
+        CommonMap bidPriceMap = paymentMapper.selectLotBidPrice(paramMap);
+        paramMap.put("bid_price", bidPriceMap.get("BID_PRICE"));
+        CommonMap feeMap = paymentMapper.get_lot_fee(paramMap);
+        CommonMap saleFeeMap = paymentMapper.get_sale_fee(paramMap);
+
+        int lot_price = Integer.parseInt(bidPriceMap.get("BID_PRICE").toString());
+        int fee_price = 0;
+
+        if(feeMap.get("SUM_FEE") == null) fee_price = Integer.parseInt(saleFeeMap.get("SUM_FEE").toString());
+        else  fee_price = Integer.parseInt(feeMap.get("SUM_FEE").toString());
+
+//      결제한 금액이 있다면 계산
+//        int paid_price = (bidPriceMap.get("PAY_PRICE") == null ? 0 : Integer.parseInt(bidPriceMap.get("PAY_PRICE").toString()));
+//        if(paid_price > 0){
+//            if(paid_price <= no_vat_price){
+//                no_vat_price = no_vat_price - paid_price;
+//            }else{
+//                vat_price = vat_price - (paid_price - no_vat_price);
+//                no_vat_price = 0;
+//            }
+//        }
+
+        int vat = fee_price / 11;
+        fee_price = fee_price - vat;
+        int pay_price = (lot_price + fee_price + vat);
+
+        resultMap.put("no_vat_price" , lot_price);
+        resultMap.put("vat_price" , fee_price);
+        resultMap.put("vat" , vat);
+        resultMap.put("pay_price" , pay_price);
+
+
+
+
+        return resultMap;
+    }
+
+    public CommonMap goPaymentResultWork(String payMethod, String payId) {
+        CommonMap resultMap = getPaymentForPayResult(payMethod, payId);
+
+        if(SAConst.PAYMENT_METHOD_VBANK.equals(payMethod)){
+
+
+        }else if(SAConst.PAYMENT_METHOD_CARD.equals(payMethod)){
+
+            CommonMap lotPayMap = paymentMapper.selectLotPayByPayNo(resultMap);
+            resultMap.put("sale_no", lotPayMap.get("SALE_NO"));
+            resultMap.put("lot_no", lotPayMap.get("LOT_NO"));
+            resultMap.putAll(getWorkPayInfo(resultMap));
+
+        }
+
+        return resultMap;
+    }
+
+
 }

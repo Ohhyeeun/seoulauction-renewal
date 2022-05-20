@@ -32,7 +32,7 @@
 			, #{vat}
 			, now()
 			, now()
-		)
+		);
 	</insert>
 
 	<select id="selectPayByPayNoAndCustNo" resultType="commonMap" parameterType="commonMap">
@@ -59,7 +59,14 @@
 			 , DATE_ADD(DATE_ADD(now(), INTERVAL 1 YEAR), INTERVAL -1 DAY)
 			 )
 	</insert>
-	<!--정회원 결제 테이블-->
+
+	<select id="selectWorkPayBySaleNoAndLotNo" parameterType="commonMap" resultType="commonMap">
+		select L.sale_no from LOT L
+		where L.sale_no = #{saleNo}
+		and L.lot_no = #{lotNo};
+	</select>
+
+	<!-- 작품 결제  -->
 	<insert id="insertLotPay" parameterType="commonMap">
 		insert into LOT_PAY (
 			  SALE_NO
@@ -69,11 +76,63 @@
 		) values (
 			   #{sale_no}
 			 , #{lot_no}
-			 , last_insert_id()
+			 , #{pay_no}
 			 , 'payment'
-		 )
+		 );
 	</insert>
-	<!---->
+	<update id="updateLotFeeForPayment" parameterType="commonMap">
+		update
+			LOT_FEE
+		SET
+			FEE = cast(greatest(
+							   least((#{bid_price} - (ifnull(PRICE_FROM, 1) - 1))
+								   , (ifnull(PRICE_TO, #{bid_price}) - (ifnull(PRICE_FROM, 1) - 1)))
+						   , 0) * (RATE / 100) as int)
+		  , MOD_DT = now()
+		where
+			SALE_NO = #{sale_no} and LOT_NO = #{lot_no};
+	</update>
+
+	<select id="selectLotBidPrice" parameterType="commonMap" resultType="commonMap">
+		<![CDATA[
+		select L.SALE_NO, L.LOT_NO, B.BID_PRICE
+		from LOT L
+		inner join (select MAX(BID_PRICE) as bid_price from BID where SALE_NO = #{sale_no} and LOT_NO = #{lot_no}) B
+		where L.sale_no = #{sale_no}
+		and L.lot_no = #{lot_no}
+		and L.to_dt <= now();
+		]]>
+	</select>
+
+	<select id="get_sale_fee" parameterType="commonMap" resultType="commonMap">
+		select CAST(sum(FEE) AS INTEGER ) SUM_FEE from (
+		   select cast(greatest(
+					   least((#{bid_price} - (ifnull(PRICE_FROM, 1) - 1))
+						   , (ifnull(PRICE_TO, #{bid_price}) - (ifnull(PRICE_FROM, 1) - 1)))
+				   , 0) * (RATE / 100) as INTEGER ) as FEE
+		   from    SALE_BASE_FEE
+		   where 	SALE_NO = #{sale_no} and FEE_KIND_CD = 'payment'
+	   ) FEE;
+	</select>
+
+	<select id="get_lot_fee" parameterType="commonMap" resultType="commonMap">
+		select CAST(sum(FEE) AS INTEGER ) SUM_FEE from (
+		   select IF(LCHK.STAT_CD = 'end' AND IFNULL(FEE, 0) > 0, FEE, cast(greatest(
+						least((#{bid_price} - (ifnull(PRICE_FROM, 1) - 1))
+							, (ifnull(PRICE_TO, #{bid_price}) - (ifnull(PRICE_FROM, 1) - 1)))
+					, 0) * (RATE / 100) as INTEGER )) as FEE
+		   from    LOT_FEE, (SELECT IF(CAST(NOW() AS DATETIME) > MAX(TO_DT), 'end', 'ing') AS STAT_CD FROM LOT WHERE SALE_NO = #{sale_no}) LCHK
+		   where 	SALE_NO = #{sale_no} and LOT_NO = #{lot_no} and FEE_KIND_CD = 'payment'
+	   ) FEE;
+	</select>
+
+	<select id="selectLotPayByPayNo" parameterType="commonMap" resultType="commonMap">
+		select * from LOT_PAY
+		where PAY_NO = #{pay_no};
+	</select>
+
+
+
 	<!--아카데미 결제 테이블-->
 	<insert id="insertAcademyPay" parameterType="commonMap">
 		INSERT INTO ACADEMY_PAY (ACADEMY_NO, CUST_NO, PAY_NO)
@@ -84,18 +143,7 @@
 		VALUES (#{academy_no}, #{cust_no}, #{reg_emp_no}, #{payer}, now())
 	</insert>
 	<!---->
-	<update id="updateLotFeeForPayment" parameterType="commonMap">
-		update
-			LOT_FEE
-		SET
-			FEE = cast(greatest(
-					   least((#{bid_price} - (ifnull(PRICE_FROM, 1) - 1))
-						   , (ifnull(PRICE_TO, #{bid_price}) - (ifnull(PRICE_FROM, 1) - 1)))
-				   , 0) * (RATE / 100) as int)
-		  , MOD_DT = now()
-		where
-			SALE_NO = #{sale_no} and LOT_NO = #{lot_no}
-	</update>
+
 
 	<insert id="insertPayWait" parameterType="commonMap" useGeneratedKeys="true" keyProperty="pay_no" keyColumn="PAY_WAIT_NO">
 		INSERT INTO PAY_WAIT (CUST_NO, KIND_CD, REF_NO, REF_NO2, PAY_METHOD_CD, PG_CD, PG_TRANS_ID, PAYER, PAY_PRICE
@@ -143,4 +191,5 @@
 		from CUST
 		where cust_no = #{cust_no}
 	</select>
+
 </mapper>

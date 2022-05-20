@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.auth.Cryptography;
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.mapper.kt.PaymentMapper;
+import com.seoulauction.renewal.service.AuctionService;
 import com.seoulauction.renewal.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -18,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -36,6 +39,9 @@ public class PaymentController {
     String nicePayMobileBaseReturnUrl;
 
     private final PaymentService paymentService;
+    private final AuctionService auctionService;
+
+    private final PaymentMapper paymentMapper;
 
 
     @GetMapping("/member")
@@ -195,45 +201,88 @@ public class PaymentController {
     }
 
 
-    @GetMapping("work/{id}")
-    public String work(HttpServletRequest request , Locale locale) {
+    @GetMapping("sale/{saleNo}/lot/{lotNo}")
+    public String work(HttpServletRequest request , Locale locale, @PathVariable("saleNo") String saleNo, @PathVariable("lotNo") String lotNo) {
 
-        String goodsName = "정회원"; 					// 결제상품명
-        String price = "1234"; 						// 결제상품금액
+        String goodsName = "작품결제"; 					// 결제상품명
         String moid = "mnoid1234567890"; 			// 상품주문번호
-        String returnURL = "http://localhost:8080/payment/payResult"; // 결과페이지(절대경로) - 모
+        String returnURL = "http://localhost:9000/payment/workResult"; // 결과페이지(절대경로) - 모바일
 
-        String name = "김융훈"; 						// 구매자명
-        String tel = "01000000000"; 				// 구매자연락처
-        String email = "happy@day.co.kr"; 			// 구매자메일주소
-        String address  = "(02123) 경기도 부천시 양지로 234-38";
+        String name = "채수연"; 						// 구매자명
+        String tel = "01030676865"; 				// 구매자연락처
+        String email = "csy@seoulauction.com"; 			// 구매자메일주소
+        String address  = "(03004) 서울특별시 종로구 평창30길 24"; //구매자 배송주소
+
+
+        //결제작품정보
+        CommonMap payWorkInfoMap = new CommonMap();
+
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("sale_no", saleNo);
+        paramMap.put("lot_no", lotNo);
+
+
+        payWorkInfoMap = paymentService.getWorkPayInfo(paramMap);
+        Integer tmpPrice = 1234;
 
         String ediDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String signData = Cryptography.encrypt(ediDate + nicePayMerchantId + price + nicePaymerchantKey);
+        String signData = Cryptography.encrypt(ediDate + nicePayMerchantId + tmpPrice + nicePaymerchantKey);
 
-        /* attribute */
-        request.setAttribute("goodsName" , goodsName);
-        request.setAttribute("price" , price);
-        request.setAttribute("moid" , moid);
-        request.setAttribute("returnURL" , returnURL);
-
+        /* 구매자 정보 */
         request.setAttribute("name" , name);
         request.setAttribute("tel" , tel);
         request.setAttribute("email" , email);
         request.setAttribute("address" , address);
 
+        /* 결제작품정보 */
+        request.setAttribute("sale_no" , payWorkInfoMap.get("SALE_NO"));
+        request.setAttribute("lot_no" , payWorkInfoMap.get("LOT_NO"));
+        request.setAttribute("artist_name" , payWorkInfoMap.get("ARTIST_NAME_JSON"));
+        request.setAttribute("artist_bornYear" , payWorkInfoMap.get("BORN_YEAR"));
+        request.setAttribute("lot_title" , payWorkInfoMap.get("LOT_TITLE_JSON"));
+        request.setAttribute("lot_makeYear" , payWorkInfoMap.get("LOT_MAKE_YEAR"));
+        request.setAttribute("lot_size" , payWorkInfoMap.get("LOT_SIZE_JSON"));
+        request.setAttribute("no_vat_price" , payWorkInfoMap.get("no_vat_price"));
+        request.setAttribute("vat_price" , payWorkInfoMap.get("vat_price"));
+        request.setAttribute("vat" , payWorkInfoMap.get("vat"));
+        request.setAttribute("pay_price" , payWorkInfoMap.get("pay_price"));
+
+        /* attribute */
+        request.setAttribute("goodsName" , goodsName);
+        request.setAttribute("price" , tmpPrice);
+        request.setAttribute("moid" , moid);
+        request.setAttribute("returnURL" , returnURL);
+        request.setAttribute("mKey" , nicePaymerchantKey);
         request.setAttribute("mId" , nicePayMerchantId);
         request.setAttribute("signData" , signData);
         request.setAttribute("ediDate" , ediDate);
+        request.setAttribute("signData" , signData);
+        request.setAttribute("pay_kind", SAConst.PAYMENT_KIND_WORK);
+        request.setAttribute("formProcessUrl" , "/payment/workProcess");
 
-        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentWork" , locale);
+
+        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "work" , locale);
+    }
+
+    @PostMapping("/workProcess")
+    public String workProcess(HttpServletRequest request, Locale locale, RedirectAttributes attr) {
+        log.info("workProcess");
+
+        CommonMap resultMap = paymentService.paymentProcess(request);
+        attr.addAttribute("payId", resultMap.get("pay_no"));
+        attr.addAttribute("payMethod", resultMap.get("pay_method"));
+
+        return "redirect:/payment/workResult";
     }
 
     @GetMapping("/workResult")
-    public String paymentWorkResult(HttpServletRequest request , Locale locale) {
+    public String workResult(@RequestParam("payId") String payId, @RequestParam("payMethod") String payMethod, HttpServletRequest request, Locale locale) {
+        log.info("workResult");
 
+        CommonMap resultMap = paymentService.goPaymentResultWork(payMethod, payId);
+        request.setAttribute("resultMap", resultMap);
 
-        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentWorkResult" , locale);
+        return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "workResult" , locale);
     }
 
 }

@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
@@ -42,6 +44,7 @@
                                 <div class="panel-body">
 
                                     <ul class="form_table_pay">
+                                        <c:if test="${param.payMethod == 'VBANK'}">
                                         <li>
                                             <div class="account_info">
                                                 <p class="tit">가상계좌 정보</p>
@@ -60,6 +63,7 @@
                                                 </ul>
                                             </div>
                                         </li>
+                                        </c:if>
 
 
                                         <li>
@@ -70,7 +74,7 @@
                                                         <p class="img"><img src="/images/temp/temp_img2.jpg" alt="" /></p>
                                                         <dl class="product_info">
                                                             <dt class="tt4">
-                                                                데미안허스트 (1965)
+                                                                데미안허스트 (1965) ${resultMap.artist_name}
                                                                 <span class="sub_txt tb1">Air (From The Series The Elements)</span>
                                                             </dt>
                                                             <dd class="tb2">
@@ -87,11 +91,11 @@
                                                 <div class="member_pay">
                                                     <p>
                                                         <span class="tit tt5">낙찰가</span>
-                                                        <span class="won tt3">53,000,000<i class="tb1">원</i></span>
+                                                        <span class="won tt3"><fmt:formatNumber type="number" maxFractionDigits="3" value="${resultMap.no_vat_price}" /><i class="tb1">원</i></span>
                                                     </p>
                                                     <p class="fees">
                                                         <span class="tit tb1">낙찰 수수료</span>
-                                                        <span class="won tb1">10,494,000<i class="tb2">원</i></span>
+                                                        <span class="won tb1"><fmt:formatNumber type="number" maxFractionDigits="3" value="${resultMap.vat_price}" /><i class="tb2">원</i></span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -102,11 +106,11 @@
                                             <ul class="pay_info tb1">
                                                 <li>
                                                     <span class="th">이름</span>
-                                                    <span class="td">홍길동</span>
+                                                    <span class="td">${resultMap.name}</span>
                                                 </li>
                                                 <li>
                                                     <span class="th">연락처</span>
-                                                    <span class="td">010-1234-5678</span>
+                                                    <span class="td">${resultMap.tel}</span>
                                                 </li>
                                             </ul>
                                         </li>
@@ -115,13 +119,13 @@
                                             <ul class="pay_info tb1">
                                                 <li>
                                                     <span class="th">총 결제금액</span>
-                                                    <span class="td pay">낙찰가 200,000 원
-                                                        <br class="only-mb" />+ 낙찰수수료 0 원
-                                                        <br class="only-mb" />= <i class="total">총 결제금액 200,000 원</i></span>
+                                                    <span class="td pay">낙찰가 <fmt:formatNumber type="number" maxFractionDigits="3" value="${resultMap.no_vat_price}"/> 원
+                                                        <br class="only-mb" />+ 낙찰수수료 <fmt:formatNumber type="number" maxFractionDigits="3" value="${resultMap.vat_price}"/> 원
+                                                        <br class="only-mb" />= <i class="total">총 결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${resultMap.pay_price}"/> 원</i></span>
                                                 </li>
                                                 <li>
                                                     <span class="th">결제방법</span>
-                                                    <span class="td">신용/체크카드</span>
+                                                    <span class="td">${param.payMethod == 'VBANK' ? "가상계좌" : "신용/체크카드"}</span>
                                                 </li>
                                             </ul>
                                         </li>
