@@ -10,8 +10,8 @@
 			<jsp:include page="../../include/ko/header.jsp" flush="false" />
 			<script type="text/javascript" src="/js/mypage/inquiry.js"></script>
 			<!-- container -->
-			<div id="container" ng-controller="inquiryListCtl"
-				data-ng-init="loadInquiryList(1);">
+			<div id="container" class="inquiry" ng-controller="inquiryListCtl"
+				data-ng-init="loadInquiryList(1);" >
 				<div id="contents" class="contents">
 
 					<section class="basis-section last-section mypage-section">
