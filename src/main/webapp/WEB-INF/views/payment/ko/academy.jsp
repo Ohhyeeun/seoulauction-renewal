@@ -17,7 +17,7 @@
 </head>
 
 <body class="">
-    <div class="wrapper footer-bottom footer-bottom30"> 
+    <div class="wrapper footer-bottom">
         <div class="sub-wrap pageclass">
 
             <!-- header -->

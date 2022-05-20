@@ -50,23 +50,27 @@ public class S3Service {
 
         String path = s3Uploader.upload(uploadFile,S3_IMAGE_BASE_URL + "/" + tableName + "/" + rowId);
 
-        CommonMap paramMap = new CommonMap();
-        paramMap.put("name" , name);
-        paramMap.put("ext" , ext);
-        paramMap.put("path" , path);
-        paramMap.put("mimetype" , contentType);
-        paramMap.put("filesize" , fileSize);
-        paramMap.put("url" , S3_BASE_URL + path);
-        paramMap.put("cdn_url" , S3_CDN_BASE_URL + path);
+        CommonMap paramMap = null;
 
-        log.info("origName : {}" , origName );
-        log.info("ext : {}" , ext );
-        log.info("fileSize : {}" , fileSize );
-        log.info("contentType : {}" , contentType );
-        log.info("url : {}" , path );
+        if(path != null) {
 
-        s3Mapper.insertS3File(paramMap);
+            paramMap = new CommonMap();
+            paramMap.put("name", name);
+            paramMap.put("ext", ext);
+            paramMap.put("path", path);
+            paramMap.put("mimetype", contentType);
+            paramMap.put("filesize", fileSize);
+            paramMap.put("url", S3_BASE_URL + path);
+            paramMap.put("cdn_url", S3_CDN_BASE_URL + path);
 
+            log.info("origName : {}", origName);
+            log.info("ext : {}", ext);
+            log.info("fileSize : {}", fileSize);
+            log.info("contentType : {}", contentType);
+            log.info("url : {}", path);
+
+            s3Mapper.insertS3File(paramMap);
+        }
         return paramMap;
     }
 
@@ -86,7 +90,7 @@ public class S3Service {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(map !=null) {
+        if(map != null) {
             map.put("table_name", tableName);
             map.put("row_id", rowId);
             s3Mapper.insertS3FileData(map);
