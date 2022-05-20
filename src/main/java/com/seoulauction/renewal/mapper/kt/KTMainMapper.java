@@ -7,7 +7,6 @@ import java.util.List;
 
 @Mapper
 public interface KTMainMapper {
-    List<CommonMap> selectArtist();
 
     List<CommonMap> selectUpcomings();
     List<CommonMap> selectIngAuctions();

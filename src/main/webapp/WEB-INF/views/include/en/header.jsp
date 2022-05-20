@@ -35,7 +35,7 @@
         <div class="swiper-wrapper"></div>
     </div>
 
-    <div class="header-border">
+    <div>
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">KOR</a>
                 <ul class="bubble-box bubble-box01">
@@ -76,7 +76,7 @@
                 <button class="m-gnbmenu m-ver"></button>
                 <form action="" class="scroll_none">
                     <fieldset class="topsearch topsearch-en">
-                        <span class="submenuBg-closeBtn top-search-closeBtn m-ver"></span>
+                        <span class="submenuBg-closeBtn closebtn-b top-search-closeBtn m-ver"></span>
                         <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver"><button type="submit" class="topsearch-btn pc-ver"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">
