@@ -30,6 +30,7 @@
     ]]>
     </select>
 
+    <!--Newsletter-->
     <select id="selectNewsletters" parameterType="CommonMap" resultType="CommonMap">
         SELECT id, title, content, publish_at, status, created_at, updated_at
             , CASE when created_at >= DATE_ADD(NOW(), INTERVAL -7 DAY) then 'Y' else 'N' end as is_new
@@ -72,4 +73,34 @@
         ORDER BY sort
         LIMIT #{size}
     </select>
+    <select id="insertNewsletter" parameterType="CommonMap">
+        INSERT INTO newsletter_subscriber
+            ( name , email , is_subscribe )
+        VALUES
+            ( #{name} , #{email} , 'Y' )
+    </select>
+    <select id="selectNewsletterForOverlapCheck" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+            *
+        FROM
+            newsletter_subscriber
+        WHERE
+            1 = 1
+            and name  = #{name}
+            and email = #{email}
+        limit
+            1
+    </select>
+
+    <!--Popup-->
+    <select id="selectPopup" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+            *
+        FROM
+            main_popup
+--      TODO 기간설정 및 어떤걸 가져올지 설정 등등 해야함.
+--         WHERE
+--             start_dt
+    </select>
+
 </mapper>

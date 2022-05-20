@@ -12,13 +12,18 @@ public interface MainMapper {
 
     List<CommonMap> selectBeltBanners();
 
+    List<CommonMap> selectVideos(CommonMap map);
+
+    /*Popup*/
+    CommonMap selectPopup(CommonMap map);
+
+    /*Newsletter*/
     List<CommonMap> selectNewsletters(CommonMap map);
-
     CommonMap selectNewsletterById(CommonMap map);
-
     void insertNewsletter(CommonMap map);
-
     CommonMap selectNewsletterForOverlapCheck(CommonMap map);
 
-    List<CommonMap> selectVideos(CommonMap map);
+
+
+
 }

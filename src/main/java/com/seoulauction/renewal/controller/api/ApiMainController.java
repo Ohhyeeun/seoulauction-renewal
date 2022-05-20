@@ -33,6 +33,7 @@ public class ApiMainController {
         return ResponseEntity.ok(RestResponse.ok(mainService.selectBeltBanners()));
     }
 
+    /*Newsletter*/
     @GetMapping(value="/newsletters")
     public ResponseEntity<RestResponse> newsletters(
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
@@ -145,4 +146,9 @@ public class ApiMainController {
         return ResponseEntity.ok(RestResponse.ok());
     }
 
+    /*popup*/
+    @GetMapping(value="/popup")
+    public ResponseEntity<RestResponse> popup(){
+        return ResponseEntity.ok(RestResponse.ok());
+    }
 }
