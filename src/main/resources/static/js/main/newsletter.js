@@ -10,8 +10,6 @@ $(document).ready(function(){
 
     $('.subscriptBtn').click(function(){
 
-        console.log('asdfasdfasdf');
-
         if(subscript) {
 
             let email = $('#newsEmail').val();
@@ -38,6 +36,7 @@ $(document).ready(function(){
                         $('.newsletter-blackBg').fadeIn('fast');
                         $('#newsEmail').val('');
                         $('#newsName').val('');
+                        $('#subscript_check').prop('checked',false);
                     }
                 })
                 .catch(function(error){
