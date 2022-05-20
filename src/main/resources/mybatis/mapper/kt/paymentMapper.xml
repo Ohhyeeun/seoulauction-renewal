@@ -19,19 +19,25 @@
 			, VAT
 			, PAY_DT
 			, REG_DT
+			, PAY_WAIT_NO
+			, RCPT_TYPE
+			, REAL_PAYER
 		) values (
 			 #{cust_no}
 			,lower(#{pay_method})
 			, 'Y'
 			, #{pg_cd}
 			, #{pg_trans_id}
-			, #{name}
+			, #{payer}
 			, #{pay_price}
 			, #{no_vat_price}
 			, #{vat_price}
 			, #{vat}
 			, now()
 			, now()
+			, #{pay_wait_no}
+			, #{rcpt_type}
+			, #{real_payer}
 		)
 	</insert>
 

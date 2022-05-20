@@ -80,18 +80,21 @@ public class PaymentService {
             log.info("insertPay uuid: {}", request.getAttribute("uuid"));
             paramMap.put("uuid", request.getAttribute("uuid"));
             resultMap = paymentMapper.selectPayWaitByUuid(paramMap);
+            resultMap.put("rcpt_type", request.getParameter("RcptType"));
+            resultMap.put("real_payer", request.getParameter("VbankInputName"));
         }
 
         //공통 페이먼트 테이블 필요한 부분 미리 넣기.
         resultMap.put("cust_no", "117997"); //TODO: 로그인 한 유저 번호 가져와야함.
         resultMap.put("pay_method", method);
         resultMap.put("pg_trans_id", request.getParameter("TxTid"));
-        resultMap.put("name", request.getParameter("BuyerName"));
+        resultMap.put("payer", request.getParameter("BuyerName"));
         resultMap.put("pay_price", request.getParameter("Amt"));
         resultMap.put("pg_cd", SAConst.PG_NICEPAY);
         resultMap.put("no_vat_price", request.getParameter("no_vat_price"));
         resultMap.put("vat_price", request.getParameter("vat_price"));
         resultMap.put("vat", request.getParameter("vat"));
+
         paymentMapper.insertPay(resultMap);//공통적으로 넣기. insert 후 pay_no 가 map 안에 들어감.
 
         switch (request.getAttribute("pay_kind").toString()){
@@ -99,7 +102,11 @@ public class PaymentService {
                 paymentMapper.insertCustPay(resultMap);
                 break;
             case SAConst.PAYMENT_KIND_ACADEMY:
-                resultMap.put("academy_no", resultMap.get("ref_no"));
+                if(SAConst.PAYMENT_METHOD_VBANK.equals(method)) {
+                    resultMap.put("academy_no", resultMap.get("ref_no"));
+                } else {
+                    resultMap.put("academy_no", request.getParameter("academy_no"));
+                }
                 paymentMapper.insertAcademyPay(resultMap);
 
                 resultMap.put("reg_emp_no", "117997"); //TODO: 로그인 한 유저 번호 가져와야함.
