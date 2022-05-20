@@ -10,10 +10,16 @@
     </select>
 
     <select id="search_list_count" parameterType="CommonMap" resultType="CommonMap">
-        select  count(A.LOT_NO) as CNT
+        SELECT COUNT(B.LOT_NO) AS CNT, COUNT(B.ALL_SALE_KIND) AS ALL_CNT, COUNT(B.LIVE_SALE_KIND) AS LIVE_CNT, COUNT(B.ONLINE_SALE_KIND) AS ONLINE_CNT
+        FROM(
+        select  A.LOT_NO as LOT_NO,
+        (select S.SALE_KIND_CD FROM SALE S WHERE S.SALE_NO = A.SALE_NO AND A.SALE_KIND_CD IN('online', 'online_zb', 'main', 'hongkong', 'plan')) AS ALL_SALE_KIND,
+        (select S.SALE_KIND_CD FROM SALE S WHERE S.SALE_NO = A.SALE_NO AND A.SALE_KIND_CD IN('main', 'hongkong', 'plan')) AS LIVE_SALE_KIND,
+        (select S.SALE_KIND_CD FROM SALE S WHERE S.SALE_NO = A.SALE_NO AND A.SALE_KIND_CD IN('online', 'online_zb')) AS ONLINE_SALE_KIND
         from 	(
         <include refid="search_list" />
         ) A
+        ) B
     </select>
 
     <select id="search_list_paging" parameterType="CommonMap" resultType="CommonMap">
@@ -148,12 +154,24 @@
         )else now()
         end ## 온라인 경매는 진행중인것만 표시. 오프라인은 모두 표시
         and IF(CU.EMP_GB = 'N' and S.SALE_KIND_CD in ('plan', 'main', 'hongkong'), S.TO_DT &gt; current_timestamp - interval 5 year, true)
-        <if test="sale_kind != null">
-            and S.SALE_KIND_CD in (
-            <foreach collection="sale_kind" item="item" index="index" separator=",">
-                '${item}'
-            </foreach>
-            )
+        <if test="sub_page != null">
+            <choose>
+                <when test="sub_page  == 'all'">
+                    and S.SALE_KIND_CD in (
+                    'online', 'online_zb', 'main', 'hongkong', 'plan'
+                    )
+                </when>
+                <when test="sub_page  == 'live'">
+                    and S.SALE_KIND_CD in (
+                    'main', 'hongkong', 'plan'
+                    )
+                </when>
+                <when test="sub_page  == 'online'">
+                    and S.SALE_KIND_CD in (
+                    'online', 'online_zb'
+                    )
+                </when>
+            </choose>
         </if>
         <if test="from_dt != null and from_dt != ''">
             and S.TO_DT &gt;= #{from_dt}
@@ -210,13 +228,5 @@
             <otherwise>L.LOT_NO</otherwise>
         </choose>
     </sql>
-
-	<select id="selectSale" resultType="commonMap" parameterType="commonMap">
-		SELECT
-			COUNT(*)	     ROW_CNT
-		FROM CUST A , ACADEMY_REQ B , ACADEMY C
-		WHERE A.CUST_NO = B.CUST_NO AND B.ACADEMY_NO = C.ACADEMY_NO AND A.CUST_NO = #{cust_no} AND B.DEL_YN = 'N'
-	</select>
-
 
 </mapper>

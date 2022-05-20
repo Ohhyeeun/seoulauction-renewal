@@ -75,6 +75,8 @@ public class MypageService {
     	map.put("inquiryInfo", mypageMapper.selectInquiryInfo(commonMap));
     	map.put("inquiryReply", mypageMapper.selectInquiryReply(commonMap));
     	map.put("inquiryFileList", mypageMapper.selectFileList(commonMap));
+    	return map;
+    }
 
     public List<CommonMap> selectInquiryCategory(CommonMap commonMap){
         return mypageMapper.selectInquiryCategory(commonMap);

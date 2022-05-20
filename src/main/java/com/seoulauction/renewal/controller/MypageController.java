@@ -51,7 +51,8 @@ public class MypageController {
 
     @GetMapping("/inquiryDetail")
     public String inquiryView(@RequestParam(required = true ) int writeNo, Locale locale) {
-    	return SAConst.getUrl(SERVICE_MYPAGE , "inquiryDetail" , locale);
+        return SAConst.getUrl(SERVICE_MYPAGE, "inquiryDetail", locale);
+    }
 
     @GetMapping("/inquiryForm")
     public String inquiryForm(Locale locale) {

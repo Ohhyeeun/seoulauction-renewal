@@ -62,6 +62,48 @@
                 return decodeURIComponent(cValue);
             }
 
+            function size_text_cm(src, $filter){
+                var returnValue = "";
+                var cmSize = "";
+
+                cmSize = src.SIZE1 != 0 ? $filter('number')(src.SIZE1, 1) : "";
+                cmSize += src.SIZE2 != 0 ? "☓" + $filter('number')(src.SIZE2, 1) : "";
+                cmSize += src.SIZE3 != 0 ? "☓" + $filter('number')(src.SIZE3, 1) +
+                    "(" + (src.MIX_CD == "depth" ? "d" : "h")  + ")": "";
+                cmSize += cmSize != "" ? src.UNIT_CD : "";
+                cmSize += cmSize != "" &&  src.CANVAS != 0 ? " (" + (src.CANVAS_EXT_YN == "Y" ? "변형" : "") + src.CANVAS + ")" : "";
+
+                returnValue = src.PREFIX;
+                returnValue += (src.DIAMETER_YN == "Y" ? "Φ " : "") + cmSize;
+                returnValue += (src.SUFFIX ? " (" + src.SUFFIX + ") " : "");
+
+                return returnValue;
+            }
+
+            function size_text(src, $filter){
+                var returnValue = "";
+                var cmSize = "";
+                var inchSize = "";
+
+                cmSize = src.SIZE1 != 0 ? $filter('number')(src.SIZE1, 1) : "";
+                cmSize += src.SIZE2 != 0 ? "☓" + $filter('number')(src.SIZE2, 1) : "";
+                cmSize += src.SIZE3 != 0 ? "☓" + $filter('number')(src.SIZE3, 1) +
+                    "(" + (src.MIX_CD == "depth" ? "d" : "h")  + ")": "";
+                cmSize += cmSize != "" ? src.UNIT_CD : "";
+                cmSize += cmSize != "" &&  src.CANVAS != 0 ? " (" + (src.CANVAS_EXT_YN == "Y" ? "변형" : "") + src.CANVAS + ")" : "";
+
+                inchSize = src.SIZE1 != 0 ? $filter('number')(src.SIZE1 * 0.393701, 1) : "";
+                inchSize += src.SIZE2 != 0 ? "☓" + $filter('number')(src.SIZE2 * 0.393701, 1) : "";
+                inchSize += src.SIZE3 != 0 ? "☓" + $filter('number')(src.SIZE3 * 0.393701, 1) + "(" + (src.MIX_CD == "depth" ? "d" : "h")  + ")": "";
+                inchSize += inchSize != "" ? "in" : "";
+
+                returnValue = src.PREFIX;
+                returnValue += (src.DIAMETER_YN == "Y" ? "Φ " : "") + cmSize;
+                returnValue += (src.SUFFIX ? " (" + src.SUFFIX + ") " : "") + (inchSize != "" ?  ", " + inchSize : "");
+
+                return returnValue;
+            }
+
             var getLoginInfo = $("#accountBtn").next().text();
             if( getLoginInfo != "LOGOUT" ){ $(document).on('click', 'a[href="#"]', function(e){
                 e.preventDefault();
@@ -92,18 +134,29 @@
                     50:"<spring:message code='label.listup.lots' arguments='50' />",
                     100:"<spring:message code='label.listup.lots' arguments='100' />"};
 
+                $scope.checkLotDays = function(){
+                    if($scope.sale_kind_all){
+                        $scope.search.sale_kind = $scope.sale_kind_list.map(function(item) { return item.cd; });
+                    }
+                    else{
+                        $scope.search.sale_kind = [];
+                    }
+                }
                 $scope.sortBy = "ENDDE";
                 $scope.orders={
                     "ENDDE": "<spring:message code="label.sort.by.latest" />",
-                    "LOTAS": "<spring:message code="label.sort.by.LOTAS" />",
-                    "LOTDE": "<spring:message code="label.sort.by.LOTDE" />",
                     "ESTAS": "<spring:message code="label.sort.by.ESTAS" />",
                     "ESTDE": "<spring:message code="label.sort.by.ESTDE" />"};
 
+                $scope.moreBy = "PAGNG";
+                $scope.mores={
+                    "PAGNG": "<spring:message code="label.more.by.PAGNG" />",
+                    "MOREP": "<spring:message code="label.more.by.MOREP" />"};
+
                 $scope.sale_kind_list = [
-                    {"text":"<spring:message code="label.online" />", "cd":"online"},
+                    {"text":"<spring:message code="label.online" />", "cd":"online, online_zb"},
                     {"text":"<spring:message code="label.online_zb" />", "cd":"online_zb"},
-                    {"text":"<spring:message code="label.offline" />", "cd":"main"},
+                    {"text":"<spring:message code="label.offline" />", "cd":"main, hongkong, plan"},
                     {"text":"<spring:message code="label.offline.hk" />", "cd":"hongkong"},
                     {"text":"<spring:message code="label.plan" />", "cd":"plan"}];
                 /* {"text":"<spring:message code="label.exhibit" />", "cd":"exhibit"}]; */
@@ -122,7 +175,15 @@
                     $scope.sale_kind_all = false;
                 }
 
+
+                $scope.loadSubPage = function(subPage){
+                    $scope.loadLotList(1, subPage);
+                }
+
                 $scope.init = function(){
+
+                    $scope.firstChk = 0;
+
                     $scope.checkSaleKindAll();
                     $scope.search.keyword = "${param.searchContent}";
                     $scope.search.chk = "all";//검색 조건 (all 통합검색, art 작가명, title 작품명)
@@ -160,20 +221,20 @@
                     if($scope.search.keyword.length > 0){
                         if(getCookie("prev_url").indexOf("lotDetail") > -1 || getCookie("prev_url").indexOf("lotSearchList") > -1){
                             if(getCookie('page') != undefined){
-                                $scope.loadLotList(getCookie('page'));
+                                $scope.loadLotList(getCookie('page'), 'all');
                             }
                             else{
-                                $scope.loadLotList(1);
+                                $scope.loadLotList(1, 'all');
                             }
                         }
                         else{
-                            $scope.loadLotList(1);
+                            $scope.loadLotList(1, 'all');
                         }
                     }
                 }
 
                 $scope.search = function(){
-                    $scope.loadLotList(1);
+                    $scope.loadLotList(1, 'all');
                 }
 
                 $scope.clearSearchCondition = function(){
@@ -186,13 +247,17 @@
                 }
 
                 $scope.cnt = 0;
-                $scope.loadLotList = function($page){
+                $scope.loadLotList = function($page, $subPage){
+
+                    $(".product-list").empty();
+                    $(".paging").empty();
 
                     if($page > 1){
                         setCookie('prev_url', getCookie('curr_url'), 1);
                     }
 
                     setCookie('page', $page, 1);
+                    setCookie('subPage', $subPage, 1);
                     setCookie('keyword', $scope.search.keyword, 1);
                     setCookie('chk', $scope.search.chk, 1);
                     setCookie('mate_nm', $scope.search.mate_nm, 1);
@@ -200,10 +265,12 @@
                     setCookie('to_dt', $scope.search.to_dt, 1);
 
                     $scope.currentPage = $page;
+                    $scope.subPage = $subPage;
                     $api = "/sale/searchList";
 
                     let data = {};
                     data['page'] = $page;
+                    data['sub_page'] = $subPage;
                     data['size'] = name;
                     data['sale_kind'] = $scope.search.sale_kind;
                     data['keyword'] = $scope.search.keyword;
@@ -228,33 +295,46 @@
                                 lotData = JSON.parse(JSON.stringify(result.data.list));
                                 $scope.lotList = lotData;
 
+                                let cntList = JSON.parse(JSON.stringify(result.data.cntList));
+
+                                $scope.totalCount = cntList[0].CNT;
+                                $scope.allCount = cntList[0].ALL_CNT;
+                                $scope.liveCount = cntList[0].LIVE_CNT;
+                                $scope.onlineCount = cntList[0].ONLINE_CNT;
+                                $scope.pageRows = parseInt($scope.reqRowCnt);
+
                                 if(lotData.length != 0){
+
+                                    if($scope.firstChk == 0){
+                                        $("#totalCount").append($scope.totalCount);
+                                        $("#allCount").append('(' + $scope.allCount + ')');
+                                        $("#liveCount").append('(' + $scope.liveCount + ')');
+                                        $("#onlineCount").append('(' + $scope.onlineCount + ')');
+                                        $scope.firstChk = 1;
+                                    }
+
                                     $(".paging").show();
                                     let html = '<div class="paging">'
-                                             + '<a href="#"  class="prev_end icon-page_prevprev">FIRST</a>'
-                                             + '<a href="#" class="prev icon-page_prev">PREV</a>'
-                                             + '<strong class="on">1</strong>'
-                                             + '<a><em>2</em></a>'
-                                             + '<a href="#"><em>3</em></a>'
-                                             + '<a href="#"><em>4</em></a>'
-                                             + '<a href="#"><em>5</em></a>'
-                                             + '<a href="#"><em>6</em></a>'
-                                             + '<a href="#"><em>7</em></a>'
-                                             + '<a href="#"><em>8</em></a>'
-                                             + '<a href="#"><em>9</em></a>'
-                                             + '<a href="#"><em>10</em></a>'
-                                             + '<a href="#" class="next icon-page_next "><em>NEXT</em></a>'
-                                             + '<a href="#" class="next_end icon-page_nextnext">END</a></div>'
+                                        + '<a href="#"  class="prev_end icon-page_prevprev">FIRST</a>'
+                                        + '<a href="#" class="prev icon-page_prev">PREV</a>'
+                                        + '<strong class="on">1</strong>'
+                                        + '<a><em>2</em></a>'
+                                        + '<a href="#"><em>3</em></a>'
+                                        + '<a href="#"><em>4</em></a>'
+                                        + '<a href="#"><em>5</em></a>'
+                                        + '<a href="#"><em>6</em></a>'
+                                        + '<a href="#"><em>7</em></a>'
+                                        + '<a href="#"><em>8</em></a>'
+                                        + '<a href="#"><em>9</em></a>'
+                                        + '<a href="#"><em>10</em></a>'
+                                        + '<a href="#" class="next icon-page_next "><em>NEXT</em></a>'
+                                        + '<a href="#" class="next_end icon-page_nextnext">END</a></div>';
 
                                     $(".paging-area").append(html);
 
                                 } else {
                                     $(".paging").hide();
                                 }
-                                let totalCnt = JSON.parse(JSON.stringify(result.data.cnt));
-
-                                $scope.totalCount = totalCnt.CNT;
-                                $scope.pageRows = parseInt($scope.reqRowCnt);
 
                                 $.each(lotData , function(idx , el){
                                     let locale = document.documentElement.lang;
@@ -267,10 +347,14 @@
                                     const saleTitleJSON = JSON.parse(el.SALE_TITLE_JSON);
                                     let saleToDt = $filter('date')(el.SALE_TO_DT, 'yyyy-MM-dd HH:mm:ss');
 
-                                    let size1 = 'SIZE1';
-                                    let size2 = 'SIZE2';
-                                    let size3 = 'SIZE3';
+                                    let size = "";
                                     let status = "";
+
+                                    if(locale === 'ko'){
+                                        size = size_text_cm(lotSizeJSON[0], $filter);
+                                    }else{
+                                        size = size_text(lotSizeJSON[0], $filter);
+                                    }
 
                                     if(expePriceFromJSON[el.CURR_CD] == undefined) {
                                         expePriceFromJSON[el.CURR_CD] = '0';
@@ -297,21 +381,21 @@
                                         + '<div class="image-area">'
                                         + '<figure class="img-ratio">'
                                         + '<div class="img-align">'
-                                        + '<img src="' + el.LOT_IMG_PATH + '/' + el.LOT_IMG_NAME + ' " alt="' + titleJSON + '">'
+                                        + '<img src="https://www.seoulauction.com/nas_img/' + el.LOT_IMG_PATH + '/' + el.LOT_IMG_NAME + ' " alt="' + titleJSON + '">'
                                         + '</div></figure></div>'
                                         + '<div class="typo-area">'
                                         + '<div class="product_info">'
                                         + '<div class="num_heart-box">'
                                         + '<span class="num">' + el.LOT_NO + '</span>'
                                         + '<button class="heart js-work_heart">'
-                                        + '<i class="icon-heart_off" ng-if="'+ 200 +' && ' + el.INTE_LOT_DEL +'== N"></i></button></div>'
+                                        + '<i class="icon-heart_off"></i></button></div>'
                                         + '<div class="info-box">'
                                         + '<div class="title"><span>' + artistJSON[locale] + ' </span><span class="sub"> (' + el.BORN_YEAR + ')</span></div>'
                                         + '<div class="desc"><span> ' + dotSubString(titleJSON[locale], 35) + ' </span></div>'
                                         + '<div class="standard">'
                                         + '<span> ' + el.MATE_NM + ' </span>'
                                         + '<div class="size_year">'
-                                        + '<span> ' + lotSizeJSON[0] + ' </span>'
+                                        + '<span> ' + size + ' </span>'
                                         + '<span> '+ makeYearJSON[locale] +' </span></div></div></div>'
                                         + '<div class="price-box">'
                                         + '<dl class="price-list">'
@@ -331,7 +415,7 @@
                                         + '<div class="d_name"> '+ saleTitleJSON[locale] +' </div>'
                                         + '<div class="d_day"> ' + saleToDt + ' KST</div></div></div></div></div></article></div></div>';
 
-                                        $(".product-list").append(html);
+                                    $(".product-list").append(html);
                                 });
                             }
                         })
@@ -450,7 +534,7 @@
                     <div class="section-inner">
                         <div class="content-panel type_panel-search">
                             <div class="panel-header">
-                                 <div class="search_results">"<strong>${param.searchContent}</strong>" 검색결과 {{totalCount}} 개</div>
+                                <div class="search_results">"<strong>${param.searchContent}</strong>" 검색결과 <q id="totalCount"></q> 개</div>
                             </div>
                             <div class="panel-body">
                                 <div class="search-area">
@@ -459,7 +543,7 @@
                                             <input class="" type="text" placeholder="" value="${param.searchContent}">
                                             <button class="btn_del"><i class="form-search-del_lg"></i></button>
                                         </div>
-                                        <button class="btn_search"><i class="form-search_lg" ng-model="search.keyword" ng-keypress="$event.keyCode === 13 && loadLotList(1);"></i></button>
+                                        <button class="btn_search"><i class="form-search_lg" ng-model="search.keyword" ng-keypress="$event.keyCode === 13 && loadLotList(1, 'all');"></i></button>
                                     </div>
                                     <div class="suggestion-box">
                                         <div class="word">
@@ -488,9 +572,9 @@
                                 <div class="tab-wrap">
                                     <div class="tab-area type-left">
                                         <ul class="tab-list js-list_tab">
-                                            <li class="active"><a href="#tab-cont-1"><span>전체</span> <em>(30)</em></a></li>
-                                            <li><a href="#tab-cont-2"><span>라이브</span> <em>(20)</em></a></li>
-                                            <li><a href="#tab-cont-3"><span>온라인</span> <em>(10)</em></a></li>
+                                            <li class="active"><a href="" ng-click="loadSubPage('all');" ><span>전체</span> <em id="allCount"></em></a></li>
+                                            <li><a href="#tab-cont-2" ng-click="loadSubPage('live');" ><span>라이브</span> <em id="liveCount"></em></a></li>
+                                            <li><a href="#tab-cont-3" ng-click="loadSubPage('online');" ><span>온라인</span> <em id="onlineCount"></em></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -508,23 +592,19 @@
                                                 <ul class="filter-list js-filter_del-list">
                                                     <li><span>지난경매</span><button><i class="icon-filter_del"></i></button></li>
                                                     <li><span>진행경매</span><button><i class="icon-filter_del"></i></button></li>
+                                                    <li><span>예정경매</span><button><i class="icon-filter_del"></i></button></li>
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="col_item positon-col2">
                                             <div class="select-box">
-                                                <select class="select2Basic42" id="">
-                                                    <option value="1">경매 최신순</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5">5</option>
+                                                <select class="select2Basic42" ng-model="sortBy">
+                                                    <option ng-repeat="(key, value) in orders" value="{{key}}">{{value}}</option>
                                                 </select>
                                             </div>
                                             <div class="select-box">
-                                                <select class="select2Basic42 js-select_page" id="">
-                                                    <option value="1">페이지 방식</option>
-                                                    <option value="2">더보기 방식</option>
+                                                <select class="select2Basic42 js-select_page" ng-model="moreBy">
+                                                    <option ng-repeat="(key, value) in mores" value="{{key}}">{{value}}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -551,6 +631,7 @@
                                 <div class="set-pc_mb">
                                     <div class="only-pc">
                                         <div class="paging-area">
+
                                         </div>
                                     </div>
                                     <div class="only-mb">
@@ -684,6 +765,13 @@
                                             <label for="checkbox2">진행 경매</label>
                                         </span>
                                 </li>
+                                <li>
+                                        <span class="trp checkbox-box">
+                                            <input id="checkbox3" type="checkbox" name="">
+                                            <i></i>
+                                            <label for="checkbox3">예정 경매</label>
+                                        </span>
+                                </li>
                             </ul>
                         </div>
                     </li>
@@ -696,7 +784,7 @@
                         <div class="accordion-body">
                             <ul class="check-list">
                                 <li>
-                                    <input type="text" placeholder="작품재질 입력">
+                                    <input type="text" placeholder="작품재질 입력" ng-model="search.mate_nm">
                                 </li>
                             </ul>
                         </div>
@@ -708,7 +796,7 @@
         </div>
         <div class="panel-footer">
             <div class="btn_set">
-                <div class="btn_item"><a class="btn btn_point btn_lg" href="#" role="button"><span>필터적용</span></a> </div>
+                <div class="btn_item"><a class="btn btn_point btn_lg" href="#" role="button" ng-keypress="$event.keyCode === 13 && loadLotList(1, 'all');"><span>필터적용</span></a> </div>
             </div>
         </div>
     </div>

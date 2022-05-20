@@ -22,7 +22,6 @@ import com.seoulauction.renewal.common.RestResponse;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.service.LoginService;
-import com.seoulauction.renewal.service.MessageService;
 import com.seoulauction.renewal.utill.CaptchaUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -37,7 +36,6 @@ public class ApiLoginController {
 
 	private final LoginService loginService;
 
-	private final MessageService messageService;
 	
 	@Value("${mobile.msg.callback}")
 	String callback;
