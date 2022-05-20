@@ -58,6 +58,11 @@ public class ApiMainController {
         return ResponseEntity.ok(RestResponse.ok(mainService.selectNewsletterById(map)));
     }
 
+    /*popup*/
+    @GetMapping(value="/popup")
+    public ResponseEntity<RestResponse> popup(){
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectPopup()));
+    }
     @PostMapping(value="/newsletters")
     public ResponseEntity<RestResponse> insertNewsletter(
             @RequestBody CommonMap map) {
@@ -143,12 +148,6 @@ public class ApiMainController {
 			throw new SAException("로그인이 필요합니다."); 
 		}
     	
-        return ResponseEntity.ok(RestResponse.ok());
-    }
-
-    /*popup*/
-    @GetMapping(value="/popup")
-    public ResponseEntity<RestResponse> popup(){
         return ResponseEntity.ok(RestResponse.ok());
     }
 }

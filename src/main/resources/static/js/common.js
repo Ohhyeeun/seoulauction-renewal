@@ -1,4 +1,3 @@
-
 $(function(){
 
     const locale = document.documentElement.lang;
@@ -16,7 +15,6 @@ $(function(){
     if(sessionStorage.getItem("is_login") === "true"){
         setMyMenuBadge();
     }
-
 
     function loadIngAuctionList(){
 
@@ -353,10 +351,10 @@ function closeToday(cookieName){
 
 // 쿠키 가져오기
 function getCookie(name) {
-    var nameOfCookie = name + "=";
-    var x = 0;
+    const nameOfCookie = name + "=";
+    let x = 0;
     while (x <= document.cookie.length) {
-        var y = (x + nameOfCookie.length);
+        const y = (x + nameOfCookie.length);
         if (document.cookie.substring(x, y) == nameOfCookie) {
             if ((endOfCookie = document.cookie.indexOf(";", y)) == -1)
                 endOfCookie = document.cookie.length;
@@ -369,14 +367,12 @@ function getCookie(name) {
     return "";
 }
 
-
 // 만료 후 클릭한 시간까지 쿠키 설정
 function setCookie(name, value, expiredays) {
-    var todayDate = new Date();
+    const todayDate = new Date();
     todayDate.setDate(todayDate.getDate() + expiredays);
     document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
 }
-
 
 //숫자를 천단위마다 콤마 해줌.
 function numberWithCommas(x) {

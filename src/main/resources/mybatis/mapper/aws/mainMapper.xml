@@ -73,14 +73,22 @@
         LIMIT #{size}
     </select>
     <!--Popup-->
-    <select id="selectPopup" parameterType="CommonMap" resultType="CommonMap">
-        SELECT
-            *
-        FROM
-            main_popup
---      TODO 기간설정 및 어떤걸 가져올지 설정 등등 해야함.
---         WHERE
---             start_dt
+    <select id="selectPopup" resultType="CommonMap">
+        <![CDATA[
+            SELECT
+                *
+            FROM
+                main_popup
+            WHERE
+                popup_type = 'bottom-right'
+                and status = 'A'
+                and start_at <= (now() + interval 9 hour)
+                and end_at >= (now() + interval 9 hour)
+            ORDER BY
+                sort DESC
+            LIMIT
+                1
+        ]]>
     </select>
 
 </mapper>

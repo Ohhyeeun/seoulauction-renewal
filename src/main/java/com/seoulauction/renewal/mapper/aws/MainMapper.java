@@ -8,14 +8,14 @@ import java.util.List;
 @Mapper
 public interface MainMapper {
 
+    /*Popup*/
+    CommonMap selectPopup();
+
     List<CommonMap> selectTopNotice();
 
     List<CommonMap> selectBeltBanners();
 
     List<CommonMap> selectVideos(CommonMap map);
-
-    /*Popup*/
-    CommonMap selectPopup(CommonMap map);
 
     /*Newsletter*/
     List<CommonMap> selectNewsletters(CommonMap map);

@@ -15,15 +15,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.springframework.stereotype.Service;
-
-import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.exception.SAException;
-import com.seoulauction.renewal.mapper.aws.MainMapper;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -31,7 +22,6 @@ public class MainService {
 
     private final MainMapper mainMapper;
     private final KTMainMapper ktMainMapper;
-
 
 
     public List<CommonMap> selectTopNotice() {
@@ -45,6 +35,9 @@ public class MainService {
     public List<CommonMap> selectNewsletters(CommonMap map) {
         return mainMapper.selectNewsletters(map);
     }
+
+    public CommonMap selectPopup() {return mainMapper.selectPopup();}
+
 
     public CommonMap selectNewsletterById(CommonMap map) {
         return mainMapper.selectNewsletterById(map);
