@@ -90,7 +90,7 @@ public class S3Service {
         }
     }
 
-    public List<CommonMap> getS3FileData(String tableName , String rowId) {
+    public List<CommonMap> getS3FileData(String tableName , Object rowId) {
         CommonMap map =new CommonMap();
         map.put("table_name",tableName);
         map.put("row_id",rowId);

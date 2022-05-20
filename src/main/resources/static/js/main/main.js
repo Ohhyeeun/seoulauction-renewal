@@ -500,7 +500,7 @@ function loadPopup(){
 
                     $('#main_popup_title').html(data.title);
                     $('#main_popup_content').html(data.content);
-                    $('#main_popup_img').attr('src', 'https://public.seoulauction.xyz/resources/images/popup/pop_event.jpg');
+                    $('#main_popup_img').attr('src', data.images[1].cdn_url);
 
                     $('.main-popup-close, .main-popupBg').click(function () {
                         $('.main-popupbox').addClass('down');

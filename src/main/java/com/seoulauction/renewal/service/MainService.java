@@ -22,7 +22,7 @@ public class MainService {
 
     private final MainMapper mainMapper;
     private final KTMainMapper ktMainMapper;
-
+    private final S3Service s3Service;
 
     public List<CommonMap> selectTopNotice() {
         return mainMapper.selectTopNotice();
@@ -36,8 +36,11 @@ public class MainService {
         return mainMapper.selectNewsletters(map);
     }
 
-    public CommonMap selectPopup() {return mainMapper.selectPopup();}
-
+    public CommonMap selectPopup() {
+        CommonMap map = mainMapper.selectPopup();
+        map.put("images", s3Service.getS3FileData("main_popup", map.get("id")));
+        return map;
+    }
 
     public CommonMap selectNewsletterById(CommonMap map) {
         return mainMapper.selectNewsletterById(map);
