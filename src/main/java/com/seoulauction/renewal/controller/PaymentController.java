@@ -1,5 +1,7 @@
 package com.seoulauction.renewal.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.auth.Cryptography;
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -43,30 +46,41 @@ public class PaymentController {
         String moid = "mnoid1234567890"; 			// 상품주문번호
         String returnURL = nicePayMobileBaseReturnUrl + "/payment/memberResult"; // 결과페이지(절대경로) - 모
 
-        String name = "김융훈"; 						// 구매자명
-        String tel = "01000000000"; 				// 구매자연락처
+        String cust_name = "김융훈"; 						// 구매자명
+        String hp = "01000000000"; 				// 구매자연락처
         String email = "happy@day.co.kr"; 			// 구매자메일주소
         String address  = "(02123) 경기도 부천시 양지로 234-38";
 
-        String eDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String signData = Cryptography.encrypt(eDate + nicePayMerchantId + price + nicePaymerchantKey);
+        String ediDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String signData = Cryptography.encrypt(ediDate + nicePayMerchantId + price + nicePaymerchantKey);
+
+        //TODO: 과세, 면세 확인
+        int vat_price = (int) (price / 1.1);
+        int vat = price - vat_price;
+        int no_vat_price = 0;
 
         /* attribute */
         request.setAttribute("goodsName" , goodsName);
+
         request.setAttribute("price" , price);
-        request.setAttribute("de_price" , SAConst.DECIMAL_FORMAT.format(price));
+        request.setAttribute("no_vat_price", no_vat_price);
+        request.setAttribute("vat_price", vat_price);
+        request.setAttribute("vat", vat);
+
         request.setAttribute("moid" , moid);
         request.setAttribute("returnURL" , returnURL);
 
-        request.setAttribute("name" , name);
-        request.setAttribute("tel" , tel);
+        request.setAttribute("cust_name" , cust_name);
+        request.setAttribute("hp" , hp);
         request.setAttribute("email" , email);
         request.setAttribute("address" , address);
 
-        request.setAttribute("mKey" , nicePaymerchantKey);
         request.setAttribute("mId" , nicePayMerchantId);
         request.setAttribute("signData" , signData);
-        request.setAttribute("eDate" , eDate);
+        request.setAttribute("ediDate" , ediDate);
+
+        request.setAttribute("uuid", UUID.randomUUID().toString().replace("-", ""));
+        request.setAttribute("pay_kind", SAConst.PAYMENT_KIND_MEMBERSHIP);
 
         request.setAttribute("formProcessUrl" , "/payment/memberProcess");
 
@@ -76,7 +90,7 @@ public class PaymentController {
     @PostMapping("/memberProcess")
     public String memberProcess(HttpServletRequest request , RedirectAttributes attr) {
 
-        CommonMap resultMap = paymentService.paymentProcess(SAConst.PAYMENT_KIND_MEMBERSHIP , request);
+        CommonMap resultMap = paymentService.paymentProcess(request);
 
         attr.addAttribute("payId", resultMap.get("pay_no"));
         attr.addAttribute("payMethod", resultMap.get("pay_method"));
@@ -91,15 +105,8 @@ public class PaymentController {
             ,@RequestParam(value = "payId") String payId
             ,Locale locale) {
 
-        String address  = "(02123) 경기도 부천시 양지로 234-38";
-        String buyerTell  = "010-9999-9843";
-        CommonMap resultMap = paymentService.getPaymentForPayResult(payMethod ,payId);
-
-        request.setAttribute("address" , address);
-        request.setAttribute("name", resultMap.get("payer"));
-        request.setAttribute("tel" , buyerTell);
-        request.setAttribute("method" , payMethod);
-        request.setAttribute("price" , resultMap.get("pay_price"));
+        CommonMap resultMap = paymentService.getPaymentForPayResult(payMethod, payId);
+        request.setAttribute("resultMap", resultMap);
 
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "memberResult" , locale);
     }
@@ -109,15 +116,13 @@ public class PaymentController {
         // select cust
         // select academy
 
-        String merchantKey 		= nicePaymerchantKey; // 상점키
-        String merchantID 		= nicePayMerchantId; 				// 상점아이디
-        String goodsName 		= "나이스페이"; 					// 결제상품명
+        String goodsName 		= "서울옥션-아카데미"; 					// 결제상품명
         int price 			    = 1100; 						// 결제상품금액
-        String buyerName 		= "김선진"; 						// 구매자명
-        String buyerTel 		= "01033720384"; 				// 구매자연락처
-        String buyerEmail 		= "sjk@seoulauction.com"; 			// 구매자메일주소
+        String cust_name 		= "김선진"; 						// 구매자명
+        String hp 		        = "01033720384"; 				// 구매자연락처
+        String email 		    = "sjk@seoulauction.com"; 			// 구매자메일주소
         String moid 			= "mnoid1234567890"; 			// 상품주문번호
-        String returnURL 		= nicePayMobileBaseReturnUrl +"/payment/paymentTuitionProcess"; // 결과페이지(절대경로) - 모바일 결제창 전용
+        String returnURL 		= nicePayMobileBaseReturnUrl +"/payment/academyProcess"; // 결과페이지(절대경로) - 모바일 결제창 전용
 
         //TODO: 과세, 면세 확인
         int vat_price = (int) (price / 1.1);
@@ -131,24 +136,29 @@ public class PaymentController {
          *******************************************************
          */
         String ediDate 			= new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String hashString 		= Cryptography.encrypt(ediDate + nicePayMerchantId + price + nicePaymerchantKey);
+        String signData 		= Cryptography.encrypt(ediDate + nicePayMerchantId + price + nicePaymerchantKey);
 
-        request.setAttribute("merchantKey", merchantKey);
-        request.setAttribute("merchantID", merchantID);
         request.setAttribute("goodsName", goodsName);
+
         request.setAttribute("price", price);
+        request.setAttribute("no_vat_price", no_vat_price);
         request.setAttribute("vat_price", vat_price);
         request.setAttribute("vat", vat);
+
         request.setAttribute("academy_no", id);
-        request.setAttribute("no_vat_price", no_vat_price);
-        request.setAttribute("buyerName", buyerName);
-        request.setAttribute("buyerTel", buyerTel);
-        request.setAttribute("buyerEmail", buyerEmail);
+
+        request.setAttribute("cust_name", cust_name);
+        request.setAttribute("hp", hp);
+        request.setAttribute("email", email);
         request.setAttribute("moid", moid);
         request.setAttribute("returnURL", returnURL);
-        request.setAttribute("ediDate", ediDate);
-        request.setAttribute("hashString", hashString);
+
+        request.setAttribute("mId" , nicePayMerchantId);
+        request.setAttribute("signData" , signData);
+        request.setAttribute("ediDate" , ediDate);
+
         request.setAttribute("uuid", UUID.randomUUID().toString().replace("-", ""));
+        request.setAttribute("pay_kind", SAConst.PAYMENT_KIND_ACADEMY);
 
         request.setAttribute("formProcessUrl" , "/payment/academyProcess");
 
@@ -159,7 +169,15 @@ public class PaymentController {
     public String academyProcess(HttpServletRequest request, Locale locale, RedirectAttributes attr) {
         log.info("academyProcess");
 
-        CommonMap resultMap = paymentService.paymentProcess(SAConst.PAYMENT_KIND_ACADEMY, request);
+        Enumeration params = request.getParameterNames();
+        log.info("param start----------------------------");
+        while (params.hasMoreElements()){
+            String name = (String)params.nextElement();
+            log.info(name + " : " +request.getParameter(name));
+        }
+        log.info("param end----------------------------");
+
+        CommonMap resultMap = paymentService.paymentProcess(request);
         attr.addAttribute("payId", resultMap.get("pay_no"));
         attr.addAttribute("payMethod", resultMap.get("pay_method"));
 
@@ -190,8 +208,8 @@ public class PaymentController {
         String email = "happy@day.co.kr"; 			// 구매자메일주소
         String address  = "(02123) 경기도 부천시 양지로 234-38";
 
-        String eDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String signData = Cryptography.encrypt(eDate + nicePayMerchantId + price + nicePaymerchantKey);
+        String ediDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String signData = Cryptography.encrypt(ediDate + nicePayMerchantId + price + nicePaymerchantKey);
 
         /* attribute */
         request.setAttribute("goodsName" , goodsName);
@@ -204,11 +222,9 @@ public class PaymentController {
         request.setAttribute("email" , email);
         request.setAttribute("address" , address);
 
-        request.setAttribute("mKey" , nicePaymerchantKey);
         request.setAttribute("mId" , nicePayMerchantId);
         request.setAttribute("signData" , signData);
-        request.setAttribute("eDate" , eDate);
-        request.setAttribute("signData" , signData);
+        request.setAttribute("ediDate" , ediDate);
 
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "paymentWork" , locale);
     }

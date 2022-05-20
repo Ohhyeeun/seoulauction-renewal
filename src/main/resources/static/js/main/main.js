@@ -18,7 +18,7 @@ var request = new Request();
 
 //이중접속 팝업
 var maxSession = request.getParameter("maxSession");
-if(maxSession == 'true'){
+if(maxSession.startsWith('true')){
 	var popup_concurrent = $(".js-popup_concurrent").trpLayerFixedPopup("#popup_concurrent-wrap");
 	popup_concurrent.open(this); // or false   
 	popup_fixation("#popup_concurrent-wrap"); // pc_하단붙이기
@@ -118,6 +118,9 @@ window.onload = function(){
 
     //띠배너
     loadBeltBanner();
+
+    //팝업.
+    loadPopup();
 
 }
 
@@ -475,13 +478,42 @@ $('.subscriptBtn').click(function(){
 });
 
 /* 메인 레이어 팝업 */
-$('.main-popup-img').hide();
-$('.main-popup-txt').hide(); /* flexbox 처리로 hide */
 
-$('.main-popup-img.on').show();
-$('.main-popup-txt.on').show();
-
-$('.main-popup-close, .main-popupBg').click(function(){
-    $('.main-popupbox').addClass('down');
-    $('.main-popupBg').fadeOut();
+//오늘 하루 그만보기 기능.
+$('#main_popup_today_stop_btn').on('click',function (){
+    closeToday('main-popup');
 });
+//메인 팝업 불러오기.
+function loadPopup(){
+
+    $('.main-popupBg').hide();
+
+    //오늘 하루 쿠키가 없을 때.
+    if(!getCookie('main-popup')) {
+        axios.get('api/main/popup')
+            .then(function (response) {
+                const success = response.data.success;
+                if (success) {
+                    const data = response.data.data;
+                    console.log(data);
+                    $('.main-popupBg').show();
+
+                    $('#main_popup_title').html(data.title);
+                    $('#main_popup_content').html(data.content);
+                    $('#main_popup_img').attr('src', data.images[1]);
+
+                    $('.main-popup-close, .main-popupBg').click(function () {
+                        $('.main-popupbox').addClass('down');
+                        $('.main-popupBg').fadeOut();
+                    });
+
+                    console.log(data);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+}
+
+

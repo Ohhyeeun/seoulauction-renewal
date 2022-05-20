@@ -137,4 +137,10 @@
 		FROM academy a
 		WHERE academy_no = #{academy_no}
 	</select>
+
+	<select id="selectCustByCustNo" parameterType="CommonMap" resultType="CommonMap">
+		select cust_no, login_id, cust_name, hp, email, addr, addr_dtl
+		from CUST
+		where cust_no = #{cust_no}
+	</select>
 </mapper>

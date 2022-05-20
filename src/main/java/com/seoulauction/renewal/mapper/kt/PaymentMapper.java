@@ -21,4 +21,6 @@ public interface PaymentMapper {
 
     CommonMap selectAcademyPayByPayNo(CommonMap map);
     CommonMap selectAcademyByAcademyNo(CommonMap map);
+
+    CommonMap selectCustByCustNo(CommonMap map);
 }

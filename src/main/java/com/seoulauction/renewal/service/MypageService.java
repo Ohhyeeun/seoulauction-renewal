@@ -112,7 +112,7 @@ public class MypageService {
     	map.put("action_user_no", principal.getName());
     	map.put("action_user_ip", request.getRemoteAddr());
     	int result = 0;
-    	//mypageMapper.insertInquiryWrite(map);
+    	mypageMapper.insertInquiryWrite(map);
 
     	try {	
     		List<MultipartFile> fileList = request.getFiles("file");
