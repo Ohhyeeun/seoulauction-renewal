@@ -49,4 +49,16 @@
             and sd.group_name = #{table_name}
             and sd.row_id = #{row_id}
     </select>
+    <select id="selectS3FileDataForOne" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+            *
+        FROM
+            s3file s , s3file_data sd
+        WHERE
+            s.id = sd.s3file_id
+          and sd.group_name = #{table_name}
+          and sd.row_id = #{row_id}
+        limit
+            1
+    </select>
 </mapper>

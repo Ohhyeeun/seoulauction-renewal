@@ -108,4 +108,13 @@ public class S3Service {
         return resultMap.stream().map(c->c.getString("cdn_url")).collect(Collectors.toList());
     }
 
+    public String getS3FileDataForOne(String tableName , Object rowId) {
+        CommonMap map =new CommonMap();
+        map.put("table_name",tableName);
+        map.put("row_id",rowId);
+        CommonMap resultMap = s3Mapper.selectS3FileDataForOne(map);
+        return Optional.ofNullable(resultMap).map(c->c.getString("cdn_url"))
+                .orElse("");
+    }
+
 }
