@@ -318,6 +318,7 @@
     background-color: #333;
     color: #333;
     font-weight: bold;
+    margin-top: 2px;
 }
 .auctionTab-btn.on {
     color: #333;
