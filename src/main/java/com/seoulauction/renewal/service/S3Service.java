@@ -11,7 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -90,11 +93,15 @@ public class S3Service {
         }
     }
 
-    public List<CommonMap> getS3FileData(String tableName , Object rowId) {
+
+    //img str 을 리턴.
+    public List<String> getS3FileData(String tableName , Object rowId) {
         CommonMap map =new CommonMap();
         map.put("table_name",tableName);
         map.put("row_id",rowId);
-        return s3Mapper.selectS3FileData(map);
+        List<CommonMap> resultMap = s3Mapper.selectS3FileData(map);
+        log.info("resultMap : {}" , resultMap);
+        return resultMap.stream().map(c->c.getString("cdn_url")).collect(Collectors.toList());
     }
 
 }
