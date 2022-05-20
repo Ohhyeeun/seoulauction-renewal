@@ -29,7 +29,6 @@
         order by mb.sort desc;
     ]]>
     </select>
-
     <!--Newsletter-->
     <select id="selectNewsletters" parameterType="CommonMap" resultType="CommonMap">
         SELECT id, title, content, publish_at, status, created_at, updated_at
@@ -73,25 +72,6 @@
         ORDER BY sort
         LIMIT #{size}
     </select>
-    <select id="insertNewsletter" parameterType="CommonMap">
-        INSERT INTO newsletter_subscriber
-            ( name , email , is_subscribe )
-        VALUES
-            ( #{name} , #{email} , 'Y' )
-    </select>
-    <select id="selectNewsletterForOverlapCheck" parameterType="CommonMap" resultType="CommonMap">
-        SELECT
-            *
-        FROM
-            newsletter_subscriber
-        WHERE
-            1 = 1
-            and name  = #{name}
-            and email = #{email}
-        limit
-            1
-    </select>
-
     <!--Popup-->
     <select id="selectPopup" parameterType="CommonMap" resultType="CommonMap">
         SELECT
