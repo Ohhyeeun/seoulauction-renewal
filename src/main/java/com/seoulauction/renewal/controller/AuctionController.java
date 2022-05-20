@@ -1,25 +1,17 @@
 package com.seoulauction.renewal.controller;
 
 import com.seoulauction.renewal.common.SAConst;
-import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.domain.SAUserDetails;
-import com.seoulauction.renewal.service.AuctionService;
-import com.seoulauction.renewal.service.LoginService;
+import com.seoulauction.renewal.service.SaleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.security.Principal;
 import java.util.Locale;
 
 @Controller
@@ -28,7 +20,7 @@ import java.util.Locale;
 @RequestMapping(SAConst.SERVICE_AUCTION)
 public class AuctionController {
 
-    private final AuctionService loginService;
+    private final SaleService saleService;
     
     @GetMapping("/online/view")
     public String view(Locale locale, Model model
@@ -42,6 +34,9 @@ public class AuctionController {
     		log.info("referrer : {}",referrer);
     		request.getSession().setAttribute("prevPage", referrer);
     	}*/
+
+
+
 
         model.addAttribute("saleNo", saleNo);
         model.addAttribute("lotNo", lotNo);

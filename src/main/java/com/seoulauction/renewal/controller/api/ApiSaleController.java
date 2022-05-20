@@ -1,0 +1,271 @@
+package com.seoulauction.renewal.controller.api;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.seoulauction.renewal.common.RestResponse;
+import com.seoulauction.renewal.domain.Bid;
+import com.seoulauction.renewal.domain.Bidder;
+import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.service.SaleService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
+import java.util.*;
+
+@RestController
+@Log4j2
+@RequiredArgsConstructor
+@RequestMapping("api/auction")
+public class ApiSaleController {
+
+    private final static Logger logger = LoggerFactory.getLogger(ApiSaleController.class);
+
+    private final SaleService saleService;
+
+    @Value("${image.root.path}")
+    private String IMAGE_URL;
+
+    private WebClient webClient = WebClient.builder()
+            .baseUrl("http://localhost:8002")
+            .build();
+
+    @RequestMapping(value="/bid", method = RequestMethod.POST)
+    public ResponseEntity<RestResponse> bid(@RequestBody CommonMap map, HttpServletRequest req, HttpServletResponse res) {
+
+        // 비드정보 설정
+        Bid bid = new Bid();
+        Bidder bidder = new Bidder();
+
+        bidder.setSaleNo((int)map.get("sale_no"));
+        bidder.setLotNo((int)map.get("lot_no"));
+        bidder.setSaleType((int)map.get("sale_type"));
+        bidder.setBidType((int)map.get("bid_type"));
+        bidder.setToken(map.get("bid_token").toString());
+
+        // 비딩금액 저장
+        bid.setBidCost((int)map.get("bid_cost"));
+
+        // 비더정보
+        bid.setBidder(bidder);
+
+        // 웹소켓에 데이타 전송
+        webClient.post().uri("/bid")
+                .bodyValue(bid)
+                .retrieve()
+                .bodyToMono(Bid.class)
+                .block();
+
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
+    @RequestMapping(value="/sale_info/{sale_no}", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> saleInfo(HttpServletRequest req, HttpServletResponse res, Locale locale,
+                                                 @PathVariable("sale_no") int saleNo) {
+        CommonMap c = new CommonMap();
+        c.put("sale_no", saleNo);
+
+        CommonMap saleInfoMap = saleService.selectSaleInfo(c);
+
+        return ResponseEntity.ok(RestResponse.ok(saleInfoMap));
+    }
+
+    @RequestMapping(value="/exch_rate_list", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> exchRateList(@RequestParam CommonMap map,
+                                                     HttpServletRequest req, HttpServletResponse res) {
+        List<CommonMap> exchRateList = saleService.selectExchRateList(map);
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
+
+    @RequestMapping(value="/lot_info/{sale_no}/{lot_no}", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> lotInfo(HttpServletRequest req,
+                                                HttpServletResponse res,
+                                                Locale locale,
+                                                @PathVariable("sale_no") int saleNo,
+                                                @PathVariable("lot_no") int lotNo) throws JsonProcessingException {
+
+
+        CommonMap map = new CommonMap();
+        map.put("sale_no", saleNo);
+        map.put("lot_no", lotNo);
+
+        // 세일 정보
+        CommonMap saleInfoMap = saleService.selectSaleInfo(map);
+        // 랏 정보 가져오기
+        CommonMap lotInfoMap = saleService.selectLotInfo(map);
+
+        Gson g = new Gson();
+
+        // 아티스트 정보
+        String artistNameJson = String.valueOf(lotInfoMap.get("ARTIST_NAME_JSON"));
+        logger.info(artistNameJson);
+
+        Type type = new TypeToken<Map<String, Object>>(){}.getType();
+
+        Map<String, Object> artistNameJsonObject = g.fromJson(artistNameJson, type);
+
+        // artist filter DB화 필요
+        List<String> artistFilters = new ArrayList<>();
+        artistFilters.add("김환기");
+        artistFilters.add("박수근");
+
+        // 아티스트 필터
+        for (var item : artistFilters) {
+            if (artistNameJsonObject.get(locale.getLanguage()).equals(item)) {
+                lotInfoMap.put("IMAGE_MAGNIFY", false);
+                break;
+            }
+        }
+
+        // 한국일때 홍콩, 홍콩일때 한국
+        Map<String, String> baseCurrency = new HashMap<String, String>();
+        baseCurrency.put("KRW", "HKD");
+        baseCurrency.put("HKD", "KRW");
+
+        // 현재 베이스 화폐
+        String currCd = String.valueOf(saleInfoMap.get("CURR_CD"));
+        // sub 화폐
+        String subCurrCd = String.valueOf(baseCurrency.get(currCd));
+
+        // 추정가 정보
+        String expePriceToJson = String.valueOf(lotInfoMap.get("EXPE_PRICE_TO_JSON"));
+        String expePriceFromJson = String.valueOf(lotInfoMap.get("EXPE_PRICE_FROM_JSON"));
+        String lotSizeFromJson = String.valueOf(lotInfoMap.get("LOT_SIZE_JSON"));
+        String signInfoJson = String.valueOf(lotInfoMap.get("SIGN_INFO_JSON"));
+        String condRptJson = String.valueOf(lotInfoMap.get("COND_RPT_JSON"));
+        String profileJson = String.valueOf(lotInfoMap.get("PROFILE_JSON"));
+
+        ObjectMapper mapper  = new ObjectMapper();
+
+        Map<String, Object> expePriceToJsonObject = mapper.readValue(expePriceToJson, Map.class);
+        Map<String, Object> expePriceFromJsonObject = mapper.readValue(expePriceFromJson, Map.class);
+        List<Map<String, Object>> lotSizeFromJsonObject = mapper.readValue(lotSizeFromJson, List.class);
+        Map<String, Object> profileJsonObject = mapper.readValue(profileJson, Map.class);
+        Map<String, Object> condRptJsonObject = mapper.readValue(condRptJson, Map.class);
+        Map<String, Object> signInfoJsonObject = mapper.readValue(signInfoJson, Map.class);
+
+        lotInfoMap.put("LOT_SIZE_JSON", lotSizeFromJsonObject);
+        lotInfoMap.put("SIGN_INFO_JSON", signInfoJsonObject);
+        lotInfoMap.put("COND_RPT_JSON", condRptJsonObject);
+        lotInfoMap.put("PROFILE_JSON", profileJsonObject);
+
+        String expeToBaseCurrency = expePriceToJsonObject.get(currCd) + currCd;
+        String expeFromBaseCurrency = expePriceFromJsonObject.get(currCd) + currCd;
+
+        String expeToSubCurrency = expePriceToJsonObject.get(subCurrCd) + subCurrCd;
+        String expeFromSubCurrency = expePriceFromJsonObject.get(subCurrCd) + subCurrCd;
+
+        String expeToUsdCurrency = expePriceToJsonObject.get("USD") + "USD";
+        String expeFromUsdCurrency = expePriceFromJsonObject.get("USD") + "USD";
+
+        // base expe to price
+        lotInfoMap.put("BASE_EXPE_TO_PRICE", expeToBaseCurrency);
+        lotInfoMap.put("BASE_EXPE_FROM_PRICE", expeFromBaseCurrency);
+
+        // sub expe to price
+        lotInfoMap.put("SUB_EXPE_TO_PRICE", expeToSubCurrency);
+        lotInfoMap.put("SUB_EXPE_FROM_PRICE", expeFromSubCurrency);
+
+        // usd expe to price
+        lotInfoMap.put("USD_EXPE_TO_PRICE", expeToUsdCurrency);
+        lotInfoMap.put("USD_EXPE_FROM_PRICE", expeFromUsdCurrency);
+
+        return ResponseEntity.ok(RestResponse.ok(lotInfoMap));
+    }
+
+    @RequestMapping(value="/sale_images/{sale_no}/{lot_no}", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> saleImages(HttpServletRequest req,
+                                                  HttpServletResponse res,
+                                                  Locale locale,
+                                                  @PathVariable("sale_no") int saleNo,
+                                                  @PathVariable("lot_no") int lotNo) {
+
+        CommonMap map = new CommonMap();
+        map.put("sale_no", saleNo);
+        map.put("lot_no", lotNo);
+
+        // 랏 이미지 정보 가져오기
+        List<CommonMap> lotImages = saleService.selectSaleLotImages(map);
+
+        // 필터를 적용한 새로운 랏이미지 정보
+        List<CommonMap> lotImagesNew = new ArrayList<>();
+
+        // 랏 디스플레이 필터
+        for (var item : lotImages) {
+            CommonMap lotImagesNewItem = new CommonMap();
+            for (var k : new ArrayList<>(item.keySet())){
+                lotImagesNewItem.put(k, item.get(k));
+            }
+            lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
+            lotImagesNew.add(lotImagesNewItem);
+        }
+        return ResponseEntity.ok(RestResponse.ok(lotImages));
+    }
+
+
+    @RequestMapping(value="/lot_images/{sale_no}/{lot_no}", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> lotImages(HttpServletRequest req,
+                                                  HttpServletResponse res,
+                                                  Locale locale,
+                                                  @PathVariable("sale_no") int saleNo,
+                                                  @PathVariable("lot_no") int lotNo) {
+
+        CommonMap map = new CommonMap();
+        map.put("sale_no", saleNo);
+        map.put("lot_no", lotNo);
+
+        // 랏 정보 가져오기
+        CommonMap lotInfoMap = saleService.selectLotInfo(map);
+        // 랏 이미지 정보 가져오기
+        List<CommonMap> lotImages = saleService.selectLotImages(map);
+        // 필터를 적용한 새로운 랏이미지 정보
+        List<CommonMap> lotImagesNew = new ArrayList<>();
+
+        // 랏 디스플레이 필터
+        for (var item : lotImages) {
+            CommonMap lotImagesNewItem = new CommonMap();
+            for (var k : new ArrayList<>(item.keySet())){
+                lotImagesNewItem.put(k, item.get(k));
+            }
+            if (lotInfoMap.get("IMG_DISP_YN").equals("N")) {
+                lotImagesNewItem.put("FILE_PATH", "/images/bg/no_image.jpg");
+            }
+            lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
+            lotImagesNew.add(lotImagesNewItem);
+        }
+        return ResponseEntity.ok(RestResponse.ok(lotImagesNew));
+    }
+
+    @RequestMapping(value="/lot_artist_other_lots", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> artistOtherLots(@RequestParam CommonMap map, HttpServletRequest req, HttpServletResponse res) {
+        List<CommonMap> lotArtistOtherLots = saleService.selectlotArtistOtherLots(map);
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
+    @RequestMapping(value="/get_customer_by_cust_no", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> custInfo(@RequestParam CommonMap map,
+                                                 HttpServletRequest req, HttpServletResponse res) {
+        CommonMap customerByCustNo = saleService.selectCustomerByCustNo(map);
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
+    @RequestMapping(value="/sale_cert_info", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> certInfo(@RequestParam CommonMap map,
+                                                 HttpServletRequest req, HttpServletResponse res) {
+
+        CommonMap saleCertInfo = saleService.selectSaleCertInfo(map);
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+}

@@ -8,11 +8,9 @@
     <div class="wrapper">
         <div class="sub-wrap pageclass type-details_view">
             <jsp:include page="../../include/ko/header.jsp" flush="false"/>
-            <script>
-                app.value('locale', 'ko');
-            </script>
+
             <!-- container -->
-            <div id="container">
+            <div id="container" ng-controller="ctl" data-ng-init="load();">
                 <div id="contents" class="contents">
                     <section class="basis-section last-section auction_view-section">
                         <div class="section-inner">
@@ -26,14 +24,14 @@
                                                         <a href="#" conclick="window.history.back()" title="뒤로가기">
                                                             <i class="icon-page_back"></i>
                                                         </a>
-                                                        <span>2월 e BID 프리미엄 온라인 경매</span>
+                                                        <span ng-bind="saleInfo.SALE_TITLE_KO"></span>
                                                     </div>
                                                 </div>
                                                 <div class="col_item">
                                                     <!-- [0516]select 변경 -->
                                                     <div class="select-box">
                                                         <div class="trp-dropdown-area h42-lines">
-                                                            <button class="js-dropdown-btn"><span>LOT 10</span><i class="form-select_arrow_md"></i>
+                                                            <button class="js-dropdown-btn"><span>LOT {{lotInfo.LOT_NO}}</span><i class="form-select_arrow_md"></i>
                                                             </button>
                                                             <div class="trp-dropdown_list-box" data-trp-focusid="js-user_support">
                                                                 <div class="search-box">
@@ -42,44 +40,17 @@
                                                                 </div>
                                                                 <div class="list-box scroll-type">
                                                                     <ul>
-                                                                        <li>
+                                                                        <li ng-repeat="item in saleImages">
                                                                             <a href="#">
                                                                                 <div class="image-area">
                                                                                     <figure class="img-ratio">
                                                                                         <div class="img-align">
-                                                                                            <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                                                            <img ng-src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
                                                                                         </div>
                                                                                     </figure>
                                                                                 </div>
                                                                                 <div class="typo-area">
-                                                                                    <span>LOT 10</span>
-                                                                                </div>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="#">
-                                                                                <div class="image-area">
-                                                                                    <figure class="img-ratio">
-                                                                                        <div class="img-align">
-                                                                                            <img src="/images/pc/thumbnail/auction02.jpg" alt="">
-                                                                                        </div>
-                                                                                    </figure>
-                                                                                </div>
-                                                                                <div class="typo-area">
-                                                                                    <span>LOT1</span>
-                                                                                </div>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li><a href="#">
-                                                                                <div class="image-area">
-                                                                                    <figure class="img-ratio">
-                                                                                        <div class="img-align">
-                                                                                            <img src="/images/pc/thumbnail/auction03.jpg" alt="">
-                                                                                        </div>
-                                                                                    </figure>
-                                                                                </div>
-                                                                                <div class="typo-area">
-                                                                                    <span>LOT2</span>
+                                                                                    <span>LOT {{item.LOT_NO}}</span>
                                                                                 </div>
                                                                             </a>
                                                                         </li>
@@ -107,52 +78,15 @@
                                                         <div class="gallery_visual js-view_visual">
                                                             <div class="gallery_center">
                                                                 <div class="swiper-wrapper">
-
-                                                                    <div class="swiper-slide " data-index="0">
-
+                                                                    <div  ng-repeat="item in lotImages" class="swiper-slide " data-index="$index">
                                                                         <div class="image-area">
                                                                             <figure class="img-ratio">
                                                                                 <div class="img-align">
-                                                                                    <img src="/images/temp/view_big-1.jpg" alt="">
+                                                                                    <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
                                                                                 </div>
                                                                             </figure>
                                                                         </div>
-
                                                                     </div>
-                                                                    <div class="swiper-slide  " data-index="1">
-
-                                                                        <div class="image-area">
-                                                                            <figure class="img-ratio">
-                                                                                <div class="img-align">
-                                                                                    <img src="/images/temp/view_big-2.jpg" alt="">
-                                                                                </div>
-                                                                            </figure>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="swiper-slide  " data-index="2">
-
-                                                                        <div class="image-area">
-                                                                            <figure class="img-ratio">
-                                                                                <div class="img-align">
-                                                                                    <img src="/images/temp/view_big-3.jpg" alt="">
-                                                                                </div>
-                                                                            </figure>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="swiper-slide  " data-index="3">
-
-                                                                        <div class="image-area">
-                                                                            <figure class="img-ratio">
-                                                                                <div class="img-align">
-                                                                                    <img src="/images/temp/view_big-4.jpg" alt="">
-                                                                                </div>
-                                                                            </figure>
-                                                                        </div>
-
-                                                                    </div>
-
                                                                 </div>
                                                             </div>
                                                             <div class="pagination"></div>
@@ -160,43 +94,17 @@
                                                     </div>
 
                                                     <div class="product_thumbnail-area">
-
                                                         <div class="gallery_thumbnail js-view_thumnail">
                                                             <div class="gallery_center">
                                                                 <div class="swiper-wrapper">
-                                                                    <div class="slide images active" data-index="0">
+                                                                    <div ng-repeat="item in lotImages" class="slide images active" data-index="$index">
                                                                         <figure class="img-ratio">
                                                                             <div class="img-align">
-                                                                                <img src="/images/temp/view_thumbnail-1.jpg" alt="" />
+                                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="" />
                                                                             </div>
                                                                         </figure>
                                                                         <div class="line"></div>
                                                                     </div>
-                                                                    <div class="slide images " data-index="1">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/temp/view_thumbnail-2.jpg" alt="" />
-                                                                            </div>
-                                                                        </figure>
-                                                                        <div class="line"></div>
-                                                                    </div>
-                                                                    <div class="slide images " data-index="2">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/temp/view_thumbnail-3.jpg" alt="" />
-                                                                            </div>
-                                                                        </figure>
-                                                                        <div class="line"></div>
-                                                                    </div>
-                                                                    <div class="slide images " data-index="3">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/temp/view_thumbnail-4.jpg" alt="" />
-                                                                            </div>
-                                                                        </figure>
-                                                                        <div class="line"></div>
-                                                                    </div>
-
                                                                     <div class="slide" data-index="4">
                                                                         <figure class="img-ratio">
                                                                             <div class="img-align">
@@ -221,8 +129,6 @@
                                                                         </figure>
                                                                         <div class="line"></div>
                                                                     </div>
-
-
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -266,29 +172,29 @@
                                                 </div>
                                                 <div class="artist-area">
                                                     <div class="name">
-                                                        <strong>김선우</strong>
-                                                        <span>b.1988</span>
+                                                        <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT"></strong>
+                                                        <span>b.{{lotInfo.BORN_YEAR}}</span>
                                                     </div>
                                                     <div class="desc">
-                                                        <span>Flight of 3 Dodos</span>
+                                                        <span ng-bind="lotInfo.TITLE_KO_TXT"></span>
                                                     </div>
                                                 </div>
                                                 <div class="price-area">
                                                     <dl class="price-list">
                                                         <dt>추정가</dt>
-                                                        <dd>KRW 9,900,000,000</dd>
+                                                        <dd>{{lotInfo.BASE_EXPE_FROM_PRICE}}~{{lotInfo.BASE_EXPE_TO_PRICE}}</dd>
                                                     </dl>
                                                     <dl class="price-list">
                                                         <dt>시작가</dt>
-                                                        <dd>KRW 9,900,000,000</dd>
+                                                        <dd><!--WEB SOCKET--></dd>
                                                     </dl>
                                                     <dl class="price-list">
                                                         <dt>현재가</dt>
-                                                        <dd><strong>KRW 9,900,000,000</strong><em>(응찰 20)</em></dd>
+                                                        <dd><strong><!--WEB SOCKET--></strong><em>(응찰 <!--WEB SOCKET-->)</em></dd>
                                                     </dl>
                                                     <dl class="price-list">
                                                         <dt>마감일</dt>
-                                                        <dd><b>4/22(금) 14:00</b></dd>
+                                                        <dd><b><!--WEB SOCKET--></b></dd>
                                                     </dl>
                                                 </div>
                                                 <div class="button-area">
@@ -334,21 +240,19 @@
 
                                     <article class="product_detail_view-article">
                                         <div class="view_editor-warp">
-
                                             <div class="info-box">
                                                 <div class="title">작품정보</div>
                                                 <div class="desc">
-                                                    gouache on canvas <br />
-                                                    100.0X80.3cm (40) 2020 <br />
-                                                    signed and dated on the right side <br />
-                                                    signed titled and dated on the reverse <br />
+                                                    {{lotInfo.MATE_NM_EN}} <br />
+                                                    <span ng-repeat="size in lotInfo.LOT_SIZE_JSON">
+                                                        <span>{{size.SIZE1}}X{{size.SIZE2}}X{{size.SIZE3}}cm</span>
+                                                    </span><br />
+                                                    <span bind-html-compile="lotInfo.SIGN_INFO_JSON.ko"></span>
                                                 </div>
                                             </div>
-
                                             <div class="info-box">
                                                 <div class="title">Condition Report</div>
-                                                <div class="desc">
-                                                    좌측 하단 미세 스크래치,우측 상단 이물질 있음
+                                                <div class="desc" ng-bind="lotInfo.COND_RPT_JSON.ko">
                                                 </div>
                                             </div>
 
@@ -356,12 +260,9 @@
                                                 <div class="title">작가정보</div>
                                                 <div class="desc">
                                                     Artist <br />
-                                                    김선우 Kim Sunwoo 1988
+                                                    {{lotInfo.ARTIST_NAME_KO_TXT}} {{lotInfo.ARTIST_NAME_EN_TXT}} b.{{lotInfo.BORN_YEAR}}
                                                 </div>
-                                                <div class="desc">
-                                                    작가는 멸종된 도도새의 모습을 통해 메시지를 전달한다. 표류하는 청년들에게 이상을 잃지 <br />
-                                                    말자는 경험 어린 격려를 건넨다. 작품에 등장하는 도도새는 '날지 못하는 바보 새'가 아니라 <br />
-                                                    다시 날아오를 수 있는 가능성을 품은 존재다.
+                                                <div class="desc" ng-bind-html="lotInfo.PROFILE_JSON.ko">
                                                 </div>
                                                 <div class="desc">
                                                     <b>참고자료</b> <br />
@@ -630,8 +531,6 @@
     <!-- [0516]삭제
   <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
 -->
-
-
     <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 
@@ -740,7 +639,92 @@
         }
     </script>
     <!-- // [2022-0516] 사용 -->
+    <script>
+        app.value('locale', 'ko');
+        app.value('is_login', true);
 
+        app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
+
+        app.controller('ctl', function($scope, consts, common, is_login, locale) {
+            $scope.is_login = is_login;
+            $scope.locale = locale;
+            $scope.sale_no = "${saleNo}";
+            $scope.lot_no = "${lotNo}";
+            // 호출 부
+            const getSaleInfo = (saleNo) => {
+                try {
+                    return axios.get('/api/auction/sale_info/${saleNo}');
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+            const getLotInfo = (saleNo, lotNo) => {
+                try {
+                    return axios.get('/api/auction/lot_info/${saleNo}/${lotNo}');
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+
+            const getLotImages = (saleNo, lotNo) => {
+                try {
+                    return axios.get('/api/auction/lot_images/${saleNo}/${lotNo}');
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+
+            const getLotArtistOtherLots = (saleNo, lotNo) => {
+                try {
+                    return axios.get('/api/auction/lot_artist_other_lots');
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+
+            const getLotCustomer = (saleNo, lotNo) => {
+                try {
+                    return axios.get('/api/auction/get_customer_by_cust_no');
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+
+            const getSaleCertInfo = (saleNo, lotNo) => {
+                try {
+                    return axios.get('/api/auction/sale_cert_info');
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+
+            const getSaleImages = (saleNo, lotNo) => {
+                try {
+                    return axios.get('/api/auction/sale_images/${saleNo}/${lotNo}');
+                } catch (error) {
+                    console.error(error);
+                }
+
+            }
+            // 호출 부
+            $scope.load = function(){
+                let run = async function() {
+                    let [r1, r2, r3, r4] = await Promise.all([getSaleInfo($scope.sale_no),
+                        getLotInfo($scope.sale_no, $scope.lot_no),
+                        getLotImages($scope.sale_no, $scope.lot_no),
+                        getSaleImages($scope.sale_no, $scope.lot_no)]);
+
+                    $scope.saleInfo = r1.data.data;
+                    $scope.lotInfo = r2.data.data;
+                    $scope.lotImages = r3.data.data;
+                    $scope.saleImages = r4.data.data;
+
+                    $scope.$apply();
+                }
+                run();
+            }
+        });
+    </script>
 </body>
 
 </html>
