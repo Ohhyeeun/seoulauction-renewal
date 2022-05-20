@@ -29,7 +29,11 @@ import lombok.RequiredArgsConstructor;
 public class MypageService {
 
 	private final MypageMapper mypageMapper;
-	    
+	
+	public List<CommonMap> selectCustomerCustpayList(CommonMap commonMap){
+        return mypageMapper.selectCustomerCustpayList(commonMap);
+    }
+	
     public CommonMap selectAcademyList(CommonMap commonMap){  
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectAcademyList(commonMap));
