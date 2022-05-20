@@ -2,6 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seoulauction.renewal.mapper.kt.MypageMapper">	
 	
+	<!--정회원 이력  -->
+	<select id="selectCustomerCustpayList" resultType="Map">
+		select CU.CUST_NO
+		, DATE_FORMAT(CP.VALID_FROM_DT, '%Y.%m.%d') as  VALID_FROM_DT
+		, DATE_FORMAT(CP.VALID_TO_DT, '%Y.%m.%d')  as VALID_TO_DT
+		, P.PAY_METHOD_CD
+		, P.PAY_PRICE
+		, DATE_FORMAT(P.PAY_DT, '%m.%d') payDate
+		,CASE DAYOFWEEK(P.PAY_DT)
+			WHEN '1' THEN '일'
+			WHEN '2' THEN '월'
+			WHEN '3' THEN '화'
+			WHEN '4' THEN '수'
+			WHEN '5' THEN '목'
+			WHEN '6' THEN '금'
+			WHEN '7' THEN '토'
+		END AS weekDate
+		,DATE_FORMAT(P.PAY_DT, '%T') as payTime
+		, CASE WHEN CP.VALID_TO_DT &gt;= NOW() THEN '정회원' ELSE '기간만료' END VALID 
+		, CD1.CD_NM PAY_METHOD_NM
+		from CUST CU
+		left outer join CUST_PAY CP on CU.cust_no = CP.cust_no
+		join PAY P ON P.pay_no = CP.pay_no and P.cust_no = CP.cust_no
+		join CODE CD1 on P.PAY_METHOD_CD = CD1.CD_ID and CD1.GRP_ID = 'pay_method'
+		where CU.JOIN_KIND_CD = 'online'
+		and CU.STAT_CD = 'normal'
+		and CU.CUST_NO = #{action_user_no}
+		order by P.PAY_DT desc
+	</select>
+	
 	<!-- 아카데미 list -->
 	<select id="selectAcademyList" resultType="Map">
 		SELECT A.CUST_NAME , 

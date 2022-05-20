@@ -46,6 +46,18 @@ public class ApiMypageController {
 	@Value("${mobile.msg.auth}")
 	String auth;
 
+	// 정회원 이력
+	@RequestMapping(value = "/memberHistories", method = RequestMethod.GET)
+	public ResponseEntity<RestResponse> memberHistories(
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		CommonMap commonMap = new CommonMap();
+		commonMap.putPage(page, size);
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectCustomerCustpayList(commonMap)));
+	}
+	
 	@RequestMapping(value = "/academies", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<RestResponse> academies(
