@@ -499,7 +499,7 @@ function loadPopup(){
 
                     $('#main_popup_title').html(data.title);
                     $('#main_popup_content').html(data.content);
-                    $('#main_popup_img').attr('src', data.images[1]);
+                    $('#main_popup_img').attr('src', data.image);
 
                     $('.main-popup-close, .main-popupBg').click(function () {
                         $('.main-popupbox').addClass('down');

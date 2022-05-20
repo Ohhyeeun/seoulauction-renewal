@@ -98,7 +98,7 @@ public class S3Service {
     }
 
 
-    //img str 을 리턴.
+    //img STR LIST를 리턴.
     public List<String> getS3FileData(String tableName , Object rowId) {
         CommonMap map =new CommonMap();
         map.put("table_name",tableName);
@@ -108,6 +108,7 @@ public class S3Service {
         return resultMap.stream().map(c->c.getString("cdn_url")).collect(Collectors.toList());
     }
 
+    //IMG STR 한개를 리턴.
     public String getS3FileDataForOne(String tableName , Object rowId) {
         CommonMap map =new CommonMap();
         map.put("table_name",tableName);
