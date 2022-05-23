@@ -599,7 +599,79 @@
 
 
 
+    <!-- 팝업 : 결제완료 -->
+    <div id="popup_myacademy_pay-wrap" class="trp popupfixed-wrap myacademy_pay-popup" style="display:block">
+        <div class="popup-dim"></div>
+        <div class="popup-align mode-md mode-mb_full">
+            <div class="popup-vertical">
+                <div class="popup-layer">
 
+                    <div class="pop-panel">
+                        <div class="pop-header">
+                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                            <div class="title-box">
+                                <span class="txt_title type-big">결제 정보</span>
+                            </div>
+                        </div>
+                        <div class="pop-body">
+                            <section class="section scroll-type">
+                                <article class="article-area">
+                                    <div class="academy-pay-wrap tb1">
+                                        <div class="detail-wrap">
+                                            <dl>
+                                                <dt><span>수강료</span></dt>
+                                                <dd><span>KRW 500,000</span></dd>
+                                            </dl>
+                                            <dl>
+                                                <dt><span>할인금액</span></dt>
+                                                <dd><span>KRW 0</span></dd>
+                                            </dl>
+                                        </div>
+                                        <div class="total-wrap">
+                                            <dl>
+                                                <dt><span>총 결제금액</span></dt>
+                                                <dd>
+                                                    <span class="pay-amount">KRW 500,000</span>
+                                                    <span class="pay-method">신용카드</span>
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </article>
+                                <div class="button-area">
+                                    <div class="btn_set-float tac">
+                                        <a class="btn btn_point href=" #" role="button"><span>확인</span></a>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function() {
+            var popup_marketing1 = $(".js-popup_myacademy_pay").trpLayerFixedPopup("#popup_myacademy_pay-wrap");
+            $(popup_marketing1.getBtn).on("click", function($e) {
+                $e.preventDefault();
+                popup_marketing1.open(this); // or false   
+                popup_fixation("#popup_myacademy_pay-wrap"); // pc 스크롤
+                popup_motion_open("#popup_myacademy_pay-wrap"); // mb 모션 
+            });
+
+            $("body").on("click", "#popup_myacademy_pay-wrap .js-closepop, #popup_myacademy_pay-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                popup_marketing1.close();
+                popup_motion_close("#popup_myacademy_pay-wrap");
+            });
+
+            $(".js-history_back").click(function() {
+                window.history.back();
+            })
+        })();
+    </script>
 </body>
 
 </html>

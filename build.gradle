@@ -94,6 +94,8 @@ dependencies {
     //aws
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.0.1.RELEASE'
 
+    //taglib
+    implementation 'org.apache.taglibs:taglibs-standard-impl:1.2.5'
 }
 
 tasks.named('test') {

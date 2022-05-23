@@ -50,23 +50,27 @@ public class S3Service {
 
         String path = s3Uploader.upload(uploadFile,S3_IMAGE_BASE_URL + "/" + tableName + "/" + rowId);
 
-        CommonMap paramMap = new CommonMap();
-        paramMap.put("name" , name);
-        paramMap.put("ext" , ext);
-        paramMap.put("path" , path);
-        paramMap.put("mimetype" , contentType);
-        paramMap.put("filesize" , fileSize);
-        paramMap.put("url" , S3_BASE_URL + path);
-        paramMap.put("cdn_url" , S3_CDN_BASE_URL + path);
+        CommonMap paramMap = null;
 
-        log.info("origName : {}" , origName );
-        log.info("ext : {}" , ext );
-        log.info("fileSize : {}" , fileSize );
-        log.info("contentType : {}" , contentType );
-        log.info("url : {}" , path );
+        if(path != null) {
 
-        s3Mapper.insertS3File(paramMap);
+            paramMap = new CommonMap();
+            paramMap.put("name", name);
+            paramMap.put("ext", ext);
+            paramMap.put("path", path);
+            paramMap.put("mimetype", contentType);
+            paramMap.put("filesize", fileSize);
+            paramMap.put("url", S3_BASE_URL + path);
+            paramMap.put("cdn_url", S3_CDN_BASE_URL + path);
 
+            log.info("origName : {}", origName);
+            log.info("ext : {}", ext);
+            log.info("fileSize : {}", fileSize);
+            log.info("contentType : {}", contentType);
+            log.info("url : {}", path);
+
+            s3Mapper.insertS3File(paramMap);
+        }
         return paramMap;
     }
 
@@ -86,7 +90,7 @@ public class S3Service {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(map !=null) {
+        if(map != null) {
             map.put("table_name", tableName);
             map.put("row_id", rowId);
             s3Mapper.insertS3FileData(map);
@@ -94,7 +98,7 @@ public class S3Service {
     }
 
 
-    //img str 을 리턴.
+    //img STR LIST를 리턴.
     public List<String> getS3FileData(String tableName , Object rowId) {
         CommonMap map =new CommonMap();
         map.put("table_name",tableName);
@@ -102,6 +106,16 @@ public class S3Service {
         List<CommonMap> resultMap = s3Mapper.selectS3FileData(map);
         log.info("resultMap : {}" , resultMap);
         return resultMap.stream().map(c->c.getString("cdn_url")).collect(Collectors.toList());
+    }
+
+    //IMG STR 한개를 리턴.
+    public String getS3FileDataForOne(String tableName , Object rowId) {
+        CommonMap map =new CommonMap();
+        map.put("table_name",tableName);
+        map.put("row_id",rowId);
+        CommonMap resultMap = s3Mapper.selectS3FileDataForOne(map);
+        return Optional.ofNullable(resultMap).map(c->c.getString("cdn_url"))
+                .orElse("");
     }
 
 }

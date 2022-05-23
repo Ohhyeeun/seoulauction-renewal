@@ -244,7 +244,7 @@ function loadUpcomings() {
                                                     </span>
                                                     ${ item.D_DAY <=7 ? 
                                                         `<span class="d-day on">
-                                                            ${ item.D_DAY === 0 ? "TODAY" : "D-" + item.D_DAY }
+                                                            ${ item.D_DAY <= 0 ? "TODAY" : "D-" + item.D_DAY }
                                                         </span>` 
                                                     : ``}
                                                     <h4 class="text-over">${ titleJSON[locale] }</h4>
@@ -459,23 +459,23 @@ $('.video-closebtn').click(function(){
 });
 
 /*뉴스레터 신청 관련*/
-$('#subscript_check').click(function(){
-    $('.newsAgree-close').click(function(){
-        $('.newsletter-terms').fadeOut();
-        $('.newsletter-blackBg').fadeOut('fast');
-    });
-    $('.newsletter-terms').fadeIn();
-    $('.newsletter-blackBg').fadeIn('fast');
-});
-
-$('.subscriptBtn').click(function(){
-    $('.newsAgree-comfirmbtn').click(function(){
-        $('.newsletter-comfirmbox').fadeOut();
-        $('.newsletter-blackBg').fadeOut('fast');
-    });
-    $('.newsletter-comfirmbox').fadeIn();
-    $('.newsletter-blackBg').fadeIn('fast');
-});
+// $('#subscript_check').click(function(){
+//     $('.newsAgree-close').click(function(){
+//         $('.newsletter-terms').fadeOut();
+//         $('.newsletter-blackBg').fadeOut('fast');
+//     });
+//     $('.newsletter-terms').fadeIn();
+//     $('.newsletter-blackBg').fadeIn('fast');
+// });
+//
+// $('.subscriptBtn').click(function(){
+//     $('.newsAgree-comfirmbtn').click(function(){
+//         $('.newsletter-comfirmbox').fadeOut();
+//         $('.newsletter-blackBg').fadeOut('fast');
+//     });
+//     $('.newsletter-comfirmbox').fadeIn();
+//     $('.newsletter-blackBg').fadeIn('fast');
+// });
 
 /* 메인 레이어 팝업 */
 
@@ -495,19 +495,16 @@ function loadPopup(){
                 const success = response.data.success;
                 if (success) {
                     const data = response.data.data;
-                    console.log(data);
                     $('.main-popupBg').show();
 
                     $('#main_popup_title').html(data.title);
                     $('#main_popup_content').html(data.content);
-                    $('#main_popup_img').attr('src', data.images[1]);
+                    $('#main_popup_img').attr('src', data.image);
 
                     $('.main-popup-close, .main-popupBg').click(function () {
                         $('.main-popupbox').addClass('down');
                         $('.main-popupBg').fadeOut();
                     });
-
-                    console.log(data);
                 }
             })
             .catch(function (error) {

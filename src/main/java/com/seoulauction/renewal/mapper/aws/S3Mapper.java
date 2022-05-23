@@ -11,4 +11,5 @@ public interface S3Mapper {
     void insertS3File(CommonMap map);
     void insertS3FileData(CommonMap map);
     List<CommonMap> selectS3FileData(CommonMap map);
+    CommonMap selectS3FileDataForOne(CommonMap map);
 }
