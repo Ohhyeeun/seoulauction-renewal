@@ -5,6 +5,7 @@ import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.mapper.aws.S3Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,10 +98,18 @@ public class S3Service {
         }
     }
 
+    //img 모든 데이터를 리턴.
+    public List<CommonMap> getS3FileDataAll(String tableName , Object rowId) {
+        CommonMap map = new CommonMap();
+        map.put("table_name",tableName);
+        map.put("row_id",rowId);
+        return s3Mapper.selectS3FileData(map);
+    }
 
     //img STR LIST를 리턴.
     public List<String> getS3FileData(String tableName , Object rowId) {
-        CommonMap map =new CommonMap();
+
+        CommonMap map = new CommonMap();
         map.put("table_name",tableName);
         map.put("row_id",rowId);
         List<CommonMap> resultMap = s3Mapper.selectS3FileData(map);
@@ -110,11 +119,18 @@ public class S3Service {
 
     //IMG STR 한개를 리턴.
     public String getS3FileDataForOne(String tableName , Object rowId) {
-        CommonMap map =new CommonMap();
+        CommonMap map = new CommonMap();
         map.put("table_name",tableName);
         map.put("row_id",rowId);
-        CommonMap resultMap = s3Mapper.selectS3FileDataForOne(map);
-        return Optional.ofNullable(resultMap).map(c->c.getString("cdn_url"))
+        map.put("is_one" , true);
+        List<CommonMap> resultMapList = s3Mapper.selectS3FileData(map);
+        CommonMap returnMap = new CommonMap();
+        //is_one 이면 무조건 데이터는 1개.
+        if(CollectionUtils.isNotEmpty(resultMapList) && resultMapList.size() == 1){
+            returnMap = resultMapList.get(0);
+        }
+
+        return Optional.ofNullable(returnMap).map(c->c.getString("cdn_url"))
                 .orElse("");
     }
 
