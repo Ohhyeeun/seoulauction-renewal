@@ -36,7 +36,7 @@
     <input type="hidden" name="CurrencyCode" value="KRW">
 
     <%-- 작품 정보 --%>
-    <input type="hidden" name="sale_no" value="${sale_no}">
-    <input type="hidden" name="lot_no" value="${lot_no}">
+    <input type="hidden" name="sale_no" value="${lotInfo.SALE_NO}">
+    <input type="hidden" name="lot_no" value="${lotInfo.LOT_NO}">
 
 </form>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ct" uri="/WEB-INF/tlds/taglibs.tld"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -43,24 +43,22 @@
                                     </div>
 
                                     <div class="panel-body">
-
                                         <ul class="form_table_pay">
                                             <li>
                                                 <div class="table_box">
                                                     <div class="guide">
-
                                                         <div class="product-box">
-                                                            <p class="img"><img src="/images/temp/temp_img2.jpg" alt="" /></p>
+                                                            <p class="img"><img src="https://www.seoulauction.com/nas_img/${lotInfo.FILE_PATH}/${lotInfo.FILE_NAME}" alt="" /></p>
                                                             <dl class="product_info">
                                                                 <dt class="tt4">
-                                                                    데미안허스트 (1965) ${artist_name}
-                                                                    <span class="sub_txt tb1">Air (From The Series The Elements)</span>
+                                                                    ${ct:getJSONString(lotInfo.ARTIST_NAME_JSON, 'ko')}
+                                                                    <span class="sub_txt tb1">${ct:getJSONString(lotInfo.LOT_TITLE_JSON, 'ko')}</span>
                                                                 </dt>
                                                                 <dd class="tb2">
-                                                                    <span>spray paint on canvas</span>
+                                                                    <span> ${lotInfo.MATE_CD}</span>
                                                                     <div class="size_year">
-                                                                        <span>80.9 X 73.4cm</span>
-                                                                        <span>2021</span>
+                                                                        <span>${lotInfo.LOT_SIZE_STRING}</span>
+                                                                        <span>${lotInfo.LOT_MAKE_YEAR}</span>
                                                                     </div>
                                                                 </dd>
                                                             </dl>
@@ -70,11 +68,11 @@
                                                     <div class="member_pay">
                                                         <p>
                                                             <span class="tit tt5">낙찰가</span>
-                                                            <span class="won tt3"><fmt:formatNumber type="number" maxFractionDigits="3" value="${no_vat_price}"/><i class="tb1">원</i></span>
+                                                            <span class="won tt3"><fmt:formatNumber type="number" maxFractionDigits="3" value="${lotInfo.no_vat_price}"/><i class="tb1">원</i></span>
                                                         </p>
                                                         <p class="fees">
                                                             <span class="tit tb1">낙찰 수수료</span>
-                                                            <span class="won tb1"><fmt:formatNumber type="number" maxFractionDigits="3" value="${vat_price}"/><i class="tb2">원</i></span>
+                                                            <span class="won tb1"><fmt:formatNumber type="number" maxFractionDigits="3" value="${lotInfo.vat_price}"/><i class="tb2">원</i></span>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -84,11 +82,11 @@
                                                 <ul class="pay_info tb1">
                                                     <li>
                                                         <span class="th">이름</span>
-                                                        <span class="td">${name}</span>
+                                                        <span class="td">${custInfo.cust_name}</span>
                                                     </li>
                                                     <li>
                                                         <span class="th">연락처</span>
-                                                        <span class="td">${tel}</span>
+                                                        <span class="td">${custInfo.hp}</span>
                                                     </li>
                                                 </ul>
                                             </li>
@@ -96,15 +94,15 @@
                                                 <p class="list_tit tt4">결제 방법</p>
                                                 <div id="payMethod" class="btn_wrap ">
                                                     <a id="payCard" class="btn btn_black"  role="button" data="CARD" onclick="changePayMethod(this);"><span>신용/체크카드</span></a>
-                                                    <a id="payVBank" class="btn btn_default"  role="button" data="CARD" onclick="changePayMethod(this);"><span>가상 계좌</span></a>
+                                                    <a id="payVBank" class="btn btn_default"  role="button" data="VBANK" onclick="changePayMethod(this);"><span>가상 계좌</span></a>
                                                 </div>
                                             </li>
                                             <li class="no-line">
                                                 <p class="list_tit tt4">총 결제금액</p>
                                                 <div class="total_pay_box tt3">
-                                                    낙찰가 <fmt:formatNumber type="number" maxFractionDigits="3" value="${no_vat_price}" /> <i class="tb1">원</i><i class="br-mo"></i>
-                                                    + 낙찰 수수료 <fmt:formatNumber type="number" maxFractionDigits="3" value="${vat_price}" /> <i class="tb1">원</i> <i class="br-mo"></i>
-                                                    = <span>총 결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${pay_price}" /> <i class="tb1">원</i></span>
+                                                    낙찰가 <fmt:formatNumber type="number" maxFractionDigits="3" value="${lotInfo.no_vat_price}" /> <i class="tb1">원</i><i class="br-mo"></i>
+                                                    + 낙찰 수수료 <fmt:formatNumber type="number" maxFractionDigits="3" value="${lotInfo.vat_price}" /> <i class="tb1">원</i> <i class="br-mo"></i>
+                                                    = <span>총 결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${lotInfo.pay_price}" /> <i class="tb1">원</i></span>
                                                 </div>
                                             </li>
                                         </ul>
@@ -147,10 +145,7 @@
     <script src="/js/payment/payment.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
     <script>
-        console.log(${lot_size});
-        <%--const artist_name_json = JSON.parse(<c:out value='${artist_name}' escapeXml = "false"/>);--%>
-        const artist_name_json = ${artist_name};
-        console.log(artist_name_json['ko']);
+
 
     </script>
 </body>

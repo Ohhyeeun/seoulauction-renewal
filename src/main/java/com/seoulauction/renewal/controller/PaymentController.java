@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
@@ -219,61 +220,47 @@ public class PaymentController {
 
 
     @GetMapping("sale/{saleNo}/lot/{lotNo}")
-    public String work(HttpServletRequest request , Locale locale, @PathVariable("saleNo") String saleNo, @PathVariable("lotNo") String lotNo) {
+    public String work(HttpServletRequest request , Locale locale, Principal principal, @PathVariable("saleNo") String saleNo, @PathVariable("lotNo") String lotNo) {
 
-        String goodsName = "작품결제"; 					// 결제상품명
+        String goodsName = "서울옥션-작품결제"; 					// 결제상품명
         String moid = "mnoid1234567890"; 			// 상품주문번호
-        String returnURL = "http://localhost:9000/payment/workResult"; // 결과페이지(절대경로) - 모바일
-
-        String name = "채수연"; 						// 구매자명
-        String tel = "01030676865"; 				// 구매자연락처
-        String email = "csy@seoulauction.com"; 			// 구매자메일주소
-        String address  = "(03004) 서울특별시 종로구 평창30길 24"; //구매자 배송주소
-
-
-        //결제작품정보
-        CommonMap payWorkInfoMap = new CommonMap();
+        String returnURL = nicePayMobileBaseReturnUrl + "/payment/workResult"; // 결과페이지(절대경로) - 모바일
 
         CommonMap paramMap = new CommonMap();
+
+        /* 구매자 정보 */
+        paramMap.put("cust_no", "108855");
+        CommonMap custInfoMap = paymentMapper.selectCustByCustNo(paramMap);
+        request.setAttribute("custInfo", custInfoMap);
+        request.setAttribute("cust_name", custInfoMap.get("cust_name"));
+        request.setAttribute("hp", custInfoMap.get("hp"));
+        request.setAttribute("email", custInfoMap.get("eamil"));
+
+        /* 결제작품정보 */
         paramMap.put("sale_no", saleNo);
         paramMap.put("lot_no", lotNo);
 
-
-        payWorkInfoMap = paymentService.getWorkPayInfo(paramMap);
+        CommonMap payWorkInfoMap = paymentService.getWorkPayInfo(paramMap);
         Integer tmpPrice = 1234;
 
         String ediDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         String signData = Cryptography.encrypt(ediDate + nicePayMerchantId + tmpPrice + nicePaymerchantKey);
 
-        /* 구매자 정보 */
-        request.setAttribute("name" , name);
-        request.setAttribute("tel" , tel);
-        request.setAttribute("email" , email);
-        request.setAttribute("address" , address);
+        request.setAttribute("lotInfo" , payWorkInfoMap);
 
-        /* 결제작품정보 */
-        request.setAttribute("sale_no" , payWorkInfoMap.get("SALE_NO"));
-        request.setAttribute("lot_no" , payWorkInfoMap.get("LOT_NO"));
-        request.setAttribute("artist_name" , payWorkInfoMap.get("ARTIST_NAME_JSON"));
-        request.setAttribute("artist_bornYear" , payWorkInfoMap.get("BORN_YEAR"));
-        request.setAttribute("lot_title" , payWorkInfoMap.get("LOT_TITLE_JSON"));
-        request.setAttribute("lot_makeYear" , payWorkInfoMap.get("LOT_MAKE_YEAR"));
-        request.setAttribute("lot_size" , payWorkInfoMap.get("LOT_SIZE_JSON"));
-        request.setAttribute("no_vat_price" , payWorkInfoMap.get("no_vat_price"));
-        request.setAttribute("vat_price" , payWorkInfoMap.get("vat_price"));
-        request.setAttribute("vat" , payWorkInfoMap.get("vat"));
-        request.setAttribute("pay_price" , payWorkInfoMap.get("pay_price"));
-
-        /* attribute */
+        /* payment attribute */
         request.setAttribute("goodsName" , goodsName);
-        request.setAttribute("price" , tmpPrice);
+        request.setAttribute("price", tmpPrice);
+        request.setAttribute("no_vat_price", payWorkInfoMap.get("no_vat_price"));
+        request.setAttribute("vat_price", payWorkInfoMap.get("vat_price"));
+        request.setAttribute("vat", payWorkInfoMap.get("vat"));
         request.setAttribute("moid" , moid);
         request.setAttribute("returnURL" , returnURL);
         request.setAttribute("mKey" , nicePaymerchantKey);
         request.setAttribute("mId" , nicePayMerchantId);
-        request.setAttribute("signData" , signData);
         request.setAttribute("ediDate" , ediDate);
         request.setAttribute("signData" , signData);
+        request.setAttribute("uuid", UUID.randomUUID().toString().replace("-", ""));
         request.setAttribute("pay_kind", SAConst.PAYMENT_KIND_WORK);
         request.setAttribute("formProcessUrl" , "/payment/workProcess");
 

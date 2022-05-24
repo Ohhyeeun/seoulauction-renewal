@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +31,7 @@ public class PaymentService {
     private void setRefNo(HttpServletRequest request, CommonMap resultMap) {
         switch (request.getAttribute("pay_kind").toString()){
             case SAConst.PAYMENT_KIND_MEMBERSHIP:
-                resultMap.put("ref_no", "117997"); // TODO: cust_no
+                resultMap.put("ref_no", "108855"); // TODO: cust_no
                 break;
             case SAConst.PAYMENT_KIND_ACADEMY:
                 resultMap.put("ref_no", request.getParameter("academy_no"));
@@ -45,11 +46,11 @@ public class PaymentService {
     public CommonMap insertPayWait(HttpServletRequest request, CommonMap resultMap){
         setRefNo(request, resultMap);
 
-        resultMap.put("cust_no", "117997");
+        resultMap.put("cust_no", "108855");
         resultMap.put("payer", resultMap.get("BuyerName"));
         resultMap.put("pay_price", resultMap.get("Amt"));
         resultMap.put("pg_trans_id", resultMap.get("TID"));
-        resultMap.put("reg_emp_no",  "117997");
+        resultMap.put("reg_emp_no",  "108855");
 
         resultMap.put("academy_no", request.getParameter("academy_no"));
         resultMap.put("uuid", request.getAttribute("uuid"));
@@ -94,7 +95,8 @@ public class PaymentService {
         }
 
         //공통 페이먼트 테이블 필요한 부분 미리 넣기.
-        resultMap.put("cust_no", "108855"); //TODO: 로그인 한 유저 번호 가져와야함.
+        log.info("cust_no : {}", request.getParameter("cust_no"));
+        resultMap.put("cust_no", request.getParameter("cust_no")); //TODO: 로그인 한 유저 번호 가져와야함.
         resultMap.put("pay_method", method);
         resultMap.put("pay_price", request.getParameter("Amt"));
         resultMap.put("pg_cd", SAConst.PG_NICEPAY);
@@ -118,7 +120,6 @@ public class PaymentService {
 
                 break;
             case SAConst.PAYMENT_KIND_WORK:
-                //TODO 작품 DB INSERT 처리ㄱㄱ.
                 log.info("sale_no :{}", request.getParameter("sale_no"));
                 log.info("lot_no :{}", request.getParameter("lot_no"));
                 resultMap.put("sale_no", request.getParameter("sale_no"));
@@ -284,8 +285,14 @@ public class PaymentService {
     public CommonMap goPaymentResultWork(String payMethod, String payId) {
         CommonMap resultMap = getPaymentForPayResult(payMethod, payId);
 
-        if(SAConst.PAYMENT_METHOD_VBANK.equals(payMethod)){
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("cust_no", "108855");
+        paramMap.put("pay_no", payId);
 
+        if(SAConst.PAYMENT_METHOD_VBANK.equals(payMethod)){
+            resultMap.put("sale_no", resultMap.get("ref_no"));
+            resultMap.put("lot_no", resultMap.get("ref_no2"));
+            resultMap.putAll(getWorkPayInfo(resultMap));
 
         }else if(SAConst.PAYMENT_METHOD_CARD.equals(payMethod)){
 

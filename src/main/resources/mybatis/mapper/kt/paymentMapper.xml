@@ -48,7 +48,7 @@
 		    PAY
 		WHERE
 			PAY_NO = #{pay_no}
-		and CUST_NO = #{cust_no}
+		and CUST_NO = #{cust_no};
 	</select>
 
 	<!--정회원 결제 테이블-->
@@ -63,16 +63,10 @@
 			 , #{pay_no}
 			 , now()
 			 , DATE_ADD(DATE_ADD(now(), INTERVAL 1 YEAR), INTERVAL -1 DAY)
-			 )
+			 );
 	</insert>
 
 	<!-- 작품 결제  -->
-	<select id="selectWorkPayBySaleNoAndLotNo" parameterType="commonMap" resultType="commonMap">
-		select L.sale_no from LOT L
-		where L.sale_no = #{saleNo}
-		and L.lot_no = #{lotNo};
-	</select>
-
 	<insert id="insertLotPay" parameterType="commonMap">
 		insert into LOT_PAY (
 			  SALE_NO
@@ -142,11 +136,11 @@
 	<!--아카데미 결제 테이블-->
 	<insert id="insertAcademyPay" parameterType="commonMap">
 		INSERT INTO ACADEMY_PAY (ACADEMY_NO, CUST_NO, PAY_NO)
-		VALUES (#{academy_no}, #{cust_no}, #{pay_no})
+		VALUES (#{academy_no}, #{cust_no}, #{pay_no});
 	</insert>
 	<insert id="insertAcademyReq" parameterType="commonMap">
 		INSERT INTO ACADEMY_REQ (ACADEMY_NO, CUST_NO, REG_EMP_NO, PAYER, REG_DT)
-		VALUES (#{academy_no}, #{cust_no}, #{reg_emp_no}, #{payer}, now())
+		VALUES (#{academy_no}, #{cust_no}, #{reg_emp_no}, #{payer}, now());
 	</insert>
 	<!---->
 
@@ -163,7 +157,7 @@
 		SELECT pay_wait_no, cust_no, kind_cd, ref_no, ref_no2, pay_method_cd, pg_cd, pg_trans_id, payer, pay_price, stat_cd, reg_dt
             , no_vat_price, vat_price, vat, uuid, vbank_cd, vbank_nm, vbank_num, vbank_exp_dt, rcpt_type
 		FROM PAY_WAIT
-		WHERE uuid = #{uuid}
+		WHERE uuid = #{uuid};
 	</select>
 
 	<select id="selectPayWaitByPayNoAndCustNo" resultType="commonMap" parameterType="commonMap">
@@ -171,13 +165,13 @@
 			 , no_vat_price, vat_price, vat, uuid, vbank_cd, vbank_nm, vbank_num, vbank_exp_dt, rcpt_type
 		FROM PAY_WAIT
 		WHERE pay_wait_no = #{pay_no}
-		  AND cust_no = #{cust_no}
+		  AND cust_no = #{cust_no};
 	</select>
 
 	<select id="selectAcademyPayByPayNo" resultType="commonMap" parameterType="commonMap">
 		SELECT cust_no, pay_no, academy_no
 		FROM academy_pay a
-		WHERE pay_no = #{pay_no}
+		WHERE pay_no = #{pay_no};
 	</select>
 
 	<select id="selectAcademyByAcademyNo" resultType="commonMap" parameterType="commonMap">
@@ -187,12 +181,12 @@
 			, view_file_name_en, view_file_org_name_en, application_file_name, application_file_org_name, application_file_path
 			, academy_pay, academy_pay1, academy_pay2, academy_pay3, close_yn
 		FROM academy a
-		WHERE academy_no = #{academy_no}
+		WHERE academy_no = #{academy_no};
 	</select>
 
 	<select id="selectCustByCustNo" parameterType="CommonMap" resultType="CommonMap">
 		select cust_no, login_id, cust_name, hp, email, addr, addr_dtl
 		from CUST
-		where cust_no = #{cust_no}
+		where cust_no = #{cust_no};
 	</select>
 </mapper>
