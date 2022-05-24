@@ -95,8 +95,7 @@ public class PaymentService {
         }
 
         //공통 페이먼트 테이블 필요한 부분 미리 넣기.
-        log.info("cust_no : {}", request.getParameter("cust_no"));
-        resultMap.put("cust_no", request.getParameter("cust_no")); //TODO: 로그인 한 유저 번호 가져와야함.
+        resultMap.put("cust_no", "108855"); //TODO: 로그인 한 유저 번호 가져와야함.
         resultMap.put("pay_method", method);
         resultMap.put("pay_price", request.getParameter("Amt"));
         resultMap.put("pg_cd", SAConst.PG_NICEPAY);
