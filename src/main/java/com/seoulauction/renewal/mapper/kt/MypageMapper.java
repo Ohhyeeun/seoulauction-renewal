@@ -53,4 +53,11 @@ public interface MypageMapper {
    
     int insertInquiryWrite(Map commonMap);
 
+    List<CommonMap> selectCustInteLotList(CommonMap commonMap);
+
+    int selectCustInteLotCnt(CommonMap commonMap);
+    
+    CommonMap insertCustInteLot(CommonMap commonMap);
+
+    int deleteCustInteLot(CommonMap commonMap);
 }
