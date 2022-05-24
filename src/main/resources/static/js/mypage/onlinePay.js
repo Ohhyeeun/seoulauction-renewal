@@ -18,15 +18,15 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 
 	$scope.loadOnlinePayList = function($page, $searchType) {
 		
-		var searchMonth = document.getElementById('searchMonth');
+/*		var searchMonth = document.getElementById('searchMonth');
 		var searchKeyword = document.getElementById('searchKeyword');
 		var searchStartDt = document.getElementById('searchStartDt');
 		var searchEndDt = document.getElementById('searchEndDt');
-
-		$scope.pageRows = 5;
+*/
+		$scope.pageRows = 100;
 		$scope.currentPage = $page;
 		$api = '/api/mypage/onlinePaies?page=' + $scope.currentPage + "&size=" + $scope.pageRows;
-
+/*
 		if ($searchType == 'searchMonth') {
 			//검색 초기화
 			searchKeyword.value = '';
@@ -50,7 +50,7 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 			if (searchEndDt.value) {
 				$api += '&searchEndDt=' + searchEndDt.value;
 			}
-		}
+		}*/
 		common.callAPI($api, null, function(data, status) {
 			$scope.allCnt = data["data"]["payCount"]["ROW_CNT"] || 0;
 			$scope.paidCnt = data["data"]["payCount"]["PAID_CNT"] || 0;
@@ -58,7 +58,8 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 			$scope.payList = data["data"]["payList"];
 			$scope.custInfo = data["data"]["customerInfo"];
 			
-			//$scope.test = $scope.groupBy($scope.payList,'SALE_TITLE_KR');
+			$scope.payListTemp = $scope.groupBy($scope.payList,'SALE_TITLE_KR');
+			console.log($scope.payListTemp);
  
 		});
 	};
