@@ -21,6 +21,12 @@ public interface PaymentMapper {
 
     CommonMap selectAcademyPayByPayNo(CommonMap map);
     CommonMap selectAcademyByAcademyNo(CommonMap map);
+    CommonMap selectLotBidPrice(CommonMap map);
+    CommonMap get_sale_fee(CommonMap map);
+    CommonMap get_lot_fee(CommonMap map);
+
+    CommonMap selectLotPayByPayNo(CommonMap map);
+
 
     CommonMap selectCustByCustNo(CommonMap map);
 }
