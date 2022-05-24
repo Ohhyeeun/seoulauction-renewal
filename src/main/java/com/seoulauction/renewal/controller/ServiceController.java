@@ -17,28 +17,33 @@ import static com.seoulauction.renewal.common.SAConst.SERVICE_SERVICE;
 @RequiredArgsConstructor
 @RequestMapping(SAConst.SERVICE_SERVICE)
 public class ServiceController {
+    @GetMapping("/loan")
+    public String loan(Locale locale) {
+        return SAConst.getUrl(SERVICE_SERVICE , "loan" , locale);
+    }
+
     @GetMapping("/marketing")
-    public String marketing(HttpServletRequest request , Locale locale) {
+    public String marketing(Locale locale) {
         return SAConst.getUrl(SERVICE_SERVICE , "marketing" , locale);
     }
 
     @GetMapping("/marketing/vip")
-    public String marketing_vip(HttpServletRequest request , Locale locale) {
+    public String marketing_vip(Locale locale) {
         return SAConst.getUrl(SERVICE_SERVICE , "marketing_vip" , locale);
     }
 
     @GetMapping("/marketing/art")
-    public String marketing_art(HttpServletRequest request , Locale locale) {
+    public String marketing_art(Locale locale) {
         return SAConst.getUrl(SERVICE_SERVICE , "marketing_art" , locale);
     }
 
     @GetMapping("/marketing/plan")
-    public String marketing_plan(HttpServletRequest request , Locale locale) {
+    public String marketing_plan(Locale locale) {
         return SAConst.getUrl(SERVICE_SERVICE , "marketing_plan" , locale);
     }
 
     @GetMapping("/marketing/consulting")
-    public String marketing_consulting(HttpServletRequest request , Locale locale) {
+    public String marketing_consulting(Locale locale) {
         return SAConst.getUrl(SERVICE_SERVICE , "marketing_consulting" , locale);
     }
 }

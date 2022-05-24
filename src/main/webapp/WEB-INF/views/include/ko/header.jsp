@@ -134,7 +134,7 @@
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
                                 <ul class="submenu submenu-part04">
                                     <li id="menu_academy"><a href="#">아카데미</a></li>
-                                    <li><a href="#">담보대출</a></li>
+                                    <li><a href="/service/loan">담보대출</a></li>
                                     <li><a href="#">미술품보관</a></li>
                                     <li><a href="#">전시장대관</a></li>
                                     <li><a href="/service/marketing">아트컨설팅&#38;기업마케팅</a></li>
