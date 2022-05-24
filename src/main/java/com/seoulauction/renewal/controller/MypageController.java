@@ -74,4 +74,8 @@ public class MypageController {
     	return SAConst.getUrl(SERVICE_MYPAGE , "inquiryForm" , locale);
     }
 
+    @GetMapping("/inteLotList")
+    public String inteLotList(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "inteLotList" , locale);
+    }
 }
