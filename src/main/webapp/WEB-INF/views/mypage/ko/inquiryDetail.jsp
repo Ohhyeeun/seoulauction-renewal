@@ -66,9 +66,11 @@
                                                                 <div class="con-area" ng-bind-html="inquiry.CONTENT"></div>
                                                                 <div class="file-area">
                                                                     <div class="file-area-inner" ng-repeat="file in fileList">
-                                                                        <a href="/fileDownload?fileName={{file.FILE_NAME}}&path={{file.FILE_PATH}}/&orgName={{file.FILE_NAME_ORG | urlEncode}}">
+                                                                        <!-- <a href="{{file.cdn_url}}"> -->
+                                                                         <!-- <a href="https://public.seoulauction.xyz/resources/images/main_popup/1/91489f49-81f7-4e42-91d6-39de4ecc2971.jpg" download="file.name" target="_blank"> -->
+                                                                          <a href="/fileDownload?fileKey={{file.path}}&downloadFileName={{file.name}}">  
                                                                         <div class="file-item">
-                                                                            <i class="icon_down"></i> <span>{{file.FILE_NAME_ORG}}</span>
+                                                                            <i class="icon_down"></i> <span>{{file.name}}</span>
                                                                         </div>
                                                                         </a>
                                                                     </div>
