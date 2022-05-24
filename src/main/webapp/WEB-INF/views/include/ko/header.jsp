@@ -137,7 +137,7 @@
                                     <li><a href="#">담보대출</a></li>
                                     <li><a href="#">미술품보관</a></li>
                                     <li><a href="#">전시장대관</a></li>
-                                    <li><a href="#">아트컨설팅&#38;기업마케팅</a></li>
+                                    <li><a href="/service/marketing">아트컨설팅&#38;기업마케팅</a></li>
                                 </ul>
                             </li>
                             <li class="subGnbmenu-tit m-ver">
