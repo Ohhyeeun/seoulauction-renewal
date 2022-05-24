@@ -234,7 +234,7 @@ public class PaymentController {
         request.setAttribute("custInfo", custInfoMap);
         request.setAttribute("cust_name", custInfoMap.get("cust_name"));
         request.setAttribute("hp", custInfoMap.get("hp"));
-        request.setAttribute("email", custInfoMap.get("eamil"));
+        request.setAttribute("email", custInfoMap.get("email"));
 
         /* 결제작품정보 */
         paramMap.put("sale_no", saleNo);
