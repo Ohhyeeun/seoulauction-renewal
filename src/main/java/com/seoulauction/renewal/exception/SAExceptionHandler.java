@@ -27,7 +27,7 @@ public class SAExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String error404(){
         log.info("404");
-        return "/error/404";
+        return "/error/ko/error_404";
     }
 
     //Rest API 에서 나오는 오류 캐치. ( RestResponse 리턴!! )
@@ -60,10 +60,11 @@ public class SAExceptionHandler {
     //그외 심각한 오류들
     @ExceptionHandler(Exception.class)
     public String intervalException(Exception e){
+
         String errorMsg = ExceptionUtils.getStackTrace(e);
         log.error(errorMsg);
         slackSender.sendMessage(errorMsg);
-        return "/error/500";
+        return "/error/ko/error_500";
     }
 
 }
