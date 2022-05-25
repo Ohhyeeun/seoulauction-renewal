@@ -81,6 +81,19 @@ app.controller("inquiryViewCtl", function($scope, consts, common) {
         }
         return requestParam;
     }
+    
+/*    $scope.downloadfile = async function(url, name) {
+    // blob 형태로 들고 있어야 함.
+    const res = await fetch(url);
+    const blob = await res.blob();
+
+    // anchor tag를 통해 다운 받는 방법
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = url;
+    link.innerHTML = 'download';
+    document.body.appendChild(link);
+	}*/
 });
 
 app.controller('inquiryWriteCtl', function($scope, consts, common, inquiryService) {
@@ -403,7 +416,10 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				document.getElementById("work_category3").style.display = "block";
 			}
 		}
+		
+
 	}
 });
-	
+
+
 

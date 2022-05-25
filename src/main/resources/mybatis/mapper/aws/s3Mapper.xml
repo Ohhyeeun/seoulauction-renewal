@@ -48,5 +48,13 @@
             s.id = sd.s3file_id
             and sd.group_name = #{table_name}
             and sd.row_id = #{row_id}
+            and s.status = 'A'
+            and sd.status ='A'
+        ORDER BY
+            s.created_at desc
+        <if test="is_one !=null and is_one">
+        limit
+            1
+        </if>
     </select>
 </mapper>

@@ -17,7 +17,7 @@ public class SAConst {
     public static final String SERVICE_LOGIN ="login";
     public static final String API_LOGIN ="api/login";
     public static final String SERVICE_MYPAGE ="mypage";
-    public static final String SERVICE_SERV ="service";
+    public static final String SERVICE_SERVICE ="service";
     public static final String PG_NICEPAY ="nice";
 
     //기존 pay_wait 테이블 기반 kind 종류

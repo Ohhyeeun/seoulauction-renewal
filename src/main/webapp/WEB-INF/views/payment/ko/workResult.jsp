@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ct" uri="/WEB-INF/tlds/taglibs.tld"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -42,24 +45,28 @@
                                 <div class="panel-body">
 
                                     <ul class="form_table_pay">
+                                        <c:if test="${param.payMethod == 'VBANK'}">
                                         <li>
                                             <div class="account_info">
                                                 <p class="tit">가상계좌 정보</p>
                                                 <p class="txt tb1">
-                                                    <span>2022년 3월 25일 23시 59분</span>까지 아래의<i class="br-mo"></i> 가상계좌로 결제금액을 입금해 주시기 바랍니다.
+                                                    <fmt:parseDate value="${resultMap.vbank_exp_dt}" var="vbank_exp_dt" pattern="yyyyMMdd"/>
+                                                    <fmt:formatDate value="${vbank_exp_dt}" var="vbank_exp_dt" pattern="yyyy-MM-dd hh:mm:ss"/>
+                                                    <span>${vbank_exp_dt}</span> 까지 아래의<i class="br-mo"></i> 가상계좌로 결제금액을 입금해 주시기 바랍니다.
                                                 </p>
                                                 <ul class="pay_info tb1">
                                                     <li>
                                                         <span class="th">은행명</span>
-                                                        <span class="td"><strong>우리은행</strong></span>
+                                                        <span class="td"><strong>${resultMap.vbank_nm}</strong></span>
                                                     </li>
                                                     <li>
                                                         <span class="th">계좌번호</span>
-                                                        <span class="td"><strong>100-0000-0000 서울옥션 홍길동</strong></span>
+                                                        <span class="td"><strong>${resultMap.vbank_num}</strong></span>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </li>
+                                        </c:if>
 
 
                                         <li>
@@ -67,17 +74,17 @@
                                                 <div class="guide">
 
                                                     <div class="product-box">
-                                                        <p class="img"><img src="/images/temp/temp_img2.jpg" alt="" /></p>
+                                                        <p class="img"><img src="https://www.seoulauction.com/nas_img/${resultMap.FILE_PATH}/${resultMap.FILE_NAME}" alt="" /></p>
                                                         <dl class="product_info">
                                                             <dt class="tt4">
-                                                                데미안허스트 (1965)
-                                                                <span class="sub_txt tb1">Air (From The Series The Elements)</span>
+                                                                ${ct:getJSONString(resultMap.ARTIST_NAME_JSON, 'ko')}
+                                                                <span class="sub_txt tb1">${ct:getJSONString(resultMap.LOT_TITLE_JSON, 'ko')}</span>
                                                             </dt>
                                                             <dd class="tb2">
-                                                                <span>spray paint on canvas</span>
+                                                                <span>${resultMap.MATE_CD}</span>
                                                                 <div class="size_year">
-                                                                    <span>80.9 X 73.4cm</span>
-                                                                    <span>2021</span>
+                                                                    <span>${resultMap.LOT_SIZE_STRING}</span>
+                                                                    <span>${resultMap.LOT_MAKE_YEAR}</span>
                                                                 </div>
                                                             </dd>
                                                         </dl>
@@ -87,11 +94,11 @@
                                                 <div class="member_pay">
                                                     <p>
                                                         <span class="tit tt5">낙찰가</span>
-                                                        <span class="won tt3">53,000,000<i class="tb1">원</i></span>
+                                                        <span class="won tt3"><fmt:formatNumber type="number" maxFractionDigits="3" value="${resultMap.no_vat_price}" /><i class="tb1">원</i></span>
                                                     </p>
                                                     <p class="fees">
                                                         <span class="tit tb1">낙찰 수수료</span>
-                                                        <span class="won tb1">10,494,000<i class="tb2">원</i></span>
+                                                        <span class="won tb1"><fmt:formatNumber type="number" maxFractionDigits="3" value="${resultMap.vat_price}" /><i class="tb2">원</i></span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -102,11 +109,11 @@
                                             <ul class="pay_info tb1">
                                                 <li>
                                                     <span class="th">이름</span>
-                                                    <span class="td">홍길동</span>
+                                                    <span class="td">${resultMap.cust_name}</span>
                                                 </li>
                                                 <li>
                                                     <span class="th">연락처</span>
-                                                    <span class="td">010-1234-5678</span>
+                                                    <span class="td">${resultMap.hp}</span>
                                                 </li>
                                             </ul>
                                         </li>
@@ -115,13 +122,13 @@
                                             <ul class="pay_info tb1">
                                                 <li>
                                                     <span class="th">총 결제금액</span>
-                                                    <span class="td pay">낙찰가 200,000 원
-                                                        <br class="only-mb" />+ 낙찰수수료 0 원
-                                                        <br class="only-mb" />= <i class="total">총 결제금액 200,000 원</i></span>
+                                                    <span class="td pay">낙찰가 <fmt:formatNumber type="number" maxFractionDigits="3" value="${resultMap.no_vat_price}"/> 원
+                                                        <br class="only-mb" />+ 낙찰수수료 <fmt:formatNumber type="number" maxFractionDigits="3" value="${resultMap.vat_price}"/> 원
+                                                        <br class="only-mb" />= <i class="total">총 결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${resultMap.pay_price}"/> 원</i></span>
                                                 </li>
                                                 <li>
                                                     <span class="th">결제방법</span>
-                                                    <span class="td">신용/체크카드</span>
+                                                    <span class="td">${param.payMethod == 'VBANK' ? "가상계좌" : "신용/체크카드"}</span>
                                                 </li>
                                             </ul>
                                         </li>

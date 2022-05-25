@@ -12,15 +12,27 @@ $(document).ready(function(){
 
         if(subscript) {
 
+
+            //이메일 정규식.
+            let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+
             let email = $('#newsEmail').val();
             let name = $('#newsName').val();
+
+
 
             let data = {};
             data['email'] = email;
             data['name'] = name;
             data['lang'] = document.documentElement.lang;
+
             if(!email || !name){
                 alert('이메일 혹은 이름이 올바르지 않습니다.');
+                return;
+            }
+
+            if(!regEmail.test(email)){
+                alert('이메일 형식이 아닙니다.');
                 return;
             }
 

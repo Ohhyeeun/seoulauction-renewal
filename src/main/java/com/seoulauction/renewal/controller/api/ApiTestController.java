@@ -41,11 +41,12 @@ public class ApiTestController {
     @PostMapping(value="/fileUpload")
     public ResponseEntity<RestResponse> fileUpload(
             @RequestPart( value = "file" ) final MultipartFile multipartFile,
+            @RequestParam(value = "isPrivate" , defaultValue = "false") Boolean isPrivate,
             @RequestParam(value = "groupName") String groupName,
             @RequestParam(value = "rowId") String rowId
     ) {
 
-        s3Service.insertS3FileData(multipartFile , groupName,rowId);
+        s3Service.insertS3FileData(isPrivate , multipartFile , groupName, rowId);
         return ResponseEntity.ok(RestResponse.ok());
     }
 
