@@ -48,17 +48,34 @@ public class SaleController {
         return ResponseEntity.ok(RestResponse.ok(saleService.search_list_paging(map)));
     }
 
-    @RequestMapping(value="/addCustInteLot" , method = RequestMethod.POST)
+    @RequestMapping(value="/addCustInteLot")
     public ResponseEntity<RestResponse> addCustInteLot(
-            @RequestBody CommonMap map, Principal principal) throws Exception {
+            @RequestParam(required = true) int saleNo, int lotNo, Locale locale, Principal principal) throws Exception {
+
+        CommonMap map = new CommonMap();
+        if(principal == null){
+            map.put("action_user_no", 126211);
+        }else{
+            map.put("action_user_no", principal.getName());
+        }
+        map.put("sale_no", saleNo);
+        map.put("lot_no", lotNo);
 
         return ResponseEntity.ok(RestResponse.ok(saleService.add_cust_inte_lot(map)));
     }
 
-    @RequestMapping(value="/delCustInteLot" , method = RequestMethod.POST)
+    @RequestMapping(value="/delCustInteLot")
     public ResponseEntity<RestResponse> delCustInteLot(
-            @RequestBody CommonMap map, Principal principal) throws Exception {
+            @RequestParam(required = true) int saleNo, int lotNo, Locale locale, Principal principal) throws Exception {
 
+        CommonMap map = new CommonMap();
+        if(principal == null){
+            map.put("action_user_no", 126211); //principal 안넘어와서 더미 데이터
+        }else{
+            map.put("action_user_no", principal.getName());
+        }
+        map.put("sale_no", saleNo);
+        map.put("lot_no", lotNo);
 
         return ResponseEntity.ok(RestResponse.ok(saleService.del_cust_inte_lot(map)));
     }

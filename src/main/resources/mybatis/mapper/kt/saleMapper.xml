@@ -1,88 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.seoulauction.renewal.mapper.kt.PaymentMapper">
+<mapper namespace="com.seoulauction.renewal.mapper.kt.SaleMapper">
 
-	<select id="selectSale" resultType="commonMap" parameterType="commonMap">
-		SELECT
-			COUNT(*)	     ROW_CNT
-		FROM CUST A , ACADEMY_REQ B , ACADEMY C
-		WHERE A.CUST_NO = B.CUST_NO AND B.ACADEMY_NO = C.ACADEMY_NO AND A.CUST_NO = #{cust_no} AND B.DEL_YN = 'N'
-	</select>
+    <select id="selectSale" resultType="commonMap" parameterType="commonMap">
+        SELECT
+            COUNT(*)	     ROW_CNT
+        FROM CUST A , ACADEMY_REQ B , ACADEMY C
+        WHERE A.CUST_NO = B.CUST_NO AND B.ACADEMY_NO = C.ACADEMY_NO AND A.CUST_NO = #{cust_no} AND B.DEL_YN = 'N'
+    </select>
 
-	<select id="search_list_count" parameterType="CommonMap" resultType="CommonMap">
-		SELECT COUNT(B.LOT_NO) AS CNT, COUNT(B.ALL_SALE_KIND) AS ALL_CNT, COUNT(B.LIVE_SALE_KIND) AS LIVE_CNT, COUNT(B.ONLINE_SALE_KIND) AS ONLINE_CNT
-		FROM(
-			select  A.LOT_NO as LOT_NO,
-			(select S.SALE_KIND_CD FROM SALE S WHERE S.SALE_NO = A.SALE_NO AND A.SALE_KIND_CD IN('online', 'online_zb', 'main', 'hongkong', 'plan')) AS ALL_SALE_KIND,
-			(select S.SALE_KIND_CD FROM SALE S WHERE S.SALE_NO = A.SALE_NO AND A.SALE_KIND_CD IN('main', 'hongkong', 'plan')) AS LIVE_SALE_KIND,
-			(select S.SALE_KIND_CD FROM SALE S WHERE S.SALE_NO = A.SALE_NO AND A.SALE_KIND_CD IN('online', 'online_zb')) AS ONLINE_SALE_KIND
-			from 	(
-			<include refid="search_list" />
-			) A
-		) B
-	</select>
+    <select id="search_list_count" parameterType="CommonMap" resultType="CommonMap">
+        SELECT COUNT(B.LOT_NO) AS CNT, COUNT(B.ALL_SALE_KIND) AS ALL_CNT, COUNT(B.LIVE_SALE_KIND) AS LIVE_CNT, COUNT(B.ONLINE_SALE_KIND) AS ONLINE_CNT
+        FROM(
+        select  A.LOT_NO as LOT_NO,
+        (select S.SALE_KIND_CD FROM SALE S WHERE S.SALE_NO = A.SALE_NO AND A.SALE_KIND_CD IN('online', 'online_zb', 'main', 'hongkong', 'plan')) AS ALL_SALE_KIND,
+        (select S.SALE_KIND_CD FROM SALE S WHERE S.SALE_NO = A.SALE_NO AND A.SALE_KIND_CD IN('main', 'hongkong', 'plan')) AS LIVE_SALE_KIND,
+        (select S.SALE_KIND_CD FROM SALE S WHERE S.SALE_NO = A.SALE_NO AND A.SALE_KIND_CD IN('online', 'online_zb')) AS ONLINE_SALE_KIND
+        from 	(
+        <include refid="search_list" />
+        ) A
+        ) B
+    </select>
 
-	<select id="search_list_paging" parameterType="CommonMap" resultType="CommonMap">
-		<include refid="search_list" />
-		limit		#{from}, #{rows}
-	</select>
+    <select id="search_list_paging" parameterType="CommonMap" resultType="CommonMap">
+        <include refid="search_list" />
+        limit		#{from}, #{rows}
+    </select>
 
-	<select id="get_customer_by_cust_no" parameterType="CommonMap" resultType="CommonMap">
-		select CU.*
-			 , (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "정회원" ELSE "준회원" END
-				from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_NM
-			 , (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "Y" ELSE "N" END
-				from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_YN
-			 , (select CONCAT('[', GROUP_CONCAT('"', PW.PUSH_WAY_CD, '"'), ']')
-				from CUST_PUSH_WAY PW where PW.CUST_NO = CU.CUST_NO) PUSH_WAY_JSON
-			 , (select CONCAT('[', GROUP_CONCAT('"', IA.INTE_AREA_CD, '"'), ']')
-				from CUST_INTE_AREA IA where IA.CUST_NO = CU.CUST_NO) INTE_AREA_JSON
-		from CUST CU
-		where JOIN_KIND_CD = 'online'
-		  and CU.STAT_CD = 'normal'
-		  and CU.CUST_NO = #{action_user_no}
-	</select>
+    <select id="get_customer_by_cust_no" parameterType="CommonMap" resultType="CommonMap">
+        select CU.*
+             , (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "정회원" ELSE "준회원" END
+                from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_NM
+             , (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "Y" ELSE "N" END
+                from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_YN
+             , (select CONCAT('[', GROUP_CONCAT('"', PW.PUSH_WAY_CD, '"'), ']')
+                from CUST_PUSH_WAY PW where PW.CUST_NO = CU.CUST_NO) PUSH_WAY_JSON
+             , (select CONCAT('[', GROUP_CONCAT('"', IA.INTE_AREA_CD, '"'), ']')
+                from CUST_INTE_AREA IA where IA.CUST_NO = CU.CUST_NO) INTE_AREA_JSON
+        from CUST CU
+        where JOIN_KIND_CD = 'online'
+          and CU.STAT_CD = 'normal'
+          and CU.CUST_NO = #{action_user_no}
+    </select>
 
-	<insert id="search_log" parameterType="CommonMap">
-		<if test="keyword != null and keyword != ''">
-			insert into SEARCH_LOG(cust_no, search_date, search_artist, search_title, search_all, search_material, search_from_dt, search_to_dt)
-			values(#{action_user_no}, now(),
-			<choose>
-				<when test="chk=='art'">#{keyword}</when>
-				<when test="chk!='art'">null</when>
-			</choose>,
-			<choose>
-				<when test="chk=='title'">#{keyword}</when>
-				<when test="chk!='title'">null</when>
-			</choose>,
-			<choose>
-				<when test="chk=='all'">#{keyword}</when>
-				<when test="chk!='all'">null</when>
-			</choose>,
-			#{mate_nm}, #{from_dt}, #{to_dt}
-			)
-		</if>
-	</insert>
+    <insert id="search_log" parameterType="CommonMap">
+        <if test="keyword != null and keyword != ''">
+            insert into SEARCH_LOG(cust_no, search_date, search_artist, search_title, search_all, search_material, search_from_dt, search_to_dt)
+            values(#{action_user_no}, now(),
+            <choose>
+                <when test="chk=='art'">#{keyword}</when>
+                <when test="chk!='art'">null</when>
+            </choose>,
+            <choose>
+                <when test="chk=='title'">#{keyword}</when>
+                <when test="chk!='title'">null</when>
+            </choose>,
+            <choose>
+                <when test="chk=='all'">#{keyword}</when>
+                <when test="chk!='all'">null</when>
+            </choose>,
+            #{mate_nm}, #{from_dt}, #{to_dt}
+            )
+        </if>
+    </insert>
 
-	<insert id="add_cust_inte_lot" parameterType="CommonMap"> <!-- LOT 관심체크. 2017.04.10 YDH -->
-		INSERT INTO CUST_INTE_LOT(
-		CUST_NO,
-		SALE_NO,
-		LOT_NO,
-		REG_DT
-		)
-		VALUES(
-		#{action_user_no},
-		#{sale_no},
-		#{lot_no},
-		now()
-		)
-	</insert>
+    <insert id="add_cust_inte_lot" parameterType="CommonMap"> <!-- LOT 관심체크. 2017.04.10 YDH -->
+        INSERT INTO CUST_INTE_LOT(
+        CUST_NO,
+        SALE_NO,
+        LOT_NO,
+        REG_DT
+        )
+        VALUES(
+        #{action_user_no},
+        #{sale_no},
+        #{lot_no},
+        now()
+        )
+    </insert>
 
-	<update id="del_cust_inte_lot" parameterType="CommonMap">
-		DELETE FROM CUST_INTE_LOT WHERE CUST_NO = #{action_user_no} AND SALE_NO = #{sale_no} AND LOT_NO = #{lot_no};
-	</update>
-
+    <update id="del_cust_inte_lot" parameterType="CommonMap">
+        DELETE FROM CUST_INTE_LOT WHERE CUST_NO = #{action_user_no} AND SALE_NO = #{sale_no} AND LOT_NO = #{lot_no};
+    </update>
 	<sql id="search_list">
 		select 	L.SALE_NO, L.LOT_NO
 		, S.SALE_KIND_CD
@@ -173,11 +172,15 @@
 				</when>
 			</choose>
 		</if>
-		<if test="from_dt != null and from_dt != ''">
-			and S.TO_DT &gt;= #{from_dt}
+		<if test='sale_status_end_yn != null and sale_status_end_yn == "Y"'>
+			<![CDATA[and DATE_FORMAT(S.TO_DT, '%Y-%m-%d') < DATE_FORMAT(now(), '%Y-%m-%d')]]>
 		</if>
-		<if test="to_dt != null and to_dt != ''">
-			and S.TO_DT &lt;= #{to_dt}
+		<if test='sale_status_ing_yn != null and sale_status_ing_yn == "Y"'>
+			<![CDATA[and (DATE_FORMAT(S.FROM_DT, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d')
+			and DATE_FORMAT(S.TO_DT, '%Y-%m-%d') >= DATE_FORMAT(now(), '%Y-%m-%d'))]]>
+		</if>
+		<if test='sale_status_ready_yn != null and sale_status_ready_yn == "Y"'>
+			<![CDATA[and DATE_FORMAT(S.FROM_DT, '%Y-%m-%d') > DATE_FORMAT(now(), '%Y-%m-%d')]]>
 		</if>
 		<if test="mate_nm != null">
 			and L.MATE_CD in (

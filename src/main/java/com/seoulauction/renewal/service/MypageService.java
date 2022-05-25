@@ -143,8 +143,7 @@ public class MypageService {
         return map;
     }
 
-
-    public int updateSaleCertHp(CommonMap commonMap){  
+    public int updateSaleCertHp(CommonMap commonMap){
     	return mypageMapper.updateSaleCertHp(commonMap);
     }
     

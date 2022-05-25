@@ -39,7 +39,7 @@ public class S3Service {
     String S3_PRIVATE_IMAGE_BASE_URL;
 
     //S3 업로드 이후 디비에 저장.
-    public CommonMap insertS3File(Boolean isPrivate , MultipartFile uploadFile , String tableName , String rowId) throws IOException {
+    private CommonMap insertS3File(Boolean isPrivate , MultipartFile uploadFile , String tableName , String rowId) throws IOException {
 
         //파일 이름.
         String origName = uploadFile.getOriginalFilename();
