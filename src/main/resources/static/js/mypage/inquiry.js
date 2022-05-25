@@ -1,4 +1,18 @@
 
+var getParameter = function(param){
+	var requestParam ="";
+    var url = unescape(location.href);
+    var paramArr = (url.substring(url.indexOf("?")+1,url.length)).split("&");
+    for(var i = 0 ; i < paramArr.length ; i++){
+       var temp = paramArr[i].split("=");
+       if(temp[0].toUpperCase() == param.toUpperCase()){
+         requestParam = paramArr[i].split("=")[1];
+         break;
+       }
+    }
+    return requestParam;
+}
+    
 app.value('locale', 'ko');
 /*문의하기 목록*/
 app.requires.push.apply(app.requires, ["bw.paging"]);
@@ -19,8 +33,7 @@ app.controller('inquiryListCtl', function($scope, consts, common) {
 
  		
  		
- 		 $api = "/api/mypage/inquiries?page="+$page+"&size="+$size;
- 	   	/*common.callAPI($api , null , $scope.showInquiry); */
+ 		$api = "/api/mypage/inquiries?page="+$page+"&size="+$size;
  	   	
         axios.get($api , null)
         .then(function(response) {
@@ -68,19 +81,7 @@ app.controller("inquiryViewCtl", function($scope, consts, common) {
         });
 	};
 	
-	var getParameter = function(param){
-    	var requestParam ="";
-        var url = unescape(location.href);
-        var paramArr = (url.substring(url.indexOf("?")+1,url.length)).split("&");
-        for(var i = 0 ; i < paramArr.length ; i++){
-           var temp = paramArr[i].split("=");
-           if(temp[0].toUpperCase() == param.toUpperCase()){
-             requestParam = paramArr[i].split("=")[1];
-             break;
-           }
-        }
-        return requestParam;
-    }
+
     
 /*    $scope.downloadfile = async function(url, name) {
     // blob 형태로 들고 있어야 함.
@@ -97,16 +98,18 @@ app.controller("inquiryViewCtl", function($scope, consts, common) {
 });
 
 app.controller('inquiryWriteCtl', function($scope, consts, common, inquiryService) {
+
 	inquiryService.setScope($scope);
 });
 	
 
 app.service("inquiryService", function($rootScope, common, locale) {
 	this.setScope = function($scope) {
-		$scope.hp1s = ["010", "011", "016", "017", "018", "019"];
-		$scope.emails = ["naver.com", "nate.com", "gmail.com", "daum.net", "hanmail.net", "hotmail.com"];
+		$scope.paramCate1 = getParameter("cate1");
+
 		$scope.form_data = {};
 		$scope.sell_data = {};
+		
 		$scope.init = function() {
 			$api = "/api/mypage/categories";
 			$d = { "grp_ids": ["bbs_inquiry_category"] };
@@ -119,6 +122,12 @@ app.service("inquiryService", function($rootScope, common, locale) {
 	            } else {
 	        	$scope.inqCate = result.data.category;
 				$scope.custInfo =  result.data.customerInfo;
+
+				if($scope.paramCate1){
+					$scope.form_data.cate1 = $scope.paramCate1;
+					$scope.changeCate1()
+				}
+		
 				$scope.$apply();
 	            }
 	        })
