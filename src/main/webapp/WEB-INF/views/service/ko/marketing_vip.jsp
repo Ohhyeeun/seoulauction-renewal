@@ -139,7 +139,7 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/plugin/jquerylibrary.js"></script>
 <script src="/js/service/marketing.js" type="text/javascript" class="js-append-script"></script>
 
 </body>
