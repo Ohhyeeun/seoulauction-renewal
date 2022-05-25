@@ -3,7 +3,6 @@ package com.seoulauction.renewal.service;
 
 import java.io.IOException;
 import java.security.Principal;
-
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -12,12 +11,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
-
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.seoulauction.renewal.component.AddressFinder;
 import com.seoulauction.renewal.component.FileManager;
-
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.mapper.kt.MypageMapper;
 
@@ -27,8 +25,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MypageService {
 
+	private final S3Service s3Service;
+	
 	private final MypageMapper mypageMapper;
-	    
+	
+	public List<CommonMap> selectCustomerCustpayList(CommonMap commonMap){
+        return mypageMapper.selectCustomerCustpayList(commonMap);
+    }
+	
     public CommonMap selectAcademyList(CommonMap commonMap){  
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectAcademyList(commonMap));
@@ -88,11 +92,11 @@ public class MypageService {
     }
 
     
-    public CommonMap selectInquiry(CommonMap commonMap){
-    	CommonMap map = new CommonMap();
-    	map.put("inquiryInfo", mypageMapper.selectInquiryInfo(commonMap));
-    	map.put("inquiryReply", mypageMapper.selectInquiryReply(commonMap));
-    	map.put("inquiryFileList", mypageMapper.selectFileList(commonMap));
+    public CommonMap selectInquiry(CommonMap commonMap) {
+		CommonMap map = new CommonMap();
+		map.put("inquiryInfo", mypageMapper.selectInquiryInfo(commonMap));
+		map.put("inquiryReply", mypageMapper.selectInquiryReply(commonMap));
+		map.put("inquiryFileList", s3Service.getS3FileDataAll("bbs_write", commonMap.get("write_no")));
     	return map;
     }
 
@@ -110,32 +114,20 @@ public class MypageService {
     	CommonMap map = new CommonMap(formatMapRequest(request));
     	map.put("action_user_no", principal.getName());
     	map.put("action_user_ip", request.getRemoteAddr());
-    	int result = 0;
-    	//mypageMapper.insertInquiryWrite(map);
+    	int result = mypageMapper.insertInquiryWrite(map);
 
     	try {	
     		List<MultipartFile> fileList = request.getFiles("file");
     			for(MultipartFile file : fileList) {
     				if(file.getSize() > 0 && !file.getOriginalFilename().equals("")) {
     					//서버 저장 -> s3 api호출로 변경 예정.
-    					CommonMap commonMap = FileManager.uploadFile(file);
-    					commonMap.put("write_no", map.get("write_no"));
-    					
-    					/*
-    					commonMap.put("file_path", "");
-    		    		commonMap.put("file_name", "");
-    		    		commonMap.put("file_name_org", "");
-    		    		commonMap.put("size", "");
-    					*/
-    					
-    					//result = mypageMapper.insertInquiryWriteFile(commonMap);
+    					s3Service.insertS3FileData(false , file,"bbs_write", String.valueOf(map.get("write_no")));
     				}
     			}	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
         return result;
-
     }
     
     // 공통
@@ -151,9 +143,35 @@ public class MypageService {
         return map;
     }
 
-
-    public int updateSaleCertHp(CommonMap commonMap){  
+    public int updateSaleCertHp(CommonMap commonMap){
     	return mypageMapper.updateSaleCertHp(commonMap);
     }
+    
+    public HashMap<String, Object> findAddr(CommonMap action) {
+    	HashMap<String, Object> r = null;
+		
+		try {
+			r = new HashMap<String, Object>();
+			r = (HashMap<String, Object>) AddressFinder.find(action);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		return r;
+	}
 
+    public CommonMap selectInteLotList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectCustInteLotList(commonMap));
+    	map.put("cnt", mypageMapper.selectCustInteLotCnt(commonMap));                                                                          
+        return map;
+    }
+    
+    public CommonMap insertCustInteLot(CommonMap commonMap){                                                                
+        return mypageMapper.insertCustInteLot(commonMap);
+    }
+
+    public int deleteCustInteLot(CommonMap commonMap){                                                                
+    	return mypageMapper.deleteCustInteLot(commonMap);
+    }
 }

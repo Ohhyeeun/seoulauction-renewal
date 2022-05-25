@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.seoulauction.renewal.common.RestResponse;
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.service.MypageService;
 
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,18 @@ public class ApiMypageController {
 	@Value("${mobile.msg.auth}")
 	String auth;
 
+	// 정회원 이력
+	@RequestMapping(value = "/memberHistories", method = RequestMethod.GET)
+	public ResponseEntity<RestResponse> memberHistories(
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		CommonMap commonMap = new CommonMap();
+		commonMap.putPage(page, size);
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectCustomerCustpayList(commonMap)));
+	}
+	
 	@RequestMapping(value = "/academies", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<RestResponse> academies(
@@ -139,13 +152,13 @@ public class ApiMypageController {
 		if (b) {
 //	   	   	UsernamePasswordAuthenticationToken userToken = (UsernamePasswordAuthenticationToken) request.getUserPrincipal();
 //	    	SAUserDetails user = (SAUserDetails) userToken.getDetails();
-
-			commonMap.put("action_user_no", principal.getName());
-
-			return ResponseEntity.ok(RestResponse.ok(mypageService.inertSaleCert(commonMap)));
+//			request.getSession().setAttribute("AUTH_NUM", null);
+			
+			return ResponseEntity.ok(RestResponse.ok(commonMap));
+//			commonMap.put("action_user_no", principal.getName());
+//			return ResponseEntity.ok(RestResponse.ok(mypageService.inertSaleCert(commonMap)));
 		} else {
-			// 실패했을 때?
-			return ResponseEntity.ok(RestResponse.ok(null));
+			throw new SAException("인증번호가 일치하지 않습니다."); 
 		}
 	}
 
@@ -159,13 +172,8 @@ public class ApiMypageController {
 		try {
 			boolean result = encode.matches(paramMap.get("auth_num").toString(),
 					request.getSession().getAttribute("AUTH_NUM").toString());
-			request.getSession().setAttribute("AUTH_NUM", null);
 			return result;
 		} catch (Exception ex) {
-			try {
-				request.getSession().setAttribute("AUTH_NUM", null);
-			} catch (Exception e) {
-			}
 			return false;
 		}
 	}
@@ -182,6 +190,14 @@ public class ApiMypageController {
 		}
 	}
 
+	@RequestMapping(value = "/saleCert/inertSaleCert", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> inertSaleCert(@RequestBody CommonMap commonMap, Principal principal,
+			HttpServletRequest request, HttpServletResponse response) {
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.inertSaleCert(commonMap)));
+	}
+	
 	@RequestMapping(value = "/saleCert/updateSaleCertHp", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> updateSaleCertHp(@RequestBody CommonMap commonMap, Principal principal,
@@ -189,7 +205,7 @@ public class ApiMypageController {
 		commonMap.put("action_user_no", principal.getName());
 		return ResponseEntity.ok(RestResponse.ok(mypageService.updateSaleCertHp(commonMap)));
 	}
-
+	
 	@RequestMapping(value = "/inquiries", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> inquiries(
 			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
@@ -229,6 +245,38 @@ public class ApiMypageController {
 		
 		return ResponseEntity.ok(RestResponse.ok(mypageService.insertInquiry(request, principal)));
 	}
+	
+	@RequestMapping(value = "/findAddr", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> findAddr(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+		log.info(paramMap.toString());
+    	Map<String, Object> resultMap = mypageService.findAddr(paramMap);
+        if(resultMap != null) {
+        	log.info(resultMap.toString());
+        }
+		return ResponseEntity.ok(RestResponse.ok(resultMap));
+	}
 
 
+	@RequestMapping(value = "/inteLots", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<RestResponse> inteLots(
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size,
+			@RequestParam(required = false) String sale_kind,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		CommonMap commonMap = new CommonMap();
+		commonMap.putPage(page, size);
+		commonMap.put("sale_kind", sale_kind);
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectInteLotList(commonMap)));
+	}
+	
+	@RequestMapping(value = "/inteLotDelete", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> inteLotDelete(@RequestBody CommonMap commonMap, Principal principal,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.deleteCustInteLot(commonMap)));
+	}
 }

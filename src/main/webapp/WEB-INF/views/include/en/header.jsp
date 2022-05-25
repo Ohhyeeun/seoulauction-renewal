@@ -13,11 +13,20 @@
 
 <%--메인이 아닐 경우에만 해당 css 추가.--%>
 <c:if test="${empty param.main}">
-<jsp:include page="../../common/commonCssNotMain.jsp" flush="false"/>
+    <jsp:include page="../../common/commonCssNotMain.jsp" flush="false"/>
 </c:if>
 
 <%--angular 관련은 미리 로딩--%>
 <jsp:include page="../../common/angular.jsp" flush="false"/>
+
+<script>
+<sec:authorize access="isAuthenticated()">
+    sessionStorage.setItem("is_login", "true" );
+</sec:authorize>
+<sec:authorize access="isAnonymous()">
+    sessionStorage.setItem("is_login", "false" );
+</sec:authorize>
+</script>
 
 <html lang="en" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
@@ -26,7 +35,7 @@
         <div class="swiper-wrapper"></div>
     </div>
 
-    <div class="header-border">
+    <div>
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">KOR</a>
                 <ul class="bubble-box bubble-box01">
@@ -34,21 +43,21 @@
                     <li><a href="${pageContext.request.contextPath}/?lang=en">ENG(English)</a></li>
                 </ul>
             </li>
-            <li class="utility-join"><a href="#">JOIN</a></li> <!-- !login -->
-            <li class="utility-tab utility-account"><a href="javascript:void(0);">ACCOUNT</a>
-                <ul class="bubble-box bubble-box02">
-                    <li><a href="#">Live Auction Management</a></li>
-                    <li><a href="#">Online Auction Management</a></li>
-                    <li><a href="#">Wish List</a></li>
-                    <li><a href="#">Academy Application List</a></li>
-                    <li><a href="#">Edit member information</a></li>
-                </ul>
-            </li> <!-- login -->
-            <sec:authorize access="isAnonymous()">
-                <li class="utility-login"><a href="/customer/login">LOGIN</a></li> <!-- !login -->
+            <sec:authorize access="isAnonymous()"> <!-- !login -->
+                <li class="utility-join"><a href="#">JOIN</a></li>
+                <li class="utility-login"><a href="/customer/login">LOGIN</a></li>
             </sec:authorize>
-            <sec:authorize access="isAuthenticated()">
-            	<li class="utility-login"><a onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')">LOGOUT</a></li> <!-- !login -->
+            <sec:authorize access="isAuthenticated()"> <!-- login -->
+                <li class="utility-tab utility-account"><a href="javascript:void(0);">ACCOUNT</a>
+                    <ul class="bubble-box bubble-box02">
+                        <li><a href="#">Live Auction Management</a></li>
+                        <li id="MyMenuOnlineBadge"><a href="#">Online Auction Management</a></li>
+                        <li><a href="#">Wish List</a></li>
+                        <li><a href="#">Academy Application List</a></li>
+                        <li><a href="#">Edit member information</a></li>
+                    </ul>
+                </li>
+                <li class="utility-login"><a onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')">LOGOUT</a></li> <!-- !login -->
             </sec:authorize>
         </ul>
     </div>
@@ -67,7 +76,7 @@
                 <button class="m-gnbmenu m-ver"></button>
                 <form action="" class="scroll_none">
                     <fieldset class="topsearch topsearch-en">
-                        <span class="submenuBg-closeBtn top-search-closeBtn m-ver"></span>
+                        <span class="submenuBg-closeBtn closebtn-b top-search-closeBtn m-ver"></span>
                         <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver"><button type="submit" class="topsearch-btn pc-ver"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">

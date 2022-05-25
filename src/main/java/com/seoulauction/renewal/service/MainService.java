@@ -8,20 +8,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import org.springframework.stereotype.Service;
-
-import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.exception.SAException;
-import com.seoulauction.renewal.mapper.aws.MainMapper;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 @Service
 @RequiredArgsConstructor
@@ -30,19 +22,32 @@ public class MainService {
 
     private final MainMapper mainMapper;
     private final KTMainMapper ktMainMapper;
-
-
+    private final S3Service s3Service;
 
     public List<CommonMap> selectTopNotice() {
         return mainMapper.selectTopNotice();
     }
 
     public List<CommonMap> selectBeltBanners() {
-        return mainMapper.selectBeltBanners();
+        List<CommonMap> resultMap = mainMapper.selectBeltBanners();
+        resultMap.stream().forEach(item -> {
+            List<CommonMap> imageListMap = s3Service.getS3FileDataAll("main_banner",  item.get("id"));
+            CommonMap map = new CommonMap();
+            imageListMap.forEach(c-> map.put(c.getString("tag")+"_url",c.getString("cdn_url")));
+            item.put("image", map);
+        });
+
+        return resultMap;
     }
 
     public List<CommonMap> selectNewsletters(CommonMap map) {
         return mainMapper.selectNewsletters(map);
+    }
+
+    public CommonMap selectPopup() {
+        CommonMap map = mainMapper.selectPopup();
+        map.put("image", s3Service.getS3FileDataForOne("main_popup", map.get("id")));
+        return map;
     }
 
     public CommonMap selectNewsletterById(CommonMap map) {
@@ -89,7 +94,10 @@ public class MainService {
     }
 
     public List<CommonMap> selectVideos(CommonMap map) {
-        return mainMapper.selectVideos(map);
+
+        List<CommonMap> mapList = mainMapper.selectVideos(map);
+        mapList.stream().forEach(c -> c.put("image", s3Service.getS3FileDataForOne("content_media", c.get("id"))));
+        return mapList;
     }
 
     public List<CommonMap> selectUpcomings() {
@@ -123,10 +131,43 @@ public class MainService {
 
 
     public List<CommonMap> selectIngAuctions(){
-        return ktMainMapper.selectIngAuctions();
+
+        List<CommonMap> resultMapList = ktMainMapper.selectIngAuctions();
+
+        resultMapList = resultMapList.stream().map(item -> {
+            CommonMap returnMap = new CommonMap();
+            returnMap.put("SALE_NO", item.get("SALE_NO"));
+            returnMap.put("SALE_KIND", item.get("SALE_KIND"));
+            returnMap.put("TITLE_BLOB", item.get("TITLE_BLOB"));
+            returnMap.put("FROM_DT", item.get("FROM_DT"));
+            returnMap.put("TO_DT", item.get("TO_DT"));
+
+            CommonMap paramMap = new CommonMap();
+            paramMap.put("sale_no", item.get("SALE_NO"));
+            CommonMap saleImg = ktMainMapper.selectSaleImage(paramMap);
+
+            returnMap.put("FILE_PATH", saleImg.get("FILE_PATH"));
+            returnMap.put("FILE_NAME", saleImg.get("FILE_NAME"));
+
+            return returnMap;
+        }).collect(Collectors.toList());
+
+        return resultMapList;
     }
 
     public List<CommonMap> selectIngMenuCount(){
         return ktMainMapper.selectIngMenuCount();
+    }
+
+    public CommonMap selectHaveToPayWorkCount(Principal principal){
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("action_user_no", principal.getName());
+
+        int haveToPayCount = ktMainMapper.selectHaveToPayWork(paramMap) == null? 0 : ktMainMapper.selectHaveToPayWork(paramMap).size();
+
+        CommonMap resultMap = new CommonMap();
+        resultMap.put("isExist", haveToPayCount > 0 ? true : false);
+
+        return resultMap;
     }
 }
