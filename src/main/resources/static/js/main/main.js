@@ -331,10 +331,8 @@ function loadBeltBanner() {
             const success =  response.data.success;
             if (success) {
                 const bannerList = response.data.data;
-                console.log(bannerList); //tag: pc_ko, pc_en, mo_ko, mo_en
                 bannerList.map(item => {
                     const content = JSON.parse(item.content);
-                    console.log(item.image)
                     const returnDom =  `<div class="swiper-slide platform-bg" style="background-color: ${content.backgroundColor} ">
                                             <a href="${ locale === 'en' ? content.url_en : content.url_ko }" target="_blank"  >
                                                 <img src="${locale === 'en' ? item.image.pc_en_url : item.image.pc_ko_url }" alt="beltPcBanner" class="beltBannerImg-pc platform-img" >
