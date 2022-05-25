@@ -55,7 +55,6 @@
 															</a>
 															<div class="bbs-subbox">
 																<div class="statebox" >
-																	<span </span>
 																	<div class="state-icon complete" ng-if="inquiry.REPLY_YN == 'Y'">답변완료</div>
 																	<div class="state-icon pending" ng-if="inquiry.REPLY_YN != 'Y'">답변대기</div>
 																</div>
