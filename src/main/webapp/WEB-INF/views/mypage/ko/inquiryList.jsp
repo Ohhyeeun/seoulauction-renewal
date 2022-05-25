@@ -54,9 +54,10 @@
 															</div>
 															</a>
 															<div class="bbs-subbox">
-																<div class="statebox">
-																	<div class="state-icon complete">{{inquiry.REPLY_YN
-																		== 'Y' ? '답변완료' : '답변대기'}}</div>
+																<div class="statebox" >
+																	<span </span>
+																	<div class="state-icon complete" ng-if="inquiry.REPLY_YN == 'Y'">답변완료</div>
+																	<div class="state-icon pending" ng-if="inquiry.REPLY_YN != 'Y'">답변대기</div>
 																</div>
 																<div class="date tb1">{{inquiry.REG_DT |
 																	date:'yyyy-MM-dd'}}</div>

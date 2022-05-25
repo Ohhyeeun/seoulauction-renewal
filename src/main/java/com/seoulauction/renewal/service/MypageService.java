@@ -96,8 +96,7 @@ public class MypageService {
 		CommonMap map = new CommonMap();
 		map.put("inquiryInfo", mypageMapper.selectInquiryInfo(commonMap));
 		map.put("inquiryReply", mypageMapper.selectInquiryReply(commonMap));
-		List<String> resultMap = s3Service.getS3FileData("bbs_write", commonMap.get("write_no") );
-		map.put("inquiryFileList", resultMap);
+		map.put("inquiryFileList", s3Service.getS3FileDataAll("bbs_write", commonMap.get("write_no")));
     	return map;
     }
 
@@ -122,14 +121,13 @@ public class MypageService {
     			for(MultipartFile file : fileList) {
     				if(file.getSize() > 0 && !file.getOriginalFilename().equals("")) {
     					//서버 저장 -> s3 api호출로 변경 예정.
-    					s3Service.insertS3FileData(file,"bbs_write", String.valueOf(result));
+    					s3Service.insertS3FileData(file,"bbs_write", String.valueOf(map.get("write_no")));
     				}
     			}	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
         return result;
-
     }
     
     // 공통
