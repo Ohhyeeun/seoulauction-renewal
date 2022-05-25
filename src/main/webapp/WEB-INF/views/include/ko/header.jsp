@@ -127,7 +127,7 @@
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>
                                 <ul class="submenu submenu-part03">
-                                    <li><a href="#">위탁안내</a></li>
+                                    <li><a href="/sell/consignment">위탁안내</a></li>
                                     <li><a href="#">위탁신청</a></li>
                                 </ul>
                             </li>
