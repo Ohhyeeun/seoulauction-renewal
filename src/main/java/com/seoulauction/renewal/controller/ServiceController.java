@@ -22,11 +22,15 @@ public class ServiceController {
         return SAConst.getUrl(SERVICE_SERVICE , "loan" , locale);
     }
 
+    @GetMapping("/storage")
+    public String storage(Locale locale) {
+        return SAConst.getUrl(SERVICE_SERVICE , "storage" , locale);
+    }
+
     @GetMapping("/showroom")
     public String showroom(Locale locale) {
         return SAConst.getUrl(SERVICE_SERVICE , "showroom" , locale);
     }
-
 
     @GetMapping("/showroom/vr")
     public String showroom_vr(Locale locale) {
