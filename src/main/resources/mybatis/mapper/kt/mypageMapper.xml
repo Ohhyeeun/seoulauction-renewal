@@ -2,31 +2,78 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seoulauction.renewal.mapper.kt.MypageMapper">	
 	
+	<!--정회원 이력  -->
+	<select id="selectCustomerCustpayList" resultType="Map">
+		select CU.CUST_NO
+		, DATE_FORMAT(CP.VALID_FROM_DT, '%Y.%m.%d') as  VALID_FROM_DT
+		, DATE_FORMAT(CP.VALID_TO_DT, '%Y.%m.%d')  as VALID_TO_DT
+		, P.PAY_METHOD_CD
+		, P.PAY_PRICE
+		, DATE_FORMAT(P.PAY_DT, '%m.%d') payDate
+		,CASE DAYOFWEEK(P.PAY_DT)
+			WHEN '1' THEN '일'
+			WHEN '2' THEN '월'
+			WHEN '3' THEN '화'
+			WHEN '4' THEN '수'
+			WHEN '5' THEN '목'
+			WHEN '6' THEN '금'
+			WHEN '7' THEN '토'
+		END AS weekDate
+		,DATE_FORMAT(P.PAY_DT, '%T') as payTime
+		, CASE WHEN CP.VALID_TO_DT &gt;= NOW() THEN '정회원' ELSE '기간만료' END VALID 
+		, CD1.CD_NM PAY_METHOD_NM
+		from CUST CU
+		left outer join CUST_PAY CP on CU.cust_no = CP.cust_no
+		join PAY P ON P.pay_no = CP.pay_no and P.cust_no = CP.cust_no
+		join CODE CD1 on P.PAY_METHOD_CD = CD1.CD_ID and CD1.GRP_ID = 'pay_method'
+		where CU.JOIN_KIND_CD = 'online'
+		and CU.STAT_CD = 'normal'
+		and CU.CUST_NO = #{action_user_no}
+		order by P.PAY_DT desc
+	</select>
+	
 	<!-- 아카데미 list -->
 	<select id="selectAcademyList" resultType="Map">
-		SELECT A.CUST_NAME , 
-		A.EMAIL , 
-		A.HP, 
-		B.REG_DT , 
-		C.ACADEMY_PAY, 
-		C.ACADEMY_PAY1,
-		C.ACADEMY_PAY2,
-		C.ACADEMY_PAY3,
-		COLUMN_JSON(C.TITLE_BLOB) TITLE_JSON,
-		COLUMN_GET(C.TITLE_BLOB, 'ko' AS CHAR) TITLE_KO,
-		COLUMN_GET(C.TITLE_BLOB, 'en' AS CHAR) TITLE_EN,
-		C.ACADEMY_NO
-		FROM CUST A , ACADEMY_REQ B , ACADEMY C
-		WHERE A.CUST_NO = B.CUST_NO AND B.ACADEMY_NO = C.ACADEMY_NO AND A.CUST_NO = #{cust_no} AND B.DEL_YN = 'N'
-		order by B.REG_DT desc
-		limit #{offset}, #{size}
+	select
+				A.CUST_NAME ,
+				A.EMAIL ,
+				A.HP,
+				B.REG_DT ,
+				B.CANCEL_YN ,
+				C.ACADEMY_PAY,
+				C.ACADEMY_PAY1,
+				C.ACADEMY_PAY2,
+				C.ACADEMY_PAY3,
+				COLUMN_JSON(C.TITLE_BLOB) TITLE_JSON,
+				COLUMN_GET(C.TITLE_BLOB,
+				'ko' as CHAR) TITLE_KO,
+				COLUMN_GET(C.TITLE_BLOB,
+				'en' as CHAR) TITLE_EN,
+				C.ACADEMY_NO,
+				(select pay_price from pay p where p.PAY_NO = D.PAY_NO)  as pay_price,
+				(select vat_price from pay p where p.PAY_NO = D.PAY_NO)  as vat_price,
+				(select vat from pay p where p.PAY_NO = D.PAY_NO) as vat,
+				(select PAY_METHOD_CD  from pay p where p.PAY_NO = D.PAY_NO) as PAY_METHOD_CD
+			from
+				CUST A 
+				join ACADEMY_REQ B on A.CUST_NO = B.CUST_NO
+				join ACADEMY C on B.ACADEMY_NO = C.ACADEMY_NO
+				join academy_pay D  on D.ACADEMY_NO = C.ACADEMY_NO and A.CUST_NO = D.CUST_NO
+			where
+					A.CUST_NO in ('102254','104907','106326','98250','80722','98250','102137','104320','104913','103040')
+					<!-- and B.DEL_YN = 'N' -->
+	<!-- A.CUST_NO = #{cust_no} AND B.DEL_YN = 'N' -->
+			order by
+					B.REG_DT desc
+			limit #{offset}, #{size}
 	</select>
 	
 	<select id="selectAcademyCnt" resultType="int">
 		SELECT 
 		COUNT(*)	     ROW_CNT
 		FROM CUST A , ACADEMY_REQ B , ACADEMY C
-		WHERE A.CUST_NO = B.CUST_NO AND B.ACADEMY_NO = C.ACADEMY_NO AND A.CUST_NO = #{cust_no} AND B.DEL_YN = 'N'
+		<!-- WHERE A.CUST_NO = B.CUST_NO AND B.ACADEMY_NO = C.ACADEMY_NO AND A.CUST_NO = #{cust_no} AND B.DEL_YN = 'N' -->
+		WHERE A.CUST_NO = B.CUST_NO AND B.ACADEMY_NO = C.ACADEMY_NO AND A.CUST_NO in ('102254','104907','106326','98250','80722','98250','102137','104320','104913','103040')
 	</select>
 	
 	<!-- 아카데미 결제정보 -->
@@ -148,6 +195,57 @@
 	order by S.TO_DT DESC;
 	</select>
 	
+
+	<!--본인인증  -->
+	<select id="selectSaleCertByCustHp" resultType="CommonMap">
+		SELECT
+		    *
+		FROM
+		     SALE_CERT
+		WHERE
+		    DEL_YN = 'N'
+		  	and HP = #{to_phone}
+		  	and SALE_NO = #{sale_no}
+		LIMIT
+			1
+	</select>
+	
+	
+	<select id="selectAuthNumber" resultType="CommonMap">
+	    set @rand_num := CAST(FLOOR(100000 + RAND() * 899999) AS unsigned integer);
+	   	insert into SC_TRAN(
+			TR_PHONE,
+			TR_CALLBACK,
+			TR_MSG,
+			TR_SENDDATE
+		)
+		values(
+			#{to_phone},
+			#{from_phone},
+			replace('${msg}', '##rand_num##', @rand_num),
+			now()
+		);
+	    select @rand_num as AUTH_NUM
+	</select>
+	
+	<insert id="inertSaleCert" parameterType="Map" useGeneratedKeys="true" keyProperty="sale_cert_no">
+		insert into SALE_CERT (SALE_NO, CUST_NO, HP, CUST_HP, DONE_CD, REG_DT, REG_EMP_NO)
+		VALUES (
+			#{sale_no}, 
+			#{action_user_no}, 
+			#{to_phone},
+			(select max(A.HP) from CUST A where A.CUST_NO = #{action_user_no}),
+			#{done_cd},
+			now(),
+			#{action_user_no}
+		);
+	</insert>	
+	
+	<update id="updateSaleCertHp">
+		update CUST set HP = #{hp} where CUST_NO = #{action_user_no};
+		update SALE_CERT set DONE_CD='modify' where	SALE_CERT_NO = #{sale_cert_no};
+	</update>	
+
 	<!-- 문의 리스트 -->
 	<sql id="sql_bbs_w_list">
 		select * from (
@@ -323,4 +421,77 @@
 		)
 	</insert>
 
+<!-- 관심정보 -->
+<select id="selectCustInteLotList" resultType="Map">
+SELECT 'INTE_LOT' AS GUBUN
+			 , CL.*
+		     , CU.CUST_NAME
+		     , L.STAT_CD
+		     ,	EXPE_PRICE_FROM_BLOB
+			 , COLUMN_GET(L.EXPE_PRICE_FROM_BLOB, 'KRW' AS CHAR) AS  EXPE_PRICE_FROM_KO
+			 , COLUMN_GET(L.EXPE_PRICE_FROM_BLOB, 'USD' AS CHAR) AS  EXPE_PRICE_FROM_EN
+			 , COLUMN_GET(L.EXPE_PRICE_TO_BLOB, 'KRW' AS CHAR) AS  EXPE_PRICE_TO_KO
+			 , COLUMN_GET(L.EXPE_PRICE_TO_BLOB, 'USD' AS CHAR) AS  EXPE_PRICE_TO_EN 
+		     , IF(S.SALE_TH_DSP_YN = 'N', '', CONCAT(S.SALE_TH, f_ordinal_number(S.SALE_TH))) AS SALE_TH_DSP
+		     , COLUMN_GET(S.TITLE_BLOB, 'ko' AS CHAR) AS SALE_TITLE_KO
+		     , COLUMN_GET(S.TITLE_BLOB, 'en' AS CHAR) AS SALE_TITLE_EN
+		     , COLUMN_GET(L.TITLE_BLOB, 'ko' AS CHAR) AS TITLE_KO
+		     , COLUMN_GET(L.TITLE_BLOB, 'en' AS CHAR) AS TITLE_EN
+		     , COLUMN_GET(L.TITLE_BLOB, 'zh' AS CHAR) AS TITLE_ZH
+		     , COLUMN_GET(A.ARTIST_NAME_BLOB, 'ko' AS CHAR) AS ARTIST_NAME_KO
+		     , COLUMN_GET(A.ARTIST_NAME_BLOB, 'en' AS CHAR) AS ARTIST_NAME_EN
+		     , COLUMN_GET(A.ARTIST_NAME_BLOB, 'zh' AS CHAR) AS ARTIST_NAME_ZH	
+		     , if(S.TO_DT > NOW(), 'N', 'Y') AS CLOSE_YN
+		     , S.SALE_OUTSIDE_YN 
+ 		     , LI.FILE_NAME
+		     , LI.FILE_PATH
+		  FROM CUST_INTE_LOT CL INNER JOIN CUST CU ON CL.CUST_NO = CU.CUST_NO
+							   inner join 
+							   (
+							   select 
+									s1.SALE_NO , s1.SALE_TH, S1.SALE_TH_DSP_YN, S1.TITLE_BLOB, S1.SALE_OUTSIDE_YN, S1.TO_DT
+								from
+									sale s1
+								join cust_inte_lot cil on
+									s1.SALE_NO = cil.SALE_NO
+								where
+									cil.CUST_NO = #{action_user_no}
+									<choose>
+										<when test="sale_kind == 'online'">AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb')</when>
+										<when test="sale_kind == 'live'">AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb'</when>
+										<otherwise>AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb' or IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb')</otherwise>
+									</choose>
+								group by s1.sale_no order by s1.sale_no desc limit #{offset}, #{size}
+								) s on s.sale_no = CL.SALE_NO
+		  						INNER JOIN LOT  L ON CL.SALE_NO = L.SALE_NO AND CL.LOT_NO = L.LOT_NO
+		                      	LEFT OUTER JOIN ARTIST A ON L.ARTIST_NO = A.ARTIST_NO
+		                      	LEFT OUTER JOIN LOT_IMG LI ON CL.SALE_NO = LI.SALE_NO AND CL.LOT_NO = LI.LOT_NO AND LI.IMG_NO = (SELECT T.IMG_NO FROM LOT_IMG T WHERE T.SALE_NO = L.SALE_NO AND T.LOT_NO = L.LOT_NO ORDER BY T.DISP_ORD LIMIT 1)
+							   WHERE CL.CUST_NO =  #{action_user_no}
+							     ORDER BY CL.SALE_NO DESC, CL.LOT_NO ASC;
+	</select>
+
+    <select id="selectCustInteLotCnt" resultType="int">
+		select count(*) from 
+			(select 
+				s1.SALE_NO , s1.SALE_TH, S1.SALE_TH_DSP_YN, S1.TITLE_BLOB, S1.SALE_OUTSIDE_YN
+			from
+				sale s1
+			join cust_inte_lot cil on
+				s1.SALE_NO = cil.SALE_NO
+			where
+				cil.CUST_NO = #{action_user_no}
+				<choose>
+					<when test="sale_kind == 'online'">AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb')</when>
+					<when test="sale_kind == 'live'">AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb'</when>
+					<otherwise>AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb' or IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb')</otherwise>
+				</choose>
+		group by s1.sale_no) as sale;
+	</select>
+
+	
+	<!-- 관심상품 삭제 -->
+	<update id="deleteCustInteLot" parameterType="CommonMap">
+		 DELETE FROM CUST_INTE_LOT WHERE CUST_NO = #{action_user_no} AND SALE_NO = #{sale_no} AND LOT_NO = #{lot_no};
+	</update>
+	
 </mapper>

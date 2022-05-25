@@ -57,8 +57,9 @@ app.controller("inquiryViewCtl", function($scope, consts, common) {
                 alert(result.data.msg);
             } else {
         	$scope.inquiry = result.data.inquiryInfo;
-			$scope.replyList =  result.data.inquiryReply;
+			$scope.reply =  result.data.inquiryReply;
 			$scope.fileList =  result.data.inquiryFileList;
+			console.log($scope.reply);
 			$scope.$apply();
             }
         })
@@ -80,6 +81,19 @@ app.controller("inquiryViewCtl", function($scope, consts, common) {
         }
         return requestParam;
     }
+    
+/*    $scope.downloadfile = async function(url, name) {
+    // blob 형태로 들고 있어야 함.
+    const res = await fetch(url);
+    const blob = await res.blob();
+
+    // anchor tag를 통해 다운 받는 방법
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = url;
+    link.innerHTML = 'download';
+    document.body.appendChild(link);
+	}*/
 });
 
 app.controller('inquiryWriteCtl', function($scope, consts, common, inquiryService) {
@@ -121,6 +135,8 @@ app.service("inquiryService", function($rootScope, common, locale) {
 			
 			for (var i = 0; i < elements.length; i++) {
 				if ($scope.form_data.cate1 == "sell" || $scope.form_data.cate1 == "chineseart") {
+					
+					console.log(elements[i]);
 					elements[i].style.display = 'block';
 				}
 				else {
@@ -166,7 +182,7 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				return false;
 			}
 
-			if (!$scope.isValidString(document.getElementById('contents').value)) {
+			if (!$scope.isValidString(document.getElementById('inquiryContents').value)) {
 				if (locale == "ko") {
 					alert("내용을 넣어주세요.");
 				} else {
@@ -273,9 +289,9 @@ app.service("inquiryService", function($rootScope, common, locale) {
 
 			if ($scope.form_data.cate1 == "sell" || $scope.form_data.cate1 == "chineseart") {
 
-				document.getElementById("tmp_work_name").append($scope.sell_data.work_name);
-				document.getElementById("tmp_artist_name").append($scope.sell_data.artist_name);
-				document.getElementById("tmp_work_material").append($scope.sell_data.work_material);
+				document.getElementById("tmp_work_name").innerText= $scope.sell_data.work_name;
+				document.getElementById("tmp_artist_name").innerText= $scope.sell_data.artist_name;
+				document.getElementById("tmp_work_material").innerText = $scope.sell_data.work_material;
 
 				var category = "";
 				if ($scope.isValidString($scope.sell_data.work_category1)) {
@@ -287,19 +303,19 @@ app.service("inquiryService", function($rootScope, common, locale) {
 						}
 					}
 				}
-				document.getElementById("tmp_work_category").append(category);
-				document.getElementById("tmp_work_estate").append($scope.sell_data.work_estate);
-				document.getElementById("tmp_hope_price").append($scope.sell_data.hope_price);
-				document.getElementById("tmp_artist_desc").append($scope.sell_data.artist_desc);
-				document.getElementById("tmp_work_desc").append($scope.sell_data.work_desc);
-				document.getElementById("tmp_possession_details").append($scope.sell_data.possession_details);
-				document.getElementById("tmp_work_size").append($scope.sell_data.work_size);
+				document.getElementById("tmp_work_category").innerText = category;
+				document.getElementById("tmp_work_estate").innerText = $scope.sell_data.work_estate;
+				document.getElementById("tmp_hope_price").innerText = $scope.sell_data.hope_price;
+				document.getElementById("tmp_artist_desc").innerText = $scope.sell_data.artist_desc;
+				document.getElementById("tmp_work_desc").innerText = $scope.sell_data.work_desc;
+				document.getElementById("tmp_possession_details").innerText = $scope.sell_data.possession_details;
+				document.getElementById("tmp_work_size").innerText = $scope.sell_data.work_size;
 
-				document.getElementById("contents").value = $scope.form_data.content + "\n\n" + document.getElementById("sell_form").innerHTML;
+				document.getElementById("inquiryContents").value = $scope.form_data.content + "\n\n" + document.getElementById("sell_form").innerHTML;
 			}
 			else {
 				console.log($scope.form_data.content);
-				document.getElementById("contents").value = $scope.form_data.content;
+				document.getElementById("inquiryContents").value = $scope.form_data.content;
 			}
 
 
@@ -400,7 +416,10 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				document.getElementById("work_category3").style.display = "block";
 			}
 		}
+		
+
 	}
 });
-	
+
+
 

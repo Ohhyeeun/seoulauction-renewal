@@ -19,21 +19,37 @@
 			, VAT
 			, PAY_DT
 			, REG_DT
+			, PAY_WAIT_NO
+			, RCPT_TYPE
+			, REAL_PAYER
 		) values (
 			 #{cust_no}
-			,#{pay_method}
+			,lower(#{pay_method})
 			, 'Y'
-			, 'nice'
-			, #{pg_trnas_id}
-			, #{name}
+			, #{pg_cd}
+			, #{pg_trans_id}
+			, #{payer}
 			, #{pay_price}
 			, #{no_vat_price}
 			, #{vat_price}
 			, #{vat}
 			, now()
 			, now()
-		)
+			, #{pay_wait_no}
+			, #{rcpt_type}
+			, #{real_payer}
+		);
 	</insert>
+
+	<select id="selectPayByPayNoAndCustNo" resultType="commonMap" parameterType="commonMap">
+		SELECT
+			*
+		FROM
+		    PAY
+		WHERE
+			PAY_NO = #{pay_no}
+		and CUST_NO = #{cust_no};
+	</select>
 
 	<!--정회원 결제 테이블-->
 	<insert id="insertCustPay" parameterType="commonMap">
@@ -44,12 +60,13 @@
 			 , VALID_TO_DT
 		) values (
 			   #{cust_no}
-			 , ${pay_no}
+			 , #{pay_no}
 			 , now()
 			 , DATE_ADD(DATE_ADD(now(), INTERVAL 1 YEAR), INTERVAL -1 DAY)
-			 )
+			 );
 	</insert>
-	<!--정회원 결제 테이블-->
+
+	<!-- 작품 결제  -->
 	<insert id="insertLotPay" parameterType="commonMap">
 		insert into LOT_PAY (
 			  SALE_NO
@@ -59,66 +76,117 @@
 		) values (
 			   #{sale_no}
 			 , #{lot_no}
-			 , last_insert_id()
+			 , #{pay_no}
 			 , 'payment'
-		 )
+		 );
 	</insert>
-	<!---->
-	<!--아카데미 결제 테이블-->
-	<insert id="insertAcademyPay" parameterType="commonMap">
-	INSERT INTO ACADEMY_PAY (
-			ACADEMY_NO,
-			CUST_NO,
-			PAY_NO
-		)
-		VALUES (
-		    #{academy_no},
-		    #{cust_no},
-		    ${pay_no}
-		)
-	</insert>
-	<insert id="insertAcademyReqPay" parameterType="commonMap">
-		INSERT INTO ACADEMY_REQ (
-			 ACADEMY_NO,
-			 CUST_NO,
-			 REG_EMP_NO,
-			 PAYER,
-			 REG_DT
-		)
-		VALUES (
-			#{academy_no},
-			#{cust_no},
-			#{reg_cust_no},
-			#{payer},
-			now(),
-		)
-	</insert>
-	<!---->
 	<update id="updateLotFeeForPayment" parameterType="commonMap">
 		update
 			LOT_FEE
 		SET
 			FEE = cast(greatest(
-					   least((#{bid_price} - (ifnull(PRICE_FROM, 1) - 1))
-						   , (ifnull(PRICE_TO, #{bid_price}) - (ifnull(PRICE_FROM, 1) - 1)))
-				   , 0) * (RATE / 100) as int)
+							   least((#{bid_price} - (ifnull(PRICE_FROM, 1) - 1))
+								   , (ifnull(PRICE_TO, #{bid_price}) - (ifnull(PRICE_FROM, 1) - 1)))
+						   , 0) * (RATE / 100) as int)
 		  , MOD_DT = now()
 		where
-			SALE_NO = #{sale_no} and LOT_NO = #{lot_no}
+			SALE_NO = #{sale_no} and LOT_NO = #{lot_no};
 	</update>
 
-	<insert id="insertPayWait" parameterType="commonMap">
+	<select id="selectLotBidPrice" parameterType="commonMap" resultType="commonMap">
+		<![CDATA[
+		select L.SALE_NO, L.LOT_NO, B.BID_PRICE
+		from LOT L
+		inner join (select MAX(BID_PRICE) as bid_price from BID where SALE_NO = #{sale_no} and LOT_NO = #{lot_no}) B
+		where L.sale_no = #{sale_no}
+		and L.lot_no = #{lot_no}
+		and L.to_dt <= now();
+		]]>
+	</select>
+
+	<select id="get_sale_fee" parameterType="commonMap" resultType="commonMap">
+		select CAST(sum(FEE) AS INTEGER ) SUM_FEE from (
+		   select cast(greatest(
+					   least((#{bid_price} - (ifnull(PRICE_FROM, 1) - 1))
+						   , (ifnull(PRICE_TO, #{bid_price}) - (ifnull(PRICE_FROM, 1) - 1)))
+				   , 0) * (RATE / 100) as INTEGER ) as FEE
+		   from    SALE_BASE_FEE
+		   where 	SALE_NO = #{sale_no} and FEE_KIND_CD = 'payment'
+	   ) FEE;
+	</select>
+
+	<select id="get_lot_fee" parameterType="commonMap" resultType="commonMap">
+		select CAST(sum(FEE) AS INTEGER ) SUM_FEE from (
+		   select IF(LCHK.STAT_CD = 'end' AND IFNULL(FEE, 0) > 0, FEE, cast(greatest(
+						least((#{bid_price} - (ifnull(PRICE_FROM, 1) - 1))
+							, (ifnull(PRICE_TO, #{bid_price}) - (ifnull(PRICE_FROM, 1) - 1)))
+					, 0) * (RATE / 100) as INTEGER )) as FEE
+		   from    LOT_FEE, (SELECT IF(CAST(NOW() AS DATETIME) > MAX(TO_DT), 'end', 'ing') AS STAT_CD FROM LOT WHERE SALE_NO = #{sale_no}) LCHK
+		   where 	SALE_NO = #{sale_no} and LOT_NO = #{lot_no} and FEE_KIND_CD = 'payment'
+	   ) FEE;
+	</select>
+
+	<select id="selectLotPayByPayNo" parameterType="commonMap" resultType="commonMap">
+		select * from LOT_PAY
+		where PAY_NO = #{pay_no};
+	</select>
+
+
+
+	<!--아카데미 결제 테이블-->
+	<insert id="insertAcademyPay" parameterType="commonMap">
+		INSERT INTO ACADEMY_PAY (ACADEMY_NO, CUST_NO, PAY_NO)
+		VALUES (#{academy_no}, #{cust_no}, #{pay_no});
+	</insert>
+	<insert id="insertAcademyReq" parameterType="commonMap">
+		INSERT INTO ACADEMY_REQ (ACADEMY_NO, CUST_NO, REG_EMP_NO, PAYER, REG_DT)
+		VALUES (#{academy_no}, #{cust_no}, #{reg_emp_no}, #{payer}, now());
+	</insert>
+	<!---->
+
+
+	<insert id="insertPayWait" parameterType="commonMap" useGeneratedKeys="true" keyProperty="pay_no" keyColumn="PAY_WAIT_NO">
 		INSERT INTO PAY_WAIT (CUST_NO, KIND_CD, REF_NO, REF_NO2, PAY_METHOD_CD, PG_CD, PG_TRANS_ID, PAYER, PAY_PRICE
 			, STAT_CD, REG_DT, NO_VAT_PRICE, VAT_PRICE, VAT, UUID, VBANK_CD, VBANK_NM, VBANK_NUM, VBANK_EXP_DT, RCPT_TYPE
-		) VALUES (#{cust_no}, #{kind_cd}, #{ref_no}, #{ref_no2}, lower(#{pay_method_cd}), #{pg_cd}, #{pg_trans_id}, #{payer}, #{pay_price}
+		) VALUES (#{cust_no}, lower(#{kind_cd}), #{ref_no}, #{ref_no2}, lower(#{pay_method_cd}), #{pg_cd}, #{pg_trans_id}, #{payer}, #{pay_price}
 			, 'wait', now(), #{no_vat_price}, #{vat_price}, #{vat}, #{uuid}, #{vbank_cd}, #{vbank_nm}, #{vbank_num}, #{vbank_exp_dt}, #{rcpt_type}
 		);
 	</insert>
 
-	<select id="selectPayWait" resultType="commonMap" parameterType="commonMap">
+	<select id="selectPayWaitByUuid" resultType="commonMap" parameterType="commonMap">
 		SELECT pay_wait_no, cust_no, kind_cd, ref_no, ref_no2, pay_method_cd, pg_cd, pg_trans_id, payer, pay_price, stat_cd, reg_dt
             , no_vat_price, vat_price, vat, uuid, vbank_cd, vbank_nm, vbank_num, vbank_exp_dt, rcpt_type
-		FROM PAY_WAIY
+		FROM PAY_WAIT
 		WHERE uuid = #{uuid};
+	</select>
+
+	<select id="selectPayWaitByPayNoAndCustNo" resultType="commonMap" parameterType="commonMap">
+		SELECT pay_wait_no, cust_no, kind_cd, ref_no, ref_no2, pay_method_cd, pg_cd, pg_trans_id, payer, pay_price, stat_cd, reg_dt
+			 , no_vat_price, vat_price, vat, uuid, vbank_cd, vbank_nm, vbank_num, vbank_exp_dt, rcpt_type
+		FROM PAY_WAIT
+		WHERE pay_wait_no = #{pay_no}
+		  AND cust_no = #{cust_no};
+	</select>
+
+	<select id="selectAcademyPayByPayNo" resultType="commonMap" parameterType="commonMap">
+		SELECT cust_no, pay_no, academy_no
+		FROM academy_pay a
+		WHERE pay_no = #{pay_no};
+	</select>
+
+	<select id="selectAcademyByAcademyNo" resultType="commonMap" parameterType="commonMap">
+		SELECT academy_no, academy_cd, column_json(title_blob) title_json, column_json(contents_blob) contents_json, from_dt, to_dt, academy_time, academy_time_en, img_path, img_view_path
+			, file_name, file_path, file_org_name, img_path_en, img_view_path_en, file_name_en
+			, file_path_en, file_org_name_en, reg_dt, reg_emp_no, mod_dt, mod_emp_no, del_yn, disp_yn, view_file_name, view_file_org_name
+			, view_file_name_en, view_file_org_name_en, application_file_name, application_file_org_name, application_file_path
+			, academy_pay, academy_pay1, academy_pay2, academy_pay3, close_yn
+		FROM academy a
+		WHERE academy_no = #{academy_no};
+	</select>
+
+	<select id="selectCustByCustNo" parameterType="CommonMap" resultType="CommonMap">
+		select cust_no, login_id, cust_name, hp, email, addr, addr_dtl
+		from CUST
+		where cust_no = #{cust_no};
 	</select>
 </mapper>

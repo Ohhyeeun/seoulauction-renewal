@@ -39,6 +39,13 @@ public class CustomerController {
     @ResponseBody
     public void niceVBankPaid(HttpServletRequest request, HttpServletResponse response) {
         log.info("post niceVBankPaid");
+        Enumeration params = request.getParameterNames();
+        log.info("param start----------------------------");
+        while (params.hasMoreElements()){
+            String name = (String)params.nextElement();
+            log.info(name + " : " +request.getParameter(name));
+        }
+        log.info("param end----------------------------");
 
         paymentService.niceVBankPaid(request);
     }

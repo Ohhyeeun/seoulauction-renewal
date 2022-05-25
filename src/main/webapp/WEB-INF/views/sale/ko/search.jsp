@@ -6,8 +6,6 @@
 
 <!DOCTYPE html>
 <html lang="ko">
-<<<<<<< Updated upstream
-=======
 <head>
     <!-- header -->
     <meta charset="UTF-8">
@@ -21,21 +19,17 @@
     <link href="/css/angular/ngDialog.css" rel="stylesheet">
     <link href="/css/angular/popup.css" rel="stylesheet">
 </head>
->>>>>>> Stashed changes
 <body class="">
 <div class="wrapper" >
     <div class="sub-wrap pageclass type-width_list">
 
         <!-- header -->
-        <link rel="stylesheet" href="/css/main.css" type="text/css" />
-        <jsp:include page="../../include/ko/header.jsp" flush="false"/>
-        <!-- //header -->
-<<<<<<< Updated upstream
         <link href="/css/angular/rzslider.css" rel="stylesheet">
         <link href="/css/angular/ngDialog.css" rel="stylesheet">
         <link href="/css/angular/popup.css" rel="stylesheet">
-=======
->>>>>>> Stashed changes
+        <%--<link rel="stylesheet" href="/css/main.css" type="text/css" />--%>
+        <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+        <!-- //header -->
         <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
         <script type="text/javascript" src="/js/angular/checklist-model.js"></script>
         <script type="text/javascript" src="/js/angular/paging.js"></script>
@@ -309,7 +303,6 @@
                         }
                     }
 
-
                     if($scope.search.keyword.length > 0){
                         if(getCookie("prev_url").indexOf("lotDetail") > -1 || getCookie("prev_url").indexOf("lotSearchList") > -1){
                             if(getCookie('page') != undefined){
@@ -349,8 +342,6 @@
 
                 $scope.cnt = 0;
                 $scope.loadLotList = function($page, $subPage){
-
-
                     $(".product-list").empty();
 
                     if($page > 1){
@@ -373,7 +364,6 @@
                     setCookie('sale_status_end_yn', $scope.sale_status_end_yn, 1);
                     setCookie('sale_status_ing_yn', $scope.sale_status_ing_yn, 1);
                     setCookie('sale_status_ready_yn', $scope.sale_status_ready_yn, 1);
-
                     $scope.currentPage = $page;
                     $scope.subPage = $subPage;
                     $api = "/sale/searchList";
@@ -860,7 +850,6 @@
             });
 
     };
-
 
 </script>
 

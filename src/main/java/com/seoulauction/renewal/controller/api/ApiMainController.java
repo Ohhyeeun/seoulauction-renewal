@@ -1,37 +1,18 @@
 package com.seoulauction.renewal.controller.api;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.seoulauction.renewal.common.RestResponse;
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.service.LoginService;
 import com.seoulauction.renewal.service.MainService;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
-import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
 @RestController
 @Log4j2
@@ -52,6 +33,7 @@ public class ApiMainController {
         return ResponseEntity.ok(RestResponse.ok(mainService.selectBeltBanners()));
     }
 
+    /*Newsletter*/
     @GetMapping(value="/newsletters")
     public ResponseEntity<RestResponse> newsletters(
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
@@ -76,6 +58,11 @@ public class ApiMainController {
         return ResponseEntity.ok(RestResponse.ok(mainService.selectNewsletterById(map)));
     }
 
+    /*popup*/
+    @GetMapping(value="/popup")
+    public ResponseEntity<RestResponse> popup(){
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectPopup()));
+    }
     @PostMapping(value="/newsletters")
     public ResponseEntity<RestResponse> insertNewsletter(
             @RequestBody CommonMap map) {
@@ -111,16 +98,22 @@ public class ApiMainController {
         return ResponseEntity.ok(RestResponse.ok(mainService.selectUpcomings()));
     }
 
-    @GetMapping(value="/ingAuctions")
+    @RequestMapping(value="/ingAuctions", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> ingAuctions() {
 
         return ResponseEntity.ok(RestResponse.ok(mainService.selectIngAuctions()));
     }
 
-    @GetMapping(value="/ingMenuCount")
+    @RequestMapping(value="/ingMenuCount", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> ingMenuCount() {
 
         return ResponseEntity.ok(RestResponse.ok(mainService.selectIngMenuCount()));
+    }
+
+    @RequestMapping(value="/isHaveToPayWorkExist", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> isHaveToPayWorkExist(Principal principal) {
+
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectHaveToPayWorkCount(principal)));
     }
    
     @GetMapping(value="/resetPassword")
@@ -157,5 +150,4 @@ public class ApiMainController {
     	
         return ResponseEntity.ok(RestResponse.ok());
     }
-
 }

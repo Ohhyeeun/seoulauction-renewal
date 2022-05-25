@@ -10,6 +10,8 @@ import com.seoulauction.renewal.domain.CommonMap;
 @Mapper
 public interface MypageMapper {
 	
+	List<CommonMap> selectCustomerCustpayList(CommonMap commonMap);
+	
     List<CommonMap> selectAcademyList(CommonMap commonMap);
     
     int selectAcademyCnt(CommonMap commonMap);
@@ -24,13 +26,22 @@ public interface MypageMapper {
 
     CommonMap selectCustomerByCustNo(CommonMap commonMap);
     
+
+    CommonMap selectSaleCertByCustHp(CommonMap commonMap);
+    
+    CommonMap selectAuthNumber(CommonMap commonMap);
+
+    int inertSaleCert(CommonMap commonMap);
+   
+    int updateSaleCertHp(CommonMap commonMap);
+
     List<CommonMap> selectInquiryList(CommonMap commonMap);
     
     int selectInquiryListCnt(CommonMap commonMap);
 
     CommonMap selectInquiryInfo(CommonMap commonMap);
     
-    List<CommonMap> selectInquiryReply(CommonMap commonMap);
+    CommonMap selectInquiryReply(CommonMap commonMap);
     
     List<CommonMap> selectFileList(CommonMap commonMap);
 
@@ -42,4 +53,11 @@ public interface MypageMapper {
    
     int insertInquiryWrite(Map commonMap);
 
+    List<CommonMap> selectCustInteLotList(CommonMap commonMap);
+
+    int selectCustInteLotCnt(CommonMap commonMap);
+    
+    CommonMap insertCustInteLot(CommonMap commonMap);
+
+    int deleteCustInteLot(CommonMap commonMap);
 }
