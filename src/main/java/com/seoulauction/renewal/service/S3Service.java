@@ -35,8 +35,11 @@ public class S3Service {
     @Value("${aws.s3.image.base.url}")
     String S3_IMAGE_BASE_URL;
 
+    @Value("${aws.s3.private.image.base.url}")
+    String S3_PRIVATE_IMAGE_BASE_URL;
+
     //S3 업로드 이후 디비에 저장.
-    public CommonMap insertS3File(MultipartFile uploadFile , String tableName , String rowId) throws IOException {
+    public CommonMap insertS3File(Boolean isPrivate , MultipartFile uploadFile , String tableName , String rowId) throws IOException {
 
         //파일 이름.
         String origName = uploadFile.getOriginalFilename();
@@ -49,7 +52,7 @@ public class S3Service {
         final long fileSize = uploadFile.getSize();
         String contentType = uploadFile.getContentType();
 
-        String path = s3Uploader.upload(uploadFile,S3_IMAGE_BASE_URL + "/" + tableName + "/" + rowId);
+        String path = s3Uploader.upload(uploadFile,(isPrivate ? S3_PRIVATE_IMAGE_BASE_URL : S3_IMAGE_BASE_URL )  + "/" + tableName + "/" + rowId);
 
         CommonMap paramMap = null;
 
@@ -76,18 +79,19 @@ public class S3Service {
     }
 
     /**
+     * @param isPrivate - s3 파일 외부 공개 여부.
      * @param uploadFile - s3 업로드 될 파일.
      * @param tableName - s3파일이 필요한 테이블.
      * @param rowId - s3파일이 필요한 테이블의 row Id.
      */
     @Transactional("ktTransactionManager")
-    public void insertS3FileData(MultipartFile uploadFile , String tableName , String rowId) {
+    public void insertS3FileData(boolean isPrivate , MultipartFile uploadFile , String tableName , String rowId) {
 
             //성공적으로 업로드 된경우!! s3file_id 값이 map 에 담김.
         CommonMap map = null; // s3업로드.
 
         try {
-            map = insertS3File(uploadFile , tableName , rowId);
+            map = insertS3File(isPrivate , uploadFile , tableName , rowId);
         } catch (IOException e) {
             e.printStackTrace();
         }
