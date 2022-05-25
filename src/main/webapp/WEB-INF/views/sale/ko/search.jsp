@@ -6,6 +6,22 @@
 
 <!DOCTYPE html>
 <html lang="ko">
+<<<<<<< Updated upstream
+=======
+<head>
+    <!-- header -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>search | Seoul Auction</title>
+    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
+    <link rel="stylesheet" href="/css/common.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css" />
+    <link href="/css/angular/rzslider.css" rel="stylesheet">
+    <link href="/css/angular/ngDialog.css" rel="stylesheet">
+    <link href="/css/angular/popup.css" rel="stylesheet">
+</head>
+>>>>>>> Stashed changes
 <body class="">
 <div class="wrapper" >
     <div class="sub-wrap pageclass type-width_list">
@@ -14,9 +30,12 @@
         <link rel="stylesheet" href="/css/main.css" type="text/css" />
         <jsp:include page="../../include/ko/header.jsp" flush="false"/>
         <!-- //header -->
+<<<<<<< Updated upstream
         <link href="/css/angular/rzslider.css" rel="stylesheet">
         <link href="/css/angular/ngDialog.css" rel="stylesheet">
         <link href="/css/angular/popup.css" rel="stylesheet">
+=======
+>>>>>>> Stashed changes
         <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
         <script type="text/javascript" src="/js/angular/checklist-model.js"></script>
         <script type="text/javascript" src="/js/angular/paging.js"></script>
@@ -27,8 +46,18 @@
         <link href="/css/jquery.nouislider.css" rel="stylesheet">
         <script type="text/javascript" src="/js/customer/login.js"></script>
         <script>
-
             app.value('locale', 'ko');
+
+            function goSearch(elementId, bIsKorean) {
+
+                var sSearchContent = $("." + elementId).val();
+                if(sSearchContent) {
+                    location.href = bIsKorean ? "/sale/search?searchContent=" + sSearchContent : "/eng/sale/search?searchContent=" + sSearchContent;
+                }
+                else {
+                    alert(bIsKorean ? "검색어를 입력해주세요." : "Please write search keyword.");
+                }
+            }
 
             function dotSubString(str,len){
                 let result ='';
@@ -109,7 +138,7 @@
                 e.preventDefault();
             });	}
 
-            app.requires.push.apply(app.requires, ["bw.paging", "ngDialog", "checklist-model"]);
+            app.requires.push.apply(app.requires, ["ngDialog", "checklist-model"]);
             app.controller('lotListCtl', function($scope, consts, common, is_login, locale, $filter) {
                 $scope.popstate = false;
                 $scope.is_login = is_login;
@@ -129,6 +158,7 @@
                 $scope.expe_from_price = null;
                 $scope.expe_to_price = null;
                 $scope.search = {"sale_kind" : []};
+                $scope.firstChk = 0;
 
                 $scope.reqRowCnts = {20:"<spring:message code='label.listup.lots' arguments='20' />",
                     50:"<spring:message code='label.listup.lots' arguments='50' />",
@@ -148,10 +178,10 @@
                     "ESTAS": "<spring:message code="label.sort.by.ESTAS" />",
                     "ESTDE": "<spring:message code="label.sort.by.ESTDE" />"};
 
-                $scope.moreBy = "PAGNG";
+                $scope.moreBy = "MOREP";
                 $scope.mores={
-                    "PAGNG": "<spring:message code="label.more.by.PAGNG" />",
-                    "MOREP": "<spring:message code="label.more.by.MOREP" />"};
+                    "MOREP": "<spring:message code="label.more.by.MOREP" />",
+                    "PAGNG": "<spring:message code="label.more.by.PAGNG" />"};
 
                 $scope.sale_kind_list = [
                     {"text":"<spring:message code="label.online" />", "cd":"online, online_zb"},
@@ -180,13 +210,74 @@
                     $scope.loadLotList(1, subPage);
                 }
 
-                $scope.init = function(){
+                $scope.setSort = function(data){
+                    alert(data);
+                }
 
-                    $scope.firstChk = 0;
+                $scope.setMores = function(data){
+                    alert(data);
+                }
+
+                $scope.initFilter = function(){
+                    let checked = true;
+                    $('input:checkbox[name="lotCheckBox"]').each(function(){
+                        $(this).attr("checked", false);
+                    });
+
+                    $scope.sale_status_end_yn = 'N';
+                    $scope.sale_status_ing_yn = 'N';
+                    $scope.sale_status_ready_yn = 'N';
+                    $('#mateNm').val('');
+                }
+
+                $scope.filterCheck = function(){
+
+                    //경매일 체크
+                    let checked = true;
+                    $('input:checkbox[name="lotCheckBox"]').each(function(){
+
+                        let checkBoxChecked = $(this).is(":checked");
+                        let checkBoxId = $(this).val();
+
+                        if(checkBoxChecked == true && checkBoxId == 'end'){
+                            $scope.sale_status_end_yn = 'Y';
+                            $('#endLot').show();
+                        }
+                        if(checkBoxChecked == true && checkBoxId == 'ing'){
+                            $scope.sale_status_ing_yn = 'Y';
+                            $('#ingLot').show();
+                        }
+                        if(checkBoxChecked == true && checkBoxId == 'ready'){
+                            $scope.sale_status_ready_yn = 'Y';
+                            $('#readyLot').show();
+                        }
+
+                        if(checkBoxChecked == false && checkBoxId == 'end'){
+                            $scope.sale_status_end_yn = 'N';
+                            $('#endLot').hide();
+                        }
+                        if(checkBoxChecked == false && checkBoxId == 'ing'){
+                            $scope.sale_status_ing_yn = 'N';
+                            $('#ingLot').hide();
+                        }
+                        if(checkBoxChecked == false && checkBoxId == 'ready'){
+                            $scope.sale_status_ready_yn = 'N';
+                            $('#readyLot').hide();
+                        }
+                    });
+
+                    $scope.search.mate_nm = $('#mateNm').val();
+                    $scope.loadLotList($scope.currentPage, $scope.subPage);
+                    $(".filter_fixed-wrap").removeClass("active");
+                }
+
+                $scope.init = function(){
 
                     $scope.checkSaleKindAll();
                     $scope.search.keyword = "${param.searchContent}";
                     $scope.search.chk = "all";//검색 조건 (all 통합검색, art 작가명, title 작품명)
+
+                    $('input:checkbox[name="lotCheckBox"]').attr("checked", true);
 
                     if(getCookie("prev_url").indexOf("lotDetail") > -1 || getCookie("prev_url").indexOf("lotSearchList") > -1){
                         if($scope.search.keyword == "undefined" || $scope.search.keyword.length == 0 ){
@@ -218,6 +309,7 @@
                         }
                     }
 
+
                     if($scope.search.keyword.length > 0){
                         if(getCookie("prev_url").indexOf("lotDetail") > -1 || getCookie("prev_url").indexOf("lotSearchList") > -1){
                             if(getCookie('page') != undefined){
@@ -234,23 +326,32 @@
                 }
 
                 $scope.search = function(){
-                    $scope.loadLotList(1, 'all');
+                    $scope.loadLotList($scope.currentPage, $scope.subPage);
                 }
 
                 $scope.clearSearchCondition = function(){
                     $scope.search = {"sale_kind" : ['main', 'online', 'online_zb', 'hongkong', 'plan', 'exhibit']};
+
+                    setCookie('page', "", 1);
+                    setCookie('subPage', "", 1);
+                    setCookie('size', "", 1);
+                    setCookie('sale_kind', "", 1);
                     setCookie('keyword', "", 1);
-                    setCookie('chk', "", 1);
                     setCookie('mate_nm', "", 1);
                     setCookie('from_dt', "", 1);
                     setCookie('to_dt', "", 1);
+                    setCookie('chk', "", 1);
+                    setCookie('from', "", 1);
+                    setCookie('rows', "", 1);
+                    setCookie('sort_by', "", 1);
+                    setCookie('more_by', "", 1);
                 }
 
                 $scope.cnt = 0;
                 $scope.loadLotList = function($page, $subPage){
 
+
                     $(".product-list").empty();
-                    $(".paging").empty();
 
                     if($page > 1){
                         setCookie('prev_url', getCookie('curr_url'), 1);
@@ -258,11 +359,20 @@
 
                     setCookie('page', $page, 1);
                     setCookie('subPage', $subPage, 1);
+                    setCookie('size', name, 1);
+                    setCookie('sale_kind', $scope.search.sale_kind, 1);
                     setCookie('keyword', $scope.search.keyword, 1);
-                    setCookie('chk', $scope.search.chk, 1);
                     setCookie('mate_nm', $scope.search.mate_nm, 1);
                     setCookie('from_dt', $scope.search.from_dt, 1);
                     setCookie('to_dt', $scope.search.to_dt, 1);
+                    setCookie('chk', $scope.search.chk, 1);
+                    setCookie('from', (($scope.currentPage - 1) * parseInt($scope.reqRowCnt)), 1);
+                    setCookie('rows', parseInt($scope.reqRowCnt), 1);
+                    setCookie('sort_by', $scope.sortBy, 1);
+                    setCookie('more_by', $scope.moreBy, 1);
+                    setCookie('sale_status_end_yn', $scope.sale_status_end_yn, 1);
+                    setCookie('sale_status_ing_yn', $scope.sale_status_ing_yn, 1);
+                    setCookie('sale_status_ready_yn', $scope.sale_status_ready_yn, 1);
 
                     $scope.currentPage = $page;
                     $scope.subPage = $subPage;
@@ -281,6 +391,10 @@
                     data['from'] = (($scope.currentPage - 1) * parseInt($scope.reqRowCnt));
                     data['rows'] = parseInt($scope.reqRowCnt);
                     data['sort_by'] = $scope.sortBy;
+                    data['more_by'] = $scope.moreBy;
+                    data['sale_status_end_yn'] = $scope.sale_status_end_yn;
+                    data['sale_status_ing_yn'] = $scope.sale_status_ing_yn;
+                    data['sale_status_ready_yn'] = $scope.sale_status_ready_yn;
 
                     axios.post($api , data)
                         .then(function(response) {
@@ -305,118 +419,173 @@
 
                                 if(lotData.length != 0){
 
+                                    // 최초 한번에 대해서만 subpage count 계산
                                     if($scope.firstChk == 0){
-                                        $("#totalCount").append($scope.totalCount);
-                                        $("#allCount").append('(' + $scope.allCount + ')');
-                                        $("#liveCount").append('(' + $scope.liveCount + ')');
-                                        $("#onlineCount").append('(' + $scope.onlineCount + ')');
+                                        $('#totalCount').empty();
+                                        $('#allCount').empty();
+                                        $('#liveCount').empty();
+                                        $('#onlineCount').empty();
+
+                                        $('#totalCount').append($scope.totalCount);
+                                        $('#allCount').append('(' + $scope.allCount + ')');
+                                        $('#liveCount').append('(' + $scope.liveCount + ')');
+                                        $('#onlineCount').append('(' + $scope.onlineCount + ')');
                                         $scope.firstChk = 1;
                                     }
 
-                                    $(".paging").show();
-                                    let html = '<div class="paging">'
-                                        + '<a href="#"  class="prev_end icon-page_prevprev">FIRST</a>'
-                                        + '<a href="#" class="prev icon-page_prev">PREV</a>'
-                                        + '<strong class="on">1</strong>'
-                                        + '<a><em>2</em></a>'
-                                        + '<a href="#"><em>3</em></a>'
-                                        + '<a href="#"><em>4</em></a>'
-                                        + '<a href="#"><em>5</em></a>'
-                                        + '<a href="#"><em>6</em></a>'
-                                        + '<a href="#"><em>7</em></a>'
-                                        + '<a href="#"><em>8</em></a>'
-                                        + '<a href="#"><em>9</em></a>'
-                                        + '<a href="#"><em>10</em></a>'
-                                        + '<a href="#" class="next icon-page_next "><em>NEXT</em></a>'
-                                        + '<a href="#" class="next_end icon-page_nextnext">END</a></div>';
 
-                                    $(".paging-area").append(html);
+                                    if($scope.moreBy == "MOREP") {
+
+                                        //더보기가 선택된 경우 더보기 계산
+                                        $scope.reqRowCnt = parseInt($scope.reqRowCnt) + 5;
+
+                                    }else if($scope.moreBy == "PAGNG"){
+
+                                        //paging이 선택된 경우 paging 계산
+                                        $(".paging").empty();
+
+                                        paging({
+                                            id: "paging_search",
+                                            className:"paging",
+                                            totalCount:$scope.totalCount,
+                                            itemSize:$scope.reqRowCnt,
+                                            pageSize:10,
+                                            page:$page,
+                                            callBackFunc:function(i) {
+                                                $scope.loadLotList(i, $scope.subPage);
+                                            }
+                                        });
+                                    }
+
+                                    $(".product-list").empty();
+
+                                    $.each(lotData , function(idx , el){
+                                        let locale = document.documentElement.lang;
+                                        const titleJSON = JSON.parse(el.TITLE_JSON);
+                                        let artistJSON = "";
+                                        if(el.ARTIST_NAME_JSON != null){
+                                            artistJSON = JSON.parse(el.ARTIST_NAME_JSON);
+                                        }
+                                        const lotSizeJSON = JSON.parse(el.LOT_SIZE_JSON);
+                                        const makeYearJSON = JSON.parse(el.MAKE_YEAR_JSON);
+                                        const expePriceFromJSON = JSON.parse(el.EXPE_PRICE_FROM_JSON);
+                                        const expePriceToJSON = JSON.parse(el.EXPE_PRICE_TO_JSON);
+                                        const saleTitleJSON = JSON.parse(el.SALE_TITLE_JSON);
+                                        let saleToDt = $filter('date')(el.SALE_TO_DT, 'yyyy-MM-dd HH:mm:ss');
+
+                                        let size = "";
+                                        let status = "";
+                                        let heart_status = "";
+                                        let heart_function= "";
+
+                                        if(locale === 'ko'){
+                                            size = size_text_cm(lotSizeJSON[0], $filter);
+                                        }else{
+                                            size = size_text(lotSizeJSON[0], $filter);
+                                        }
+
+                                        if(expePriceFromJSON[el.CURR_CD] == undefined) {
+                                            expePriceFromJSON[el.CURR_CD] = '0';
+                                        }
+                                        if(expePriceToJSON[el.CURR_CD] == undefined) {
+                                            expePriceToJSON[el.CURR_CD] = '0';
+                                        }
+                                        if(el.START_PRICE == undefined) {
+                                            el.START_PRICE = '0';
+                                        }
+                                        if(el.LAST_PRICE == undefined) {
+                                            el.LAST_PRICE = '0';
+                                        }
+
+                                        if (el.END_YN == 'N' || el.CLOSE_YN == 'N') {
+                                            status = "진행중";
+                                        }else if(el.END_YN == 'Y' || el.CLOSE_YN == 'Y'){
+                                            status = "완료";
+                                        }
+
+                                        if(el.INTE_LOT_DEL == 'N'){
+
+                                            heart_status = 'icon-heart_on';
+                                            heart_function = 'inteDel';
+
+                                        }else if(el.INTE_LOT_DEL != 'N'){
+
+                                            heart_status = 'icon-heart_off';
+                                            heart_function = 'inteSave';
+                                        }
+
+                                        let html = '<li class="">'
+                                            + '<div class="li-inner">'
+                                            + '<article class="item-article">'
+                                            + '<div class="image-area">'
+                                            + '<figure class="img-ratio">'
+                                            + '<div class="img-align">'
+                                            + '<img src="https://www.seoulauction.com/nas_img/' + el.LOT_IMG_PATH + '/' + el.LOT_IMG_NAME + ' " alt="' + titleJSON + '">'
+                                            + '</div></figure></div>'
+                                            + '<div class="typo-area">'
+                                            + '<div class="product_info">'
+                                            + '<div class="num_heart-box">'
+                                            + '<span class="num">' + el.LOT_NO + '</span>'
+                                            + '<button class="heart js-work_heart">'
+                                            + '<i class="'+ heart_status + '" onclick="'+heart_function+'(\''+el.SALE_NO+'\', \''+el.LOT_NO+'\', \''+locale+'\');"></i></button></div>'
+                                            + '<div class="info-box">'
+                                            + '<div class="title"><span>' + artistJSON[locale] + ' </span><span class="sub"> (' + el.BORN_YEAR + ')</span></div>'
+                                            + '<div class="desc"><span> ' + dotSubString(titleJSON[locale], 35) + ' </span></div>'
+                                            + '<div class="standard">'
+                                            + '<span> ' + el.MATE_NM + ' </span>'
+                                            + '<div class="size_year">'
+                                            + '<span> ' + size + ' </span>'
+                                            + '<span> '+ makeYearJSON[locale] +' </span></div></div></div>'
+                                            + '<div class="price-box">'
+                                            + '<dl class="price-list">'
+                                            + '<dt>추정가</dt>'
+                                            + '<dd> ' + el.CURR_CD + ' ' + expePriceFromJSON[el.CURR_CD].toLocaleString()  + '</dd>'
+                                            + '<dd>~ '+ expePriceToJSON[el.CURR_CD].toLocaleString() +' </dd></dl>'
+                                            + '<dl class="price-list">'
+                                            + '<dt>시작가</dt>'
+                                            + '<dd> ' + el.CURR_CD + ' ' + el.START_PRICE.toLocaleString() + '</dd></dl>'
+                                            + '<dl class="price-list">'
+                                            + '<dt>현재가</dt>'
+                                            + '<dd><strong>' + el.CURR_CD + ' ' + el.LAST_PRICE.toLocaleString()  + '</strong><em>(응찰'+ el.BID_CNT +')</em></dd></dl></div>'
+                                            + '<div class="state-box">'
+                                            + '<div class="state op-ing">'
+                                            + '<div>' + status + '</div></div>'
+                                            + '<div class="other">'
+                                            + '<div class="d_name"> '+ saleTitleJSON[locale] +' </div>'
+                                            + '<div class="d_day"> ' + saleToDt + ' KST</div></div></div></div></div></article></div></div>';
+
+                                        $(".product-list").append(html);
+                                    });
+
 
                                 } else {
-                                    $(".paging").hide();
+
+                                    // 검색결과가 없는 경우
+
+                                    let html = '<div class="panel-body">'
+                                             + '<div class="data-empty type-big">'
+                                             + '<div class="img_empty">'
+                                             + '<img src="/images/mobile/auction/symbol-none_data.png" alt="검색결과가 없습니다." /></div>'
+                                             + '<div class="txt_empty">'
+                                             + '<div class="title">검색결과가 없습니다.</div>'
+                                             + '<div class="desc">단어의 철자나 띄어쓰기가 <br class="only-mb" />정확한지 확인해주세요</div></div></div></div>';
+
+
+                                    $("#panel_content").empty();
+                                    $('#totalCount').empty();
+                                    $('#allCount').empty();
+                                    $('#liveCount').empty();
+                                    $('#onlineCount').empty();
+
+                                    $("#panel_content").append(html);
+                                    $('#totalCount').append(0);
+                                    $('#allCount').append('(0)');
+                                    $('#liveCount').append('(0)');
+                                    $('#onlineCount').append('(0)');
+
                                 }
 
-                                $.each(lotData , function(idx , el){
-                                    let locale = document.documentElement.lang;
-                                    const titleJSON = JSON.parse(el.TITLE_JSON);
-                                    const artistJSON = JSON.parse(el.ARTIST_NAME_JSON);
-                                    const lotSizeJSON = JSON.parse(el.LOT_SIZE_JSON);
-                                    const makeYearJSON = JSON.parse(el.MAKE_YEAR_JSON);
-                                    const expePriceFromJSON = JSON.parse(el.EXPE_PRICE_FROM_JSON);
-                                    const expePriceToJSON = JSON.parse(el.EXPE_PRICE_TO_JSON);
-                                    const saleTitleJSON = JSON.parse(el.SALE_TITLE_JSON);
-                                    let saleToDt = $filter('date')(el.SALE_TO_DT, 'yyyy-MM-dd HH:mm:ss');
 
-                                    let size = "";
-                                    let status = "";
-
-                                    if(locale === 'ko'){
-                                        size = size_text_cm(lotSizeJSON[0], $filter);
-                                    }else{
-                                        size = size_text(lotSizeJSON[0], $filter);
-                                    }
-
-                                    if(expePriceFromJSON[el.CURR_CD] == undefined) {
-                                        expePriceFromJSON[el.CURR_CD] = '0';
-                                    }
-                                    if(expePriceToJSON[el.CURR_CD] == undefined) {
-                                        expePriceToJSON[el.CURR_CD] = '0';
-                                    }
-                                    if(el.START_PRICE == undefined) {
-                                        el.START_PRICE = '0';
-                                    }
-                                    if(el.LAST_PRICE == undefined) {
-                                        el.LAST_PRICE = '0';
-                                    }
-
-                                    if (el.END_YN == 'N' || el.CLOSE_YN == 'N') {
-                                        status = "진행중";
-                                    }else if(el.END_YN == 'Y' || el.CLOSE_YN == 'Y'){
-                                        status = "완료";
-                                    }
-
-                                    let html = '<li class="">'
-                                        + '<div class="li-inner">'
-                                        + '<article class="item-article">'
-                                        + '<div class="image-area">'
-                                        + '<figure class="img-ratio">'
-                                        + '<div class="img-align">'
-                                        + '<img src="https://www.seoulauction.com/nas_img/' + el.LOT_IMG_PATH + '/' + el.LOT_IMG_NAME + ' " alt="' + titleJSON + '">'
-                                        + '</div></figure></div>'
-                                        + '<div class="typo-area">'
-                                        + '<div class="product_info">'
-                                        + '<div class="num_heart-box">'
-                                        + '<span class="num">' + el.LOT_NO + '</span>'
-                                        + '<button class="heart js-work_heart">'
-                                        + '<i class="icon-heart_off"></i></button></div>'
-                                        + '<div class="info-box">'
-                                        + '<div class="title"><span>' + artistJSON[locale] + ' </span><span class="sub"> (' + el.BORN_YEAR + ')</span></div>'
-                                        + '<div class="desc"><span> ' + dotSubString(titleJSON[locale], 35) + ' </span></div>'
-                                        + '<div class="standard">'
-                                        + '<span> ' + el.MATE_NM + ' </span>'
-                                        + '<div class="size_year">'
-                                        + '<span> ' + size + ' </span>'
-                                        + '<span> '+ makeYearJSON[locale] +' </span></div></div></div>'
-                                        + '<div class="price-box">'
-                                        + '<dl class="price-list">'
-                                        + '<dt>추정가</dt>'
-                                        + '<dd> ' + el.CURR_CD + ' ' + expePriceFromJSON[el.CURR_CD].toLocaleString()  + '</dd>'
-                                        + '<dd>~ '+ expePriceToJSON[el.CURR_CD].toLocaleString() +' </dd></dl>'
-                                        + '<dl class="price-list">'
-                                        + '<dt>시작가</dt>'
-                                        + '<dd> ' + el.CURR_CD + ' ' + el.START_PRICE.toLocaleString() + '</dd></dl>'
-                                        + '<dl class="price-list">'
-                                        + '<dt>현재가</dt>'
-                                        + '<dd><strong>' + el.CURR_CD + ' ' + el.LAST_PRICE.toLocaleString()  + '</strong><em>(응찰'+ el.BID_CNT +')</em></dd></dl></div>'
-                                        + '<div class="state-box">'
-                                        + '<div class="state op-ing">'
-                                        + '<div>' + status + '</div></div>'
-                                        + '<div class="other">'
-                                        + '<div class="d_name"> '+ saleTitleJSON[locale] +' </div>'
-                                        + '<div class="d_day"> ' + saleToDt + ' KST</div></div></div></div></div></article></div></div>';
-
-                                    $(".product-list").append(html);
-                                });
                             }
                         })
                         .catch(function(error){
@@ -427,105 +596,9 @@
 
                 }
 
-
-                /* 관심작품 Start */
-                // 관심작품 로직 추가(2018.08.14 YDH)
-                $scope.inteSave = function($input) {
-                    var $d = {"baseParms":{"sale_no":$input.sale_no, "lot_no":$input.lot_no},
-                        "actionList":[
-                            {"actionID":"add_cust_inte_lot", "actionType":"insert", "tableName":"CUST_INTE_LOT", "parmsList":[{}]}
-                        ]};
-
-                    $api = "/sale/addCustInteLot";
-
-                    let data = {};
-                    data['sale_no'] = $input.sale_no;
-                    data['lot_no'] = $input.lot_no;
-
-                    axios.post($api , data)
-                        .then(function(response) {
-                            console.log(response);
-                            const result = response.data;
-                            let success = result.success;
-                            let lotData = [];
-
-                            if(!success){
-                                alert("데이터 로딩 실패");
-                            } else {
-                                if(data.tables["CUST_INTE_LOT"]["rows"].length > 0) {
-                                    if($scope.locale == 'ko') {
-                                        alert("관심작품 추가가 완료되었습니다.\n추가된 관심작품은 ACCOUNT페이지에서 확인하실 수 있습니다.");
-                                        window.location.reload(true);
-                                    }else {
-                                        alert("A favorite work has been added.\nYou can find your favorite works on your account page.");
-                                        window.location.reload(true);
-                                    }
-                                    return true;
-                                }
-                            }
-                        })
-                        .catch(function(error){
-                            console.log(error);
-                        });
-
-                };
-
-                $scope.inteDel = function($input) {
-                    var $d = {"baseParms":{"sale_no":$input.sale_no, "lot_no":$input.lot_no},
-                        "actionList":[
-                            {"actionID":"del_cust_inte_lot", "actionType":"delete", "tableName":"CUST_INTE_LOT", "parmsList":[{}]}
-                        ]};
-
-                    $api = "/sale/delCustInteLot";
-
-                    let data = {};
-                    data['sale_no'] = $input.sale_no;
-                    data['lot_no'] = $input.lot_no;
-
-                    axios.post($api , data)
-                        .then(function(response) {
-                            console.log(response);
-                            const result = response.data;
-                            let success = result.success;
-                            let lotData = [];
-
-                            if(!success){
-                                alert("데이터 로딩 실패");
-                            } else {
-                                if(data.tables["CUST_INTE_LOT"]["rows"].length > 0) {
-                                    if($scope.locale == 'ko') {
-                                        alert("관심작품이 삭제되었습니다.");
-                                        window.location.reload(true);
-                                    }else {
-                                        alert("A favorite work has been deleted.");
-                                        window.location.reload(true);
-                                    }
-                                    return true;
-                                }
-                            }
-                        })
-                        .catch(function(error){
-                            console.log(error);
-                        });
-
-                    /*
-                    common.callActionSet($d, function(data, status) {
-                        if(data.tables["CUST_INTE_LOT"]["rows"].length > 0) {
-                            if($scope.locale == 'ko') {
-                                alert("관심작품이 삭제되었습니다.");
-                                window.location.reload(true);
-                            }else {
-                                alert("A favorite work has been deleted.");
-                                window.location.reload(true);
-                            }
-                            return true;
-                        }
-                    })*/
-                };
-                /* 관심작품 End */
             });
         </script>
-        <script type="text/javascript" src="/js/bid.js"></script>
+
 
         <!-- container -->
         <div id="container" ng-controller="lotListCtl" data-ng-init="init();">
@@ -540,10 +613,10 @@
                                 <div class="search-area">
                                     <div class="search-box">
                                         <div class="input_del">
-                                            <input class="" type="text" placeholder="" value="${param.searchContent}">
+                                            <input class="searchContent" type="text" placeholder="" value="${param.searchContent}">
                                             <button class="btn_del"><i class="form-search-del_lg"></i></button>
                                         </div>
-                                        <button class="btn_search"><i class="form-search_lg" ng-model="search.keyword" ng-keypress="$event.keyCode === 13 && loadLotList(1, 'all');"></i></button>
+                                        <button class="btn_search"><i class="form-search_lg" onclick="goSearch('searchContent', true);"></i></button>
                                     </div>
                                     <div class="suggestion-box">
                                         <div class="word">
@@ -590,21 +663,24 @@
                                                     <button class="filter_btn js-filter_btn"><i class="icon-filter"></i></button>
                                                 </div>
                                                 <ul class="filter-list js-filter_del-list">
-                                                    <li><span>지난경매</span><button><i class="icon-filter_del"></i></button></li>
-                                                    <li><span>진행경매</span><button><i class="icon-filter_del"></i></button></li>
-                                                    <li><span>예정경매</span><button><i class="icon-filter_del"></i></button></li>
+                                                    <li id="endLot"><span>지난경매</span><button><i class="icon-filter_del"></i></button></li>
+                                                    <li id="ingLot"><span>진행경매</span><button><i class="icon-filter_del"></i></button></li>
+                                                    <li id="readyLot"><span>예정경매</span><button><i class="icon-filter_del"></i></button></li>
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="col_item positon-col2">
                                             <div class="select-box">
-                                                <select class="select2Basic42" ng-model="sortBy">
-                                                    <option ng-repeat="(key, value) in orders" value="{{key}}">{{value}}</option>
+                                                <select class="select2Basic42" id="">
+                                                    <option value="1" ng-click="setSort();">경매 최신순</option>
+                                                    <option value="2" ng-click="setSort();">추정가 낮은순</option>
+                                                    <option value="3" ng-click="setSort();">추정가 높은순</option>s
                                                 </select>
                                             </div>
                                             <div class="select-box">
-                                                <select class="select2Basic42 js-select_page" ng-model="moreBy">
-                                                    <option ng-repeat="(key, value) in mores" value="{{key}}">{{value}}</option>
+                                                <select class="select2Basic42 js-select_page" id="">
+                                                    <option value="1" ng-click="setMore();">페이지 방식</option>
+                                                    <option value="2" ng-click="setMore();">더보기 방식</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -620,7 +696,7 @@
                 <section class="basis-section last-section auction_list-section">
                     <div class="section-inner">
 
-                        <div class="content-panel type_panel-product_list">
+                        <div class="content-panel type_panel-product_list" id="panel_content">
                             <div class="panel-body">
 
                                 <ul class="product-list">
@@ -630,8 +706,8 @@
                             <div class="panel-footer">
                                 <div class="set-pc_mb">
                                     <div class="only-pc">
-                                        <div class="paging-area">
-
+                                        <div id="paging_search" class="paging-area">
+                                            <button class="btn btn_gray_line" id="more_search" type="button" ng-click="search();"><span>더보기</span></button>
                                         </div>
                                     </div>
                                     <div class="only-mb">
@@ -674,6 +750,11 @@
 
 <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="/js/common/paging.js"></script>
+<script>
+
+</script>
 
 <!-- ===텝메뉴=== -->
 <script>
@@ -719,12 +800,74 @@
         select_resize_change();
     });
 </script>
+<script>
+    function inteSave(saleNo, lotNo, locale) {
+        let api = "/sale/addCustInteLot?saleNo="+saleNo+"&lotNo="+lotNo;
+        axios.get(api , null)
+            .then(function(response) {
+                console.log(response);
+                const result = response.data;
+                let success = result.success;
 
+                if(!success){
+                    alert("데이터 로딩 실패");
+                } else {
+                    if(result.data > 0) {
+                        if(locale == 'ko') {
+                            alert("관심작품 추가가 완료되었습니다.\n추가된 관심작품은 ACCOUNT페이지에서 확인하실 수 있습니다.");
+                            window.location.reload(true);
+                        }else {
+                            alert("A favorite work has been added.\nYou can find your favorite works on your account page.");
+                            window.location.reload(true);
+                        }
+                        return true;
+                    }
+                }
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+
+    };
+
+    function inteDel(saleNo, lotNo, locale) {
+
+        $api = "/sale/delCustInteLot?saleNo="+saleNo+"&lotNo="+lotNo;
+
+        axios.get($api , null)
+            .then(function(response) {
+                console.log(response);
+                const result = response.data;
+                let success = result.success;
+
+                if(!success){
+                    alert("데이터 로딩 실패");
+                } else {
+                    if(result.data > 0) {
+                        if(locale == 'ko') {
+                            alert("관심작품이 삭제되었습니다.");
+                            window.location.reload(true);
+                        }else {
+                            alert("A favorite work has been deleted.");
+                            window.location.reload(true);
+                        }
+                        return true;
+                    }
+                }
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+
+    };
+
+
+</script>
 
 <aside class="filter_fixed-wrap">
     <div class="popup-dim"></div>
 
-    <div class="fixed-panel">
+    <div class="fixed-panel" ng-controller="lotListCtl" data-ng-init="init();">
         <div class="panel-header">
             <button class="filter_close js-filter_close">
                 <i class="icon-pop_view_close"></i>
@@ -733,7 +876,7 @@
                 <div class="box-inner">
                     <span>Filter</span>
                     <button class="btn-filter_refresh">
-                        <i class="icon-filter_refresh"></i><span>초기화</span>
+                        <i class="icon-filter_refresh" ng-click="initFilter();"></i><span>초기화</span>
                     </button>
                 </div>
             </div>
@@ -753,21 +896,21 @@
                             <ul class="check-list">
                                 <li>
                                         <span class="trp checkbox-box">
-                                            <input id="checkbox1" type="checkbox" name="">
+                                            <input id="checkbox1" type="checkbox" name="lotCheckBox" value="end">
                                             <i></i>
                                             <label for="checkbox1">지난 경매</label>
                                         </span>
                                 </li>
                                 <li>
                                         <span class="trp checkbox-box">
-                                            <input id="checkbox2" type="checkbox" name="">
+                                            <input id="checkbox2" type="checkbox" name="lotCheckBox" value="ing">
                                             <i></i>
                                             <label for="checkbox2">진행 경매</label>
                                         </span>
                                 </li>
                                 <li>
                                         <span class="trp checkbox-box">
-                                            <input id="checkbox3" type="checkbox" name="">
+                                            <input id="checkbox3" type="checkbox" name="lotCheckBox" value="ready">
                                             <i></i>
                                             <label for="checkbox3">예정 경매</label>
                                         </span>
@@ -784,7 +927,7 @@
                         <div class="accordion-body">
                             <ul class="check-list">
                                 <li>
-                                    <input type="text" placeholder="작품재질 입력" ng-model="search.mate_nm">
+                                    <input type="text" placeholder="작품재질 입력" ng-model="search.mate_nm" id="mateNm">
                                 </li>
                             </ul>
                         </div>
@@ -794,9 +937,9 @@
             </article>
 
         </div>
-        <div class="panel-footer">
+        <div class="panel-footer" >
             <div class="btn_set">
-                <div class="btn_item"><a class="btn btn_point btn_lg" href="#" role="button" ng-keypress="$event.keyCode === 13 && loadLotList(1, 'all');"><span>필터적용</span></a> </div>
+                <div class="btn_item"><a class="btn btn_point btn_lg" href="#" role="button" ng-click="filterCheck();"><span>필터적용</span></a> </div>
             </div>
         </div>
     </div>
