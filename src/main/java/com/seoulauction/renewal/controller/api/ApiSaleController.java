@@ -1,6 +1,7 @@
 package com.seoulauction.renewal.controller.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -22,6 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 
 @RestController
@@ -94,8 +97,7 @@ public class ApiSaleController {
                                                 HttpServletResponse res,
                                                 Locale locale,
                                                 @PathVariable("sale_no") int saleNo,
-                                                @PathVariable("lot_no") int lotNo) throws JsonProcessingException {
-
+                                                @PathVariable("lot_no") int lotNo) {
 
         CommonMap map = new CommonMap();
         map.put("sale_no", saleNo);
@@ -105,29 +107,6 @@ public class ApiSaleController {
         CommonMap saleInfoMap = saleService.selectSaleInfo(map);
         // 랏 정보 가져오기
         CommonMap lotInfoMap = saleService.selectLotInfo(map);
-
-        Gson g = new Gson();
-
-        // 아티스트 정보
-        String artistNameJson = String.valueOf(lotInfoMap.get("ARTIST_NAME_JSON"));
-        logger.info(artistNameJson);
-
-        Type type = new TypeToken<Map<String, Object>>(){}.getType();
-
-        Map<String, Object> artistNameJsonObject = g.fromJson(artistNameJson, type);
-
-        // artist filter DB화 필요
-        List<String> artistFilters = new ArrayList<>();
-        artistFilters.add("김환기");
-        artistFilters.add("박수근");
-
-        // 아티스트 필터
-        for (var item : artistFilters) {
-            if (artistNameJsonObject.get(locale.getLanguage()).equals(item)) {
-                lotInfoMap.put("IMAGE_MAGNIFY", false);
-                break;
-            }
-        }
 
         // 한국일때 홍콩, 홍콩일때 한국
         Map<String, String> baseCurrency = new HashMap<String, String>();
@@ -139,49 +118,70 @@ public class ApiSaleController {
         // sub 화폐
         String subCurrCd = String.valueOf(baseCurrency.get(currCd));
 
-        // 추정가 정보
-        String expePriceToJson = String.valueOf(lotInfoMap.get("EXPE_PRICE_TO_JSON"));
-        String expePriceFromJson = String.valueOf(lotInfoMap.get("EXPE_PRICE_FROM_JSON"));
-        String lotSizeFromJson = String.valueOf(lotInfoMap.get("LOT_SIZE_JSON"));
-        String signInfoJson = String.valueOf(lotInfoMap.get("SIGN_INFO_JSON"));
-        String condRptJson = String.valueOf(lotInfoMap.get("COND_RPT_JSON"));
-        String profileJson = String.valueOf(lotInfoMap.get("PROFILE_JSON"));
+        String[] mapKeys = {"ARTIST_NAME_JSON", "EXPE_PRICE_TO_JSON","EXPE_PRICE_FROM_JSON",
+                "SIGN_INFO_JSON", "COND_RPT_JSON", "PROFILE_JSON"};
+        String[] listKeys = {"LOT_SIZE_JSON"};
 
+        // 맵 형태 거름
         ObjectMapper mapper  = new ObjectMapper();
+        try{
+            // 맵 변환
+            for(var item : mapKeys) {
+                lotInfoMap.put(item, mapper.readValue(String.valueOf(lotInfoMap.get(item)), Map.class));
+                Map<String,Object> m = (Map<String,Object>)lotInfoMap.get(item);
+                if (item.equals("ARTIST_NAME_JSON")) {
+                    // artist filter DB화 필요
+                    List<String> artistFilters = new ArrayList<>();
+                    artistFilters.add("김환기");
+                    artistFilters.add("박수근");
 
-        Map<String, Object> expePriceToJsonObject = mapper.readValue(expePriceToJson, Map.class);
-        Map<String, Object> expePriceFromJsonObject = mapper.readValue(expePriceFromJson, Map.class);
-        List<Map<String, Object>> lotSizeFromJsonObject = mapper.readValue(lotSizeFromJson, List.class);
-        Map<String, Object> profileJsonObject = mapper.readValue(profileJson, Map.class);
-        Map<String, Object> condRptJsonObject = mapper.readValue(condRptJson, Map.class);
-        Map<String, Object> signInfoJsonObject = mapper.readValue(signInfoJson, Map.class);
+                    for (var artist : artistFilters) {
+                        if (m.get(locale.getLanguage()).equals(artist)) {
+                            lotInfoMap.put("IMAGE_MAGNIFY", false);
+                            break;
+                        }
+                    }
+                } else if (item.equals("EXPE_PRICE_TO_JSON")
+                        || item.equals("EXPE_PRICE_FROM_JSON")) {
 
-        lotInfoMap.put("LOT_SIZE_JSON", lotSizeFromJsonObject);
-        lotInfoMap.put("SIGN_INFO_JSON", signInfoJsonObject);
-        lotInfoMap.put("COND_RPT_JSON", condRptJsonObject);
-        lotInfoMap.put("PROFILE_JSON", profileJsonObject);
+                   //NumberFormat formatter = NumberFormat.getCurrencyInstance();
 
-        String expeToBaseCurrency = expePriceToJsonObject.get(currCd) + currCd;
-        String expeFromBaseCurrency = expePriceFromJsonObject.get(currCd) + currCd;
+                    DecimalFormat formatter = new DecimalFormat("###,###");
 
-        String expeToSubCurrency = expePriceToJsonObject.get(subCurrCd) + subCurrCd;
-        String expeFromSubCurrency = expePriceFromJsonObject.get(subCurrCd) + subCurrCd;
+                    String cvf = formatter.format((int)m.get(currCd));
+                    String svf = formatter.format((int)(m.get(subCurrCd) == null?0:m.get(subCurrCd)));
+                    String uvf = formatter.format((int)(m.get("USD") == null?0:m.get("USD")));
 
-        String expeToUsdCurrency = expePriceToJsonObject.get("USD") + "USD";
-        String expeFromUsdCurrency = expePriceFromJsonObject.get("USD") + "USD";
+                    String cv = new StringBuilder().append(currCd + " ")
+                            .append(cvf).toString();
+                    String sv = new StringBuilder().append(subCurrCd + " ")
+                            .append(svf).toString();
+                    String uv = new StringBuilder().append("USD ")
+                            .append(uvf).toString();
 
-        // base expe to price
-        lotInfoMap.put("BASE_EXPE_TO_PRICE", expeToBaseCurrency);
-        lotInfoMap.put("BASE_EXPE_FROM_PRICE", expeFromBaseCurrency);
 
-        // sub expe to price
-        lotInfoMap.put("SUB_EXPE_TO_PRICE", expeToSubCurrency);
-        lotInfoMap.put("SUB_EXPE_FROM_PRICE", expeFromSubCurrency);
 
-        // usd expe to price
-        lotInfoMap.put("USD_EXPE_TO_PRICE", expeToUsdCurrency);
-        lotInfoMap.put("USD_EXPE_FROM_PRICE", expeFromUsdCurrency);
+                    if (item.equals("EXPE_PRICE_TO_JSON")) {
+                        lotInfoMap.put("BASE_EXPE_TO_PRICE", cv);
+                        lotInfoMap.put("SUB_EXPE_TO_PRICE", sv);
+                        lotInfoMap.put("USD_EXPE_TO_PRICE", uv);
+                    } else if (item.equals("EXPE_PRICE_FROM_JSON")) {
+                        lotInfoMap.put("BASE_EXPE_FROM_PRICE", cv);
+                        lotInfoMap.put("SUB_EXPE_FROM_PRICE", sv);
+                        lotInfoMap.put("USD_EXPE_FROM_PRICE", uv);
+                    }
+                }
+            }
+            // 리스트 변환
+            for(var item : listKeys) {
+                lotInfoMap.put(item,
+                        mapper.readValue(String.valueOf(lotInfoMap.get(item)), List.class));
+            }
+        } catch (JsonMappingException e) {
 
+        } catch (JsonProcessingException e) {
+
+        }
         return ResponseEntity.ok(RestResponse.ok(lotInfoMap));
     }
 
@@ -211,7 +211,7 @@ public class ApiSaleController {
             lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
             lotImagesNew.add(lotImagesNewItem);
         }
-        return ResponseEntity.ok(RestResponse.ok(lotImages));
+        return ResponseEntity.ok(RestResponse.ok(lotImagesNew));
     }
 
 

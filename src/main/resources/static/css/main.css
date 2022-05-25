@@ -318,6 +318,7 @@
     background-color: #333;
     color: #333;
     font-weight: bold;
+    margin-top: 2px;
 }
 .auctionTab-btn.on {
     color: #333;
@@ -889,6 +890,7 @@
     width: 100%;
     height: 100%;
     top: 0;
+    cursor: default;
 }
 .main-popupbox {
     position: absolute;
@@ -975,12 +977,6 @@
 
 /* pc */
 @media all and (max-width: 1919px) {
-    .scroll-top {
-        right: 50px;
-    }
-    .darkmodeBg {
-        right: 110px;
-    }
     .visual_caption>div {
         max-width: 1440px;
         padding: 0 120px;
@@ -1130,6 +1126,10 @@
         padding-top: 15px;
         padding-bottom: 30px;
     }
+    .visual_btn {
+        display: flex;
+        align-items: center;
+    }
     .visual-pagaination>span {
         width: 10px;
         height: 10px;
@@ -1227,6 +1227,7 @@
     }
     .swiper-slide.upcomingSlide {
         flex-basis: auto;
+        height: 100%;
     }
     .upcoming-slidebox {
         overflow: inherit;
@@ -1676,7 +1677,7 @@
     }
     .upcoming-img,
     .upcoming-img:lang(en) {
-        flex-basis: calc(30% - 10px);
+        flex-basis: calc(70% - 10px);
         margin-top: 0;
     }
     .upcoming-preview>span:first-of-type:after,

@@ -19,19 +19,25 @@
 			, VAT
 			, PAY_DT
 			, REG_DT
+			, PAY_WAIT_NO
+			, RCPT_TYPE
+			, REAL_PAYER
 		) values (
 			 #{cust_no}
 			,lower(#{pay_method})
 			, 'Y'
 			, #{pg_cd}
-			, #{pg_trnas_id}
-			, #{name}
+			, #{pg_trans_id}
+			, #{payer}
 			, #{pay_price}
 			, #{no_vat_price}
 			, #{vat_price}
 			, #{vat}
 			, now()
 			, now()
+			, #{pay_wait_no}
+			, #{rcpt_type}
+			, #{real_payer}
 		)
 	</insert>
 
@@ -110,8 +116,6 @@
             , no_vat_price, vat_price, vat, uuid, vbank_cd, vbank_nm, vbank_num, vbank_exp_dt, rcpt_type
 		FROM PAY_WAIT
 		WHERE uuid = #{uuid}
-				pay_wait_no = #{payId}
-				and cust_no = #{cust_no}
 	</select>
 
 	<select id="selectPayWaitByPayNoAndCustNo" resultType="commonMap" parameterType="commonMap">
@@ -129,12 +133,18 @@
 	</select>
 
 	<select id="selectAcademyByAcademyNo" resultType="commonMap" parameterType="commonMap">
-		SELECT academy_no, academy_cd, title_blob, contents_blob, from_dt, to_dt, academy_time, academy_time_en, img_path, img_view_path
+		SELECT academy_no, academy_cd, column_json(title_blob) title_json, column_json(contents_blob) contents_json, from_dt, to_dt, academy_time, academy_time_en, img_path, img_view_path
 			, file_name, file_path, file_org_name, img_path_en, img_view_path_en, file_name_en
 			, file_path_en, file_org_name_en, reg_dt, reg_emp_no, mod_dt, mod_emp_no, del_yn, disp_yn, view_file_name, view_file_org_name
 			, view_file_name_en, view_file_org_name_en, application_file_name, application_file_org_name, application_file_path
 			, academy_pay, academy_pay1, academy_pay2, academy_pay3, close_yn
 		FROM academy a
 		WHERE academy_no = #{academy_no}
+	</select>
+
+	<select id="selectCustByCustNo" parameterType="CommonMap" resultType="CommonMap">
+		select cust_no, login_id, cust_name, hp, email, addr, addr_dtl
+		from CUST
+		where cust_no = #{cust_no}
 	</select>
 </mapper>

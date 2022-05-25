@@ -29,7 +29,11 @@ import lombok.RequiredArgsConstructor;
 public class MypageService {
 
 	private final MypageMapper mypageMapper;
-	    
+	
+	public List<CommonMap> selectCustomerCustpayList(CommonMap commonMap){
+        return mypageMapper.selectCustomerCustpayList(commonMap);
+    }
+	
     public CommonMap selectAcademyList(CommonMap commonMap){  
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectAcademyList(commonMap));
@@ -89,11 +93,11 @@ public class MypageService {
     }
 
     
-    public CommonMap selectInquiry(CommonMap commonMap){
-    	CommonMap map = new CommonMap();
-    	map.put("inquiryInfo", mypageMapper.selectInquiryInfo(commonMap));
-    	map.put("inquiryReply", mypageMapper.selectInquiryReply(commonMap));
-    	map.put("inquiryFileList", mypageMapper.selectFileList(commonMap));
+    public CommonMap selectInquiry(CommonMap commonMap) {
+		CommonMap map = new CommonMap();
+		map.put("inquiryInfo", mypageMapper.selectInquiryInfo(commonMap));
+		map.put("inquiryReply", mypageMapper.selectInquiryReply(commonMap));
+		map.put("inquiryFileList", mypageMapper.selectFileList(commonMap));
     	return map;
     }
 
@@ -112,7 +116,7 @@ public class MypageService {
     	map.put("action_user_no", principal.getName());
     	map.put("action_user_ip", request.getRemoteAddr());
     	int result = 0;
-    	//mypageMapper.insertInquiryWrite(map);
+    	mypageMapper.insertInquiryWrite(map);
 
     	try {	
     		List<MultipartFile> fileList = request.getFiles("file");

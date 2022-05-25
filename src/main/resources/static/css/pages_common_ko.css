@@ -28694,7 +28694,9 @@ header.win_header .header-inner .header_logo {
 .content-panel.type_panel-search_tab2 .search_tab-article .col_item .select-box {
   max-width: 152px;
 }
-
+.content-panel.type_panel-search_tab2 .search_tab-article .col_item .select-box.select-box-width {
+  min-width: 130px;
+}
 .content-panel.type_panel-search_tab2 .search_tab-article .col_item .select-box + .select-box {
   margin-left: 10px;
 }
@@ -36284,7 +36286,7 @@ header.win_header .header-inner .header_logo {
 
 /* 인쇄하기  */
 .submenuBg, .gnb_submenuBg {
-  display: none !important;
+  /* display: none !important; */ 
 }
 
 /* =============================== 섹션 이름  */

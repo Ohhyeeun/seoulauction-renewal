@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seoulauction.renewal.mapper.aws.S3Mapper">
+    <insert id="insertS3File" parameterType="CommonMap"
+        useGeneratedKeys="true"
+        keyProperty="s3file_id" keyColumn="id">
+            INSERT into s3file
+                (
+                  NAME
+                , EXT
+                , PATH
+                , MIMETYPE
+                , FILESIZE
+                , URL
+                , CDN_URL
+                 )
+            values
+                (
+                  #{name}
+                , #{ext}
+                , #{path}
+                , #{mimetype}
+                , #{filesize}
+                , #{url}
+                , #{cdn_url}
+                )
+    </insert>
+    <insert id="insertS3FileData" parameterType="CommonMap">
+        INSERT into s3file_data
+            (
+              GROUP_NAME
+            , ROW_ID
+            , S3FILE_ID
+            )
+        values
+            (
+              #{table_name}
+            , #{row_id}
+            , #{s3file_id}
+            )
+    </insert>
+    <select id="selectS3FileData" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+            *
+        FROM
+            s3file s , s3file_data sd
+        WHERE
+            s.id = sd.s3file_id
+            and sd.group_name = #{table_name}
+            and sd.row_id = #{row_id}
+    </select>
+</mapper>

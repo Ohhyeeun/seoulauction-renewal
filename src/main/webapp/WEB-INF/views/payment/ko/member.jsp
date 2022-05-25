@@ -14,11 +14,11 @@
 </head>
 <body class="">
 
-    <div class="wrapper footer-bottom footer-bottom30"> 
+    <div class="wrapper footer-bottom">
         <div class="sub-wrap pageclass">
             <jsp:include page="../../include/ko/header.jsp" flush="false"/>
             <!-- container -->
-            <div id="container">  
+            <div id="container">
                 <div id="contents" class="contents">
 
                     <section class="basis-section last-section">
@@ -63,11 +63,11 @@
                                             <ul class="pay_info tb1">
                                                 <li>
                                                     <span class="th">이름</span>
-                                                    <span class="td">${name}</span>
+                                                    <span class="td">${cust_name}</span>
                                                 </li>
                                                 <li>
                                                     <span class="th">연락처</span>
-                                                    <span class="td">${tel}</span>
+                                                    <span class="td">${hp}</span>
                                                 </li>
                                                 <li>
                                                     <span class="th">배송주소</span>
@@ -182,6 +182,7 @@
     <script src="https://web.nicepay.co.kr/v3/webstd/js/nicepay-3.0.js" type="text/javascript"></script>
     <script src="/js/payment/paymentMember.js" type="text/javascript"></script>
     <script src="/js/payment/payment.js" type="text/javascript"></script>
+    <%--<script src="/js/pages_common_ko.js" type="text/javascript"></script>--%>
     <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 </body>
 

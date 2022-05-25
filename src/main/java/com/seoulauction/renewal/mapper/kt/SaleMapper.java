@@ -15,4 +15,16 @@ public interface SaleMapper {
     CommonMap selectCustomerByCustNo(CommonMap commonMap);
     CommonMap selectSaleCertInfo(CommonMap commonMap);
     List<CommonMap> selectSaleLotImages(CommonMap commonMap);
+
+    CommonMap search_list_count(CommonMap paramMap);
+
+    List<CommonMap> search_list_paging(CommonMap paramMap);
+
+    CommonMap get_customer_by_cust_no(CommonMap paramMap);
+
+    int search_log(CommonMap paramMap);
+
+    int add_cust_inte_lot(CommonMap paramMap);
+
+    int del_cust_inte_lot(CommonMap paramMap);
 }
