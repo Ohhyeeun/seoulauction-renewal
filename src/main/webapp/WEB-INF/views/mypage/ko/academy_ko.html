@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/css/plugin/csslibrary.css">
     <link rel="stylesheet" href="/css/common.css" type="text/css" />
     <link rel="stylesheet" href="/css/pages_common_ko.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
@@ -28,12 +28,7 @@
                     <!--class="on" block-->
                     <div class="wrap belttxtbox wrap_padding">
                         <span class="header_beltTit">
-                            <a href="#">
-                                <span class="text-over belt_tit">
-                                    구매수수료율 인상 및 약관 개정안내 구매수수료율 인상
-                                </span>
-                                <!--<span class="beltbanner-triangle"></span>-->
-                            </a>
+                            <a href="#">구매수수료율 인상 및 약관 개정안내 구매수수료율 인상 및 약관 개정안내 구매수수료율 인상 및 약관 개정안내 구매수수료율 인상 및 약관 개정안내 구매수수료율 인상 및 약관 개정안내 구매수수료율 인상 및 약관 개정안내<span class="beltbanner-triangle"></span></a>
                         </span>
                         <span class="beltclose-btn closebtn closebtn-w"></span>
                     </div>
@@ -49,8 +44,8 @@
                         <li class="utility-join"><a href="#">회원가입</a></li> <!-- !login -->
                         <li class="utility-tab utility-account"><a href="#">마이페이지</a>
                             <ul class="bubble-box bubble-box02">
-                                <li><a href="/index_en.html">라이브 경매 관리</a></li> <!-- display block 처리X -->
-                                <li><a href="#">온라인 경매 관리<i class="utility-icon on"></i></a></li>
+                                <li><a href="/index_en.html">라이브 경매 관리</a></li>
+                                <li><a href="#">온라인 경매 관리</a></li>
                                 <li><a href="#">관심작품</a></li>
                                 <li><a href="#">아카데미 신청목록</a></li>
                                 <li><a href="#">회원정보 수정</a></li>
@@ -227,6 +222,7 @@
                     </section>
                 </nav>
             </header>
+
             <!-- //header -->
 
             <!-- container -->
@@ -243,7 +239,6 @@
                                         <!-- 마이페이지 싸이드 메뉴 -->
                                         <aside class="aside-area">
                                             <div class="aside-inner">
-
                                                 <div class="mem-infobox-wrap">
                                                     <div class="mem-name-wrap">
                                                         <span class="tt2">홍길동</span><span class="tt4">님</span>
@@ -263,12 +258,6 @@
                                                         <button class="btn btn_point btn_lg" type="button"><span>정회원 신청하기</span></button>
                                                     </div>
                                                 </div>
-
-
-
-
-
-
                                                 <div class="mypage-lnb-wrap">
                                                     <div class="mypage-lnb">
                                                         <ul class="cate1">
@@ -300,10 +289,8 @@
                                                             <li class="cate1-group">
                                                                 <span>회원정보관리</span>
                                                                 <ul>
-                                                                    <!-- [0523]텍스트 수정 -->
                                                                     <li class=""><a href="#">회원정보수정</a></li>
-                                                                    <!-- //[0523]텍스트 수정 -->
-                                                                    <li class=""><a href="#">비밀번호변경</a></li>
+                                                                    <li class=""><a href="#">비밀번호수정</a></li>
                                                                     <li class=""><a href="#">SNS연동설정</a></li>
                                                                 </ul>
                                                             </li>
@@ -512,7 +499,7 @@
                                                                 <a href="#"><em>7</em></a>
                                                                 <a href="#"><em>8</em></a>
                                                                 <a href="#"><em>9</em></a>
-                                                                <a href="#"><em>10</em></a>
+                                                                <a href="#"><em>100</em></a>
                                                             </span>
                                                             <a href="#" class="next icon-page_next "><em>NEXT</em></a><a href="#" class="next_end icon-page_nextnext">END</a>
                                                         </div>
@@ -612,7 +599,79 @@
 
 
 
+    <!-- 팝업 : 결제완료 -->
+    <div id="popup_myacademy_pay-wrap" class="trp popupfixed-wrap myacademy_pay-popup" style="display:block">
+        <div class="popup-dim"></div>
+        <div class="popup-align mode-md mode-mb_full">
+            <div class="popup-vertical">
+                <div class="popup-layer">
 
+                    <div class="pop-panel">
+                        <div class="pop-header">
+                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                            <div class="title-box">
+                                <span class="txt_title type-big">결제 정보</span>
+                            </div>
+                        </div>
+                        <div class="pop-body">
+                            <section class="section scroll-type">
+                                <article class="article-area">
+                                    <div class="academy-pay-wrap tb1">
+                                        <div class="detail-wrap">
+                                            <dl>
+                                                <dt><span>수강료</span></dt>
+                                                <dd><span>KRW 500,000</span></dd>
+                                            </dl>
+                                            <dl>
+                                                <dt><span>할인금액</span></dt>
+                                                <dd><span>KRW 0</span></dd>
+                                            </dl>
+                                        </div>
+                                        <div class="total-wrap">
+                                            <dl>
+                                                <dt><span>총 결제금액</span></dt>
+                                                <dd>
+                                                    <span class="pay-amount">KRW 500,000</span>
+                                                    <span class="pay-method">신용카드</span>
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </article>
+                                <div class="button-area">
+                                    <div class="btn_set-float tac">
+                                        <a class="btn btn_point href=" #" role="button"><span>확인</span></a>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function() {
+            var popup_marketing1 = $(".js-popup_myacademy_pay").trpLayerFixedPopup("#popup_myacademy_pay-wrap");
+            $(popup_marketing1.getBtn).on("click", function($e) {
+                $e.preventDefault();
+                popup_marketing1.open(this); // or false   
+                popup_fixation("#popup_myacademy_pay-wrap"); // pc 스크롤
+                popup_motion_open("#popup_myacademy_pay-wrap"); // mb 모션 
+            });
+
+            $("body").on("click", "#popup_myacademy_pay-wrap .js-closepop, #popup_myacademy_pay-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                popup_marketing1.close();
+                popup_motion_close("#popup_myacademy_pay-wrap");
+            });
+
+            $(".js-history_back").click(function() {
+                window.history.back();
+            })
+        })();
+    </script>
 </body>
 
 </html>
