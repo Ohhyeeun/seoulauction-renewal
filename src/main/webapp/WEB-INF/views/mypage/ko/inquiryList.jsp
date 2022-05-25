@@ -10,8 +10,8 @@
 			<jsp:include page="../../include/ko/header.jsp" flush="false" />
 			<script type="text/javascript" src="/js/mypage/inquiry.js"></script>
 			<!-- container -->
-			<div id="container" ng-controller="inquiryListCtl"
-				data-ng-init="loadInquiryList(1);">
+			<div id="container" class="inquiry" ng-controller="inquiryListCtl"
+				data-ng-init="loadInquiryList(1);" >
 				<div id="contents" class="contents">
 
 					<section class="basis-section last-section mypage-section">
@@ -54,9 +54,9 @@
 															</div>
 															</a>
 															<div class="bbs-subbox">
-																<div class="statebox">
-																	<div class="state-icon complete">{{inquiry.REPLY_YN
-																		== 'Y' ? '답변완료' : '답변대기'}}</div>
+																<div class="statebox" >
+																	<div class="state-icon complete" ng-if="inquiry.REPLY_YN == 'Y'">답변완료</div>
+																	<div class="state-icon pending" ng-if="inquiry.REPLY_YN != 'Y'">답변대기</div>
 																</div>
 																<div class="date tb1">{{inquiry.REG_DT |
 																	date:'yyyy-MM-dd'}}</div>

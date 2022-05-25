@@ -15,15 +15,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.springframework.stereotype.Service;
-
-import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.exception.SAException;
-import com.seoulauction.renewal.mapper.aws.MainMapper;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -31,8 +22,7 @@ public class MainService {
 
     private final MainMapper mainMapper;
     private final KTMainMapper ktMainMapper;
-
-
+    private final S3Service s3Service;
 
     public List<CommonMap> selectTopNotice() {
         return mainMapper.selectTopNotice();
@@ -44,6 +34,12 @@ public class MainService {
 
     public List<CommonMap> selectNewsletters(CommonMap map) {
         return mainMapper.selectNewsletters(map);
+    }
+
+    public CommonMap selectPopup() {
+        CommonMap map = mainMapper.selectPopup();
+        map.put("image", s3Service.getS3FileDataForOne("main_popup", map.get("id")));
+        return map;
     }
 
     public CommonMap selectNewsletterById(CommonMap map) {
@@ -90,7 +86,10 @@ public class MainService {
     }
 
     public List<CommonMap> selectVideos(CommonMap map) {
-        return mainMapper.selectVideos(map);
+
+        List<CommonMap> mapList = mainMapper.selectVideos(map);
+        mapList.stream().forEach(c -> c.put("image", s3Service.getS3FileDataForOne("content_media", c.get("id"))));
+        return mapList;
     }
 
     public List<CommonMap> selectUpcomings() {

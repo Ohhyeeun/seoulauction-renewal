@@ -108,6 +108,9 @@ function sessionLogout() {
 const locale = document.documentElement.lang;
 const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
 
+//팝업은 미리 하이드.
+$('.main-popupBg').hide();
+
 window.onload = function(){
 
     //상단텍스트공지
@@ -118,6 +121,9 @@ window.onload = function(){
 
     //띠배너
     loadBeltBanner();
+
+    //팝업.
+    loadPopup();
 
 }
 
@@ -241,7 +247,7 @@ function loadUpcomings() {
                                                     </span>
                                                     ${ item.D_DAY <=7 ? 
                                                         `<span class="d-day on">
-                                                            ${ item.D_DAY === 0 ? "TODAY" : "D-" + item.D_DAY }
+                                                            ${ item.D_DAY <= 0 ? "TODAY" : "D-" + item.D_DAY }
                                                         </span>` 
                                                     : ``}
                                                     <h4 class="text-over">${ titleJSON[locale] }</h4>
@@ -456,32 +462,56 @@ $('.video-closebtn').click(function(){
 });
 
 /*뉴스레터 신청 관련*/
-$('#subscript_check').click(function(){
-    $('.newsAgree-close').click(function(){
-        $('.newsletter-terms').fadeOut();
-        $('.newsletter-blackBg').fadeOut('fast');
-    });
-    $('.newsletter-terms').fadeIn();
-    $('.newsletter-blackBg').fadeIn('fast');
-});
-
-$('.subscriptBtn').click(function(){
-    $('.newsAgree-comfirmbtn').click(function(){
-        $('.newsletter-comfirmbox').fadeOut();
-        $('.newsletter-blackBg').fadeOut('fast');
-    });
-    $('.newsletter-comfirmbox').fadeIn();
-    $('.newsletter-blackBg').fadeIn('fast');
-});
+// $('#subscript_check').click(function(){
+//     $('.newsAgree-close').click(function(){
+//         $('.newsletter-terms').fadeOut();
+//         $('.newsletter-blackBg').fadeOut('fast');
+//     });
+//     $('.newsletter-terms').fadeIn();
+//     $('.newsletter-blackBg').fadeIn('fast');
+// });
+//
+// $('.subscriptBtn').click(function(){
+//     $('.newsAgree-comfirmbtn').click(function(){
+//         $('.newsletter-comfirmbox').fadeOut();
+//         $('.newsletter-blackBg').fadeOut('fast');
+//     });
+//     $('.newsletter-comfirmbox').fadeIn();
+//     $('.newsletter-blackBg').fadeIn('fast');
+// });
 
 /* 메인 레이어 팝업 */
-$('.main-popup-img').hide();
-$('.main-popup-txt').hide(); /* flexbox 처리로 hide */
 
-$('.main-popup-img.on').show();
-$('.main-popup-txt.on').show();
-
-$('.main-popup-close, .main-popupBg').click(function(){
-    $('.main-popupbox').addClass('down');
-    $('.main-popupBg').fadeOut();
+//오늘 하루 그만보기 기능.
+$('#main_popup_today_stop_btn').on('click',function (){
+    closeToday('main-popup');
 });
+//메인 팝업 불러오기.
+function loadPopup(){
+
+    //오늘 하루 쿠키가 없을 때.
+    if(!getCookie('main-popup')) {
+        axios.get('api/main/popup')
+            .then(function (response) {
+                const success = response.data.success;
+                if (success) {
+                    const data = response.data.data;
+                    $('#main_popup_title').html(data.title);
+                    $('#main_popup_content').html(data.content);
+                    $('#main_popup_img').attr('src', data.image);
+
+                    $('.main-popupBg').show();
+
+                    $('.main-popup-close, .main-popupBg').click(function () {
+                        $('.main-popupbox').addClass('down');
+                        $('.main-popupBg').fadeOut();
+                    });
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+}
+
+

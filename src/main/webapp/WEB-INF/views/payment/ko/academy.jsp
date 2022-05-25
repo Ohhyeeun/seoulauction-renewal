@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ct" uri="/WEB-INF/tlds/taglibs.tld"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -16,7 +17,7 @@
 </head>
 
 <body class="">
-    <div class="wrapper footer-bottom footer-bottom30"> 
+    <div class="wrapper footer-bottom">
         <div class="sub-wrap pageclass">
 
             <!-- header -->
@@ -47,14 +48,14 @@
                                             <div class="table_box">
                                                 <div class="guide">
                                                     <div class="product-box">
-                                                        <p class="img"><img src="/images/temp/temp_img5.jpg" alt="" /></p>
+                                                        <p class="img"><img src="https://www.seoulauction.com/nas_img/${resultMap.img_path}/${resultMap.file_name}" alt="" /></p>
                                                         <dl class="product_info">
                                                             <dt class="tt4">
-                                                                NFT Art & Metaverse in BUSAN
+                                                                ${ct:getJSONString(resultMap.title_json, 'ko')}
                                                             </dt>
                                                             <dd class="tb2">
-                                                                2022-03-30 ~ 2022-04-20<br />
-                                                                매주 수요일, 7:00-8:30pm (워크숍 제외)
+                                                                ${resultMap.from_dt} ~ ${resultMap.to_dt}<br />
+                                                                ${resultMap.academy_time}
                                                             </dd>
                                                         </dl>
                                                     </div>
