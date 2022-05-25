@@ -108,6 +108,9 @@ function sessionLogout() {
 const locale = document.documentElement.lang;
 const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
 
+//팝업은 미리 하이드.
+$('.main-popupBg').hide();
+
 window.onload = function(){
 
     //상단텍스트공지
@@ -486,8 +489,6 @@ $('#main_popup_today_stop_btn').on('click',function (){
 //메인 팝업 불러오기.
 function loadPopup(){
 
-    $('.main-popupBg').hide();
-
     //오늘 하루 쿠키가 없을 때.
     if(!getCookie('main-popup')) {
         axios.get('api/main/popup')
@@ -495,11 +496,11 @@ function loadPopup(){
                 const success = response.data.success;
                 if (success) {
                     const data = response.data.data;
-                    $('.main-popupBg').show();
-
                     $('#main_popup_title').html(data.title);
                     $('#main_popup_content').html(data.content);
-                    $('#main_popup_img').attr('src', data.images[1]);
+                    $('#main_popup_img').attr('src', data.image);
+
+                    $('.main-popupBg').show();
 
                     $('.main-popup-close, .main-popupBg').click(function () {
                         $('.main-popupbox').addClass('down');

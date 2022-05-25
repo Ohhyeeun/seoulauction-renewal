@@ -38,7 +38,7 @@ public class MainService {
 
     public CommonMap selectPopup() {
         CommonMap map = mainMapper.selectPopup();
-        map.put("images", s3Service.getS3FileData("main_popup", map.get("id")));
+        map.put("image", s3Service.getS3FileDataForOne("main_popup", map.get("id")));
         return map;
     }
 
@@ -86,7 +86,10 @@ public class MainService {
     }
 
     public List<CommonMap> selectVideos(CommonMap map) {
-        return mainMapper.selectVideos(map);
+
+        List<CommonMap> mapList = mainMapper.selectVideos(map);
+        mapList.stream().forEach(c -> c.put("image", s3Service.getS3FileDataForOne("content_media", c.get("id"))));
+        return mapList;
     }
 
     public List<CommonMap> selectUpcomings() {

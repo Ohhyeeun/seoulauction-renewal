@@ -258,4 +258,25 @@ public class ApiMypageController {
 	}
 
 
+	@RequestMapping(value = "/inteLots", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<RestResponse> inteLots(
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size,
+			@RequestParam(required = false) String sale_kind,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		CommonMap commonMap = new CommonMap();
+		commonMap.putPage(page, size);
+		commonMap.put("sale_kind", sale_kind);
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectInteLotList(commonMap)));
+	}
+	
+	@RequestMapping(value = "/inteLotDelete", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> inteLotDelete(@RequestBody CommonMap commonMap, Principal principal,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.deleteCustInteLot(commonMap)));
+	}
 }
