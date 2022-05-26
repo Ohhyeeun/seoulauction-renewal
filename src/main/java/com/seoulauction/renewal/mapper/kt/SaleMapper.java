@@ -31,4 +31,9 @@ public interface SaleMapper {
     void upsertRecentlyView(CommonMap commonMap);
 
     List<CommonMap> selectRecentlyView(CommonMap commonMap);
+    /* 낙찰된 경매 관련 */
+    CommonMap selectBidForSuccessBid(CommonMap map);
+    CommonMap selectSuccessBidForOverlab(CommonMap map);
+    void insertSuccessBid(CommonMap map);
+    //
 }

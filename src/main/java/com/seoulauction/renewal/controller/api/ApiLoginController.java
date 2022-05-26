@@ -33,6 +33,8 @@ import com.seoulauction.renewal.common.RestResponse;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
+import com.seoulauction.renewal.mapper.kt.CertificationMapper;
+import com.seoulauction.renewal.service.CertificationService;
 import com.seoulauction.renewal.service.LoginService;
 import com.seoulauction.renewal.service.MessageService;
 import com.seoulauction.renewal.service.MypageService;
@@ -62,6 +64,8 @@ public class ApiLoginController {
 	private final LoginService loginService;
 	
 	private final MessageService messageService;
+
+	private final CertificationService certificationService;
 
 	private final MypageService mypageService;
 
@@ -155,7 +159,7 @@ public class ApiLoginController {
 			        	paramMap.put("from_phone", callback.toString()); //02-395-0330
 			        	paramMap.put("to_phone", paramMap.get("search_value").toString());
 			        	paramMap.put("msg", msg.toString()); 
-				   		resultMap = mypageService.selectAuthNumber(paramMap);
+				   		resultMap = certificationService.selectAuthNumber(paramMap);
 		        	}
 		        	//성공
 		        	return ResponseEntity.ok(RestResponse.ok(resultMap));

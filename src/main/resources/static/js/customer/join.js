@@ -403,23 +403,29 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	$scope.authNumValid = false;
 	$scope.authNumberShowYn = false;
 	$scope.authNumMsg = "인증번호 요청";
+	
 	$scope.authNumRequest = function() {
+		document.querySelectorAll('.authNum').forEach(function(ele){ele.disabled=false});
+		document.getElementById('hpAuthArea').style.display="none";
+		document.getElementById('hpMsg').innerText="";
+		document.getElementById('checkHpAuthMsg').innerText="";
+		$scope.authNumValid  = false;
+		$scope.form_data.hp_auth="";
+		$interval.cancel($scope.timer_duration);
+		
 		var phone = $scope.form_data.hp;		
 		var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 		if (phone == null || phone == '') {
-			$scope.hp_msg = "휴대폰 번호를 입력해주세요";
+			document.getElementById('hpMsg').innerText = "휴대폰 번호를 입력해주세요";
 			return;
 		}
 		else if (regPhone.test(phone) === false) {
-			$scope.hp_msg = "휴대전화번호를 확인해주세요.";
+			document.getElementById('hpMsg').innerText = "휴대전화번호를 확인해주세요.";
 			return;
 		}
-				
-		$interval.cancel($scope.timer_duration);
-		$scope.form_data.hp_auth="";
-		
-		$d = {"to_phone": phone };
-		axios.post('/api/mypage/saleCert/sendAuthNum', $d)
+						
+		$d = {"to_phone": phone , "cust_kind_cd" : "person"};
+		axios.post('/api/cert/sendAuthNum', $d)
 		.then(function(response) {
 			console.log(response);
 						const data = response.data;
@@ -428,7 +434,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 						if (success) {
 							console.log(data["data"].AUTH_EXISTS);
 							if (data["data"].AUTH_EXISTS) {
-									$scope.hp_msg = "이미 등록된 휴대폰 번호 입니다.\n" + "다른 번호를 입력해 주세요.";
+									document.getElementById('hpMsg').innerText = "이미 등록된 휴대폰 번호 입니다.\n" + "다른 번호를 입력해 주세요.";
 									//This number is already authorized.\n" + "Please log-in again with the first authenticated ID and start bidding.						
 							} else {
 								$scope.auth_num_send_status = data.data.SEND_STATUS;
@@ -439,8 +445,8 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 								}
 								if ($scope.langType == 'ko') {
 									$scope.checkHpAuth.valid = true;
-									$scope.hp_msg = "";
-									$scope.authNumberShowYn = true; //인증번호 입력 필드 show
+									document.getElementById('hpMsg').innerText = "";
+									document.getElementById('hpAuthArea').style.display="block"; //인증번호 입력 필드 show
 									$scope.authNumMsg = "인증번호 재전송";
 									
 								}else if ($scope.langType == 'en') {
@@ -460,21 +466,24 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	//핸드폰인증번호 validation
 	$scope.authNumConfirm = function() {
 		if($scope.form_data.hp_auth == null || $scope.form_data.hp_auth == '') {
-			$scope.hp_msg = "인증번호를 넣으세요.";
+			document.getElementById('hpMsg').innerText = "인증번호를 넣으세요.";
 			return;
 		}
 		$d = {"auth_num":$scope.form_data.hp_auth};
-		axios.post('/api/mypage/saleCert/confirmAuthNum4sale', $d)
+		axios.post('/api/cert/confirmAuthNumCheck', $d)
 			.then(function(response) {
 				const data = response.data;
 				let success = data.success;
 				if(success) {
 					$interval.cancel($scope.timer_duration);
-					$scope.hp_msg ="인증에 성공 하였습니다.";
+					document.getElementById('hpMsg').innerText ="인증에 성공 하였습니다.";
 					$scope.authNumValid  = true;
-					$scope.checkHpAuth.message = "";
+					document.getElementById('checkHpAuthMsg').innerText = "";
+					
+					//인증 완료시, 인증번호 입력 영역 disabled 처리
+					document.querySelectorAll('.authNum').forEach(function(ele){ele.disabled=true});
 				}else {
-					$scope.hp_msg ="인증에 실패 하였습니다. 다시 요청 하세요.";
+					document.getElementById('hpMsg').innerText ="인증에 실패 하였습니다. 다시 요청 하세요.";
 					$scope.authNumValid  = false;
 				}
 		})
@@ -484,7 +493,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	}
 	
 	$scope.getHpAuthMsg = function() {
-		return $scope.checkHpAuth.message;
+		return document.getElementById('checkHpAuthMsg').innerText;
 	}
 	
 	$scope.setAuthDuration = function() {
@@ -494,14 +503,14 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
  		var f = 'm:s';
     	var s = moment($scope.auth_end_time).diff(moment(new Date()), 'seconds');
     	if(s > 0) {
-    		$scope.checkHpAuth.message = "남은시간 : " + moment.duration(s, "seconds").format(f);
+    		document.getElementById('checkHpAuthMsg').innerText = "남은시간 : " + moment.duration(s, "seconds").format(f);
     	}
     	else if (s == 0) {
     		//$scope.duraionEnd();
-    		$scope.checkHpAuth.message = "0";
+    		document.getElementById('checkHpAuthMsg').innerText = "0";
     		$interval.cancel($scope.timer_duration);
     		console.log("======> cancel timer");
-    		axios.post('/api/mypage/saleCert/clearAuthNum', {})
+    		axios.post('/api/cert/clearAuthNum', {})
 					.then(function(response) {
 						document.getElementById('hpMsg').innerText="";
 						document.getElementById('checkHpAuthMsg').innerText="인증 시간이 초과되었습니다. 다시 요청 하세요.";
