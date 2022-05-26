@@ -29,12 +29,7 @@ public class MainController {
     public String guide(HttpServletRequest request) {
         return "guide_list";
     }
-    @GetMapping("/upcoming" )
-    public String upcoming(Locale locale) {
-        return SAConst.getUrl(SERVICE_MAIN , "upcoming" , locale);
-    }
-
-
+    
     @GetMapping("/newsletter" )
     public String newsletter(Locale locale) {
         return SAConst.getUrl(SERVICE_MAIN , "newsletter" , locale);

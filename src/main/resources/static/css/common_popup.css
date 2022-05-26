@@ -1,0 +1,504 @@
+@charset "UTF-8"; 
+
+html a:link, html a:visited, body a:link, body a:visited {
+    text-decoration: none;
+}
+body {
+    letter-spacing: -0.4px; 
+    -webkit-text-size-adjust: none; 
+}
+
+.icon-pop_close {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+}
+.tt4 {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.36;
+}
+.tb2 {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.78;
+} 
+.tac {
+    text-align: center; !important; 
+} 
+.btn {
+    position: relative;
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 5px 15px 5px;
+    margin-bottom: 0;
+    */: ;
+    font-family: "Pretendard";
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 36px;
+    text-align: center;
+    letter-spacing: 0px;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}   
+.btn_set-float.tac {
+    text-align:center;
+}
+.btn.btn_point {
+    background: #4DADA7;
+    border: 1px solid #4dada7;
+    color: #fff;
+}
+.icon-pop_close::after {
+    content: "";
+    display: block;
+    background-image: url(http://127.0.0.1:54128/css/../../images/common/sp_icons.png);
+    background-position: 0px -946px;
+    width: 24px;
+    height: 24px;
+}
+.basis-section {
+        margin-top: 60px;
+    width: 100%;
+    max-width: 1420px;
+    padding: 0 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.basis-section .section-inner {
+    position: relative; 
+}
+.btn.btn_default {
+    background: transparent;
+    border: 1px solid #333333;
+    color: #333333;
+}
+.btn.btn_default span {
+    color: inherit; 
+}
+.btn span {
+    font-family: "Pretendard";
+    color: #333333;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 36px;
+    box-sizing: border-box;
+    vertical-align: middle; 
+}
+.icon-page_next {
+    display: inline-block;
+    width: 20px;
+    height: 20px;  
+}
+.btn i {
+    width: 36px;
+    margin-left: 0;
+    vertical-align: middle; 
+}
+.btn span + i {
+    margin-left: 0; 
+} 
+.btn.btn_point span {
+    color: #fff;
+} 
+.only_ib-pc {
+    display: inline-block; 
+}
+.only-pc {
+    display: block; 
+}
+.only_ib-mb,
+.only-mb {
+    display: none;
+}
+.btn.btn_gray_line {
+    background: transparent;
+    border: 1px solid #BDBDBD;
+    color: #555;
+}
+.tb1 {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.78;
+}
+.mark_dot-list li:after {
+    content: ""; 
+    display: block;
+    width: 3px;
+    height: 3px;
+    position: absolute;
+    top: 11px;
+    left: 0;
+    background-color: #555555;     
+}
+
+
+
+/* 공통 로그인 팝업 */ 
+/* 검색 */
+/* ================== 팝업 레이아웃 */
+/** //popup-wrap **/
+.popup-dim {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: calc(var(--vh, 1vh) * 100);
+  background: #000000;
+  opacity: 0.6;
+  z-index: 13;
+}
+
+.trp.popupfixed-wrap {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 14;
+  -webkit-overflow-scrolling: touch;
+ /* 오늘하루 팝법 띄우기 */ /* seoul auction 안내 , 응찰중지, 응찰하기 */ /* 패들번호 부여 */ /* 낙찰수수료, 배송비 안내,	Service ()*/ /* 응찰하기(온라인) */ /* == 이미지 뷰어 == */ /* == 이미지 팝업 == */ /* == 약관동의 안내 (필수) == */ /* table col 크기 : 배송비 안내 */ /* table col 크기 : 낙찰수수료  */ /* table col 크기 : 경매호가표 안내  */ /* 아이디비밀번호찾기 */ /* (공통) 팝업 닫기 버튼 */ /* (공통) 팝업 하단 버튼 */ /* (공통) 데이터없음 */ /* 정회원 이력 툴팁 */ /* 정회원 결제 이용약관 */ /* 정회원 결제 이력 */ /* 라이브경매관리 온라인패들 응찰 이력 */ /* 아트컨설팅 & 기업마케팅 팝업 */ /* 검색하기 모바일용 팝업 */ /* 마이 아카데미 신청내역 결제정보 팝업 */ /* 온라인 경매 번호 인증 팝업 */ /* 회원탈퇴 팝업 */;
+}
+
+.trp.popupfixed-wrap .popup-dim {
+  background-color: transparent;
+  z-index: 0;
+}
+
+.trp.popupfixed-wrap .popup-align {
+  display: table;
+  *display: block;
+  table-layout: fixed;
+  width: 100%;
+  height: calc(var(--vh, 1vh) * 100);
+  text-align: center;
+ /* full > full */ /* 1440px > 360 */ /* 1000 > 360 높이고정 해더스타일다름*/ /* 960 > 360 */ /* 910 > 360 */ /* 720 > 360 */ /* 620 > 360 */ /* js 옵셔으로 동작 pc 하단 붙이기 */;
+}
+.trp.popupfixed-wrap .popup-align .popup-vertical {
+  display: table-cell;
+  width: 100%;
+  padding: 0px 0px;
+  text-align: center;
+  vertical-align: middle;
+} 
+.trp.popupfixed-wrap .popup-align.mode-ms .popup-layer {
+  width: 100%;
+  max-width: 620px;
+}
+.trp.popupfixed-wrap .popup-layer { 
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      *display: inline;
+      zoom: 1;
+}
+.trp.popupfixed-wrap .pop-panel {
+  background: #fff;
+}
+.trp.popupfixed-wrap .pop-panel .pop-header {
+  border-top: 6px solid #21a099;
+}
+
+.trp.popupfixed-wrap .pop-panel .pop-header .title-box {
+  padding: 44px 40px 10px;
+  height: 90px;
+  box-sizing: border-box;
+  position: relative;
+  font-size: 0;
+  text-align: left;
+  font-size: 0;
+  line-height: 0;
+}
+.trp.popupfixed-wrap .pop-panel .pop-header .title-box::before {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.trp.popupfixed-wrap .pop-panel .pop-header .title-box .txt_title {
+  vertical-align: middle;
+  font-size: 28px;
+  font-weight: 600;
+  color: #111111;
+  line-height: 1.1;
+  font-family: "Pretendard";
+}
+
+.trp.popupfixed-wrap .pop-panel .pop-header .title-box .txt_title.type-big {
+  font-size: 34px;
+}
+
+.trp.popupfixed-wrap .pop-panel .pop-header .btn_close {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 10;
+  width: 84px;
+  height: 84px;
+  padding: 30px;
+  margin: 0;
+  font-size: 0px;
+  line-height: 1;
+  color: transparent;
+  box-sizing: border-box;
+} 
+.trp.popupfixed-wrap .pop-panel .pop-header .btn_close:after {
+  content: '';
+  display: block;
+} 
+.trp.popupfixed-wrap.login-popup .pop-header .title-box_tac {
+  padding: 55px 0 35px;
+}
+.trp.popupfixed-wrap.login-popup .pop-header .title-box_tac .title_tac {
+  font-weight: 700;
+  color: #333333;
+}
+.trp.popupfixed-wrap .pop-panel .pop-body {
+  text-align: left;
+} 
+.trp.popupfixed-wrap.login-popup .pop-body {
+  padding: 0 40px;
+}
+.trp.popupfixed-wrap.login-popup .pop-body .info_box ul {
+  background-color: #f6f6f6;
+  padding: 28px;
+  color: #777777;
+}
+.mark_dot-list li {
+    position: relative; 
+}
+.trp.popupfixed-wrap.login-popup .pop-body .info_box ul li {
+    padding-left: 12px; 
+}
+.trp.popupfixed-wrap .pop-body .button-area {
+    margin-top: 40px; 
+}
+.trp.popupfixed-wrap.login-popup .pop-body .confirm_btn {
+  padding: 30px 0 40px;
+}
+.trp.popupfixed-wrap.login-popup .pop-body .confirm_btn .btn {
+    width: 170px;    
+}
+.trp.popupfixed-wrap.login-popup .pop-body .confirm_btn .btn_point {
+    margin-left: 5px; 
+} 
+.trp.popupfixed-wrap.login-popup .pop-header .title-box_tac .title_tac strong {
+    color: #21a099; 
+}
+/* 아이디찾기 미입력 항목 */
+.trp.popupfixed-wrap.login-popup .pop-header .ico_box {
+    margin-top: 60px; 
+}
+.trp.popupfixed-wrap.login-popup .pop-header .title-box_tac.title_md {
+    padding: 25px 0 0; 
+} 
+/* 아이디찾기 소셜 회원 */
+.trp.popupfixed-wrap.login-popup .pop-body .sns_box {
+    margin-bottom: 30px; 
+}
+.trp.popupfixed-wrap.login-popup .pop-body .sns_box p {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333333;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 25px 0;
+    text-align: center;
+}
+.trp.popupfixed-wrap.login-popup .pop-body .sns_box p span {
+    color: #21a099; 
+    font-weight: inherit;
+}
+
+/* 비밀번호 변경 알림 */
+.trp.popupfixed-wrap.login-popup .pop-header .title-box_tac.change_title {
+    font-size: 34px;
+    color: #111111;
+    padding: 30px 0 35px;
+}
+.trp.popupfixed-wrap.login-popup .pop-header .title-box_tac.change_title p {
+    font-weight: 700; 
+} 
+.trp.popupfixed-wrap.login-popup .pop-header .title-box_tac.change_title .title_sub {
+    font-size: 20px; 
+    color: #333333;
+    margin-top: 10px;
+    line-height: 1.7;
+}
+.btn.btn_gray_line span {
+    color: inherit; 
+}
+.trp.popupfixed-wrap.login-popup .pop-body .info_box ul li:after {
+    background-color: #888888; 
+}
+/* 이중 접속 차단 안내 */ 
+.trp.popupfixed-wrap.login-popup .pop-header .title-box_tac.title_concurrent {
+    font-size: 20px; 
+    /*padding: 35px 100px 0;*/
+    padding: 35px 98px 0;
+    line-height: 1.5;
+}
+.trp.popupfixed-wrap.login-popup .pop-body .confirm_btn.confirm_btn_md {
+    padding: 35px 0 60px; 
+}
+.trp.popupfixed-wrap.login-popup .pop-body .info_box .change_txt {
+    color: #555555;
+    line-height: 1.6;
+} 
+.btn_set-float:after {
+    content: '';
+    display: block;
+    clear: both; 
+}
+.trp.popupfixed-wrap.login-popup .pop-body .confirm_btn.change_btn {
+    padding: 40px 0 40px; 
+}    
+
+@media all and (max-width: 1023px) {
+    .tt4 {
+        font-size: 17px;
+        font-weight: 600;
+        line-height: 1.36; 
+    }
+    .tb2 {
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.5;
+    }
+    .tb1 {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5; 
+    }
+    .only-mb {
+        display: block; 
+    }
+    .only_ib-mb {
+        display: inline-block; 
+    }
+    .only_ib-pc {
+        display: none;  
+    }
+    
+    .trp.popupfixed-wrap .popup-align.mode-ms .popup-layer { 
+        position: relative; 
+        width: 100%;
+        height: calc(var(--vh, 1vh) * 100);
+    }
+    .trp.popupfixed-wrap .popup-align.mode-ms.mode-mb_center .popup-layer {
+        padding: 0 25px;
+        height: auto; 
+    }
+    .trp.popupfixed-wrap .popup-align.mode-ms.mode-mb_center .popup-layer .pop-panel {
+        position: relative; 
+    }
+    .trp.popupfixed-wrap .pop-panel .pop-header {
+        border-top: 3px solid #21a099; 
+    }
+    .trp.popupfixed-wrap .pop-panel .pop-header .btn_close {
+        top: 10px;
+        width: 57px;
+        height: 57px;
+        padding: 20px;
+        margin: 0;
+    }
+    .trp.popupfixed-wrap.login-popup .pop-header .btn_close {
+        top: -5px;
+        right: -5px; 
+    } 
+    .icon-pop_close::after { 
+        content: "";
+        display: block;
+        background-image: url(http://127.0.0.1:54128/css/../../images/common/sp_icons.png);
+        background-size: 502px 485px;
+        background-position: -468px -45px;
+        width: 17px;
+        height: 17px;
+    }
+    .trp.popupfixed-wrap.login-popup .pop-header .title-box_tac {
+        padding: 40px 0 20px; 
+    }
+    .trp.popupfixed-wrap.login-popup .pop-header .title-box_tac.title_md {
+        padding: 14 px 0 0px;  
+    }
+    .trp.popupfixed-wrap.login-popup .pop-body {
+        padding: 0 25px; 
+    }
+    .trp.popupfixed-wrap.login-popup .pop-body .info_box ul {
+        padding: 15px; 
+    }
+    .trp.popupfixed-wrap.login-popup .pop-body .info_box ul li {
+        padding-left: 8px; 
+    }
+    .trp.popupfixed-wrap.login-popup .pop-body .info_box ul li:after {
+        top: 8px; 
+    }
+    .trp.popupfixed-wrap .pop-body .button-area {
+        margin-top: 30px;   
+    }
+    .trp.popupfixed-wrap.login-popup .pop-body .confirm_btn {
+        padding: 20px 0 30px; 
+    } 
+    .trp.popupfixed-wrap.login-popup .pop-body .confirm_btn .btn_set-float {
+        display: flex;
+        justify-content: center; 
+    }
+    .trp.popupfixed-wrap.login-popup .pop-body .confirm_btn .btn {
+        width: 100%; 
+    }
+    .trp.popupfixed-wrap.login-popup .pop-header .ico_box {
+        margin-top: 40px; 
+    }
+    .trp.popupfixed-wrap.login-popup .pop-header .ico_box img {
+        width: 47.5px; 
+    } 
+    .trp.popupfixed-wrap.login-popup .pop-body .confirm_btn.confirm_btn_md {
+        padding: 15px 0 30px;  
+    } 
+    
+    .trp.popupfixed-wrap .popup-align.mode-ms.mode-mb_full .pop-panel {
+        min-height: calc(var(--vh, 1vh) * 100);
+    }
+    .trp.popupfixed-wrap.login-popup .pop-header .ico_box.change_ico {
+        margin-top: 105px; 
+    }
+    .trp.popupfixed-wrap.login-popup .pop-header .ico_box.change_ico img {
+        width: 113px;
+    } 
+    .trp.popupfixed-wrap.login-popup .pop-header .title-box_tac.change_title {
+        font-size: 22px;
+        padding: 20px 0 25px; 
+    }
+    .trp.popupfixed-wrap.login-popup .pop-header .title-box_tac.change_title .title_sub {
+        font-size: 15px; 
+        margin-top: 7px;
+        line-height: 1.5; 
+    }
+    .trp.popupfixed-wrap.login-popup .pop-body .info_box ul.change_txt {
+        padding: 20px; 
+    } 
+    .btn span { 
+        font-size: 14px;   
+    }
+    .trp.popupfixed-wrap.login-popup .pop-body .sns_box p {
+        font-size: 15px;
+        padding: 20px 0; 
+    } 
+}
