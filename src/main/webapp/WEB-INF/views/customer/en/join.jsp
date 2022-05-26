@@ -13,85 +13,92 @@
 	    <title>Seoul Auction</title>
 	</head>
 	<body>
-	<jsp:include page="../../include/en/header.jsp" flush="false" />
-	
-	<div id="container footer-bottom footer-bottom30" style="margin-top:60px" ng-controller="joinCtl">
-		<div id="contents" class="contents">
-		    <section class="basis-section last-section">
-		        <div class="section-inner">
-		            <div class="content-panel type_panel-member">
-		                <div class="panel-header">
-		                    <div class="title">
-		                        <span class="tt2">Register</span>
-		                    </div>
-		                </div>
-		                <div class="panel-body">
-		                    <div class="join_txt-wrap">
-		                        <p class="join_txt">Welcome to Seoul Auction.</p>
-		                    </div>
-		                    <div class="join_guide">
-		                        <dl>
-		                            <dt class="tt4">Sign up</dt>
-		                            <dd class="tb1">
-		                                개인의 자격으로 국내 거주하시는 회원으로 가입합니다.
-		                            </dd>
-		                            <dd>
-		                                <a class="btn btn_point btn_full" href="#" role="button" ng-click="goJoin('person')"><span>Sign up</span></a>
-		                            </dd>
-		                            <dd>
-		                                <div class="sns_set">
-		                                    <div class="title">
-		                                        Sign up for SNS
-		                                    </div>
-		                                    <div class="sns_icon_wrap">
-		                                        <ul>
-		                                            <li>
-		                                                <i ng-click="naverJoin()" class="icon-sns_naver"></i>
-		                                                <div id="naverIdLogin" style="display:none"></div>
-		                                            </li>
-		                                            <li>
-		                                            	<i ng-click="joinWithKakao()" class="icon-sns_kakao"></i>
-		                                            </li>
-		                                            <li>
-		                                            	<i id="googleIdJoin" class="icon-sns_google"></i>
-		                                            </li>
-		                                            <li>
-			                                            <i ng-click="joinWithApple()" class="icon-sns_apple"></i>
-			                                            <div id="appleid-signin" data-type="sign in"  style="display:none"></div>
-		                                            </li>
-		                                        </ul>
-		                                    </div>
-		                                </div>
-		                            </dd>
-		                        </dl>
-		                    </div>
-		
-		                    <div class="join_guide">
-		                        <dl>
-		                            <dd class="tb1">
-		                                대한민국 국적자이신 경우에는 NEW Account 버튼을 이용해 주세요. <br />
-										Making a new account for Korean people is here.
-		                            </dd>
-		                            <dd>
-		                                <a class="btn btn_point btn_full" href="#" role="button" onClick="location.href='/join?lang=ko'"><span>New Account</span></a>
-		                            </dd>
-		                        </dl>
-		                    </div>
-		                </div>
-		            </div>
-		        </div>
-		    </section>
-			<form id="joinForm" method="post">
-				<input type="hidden" id="name" name="name" />
-				<input type="hidden" id="email" name="email" />
-				<input type="hidden" id="mobile" name="mobile" />
-				<input type="hidden" id="sub" name="sub" />
-			</form>
+	<div class="wrapper">
+		<div class="sub-wrap pageclass">
+			<jsp:include page="../../include/en/header.jsp" flush="false" />
+			
+			<div id="container footer-bottom footer-bottom30" style="margin-top:60px" ng-controller="joinCtl">
+				<div id="contents" class="contents">
+				    <section class="basis-section last-section">
+				        <div class="section-inner">
+				            <div class="content-panel type_panel-member">
+				                <div class="panel-header">
+				                    <div class="title">
+				                        <span class="tt2">Register</span>
+				                    </div>
+				                </div>
+				                <div class="panel-body">
+				                    <div class="join_txt-wrap">
+				                        <p class="join_txt">Welcome to Seoul Auction.</p>
+				                    </div>
+				                    <div class="join_guide">
+				                        <dl>
+				                            <dt class="tt4">Sign up</dt>
+				                            <dd class="tb1">
+				                                개인의 자격으로 국내 거주하시는 회원으로 가입합니다.
+				                            </dd>
+				                            <dd>
+				                                <a class="btn btn_point btn_full" href="#" role="button" ng-click="goJoin('person')"><span>Sign up</span></a>
+				                            </dd>
+				                            <dd>
+				                                <div class="sns_set">
+				                                    <div class="title">
+				                                        Sign up for SNS
+				                                    </div>
+				                                    <div class="sns_icon_wrap">
+				                                        <ul>
+				                                            <li>
+				                                                <i ng-click="naverJoin()" class="icon-sns_naver"></i>
+				                                                <div id="naverIdLogin" style="display:none"></div>
+				                                            </li>
+				                                            <li>
+				                                            	<i ng-click="joinWithKakao()" class="icon-sns_kakao"></i>
+				                                            </li>
+				                                            <li>
+				                                            	<i id="googleIdJoin" class="icon-sns_google"></i>
+				                                            </li>
+				                                            <li>
+					                                            <i ng-click="joinWithApple()" class="icon-sns_apple"></i>
+					                                            <div id="appleid-signin" data-type="sign in"  style="display:none"></div>
+				                                            </li>
+				                                        </ul>
+				                                    </div>
+				                                </div>
+				                            </dd>
+				                        </dl>
+				                    </div>
+				
+				                    <div class="join_guide">
+				                        <dl>
+				                            <dd class="tb1">
+				                                대한민국 국적자이신 경우에는 NEW Account 버튼을 이용해 주세요. <br />
+												Making a new account for Korean people is here.
+				                            </dd>
+				                            <dd>
+				                                <a class="btn btn_point btn_full" href="#" role="button" onClick="location.href='/join?lang=ko'"><span>New Account</span></a>
+				                            </dd>
+				                        </dl>
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				    </section>
+					<form id="joinForm" method="post">
+						<input type="hidden" id="name" name="name" />
+						<input type="hidden" id="email" name="email" />
+						<input type="hidden" id="mobile" name="mobile" />
+						<input type="hidden" id="sub" name="sub" />
+					</form>
+				</div>
+		    </div>
+		    <jsp:include page="../../include/en/footer.jsp" flush="false"/>
 		</div>
-    </div>
-    <jsp:include page="../../include/en/footer.jsp" flush="false"/>
+	</div>
 	</body>
 	
+	<script>
+	var socialExist = '${socialExist}';
+	</script>
 	<!-- 카카오 -->
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>

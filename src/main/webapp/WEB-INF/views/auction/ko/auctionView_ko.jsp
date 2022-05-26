@@ -880,7 +880,7 @@
 </script>
 
 
-<!-- 웹소켓 -->
+
 <script>
     (function () {
         var popup_biddingPopup1 = $("#bid_btn").trpLayerFixedPopup("#popup_biddingPopup1-wrap");
@@ -915,6 +915,7 @@
 </script>
 
 <!-- BIDING-->
+<!-- 웹소켓 -->
 <script type="text/javascript">
     Date.prototype.format = function (f) {
         if (!this.valueOf()) return " ";
@@ -970,6 +971,7 @@
 
     let con_try_cnt = 0;
     let end_bid_time = 0;
+    let is_end_bid = false;
 
     let biding = async function (connect_info) {
         console.log(new Date().getTime(), "bidding");
@@ -1016,10 +1018,12 @@
         }
         w.onclose = function () {
             if (w.readyState === w.CLOSED) {
-                con_try_cnt++;
-                websocketTimeout = window.setTimeout(function () {
-                    retry(saleNo, lotNo, saleType, userId);
-                }, 1000);
+                if (!is_end_bid) {
+                    con_try_cnt++;
+                    websocketTimeout = window.setTimeout(function () {
+                        retry(saleNo, lotNo, saleType, userId);
+                    }, 1000);
+                }
             }
         }
         w.onmessage = function (evt) {
@@ -1030,6 +1034,7 @@
 
     function proc(evt, saleNo, lotNo, saleType, userId) {
         let wt;
+
         const packet_enum = {
             init: 1,
             bid_info: 2,
@@ -1287,6 +1292,7 @@
                     } else if (end_bid_time < new Date().getTime()) {
                         bid_tick.innerText = "경매가 종료 되었습니다.";
                     }
+                    is_end_bid = true;
                     w.close();
                 }
             }

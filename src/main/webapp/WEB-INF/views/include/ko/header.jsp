@@ -62,7 +62,7 @@
     </div>
     <nav class="header_navbox">
         <div class="header_nav wrap_padding">
-            <a href="#" class="header_logo"><span class="blind-text">logo</span></a>
+            <a href="/" class="header_logo"><span class="blind-text">logo</span></a>
             <ul class="header_gnbmenu pc-ver">
                 <li><a href="#" class="">AUCTION</a></li>
                 <li><a href="#">PRIVATE SALE</a></li>
@@ -127,17 +127,17 @@
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>
                                 <ul class="submenu submenu-part03">
-                                    <li><a href="#">위탁안내</a></li>
+                                    <li><a href="/sell/consignment">위탁안내</a></li>
                                     <li><a href="#">위탁신청</a></li>
                                 </ul>
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
                                 <ul class="submenu submenu-part04">
                                     <li id="menu_academy"><a href="#">아카데미</a></li>
-                                    <li><a href="#">담보대출</a></li>
-                                    <li><a href="#">미술품보관</a></li>
-                                    <li><a href="#">전시장대관</a></li>
-                                    <li><a href="#">아트컨설팅&#38;기업마케팅</a></li>
+                                    <li><a href="/service/loan">담보대출</a></li>
+                                    <li><a href="/service/storage">미술품보관</a></li>
+                                    <li><a href="/service/showroom">전시장대관</a></li>
+                                    <li><a href="/service/marketing">아트컨설팅&#38;기업마케팅</a></li>
                                 </ul>
                             </li>
                             <li class="subGnbmenu-tit m-ver">

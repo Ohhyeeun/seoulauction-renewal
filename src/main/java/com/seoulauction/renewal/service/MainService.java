@@ -29,7 +29,15 @@ public class MainService {
     }
 
     public List<CommonMap> selectBeltBanners() {
-        return mainMapper.selectBeltBanners();
+        List<CommonMap> resultMap = mainMapper.selectBeltBanners();
+        resultMap.stream().forEach(item -> {
+            List<CommonMap> imageListMap = s3Service.getS3FileDataAll("main_banner",  item.get("id"));
+            CommonMap map = new CommonMap();
+            imageListMap.forEach(c-> map.put(c.getString("tag")+"_url",c.getString("cdn_url")));
+            item.put("image", map);
+        });
+
+        return resultMap;
     }
 
     public List<CommonMap> selectNewsletters(CommonMap map) {
@@ -38,7 +46,7 @@ public class MainService {
 
     public CommonMap selectPopup() {
         CommonMap map = mainMapper.selectPopup();
-        map.put("images", s3Service.getS3FileData("main_popup", map.get("id")));
+        map.put("image", s3Service.getS3FileDataForOne("main_popup", map.get("id")));
         return map;
     }
 
@@ -86,7 +94,10 @@ public class MainService {
     }
 
     public List<CommonMap> selectVideos(CommonMap map) {
-        return mainMapper.selectVideos(map);
+
+        List<CommonMap> mapList = mainMapper.selectVideos(map);
+        mapList.stream().forEach(c -> c.put("image", s3Service.getS3FileDataForOne("content_media", c.get("id"))));
+        return mapList;
     }
 
     public List<CommonMap> selectUpcomings() {

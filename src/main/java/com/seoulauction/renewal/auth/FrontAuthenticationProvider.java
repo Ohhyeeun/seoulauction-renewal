@@ -71,8 +71,11 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
         if(resultMap.get("STAT_CD") != null && resultMap.get("STAT_CD").equals("stop")){
 			throw new BadCredentialsException("Stop User"); // 이용제한 아이디 STAT_CD = 'stop'
         }
+        
+        if(resultMap.get("STAT_CD") != null && resultMap.get("STAT_CD").equals("not_certify")){
+			throw new BadCredentialsException("Not Certify User"); // 해외고객 이메일 미인증 STAT_CD = 'not_certify'
+        }
 
-		
 		// 비밀번호 변경 180일 경과 여부
 		if(resultMap.get("PASSWD_MOD_NECESSARY_YN").equals("Y")){
 			attr.getRequest().getSession().setAttribute("PASSWD_MOD_NECESSARY_YN", true);
@@ -86,9 +89,13 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
 		WebAuthenticationDetails wad;
         String userIPAddress;
 
-        // Get the IP address of the user tyring to use the site
-        wad = (WebAuthenticationDetails) authentication.getDetails();
-        userIPAddress = wad.getRemoteAddress();
+        if(authentication.getDetails().getClass() == String.class) {
+        	userIPAddress = authentication.getDetails().toString();
+        }else {
+        	// Get the IP address of the user tyring to use the site
+        	wad = (WebAuthenticationDetails) authentication.getDetails();
+        	userIPAddress = wad.getRemoteAddress();
+        }
         paramMap.put("ip", userIPAddress);
         paramMap.put("user_no", resultMap.get("CUST_NO"));
         paramMap.put("user_kind_cd", "customer");
@@ -114,7 +121,6 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
         	roles.add(new SimpleGrantedAuthority("ROLE_EMPLOYEE_USER"));
         }
         
-        
         int custNo = Integer.parseInt(resultMap.get("CUST_NO").toString());
         
         UsernamePasswordAuthenticationToken result 
@@ -128,6 +134,8 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
         					.userKind(resultMap.get("CUST_KIND_CD").toString())
         					.userNm(resultMap.get("CUST_NAME").toString())
         					.ip(userIPAddress)
+        					.zipNo(resultMap.get("ZIPNO").toString())
+        					.addr(resultMap.get("ADDR").toString() + " " + resultMap.get("ADDR_DTL").toString())
         					.build());
 		return result;
 	}

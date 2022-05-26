@@ -5,6 +5,7 @@ import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.mapper.aws.S3Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,8 +35,11 @@ public class S3Service {
     @Value("${aws.s3.image.base.url}")
     String S3_IMAGE_BASE_URL;
 
+    @Value("${aws.s3.private.image.base.url}")
+    String S3_PRIVATE_IMAGE_BASE_URL;
+
     //S3 업로드 이후 디비에 저장.
-    public CommonMap insertS3File(MultipartFile uploadFile , String tableName , String rowId) throws IOException {
+    private CommonMap insertS3File(Boolean isPrivate , MultipartFile uploadFile , String tableName , String rowId) throws IOException {
 
         //파일 이름.
         String origName = uploadFile.getOriginalFilename();
@@ -48,7 +52,7 @@ public class S3Service {
         final long fileSize = uploadFile.getSize();
         String contentType = uploadFile.getContentType();
 
-        String path = s3Uploader.upload(uploadFile,S3_IMAGE_BASE_URL + "/" + tableName + "/" + rowId);
+        String path = s3Uploader.upload(uploadFile,(isPrivate ? S3_PRIVATE_IMAGE_BASE_URL : S3_IMAGE_BASE_URL )  + "/" + tableName + "/" + rowId);
 
         CommonMap paramMap = null;
 
@@ -75,18 +79,19 @@ public class S3Service {
     }
 
     /**
+     * @param isPrivate - s3 파일 외부 공개 여부.
      * @param uploadFile - s3 업로드 될 파일.
      * @param tableName - s3파일이 필요한 테이블.
      * @param rowId - s3파일이 필요한 테이블의 row Id.
      */
     @Transactional("ktTransactionManager")
-    public void insertS3FileData(MultipartFile uploadFile , String tableName , String rowId) {
+    public void insertS3FileData(boolean isPrivate , MultipartFile uploadFile , String tableName , String rowId) {
 
             //성공적으로 업로드 된경우!! s3file_id 값이 map 에 담김.
         CommonMap map = null; // s3업로드.
 
         try {
-            map = insertS3File(uploadFile , tableName , rowId);
+            map = insertS3File(isPrivate , uploadFile , tableName , rowId);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,15 +102,40 @@ public class S3Service {
         }
     }
 
+    //img 모든 데이터를 리턴.
+    public List<CommonMap> getS3FileDataAll(String tableName , Object rowId) {
+        CommonMap map = new CommonMap();
+        map.put("table_name",tableName);
+        map.put("row_id",rowId);
+        return s3Mapper.selectS3FileData(map);
+    }
 
-    //img str 을 리턴.
+    //img STR LIST를 리턴.
     public List<String> getS3FileData(String tableName , Object rowId) {
-        CommonMap map =new CommonMap();
+
+        CommonMap map = new CommonMap();
         map.put("table_name",tableName);
         map.put("row_id",rowId);
         List<CommonMap> resultMap = s3Mapper.selectS3FileData(map);
         log.info("resultMap : {}" , resultMap);
         return resultMap.stream().map(c->c.getString("cdn_url")).collect(Collectors.toList());
+    }
+
+    //IMG STR 한개를 리턴.
+    public String getS3FileDataForOne(String tableName , Object rowId) {
+        CommonMap map = new CommonMap();
+        map.put("table_name",tableName);
+        map.put("row_id",rowId);
+        map.put("is_one" , true);
+        List<CommonMap> resultMapList = s3Mapper.selectS3FileData(map);
+        CommonMap returnMap = new CommonMap();
+        //is_one 이면 무조건 데이터는 1개.
+        if(CollectionUtils.isNotEmpty(resultMapList) && resultMapList.size() == 1){
+            returnMap = resultMapList.get(0);
+        }
+
+        return Optional.ofNullable(returnMap).map(c->c.getString("cdn_url"))
+                .orElse("");
     }
 
 }

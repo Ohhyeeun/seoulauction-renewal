@@ -72,6 +72,8 @@ public class LoginController {
 					model.addAttribute("error", "Stop User");
 				}else if(be.getMessage().equals("User not found.") || be.getMessage().equals("Wrong password")) {
 					model.addAttribute("error", "Bad credentials");
+				}else if(be.getMessage().equals("Not Certify User")) {
+					model.addAttribute("error", "Not Certify User");
 				}
 				
 				request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, null);
@@ -115,16 +117,29 @@ public class LoginController {
     public String joinFormPost(Locale locale, Model model, @RequestParam(value = "socialType") String socialType
     		, HttpServletRequest request, HttpServletResponse response) {
     	log.debug("===== joinFormPost =====");
-    	
+    	String socialEmail = request.getParameter("email");
+    	if(socialType.equals("AP")) {
+    		socialEmail = request.getParameter("sub");
+		}
+    	//소셜 기가입 확인
+		CommonMap paramMap = new CommonMap();
+		paramMap.put("social_email", socialEmail);
+		paramMap.put("social_type", socialType);
+        CommonMap resultMap = loginService.selectCustForCustSocial(paramMap);
+        
+		if(resultMap != null) {
+			model.addAttribute("socialExist", "Y");
+			return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "join" , locale);
+		}
+		
     	String socialLoginId = "";
 		
 		boolean duplIdCheck = true;
 		while(duplIdCheck) {
 			socialLoginId = socialType + "_" + Double.toString(Math.random() * 10).replace(".", "").substring(0, 8);
 			log.info(socialLoginId);
-			CommonMap paramMap = new CommonMap();
 			paramMap.put("socialLoginId", socialLoginId);
-	        CommonMap resultMap = loginService.selectCustSocialBySocialLoginId(paramMap);
+	        resultMap = loginService.selectCustSocialBySocialLoginId(paramMap);
 	        if(resultMap == null) {
 	        	duplIdCheck = false;
 	        }
@@ -133,10 +148,7 @@ public class LoginController {
 		model.addAttribute("mobile", request.getParameter("mobile"));
 		model.addAttribute("email", request.getParameter("email"));
 		model.addAttribute("socialLoginId", socialLoginId);
-		model.addAttribute("socialEmail", request.getParameter("email"));
-		if(socialType.equals("AP")) {
-			model.addAttribute("socialEmail", request.getParameter("sub"));
-		}
+		model.addAttribute("socialEmail", socialEmail);
     	
         return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "joinForm" , locale);
     }
@@ -145,6 +157,13 @@ public class LoginController {
 	public String socialNaverCallback(Locale locale, HttpServletRequest request, HttpServletResponse response) {
 	    log.debug("===== naverCallback =====");
 	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "naverCallback" , locale);
+    }
+    
+    @GetMapping("/joinDone")
+    public String joinDone(Locale locale) {
+    	log.debug("===== joinDone =====");
+    	
+        return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "joinDone" , locale);
     }
 
 

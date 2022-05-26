@@ -16,7 +16,7 @@ public interface SaleMapper {
     CommonMap selectSaleCertInfo(CommonMap commonMap);
     List<CommonMap> selectSaleLotImages(CommonMap commonMap);
 
-    CommonMap search_list_count(CommonMap paramMap);
+    List<CommonMap> search_list_count(CommonMap paramMap);
 
     List<CommonMap> search_list_paging(CommonMap paramMap);
 

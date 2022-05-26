@@ -108,6 +108,9 @@ function sessionLogout() {
 const locale = document.documentElement.lang;
 const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
 
+//팝업은 미리 하이드.
+$('.main-popupBg').hide();
+
 window.onload = function(){
 
     //상단텍스트공지
@@ -332,8 +335,8 @@ function loadBeltBanner() {
                     const content = JSON.parse(item.content);
                     const returnDom =  `<div class="swiper-slide platform-bg" style="background-color: ${content.backgroundColor} ">
                                             <a href="${ locale === 'en' ? content.url_en : content.url_ko }" target="_blank"  >
-                                                <img src="${locale === 'en' ? content.image_pc_en_url : content.image_pc_ko_url }" alt="beltPcBanner" class="beltBannerImg-pc platform-img" >
-                                                <img src="${locale === 'en' ? content.image_mo_en_url : content.image_mo_ko_url }" alt="beltMobileBanner" class="beltBannerImg-mo platform-img" >
+                                                <img src="${locale === 'en' ? item.image.pc_en_url : item.image.pc_ko_url }" alt="beltPcBanner" class="beltBannerImg-pc platform-img" >
+                                                <img src="${locale === 'en' ? item.image.mo_en_url : item.image.mo_ko_url }" alt="beltMobileBanner" class="beltBannerImg-mo platform-img" >
                                             </a>
                                         </div>`;
 
@@ -486,8 +489,6 @@ $('#main_popup_today_stop_btn').on('click',function (){
 //메인 팝업 불러오기.
 function loadPopup(){
 
-    $('.main-popupBg').hide();
-
     //오늘 하루 쿠키가 없을 때.
     if(!getCookie('main-popup')) {
         axios.get('api/main/popup')
@@ -495,11 +496,11 @@ function loadPopup(){
                 const success = response.data.success;
                 if (success) {
                     const data = response.data.data;
-                    $('.main-popupBg').show();
-
                     $('#main_popup_title').html(data.title);
                     $('#main_popup_content').html(data.content);
-                    $('#main_popup_img').attr('src', data.images[1]);
+                    $('#main_popup_img').attr('src', data.image);
+
+                    $('.main-popupBg').show();
 
                     $('.main-popup-close, .main-popupBg').click(function () {
                         $('.main-popupbox').addClass('down');

@@ -52,7 +52,7 @@
 							<li class="" id="test3"><a href="#">응찰내역</a></li>
 							<li class="" id="test4"><a href="#">결제/구매내역</a></li>
 						</ul></li>
-					<li class="cate1-li" id="intelot"><a href="#" class="">관심작품 <i
+					<li class="cate1-li" id="intelot"><a href="/mypage/inteLotList" class="">관심작품 <i
 							class="icon-view_more"></i></a></li>
 					<li class="cate1-li" id="academy"><a href="/mypage/academyList" class="">아카데미신청내역 <i
 							class="icon-view_more"></i></a></li>
