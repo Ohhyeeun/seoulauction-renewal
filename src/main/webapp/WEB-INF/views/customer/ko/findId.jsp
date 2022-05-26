@@ -82,12 +82,12 @@
                                         </ul>
                                         <p class="info_txt">Please, foreigners use English pages.</p>
                                         <div class="btn_set">
-                                            <a class="btn btn_gray_line">
+                                            <a class="btn btn_gray_line" href="/findId?lang=en">
                                                 <span>SeoulAuction ENG</span>
                                             </a>
                                         </div>
                                         <ul class="mark_dot-list tb2">
-                                            <li><span>비밀번호를 찾으시나요?</span><a href="">비밀번호찾기</a></li>
+                                            <li><span>비밀번호를 찾으시나요?</span><a href="/findPassword">비밀번호찾기</a></li>
                                         </ul>
                                     </div>
                                 </div>
