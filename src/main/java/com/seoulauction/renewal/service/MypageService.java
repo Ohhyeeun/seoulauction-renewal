@@ -122,7 +122,7 @@ public class MypageService {
     			for(MultipartFile file : fileList) {
     				if(file.getSize() > 0 && !file.getOriginalFilename().equals("")) {
     					//서버 저장 -> s3 api호출로 변경 예정.
-    					s3Service.insertS3FileData(file,"bbs_write", String.valueOf(map.get("write_no")));
+    					s3Service.insertS3FileData(false , file,"bbs_write", String.valueOf(map.get("write_no")));
     				}
     			}	
 		} catch (Exception e) {
@@ -144,8 +144,7 @@ public class MypageService {
         return map;
     }
 
-
-    public int updateSaleCertHp(CommonMap commonMap){  
+    public int updateSaleCertHp(CommonMap commonMap){
     	return mypageMapper.updateSaleCertHp(commonMap);
     }
     

@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface SaleMapper {
 
-    CommonMap search_list_count(CommonMap paramMap);
+    List<CommonMap> search_list_count(CommonMap paramMap);
 
     List<CommonMap> search_list_paging(CommonMap paramMap);
 

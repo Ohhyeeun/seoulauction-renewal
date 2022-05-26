@@ -246,7 +246,7 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok(mypageService.insertInquiry(request, principal)));
 	}
 	
-	@RequestMapping(value = "/findAddr", method = RequestMethod.POST)
+	@RequestMapping(value = "/address", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> findAddr(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
 		log.info(paramMap.toString());

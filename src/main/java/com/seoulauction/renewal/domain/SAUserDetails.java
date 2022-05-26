@@ -27,7 +27,9 @@ public class SAUserDetails implements UserDetails {
 	private String agreeYn;
 	private String ip;
 	private List<GrantedAuthority> authorities;
-
+	private String zipNo;
+	private String addr;
+	
     @Override
     public String getUsername() {
     	return this.loginId;
