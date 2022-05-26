@@ -43,7 +43,7 @@
 				
 				$d = { "to_phone": phone, "bid_auth": true, "sale_no": SALE_NO };
 			
-				axios.post('/api/mypage/saleCert/sendAuthNum', $d)
+				axios.post('/api/cert/sendAuthNum', $d)
 					.then(function(response) {
 						console.log(response);
 						const data = response.data;
@@ -94,7 +94,7 @@
 					console.log("======> cancel timer");
 					//인증번호 초기화(세션 null)
 					
-					axios.post('/api/mypage/saleCert/clearAuthNum', {})
+					axios.post('/api/cert/clearAuthNum', {})
 					.then(function(response) {
 						messageArea2.innerText = "인증 시간이 초과되었습니다. 다시 요청 하세요.";
 						document.getElementById('messageArea3').innerText = "";
@@ -118,7 +118,7 @@
 
 				$d = { "auth_num": authNum };
 
-				axios.post('/api/mypage/saleCert/confirmAuthNum4sale', $d)
+				axios.post('/api/cert/confirmAuthNumCheck', $d)
 					.then(function(response) {
 						const data = response.data;
 						let success = data.success;
@@ -163,7 +163,7 @@
 
 				$d = { "sale_no": saleNo, "to_phone": phone, "done_cd": (is_same_hp ? "no_modify" : "un_modify")};
 					
-				axios.post('/api/mypage/saleCert/inertSaleCert', $d)
+				axios.post('/api/cert/inertSaleCert', $d)
 				.then(function(response) {
 					const data = response.data;
 					let success = data.success;
@@ -172,7 +172,7 @@
 						if (!is_same_hp) {
 							if (confirm("고객정보의 핸드폰번호와 일치하지 않습니다.\n인증받은 핸드폰번호로 갱신하시겠습니까?")) {
 								$d = { "hp": phone, "sale_cert_no": data['data']['sale_cert_no'] };
-								axios.post('/api/mypage/saleCert/updateSaleCertHp', $d)
+								axios.post('/api/cert/updateSaleCertHp', $d)
 									.then(function(response) {
 										console.log('갱신완료');			
 									})

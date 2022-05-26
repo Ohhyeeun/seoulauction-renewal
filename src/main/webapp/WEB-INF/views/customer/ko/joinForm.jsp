@@ -154,11 +154,12 @@
 		                                            <button class="btn btn_light_gray_line" type="button" ng-click="authNumRequest()"><span>{{authNumMsg}}</span></button>
 		                                        </div>
 		
-		                                        <div class="re-check" ng-show="authNumberShowYn">
+		                                        <div class="re-check" id="hpAuthArea" style="display:none">
 		                                            <div class="form_body">
 		                                                <div class="input-group">
-		                                                    <input type="text" ng-model="form_data.hp_auth" maxLength=6 name="hp_auth" id="hp_auth" class="form-control" placeholder="">
-		                                                    <button class="btn btn_light_gray_line" type="button" ng-click="authNumConfirm()"><span>인증번호 확인</span></button>
+		                                                    <input type="text" ng-model="form_data.hp_auth" maxlength=6
+															onkeyup="onlyNumber(this, 'number');" name="hp_auth" id="hp_auth" class="form-control authNum" placeholder="">
+		                                                    <button class="btn btn_light_gray_line authNum" type="button" ng-click="authNumConfirm()"><span>인증번호 확인</span></button>
 		                                                </div>
 		                                            </div>
 		                                        </div>
