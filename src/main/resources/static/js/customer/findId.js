@@ -14,8 +14,6 @@ $('.js-menuType-header input').on('change', function() {
 /*아이디찾기 버튼 클릭 */
 	
 $('#findId').on('click', function() {
-	
-	
 	var searchType = $('input[name="radioSet2"]:checked').val();
 	var searchValue;
 	var custName ;
@@ -78,7 +76,7 @@ $('#findId').on('click', function() {
 		popup_fixation("#popup_idsearch1-wrap"); // pc_하단붙이기
 	});
 
-	$("body").on("click", "#popup_idsearch1-wrap .js-closepop, #popup_idsearch1-wrap .popup-dim", function($e) {
+	$("body").on("click", "#popup_idsearch1-wrap .js-closepop, #popup_idsearch1-wrap .popup-dim, #confirm_1", function($e) {
 		$e.preventDefault();
 		popup_idsearch1.close();
 	});
@@ -93,7 +91,7 @@ $('#findId').on('click', function() {
 		popup_fixation("#popup_idsearch2-wrap"); // pc_하단붙이기
 	});
 
-	$("body").on("click", "#popup_idsearch2-wrap .js-closepop, #popup_idsearch2-wrap .popup-dim", function($e) {
+	$("body").on("click", "#popup_idsearch2-wrap .js-closepop, #popup_idsearch2-wrap .popup-dim, #confirm_2", function($e) {
 		$e.preventDefault();
 		popup_idsearch2.close();
 		popup_motion_close("#popup_idsearch2-wrap"); //  mb 모션 
@@ -109,7 +107,7 @@ $('#findId').on('click', function() {
 		//popup_motion_open("#popup_idsearch3-wrap");  // mb 모션 
 	});
 
-	$("body").on("click", "#popup_idsearch3-wrap .js-closepop, #popup_idsearch3-wrap .popup-dim", function($e) {
+	$("body").on("click", "#popup_idsearch3-wrap .js-closepop, #popup_idsearch3-wrap .popup-dim, #confirm_3", function($e) {
 		$e.preventDefault();
 		popup_idsearch3.close();
 		//popup_motion_close("#popup_idsearch3-wrap");  //  mb 모션 
@@ -125,7 +123,7 @@ $('#findId').on('click', function() {
 		popup_fixation("#popup_idsearch4-wrap"); // pc_하단붙이기
 	});
 
-	$("body").on("click", "#popup_idsearch4-wrap .js-closepop, #popup_idsearch4-wrap .popup-dim", function($e) {
+	$("body").on("click", "#popup_idsearch4-wrap .js-closepop, #popup_idsearch4-wrap .popup-dim, #confirm_4", function($e) {
 		$e.preventDefault();
 		popup_idsearch4.close();
 	});

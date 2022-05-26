@@ -1,11 +1,42 @@
 package com.seoulauction.renewal.controller.api;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.collections.MapUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import com.seoulauction.renewal.auth.FrontAuthenticationProvider;
+import com.seoulauction.renewal.auth.SocialAuthenticationProvider;
 import com.seoulauction.renewal.common.RestResponse;
 import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.service.LoginService;
 import com.seoulauction.renewal.service.MessageService;
 import com.seoulauction.renewal.service.MypageService;
+import com.seoulauction.renewal.service.S3Service;
 import com.seoulauction.renewal.utill.CaptchaUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -26,12 +57,18 @@ import java.util.Map;
 @RequestMapping("api/login")
 public class ApiLoginController {
 
+	private final S3Service s3Service;
+	
 	private final LoginService loginService;
-
+	
 	private final MessageService messageService;
 
 	private final MypageService mypageService;
 
+	private final FrontAuthenticationProvider frontAuthenticationProvider;
+
+	private final SocialAuthenticationProvider socialAuthenticationProvider;
+	
 	@Value("${mobile.msg.callback}")
 	String callback;
 
@@ -135,4 +172,138 @@ public class ApiLoginController {
 			}
 	    }
 
+	@RequestMapping(value="/isIdExist", method=RequestMethod.POST)
+	@ResponseBody
+	public List<CommonMap> isIdExist(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+
+	    log.info("isIdExist");
+	    log.info(paramMap.toString());
+	    
+	    List<CommonMap> resultMap = loginService.selectCustForExist(paramMap);
+	    return resultMap;
+	}
+	
+	@RequestMapping(value="/isEmailExist", method=RequestMethod.POST, headers = {"content-type=application/json"})
+	@ResponseBody
+	public List<CommonMap> isEmailExist(String domain, @RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+
+	    log.info("isEmailExist");
+	    log.info(paramMap.toString());
+	    
+	    List<CommonMap> resultMap = loginService.selectCustForExist(paramMap);
+	    return resultMap;
+	}
+	
+	@RequestMapping(value = "/employee", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> findAddr(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+		log.info(paramMap.toString());
+		CommonMap resultMap = loginService.selectEmpByEmpName(paramMap);
+        if(resultMap != null) {
+        	log.info(resultMap.toString());
+        }
+		return ResponseEntity.ok(RestResponse.ok(resultMap));
+	}
+	
+	@RequestMapping(value = "/nations", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> nations(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+		log.info(paramMap.toString());
+		List<CommonMap> resultMap = loginService.selectCode(paramMap);
+        if(resultMap != null) {
+        	log.info(resultMap.toString());
+        }
+		return ResponseEntity.ok(RestResponse.ok(resultMap));
+	}
+	
+	@RequestMapping(value = "/join", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> join(MultipartHttpServletRequest request, HttpServletResponse response){
+		CommonMap paramMap = new CommonMap(mypageService.formatMapRequest(request));
+		log.info(paramMap.toString());
+		int result = loginService.insertCust(paramMap);
+        if(result > 0) {
+        	String custNo = "";
+        	String socialType = paramMap.get("social_type") == null ? "" : paramMap.get("social_type").toString();
+        	String localKindCd = paramMap.get("local_kind_cd") == null ? "" : paramMap.get("local_kind_cd").toString();
+        	Boolean pwEmail = Boolean.parseBoolean(paramMap.get("push_way_email").toString());
+        	Boolean pwSms = Boolean.parseBoolean(paramMap.get("push_way_sms").toString());
+        	Boolean pwPhone = Boolean.parseBoolean(paramMap.get("push_way_phone").toString());
+        	
+        	CommonMap resultMap = loginService.selectCustForExist(paramMap).get(0);
+        	custNo = resultMap.get("CUST_NO").toString();
+
+        	if(socialType != "" || pwEmail || pwSms || pwPhone) {
+        		paramMap.put("cust_no", custNo);
+        		if(pwEmail) {
+        			paramMap.put("push_way_cd", "email");
+        			result += loginService.insertCustPushWay(paramMap);
+        		}
+        		if(pwSms) {
+        			paramMap.put("push_way_cd", "sms");
+        			result += loginService.insertCustPushWay(paramMap);
+        		}
+        		if(pwPhone) {
+        			paramMap.put("push_way_cd", "phone");
+        			result += loginService.insertCustPushWay(paramMap);
+        		}
+        		if(socialType != "") {
+            		paramMap.put("push_way_cd", "email");
+            		result += loginService.insertCustSocial(paramMap);
+            		
+            		if(localKindCd.equals("korean")) {
+            			//국내회원 회원가입 완료시 로그인 처리 (국내 소셜)
+            			//해외회원은 이메일 인증 후 로그인가능 (현재 STAT_CD == not_certify)
+            			SAUserDetails parameterUserDetail = SAUserDetails.builder()
+            					.loginId(paramMap.get("social_login_id").toString())
+            					.userNm(paramMap.get("cust_name").toString())
+            					.ip(loginService.getIp(request))
+            					.build();
+            			
+            			SecurityContext sc = SecurityContextHolder.getContext();
+            			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(paramMap.get("social_login_id").toString(), null);
+            			auth.setDetails(parameterUserDetail);
+            			sc.setAuthentication(socialAuthenticationProvider.authenticate(auth));
+            			
+            			HttpSession session = request.getSession(true);
+            			session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
+            			
+            			return ResponseEntity.ok(RestResponse.ok());
+            		}
+        		}
+        	}
+        	
+        	if(localKindCd.equals("korean")) {
+	        	//국내회원 회원가입 완료시 로그인 처리 (국내 개인)
+    			//해외회원은 이메일 인증 후 로그인가능 (현재 STAT_CD == not_certify)
+	        	SecurityContext sc = SecurityContextHolder.getContext();
+	        	UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(paramMap.get("login_id").toString(), paramMap.get("passwd").toString());
+	        	auth.setDetails(loginService.getIp(request));
+	        	sc.setAuthentication(frontAuthenticationProvider.authenticate(auth));
+	        	
+	        	HttpSession session = request.getSession(true);
+	    		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
+    		}else {
+    			//해외회원 신분증/증빙서류 s3 upload
+    			try {	
+    				Map<String, List<MultipartFile>> fileList = request.getMultiFileMap();
+    	    		
+    	    		MultipartFile foreIdFile = fileList.get("fore_id_file").get(0);
+    	    		if(!foreIdFile.getOriginalFilename().equals("")) {
+    	    			s3Service.insertS3FileData(true, foreIdFile, "cust_fore_id", custNo);
+    	    		}
+					
+	    	    	MultipartFile foreDocFile = fileList.get("fore_doc_file").get(0);;
+	    	    	if(!foreDocFile.getOriginalFilename().equals("")) {
+						s3Service.insertS3FileData(true, foreDocFile, "cust_fore_doc", custNo);
+    	    		}
+					
+    			} catch (Exception e) {
+    				e.printStackTrace();
+    			}
+    		}
+        }
+        
+		return ResponseEntity.ok(RestResponse.ok());
+	}
 }
