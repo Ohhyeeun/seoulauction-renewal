@@ -268,4 +268,25 @@ public class ApiSaleController {
         CommonMap saleCertInfo = saleService.selectSaleCertInfo(map);
         return ResponseEntity.ok(RestResponse.ok());
     }
+
+    @PostMapping(value="/sale/{saleNo}/lot/{lotNo}/bid/{bidNo}/successBid")
+    public ResponseEntity<RestResponse> successBid(
+               @PathVariable("saleNo") int saleNo,
+               @PathVariable("lotNo") int lotNo,
+               @PathVariable("bidNo") int bidNo) {
+
+        CommonMap map = new CommonMap();
+        map.put("sale_no" , saleNo);
+        map.put("lot_no" , lotNo);
+        map.put("bid_no" , bidNo);
+
+        log.info("sale_no : {}" , saleNo);
+        log.info("lotNo : {}" , lotNo);
+        log.info("bid_no : {}" , bidNo);
+
+        saleService.insertSuccessBid(map);
+
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
 }

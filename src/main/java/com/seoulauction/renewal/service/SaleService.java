@@ -108,4 +108,17 @@ public class SaleService {
 
         return result;
     }
+
+    public void insertSuccessBid(CommonMap map){
+
+        if (saleMapper.selectBidForSuccessBid(map) == null){
+            throw new SAException("일치하는 경매 정보가 없슴니다.");
+        }
+
+        if(saleMapper.selectSuccessBidForOverlab(map) != null ) {
+            throw new SAException("이미 낙찰된 정보가 있습니다.");
+        }
+        saleMapper.insertSuccessBid(map);
+    }
+
 }

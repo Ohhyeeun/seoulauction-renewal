@@ -27,4 +27,11 @@ public interface SaleMapper {
     int add_cust_inte_lot(CommonMap paramMap);
 
     int del_cust_inte_lot(CommonMap paramMap);
+
+    /* 낙찰된 경매 관련 */
+    CommonMap selectBidForSuccessBid(CommonMap map);
+    CommonMap selectSuccessBidForOverlab(CommonMap map);
+    void insertSuccessBid(CommonMap map);
+    //
+
 }

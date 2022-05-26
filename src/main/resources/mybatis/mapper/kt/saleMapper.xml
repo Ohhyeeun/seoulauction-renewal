@@ -405,4 +405,45 @@
 			<otherwise>L.LOT_NO</otherwise>
 		</choose>
 	</sql>
+
+	<select id="selectBidForSuccessBid" parameterType="CommonMap" resultType="CommonMap">
+		SELECT
+			*
+		FROM
+			BID
+		WHERE
+			SALE_NO = #{sale_no}
+			and LOT_NO = #{lot_no}
+			and BID_NO = #{bid_no}
+		LIMIT
+			1
+	</select>
+
+	<select id="selectSuccessBidForOverlab" parameterType="CommonMap" resultType="CommonMap">
+		SELECT
+			*
+		FROM
+			SUCCESS_BID
+		WHERE
+			SALE_NO = #{sale_no}
+		  and LOT_NO = #{lot_no}
+		  and BID_NO = #{bid_no}
+		LIMIT
+			1
+	</select>
+	<insert id="insertSuccessBid" parameterType="CommonMap">
+		INSERT INTO SUCCESS_BID(
+		    SALE_NO,
+		    LOT_NO,
+		    BID_NO
+		)
+		VALUES (
+			#{sale_no},
+			#{lot_no},
+			#{bid_no}
+		)
+	</insert>
+
+
+
 </mapper>
