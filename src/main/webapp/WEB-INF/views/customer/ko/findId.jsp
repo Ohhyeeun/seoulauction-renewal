@@ -140,7 +140,7 @@
                             </div>
                             <article class="button-area confirm_btn">
                                 <div class="btn_set-float tac">
-                                    <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+                                    <a class="btn btn_point" href="#" role="button" id="confirm_1"><span>확인</span></a>
                                 </div>
                             </article>
                         </div>
@@ -174,7 +174,7 @@
                             </div>
                             <article class="button-area confirm_btn">
                                 <div class="btn_set-float tac">
-                                    <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+                                    <a class="btn btn_point" href="#" role="button" id="confirm_2"><span>확인</span></a>
                                 </div>
                             </article>
                         </div>
@@ -205,7 +205,7 @@
                         <div class="pop-body">
                             <article class="button-area confirm_btn confirm_btn_md">
                                 <div class="btn_set-float tac">
-                                    <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+                                    <a class="btn btn_point" href="#" role="button" id="confirm_3"><span>확인</span></a>
                                 </div>
                             </article>
                         </div>
@@ -242,7 +242,7 @@
                             </div>
                             <article class="button-area confirm_btn">
                                 <div class="btn_set-float tac">
-                                    <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+                                    <a class="btn btn_point" href="#" role="button" id="confirm_4"><span>확인</span></a>
                                 </div>
                             </article>
                         </div>

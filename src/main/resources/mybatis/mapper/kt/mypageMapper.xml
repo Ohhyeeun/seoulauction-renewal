@@ -195,57 +195,6 @@
 	order by S.TO_DT DESC;
 	</select>
 	
-
-	<!--본인인증  -->
-	<select id="selectSaleCertByCustHp" resultType="CommonMap">
-		SELECT
-		    *
-		FROM
-		     SALE_CERT
-		WHERE
-		    DEL_YN = 'N'
-		  	and HP = #{to_phone}
-		  	and SALE_NO = #{sale_no}
-		LIMIT
-			1
-	</select>
-	
-	
-	<select id="selectAuthNumber" resultType="CommonMap">
-	    set @rand_num := CAST(FLOOR(100000 + RAND() * 899999) AS unsigned integer);
-	   	insert into SC_TRAN(
-			TR_PHONE,
-			TR_CALLBACK,
-			TR_MSG,
-			TR_SENDDATE
-		)
-		values(
-			#{to_phone},
-			#{from_phone},
-			replace('${msg}', '##rand_num##', @rand_num),
-			now()
-		);
-	    select @rand_num as AUTH_NUM
-	</select>
-	
-	<insert id="inertSaleCert" parameterType="Map" useGeneratedKeys="true" keyProperty="sale_cert_no">
-		insert into SALE_CERT (SALE_NO, CUST_NO, HP, CUST_HP, DONE_CD, REG_DT, REG_EMP_NO)
-		VALUES (
-			#{sale_no}, 
-			#{action_user_no}, 
-			#{to_phone},
-			(select max(A.HP) from CUST A where A.CUST_NO = #{action_user_no}),
-			#{done_cd},
-			now(),
-			#{action_user_no}
-		);
-	</insert>	
-	
-	<update id="updateSaleCertHp">
-		update CUST set HP = #{hp} where CUST_NO = #{action_user_no};
-		update SALE_CERT set DONE_CD='modify' where	SALE_CERT_NO = #{sale_cert_no};
-	</update>	
-
 	<!-- 문의 리스트 -->
 	<sql id="sql_bbs_w_list">
 		select * from (
