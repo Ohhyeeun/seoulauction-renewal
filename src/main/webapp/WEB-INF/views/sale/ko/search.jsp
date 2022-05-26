@@ -14,39 +14,42 @@
     <title>search | Seoul Auction</title>
     <link rel="stylesheet" href="/css/plugin/csslibrary.css">
     <link rel="stylesheet" href="/css/common.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css" />
-    <link href="/css/angular/rzslider.css" rel="stylesheet">
-    <link href="/css/angular/ngDialog.css" rel="stylesheet">
-    <link href="/css/angular/popup.css" rel="stylesheet">
 </head>
 <body class="">
 <div class="wrapper" >
     <div class="sub-wrap pageclass type-width_list">
 
         <!-- header -->
-        <link href="/css/angular/rzslider.css" rel="stylesheet">
-        <link href="/css/angular/ngDialog.css" rel="stylesheet">
-        <link href="/css/angular/popup.css" rel="stylesheet">
         <%--<link rel="stylesheet" href="/css/main.css" type="text/css" />--%>
         <jsp:include page="../../include/ko/header.jsp" flush="false"/>
         <!-- //header -->
         <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
         <script type="text/javascript" src="/js/angular/checklist-model.js"></script>
-        <script type="text/javascript" src="/js/angular/paging.js"></script>
         <script type="text/javascript" src="/js/angular/rzslider.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/1.3.0/moment-duration-format.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.5.6/js/ngDialog.min.js"></script>
         <link href="/css/jquery.nouislider.css" rel="stylesheet">
         <script type="text/javascript" src="/js/customer/login.js"></script>
         <script>
             app.value('locale', 'ko');
+
+            function recommandSearch(contents){
+
+                $(".searchContent").val(contents);
+                goSearch('searchContent', true);
+            }
+
+            function enterSearch(elementId, bIsKorean){
+                if(window.event.keyCode == 13){
+                    goSearch(elementId, bIsKorean);
+                }
+            }
 
             function goSearch(elementId, bIsKorean) {
 
                 var sSearchContent = $("." + elementId).val();
                 if(sSearchContent) {
                     location.href = bIsKorean ? "/sale/search?searchContent=" + sSearchContent : "/eng/sale/search?searchContent=" + sSearchContent;
+                    setCookie('keyword', sSearchContent, 1);
+                    $("#topSearchContent").val(sSearchContent);
                 }
                 else {
                     alert(bIsKorean ? "검색어를 입력해주세요." : "Please write search keyword.");
@@ -158,58 +161,13 @@
                     50:"<spring:message code='label.listup.lots' arguments='50' />",
                     100:"<spring:message code='label.listup.lots' arguments='100' />"};
 
-                $scope.checkLotDays = function(){
-                    if($scope.sale_kind_all){
-                        $scope.search.sale_kind = $scope.sale_kind_list.map(function(item) { return item.cd; });
-                    }
-                    else{
-                        $scope.search.sale_kind = [];
-                    }
-                }
                 $scope.sortBy = "ENDDE";
-                $scope.orders={
-                    "ENDDE": "<spring:message code="label.sort.by.latest" />",
-                    "ESTAS": "<spring:message code="label.sort.by.ESTAS" />",
-                    "ESTDE": "<spring:message code="label.sort.by.ESTDE" />"};
-
                 $scope.moreBy = "MOREP";
-                $scope.mores={
-                    "MOREP": "<spring:message code="label.more.by.MOREP" />",
-                    "PAGNG": "<spring:message code="label.more.by.PAGNG" />"};
-
-                $scope.sale_kind_list = [
-                    {"text":"<spring:message code="label.online" />", "cd":"online, online_zb"},
-                    {"text":"<spring:message code="label.online_zb" />", "cd":"online_zb"},
-                    {"text":"<spring:message code="label.offline" />", "cd":"main, hongkong, plan"},
-                    {"text":"<spring:message code="label.offline.hk" />", "cd":"hongkong"},
-                    {"text":"<spring:message code="label.plan" />", "cd":"plan"}];
-                /* {"text":"<spring:message code="label.exhibit" />", "cd":"exhibit"}]; */
 
                 $scope.sale_kind_all = true;
-                $scope.checkSaleKindAll = function(){
-                    if($scope.sale_kind_all){
-                        $scope.search.sale_kind = $scope.sale_kind_list.map(function(item) { return item.cd; });
-                    }
-                    else{
-                        $scope.search.sale_kind = [];
-                    }
-                }
-
-                $scope.uncheckAll = function(){
-                    $scope.sale_kind_all = false;
-                }
-
 
                 $scope.loadSubPage = function(subPage){
                     $scope.loadLotList(1, subPage);
-                }
-
-                $scope.setSort = function(data){
-                    alert(data);
-                }
-
-                $scope.setMores = function(data){
-                    alert(data);
                 }
 
                 $scope.initFilter = function(){
@@ -228,6 +186,7 @@
 
                     //경매일 체크
                     let checked = true;
+                    $scope.firstChk = 0;
                     $('input:checkbox[name="lotCheckBox"]').each(function(){
 
                         let checkBoxChecked = $(this).is(":checked");
@@ -267,7 +226,6 @@
 
                 $scope.init = function(){
 
-                    $scope.checkSaleKindAll();
                     $scope.search.keyword = "${param.searchContent}";
                     $scope.search.chk = "all";//검색 조건 (all 통합검색, art 작가명, title 작품명)
 
@@ -316,9 +274,38 @@
                             $scope.loadLotList(1, 'all');
                         }
                     }
+
+                    //추천 검색어
+                    axios.get('/sale/selectRecommandArtist').then(function(response) {
+                        console.log(response);
+                        const success = response.data.success;
+
+                        $('.word-items').empty();
+
+                        if (success) {
+                            const data = response.data.data;
+                            data.map(item =>{
+                                let html = `<button onclick="recommandSearch(` + item.name + `)">` + + `</button>`;
+                                html = '<button onclick="recommandSearch(\''+item.name+'\');">' + item.name + '</button>'
+                                $('.word-items').append(html);
+                            });
+                        }
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    });
                 }
 
                 $scope.search = function(){
+                    $scope.loadLotList($scope.currentPage, $scope.subPage);
+                }
+
+                $scope.moreSearch = function(){
+
+                    //더보기가 선택된 경우 더보기 계산
+                    if($scope.firstChk > 0){
+                        $scope.reqRowCnt = parseInt($scope.reqRowCnt) + 5;
+                    }
                     $scope.loadLotList($scope.currentPage, $scope.subPage);
                 }
 
@@ -346,6 +333,23 @@
 
                     if($page > 1){
                         setCookie('prev_url', getCookie('curr_url'), 1);
+                    }
+
+                    //최신순선택
+                    const sort = $("#selectSort option:selected").val();
+                    if(sort == 1){
+                        $scope.sortBy = "ENDDE";
+                    }else if(sort == 2){
+                        $scope.sortBy = "ESTAS";
+                    }else if(sort ==3){
+                        $scope.sortBy = "ESTDE";
+                    }
+                    const more = $("#selectMore option:selected").val();
+
+                    if(more == 1){
+                        $scope.moreBy = "MOREP";
+                    }else if(more == 2){
+                        $scope.moreBy = "PAGNG";
                     }
 
                     setCookie('page', $page, 1);
@@ -407,6 +411,10 @@
                                 $scope.onlineCount = cntList[0].ONLINE_CNT;
                                 $scope.pageRows = parseInt($scope.reqRowCnt);
 
+                                $("#panel-empty").empty().hide();
+                                $("#panel_footer").show();
+
+
                                 if(lotData.length != 0){
 
                                     // 최초 한번에 대해서만 subpage count 계산
@@ -423,17 +431,18 @@
                                         $scope.firstChk = 1;
                                     }
 
+                                    $("#more_search").hide();
+                                    $(".paging").empty();
 
                                     if($scope.moreBy == "MOREP") {
 
-                                        //더보기가 선택된 경우 더보기 계산
-                                        $scope.reqRowCnt = parseInt($scope.reqRowCnt) + 5;
+                                        if($scope.totalCount > $scope.pageRows){
+                                            $("#more_search").show();
+                                        }
 
                                     }else if($scope.moreBy == "PAGNG"){
 
                                         //paging이 선택된 경우 paging 계산
-                                        $(".paging").empty();
-
                                         paging({
                                             id: "paging_search",
                                             className:"paging",
@@ -480,6 +489,7 @@
                                         if(expePriceToJSON[el.CURR_CD] == undefined) {
                                             expePriceToJSON[el.CURR_CD] = '0';
                                         }
+
                                         if(el.START_PRICE == undefined) {
                                             el.START_PRICE = '0';
                                         }
@@ -552,16 +562,17 @@
 
                                     // 검색결과가 없는 경우
 
-                                    let html = '<div class="panel-body">'
-                                             + '<div class="data-empty type-big">'
+                                    let html = '<ul class="product-list"></ul>'
+                                             + '<div class="data-empty type-big" id="panel-empty">'
                                              + '<div class="img_empty">'
                                              + '<img src="/images/mobile/auction/symbol-none_data.png" alt="검색결과가 없습니다." /></div>'
                                              + '<div class="txt_empty">'
                                              + '<div class="title">검색결과가 없습니다.</div>'
-                                             + '<div class="desc">단어의 철자나 띄어쓰기가 <br class="only-mb" />정확한지 확인해주세요</div></div></div></div>';
+                                             + '<div class="desc">단어의 철자나 띄어쓰기가 <br class="only-mb" />정확한지 확인해주세요</div></div></div>';
 
 
                                     $("#panel_content").empty();
+                                    $("#panel_footer").hide();
                                     $('#totalCount').empty();
                                     $('#allCount').empty();
                                     $('#liveCount').empty();
@@ -574,8 +585,6 @@
                                     $('#onlineCount').append('(0)');
 
                                 }
-
-
                             }
                         })
                         .catch(function(error){
@@ -588,7 +597,6 @@
 
             });
         </script>
-
 
         <!-- container -->
         <div id="container" ng-controller="lotListCtl" data-ng-init="init();">
@@ -603,7 +611,7 @@
                                 <div class="search-area">
                                     <div class="search-box">
                                         <div class="input_del">
-                                            <input class="searchContent" type="text" placeholder="" value="${param.searchContent}">
+                                            <input class="searchContent" type="text" placeholder="" value="${param.searchContent}" onkeyup="enterSearch('searchContent', true);">
                                             <button class="btn_del"><i class="form-search-del_lg"></i></button>
                                         </div>
                                         <button class="btn_search"><i class="form-search_lg" onclick="goSearch('searchContent', true);"></i></button>
@@ -613,9 +621,6 @@
                                             <span>추천 검색어</span>
                                         </div>
                                         <div class="word-items">
-                                            <button>이우환</button><button>김완기</button>
-                                            <button>김창열</button><button>쿠사마</button>
-                                            <button>호크니</button><button>박서보</button>
                                         </div>
                                     </div>
                                 </div>
@@ -660,17 +665,17 @@
                                             </div>
                                         </div>
                                         <div class="col_item positon-col2">
-                                            <div class="select-box">
-                                                <select class="select2Basic42" id="">
-                                                    <option value="1" ng-click="setSort();">경매 최신순</option>
-                                                    <option value="2" ng-click="setSort();">추정가 낮은순</option>
-                                                    <option value="3" ng-click="setSort();">추정가 높은순</option>s
+                                            <div class="select-box" id="selectSort">
+                                                <select class="select2Basic42" >
+                                                    <option value="1">경매 최신순</option>
+                                                    <option value="2">추정가 낮은순</option>
+                                                    <option value="3">추정가 높은순</option>s
                                                 </select>
                                             </div>
-                                            <div class="select-box">
-                                                <select class="select2Basic42 js-select_page" id="">
-                                                    <option value="1" ng-click="setMore();">페이지 방식</option>
-                                                    <option value="2" ng-click="setMore();">더보기 방식</option>
+                                            <div class="select-box" id="selectMore">
+                                                <select class="select2Basic42 js-select_page" >
+                                                    <option value="1">더보기 방식</option>
+                                                    <option value="2">페이지 방식</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -686,18 +691,18 @@
                 <section class="basis-section last-section auction_list-section">
                     <div class="section-inner">
 
-                        <div class="content-panel type_panel-product_list" id="panel_content">
-                            <div class="panel-body">
+                        <div class="content-panel type_panel-product_list">
+                            <div class="panel-body" id="panel_content">
 
                                 <ul class="product-list">
                                 </ul>
 
                             </div>
-                            <div class="panel-footer">
+                            <div class="panel-footer" id="panel_footer">
                                 <div class="set-pc_mb">
                                     <div class="only-pc">
                                         <div id="paging_search" class="paging-area">
-                                            <button class="btn btn_gray_line" id="more_search" type="button" ng-click="search();"><span>더보기</span></button>
+                                            <button class="btn btn_gray_line" id="more_search" type="button" ng-click="moreSearch();"><span>더보기</span></button>
                                         </div>
                                     </div>
                                     <div class="only-mb">
@@ -779,6 +784,7 @@
             select_resize_change();
         });
 
+
         function select_resize_change() {
             if ($("body").hasClass("is_mb")) {
                 $(".js-select_page").val("2");
@@ -791,6 +797,9 @@
     });
 </script>
 <script>
+
+
+
     function inteSave(saleNo, lotNo, locale) {
         let api = "/sale/addCustInteLot?saleNo="+saleNo+"&lotNo="+lotNo;
         axios.get(api , null)

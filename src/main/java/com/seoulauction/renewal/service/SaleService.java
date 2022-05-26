@@ -1,10 +1,12 @@
 package com.seoulauction.renewal.service;
 
 import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.mapper.aws.ArtistMapper;
 import com.seoulauction.renewal.mapper.kt.SaleMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -13,6 +15,7 @@ public class SaleService {
 
 
     private final SaleMapper saleMapper;
+    private final ArtistMapper artistMapper;
 
     public CommonMap search_list_paging(CommonMap paramMap) {
 
@@ -54,5 +57,11 @@ public class SaleService {
         }
 
         return result;
+    }
+
+    public List<CommonMap> selectRecommandArtist() {
+
+        return artistMapper.selectRecommandArtist();
+
     }
 }

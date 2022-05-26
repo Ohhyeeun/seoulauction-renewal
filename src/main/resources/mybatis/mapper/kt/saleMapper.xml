@@ -82,6 +82,7 @@
     <update id="del_cust_inte_lot" parameterType="CommonMap">
         DELETE FROM CUST_INTE_LOT WHERE CUST_NO = #{action_user_no} AND SALE_NO = #{sale_no} AND LOT_NO = #{lot_no};
     </update>
+
 	<sql id="search_list">
 		select 	L.SALE_NO, L.LOT_NO
 		, S.SALE_KIND_CD
@@ -142,7 +143,8 @@
 		<if test="list_type == 'SEARCH' and action_user_no == null">
 			, (select NULL AS CUST_NO, 'N' AS EMP_GB from dual) CU
 		</if>
-		where 1=1 and L.WWW_DISP_YN = 'Y'
+		where 1=1
+		and L.WWW_DISP_YN = 'Y'
 		and L.STAT_CD != 'reentry'
 		and S.STAT_CD = 'open'
 		and S.SALE_OUTSIDE_YN = 'N'
@@ -172,15 +174,21 @@
 				</when>
 			</choose>
 		</if>
-		<if test='sale_status_end_yn != null and sale_status_end_yn == "Y"'>
-			<![CDATA[and DATE_FORMAT(S.TO_DT, '%Y-%m-%d') < DATE_FORMAT(now(), '%Y-%m-%d')]]>
-		</if>
-		<if test='sale_status_ing_yn != null and sale_status_ing_yn == "Y"'>
-			<![CDATA[and (DATE_FORMAT(S.FROM_DT, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d')
-			and DATE_FORMAT(S.TO_DT, '%Y-%m-%d') >= DATE_FORMAT(now(), '%Y-%m-%d'))]]>
-		</if>
-		<if test='sale_status_ready_yn != null and sale_status_ready_yn == "Y"'>
-			<![CDATA[and DATE_FORMAT(S.FROM_DT, '%Y-%m-%d') > DATE_FORMAT(now(), '%Y-%m-%d')]]>
+		<if test="sale_status_end_yn != null or sale_status_ing_yn != null or sale_status_ready_yn != null">
+		    AND(
+			<trim prefixOverrides="or">
+				<if test='sale_status_end_yn == "Y"'>
+					or (DATE_FORMAT(S.TO_DT, '%Y-%m-%d') <![CDATA[<]]> DATE_FORMAT(now(), '%Y-%m-%d'))
+				</if>
+				<if test='sale_status_ing_yn == "Y"'>
+					or ((DATE_FORMAT(S.FROM_DT, '%Y-%m-%d') <![CDATA[<=]]> DATE_FORMAT(now(), '%Y-%m-%d')
+					and DATE_FORMAT(S.TO_DT, '%Y-%m-%d') <![CDATA[>=]]> DATE_FORMAT(now(), '%Y-%m-%d')))
+				</if>
+				<if test='sale_status_ready_yn == "Y"'>
+					or (DATE_FORMAT(S.FROM_DT, '%Y-%m-%d') <![CDATA[>]]> DATE_FORMAT(now(), '%Y-%m-%d'))
+				</if>
+		    </trim>
+		    )
 		</if>
 		<if test="mate_nm != null">
 			and L.MATE_CD in (
