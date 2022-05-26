@@ -7,6 +7,14 @@ import java.util.List;
 
 @Mapper
 public interface SaleMapper {
+    CommonMap selectSaleInfo(CommonMap commonMap);
+    List<CommonMap> selectExchRateList(CommonMap commonMap);
+    CommonMap selectLotInfo(CommonMap commonMap);
+    List<CommonMap> selectLotImages(CommonMap commonMap);
+    List<CommonMap> selectLotArtistOtherLots(CommonMap commonMap);
+    CommonMap selectCustomerByCustNo(CommonMap commonMap);
+    CommonMap selectSaleCertInfo(CommonMap commonMap);
+    List<CommonMap> selectSaleLotImages(CommonMap commonMap);
 
     List<CommonMap> search_list_count(CommonMap paramMap);
 
@@ -19,5 +27,4 @@ public interface SaleMapper {
     int add_cust_inte_lot(CommonMap paramMap);
 
     int del_cust_inte_lot(CommonMap paramMap);
-
 }
