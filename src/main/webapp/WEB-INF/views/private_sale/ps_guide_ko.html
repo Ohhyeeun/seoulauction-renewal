@@ -6,20 +6,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>오프라인 응찰하기 | Seoul Auction</title>
+    <title>P/S가이드 | Seoul Auction</title>
     <link rel="stylesheet" href="/css/plugin/csslibrary.css">
     <link rel="stylesheet" href="/css/common.css" type="text/css" />
     <link rel="stylesheet" href="/css/pages_common_ko.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
     <!-- //header -->
 </head>
 
-<body>
+<body class="">
     <div class="wrapper">
         <div class="sub-wrap pageclass">
+
             <!-- header -->
             <header class="header main-header header-border">
                 <!-- class="main-header fixed" -->
@@ -27,7 +28,12 @@
                     <!--class="on" block-->
                     <div class="wrap belttxtbox wrap_padding">
                         <span class="header_beltTit">
-                            <a href="#">구매수수료율 인상 및 약관 개정안내 구매수수료율 인상 및 약관 개정안내 구매수수료율 인상 및 약관 개정안내 구매수수료율 인상 및 약관 개정안내 구매수수료율 인상 및 약관 개정안내 구매수수료율 인상 및 약관 개정안내<span class="beltbanner-triangle"></span></a>
+                            <a href="#">
+                                <span class="text-over belt_tit">
+                                    구매수수료율 인상 및 약관 개정안내 구매수수료율 인상
+                                </span>
+                                <!--<span class="beltbanner-triangle"></span>-->
+                            </a>
                         </span>
                         <span class="beltclose-btn closebtn closebtn-w"></span>
                     </div>
@@ -43,8 +49,8 @@
                         <li class="utility-join"><a href="#">회원가입</a></li> <!-- !login -->
                         <li class="utility-tab utility-account"><a href="#">마이페이지</a>
                             <ul class="bubble-box bubble-box02">
-                                <li><a href="/index_en.html">라이브 경매 관리</a></li>
-                                <li><a href="#">온라인 경매 관리</a></li>
+                                <li><a href="/index_en.html">라이브 경매 관리</a></li> <!-- display block 처리X -->
+                                <li><a href="#">온라인 경매 관리<i class="utility-icon on"></i></a></li>
                                 <li><a href="#">관심작품</a></li>
                                 <li><a href="#">아카데미 신청목록</a></li>
                                 <li><a href="#">회원정보 수정</a></li>
@@ -221,94 +227,199 @@
                     </section>
                 </nav>
             </header>
-
             <!-- //header -->
 
             <!-- container -->
             <div id="container">
                 <div id="contents" class="contents">
 
-                    <section class="basis-section last-section bidding_offline-section">
+                    <!-- page title -->
+
+                    <section class="page_title-section type-dark">
+                        <div class="section-inner full_size ">
+                            <div class="center-box">
+                                <h2 class="page_title"><span class="th1">Private Sale</span></h2>
+                                <div class="page_desc"><span class="tb1">프라이빗 세일</span></div>
+                            </div>
+                        </div>
+                    </section>
+
+
+
+                    <section class="basis-section type_tab-private_sale">
                         <div class="section-inner">
 
-                            <div class="section-header">
-                                <div class="title-area">
-                                    <div class="title">
-                                        <span>163회 미술품 라이브 경매</span>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="section-body">
-                                <div class="bidding_mo">
-
-                                    <div class="bidding-offline-wrap">
-                                        <article class="bidding-offline-center">
-                                            <div class="notice">
-                                                <i class="icon-notice"></i><span class="txt">LOT 61, 65, 67 사정에 의해 취소 되었습니다. </span>
-                                            </div>
-                                            <div class="video_area">
-                                                <div class="view_box">
-                                                    <!-- Youtube -->
-
-                                                    <a href="#" class="video_wrap">
-                                                        <span class="video_thumbnail_wrap">
-                                                            <span class="video_thumbnail" style="background-image: url(/images/temp/temp_video_bg.jpg)"></span>
-                                                            <div class="" id="thevideo"></div>
-                                                            <!-- <iframe  src="https://www.youtube-nocookie.com/embed/IwATrgHOefo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
-                                                        </span>
-                                                        <span class="ic_video_play"></span>
-                                                    </a>
-                                                </div>
-                                                <div class="view_info">
-                                                    <p class="view_count">
-                                                        <i class="icon-viewer"></i><span class="unit">시청자</span> <span class="num">3,000</span>
-                                                    </p>
-                                                    <button class="btn btn_gray btn_refresh"><i class="ic_refresh"></i>새로고침</button>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="my_lot">
-                                                <div class="my_lot_wrap">
-
-                                                    <div class="my_lot_type3">
-                                                        <p class="title">
-                                                            라이브 경매 응찰은 <span>정회원부터 가능</span>합니다.
-                                                        </p>
-                                                        <p class="txt">
-                                                            정회원은 유료로 운영되며 서울옥션이 발행하는 <br>
-                                                            간행물(각종 도록, 전시 안내 등)을 받으실 수 있습니다.
-                                                        </p>
-                                                        <div class="member_price">
-                                                            <p class="p_txt">정회원 연회비 : 라이브 경매 응찰은 사전 신청한 정회원만 가능합니다.</p>
-                                                            <!-- <a href="#" class="btn btn_member">정회원 결제</a> -->
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                        </article>
-                                    </div>
-
-
-                                </div>
-                            </div>
-
-                            <div class="section-footer">
-                                <div class="tac">
-                                    <a class="btn btn_default " href="#" role="button"><span>닫기</span></a>
+                            <div class="tab-wrap">
+                                <div class="tab-area type-left_lg">
+                                    <ul class="tab-list js-maintab_list">
+                                        <li class="active"><a href="#"><span>프라이빗세일 가이드</span></a></li>
+                                        <li class=""><a href="#"><span>프라이빗세일</span></a></li>
+                                    </ul>
                                 </div>
                             </div>
 
                         </div>
                     </section>
 
+                    <section class="basis-section last-section ps_guide-section">
+                        <div class="section-inner">
+
+                            <div class="content-panel last-section  type_panel-ps_guide">
+                                <div class="panel-body">
+
+                                    <article class="row_2 guide-article">
+                                        <div class="col_item image">
+                                            <div class="img-box">
+                                                <img src="/images/pc/private_sale/ps_guide-1.jpg" alt="" />
+                                            </div>
+                                        </div>
+                                        <div class="col_item typo">
+                                            <div class="typo-header">
+                                                <em class="tt2">당신의 작품을</em>
+                                                <span class="tt2">가장 글로벌하고 <br class="only-pc" />가치 있게 보여드립니다.</span>
+                                            </div>
+                                            <div class="typo-body">
+                                                <span class="tb1">
+                                                    1998년 설립한 국내 최초의 미술품 경매 회사 서울옥션은 서울의 평창동과 강남 사옥과
+                                                    새로 리모델링을 거친 부산전시장까지, 다양한 작품을 감상할 수 있는 최상의 전시장을
+                                                    보유하고 있습니다. 다양한 고객층을 위해 본사와 강남 사옥을 운영하는 것은 물론,
+                                                    거리적 접근성이 어려운 고객들을 위해 부산지점 또한, 다수의 전시 및 경매 프리뷰
+                                                    진행으로 활발히 운영중에 있습니다. 김환기, 이우환, 박서보 등의 한국 작가뿐 아니라
+                                                    해외 유명 작가의 전시를 관람할 수 있습니다. 전세계 컬렉터와 호흡하는 서울옥션이
+                                                    보유한 다양한 공간에서 당신 작품의 가치를 보여 드립니다.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </article>
+                                    <article class="row_2 guide-article">
+                                        <div class="col_item typo">
+                                            <div class="typo-header">
+                                                <span class="tt2">서울옥션</span>
+                                                <em class="tt2">프라이빗 세일</em>
+                                                <span class="tt2">의 전문성</span>
+                                            </div>
+                                            <div class="typo-body">
+                                                <span class="tb1">
+                                                    서울옥션은 한국 최초의 미술품 경매 회사로 꾸준히 경매를 이어오며 미술품 가치의
+                                                    새로운 기준을 제시해왔습니다. 단 한 점의 소장품부터 대규모 컬렉션,
+                                                    고미술품부터 해외 미술에 이르기까지 미술품의 가치를 평가하는
+                                                    고객 밀착형 서비스를 시행합니다. 특히, 서울옥션의 프리이빗 세일 노하우는
+                                                    글로벌 플랫폼과 전문성 그리고 낙찰 기록을 바탕으로 다양한 고객들에게
+                                                    작품의 가치를 전달합니다. 당신 작품의 가치를 가장 만족스럽게 보장해 드립니다.
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col_item image">
+                                            <div class="img-box">
+                                                <img src="/images/pc/private_sale/ps_guide-2.jpg" alt="" />
+                                            </div>
+                                        </div>
+                                    </article>
+
+                                    <!-- 문의하기 -->
+
+
+                                    <article class="inquiry-article ">
+                                        <div class="inquiry-box">
+                                            <div class="typo-area">
+                                                <div class="icon-box">
+                                                    <i class="icon-academy_inquiry"></i>
+                                                </div>
+                                                <div class="title-box">
+                                                    <strong>문의하기</strong>
+                                                </div>
+                                                <div class="info-guide">
+                                                    <div class="manager-box"> <span>파트너그룹</span> <em>김승엽 선임</em> </div>
+                                                    <div class="contact-box">
+                                                        <ul>
+                                                            <li><span>T.</span> <em>02-2075-4426, </em> <em>010-9045-0315</em></li>
+                                                            <li><span>E.</span> <a href="mailto:sky@seoulauctionl.com"><em>sky@seoulauctionl.com</em></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="btn-area">
+                                                <a class="btn btn_gray_line" href="#" role="button"><span>1:1 문의</span></a>
+                                            </div>
+                                        </div>
+                                    </article>
+
+
+
+
+
+
+
+                                </div>
+                                <!-- [0516] 삭제
+                <div class="panel-footer">
+                  <div class="img-box">
+                    <img src="/images/pc/private_sale/ps_guide.jpg" alt="" />
+                  </div>
+                </div> -->
+
+                            </div>
+
+                        </div>
+                    </section>
+
+
+
                 </div>
             </div>
             <!-- //container -->
+
+            <!-- footer -->
+            <footer class="footer">
+                <div class="innerfooter">
+                    <section class="flex_wrap footer_menubox">
+                        <ul class="footer-gnbmenu">
+                            <li><a href="#">회사소개</a></li>
+                            <li><a href="#">언론보도</a></li>
+                            <li><a href="#">채용공고</a></li>
+                            <li><a href="#">위치안내</a></li>
+                            <li><a href="#">고객센터</a></li>
+                        </ul>
+
+                        <ul class="snsbox_icon">
+                            <li><a href="#" class="sns-icon sns-icon01"></a></li>
+                            <li><a href="#" class="sns-icon sns-icon02"></a></li>
+                            <li><a href="#" class="sns-icon sns-icon03"></a></li>
+                            <li><a href="#" class="sns-icon sns-icon04"></a></li>
+                            <li><a href="#" class="sns-icon sns-icon05"></a></li>
+                        </ul>
+                    </section>
+                    <section class="flex_wrap footer_infobox">
+                        <div class="footer-infomenubox">
+                            <ul class="flex_wrap footer-infomenu">
+                                <li><a href="#">경매약관</a></li>
+                                <li><a href="#">개인정보처리방침</a></li>
+                                <li><a href="#">내부관리규정</a></li>
+                            </ul>
+
+                            <div class="Familysite-selectbox">
+                                <span class="Familysite">Family Site</span>
+                                <ul class="familyselect">
+                                    <li><a href="https://www.auctionblue.com/index" target="_blank">Print Bakery</a></li>
+                                    <li><a href="https://printbakery.com/" target="_blank">Auction Blue</a></li>
+                                    <li><a href="https://sotwo.com/" target="_blank">SOTOW</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <p class="bottom-p-spacing20">
+                            ㈜서울옥션 · 대표이사 : 이옥경 사업자등록번호 : 101-81-46818 통신판매업신고 : 종로 제01-2173호<br>
+                            주소 : 서울특별시 종로구 평창31길 11 (평창동 465-10) 고객센터 : 02-395-0330<br>
+                            ⓒ Seoul Auction Corp.
+                        </p>
+                        <p>
+                            (주)서울옥션이 매도인인 경우를 제외하고, 사이트상의 모든 상품 및 거래에 대하여 (주)서울옥션은 통신판매중개자이며 통신판매의 당사자가 아닙니다.<br>
+                            따라서 (주)서울옥션은 상품·거래정보 및 거래에 대하여 책임을 지지 않습니다.
+                        </p>
+                    </section>
+                </div>
+            </footer>
+            <!-- //footer -->
 
             <!-- stykey -->
 
@@ -318,6 +429,7 @@
                 </div>
             </div>
             <!-- // stykey -->
+
         </div>
     </div>
 
@@ -336,31 +448,27 @@
 
 
 
-    <!-- youtube -->
+    <!-- tab menu -->
     <script>
-        var tag = document.createElement('script');
+        $('.js-maintab_list a').on('click', function(e) {
+            e.preventDefault();
+            var tar = $(this).position().left;
+            var scrollX = tar - ($(".js-maintab_list").parents(".tab-area").width() / 2) + $(this).width() / 2;
 
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            if ($(this).parents('li').hasClass('active')) return false;
+            var id = $(this).attr('href');
+            if ($(id).length > 0) {
+                $('.tab-cont').removeClass('active');
+                $(id).addClass('active');
+                $(this).parents('li').siblings('li').removeClass('active').end().addClass('active');
 
-        var player;
+                $(".js-maintab_list").parents(".tab-area").scrollLeft(scrollX);
+            }
 
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('thevideo', {
-                height: '360',
-                width: '640',
-                videoId: 'IwATrgHOefo'
-            });
-        }
-
-        $('.video_wrap').on('click', function($e) {
-            $e.preventDefault();
-            player.playVideo();
-            $('.video_thumbnail').hide();
-            $('.ic_video_play').hide();
-        })
+            return false;
+        });
     </script>
+
 
 
 </body>

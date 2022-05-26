@@ -1,15 +1,4 @@
-/*아이디찾기선택 */
-$('.js-menuType-header input').on('change', function() {
-	$('.js-menuType-body .js-ds_item').hide();
-	var idx = $('.js-menuType-header input').index($('.js-menuType-header input:checked'));
-	$('.js-menuType-body .js-ds_item' + idx).show();
 
-	if (idx >= 1) {
-		$(".js-ds_item2_check").hide();
-	} else {
-		$(".js-ds_item2_check").show();
-	}
-});
 
 /*비밀번호 찾기 버튼 클릭 */
 
@@ -38,7 +27,7 @@ $('#findPassword').on('click', function() {
 
 	} else {
 		if ($('#custIdByPhone').val() == '' || $('#custNameByPhone').val() == '' || $('#custPhone').val() == '') {
-			$('#popup_pwsearch0-wrap').attr("style", "display:block");
+			$('#popup_idsearch3-wrap').attr("style", "display:block");
 			return;
 		} else {
 			var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
@@ -133,4 +122,21 @@ $('#findPassword').on('click', function() {
 		$e.preventDefault();
 		popup_pwsearch4.close();
 	});
+})();
+
+/*미입력*/
+(function() {
+    var popup_idsearch3 = $(".js-popup_idsearch3").trpLayerFixedPopup("#popup_idsearch3-wrap");
+    $(popup_idsearch3.getBtn).on("click", function($e) {
+        $e.preventDefault();
+        popup_idsearch3.open(this); // or false   
+        //popup_fixation("#popup_idsearch3-wrap");    // pc_하단붙이기
+        //popup_motion_open("#popup_idsearch3-wrap");  // mb 모션 
+    });
+
+    $("body").on("click", "#popup_idsearch3-wrap .js-closepop, #popup_idsearch3-wrap .popup-dim", function($e) {
+        $e.preventDefault();
+        popup_idsearch3.close();
+        //popup_motion_close("#popup_idsearch3-wrap");  //  mb 모션 
+    });
 })();
