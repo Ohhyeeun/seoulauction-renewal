@@ -405,4 +405,22 @@
 			<otherwise>L.LOT_NO</otherwise>
 		</choose>
 	</sql>
+
+
+	<insert id="upsertRecentlyView" parameterType="CommonMap">
+		insert into cust_recently_viewed (SALE_NO, LOT_NO, CUST_NO, VIEW_DT) values
+		    (#{sale_no}, #{lot_no}, #{cust_no}, sysdate())
+			on duplicate key update VIEW_DT = sysdate()
+	</insert>
+	<select id="selectRecentlyView" parameterType="CommonMap" resultType="CommonMap">
+		select A.SALE_NO, A.LOT_NO, B.FILE_PATH, B.FILE_NAME,
+			   COLUMN_JSON(C.TITLE_BLOB) TITLE_BLOB_JSON,
+			   COLUMN_JSON(D.ARTIST_NAME_BLOB) ARTIST_NAME_BLOB_JSON from cust_recently_viewed A
+				  inner join lot_img B on A.SALE_NO = B.SALE_NO and A.LOT_NO = B.LOT_NO
+				  inner join lot C on A.SALE_NO = C.SALE_NO and A.LOT_NO = C.LOT_NO
+				  inner join artist D on C.ARTIST_NO = D.ARTIST_NO
+		where A.CUST_NO = #{cust_no} and  A.SALE_NO = #{sale_no} and B.DISP_ORD = 1
+		ORDER BY VIEW_DT DESC
+			limit 5;
+	</select>
 </mapper>

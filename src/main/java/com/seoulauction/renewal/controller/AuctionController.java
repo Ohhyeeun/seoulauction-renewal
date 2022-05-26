@@ -37,6 +37,6 @@ public class AuctionController {
     	}*/
         model.addAttribute("saleNo", saleNo);
         model.addAttribute("lotNo", lotNo);
-        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionView_ko" , locale);
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionView" , locale);
     }
 }

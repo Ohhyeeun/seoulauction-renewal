@@ -129,7 +129,7 @@
                                     <div class="col_item">
                                         <article class="product_detail-article js-product_detail-article">
                                             <div class="index-area">
-                                                <div class="index-box"><span>10</span></div>
+                                                <div class="index-box"><span ng-bind="lotInfo.LOT_NO">10</span></div>
                                                 <div class="btn-box">
                                                     <a href="#" title="" class="sns_share js-sns_share"><i
                                                             class="icon-view_sns"></i></a>
@@ -281,15 +281,14 @@
                                     <div class="article-body">
                                         <div class="scroll-type">
                                             <div class="product-area">
-
                                                 <ul class="product-list">
-                                                    <li class="">
+                                                    <li class="" ng-repeat="item in recentlyViews">
                                                         <div class="li-inner">
                                                             <article class="item-article">
                                                                 <div class="image-area">
                                                                     <figure class="img-ratio">
                                                                         <div class="img-align">
-                                                                            <img src="/images/pc/thumbnail/auction01.jpg"
+                                                                            <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
                                                                                  alt="">
                                                                         </div>
                                                                     </figure>
@@ -297,179 +296,15 @@
                                                                 <div class="typo-area">
                                                                     <div class="product_info">
                                                                         <div class="num_heart-box">
-                                                                            <span class="num">1</span>
+                                                                            <span class="num">{{item.LOT_NO}}</span>
                                                                             <a class="heart js-work_heart"><i
                                                                                     class="icon-heart_off"></i></a>
                                                                         </div>
                                                                         <div class="info-box">
-                                                                            <div class="title"><span>데미안허스트</span>
+                                                                            <div class="title"><span ng-bind="item.ARTIST_NAME_BLOB_JSON.ko"></span>
                                                                                 <!-- [0516]삭제  <span class="sub">(1965)</span> -->
                                                                             </div>
-                                                                            <div class="desc"><span>Air (From The Series The Elements)</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product_cancle-area">
-                                                                    <div class="area-inner">
-                                                                        <i class="icon-cancle_box"></i>
-                                                                        <div class="typo">
-                                                                            <div class="name"><span>LOT 5</span></div>
-                                                                            <div class="msg"><span>출물이 취소되었습니다.</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </article>
-                                                        </div>
-                                                    </li>
-
-                                                    <li class="">
-                                                        <div class="li-inner">
-                                                            <article class="item-article">
-                                                                <div class="image-area">
-                                                                    <figure class="img-ratio">
-                                                                        <div class="img-align">
-                                                                            <img src="/images/pc/thumbnail/auction02.jpg"
-                                                                                 alt="">
-                                                                        </div>
-                                                                    </figure>
-                                                                </div>
-                                                                <div class="typo-area">
-                                                                    <div class="product_info">
-                                                                        <div class="num_heart-box">
-                                                                            <span class="num">2</span>
-                                                                            <a class="heart js-work_heart"><i
-                                                                                    class="icon-heart_off"></i></a>
-                                                                        </div>
-                                                                        <div class="info-box">
-                                                                            <div class="title"><span>데미안허스트</span>
-                                                                                <!-- [0516]삭제  <span class="sub">(1965)</span> -->
-                                                                            </div>
-                                                                            <div class="desc"><span>Air (From The Series The Elements)</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product_cancle-area">
-                                                                    <div class="area-inner">
-                                                                        <i class="icon-cancle_box"></i>
-                                                                        <div class="typo">
-                                                                            <div class="name"><span>LOT 5</span></div>
-                                                                            <div class="msg"><span>출물이 취소되었습니다.</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </article>
-                                                        </div>
-                                                    </li>
-
-                                                    <li class="">
-                                                        <div class="li-inner">
-                                                            <article class="item-article">
-                                                                <div class="image-area">
-                                                                    <figure class="img-ratio">
-                                                                        <div class="img-align">
-                                                                            <img src="/images/pc/thumbnail/auction03.jpg"
-                                                                                 alt="">
-                                                                        </div>
-                                                                    </figure>
-                                                                </div>
-                                                                <div class="typo-area">
-                                                                    <div class="product_info">
-                                                                        <div class="num_heart-box">
-                                                                            <span class="num">3</span>
-                                                                            <a class="heart js-work_heart"><i
-                                                                                    class="icon-heart_off"></i></a>
-                                                                        </div>
-                                                                        <div class="info-box">
-                                                                            <div class="title"><span>데미안허스트</span>
-                                                                                <!-- [0516]삭제  <span class="sub">(1965)</span> -->
-                                                                            </div>
-                                                                            <div class="desc"><span>Air (From The Series The Elements)</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product_cancle-area">
-                                                                    <div class="area-inner">
-                                                                        <i class="icon-cancle_box"></i>
-                                                                        <div class="typo">
-                                                                            <div class="name"><span>LOT 5</span></div>
-                                                                            <div class="msg"><span>출물이 취소되었습니다.</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </article>
-                                                        </div>
-                                                    </li>
-
-                                                    <li class="">
-                                                        <div class="li-inner">
-                                                            <article class="item-article">
-                                                                <div class="image-area">
-                                                                    <figure class="img-ratio">
-                                                                        <div class="img-align">
-                                                                            <img src="/images/pc/thumbnail/auction01.jpg"
-                                                                                 alt="">
-                                                                        </div>
-                                                                    </figure>
-                                                                </div>
-                                                                <div class="typo-area">
-                                                                    <div class="product_info">
-                                                                        <div class="num_heart-box">
-                                                                            <span class="num">4</span>
-                                                                            <a class="heart js-work_heart"><i
-                                                                                    class="icon-heart_off"></i></a>
-                                                                        </div>
-                                                                        <div class="info-box">
-                                                                            <div class="title"><span>데미안허스트</span>
-                                                                                <!-- [0516]삭제  <span class="sub">(1965)</span> -->
-                                                                            </div>
-                                                                            <div class="desc"><span>Air (From The Series The Elements)</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product_cancle-area">
-                                                                    <div class="area-inner">
-                                                                        <i class="icon-cancle_box"></i>
-                                                                        <div class="typo">
-                                                                            <div class="name"><span>LOT 5</span></div>
-                                                                            <div class="msg"><span>출물이 취소되었습니다.</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </article>
-                                                        </div>
-                                                    </li>
-
-                                                    <li class="">
-                                                        <div class="li-inner">
-                                                            <article class="item-article">
-                                                                <div class="image-area">
-                                                                    <figure class="img-ratio">
-                                                                        <div class="img-align">
-                                                                            <img src="/images/pc/thumbnail/auction02.jpg"
-                                                                                 alt="">
-                                                                        </div>
-                                                                    </figure>
-                                                                </div>
-                                                                <div class="typo-area">
-                                                                    <div class="product_info">
-                                                                        <div class="num_heart-box">
-                                                                            <span class="num">5</span>
-                                                                            <a class="heart js-work_heart"><i
-                                                                                    class="icon-heart_off"></i></a>
-                                                                        </div>
-                                                                        <div class="info-box">
-                                                                            <div class="title"><span>데미안허스트</span>
-                                                                                <!-- [0516]삭제  <span class="sub">(1965)</span> -->
-                                                                            </div>
-                                                                            <div class="desc"><span>Air (From The Series The Elements)</span>
+                                                                            <div class="desc"><span ng-bind="item.TITLE_BLOB_JSON.ko"></span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -774,6 +609,26 @@
             }
         }
 
+        const insertRecentlyView =  (saleNo, lotNo) => {
+            try {
+                return axios.post('/api/auction/insertRecentlyView', {
+                    sale_no: saleNo,
+                    lot_no: lotNo,
+                    cust_no: 1
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        const getRecentlyView = (saleNo, lotNo) => {
+            try {
+                return axios.get('/api/auction/recently/${saleNo}/${lotNo}');
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
         $scope.goLot = function (saleNo, lotNo) {
             window.location.href = '/auction/online/view/' + saleNo + '/' + lotNo;
         }
@@ -781,10 +636,12 @@
         // 호출 부
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3, r4] = await Promise.all([getSaleInfo($scope.sale_no),
+                let [r1, r2, r3, r4, r5, r6] = await Promise.all([getSaleInfo($scope.sale_no),
                     getLotInfo($scope.sale_no, $scope.lot_no),
                     getLotImages($scope.sale_no, $scope.lot_no),
-                    getSaleImages($scope.sale_no, $scope.lot_no)]);
+                    getSaleImages($scope.sale_no, $scope.lot_no),
+                    insertRecentlyView($scope.sale_no, $scope.lot_no),
+                    getRecentlyView($scope.sale_no, $scope.lot_no)]);
 
                 $scope.saleInfo = r1.data.data;
                 $scope.lotInfo = r2.data.data;
@@ -792,6 +649,8 @@
                 $scope.saleImages = r4.data.data;
                 $scope.estimatedRange = $scope.lotInfo.BASE_EXPE_FROM_PRICE + ' ~ '
                     + $scope.lotInfo.BASE_EXPE_TO_PRICE;
+
+                $scope.recentlyViews = r6.data.data;
 
                 // popup setting
                 let imgUrl = $scope.lotImages[0].IMAGE_URL +
@@ -1292,6 +1151,13 @@
                     } else if (end_bid_time < new Date().getTime()) {
                         bid_tick.innerText = "경매가 종료 되었습니다.";
                     }
+
+                    let bid_lst = document.getElementById("bid_lst");
+                    let dt_ly_span1 = document.createElement("em");
+                    dt_ly_span1.setAttribute("class", "type-success");
+                    dt_ly_span1.innerText = "낙찰";
+                    bid_lst.firstChild.childNodes[2].insertBefore(dt_ly_span1, bid_lst.firstChild.childNodes[2].firstChild);
+
                     is_end_bid = true;
                     w.close();
                 }
@@ -1315,6 +1181,8 @@
 
                     bid_lst.firstChild.childNodes[2].insertBefore(dt_ly_span1, bid_lst.firstChild.childNodes[2].firstChild);
                 }
+
+                is_end_bid = true;
                 w.close();
             }
         }

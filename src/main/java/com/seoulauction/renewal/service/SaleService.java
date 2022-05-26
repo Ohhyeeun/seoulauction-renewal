@@ -108,4 +108,13 @@ public class SaleService {
 
         return result;
     }
+
+    public void upsertRecentlyView(CommonMap commonMap){
+        saleMapper.upsertRecentlyView(commonMap);
+    }
+
+    public List<CommonMap> selectRecentlyView(CommonMap commonMap){
+        List<CommonMap> resultMaps = saleMapper.selectRecentlyView(commonMap);
+        return resultMaps;
+    }
 }

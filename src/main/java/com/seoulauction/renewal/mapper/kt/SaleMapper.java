@@ -27,4 +27,8 @@ public interface SaleMapper {
     int add_cust_inte_lot(CommonMap paramMap);
 
     int del_cust_inte_lot(CommonMap paramMap);
+
+    void upsertRecentlyView(CommonMap commonMap);
+
+    List<CommonMap> selectRecentlyView(CommonMap commonMap);
 }

@@ -9,7 +9,9 @@ import com.seoulauction.renewal.common.RestResponse;
 import com.seoulauction.renewal.domain.Bid;
 import com.seoulauction.renewal.domain.Bidder;
 import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.service.SaleService;
+import com.seoulauction.renewal.utill.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
@@ -32,8 +34,6 @@ import java.util.*;
 @RequiredArgsConstructor
 @RequestMapping("api/auction")
 public class ApiSaleController {
-
-    private final static Logger logger = LoggerFactory.getLogger(ApiSaleController.class);
 
     private final SaleService saleService;
 
@@ -268,4 +268,61 @@ public class ApiSaleController {
         CommonMap saleCertInfo = saleService.selectSaleCertInfo(map);
         return ResponseEntity.ok(RestResponse.ok());
     }
+
+    @PostMapping(value="/insertRecentlyView")
+    @ResponseBody
+    public ResponseEntity<RestResponse> insertRecentlyView(@RequestBody CommonMap map,
+                                                     HttpServletRequest req, HttpServletResponse res) {
+        saleService.upsertRecentlyView(map);
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
+    @RequestMapping(value="/recently/{sale_no}/{lot_no}", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> selectRecentlyView(HttpServletRequest req,
+                                                  HttpServletResponse res,
+                                                  Locale locale,
+                                                  @PathVariable("sale_no") int saleNo,
+                                                  @PathVariable("lot_no") int lotNo) {
+
+        CommonMap map = new CommonMap();
+        map.put("sale_no", saleNo);
+        map.put("lot_no", lotNo);
+        map.put("cust_no", 1);
+
+        //SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+
+        // 랏 이미지 정보 가져오기
+        List<CommonMap> lotImages = saleService.selectRecentlyView(map);
+
+        // 필터를 적용한 새로운 랏이미지 정보
+        List<CommonMap> lotImagesNew = new ArrayList<>();
+
+        String[] mapKeys = {"TITLE_BLOB_JSON", "ARTIST_NAME_BLOB_JSON"};
+        ObjectMapper mapper = new ObjectMapper();
+        try{
+            // 맵 변환
+            for (var i = 0; i < lotImages.size(); i++) {
+                for (var item : mapKeys) {
+                    lotImages.get(i).put(item, mapper.readValue(String.valueOf(lotImages.get(i).get(item)), Map.class));
+                }
+            }
+        } catch (JsonMappingException e) {
+
+        } catch (JsonProcessingException e) {
+
+        }
+
+        // 랏 디스플레이 필터
+        for (var item : lotImages) {
+            CommonMap lotImagesNewItem = new CommonMap();
+            for (var k : new ArrayList<>(item.keySet())){
+                lotImagesNewItem.put(k, item.get(k));
+            }
+            lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
+            lotImagesNew.add(lotImagesNewItem);
+        }
+        return ResponseEntity.ok(RestResponse.ok(lotImagesNew));
+    }
+
+
 }
