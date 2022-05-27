@@ -80,5 +80,10 @@ public class SaleController {
         return ResponseEntity.ok(RestResponse.ok(saleService.del_cust_inte_lot(map)));
     }
 
+    @RequestMapping(value = "/selectRecommandArtist", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> selectRecommandArtist(){
+        return ResponseEntity.ok(RestResponse.ok(saleService.selectRecommandArtist()));
+    }
+
 }
 

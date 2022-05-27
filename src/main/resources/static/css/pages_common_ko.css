@@ -36558,9 +36558,9 @@ header.win_header .header-inner .header_logo {
 }
 
 /* 인쇄하기  */
-.submenuBg, .gnb_submenuBg {
+/*.submenuBg, .gnb_submenuBg {
   display: none !important;
-}
+}*/  
 
 /* =============================== 섹션 이름  */
 .basis-section {
