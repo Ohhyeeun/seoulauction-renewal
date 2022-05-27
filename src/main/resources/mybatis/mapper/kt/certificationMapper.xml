@@ -69,4 +69,13 @@
 			and EMAIL = #{email}
 		</if>
 	</select>
+	
+	<!-- 이메일 인증(외국인)  -->
+	<update id="updateCustForForeAuth" parameterType="CommonMap">
+	    update CUST
+	    set 
+	    	STAT_CD = 'normal'
+		where FORE_CERT_CODE = #{fore_cert_code}
+	</update>
+	
 </mapper>

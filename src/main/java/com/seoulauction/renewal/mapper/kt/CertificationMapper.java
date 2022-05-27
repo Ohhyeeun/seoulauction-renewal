@@ -20,4 +20,6 @@ public interface CertificationMapper {
    
     int updateSaleCertHp(CommonMap commonMap);
 
+    int updateCustForForeAuth(CommonMap commonMap);
+
 }
