@@ -20,6 +20,8 @@ $(document).ready(function(){
                 const data = response.data;
                 let success = data.success;
 
+                console.log(data);
+
                 if(success){
                     auctionData = data.data;
                     //TODO 인클루드 작업.
