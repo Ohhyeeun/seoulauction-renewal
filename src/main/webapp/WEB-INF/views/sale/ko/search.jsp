@@ -32,7 +32,6 @@
             app.value('locale', 'ko');
         </script>
         <script type="text/javascript" src="/js/sale/search.js"></script>
-
         <!-- container -->
         <div id="container" ng-controller="lotListCtl" data-ng-init="init();">
             <div id="contents" class="contents">
@@ -217,7 +216,6 @@
         }
         select_resize_change();
     });
-
 </script>
 
 <aside class="filter_fixed-wrap">

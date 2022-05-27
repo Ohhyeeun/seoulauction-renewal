@@ -32,5 +32,6 @@ public class SaleController {
     public String search(Locale locale) {
         return SAConst.getUrl(SAConst.SERVICE_SALE , "search" , locale);
     }
+
 }
 
