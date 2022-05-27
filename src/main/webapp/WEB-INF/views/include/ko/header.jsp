@@ -28,8 +28,38 @@
    sessionStorage.setItem("is_login", "false" );
 </sec:authorize>
 </script>
-<html lang="ko" ng-app="myApp">
+<html lang="ko">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
+    <script>
+        app.requires.push.apply(app.requires, ["ngDialog", "checklist-model"]);
+        app.controller('headCtl', function($scope, consts, common, is_login, locale, $filter) {
+
+            $scope.recommandSearch =  function(){
+
+                //추천 검색어
+                axios.get('/api/auction/selectRecommandArtist').then(function (response) {
+                    console.log(response);
+                    const success = response.data.success;
+
+                    $('.recommend-search-part').empty();
+
+                    if (success) {
+                        const data = response.data.data;
+                        let html = '<span class="keyword-search-tit">추천검색</span>';
+                        $('.recommend-search-part').append(html);
+                        data.map(item => {
+                            let innerHtml = '<a href="/sale/search?searchContent=' + item.name + '" class="recommend-keyword">' + item.name + '</a>';
+                            $('.recommend-search-part').append(innerHtml);
+                        });
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+            // 최근 검색어
+
+        });
+    </script>
     <div class="beltbox-swiper">
         <div class="swiper-wrapper"></div>
     </div>
@@ -61,7 +91,7 @@
         </ul>
     </div>
     <nav class="header_navbox">
-        <div class="header_nav wrap_padding">
+        <div class="header_nav wrap_padding" ng-controller="headCtl">
             <a href="/" class="header_logo"><span class="blind-text">logo</span></a>
             <ul class="header_gnbmenu pc-ver">
                 <li><a href="#" class="">AUCTION</a></li>
@@ -75,7 +105,7 @@
                 <form action="" class="scroll_none">
                     <fieldset class="topsearch">
                         <span class="submenuBg-closeBtn top-search-closeBtn m-ver"></span>
-                        <input onkeydown="searchFilter()" onmousedown="searchDown()" type="text" class="topsearch-text pc-ver"><button type="submit" class="topsearch-btn pc-ver"></button>
+                        <input onkeydown="searchFilter()" onmousedown="searchDown()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();"><button type="submit" class="topsearch-btn pc-ver"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">
                                 <span class="keyword-search-tit">최근검색<span class="keyword-all-del">전체삭제</span></span><!--
@@ -87,14 +117,6 @@
                                     -->
                             </div>
                             <div class="recommend-search-part">
-                                <span class="keyword-search-tit">추천검색</span>
-                                <a href="#" class="recommend-keyword">최우영</a><!--
-                                    --><a href="#" class="recommend-keyword">박성옥</a><!--
-                                    --><a href="#" class="recommend-keyword">청신</a><!--
-                                    --><a href="#" class="recommend-keyword">박서보</a><!--
-                                    --><a href="#" class="recommend-keyword">마티스</a><!--
-                                    --><a href="#" class="recommend-keyword">호크니</a><!--
-                                    -->
                             </div>
                         </section>
                     </fieldset>
