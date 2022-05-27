@@ -128,14 +128,14 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
         
         result.setDetails(SAUserDetails.builder()
         					.loginId(loginId)
-        					.password(resultMap.get("PASSWD").toString())
+        					.password(resultMap.get("PASSWD") != null ? resultMap.get("PASSWD").toString() : "")
         					.userNo(custNo)
         					.authorities(roles)
-        					.userKind(resultMap.get("CUST_KIND_CD").toString())
+        					.userKind(resultMap.get("CUST_KIND_CD") != null ? resultMap.get("CUST_KIND_CD").toString() : "")
         					.userNm(resultMap.get("CUST_NAME").toString())
         					.ip(userIPAddress)
-        					.zipNo(resultMap.get("ZIPNO").toString())
-        					.addr(resultMap.get("ADDR").toString() + " " + resultMap.get("ADDR_DTL").toString())
+        					.zipNo(resultMap.get("ZIPNO") != null ? resultMap.get("ZIPNO").toString() : "")
+        					.addr(resultMap.get("ADDR") != null ? resultMap.get("ADDR").toString() : "" + resultMap.get("ADDR_DTL") != null ? " " + resultMap.get("ADDR_DTL").toString() : "")
         					.build());
 		return result;
 	}

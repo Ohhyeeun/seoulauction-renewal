@@ -89,12 +89,12 @@
                                         </ul>
                                         <p class="info_txt">Please, foreigners use English pages.</p>
                                         <div class="btn_set">
-                                            <a class="btn btn_gray_line">
+                                            <a class="btn btn_gray_line" href="/findPassword?lang=en">
                                                 <span>SeoulAuction ENG</span>
                                             </a>
                                         </div>
                                         <ul class="mark_dot-list tb2">
-                                            <li><span>아이디를 찾으시나요?</span><a href="">아이디찾기</a></li>
+                                            <li><span>아이디를 찾으시나요?</span><a href="/findId">아이디찾기</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -159,7 +159,7 @@
                         <div class="pop-body">
                             <article class="button-area confirm_btn confirm_btn_md">
                                 <div class="btn_set-float tac">
-                                    <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+                                    <a class="btn btn_point" href="#" id="confirm_1" role="button"><span>확인</span></a>
                                 </div>
                             </article>
                         </div>
@@ -189,7 +189,7 @@
                         <div class="pop-body">
                             <article class="button-area confirm_btn confirm_btn_md">
                                 <div class="btn_set-float tac">
-                                    <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+                                    <a class="btn btn_point" href="#" role="button" id="confirm_2" ><span>확인</span></a>
                                 </div>
                             </article>
                         </div>
@@ -219,7 +219,7 @@
                         <div class="pop-body">
                             <article class="button-area confirm_btn confirm_btn_md">
                                 <div class="btn_set-float tac">
-                                    <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+                                    <a class="btn btn_point" href="#" role="button" id="confirm_3" ><span>확인</span></a>
                                 </div>
                             </article>
                         </div>
@@ -249,7 +249,7 @@
                         <div class="pop-body">
                             <article class="button-area confirm_btn confirm_btn_md">
                                 <div class="btn_set-float tac">
-                                    <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+                                    <a class="btn btn_point" href="#" role="button" id="confirm_4" ><span>확인</span></a>
                                 </div>
                             </article>
                         </div>
@@ -280,7 +280,7 @@
                             </div>
                             <article class="button-area confirm_btn">
                                 <div class="btn_set-float tac">
-                                    <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+                                    <a class="btn btn_point" href="#" role="button" id="confirm_5" ><span>확인</span></a>
                                 </div>
                             </article>
                         </div>
