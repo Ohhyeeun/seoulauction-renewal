@@ -102,11 +102,24 @@ public class ApiSaleController {
         CommonMap map = new CommonMap();
         map.put("sale_no", saleNo);
         map.put("lot_no", lotNo);
+        map.put("cust_no" , 1);
 
         // 세일 정보
         CommonMap saleInfoMap = saleService.selectSaleInfo(map);
         // 랏 정보 가져오기
         CommonMap lotInfoMap = saleService.selectLotInfo(map);
+        // 관심정보가져오기
+        CommonMap favoriteMap = saleService.selectCustInteLot(map);
+
+        log.info("favoriteMap");
+        log.info(favoriteMap);
+
+        if (favoriteMap == null) {
+            lotInfoMap.put("FAVORITE_YN", "N");
+        } else {
+            lotInfoMap.put("FAVORITE_YN", "Y");
+        }
+
 
         // 한국일때 홍콩, 홍콩일때 한국
         Map<String, String> baseCurrency = new HashMap<String, String>();
@@ -177,6 +190,8 @@ public class ApiSaleController {
                 lotInfoMap.put(item,
                         mapper.readValue(String.valueOf(lotInfoMap.get(item)), List.class));
             }
+
+
         } catch (JsonMappingException e) {
 
         } catch (JsonProcessingException e) {
@@ -342,6 +357,20 @@ public class ApiSaleController {
 
         saleService.insertSuccessBid(map);
 
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+    @PostMapping(value="/insertCustInteLot")
+    @ResponseBody
+    public ResponseEntity<RestResponse>  insertCustInteLot(@RequestBody CommonMap map,
+                                                           HttpServletRequest req, HttpServletResponse res){
+        saleService.insertCustInteLot(map);
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+    @PostMapping(value="/deleteCustInteLot")
+    @ResponseBody
+    public ResponseEntity<RestResponse>  deleteCustInteLot(@RequestBody CommonMap map,
+                                                           HttpServletRequest req, HttpServletResponse res){
+        saleService.deleteCustInteLot(map);
         return ResponseEntity.ok(RestResponse.ok());
     }
 }

@@ -128,4 +128,15 @@ public class SaleService {
         }
         saleMapper.insertSuccessBid(map);
     }
+
+    public void insertCustInteLot(CommonMap commonMap){
+        saleMapper.insertCustInteLot(commonMap);
+    }
+    public void deleteCustInteLot(CommonMap commonMap){
+        saleMapper.deleteCustInteLot(commonMap);
+    }
+    public CommonMap selectCustInteLot(CommonMap commonMap){
+
+        return saleMapper.selectCustInteLot(commonMap);
+    }
 }

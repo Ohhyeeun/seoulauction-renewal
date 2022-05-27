@@ -98,7 +98,7 @@
 		, LI.FILE_PATH as LOT_IMG_PATH
 		, LI.FILE_NAME as LOT_IMG_NAME
 		,  IFNULL(BD.LAST_PRICE, L.DISP_SOLD_PRICE) AS LAST_PRICE
-		, CASE WHEN '${action_user_no}' != '' AND BD.LAST_CUST_NO = '${action_user_no}' THEN BD.LAST_CUST_ID
+		, CASE WHEN #{cust_no} != '' AND BD.LAST_CUST_NO = #{cust_no} THEN BD.LAST_CUST_ID
 		ELSE concat(substr(BD.LAST_CUST_ID, 1, 2), '***') END AS LAST_CUST_ID
 		, ifnull(BD.SOLD_YN, 'N') as SOLD_YN
 		, if(now() > L.TO_DT, 'Y', 'N') as END_YN
@@ -138,9 +138,9 @@
 		, now() as DB_NOW
 		, IFNULL(CR.CONFIRM_YN, 'N') AS CR_INTE_LOT
 		, IFNULL(IL.DEL_YN, 'Y') AS INTE_LOT_DEL
-		, (select count(*) from BID B where B.SALE_NO = L.SALE_NO and B.LOT_NO = L.LOT_NO and B.CUST_NO = '${action_user_no}') MY_BID_CNT
-		, (select count(*) from BID B where B.SALE_NO = L.SALE_NO and B.CUST_NO = '${action_user_no}') MY_BID_SALE_CNT
-		, (select count(*) from AUTO_BID_REQ B where B.SALE_NO = L.SALE_NO and B.CUST_NO = '${action_user_no}') MY_BID_AUTO_CNT
+		, (select count(*) from BID B where B.SALE_NO = L.SALE_NO and B.LOT_NO = L.LOT_NO and B.CUST_NO = #{cust_no}) MY_BID_CNT
+		, (select count(*) from BID B where B.SALE_NO = L.SALE_NO and B.CUST_NO = #{cust_no}) MY_BID_SALE_CNT
+		, (select count(*) from AUTO_BID_REQ B where B.SALE_NO = L.SALE_NO and B.CUST_NO = #{cust_no}) MY_BID_AUTO_CNT
 		, L.WINE_YN
 		, IFNULL(L.FRAME_CD, 'none') AS FRAME_CD
 		, IFNULL(L.GUARANTEE_YN, 'Y') GUARANTEE_YN
@@ -157,8 +157,8 @@
 		left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
 		LEFT OUTER JOIN (SELECT SALE_NO, LOT_NO, GROUP_CONCAT(ARTWORK_NO) ARTWORK_NOS FROM SALE_ARTWORK WHERE SALE_NO = #{sale_no} AND LOT_NO = #{lot_no}) SA
 		ON L.SALE_NO = SA.SALE_NO AND L.LOT_NO = SA.LOT_NO
-		left outer join CUST_CR_LOT CR ON L.SALE_NO = CR.SALE_NO AND L.LOT_NO = CR.LOT_NO AND CR.DEL_YN = 'N' AND CR.CUST_NO = #{action_user_no}
-		left outer join CUST_INTE_LOT IL ON L.SALE_NO = IL.SALE_NO AND L.LOT_NO = IL.LOT_NO AND IL.DEL_YN = 'N' AND IL.CUST_NO = #{action_user_no}
+		left outer join CUST_CR_LOT CR ON L.SALE_NO = CR.SALE_NO AND L.LOT_NO = CR.LOT_NO AND CR.DEL_YN = 'N' AND CR.CUST_NO = #{cust_no}
+		left outer join CUST_INTE_LOT IL ON L.SALE_NO = IL.SALE_NO AND L.LOT_NO = IL.LOT_NO AND IL.DEL_YN = 'N' AND IL.CUST_NO = #{cust_no}
 		where 	L.SALE_NO = #{sale_no}
 		and L.LOT_NO = #{lot_no}
 		group by L.SALE_NO, L.LOT_NO
@@ -182,8 +182,6 @@
 		where b.SALE_NO = #{sale_no} and b.CLOSE_YN = 'N'
 		order by b.LOT_NO asc
 	</select>
-
-
     <select id="search_list_count" parameterType="CommonMap" resultType="CommonMap">
         SELECT COUNT(B.LOT_NO) AS CNT, COUNT(B.ALL_SALE_KIND) AS ALL_CNT, COUNT(B.LIVE_SALE_KIND) AS LIVE_CNT, COUNT(B.ONLINE_SALE_KIND) AS ONLINE_CNT
         FROM(
@@ -412,12 +410,17 @@
 			on duplicate key update VIEW_DT = sysdate()
 	</insert>
 	<select id="selectRecentlyView" parameterType="CommonMap" resultType="CommonMap">
-		select A.SALE_NO, A.LOT_NO, B.FILE_PATH, B.FILE_NAME,
+		select A.SALE_NO,
+			   A.LOT_NO, B.FILE_PATH, B.FILE_NAME,
 			   COLUMN_JSON(C.TITLE_BLOB) TITLE_BLOB_JSON,
-			   COLUMN_JSON(D.ARTIST_NAME_BLOB) ARTIST_NAME_BLOB_JSON from cust_recently_viewed A
+			   COLUMN_JSON(D.ARTIST_NAME_BLOB) ARTIST_NAME_BLOB_JSON,
+			   CASE WHEN IFNULL(E.LOT_NO, 0) = 0 THEN 'N'
+					ELSE 'Y' END FAVORITE_YN
+			   from cust_recently_viewed A
 				  inner join lot_img B on A.SALE_NO = B.SALE_NO and A.LOT_NO = B.LOT_NO
 				  inner join lot C on A.SALE_NO = C.SALE_NO and A.LOT_NO = C.LOT_NO
 				  inner join artist D on C.ARTIST_NO = D.ARTIST_NO
+				  left outer join cust_inte_lot E on A.sale_no = E.sale_no and A.lot_no =  E.lot_no and A.cust_no = E.cust_no and E.del_yn = 'N'
 		where A.CUST_NO = #{cust_no} and  A.SALE_NO = #{sale_no} and B.DISP_ORD = 1
 		ORDER BY VIEW_DT DESC
 			limit 5;
@@ -460,5 +463,34 @@
 			#{bid_no}
 		)
 	</insert>
+
+	<select id="selectTopBId" parameterType="CommonMap">
+		select * from bid where SALE_NO = #{sale_no}
+							and LOT_NO = #{bid_no} order by BID_NO desc limit 1;
+	</select>
+
+	<select id="selectCustInteLot" parameterType="CommonMap" resultType="CommonMap"> <!-- LOT 관심체크. 2017.04.10 YDH -->
+		select * from CUST_INTE_LOT
+		where sale_no = #{sale_no} and lot_no = #{lot_no} and cust_no = #{cust_no} and del_yn = 'N';
+	</select>
+
+	<insert id="insertCustInteLot" parameterType="CommonMap"> <!-- LOT 관심체크. 2017.04.10 YDH -->
+		INSERT INTO CUST_INTE_LOT(
+		CUST_NO,
+		SALE_NO,
+		LOT_NO,
+		REG_DT
+		)
+		VALUES(
+		#{cust_no},
+		#{sale_no},
+		#{lot_no},
+		now()
+		)
+	</insert>
+
+	<update id="deleteCustInteLot" parameterType="CommonMap">
+		DELETE FROM CUST_INTE_LOT WHERE CUST_NO = #{cust_no} AND SALE_NO = #{sale_no} AND LOT_NO = #{lot_no};
+	</update>
 
 </mapper>
