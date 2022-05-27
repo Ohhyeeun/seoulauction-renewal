@@ -11,7 +11,7 @@ $('#findPassword').on('click', function() {
 	
 	if (searchType == 'email') {
 		if ($('#custIdByEmail').val() == '' || $('#custNameByEmail').val() == '' || $('#custEmail').val() == '') {
-			$('#popup_pwsearch0-wrap').attr("style", "display:block");
+			$('#popup_idsearch3-wrap').attr("style", "display:block");
 			return;
 		} else {
 			var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
