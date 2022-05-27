@@ -28,7 +28,7 @@
    sessionStorage.setItem("is_login", "false" );
 </sec:authorize>
 </script>
-<html lang="ko" app="myApp">
+<html lang="ko" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
     <script>
         app.requires.push.apply(app.requires, ["ngDialog", "checklist-model"]);
