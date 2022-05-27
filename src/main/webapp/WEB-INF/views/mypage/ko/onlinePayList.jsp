@@ -24,6 +24,7 @@
                                         <jsp:include page="include/mypageSide.jsp" flush="false" />
                                         
                                         
+                                        <!-- container -->
                                         <div class="content-area">
                                             <div class="subtitle-wrap">
                                                 <div class="subtitle-inner">
@@ -49,44 +50,49 @@
                                                         <div class="sub">(결제 할 내역 <span class="point">{{payCnt}}</span> 건, 구매 내역 <span class="point">{{paidCnt}}</span>건)</div>
                                                     </div>
                                                 </article>
+                                                <!-- [0526]상품진열디자인 변경 : product-infobox 안에 product-infobox-inner 생성 -->
                                                 <article class="bid-list-wrap">
                                                     <div class="bid-list">
-                                                        <dl class="bid-item">
+                                                        <dl class="bid-item" ng-repeat="pl in payList">
                                                             <dt>
                                                                 <div class="title-area">
                                                                     <div class="title tt4 line-1">
-                                                                        <span>2022 4월 e-BID 온라인 프리미엄 경매 II</span>
+                                                                        <span>{{pl[1][0].SALE_TITLE_KR}}</span>
                                                                     </div>
                                                                     <div class="desc tb1">
                                                                         <span class="tit">경매일</span>
-                                                                        <span>2022.04.14 14:00 순차마감</span>
+                                                                        <span>{{pl[1][0].FROM_DT}} 순차마감</span>
                                                                     </div>
                                                                 </div>
                                                             </dt>
-                                                            <dd class="item-ea">
+                                                            <dd class="item-ea"  ng-repeat="data in pl[1]">
                                                                 <div class="item-ea-tit">
-                                                                    <div class="paystate pending">결제대기중</div>
+                                                                    <div class="paystate pending" ng-if="data.PAID_CNT != 1">결제대기중 ({{data.PAY_METHOD_NM}})</div>
+                                                                    <div class="paystate complete" ng-if="data.PAID_CNT == 1">결제완료</div>
+                                                                    <div class="txt" ng-if="data.PAID_CNT == 1">{{data.payDate}} ({{data.payWeekDate}}) {{data.payTime}} ({{data.PAY_METHOD_NM}})</div>
                                                                 </div>
                                                                 <div class="item-ea-inner">
                                                                     <div class="product-infobox">
-                                                                        <div class="thumb-area">
-                                                                            <figure class="img-ratio">
-                                                                                <div class="img-align">
-                                                                                    <img src="/images/pc/thumbnail/auction01.jpg" alt="">
-                                                                                </div>
-                                                                            </figure>
-                                                                        </div>
-                                                                        <div class="text-area">
-                                                                            <div class="num">3</div>
-                                                                            <div class="title">
-                                                                                <div class="titlename">문형태</div>
+                                                                        <div class="product-infobox-inner">
+                                                                            <div class="thumb-area">
+                                                                                <figure class="img-ratio">
+                                                                                    <div class="img-align">
+                                                                                        <img src="/nas_img{{data.LOT_IMG}}" alt="">
+                                                                                    </div>
+                                                                                </figure>
                                                                             </div>
-                                                                            <div class="desc">Speed</div>
-                                                                            <div class="sub-box">
-                                                                                <div class="sub-li">2022.04.15 (수)<br class="m-ver"> 15:02:14 (1회 응찰)</div>
-                                                                                <div class="sub-li">
-                                                                                    <div class="tit">응찰가</div>
-                                                                                    <div class="txt">KRW 9,900,000,000</div>
+                                                                            <div class="text-area">
+                                                                                <div class="num">{{data.LOT_NO}}</div>
+                                                                                <div class="title">
+                                                                                    <div class="titlename">{{data.ARTIST_NAME_KR}}</div>
+                                                                                </div>
+                                                                                <div class="desc">{{data.LOT_TITLE_KR}}</div>
+                                                                                <div class="sub-box">
+                                                                                    <div class="sub-li">{{data.BID_DT}} ({{data.BIDWEEKDT}})<br class="m-ver"> {{data.BIDTIME}} ({{data.bid_count}}회 응찰)</div>
+                                                                                    <div class="sub-li">
+                                                                                        <div class="tit">응찰가</div>
+                                                                                        <div class="txt">{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</div>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -95,70 +101,21 @@
                                                                         <div class="pay-area">
                                                                             <dl class="price">
                                                                                 <dt class="tit">낙찰가</dt>
-                                                                                <dd class="txt">KRW 9,900,000,000</dd>
+                                                                                <dd class="txt">{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</dd>
                                                                             </dl>
                                                                             <dl class="price">
                                                                                 <dt class="tit">낙찰 수수료</dt>
-                                                                                <dd class="txt">KRW 8,000,000</dd>
+                                                                                <dd class="txt">{{data.CURR_CD}} {{fee(data.BID_PRICE)}}</dd>
                                                                             </dl>
                                                                             <dl class="price succ">
                                                                                 <dt class="tit">구매가</dt>
-                                                                                <dd class="txt">KRW 9,900,000,000</dd>
+                                                                                <dd class="txt">KRW {{total(data.BID_PRICE)}}</dd>
                                                                             </dl>
                                                                         </div>
-                                                                        <div class="btn-area">
+                                                                        <div class="btn-area" ng-if="data.PAID_CNT != 1">
                                                                             <button class="btn btn_point" type="button"><span>결제하기</span></button>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
-                                                            </dd>
-                                                            <dd class="item-ea">
-                                                                <div class="item-ea-tit">
-                                                                    <div class="paystate complete">결제완료</div>
-                                                                    <div class="txt">2022.04.16 (목) 16:00:24 (가상계좌)</div>
-                                                                </div>
-                                                                <div class="item-ea-inner">
-                                                                    <div class="product-infobox">
-                                                                        <div class="thumb-area">
-                                                                            <figure class="img-ratio">
-                                                                                <div class="img-align">
-                                                                                    <img src="/images/pc/thumbnail/auction02.jpg" alt="">
-                                                                                </div>
-                                                                            </figure>
-                                                                        </div>
-                                                                        <div class="text-area">
-                                                                            <div class="num">24</div>
-                                                                            <div class="title">
-                                                                                <div class="titlename">청신</div>
-                                                                            </div>
-                                                                            <div class="desc">
-                                                                                Black Neon BE2016
-                                                                            </div>
-                                                                            <div class="sub-box">
-                                                                                <div class="sub-li">2022.04.15 (수)<br class="m-ver"> 15:02:14 (1회 응찰)</div>
-                                                                                <div class="sub-li">
-                                                                                    <div class="tit">응찰가</div>
-                                                                                    <div class="txt">KRW 9,900,000,000</div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="pay-infobox">
-                                                                        <div class="pay-area">
-                                                                            <dl class="price">
-                                                                                <dt class="tit">응찰가</dt>
-                                                                                <dd class="txt">KRW 9,900,000,000</dd>
-                                                                            </dl>
-                                                                            <dl class="price succ">
-                                                                                <dt class="tit">낙찰가</dt>
-                                                                                <dd class="txt">KRW 9,900,000,000</dd>
-                                                                            </dl>
-                                                                            <dl class="date">
-                                                                                <dt class="tit">낙찰일</dt>
-                                                                                <dd class="txt">2022.04.14 14:43:25</dd>
-                                                                            </dl>
-                                                                        </div>
-                                                                        <div class="btn-area">
+                                                                        <div class="btn-area" ng-if="data.PAID_CNT == 1">
                                                                             <button class="btn btn_gray_line btn-half" type="button"><span>현금영수증</span></button>
                                                                             <button class="btn btn_gray btn-half btn-print" type="button" disabled>
                                                                                 <span>보증서출력하기</span>
@@ -168,113 +125,9 @@
                                                                     </div>
                                                                 </div>
                                                             </dd>
-                                                            <dd class="item-ea">
-                                                                <div class="item-ea-tit">
-                                                                    <div class="paystate complete">결제완료</div>
-                                                                    <div class="txt">2022.04.16 (목) 16:00:24 (신용카드)</div>
-                                                                </div>
-                                                                <div class="item-ea-inner">
-                                                                    <div class="product-infobox">
-                                                                        <div class="thumb-area">
-                                                                            <figure class="img-ratio">
-                                                                                <div class="img-align">
-                                                                                    <img src="/images/pc/thumbnail/auction03.jpg" alt="">
-                                                                                </div>
-                                                                            </figure>
-                                                                        </div>
-                                                                        <div class="text-area">
-                                                                            <div class="num">55</div>
-                                                                            <div class="title">
-                                                                                <div class="titlename">데미안허스트</div>
-                                                                            </div>
-                                                                            <div class="desc">
-                                                                                Air (From The Series The Elements)
-                                                                            </div>
-                                                                            <div class="sub-box">
-                                                                                <div class="sub-li">2022.04.15 (수)<br class="m-ver"> 15:02:14 (1회 응찰)</div>
-                                                                                <div class="sub-li">
-                                                                                    <div class="tit">응찰가</div>
-                                                                                    <div class="txt">KRW 9,900,000,000</div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="pay-infobox">
-                                                                        <div class="pay-area">
-                                                                            <dl class="price">
-                                                                                <dt class="tit">응찰가</dt>
-                                                                                <dd class="txt">KRW 9,900,000,000</dd>
-                                                                            </dl>
-                                                                            <dl class="price succ">
-                                                                                <dt class="tit">낙찰가</dt>
-                                                                                <dd class="txt">KRW 9,900,000,000</dd>
-                                                                            </dl>
-                                                                            <dl class="date">
-                                                                                <dt class="tit">낙찰일</dt>
-                                                                                <dd class="txt">2022.04.14 14:43:25</dd>
-                                                                            </dl>
-                                                                        </div>
-                                                                        <div class="btn-area">
-                                                                            <button class="btn btn_gray_line btn-half" type="button"><span>결제영수증</span></button>
-                                                                            <button class="btn btn_point btn-half btn-print" type="button"><span>보증서출력하기</span></button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </dd>
-                                                            <dd class="item-ea">
-                                                                <div class="item-ea-tit">
-                                                                    <div class="paystate cancel">결제취소</div>
-                                                                </div>
-                                                                <div class="item-ea-inner">
-                                                                    <div class="product-infobox">
-                                                                        <div class="thumb-area">
-                                                                            <figure class="img-ratio">
-                                                                                <div class="img-align">
-                                                                                    <img src="/images/pc/thumbnail/auction01.jpg" alt="">
-                                                                                </div>
-                                                                            </figure>
-                                                                        </div>
-                                                                        <div class="text-area">
-                                                                            <div class="num">33</div>
-                                                                            <div class="title">
-                                                                                <div class="titlename">데미안허스트</div>
-                                                                            </div>
-                                                                            <div class="desc">
-                                                                                Air (From The Series The Elements)
-                                                                            </div>
-                                                                            <div class="sub-box">
-                                                                                <div class="sub-li">2022.04.15 (수)<br class="m-ver"> 15:02:14 (1회 응찰)</div>
-                                                                                <div class="sub-li">
-                                                                                    <div class="tit">응찰가</div>
-                                                                                    <div class="txt">KRW 9,900,000,000</div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="pay-infobox">
-                                                                        <div class="pay-area">
-                                                                            <dl class="price">
-                                                                                <dt class="tit">응찰가</dt>
-                                                                                <dd class="txt">KRW 9,900,000,000</dd>
-                                                                            </dl>
-                                                                            <dl class="price succ">
-                                                                                <dt class="tit">낙찰가</dt>
-                                                                                <dd class="txt">KRW 9,900,000,000</dd>
-                                                                            </dl>
-                                                                            <dl class="date">
-                                                                                <dt class="tit">낙찰일</dt>
-                                                                                <dd class="txt">2022.04.14 14:43:25</dd>
-                                                                            </dl>
-                                                                        </div>
-                                                                        <div class="btn-area">
-                                                                            <button class="btn btn_gray" type="button" disabled><span>결제취소</span></button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </dd>
                                                         </dl>
                                                     </div>
-                                                    <div class="paging-area">
+                                                    <!-- <div class="paging-area">
                                                         <div class="paging">
                                                             <a href="#" class="prev_end icon-page_prevprev">FIRST</a><a href="#" class="prev icon-page_prev">PREV</a>
                                                             <strong class="on">1</strong>
@@ -287,12 +140,34 @@
                                                                 <a href="#"><em>7</em></a>
                                                                 <a href="#"><em>8</em></a>
                                                                 <a href="#"><em>9</em></a>
-                                                                <a href="#"><em>100</em></a>
+                                                                <a href="#"><em>10</em></a>
                                                             </span>
                                                             <a href="#" class="next icon-page_next "><em>NEXT</em></a><a href="#" class="next_end icon-page_nextnext">END</a>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
+                                                    
+                                                   <div class="paging-area">
+                                                    <div class="paging">
+														<paging page="currentPage"
+															page-size=3
+															total="totalCnt"
+															paging-action="loadOnlinePayList(page)"
+															scroll-top="true"
+															hide-if-empty="true"
+															show-prev-next="true"
+															show-first-last="true"
+															ul-class="paging"
+															active-class="on"
+														    disabled-class="page_disable"
+														    text-next-class="next icon-page_next"
+														    text-prev-class="prev icon-page_prev"
+														    text-first-class="prev_end icon-page_prevprev"
+														    text-last-class="next_end icon-page_nextnext">
+														</paging>
+													 </div>
+													</div>
                                                 </article>
+                                                <!-- //[0526]상품진열디자인 변경 : product-infobox 안에 product-infobox-inner 생성 -->
                                             </div>
                                         </div>
 

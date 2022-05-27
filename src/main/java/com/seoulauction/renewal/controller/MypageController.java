@@ -43,8 +43,6 @@ public class MypageController {
     	return SAConst.getUrl(SERVICE_MYPAGE , "onlinePayList" , locale);
     }
     
-
-    
     /*본인인증 TEST*/
     @GetMapping("/test")
     public String test(Locale locale) {

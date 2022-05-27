@@ -1,28 +1,12 @@
 
 app.value('locale', 'ko');
-
+app.requires.push.apply(app.requires, ["bw.paging", "ngDialog"]);
 
 app.controller('onlinePayListCtl', function($scope, consts, common) {
 	$scope.suc_yn = null;
 	$scope.pay_sat_cd = null;
 
 	$scope.loadOnlinePayList = function($page) {
-		$scope.currentPage = $page;
- 		$page = $scope.currentPage;
- 		
- 		$size = 3;
-		$api = '/api/mypage/onlinePaies?page=' + $scope.currentPage + "&size=" + $size;
-
-		common.callAPI($api, null, function(data, status) {
-			$scope.allCnt = data["data"]["payCount"]["ROW_CNT"] || 0;
-			$scope.paidCnt = data["data"]["payCount"]["PAID_CNT"] || 0;
-			$scope.payCnt = $scope.allCnt - $scope.paidCnt;
-			$scope.custInfo = data["data"]["customerInfo"];
-			$scope.payList = $scope.groupBy(data["data"]["payList"],'SALE_NO');
-		});
-	};
-
-/*		$scope.loadOnlinePayList = function($page) {
 				$scope.currentPage = $page;
 		 		$page = $scope.currentPage;
 		 		
@@ -40,19 +24,19 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 					$scope.allCnt = result["data"]["payCount"]["ROW_CNT"] || 0;
 					$scope.paidCnt = result["data"]["payCount"]["PAID_CNT"] || 0;
 					$scope.payCnt = $scope.allCnt - $scope.paidCnt;
-					$scope.payList = result["data"]["payList"];
 					$scope.custInfo = result["data"]["customerInfo"];
 					$scope.totalCnt = result["data"]["payTotalCount"];
-					$scope.payListTemp = $scope.groupBy($scope.payList,'SALE_NO');
+					$scope.payList = Object.keys($scope.groupBy(result["data"]["payList"],'SALE_NO')).map((key) => [Number(key), $scope.groupBy(result["data"]["payList"],'SALE_NO')[key]]).sort((a, b) => b[0] - a[0]);
+					$scope.$apply();
 					
-					console.log($scope.allCnt);
-					console.log($scope.paidCnt);
+					console.log($scope.totalCnt);
+					console.log($scope.totalCnt);
 		            }
 		        })
 		        .catch(function(error){
 		            console.log(error);
 		        });
-		}*/
+		}
 
 	$scope.showPurchasePopup = function(lot_no, sale_no, bid_price, pay_price) {
 		//모바일에서 결제막음 - blueerr
@@ -92,4 +76,18 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 		  }, {});
 		};
 	
+	$scope.comma = function(str) {
+		str = String(str);
+		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	}
+	
+	$scope.total = function(str) {
+		str = String(str);
+		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	}
+	
+	$scope.fee = function(str) {
+		str = String(str);
+		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	}
 });
