@@ -56,33 +56,7 @@
                     console.log(error);
                 });
             }
-
-            function addCookie(id, name) {
-                var items = getCookie(name); // 이미 저장된 값을 쿠키에서 가져오기
-                var maxItemNum = 10; // 최대 저장 가능한 아이템개수
-                var expire = 1; // 쿠키값을 저장할 기간
-                if (items) {
-                    var itemArray = items.split(',');
-                    if (itemArray.indexOf(id) != -1) {
-                        // 이미 존재하는 경우 종료
-                        console.log('Already exists.');
-                    }
-                    else {
-                        // 새로운 값 저장 및 최대 개수 유지하기
-                        itemArray.unshift(id);
-                        if (itemArray.length > maxItemNum ) itemArray.length = 10;
-                        items = itemArray.join(',');
-                        setCookie(name, items, expire);
-                    }
-                }
-                else {
-                    // 신규 id값 저장하기
-                    setCookie(name, id, expire);
-                }
-            }
-
             // 최근 검색어
-            alert(addCookie(null , "keyword"));
 
         });
     </script>

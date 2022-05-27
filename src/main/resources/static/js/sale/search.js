@@ -590,8 +590,13 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
 
 
 function inteSave(saleNo, lotNo, locale) {
-    let api = "/api/auction/addCustInteLot?saleNo="+saleNo+"&lotNo="+lotNo;
-    axios.get(api , null)
+    let api = "/api/auction/addCustInteLot";
+
+    let data = {};
+    data['sale_no'] = saleNo;
+    data['lot_no'] = lotNo;
+
+    axios.post(api , data)
         .then(function(response) {
             console.log(response);
             const result = response.data;
@@ -620,9 +625,13 @@ function inteSave(saleNo, lotNo, locale) {
 
 function inteDel(saleNo, lotNo, locale) {
 
-    $api = "/api/auction/delCustInteLot?saleNo="+saleNo+"&lotNo="+lotNo;
+    $api = "/api/auction/delCustInteLot";
 
-    axios.get($api , null)
+    let data = {};
+    data['sale_no'] = saleNo;
+    data['lot_no'] = lotNo;
+
+    axios.post($api , data)
         .then(function(response) {
             console.log(response);
             const result = response.data;

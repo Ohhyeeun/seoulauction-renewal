@@ -284,39 +284,25 @@ public class ApiSaleController {
         map.put("list_type", "SEARCH");
         map.put("for_count", true);
 
-        return ResponseEntity.ok(RestResponse.ok(saleService.search_list_paging(map)));
+        return ResponseEntity.ok(RestResponse.ok(saleService.searchListPaging(map)));
     }
 
-    @RequestMapping(value="/addCustInteLot")
+    @RequestMapping(value="/addCustInteLot" , method = RequestMethod.POST)
     public ResponseEntity<RestResponse> addCustInteLot(
-            @RequestParam(required = true) int saleNo, int lotNo, Locale locale, Principal principal) throws Exception {
+            @RequestBody CommonMap map, Principal principal) throws Exception {
 
-        CommonMap map = new CommonMap();
-        if(principal != null){
-            map.put("action_user_no", principal.getName());
-        }else{
-            throw new SAException("로그인이 필요합니다.");
-        }
-        map.put("sale_no", saleNo);
-        map.put("lot_no", lotNo);
+        map.put("action_user_no", principal.getName());
 
-        return ResponseEntity.ok(RestResponse.ok(saleService.add_cust_inte_lot(map)));
+        return ResponseEntity.ok(RestResponse.ok(saleService.addCustInteLot(map)));
     }
 
-    @RequestMapping(value="/delCustInteLot")
+    @RequestMapping(value="/delCustInteLot" , method = RequestMethod.POST)
     public ResponseEntity<RestResponse> delCustInteLot(
-            @RequestParam(required = true) int saleNo, int lotNo, Locale locale, Principal principal) throws Exception {
+            @RequestBody CommonMap map, Principal principal) throws Exception {
 
-        CommonMap map = new CommonMap();
-        if(principal != null){
-            map.put("action_user_no", principal.getName());
-        }else{
-            throw new SAException("로그인이 필요합니다.");
-        }
-        map.put("sale_no", saleNo);
-        map.put("lot_no", lotNo);
+        map.put("action_user_no", principal.getName());
 
-        return ResponseEntity.ok(RestResponse.ok(saleService.del_cust_inte_lot(map)));
+        return ResponseEntity.ok(RestResponse.ok(saleService.delCustInteLot(map)));
     }
 
     @RequestMapping(value = "/selectRecommandArtist", method = RequestMethod.GET)
