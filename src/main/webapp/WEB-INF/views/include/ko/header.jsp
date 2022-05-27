@@ -28,11 +28,11 @@
    sessionStorage.setItem("is_login", "false" );
 </sec:authorize>
 </script>
-<html lang="ko">
+<html lang="ko" app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
     <script>
         app.requires.push.apply(app.requires, ["ngDialog", "checklist-model"]);
-        app.controller('headCtl', function($scope, consts, common, is_login, locale, $filter) {
+        app.controller('headCtl', function($scope, consts, common, locale, $filter) {
 
             $scope.recommandSearch =  function(){
 
