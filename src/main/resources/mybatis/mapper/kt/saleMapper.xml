@@ -302,11 +302,8 @@
 		, now() as DB_NOW
 		, IFNULL((SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = L.SALE_NO AND LOT_NO = L.LOT_NO), L.DISP_SOLD_PRICE) AS LAST_PRICE
 		, IFNULL(IL.DEL_YN, 'Y') AS INTE_LOT_DEL
-<<<<<<< HEAD
 		, IFNULL(L.START_PRICE, 0) AS START_PRICE
 		,(select count(B.BID_NO) from BID B where B.SALE_NO = L.SALE_NO and B.LOT_NO = L.LOT_NO) as BID_CNT
-=======
->>>>>>> develop
 		from 	LOT L 	join SALE S ON S.SALE_NO = L.SALE_NO AND S.SALE_KIND_CD not in ('exhibit', 'exhibit_sa')
 		left outer join ARTIST AT on AT.ARTIST_NO = L.ARTIST_NO
 		left outer join CODE CD	on CD.grp_id = 'material' and CD.CD_ID = L.MATE_CD
@@ -352,7 +349,6 @@
 			</choose>
 		</if>
 		<if test="sale_status_end_yn != null or sale_status_ing_yn != null or sale_status_ready_yn != null">
-<<<<<<< HEAD
 		    AND(
 			<trim prefixOverrides="or">
 				<if test='sale_status_end_yn == "Y"'>
@@ -367,20 +363,6 @@
 				</if>
 		    </trim>
 		    )
-=======
-			AND(
-			<if test='sale_status_end_yn == "Y"'>
-				or (DATE_FORMAT(S.TO_DT, '%Y-%m-%d') <![CDATA[<]]> DATE_FORMAT(now(), '%Y-%m-%d'))
-			</if>
-			<if test='sale_status_ing_yn == "Y"'>
-				or ((DATE_FORMAT(S.FROM_DT, '%Y-%m-%d') <![CDATA[<=]]> DATE_FORMAT(now(), '%Y-%m-%d')
-				and DATE_FORMAT(S.TO_DT, '%Y-%m-%d') <![CDATA[>=]]> DATE_FORMAT(now(), '%Y-%m-%d')))
-			</if>
-			<if test='sale_status_ready_yn == "Y"'>
-				or (DATE_FORMAT(S.FROM_DT, '%Y-%m-%d') <![CDATA[>]]> DATE_FORMAT(now(), '%Y-%m-%d'))
-			</if>
-			)
->>>>>>> develop
 		</if>
 		<if test="mate_nm != null">
 			and L.MATE_CD in (
