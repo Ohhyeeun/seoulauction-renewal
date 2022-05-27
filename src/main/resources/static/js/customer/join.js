@@ -417,10 +417,12 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 		if (phone == null || phone == '') {
 			document.getElementById('hpMsg').innerText = "휴대폰 번호를 입력해주세요";
+			$scope.allValidCheck();
 			return;
 		}
 		else if (regPhone.test(phone) === false) {
 			document.getElementById('hpMsg').innerText = "휴대전화번호를 확인해주세요.";
+			$scope.allValidCheck();
 			return;
 		}
 						
@@ -428,35 +430,29 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		axios.post('/api/cert/sendAuthNum', $d)
 		.then(function(response) {
 			console.log(response);
-						const data = response.data;
-						let success = data.success;
-			
-						if (success) {
-							console.log(data["data"].AUTH_EXISTS);
-							if (data["data"].AUTH_EXISTS) {
-									document.getElementById('hpMsg').innerText = "이미 등록된 휴대폰 번호 입니다.\n" + "다른 번호를 입력해 주세요.";
-									//This number is already authorized.\n" + "Please log-in again with the first authenticated ID and start bidding.						
-							} else {
-								$scope.auth_num_send_status = data.data.SEND_STATUS;
-								$scope.auth_end_time = moment(new Date()).add(120, 'seconds');
-								if($scope.auth_num_send_status){
-								$scope.timer_duration = $interval($scope.setAuthDuration, 1000);
-								console.log("======> set timer");
-								}
-								if ($scope.langType == 'ko') {
-									$scope.checkHpAuth.valid = true;
-									document.getElementById('hpMsg').innerText = "";
-									document.getElementById('hpAuthArea').style.display="block"; //인증번호 입력 필드 show
-									$scope.authNumMsg = "인증번호 재전송";
-									
-								}else if ($scope.langType == 'en') {
-									$scope.checkHpAuth.valid = false;
-									$scope.authNumValid = true;		
-									$scope.authNumMsg = "인증번호 재전송(영어)";
-									
-								}
-							}
-						}
+			const data = response.data;
+			let success = data.success;
+				
+			if (success) {
+				console.log(data["data"].AUTH_EXISTS);
+				if (data["data"].AUTH_EXISTS) {
+						document.getElementById('hpMsg').innerText = "이미 등록된 휴대폰 번호 입니다.\n" + "다른 번호를 입력해 주세요.";
+						//This number is already authorized.\n" + "Please log-in again with the first authenticated ID and start bidding.						
+				} else {
+					$scope.auth_num_send_status = data.data.SEND_STATUS;
+					$scope.auth_end_time = moment(new Date()).add(120, 'seconds');
+					if($scope.auth_num_send_status){
+					$scope.timer_duration = $interval($scope.setAuthDuration, 1000);
+					console.log("======> set timer");
+					}
+					
+					$scope.checkHpAuth.valid = true;
+					document.getElementById('hpMsg').innerText = "";
+					document.getElementById('hpAuthArea').style.display="block"; //인증번호 입력 필드 show
+					$scope.authNumMsg = "인증번호 재전송";
+				}
+			}
+			$scope.allValidCheck();
 		})
 		.catch(function(error) {
 			console.log(error);
@@ -482,6 +478,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 					
 					//인증 완료시, 인증번호 입력 영역 disabled 처리
 					document.querySelectorAll('.authNum').forEach(function(ele){ele.disabled=true});
+					$scope.allValidCheck();
 				}else {
 					document.getElementById('hpMsg').innerText ="인증에 실패 하였습니다. 다시 요청 하세요.";
 					$scope.authNumValid  = false;
@@ -823,6 +820,18 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		}
 		
 		$scope.$apply();
+		$scope.allValidCheck();
+	}
+	
+	//첨부파일 삭제
+	$scope.fileDelete = function(inputId){
+		document.getElementById("fore_" + inputId + "_file").value = '';
+		if(inputId == 'id'){
+			$scope.fore_id_filename = "";	
+		}else if(inputId == 'doc'){
+			$scope.fore_doc_filename = "";	
+		}
+		$scope.fileValid = false;
 		$scope.allValidCheck();
 	}
 	
