@@ -4,6 +4,7 @@ import com.seoulauction.renewal.auth.PasswordEncoderAESforSA;
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.service.CertificationService;
 import com.seoulauction.renewal.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import static com.seoulauction.renewal.common.SAConst.SERVICE_LOGIN;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Locale;
 
@@ -33,6 +36,8 @@ import java.util.Locale;
 public class LoginController {
 
     private final LoginService loginService;
+    
+    private final CertificationService certificationService;
     
     @GetMapping(SAConst.SERVICE_LOGIN)
     public String login(Locale locale, Model model
@@ -167,4 +172,17 @@ public class LoginController {
     }
 
 
+    @GetMapping(value = "/join/{uuid}")
+    public String joinAuthCode(Locale locale, @PathVariable(value = "uuid") String uuid, HttpServletResponse response) throws IOException{
+    	CommonMap paramMap = new CommonMap();
+    	paramMap.put("fore_cert_code", uuid);
+        int result = certificationService.updateCustForForeAuth(paramMap);
+        if(result == 1){
+        	return "redirect:/login";
+        }
+        else{
+        	response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+    		return "";
+        }
+    }
 }
