@@ -1,67 +1,42 @@
 
 app.value('locale', 'ko');
-
+app.requires.push.apply(app.requires, ["bw.paging", "ngDialog"]);
 
 app.controller('onlinePayListCtl', function($scope, consts, common) {
 	$scope.suc_yn = null;
 	$scope.pay_sat_cd = null;
 
-	$scope.init = function() {
-		$api = "/api/mypage/saleList"
-		common.callAPI($api, null, function(data, status) {
-			$scope.saleList = data["data"]["saleList"];
-			$scope.loadOnlinePayList(1);
-		});
-	}
-
-
-
-	$scope.loadOnlinePayList = function($page, $searchType) {
+	$scope.loadOnlinePayList = function($page) {
+				$scope.currentPage = $page;
+		 		$page = $scope.currentPage;
+		 		
+		 		$size = 3;
+				$api = '/api/mypage/onlinePaies?page=' + $scope.currentPage + "&size=" + $size;
+		       
+		        axios.get($api , null)
+		        .then(function(response) {
+		            const result = response.data;
 		
-		var searchMonth = document.getElementById('searchMonth');
-		var searchKeyword = document.getElementById('searchKeyword');
-		var searchStartDt = document.getElementById('searchStartDt');
-		var searchEndDt = document.getElementById('searchEndDt');
-
-		$scope.pageRows = 5;
-		$scope.currentPage = $page;
-		$api = '/api/mypage/onlinePaies?page=' + $scope.currentPage + "&size=" + $scope.pageRows;
-
-		if ($searchType == 'searchMonth') {
-			//검색 초기화
-			searchKeyword.value = '';
-			searchStartDt.value = '';
-			searchEndDt.value = '';
-			
-			if (searchMonth.value) {
-				$api += '&searchMonth=' + searchMonth.value;
-			}
-		} else if ($searchType == 'searchDetail') {
-			//검색 초기화
-			searchMonth.value = '';
-			
-			if (searchKeyword.value) {
-				searchKeyword = encodeURIComponent(searchKeyword.value);
-				$api += '&searchKeyword=' + searchKeyword;
-			}
-			if (searchStartDt.value) {
-				$api += '&searchStartDt=' + searchStartDt.value;
-			}
-			if (searchEndDt.value) {
-				$api += '&searchEndDt=' + searchEndDt.value;
-			}
+		            let success = result.success;
+		            if(!success){
+		                alert(result.data.msg);
+		            } else {
+					$scope.allCnt = result["data"]["payCount"]["ROW_CNT"] || 0;
+					$scope.paidCnt = result["data"]["payCount"]["PAID_CNT"] || 0;
+					$scope.payCnt = $scope.allCnt - $scope.paidCnt;
+					$scope.custInfo = result["data"]["customerInfo"];
+					$scope.totalCnt = result["data"]["payTotalCount"];
+					$scope.payList = Object.keys($scope.groupBy(result["data"]["payList"],'SALE_NO')).map((key) => [Number(key), $scope.groupBy(result["data"]["payList"],'SALE_NO')[key]]).sort((a, b) => b[0] - a[0]);
+					$scope.$apply();
+					
+					console.log($scope.totalCnt);
+					console.log($scope.totalCnt);
+		            }
+		        })
+		        .catch(function(error){
+		            console.log(error);
+		        });
 		}
-		common.callAPI($api, null, function(data, status) {
-			$scope.allCnt = data["data"]["payCount"]["ROW_CNT"] || 0;
-			$scope.paidCnt = data["data"]["payCount"]["PAID_CNT"] || 0;
-			$scope.payCnt = $scope.allCnt - $scope.paidCnt;
-			$scope.payList = data["data"]["payList"];
-			$scope.custInfo = data["data"]["customerInfo"];
-			
-			//$scope.test = $scope.groupBy($scope.payList,'SALE_TITLE_KR');
- 
-		});
-	};
 
 	$scope.showPurchasePopup = function(lot_no, sale_no, bid_price, pay_price) {
 		//모바일에서 결제막음 - blueerr
@@ -101,4 +76,18 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 		  }, {});
 		};
 	
+	$scope.comma = function(str) {
+		str = String(str);
+		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	}
+	
+	$scope.total = function(str) {
+		str = String(str);
+		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	}
+	
+	$scope.fee = function(str) {
+		str = String(str);
+		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	}
 });
