@@ -39,7 +39,8 @@ public class ApiCertificationController {
 
 	@Value("${mobile.msg.auth}")
 	String auth;
-	
+			
+	//휴대폰 인증
 	@RequestMapping(value = "/sendAuthNum", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> sendAuthNumber(@RequestBody CommonMap commonMap, HttpServletRequest request,

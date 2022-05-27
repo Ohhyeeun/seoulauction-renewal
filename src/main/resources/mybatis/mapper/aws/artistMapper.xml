@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seoulauction.renewal.mapper.aws.ArtistMapper">
+
+    <select id="selectRecommandArtist" parameterType="CommonMap" resultType="CommonMap">
+        select a.artist_no, a.name
+        from search_recommend sr, artist a
+        where sr.artist_no = a.artist_no
+          and sr.status = 'A'
+        order by sort asc
+            limit 6;
+    </select>
+
+</mapper>

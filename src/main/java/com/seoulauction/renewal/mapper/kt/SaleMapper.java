@@ -16,17 +16,15 @@ public interface SaleMapper {
     CommonMap selectSaleCertInfo(CommonMap commonMap);
     List<CommonMap> selectSaleLotImages(CommonMap commonMap);
 
-    List<CommonMap> search_list_count(CommonMap paramMap);
+    List<CommonMap> searchListCount(CommonMap paramMap);
 
-    List<CommonMap> search_list_paging(CommonMap paramMap);
+    List<CommonMap> searchListPaging(CommonMap paramMap);
 
-    CommonMap get_customer_by_cust_no(CommonMap paramMap);
+    CommonMap getCustomerByCustNo(CommonMap paramMap);
 
-    int search_log(CommonMap paramMap);
+    int searchLog(CommonMap paramMap);
 
-    int add_cust_inte_lot(CommonMap paramMap);
-
-    int del_cust_inte_lot(CommonMap paramMap);
+    int addCustInteLot(CommonMap paramMap);
 
     void upsertRecentlyView(CommonMap commonMap);
 
@@ -41,4 +39,7 @@ public interface SaleMapper {
     void deleteCustInteLot(CommonMap map);
 
     CommonMap selectCustInteLot(CommonMap map);
+
+    int delCustInteLot(CommonMap paramMap);
+
 }

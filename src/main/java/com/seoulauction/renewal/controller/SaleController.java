@@ -33,52 +33,5 @@ public class SaleController {
         return SAConst.getUrl(SAConst.SERVICE_SALE , "search" , locale);
     }
 
-    @RequestMapping(value="/searchList" , method = RequestMethod.POST)
-    public ResponseEntity<RestResponse> searchList(
-            @RequestBody CommonMap map, Principal principal) throws Exception {
-
-        if(principal == null){
-            map.put("action_user_no", 126211);
-        }else{
-            map.put("action_user_no", principal.getName());
-        }
-        map.put("list_type", "SEARCH");
-        map.put("for_count", true);
-
-        return ResponseEntity.ok(RestResponse.ok(saleService.search_list_paging(map)));
-    }
-
-    @RequestMapping(value="/addCustInteLot")
-    public ResponseEntity<RestResponse> addCustInteLot(
-            @RequestParam(required = true) int saleNo, int lotNo, Locale locale, Principal principal) throws Exception {
-
-        CommonMap map = new CommonMap();
-        if(principal == null){
-            map.put("action_user_no", 126211);
-        }else{
-            map.put("action_user_no", principal.getName());
-        }
-        map.put("sale_no", saleNo);
-        map.put("lot_no", lotNo);
-
-        return ResponseEntity.ok(RestResponse.ok(saleService.add_cust_inte_lot(map)));
-    }
-
-    @RequestMapping(value="/delCustInteLot")
-    public ResponseEntity<RestResponse> delCustInteLot(
-            @RequestParam(required = true) int saleNo, int lotNo, Locale locale, Principal principal) throws Exception {
-
-        CommonMap map = new CommonMap();
-        if(principal == null){
-            map.put("action_user_no", 126211); //principal 안넘어와서 더미 데이터
-        }else{
-            map.put("action_user_no", principal.getName());
-        }
-        map.put("sale_no", saleNo);
-        map.put("lot_no", lotNo);
-
-        return ResponseEntity.ok(RestResponse.ok(saleService.del_cust_inte_lot(map)));
-    }
-
 }
 
