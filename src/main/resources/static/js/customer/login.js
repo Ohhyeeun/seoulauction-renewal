@@ -19,8 +19,8 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 		}else{
 			$scope.captchaShow = false;
 		}
-		
-		if($scope.loginForm.loginId.$viewValue == ""){
+
+		if($("#loginId").val() == ""){
 			if(lang === 'en'){
 				$scope.validMsg = "Please enter your ID.";
 			}else{
