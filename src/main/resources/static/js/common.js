@@ -53,7 +53,7 @@ $(function(){
             .then(function(response){
                 const success =  response.data.success;
                 if (success) {
-                    const menuCount = response.data.data[0];
+                    const menuCount = response.data.data;
                     const badgeHtml = '<span class="currentIng">NOW</span>';
                     if(menuCount.AuctionCount > 0)
                         document.querySelector('#menu_auction').insertAdjacentHTML('beforeend', badgeHtml);
