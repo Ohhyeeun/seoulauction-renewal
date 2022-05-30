@@ -2,7 +2,10 @@
 $(document).ready(function(){
 
     let auctionData = [];
+    let currentLotData = [];
     let curruentTab = 0;
+    let initCount = 10;
+    let locale = document.documentElement.lang;
     init();
 
     //초기작업.
@@ -16,35 +19,30 @@ $(document).ready(function(){
 
         axios.get('/api/main/auctions')
             .then(function(response) {
-                console.log(response);
                 const data = response.data;
                 let success = data.success;
-
-                console.log(data);
-
                 if(success){
-                    auctionData = data.data;
+                    auctionData = data.data.list;
+
                     //TODO 인클루드 작업.
-                    $(".auctionTab-contents.on").css('height','100%');
-                    let locale = document.documentElement.lang;
-                    let starting = locale === 'ko' ? '시작가' : 'Starting KRW  ';
                     $.each(auctionData , function(idx , el){
-                        let name = locale === 'ko' ? el.koName : el.enName;
-                        let html =
-                            `<figure class="auction-thumbbox">
-                            <img src='${el.pcImgPath}' alt="/images/pc/thumbnail/AuctionBanner_05_280x280.png" class="pc-ver">
-                                <img src='${el.moImgPath}' alt="/images/pc/thumbnail/AuctionBanner_05_280x280.png" class="m-ver">
-                                    <figcaption class="auction-thumb">
-                                        <button class="wish_heart"></button>
-                                        <a href="#">
-                                            <p class="auction-thumb-txt">
-                                                <span>${name}</span>
-                                                <span>${starting} ${el.price}</span>
-                                            </p>
-                                        </a>
-                                    </figcaption>
-                            </figure>`;
-                        $(".auctionTab-contents.on").append(html);
+
+                        let title = JSON.parse(el.TITLE_BLOB)
+                        let name = locale === 'ko' ? title.ko : title.en;
+
+                        //sale html
+                        let saleHtml = idx === 0 ? `<span class="auctionTab-btn on"><span class="text-over">${name}</span></span>`
+                                                : `<span class="auctionTab-btn"><span class="text-over">${name}</span></span>`;
+
+
+                        $(".auctionTab").append(saleHtml);
+                        $("#auction_contents").append(idx === 0 ? `<div class="flex_wrap auctionTab-contents on"></div>` : `<div class="flex_wrap auctionTab-contents"></div>`);
+
+                        //lot data
+                        currentLotData[idx] = el.lots;
+
+                        // 처음은 0부터 10
+                        addLot(idx , currentLotData[curruentTab].slice(0 , initCount));
                     });
                     dynamicEvent();
                 }
@@ -52,6 +50,39 @@ $(document).ready(function(){
             .catch(function(error) {
                 console.log(error);
             });
+    }
+
+    function addLot(idx , data){
+
+        let starting = locale === 'ko' ? '시작가' : 'Starting KRW  ';
+
+        $.each(data , function(lotIdx , el){
+
+            let imgPath = 'https://www.seoulauction.com/nas_img' + el.FILE_PATH + '/' + el.FILE_NAME;
+            let lotTitle = JSON.parse(el.EXPE_PRICE_TITLE);
+            let lotName = locale === 'ko' ? lotTitle.ko : lotTitle.en;
+            let price = numberWithCommas(el.START_PRICE);
+            //lot html
+            let html =
+                `<figure class="auction-thumbbox">
+                            <img src='${imgPath}' alt="/images/pc/thumbnail/AuctionBanner_05_280x280.png" class="pc-ver">
+                                <img src='${imgPath}' alt="/images/pc/thumbnail/AuctionBanner_05_280x280.png" class="m-ver">
+                                    <figcaption class="auction-thumb">
+                                        <button class="wish_heart"></button>
+                                        <a href="#">
+                                            <p class="auction-thumb-txt">
+                                                <span>${lotName}</span>
+                                                <span>${starting} ${price}</span>
+                                            </p>
+                                        </a>
+                                    </figcaption>
+                            </figure>`;
+            $('.auctionTab-contents').eq(idx).append(html);
+        });
+
+        $(".auctionTab-contents.on").css('height','100%')
+
+        dynamicEvent();
     }
 
     //동적 이벤트
@@ -74,7 +105,6 @@ $(document).ready(function(){
             curruentTab = $(this).index();
 
             //기존 데이터 초기화.
-            $('.auctionTab-contents').eq(curruentTab).empty();
             $('.auctionTab-btn').removeClass('on');
             $('.auctionTab-contents').removeClass('on');
 
@@ -85,7 +115,7 @@ $(document).ready(function(){
             $(".auctionTab-contents").eq(curruentTab).addClass('on');
             $(".auctionTab-contents.on").css('height', '100%');
 
-            auctionDataInit();
+            //auctionDataInit();
         });
 
         $('.auction-thumbbox').on('mouseenter', function () {
@@ -106,11 +136,14 @@ $(document).ready(function(){
 
         //auction 더보기 버튼
         $('#MoreAuction').click(function () {
+
             $('#AllAuction').show();
             $('#MoreAuction').hide();
-            $(".auctionTab-contents.on").css('height', '100%');
+            //$(".auctionTab-contents.on").css('height', '100%');
 
-            auctionDataInit();
+            // 10부터 최대 20
+            addLot(curruentTab , currentLotData[curruentTab].slice(initCount , currentLotData[curruentTab].length )  );
+            //auctionDataInit();
         });
         //auction 전체 보기 버튼
         $('#AllAuction').click(function () {

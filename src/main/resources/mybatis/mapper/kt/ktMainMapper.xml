@@ -96,7 +96,7 @@
 		-- 랏
 		select
 			*
-		   ,COLUMN_JSON(L.TITLE_BLOB) -- 타이틀
+		   ,COLUMN_JSON(L.TITLE_BLOB) EXPE_PRICE_TITLE -- 타이틀
 		   ,COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON -- 가격
 		   ,COLUMN_JSON(L.EXPE_PRICE_TO_BLOB) EXPE_PRICE_TO_JSON -- 가격
 		from
@@ -105,6 +105,8 @@
 		where
 			 L.SALE_NO = #{sale_no}
 		  and L.STAT_CD = 'entry'
+		limit
+			30
 	</select>
 
 

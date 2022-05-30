@@ -69,12 +69,18 @@ public class MainService {
 
         CommonMap resultMap = new CommonMap();
 
-
         CommonMap counts = ktMainMapper.selectIngMenuCount();
         List<CommonMap> saleList = ktMainMapper.selectIngAuctions();
         saleList.forEach(c-> c.put("lots" , ktMainMapper.selectLotsBySaleNo(new CommonMap("sale_no" , c.get("SALE_NO")))));
+
+        List<CommonMap> test2 = new ArrayList<>();
+
+        test2.add(saleList.get(0));
+        test2.add(saleList.get(0));
+        test2.add(saleList.get(0));
+
         resultMap.put("count" , counts);
-        resultMap.put("list" , saleList);
+        resultMap.put("list" , test2);
 
         return resultMap;
     }
