@@ -47,7 +47,7 @@ app.controller('academyListCtl', function($scope, consts, common, ngDialog) {
 		//$scope.academyPayDiscount = comma(dis_aca_pay);
 		$scope.academyPayDiscount = 0;
 		$scope.academyPayTotal = comma(aca_pay_sum - dis_aca_pay);
-		$scope.academyPayMethodCd =input.academy.PAY_METHOD_CD == 'card' ? '신용카드' : '무통장입금';
+		$scope.academyPayMethodCd =input.academy.PAY_METHOD_CD == 'card' ? '신용카드' : '가상계좌';
 		
 		document.getElementById('popup_myacademy_pay-wrap').style.display="block";
 	}

@@ -53,7 +53,7 @@ $(function(){
             .then(function(response){
                 const success =  response.data.success;
                 if (success) {
-                    const menuCount = response.data.data[0];
+                    const menuCount = response.data.data;
                     const badgeHtml = '<span class="currentIng">NOW</span>';
                     if(menuCount.AuctionCount > 0)
                         document.querySelector('#menu_auction').insertAdjacentHTML('beforeend', badgeHtml);
@@ -590,3 +590,42 @@ app.controller('headCtl', function($scope, consts, common, locale, $filter) {
         $(".recent-search").append(html);
     }
 });
+
+//pc, mobile 구분
+function checkPlatform(ua) {
+    if(ua === undefined) {
+        ua = window.navigator.userAgent;
+    }
+
+    ua = ua.toLowerCase();
+    var platform = {};
+    var matched = {};
+    var userPlatform = "pc";
+    var platform_match = /(ipad)/.exec(ua) || /(ipod)/.exec(ua)
+        || /(windows phone)/.exec(ua) || /(iphone)/.exec(ua)
+        || /(kindle)/.exec(ua) || /(silk)/.exec(ua) || /(android)/.exec(ua)
+        || /(win)/.exec(ua) || /(mac)/.exec(ua) || /(linux)/.exec(ua)
+        || /(cros)/.exec(ua) || /(playbook)/.exec(ua)
+        || /(bb)/.exec(ua) || /(blackberry)/.exec(ua)
+        || [];
+
+    matched.platform = platform_match[0] || "";
+
+    if(matched.platform) {
+        platform[matched.platform] = true;
+    }
+
+    if(platform.android || platform.bb || platform.blackberry
+        || platform.ipad || platform.iphone
+        || platform.ipod || platform.kindle
+        || platform.playbook || platform.silk
+        || platform["windows phone"]) {
+        userPlatform = "mobile";
+    }
+
+    if(platform.cros || platform.mac || platform.linux || platform.win) {
+        userPlatform = "pc";
+    }
+
+    return userPlatform;
+}
