@@ -75,7 +75,7 @@
                                                                     <div class="thumb-area">
                                                                         <figure class="img-ratio">
                                                                             <div class="img-align">
-                                                                                 <img ng-src="/nas_img{{data.FILE_NAME | imagePath1 : data.FILE_PATH : 'detail'}}" />
+                                                                                 <img src="/nas_img{{data.FILE_PATH}}/{{data.FILE_NAME}}" />
                                                                             </div>
                                                                         </figure>
                                                                     </div>
