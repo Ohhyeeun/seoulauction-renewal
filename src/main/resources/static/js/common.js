@@ -629,3 +629,26 @@ function checkPlatform(ua) {
 
     return userPlatform;
 }
+
+
+/* notice 슬라이드 배너 (무한루프)*/
+$(function(){
+
+    let i = 0;
+
+    setInterval(noticeSlide, 3000);
+
+    function noticeSlide(){
+        $('.belttxtbox').append('<span class="header_beltTit"><a href="#"><span class="text-over belt_tit">구매수수료율 인상 및 약관 개정안내 구매수수료율 '+i+'</span></a></span>');  /*끝에 반복 생성  */
+        $('.belttxtbox').css('top','0');
+
+        if(i < 5){
+            i++;
+        }
+        if(i == 5) {
+            i = 0;
+        }
+        $('.belttxtbox>span:nth-child(1)').remove(); /*반복 첫번째 삭제  */
+        $('.belttxtbox').animate({'top':'100%'},1000);
+    } // noticeSlide() 종료구문;
+}); 
