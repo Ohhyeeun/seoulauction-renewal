@@ -50,7 +50,7 @@
 					<li class="cate1-group"><span>온라인경매관리</span>
 						<ul>
 							<li class="" id="test3"><a href="#">응찰내역</a></li>
-							<li class="" id="test4"><a href="#">결제/구매내역</a></li>
+							<li class="" id="onlinePay"><a href="/mypage/onlinePayList">결제/구매내역</a></li>
 						</ul></li>
 					<li class="cate1-li" id="intelot"><a href="/mypage/inteLotList" class="">관심작품 <i
 							class="icon-view_more"></i></a></li>
