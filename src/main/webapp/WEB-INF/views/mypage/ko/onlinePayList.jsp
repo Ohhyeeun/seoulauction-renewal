@@ -105,11 +105,11 @@
                                                                             </dl>
                                                                             <dl class="price">
                                                                                 <dt class="tit">낙찰 수수료</dt>
-                                                                                <dd class="txt">{{data.CURR_CD}} {{fee(data.BID_PRICE)}}</dd>
+                                                                                <dd class="txt">{{data.CURR_CD}} {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).fee}}</dd>
                                                                             </dl>
                                                                             <dl class="price succ">
                                                                                 <dt class="tit">구매가</dt>
-                                                                                <dd class="txt">KRW {{total(data.BID_PRICE)}}</dd>
+                                                                                <dd class="txt">KRW {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price}}</dd>
                                                                             </dl>
                                                                         </div>
                                                                         <div class="btn-area" ng-if="data.PAID_CNT != 1">
