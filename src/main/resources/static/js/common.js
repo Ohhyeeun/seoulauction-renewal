@@ -159,7 +159,7 @@ $(function(){
         $('.header').show(function(){
             $('.main-header').show(function(){
                 /*$('.main-contents').css('top','118px'); */
-                $('.main-contents').css('margin-top','120px');
+                $('.main-contents').css('margin-top','162px');
             });
             $(this).hasClass('main-header');
         });

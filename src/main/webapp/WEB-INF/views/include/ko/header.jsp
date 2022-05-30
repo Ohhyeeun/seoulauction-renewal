@@ -33,8 +33,48 @@
     <script>
 
     </script>
-    <div class="beltbox-swiper">
+    <%--<div class="beltbox-swiper">
         <div class="swiper-wrapper"></div>
+    </div>--%> 
+    <div class="header_beltbox on"> <!--class="on" block-->
+        <div class="wrap belttxtbox wrap_padding"> <!-- ul -->
+            <span class="header_beltTit">  <!-- 최대 5개 최소 1개 상시 -->    <!--//li-->
+                    <a href="#">
+                        <span class="text-over belt_tit">
+                            구매수수료율 인상 및 약관 개정안내 구매수수료율 0
+                        </span>
+                    </a>
+                </span>
+            <span class="header_beltTit">
+                    <a href="#">
+                        <span class="text-over belt_tit">
+                            구매수수료율 인상 및 약관 개정안내 구매수수료율 1
+                        </span>
+                    </a>
+                </span>
+            <span class="header_beltTit">
+                    <a href="#">
+                        <span class="text-over belt_tit">
+                            구매수수료율 인상 및 약관 개정안내 구매수수료율 2
+                        </span>
+                    </a>
+                </span>
+            <span class="header_beltTit">
+                    <a href="#">
+                        <span class="text-over belt_tit">
+                            구매수수료율 인상 및 약관 개정안내 구매수수료율 3
+                        </span>
+                    </a>
+                </span>
+            <span class="header_beltTit">
+                    <a href="#">
+                        <span class="text-over belt_tit">
+                            구매수수료율 인상 및 약관 개정안내 구매수수료율 4
+                        </span>
+                    </a>
+                </span>
+        </div>
+        <span class="beltclose-btn closebtn closebtn-w"></span>
     </div>
 
     <div>
