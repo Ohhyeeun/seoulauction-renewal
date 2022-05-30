@@ -311,10 +311,10 @@
 		and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
 		left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
 		left outer join CUST_INTE_LOT IL ON L.SALE_NO = IL.SALE_NO AND L.LOT_NO = IL.LOT_NO AND IL.DEL_YN = 'N' AND IL.CUST_NO = #{action_user_no}
-		<if test="list_type == 'SEARCH' and action_user_no != null">
+		<if test="action_user_no != null">
 			, (select CUST_NO, EMP_GB from CUST where CUST_NO = #{action_user_no}) CU
 		</if>
-		<if test="list_type == 'SEARCH' and action_user_no == null">
+		<if test="action_user_no == null">
 			, (select NULL AS CUST_NO, 'N' AS EMP_GB from dual) CU
 		</if>
 		where 1=1

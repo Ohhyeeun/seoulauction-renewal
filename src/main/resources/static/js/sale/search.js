@@ -49,8 +49,9 @@ function dotSubString(str,len){
     return result;
 }
 
-function addCookie(id, name) {
-    var items = getCookie(name); // 이미 저장된 값을 쿠키에서 가져오기
+function addCookie(id, cookieName) {
+
+    var items = getCookie(cookieName); // 이미 저장된 값을 쿠키에서 가져오기
     var maxItemNum = 10; // 최대 저장 가능한 아이템개수
     var expire = 1; // 쿠키값을 저장할 기간
     if (items) {
@@ -61,15 +62,16 @@ function addCookie(id, name) {
         }
         else {
             // 새로운 값 저장 및 최대 개수 유지하기
+
             itemArray.unshift(id);
             if (itemArray.length > maxItemNum ) itemArray.length = 10;
             items = itemArray.join(',');
-            setCookie(name, items, expire);
+            setCookie(cookieName, items, expire);
         }
     }
     else {
         // 신규 id값 저장하기
-        setCookie(name, id, expire);
+        setCookie(cookieName, id, expire);
     }
 }
 
@@ -122,34 +124,17 @@ if( getLoginInfo != "LOGOUT" ){ $(document).on('click', 'a[href="#"]', function(
 
 app.requires.push.apply(app.requires, ["ngDialog", "checklist-model"]);
 app.controller('lotListCtl', function($scope, consts, common, is_login, locale, $filter) {
-    $scope.popstate = false;
     $scope.is_login = is_login;
     $scope.locale = locale;
     $scope.pageRows = 20;
     $scope.reqRowCnt = "20";
     $scope.currentPage = 1;
-    $scope.totalCount = 0;
-    $scope.db_now = null;
-    $scope.sale_no = null;
-    $scope.sale_status = null;
-    $scope.lot_map = {};
+    $scope.totalCount = 0
     $scope.is_error = false;
-    $scope.now_timer_start = false;
-    $scope.list_timer_start = false;
-    $scope.modal = null;
-    $scope.expe_from_price = null;
-    $scope.expe_to_price = null;
     $scope.search = {"sale_kind" : []};
     $scope.firstChk = 0;
-
-    $scope.reqRowCnts = {20:"<spring:message code='label.listup.lots' arguments='20' />",
-        50:"<spring:message code='label.listup.lots' arguments='50' />",
-        100:"<spring:message code='label.listup.lots' arguments='100' />"};
-
     $scope.sortBy = "ENDDE";
     $scope.moreBy = "MOREP";
-
-    $scope.sale_kind_all = true;
 
     $scope.loadSubPage = function(subPage){
         $scope.loadLotList(1, subPage);
@@ -213,10 +198,9 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
 
         const request = new Request();
         $scope.search.keyword = request.getParameter("searchContent");
-        console.log(request.getParameter("searchContent"));
         $scope.search.chk = "all";//검색 조건 (all 통합검색, art 작가명, title 작품명)
 
-        addCookie($scope.search.keyword, "keyword");
+        addCookie($scope.search.keyword, "keywordHistory");
 
         //alert(addCookie($scope.search.keyword, "keyword"));
 
@@ -282,9 +266,9 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
                 });
             }
         })
-            .catch(function(error){
+        .catch(function(error){
                 console.log(error);
-            });
+        });
     }
 
     $scope.search = function(){
@@ -320,6 +304,7 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
 
     $scope.cnt = 0;
     $scope.loadLotList = function($page, $subPage){
+
         $(".product-list").empty();
 
         if($page > 1){
@@ -349,8 +334,6 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
         setCookie('sale_kind', $scope.search.sale_kind, 1);
         setCookie('keyword', $scope.search.keyword, 1);
         setCookie('mate_nm', $scope.search.mate_nm, 1);
-        setCookie('from_dt', $scope.search.from_dt, 1);
-        setCookie('to_dt', $scope.search.to_dt, 1);
         setCookie('chk', $scope.search.chk, 1);
         setCookie('from', (($scope.currentPage - 1) * parseInt($scope.reqRowCnt)), 1);
         setCookie('rows', parseInt($scope.reqRowCnt), 1);
@@ -380,6 +363,8 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
         data['sale_status_end_yn'] = $scope.sale_status_end_yn;
         data['sale_status_ing_yn'] = $scope.sale_status_ing_yn;
         data['sale_status_ready_yn'] = $scope.sale_status_ready_yn;
+
+        console.log(data);
 
         axios.post($api , data)
             .then(function(response) {
@@ -561,19 +546,27 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
                             + '<div class="title">검색결과가 없습니다.</div>'
                             + '<div class="desc">단어의 철자나 띄어쓰기가 <br class="only-mb" />정확한지 확인해주세요</div></div></div>';
 
-
                         $("#panel_content").empty();
                         $("#panel_footer").hide();
-                        $('#totalCount').empty();
-                        $('#allCount').empty();
-                        $('#liveCount').empty();
-                        $('#onlineCount').empty();
 
                         $("#panel_content").append(html);
-                        $('#totalCount').append(0);
-                        $('#allCount').append('(0)');
-                        $('#liveCount').append('(0)');
-                        $('#onlineCount').append('(0)');
+
+                        if($scope.firstChk == 0 && $scope.totalCount == 0) {
+                            $('#totalCount').empty();
+                            $('#totalCount').append(0);
+                        }
+                        if($scope.firstChk == 0 && $scope.allCount  == 0) {
+                            $('#allCount').empty();
+                            $('#allCount').append('(0)');
+                        }
+                        if($scope.firstChk == 0 && $scope.liveCount == 0) {
+                            $('#liveCount').empty();
+                            $('#liveCount').append('(0)');
+                        }
+                        if($scope.firstChk == 0 && $scope.onlineCount == 0) {
+                            $('#onlineCount').empty();
+                            $('#onlineCount').append('(0)');
+                        }
 
                     }
                 }
@@ -582,8 +575,6 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
                 $scope.is_error = true;
                 console.log(error);
             });
-
-
     }
 
 });
@@ -603,7 +594,7 @@ function inteSave(saleNo, lotNo, locale) {
             let success = result.success;
 
             if(!success){
-                alert("데이터 로딩 실패");
+                alert("관심작품 추가 실패");
             } else {
                 if(result.data > 0) {
                     if(locale == 'ko') {
@@ -638,7 +629,7 @@ function inteDel(saleNo, lotNo, locale) {
             let success = result.success;
 
             if(!success){
-                alert("데이터 로딩 실패");
+                alert("관심작품 삭제 실패");
             } else {
                 if(result.data > 0) {
                     if(locale == 'ko') {

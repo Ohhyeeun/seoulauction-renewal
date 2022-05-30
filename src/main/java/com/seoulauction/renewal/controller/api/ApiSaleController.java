@@ -276,9 +276,7 @@ public class ApiSaleController {
     public ResponseEntity<RestResponse> searchList(
             @RequestBody CommonMap map, Principal principal) throws Exception {
 
-        if(principal == null){
-            map.put("action_user_no", 126211);
-        }else{
+        if(principal != null){
             map.put("action_user_no", principal.getName());
         }
         map.put("list_type", "SEARCH");
