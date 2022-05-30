@@ -31,34 +31,7 @@
 <html lang="ko" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
     <script>
-        app.requires.push.apply(app.requires, ["ngDialog", "checklist-model"]);
-        app.controller('headCtl', function($scope, consts, common, locale, $filter) {
 
-            $scope.recommandSearch =  function(){
-
-                //추천 검색어
-                axios.get('/api/auction/selectRecommandArtist').then(function (response) {
-                    console.log(response);
-                    const success = response.data.success;
-
-                    $('.recommend-search-part').empty();
-
-                    if (success) {
-                        const data = response.data.data;
-                        let html = '<span class="keyword-search-tit">추천검색</span>';
-                        $('.recommend-search-part').append(html);
-                        data.map(item => {
-                            let innerHtml = '<a href="/sale/search?searchContent=' + item.name + '" class="recommend-keyword">' + item.name + '</a>';
-                            $('.recommend-search-part').append(innerHtml);
-                        });
-                    }
-                }).catch(function (error) {
-                    console.log(error);
-                });
-            }
-            // 최근 검색어
-
-        });
     </script>
     <div class="beltbox-swiper">
         <div class="swiper-wrapper"></div>
@@ -108,13 +81,7 @@
                         <input onkeydown="searchFilter()" onmousedown="searchDown()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();"><button type="submit" class="topsearch-btn pc-ver"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">
-                                <span class="keyword-search-tit">최근검색<span class="keyword-all-del">전체삭제</span></span><!--
-                                    --><span class="recent-keyword"><a href="#">김선우</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">하이에르 카예하</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">김환기</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">이우환</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">박수근</a><span class="keyword-del"></span></span><!--
-                                    -->
+                                <span class="keyword-search-tit">최근검색<span class="keyword-all-del">전체삭제</span></span>
                             </div>
                             <div class="recommend-search-part">
                             </div>
