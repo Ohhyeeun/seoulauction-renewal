@@ -1,4 +1,4 @@
-package com.seoulauction.renewal.utill;
+package com.seoulauction.renewal.util;
 
 import java.awt.Color;
 import java.awt.Font;
