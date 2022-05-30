@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/css/plugin/csslibrary.css">
     <link rel="stylesheet" href="/css/common.css" type="text/css" />
 </head>
-<body class="">
+<body class="" ng-controller="lotListCtl" data-ng-init="init();">
 <div class="wrapper" >
     <div class="sub-wrap pageclass type-width_list">
 
@@ -33,7 +33,7 @@
         </script>
         <script type="text/javascript" src="/js/sale/search.js"></script>
         <!-- container -->
-        <div id="container" ng-controller="lotListCtl" data-ng-init="init();">
+        <div id="container">
             <div id="contents" class="contents">
                 <section class="basis-section search-section">
                     <div class="section-inner">
@@ -155,7 +155,6 @@
         <!-- //container -->
 
         <!-- footer -->
-        <!--footer도 아래와 같이 inculde 하는게 맞지만 일단 깨져서 적용 안함-->
         <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
         <!-- //footer -->
 
@@ -178,6 +177,7 @@
 <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/common/paging.js"></script>
 <script>
+
 
     <!-- ===텝메뉴=== -->
     $('.js-list_tab a').on('click', function($e) {
@@ -221,7 +221,7 @@
 <aside class="filter_fixed-wrap">
     <div class="popup-dim"></div>
 
-    <div class="fixed-panel" ng-controller="lotListCtl" data-ng-init="init();">
+    <div class="fixed-panel" >
         <div class="panel-header">
             <button class="filter_close js-filter_close">
                 <i class="icon-pop_view_close"></i>

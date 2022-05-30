@@ -271,6 +271,7 @@ $(function(){
     /* 최근검색 전체삭제 */
     $('.keyword-all-del').click(function(){
         $('.recent-keyword').hide();
+        setCookie("keywordHistory", "", 1);
     });
     /* 모바일 gnb 서치*/
     $('.m-top-search').click(function(){
@@ -550,3 +551,42 @@ jQuery.fn.trpBgDim = function($opacity,$bgColor){
         t();
     }), t();
 }
+
+app.requires.push.apply(app.requires, ["ngDialog", "checklist-model"]);
+app.controller('headCtl', function($scope, consts, common, locale, $filter) {
+
+    $scope.recommandSearch =  function(){
+
+        //추천 검색어
+        axios.get('/api/auction/selectRecommandArtist').then(function (response) {
+            console.log(response);
+            const success = response.data.success;
+
+            $('.recommend-search-part').empty();
+
+            if (success) {
+                const data = response.data.data;
+                let html = '<span class="keyword-search-tit">추천검색</span>';
+                $('.recommend-search-part').append(html);
+                data.map(item => {
+                    let innerHtml = '<a href="/sale/search?searchContent=' + item.name + '" class="recommend-keyword">' + item.name + '</a>';
+                    $('.recommend-search-part').append(innerHtml);
+                });
+            }
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+    // 최근 검색어
+    let keywords = getCookie("keywordHistory");
+    let html = '<span class="keyword-search-tit">최근검색<span class="keyword-all-del">전체삭제</span></span>';
+    if(keywords){
+        $(".recent-search").empty();
+        let keywordsArray = keywords.split(',');
+        $.each(keywordsArray , function(idx , el){
+            html += '<span class="recent-keyword"><a href="/sale/search?searchContent='+ el +'">'+ el +'</a><span class="keyword-del"></span></span>';
+        });
+
+        $(".recent-search").append(html);
+    }
+});

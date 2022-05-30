@@ -35,7 +35,7 @@
         <script type="text/javascript" src="/js/sale/search.js"></script>
 
         <!-- container -->
-        <div id="container" ng-controller="lotListCtl" data-ng-init="init();">
+        <div id="container" ng-controller="lotListCtl">
             <div id="contents" class="contents">
                 <section class="basis-section search-section">
                     <div class="section-inner">
