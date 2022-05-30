@@ -100,7 +100,7 @@
                                                             </li>
                                                         </ul>
                                                     </div>                                                   
-                                                    <div class="wrap_paging">
+                                                    <div class="wrap_paging" ng-if="academyCnt != 0">
 														<paging page="currentPage"
 															page-size=10
 															total="academyCnt"
@@ -117,7 +117,6 @@
 														    text-first-class="icon-page_prevprev prev_end page_btn sp_btn btn_prev "
 														    text-last-class="icon-page_nextnext next_end page_btn sp_btn btn_next">
 														</paging>				
-													</div>
 													</div>
                                                 </article>
                                             </div>
