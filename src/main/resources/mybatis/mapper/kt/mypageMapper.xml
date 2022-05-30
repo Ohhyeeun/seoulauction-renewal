@@ -90,7 +90,7 @@
 	
 	<!-- 결제관리 -->
 	<select id="selectPayListByCustNo" resultType="Map">
-	select 
+		select 
 				S.SALE_NO 
 				, DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT
 				, DATE_FORMAT(S.TO_DT, '%Y.%m.%d  %T')  as TO_DT
@@ -192,7 +192,7 @@
 			B.SALE_NO,
 			B.LOT_NO
 		order by
-			S.SALE_NO desc;
+			S.SALE_NO desc, L.LOT_NO;
 	</select>
 		
 	<select id="selectPayTotalCountByCustNo" resultType="int">
