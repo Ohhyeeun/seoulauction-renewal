@@ -131,7 +131,7 @@
                                                     </div>
                                                     
                                                     
-                                                   <div class="wrap_paging">
+                                                   <div class="wrap_paging" ng-if ="totalCnt != 0">
 														<paging page="currentPage"
 															page-size=3
 															total=totalCnt
