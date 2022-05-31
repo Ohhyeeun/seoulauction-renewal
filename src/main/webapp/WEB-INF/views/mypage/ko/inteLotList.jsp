@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
 <body class="">
 	<div class="wrapper" ng-app="myApp">
 		<div class="sub-wrap pageclass">
@@ -96,8 +97,7 @@
                                                             </dd>
                                                         </dl>
                                                     </div>
-                                                    <div class="paging-area">
-                                                    <div class="paging">
+                                                    <div class="wrap_paging" ng-if="inteLotCnt != 0">
 														<paging page="currentPage"
 															page-size=3
 															total="inteLotCnt"
@@ -106,15 +106,14 @@
 															hide-if-empty="true"
 															show-prev-next="true"
 															show-first-last="true"
-															ul-class="paging"
-															active-class="on"
+															ul-class="page_ul"
+															active-class="page_active"
 														    disabled-class="page_disable"
-														    text-next-class="next icon-page_next"
-														    text-prev-class="prev icon-page_prev"
-														    text-first-class="prev_end icon-page_prevprev"
-														    text-last-class="next_end icon-page_nextnext">
-														</paging>
-													</div>
+														    text-next-class="icon-page_next next page_btn sp_btn btn_next02"
+														    text-prev-class="icon-page_prev prev page_btn sp_btn btn_prev02"
+														    text-first-class="icon-page_prevprev prev_end page_btn sp_btn btn_prev "
+														    text-last-class="icon-page_nextnext next_end page_btn sp_btn btn_next">
+														</paging>				
 													</div>
                                                 </article>
                                             </div>
