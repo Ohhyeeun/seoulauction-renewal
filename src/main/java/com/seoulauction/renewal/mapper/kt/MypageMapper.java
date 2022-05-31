@@ -53,4 +53,12 @@ public interface MypageMapper {
     CommonMap insertCustInteLot(CommonMap commonMap);
 
     int deleteCustInteLot(CommonMap commonMap);
+    
+    List<CommonMap> selectLiveBidReqList(CommonMap commonMap);
+    
+    int selectLiveBidReqCnt(CommonMap commonMap);
+    
+    List<CommonMap> selectLiveBidList(CommonMap commonMap);
+    
+    int selectLiveBidCnt(CommonMap commonMap);
 }

@@ -572,4 +572,76 @@ SELECT 'INTE_LOT' AS GUBUN
 		 DELETE FROM CUST_INTE_LOT WHERE CUST_NO = #{action_user_no} AND SALE_NO = #{sale_no} AND LOT_NO = #{lot_no};
 	</update>
 	
+		<!-- 라이브 응찰 내역 -->
+	
+	<!-- live auto bid -->
+	<sql id="sql_live_autobid_list">
+		from AUTO_BID_REQ AB
+		join SALE S ON AB.SALE_NO = S.SALE_NO
+		join LOT L ON AB.SALE_NO = L.SALE_NO and AB.LOT_NO = L.LOT_NO
+		join LOT_IMG LI ON LI.SALE_NO = L.SALE_NO AND LI.LOT_NO = L.LOT_NO AND LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
+		left outer join ARTIST A ON L.ARTIST_NO = A.ARTIST_NO 
+		join CODE CD on CD.GRP_ID='bid_kind' and AB.BID_KIND_CD = CD.CD_ID
+		where AB.BID_KIND_CD in (
+			<foreach collection="bid_kind_cds" item="item" index="index" separator=",">
+					'${item}'
+			</foreach>
+		)
+		and S.DEL_YN = 'N'
+		and AB.CUST_NO = #{action_user_no}
+		<if test="sale_no != null and sale_no > 0">
+		and S.SALE_NO = #{sale_no}
+		</if>
+	</sql>
+	
+	<select id="selectLiveBidReqList" resultType="Map">
+	    select *
+		    , (select CASE WHEN MB.BID_PRICE = ABL.LAST_AUTOBID_PRICE and MB.CUST_NO = ABL.CUST_NO THEN '낙찰' 
+		    	ELSE 
+		    		CASE WHEN ABL.BID_CNT > 0 THEN '낮은응찰' ELSE '' END
+		    	END 
+				from BID MB 
+				where ABL.SALE_NO = MB.SALE_NO and ABL.LOT_NO = MB.LOT_NO
+			        order by bid_price desc, bid_dt, reg_dt limit 1) SUCCESS_YN
+		from (
+			select AB.SALE_NO, AB.LOT_NO, AB.REQ_NO 
+			    , COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON, S.FROM_DT, S.TO_DT, S.CURR_CD
+			    , IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH
+		  		, IF(S.SALE_TH_DSP_YN = 'N', '', f_ordinal_number(S.SALE_TH)) SALE_TH_DSP
+		  		, LI.FILE_PATH as LOT_IMG_PATH
+			    , LI.FILE_NAME as LOT_IMG_NAME
+			    , AB.BID_PRICE, AB.REQ_DT, AB.ABORT_YN, AB.ABORT_DT, AB.ABORT_IP, AB.CUST_NO, CD.CD_NM BID_KIND_NM
+			    , COLUMN_JSON(L.TITLE_BLOB) W_TITLE_JSON
+			    , COLUMN_JSON(A.ARTIST_NAME_BLOB) ARTIST
+			    , (select count(*) from BID B 
+					where B.SALE_NO = AB.SALE_NO and B.LOT_NO = AB.LOT_NO and B.CUST_NO = AB.CUST_NO and B.AUTO_BID_REQ_NO = AB.REQ_NO) BID_CNT
+			    , (select max(BID_PRICE)
+					from BID LAB 
+					where AB.SALE_NO = LAB.SALE_NO and AB.LOT_NO = LAB.LOT_NO and AB.CUST_NO = LAB.CUST_NO and LAB.AUTO_BID_REQ_NO = AB.REQ_NO) LAST_AUTOBID_PRICE
+				, (select MIN(BID_PRICE)
+					from BID FAB 
+					where AB.SALE_NO = FAB.SALE_NO and AB.LOT_NO = FAB.LOT_NO and AB.CUST_NO = FAB.CUST_NO and FAB.AUTO_BID_REQ_NO = AB.REQ_NO) FIRST_AUTOBID_PRICE
+			<include refid="sql_live_autobid_list" />
+		) ABL
+		order by ABL.REQ_DT desc
+		limit #{from}, #{rows}
+	</select>
+	
+	
+	<sql id="get_live_bidHistory_group" >
+		SELECT S.SALE_NO, L.LOT_NO
+		FROM (SELECT PAD.PADD_NO PADDLE, BO.* FROM BID_OFFLINE BO LEFT OUTER JOIN SALE_PADD PAD ON BO.SALE_NO = PAD.SALE_NO AND BO.CUST_NO = PAD.CUST_NO) BIO
+		LEFT OUTER JOIN SALE S ON BIO.SALE_NO = S.SALE_NO 
+		LEFT OUTER JOIN LOT L ON BIO.LOT_NO = L.LOT_NO AND BIO.SALE_NO = L.SALE_NO
+		WHERE BIO.BID_KIND_CD = 'online' AND BIO.PADDLE > 600  AND BIO.CUST_NO = #{action_user_no}
+		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO >= 622 AND S.STAT_CD = 'open'
+		GROUP BY S.SALE_NO, L.LOT_NO
+		ORDER BY BIO.SALE_NO DESC, BIO.LOT_NO ASC, BIO.BID_NO DESC
+	</sql>
+	
+	<select id="selectLiveBidList" resultType="Map">
+		<include refid="get_live_bidHistory_group" />
+		limit #{from}, #{rows}
+	</select>
+
 </mapper>

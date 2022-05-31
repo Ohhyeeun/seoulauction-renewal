@@ -76,4 +76,14 @@ public class MypageController {
     public String inteLotList(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "inteLotList" , locale);
     }
+
+    @GetMapping("/liveBidReqList")
+    public String liveBidReqList(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "liveBidReqList" , locale);
+    }
+
+    @GetMapping("/liveBidList")
+    public String liveBidList(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "liveBidList" , locale);
+    }
 }
