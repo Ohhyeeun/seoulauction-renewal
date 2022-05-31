@@ -12,12 +12,21 @@
             <jsp:include page="../../include/ko/header.jsp" flush="false" />
             <!-- //header -->
 
-           <!-- 마이페이지 싸이드 메뉴 -->
-           <jsp:include page="include/mypageSide.jsp" flush="false" />
-                                        
-                                        
             <!-- container -->
-           <div class="content-area">
+                        <div id="container">
+                <div id="contents" class="contents">
+
+                    <section class="basis-section last-section mypage-section">
+                        <div class="section-inner">
+
+                            <div class="content-panel type_panel-mypage_auction">
+                                <div class="panel-body">
+                                    <div class="mypage-container">
+
+                                        <!-- 마이페이지 싸이드 메뉴 -->
+                                        <jsp:include page="include/mypageSide.jsp" flush="false" />
+
+                                        <div class="content-area">
                                             <div class="subtitle-wrap">
                                                 <div class="subtitle-inner">
                                                     <div class="title">
