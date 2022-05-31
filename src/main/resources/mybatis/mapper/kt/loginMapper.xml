@@ -226,6 +226,9 @@
 			STAT_CD,
 			SEND_WAY_CD,
 			PASSWD_MOD_DT,
+			<if test="cust_kind_cd == 'company'">
+				TEL, COMP_OWNER, COMP_NO, COMP_MAN_NAME,
+			</if>
 			FORE_BID_REQ_YN,
 			FORE_CERT_CODE
 		) 
@@ -258,6 +261,9 @@
 			</if>
 			'normal', <!-- SEND_WAY_CD -->
 			now(), <!-- PASSWD_MOD_DT -->
+			<if test="cust_kind_cd == 'company'">
+			    #{tel}, #{comp_owner}, #{comp_no}, #{comp_man_name},
+			</if>
 			<choose>
 			    <when test="local_kind_cd == 'foreigner'">
 			        #{fore_bid_req_yn}, UUID()

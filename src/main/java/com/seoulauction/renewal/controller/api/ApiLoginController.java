@@ -174,6 +174,17 @@ public class ApiLoginController {
 	    return resultMap;
 	}
 	
+	@RequestMapping(value="/isCompNoExist", method=RequestMethod.POST, headers = {"content-type=application/json"})
+	@ResponseBody
+	public List<CommonMap> isCompNoExist(String domain, @RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+
+	    log.info("isCompNoExist");
+	    log.info(paramMap.toString());
+	    
+	    List<CommonMap> resultMap = loginService.selectCustForExist(paramMap);
+	    return resultMap;
+	}
+	
 	@RequestMapping(value = "/employee", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> findAddr(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
@@ -206,6 +217,7 @@ public class ApiLoginController {
         	String custNo = "";
         	String socialType = paramMap.get("social_type") == null ? "" : paramMap.get("social_type").toString();
         	String localKindCd = paramMap.get("local_kind_cd") == null ? "" : paramMap.get("local_kind_cd").toString();
+        	String custKindCd = paramMap.get("cust_kind_cd") == null ? "" : paramMap.get("cust_kind_cd").toString();
         	Boolean pwEmail = Boolean.parseBoolean(paramMap.get("push_way_email").toString());
         	Boolean pwSms = Boolean.parseBoolean(paramMap.get("push_way_sms").toString());
         	Boolean pwPhone = Boolean.parseBoolean(paramMap.get("push_way_phone").toString());
@@ -254,7 +266,21 @@ public class ApiLoginController {
         	}
         	
         	if(localKindCd.equals("korean")) {
-	        	//국내회원 회원가입 완료시 로그인 처리 (국내 개인)
+        		if(custKindCd.equals("company")){
+        			//사업자회원 사업자등록증 s3 upload
+        			try {	
+        				Map<String, List<MultipartFile>> fileList = request.getMultiFileMap();
+        	    		
+        	    		MultipartFile compFile = fileList.get("comp_file").get(0);
+        	    		if(!compFile.getOriginalFilename().equals("")) {
+        	    			s3Service.insertS3FileData(true, compFile, "cust_comp", custNo);
+        	    		}
+        			} catch (Exception e) {
+        				e.printStackTrace();
+        			}
+        		}
+        		
+	        	//국내회원 회원가입 완료시 로그인 처리 (국내 개인,사업자)
     			//해외회원은 이메일 인증 후 로그인가능 (현재 STAT_CD == not_certify)
 	        	SecurityContext sc = SecurityContextHolder.getContext();
 	        	UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(paramMap.get("login_id").toString(), paramMap.get("passwd").toString());

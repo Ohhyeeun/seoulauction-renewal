@@ -410,6 +410,29 @@ function phoneNumber(obj) {
 
 }
 
+function telNumber(obj){
+	if (obj.value != '') {
+		obj.value = obj.value.replaceAll("-", "");
+		if (obj.value.length == 11) {
+			obj.value = obj.value.substring(0, 3) + "-" + obj.value.substring(3, 7) + "-" + obj.value.substring(7);
+		} else if (obj.value.length == 8) {
+			obj.value = obj.value.substring(0, 4) + "-" + obj.value.substring(4);
+		} else if (obj.value.length == 10) {
+			if (obj.value.startsWith("02")) {
+				obj.value = obj.value.substring(0, 2) + "-" + obj.value.substring(2, 6) + "-" + obj.value.substring(6);
+			}else{
+				obj.value = obj.value.substring(0, 3) + "-" + obj.value.substring(3, 6) + "-" + obj.value.substring(6);
+			}
+		} else {
+			if (obj.value.startsWith("02")) {
+				obj.value = obj.value.substring(0, 2) + "-" + obj.value.substring(2, 5) + "-" + obj.value.substring(5);
+			} else { // 그외는 012-123-1345
+				obj.value = obj.value.substring(0, 3) + "-" + obj.value.substring(3, 6) + "-" + obj.value.substring(6);
+			}
+		}
+	}
+}
+
 /* 공통 login 팝업 */
 /*
  * trpLayerFixedPopup		: 레이어 팝업띄움
