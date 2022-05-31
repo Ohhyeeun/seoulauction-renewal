@@ -22,6 +22,8 @@ public interface MypageMapper {
 
     List<CommonMap> selectSaleListByCustNo(CommonMap commonMap);
 
+    int selectPayTotalCountByCustNo(CommonMap commonMap);
+
     CommonMap selectPayCountByCustNo(CommonMap commonMap);
 
     CommonMap selectCustomerByCustNo(CommonMap commonMap);

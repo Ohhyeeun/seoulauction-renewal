@@ -65,32 +65,24 @@ public class MainService {
     }
 
     //어떤 테이블을 참조할지 모르기때문 우선 더미데이텨 리턴.
-    public List<CommonMap> selectAuctions(CommonMap map){
+    public CommonMap selectAuctions(CommonMap map){
 
-        List<CommonMap> resultMapList = new ArrayList<>();
+        CommonMap resultMap = new CommonMap();
 
-        IntStream.range(0 , 12).forEach(c-> {
+        CommonMap counts = ktMainMapper.selectIngMenuCount();
+        List<CommonMap> saleList = ktMainMapper.selectIngAuctions();
+        saleList.forEach(c-> c.put("lots" , ktMainMapper.selectLotsBySaleNo(new CommonMap("sale_no" , c.get("SALE_NO")))));
 
-            if(c > 8){
-                c = c % 8 ;
-            }
-            String pcImgPath = "/images/pc/thumbnail/AuctionBanner_0"+(c+1)+"_280x280.png";
-            String moImgPath = "/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png";
-            String koName = "문형태";
-            String enName = "Moon Hyungtae";
-            String price = "200,000,000";
-            CommonMap paramMap = new CommonMap();
-            paramMap.put("pcImgPath", pcImgPath);
-            paramMap.put("moImgPath", moImgPath);
-            paramMap.put("koName", koName);
-            paramMap.put("enName", enName);
-            paramMap.put("price", price);
-            resultMapList.add(paramMap);
-        });
+        List<CommonMap> test2 = new ArrayList<>();
 
-        Collections.shuffle(resultMapList);
+        test2.add(saleList.get(0));
+        test2.add(saleList.get(0));
+        test2.add(saleList.get(0));
 
-        return resultMapList;
+        resultMap.put("count" , counts);
+        resultMap.put("list" , test2);
+
+        return resultMap;
     }
 
     public List<CommonMap> selectVideos(CommonMap map) {
@@ -155,7 +147,7 @@ public class MainService {
         return resultMapList;
     }
 
-    public List<CommonMap> selectIngMenuCount(){
+    public CommonMap selectIngMenuCount(){
         return ktMainMapper.selectIngMenuCount();
     }
 
