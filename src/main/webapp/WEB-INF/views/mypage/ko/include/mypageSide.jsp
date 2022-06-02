@@ -44,12 +44,12 @@
 				<ul class="cate1">
 					<li class="cate1-group"><span>라이브경매관리</span>
 						<ul>
-							<li class="" id="test1"><a href="#">응찰신청내역</a></li>
-							<li class="" id="test2"><a href="#">온라인패들응찰내역</a></li>
+							<li class="" id="liveBidReq"><a href="/mypage/liveBidReqList">응찰신청내역</a></li>
+							<li class="" id="liveBid"><a href="/mypage/liveBidList">온라인패들응찰내역</a></li>
 						</ul></li>
 					<li class="cate1-group"><span>온라인경매관리</span>
 						<ul>
-							<li class="" id="test3"><a href="#">응찰내역</a></li>
+							<li class="" id="onlineBid"><a href="/mypage/onlineBidList">응찰내역</a></li>
 							<li class="" id="onlinePay"><a href="/mypage/onlinePayList">결제/구매내역</a></li>
 						</ul></li>
 					<li class="cate1-li" id="intelot"><a href="/mypage/inteLotList" class="">관심작품 <i
