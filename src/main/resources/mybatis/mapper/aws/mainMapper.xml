@@ -91,4 +91,14 @@
         ]]>
     </select>
 
+    <select id="selectBigBanners" resultType="CommonMap">
+        <![CDATA[
+        select * from main_banner
+        where banner_type = 'main-rolling'
+        and status = 'A'
+        and start_at <= now() and end_at >= now()
+        order by sort;
+        ]]>
+    </select>
+
 </mapper>

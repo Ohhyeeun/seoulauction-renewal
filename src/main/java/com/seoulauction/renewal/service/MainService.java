@@ -162,4 +162,16 @@ public class MainService {
 
         return resultMap;
     }
+
+    public List<CommonMap> selectBigBanners() {
+        List<CommonMap> resultMap = mainMapper.selectBigBanners();
+        resultMap.stream().forEach(item -> {
+            List<CommonMap> imageListMap = s3Service.getS3FileDataAll("main_banner",  item.get("id"));
+            CommonMap map = new CommonMap();
+            imageListMap.forEach(c-> map.put(c.getString("tag")+"_url",c.getString("cdn_url")));
+            item.put("image", map);
+        });
+        return resultMap;
+    }
+
 }
