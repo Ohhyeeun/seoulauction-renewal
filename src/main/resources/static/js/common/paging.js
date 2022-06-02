@@ -23,8 +23,6 @@ function paging(config){
         }
     }(all_paging_cnt, is_mod, start_page)
 
-    console.log(config.totalCount % config.itemSize, start_page, paging_end);
-
     let first_arrow = document.createElement("a");
     first_arrow.setAttribute("href", "javascript:void(0);");
     first_arrow.addEventListener("click", function (){
@@ -39,7 +37,12 @@ function paging(config){
         let start_arrow = document.createElement("a");
         start_arrow.setAttribute("href", "javascript:void(0);");
         start_arrow.addEventListener("click", function (){
-            config.callBackFunc(start_page - 1);
+            console.log("start_page ::: " + start_page);
+            if(config.page == 1) {
+                config.callBackFunc(1);
+            }else{
+                config.callBackFunc(config.page - 1);
+            }
         });
         start_arrow.setAttribute("class", "prev icon-page_prev");
         start_arrow.innerText = "PREV";
@@ -53,21 +56,21 @@ function paging(config){
         pp.addEventListener("click", function (){
             config.callBackFunc(i);
         });
-        pp.innerText = i.toString();
+        et.innerText = i.toString();
+        pp.appendChild(et);
         if  (i == config.page) {
             pp.setAttribute("class", "on");
             paging_div.appendChild(pp);
         }else{
             paging_div.appendChild(pp);
-            paging_div.appendChild(et);
         }
-
     }
+
     if (start_page + config.pageSize - 1 <= paging_end) {
         let next_arrow = document.createElement("a");
         next_arrow.setAttribute("href", "javascript:void(0);");
         next_arrow.addEventListener("click", function (){
-            config.callBackFunc(start_page + config.pageSize);
+            config.callBackFunc(config.page + 1);
         })
         next_arrow.setAttribute("class", "prev_end icon-page_next");
         next_arrow.innerText = "NEXT";
@@ -76,7 +79,7 @@ function paging(config){
     let last_arrow = document.createElement("a");
     last_arrow.setAttribute("href", "javascript:void(0);");
     last_arrow.addEventListener("click", function (){
-        config.callBackFunc(page_end(all_paging_cnt, is_mod, start_page));
+        config.callBackFunc(all_paging_cnt + 1);
     });
     last_arrow.setAttribute("class", "prev_end icon-page_nextnext");
     last_arrow.innerHTML = "END";
