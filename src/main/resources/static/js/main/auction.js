@@ -39,13 +39,16 @@ $(document).ready(function(){
                         $(".auctionTab").append(saleHtml);
                         $("#auction_contents").append(idx === 0 ? `<div class="flex_wrap auctionTab-contents on"></div>` : `<div class="flex_wrap auctionTab-contents"></div>`);
 
-
                         //lot data
                         currentLotData[idx] = el.lots;
 
                         // 처음은 0부터 10
                         addLot(idx , currentLotData[curruentTab].slice(0 , initCount));
                     });
+
+                    //초기 sale_NO 설정.
+                    currentSaleNo = currentLotData[curruentTab][0].SALE_NO;
+
                     dynamicEvent();
                 }
             })
@@ -119,7 +122,6 @@ $(document).ready(function(){
             $(".auctionTab-contents").eq(curruentTab).addClass('on');
             $(".auctionTab-contents.on").css('height', '100%');
 
-            //auctionDataInit();
         });
 
         $('.auction-thumbbox').on('mouseenter', function () {
@@ -133,24 +135,23 @@ $(document).ready(function(){
         $('.wish_heart').on('click', function () {
 
             let data = {};
-            data['sale_no'] = currentSaleNo;
-            data['lot_no'] = $(this).attr('id').f;
 
-            axios.post('api/auction/addCustInteLot' , data)
+            let element = $(this);
+            let url = 'api/auction' + ( element.hasClass("on") ? '/delCustInteLot' : '/addCustInteLot' ) ;
+
+            data['sale_no'] = currentSaleNo;
+            data['lot_no'] = $(this).attr('id').split('id_')[1];
+            axios.post(url , data)
                 .then(function(response) {
                     const result = response.data;
-
                     let success = result.success;
                     if(success){
-
-                        $(this).toggleClass('on');
-
+                        element.toggleClass('on');
                     }
                 })
                 .catch(function(error){
                     console.log(error);
                 });
-
         });
     }
 
