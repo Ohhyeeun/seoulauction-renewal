@@ -94,6 +94,7 @@ public class SocialAuthenticationProvider  implements AuthenticationProvider {
     			.ip(ip)
     			.zipNo(resultMap.get("ZIPNO").toString())
     			.addr(resultMap.get("ADDR").toString() + " " + resultMap.get("ADDR_DTL").toString())
+    			.socialYn("Y")
     			.build());
         
         return result;
