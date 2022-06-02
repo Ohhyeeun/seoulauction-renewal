@@ -10,8 +10,6 @@ import org.apache.commons.collections.MapUtils;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -120,9 +118,38 @@ public class SaleService {
         return result;
     }
 
+    public void upsertRecentlyView(CommonMap commonMap){
+        saleMapper.upsertRecentlyView(commonMap);
+    }
+
+    public List<CommonMap> selectRecentlyView(CommonMap commonMap){
+        List<CommonMap> resultMaps = saleMapper.selectRecentlyView(commonMap);
+        return resultMaps;
+    }
+    public void insertSuccessBid(CommonMap map){
+
+        if (saleMapper.selectBidForSuccessBid(map) == null){
+            throw new SAException("일치하는 경매 정보가 없슴니다.");
+        }
+
+        if(saleMapper.selectSuccessBidForOverlab(map) != null ) {
+            throw new SAException("이미 낙찰된 정보가 있습니다.");
+        }
+        saleMapper.insertSuccessBid(map);
+    }
+
+    public CommonMap selectCustInteLot(CommonMap commonMap) {
+        return saleMapper.selectCustInteLot(commonMap);
+    }
     public List<CommonMap> selectRecommandArtist() {
-
         return artistMapper.selectRecommandArtist();
+    }
 
+    public List<CommonMap> selectSaleList(CommonMap commonMap) {
+        return saleMapper.selectSaleList(commonMap);
+    }
+
+    public List<CommonMap> selectLotTagList(CommonMap commonMap) {
+        return saleMapper.selectLotTagList(commonMap);
     }
 }
