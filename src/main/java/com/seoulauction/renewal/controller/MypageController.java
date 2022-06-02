@@ -76,4 +76,10 @@ public class MypageController {
     public String inteLotList(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "inteLotList" , locale);
     }
+    
+    /*비밀번호변경*/
+    @GetMapping("/passwordModify")
+    public String passwordModify(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "passwordModify" , locale);
+    }
 }
