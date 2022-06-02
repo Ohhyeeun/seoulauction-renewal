@@ -12,7 +12,6 @@
           AND B.DEL_YN = 'N'
     </select>
     <select id="selectSaleInfo" resultType="CommonMap" parameterType="commonMap">
-        SET SESSION group_concat_max_len = 1000000;
         select S.SALE_NO
         , S.SALE_KIND_CD
         , IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH
@@ -77,8 +76,7 @@
         left outer join SALE_IMG SI
         on SI.SALE_NO = S.SALE_NO
         and SI.IMG_NO = (select A.IMG_NO from SALE_IMG A where A.SALE_NO = S.SALE_NO order by A.IMG_NO limit 1)
-        where S.SALE_NO =
-        #{sale_no} <!-- S.STAT_CD = 'open' and  (YDH수정. 2016.08.25 Upcomming에 세일경매 보여주지 않음. stat_cd = 'open'이면 current에도 경매정보 보여짐.)-->
+        where S.SALE_NO = #{sale_no} <!-- S.STAT_CD = 'open' and  (YDH수정. 2016.08.25 Upcomming에 세일경매 보여주지 않음. stat_cd = 'open'이면 current에도 경매정보 보여짐.)-->
         group by S.SALE_NO
     </select>
     <select id="selectExchRateList" resultType="CommonMap" parameterType="commonMap">
