@@ -27,6 +27,15 @@
 <sec:authorize access="isAnonymous()">
    sessionStorage.setItem("is_login", "false" );
 </sec:authorize>
+function logout(loginId){
+	console.log(loginId)
+	//TODO 소셜타입에 따른 SNS로그아웃처리
+	sessionLogout();
+}
+// 세션로그아웃
+function sessionLogout() {
+	window.location.href = "/processLogout";
+}
 </script>
 <html lang="ko" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
@@ -86,7 +95,7 @@
                 </ul>
             </li>
             <sec:authorize access="isAnonymous()"> <!-- !login -->
-                <li class="utility-join"><a href="#">회원가입</a></li>
+                <li class="utility-join"><a href="/join">회원가입</a></li>
                 <li class="utility-login"><a href="/login">로그인</a></li>
             </sec:authorize>
             <sec:authorize access="isAuthenticated()"> <!-- login -->

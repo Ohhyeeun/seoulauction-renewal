@@ -20,6 +20,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -320,5 +321,41 @@ public class ApiLoginController {
 		return ResponseEntity.ok(RestResponse.ok());
 	}
 	
+	// 소셜 로그인
+	@RequestMapping(value = "/social", method = RequestMethod.POST)
+	public ResponseEntity<RestResponse> socialLogin(HttpServletRequest request
+//			, @RequestParam(value = "socialEmail", required = false) String socialEmail
+//			, @RequestParam(value = "socialType", required = false) String socialType
+			, @RequestBody CommonMap paramMap
+			, RedirectAttributes redirect) {
+    	
+		log.info("socialLogin");
+		
+		log.info(paramMap.toString());
+		
+		// cust_social 테이블에서 조회하여 SAUserDetails생성
+//		CommonMap paramMap = new CommonMap();
+//		paramMap.put("social_email", socialEmail);
+//		paramMap.put("social_type", socialType);
+		CommonMap resultMap = loginService.selectCustForCustSocial(paramMap);
+		
+		if(resultMap == null) {
+			throw new SAException("testexception"); 
+		}
+		SAUserDetails parameterUserDetail = SAUserDetails.builder()
+				.loginId(resultMap.get("SOCIAL_LOGIN_ID").toString())
+				.userNm(resultMap.get("CUST_NAME").toString())
+				.ip(loginService.getIp(request))
+				.build();
 
+		SecurityContext sc = SecurityContextHolder.getContext();
+		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(resultMap.get("SOCIAL_LOGIN_ID").toString(), null);
+		auth.setDetails(parameterUserDetail);
+		sc.setAuthentication(socialAuthenticationProvider.authenticate(auth));
+
+		HttpSession session = request.getSession(true);
+		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
+
+        return ResponseEntity.ok(RestResponse.ok(resultMap.get("SOCIAL_LOGIN_ID").toString()));
+	}
 }
