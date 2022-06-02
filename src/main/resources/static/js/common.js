@@ -264,6 +264,21 @@ $(function(){
         $(this).children('a').removeClass('on');
         $('.bubble-box').removeClass('on');
     });
+
+    /* top search 유틸리티 겹침X */
+    $('.topsearch-text').click(function(){
+        if($('.search-bubble-box').hasClass('on')){
+            $('.bubble-box01').eq(utilityMenu).removeClass('hide');
+            $('.bubble-box02').eq(utilityMenu).removeClass('hide');
+            $('.search-bubble-box').addClass('on');
+        } else { /* 검색기능 보여질 때 겹침X */
+            $('.bubble-box01').addClass('hide');
+            $('.bubble-box02').addClass('hide');
+            $('.search-bubble-box').removeClass('on');
+        }
+        $('.search-bubble-box').toggleClass('on');
+    });
+
     /* 최근검색 키워드 삭제 */
     $('.keyword-del').click(function(){
         $(this).parent('.recent-keyword').hide();
@@ -653,13 +668,12 @@ function checkPlatform(ua) {
     return userPlatform;
 }
 
-
 /* notice 슬라이드 배너 (무한루프)*/
 $(function(){
 
     let i = 0;
 
-    setInterval(noticeSlide, 3000);
+    setInterval(noticeSlide, 2500);
 
     function noticeSlide(){
         $('.belttxtbox').append('<span class="header_beltTit"><a href="#"><span class="text-over belt_tit">구매수수료율 인상 및 약관 개정안내 구매수수료율 '+i+'</span></a></span>');  /*끝에 반복 생성  */

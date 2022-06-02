@@ -29,6 +29,7 @@ public class SAUserDetails implements UserDetails {
 	private List<GrantedAuthority> authorities;
 	private String zipNo;
 	private String addr;
+	private String socialYn;
 	
     @Override
     public String getUsername() {

@@ -53,4 +53,9 @@ public interface MypageMapper {
     CommonMap insertCustInteLot(CommonMap commonMap);
 
     int deleteCustInteLot(CommonMap commonMap);
+
+    CommonMap selectCustForChkPassword(CommonMap paramMap);
+    
+    int updateCustPasswdByCustNo(CommonMap paramMap);
+    
 }
