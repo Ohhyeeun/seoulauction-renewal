@@ -8,7 +8,6 @@
 <div class="wrapper">
     <div class="sub-wrap pageclass type-details_view">
         <jsp:include page="../../include/ko/header.jsp" flush="false"/>
-
         <!-- container -->
         <div id="container" ng-controller="ctl" data-ng-init="load();">
             <div id="contents" class="contents">
@@ -21,7 +20,7 @@
                                         <div class="row-box">
                                             <div class="col_item">
                                                 <div class="page_title">
-                                                    <a href="#" conclick="window.history.back()" title="뒤로가기">
+                                                    <a href="#" onclick="window.history.back()" title="뒤로가기">
                                                         <i class="icon-page_back"></i>
                                                     </a>
                                                     <span ng-bind="saleInfo.SALE_TITLE_KO"></span>
@@ -301,10 +300,11 @@
                                                                                     class="icon-heart_off"></i></a>
                                                                         </div>
                                                                         <div class="info-box">
-                                                                            <div class="title"><span ng-bind="item.ARTIST_NAME_BLOB_JSON.ko"></span>
-                                                                                <!-- [0516]삭제  <span class="sub">(1965)</span> -->
+                                                                            <div class="title">
+                                                                                <span ng-bind="item.ARTIST_NAME_BLOB_JSON.ko"></span>
                                                                             </div>
-                                                                            <div class="desc"><span ng-bind="item.TITLE_BLOB_JSON.ko"></span>
+                                                                            <div class="desc">
+                                                                                <span ng-bind="item.TITLE_BLOB_JSON.ko"></span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -331,8 +331,6 @@
                         </div>
                     </div>
                 </section>
-
-
                 <article class="sticky_bidding-article">
                     <div class="btn_set">
                         <div class="btn_lot-box">
@@ -346,7 +344,6 @@
                         </div>
                     </div>
                 </article>
-
             </div>
         </div>
         <!-- //container -->
@@ -501,10 +498,6 @@
         view_visual.slideTo($index)
     };
 </script>
-<!--  sns 공유 -->
-<script>
-
-</script>
 <!-- [0516] 셀렉트 드롭다운 -->
 <script>
     let dropdown = $(".js-dropdown-btn").trpDropdown({
@@ -518,13 +511,6 @@
         _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
         dropdown.getClose();
     });
-</script>
-
-
-<!-- 카카오 -->
-
-<script>
-
 </script>
 
 <!-- hold side : positionTar2 : $(".js-page_name-article"), -->
@@ -547,12 +533,9 @@
         _hold_info.setTopStart(_headerH + 56);
         _hold_info.setBottomStop(_tem);
     }
-
-
-
-
 </script>
-<!-- // [2022-0516] 사용 -->
+
+<!-- angular js -->
 <script>
     app.value('locale', 'ko');
     app.value('is_login', true);
@@ -560,6 +543,7 @@
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
 
     app.controller('ctl', function ($scope, consts, common, is_login, locale) {
+
         $scope.is_login = is_login;
         $scope.locale = locale;
         $scope.sale_no = "${saleNo}";
@@ -649,11 +633,11 @@
         $scope.favorite = function(saleNo, lotNo) {
             let url = "";
             if ($scope.lotInfo.FAVORITE_YN === 'Y') {
-                url = "/api/auction/deleteCustInteLot";
+                url = "/api/auction/delCustInteLot";
                 $scope.lotInfo.FAVORITE_YN = "N";
 
             } else if ($scope.lotInfo.FAVORITE_YN === 'N') {
-                url = "/api/auction/insertCustInteLot";
+                url = "/api/auction/addCustInteLot";
                 $scope.lotInfo.FAVORITE_YN = "Y";
             }
             try {
@@ -671,11 +655,11 @@
             console.log("index", index);
             let url = "";
             if ($scope.recentlyViews[index].FAVORITE_YN === 'Y') {
-                url = "/api/auction/deleteCustInteLot";
+                url = "/api/auction/delCustInteLot";
                 $scope.recentlyViews[index].FAVORITE_YN = "N";
 
             } else if ($scope.recentlyViews[index].FAVORITE_YN === 'N') {
-                url = "/api/auction/insertCustInteLot";
+                url = "/api/auction/addCustInteLot";
                 $scope.recentlyViews[index].FAVORITE_YN = "Y";
             }
             try {
@@ -692,7 +676,7 @@
         // 호출 부
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3, r4, r5, r6] = await Promise.all([getSaleInfo($scope.sale_no),
+                let [r1, r2, r3, r4, _, r6] = await Promise.all([getSaleInfo($scope.sale_no),
                     getLotInfo($scope.sale_no, $scope.lot_no),
                     getLotImages($scope.sale_no, $scope.lot_no),
                     getSaleImages($scope.sale_no, $scope.lot_no),
@@ -979,9 +963,6 @@
 
     function proc(evt, saleNo, lotNo, saleType, userId) {
         let wt;
-
-
-
         const packet_enum = {
             init: 1,
             bid_info: 2,

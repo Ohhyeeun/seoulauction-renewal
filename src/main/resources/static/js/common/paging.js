@@ -1,5 +1,4 @@
 function paging(config){
-
     let paging_div = document.createElement("div");
     // paging class 추가
     paging_div.setAttribute("class", config.className);

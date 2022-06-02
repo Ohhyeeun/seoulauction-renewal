@@ -291,7 +291,11 @@ public class ApiSaleController {
     @ResponseBody
     public ResponseEntity<RestResponse> insertRecentlyView(@RequestBody CommonMap map,
                                                      HttpServletRequest req, HttpServletResponse res) {
-        saleService.upsertRecentlyView(map);
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            saleService.upsertRecentlyView(map);
+        }
         return ResponseEntity.ok(RestResponse.ok());
     }
 
@@ -302,42 +306,43 @@ public class ApiSaleController {
                                                   @PathVariable("sale_no") int saleNo,
                                                   @PathVariable("lot_no") int lotNo) {
 
-        CommonMap map = new CommonMap();
-        map.put("sale_no", saleNo);
-        map.put("lot_no", lotNo);
-        map.put("cust_no", 1);
-
-        //SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
-
-        // 랏 이미지 정보 가져오기
-        List<CommonMap> lotImages = saleService.selectRecentlyView(map);
-
         // 필터를 적용한 새로운 랏이미지 정보
         List<CommonMap> lotImagesNew = new ArrayList<>();
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
 
-        String[] mapKeys = {"TITLE_BLOB_JSON", "ARTIST_NAME_BLOB_JSON"};
-        ObjectMapper mapper = new ObjectMapper();
-        try{
-            // 맵 변환
-            for (var i = 0; i < lotImages.size(); i++) {
-                for (var item : mapKeys) {
-                    lotImages.get(i).put(item, mapper.readValue(String.valueOf(lotImages.get(i).get(item)), Map.class));
+        // 유저정보가 있을 때 정보를 제공함
+        if (saUserDetails != null) {
+            CommonMap map = new CommonMap();
+            map.put("sale_no", saleNo);
+            map.put("lot_no", lotNo);
+            map.put("cust_no", saUserDetails.getUserNo());
+
+            // 랏 이미지 정보 가져오기
+            List<CommonMap> lotImages = saleService.selectRecentlyView(map);
+
+            String[] mapKeys = {"TITLE_BLOB_JSON", "ARTIST_NAME_BLOB_JSON"};
+            ObjectMapper mapper = new ObjectMapper();
+
+            try{
+                // 맵 변환
+                for (var i = 0; i < lotImages.size(); i++) {
+                    for (var item : mapKeys) {
+                        lotImages.get(i).put(item, mapper.readValue(String.valueOf(lotImages.get(i).get(item)), Map.class));
+                    }
                 }
+            } catch (JsonProcessingException e) {
+
             }
-        } catch (JsonMappingException e) {
 
-        } catch (JsonProcessingException e) {
-
-        }
-
-        // 랏 디스플레이 필터
-        for (var item : lotImages) {
-            CommonMap lotImagesNewItem = new CommonMap();
-            for (var k : new ArrayList<>(item.keySet())){
-                lotImagesNewItem.put(k, item.get(k));
+            // 랏 디스플레이 필터
+            for (var item : lotImages) {
+                CommonMap lotImagesNewItem = new CommonMap();
+                for (var k : new ArrayList<>(item.keySet())){
+                    lotImagesNewItem.put(k, item.get(k));
+                }
+                lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
+                lotImagesNew.add(lotImagesNewItem);
             }
-            lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
-            lotImagesNew.add(lotImagesNewItem);
         }
         return ResponseEntity.ok(RestResponse.ok(lotImagesNew));
     }
@@ -361,20 +366,6 @@ public class ApiSaleController {
 
         return ResponseEntity.ok(RestResponse.ok());
     }
-    @PostMapping(value="/insertCustInteLot")
-    @ResponseBody
-    public ResponseEntity<RestResponse>  insertCustInteLot(@RequestBody CommonMap map,
-                                                           HttpServletRequest req, HttpServletResponse res){
-        saleService.insertCustInteLot(map);
-        return ResponseEntity.ok(RestResponse.ok());
-    }
-    @PostMapping(value="/deleteCustInteLot")
-    @ResponseBody
-    public ResponseEntity<RestResponse>  deleteCustInteLot(@RequestBody CommonMap map,
-                                                           HttpServletRequest req, HttpServletResponse res) {
-        saleService.deleteCustInteLot(map);
-        return ResponseEntity.ok(RestResponse.ok());
-    }
 
     @RequestMapping(value="/searchList" , method = RequestMethod.POST)
     public ResponseEntity<RestResponse> searchList(
@@ -394,23 +385,63 @@ public class ApiSaleController {
     @RequestMapping(value="/addCustInteLot" , method = RequestMethod.POST)
     public ResponseEntity<RestResponse> addCustInteLot(
             @RequestBody CommonMap map, Principal principal) throws Exception {
-
-        map.put("action_user_no", principal.getName());
-
-        return ResponseEntity.ok(RestResponse.ok(saleService.addCustInteLot(map)));
+        int c = -1;
+        if (principal != null) {
+            map.put("action_user_no", principal.getName());
+            c = saleService.addCustInteLot(map);
+        }
+        return ResponseEntity.ok(RestResponse.ok(c));
     }
 
     @RequestMapping(value="/delCustInteLot" , method = RequestMethod.POST)
     public ResponseEntity<RestResponse> delCustInteLot(
             @RequestBody CommonMap map, Principal principal) throws Exception {
-
-        map.put("action_user_no", principal.getName());
-
-        return ResponseEntity.ok(RestResponse.ok(saleService.delCustInteLot(map)));
+        int c = -1;
+        if (principal != null) {
+            map.put("action_user_no", principal.getName());
+            c = saleService.delCustInteLot(map);
+        }
+        return ResponseEntity.ok(RestResponse.ok(c));
     }
 
     @RequestMapping(value = "/selectRecommandArtist", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> selectRecommandArtist(){
         return ResponseEntity.ok(RestResponse.ok(saleService.selectRecommandArtist()));
     }
+
+    @GetMapping(value="/list/{saleNo}")
+    public ResponseEntity<RestResponse> list(
+            @PathVariable("saleNo") int saleNo) {
+
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null ) {
+            commonMap.put("cust_no", saUserDetails.getUserNo());
+        } else {
+            commonMap.put("cust_no", 0);
+        }
+
+        List<CommonMap> lotImages = saleService.selectSaleList(commonMap);
+
+        String[] mapKeys = {"SALE_TITLE_JSON", "LOT_TITLE_JSON",
+                "MAKE_YEAR_JSON", "ARTIST_NAME_JSON", "EXPE_PRICE_FROM_JSON", "EXPE_PRICE_TO_JSON"};
+
+        // 맵 형태 거름
+        ObjectMapper mapper  = new ObjectMapper();
+        try{
+            // 맵 변환
+            for (var i = 0; i < lotImages.size(); i++) {
+                for (var item : mapKeys) {
+                    lotImages.get(i).put(item, mapper.readValue(String.valueOf(lotImages.get(i).get(item)),
+                            Map.class));
+                }
+                lotImages.get(i).put("IMAGE_URL", IMAGE_URL);
+            }
+        } catch (JsonProcessingException e) {
+
+        }
+        return ResponseEntity.ok(RestResponse.ok(lotImages));
+   }
 }

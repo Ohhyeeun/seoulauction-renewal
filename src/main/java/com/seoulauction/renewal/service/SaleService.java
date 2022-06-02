@@ -137,19 +137,15 @@ public class SaleService {
         }
         saleMapper.insertSuccessBid(map);
     }
-    public void insertCustInteLot(CommonMap commonMap){
-
-        saleMapper.insertCustInteLot(commonMap);
-    }
-    public void deleteCustInteLot(CommonMap commonMap){
-
-        saleMapper.deleteCustInteLot(commonMap);
-    }
 
     public CommonMap selectCustInteLot(CommonMap commonMap) {
         return saleMapper.selectCustInteLot(commonMap);
     }
     public List<CommonMap> selectRecommandArtist() {
         return artistMapper.selectRecommandArtist();
+    }
+
+    public List<CommonMap> selectSaleList(CommonMap commonMap) {
+        return saleMapper.selectSaleList(commonMap);
     }
 }
