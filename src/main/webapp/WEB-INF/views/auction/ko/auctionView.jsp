@@ -600,7 +600,7 @@
 
         const getSaleImages = (saleNo, lotNo) => {
             try {
-                return axios.get('/api/auction/sale_images/${saleNo}/${lotNo}');
+                return axios.get('/api/auction/sale_images/${saleNo}');
             } catch (error) {
                 console.error(error);
             }

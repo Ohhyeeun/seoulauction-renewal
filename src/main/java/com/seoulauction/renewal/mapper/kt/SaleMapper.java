@@ -39,4 +39,6 @@ public interface SaleMapper {
     int delCustInteLot(CommonMap paramMap);
 
     List<CommonMap> selectSaleList(CommonMap commonMap);
+
+    List<CommonMap> selectLotTagList(CommonMap commonMap);
 }

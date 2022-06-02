@@ -551,7 +551,10 @@
                f.CD_NM,
                COLUMN_JSON(b.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON,
                COLUMN_JSON(b.EXPE_PRICE_TO_BLOB)   EXPE_PRICE_TO_JSON,
-               IFNULL(g.DEL_YN,'Y') DEL_YN
+               IFNULL(g.DEL_YN,'Y') DEL_YN,
+               b.LOT_TAG,
+               a.FROM_DT,
+               a.TO_DT
         from sale a
                  inner join lot b on a.SALE_NO = b.SALE_NO
                  inner join lot_img c on b.SALE_NO = c.SALE_NO and b.LOT_NO = c.LOT_NO and c.DISP_ORD = 1
@@ -563,6 +566,11 @@
         where a.SALE_NO = #{sale_no}
           and a.WWW_DISP_YN = 'Y'
           and a.CLOSE_YN = 'N'
-          and b.CLOSE_YN = 'N';
+          and b.CLOSE_YN = 'N'
+        group by a.SALE_NO, b.LOT_NO;
+    </select>
+    <select id="selectLotTagList" parameterType="CommonMap" resultType="CommonMap">
+        select LOT_TAG from lot where SALE_NO = #{sale_no} and LOT_TAG is not null
+        group by LOT_TAG
     </select>
 </mapper>

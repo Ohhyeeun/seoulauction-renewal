@@ -202,16 +202,15 @@ public class ApiSaleController {
         return ResponseEntity.ok(RestResponse.ok(lotInfoMap));
     }
 
-    @RequestMapping(value="/sale_images/{sale_no}/{lot_no}", method = RequestMethod.GET)
+    @RequestMapping(value="/sale_images/{sale_no}", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> saleImages(HttpServletRequest req,
                                                   HttpServletResponse res,
                                                   Locale locale,
-                                                  @PathVariable("sale_no") int saleNo,
-                                                  @PathVariable("lot_no") int lotNo) {
+                                                  @PathVariable("sale_no") int saleNo) {
 
         CommonMap map = new CommonMap();
         map.put("sale_no", saleNo);
-        map.put("lot_no", lotNo);
+        //map.put("lot_no", lotNo);
 
         // 랏 이미지 정보 가져오기
         List<CommonMap> lotImages = saleService.selectSaleLotImages(map);
@@ -442,4 +441,13 @@ public class ApiSaleController {
         }
         return ResponseEntity.ok(RestResponse.ok(lotImages));
    }
+    @RequestMapping(value = "/lotTag/{saleNo}", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> selectLotTagList(
+            @PathVariable("saleNo") int saleNo
+    ){
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+
+        return ResponseEntity.ok(RestResponse.ok(saleService.selectLotTagList(commonMap)));
+    }
 }
