@@ -151,7 +151,7 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 				client_id: '5285017753-1tkl3r19jc3e7hesflsm0jj9uhgm7f4j.apps.googleusercontent.com',
 				cookiepolicy: 'single_host_origin',
 			});
-			$scope.LoginWithGoogle(document.getElementById('googleIdLogin'));
+			$scope.loginWithGoogle(document.getElementById('googleIdLogin'));
 		});
 	};
 	// 구글 init
@@ -235,11 +235,12 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 
 	// 네이버 로그인
 	$scope.naverButtonClick = function() {
-		$("#naverIdLogin").trigger("click");
+		var loginButton = document.getElementById("naverIdLogin").firstChild;
+		loginButton.click();
 	}
 			
 	// 구글로그인
-	$scope.LoginWithGoogle = function(element) {
+	$scope.loginWithGoogle = function(element) {
 		auth2.attachClickHandler(element, {},
 			function(googleUser) {
 				googleProfile = googleUser.getBasicProfile();

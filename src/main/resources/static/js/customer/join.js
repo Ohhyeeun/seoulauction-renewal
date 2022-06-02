@@ -32,7 +32,7 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 				client_id: '5285017753-1tkl3r19jc3e7hesflsm0jj9uhgm7f4j.apps.googleusercontent.com',
 				cookiepolicy: 'single_host_origin',
 			});
-			$scope.JoinWithGoogle(document.getElementById('googleIdJoin'));
+			$scope.joinWithGoogle(document.getElementById('googleIdJoin'));
 		});
 	};
 
@@ -106,7 +106,7 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 	}
 
 	// 구글회원가입
-	$scope.JoinWithGoogle = function(element) {
+	$scope.joinWithGoogle = function(element) {
 		auth2.attachClickHandler(element, {},
 			function(googleUser) {
 				googleProfile = googleUser.getBasicProfile();
