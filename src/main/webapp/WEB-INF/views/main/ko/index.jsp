@@ -250,7 +250,7 @@
                     </form>
                     <div class="flex_wrap newsletter-btnbox">
                         <button type="button" class="commonbtn btn-bg-b subscriptBtn">구독하기</button>
-                        <a href="#" class="commonbtn btn-border-3">
+                        <a href="/newsletter" class="commonbtn btn-border-3">
                             <span>지난 뉴스레터 보기</span>
                         </a>
                     </div>
