@@ -607,7 +607,7 @@ app.controller('headCtl', function($scope, consts, common, locale, $filter) {
                 let html = '<span class="keyword-search-tit">추천검색</span>';
                 $('.recommend-search-part').append(html);
                 data.map(item => {
-                    let innerHtml = '<a href="/sale/search?searchContent=' + item.name + '" class="recommend-keyword">' + item.name + '</a>';
+                    let innerHtml = '<a href="/sale/search?searchContent=' + item.name + '" class="recommend-keyword">' + dotSubString(item.name, 10) + '</a>';
                     $('.recommend-search-part').append(innerHtml);
                 });
             }
@@ -622,11 +622,27 @@ app.controller('headCtl', function($scope, consts, common, locale, $filter) {
         $(".recent-search").empty();
         let keywordsArray = keywords.split(',');
         $.each(keywordsArray , function(idx , el){
-            html += '<span class="recent-keyword"><a href="/sale/search?searchContent='+ el +'">'+ el +'</a><span class="keyword-del"></span></span>';
+            html += '<span class="recent-keyword"><a href="/sale/search?searchContent='+ el +'">'+ el+'</a><span class="keyword-del"></span></span>';
         });
 
-        $(".recent-search").append(html);
+    }else{
+        html += '<span class="recent-keyword">표시할내용없음</span>';
     }
+
+    $(".recent-search").append(html);
+
+
+    $scope.goSearch =  function(elementId, bIsKorean){
+
+        var sSearchContent = $("#" + elementId).val();
+        if(sSearchContent) {
+            location.href = bIsKorean ? "/sale/search?searchContent=" + sSearchContent : "/eng/sale/search?searchContent=" + sSearchContent;
+        }
+        else {
+            alert(bIsKorean ? "검색어를 입력해주세요." : "Please write search keyword.");
+        }
+    }
+
 });
 
 //pc, mobile 구분
@@ -688,4 +704,14 @@ $(function(){
         $('.belttxtbox>span:nth-child(1)').remove(); /*반복 첫번째 삭제  */
         $('.belttxtbox').animate({'top':'100%'},1000);
     } // noticeSlide() 종료구문;
-}); 
+});
+
+function dotSubString(str,len){
+    let result ='';
+    if(str.length > len){
+        result = str.substring(0,len)+'...';
+    }else{
+        result = str;
+    }
+    return result;
+}
