@@ -9,7 +9,7 @@ function oldPwCheck() {
 function chkPassword(oldNew, pwVal){
 	let data = {};
 	data['passwd'] = pwVal;
-	axios.post('/api/login/chkPassword' , data)
+	axios.post('/api/mypage/chkPassword' , data)
 	.then(function(response) {
 	    const result = response.data;
 	    if(result.success){
@@ -94,7 +94,7 @@ function modifyPw(){
 	if(oldValid && newValid && confirmValid){
 		let data = {};
 		data['passwd'] = $('#newPassword').val();
-		axios.post('/api/login/modPassword' , data)
+		axios.post('/api/mypage/modPassword' , data)
 		.then(function(response) {
 		    const result = response.data;
 		    console.log(result);
