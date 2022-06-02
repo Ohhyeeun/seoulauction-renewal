@@ -48,7 +48,7 @@ function closeResetPassword(modYn){
 				popup_pwsearch6.close();
 				if(modYn == 'Y'){
 					// TODO 차후 비밀번호 변경 페이지 개발시 수정
-					location.href = '/test'
+					location.href = '/mypage/passwordModify'
 				}
 		    }
 		})
@@ -84,8 +84,7 @@ function reAlarm(){
 }
 //지금변경하기
 function goModPassword(){
-	// TODO 차후 비밀번호 변경 페이지 개발시 수정
-	location.href = '/test';
+	location.href = '/mypage/passwordModify';
 }
 
 $("body").on("click", "#popup_pwsearch5-wrap .js-closepop, #popup_pwsearch5-wrap .popup-dim", function($e) {

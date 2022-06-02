@@ -55,6 +55,16 @@
 		</if>
 		and CU.CUST_NO = #{cust_no}
 	</select>
+	
+	<update id="updateCustPasswdByCustNo"
+		parameterType="CommonMap">
+		update CUST
+		set
+		PASSWD = '${@com.seoulauction.renewal.auth.PasswordEncoderAESforSA@saPasswdEncoding(passwd)}',
+		PASSWD_MOD_DT = now(),
+		LOGIN_FAIL_CNT = 0
+		where CUST_NO = #{cust_no}
+	</update>
 
 	<update id="updateCustPwdResetByCustNo"
 		parameterType="CommonMap">
@@ -319,4 +329,13 @@
 			now()
 		);
 	</insert>
+	
+	<select id="selectCustForChkPassword" resultType="CommonMap">
+		SELECT *
+		FROM   cust
+		WHERE  1 = 1
+			AND CUST_NO = #{cust_no}
+		    AND passwd = '${@com.seoulauction.renewal.auth.PasswordEncoderAESforSA@saPasswdEncoding(passwd)}'
+	</select>
+	
 </mapper>
