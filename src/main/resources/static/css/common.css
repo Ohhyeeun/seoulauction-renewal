@@ -418,7 +418,8 @@ img {
 .closebtn-w {
     background-image: url(/images/pc/icon/ic_close_white_24.svg);
 }
-.btn-bg-w {
+.btn-bg-w,
+.slide_white {
     background-color: #fff;
     color: #111;
 }
@@ -427,21 +428,25 @@ img {
     background-color: #111;
     color: #fff;
 }
-.btn-bg-g { /*주조색 */
+.btn-bg-g,
+.slide_green { /*주조색 */
     border-color: #4dada7;
     background-color: #4dada7;
     color: #fff;
 }
-.btn-bg-3 {
+.btn-bg-3,
+.slide_black {
     background-color: #333;
     color: #fff;
 }
-.btn-border-w {
+.btn-border-w,
+.slide_white_border {
     border: 1px solid #fff;
     color: #fff;
 }
-.btn-border-b {
-    border: 1px solid #111;
+.btn-border-b,
+.slide_black_border {
+    border: 1px solid #111; 
     color: #111;
 }
 .btn-border-3 {
@@ -1444,6 +1449,9 @@ body.dark,
 }
 /* mobile,pc ui 혼용 */
 @media all and (max-width: 1439px) {
+    .belttxtbox {
+        min-width: 100%;
+    }
     .wrap,
     .container,
     .upcoming,
