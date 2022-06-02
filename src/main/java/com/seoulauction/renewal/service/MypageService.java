@@ -157,4 +157,13 @@ public class MypageService {
     public int deleteCustInteLot(CommonMap commonMap){                                                                
     	return mypageMapper.deleteCustInteLot(commonMap);
     }
+
+    public CommonMap selectCustForChkPassword(CommonMap paramMap){
+    	return mypageMapper.selectCustForChkPassword(paramMap);
+    }
+    
+    public int updateCustPasswdByCustNo(CommonMap paramMap){
+        return mypageMapper.updateCustPasswdByCustNo(paramMap);
+    }
+    
 }

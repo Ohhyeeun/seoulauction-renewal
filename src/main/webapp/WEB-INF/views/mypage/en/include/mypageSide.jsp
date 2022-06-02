@@ -64,7 +64,7 @@
 							<li class="" id="test5"><a href="#">회원정보수정</a></li>
 							<c:if test="${socialYn == 'N' }">
 							<li class="" id="passwordModify"><a href="/mypage/passwordModify">비밀번호수정</a></li>
-							<li class="" id="snsLink"><a href="/mypage/snsLink">SNS연동설정</a></li>
+							<li class="" id="test7"><a href="#">SNS연동설정</a></li>
 							</c:if>
 						</ul></li>
 				</ul>
