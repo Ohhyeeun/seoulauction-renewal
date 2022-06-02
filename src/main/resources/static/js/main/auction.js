@@ -1,10 +1,11 @@
-/*Auction*/
+ /*Auction*/
 $(document).ready(function(){
 
     let auctionData = [];
     let currentLotData = [];
     let curruentTab = 0;
     let initCount = 10;
+    let currentSaleNo;
     let locale = document.documentElement.lang;
     init();
 
@@ -22,21 +23,22 @@ $(document).ready(function(){
                 const data = response.data;
                 let success = data.success;
                 if(success){
+
                     auctionData = data.data.list;
 
                     //TODO 인클루드 작업.
                     $.each(auctionData , function(idx , el){
 
-                        let title = JSON.parse(el.TITLE_BLOB)
+                        let title = JSON.parse(el.TITLE_BLOB);
                         let name = locale === 'ko' ? title.ko : title.en;
 
                         //sale html
                         let saleHtml = idx === 0 ? `<span class="auctionTab-btn on"><span class="text-over">${name}</span></span>`
                                                 : `<span class="auctionTab-btn"><span class="text-over">${name}</span></span>`;
 
-
                         $(".auctionTab").append(saleHtml);
                         $("#auction_contents").append(idx === 0 ? `<div class="flex_wrap auctionTab-contents on"></div>` : `<div class="flex_wrap auctionTab-contents"></div>`);
+
 
                         //lot data
                         currentLotData[idx] = el.lots;
@@ -57,18 +59,18 @@ $(document).ready(function(){
         let starting = locale === 'ko' ? '시작가' : 'Starting KRW  ';
 
         $.each(data , function(lotIdx , el){
-
             let imgPath = 'https://www.seoulauction.com/nas_img' + el.FILE_PATH + '/' + el.FILE_NAME;
             let lotTitle = JSON.parse(el.EXPE_PRICE_TITLE);
             let lotName = locale === 'ko' ? lotTitle.ko : lotTitle.en;
             let price = numberWithCommas(el.START_PRICE);
+            let lotNo = el.LOT_NO;
             //lot html
             let html =
                 `<figure class="auction-thumbbox">
                             <img src='${imgPath}' alt="/images/pc/thumbnail/AuctionBanner_05_280x280.png" class="pc-ver">
                                 <img src='${imgPath}' alt="/images/pc/thumbnail/AuctionBanner_05_280x280.png" class="m-ver">
                                     <figcaption class="auction-thumb">
-                                        <button class="wish_heart"></button>
+                                        <button id='id_${lotNo}' class="wish_heart"></button>
                                         <a href="#">
                                             <p class="auction-thumb-txt">
                                                 <span>${lotName}</span>
@@ -102,7 +104,9 @@ $(document).ready(function(){
                 return;
             }
 
-            curruentTab = $(this).index();
+            curruentTab = $(this).index()
+
+            currentSaleNo = currentLotData[curruentTab][0].SALE_NO;
 
             //기존 데이터 초기화.
             $('.auctionTab-btn').removeClass('on');
@@ -127,7 +131,26 @@ $(document).ready(function(){
         });
         //auction haert 버튼
         $('.wish_heart').on('click', function () {
-            $(this).toggleClass('on');
+
+            let data = {};
+            data['sale_no'] = currentSaleNo;
+            data['lot_no'] = $(this).attr('id').f;
+
+            axios.post('api/auction/addCustInteLot' , data)
+                .then(function(response) {
+                    const result = response.data;
+
+                    let success = result.success;
+                    if(success){
+
+                        $(this).toggleClass('on');
+
+                    }
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+
         });
     }
 
