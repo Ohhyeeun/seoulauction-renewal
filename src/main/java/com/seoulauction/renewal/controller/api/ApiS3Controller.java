@@ -1,11 +1,8 @@
 package com.seoulauction.renewal.controller.api;
 
 import com.seoulauction.renewal.common.RestResponse;
-import com.seoulauction.renewal.common.SAConst;
-import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.service.S3Service;
-import com.seoulauction.renewal.service.TestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,8 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("api/s3")
 public class ApiS3Controller {
-
-    private final TestService testService;
 
     private final S3Service s3Service;
 

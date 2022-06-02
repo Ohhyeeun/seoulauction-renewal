@@ -19,8 +19,8 @@ import java.security.Principal;
 @RequiredArgsConstructor
 @RequestMapping("api/main")
 public class ApiMainController {
+
     private final MainService mainService;
-    
     private final LoginService loginService;
 
     @RequestMapping(value = "/topNotice", method = RequestMethod.GET)
