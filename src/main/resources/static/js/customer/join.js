@@ -227,11 +227,13 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	$scope.nameValid = false;
 	$scope.emailValid = false;
 	angular.element(document).ready(function () {
-		$('form').each(function(){
-			this.reset();
-		})
-		$("#addr_word").val('');
-		$("#emp_name").val('');
+		if(!$scope.isSocial()){
+			$('form').each(function(){
+				this.reset();
+			})
+			$("#addr_word").val('');
+			$("#emp_name").val('');
+		}
     });
     
 	$scope.init = function(){
@@ -1181,8 +1183,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		}).then(function(response) {
 			var result = response.data;
 			if(result.success){
-				console.log('성공')
-//				location.href = '/joinDone'
+				location.href = '/joinDone'
 			}
 		})
 //		.catch(function(error){

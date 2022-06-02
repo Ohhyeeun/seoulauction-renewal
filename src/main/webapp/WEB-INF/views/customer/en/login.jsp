@@ -83,13 +83,13 @@
 			                            <div class="login-find">
 			                                <ul>
 			                                    <li>
-			                                        <a href="#" class="tt6">Forgot your ID?</a>
+			                                        <a href="/findId" class="tt6">Forgot your ID?</a>
 			                                    </li>
 			                                    <li>
-			                                        <a href="#" class="tt6">Forgot your password?</a>
+			                                        <a href="/findPassword" class="tt6">Forgot your password?</a>
 			                                    </li>
 			                                    <li>
-			                                        <a href="#" class="tt6">Register</a>
+			                                        <a href="/join" class="tt6">Register</a>
 			                                    </li>
 			                                </ul>
 			
@@ -103,15 +103,12 @@
 			                                <div class="sns_icon_wrap">
 			                                    <!-- [0516]링크추가 -->
 			                                    <ul>
-			                                        <li>
-			                                            <a href="#" target="_blank"><i class="icon-sns_naver"></i></a>
-			                                            <div class="sns_latest_wrap">
-			                                                <img class="only-mb" src="/images/mobile/login/latest_login.png">
-			                                            </div>
-			                                        </li>
-			                                        <li><a href="#" target="_blank"><i class="icon-sns_kakao"></i></a></li>
-			                                        <li><a href="#" target="_blank"><i class="icon-sns_google"></i></a></li>
-			                                        <li><a href="#" target="_blank"><i class="icon-sns_apple"></i></a></li>
+			                                        <li><a ng-click="naverButtonClick()" href="#" target="_blank"><i class="icon-sns_naver"></i></a></li>
+			                                        <div id="naverIdLogin" style="display:none"></div>
+			                                        <li><a ng-click="loginWithKakao()" href="#" target="_blank"><i class="icon-sns_kakao"></i></a></li>
+			                                        <li><a id="googleIdLogin" href="#" target="_blank"><i class="icon-sns_google"></i></a></li>
+			                                        <li><a ng-click="appleButtonClick()" href="#" target="_blank"><i class="icon-sns_apple"></i></a></li>
+			                                        <div id="appleid-signin" style="display:none" data-type="sign in"></div>
 			                                    </ul>
 			                                    <!-- // [0516]링크추가 -->
 			
@@ -122,6 +119,8 @@
 			                </div>
 			            </section>
 					</div>
+					<input type="hidden" name="social_type" id="social_type" ng-model="social_type"/>
+					<input type="hidden" name="social_email" id="social_email" ng-model="social_email"/>
 					</form>
 				</div>
 			<jsp:include page="../../include/ko/footer.jsp" flush="false"/>
@@ -131,6 +130,7 @@
 	
 	<!-- 카카오 -->
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 	<!-- 네이버 -->
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2-nopolyfill.js" charset="utf-8"></script>
 	<!--  구글 -->
@@ -138,5 +138,6 @@
 	<script src="https://apis.google.com/js/api:client.js"></script>
 	<!-- 애플 -->
 	<script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+	<!-- 로그인 -->
 	<script type="text/javascript" src="/js/customer/login.js"></script>
 </html>
