@@ -28,10 +28,6 @@ public class LoginService {
     public int insertConnHist(CommonMap paramMap){
         return loginMapper.insertConnHist(paramMap);
     }
-
-    public int updateCustPasswdByCustNo(CommonMap paramMap){
-        return loginMapper.updateCustPasswdByCustNo(paramMap);
-    }
     
     public int updateCustPwdResetByCustNo(CommonMap paramMap){
         return loginMapper.updateCustPwdResetByCustNo(paramMap);
@@ -123,8 +119,5 @@ public class LoginService {
 
 		return ip;
 	}
-
-    public CommonMap selectCustForChkPassword(CommonMap paramMap){
-    	return loginMapper.selectCustForChkPassword(paramMap);
-    }
+    
 }

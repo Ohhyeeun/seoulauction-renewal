@@ -14,8 +14,6 @@ public interface LoginMapper {
     
     CommonMap selectCustByCustNo(CommonMap paramMap);
     
-    int updateCustPasswdByCustNo(CommonMap paramMap);
-    
     int updateCustPwdResetByCustNo(CommonMap paramMap);
     
     int updateCustPwdModDtByCustNo(CommonMap paramMap);
@@ -48,5 +46,4 @@ public interface LoginMapper {
 
     CommonMap selectCustForCustSocial(CommonMap paramMap);
 
-    CommonMap selectCustForChkPassword(CommonMap paramMap);
 }

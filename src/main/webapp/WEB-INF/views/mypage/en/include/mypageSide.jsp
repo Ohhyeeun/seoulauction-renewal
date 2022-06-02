@@ -5,6 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <jsp:include page="../../../common/commonJs.jsp" flush="false"/>
 <script type="text/javascript" src="/js/mypage/mypageSide.js"></script>
+<sec:authentication property="details.socialYn" var="socialYn"/>
 <!-- 마이페이지 싸이드 메뉴 -->
 <div ng-controller="myPageCtl">
 <aside class="aside-area"  >
@@ -61,8 +62,10 @@
 					<li class="cate1-group"><span>회원정보관리</span>
 						<ul>
 							<li class="" id="test5"><a href="#">회원정보수정</a></li>
+							<c:if test="${socialYn == 'N' }">
 							<li class="" id="passwordModify"><a href="/mypage/passwordModify">비밀번호수정</a></li>
 							<li class="" id="test7"><a href="#">SNS연동설정</a></li>
+							</c:if>
 						</ul></li>
 				</ul>
 			</div>
