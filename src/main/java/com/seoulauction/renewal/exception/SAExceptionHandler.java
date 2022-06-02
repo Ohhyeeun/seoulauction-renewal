@@ -3,7 +3,7 @@ package com.seoulauction.renewal.exception;
 import com.seoulauction.renewal.common.RestResponse;
 import com.seoulauction.renewal.component.SlackSender;
 import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.utill.ExceptionUtils;
+import com.seoulauction.renewal.util.ExceptionUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;

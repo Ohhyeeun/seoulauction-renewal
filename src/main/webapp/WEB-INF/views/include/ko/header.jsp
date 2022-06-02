@@ -27,41 +27,63 @@
 <sec:authorize access="isAnonymous()">
    sessionStorage.setItem("is_login", "false" );
 </sec:authorize>
+function logout(loginId){
+	console.log(loginId)
+	//TODO 소셜타입에 따른 SNS로그아웃처리
+	sessionLogout();
+}
+// 세션로그아웃
+function sessionLogout() {
+	window.location.href = "/processLogout";
+}
 </script>
 <html lang="ko" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
     <script>
-        app.requires.push.apply(app.requires, ["ngDialog", "checklist-model"]);
-        app.controller('headCtl', function($scope, consts, common, is_login, locale, $filter) {
 
-            $scope.recommandSearch =  function(){
-
-                //추천 검색어
-                axios.get('/api/auction/selectRecommandArtist').then(function (response) {
-                    console.log(response);
-                    const success = response.data.success;
-
-                    $('.recommend-search-part').empty();
-
-                    if (success) {
-                        const data = response.data.data;
-                        let html = '<span class="keyword-search-tit">추천검색</span>';
-                        $('.recommend-search-part').append(html);
-                        data.map(item => {
-                            let innerHtml = '<a href="/sale/search?searchContent=' + item.name + '" class="recommend-keyword">' + item.name + '</a>';
-                            $('.recommend-search-part').append(innerHtml);
-                        });
-                    }
-                }).catch(function (error) {
-                    console.log(error);
-                });
-            }
-            // 최근 검색어
-
-        });
     </script>
-    <div class="beltbox-swiper">
+    <%--<div class="beltbox-swiper">
         <div class="swiper-wrapper"></div>
+    </div>--%> 
+    <div class="header_beltbox on"> <!--class="on" block-->
+        <div class="wrap belttxtbox wrap_padding"> <!-- ul -->
+            <span class="header_beltTit">  <!-- 최대 5개 최소 1개 상시 -->    <!--//li-->
+                    <a href="#">
+                        <span class="text-over belt_tit">
+                            구매수수료율 인상 및 약관 개정안내 구매수수료율 0
+                        </span>
+                    </a>
+                </span>
+            <span class="header_beltTit">
+                    <a href="#">
+                        <span class="text-over belt_tit">
+                            구매수수료율 인상 및 약관 개정안내 구매수수료율 1
+                        </span>
+                    </a>
+                </span>
+            <span class="header_beltTit">
+                    <a href="#">
+                        <span class="text-over belt_tit">
+                            구매수수료율 인상 및 약관 개정안내 구매수수료율 2
+                        </span>
+                    </a>
+                </span>
+            <span class="header_beltTit">
+                    <a href="#">
+                        <span class="text-over belt_tit">
+                            구매수수료율 인상 및 약관 개정안내 구매수수료율 3
+                        </span>
+                    </a>
+                </span>
+            <span class="header_beltTit">
+                    <a href="#">
+                        <span class="text-over belt_tit">
+                            구매수수료율 인상 및 약관 개정안내 구매수수료율 4
+                        </span>
+                    </a>
+                </span>
+        </div>
+        <span class="beltclose-btn closebtn closebtn-w"></span>
     </div>
 
     <div>
@@ -73,7 +95,7 @@
                 </ul>
             </li>
             <sec:authorize access="isAnonymous()"> <!-- !login -->
-                <li class="utility-join"><a href="#">회원가입</a></li>
+                <li class="utility-join"><a href="/join">회원가입</a></li>
                 <li class="utility-login"><a href="/login">로그인</a></li>
             </sec:authorize>
             <sec:authorize access="isAuthenticated()"> <!-- login -->
@@ -108,13 +130,7 @@
                         <input onkeydown="searchFilter()" onmousedown="searchDown()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();"><button type="submit" class="topsearch-btn pc-ver"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">
-                                <span class="keyword-search-tit">최근검색<span class="keyword-all-del">전체삭제</span></span><!--
-                                    --><span class="recent-keyword"><a href="#">김선우</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">하이에르 카예하</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">김환기</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">이우환</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">박수근</a><span class="keyword-del"></span></span><!--
-                                    -->
+                                <span class="keyword-search-tit">최근검색<span class="keyword-all-del">전체삭제</span></span>
                             </div>
                             <div class="recommend-search-part">
                             </div>

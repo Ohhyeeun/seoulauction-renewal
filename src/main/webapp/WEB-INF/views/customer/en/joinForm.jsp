@@ -30,7 +30,7 @@
 		                            </div>
 		                        </div>
 		                        
-								<form id="joinForm" action="" method="post" enctype='multipart/form-data'>
+								<form id="joinForm" enctype='multipart/form-data'>
 		                        <div class="panel-body">
 		
 		                            <ul class="form_list">
@@ -123,7 +123,7 @@
 		                                    <div class="form_body">
 		                                        <div class="form_body">
 		                                        	<div ng-show="nationMobile != '' && nationMobile != undefined">+{{nationMobile}}</div>
-			                                    	<input type="text" tabindex="6" onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);" ng-blur="authNumRequest()" ng-model="form_data.hp" name="hp" id="hp" class="form-control" placeholder="">
+			                                    	<input type="text" tabindex="6" onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);" ng-model="form_data.hp" name="hp" id="hp" class="form-control" placeholder="">
 		                                        </div>
 		                                    </div>
 		                                </li>
@@ -172,14 +172,14 @@
 		                                            <input type="text" id="fileName" class="trp-Filetext">
 		                                            <input type="button" class="btn btn_light_gray_line" value="Select File">
 <!-- 		                                            <input type="file" class="trp-Filehidden" name="fore_id_file" id="fore_id_file" onchange="javascript: document.getElementById('fileName').value = this.value" title="Insert Attachment"> -->
-													<input type="file" tabindex="13" class="trp-Filehidden" ng-model="form_data.fore_id_file" name="fore_id_file" id="fore_id_file" onchange="angular.element(this).scope().fileValidCheck('id')" title="Insert Attachment">
+													<input type="file" tabindex="13" class="trp-Filehidden" ng-model="form_data.fore_id_file" name="fore_id_file" id="fore_id_file" onchange="angular.element(this).scope().fileValidCheck('fore_id_file')" title="Insert Attachment">
 		                                        </div>
 		                                        <p class="error_text tb2">{{fore_id_msg}}</p>
 		                                        <div class="file-box-list" ng-hide="fore_id_filename == '' || fore_id_filename == undefined">
 		                                            <p class="label">
 		                                                <i class="icon_down"></i>
 		                                                <span class="tb1">{{fore_id_filename}}</span>
-		                                                <a href="#none" class="btn_del" ng-click="fileDelete('id')"><span class="icon-del"></span></a>
+		                                                <a href="#none" class="btn_del" ng-click="fileDelete('fore_id_file')"><span class="icon-del"></span></a>
 		                                            </p>
 		                                        </div>
 		
@@ -202,14 +202,14 @@
 		                                            <input type="text" id="fileName" class="trp-Filetext">
 		                                            <input type="button" class="btn btn_light_gray_line" value="Select File">
 <!-- 		                                            <input type="file" class="trp-Filehidden" name="fore_doc_file" id="fore_doc_file" onchange="javascript: document.getElementById('fileName').value = this.value" title="Insert Attachment"> -->
-													<input type="file" tabindex="14" class="trp-Filehidden" ng-model="form_data.fore_doc_file" name="fore_doc_file" id="fore_doc_file" onchange="angular.element(this).scope().fileValidCheck('doc')" title="Insert Attachment">
+													<input type="file" tabindex="14" class="trp-Filehidden" ng-model="form_data.fore_doc_file" name="fore_doc_file" id="fore_doc_file" onchange="angular.element(this).scope().fileValidCheck('fore_doc_file')" title="Insert Attachment">
 		                                        </div>
 		                                        <p class="error_text tb2">{{fore_doc_msg}}</p>
 		                                        <div class="file-box-list" ng-hide="fore_doc_filename == '' || fore_doc_filename == undefined">
 		                                            <p class="label">
 		                                                <i class="icon_down"></i>
 		                                                <span class="tb1">{{fore_doc_filename}}</span>
-		                                                <a href="#none" class="btn_del" ng-click="fileDelete('doc')"><span class="icon-del"></span></a>
+		                                                <a href="#none" class="btn_del" ng-click="fileDelete('fore_doc_file')"><span class="icon-del"></span></a>
 		                                            </p>
 		                                        </div>
 		

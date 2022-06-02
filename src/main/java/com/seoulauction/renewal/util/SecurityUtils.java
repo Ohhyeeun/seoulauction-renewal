@@ -1,4 +1,4 @@
-package com.seoulauction.renewal.utill;
+package com.seoulauction.renewal.util;
 
 import com.seoulauction.renewal.domain.SAUserDetails;
 import lombok.extern.log4j.Log4j2;

@@ -93,16 +93,6 @@ $("body").on("click", "#popup_pwsearch5-wrap .js-closepop, #popup_pwsearch5-wrap
     popup_pwsearch5.close();
 });
 		
-function logout(loginId){
-	console.log(loginId)
-	//TODO 소셜타입에 따른 SNS로그아웃처리
-	sessionLogout();
-}
-
-// 세션로그아웃
-function sessionLogout() {
-	window.location.href = "/processLogout";
-}
 
 /************* 화면 작업 ***************/
 const locale = document.documentElement.lang;

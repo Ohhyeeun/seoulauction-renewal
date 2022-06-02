@@ -1,50 +1,32 @@
 package com.seoulauction.renewal.controller.api;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.collections.MapUtils;
+import com.seoulauction.renewal.auth.FrontAuthenticationProvider;
+import com.seoulauction.renewal.auth.SocialAuthenticationProvider;
+import com.seoulauction.renewal.common.RestResponse;
+import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.exception.SAException;
+import com.seoulauction.renewal.service.*;
+import com.seoulauction.renewal.util.CaptchaUtil;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import nl.captcha.Captcha;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
-import com.seoulauction.renewal.auth.FrontAuthenticationProvider;
-import com.seoulauction.renewal.auth.SocialAuthenticationProvider;
-import com.seoulauction.renewal.common.RestResponse;
-import com.seoulauction.renewal.common.SAConst;
-import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.domain.SAUserDetails;
-import com.seoulauction.renewal.exception.SAException;
-import com.seoulauction.renewal.mapper.kt.CertificationMapper;
-import com.seoulauction.renewal.service.CertificationService;
-import com.seoulauction.renewal.service.LoginService;
-import com.seoulauction.renewal.service.MessageService;
-import com.seoulauction.renewal.service.MypageService;
-import com.seoulauction.renewal.service.S3Service;
-import com.seoulauction.renewal.utill.CaptchaUtil;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import nl.captcha.Captcha;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -193,6 +175,17 @@ public class ApiLoginController {
 	    return resultMap;
 	}
 	
+	@RequestMapping(value="/isCompNoExist", method=RequestMethod.POST, headers = {"content-type=application/json"})
+	@ResponseBody
+	public List<CommonMap> isCompNoExist(String domain, @RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+
+	    log.info("isCompNoExist");
+	    log.info(paramMap.toString());
+	    
+	    List<CommonMap> resultMap = loginService.selectCustForExist(paramMap);
+	    return resultMap;
+	}
+	
 	@RequestMapping(value = "/employee", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> findAddr(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
@@ -225,6 +218,7 @@ public class ApiLoginController {
         	String custNo = "";
         	String socialType = paramMap.get("social_type") == null ? "" : paramMap.get("social_type").toString();
         	String localKindCd = paramMap.get("local_kind_cd") == null ? "" : paramMap.get("local_kind_cd").toString();
+        	String custKindCd = paramMap.get("cust_kind_cd") == null ? "" : paramMap.get("cust_kind_cd").toString();
         	Boolean pwEmail = Boolean.parseBoolean(paramMap.get("push_way_email").toString());
         	Boolean pwSms = Boolean.parseBoolean(paramMap.get("push_way_sms").toString());
         	Boolean pwPhone = Boolean.parseBoolean(paramMap.get("push_way_phone").toString());
@@ -273,7 +267,21 @@ public class ApiLoginController {
         	}
         	
         	if(localKindCd.equals("korean")) {
-	        	//국내회원 회원가입 완료시 로그인 처리 (국내 개인)
+        		if(custKindCd.equals("company")){
+        			//사업자회원 사업자등록증 s3 upload
+        			try {	
+        				Map<String, List<MultipartFile>> fileList = request.getMultiFileMap();
+        	    		
+        	    		MultipartFile compFile = fileList.get("comp_file").get(0);
+        	    		if(!compFile.getOriginalFilename().equals("")) {
+        	    			s3Service.insertS3FileData(true, compFile, "cust_comp", custNo);
+        	    		}
+        			} catch (Exception e) {
+        				e.printStackTrace();
+        			}
+        		}
+        		
+	        	//국내회원 회원가입 완료시 로그인 처리 (국내 개인,사업자)
     			//해외회원은 이메일 인증 후 로그인가능 (현재 STAT_CD == not_certify)
 	        	SecurityContext sc = SecurityContextHolder.getContext();
 	        	UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(paramMap.get("login_id").toString(), paramMap.get("passwd").toString());
@@ -313,5 +321,41 @@ public class ApiLoginController {
 		return ResponseEntity.ok(RestResponse.ok());
 	}
 	
+	// 소셜 로그인
+	@RequestMapping(value = "/social", method = RequestMethod.POST)
+	public ResponseEntity<RestResponse> socialLogin(HttpServletRequest request
+//			, @RequestParam(value = "socialEmail", required = false) String socialEmail
+//			, @RequestParam(value = "socialType", required = false) String socialType
+			, @RequestBody CommonMap paramMap
+			, RedirectAttributes redirect) {
+    	
+		log.info("socialLogin");
+		
+		log.info(paramMap.toString());
+		
+		// cust_social 테이블에서 조회하여 SAUserDetails생성
+//		CommonMap paramMap = new CommonMap();
+//		paramMap.put("social_email", socialEmail);
+//		paramMap.put("social_type", socialType);
+		CommonMap resultMap = loginService.selectCustForCustSocial(paramMap);
+		
+		if(resultMap == null) {
+			throw new SAException("testexception"); 
+		}
+		SAUserDetails parameterUserDetail = SAUserDetails.builder()
+				.loginId(resultMap.get("SOCIAL_LOGIN_ID").toString())
+				.userNm(resultMap.get("CUST_NAME").toString())
+				.ip(loginService.getIp(request))
+				.build();
 
+		SecurityContext sc = SecurityContextHolder.getContext();
+		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(resultMap.get("SOCIAL_LOGIN_ID").toString(), null);
+		auth.setDetails(parameterUserDetail);
+		sc.setAuthentication(socialAuthenticationProvider.authenticate(auth));
+
+		HttpSession session = request.getSession(true);
+		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
+
+        return ResponseEntity.ok(RestResponse.ok(resultMap.get("SOCIAL_LOGIN_ID").toString()));
+	}
 }

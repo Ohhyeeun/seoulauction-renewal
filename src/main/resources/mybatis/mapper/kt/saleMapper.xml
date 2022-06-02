@@ -299,7 +299,6 @@
           AND SALE_NO = #{sale_no}
           AND LOT_NO = #{lot_no};
     </update>
-
     <sql id="searchList">
         select L.SALE_NO, L.LOT_NO
         , S.SALE_KIND_CD
@@ -566,6 +565,4 @@
           and a.CLOSE_YN = 'N'
           and b.CLOSE_YN = 'N';
     </select>
-
-
 </mapper>

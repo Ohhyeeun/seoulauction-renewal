@@ -12,7 +12,7 @@ import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.service.SaleService;
-import com.seoulauction.renewal.utill.SecurityUtils;
+import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
@@ -371,9 +371,7 @@ public class ApiSaleController {
     public ResponseEntity<RestResponse> searchList(
             @RequestBody CommonMap map, Principal principal) throws Exception {
 
-        if(principal == null){
-            map.put("action_user_no", 126211);
-        }else{
+        if(principal != null){
             map.put("action_user_no", principal.getName());
         }
         map.put("list_type", "SEARCH");

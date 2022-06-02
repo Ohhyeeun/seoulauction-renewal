@@ -81,13 +81,47 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 	}
 	
-	$scope.total = function(str) {
-		str = String(str);
-		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	$scope.getPayTotal = function(price, lot_fee_string) {		
+		var subFee = 0.0;
+		var totalFee = 0.0;
+		var sub_price = 0;
+		var lot_fee = JSON.parse(lot_fee_string);
+
+		if(lot_fee[0]["PRICE_FROM"] == 0 && lot_fee[0]["PRICE_TO"] == 0){
+			sub_price = price;
+		}
+		else if(lot_fee[0]["PRICE_FROM"] == 0 && lot_fee[0]["PRICE_TO"] > 0){
+			if(price > lot_fee[0]["PRICE_TO"]){
+				sub_price = lot_fee[0]["PRICE_TO"];
+			}
+			else{
+				sub_price = price;
+			}
+		}
+		else if(lot_fee[0]["PRICE_FROM"] > 0 && lot_fee[0]["PRICE_TO"] > 0){
+			sub_price = price - (lot_fee[0]["PRICE_TO"] - (lot_fee[0]["PRICE_FROM"] - 1));
+			
+			if(sub_price > (lot_fee[0]["PRICE_TO"] - (lot_fee[0]["PRICE_FROM"] - 1))){
+				sub_price = (lot_fee[0]["PRICE_TO"] - (lot_fee[0]["PRICE_FROM"] - 1));
+			}
+		}
+		else if(lot_fee[0]["PRICE_FROM"] > 0 && lot_fee[0]["PRICE_TO"] == 0){
+			sub_price = price - (lot_fee[0]["PRICE_FROM"] - 1);
+		}
+		
+		if(sub_price > 0 ){
+			subFee = sub_price * (lot_fee[0]["RATE"]/100);
+		}
+
+		console.log("=======>");
+		console.log(subFee);
+		console.log(sub_price);
+		totalFee += subFee;
+		subFee = 0.0;
+		
+		
+		return {"price" : $scope.comma(price + totalFee), "fee" : $scope.comma(totalFee)};
 	}
+		
 	
-	$scope.fee = function(str) {
-		str = String(str);
-		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-	}
 });
