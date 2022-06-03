@@ -551,8 +551,8 @@
                COLUMN_JSON(b.EXPE_PRICE_TO_BLOB)   EXPE_PRICE_TO_JSON,
                IFNULL(g.DEL_YN,'Y') DEL_YN,
                b.LOT_TAG,
-               a.FROM_DT,
-               a.TO_DT
+               date_format(a.FROM_DT,'%m.%d(%a)') FROM_DT,
+               date_format(a.TO_DT, '%m.%d(%a)') TO_DT
         from sale a
                  inner join lot b on a.SALE_NO = b.SALE_NO
                  inner join lot_img c on b.SALE_NO = c.SALE_NO and b.LOT_NO = c.LOT_NO and c.DISP_ORD = 1

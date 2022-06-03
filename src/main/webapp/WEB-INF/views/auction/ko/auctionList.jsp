@@ -70,7 +70,7 @@
                                         <div class="col_item mb-col1">
                                             <div class="select-box">
                                                 <div class="trp-dropdown-area h42-line">
-                                                    <button class="js-dropdown-btn"><em>200</em><span>LOT</span><i
+                                                    <button class="js-dropdown-btn"><em>{{saleInfoAll.length}}</em><span>LOT</span><i
                                                             class="form-select_arrow_md"></i>
                                                     </button>
                                                     <div class="trp-dropdown_list-box"
@@ -416,6 +416,7 @@
             }
             $scope.searchSaleInfoAll = pp;
             $scope.pageing($scope.curpage);
+
         }
 
         $scope.goLot = function (saleNo, lotNo) {
@@ -519,11 +520,15 @@
 
         $scope.rerange = function () {
             let sst = parseInt($scope.selectSortType)
-            console.log("$eventIndex",)
+
+            let v = $scope.saleInfoAll;
+            if ($scope.searchSaleInfoAll != null && $scope.searchSaleInfoAll.length > 0) {
+                v = $scope.searchSaleInfoAll;
+            }
             switch (sst) {
                 case 1:
                     // lot 번호 순
-                    $scope.saleInfoAll.sort(function (a, b) {
+                    v.sort(function (a, b) {
                         if (a.LOT_NO > b.LOT_NO) return 1;
                         if (a.LOT_NO === b.LOT_NO) return 0;
                         if (a.LOT_NO < b.LOT_NO) return -1;
@@ -532,7 +537,7 @@
                 case 2:
 
                     // lot 추정가 높은 순
-                    $scope.saleInfoAll.sort(function (a, b) {
+                    v.sort(function (a, b) {
                         if (a.EXPE_PRICE_TO_JSON.KRW > b.EXPE_PRICE_TO_JSON.KRW) return -1;
                         if (a.EXPE_PRICE_TO_JSON.KRW === b.EXPE_PRICE_TO_JSON.KRW) return 0;
                         if (a.EXPE_PRICE_TO_JSON.KRW < b.EXPE_PRICE_TO_JSON.KRW) return 1;
@@ -541,7 +546,7 @@
                 case 3:
 
                     // lot 추정가 낮은 순
-                    $scope.saleInfoAll.sort(function (a, b) {
+                    v.sort(function (a, b) {
                         if (a.EXPE_PRICE_TO_JSON.KRW > b.EXPE_PRICE_TO_JSON.KRW) return 1;
                         if (a.EXPE_PRICE_TO_JSON.KRW === b.EXPE_PRICE_TO_JSON.KRW) return 0;
                         if (a.EXPE_PRICE_TO_JSON.KRW < b.EXPE_PRICE_TO_JSON.KRW) return -1;
@@ -550,7 +555,7 @@
                 case 4:
 
                     // 응찰가 높은 순
-                    $scope.saleInfoAll.sort(function (a, b) {
+                    v.sort(function (a, b) {
                         if (a.EXPE_PRICE_TO_JSON.KRW > b.EXPE_PRICE_TO_JSON.KRW) return 1;
                         if (a.EXPE_PRICE_TO_JSON.KRW === b.EXPE_PRICE_TO_JSON.KRW) return 0;
                         if (a.EXPE_PRICE_TO_JSON.KRW < b.EXPE_PRICE_TO_JSON.KRW) return -1;
@@ -559,7 +564,7 @@
                 case 5:
 
                     // 응찰가 낮은 순
-                    $scope.saleInfoAll.sort(function (a, b) {
+                    v.sort(function (a, b) {
                         if (a.EXPE_PRICE_TO_JSON.KRW > b.EXPE_PRICE_TO_JSON.KRW) return -1;
                         if (a.EXPE_PRICE_TO_JSON.KRW === b.EXPE_PRICE_TO_JSON.KRW) return 0;
                         if (a.EXPE_PRICE_TO_JSON.KRW < b.EXPE_PRICE_TO_JSON.KRW) return 1;
@@ -568,7 +573,7 @@
                 case 6:
 
                     // 응찰수 높은 순
-                    $scope.saleInfoAll.sort(function (a, b) {
+                    v.sort(function (a, b) {
                         if (a.EXPE_PRICE_TO_JSON.KRW > b.EXPE_PRICE_TO_JSON.KRW) return 1;
                         if (a.EXPE_PRICE_TO_JSON.KRW === b.EXPE_PRICE_TO_JSON.KRW) return 0;
                         if (a.EXPE_PRICE_TO_JSON.KRW < b.EXPE_PRICE_TO_JSON.KRW) return -1;
@@ -577,7 +582,7 @@
                 case 7:
 
                     // 응찰수 낮은 순
-                    $scope.saleInfoAll.sort(function (a, b) {
+                    v.sort(function (a, b) {
                         if (a.EXPE_PRICE_TO_JSON.KRW > b.EXPE_PRICE_TO_JSON.KRW) return -1;
                         if (a.EXPE_PRICE_TO_JSON.KRW === b.EXPE_PRICE_TO_JSON.KRW) return 0;
                         if (a.EXPE_PRICE_TO_JSON.KRW < b.EXPE_PRICE_TO_JSON.KRW) return 1;
@@ -587,19 +592,20 @@
             $scope.pageing($scope.curpage);
         }
         $scope.pageing = function (page) {
-
             let v = $scope.saleInfoAll;
-
-            if ($scope.searchSaleInfoAll != null && $scope.searchSaleInfoAll.length > 0) {
+            if ( $scope.searchValue.length > 0 ){
                 v = $scope.searchSaleInfoAll;
+            } else {
+                if ($scope.searchSaleInfoAll != null && $scope.searchSaleInfoAll.length > 0) {
+                    v = $scope.searchSaleInfoAll;
+                }
             }
-
             $scope.saleInfo = v.slice(($scope.itemsize * (page - 1)), $scope.itemsize * page);
+
             //paging
             $scope.pageingdata = function () {
                 let p = [];
                 let endVal = 0;
-
                 let etc = (v.length % $scope.itemsize > 0) ? 1 : 0;
                 let end = parseInt(v.length / $scope.itemsize) + etc;
 
@@ -608,7 +614,6 @@
                 } else {
                     endVal = $scope.pagesize + (parseInt(page / $scope.pagesize) + 1);
                 }
-
                 for (let i = ($scope.pagesize * parseInt((page - 1) / $scope.pagesize)) + 1; i <= endVal; i++) {
                     p.push(i);
                 }
