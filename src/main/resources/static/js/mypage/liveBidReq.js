@@ -19,8 +19,11 @@ app.controller('liveBidReqListCtl', function($scope, consts, common) {
 		            if(!success){
 		                alert(result.data.msg);
 		            } else {
-					$scope.liveBidReqList = result["data"]["list"];
+					//$scope.liveBidReqList = result["data"]["list"];
 					$scope.liveBidReqCnt = result["data"]["cnt"] || 0;
+					
+					$scope.liveBidReqList = Object.keys($scope.groupBy(result["data"]["list"],'SALE_NO')).map((key) => [Number(key), $scope.groupBy(result["data"]["list"],'SALE_NO')[key]]).sort((a, b) => b[0] - a[0]);
+					console.log($scope.liveBidReqList);
 					$scope.$apply();
 		            }
 		        })
