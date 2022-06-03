@@ -182,6 +182,29 @@ public class ApiMypageController {
 		commonMap.put("action_user_no", principal.getName());
 		return ResponseEntity.ok(RestResponse.ok(mypageService.deleteCustInteLot(commonMap)));
 	}
+
+	
+	@RequestMapping(value = "/liveBidReqs", method = RequestMethod.GET)
+	public ResponseEntity<RestResponse> liveBidReqs(
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		CommonMap commonMap = new CommonMap();
+		commonMap.putPage(page, size);
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectBidReqList(commonMap)));
+	}
+	
+	@RequestMapping(value = "/liveBids", method = RequestMethod.GET)
+	public ResponseEntity<RestResponse> liveBids(
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		CommonMap commonMap = new CommonMap();
+		commonMap.putPage(page, size);
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectBidList(commonMap)));
+	}
 	
 	//비밀번호 확인
 	@RequestMapping(value="/chkPassword", method=RequestMethod.POST, headers = {"content-type=application/json"})

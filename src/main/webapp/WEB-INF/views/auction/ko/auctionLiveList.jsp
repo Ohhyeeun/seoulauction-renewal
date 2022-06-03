@@ -258,7 +258,7 @@
                 </div>
             </div>
             <!-- // stykey -->
-
+            <jsp:include page="popup/paddle.jsp" />
         </div>
     </div>
 

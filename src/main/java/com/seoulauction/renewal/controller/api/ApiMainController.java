@@ -150,4 +150,10 @@ public class ApiMainController {
     	
         return ResponseEntity.ok(RestResponse.ok());
     }
+
+    @RequestMapping(value = "/bigBanners", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> bigBanners(){
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectBigBanners()));
+    }
+
 }

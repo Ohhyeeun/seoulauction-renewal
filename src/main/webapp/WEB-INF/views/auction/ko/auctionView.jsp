@@ -159,7 +159,7 @@
                                                     <span>b.{{lotInfo.BORN_YEAR}}</span>
                                                 </div>
                                                 <div class="desc">
-                                                    <span ng-bind="lotInfo.TITLE_KO_TXT"></span>
+                                                    <span class="text-over span_block" ng-bind="lotInfo.TITLE_KO_TXT"></span>
                                                 </div>
                                             </div>
                                             <div class="price-area">
