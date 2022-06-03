@@ -190,7 +190,7 @@ function  loadBigBanner (){
                                                 </figure>
                                                 <figurecaption class="visual_caption">
                                                     <div>
-                                                        <h1 퍼class="slide-tit">${item.content.title[locale]}</h1>
+                                                        <h1 class="slide-tit">${item.content.title[locale]}</h1>
                                                         <p>
                                                             ${item.content.sub_title[locale]}
                                                         </p>
@@ -206,7 +206,7 @@ function  loadBigBanner (){
                 });
 
                 visualSwiper.appendSlide(slideArray);
-                visualSwiper.init();
+
                 document.querySelector(".playBtn").addEventListener("click", function(e){
                     visualSwiper.autoplay.start('fast');
                     $(this).css({'display': 'none'});
