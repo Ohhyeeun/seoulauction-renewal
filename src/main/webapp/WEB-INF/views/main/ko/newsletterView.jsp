@@ -40,13 +40,8 @@
                             <div class="panel-header">
 
                                 <article class="edit_view-header_notice-area" ng-model="newsletter">
-                                    <div class="area-inner">
-                                        <div class="title">
-                                            <span>{{newsletter.content['ko'].newsletter_title}}<i class="new" ng-if="newsletter.is_new == 'Y'">N</i></span>
-                                        </div>
-                                        <div class="desc">
-                                            <span class="">{{newsletter.content['ko'].newsletter_memo}}</span>
-                                        </div>
+                                    <div class="area-inner" id="title_area">
+
                                     </div>
                                 </article>
 
@@ -73,7 +68,7 @@
                             <div class="panel-footer">
                                 <article class="button-area">
                                     <div class="btn_set-float tac">
-                                        <a class="btn btn_default btn_lg" href="#" role="button"><span>목록</span></a>
+                                        <a class="btn btn_default btn_lg" href="/newsletter" role="button"><span>목록</span></a>
                                     </div>
                                 </article>
                             </div>
@@ -106,11 +101,38 @@
 app.value('locale', 'ko');
 app.controller('newsLetterCtl', function($scope, consts, common, locale) {
     $scope.loadNewsletter = function() {
-        common.callGetAPI('/api/main/newsletters/${id}', {}, function(data, status) {
-            $scope.newsletter = data.data;
-            $scope.newsletter.content = JSON.parse(data.data.content);
-            const date = data.data.publish_at.replace(/(\d+)\-(\d+)\-(\d+)/, '$1$2');
-            $("#loadHtml").load("/nas_img/front/homepage/newsletter/"+date+"/KOR/"+date+"_KOR.html");
+
+        axios.get('/api/main/newsletters/${id}').then(function(response) {
+
+                console.log(response);
+                const success = response.data.success;
+                if (success) {
+
+                    $scope.newsletter = response.data.data;
+                    $scope.newsletter.content = JSON.parse(response.data.data.content);
+                    const date = response.data.data.publish_at.replace(/(\d+)\-(\d+)\-(\d+)/, '$1$2');
+
+                    let iframeHmtl = '<iframe id="iframe-id" src="'+ $scope.newsletter.content[locale].link_url +'" frameborder="0" width="100%" height="900"></iframe>'
+                    $("#loadHtml").append(iframeHmtl);
+
+                    let newDom = '';
+                    if($scope.newsletter.isnew == 'Y'){
+                        newDom = '<i class="new">N</i>';
+                    }
+
+                    let returnDom = '<div class="title">'
+                        + '<span>' + $scope.newsletter.content[locale].newsletter_title +  newDom + '</span>'
+                        + '</div>'
+                        + '<div class="desc">'
+                        + '<span class="">' + $scope.newsletter.content[locale].newsletter_memo  + '</span>'
+                        + '</div>';
+
+                    $('#title_area').append(returnDom);
+
+                }
+        });
+
+        $("#iframe-id").on('load', function(){
         });
     }
 });
