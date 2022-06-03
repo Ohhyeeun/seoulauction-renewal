@@ -42,8 +42,8 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 	// 네이버초기화
 	naverLogin = new naver.LoginWithNaverId({
 		clientId: "5qXZytacX_Uy60o0StGT",
-		callbackUrl: "https://local.seoulauction.com:9000/social/naver/callback?action=login",
-		isPopup: false,
+		callbackUrl: "https://local.seoulauction.com:9000/social/naver/callback?action=join",
+		isPopup: true,
 		loginButton: {
 			color: "green",
 			type: 3,
@@ -118,13 +118,6 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 
 	// 네이버회원가입
 	$scope.naverJoin = function() {
-		naverLogin = new naver.LoginWithNaverId({
-			clientId: "5qXZytacX_Uy60o0StGT",
-			callbackUrl: "https://local.seoulauction.com:9000/social/naver/callback?action=join",
-			isPopup: false
-		});
-	
-		naverLogin.init();
 		var loginButton = document.getElementById("naverIdLogin").firstChild;
 		loginButton.click();
 	};
