@@ -164,6 +164,14 @@ public class MypageService {
     	map.put("cnt", mypageMapper.selectLiveBidReqCnt(commonMap));                                                                          
         return map;
     }
+    
+    public CommonMap selectBidReqHistoryList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectLiveBidReqHistoryList(commonMap));
+//    	map.put("cnt", mypageMapper.selectLiveBidReqCnt(commonMap));                                                                          
+        return map;
+    }
+    
     public CommonMap selectBidList(CommonMap commonMap){
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectLiveBidList(commonMap));

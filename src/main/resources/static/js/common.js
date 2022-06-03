@@ -301,27 +301,35 @@ $(function(){
     });
 
     /*top search placeholder */
-    const inWidth = window.innerWidth;
-    if(inWidth > 1279) {
-        $('.topsearch>input').attr('placeholder','작가 또는 작품명 검색');
-        $('.topsearch-en>input').attr('placeholder','Search by artist or work name');
-        $('.darkmodeBg').hover(function(){
-            $('.darkmode').toggleClass('active');
-        }, function(){
-            $('.darkmode').toggleClass('active');
-        });
-        $('.darkmodeBg.dark').hover(function(){
-            $('.darkmode.dark').toggleClass('active');
-        }, function(){
-            $('.darkmode.dark').toggleClass('active');
-        });
-    } else if(inWidth > 720) {
-        $('.topsearch>input').attr('placeholder','검색');
-        $('.topsearch-en>input').attr('placeholder','Search');
-    } else {
-        $('.topsearch>input').attr('placeholder','검색을 입력하세요');
-        $('.topsearch-en>input').attr('placeholder','Search');
-    };
+    $(window).resize(function(){
+        const windowWidth1279 = window.matchMedia('screen and (min-width:1279px)');
+        const windowWidth1024 = window.matchMedia('screen and (min-width:1024px)');
+        const windowWidth1023 = window.matchMedia('screen and (max-width:1023px)');
+
+        if(windowWidth1279.matches){
+            console.log(234324);
+            $('.topsearch>input').attr('placeholder','작가 또는 작품명 검색');
+            $('.topsearch-en>input').attr('placeholder','Search by artist or work name');
+            $('.darkmodeBg').hover(function(){
+                $('.darkmode').toggleClass('active');
+            }, function(){
+                $('.darkmode').toggleClass('active');
+            });
+            $('.darkmodeBg.dark').hover(function(){
+                $('.darkmode.dark').toggleClass('active');
+            }, function(){
+                $('.darkmode.dark').toggleClass('active');
+            });
+        } else if(windowWidth1024.matches) {
+            console.log(42365235);
+            $('.topsearch>input').attr('placeholder','검색');
+            $('.topsearch-en>input').attr('placeholder','Search');
+        } else if(windowWidth1023.matches){
+            console.log(32523);
+            $('.topsearch>input').attr('placeholder','검색을 입력하세요');
+            $('.topsearch-en>input').attr('placeholder','Search');
+        }
+    });
 
     /* footer family site */
     $('.Familysite').click(function(){
@@ -342,11 +350,6 @@ $(function(){
 /* scroll top */
 $('.scroll-top').click(function(){
     $('html, body').animate({scrollTop: '0'}, 700);
-});
-
-/* top search 클릭 할 때 filter 기능 */
-$('.topsearch-text').click(function(){
-    $('.search-bubble-box').toggleClass('on');
 });
 
 /* top search filter 기능 */

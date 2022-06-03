@@ -59,9 +59,11 @@ public interface MypageMapper {
     int updateCustPasswdByCustNo(CommonMap paramMap);
     
     List<CommonMap> selectLiveBidReqList(CommonMap commonMap);
-    
+
     int selectLiveBidReqCnt(CommonMap commonMap);
     
+    List<CommonMap> selectLiveBidReqHistoryList(CommonMap commonMap);
+
     List<CommonMap> selectLiveBidList(CommonMap commonMap);
     
     int selectLiveBidCnt(CommonMap commonMap);

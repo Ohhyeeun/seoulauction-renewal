@@ -41,42 +41,38 @@
                                                 <!-- [0526]상품진열디자인 변경 : product-infobox 안에 product-infobox-inner 생성 -->
                                                 <article class="bid-list-wrap">
                                                     <div class="bid-list">
-                                                        <dl class="bid-item">
+                                                        <dl class="bid-item" ng-repeat="liveBidReq in liveBidReqList">
                                                             <dt>
                                                                 <div class="title-area">
                                                                     <div class="title tt4">
-                                                                        <span>2022 4월 e-BID 온라인 프리미엄 경매 II</span>
+                                                                        <span>{{liveBidReq[1][0].SALE_TITLE_KR}}</span>
                                                                     </div>
                                                                     <div class="desc tb1">
                                                                         <span class="tit">경매일</span>
-                                                                        <span>2022.04.14 14:00 순차마감</span>
+                                                                        <span>{{liveBidReq[1][0].FROM_DT}} 순차마감</span>
                                                                     </div>
                                                                 </div>
-                                                                <div class="btn-area">
-                                                                    <button class="btn btn_point btn-view-ing" type="button"><span>진행경매보기</span></button>
+                                                                 <div class="btn-area">
+                                                                   <button ng-if="liveBidReq[1][0].CLOSE_YN != 'Y'"  class="btn btn_point btn-view-ing" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span >진행경매보기</span></a></button>
+                                                                   <button ng-if="liveBidReq[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray_line btn-view-result" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span>경매결과보기</span></a></button>
                                                                 </div>
                                                             </dt>
-                                                            <dd>
+                                                            <dd ng-repeat="data in liveBidReq[1]">
                                                                 <div class="product-infobox">
-
                                                                     <div class="product-infobox-inner">
                                                                         <div class="thumb-area">
                                                                             <figure class="img-ratio">
                                                                                 <div class="img-align">
-                                                                                    <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                                                     <img src="/nas_img{{data.LOT_IMG}}" alt="">
                                                                                 </div>
                                                                             </figure>
                                                                         </div>
                                                                         <div class="text-area">
-                                                                            <div class="num">3</div>
+                                                                            <div class="num">{{data.LOT_NO}}</div>
                                                                             <div class="title">
-                                                                                <div class="titlename">문형태</div>
+                                                                                <div class="titlename">{{data.ARTIST_NAME_KR}}</div>
                                                                             </div>
-                                                                            <div class="desc">Speed
-                                                                                asl;dfkj <br />
-                                                                                asl;dfkj <br />asl;dfkj <br />
-                                                                                asl;dfkj <br />asl;dfkj <br />
-                                                                            </div>
+                                                                            <div class="desc">{{data.LOT_TITLE_KR}}</div>
                                                                         </div>
                                                                     </div>
 
@@ -85,225 +81,34 @@
                                                                     <div class="pay-area">
                                                                         <dl class="price">
                                                                             <dt class="tit">응찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
+                                                                            <dd class="txt">{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</dd>
                                                                         </dl>
                                                                         <dl class="price succ">
                                                                             <dt class="tit">낙찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
+                                                                            <dd class="txt">{{data.CURR_CD}} {{comma(data.success_bid_price)}}</dd>
                                                                         </dl>
                                                                         <dl class="date">
                                                                             <dt class="tit">응찰일</dt>
-                                                                            <dd class="txt">2022.04.14 14:43:25</dd>
+                                                                            <dd class="txt">{{data.REQ_DT}}</dd>
                                                                         </dl>
                                                                         <dl class="way">
                                                                             <dt class="tit"></dt>
-                                                                            <dd class="txt">(전화)</dd>
+                                                                            <dd class="txt">({{data.BID_KIND_NM}})</dd>
                                                                         </dl>
                                                                     </div>
                                                                     <div class="btn-area">
-                                                                        <button class="btn btn_default js-popup_auction_live_record" type="button"><span>응찰내역</span></button>
-                                                                    </div>
-                                                                </div>
-                                                            </dd>
-                                                            <dd>
-                                                                <div class="product-infobox">
-                                                                    <div class="product-infobox-inner">
-                                                                        <div class="thumb-area">
-                                                                            <figure class="img-ratio">
-                                                                                <div class="img-align">
-                                                                                    <img src="/images/pc/thumbnail/auction02.jpg" alt="">
-                                                                                </div>
-                                                                            </figure>
-                                                                        </div>
-                                                                        <div class="text-area">
-                                                                            <div class="num">24</div>
-                                                                            <div class="title">
-                                                                                <div class="titlename">데미안허스트</div>
-                                                                            </div>
-                                                                            <div class="desc">
-                                                                                Black Neon BE2016
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="pay-infobox">
-                                                                    <div class="pay-area">
-                                                                        <dl class="price">
-                                                                            <dt class="tit">응찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="price succ">
-                                                                            <dt class="tit">낙찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="date">
-                                                                            <dt class="tit">응찰일</dt>
-                                                                            <dd class="txt">2022.04.14 14:43:25</dd>
-                                                                        </dl>
-                                                                        <dl class="way">
-                                                                            <dt class="tit"></dt>
-                                                                            <dd class="txt">(전화+서면)</dd>
-                                                                        </dl>
-                                                                    </div>
-                                                                    <div class="btn-area">
-                                                                        <button class="btn btn_default js-popup_auction_live_record" type="button"><span>응찰내역</span></button>
+                                                                        <button class="btn btn_default js-popup_auction_live_record" type="button" ng-click="liveBidReqHis({'bidReq':data})"><span>응찰내역</span></button>
                                                                     </div>
                                                                 </div>
                                                             </dd>
                                                         </dl>
-                                                        <dl class="bid-item">
-                                                            <dt>
-                                                                <div class="title-area">
-                                                                    <div class="title tt4">
-                                                                        <span>말줄임없애기로 변경 - 2022 1월 라이브 경매 Draw a Black tiger Step by Step 제목은 최대 2줄. 2줄 이상은 말줄임 2022 1월 라이브 경매 Draw a Black tiger Step by Step 제목은 최대 2줄. 2줄 이상은 말줄임 2022 1월 라이브 경매 Draw a Black tiger Step by Step 제목은 최대 2줄. 2줄 이상은 말줄임</span>
-                                                                    </div>
-                                                                    <div class="desc tb1">
-                                                                        <span class="tit">경매일</span>
-                                                                        <span>2022.04.14 14:00 순차마감</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="btn-area">
-                                                                    <button class="btn btn_gray_line btn-view-result" type="button"><span>경매결과보기</span></button>
-                                                                </div>
-                                                            </dt>
-                                                            <dd>
-                                                                <div class="product-infobox">
-                                                                    <div class="product-infobox-inner">
-                                                                        <div class="thumb-area">
-                                                                            <figure class="img-ratio">
-                                                                                <div class="img-align">
-                                                                                    <img src="/images/pc/thumbnail/auction01.jpg" alt="">
-                                                                                </div>
-                                                                            </figure>
-                                                                        </div>
-                                                                        <div class="text-area">
-                                                                            <div class="num">3</div>
-                                                                            <div class="title">
-                                                                                <div class="titlename">문형태</div>
-                                                                            </div>
-                                                                            <div class="desc">Speed </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="pay-infobox">
-                                                                    <div class="pay-area">
-                                                                        <dl class="price">
-                                                                            <dt class="tit">응찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="price succ">
-                                                                            <dt class="tit">낙찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="date">
-                                                                            <dt class="tit">응찰일</dt>
-                                                                            <dd class="txt">2022.04.14 14:43:25</dd>
-                                                                        </dl>
-                                                                        <dl class="way">
-                                                                            <dt class="tit"></dt>
-                                                                            <dd class="txt">(전화)</dd>
-                                                                        </dl>
-                                                                    </div>
-                                                                    <div class="btn-area">
-                                                                        <button class="btn btn_default js-popup_auction_live_record" type="button"><span>응찰내역</span></button>
-                                                                    </div>
-                                                                </div>
-                                                            </dd>
-                                                            <dd>
-                                                                <div class="product-infobox">
-                                                                    <div class="product-infobox-inner">
-                                                                        <div class="thumb-area">
-                                                                            <figure class="img-ratio">
-                                                                                <div class="img-align">
-                                                                                    <img src="/images/pc/thumbnail/auction02.jpg" alt="">
-                                                                                </div>
-                                                                            </figure>
-                                                                        </div>
-                                                                        <div class="text-area">
-                                                                            <div class="num">24</div>
-                                                                            <div class="title">
-                                                                                <div class="titlename">데미안허스트</div>
-                                                                            </div>
-                                                                            <div class="desc">
-                                                                                Black Neon BE2016
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="pay-infobox">
-                                                                    <div class="pay-area">
-                                                                        <dl class="price">
-                                                                            <dt class="tit">응찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="price succ">
-                                                                            <dt class="tit">낙찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="date">
-                                                                            <dt class="tit">응찰일</dt>
-                                                                            <dd class="txt">2022.04.14 14:43:25</dd>
-                                                                        </dl>
-                                                                        <dl class="way">
-                                                                            <dt class="tit"></dt>
-                                                                            <dd class="txt">(전화+서면)</dd>
-                                                                        </dl>
-                                                                    </div>
-                                                                    <div class="btn-area">
-                                                                        <button class="btn btn_default js-popup_auction_live_record" type="button"><span>응찰내역</span></button>
-                                                                    </div>
-                                                                </div>
-                                                            </dd>
-                                                            <dd>
-                                                                <div class="product-infobox">
-                                                                    <div class="product-infobox-inner">
-                                                                        <div class="thumb-area">
-                                                                            <figure class="img-ratio">
-                                                                                <div class="img-align">
-                                                                                    <img src="/images/pc/thumbnail/auction03.jpg" alt="">
-                                                                                </div>
-                                                                            </figure>
-                                                                        </div>
-                                                                        <div class="text-area">
-                                                                            <div class="num">8</div>
-                                                                            <div class="title">
-                                                                                <div class="titlename">데미안허스트</div>
-                                                                            </div>
-                                                                            <div class="desc">
-                                                                                Air (From The Series The Elelments)
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="pay-infobox">
-                                                                    <div class="pay-area">
-                                                                        <dl class="price">
-                                                                            <dt class="tit">응찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="price succ">
-                                                                            <dt class="tit">낙찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="date">
-                                                                            <dt class="tit">응찰일</dt>
-                                                                            <dd class="txt">2022.04.14 14:43:25</dd>
-                                                                        </dl>
-                                                                        <dl class="way">
-                                                                            <dt class="tit"></dt>
-                                                                            <dd class="txt">(전화+서면)</dd>
-                                                                        </dl>
-                                                                    </div>
-                                                                    <div class="btn-area">
-                                                                        <button class="btn btn_default js-popup_auction_live_record" type="button"><span>응찰내역</span></button>
-                                                                    </div>
-                                                                </div>
-                                                            </dd>
-                                                        </dl>
+                                                        <div class="data-empty" ng-if="liveBidReqCnt == 0">
+                                                            <p class="txt_empty">응찰 내역이 존재하지 않습니다.</p>
+                                                        </div>
                                                     </div>
                                                      <div class="wrap_paging" ng-if="liveBidReqCnt != 0">
 														<paging page="currentPage"
-															page-size=3
+															page-size=5
 															total="liveBidReqCnt"
 															paging-action="loadLiveBidReqList(page)"
 															scroll-top="true"
@@ -328,7 +133,57 @@
                                 </div>
                                 <div class="panel-footer"></div>
                             </div>
-
+							<!-- 팝업 : 라이브경매관리 온라인패들 응찰 이력 -->
+							    <div id="popup_auction_live_record-wrap" class="trp popupfixed-wrap auction_live_record-popup" >
+							        <div class="popup-dim"></div>
+							        <div class="popup-align mode-lg mode-mb_full">
+							            <div class="popup-vertical">
+							                <div class="popup-layer">
+							                    <div class="pop-panel">
+							                        <div class="pop-header">
+							                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+							                            <div class="title-box">
+							                                <span class="txt_title type-big">응찰 내역</span>
+							                            </div>
+							                        </div>
+							                        <div class="pop-body">
+							                            <section class="section">
+							                                <article class="article-area thead_item-wrap">
+							                                    <div class="table-wrap thead_item">
+							                                        <table class="table_base data-table auction-bid-history">
+							                                            <thead>
+							                                                <tr>
+							                                                    <th>응찰가</th>
+							                                                    <th>응찰일자</th>
+							                                                    <th>응찰방법</th>
+							                                                    <th>비고</th>
+							                                                </tr>
+							                                            </thead>
+							                                        </table>
+							                                    </div>
+							                                </article>
+							                                <article class="article-area scroll-type mCustomScrollbar tbody_item-wrap">
+							                                    <div class="table-wrap">
+							                                        <table class="table_base data-table auction-bid-history">
+							                                            <tbody>
+							                                            
+							                                                <tr ng-repeat="liveBidReqhis in liveBidReqHisList">
+							                                                    <td>{{liveBidReqhis.CURR_CD}} {{comma(liveBidReqhis.BID_PRICE)}}</td>
+							                                                    <td>{{liveBidReqhis.REQ_DT}}</td>
+							                                                    <td>1회 응찰</td>
+							                                                    <td ><span class="succ" ng-if="liveBidReqhis.HAMMER_STAT == 'hammer'">낙찰</span></td>
+							                                                </tr>
+							                                            </tbody>
+							                                        </table>
+							                                    </div>
+							                                </article>
+							                            </section>
+							                        </div>
+							                    </div>
+							                </div>
+							            </div>
+							        </div>
+							    </div>
                         </div>
                     </section>
 
@@ -365,16 +220,34 @@
     <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 
-
-
-
     <script>
         $(".js-history_back").click(function() {
             window.history.back();
         })
     </script>
+	
+    
+    <script>
+        (function() {
+            var popup_marketing1 = $(".js-popup_auction_live_record").trpLayerFixedPopup("#popup_auction_live_record-wrap");
+            $(popup_marketing1.getBtn).on("click", function($e) {
+                $e.preventDefault();
+                popup_marketing1.open(this); // or false   
+                popup_fixation("#popup_auction_live_record-wrap"); // pc 스크롤
+                popup_motion_open("#popup_auction_live_record-wrap"); // mb 모션 
+            });
 
+            $("body").on("click", "#popup_auction_live_record-wrap .js-closepop, #popup_auction_live_record-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                popup_marketing1.close();
+                popup_motion_close("#popup_auction_live_record-wrap");
+            });
 
+            $(".js-history_back").click(function() {
+                window.history.back();
+            })
+        })();
+    </script>
 
 </body>
 
