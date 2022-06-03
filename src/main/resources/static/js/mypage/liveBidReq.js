@@ -31,7 +31,32 @@ app.controller('liveBidReqListCtl', function($scope, consts, common) {
 		            console.log(error);
 		        });
 		}
+	
 
+	$scope.liveBidReqHis = function(input) {
+		  axios.get('/api/mypage/liveBidReqHistories/'+input.bidReq.SALE_NO+'/'+input.bidReq.LOT_NO , null)
+		        .then(function(response) {
+		            const result = response.data;
+		
+		            let success = result.success;
+		            if(!success){
+		                alert(result.data.msg);
+		            } else {
+					$scope.liveBidReqHisList = result["data"]["list"];
+		            console.log($scope.liveBidReqHisList);
+		            $scope.$apply();
+		            }
+		        })
+		        .catch(function(error){
+		            console.log(error);
+		        })
+		         .finally(function () {
+			    document.getElementById('popup_auction_live_record-wrap').style.display="block";
+			  });
+					        
+		
+	}
+	
 	$scope.groupBy = function(xs, key) {
 		  return xs.reduce(function(rv, x) {
 		    (rv[x[key]] = rv[x[key]] || []).push(x);

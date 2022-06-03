@@ -195,6 +195,17 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectBidReqList(commonMap)));
 	}
 	
+	@RequestMapping(value = "/liveBidReqHistories/{sale_no}/{lot_no}", method = RequestMethod.GET)
+	public ResponseEntity<RestResponse> liveBidReqHistories(
+			@PathVariable("sale_no") String sale_no, @PathVariable("lot_no") String lot_no,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		CommonMap commonMap = new CommonMap();
+		commonMap.put("sale_no", sale_no);
+		commonMap.put("lot_no", lot_no);
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectBidReqHistoryList(commonMap)));
+	}
+
 	@RequestMapping(value = "/liveBids", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> liveBids(
 			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
@@ -205,6 +216,7 @@ public class ApiMypageController {
 		commonMap.put("action_user_no", principal.getName());
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectBidList(commonMap)));
 	}
+	
 	
 	//비밀번호 확인
 	@RequestMapping(value="/chkPassword", method=RequestMethod.POST, headers = {"content-type=application/json"})
