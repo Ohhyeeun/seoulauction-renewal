@@ -617,5 +617,3 @@ app.filter('replace', [function () {
     };
 
 }]);
-
-

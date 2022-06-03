@@ -51,6 +51,11 @@ public class RememberMeService implements UserDetailsService {
 			throw new RememberMeAuthenticationException("Stop User"); // 이용제한 아이디 STAT_CD = 'stop'
         }
 		
+		if(resultMap.get("STAT_CD") != null && resultMap.get("STAT_CD").equals("not_certify")){
+			attr.getRequest().getSession().setAttribute("NOT_CERTIFY_USER", true);
+			throw new RememberMeAuthenticationException("Not Certify User"); // 해외고객 이메일 미인증 STAT_CD = 'not_certify'
+        }
+		
 		// 비밀번호 변경 180일 경과 여부
 		if(resultMap.get("PASSWD_MOD_NECESSARY_YN").equals("Y")){
 		    attr.getRequest().getSession().setAttribute("PASSWD_MOD_NECESSARY_YN", true);

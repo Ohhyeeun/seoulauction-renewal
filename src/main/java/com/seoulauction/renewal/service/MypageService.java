@@ -53,6 +53,7 @@ public class MypageService {
     public CommonMap selectPayListByCustNo(CommonMap commonMap){  
     	CommonMap map = new CommonMap();
     	List<CommonMap> list = mypageMapper.selectPayListByCustNo(commonMap);
+    	map.put("payTotalCount", mypageMapper.selectPayTotalCountByCustNo(commonMap));
     	map.put("payCount", mypageMapper.selectPayCountByCustNo(commonMap));
     	map.put("payList", mypageMapper.selectPayListByCustNo(commonMap));
 
@@ -69,21 +70,7 @@ public class MypageService {
     	map.put("customerInfo", mypageMapper.selectCustomerByCustNo(commonMap));
         return map;
     }
-    
-
-    public CommonMap selectSaleCertByCustHp(CommonMap commonMap){  
-    	return mypageMapper.selectSaleCertByCustHp(commonMap);
-    }
-    
-    public CommonMap selectAuthNumber(CommonMap commonMap){  
-    	return mypageMapper.selectAuthNumber(commonMap);
-    }
-    
-    public CommonMap inertSaleCert(CommonMap commonMap){  
-    	mypageMapper.inertSaleCert(commonMap);
-    	return commonMap;
-    }
-  
+      
     public CommonMap selectInquiryList(CommonMap commonMap){
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectInquiryList(commonMap));
@@ -141,10 +128,6 @@ public class MypageService {
             map.put(key, value);  
         }
         return map;
-    }
-
-    public int updateSaleCertHp(CommonMap commonMap){
-    	return mypageMapper.updateSaleCertHp(commonMap);
     }
     
     public HashMap<String, Object> findAddr(CommonMap action) {

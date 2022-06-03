@@ -22,19 +22,12 @@ public interface MypageMapper {
 
     List<CommonMap> selectSaleListByCustNo(CommonMap commonMap);
 
+    int selectPayTotalCountByCustNo(CommonMap commonMap);
+
     CommonMap selectPayCountByCustNo(CommonMap commonMap);
 
     CommonMap selectCustomerByCustNo(CommonMap commonMap);
     
-
-    CommonMap selectSaleCertByCustHp(CommonMap commonMap);
-    
-    CommonMap selectAuthNumber(CommonMap commonMap);
-
-    int inertSaleCert(CommonMap commonMap);
-   
-    int updateSaleCertHp(CommonMap commonMap);
-
     List<CommonMap> selectInquiryList(CommonMap commonMap);
     
     int selectInquiryListCnt(CommonMap commonMap);

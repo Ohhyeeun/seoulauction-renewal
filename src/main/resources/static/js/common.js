@@ -53,7 +53,7 @@ $(function(){
             .then(function(response){
                 const success =  response.data.success;
                 if (success) {
-                    const menuCount = response.data.data[0];
+                    const menuCount = response.data.data;
                     const badgeHtml = '<span class="currentIng">NOW</span>';
                     if(menuCount.AuctionCount > 0)
                         document.querySelector('#menu_auction').insertAdjacentHTML('beforeend', badgeHtml);
@@ -159,7 +159,7 @@ $(function(){
         $('.header').show(function(){
             $('.main-header').show(function(){
                 /*$('.main-contents').css('top','118px'); */
-                $('.main-contents').css('margin-top','120px');
+                $('.main-contents').css('margin-top','162px');
             });
             $(this).hasClass('main-header');
         });
@@ -271,6 +271,7 @@ $(function(){
     /* 최근검색 전체삭제 */
     $('.keyword-all-del').click(function(){
         $('.recent-keyword').hide();
+        setCookie("keywordHistory", "", 1);
     });
     /* 모바일 gnb 서치*/
     $('.m-top-search').click(function(){
@@ -550,3 +551,104 @@ jQuery.fn.trpBgDim = function($opacity,$bgColor){
         t();
     }), t();
 }
+
+app.requires.push.apply(app.requires, ["ngDialog", "checklist-model"]);
+app.controller('headCtl', function($scope, consts, common, locale, $filter) {
+
+    $scope.recommandSearch =  function(){
+
+        //추천 검색어
+        axios.get('/api/auction/selectRecommandArtist').then(function (response) {
+            console.log(response);
+            const success = response.data.success;
+
+            $('.recommend-search-part').empty();
+
+            if (success) {
+                const data = response.data.data;
+                let html = '<span class="keyword-search-tit">추천검색</span>';
+                $('.recommend-search-part').append(html);
+                data.map(item => {
+                    let innerHtml = '<a href="/sale/search?searchContent=' + item.name + '" class="recommend-keyword">' + item.name + '</a>';
+                    $('.recommend-search-part').append(innerHtml);
+                });
+            }
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+    // 최근 검색어
+    let keywords = getCookie("keywordHistory");
+    let html = '<span class="keyword-search-tit">최근검색<span class="keyword-all-del">전체삭제</span></span>';
+    if(keywords){
+        $(".recent-search").empty();
+        let keywordsArray = keywords.split(',');
+        $.each(keywordsArray , function(idx , el){
+            html += '<span class="recent-keyword"><a href="/sale/search?searchContent='+ el +'">'+ el +'</a><span class="keyword-del"></span></span>';
+        });
+
+        $(".recent-search").append(html);
+    }
+});
+
+//pc, mobile 구분
+function checkPlatform(ua) {
+    if(ua === undefined) {
+        ua = window.navigator.userAgent;
+    }
+
+    ua = ua.toLowerCase();
+    var platform = {};
+    var matched = {};
+    var userPlatform = "pc";
+    var platform_match = /(ipad)/.exec(ua) || /(ipod)/.exec(ua)
+        || /(windows phone)/.exec(ua) || /(iphone)/.exec(ua)
+        || /(kindle)/.exec(ua) || /(silk)/.exec(ua) || /(android)/.exec(ua)
+        || /(win)/.exec(ua) || /(mac)/.exec(ua) || /(linux)/.exec(ua)
+        || /(cros)/.exec(ua) || /(playbook)/.exec(ua)
+        || /(bb)/.exec(ua) || /(blackberry)/.exec(ua)
+        || [];
+
+    matched.platform = platform_match[0] || "";
+
+    if(matched.platform) {
+        platform[matched.platform] = true;
+    }
+
+    if(platform.android || platform.bb || platform.blackberry
+        || platform.ipad || platform.iphone
+        || platform.ipod || platform.kindle
+        || platform.playbook || platform.silk
+        || platform["windows phone"]) {
+        userPlatform = "mobile";
+    }
+
+    if(platform.cros || platform.mac || platform.linux || platform.win) {
+        userPlatform = "pc";
+    }
+
+    return userPlatform;
+}
+
+
+/* notice 슬라이드 배너 (무한루프)*/
+$(function(){
+
+    let i = 0;
+
+    setInterval(noticeSlide, 3000);
+
+    function noticeSlide(){
+        $('.belttxtbox').append('<span class="header_beltTit"><a href="#"><span class="text-over belt_tit">구매수수료율 인상 및 약관 개정안내 구매수수료율 '+i+'</span></a></span>');  /*끝에 반복 생성  */
+        $('.belttxtbox').css('top','0');
+
+        if(i < 5){
+            i++;
+        }
+        if(i == 5) {
+            i = 0;
+        }
+        $('.belttxtbox>span:nth-child(1)').remove(); /*반복 첫번째 삭제  */
+        $('.belttxtbox').animate({'top':'100%'},1000);
+    } // noticeSlide() 종료구문;
+}); 

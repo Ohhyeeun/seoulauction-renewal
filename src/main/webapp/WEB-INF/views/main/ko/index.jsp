@@ -136,16 +136,23 @@
                     <h1 class="main-sectiontit">Auction</h1>
                     <div class="auctiontab-scroll">
                         <div class="auctionTab"> <!-- 최대 5개 까지 -->
-                            <span class="auctionTab-btn on"><span class="text-over">제1회 ART SHOPPING 신세계 센텀시티 오픈 기념 경매</span></span>
-                            <span class="auctionTab-btn"><span class="text-over">제1회 Autunm Scape _ Land, Life, Inner scape</span></span>
-                            <span class="auctionTab-btn"><span class="text-over">165회 미술품 경매</span></span>
-                            <span class="auctionTab-btn"><span clasrs="text-over">제로베이스</span></span>
-                            <span class="auctionTab-btn"><span class="text-over">e BID 프리미엄</span></span>
+<%--                            <span class="auctionTab-btn on"><span class="text-over">제1회 ART SHOPPING 신세계 센텀시티 오픈 기념 경매</span></span>--%>
+<%--                            <span class="auctionTab-btn">--%>
+<%--                                <span class="text-over">제1회 Autunm Scape _ Land, Life, Inner scape</span>--%>
+<%--                            </span>--%>
+<%--                            <span class="auctionTab-btn"><span class="text-over">165회 미술품 경매</span></span>--%>
+<%--                            <span class="auctionTab-btn"><span class="text-over">제로베이스</span></span>--%>
+<%--                            <span class="auctionTab-btn"><span class="text-over">e BID 프리미엄</span></span>--%>
                         </div>
                     </div>
                 </div>
-                <div class="flex_wrap auctionTab-contents on"></div><div class="flex_wrap auctionTab-contents"></div><div class="flex_wrap auctionTab-contents"></div><div class="flex_wrap auctionTab-contents"></div><div class="flex_wrap auctionTab-contents"></div>
-
+                <div id="auction_contents">
+<%--                    <div class="flex_wrap auctionTab-contents on"></div>--%>
+<%--                    <div class="flex_wrap auctionTab-contents"></div>--%>
+<%--                    <div class="flex_wrap auctionTab-contents"></div>--%>
+<%--                    <div class="flex_wrap auctionTab-contents"></div>--%>
+<%--                    <div class="flex_wrap auctionTab-contents"></div>--%>
+                </div>
                 <div class="commonbtn-box">
                     <button type="button" id="MoreAuction" class="commonbtn">더보기</button>
                     <a href="#" id="AllAuction" style="display: none" class="commonbtn">전체보기</a>

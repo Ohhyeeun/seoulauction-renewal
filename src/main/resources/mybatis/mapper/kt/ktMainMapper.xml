@@ -92,6 +92,24 @@
 		group by B.SALE_NO, B.LOT_NO;
 		]]>
 	</select>
+	<select id="selectLotsBySaleNo" parameterType="CommonMap" resultType="CommonMap">
+		-- 랏
+		select
+			*
+		   ,COLUMN_JSON(L.TITLE_BLOB) EXPE_PRICE_TITLE -- 타이틀
+		   ,COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON -- 가격
+		   ,COLUMN_JSON(L.EXPE_PRICE_TO_BLOB) EXPE_PRICE_TO_JSON -- 가격
+		from
+			lot L left outer join LOT_IMG LI on L.SALE_NO = LI.SALE_NO and L.LOT_NO = LI.LOT_NO
+				and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
+		where
+			 L.SALE_NO = #{sale_no}
+		  and L.STAT_CD = 'entry'
+		limit
+			30
+	</select>
+
+
 
 </mapper>
 

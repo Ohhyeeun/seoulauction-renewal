@@ -4,4 +4,18 @@
 	<select id="selectFoundRows" parameterType="CommonMap" resultType="CommonMap">
 		SELECT FOUND_ROWS()
 	</select>
+	<sql id="saleLastBidInfos">
+		select 		BD.*, BD.BID_PRICE as LAST_PRICE, <![CDATA[if(L.TO_DT < now(), 'Y', 'N') as SOLD_YN ]]>
+		, CU.LOGIN_ID as LAST_CUST_ID
+		, CU.CUST_NO as LAST_CUST_NO
+		, case when CU.CUST_NO = '${action_user_no}' then 'Y' else 'N' end IS_WIN
+		,	CU.CUST_NAME
+		,	(select count(A.BID_NO) from BID A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO) as BID_CNT
+		from 		LOT L inner join BID BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+		and BD.BID_NO = (select A.BID_NO from BID A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.BID_PRICE desc, A.BID_DT asc, A.BID_NO asc limit 1)
+		inner join CUST CU on BD.CUST_NO = CU.CUST_NO
+		<if test="sale_no != null">
+			where 		L.SALE_NO = #{sale_no}
+		</if>
+	</sql>
 </mapper>

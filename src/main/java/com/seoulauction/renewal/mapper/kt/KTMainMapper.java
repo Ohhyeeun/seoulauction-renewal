@@ -10,9 +10,10 @@ public interface KTMainMapper {
 
     List<CommonMap> selectUpcomings();
     List<CommonMap> selectIngAuctions();
-    List<CommonMap> selectIngMenuCount();
+    CommonMap selectIngMenuCount();
 
     CommonMap selectSaleImage(CommonMap map);
 
     List<CommonMap> selectHaveToPayWork(CommonMap map);
+    List<CommonMap> selectLotsBySaleNo(CommonMap map);
 }

@@ -4,6 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
+
 <body class="">
 	<div class="wrapper" ng-app="myApp">
 		<div class="sub-wrap pageclass">
@@ -63,26 +65,23 @@
 															</div>
 														</li>
 													</ul>
-													<div class="button-area">
-														<div class="btn_set-float tac">
-															<div class="wrap_paging">
-																<paging page="currentPage" page-size="pageRows"
-																	total="inquiryCnt"
-																	paging-action="loadInquiryList(page)" scroll-top="true"
-																	hide-if-empty="true" show-prev-next="true"
-																	show-first-last="true" ul-class="page_ul"
-																	active-class="page_active"
-																	disabled-class="page_disable"
-																	text-next-class="page_btn sp_btn btn_next02"
-																	text-prev-class="page_btn sp_btn btn_prev02"
-																	text-first-class="page_btn sp_btn btn_prev"
-																	text-last-class="page_btn sp_btn btn_next"> </paging>
-																<div class="right m_right">
-																	<span class="btn btn_style01 dark"><a
-																		href="/mypage/inquiryForm"></a></span>
-																</div>
-															</div>
-														</div>
+													 <div class="wrap_paging"  ng-if="inquiryCnt != 0">
+														<paging page="currentPage"
+															page-size=10
+															total="inquiryCnt"
+															paging-action="loadInquiryList(page)"
+															scroll-top="true"
+															hide-if-empty="true"
+															show-prev-next="true"
+															show-first-last="true"
+															ul-class="page_ul"
+															active-class="page_active"
+														    disabled-class="page_disable"
+														    text-next-class="icon-page_next next page_btn sp_btn btn_next02"
+														    text-prev-class="icon-page_prev prev page_btn sp_btn btn_prev02"
+														    text-first-class="icon-page_prevprev prev_end page_btn sp_btn btn_prev "
+														    text-last-class="icon-page_nextnext next_end page_btn sp_btn btn_next">
+														</paging>				
 													</div>
 												</article>
 											</div>
