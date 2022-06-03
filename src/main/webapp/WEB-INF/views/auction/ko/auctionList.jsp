@@ -61,7 +61,7 @@
                                             <li ng-class="{active:'전체' === selectLotTag}"><a href="#tab-cont-1"
                                                                                              ng-click="searchLotTags('전체');"><span>전체</span></a>
                                             </li>
-                                            <li ng-class="{active:item.LOT_TAG === selectLotTag}"
+                                            <li ng-class="{active: item.LOT_TAG === selectLotTag}"
                                                 ng-repeat="item in lotTags"><a href="#tab-cont"
                                                                                ng-click="searchLotTags(item.LOT_TAG);"><span
                                                     ng-bind="item.LOT_TAG"></span></a></li>
