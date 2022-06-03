@@ -21,7 +21,7 @@
 <jsp:include page="../../common/angular.jsp" flush="false"/>
 <%-- 로그인 --%>
 <script>
-    <sec:authorize access="isAuthenticated()">
+    <sec:authorize access="isAuthenticated()">R
     sessionStorage.setItem("is_login", "true" );
     </sec:authorize>
     <sec:authorize access="isAnonymous()">
