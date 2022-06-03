@@ -93,4 +93,10 @@ public class MypageController {
     public String passwordModify(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "passwordModify" , locale);
     }
+    
+    /*SNS연동설정*/
+    @GetMapping("/snsLink")
+    public String snsLink(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "snsLink" , locale);
+    }
 }

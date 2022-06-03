@@ -1274,7 +1274,6 @@
             }
         }
     }
-
     function startBidProcess(saleNo, lotNo, saleType, userId) {
         /*this.saleNo = saleNo;
         this.lotNo = lotNo;

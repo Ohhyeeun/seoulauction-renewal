@@ -161,7 +161,7 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 	naverLogin = new naver.LoginWithNaverId({
 		clientId: "5qXZytacX_Uy60o0StGT",
 		callbackUrl: "https://local.seoulauction.com:9000/social/naver/callback?action=login",
-		isPopup: false,
+		isPopup: true,
 		loginButton: {
 			color: "green",
 			type: 3,
