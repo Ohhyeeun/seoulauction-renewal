@@ -53,7 +53,7 @@ $('#findId').on('click', function() {
 		let success = result.success;
 		if (!success) {
 			$('#popup_idsearch2-wrap').attr("style", "display:block");
-		} else if(result.data.SOCIAL_TYPE){
+		} else if(result.data.SOCIAL_YN == 'Y'){
 			$('#socialType').text(result.data.SOCIAL_TYPE);
 			$('#popup_idsearch4-wrap').attr("style", "display:block");
 		} else {

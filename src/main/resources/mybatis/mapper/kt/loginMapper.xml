@@ -83,10 +83,10 @@
 
 
 	<select id="selectCustLoginIdByCustName" resultType="CommonMap">
-
 		select
 		concat(rpad(substring(login_id, 1, 2), length(login_id)-1, '*'),
 		substring(login_id, length(login_id), 1) ) LOGIN_ID ,
+		c.SOCIAL_YN ,
 		cs.CUST_NO ,
 		case
 		when cs.SOCIAL_TYPE = 'KA' then 'KAKAO'
