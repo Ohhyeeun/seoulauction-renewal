@@ -2,9 +2,7 @@
 <section class="visual visual-contents">
     <div class="swiper-container visual-swiper">
         <div class="swiper-wrapper">
-
-
-
+        <%--  슬라이드 동적생성      --%>
         </div>
 
         <span class="visualController">
@@ -16,8 +14,8 @@
             <span class="swiper-pagination visual-pagaination"></span>
         </span>
         <div class="swiper-btn-wrap">
-            <div class="swiper-button-next slide-btnleft pc-ver"></div>
-            <div class="swiper-button-prev slide-btnright pc-ver"></div>
+            <div class="swiper-button-next pc-ver"></div>
+            <div class="swiper-button-prev pc-ver"></div>
         </div>
     </div>
 </section>

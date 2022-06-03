@@ -122,8 +122,9 @@ window.onload = function(){
 /* visual */
 const visualSwiper = new Swiper('.visual-swiper', {
     initialSlide : 1,
+    loop: true,
     autoplay: {
-        delay: 500000,
+        delay: 5000,
         disableOnInteraction: false,
     },
     pagination: {
@@ -140,8 +141,8 @@ const visualSwiper = new Swiper('.visual-swiper', {
         },
     },
     navigation: {
-        nextEl: '.slide-btnright',
-        prevEl: '.slide-btnleft',
+        nextEl: '.slide-btnleft',
+        prevEl: '.slide-btnright',
     },
     on: {
         init: function () {
@@ -159,21 +160,11 @@ const visualSwiper = new Swiper('.visual-swiper', {
             $(".swiper-progressbar").eq(0).addClass("animate");
         },
     },
-    loop: true,
-});
-$('.playBtn').on('click', function () {
-    visualSwiper.autoplay.start('fast');
-    $(this).css({'display': 'none'});
-    $('.stopBtn').css({'display': 'block'});
-});
-$('.stopBtn').on('click', function () {
-    visualSwiper.autoplay.stop();
-    $(this).css({'display': 'none'});
-    $('.playBtn').css({'display': 'block'});
 });
 
 
-function loadBigBanner(){
+
+function  loadBigBanner (){
     const slideArray = [];
     axios.get('/api/main/bigBanners')
         // await sleep(2000);
@@ -184,10 +175,10 @@ function loadBigBanner(){
                 // console.log(bannerList);
                 bannerList.map(item => {
                     console.log(item)
-                    const content = JSON.parse(item.content);
-                   if(!(locale == 'en' && content.banner_kind == 'academy') ) {
+                    item.content = JSON.parse(item.content);
+                   if(!(locale == 'en' && item.content.banner_kind == 'academy') ) {
                         let btnListHtml = "";
-                        content.button_list.forEach((button) => {
+                       item.content.button_list.forEach((button) => {
                             // console.log(button);
                             btnListHtml +=  `<a href="${locale === 'en' ? button.url_ko : button.url_en }" target="${button.target}" class="commonbtn visual-commonbtn ${button.className}">${locale === 'en' ? button.text_en : button.text_ko }</a>`;
                         });
@@ -199,9 +190,9 @@ function loadBigBanner(){
                                                 </figure>
                                                 <figurecaption class="visual_caption">
                                                     <div>
-                                                        <h1 class="slide-tit">${content.title[locale]}</h1>
+                                                        <h1 퍼class="slide-tit">${item.content.title[locale]}</h1>
                                                         <p>
-                                                            ${content.sub_title[locale]}
+                                                            ${item.content.sub_title[locale]}
                                                         </p>
                                                         <div class="visual_btn">
                                                             ${btnListHtml}
@@ -213,7 +204,19 @@ function loadBigBanner(){
                    }
 
                 });
+
                 visualSwiper.appendSlide(slideArray);
+                visualSwiper.init();
+                document.querySelector(".playBtn").addEventListener("click", function(e){
+                    visualSwiper.autoplay.start('fast');
+                    $(this).css({'display': 'none'});
+                    $('.stopBtn').css({'display': 'block'});
+                });
+                document.querySelector(".stopBtn").addEventListener("click", function(e){
+                    visualSwiper.autoplay.stop();
+                    $(this).css({'display': 'none'});
+                    $('.playBtn').css({'display': 'block'});
+                });
             }
         })
         .catch(function(error){
