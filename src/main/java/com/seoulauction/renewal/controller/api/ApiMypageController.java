@@ -189,7 +189,7 @@ public class ApiMypageController {
 		CommonMap commonMap = new CommonMap();
 		commonMap.putPage(page, size);
 		commonMap.put("action_user_no", principal.getName());
-		return ResponseEntity.ok(RestResponse.ok(mypageService.selectInquiryList(commonMap)));
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectBidReqList(commonMap)));
 	}
 	
 	@RequestMapping(value = "/liveBids", method = RequestMethod.GET)
@@ -200,6 +200,6 @@ public class ApiMypageController {
 		CommonMap commonMap = new CommonMap();
 		commonMap.putPage(page, size);
 		commonMap.put("action_user_no", principal.getName());
-		return ResponseEntity.ok(RestResponse.ok(mypageService.selectInquiryList(commonMap)));
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectBidList(commonMap)));
 	}
 }

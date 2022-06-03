@@ -4,16 +4,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
 <body class="">
-    <div class="wrapper">
+    <div class="wrapper" ng-app="myApp">
         <div class="sub-wrap pageclass">
 
             <!-- header -->
             <jsp:include page="../../include/ko/header.jsp" flush="false" />
+            <script type="text/javascript" src="/js/mypage/liveBid.js"></script>
             <!-- //header -->
 
             <!-- container -->
-            <div id="container">
+            <div id="container" class="liveBidReq" ng-controller="liveBidReqListCtl" data-ng-init="loadLiveBidReqList(1);">
                 <div id="contents" class="contents">
 
                     <section class="basis-section last-section mypage-section">
@@ -282,24 +284,25 @@
                                                             </dd>
                                                         </dl>
                                                     </div>
-                                                    <div class="paging-area">
-                                                        <div class="paging">
-                                                            <a href="#" class="prev_end icon-page_prevprev">FIRST</a><a href="#" class="prev icon-page_prev">PREV</a>
-                                                            <strong class="on">1</strong>
-                                                            <a href="#"><em>2</em></a>
-                                                            <a href="#"><em>3</em></a>
-                                                            <a href="#"><em>4</em></a>
-                                                            <a href="#"><em>5</em></a>
-                                                            <span class="pc-ver">
-                                                                <a href="#"><em>6</em></a>
-                                                                <a href="#"><em>7</em></a>
-                                                                <a href="#"><em>8</em></a>
-                                                                <a href="#"><em>9</em></a>
-                                                                <a href="#"><em>10</em></a>
-                                                            </span>
-                                                            <a href="#" class="next icon-page_next "><em>NEXT</em></a><a href="#" class="next_end icon-page_nextnext">END</a>
-                                                        </div>
                                                     </div>
+                                                    <div class="wrap_paging" ng-if="liveBidReqCnt != 0">
+														<paging page="currentPage"
+															page-size=3
+															total="liveBidReqCnt"
+															paging-action="loadLiveBidReqList(page)"
+															scroll-top="true"
+															hide-if-empty="true"
+															show-prev-next="true"
+															show-first-last="true"
+															ul-class="page_ul"
+															active-class="page_active"
+														    disabled-class="page_disable"
+														    text-next-class="icon-page_next next page_btn sp_btn btn_next02"
+														    text-prev-class="icon-page_prev prev page_btn sp_btn btn_prev02"
+														    text-first-class="icon-page_prevprev prev_end page_btn sp_btn btn_prev "
+														    text-last-class="icon-page_nextnext next_end page_btn sp_btn btn_next">
+														</paging>				
+													</div>
                                                 </article>
                                                 <!-- //[0526]상품진열디자인 변경 : product-infobox 안에 product-infobox-inner 생성 -->
                                             </div>
