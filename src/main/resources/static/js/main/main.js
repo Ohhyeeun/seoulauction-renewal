@@ -141,8 +141,8 @@ const visualSwiper = new Swiper('.visual-swiper', {
         },
     },
     navigation: {
-        nextEl: '.slide-btnleft',
-        prevEl: '.slide-btnright',
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
     },
     on: {
         init: function () {
