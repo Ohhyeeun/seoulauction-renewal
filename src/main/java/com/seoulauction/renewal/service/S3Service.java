@@ -52,7 +52,7 @@ public class S3Service {
         final long fileSize = uploadFile.getSize();
         String contentType = uploadFile.getContentType();
 
-        String path = s3Uploader.upload(uploadFile,(isPrivate ? S3_PRIVATE_IMAGE_BASE_URL : S3_IMAGE_BASE_URL )  + "/" + tableName + "/" + rowId);
+        String path = s3Uploader.upload(isPrivate , uploadFile,S3_IMAGE_BASE_URL   + "/" + tableName + "/" + rowId);
 
         CommonMap paramMap = null;
 
@@ -76,6 +76,11 @@ public class S3Service {
             s3Mapper.insertS3File(paramMap);
         }
         return paramMap;
+    }
+
+    @Transactional("ktTransactionManager")
+    public void insertS3FileData(boolean isPrivate , List<MultipartFile> uploadFileList , String tableName , String rowId) {
+        uploadFileList.forEach(c-> insertS3FileData(isPrivate , c , tableName , rowId));
     }
 
     /**

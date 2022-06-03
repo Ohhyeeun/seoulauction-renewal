@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +30,7 @@ import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.service.MypageService;
+import com.seoulauction.renewal.util.SecurityUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -179,7 +182,7 @@ public class ApiMypageController {
 		commonMap.put("action_user_no", principal.getName());
 		return ResponseEntity.ok(RestResponse.ok(mypageService.deleteCustInteLot(commonMap)));
 	}
-	
+
 	
 	@RequestMapping(value = "/liveBidReqs", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> liveBidReqs(
@@ -201,5 +204,40 @@ public class ApiMypageController {
 		commonMap.putPage(page, size);
 		commonMap.put("action_user_no", principal.getName());
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectBidList(commonMap)));
+	}
+	
+	//비밀번호 확인
+	@RequestMapping(value="/chkPassword", method=RequestMethod.POST, headers = {"content-type=application/json"})
+	@ResponseBody
+	public ResponseEntity<RestResponse> chkPassword(String domain, @RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+	
+	    log.info("chkPassword");
+	    paramMap.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
+	    log.info(paramMap.toString());
+	    
+	    CommonMap resultMap = mypageService.selectCustForChkPassword(paramMap);
+	    if(MapUtils.isEmpty(resultMap)) {
+			return ResponseEntity.ok(RestResponse.builder().success(false).build());
+		}else {
+	    	return ResponseEntity.ok(RestResponse.ok());
+	    }
+	}
+	
+	//비밀번호 변경
+	@RequestMapping(value="/modPassword", method=RequestMethod.POST, headers = {"content-type=application/json"})
+	@ResponseBody
+	public ResponseEntity<RestResponse> modPassword(String domain, @RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+	
+	    log.info("modPassword");
+	    paramMap.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
+	    log.info(paramMap.toString());
+	    
+	    int result = mypageService.updateCustPasswdByCustNo(paramMap);
+	    if(result > 0) {
+	    	new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+			return ResponseEntity.ok(RestResponse.ok());
+		}else {
+			throw new SAException("비밀번호 변경이 실패하였습니다.");
+	    }
 	}
 }

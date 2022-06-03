@@ -60,9 +60,6 @@
 							document.getElementById('social_type').value = "NV";
 							document.getElementById('social_email').value = naverLogin.user.email;
 							
-// 							var form = document.getElementById('loginForm');
-// 							form.action = '/api/login/social';
-// 							form.submit();
 							var form = document.querySelector('#loginForm');
 							var formData = new FormData(form);
 							var data = {};

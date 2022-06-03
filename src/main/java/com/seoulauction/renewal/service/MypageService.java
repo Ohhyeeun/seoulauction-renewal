@@ -170,4 +170,13 @@ public class MypageService {
     	map.put("cnt", mypageMapper.selectLiveBidCnt(commonMap));                                                                          
     	return map;
     }
+
+    public CommonMap selectCustForChkPassword(CommonMap paramMap){
+    	return mypageMapper.selectCustForChkPassword(paramMap);
+    }
+    
+    public int updateCustPasswdByCustNo(CommonMap paramMap){
+        return mypageMapper.updateCustPasswdByCustNo(paramMap);
+    }
+    
 }

@@ -349,8 +349,6 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
         let data = {};
         data['page'] = $page;
         data['sub_page'] = $subPage;
-        data['size'] = name;
-        data['sale_kind'] = $scope.search.sale_kind;
         data['keyword'] = $scope.search.keyword;
         data['mate_nm'] = $scope.search.mate_nm;
         data['from_dt'] = $scope.search.from_dt;
@@ -363,8 +361,6 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
         data['sale_status_end_yn'] = $scope.sale_status_end_yn;
         data['sale_status_ing_yn'] = $scope.sale_status_ing_yn;
         data['sale_status_ready_yn'] = $scope.sale_status_ready_yn;
-
-        console.log(data);
 
         axios.post($api , data)
             .then(function(response) {
@@ -425,7 +421,7 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
                                 totalCount:$scope.totalCount,
                                 itemSize:$scope.reqRowCnt,
                                 pageSize:10,
-                                page:$page,
+                                page:$scope.currentPage,
                                 callBackFunc:function(i) {
                                     $scope.loadLotList(i, $scope.subPage);
                                 }
@@ -454,9 +450,13 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
                             let heart_function= "";
 
                             if(locale === 'ko'){
-                                size = size_text_cm(lotSizeJSON[0], $filter);
+                                $.each(lotSizeJSON , function(idx , el){
+                                    size += size_text_cm(el, $filter) + '</br>';
+                                });
                             }else{
-                                size = size_text(lotSizeJSON[0], $filter);
+                                $.each(lotSizeJSON , function(idx , el){
+                                    size += size_text(el, $filter) + '</br>';
+                                });
                             }
 
                             if(expePriceFromJSON[el.CURR_CD] == undefined) {
@@ -506,7 +506,7 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
                                 + '<i class="'+ heart_status + '" onclick="'+heart_function+'(\''+el.SALE_NO+'\', \''+el.LOT_NO+'\', \''+locale+'\');"></i></button></div>'
                                 + '<div class="info-box">'
                                 + '<div class="title"><span>' + artistJSON[locale] + ' </span><span class="sub"> (' + el.BORN_YEAR + ')</span></div>'
-                                + '<div class="desc"><span> ' + dotSubString(titleJSON[locale], 35) + ' </span></div>'
+                                + '<div class="desc"><span> ' + dotSubString(titleJSON[locale], 30) + ' </span></div>'
                                 + '<div class="standard">'
                                 + '<span> ' + el.MATE_NM + ' </span>'
                                 + '<div class="size_year">'

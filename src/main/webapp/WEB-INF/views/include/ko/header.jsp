@@ -27,6 +27,15 @@
 <sec:authorize access="isAnonymous()">
    sessionStorage.setItem("is_login", "false" );
 </sec:authorize>
+function logout(loginId){
+	console.log(loginId)
+	//TODO 소셜타입에 따른 SNS로그아웃처리
+	sessionLogout();
+}
+// 세션로그아웃
+function sessionLogout() {
+	window.location.href = "/processLogout";
+}
 </script>
 <html lang="ko" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
@@ -86,7 +95,7 @@
                 </ul>
             </li>
             <sec:authorize access="isAnonymous()"> <!-- !login -->
-                <li class="utility-join"><a href="#">회원가입</a></li>
+                <li class="utility-join"><a href="/join">회원가입</a></li>
                 <li class="utility-login"><a href="/login">로그인</a></li>
             </sec:authorize>
             <sec:authorize access="isAuthenticated()"> <!-- login -->
@@ -118,10 +127,9 @@
                 <form action="" class="scroll_none">
                     <fieldset class="topsearch">
                         <span class="submenuBg-closeBtn top-search-closeBtn m-ver"></span>
-                        <input onkeydown="searchFilter()" onmousedown="searchDown()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();"><button type="submit" class="topsearch-btn pc-ver"></button>
+                        <input onkeydown="searchFilter()" onmousedown="searchDown()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();" id="topsearchText"><button type="button" class="topsearch-btn pc-ver" ng-click="goSearch('topsearchText', true);"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">
-                                <span class="keyword-search-tit">최근검색<span class="keyword-all-del">전체삭제</span></span>
                             </div>
                             <div class="recommend-search-part">
                             </div>

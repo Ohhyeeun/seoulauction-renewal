@@ -572,8 +572,8 @@ SELECT 'INTE_LOT' AS GUBUN
 		 DELETE FROM CUST_INTE_LOT WHERE CUST_NO = #{action_user_no} AND SALE_NO = #{sale_no} AND LOT_NO = #{lot_no};
 	</update>
 	
-		<!-- 라이브 응찰 내역 -->
-	
+
+	<!-- 라이브 응찰 내역 -->
 	<!-- live auto bid -->
 	<select id="selectLiveBidReqCnt" resultType="int">
 	   select COUNT(*) from (
@@ -687,6 +687,23 @@ SELECT 'INTE_LOT' AS GUBUN
 		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO >= 622 AND S.STAT_CD = 'open'
 		group by bo.sale_no order by pad.sale_no desc ) S
 	</select>
+
+	<select id="selectCustForChkPassword" resultType="CommonMap">
+		SELECT *
+		FROM   cust
+		WHERE  1 = 1
+			AND CUST_NO = #{cust_no}
+		    AND passwd = '${@com.seoulauction.renewal.auth.PasswordEncoderAESforSA@saPasswdEncoding(passwd)}'
+	</select>
 	
+	<update id="updateCustPasswdByCustNo"
+		parameterType="CommonMap">
+		update CUST
+		set
+		PASSWD = '${@com.seoulauction.renewal.auth.PasswordEncoderAESforSA@saPasswdEncoding(passwd)}',
+		PASSWD_MOD_DT = now(),
+		LOGIN_FAIL_CNT = 0
+		where CUST_NO = #{cust_no}
+	</update>
 
 </mapper>

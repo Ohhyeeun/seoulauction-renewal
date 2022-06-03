@@ -31,7 +31,7 @@
 		                            </div>
 		                        </div>
 		
-								<form id="joinForm" action="" method="post" enctype='multipart/form-data'>
+								<form id="joinForm" enctype='multipart/form-data'>
 		                        <div class="panel-body">
 		                            <ul class="form_list">
 		                                <li>
@@ -93,8 +93,12 @@
 		                                        <i>*</i>
 		                                    </div>
 		                                    <div class="form_body">
-		                                        <input type="text" tabindex="4" ng-model="form_data.comp_no" name="comp_no" id="comp_no" class="form-control" placeholder="">
-		                                        <button class="btn btn_light_gray_line" type="button"><span>중복확인</span></button>
+                                                <div class="input-group">
+			                                        <input type="text" tabindex="4" ng-model="form_data.comp_no" name="comp_no" id="comp_no" class="form-control" placeholder=""
+			                                         onkeyup="onlyNumber(this);" ng-change="compNoValidCheck()">
+			                                        <button class="btn btn_light_gray_line" type="button" ng-click="compNoExistCheck()"><span>중복확인</span></button>
+                                                </div>
+                                                <p class="error_text tb2">{{comp_no_msg}}</p>
 		                                    </div>
 		                                </li>
 		                                <li ng-show="!isPerson() && !isSocial()">
@@ -111,7 +115,7 @@
 		                                        <i>*</i>
 		                                    </div>
 		                                    <div class="form_body">
-		                                        <input type="text" tabindex="6" ng-model="form_data.comp_man_name" name="comp_man_name" id="comp_man_name" class="form-control" placeholder="">
+		                                        <input type="text" tabindex="6" ng-change="compManNameValidCheck()" ng-model="form_data.comp_man_name" name="comp_man_name" id="comp_man_name" class="form-control" placeholder="">
 		                                    </div>
 		                                </li>
 		                                <li ng-show="!isPerson() && !isSocial()">
@@ -122,16 +126,16 @@
 		                                    <div class="form_body">
 		                                        <div class="trp file-box">
 		                                            <label for="fileName" class="screen-reader-text">파일첨부</label>
-		                                            <input type="text" ng-model="form_data.comp_file" name="comp_file" id="comp_file" class="trp-Filetext">
+		                                            <input type="text" id="fileName" class="trp-Filetext">
 		                                            <input type="button" class="btn btn_light_gray_line" value="파일첨부">
-		                                            <input type="file" tabindex="7" class="trp-Filehidden" onchange="javascript: document.getElementById('fileName').value = this.value" title="Insert Attachment">
+		                                            <input type="file" tabindex="7" class="trp-Filehidden" ng-model="form_data.comp_file" name="comp_file" id="comp_file" onchange="angular.element(this).scope().fileValidCheck('comp_file')" title="Insert Attachment">
 		                                        </div>
-		                                        <p class="error_text tb2">안내 메시지 출력 영역</p>
-		                                        <div class="file-box-list">
+		                                        <p class="error_text tb2">{{comp_file_msg}}</p>
+		                                        <div class="file-box-list" ng-hide="comp_file_filename == '' || comp_file_filename == undefined">
 		                                            <p class="label">
 		                                                <i class="icon_down"></i>
-		                                                <span class="tb1">Attached_filename.jpg </span>
-		                                                <a href="#none" class="btn_del"><span class="icon-del"></span></a>
+		                                                <span class="tb1">{{comp_file_filename}}</span>
+		                                                <a href="#none" class="btn_del" ng-click="fileDelete('comp_file')"><span class="icon-del"></span></a>
 		                                            </p>
 		                                        </div>
 		
@@ -175,7 +179,8 @@
 		                                    </div>
 		                                    <div class="form_body">
 		                                        <div class="form_body">
-		                                        	<input type="text" tabindex="9" ng-model="form_data.tel" name="tel" id="tel" class="form-control" value="" placeholder="">
+		                                        	<input type="text" tabindex="9" ng-model="form_data.tel" name="tel" id="tel" class="form-control" value="" placeholder=""
+		                                        	onblur="telNumber(this);" onkeyup="onlyNumber(this);" ng-change="telValidCheck()">
 		                                        </div>
 		                                    </div>
 		                                </li>
@@ -238,9 +243,9 @@
 		                                <div class="check_all-wrap js_all-1">
 		                                    <div class="all_check">
 		                                        <span class="trp checkbox-box">
-		                                            <input id="checkbox_all" tabindex="14" class="js_all" ng-click="checkAllPerson()" ng-checked="allCheckPerson" type="checkbox" name="">
+		                                            <input id="checkbox_all_per" tabindex="14" class="js_all" ng-click="checkAllPerson()" ng-checked="allCheckPerson" type="checkbox" name="">
 		                                            <i></i>
-		                                            <label for="checkbox_all">모두 동의합니다.</label>
+		                                            <label for="checkbox_all_per">모두 동의합니다.</label>
 		                                        </span>
 		                                    </div>
 		
@@ -249,9 +254,9 @@
 		                                            <div class="header-area">
 		                                                <div class="accordion_name">
 		                                                    <div class="trp checkbox-box">
-		                                                        <input id="checkbox_all1" tabindex="15" class="js_item" type="checkbox" name="chk_per" ng-change="onChangeCheckbox_P()"ng-model="form_data.personOnlineAgree">
+		                                                        <input id="checkbox_all1_per" tabindex="15" class="js_item" type="checkbox" name="chk_per" ng-change="onChangeCheckbox_P()"ng-model="form_data.personOnlineAgree">
 		                                                        <i></i>
-		                                                        <label for="checkbox_all1"><span class="required">[필수]</span> 온라인 경매 약관 동의</label>
+		                                                        <label for="checkbox_all1_per"><span class="required">[필수]</span> 온라인 경매 약관 동의</label>
 		                                                    </div>
 		                                                </div>
 		                                                <a href="#" class="acc_btn">
@@ -269,9 +274,9 @@
 		                                            <div class="header-area">
 		                                                <div class="accordion_name">
 		                                                    <div class="trp checkbox-box">
-		                                                        <input id="checkbox_all2" tabindex="16" class="js_item" type="checkbox" name="chk_per" ng-change="onChangeCheckbox_P()"ng-model="form_data.personOfflineAgree">
+		                                                        <input id="checkbox_all2_per" tabindex="16" class="js_item" type="checkbox" name="chk_per" ng-change="onChangeCheckbox_P()"ng-model="form_data.personOfflineAgree">
 		                                                        <i></i>
-		                                                        <label for="checkbox_all2"><span class="required">[필수]</span> 오프라인 경매 약관 동의</label>
+		                                                        <label for="checkbox_all2_per"><span class="required">[필수]</span> 오프라인 경매 약관 동의</label>
 		                                                    </div>
 		                                                </div>
 		                                                <a href="#" class="acc_btn">
@@ -289,9 +294,9 @@
 		                                            <div class="header-area">
 		                                                <div class="accordion_name">
 		                                                    <div class="trp checkbox-box">
-		                                                        <input id="checkbox_all3" tabindex="17" class="js_item" type="checkbox" name="chk_per" ng-change="onChangeCheckbox_P()"ng-model="form_data.personAgree1">
+		                                                        <input id="checkbox_all3_per" tabindex="17" class="js_item" type="checkbox" name="chk_per" ng-change="onChangeCheckbox_P()"ng-model="form_data.personAgree1">
 		                                                        <i></i>
-		                                                        <label for="checkbox_all3"><span class="required">[필수]</span> 개인정보 수집 및 이용 동의</label>
+		                                                        <label for="checkbox_all3_per"><span class="required">[필수]</span> 개인정보 수집 및 이용 동의</label>
 		                                                    </div>
 		                                                </div>
 		                                                <a href="#" class="acc_btn">
@@ -310,9 +315,9 @@
 		                                            <div class="header-area">
 		                                                <div class="accordion_name">
 		                                                    <div class="trp checkbox-box">
-		                                                        <input id="checkbox_all4" tabindex="18" class="js_item" type="checkbox" name="chk_per" ng-change="onChangeCheckbox_P()" ng-model="form_data.maketingAgree1">
+		                                                        <input id="checkbox_all4_per" tabindex="18" class="js_item" type="checkbox" name="chk_per" ng-change="onChangeCheckbox_P()" ng-model="form_data.maketingAgree1">
 		                                                        <i></i>
-		                                                        <label for="checkbox_all4"><span>[선택]</span> 홍보 및 마케팅을 위한 정보 이용 동의</label>
+		                                                        <label for="checkbox_all4_per"><span>[선택]</span> 홍보 및 마케팅을 위한 정보 이용 동의</label>
 		                                                    </div>
 		                                                </div>
 		                                                <a href="#" class="acc_btn" id="marketingPerson">
@@ -332,21 +337,21 @@
 		                                                    <dt class="mem_txt">정보수신방법</dt>
 		                                                    <dd>
 		                                                        <span class="trp checkbox-box">
-		                                                            <input id="checkbox_1" tabindex="19" class="" type="checkbox" name="pushway_per" ng-change="clickPushWay()" ng-model="form_data.push_way_email">
+		                                                            <input id="checkbox_1_per" tabindex="19" class="" type="checkbox" name="pushway_per" ng-change="clickPushWay()" ng-model="form_data.push_way_email">
 		                                                            <i></i>
-		                                                            <label for="checkbox_1">이메일</label>
+		                                                            <label for="checkbox_1_per">이메일</label>
 		                                                        </span>
 		
 		                                                        <span class="trp checkbox-box">
-		                                                            <input id="checkbox_2" tabindex="20" class="" type="checkbox" name="pushway_per" ng-change="clickPushWay()" ng-model="form_data.push_way_sms">
+		                                                            <input id="checkbox_2_per" tabindex="20" class="" type="checkbox" name="pushway_per" ng-change="clickPushWay()" ng-model="form_data.push_way_sms">
 		                                                            <i></i>
-		                                                            <label for="checkbox_2">SMS</label>
+		                                                            <label for="checkbox_2_per">SMS</label>
 		                                                        </span>
 		
 		                                                        <span class="trp checkbox-box">
-		                                                            <input id="checkbox_3" tabindex="21" class="" type="checkbox" name="pushway_per" ng-change="clickPushWay()" ng-model="form_data.push_way_phone">
+		                                                            <input id="checkbox_3_per" tabindex="21" class="" type="checkbox" name="pushway_per" ng-change="clickPushWay()" ng-model="form_data.push_way_phone">
 		                                                            <i></i>
-		                                                            <label for="checkbox_3">전화</label>
+		                                                            <label for="checkbox_3_per">전화</label>
 		                                                        </span>
 		                                                    </dd>
 		                                                </dl>
@@ -363,9 +368,9 @@
 		                                <div class="check_all-wrap js_all-1">
 		                                    <div class="all_check">
 		                                        <span class="trp checkbox-box">
-		                                            <input id="checkbox_all" tabindex="22"  class="js_all" ng-click="checkAllCompany()" ng-checked="allCheckComp" type="checkbox" name="">
+		                                            <input id="checkbox_all_comp" tabindex="22"  class="js_all" ng-click="checkAllCompany()" ng-checked="allCheckComp" type="checkbox" name="">
 		                                            <i></i>
-		                                            <label for="checkbox_all">모두 동의합니다.</label>
+		                                            <label for="checkbox_all_comp">모두 동의합니다.</label>
 		                                        </span>
 		                                    </div>
 		
@@ -374,9 +379,9 @@
 		                                            <div class="header-area">
 		                                                <div class="accordion_name">
 		                                                    <div class="trp checkbox-box">
-		                                                        <input id="checkbox_all1" tabindex="23" class="js_item" type="checkbox" name="chk_com" ng-change="onChangeCheckbox_C()" ng-model="form_data.compOnlineAgree">
+		                                                        <input id="checkbox_all1_comp" tabindex="23" class="js_item" type="checkbox" name="chk_com" ng-change="onChangeCheckbox_C()" ng-model="form_data.compOnlineAgree">
 		                                                        <i></i>
-		                                                        <label for="checkbox_all1"><span class="required">[필수]</span> 개인/법인 사업자 온라인 경매 약관 동의</label>
+		                                                        <label for="checkbox_all1_comp"><span class="required">[필수]</span> 개인/법인 사업자 온라인 경매 약관 동의</label>
 		                                                    </div>
 		                                                </div>
 		                                                <a href="#" class="acc_btn">
@@ -394,9 +399,9 @@
 		                                            <div class="header-area">
 		                                                <div class="accordion_name">
 		                                                    <div class="trp checkbox-box">
-		                                                        <input id="checkbox_all2" tabindex="24" class="js_item" type="checkbox" name="chk_com" ng-change="onChangeCheckbox_C()" ng-model="form_data.compOfflineAgree">
+		                                                        <input id="checkbox_all2_comp" tabindex="24" class="js_item" type="checkbox" name="chk_com" ng-change="onChangeCheckbox_C()" ng-model="form_data.compOfflineAgree">
 		                                                        <i></i>
-		                                                        <label for="checkbox_all2"><span class="required">[필수]</span> 개인/법인 사업자 오프라인 경매 약관 동의</label>
+		                                                        <label for="checkbox_all2_comp"><span class="required">[필수]</span> 개인/법인 사업자 오프라인 경매 약관 동의</label>
 		                                                    </div>
 		                                                </div>
 		                                                <a href="#" class="acc_btn">
@@ -414,9 +419,9 @@
 		                                            <div class="header-area">
 		                                                <div class="accordion_name">
 		                                                    <div class="trp checkbox-box">
-		                                                        <input id="checkbox_all3" tabindex="25" class="js_item" type="checkbox" name="chk_com" ng-change="onChangeCheckbox_C()" ng-model="form_data.compAgree1">
+		                                                        <input id="checkbox_all3_comp" tabindex="25" class="js_item" type="checkbox" name="chk_com" ng-change="onChangeCheckbox_C()" ng-model="form_data.compAgree1">
 		                                                        <i></i>
-		                                                        <label for="checkbox_all3"><span class="required">[필수]</span> 개인/법인 사업자 정보 수집 및 이용 동의</label>
+		                                                        <label for="checkbox_all3_comp"><span class="required">[필수]</span> 개인/법인 사업자 정보 수집 및 이용 동의</label>
 		                                                    </div>
 		                                                </div>
 		                                                <a href="#" class="acc_btn">
@@ -435,9 +440,9 @@
 		                                            <div class="header-area">
 		                                                <div class="accordion_name">
 		                                                    <div class="trp checkbox-box">
-		                                                        <input id="checkbox_all4" tabindex="26" class="js_item" type="checkbox" name="chk_com" ng-change="onChangeCheckbox_C()" ng-model="form_data.compMaketingAgree1">
+		                                                        <input id="checkbox_all4_comp" tabindex="26" class="js_item" type="checkbox" name="chk_com" ng-change="onChangeCheckbox_C()" ng-model="form_data.compMaketingAgree1">
 		                                                        <i></i>
-		                                                        <label for="checkbox_all4"><span>[선택]</span> 홍보 및 마케팅을 위한 정보 이용 동의</label>
+		                                                        <label for="checkbox_all4_comp"><span>[선택]</span> 홍보 및 마케팅을 위한 정보 이용 동의</label>
 		                                                    </div>
 		                                                </div>
 		                                                <a href="#" class="acc_btn" id="marketingCompany">
@@ -457,21 +462,21 @@
 		                                                    <dt class="mem_txt">정보수신방법</dt>
 		                                                    <dd>
 		                                                        <span class="trp checkbox-box">
-		                                                            <input id="checkbox_1" tabindex="27" class="" type="checkbox" name="">
+		                                                            <input id="checkbox_1_comp" tabindex="27" class="" type="checkbox" name="pushway_comp" ng-change="clickPushWay()" ng-model="form_data.push_way_email">
+		                                                            <i></i>                                                                                                                                               
+		                                                            <label for="checkbox_1_comp">이메일</label>                                                                                                           
+		                                                        </span>                                                                                                                                                   
+		                                                                                                                                                                                                                  
+		                                                        <span class="trp checkbox-box">                                                                                                                           
+		                                                            <input id="checkbox_2_comp" tabindex="28" class="" type="checkbox" name="pushway_comp" ng-change="clickPushWay()" ng-model="form_data.push_way_sms">  
+		                                                            <i></i>                                                                                                                                               
+		                                                            <label for="checkbox_2_comp">SMS</label>                                                                                                              
+		                                                        </span>                                                                                                                                                   
+		                                                                                                                                                                                                                  
+		                                                        <span class="trp checkbox-box">                                                                                                                           
+		                                                            <input id="checkbox_3_comp" tabindex="29" class="" type="checkbox" name="pushway_comp" ng-change="clickPushWay()" ng-model="form_data.push_way_phone">
 		                                                            <i></i>
-		                                                            <label for="checkbox_1">이메일</label>
-		                                                        </span>
-		
-		                                                        <span class="trp checkbox-box">
-		                                                            <input id="checkbox_2" tabindex="28" class="" type="checkbox" name="">
-		                                                            <i></i>
-		                                                            <label for="checkbox_2">SMS</label>
-		                                                        </span>
-		
-		                                                        <span class="trp checkbox-box">
-		                                                            <input id="checkbox_3" tabindex="29" class="" type="checkbox" name="">
-		                                                            <i></i>
-		                                                            <label for="checkbox_3">전화</label>
+		                                                            <label for="checkbox_3_comp">전화</label>
 		                                                        </span>
 		                                                    </dd>
 		                                                </dl>
@@ -515,7 +520,7 @@
 			                            <section class="section" style="display: block;">
 			
 			                                <div class="search-group sm">
-			                                    <input type="text" ng-model="find_word" id="name-1" class="form-control" ng-keypress="$event.keyCode === 13 && findAddrNewForm();" placeholder="도로명주소 건물번호 검색">
+			                                    <input type="text" ng-model="find_word" id="addr_word" class="form-control" ng-keypress="$event.keyCode === 13 && findAddrNewForm();" placeholder="도로명주소 건물번호 검색">
 			                                    <button class="btn btn_black" type="button" ng-click="findAddrNewForm()"><span>검색</span></button>
 			                                </div>
 			
@@ -647,8 +652,6 @@
 		var socialEmail = '${socialEmail }';
 	</script>
 	<script src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-	<script src="/js/pages_common_ko.js" type="text/javascript"></script>
 	<link rel="stylesheet" href="/css/plugin/csslibrary.css" type="text/css">
-	<link rel="stylesheet" href="/css/pages_common_ko.css" type="text/css">
 	<script type="text/javascript" src="/js/customer/join.js"></script>
 </html>

@@ -264,6 +264,21 @@ $(function(){
         $(this).children('a').removeClass('on');
         $('.bubble-box').removeClass('on');
     });
+
+    /* top search 유틸리티 겹침X */
+    $('.topsearch-text').click(function(){
+        if($('.search-bubble-box').hasClass('on')){
+            $('.bubble-box01').eq(utilityMenu).removeClass('hide');
+            $('.bubble-box02').eq(utilityMenu).removeClass('hide');
+            $('.search-bubble-box').addClass('on');
+        } else { /* 검색기능 보여질 때 겹침X */
+            $('.bubble-box01').addClass('hide');
+            $('.bubble-box02').addClass('hide');
+            $('.search-bubble-box').removeClass('on');
+        }
+        $('.search-bubble-box').toggleClass('on');
+    });
+
     /* 최근검색 키워드 삭제 */
     $('.keyword-del').click(function(){
         $(this).parent('.recent-keyword').hide();
@@ -408,6 +423,29 @@ function phoneNumber(obj) {
         obj.value += '-';
     }
 
+}
+
+function telNumber(obj){
+	if (obj.value != '') {
+		obj.value = obj.value.replaceAll("-", "");
+		if (obj.value.length == 11) {
+			obj.value = obj.value.substring(0, 3) + "-" + obj.value.substring(3, 7) + "-" + obj.value.substring(7);
+		} else if (obj.value.length == 8) {
+			obj.value = obj.value.substring(0, 4) + "-" + obj.value.substring(4);
+		} else if (obj.value.length == 10) {
+			if (obj.value.startsWith("02")) {
+				obj.value = obj.value.substring(0, 2) + "-" + obj.value.substring(2, 6) + "-" + obj.value.substring(6);
+			}else{
+				obj.value = obj.value.substring(0, 3) + "-" + obj.value.substring(3, 6) + "-" + obj.value.substring(6);
+			}
+		} else {
+			if (obj.value.startsWith("02")) {
+				obj.value = obj.value.substring(0, 2) + "-" + obj.value.substring(2, 5) + "-" + obj.value.substring(5);
+			} else { // 그외는 012-123-1345
+				obj.value = obj.value.substring(0, 3) + "-" + obj.value.substring(3, 6) + "-" + obj.value.substring(6);
+			}
+		}
+	}
 }
 
 /* 공통 login 팝업 */
@@ -569,7 +607,7 @@ app.controller('headCtl', function($scope, consts, common, locale, $filter) {
                 let html = '<span class="keyword-search-tit">추천검색</span>';
                 $('.recommend-search-part').append(html);
                 data.map(item => {
-                    let innerHtml = '<a href="/sale/search?searchContent=' + item.name + '" class="recommend-keyword">' + item.name + '</a>';
+                    let innerHtml = '<a href="/sale/search?searchContent=' + item.name + '" class="recommend-keyword">' + dotSubString(item.name, 10) + '</a>';
                     $('.recommend-search-part').append(innerHtml);
                 });
             }
@@ -584,11 +622,27 @@ app.controller('headCtl', function($scope, consts, common, locale, $filter) {
         $(".recent-search").empty();
         let keywordsArray = keywords.split(',');
         $.each(keywordsArray , function(idx , el){
-            html += '<span class="recent-keyword"><a href="/sale/search?searchContent='+ el +'">'+ el +'</a><span class="keyword-del"></span></span>';
+            html += '<span class="recent-keyword"><a href="/sale/search?searchContent='+ el +'">'+ el+'</a><span class="keyword-del"></span></span>';
         });
 
-        $(".recent-search").append(html);
+    }else{
+        html += '<span class="recent-keyword">표시할내용없음</span>';
     }
+
+    $(".recent-search").append(html);
+
+
+    $scope.goSearch =  function(elementId, bIsKorean){
+
+        var sSearchContent = $("#" + elementId).val();
+        if(sSearchContent) {
+            location.href = bIsKorean ? "/sale/search?searchContent=" + sSearchContent : "/eng/sale/search?searchContent=" + sSearchContent;
+        }
+        else {
+            alert(bIsKorean ? "검색어를 입력해주세요." : "Please write search keyword.");
+        }
+    }
+
 });
 
 //pc, mobile 구분
@@ -630,13 +684,12 @@ function checkPlatform(ua) {
     return userPlatform;
 }
 
-
 /* notice 슬라이드 배너 (무한루프)*/
 $(function(){
 
     let i = 0;
 
-    setInterval(noticeSlide, 3000);
+    setInterval(noticeSlide, 2500);
 
     function noticeSlide(){
         $('.belttxtbox').append('<span class="header_beltTit"><a href="#"><span class="text-over belt_tit">구매수수료율 인상 및 약관 개정안내 구매수수료율 '+i+'</span></a></span>');  /*끝에 반복 생성  */
@@ -651,4 +704,14 @@ $(function(){
         $('.belttxtbox>span:nth-child(1)').remove(); /*반복 첫번째 삭제  */
         $('.belttxtbox').animate({'top':'100%'},1000);
     } // noticeSlide() 종료구문;
-}); 
+});
+
+function dotSubString(str,len){
+    let result ='';
+    if(str.length > len){
+        result = str.substring(0,len)+'...';
+    }else{
+        result = str;
+    }
+    return result;
+}
