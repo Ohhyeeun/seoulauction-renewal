@@ -143,10 +143,16 @@
 		from CUST c
 		left
 		outer join cust_social cs on c.CUST_NO = cs.cust_no
-		where JOIN_KIND_CD
-		= 'online' and IFNULL(DEL_YN, 'N') = 'N'
+		where JOIN_KIND_CD = 'online' and IFNULL(DEL_YN, 'N') = 'N'
 		and STAT_CD = #{stat_cd}
 		and LOGIN_ID = #{login_id}
+		and CUST_NAME = #{cust_name}
+		<if test="search_type == 'phone'">
+			and HP = #{search_value}
+		</if>
+		<if test="search_type == 'email'">
+			and EMAIL = #{search_value}
+		</if>
 	</select>
 
 	<select id="selectCustSocialBySocialLoginId" resultType="CommonMap">
