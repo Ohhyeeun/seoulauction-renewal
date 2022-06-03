@@ -760,5 +760,22 @@ SELECT 'INTE_LOT' AS GUBUN
 		LOGIN_FAIL_CNT = 0
 		where CUST_NO = #{cust_no}
 	</update>
-
+	
+	<select id="selectCustSocialByCustNo" resultType="CommonMap">
+		select
+			CUST_NO, SOCIAL_TYPE, SOCIAL_EMAIL, SOCIAL_LOGIN_ID, date_format(REG_DT,'%Y.%m.%d')REG_DT
+		from
+			cust_social
+		where
+			CUST_NO = #{cust_no}
+	</select>
+	
+	<delete id="deleteCustSocial" parameterType="CommonMap">
+		delete
+		from
+			cust_social
+		where
+			CUST_NO = #{cust_no}
+			and SOCIAL_TYPE = #{social_type}
+	</delete>
 </mapper>

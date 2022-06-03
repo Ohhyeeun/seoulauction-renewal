@@ -236,7 +236,8 @@
 				TEL, COMP_OWNER, COMP_NO, COMP_MAN_NAME,
 			</if>
 			FORE_BID_REQ_YN,
-			FORE_CERT_CODE
+			FORE_CERT_CODE,
+			SOCIAL_YN
 		) 
 		VALUES ( 
 			#{login_id},
@@ -272,9 +273,15 @@
 			</if>
 			<choose>
 			    <when test="local_kind_cd == 'foreigner'">
-			        #{fore_bid_req_yn}, UUID()
+			        #{fore_bid_req_yn}, UUID(),
 			    </when>
-			    <otherwise>'N', null</otherwise>
+			    <otherwise>'N', null,</otherwise>
+			</choose>
+			<choose>
+			    <when test="social_type != null and social_type != ''">
+			        'Y'
+			    </when>
+			    <otherwise>'N'</otherwise>
 			</choose>
 		);
 	</insert>
@@ -294,6 +301,9 @@
 			#{social_login_id},
 			now()
 		);
+		<selectKey keyProperty="reg_dt" resultType="String" order="AFTER">
+			select date_format(REG_DT,'%Y.%m.%d')REG_DT FROM CUST_SOCIAL WHERE CUST_NO = #{cust_no} and SOCIAL_TYPE = #{social_type} and SOCIAL_EMAIL = #{social_email}
+		</selectKey>
 	</insert>
 	
 	<select id="selectCustForCustSocial" resultType="CommonMap">

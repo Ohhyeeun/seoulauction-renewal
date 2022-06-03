@@ -31,6 +31,9 @@ public class SAUserDetails implements UserDetails {
 	private String addr;
 	private String socialYn;
 	
+	private String socialType;
+	private String socialEmail;
+	
     @Override
     public String getUsername() {
     	return this.loginId;
