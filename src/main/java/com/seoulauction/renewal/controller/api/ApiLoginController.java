@@ -113,7 +113,8 @@ public class ApiLoginController {
 	        	Map<String, Object> resultMap = new HashMap<String, Object>();
 	        	
 	        	//소셜로그인
-	        	if(custMap.get("SOCIAL_TYPE") != null && !custMap.get("SOCIAL_TYPE").equals("")) {
+	        	if(custMap.get("SOCIAL_YN") != null && custMap.get("SOCIAL_YN").equals("Y")) {
+	        		resultMap.put("SOCIAL_YN", custMap.get("SOCIAL_YN").toString());
 	        		resultMap.put("SOCIAL_TYPE", custMap.get("SOCIAL_TYPE").toString());
 	        		return ResponseEntity.ok(RestResponse.ok(resultMap));
 	        	}

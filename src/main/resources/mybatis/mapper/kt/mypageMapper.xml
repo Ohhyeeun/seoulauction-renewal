@@ -572,6 +572,134 @@ SELECT 'INTE_LOT' AS GUBUN
 		 DELETE FROM CUST_INTE_LOT WHERE CUST_NO = #{action_user_no} AND SALE_NO = #{sale_no} AND LOT_NO = #{lot_no};
 	</update>
 	
+
+	<!-- 라이브 응찰 내역 -->
+	<!-- live auto bid -->
+	<select id="selectLiveBidReqCnt" resultType="int">
+	   select COUNT(*) from (
+	   select S1.sale_no,  S1.TITLE_BLOB, S1.FROM_DT, S1.TO_DT, S1.CURR_CD, S1.SALE_TH_DSP_YN, S1.SALE_TH from AUTO_BID_REQ AB1
+					join sale s1 on AB1.SALE_NO = s1.SALE_NO 
+					and s1.DEL_YN ='N'
+					and AB1.CUST_NO = '23094'
+					join CODE CD on CD.GRP_ID='bid_kind' and AB1.BID_KIND_CD = CD.CD_ID
+					where AB1.BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place')
+					group by AB1.SALE_NO 
+					order by AB1.SALE_NO DESC) S 
+	</select>
+	
+	<select id="selectLiveBidReqList" resultType="Map">
+  select *
+		    , (select CASE WHEN MB.BID_PRICE = ABL.LAST_AUTOBID_PRICE and MB.CUST_NO = ABL.CUST_NO THEN '낙찰' 
+		    	ELSE 
+		    		CASE WHEN ABL.BID_CNT > 0 THEN '낮은응찰' ELSE '' END
+		    	END 
+				from BID MB 
+				where ABL.SALE_NO = MB.SALE_NO and ABL.LOT_NO = MB.LOT_NO
+			        order by bid_price desc, bid_dt, reg_dt limit 1) SUCCESS_YN
+			 , (select b.BID_PRICE  from bid b join success_bid sb2 on b.BID_NO = sb2.BID_NO and ABL.sale_no = sb2.SALE_NO and ABL.lot_no = sb2.LOT_NO  ) success_bid_price	
+		from (
+			select AB.SALE_NO, AB.LOT_NO, AB.REQ_NO 
+			    , COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
+			    , DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT
+			    , DATE_FORMAT(S.TO_DT, '%Y.%m.%d  %T')  as TO_DT
+			    , S.CURR_CD
+			    , IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH
+		  		, IF(S.SALE_TH_DSP_YN = 'N', '', f_ordinal_number(S.SALE_TH)) SALE_TH_DSP
+		  		, LI.FILE_PATH as LOT_IMG_PATH
+			    , LI.FILE_NAME as LOT_IMG_NAME
+			    , AB.BID_PRICE
+			    , DATE_FORMAT(AB.REQ_DT, '%Y.%m.%d %T') as REQ_DT 
+			    , AB.ABORT_YN, AB.ABORT_DT, AB.ABORT_IP, AB.CUST_NO, CD.CD_NM BID_KIND_NM
+			    , COLUMN_JSON(L.TITLE_BLOB) W_TITLE_JSON
+			    , COLUMN_JSON(A.ARTIST_NAME_BLOB) ARTIST
+			    , (select count(*) from BID B 
+					where B.SALE_NO = AB.SALE_NO and B.LOT_NO = AB.LOT_NO and B.CUST_NO = AB.CUST_NO and B.AUTO_BID_REQ_NO = AB.REQ_NO) BID_CNT
+			    , (select max(BID_PRICE)
+					from BID LAB 
+					where AB.SALE_NO = LAB.SALE_NO and AB.LOT_NO = LAB.LOT_NO and AB.CUST_NO = LAB.CUST_NO and LAB.AUTO_BID_REQ_NO = AB.REQ_NO) LAST_AUTOBID_PRICE
+				, (select MIN(BID_PRICE)
+					from BID FAB 
+					where AB.SALE_NO = FAB.SALE_NO and AB.LOT_NO = FAB.LOT_NO and AB.CUST_NO = FAB.CUST_NO and FAB.AUTO_BID_REQ_NO = AB.REQ_NO) FIRST_AUTOBID_PRICE
+				 ,COLUMN_GET(S.TITLE_BLOB, 'ko' AS CHAR) SALE_TITLE_KR
+				 ,COLUMN_GET(S.TITLE_BLOB, 'en' AS CHAR) SALE_TITLE_EN
+				 ,IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'ko' AS CHAR), '') ARTIST_NAME_KR
+				 ,IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'en' AS CHAR), '') ARTIST_NAME_EN
+				 , COLUMN_GET(L.TITLE_BLOB, 'ko' AS CHAR) LOT_TITLE_KR
+				 , COLUMN_GET(L.TITLE_BLOB, 'en' AS CHAR) LOT_TITLE_EN
+				 , if(S.TO_DT > NOW(), 'N', 'Y') AS CLOSE_YN
+				from AUTO_BID_REQ AB
+				join (select S1.sale_no,  S1.TITLE_BLOB, S1.FROM_DT, S1.TO_DT, S1.CURR_CD, S1.SALE_TH_DSP_YN, S1.SALE_TH from AUTO_BID_REQ AB1
+					join sale s1 on AB1.SALE_NO = s1.SALE_NO 
+					and s1.DEL_YN ='N'
+					and AB1.CUST_NO = '23094'
+					join CODE CD on CD.GRP_ID='bid_kind' and AB1.BID_KIND_CD = CD.CD_ID
+					where AB1.BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place')
+					group by AB1.SALE_NO 
+					order by AB1.SALE_NO DESC 
+					limit #{offset}, #{size}
+				) S on s.SALE_NO = ab.sale_no
+				join LOT L ON AB.SALE_NO = L.SALE_NO and AB.LOT_NO = L.LOT_NO
+				join LOT_IMG LI ON LI.SALE_NO = L.SALE_NO AND LI.LOT_NO = L.LOT_NO AND LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
+				left outer join ARTIST A ON L.ARTIST_NO = A.ARTIST_NO  
+				join CODE CD on CD.GRP_ID='bid_kind' and AB.BID_KIND_CD = CD.CD_ID and  AB.BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place') and AB.CUST_NO = '23094'
+				inner join (select MAX(REQ_NO) REQ_NO , SALE_NO , LOT_NO from auto_bid_req join CODE CD on CD.GRP_ID='bid_kind' and BID_KIND_CD = CD.CD_ID and  BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place') and CUST_NO = '23094' group by SALE_NO, LOT_NO ) TAB on TAB.REQ_NO =  AB.REQ_NO
+		) ABL
+	</select>
+	
+	
+	<select id="selectLiveBidList" resultType="Map">
+		SELECT S.SALE_NO, L.LOT_NO ,BIO.PADDLE , BIO.BID_DT, MBIO.BID_NO, MBIO.BID_PRICE, MBIO.success_bid_price, IF(MBIO.BID_PRICE = MBIO.success_bid_price , 'hammer', 'bidding' ) AS HAMMER_STAT
+		FROM (SELECT PAD.PADD_NO PADDLE, BO.* FROM BID_OFFLINE BO LEFT OUTER JOIN SALE_PADD PAD ON BO.SALE_NO = PAD.SALE_NO AND BO.CUST_NO = PAD.CUST_NO) BIO
+		JOIN (
+		select
+			S.SALE_NO , S.SALE_KIND_CD, S.STAT_CD
+		from
+			BID_OFFLINE BO
+		left outer join SALE_PADD pad on
+			BO.SALE_NO = PAD.SALE_NO
+			and BO.CUST_NO = PAD.CUST_NO
+		join SALE S on BO.SALE_NO = S.sale_no 
+		WHERE BO.BID_KIND_CD = 'online' AND PAD.PADD_NO > 600  AND BO.CUST_NO ='113248'
+		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO >= 622 AND S.STAT_CD = 'open'
+		group by bo.sale_no order by pad.sale_no desc 
+		) S ON BIO.SALE_NO = S.SALE_NO 
+		inner join (
+		SELECT MAX(BID_PRICE) BID_PRICE, MAX(BIO.BID_NO) BID_NO, BIO.SALE_NO, BIO.LOT_NO, (select b.BID_PRICE  from bid b join success_bid sb2 on b.BID_NO = sb2.BID_NO and BIO.sale_no = sb2.SALE_NO and BIO.lot_no = sb2.LOT_NO  ) success_bid_price from (SELECT PAD.PADD_NO PADDLE, BO.* FROM BID_OFFLINE BO LEFT OUTER JOIN SALE_PADD PAD ON BO.SALE_NO = PAD.SALE_NO AND BO.CUST_NO = PAD.CUST_NO) BIO
+		JOIN ( select S.SALE_NO , S.SALE_KIND_CD, S.STAT_CD from BID_OFFLINE BO
+		left outer join SALE_PADD pad on
+			BO.SALE_NO = PAD.SALE_NO
+			and BO.CUST_NO = PAD.CUST_NO
+		join SALE S on BO.SALE_NO = S.sale_no 
+		WHERE BO.BID_KIND_CD = 'online' AND PAD.PADD_NO > 600  AND BO.CUST_NO ='113248'
+		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO >= 622 AND S.STAT_CD = 'open'
+		group by bo.sale_no order by pad.sale_no desc limit #{offset}, #{size}
+		) S ON BIO.SALE_NO = S.SALE_NO 
+		WHERE BIO.BID_KIND_CD = 'online' AND BIO.PADDLE > 600  AND BIO.CUST_NO ='113248'
+		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO >= 622 AND S.STAT_CD = 'open'
+		group by BIO.SALE_NO, BIO.LOT_NO
+		order by BIO.SALE_NO desc , BIO.LOT_NO) MBIO on MBIO.sale_no = BIO.sale_no and MBIO.LOT_NO = BIO.LOT_NO and MBIO.BID_NO = BIO.BID_NO
+		LEFT OUTER JOIN LOT L ON BIO.LOT_NO = L.LOT_NO AND BIO.SALE_NO = L.SALE_NO
+		WHERE BIO.BID_KIND_CD = 'online' AND BIO.PADDLE > 600  AND BIO.CUST_NO ='113248'
+		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO >= 622 AND S.STAT_CD = 'open'
+		ORDER BY BIO.SALE_NO DESC, BIO.LOT_NO ASC, BIO.BID_NO desc;
+		
+	</select>
+
+	<select id="selectLiveBidCnt" resultType="int">
+	    select COUNT(*) from (
+		select
+			S.SALE_NO , S.SALE_KIND_CD, S.STAT_CD
+		from
+			BID_OFFLINE BO
+		left outer join SALE_PADD pad on
+			BO.SALE_NO = PAD.SALE_NO
+			and BO.CUST_NO = PAD.CUST_NO
+		join SALE S on BO.SALE_NO = S.sale_no 
+		WHERE BO.BID_KIND_CD = 'online' AND PAD.PADD_NO > 600  AND BO.CUST_NO ='113248'
+		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO >= 622 AND S.STAT_CD = 'open'
+		group by bo.sale_no order by pad.sale_no desc ) S
+	</select>
+
 	<select id="selectCustForChkPassword" resultType="CommonMap">
 		SELECT *
 		FROM   cust
@@ -589,4 +717,5 @@ SELECT 'INTE_LOT' AS GUBUN
 		LOGIN_FAIL_CNT = 0
 		where CUST_NO = #{cust_no}
 	</update>
+
 </mapper>

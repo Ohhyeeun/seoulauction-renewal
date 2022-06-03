@@ -95,8 +95,8 @@
     top: auto;
     left: auto;
 }
-.swiper-button-next.slide-btnright,
-.swiper-button-prev.slide-btnleft {
+.swiper-button-next,
+.swiper-button-prev {
     width: 27px;
     width: 48px;
     height: 49px;
@@ -107,30 +107,30 @@
     /*background: url(/images/pc/icon/main_banner_arrow.png) no-repeat 0 0;*/
     background: url(/images/pc/icon/ic_chevron_left_white_48.svg) no-repeat center center;
 }
-.swiper-button-prev.slide-btnleft:hover,
-.swiper-button-next.slide-btnright:hover {
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
     background-color: rgba(0,0,0,0.3);
     padding: 2em;
     background-position: left center;
     border-radius: 3.125rem;
 }
-.swiper-button-next.slide-btnright:hover {
+.swiper-button-next:hover {
     background-position: right center;
 }
 .swiper-btn-wrap {
     position: relative;
     top: -253px;
 }
-.swiper-button-next.slide-btnright {
+.swiper-button-next {
     right: 50px;
     left: auto;
     background-image: url(/images/pc/icon/ic_chevron_right_white_48.svg);
     background-position: center center;
 }
-.swiper-button-next.slide-btnleft.black {
+.swiper-button-next.black {
     background-position: -70px 0;
 }
-.swiper-button-next.slide-btnright.black {
+.swiper-button-next.black {
     background-position: -110px 0;
 }
 .visualController {
@@ -319,19 +319,11 @@
     font-weight: bold;
     color: #333;
 }
-.auctionTab-btn:hover:after {
-    content: "";
-    display: block;
-    height: 3px;
-    width: 100%;
-    background-color: #333;
-    color: #333;
-    font-weight: bold;
-}
 .auctionTab-btn.on {
     color: #333;
     font-weight: bold;
 }
+.auctionTab-btn:hover:after,
 .auctionTab-btn.on::after {
     content: "";
     display: block;
@@ -1717,4 +1709,4 @@
         right: 5px;
         top: 3px;
     }
-}
+} 

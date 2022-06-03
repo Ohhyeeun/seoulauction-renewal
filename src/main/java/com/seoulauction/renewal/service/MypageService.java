@@ -157,6 +157,19 @@ public class MypageService {
     public int deleteCustInteLot(CommonMap commonMap){                                                                
     	return mypageMapper.deleteCustInteLot(commonMap);
     }
+    
+    public CommonMap selectBidReqList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectLiveBidReqList(commonMap));
+    	map.put("cnt", mypageMapper.selectLiveBidReqCnt(commonMap));                                                                          
+        return map;
+    }
+    public CommonMap selectBidList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectLiveBidList(commonMap));
+    	map.put("cnt", mypageMapper.selectLiveBidCnt(commonMap));                                                                          
+    	return map;
+    }
 
     public CommonMap selectCustForChkPassword(CommonMap paramMap){
     	return mypageMapper.selectCustForChkPassword(paramMap);
