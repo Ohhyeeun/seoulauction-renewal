@@ -30,8 +30,51 @@
 </script>
 <html lang="ko" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
-    <div class="beltbox-swiper">
+    <script>
+
+    </script>
+    <%--<div class="beltbox-swiper">
         <div class="swiper-wrapper"></div>
+    </div>--%> 
+    <div class="header_beltbox on"> <!--class="on" block-->
+        <div class="wrap belttxtbox wrap_padding"> <!-- ul -->
+            <span class="header_beltTit">  <!-- 최대 5개 최소 1개 상시 -->    <!--//li-->
+                    <a href="#">
+                        <span class="text-over belt_tit">
+                            구매수수료율 인상 및 약관 개정안내 구매수수료율 0
+                        </span>
+                    </a>
+                </span>
+            <span class="header_beltTit">
+                    <a href="#">
+                        <span class="text-over belt_tit">
+                            구매수수료율 인상 및 약관 개정안내 구매수수료율 1
+                        </span>
+                    </a>
+                </span>
+            <span class="header_beltTit">
+                    <a href="#">
+                        <span class="text-over belt_tit">
+                            구매수수료율 인상 및 약관 개정안내 구매수수료율 2
+                        </span>
+                    </a>
+                </span>
+            <span class="header_beltTit">
+                    <a href="#">
+                        <span class="text-over belt_tit">
+                            구매수수료율 인상 및 약관 개정안내 구매수수료율 3
+                        </span>
+                    </a>
+                </span>
+            <span class="header_beltTit">
+                    <a href="#">
+                        <span class="text-over belt_tit">
+                            구매수수료율 인상 및 약관 개정안내 구매수수료율 4
+                        </span>
+                    </a>
+                </span>
+        </div>
+        <span class="beltclose-btn closebtn closebtn-w"></span>
     </div>
 
     <div>
@@ -61,7 +104,7 @@
         </ul>
     </div>
     <nav class="header_navbox">
-        <div class="header_nav wrap_padding">
+        <div class="header_nav wrap_padding" ng-controller="headCtl">
             <a href="/" class="header_logo"><span class="blind-text">logo</span></a>
             <ul class="header_gnbmenu pc-ver">
                 <li><a href="#" class="">AUCTION</a></li>
@@ -75,26 +118,12 @@
                 <form action="" class="scroll_none">
                     <fieldset class="topsearch">
                         <span class="submenuBg-closeBtn top-search-closeBtn m-ver"></span>
-                        <input onkeydown="searchFilter()" onmousedown="searchDown()" type="text" class="topsearch-text pc-ver"><button type="submit" class="topsearch-btn pc-ver"></button>
+                        <input onkeydown="searchFilter()" onmousedown="searchDown()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();"><button type="submit" class="topsearch-btn pc-ver"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">
-                                <span class="keyword-search-tit">최근검색<span class="keyword-all-del">전체삭제</span></span><!--
-                                    --><span class="recent-keyword"><a href="#">김선우</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">하이에르 카예하</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">김환기</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">이우환</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">박수근</a><span class="keyword-del"></span></span><!--
-                                    -->
+                                <span class="keyword-search-tit">최근검색<span class="keyword-all-del">전체삭제</span></span>
                             </div>
                             <div class="recommend-search-part">
-                                <span class="keyword-search-tit">추천검색</span>
-                                <a href="#" class="recommend-keyword">최우영</a><!--
-                                    --><a href="#" class="recommend-keyword">박성옥</a><!--
-                                    --><a href="#" class="recommend-keyword">청신</a><!--
-                                    --><a href="#" class="recommend-keyword">박서보</a><!--
-                                    --><a href="#" class="recommend-keyword">마티스</a><!--
-                                    --><a href="#" class="recommend-keyword">호크니</a><!--
-                                    -->
                             </div>
                         </section>
                     </fieldset>

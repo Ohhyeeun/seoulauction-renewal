@@ -179,7 +179,7 @@
 		                                            <p class="label">
 		                                                <i class="icon_down"></i>
 		                                                <span class="tb1">{{fore_id_filename}}</span>
-		                                                <a href="#none" class="btn_del"><span class="icon-del"></span></a>
+		                                                <a href="#none" class="btn_del" ng-click="fileDelete('id')"><span class="icon-del"></span></a>
 		                                            </p>
 		                                        </div>
 		
@@ -209,7 +209,7 @@
 		                                            <p class="label">
 		                                                <i class="icon_down"></i>
 		                                                <span class="tb1">{{fore_doc_filename}}</span>
-		                                                <a href="#none" class="btn_del"><span class="icon-del"></span></a>
+		                                                <a href="#none" class="btn_del" ng-click="fileDelete('doc')"><span class="icon-del"></span></a>
 		                                            </p>
 		                                        </div>
 		

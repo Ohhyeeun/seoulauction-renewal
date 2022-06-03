@@ -48,4 +48,8 @@ public class CertificationService {
     public int updateSaleCertHp(CommonMap commonMap){
     	return certificationMapper.updateSaleCertHp(commonMap);
     }
+    
+    public int updateCustForForeAuth(CommonMap commonMap){
+    	return certificationMapper.updateCustForForeAuth(commonMap);
+    }
 }

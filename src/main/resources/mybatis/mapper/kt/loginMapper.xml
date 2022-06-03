@@ -162,7 +162,7 @@
 	</select>
 	
 	<select id="selectCustForExist" resultType="CommonMap"> <!-- 탈퇴자는  카운트 제외. 웹회원만 체크 -->
-		select CUST_NO, STAT_CD from CUST where STAT_CD &lt;&gt; 'leave'  and JOIN_KIND_CD = 'online'
+		select CUST_NO, STAT_CD, FORE_CERT_CODE, CUST_NAME, LOGIN_ID from CUST where STAT_CD &lt;&gt; 'leave'  and JOIN_KIND_CD = 'online'
 		<if test="loginId != null">
 			and LOGIN_ID = #{loginId}
 		</if>

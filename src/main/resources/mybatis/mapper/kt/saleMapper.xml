@@ -184,7 +184,7 @@
 	</select>
 
 
-    <select id="search_list_count" parameterType="CommonMap" resultType="CommonMap">
+    <select id="searchListCount" parameterType="CommonMap" resultType="CommonMap">
         SELECT COUNT(B.LOT_NO) AS CNT, COUNT(B.ALL_SALE_KIND) AS ALL_CNT, COUNT(B.LIVE_SALE_KIND) AS LIVE_CNT, COUNT(B.ONLINE_SALE_KIND) AS ONLINE_CNT
         FROM(
         select  A.LOT_NO as LOT_NO,
@@ -192,18 +192,18 @@
         (select S.SALE_KIND_CD FROM SALE S WHERE S.SALE_NO = A.SALE_NO AND A.SALE_KIND_CD IN('main', 'hongkong', 'plan')) AS LIVE_SALE_KIND,
         (select S.SALE_KIND_CD FROM SALE S WHERE S.SALE_NO = A.SALE_NO AND A.SALE_KIND_CD IN('online', 'online_zb')) AS ONLINE_SALE_KIND
         from 	(
-        <include refid="search_list" />
+        <include refid="searchList" />
         ) A
         ) B
     </select>
 
 
-    <select id="search_list_paging" parameterType="CommonMap" resultType="CommonMap">
-        <include refid="search_list" />
+    <select id="searchListPaging" parameterType="CommonMap" resultType="CommonMap">
+        <include refid="searchList" />
         limit		#{from}, #{rows}
     </select>
 
-    <select id="get_customer_by_cust_no" parameterType="CommonMap" resultType="CommonMap">
+    <select id="getCustomerByCustNo" parameterType="CommonMap" resultType="CommonMap">
         select CU.*
              , (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "정회원" ELSE "준회원" END
                 from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_NM
@@ -219,7 +219,7 @@
           and CU.CUST_NO = #{action_user_no}
     </select>
 
-    <insert id="search_log" parameterType="CommonMap">
+    <insert id="searchLog" parameterType="CommonMap">
         <if test="keyword != null and keyword != ''">
             insert into SEARCH_LOG(cust_no, search_date, search_artist, search_title, search_all, search_material, search_from_dt, search_to_dt)
             values(#{action_user_no}, now(),
@@ -239,7 +239,7 @@
             )
         </if>
     </insert>
-    <insert id="add_cust_inte_lot" parameterType="CommonMap"> <!-- LOT 관심체크. 2017.04.10 YDH -->
+    <insert id="addCustInteLot" parameterType="CommonMap"> <!-- LOT 관심체크. 2017.04.10 YDH -->
         INSERT INTO CUST_INTE_LOT(
         CUST_NO,
         SALE_NO,
@@ -253,12 +253,12 @@
         now()
         )
     </insert>
-    <update id="del_cust_inte_lot" parameterType="CommonMap">
+    <update id="delCustInteLot" parameterType="CommonMap">
         DELETE FROM CUST_INTE_LOT WHERE CUST_NO = #{action_user_no} AND SALE_NO = #{sale_no} AND LOT_NO = #{lot_no};
     </update>
-	<sql id="search_list">
+
+	<sql id="searchList">
 		select 	L.SALE_NO, L.LOT_NO
-		<if test="for_count == null">
 		, S.SALE_KIND_CD
 		, IF(S.SALE_TH_DSP_YN = 'N', '', CONCAT(S.SALE_TH, f_ordinal_number(S.SALE_TH))) SALE_TH
 		, COLUMN_JSON(S.TITLE_BLOB) SALE_TITLE_JSON
@@ -302,7 +302,8 @@
 		, now() as DB_NOW
 		, IFNULL((SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = L.SALE_NO AND LOT_NO = L.LOT_NO), L.DISP_SOLD_PRICE) AS LAST_PRICE
 		, IFNULL(IL.DEL_YN, 'Y') AS INTE_LOT_DEL
-		</if>
+		, IFNULL(L.START_PRICE, 0) AS START_PRICE
+		,(select count(B.BID_NO) from BID B where B.SALE_NO = L.SALE_NO and B.LOT_NO = L.LOT_NO) as BID_CNT
 		from 	LOT L 	join SALE S ON S.SALE_NO = L.SALE_NO AND S.SALE_KIND_CD not in ('exhibit', 'exhibit_sa')
 		left outer join ARTIST AT on AT.ARTIST_NO = L.ARTIST_NO
 		left outer join CODE CD	on CD.grp_id = 'material' and CD.CD_ID = L.MATE_CD
@@ -310,13 +311,14 @@
 		and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
 		left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
 		left outer join CUST_INTE_LOT IL ON L.SALE_NO = IL.SALE_NO AND L.LOT_NO = IL.LOT_NO AND IL.DEL_YN = 'N' AND IL.CUST_NO = #{action_user_no}
-		<if test="list_type == 'SEARCH' and action_user_no != null">
+		<if test="action_user_no != null">
 			, (select CUST_NO, EMP_GB from CUST where CUST_NO = #{action_user_no}) CU
 		</if>
-		<if test="list_type == 'SEARCH' and action_user_no == null">
+		<if test="action_user_no == null">
 			, (select NULL AS CUST_NO, 'N' AS EMP_GB from dual) CU
 		</if>
-		where 1=1 and L.WWW_DISP_YN = 'Y'
+		where 1=1
+		and L.WWW_DISP_YN = 'Y'
 		and L.STAT_CD != 'reentry'
 		and S.STAT_CD = 'open'
 		and S.SALE_OUTSIDE_YN = 'N'
@@ -346,15 +348,21 @@
 				</when>
 			</choose>
 		</if>
-		<if test='sale_status_end_yn != null and sale_status_end_yn == "Y"'>
-			<![CDATA[and DATE_FORMAT(S.TO_DT, '%Y-%m-%d') < DATE_FORMAT(now(), '%Y-%m-%d')]]>
-		</if>
-		<if test='sale_status_ing_yn != null and sale_status_ing_yn == "Y"'>
-			<![CDATA[and (DATE_FORMAT(S.FROM_DT, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d')
-			and DATE_FORMAT(S.TO_DT, '%Y-%m-%d') >= DATE_FORMAT(now(), '%Y-%m-%d'))]]>
-		</if>
-		<if test='sale_status_ready_yn != null and sale_status_ready_yn == "Y"'>
-			<![CDATA[and DATE_FORMAT(S.FROM_DT, '%Y-%m-%d') > DATE_FORMAT(now(), '%Y-%m-%d')]]>
+		<if test="sale_status_end_yn != null or sale_status_ing_yn != null or sale_status_ready_yn != null">
+		    AND(
+			<trim prefixOverrides="or">
+				<if test='sale_status_end_yn == "Y"'>
+					or (DATE_FORMAT(S.TO_DT, '%Y-%m-%d') <![CDATA[<]]> DATE_FORMAT(now(), '%Y-%m-%d'))
+				</if>
+				<if test='sale_status_ing_yn == "Y"'>
+					or ((DATE_FORMAT(S.FROM_DT, '%Y-%m-%d') <![CDATA[<=]]> DATE_FORMAT(now(), '%Y-%m-%d')
+					and DATE_FORMAT(S.TO_DT, '%Y-%m-%d') <![CDATA[>=]]> DATE_FORMAT(now(), '%Y-%m-%d')))
+				</if>
+				<if test='sale_status_ready_yn == "Y"'>
+					or (DATE_FORMAT(S.FROM_DT, '%Y-%m-%d') <![CDATA[>]]> DATE_FORMAT(now(), '%Y-%m-%d'))
+				</if>
+		    </trim>
+		    )
 		</if>
 		<if test="mate_nm != null">
 			and L.MATE_CD in (

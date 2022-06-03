@@ -53,6 +53,7 @@ public class MypageService {
     public CommonMap selectPayListByCustNo(CommonMap commonMap){  
     	CommonMap map = new CommonMap();
     	List<CommonMap> list = mypageMapper.selectPayListByCustNo(commonMap);
+    	map.put("payTotalCount", mypageMapper.selectPayTotalCountByCustNo(commonMap));
     	map.put("payCount", mypageMapper.selectPayCountByCustNo(commonMap));
     	map.put("payList", mypageMapper.selectPayListByCustNo(commonMap));
 

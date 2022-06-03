@@ -105,7 +105,7 @@ nav,output,ruby,section,summary,time,mark,audio,video,main,button {
 }
 /* HTML5 display-role reset for older browsers */
 article,aside,details,figcaption,figure,footer,header,hgroup,menu,
-nav,section {
+nav,section, .pc-ver {
     display: block;
 }
 html {
@@ -124,18 +124,18 @@ body {
 }
 /*scroll style */
 body::-webkit-scrollbar {
-    display: none;
+    /*display: none;*/
     width: 10px;
     height: 5px;
     -ms-overflow-style: none;
 }
-/*body::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb {
     background-color: #f4f4f4;
     border-radius: 10px;
 }
 body::-webkit-scrollbar-track {
     background-color: transparent;
-}*/
+}
 blockquote, q {
     quotes: none;
 }
@@ -483,8 +483,10 @@ img {
     left: 0;
     background: url(/images/pc/icon/check01.png) no-repeat -51px -30px;
 }
-
-
+.visual_btn {
+    display: flex;
+    align-items: center;
+}
 
 /* common contents */
 .flex_wrap {
@@ -526,13 +528,38 @@ img {
     text-align: center;
     display: none;
     height: 60px;
-    align-items: center;
+    overflow: hidden;
+    position: relative;
 }
 .header_beltTit {
     margin: 0 auto;
+    /*height:60px; */
+    position: absolute;
+    left: 0;
+    width: 100%;
     height: 100%;
-    /*white-space: nowrap;*/
-    vertical-align: top;
+    display: block;
+}
+.header_beltTit:nth-child(1) {
+    top: 0;
+}
+.header_beltTit:nth-child(2) {
+    top: -100%;
+}
+.header_beltTit:nth-child(3) {
+    top: -200%;
+}
+.header_beltTit:nth-child(4) {
+    top: -300%;
+}
+.header_beltTit:nth-child(5) {
+    top: -400%;
+}
+.header_beltTit>a {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
 }
 .belt_tit {
     vertical-align: middle;
@@ -544,11 +571,17 @@ img {
 .header_beltTit>a {
     margin-right: 40px;
     line-height: 1.1;
+    height: 60px;
+}
+.header_beltTit>a:first-child>.belt_tit {
+    margin-top: 20px;
 }
 .belttxtbox {
     position: relative;
     top: 0;
     min-width: 1920px;
+    /*height: 60px; */
+    height: 100%;
 }
 .beltbanner-triangle {
     vertical-align: middle;
@@ -564,7 +597,7 @@ img {
     width: 20px;
     height: 20px;
     position: absolute;
-    right: 60px;
+    right: 67px;
     cursor: pointer;
     vertical-align: top;
     padding-top: 1px;
@@ -805,7 +838,7 @@ img {
 }
 .submenuBg {
     position: absolute;
-    top: 60px;
+    top: 61px;
     background-color: #f2f2f2;
     width: 100%;
     left: 0px;
@@ -1345,13 +1378,17 @@ body.dark,
     .header_utilitymenu,
     .header_nav,
     .swiper-btn-wrap {
-        max-width: 1440px;
+        max-width: 1420px;
         margin: 0 auto;
     }
     .belttxtbox {
-        min-width: 1440px;
+        min-width: 1420px;
     }
-    .wrap_padding, .container,
+    .wrap_padding,
+    .container,
+    .upcoming,
+    .video,
+    .platform,
     .swiper-btn-wrap {
         padding-left: 50px;
         padding-right: 50px;
@@ -1415,10 +1452,7 @@ body.dark,
     .header_utilitymenu,
     .header_nav,
     .swiper-btn-wrap{
-        max-width: 1280px;
-    }
-    .belttxtbox {
-        min-width: 1280px;
+
     }
     .submenuBg-box {
         justify-content: normal;
@@ -1459,10 +1493,7 @@ body.dark,
     .header_utilitymenu,
     .header_nav,
     .swiper-btn-wrap {
-        max-width: 1024px;
-    }
-    .belttxtbox {
-        min-width: 1024px;
+
     }
     .m-ver1280 {
         display: block;
@@ -1531,6 +1562,10 @@ body.dark,
     }
     .belttxtbox {
         min-width: 100%;
+        height: 43px;
+    }
+    .header_beltTit>a:first-child>.belt_tit {
+        margin-top: 17px;
     }
     .header_nav,
     .wrap_padding,
@@ -1574,7 +1609,9 @@ body.dark,
     .header_beltTit {
         max-width: 100%;
         font-size: 12px;
-        padding-top: 2px;
+    }
+    .header_beltTit>a {
+        height: 43px;
     }
     .belt_tit {
         max-width: 260px;

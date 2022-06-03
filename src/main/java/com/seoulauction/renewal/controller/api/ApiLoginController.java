@@ -1,55 +1,31 @@
 package com.seoulauction.renewal.controller.api;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.collections.MapUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-
 import com.seoulauction.renewal.auth.FrontAuthenticationProvider;
 import com.seoulauction.renewal.auth.SocialAuthenticationProvider;
 import com.seoulauction.renewal.common.RestResponse;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
-import com.seoulauction.renewal.mapper.kt.CertificationMapper;
-import com.seoulauction.renewal.service.CertificationService;
-import com.seoulauction.renewal.service.LoginService;
-import com.seoulauction.renewal.service.MessageService;
-import com.seoulauction.renewal.service.MypageService;
-import com.seoulauction.renewal.service.S3Service;
-import com.seoulauction.renewal.utill.CaptchaUtil;
+import com.seoulauction.renewal.service.*;
+import com.seoulauction.renewal.util.CaptchaUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import nl.captcha.Captcha;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -298,11 +274,18 @@ public class ApiLoginController {
     	    			s3Service.insertS3FileData(true, foreIdFile, "cust_fore_id", custNo);
     	    		}
 					
+    	    		
 	    	    	MultipartFile foreDocFile = fileList.get("fore_doc_file").get(0);;
 	    	    	if(!foreDocFile.getOriginalFilename().equals("")) {
 						s3Service.insertS3FileData(true, foreDocFile, "cust_fore_doc", custNo);
     	    		}
 					
+	    	    	//해외회원 인증 메일 발송
+	    	    	String port = request.getServerPort() != 80 ? ":" + String.format("%d", request.getServerPort()) : "";
+	    	    	//resultMap.put("authURL", "https://" + request.getServerName() + port + "/join/" + resultMap.get("FORE_CERT_CODE").toString());
+	    	    	resultMap.put("authURL", "http://" + request.getServerName() + port + "/join/" + resultMap.get("FORE_CERT_CODE").toString() + "?lang=en");
+	    	    	messageService.sendMail(paramMap.get("email").toString(),"Please, complete your registration." , "foreign_auth.html", resultMap);
+	    	    	
     			} catch (Exception e) {
     				e.printStackTrace();
     			}
@@ -311,4 +294,6 @@ public class ApiLoginController {
         
 		return ResponseEntity.ok(RestResponse.ok());
 	}
+	
+
 }
