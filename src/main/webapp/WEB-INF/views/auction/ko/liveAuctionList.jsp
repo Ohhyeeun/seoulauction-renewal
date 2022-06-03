@@ -441,6 +441,7 @@
     </div>
 </div>
 
+<script type="text/javascript" src="/js/plugin/jquerylibrary.js"></script>
 <jsp:include page="popup/paddle.jsp" />
 
 </body>

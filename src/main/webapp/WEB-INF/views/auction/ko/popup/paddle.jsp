@@ -22,11 +22,11 @@
                                     <thead>
                                     <tr>
                                         <th class="tal">
-                                                    <span class="trp checkbox-box">
-                                                        <input id="checkbox_all" class="js_all" type="checkbox" name="">
-                                                        <i></i>
-                                                        <label for="checkbox_all">약관 전체 동의</label>
-                                                    </span>
+                                            <span class="trp checkbox-box">
+                                                <input id="checkbox_all" class="js_all" type="checkbox" name="">
+                                                <i></i>
+                                                <label for="checkbox_all">약관 전체 동의</label>
+                                            </span>
                                         </th>
                                     </tr>
                                     </thead>
@@ -95,25 +95,6 @@
         </div>
     </div>
 </div>
-<script>
-    (function() {
-        var terms_required = $(".js-terms_required").trpLayerFixedPopup("#terms_required-wrap");
-        $(terms_required.getBtn).on("click", function($e) {
-            $e.preventDefault();
-            terms_required.open(this); // or false
-            popup_fixation("#terms_required-wrap");
-        });
-
-        $("body").on("click", "#terms_required-wrap .js-closepop, #terms_required-wrap .popup-dim", function($e) {
-            $e.preventDefault();
-            terms_required.close();
-        });
-
-
-        //약관체크
-        $(".js_all-terms").trpCheckBoxAllsImg(".js_all", ".js_item");
-    })();
-</script>
 
 <!-- 패들번호 부여 -->
 <div id="paddle_number-wrap" class="trp popupfixed-wrap paddle_number-popup ">
@@ -136,7 +117,7 @@
                                 <div class="body-article">
                                     <div class="paddle-box">
                                         <span>고객님의 패들 넘버는</span>
-                                        <em>123번</em>
+                                        <em id="paddle-number">123번</em>
                                         <span>입니다.</span>
                                     </div>
                                     <div class="gray-box">
@@ -150,7 +131,7 @@
                                 </div>
                                 <div class="footer-article">
                                     <div class="btn_set-float tac">
-                                        <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+                                        <a id="btn-paddle-number" class="btn btn_point" href="#" role="button"><span>확인</span></a>
                                     </div>
                                 </div>
                             </article>
@@ -165,14 +146,38 @@
 </div>
 <script>
     (function() {
+        var terms_required = $(".js-terms_required").trpLayerFixedPopup("#terms_required-wrap");
+        $(terms_required.getBtn).on("click", function($e) {
+            $e.preventDefault();
+            terms_required.open(this); // or false
+            popup_fixation("#terms_required-wrap");
+        });
+
+        $("body").on("click", "#terms_required-wrap .js-closepop, #terms_required-wrap .popup-dim", function($e) {
+            $e.preventDefault();
+            terms_required.close();
+            $(".js_all-terms input[type='checkbox']").prop("checked", false);
+        });
+
+        //약관체크
+        $(".js_all-terms").trpCheckBoxAllsImg(".js_all", ".js_item");
+
         var paddle_number = $(".js-paddle_number").trpLayerFixedPopup("#paddle_number-wrap");
         $(paddle_number.getBtn).on("click", function($e) {
             $e.preventDefault();
-            paddle_number.open(this); // or false
-            popup_fixation("#paddle_number-wrap");
+
+            if($(".js_all-terms #checkbox_all").is(":checked")) {
+                // ajax
+
+                terms_required.close();
+                paddle_number.open(this); // or false
+                popup_fixation("#paddle_number-wrap");
+            } else {
+                alert("약관에 동의해주세요.");
+            }
         });
 
-        $("body").on("click", "#paddle_number-wrap .js-closepop, #paddle_number-wrap .popup-dim", function($e) {
+        $("body").on("click", "#paddle_number-wrap .js-closepop, #paddle_number-wrap .popup-dim, #paddle_number-wrap #btn-paddle-number", function($e) {
             $e.preventDefault();
             paddle_number.close();
         });
