@@ -58,6 +58,16 @@ public class AuctionController {
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionList" , locale);
     }
 
+
+    @GetMapping("/live/list/{sale_no}")
+    public String liveList(Locale locale, Model model
+            , HttpServletRequest request, HttpServletResponse response,
+                       @PathVariable("sale_no") int saleNo) {
+
+        model.addAttribute("saleNo", saleNo);
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionLiveList" , locale);
+    }
+
     @GetMapping(value="/live/{saleNo}")
     public String live(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response,
                        @PathVariable("saleNo") int saleNo) {

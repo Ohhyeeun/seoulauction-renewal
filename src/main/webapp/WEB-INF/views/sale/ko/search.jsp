@@ -103,7 +103,7 @@
                                                 <select class="select2Basic42" >
                                                     <option value="1">경매 최신순</option>
                                                     <option value="2">추정가 낮은순</option>
-                                                    <option value="3">추정가 높은순</option>s
+                                                    <option value="3">추정가 높은순</option>
                                                 </select>
                                             </div>
                                             <div class="select-box" id="selectMore">
