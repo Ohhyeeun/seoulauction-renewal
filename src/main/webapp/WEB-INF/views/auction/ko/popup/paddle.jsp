@@ -168,6 +168,19 @@
 
             if($(".js_all-terms #checkbox_all").is(":checked")) {
                 // ajax
+                fetch('/api/auction/paddle', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        'sale_no' : '${saleNo}'
+                    })
+                })
+                    .then(res => res.json())
+                    .then(res => {
+                        $("em#paddle-number").html(res.data+"번");
+                    });
 
                 terms_required.close();
                 paddle_number.open(this); // or false
