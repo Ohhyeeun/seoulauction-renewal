@@ -83,10 +83,10 @@
 
 
 	<select id="selectCustLoginIdByCustName" resultType="CommonMap">
-
 		select
 		concat(rpad(substring(login_id, 1, 2), length(login_id)-1, '*'),
 		substring(login_id, length(login_id), 1) ) LOGIN_ID ,
+		c.SOCIAL_YN ,
 		cs.CUST_NO ,
 		case
 		when cs.SOCIAL_TYPE = 'KA' then 'KAKAO'
@@ -143,10 +143,16 @@
 		from CUST c
 		left
 		outer join cust_social cs on c.CUST_NO = cs.cust_no
-		where JOIN_KIND_CD
-		= 'online' and IFNULL(DEL_YN, 'N') = 'N'
+		where JOIN_KIND_CD = 'online' and IFNULL(DEL_YN, 'N') = 'N'
 		and STAT_CD = #{stat_cd}
 		and LOGIN_ID = #{login_id}
+		and CUST_NAME = #{cust_name}
+		<if test="search_type == 'phone'">
+			and HP = #{search_value}
+		</if>
+		<if test="search_type == 'email'">
+			and EMAIL = #{search_value}
+		</if>
 	</select>
 
 	<select id="selectCustSocialBySocialLoginId" resultType="CommonMap">

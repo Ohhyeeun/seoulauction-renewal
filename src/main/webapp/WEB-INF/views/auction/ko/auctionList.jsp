@@ -132,7 +132,9 @@
                                                     <option ng-repeat="item in sortType" value="{{item.value}}"
                                                             data-select2-id="{{$index+1}}">{{item.name}}
                                                     </option>
-                                                </select><span
+                                                </select>
+
+                                                <%--<span
                                                     class="select2 select2-container select2-container--default select2-container--below"
                                                     dir="ltr" data-select2-id="2" style="width: 152px;"><span
                                                     class="selection"><span
@@ -144,7 +146,7 @@
                                                     title="LOT 번호순">LOT 번호순</span><span class="select2-selection__arrow"
                                                                                         role="presentation"><b
                                                     role="presentation"></b></span></span></span><span
-                                                    class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                                    class="dropdown-wrapper" aria-hidden="true"></span></span>--%>
                                             </div>
                                             <div class="select-box">
                                                 <select class="select2Basic42 js-select_page select2-hidden-accessible"
@@ -202,9 +204,9 @@
                                                                     class="sub">({{item.BORN_YEAR}})</span>
                                                             </div>
                                                             <div class="desc">
-                                                                <span>{{item.LOT_TITLE_JSON.ko}}</span></div>
+                                                                <span class="text-over span_block">{{item.LOT_TITLE_JSON.ko}}</span></div>
                                                             <div class="standard">
-                                                                <span>{{item.CD_NM}}</span>
+                                                                <span class="text-over span_block">{{item.CD_NM}}</span>
                                                                 <div class="size_year">
                                                                     <span>{{item.SIZE1}} X {{item.SIZE2}} X {{item.SIZE3}}</span>
                                                                     <span>{{item.MAKE_YEAR_JSON.ko}}</span>

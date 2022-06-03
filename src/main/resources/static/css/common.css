@@ -439,17 +439,17 @@ img {
     background-color: #333;
     color: #fff;
 }
-.btn-border-w,
-.slide_white_border {
+.btn-border-w {
     border: 1px solid #fff;
     color: #fff;
 }
 .btn-border-b,
-.slide_black_border {
-    border: 1px solid #111; 
+.slide_white_border {
+    border: 1px solid #111;
     color: #111;
 }
-.btn-border-3 {
+.btn-border-3,
+.slide_black_border {
     border: 1px solid #333;
     color: #111;
 }
@@ -642,17 +642,17 @@ img {
     margin-left: 7px;
     vertical-align: top;
     margin-top: 1px;
-    transition: ease .5s;
-    -webkit-transition: ease .5s;
-    -ms-transition: ease .5s;
+    transition: ease .2s;
+    -webkit-transition: ease .2s;
+    -ms-transition: ease .2s;
 }
 .utility-tab>a.on:after {
     transform: rotate(-180deg);
     -webkit-transform: rotate(-180deg);
     -ms-transform: rotate(-180deg);
-    transition: ease .5s;
-    -webkit-transition: ease .5s;
-    -ms-transition: ease .5s;
+    transition: ease .2s;
+    -webkit-transition: ease .2s;
+    -ms-transition: ease .2s;
 }
 .bubble-box,
 .search-bubble-box {
@@ -661,7 +661,7 @@ img {
     padding: 10px 0;
     position: absolute;
     z-index: 3;
-    top: 38px;
+    top: 41px;
     left: -114%;
     background: #fff;
     display: none;
@@ -1169,7 +1169,8 @@ img {
 }
 /* active, on기능 (display: block) */
 .search-bubble-box.on,
-.bubble-box.on {
+.bubble-box.on,
+.span_block {
     display: block;
 }
 .header_beltbox.on {
@@ -1177,7 +1178,8 @@ img {
 }
 /* 모바일 버전*/
 .m-ver,
-.m-ver1280 {
+.m-ver1280,
+.bubble-box.on.hide {
     display: none;
 }
 /* 다크모드*/
@@ -1449,9 +1451,6 @@ body.dark,
 }
 /* mobile,pc ui 혼용 */
 @media all and (max-width: 1439px) {
-    .belttxtbox {
-        min-width: 100%;
-    }
     .wrap,
     .container,
     .upcoming,
@@ -1461,6 +1460,9 @@ body.dark,
     .header_nav,
     .swiper-btn-wrap{
 
+    }
+    .belttxtbox {
+        min-width: 100%;
     }
     .submenuBg-box {
         justify-content: normal;
