@@ -52,9 +52,9 @@
                                                                         <span>{{liveBidReq[1][0].FROM_DT}} 순차마감</span>
                                                                     </div>
                                                                 </div>
-                                                                <div class="btn-area">
-                                                                   <button ng-if="liveBidReq[1][0].CLOSE_YN != 'Y'" class="btn btn_point btn-view-bid" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span >진행경매보기</span></a></button>
-                                                                    <button ng-if="liveBidReq[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray btn-view-bid" type="button" disabled><span>경매 종료</span></button>
+                                                                 <div class="btn-area">
+                                                                   <button ng-if="liveBidReq[1][0].CLOSE_YN != 'Y'"  class="btn btn_point btn-view-ing" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span >진행경매보기</span></a></button>
+                                                                   <button ng-if="liveBidReq[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray_line btn-view-result" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span>경매결과보기</span></a></button>
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in liveBidReq[1]">
