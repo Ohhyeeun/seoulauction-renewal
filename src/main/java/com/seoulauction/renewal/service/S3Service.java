@@ -78,6 +78,11 @@ public class S3Service {
         return paramMap;
     }
 
+    @Transactional("ktTransactionManager")
+    public void insertS3FileData(boolean isPrivate , List<MultipartFile> uploadFileList , String tableName , String rowId) {
+        uploadFileList.forEach(c-> insertS3FileData(isPrivate , c , tableName , rowId));
+    }
+
     /**
      * @param isPrivate - s3 파일 외부 공개 여부.
      * @param uploadFile - s3 업로드 될 파일.

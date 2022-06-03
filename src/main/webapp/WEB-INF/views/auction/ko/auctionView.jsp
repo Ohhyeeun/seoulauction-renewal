@@ -8,7 +8,6 @@
 <div class="wrapper">
     <div class="sub-wrap pageclass type-details_view">
         <jsp:include page="../../include/ko/header.jsp" flush="false"/>
-
         <!-- container -->
         <div id="container" ng-controller="ctl" data-ng-init="load();">
             <div id="contents" class="contents">
@@ -21,7 +20,7 @@
                                         <div class="row-box">
                                             <div class="col_item">
                                                 <div class="page_title">
-                                                    <a href="#" conclick="window.history.back()" title="뒤로가기">
+                                                    <a href="#" onclick="window.history.back()" title="뒤로가기">
                                                         <i class="icon-page_back"></i>
                                                     </a>
                                                     <span ng-bind="saleInfo.SALE_TITLE_KO"></span>
@@ -129,17 +128,17 @@
                                     <div class="col_item">
                                         <article class="product_detail-article js-product_detail-article">
                                             <div class="index-area">
-                                                <div class="index-box"><span>10</span></div>
+                                                <div class="index-box"><span ng-bind="lotInfo.LOT_NO">10</span></div>
                                                 <div class="btn-box">
                                                     <a href="#" title="" class="sns_share js-sns_share"><i
                                                             class="icon-view_sns"></i></a>
-                                                    <a href="#" title="" class="work_heart js-work_heart"><i
+                                                    <a id="heart" title="" ng-class="{'work_heart':lotInfo.FAVORITE_YN,'js-work_heart':lotInfo.FAVORITE_YN,'on':lotInfo.FAVORITE_YN==='Y'}" ng-click="favorite(lotInfo.SALE_NO, lotInfo.LOT_NO);"><i
                                                             class="icon-view_heart_off"></i></a>
 
                                                     <div class="sns_layer-area">
                                                         <div class="sns-layer">
                                                             <div class="sns-item">
-                                                                <button class="js-share_kakao">
+                                                                <button id="kakao-share" class="js-share_kakao">
                                                                     <i class="icon-share_sns_kakao"></i>
                                                                     <div class="txt"><span>카카오톡</span></div>
                                                                 </button>
@@ -281,15 +280,14 @@
                                     <div class="article-body">
                                         <div class="scroll-type">
                                             <div class="product-area">
-
-                                                <ul class="product-list">
-                                                    <li class="">
+                                                <ul id="recently_views" class="product-list">
+                                                    <li class="" ng-repeat="item in recentlyViews">
                                                         <div class="li-inner">
                                                             <article class="item-article">
                                                                 <div class="image-area">
                                                                     <figure class="img-ratio">
                                                                         <div class="img-align">
-                                                                            <img src="/images/pc/thumbnail/auction01.jpg"
+                                                                            <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
                                                                                  alt="">
                                                                         </div>
                                                                     </figure>
@@ -297,179 +295,16 @@
                                                                 <div class="typo-area">
                                                                     <div class="product_info">
                                                                         <div class="num_heart-box">
-                                                                            <span class="num">1</span>
-                                                                            <a class="heart js-work_heart"><i
+                                                                            <span class="num">{{item.LOT_NO}}</span>
+                                                                            <a ng-class="{'heart':item.FAVORITE_YN,'js-work_heart':item.FAVORITE_YN,'on':item.FAVORITE_YN==='Y'}" ng-click="favorite2(item.SALE_NO, item.LOT_NO, $index);"><i
                                                                                     class="icon-heart_off"></i></a>
                                                                         </div>
                                                                         <div class="info-box">
-                                                                            <div class="title"><span>데미안허스트</span>
-                                                                                <!-- [0516]삭제  <span class="sub">(1965)</span> -->
+                                                                            <div class="title">
+                                                                                <span ng-bind="item.ARTIST_NAME_BLOB_JSON.ko"></span>
                                                                             </div>
-                                                                            <div class="desc"><span>Air (From The Series The Elements)</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product_cancle-area">
-                                                                    <div class="area-inner">
-                                                                        <i class="icon-cancle_box"></i>
-                                                                        <div class="typo">
-                                                                            <div class="name"><span>LOT 5</span></div>
-                                                                            <div class="msg"><span>출물이 취소되었습니다.</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </article>
-                                                        </div>
-                                                    </li>
-
-                                                    <li class="">
-                                                        <div class="li-inner">
-                                                            <article class="item-article">
-                                                                <div class="image-area">
-                                                                    <figure class="img-ratio">
-                                                                        <div class="img-align">
-                                                                            <img src="/images/pc/thumbnail/auction02.jpg"
-                                                                                 alt="">
-                                                                        </div>
-                                                                    </figure>
-                                                                </div>
-                                                                <div class="typo-area">
-                                                                    <div class="product_info">
-                                                                        <div class="num_heart-box">
-                                                                            <span class="num">2</span>
-                                                                            <a class="heart js-work_heart"><i
-                                                                                    class="icon-heart_off"></i></a>
-                                                                        </div>
-                                                                        <div class="info-box">
-                                                                            <div class="title"><span>데미안허스트</span>
-                                                                                <!-- [0516]삭제  <span class="sub">(1965)</span> -->
-                                                                            </div>
-                                                                            <div class="desc"><span>Air (From The Series The Elements)</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product_cancle-area">
-                                                                    <div class="area-inner">
-                                                                        <i class="icon-cancle_box"></i>
-                                                                        <div class="typo">
-                                                                            <div class="name"><span>LOT 5</span></div>
-                                                                            <div class="msg"><span>출물이 취소되었습니다.</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </article>
-                                                        </div>
-                                                    </li>
-
-                                                    <li class="">
-                                                        <div class="li-inner">
-                                                            <article class="item-article">
-                                                                <div class="image-area">
-                                                                    <figure class="img-ratio">
-                                                                        <div class="img-align">
-                                                                            <img src="/images/pc/thumbnail/auction03.jpg"
-                                                                                 alt="">
-                                                                        </div>
-                                                                    </figure>
-                                                                </div>
-                                                                <div class="typo-area">
-                                                                    <div class="product_info">
-                                                                        <div class="num_heart-box">
-                                                                            <span class="num">3</span>
-                                                                            <a class="heart js-work_heart"><i
-                                                                                    class="icon-heart_off"></i></a>
-                                                                        </div>
-                                                                        <div class="info-box">
-                                                                            <div class="title"><span>데미안허스트</span>
-                                                                                <!-- [0516]삭제  <span class="sub">(1965)</span> -->
-                                                                            </div>
-                                                                            <div class="desc"><span>Air (From The Series The Elements)</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product_cancle-area">
-                                                                    <div class="area-inner">
-                                                                        <i class="icon-cancle_box"></i>
-                                                                        <div class="typo">
-                                                                            <div class="name"><span>LOT 5</span></div>
-                                                                            <div class="msg"><span>출물이 취소되었습니다.</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </article>
-                                                        </div>
-                                                    </li>
-
-                                                    <li class="">
-                                                        <div class="li-inner">
-                                                            <article class="item-article">
-                                                                <div class="image-area">
-                                                                    <figure class="img-ratio">
-                                                                        <div class="img-align">
-                                                                            <img src="/images/pc/thumbnail/auction01.jpg"
-                                                                                 alt="">
-                                                                        </div>
-                                                                    </figure>
-                                                                </div>
-                                                                <div class="typo-area">
-                                                                    <div class="product_info">
-                                                                        <div class="num_heart-box">
-                                                                            <span class="num">4</span>
-                                                                            <a class="heart js-work_heart"><i
-                                                                                    class="icon-heart_off"></i></a>
-                                                                        </div>
-                                                                        <div class="info-box">
-                                                                            <div class="title"><span>데미안허스트</span>
-                                                                                <!-- [0516]삭제  <span class="sub">(1965)</span> -->
-                                                                            </div>
-                                                                            <div class="desc"><span>Air (From The Series The Elements)</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product_cancle-area">
-                                                                    <div class="area-inner">
-                                                                        <i class="icon-cancle_box"></i>
-                                                                        <div class="typo">
-                                                                            <div class="name"><span>LOT 5</span></div>
-                                                                            <div class="msg"><span>출물이 취소되었습니다.</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </article>
-                                                        </div>
-                                                    </li>
-
-                                                    <li class="">
-                                                        <div class="li-inner">
-                                                            <article class="item-article">
-                                                                <div class="image-area">
-                                                                    <figure class="img-ratio">
-                                                                        <div class="img-align">
-                                                                            <img src="/images/pc/thumbnail/auction02.jpg"
-                                                                                 alt="">
-                                                                        </div>
-                                                                    </figure>
-                                                                </div>
-                                                                <div class="typo-area">
-                                                                    <div class="product_info">
-                                                                        <div class="num_heart-box">
-                                                                            <span class="num">5</span>
-                                                                            <a class="heart js-work_heart"><i
-                                                                                    class="icon-heart_off"></i></a>
-                                                                        </div>
-                                                                        <div class="info-box">
-                                                                            <div class="title"><span>데미안허스트</span>
-                                                                                <!-- [0516]삭제  <span class="sub">(1965)</span> -->
-                                                                            </div>
-                                                                            <div class="desc"><span>Air (From The Series The Elements)</span>
+                                                                            <div class="desc">
+                                                                                <span ng-bind="item.TITLE_BLOB_JSON.ko"></span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -496,8 +331,6 @@
                         </div>
                     </div>
                 </section>
-
-
                 <article class="sticky_bidding-article">
                     <div class="btn_set">
                         <div class="btn_lot-box">
@@ -511,7 +344,6 @@
                         </div>
                     </div>
                 </article>
-
             </div>
         </div>
         <!-- //container -->
@@ -542,7 +374,7 @@
                     <div class="pop-header">
                         <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
                         <div class="title-box">
-                            <span class="txt_title">LOT 8</span>
+                            <span id="lot_title" class="txt_title">LOT </span>
                         </div>
                     </div>
                     <div class="pop-body scroll-type">
@@ -650,6 +482,7 @@
 <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
 <!-- swiper function-->
 <script>
@@ -665,10 +498,6 @@
         view_visual.slideTo($index)
     };
 </script>
-<!--  sns 공유 -->
-<script>
-
-</script>
 <!-- [0516] 셀렉트 드롭다운 -->
 <script>
     let dropdown = $(".js-dropdown-btn").trpDropdown({
@@ -683,6 +512,7 @@
         dropdown.getClose();
     });
 </script>
+
 <!-- hold side : positionTar2 : $(".js-page_name-article"), -->
 <!-- [2022-0516] 사용 -->
 <script>
@@ -703,10 +533,9 @@
         _hold_info.setTopStart(_headerH + 56);
         _hold_info.setBottomStop(_tem);
     }
-
-
 </script>
-<!-- // [2022-0516] 사용 -->
+
+<!-- angular js -->
 <script>
     app.value('locale', 'ko');
     app.value('is_login', true);
@@ -714,10 +543,13 @@
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
 
     app.controller('ctl', function ($scope, consts, common, is_login, locale) {
+
         $scope.is_login = is_login;
         $scope.locale = locale;
         $scope.sale_no = "${saleNo}";
         $scope.lot_no = "${lotNo}";
+
+
         // 호출 부
         const getSaleInfo = (saleNo) => {
             try {
@@ -768,7 +600,27 @@
 
         const getSaleImages = (saleNo, lotNo) => {
             try {
-                return axios.get('/api/auction/sale_images/${saleNo}/${lotNo}');
+                return axios.get('/api/auction/sale_images/${saleNo}');
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        const insertRecentlyView =  (saleNo, lotNo) => {
+            try {
+                return axios.post('/api/auction/insertRecentlyView', {
+                    sale_no: saleNo,
+                    lot_no: lotNo,
+                    cust_no: 1
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        const getRecentlyView = (saleNo, lotNo) => {
+            try {
+                return axios.get('/api/auction/recently/${saleNo}/${lotNo}');
             } catch (error) {
                 console.error(error);
             }
@@ -778,13 +630,58 @@
             window.location.href = '/auction/online/view/' + saleNo + '/' + lotNo;
         }
 
+        $scope.favorite = function(saleNo, lotNo) {
+            let url = "";
+            if ($scope.lotInfo.FAVORITE_YN === 'Y') {
+                url = "/api/auction/delCustInteLot";
+                $scope.lotInfo.FAVORITE_YN = "N";
+
+            } else if ($scope.lotInfo.FAVORITE_YN === 'N') {
+                url = "/api/auction/addCustInteLot";
+                $scope.lotInfo.FAVORITE_YN = "Y";
+            }
+            try {
+                return axios.post(url, {
+                    sale_no: saleNo,
+                    lot_no: lotNo,
+                    cust_no: 1
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        $scope.favorite2 = function(saleNo, lotNo, index) {
+            console.log("index", index);
+            let url = "";
+            if ($scope.recentlyViews[index].FAVORITE_YN === 'Y') {
+                url = "/api/auction/delCustInteLot";
+                $scope.recentlyViews[index].FAVORITE_YN = "N";
+
+            } else if ($scope.recentlyViews[index].FAVORITE_YN === 'N') {
+                url = "/api/auction/addCustInteLot";
+                $scope.recentlyViews[index].FAVORITE_YN = "Y";
+            }
+            try {
+                return axios.post(url, {
+                    sale_no: saleNo,
+                    lot_no: lotNo,
+                    cust_no: 1
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
         // 호출 부
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3, r4] = await Promise.all([getSaleInfo($scope.sale_no),
+                let [r1, r2, r3, r4, _, r6] = await Promise.all([getSaleInfo($scope.sale_no),
                     getLotInfo($scope.sale_no, $scope.lot_no),
                     getLotImages($scope.sale_no, $scope.lot_no),
-                    getSaleImages($scope.sale_no, $scope.lot_no)]);
+                    getSaleImages($scope.sale_no, $scope.lot_no),
+                    insertRecentlyView($scope.sale_no, $scope.lot_no),
+                    getRecentlyView($scope.sale_no, $scope.lot_no)]);
 
                 $scope.saleInfo = r1.data.data;
                 $scope.lotInfo = r2.data.data;
@@ -792,6 +689,8 @@
                 $scope.saleImages = r4.data.data;
                 $scope.estimatedRange = $scope.lotInfo.BASE_EXPE_FROM_PRICE + ' ~ '
                     + $scope.lotInfo.BASE_EXPE_TO_PRICE;
+
+                $scope.recentlyViews = r6.data.data;
 
                 // popup setting
                 let imgUrl = $scope.lotImages[0].IMAGE_URL +
@@ -802,9 +701,39 @@
                 $("#artist_nm").html($scope.lotInfo.ARTIST_NAME_KO_TXT);
                 $("#born_year").html("(" + $scope.lotInfo.BORN_YEAR + ")");
 
+                $("#lot_title").html("LOT " + $scope.lotInfo.LOT_NO);
                 // 시작
                 startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2, "PKH*****D");
                 $scope.$apply();
+
+                // 카카오 init
+                Kakao.init('cf2233f55e74d6d0982ab74909c97835');
+
+                Kakao.Link.createDefaultButton({
+                    container: "#kakao-share",
+                    objectType: "feed",
+                    content: {
+                        title: $scope.saleInfo.SALE_TITLE_KO,
+                        description: $scope.lotInfo.TITLE_KO_TXT,
+                        imageUrl:imgUrl,
+                        link: {
+                            mobileWebUrl: window.location.href,
+                            webUrl: window.location.href,
+                        },
+                    },
+                    social: {
+                        likeCount: 286,
+                        commentCount: 45,
+                        sharedCount: 845,
+                    },
+                })
+                /*
+                for (let i = 0 ; i < $scope.recentlyViews.length;i++) {
+                    if ($scope.recentlyViews[i].FAVORITE_YN === 'Y'){
+                        //console.log($("#recently_views .js-work_heart").eq(i).addClass("on"));
+                        $("#recently_views .js-work_heart").eq(i).addClass("on");
+                    }
+                }*/
 
                 // swiper
                 let view_visual = new Swiper(".js-view_visual .gallery_center", {
@@ -1034,7 +963,6 @@
 
     function proc(evt, saleNo, lotNo, saleType, userId) {
         let wt;
-
         const packet_enum = {
             init: 1,
             bid_info: 2,
@@ -1081,7 +1009,7 @@
                 let start_cost = document.getElementById("start_cost");
                 let bid_cnt2 = document.getElementById("bid_cnt");
                 let cur_cost = document.getElementById("cur_cost");
-                let end_date_time2 = document.getElementById("end_date_time");
+                //let end_date_time2 = document.getElementById("end_date_time");
 
                 let curCostValue = (d.message.bid[len - 1].bid_cost === 0) ?
                     "KRW " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR') :
@@ -1090,7 +1018,7 @@
                 start_cost.innerText = "KRW " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR');
                 bid_cnt2.innerText = "(응찰" + d.message.bid[len - 1].bid_count + ")"
                 cur_cost.innerText = curCostValue;
-                end_date_time2.innerText = new Date(d.message.bid[len - 1].end_bid_time).format('MM/dd(E) hh:mm');
+                //end_date_time2.innerText = new Date(d.message.bid[len - 1].end_bid_time).format('MM/dd(E) hh:mm');
 
                 bid.innerText = curCostValue
                 bid_cnt.innerText = "(응찰" + d.message.bid[len - 1].bid_count + ")"
@@ -1116,7 +1044,12 @@
                             let li = document.createElement("li");
 
                             let user_id_ly = document.createElement("div");
-                            user_id_ly.setAttribute("class", "product-user on_green");
+                            if (bid_hist_info.user_id === "KYUNGHOON" ){
+                                user_id_ly.setAttribute("class", "product-user on_green");
+                            } else {
+                                user_id_ly.setAttribute("class", "product-user");
+                            }
+
 
                             let user_id_span = document.createElement("span");
                             user_id_span.innerText = bid_hist_info[i].customer.user_id;
@@ -1159,6 +1092,7 @@
         } else if (d.msg_type == packet_enum.time_sync) {
 
             let bid_tick = document.getElementById("bid_tick");
+            let bid_tick_main = document.getElementById("end_date_time");
             let ddd = new Date(d.message.tick_value);
 
             console.log(end_bid_time, d.message.tick_value, new Date(end_bid_time), ddd)
@@ -1176,10 +1110,13 @@
                 var diffSec = timeGap.getSeconds();      // 초
 
                 bid_tick.innerText = diffDay + "일 " + diffHour + "시간 " + diffMin + "분 " + diffSec + "초 남았습니다.";
+                bid_tick_main.innerText = diffDay + "일 " + diffHour + "시간 " + diffMin + "분 " + diffSec + "초 남았습니다.";
             } else if (end_bid_time <= 0) {
-                bid_tick.innerText = "경매 시작 전입니다."
+                bid_tick.innerText = "경매 시작 전입니다.";
+                bid_tick_main.innerText = "경매 시작 전입니다.";
             } else {
                 bid_tick.innerText = "경매가 종료 되었습니다.";
+                bid_tick_main.innerText = "경매가 종료 되었습니다.";
             }
 
         } else if (d.msg_type == packet_enum.bid_info_init) {
@@ -1196,7 +1133,7 @@
                 let start_cost = document.getElementById("start_cost");
                 let bid_cnt2 = document.getElementById("bid_cnt");
                 let cur_cost = document.getElementById("cur_cost");
-                let end_date_time2 = document.getElementById("end_date_time");
+                //let end_date_time2 = document.getElementById("end_date_time");
 
                 let curCostValue = (bid_info.bid_cost === 0) ?
                     "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR') :
@@ -1205,7 +1142,7 @@
                 start_cost.innerText = "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR');
                 bid_cnt2.innerText = "(응찰" + bid_info.bid_count + ")"
                 cur_cost.innerText = curCostValue;
-                end_date_time2.innerText = new Date(bid_info.end_bid_time).format('MM/dd(E) hh:mm');
+                //end_date_time2.innerText = new Date(bid_info.end_bid_time).format('MM/dd(E) hh:mm');
 
                 bid.innerText = curCostValue;
                 bid_cnt.innerText = "(응찰" + bid_info.bid_count + ")"
@@ -1235,7 +1172,11 @@
                                     let li = document.createElement("li");
 
                                     let user_id_ly = document.createElement("div");
-                                    user_id_ly.setAttribute("class", "product-user on_green");
+                                    if (bid_hist_info[i].value[j].user_id === "KYUNGHOON") {
+                                        user_id_ly.setAttribute("class", "product-user on_green");
+                                    } else {
+                                        user_id_ly.setAttribute("class", "product-user");
+                                    }
 
                                     let user_id_span = document.createElement("span");
                                     user_id_span.innerText = bid_hist_info[i].value[j].customer.user_id;
@@ -1287,11 +1228,21 @@
                 // 낙찰이 완료 되었다면
                 if (bid_info.is_winner) {
                     let bid_tick = document.getElementById("bid_tick");
+                    let bid_tick_main = document.getElementById("end_date_time");
                     if (end_bid_time <= 0) {
-                        bid_tick.innerText = "경매 시작 전입니다."
+                        bid_tick.innerText = "경매 시작 전입니다.";
+                        bid_tick_main.innerText = "경매 시작 전입니다.";
                     } else if (end_bid_time < new Date().getTime()) {
                         bid_tick.innerText = "경매가 종료 되었습니다.";
+                        bid_tick_main.innerText = "경매가 종료 되었습니다.";
                     }
+
+                    let bid_lst = document.getElementById("bid_lst");
+                    let dt_ly_span1 = document.createElement("em");
+                    dt_ly_span1.setAttribute("class", "type-success");
+                    dt_ly_span1.innerText = "낙찰";
+                    bid_lst.firstChild.childNodes[2].insertBefore(dt_ly_span1, bid_lst.firstChild.childNodes[2].firstChild);
+
                     is_end_bid = true;
                     w.close();
                 }
@@ -1306,7 +1257,9 @@
 
                 if (d.message.customer.user_id == bid_lst.firstChild.firstChild.innerText) {
                     let bid_tick = document.getElementById("bid_tick");
+                    let bid_tick_main = document.getElementById("end_date_time");
                     bid_tick.innerText = "경매가 종료 되었습니다.";
+                    bid_tick_main.innerText = "경매가 종료 되었습니다.";
 
                     let dt_ly_span1 = document.createElement("em");
                     dt_ly_span1.setAttribute("class", "type-success");
@@ -1315,6 +1268,8 @@
 
                     bid_lst.firstChild.childNodes[2].insertBefore(dt_ly_span1, bid_lst.firstChild.childNodes[2].firstChild);
                 }
+
+                is_end_bid = true;
                 w.close();
             }
         }
