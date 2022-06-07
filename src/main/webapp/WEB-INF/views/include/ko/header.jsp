@@ -105,7 +105,7 @@ function sessionLogout() {
                         <li id="MyMenuOnlineBadge"><a href="#">온라인 경매 관리</a></li>
                         <li><a href="#">관심작품</a></li>
                         <li><a href="#">아카데미 신청목록</a></li>
-                        <li><a href="#">회원정보 수정</a></li>
+                        <li><a href="/mypage/custConfirm">회원정보 수정</a></li>
                     </ul>
                 </li>
                 <li class="utility-login"><a onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')">로그아웃</a></li>
