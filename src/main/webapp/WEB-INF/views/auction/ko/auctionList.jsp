@@ -435,6 +435,12 @@
         }
 
         $scope.favorite = function(item) {
+
+            if(sessionStorage.getItem("is_login") === 'false'){
+                alert('로그인을 진행해주세요.');
+                return;
+            }
+
             let url = item.FAVORITE_YN ==='N' ? "/api/auction/delCustInteLot" : "/api/auction/addCustInteLot";
 
             try {
