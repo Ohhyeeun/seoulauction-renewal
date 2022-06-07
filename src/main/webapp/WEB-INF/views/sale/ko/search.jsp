@@ -140,7 +140,7 @@
                                         </div>
                                     </div>
                                     <div class="only-mb">
-                                        <button class="btn btn_gray_line" type="button"><span>더보기</span></button>
+                                        <button class="btn btn_gray_line" id="more_search_m" type="button" ng-click="moreSearch();"><span>더보기</span></button>
                                     </div>
                                 </div>
                             </div>
