@@ -14,6 +14,8 @@
 		  and S.WWW_DISP_YN = 'Y'
 		  and S.SALE_OUTSIDE_YN = 'N'
 		  and S.TO_DT <![CDATA[ >= ]]> DATE_SUB(NOW(), INTERVAL ${month} MONTH)
+		order by
+		    S.sale_no desc
 		limit
 			#{offset} , #{size}
 	</select>
