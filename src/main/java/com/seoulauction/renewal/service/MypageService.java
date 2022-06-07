@@ -171,20 +171,41 @@ public class MypageService {
         return map;
     }
     
-    public CommonMap selectBidReqHistoryList(CommonMap commonMap){
+    public CommonMap selectLiveBidReqHistoryList(CommonMap commonMap){
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectLiveBidReqHistoryList(commonMap));
 //    	map.put("cnt", mypageMapper.selectLiveBidReqCnt(commonMap));                                                                          
         return map;
     }
     
-    public CommonMap selectBidList(CommonMap commonMap){
+    public CommonMap selectLiveBidList(CommonMap commonMap){
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectLiveBidList(commonMap));
     	map.put("cnt", mypageMapper.selectLiveBidCnt(commonMap));                                                                          
     	return map;
     }
 
+    public CommonMap selectLiveBidHistoryList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectLiveBidReqHistoryList(commonMap));
+//    	map.put("cnt", mypageMapper.selectLiveBidReqCnt(commonMap));                                                                          
+        return map;
+    }
+    
+    public CommonMap selectOnlineBidList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectOnlineBidList(commonMap));
+    	map.put("cnt", mypageMapper.selectOnlineBidCnt(commonMap));                                                                          
+    	return map;
+    }
+
+    public CommonMap selectOnlineBidHistoryList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectOnlineBidHistoryList(commonMap));
+//    	map.put("cnt", mypageMapper.selectLiveBidReqCnt(commonMap));                                                                          
+        return map;
+    }
+    
     public CommonMap selectCustForChkPassword(CommonMap paramMap){
     	return mypageMapper.selectCustForChkPassword(paramMap);
     }

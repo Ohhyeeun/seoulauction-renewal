@@ -77,7 +77,6 @@ public class MypageController {
     	return SAConst.getUrl(SERVICE_MYPAGE , "inteLotList" , locale);
     }
 
-
     @GetMapping("/liveBidReqList")
     public String liveBidReqList(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "liveBidReqList" , locale);
@@ -86,6 +85,11 @@ public class MypageController {
     @GetMapping("/liveBidList")
     public String liveBidList(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "liveBidList" , locale);
+    }
+    
+    @GetMapping("/onlineBidList")
+    public String onlineBidList(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "onlineBidList" , locale);
     }
     
     /*비밀번호변경*/
