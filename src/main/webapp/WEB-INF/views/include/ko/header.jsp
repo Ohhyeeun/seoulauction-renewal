@@ -72,10 +72,10 @@
             <section class="topsearch-box">
                 <button class="m-top-search m-ver"></button>
                 <button class="m-gnbmenu m-ver"></button>
-                <form action="" class="scroll_none">
+                <form action="" class="scroll_none" onsubmit="return false; ">
                     <fieldset class="topsearch">
                         <span class="submenuBg-closeBtn top-search-closeBtn m-ver"></span>
-                        <input onkeydown="searchFilter()" onmousedown="searchDown()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();" id="topsearchText"><button type="button" class="topsearch-btn pc-ver" ng-click="goSearch('topsearchText', true);"></button>
+                        <input onkeydown="searchFilter()" onmousedown="searchDown()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();" id="topsearchText" ng-keypress="$event.keyCode === 13 && goSearch('topsearchText', true);"><button type="button" class="topsearch-btn pc-ver" ng-click="goSearch('topsearchText', true);"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">
 
