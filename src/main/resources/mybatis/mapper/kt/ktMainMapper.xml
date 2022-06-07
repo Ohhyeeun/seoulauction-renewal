@@ -75,8 +75,8 @@
 	<select id="selectSaleImage" parameterType="CommonMap" resultType="CommonMap">
 		select * from sale_img
 		where SALE_NO = #{sale_no}
-		order by DISP_ORD
-		limit 1
+		and DISP_ORD = 2
+		limit 1;
 	</select>
 
 	<select id="selectHaveToPayWork" parameterType="CommonMap" resultType="CommonMap">
