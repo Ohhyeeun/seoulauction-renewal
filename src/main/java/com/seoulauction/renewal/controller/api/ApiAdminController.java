@@ -23,7 +23,7 @@ public class ApiAdminController {
 
     private final AdminService adminService;
 
-    @PostMapping("/active-sales")
+    @GetMapping("/active-sales")
     public ResponseEntity<RestResponse> activeSales(
             @RequestHeader(value = "Authorization") String auth,
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
