@@ -202,39 +202,7 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
 
         addCookie($scope.search.keyword, "keywordHistory");
 
-        //alert(addCookie($scope.search.keyword, "keyword"));
-
         $('input:checkbox[name="lotCheckBox"]').attr("checked", true);
-
-        if(getCookie("prev_url").indexOf("lotDetail") > -1 || getCookie("prev_url").indexOf("lotSearchList") > -1){
-            if($scope.search.keyword == "undefined" || $scope.search.keyword.length == 0 ){
-                if(getCookie("keyword") == "undefined"){
-                    $scope.search.keyword = undefined;
-                }else{
-                    $scope.search.keyword = getCookie("keyword");
-                }
-                if(getCookie("chk") == "undefined"){
-                    $scope.search.chk = "all";
-                }else{
-                    $scope.search.chk = getCookie("chk");
-                }
-                if(getCookie("mate_nm") == "undefined"){
-                    $scope.search.mate_nm = undefined;
-                }else{
-                    $scope.search.mate_nm = getCookie("mate_nm");
-                }
-                if(getCookie("from_dt") == "undefined"){
-                    $scope.search.from_dt = undefined;
-                }else{
-                    $scope.search.from_dt = getCookie("from_dt");
-                }
-                if(getCookie("to_dt") == "undefined"){
-                    $scope.search.to_dt = undefined;
-                }else{
-                    $scope.search.to_dt = getCookie("to_dt");
-                }
-            }
-        }
 
         if($scope.search.keyword.length > 0){
             if(getCookie("prev_url").indexOf("lotDetail") > -1 || getCookie("prev_url").indexOf("lotSearchList") > -1){
@@ -284,32 +252,10 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
         $scope.loadLotList($scope.currentPage, $scope.subPage);
     }
 
-    $scope.clearSearchCondition = function(){
-        $scope.search = {"sale_kind" : ['main', 'online', 'online_zb', 'hongkong', 'plan', 'exhibit']};
-
-        setCookie('page', "", 1);
-        setCookie('subPage', "", 1);
-        setCookie('size', "", 1);
-        setCookie('sale_kind', "", 1);
-        setCookie('keyword', "", 1);
-        setCookie('mate_nm', "", 1);
-        setCookie('from_dt', "", 1);
-        setCookie('to_dt', "", 1);
-        setCookie('chk', "", 1);
-        setCookie('from', "", 1);
-        setCookie('rows', "", 1);
-        setCookie('sort_by', "", 1);
-        setCookie('more_by', "", 1);
-    }
-
     $scope.cnt = 0;
     $scope.loadLotList = function($page, $subPage){
 
         $(".product-list").empty();
-
-        if($page > 1){
-            setCookie('prev_url', getCookie('curr_url'), 1);
-        }
 
         //최신순선택
         const sort = $("#selectSort option:selected").val();
@@ -328,20 +274,6 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
             $scope.moreBy = "PAGNG";
         }
 
-        setCookie('page', $page, 1);
-        setCookie('subPage', $subPage, 1);
-        setCookie('size', name, 1);
-        setCookie('sale_kind', $scope.search.sale_kind, 1);
-        setCookie('keyword', $scope.search.keyword, 1);
-        setCookie('mate_nm', $scope.search.mate_nm, 1);
-        setCookie('chk', $scope.search.chk, 1);
-        setCookie('from', (($scope.currentPage - 1) * parseInt($scope.reqRowCnt)), 1);
-        setCookie('rows', parseInt($scope.reqRowCnt), 1);
-        setCookie('sort_by', $scope.sortBy, 1);
-        setCookie('more_by', $scope.moreBy, 1);
-        setCookie('sale_status_end_yn', $scope.sale_status_end_yn, 1);
-        setCookie('sale_status_ing_yn', $scope.sale_status_ing_yn, 1);
-        setCookie('sale_status_ready_yn', $scope.sale_status_ready_yn, 1);
         $scope.currentPage = $page;
         $scope.subPage = $subPage;
         $api = "/api/auction/searchList";
@@ -404,12 +336,14 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
                         }
 
                         $("#more_search").hide();
+                        $("#more_search_m").hide();
                         $(".paging").empty();
 
                         if($scope.moreBy == "MOREP") {
 
                             if($scope.totalCount > $scope.pageRows){
                                 $("#more_search").show();
+                                $("#more_search_m").show();
                             }
 
                         }else if($scope.moreBy == "PAGNG"){

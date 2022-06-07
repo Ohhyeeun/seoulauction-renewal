@@ -134,7 +134,7 @@
                                 <div class="panel-footer"></div>
                             </div>
 							<!-- 팝업 : 라이브경매관리 온라인패들 응찰 이력 -->
-							    <div id="popup_auction_live_record-wrap" class="trp popupfixed-wrap auction_live_record-popup" >
+							 <div id="popup_auction_live_record-wrap" class="trp popupfixed-wrap auction_live_record-popup" >
 							        <div class="popup-dim"></div>
 							        <div class="popup-align mode-lg mode-mb_full">
 							            <div class="popup-vertical">
@@ -166,11 +166,12 @@
 							                                    <div class="table-wrap">
 							                                        <table class="table_base data-table auction-bid-history">
 							                                            <tbody>
-							                                                <tr ng-repeat="liveBidHis in liveBidHisList">
-							                                                    <td>{{liveBidHis.CURR_CD}} {{comma(liveBidHis.BID_PRICE)}}</td>
-							                                                    <td>{{liveBidHis.REQ_DT}}</td>
-							                                                    <td>1회 응찰</td>
-							                                                    <td ><span class="succ" ng-if="liveBidHis == 'hammer'">낙찰</span></td>
+							                                            
+							                                                <tr ng-repeat="liveBidhis in liveBidHisList">
+							                                                    <td>KRW {{comma(liveBidhis.BID_PRICE)}}</td>
+							                                                    <td>{{liveBidhis.BID_DT}}</td>
+							                                                    <td>온라인응찰</td>
+							                                                    <td ><span class="succ" ng-if="liveBidhis.HAMMER_STAT == 'hammer'">낙찰</span></td>
 							                                                </tr>
 							                                            </tbody>
 							                                        </table>

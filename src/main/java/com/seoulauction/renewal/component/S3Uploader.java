@@ -23,34 +23,25 @@ public class S3Uploader {
 
     private final AmazonS3Client amazonS3Client;
 
-    @Value("${cloud.aws.s3.bucket}")
-    public String bucket;  // S3 버킷 이름
-
-    @Value("${cloud.aws.s3.private.bucket}")
-    public String privateBucket;  // S3 버킷 PRIVATE 버킷.
-
-    public String upload(Boolean isPrivate , MultipartFile multipartFile, String dirName) throws IOException {
+    public String upload(String bucketName , MultipartFile multipartFile, String dirName) throws IOException {
         File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
                 .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
 
-        return upload(isPrivate ,uploadFile, dirName);
+        return upload(bucketName ,uploadFile, dirName);
     }
 
     // S3로 파일 업로드하기
-    private String upload(Boolean isPrivate , File uploadFile, String dirName) {
+    private String upload(String bucketName , File uploadFile, String dirName) {
         String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.getName().substring(uploadFile.getName().indexOf("."));   // S3에 저장된 파일 이름
-        String uploadImageUrl = putS3(isPrivate , uploadFile, fileName); // s3로 업로드
+        String uploadImageUrl = putS3(bucketName , uploadFile, fileName); // s3로 업로드
         removeNewFile(uploadFile);
         return uploadImageUrl;
     }
 
     // S3로 업로드
-    private String putS3(Boolean isPrivate , File uploadFile, String fileName) {
-
-        String currentBucket = isPrivate ? privateBucket : bucket;
-
-        amazonS3Client.putObject(new PutObjectRequest(currentBucket , fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
-        return amazonS3Client.getUrl(currentBucket, fileName).getPath();
+    private String putS3(String bucketName, File uploadFile, String fileName) {
+        amazonS3Client.putObject(new PutObjectRequest(bucketName , fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
+        return amazonS3Client.getUrl(bucketName, fileName).getPath();
     }
 
     // 로컬에 저장된 이미지 지우기

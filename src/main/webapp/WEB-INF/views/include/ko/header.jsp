@@ -14,7 +14,7 @@
 
 <%--메인이 아닐 경우에만 해당 css 추가.--%>
 <c:if test="${empty param.main}">
-    <jsp:include page="../../common/commonCssNotMain.jsp" flush="false"/>
+    <link rel="stylesheet" href="/css/pages_common_ko.css" type="text/css" />
 </c:if>
 
 <%--angular 관련은 미리 로딩--%>
@@ -39,49 +39,11 @@ function sessionLogout() {
 </script>
 <html lang="ko" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
-    <script>
 
-    </script>
-    <%--<div class="beltbox-swiper">
-        <div class="swiper-wrapper"></div>
-    </div>--%> 
+
     <div class="header_beltbox on"> <!--class="on" block-->
         <div class="wrap belttxtbox wrap_padding"> <!-- ul -->
-            <span class="header_beltTit">  <!-- 최대 5개 최소 1개 상시 -->    <!--//li-->
-                    <a href="#">
-                        <span class="text-over belt_tit">
-                            구매수수료율 인상 및 약관 개정안내 구매수수료율 0
-                        </span>
-                    </a>
-                </span>
-            <span class="header_beltTit">
-                    <a href="#">
-                        <span class="text-over belt_tit">
-                            구매수수료율 인상 및 약관 개정안내 구매수수료율 1
-                        </span>
-                    </a>
-                </span>
-            <span class="header_beltTit">
-                    <a href="#">
-                        <span class="text-over belt_tit">
-                            구매수수료율 인상 및 약관 개정안내 구매수수료율 2
-                        </span>
-                    </a>
-                </span>
-            <span class="header_beltTit">
-                    <a href="#">
-                        <span class="text-over belt_tit">
-                            구매수수료율 인상 및 약관 개정안내 구매수수료율 3
-                        </span>
-                    </a>
-                </span>
-            <span class="header_beltTit">
-                    <a href="#">
-                        <span class="text-over belt_tit">
-                            구매수수료율 인상 및 약관 개정안내 구매수수료율 4
-                        </span>
-                    </a>
-                </span>
+
         </div>
         <span class="beltclose-btn closebtn closebtn-w"></span>
     </div>
@@ -150,7 +112,7 @@ function sessionLogout() {
                         <ul class="subGnbmenu">
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
                                 <ul class="submenu submenu-part01">
-                                    <li id="menu_auction"><a href="#">진행경매</a></li>
+                                    <li id="menu_auction"><a href="/auction/proceed">진행경매</a></li>
                                     <li id="menu_upcoming"><a href="#">예정경매</a></li>
                                     <li><a href="#">경매결과</a></li>
                                 </ul>
