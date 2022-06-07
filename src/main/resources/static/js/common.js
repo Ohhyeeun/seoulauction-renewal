@@ -344,13 +344,12 @@ $(function(){
         $('.familyselect').hide();
     });
 
-
+    /* scroll top */
+    $('.scroll-top').click(function(){
+        $('html, body').animate({scrollTop: '0'}, 700);
+    });
 });
 
-/* scroll top */
-$('.scroll-top').click(function(){
-    $('html, body').animate({scrollTop: '0'}, 700);
-});
 
 /* top search filter 기능 */
 function searchFilter() {
