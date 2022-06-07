@@ -67,9 +67,15 @@ public class AuctionController {
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionLiveList" , locale);
     }
 
-    @GetMapping("/proceed")
-    public String proceed(Locale locale) {
+    @GetMapping("/progress")
+    public String progress(Locale locale) {
 
-        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "proceed" , locale);
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "progress" , locale);
+    }
+
+    @GetMapping("/scheduled")
+    public String scheduled(Locale locale) {
+
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "scheduled" , locale);
     }
 }
