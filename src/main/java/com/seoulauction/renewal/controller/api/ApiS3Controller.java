@@ -20,8 +20,8 @@ public class ApiS3Controller {
 
     private final S3Service s3Service;
 
-    @Value("${file.upload.token}")
-    private String FILE_UPLOAD_TOKEN;
+    @Value("${admin.token}")
+    private String ADMIN_TOKEN;
 
     @PostMapping(value="/fileUploads")
     public ResponseEntity<RestResponse> fileUploads(
@@ -32,7 +32,7 @@ public class ApiS3Controller {
             @RequestParam(value = "rowId") String rowId
     ) {
 
-        if(!FILE_UPLOAD_TOKEN.equals(auth)){
+        if(!ADMIN_TOKEN.equals(auth)){
             throw new SAException("인증 토큰이 올바르지 않습니다.");
         }
 
@@ -48,7 +48,7 @@ public class ApiS3Controller {
             @RequestParam(value = "groupName") String groupName,
             @RequestParam(value = "rowId") String rowId
     ) {
-        if(!FILE_UPLOAD_TOKEN.equals(auth)){
+        if(!ADMIN_TOKEN.equals(auth)){
             throw new SAException("인증 토큰이 올바르지 않습니다.");
         }
 
@@ -62,7 +62,7 @@ public class ApiS3Controller {
             @RequestParam(value = "groupName") String groupName,
             @RequestParam(value = "rowId") String rowId
     ) {
-        if(!FILE_UPLOAD_TOKEN.equals(auth)){
+        if(!ADMIN_TOKEN.equals(auth)){
             throw new SAException("인증 토큰이 올바르지 않습니다.");
         }
 
