@@ -61,7 +61,7 @@
                                             <li ng-class="{active:'전체' === selectLotTag}"><a href="#tab-cont-1"
                                                                                              ng-click="searchLotTags('전체');"><span>전체</span></a>
                                             </li>
-                                            <li ng-class="{active:item.LOT_TAG === selectLotTag}"
+                                            <li ng-class="{active: item.LOT_TAG === selectLotTag}"
                                                 ng-repeat="item in lotTags"><a href="#tab-cont"
                                                                                ng-click="searchLotTags(item.LOT_TAG);"><span
                                                     ng-bind="item.LOT_TAG"></span></a></li>
@@ -196,8 +196,7 @@
                                                     <div class="product_info">
                                                         <div class="num_heart-box">
                                                             <span class="num">{{item.LOT_NO}}</span>
-                                                            <button class="heart js-work_heart"><i
-                                                                    class="icon-heart_off"></i></button>
+                                                            <button class="heart js-work_heart"><i ng-class="item.FAVORITE_YN==='Y' ? 'icon-heart_off' : 'icon-heart_on'"></i></button>
                                                         </div>
                                                         <div class="info-box">
                                                             <div class="title"><span>{{item.ARTIST_NAME_JSON.ko}}</span><span
