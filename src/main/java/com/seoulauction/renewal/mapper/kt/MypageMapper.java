@@ -54,6 +54,10 @@ public interface MypageMapper {
 
     int deleteCustInteLot(CommonMap commonMap);
 
+    CommonMap selectCustForChkPassword(CommonMap paramMap);
+    
+    int updateCustPasswdByCustNo(CommonMap paramMap);
+    
     List<CommonMap> selectLiveBidReqList(CommonMap commonMap);
 
     int selectLiveBidReqCnt(CommonMap commonMap);
@@ -63,9 +67,9 @@ public interface MypageMapper {
     List<CommonMap> selectLiveBidList(CommonMap commonMap);
     
     int selectLiveBidCnt(CommonMap commonMap);
-
-    CommonMap selectCustForChkPassword(CommonMap paramMap);
     
-    int updateCustPasswdByCustNo(CommonMap paramMap);
+    List<CommonMap> selectCustSocialByCustNo(CommonMap commonMap);
+
+    int deleteCustSocial(CommonMap commonMap);
 
 }

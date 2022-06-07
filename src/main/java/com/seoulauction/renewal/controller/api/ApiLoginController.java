@@ -251,8 +251,8 @@ public class ApiLoginController {
             			//국내회원 회원가입 완료시 로그인 처리 (국내 소셜)
             			//해외회원은 이메일 인증 후 로그인가능 (현재 STAT_CD == not_certify)
             			SAUserDetails parameterUserDetail = SAUserDetails.builder()
-            					.loginId(paramMap.get("social_login_id").toString())
-            					.userNm(paramMap.get("cust_name").toString())
+            					.socialType(paramMap.get("social_type").toString()) // social_type
+            					.socialEmail(paramMap.get("social_email").toString()) // social_email
             					.ip(loginService.getIp(request))
             					.build();
             			
@@ -327,39 +327,27 @@ public class ApiLoginController {
 	// 소셜 로그인
 	@RequestMapping(value = "/social", method = RequestMethod.POST)
 	public ResponseEntity<RestResponse> socialLogin(HttpServletRequest request
-//			, @RequestParam(value = "socialEmail", required = false) String socialEmail
-//			, @RequestParam(value = "socialType", required = false) String socialType
 			, @RequestBody CommonMap paramMap
 			, RedirectAttributes redirect) {
     	
 		log.info("socialLogin");
-		
 		log.info(paramMap.toString());
 		
-		// cust_social 테이블에서 조회하여 SAUserDetails생성
-//		CommonMap paramMap = new CommonMap();
-//		paramMap.put("social_email", socialEmail);
-//		paramMap.put("social_type", socialType);
-		CommonMap resultMap = loginService.selectCustForCustSocial(paramMap);
-		
-		if(resultMap == null) {
-			throw new SAException("testexception"); 
-		}
 		SAUserDetails parameterUserDetail = SAUserDetails.builder()
-				.loginId(resultMap.get("SOCIAL_LOGIN_ID").toString())
-				.userNm(resultMap.get("CUST_NAME").toString())
+				.socialType(paramMap.get("social_type").toString()) // social_type
+				.socialEmail(paramMap.get("social_email").toString()) // social_email
 				.ip(loginService.getIp(request))
 				.build();
 
 		SecurityContext sc = SecurityContextHolder.getContext();
-		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(resultMap.get("SOCIAL_LOGIN_ID").toString(), null);
+		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(null, null);
 		auth.setDetails(parameterUserDetail);
 		sc.setAuthentication(socialAuthenticationProvider.authenticate(auth));
 
 		HttpSession session = request.getSession(true);
 		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
 
-        return ResponseEntity.ok(RestResponse.ok(resultMap.get("SOCIAL_LOGIN_ID").toString()));
+        return ResponseEntity.ok(RestResponse.ok());
 	}
 	
 }

@@ -196,8 +196,7 @@
                                                     <div class="product_info">
                                                         <div class="num_heart-box">
                                                             <span class="num">{{item.LOT_NO}}</span>
-                                                            <button class="heart js-work_heart"><i
-                                                                    class="icon-heart_off"></i></button>
+                                                            <button class="heart js-work_heart"><i ng-class="item.FAVORITE_YN==='Y' ? 'icon-heart_off' : 'icon-heart_on'"></i></button>
                                                         </div>
                                                         <div class="info-box">
                                                             <div class="title"><span>{{item.ARTIST_NAME_JSON.ko}}</span><span

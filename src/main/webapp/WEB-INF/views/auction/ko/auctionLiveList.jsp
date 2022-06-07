@@ -30,7 +30,6 @@
                     <section class="page_title-section list_page-section">
                         <div class="section-inner full_size">
                             <div class="padding-inner">
-
                                 <article class="auction_head_info-article">
                                     <div class="center-box view">
                                         <h2 class="page_title"><span class="th1">3월 라이브 경매</span></h2>
@@ -42,13 +41,9 @@
                                                     class=""> : {{saleInfo[0].TO_DT}}</span></li>
                                         </ul>
                                         <div class="btn_set">
-
                                             <a class="btn btn_white " href="#" role="button"><span>안내사항</span></a>
-
                                             <a class="btn btn_white " href="#" role="button"><span>E-BOOK</span></a>
-
                                             <a class="btn btn_white " href="#" role="button"><span>VR보기</span></a>
-
                                         </div>
                                     </div>
                                 </article>
@@ -68,11 +63,25 @@
                                     </a>
                                 </article>
 
-
+                                <%--라이브 응찰 신청기간--%>
+                                <article class="proceeding-article">
+                                    <a href="#" title="라이브 응찰 신청" class="js-terms_required">
+                                        <div class="article-inner">
+                                            <div class="column view">
+                                                <strong class="note_msg">라이브 응찰 신청</strong>
+                                            </div>
+                                            <div class="column">
+                                                <div class="note_etc">
+                                                    <span>정회원만 응찰 신청이 가능합니다.</span>
+                                                </div>
+                                            </div>
+                                            <i class="icon-link_arrow"></i>
+                                        </div>
+                                    </a>
+                                </article>
                             </div>
                         </div>
                     </section>
-
 
                     <section class="basis-section tab-auction-section">
                         <div class="section-inner">
@@ -206,8 +215,7 @@
                                                         <div class="product_info">
                                                             <div class="num_heart-box">
                                                                 <span class="num">{{item.LOT_NO}}</span>
-                                                                <button class="heart js-work_heart"><i
-                                                                        class="icon-heart_off"></i></button>
+                                                                <button class="heart js-work_heart"><i ng-class="item.FAVORITE_YN==='Y' ? 'icon-heart_off' : 'icon-heart_on'"></i></button>
                                                             </div>
                                                             <div class="info-box">
                                                                 <div class="title"><span>{{item.ARTIST_NAME_JSON.ko}}</span><span
@@ -301,22 +309,12 @@
                 </div>
             </div>
             <!-- // stykey -->
-            <jsp:include page="popup/paddle.jsp" />
+
         </div>
     </div>
 
-    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-    <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
-
-
     <script type="text/javascript" src="/js/auction/auctionLiveList.js" type="text/javascript"></script>
-
-
     <script>
         app.value('locale', 'ko');
         app.value('is_login', true);
@@ -423,6 +421,9 @@
             $scope.load = function () {
                 let run = async function () {
                     let [r1, r2, r3] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no)]);
+
+
+                    console.log(r1.data.data);
                     $scope.saleInfoAll = r1.data.data;
                     $scope.saleImages = r2.data.data;
                     $scope.lotTags = r3.data.data;
@@ -816,6 +817,7 @@
             }
         });
     </script>
+    <jsp:include page="popup/paddle.jsp" />
 </body>
 
 </html>
