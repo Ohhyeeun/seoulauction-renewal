@@ -185,6 +185,28 @@ public class MypageService {
     	return map;
     }
 
+
+    public CommonMap selectLiveBidHistoryList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectLiveBidHistoryList(commonMap));
+//    	map.put("cnt", mypageMapper.selectLiveBidReqCnt(commonMap));                                                                          
+        return map;
+    }
+    
+    public CommonMap selectOnlineBidList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectOnlineBidList(commonMap));
+    	map.put("cnt", mypageMapper.selectOnlineBidCnt(commonMap));                                                                          
+    	return map;
+    }
+
+    public CommonMap selectOnlineBidHistoryList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectOnlineBidHistoryList(commonMap));
+//    	map.put("cnt", mypageMapper.selectLiveBidReqCnt(commonMap));                                                                          
+        return map;
+    }
+
     public CommonMap selectCustForChkPassword(CommonMap paramMap){
     	return mypageMapper.selectCustForChkPassword(paramMap);
     }
