@@ -202,7 +202,7 @@ public class ApiMypageController {
 		commonMap.put("sale_no", sale_no);
 		commonMap.put("lot_no", lot_no);
 		commonMap.put("action_user_no", principal.getName());
-		return ResponseEntity.ok(RestResponse.ok(mypageService.selectBidReqHistoryList(commonMap)));
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectLiveBidReqHistoryList(commonMap)));
 	}
 
 	@RequestMapping(value = "/liveBids", method = RequestMethod.GET)
@@ -213,9 +213,42 @@ public class ApiMypageController {
 		CommonMap commonMap = new CommonMap();
 		commonMap.putPage(page, size);
 		commonMap.put("action_user_no", principal.getName());
-		return ResponseEntity.ok(RestResponse.ok(mypageService.selectBidList(commonMap)));
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectLiveBidList(commonMap)));
 	}
 	
+
+	@RequestMapping(value = "/liveBidHistories/{sale_no}/{lot_no}", method = RequestMethod.GET)
+	public ResponseEntity<RestResponse> liveBidHistories(
+			@PathVariable("sale_no") String sale_no, @PathVariable("lot_no") String lot_no,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		CommonMap commonMap = new CommonMap();
+		commonMap.put("sale_no", sale_no);
+		commonMap.put("lot_no", lot_no);
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectLiveBidHistoryList(commonMap)));
+	}
+	
+	@RequestMapping(value = "/onlineBids", method = RequestMethod.GET)
+	public ResponseEntity<RestResponse> onlineBids(
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		CommonMap commonMap = new CommonMap();
+		commonMap.putPage(page, size);
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectOnlineBidList(commonMap)));
+	}
+	
+	@RequestMapping(value = "/onlineBidHistories/{sale_no}/{lot_no}", method = RequestMethod.GET)
+	public ResponseEntity<RestResponse> onlineBidHistories(
+			@PathVariable("sale_no") String sale_no, @PathVariable("lot_no") String lot_no,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		CommonMap commonMap = new CommonMap();
+		commonMap.put("sale_no", sale_no);
+		commonMap.put("lot_no", lot_no);
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectOnlineBidHistoryList(commonMap)));
+	}
 	
 	//비밀번호 확인
 	@RequestMapping(value="/chkPassword", method=RequestMethod.POST, headers = {"content-type=application/json"})
