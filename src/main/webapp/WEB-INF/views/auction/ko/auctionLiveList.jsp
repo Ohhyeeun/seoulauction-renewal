@@ -240,10 +240,6 @@
                                                                     <dd>~ {{item.EXPE_PRICE_TO_JSON.KRW}}</dd>
                                                                 </dl>
                                                                 <dl class="price-list">
-                                                                    <dt>시작가</dt>
-                                                                    <dd>{{item.START_COST}}</dd>
-                                                                </dl>
-                                                                <dl class="price-list">
                                                                     <dt>낙찰가</dt>
                                                                     <dd><strong>{{item.CUR_COST}}</strong><em>{{item.BID_COUNT}}</em></dd>
                                                                 </dl>
@@ -383,6 +379,12 @@
             }
 
             $scope.favorite = function(item) {
+
+                if(sessionStorage.getItem("is_login") === 'false'){
+                    alert('로그인을 진행해주세요.');
+                    return;
+                }
+
                 let url = item.FAVORITE_YN ==='N' ? "/api/auction/delCustInteLot" : "/api/auction/addCustInteLot";
 
                 try {
