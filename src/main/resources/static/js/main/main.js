@@ -234,7 +234,7 @@ const topNoticeSwiper = new Swiper(".beltbox-swiper", {
 });
 
 function loadTopNotice(){
-    const slideArray = [];
+    let resultHtml = "";
 
     axios.get('api/main/topNotice')
     .then(function(response){
@@ -244,22 +244,14 @@ function loadTopNotice(){
             if(!getCookie('top-notice') && data) {
                 data.map(item => {
                     const content = JSON.parse(item.content);
-                    const returnDom = `<div class="swiper-slide header_beltbox on"> <!--class="on" block-->
-                                        <div class="wrap belttxtbox wrap_padding">
-                                            <span class="header_beltTit">
-                                                <a href="${locale === 'en' ? content.en_url : content.ko_url}">
-                                                    <span class="text-over belt_tit"> ${locale === 'en' ? content.en_text : content.ko_text}</span>
-                                                    <!--<span class="beltbanner-triangle"></span>--> 
-                                                </a>
-                                            </span> 
-                                            <span class="beltclose-btn closebtn closebtn-w"></span>
-                                        </div>
-                                   </div>`
-
-                    slideArray.push(returnDom);
+                     resultHtml += `<span class="header_beltTit">
+                                            <a href="${locale === 'en' ? content.en_url : content.ko_url}">
+                                                <span class="text-over belt_tit"> ${locale === 'en' ? content.en_text : content.ko_text}</span>
+                                            </a>
+                                        </span>`;
                 });
 
-                topNoticeSwiper.appendSlide(slideArray);
+                document.querySelector(".belttxtbox").insertAdjacentHTML('beforeend', resultHtml);
 
                 /* 상단 텍스트 동적 생성으로 인한 스타일 변경 및 이벤트 바인딩 */
                 document.querySelector(".beltclose-btn").addEventListener("click", function(e){
@@ -280,8 +272,10 @@ function loadTopNotice(){
                         document.querySelector(".main-contents").style.marginTop = '58px';
                     });
                 }
-
+            }else{
+                document.querySelector(".header_beltbox").classList.remove("on");
             }
+
         }
     })
     .catch(function(error){

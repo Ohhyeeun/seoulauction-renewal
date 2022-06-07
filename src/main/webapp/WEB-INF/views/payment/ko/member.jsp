@@ -137,8 +137,7 @@
                                                         <span class="trp checkbox-box">
                                                             <input type="checkbox" name="agree_checkbox">
                                                             <i></i>
-                                                            <label class="tb1">낙찰자가 ①지정된 기일에 낙찰대금을 납부하지 않거나, ②부득이 낙찰을 철회하는 경우, 낙찰가의 30%에 해당하는 금액을 낙찰철회비(위약금)로 납부하여야 합니다.
-                                                            </label>
+                                                            <label class="tb1">낙찰철회시 낙찰가의 30%에 해당하는 낙찰철회비가 부과됩니다.</label>
                                                         </span>
                                                     </p>
                                                 </li>

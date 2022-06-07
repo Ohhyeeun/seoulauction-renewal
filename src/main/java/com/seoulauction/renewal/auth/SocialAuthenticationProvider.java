@@ -38,19 +38,23 @@ public class SocialAuthenticationProvider  implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         log.info("social authenticate");
 
-        String custId = (String) authentication.getPrincipal();
         SAUserDetails parameterUserDetail = (SAUserDetails) authentication.getDetails();
-        String userNm = parameterUserDetail.getUserNm();
-        String agreeYn = parameterUserDetail.getAgreeYn();
+        String socialType = parameterUserDetail.getSocialType();
+        String socialEmail = parameterUserDetail.getSocialEmail();
         String ip = parameterUserDetail.getIp();
 
-        log.info("custId : {}, userNm: {}, agreeYn: {}, ip: {}", custId, userNm, agreeYn, ip);
+        log.info("socialType : {}, socialEmail: {}, ip: {}", socialType, socialEmail, ip);
 
         // check CUST
         CommonMap paramMap = new CommonMap();
-        paramMap.put("social_login_id", custId);
+        paramMap.put("social_type", socialType);
+        paramMap.put("social_email", socialEmail);
         CommonMap resultMap = loginMapper.selectCustForCustSocial(paramMap);;
-
+		
+        if(resultMap == null || resultMap.isEmpty()){
+			throw new BadCredentialsException("User not found.");
+        }
+        
         if(resultMap.get("STAT_CD") != null && resultMap.get("STAT_CD").equals("stop")){
 			throw new BadCredentialsException("Stop User"); // 이용제한 아이디 STAT_CD = 'stop'
         }
@@ -86,16 +90,18 @@ public class SocialAuthenticationProvider  implements AuthenticationProvider {
         UsernamePasswordAuthenticationToken result
                 = new UsernamePasswordAuthenticationToken(custNo, null, roles);
         result.setDetails(SAUserDetails.builder()
-    			.loginId(custId)
+    			.loginId(resultMap.get("LOGIN_ID") != null ? resultMap.get("LOGIN_ID").toString() : "")
     			.password(null)
     			.userNo(custNo)
     			.authorities(roles)
-    			.userKind(resultMap.get("CUST_KIND_CD").toString())
-    			.userNm(userNm)
+    			.userKind(resultMap.get("CUST_KIND_CD") != null ? resultMap.get("CUST_KIND_CD").toString() : "")
+    			.userNm(resultMap.get("CUST_NAME") != null ? resultMap.get("CUST_NAME").toString() : "")
     			.ip(ip)
-    			.zipNo(resultMap.get("ZIPNO").toString())
-    			.addr(resultMap.get("ADDR").toString() + " " + resultMap.get("ADDR_DTL").toString())
-    			.socialYn("Y")
+    			.zipNo(resultMap.get("ZIPNO") != null ? resultMap.get("ZIPNO").toString() : "")
+				.addr(resultMap.get("ADDR") != null ? resultMap.get("ADDR").toString() : "" + resultMap.get("ADDR_DTL") != null ? " " + resultMap.get("ADDR_DTL").toString() : "")
+				.socialYn(resultMap.get("SOCIAL_YN") != null ? resultMap.get("SOCIAL_YN").toString() : "" + resultMap.get("SOCIAL_YN") != null ? " " + resultMap.get("SOCIAL_YN").toString() : "")
+				.socialType(socialType)
+				.socialEmail(socialEmail)
     			.build());
 
         return result;

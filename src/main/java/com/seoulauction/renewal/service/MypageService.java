@@ -1,7 +1,11 @@
 package com.seoulauction.renewal.service;
 
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.Principal;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -20,8 +24,10 @@ import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.mapper.kt.MypageMapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Service
+@Log4j2
 @RequiredArgsConstructor
 public class MypageService {
 
@@ -165,20 +171,42 @@ public class MypageService {
         return map;
     }
     
-    public CommonMap selectBidReqHistoryList(CommonMap commonMap){
+    public CommonMap selectLiveBidReqHistoryList(CommonMap commonMap){
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectLiveBidReqHistoryList(commonMap));
 //    	map.put("cnt", mypageMapper.selectLiveBidReqCnt(commonMap));                                                                          
         return map;
     }
     
-    public CommonMap selectBidList(CommonMap commonMap){
+    public CommonMap selectLiveBidList(CommonMap commonMap){
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectLiveBidList(commonMap));
     	map.put("cnt", mypageMapper.selectLiveBidCnt(commonMap));                                                                          
     	return map;
     }
 
+
+    public CommonMap selectLiveBidHistoryList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectLiveBidHistoryList(commonMap));
+//    	map.put("cnt", mypageMapper.selectLiveBidReqCnt(commonMap));                                                                          
+        return map;
+    }
+    
+    public CommonMap selectOnlineBidList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectOnlineBidList(commonMap));
+    	map.put("cnt", mypageMapper.selectOnlineBidCnt(commonMap));                                                                          
+    	return map;
+    }
+
+    public CommonMap selectOnlineBidHistoryList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectOnlineBidHistoryList(commonMap));
+//    	map.put("cnt", mypageMapper.selectLiveBidReqCnt(commonMap));                                                                          
+        return map;
+    }
+    
     public CommonMap selectCustForChkPassword(CommonMap paramMap){
     	return mypageMapper.selectCustForChkPassword(paramMap);
     }
@@ -187,4 +215,41 @@ public class MypageService {
         return mypageMapper.updateCustPasswdByCustNo(paramMap);
     }
     
+    public List<CommonMap> selectCustSocialByCustNo(CommonMap commonMap){
+        return mypageMapper.selectCustSocialByCustNo(commonMap);
+    }
+    
+    public int deleteCustSocial(CommonMap paramMap){
+        return mypageMapper.deleteCustSocial(paramMap);
+    }
+    
+    public String requestToServer(String apiURL) throws IOException {
+		URL url = new URL(apiURL);
+		HttpURLConnection con = (HttpURLConnection)url.openConnection();
+		con.setRequestMethod("GET");
+		int responseCode = con.getResponseCode();
+		BufferedReader br;
+		
+		log.info("responseCode===== {}", responseCode);
+		if(responseCode == 200) { // 정상 호출
+			br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		} else {  // 에러 발생
+			br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+		}
+		
+		String inputLine;
+		StringBuffer res = new StringBuffer();
+		while ((inputLine = br.readLine()) != null) {
+		  res.append(inputLine);
+		}
+		
+		br.close();
+		if(responseCode == 200) {
+			log.info(res.toString());
+			String new_res=res.toString().replaceAll("&#39;", "");
+			return new_res; 
+		} else {
+			return null;
+		}
+    }
 }

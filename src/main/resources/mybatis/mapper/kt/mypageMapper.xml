@@ -645,6 +645,7 @@ SELECT 'INTE_LOT' AS GUBUN
 				inner join (select MAX(REQ_NO) REQ_NO , SALE_NO , LOT_NO from auto_bid_req join CODE CD on CD.GRP_ID='bid_kind' and BID_KIND_CD = CD.CD_ID and  BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place') and CUST_NO = '23094' group by SALE_NO, LOT_NO ) TAB on TAB.REQ_NO =  AB.REQ_NO
 		) ABL
 	</select>
+	
 	<select id="selectLiveBidReqHistoryList" resultType="Map">
   				select AB.SALE_NO, AB.LOT_NO, AB.REQ_NO 
 			    , COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON, S.FROM_DT, S.TO_DT, S.CURR_CD
@@ -681,10 +682,10 @@ SELECT 'INTE_LOT' AS GUBUN
 		and S.DEL_YN = 'N'
 		and AB.CUST_NO = '23094'
 		<if test="sale_no != null and sale_no > 0">
-		and S.SALE_NO =#{sale_no} 
+		and S.SALE_NO = #{sale_no} 
 		</if>
 		<if test="lot_no != null and lot_no > 0">
-		and L.LOT_NO =#{lot_no}
+		and L.LOT_NO = #{lot_no}
 		</if>		
 		order by AB.REG_DT DESC;
 	
@@ -692,11 +693,24 @@ SELECT 'INTE_LOT' AS GUBUN
 	
 	
 	<select id="selectLiveBidList" resultType="Map">
-		SELECT S.SALE_NO, L.LOT_NO ,BIO.PADDLE , BIO.BID_DT, MBIO.BID_NO, MBIO.BID_PRICE, MBIO.success_bid_price, IF(MBIO.BID_PRICE = MBIO.success_bid_price , 'hammer', 'bidding' ) AS HAMMER_STAT
+		SELECT S.SALE_NO, L.LOT_NO ,BIO.PADDLE 
+				 , DATE_FORMAT(BIO.BID_DT, '%Y.%m.%d  %T')  as BID_DT  
+				 , MBIO.BID_NO, MBIO.BID_PRICE, MBIO.success_bid_price, IF(MBIO.BID_PRICE = MBIO.success_bid_price , 'hammer', 'bidding' ) AS HAMMER_STAT
+				 ,COLUMN_GET(S.TITLE_BLOB, 'ko' AS CHAR) SALE_TITLE_KR
+				 ,COLUMN_GET(S.TITLE_BLOB, 'en' AS CHAR) SALE_TITLE_EN
+				 ,IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'ko' AS CHAR), '') ARTIST_NAME_KR
+				 ,IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'en' AS CHAR), '') ARTIST_NAME_EN
+				 , COLUMN_GET(L.TITLE_BLOB, 'ko' AS CHAR) LOT_TITLE_KR
+				 , COLUMN_GET(L.TITLE_BLOB, 'en' AS CHAR) LOT_TITLE_EN
+				 , if(S.TO_DT > NOW(), 'N', 'Y') AS CLOSE_YN
+				 , DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT 
+				 , S.CURR_CD
+				 , LI.FILE_PATH as LOT_IMG_PATH
+			     , LI.FILE_NAME as LOT_IMG_NAME
 		FROM (SELECT PAD.PADD_NO PADDLE, BO.* FROM BID_OFFLINE BO LEFT OUTER JOIN SALE_PADD PAD ON BO.SALE_NO = PAD.SALE_NO AND BO.CUST_NO = PAD.CUST_NO) BIO
 		JOIN (
 		select
-			S.SALE_NO , S.SALE_KIND_CD, S.STAT_CD
+			S.SALE_NO , S.SALE_KIND_CD, S.STAT_CD, S.TITLE_BLOB, S.TO_DT, S.FROM_DT , S.CURR_CD
 		from
 			BID_OFFLINE BO
 		left outer join SALE_PADD pad on
@@ -723,6 +737,8 @@ SELECT 'INTE_LOT' AS GUBUN
 		group by BIO.SALE_NO, BIO.LOT_NO
 		order by BIO.SALE_NO desc , BIO.LOT_NO) MBIO on MBIO.sale_no = BIO.sale_no and MBIO.LOT_NO = BIO.LOT_NO and MBIO.BID_NO = BIO.BID_NO
 		LEFT OUTER JOIN LOT L ON BIO.LOT_NO = L.LOT_NO AND BIO.SALE_NO = L.SALE_NO
+		join LOT_IMG LI ON LI.SALE_NO = L.SALE_NO AND LI.LOT_NO = L.LOT_NO AND LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
+		left outer join ARTIST A ON L.ARTIST_NO = A.ARTIST_NO 
 		WHERE BIO.BID_KIND_CD = 'online' AND BIO.PADDLE > 600  AND BIO.CUST_NO ='113248'
 		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO >= 622 AND S.STAT_CD = 'open'
 		ORDER BY BIO.SALE_NO DESC, BIO.LOT_NO ASC, BIO.BID_NO desc;
@@ -743,6 +759,129 @@ SELECT 'INTE_LOT' AS GUBUN
 		group by bo.sale_no order by pad.sale_no desc ) S
 	</select>
 
+	<select id="selectLiveBidHistoryList" resultType="Map">
+		SELECT S.SALE_NO, L.LOT_NO ,BIO.PADDLE 
+				 , DATE_FORMAT(BIO.BID_DT, '%Y.%m.%d  %T')  as BID_DT  
+				 , BIO.BID_NO, BIO.BID_PRICE
+				 ,IF(BIO.BID_PRICE = (select b.BID_PRICE from bid b join success_bid sb2 on b.BID_NO = sb2.BID_NO 
+				<if test="sale_no != null and sale_no > 0">
+				and sb2.SALE_NO = #{sale_no} 
+				</if>
+				<if test="lot_no != null and lot_no > 0">
+				and sb2.LOT_NO = #{lot_no}) 
+				</if>
+				 , 'hammer', 'bidding' ) AS HAMMER_STAT
+		FROM (SELECT PAD.PADD_NO PADDLE, BO.* FROM BID_OFFLINE BO LEFT OUTER JOIN SALE_PADD PAD ON BO.SALE_NO = PAD.SALE_NO AND BO.CUST_NO = PAD.CUST_NO) BIO
+		JOIN SALE S ON BIO.SALE_NO = S.SALE_NO 
+		LEFT OUTER JOIN LOT L ON BIO.LOT_NO = L.LOT_NO AND BIO.SALE_NO = L.SALE_NO
+		join LOT_IMG LI ON LI.SALE_NO = L.SALE_NO AND LI.LOT_NO = L.LOT_NO AND LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
+		left outer join ARTIST A ON L.ARTIST_NO = A.ARTIST_NO 
+		WHERE BIO.BID_KIND_CD = 'online' AND BIO.PADDLE > 600  AND BIO.CUST_NO ='113248'
+		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO >= 622 AND S.STAT_CD = 'open'
+		<if test="sale_no != null and sale_no > 0">
+		and S.SALE_NO = #{sale_no} 
+		</if>
+		<if test="lot_no != null and lot_no > 0">
+		and L.LOT_NO = #{lot_no}
+		</if>
+		ORDER BY BIO.SALE_NO DESC, BIO.LOT_NO ASC, BIO.BID_NO desc;
+	</select>
+
+	<select id="selectOnlineBidList" resultType="Map">
+		select S.SALE_NO, IF(S.SALE_TH_DSP_YN = 'N', '', CONCAT(S.SALE_TH, f_ordinal_number(S.SALE_TH))) SALE_TH, COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
+			, DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT 
+			, DATE_FORMAT(S.TO_DT, '%Y.%m.%d  %T')  as TO_DT 
+			, S.CURR_CD
+			, L.LOT_NO, L.ARTIST_NO, L.STAT_CD
+			, COLUMN_JSON(L.TITLE_BLOB) LOT_TITLE_JSON
+			, (select CONCAT(LI.FILE_PATH, "/", LI.FILE_NAME) from LOT_IMG LI 
+				where LI.SALE_NO = L.SALE_NO and LI.LOT_NO = L.LOT_NO limit 1) LOT_IMG
+			, CAST(COLUMN_JSON(A.ARTIST_NAME_BLOB) AS CHAR) ARTIST_NAME_JSON
+			, (select CASE WHEN MB.CUST_NO = B.CUST_NO and L.TO_DT &lt; now() THEN 'Y' ELSE 'N' END 
+				from BID MB where B.SALE_NO = MB.SALE_NO and B.LOT_NO = MB.LOT_NO order by MB.BID_PRICE desc, MB.BID_DT limit 1) SUCCESS_YN 
+			, (select MB.BID_DT from BID MB where B.SALE_NO = MB.SALE_NO and B.LOT_NO = MB.LOT_NO order by MB.BID_PRICE desc, MB.BID_DT limit 1) SUCCESS_BID_DT
+			, COUNT(*) BID_CNT
+			, CONCAT('['
+			, GROUP_CONCAT('{"BID_PRICE":', B.BID_PRICE, ', "BID_DT":"',  DATE_FORMAT(B.BID_DT, '%Y.%m.%d  %T'), '", "BID_KIND_NM":"', B.BID_KIND_NM, '"}' order by B.BID_PRICE desc, B.BID_DT)
+			, ']') BID_JSON
+			, B.BID_PRICE
+			, DATE_FORMAT(B.BID_DT, '%Y.%m.%d  %T')  BID_DT
+			, B.BID_KIND_NM
+			,  (select b.BID_PRICE  from bid b join success_bid sb2 on b.BID_NO = sb2.BID_NO and S.sale_no = sb2.SALE_NO and L.lot_no = sb2.LOT_NO  ) success_bid_price
+			 ,COLUMN_GET(S.TITLE_BLOB, 'ko' AS CHAR) SALE_TITLE_KR
+			 ,COLUMN_GET(S.TITLE_BLOB, 'en' AS CHAR) SALE_TITLE_EN
+			 ,IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'ko' AS CHAR), '') ARTIST_NAME_KR
+			 ,IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'en' AS CHAR), '') ARTIST_NAME_EN
+			 , COLUMN_GET(L.TITLE_BLOB, 'ko' AS CHAR) LOT_TITLE_KR
+			 , COLUMN_GET(L.TITLE_BLOB, 'en' AS CHAR) LOT_TITLE_EN
+			 , if(S.TO_DT > NOW(), 'N', 'Y') AS CLOSE_YN
+			 , DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT 
+			 , S.CURR_CD
+	    from LOT L
+		inner join (
+		select S1.*
+	    from  SALE S1 
+	    join (
+			select SB.*, SCD.CD_NM BID_KIND_NM from BID SB
+			join CODE SCD on SB.BID_KIND_CD = SCD.CD_ID and SCD.GRP_ID = 'bid_kind'
+			where SB.BID_KIND_CD in ('online_once', 'online_auto') 
+		) B on S1.SALE_NO = B.SALE_NO 
+ 		where B.CUST_NO = '75396'
+		group by S1.SALE_NO
+		order by S1.SALE_NO desc 
+		limit #{offset}, #{size}
+		) S on L.SALE_NO = S.SALE_NO 
+		inner join (
+			select SB.*, SCD.CD_NM BID_KIND_NM from BID SB
+			join CODE SCD on SB.BID_KIND_CD = SCD.CD_ID and SCD.GRP_ID = 'bid_kind'
+			where SB.BID_KIND_CD in ('online_once', 'online_auto') 
+		) B on L.SALE_NO = B.SALE_NO and L.LOT_NO = B.LOT_NO and B.CUST_NO = '75396'
+		left outer join ARTIST A on L.ARTIST_NO = A.ARTIST_NO
+		group by L.SALE_NO, L.LOT_NO
+		order by L.SALE_NO desc, L.LOT_NO;
+	</select>
+	
+	<select id="selectOnlineBidCnt" resultType="int">
+		select COUNT(*)	from 
+		(select S1.* from  SALE S1 
+	    join (
+			select SB.*, SCD.CD_NM BID_KIND_NM from BID SB
+			join CODE SCD on SB.BID_KIND_CD = SCD.CD_ID and SCD.GRP_ID = 'bid_kind'
+			where SB.BID_KIND_CD in ('online_once', 'online_auto') 
+		) B on S1.SALE_NO = B.SALE_NO 
+ 		where B.CUST_NO = '75396'
+		group by S1.SALE_NO
+		order by S1.SALE_NO desc ) S
+	</select>
+	
+	<select id="selectOnlineBidHistoryList" resultType="Map">
+		select S.SALE_NO, L.LOT_NO, B.BID_NO , B.BID_KIND_NM, B.BID_PRICE,DATE_FORMAT(B.BID_DT, '%Y.%m.%d  %T')  as BID_DT
+				,  IF((select b.BID_PRICE  from bid b join success_bid sb2 on b.BID_NO = sb2.BID_NO 
+				<if test="sale_no != null and sale_no > 0">
+				and sb2.SALE_NO = #{sale_no} 
+				</if>
+				<if test="lot_no != null and lot_no > 0">
+				and sb2.LOT_NO = #{lot_no}) 
+				</if>
+				= B.BID_PRICE , 'hammer', 'bidding') AS HAMMER_STAT
+	    from LOT L
+		inner join SALE S on L.SALE_NO = S.SALE_NO 
+		inner join (
+			select SB.*, SCD.CD_NM BID_KIND_NM from BID SB
+			join CODE SCD on SB.BID_KIND_CD = SCD.CD_ID and SCD.GRP_ID = 'bid_kind'
+			where SB.BID_KIND_CD in ('online_once', 'online_auto') 
+		) B on L.SALE_NO = B.SALE_NO and L.LOT_NO = B.LOT_NO 
+		where
+		B.CUST_NO = '75396'
+		<if test="sale_no != null and sale_no > 0">
+		and S.SALE_NO = #{sale_no} 
+		</if>
+		<if test="lot_no != null and lot_no > 0">
+		and L.LOT_NO = #{lot_no}
+		</if>	
+		order by B.BID_NO desc;
+	</select>
+	
 	<select id="selectCustForChkPassword" resultType="CommonMap">
 		SELECT *
 		FROM   cust
@@ -760,5 +899,22 @@ SELECT 'INTE_LOT' AS GUBUN
 		LOGIN_FAIL_CNT = 0
 		where CUST_NO = #{cust_no}
 	</update>
-
+	
+	<select id="selectCustSocialByCustNo" resultType="CommonMap">
+		select
+			CUST_NO, SOCIAL_TYPE, SOCIAL_EMAIL, SOCIAL_LOGIN_ID, date_format(REG_DT,'%Y.%m.%d')REG_DT
+		from
+			cust_social
+		where
+			CUST_NO = #{cust_no}
+	</select>
+	
+	<delete id="deleteCustSocial" parameterType="CommonMap">
+		delete
+		from
+			cust_social
+		where
+			CUST_NO = #{cust_no}
+			and SOCIAL_TYPE = #{social_type}
+	</delete>
 </mapper>
