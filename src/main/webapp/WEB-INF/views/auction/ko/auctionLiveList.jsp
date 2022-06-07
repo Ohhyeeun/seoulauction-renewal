@@ -215,7 +215,9 @@
                                                         <div class="product_info">
                                                             <div class="num_heart-box">
                                                                 <span class="num">{{item.LOT_NO}}</span>
-                                                                <button class="heart js-work_heart"><i ng-class="item.FAVORITE_YN==='Y' ? 'icon-heart_off' : 'icon-heart_on'"></i></button>
+                                                                <button class="heart js-work_heart"><i ng-class="item.FAVORITE_YN==='Y' ? 'icon-heart_off' : 'icon-heart_on'"
+                                                                ng-click="favorite(item);"
+                                                                ></i></button>
                                                             </div>
                                                             <div class="info-box">
                                                                 <div class="title"><span>{{item.ARTIST_NAME_JSON.ko}}</span><span
@@ -380,6 +382,25 @@
                 window.location.href = '/auction/online/view/' + saleNo + '/' + lotNo;
             }
 
+            $scope.favorite = function(item) {
+                let url = item.FAVORITE_YN ==='N' ? "/api/auction/delCustInteLot" : "/api/auction/addCustInteLot";
+
+                try {
+                    axios.post(url, {
+                        sale_no: item.SALE_NO,
+                        lot_no: item.LOT_NO
+                    }).then(function(response) {
+                        if(response.data.success){
+                            item.FAVORITE_YN = item.FAVORITE_YN ==='N' ? 'Y' : 'N';
+                            $scope.$apply();
+                        }
+                    });
+
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
             // 호출 부
             const getSaleInfo = (saleNo) => {
                 try {
@@ -422,15 +443,16 @@
                 let run = async function () {
                     let [r1, r2, r3] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no)]);
 
-
-                    console.log(r1.data.data);
                     $scope.saleInfoAll = r1.data.data;
                     $scope.saleImages = r2.data.data;
                     $scope.lotTags = r3.data.data;
 
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
-                        $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW.toLocaleString('ko-KR');
-                        $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW.toLocaleString('ko-KR');
+
+                        if($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW !=null) {
+                            $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW.toLocaleString('ko-KR');
+                            $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW.toLocaleString('ko-KR');
+                        }
                     }
                     $scope.saleInfo = $scope.saleInfoAll.slice(0, $scope.itemsize);
 
