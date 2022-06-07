@@ -3,8 +3,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
+<sec:authentication property="details.socialYn" var="socialYn"></sec:authentication>
+<sec:authentication property="details.socialType" var="socialType"></sec:authentication>
+<sec:authentication property="details.socialEmail" var="socialEmail"></sec:authentication>
 <script>
 	console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
+	var socialYn = '${socialYn}';
+	var socialType = '${socialType}';
+	var socialEmail = '${socialEmail}';
 </script>
 <body class="">
 	<div class="wrapper">
@@ -33,32 +41,48 @@
                                                     <div class="btn-wrap js-history_back m-ver"><i class="icon-page_back"></i></div>
                                                 </div>
                                             </div>
-                                            <div class="contents-wrap">
-                                                <article class="tit-textbox">
-                                                    <p class="tb1">
-                                                        회원정보수정을 위해 본인 확인이 필요합니다.<br class="m-ver"> 회원님의 비밀번호를 다시 한번 입력해주세요.
-                                                    </p>
-                                                </article>
-                                                <article class="inquiry-write-wrap">
-                                                    <ul class="form_table-list data_size-185">
-                                                        <li>
-                                                            <div class="th">
-                                                                <label for="" class="">비밀번호</label>
-                                                            </div>
-                                                            <div class="td">
-                                                                <input type="password" id="passwd" onkeyup="passwdKeyUp()" class="form-control" value="" placeholder="">
-                                                                <p class="error_text tb2" id="passwdMsg"></p>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </article>
-                                                <article class="button-area">
-                                                    <div class="btn_set-float tac">
-                                                        <button class="btn btn_default btn_lg" onclick="passwdCancel()"><span>취소</span></button>
-                                                        <button id="modifyButton" onclick="passwdConfirm()" class="btn btn_gray btn_lg" disabled><span>회원정보수정</span></button>
-                                                    </div>
-                                                </article>
-                                            </div>
+	                                        <div class="contents-wrap">
+	                                            <!-- 개인회원 -->
+	                                            <c:if test="${socialYn == 'N' }">
+	                                                <article class="tit-textbox">
+	                                                    <p class="tb1">
+	                                                        회원정보수정을 위해 본인 확인이 필요합니다.<br class="m-ver"> 회원님의 비밀번호를 다시 한번 입력해주세요.
+	                                                    </p>
+	                                                </article>
+	                                                <article class="inquiry-write-wrap">
+	                                                    <ul class="form_table-list data_size-185">
+	                                                        <li>
+	                                                            <div class="th">
+	                                                                <label for="" class="">비밀번호</label>
+	                                                            </div>
+	                                                            <div class="td">
+	                                                                <input type="password" id="passwd" onkeyup="passwdKeyUp()" class="form-control" value="" placeholder="">
+	                                                                <p class="error_text tb2" id="passwdMsg"></p>
+	                                                            </div>
+	                                                        </li>
+	                                                    </ul>
+	                                                </article>
+	                                        	</c:if>
+	                                            <!-- 소셜회원 -->
+	                                            <c:if test="${socialYn == 'Y' }">
+		                                            <article class="tit-textbox">
+		                                                <p class="tb1">
+		                                                    회원정보수정을 위해 본인 확인이 필요합니다.<br class="m-ver"> 가입 시 연동한 SNS 서비스의 인증을 진행해주세요.
+		                                                </p>
+		                                            </article>
+		                                            <article class="inquiry-write-wrap">
+		                                            	<div id="naverIdLogin" style="display:none"></div>
+		                                            	<div id="googleIdLogin" style="display:none"></div>
+		                                            	<div id="appleid-signin" style="display:none" data-type="sign in"></div>
+		                                            </article>
+	                                            </c:if>
+	                                            <article class="button-area">
+	                                                <div class="btn_set-float tac">
+	                                                    <button class="btn btn_default btn_lg" onclick="passwdCancel()"><span>취소</span></button>
+	                                                    <button id="modifyButton" onclick="passwdConfirm()" class="btn btn_gray btn_lg" disabled><span>회원정보수정</span></button>
+	                                                </div>
+	                                            </article>
+	                                    	</div>
                                         </div>
 
                                     </div>
@@ -87,6 +111,16 @@
         </div>
     </div>
 </body>
+<!-- 카카오 -->
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+<!-- 네이버 -->
+<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2-nopolyfill.js" charset="utf-8"></script>
+<!--  구글 -->
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+<script src="https://apis.google.com/js/api:client.js"></script>
+<!-- 애플 -->
+<script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
 <!-- 회원정보수정 비밀번호확인 -->
 <script type="text/javascript" src="/js/mypage/custConfirm.js"></script>
 </html>
