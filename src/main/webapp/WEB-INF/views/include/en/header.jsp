@@ -63,7 +63,7 @@ function sessionLogout() {
                         <li id="MyMenuOnlineBadge"><a href="#">Online Auction Management</a></li>
                         <li><a href="#">Wish List</a></li>
                         <li><a href="#">Academy Application List</a></li>
-                        <li><a href="#">Edit member information</a></li>
+                        <li><a href="/mypage/custConfirm">Edit member information</a></li>
                     </ul>
                 </li>
                 <li class="utility-login"><a onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')">LOGOUT</a></li> <!-- !login -->
