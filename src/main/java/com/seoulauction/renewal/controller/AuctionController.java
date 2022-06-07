@@ -66,4 +66,10 @@ public class AuctionController {
         model.addAttribute("saleNo", saleNo);
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionLiveList" , locale);
     }
+
+    @GetMapping("/proceed")
+    public String proceed(Locale locale) {
+
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "proceed" , locale);
+    }
 }
