@@ -46,7 +46,7 @@
 			  order by S.TO_DT desc
 			  limit 5
 		  ) SR
-		order by field(SR.SALE_KIND, 'LIVE', 'ONLINE')
+		order by field(SR.SALE_KIND, 'LIVE', 'ONLINE');
 	]]>
 	</select>
 	<select id="selectIngMenuCount" parameterType="CommonMap" resultType="CommonMap" >
@@ -75,8 +75,8 @@
 	<select id="selectSaleImage" parameterType="CommonMap" resultType="CommonMap">
 		select * from sale_img
 		where SALE_NO = #{sale_no}
-		order by DISP_ORD
-		limit 1
+		and DISP_ORD = 2
+		limit 1;
 	</select>
 
 	<select id="selectHaveToPayWork" parameterType="CommonMap" resultType="CommonMap">
@@ -92,6 +92,32 @@
 		group by B.SALE_NO, B.LOT_NO;
 		]]>
 	</select>
+	<select id="selectLotsBySaleNo" parameterType="CommonMap" resultType="CommonMap">
+		-- 랏
+		select
+			*
+		   ,COLUMN_JSON(L.TITLE_BLOB) EXPE_PRICE_TITLE -- 타이틀
+		   ,COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON -- 가격
+		   ,COLUMN_JSON(L.EXPE_PRICE_TO_BLOB) EXPE_PRICE_TO_JSON -- 가격
+			<if test="cust_no != null">
+		   ,IFNULL(IL.DEL_YN,'Y') FAVORITE_YN /*N 이면 좋아요가 있음. Y면 좋아요가 아님.*/
+			</if>
+		from
+			lot L left outer join LOT_IMG LI on L.SALE_NO = LI.SALE_NO and L.LOT_NO = LI.LOT_NO
+			<if test="cust_no != null">
+			left outer join cust_inte_lot IL on IL.CUST_NO = #{cust_no} and L.SALE_NO = IL.SALE_NO and L.LOT_NO = IL.LOT_NO
+			</if>
+			and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
+		where
+			  L.SALE_NO = #{sale_no}
+		  and L.STAT_CD = 'entry'
+		group by
+			L.LOT_NO
+		limit
+			30;
+	</select>
+
+
 
 </mapper>
 
