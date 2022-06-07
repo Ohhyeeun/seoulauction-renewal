@@ -136,7 +136,7 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
         					.ip(userIPAddress)
         					.zipNo(resultMap.get("ZIPNO") != null ? resultMap.get("ZIPNO").toString() : "")
         					.addr(resultMap.get("ADDR") != null ? resultMap.get("ADDR").toString() : "" + resultMap.get("ADDR_DTL") != null ? " " + resultMap.get("ADDR_DTL").toString() : "")
-        					.socialYn("N")
+        					.socialYn(resultMap.get("SOCIAL_YN") != null ? resultMap.get("SOCIAL_YN").toString() : "" + resultMap.get("SOCIAL_YN") != null ? " " + resultMap.get("SOCIAL_YN").toString() : "")
         					.build());
 		return result;
 	}
