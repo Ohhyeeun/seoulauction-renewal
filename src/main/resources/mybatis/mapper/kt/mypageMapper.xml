@@ -645,6 +645,7 @@ SELECT 'INTE_LOT' AS GUBUN
 				inner join (select MAX(REQ_NO) REQ_NO , SALE_NO , LOT_NO from auto_bid_req join CODE CD on CD.GRP_ID='bid_kind' and BID_KIND_CD = CD.CD_ID and  BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place') and CUST_NO = '23094' group by SALE_NO, LOT_NO ) TAB on TAB.REQ_NO =  AB.REQ_NO
 		) ABL
 	</select>
+	
 	<select id="selectLiveBidReqHistoryList" resultType="Map">
   				select AB.SALE_NO, AB.LOT_NO, AB.REQ_NO 
 			    , COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON, S.FROM_DT, S.TO_DT, S.CURR_CD
@@ -681,10 +682,10 @@ SELECT 'INTE_LOT' AS GUBUN
 		and S.DEL_YN = 'N'
 		and AB.CUST_NO = '23094'
 		<if test="sale_no != null and sale_no > 0">
-		and S.SALE_NO =#{sale_no} 
+		and S.SALE_NO = #{sale_no} 
 		</if>
 		<if test="lot_no != null and lot_no > 0">
-		and L.LOT_NO =#{lot_no}
+		and L.LOT_NO = #{lot_no}
 		</if>		
 		order by AB.REG_DT DESC;
 	

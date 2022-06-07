@@ -11,11 +11,11 @@
 
             <!-- header -->
             <jsp:include page="../../include/ko/header.jsp" flush="false" />
-            <script type="text/javascript" src="/js/mypage/liveBid.js"></script>
+            <script type="text/javascript" src="/js/mypage/onlineBid.js"></script>
             <!-- //header -->
 
-              <!-- container -->
-            <div id="container" class="liveBid" ng-controller="liveBidListCtl" data-ng-init="loadLiveBidList(1);">
+            <!-- container -->
+                <div id="container" class="onlineBid" ng-controller="onlineBidListCtl" data-ng-init="loadonlineBidList(1);">
                 <div id="contents" class="contents">
 
                     <section class="basis-section last-section mypage-section">
@@ -27,12 +27,12 @@
 
                                         <!-- 마이페이지 싸이드 메뉴 -->
                                         <jsp:include page="include/mypageSide.jsp" flush="false" />
-                                        
+
                                         <div class="content-area">
                                             <div class="subtitle-wrap">
                                                 <div class="subtitle-inner">
                                                     <div class="title">
-                                                        <span class="tt2">온라인패들응찰내역</span>
+                                                        <span class="tt2">응찰내역</span>
                                                     </div>
                                                     <div class="btn-wrap js-history_back m-ver"><i class="icon-page_back"></i></div>
                                                 </div>
@@ -41,34 +41,29 @@
                                                 <!-- [0526]상품진열디자인 변경 : product-infobox 안에 product-infobox-inner 생성 -->
                                                 <article class="bid-list-wrap">
                                                     <div class="bid-list">
-                                                        <dl class="bid-item" ng-repeat="liveBid in liveBidList">
+                                                        <dl class="bid-item" ng-repeat="onlineBid in onlineBidList">
                                                             <dt>
                                                                 <div class="title-area">
                                                                     <div class="title tt4">
-                                                                          <span>{{liveBid[1][0].SALE_TITLE_KR}}</span>
+                                                                        <span>{{onlineBid[1][0].SALE_TITLE_KR}}</span>
                                                                     </div>
-                                                                    <div class="sub">
-                                                                        <div class="desc tb1">
-                                                                            <span class="tit">경매일</span>
-                                                                            <span>{{liveBid[1][0].FROM_DT}} 순차마감</span>
-                                                                        </div>
-                                                                        <div class="desc tb1">
-                                                                            <span class="tit">패들번호</span>
-                                                                            <span class="paddle-num">{{liveBid[1][0].PADDLE}}</span>
-                                                                        </div>
+                                                                    <div class="desc tb1">
+                                                                        <span class="tit">경매일</span>
+                                                                        <span>{{onlineBid[1][0].FROM_DT}} 순차마감</span>
                                                                     </div>
                                                                 </div>
-                                                                <div class="btn-area">
-                                                                    <button class="btn btn_black btn-view-bid" type="button"><span>낙찰결과보기</span></button>
+                                                                 <div class="btn-area">
+                                                                   <button ng-if="onlineBid[1][0].CLOSE_YN != 'Y'"  class="btn btn_point btn-view-ing" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span >진행경매보기</span></a></button>
+                                                                   <button ng-if="onlineBid[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray_line btn-view-result" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span>경매결과보기</span></a></button>
                                                                 </div>
                                                             </dt>
-                                                            <dd ng-repeat="data in liveBid[1]">
+                                                            <dd ng-repeat="data in onlineBid[1]">
                                                                 <div class="product-infobox">
                                                                     <div class="product-infobox-inner">
                                                                         <div class="thumb-area">
                                                                             <figure class="img-ratio">
                                                                                 <div class="img-align">
-                                                                                    <img src="/nas_img{{data.LOT_IMG}}" alt="">
+                                                                                     <img src="/nas_img{{data.LOT_IMG}}" alt="">
                                                                                 </div>
                                                                             </figure>
                                                                         </div>
@@ -77,15 +72,16 @@
                                                                             <div class="title">
                                                                                 <div class="titlename">{{data.ARTIST_NAME_KR}}</div>
                                                                             </div>
-                                                                            <div class="desc">{{data.LOT_TITLE_KR}} </div>
+                                                                            <div class="desc">{{data.LOT_TITLE_KR}}</div>
                                                                         </div>
                                                                     </div>
+
                                                                 </div>
                                                                 <div class="pay-infobox">
                                                                     <div class="pay-area">
                                                                         <dl class="price">
                                                                             <dt class="tit">응찰가</dt>
-                                                                            <dd class="txt">{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</dd>
+                                                                            <dd class="txt">{{data.CURR_CD}} {{comma(bidGroup(data.BID_JSON)[0].BID_PRICE)}}</dd>
                                                                         </dl>
                                                                         <dl class="price succ">
                                                                             <dt class="tit">낙찰가</dt>
@@ -93,24 +89,28 @@
                                                                         </dl>
                                                                         <dl class="date">
                                                                             <dt class="tit">응찰일</dt>
-                                                                            <dd class="txt">{{data.BID_DT}}</dd>
+                                                                            <dd class="txt">{{bidGroup(data.BID_JSON)[0].BID_DT}}</dd>
+                                                                        </dl>
+                                                                        <dl class="way">
+                                                                            <dt class="tit"></dt>
+                                                                            <dd class="txt">({{bidGroup(data.BID_JSON)[0].BID_KIND_NM}})</dd>
                                                                         </dl>
                                                                     </div>
                                                                     <div class="btn-area">
-                                                                        <button class="btn btn_default js-popup_auction_live_record" type="button" ng-click="liveBidHis({'bid':data})"><span>응찰내역</span></button>
+                                                                        <button class="btn btn_default js-popup_auction_live_record" type="button" ng-click="onlineBidHis({'bid':data})"><span>응찰내역</span></button>
                                                                     </div>
                                                                 </div>
                                                             </dd>
                                                         </dl>
-                                                        <div class="data-empty" ng-if="liveBidCnt == 0">
+                                                        <div class="data-empty" ng-if="onlineBidCnt == 0">
                                                             <p class="txt_empty">응찰 내역이 존재하지 않습니다.</p>
                                                         </div>
                                                     </div>
-                                                    <div class="wrap_paging" ng-if="liveBidCnt != 0">
+                                                     <div class="wrap_paging" ng-if="onlineBidCnt != 0">
 														<paging page="currentPage"
 															page-size=5
-															total="liveBidCnt"
-															paging-action="loadLiveBidList(page)"
+															total="onlineBidCnt"
+															paging-action="loadonlineBidList(page)"
 															scroll-top="true"
 															hide-if-empty="true"
 															show-prev-next="true"
@@ -134,7 +134,7 @@
                                 <div class="panel-footer"></div>
                             </div>
 							<!-- 팝업 : 라이브경매관리 온라인패들 응찰 이력 -->
-							 <div id="popup_auction_live_record-wrap" class="trp popupfixed-wrap auction_live_record-popup" >
+							    <div id="popup_auction_live_record-wrap" class="trp popupfixed-wrap auction_live_record-popup" >
 							        <div class="popup-dim"></div>
 							        <div class="popup-align mode-lg mode-mb_full">
 							            <div class="popup-vertical">
@@ -167,11 +167,11 @@
 							                                        <table class="table_base data-table auction-bid-history">
 							                                            <tbody>
 							                                            
-							                                                <tr ng-repeat="liveBidhis in liveBidHisList">
-							                                                    <td>KRW {{comma(liveBidhis.BID_PRICE)}}</td>
-							                                                    <td>{{liveBidhis.BID_DT}}</td>
-							                                                    <td>온라인응찰</td>
-							                                                    <td ><span class="succ" ng-if="liveBidhis.HAMMER_STAT == 'hammer'">낙찰</span></td>
+							                                                <tr ng-repeat="onlineBidhis in onlineBidHisList">
+							                                                    <td>{{onlineBidhis.CURR_CD}} {{comma(onlineBidhis.BID_PRICE)}}</td>
+							                                                    <td>{{onlineBidhis.BID_DT}}</td>
+							                                                    <td>{{onlineBidhis.BID_KIND_NM}}</td>
+							                                                    <td ><span class="succ" ng-if="onlineBidhis.HAMMER_STAT == 'hammer'">낙찰</span></td>
 							                                                </tr>
 							                                            </tbody>
 							                                        </table>
@@ -220,16 +220,34 @@
     <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 
-
-
-
     <script>
         $(".js-history_back").click(function() {
             window.history.back();
         })
     </script>
+	
+    
+    <script>
+        (function() {
+            var popup_marketing1 = $(".js-popup_auction_live_record").trpLayerFixedPopup("#popup_auction_live_record-wrap");
+            $(popup_marketing1.getBtn).on("click", function($e) {
+                $e.preventDefault();
+                popup_marketing1.open(this); // or false   
+                popup_fixation("#popup_auction_live_record-wrap"); // pc 스크롤
+                popup_motion_open("#popup_auction_live_record-wrap"); // mb 모션 
+            });
 
+            $("body").on("click", "#popup_auction_live_record-wrap .js-closepop, #popup_auction_live_record-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                popup_marketing1.close();
+                popup_motion_close("#popup_auction_live_record-wrap");
+            });
 
+            $(".js-history_back").click(function() {
+                window.history.back();
+            })
+        })();
+    </script>
 
 </body>
 

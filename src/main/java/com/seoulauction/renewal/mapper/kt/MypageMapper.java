@@ -69,7 +69,7 @@ public interface MypageMapper {
     int selectLiveBidCnt(CommonMap commonMap);
 
     List<CommonMap> selectLiveBidHistoryList(CommonMap commonMap);
-    
+
     List<CommonMap> selectOnlineBidList(CommonMap commonMap);
     
     int selectOnlineBidCnt(CommonMap commonMap);
