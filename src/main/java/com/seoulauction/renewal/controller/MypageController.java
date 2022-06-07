@@ -99,4 +99,16 @@ public class MypageController {
     public String snsLink(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "snsLink" , locale);
     }
+    
+    /*회원정보수정 비밀번호확인*/
+    @GetMapping("/custConfirm")
+    public String custConfirm(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "custConfirm" , locale);
+    }
+    
+    /*회원정보수정 비밀번호확인*/
+    @GetMapping("/custModify")
+    public String custModify(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "custModify" , locale);
+    }
 }
