@@ -27,11 +27,25 @@
 <sec:authorize access="isAnonymous()">
    sessionStorage.setItem("is_login", "false" );
 </sec:authorize>
+function logout(loginId){
+	console.log(loginId)
+	//TODO 소셜타입에 따른 SNS로그아웃처리
+	sessionLogout();
+}
+// 세션로그아웃
+function sessionLogout() {
+	window.location.href = "/processLogout";
+}
 </script>
 <html lang="ko" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
-    <div class="beltbox-swiper">
-        <div class="swiper-wrapper"></div>
+
+
+    <div class="header_beltbox on"> <!--class="on" block-->
+        <div class="wrap belttxtbox wrap_padding"> <!-- ul -->
+
+        </div>
+        <span class="beltclose-btn closebtn closebtn-w"></span>
     </div>
 
     <div>
@@ -43,7 +57,7 @@
                 </ul>
             </li>
             <sec:authorize access="isAnonymous()"> <!-- !login -->
-                <li class="utility-join"><a href="#">회원가입</a></li>
+                <li class="utility-join"><a href="/join">회원가입</a></li>
                 <li class="utility-login"><a href="/login">로그인</a></li>
             </sec:authorize>
             <sec:authorize access="isAuthenticated()"> <!-- login -->
@@ -53,7 +67,7 @@
                         <li id="MyMenuOnlineBadge"><a href="#">온라인 경매 관리</a></li>
                         <li><a href="#">관심작품</a></li>
                         <li><a href="#">아카데미 신청목록</a></li>
-                        <li><a href="#">회원정보 수정</a></li>
+                        <li><a href="/mypage/custConfirm">회원정보 수정</a></li>
                     </ul>
                 </li>
                 <li class="utility-login"><a onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')">로그아웃</a></li>
@@ -61,8 +75,8 @@
         </ul>
     </div>
     <nav class="header_navbox">
-        <div class="header_nav wrap_padding">
-            <a href="#" class="header_logo"><span class="blind-text">logo</span></a>
+        <div class="header_nav wrap_padding" ng-controller="headCtl">
+            <a href="/" class="header_logo"><span class="blind-text">logo</span></a>
             <ul class="header_gnbmenu pc-ver">
                 <li><a href="#" class="">AUCTION</a></li>
                 <li><a href="#">PRIVATE SALE</a></li>
@@ -75,26 +89,11 @@
                 <form action="" class="scroll_none">
                     <fieldset class="topsearch">
                         <span class="submenuBg-closeBtn top-search-closeBtn m-ver"></span>
-                        <input onkeydown="searchFilter()" onmousedown="searchDown()" type="text" class="topsearch-text pc-ver"><button type="submit" class="topsearch-btn pc-ver"></button>
+                        <input onkeydown="searchFilter()" onmousedown="searchDown()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();" id="topsearchText"><button type="button" class="topsearch-btn pc-ver" ng-click="goSearch('topsearchText', true);"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">
-                                <span class="keyword-search-tit">최근검색<span class="keyword-all-del">전체삭제</span></span><!--
-                                    --><span class="recent-keyword"><a href="#">김선우</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">하이에르 카예하</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">김환기</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">이우환</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">박수근</a><span class="keyword-del"></span></span><!--
-                                    -->
                             </div>
                             <div class="recommend-search-part">
-                                <span class="keyword-search-tit">추천검색</span>
-                                <a href="#" class="recommend-keyword">최우영</a><!--
-                                    --><a href="#" class="recommend-keyword">박성옥</a><!--
-                                    --><a href="#" class="recommend-keyword">청신</a><!--
-                                    --><a href="#" class="recommend-keyword">박서보</a><!--
-                                    --><a href="#" class="recommend-keyword">마티스</a><!--
-                                    --><a href="#" class="recommend-keyword">호크니</a><!--
-                                    -->
                             </div>
                         </section>
                     </fieldset>
@@ -113,7 +112,7 @@
                         <ul class="subGnbmenu">
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
                                 <ul class="submenu submenu-part01">
-                                    <li id="menu_auction"><a href="#">진행경매</a></li>
+                                    <li id="menu_auction"><a href="/auction/proceed">진행경매</a></li>
                                     <li id="menu_upcoming"><a href="#">예정경매</a></li>
                                     <li><a href="#">경매결과</a></li>
                                 </ul>
@@ -127,7 +126,7 @@
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>
                                 <ul class="submenu submenu-part03">
-                                    <li><a href="#">위탁안내</a></li>
+                                    <li><a href="/sell/consignment">위탁안내</a></li>
                                     <li><a href="#">위탁신청</a></li>
                                 </ul>
                             </li>
@@ -135,8 +134,8 @@
                                 <ul class="submenu submenu-part04">
                                     <li id="menu_academy"><a href="#">아카데미</a></li>
                                     <li><a href="/service/loan">담보대출</a></li>
-                                    <li><a href="#">미술품보관</a></li>
-                                    <li><a href="#">전시장대관</a></li>
+                                    <li><a href="/service/storage">미술품보관</a></li>
+                                    <li><a href="/service/showroom">전시장대관</a></li>
                                     <li><a href="/service/marketing">아트컨설팅&#38;기업마케팅</a></li>
                                 </ul>
                             </li>

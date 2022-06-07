@@ -5,6 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <jsp:include page="../../../common/commonJs.jsp" flush="false"/>
 <script type="text/javascript" src="/js/mypage/mypageSide.js"></script>
+<sec:authentication property="details.socialYn" var="socialYn"/>
 <!-- 마이페이지 싸이드 메뉴 -->
 <div ng-controller="myPageCtl">
 <aside class="aside-area"  >
@@ -44,13 +45,13 @@
 				<ul class="cate1">
 					<li class="cate1-group"><span>라이브경매관리</span>
 						<ul>
-							<li class="" id="test1"><a href="#">응찰신청내역</a></li>
-							<li class="" id="test2"><a href="#">온라인패들응찰내역</a></li>
+							<li class="" id="liveBidReq"><a href="/mypage/liveBidReqList">응찰신청내역</a></li>
+							<li class="" id="liveBid"><a href="/mypage/liveBidList">온라인패들응찰내역</a></li>
 						</ul></li>
 					<li class="cate1-group"><span>온라인경매관리</span>
 						<ul>
-							<li class="" id="test3"><a href="#">응찰내역</a></li>
-							<li class="" id="test4"><a href="#">결제/구매내역</a></li>
+							<li class="" id="onlineBid"><a href="/mypage/onlineBidList">응찰내역</a></li>
+							<li class="" id="onlinePay"><a href="/mypage/onlinePayList">결제/구매내역</a></li>
 						</ul></li>
 					<li class="cate1-li" id="intelot"><a href="/mypage/inteLotList" class="">관심작품 <i
 							class="icon-view_more"></i></a></li>
@@ -60,9 +61,11 @@
 							class="icon-view_more"></i></a></li>
 					<li class="cate1-group"><span>회원정보관리</span>
 						<ul>
-							<li class="" id="test5"><a href="#">회원정보수정</a></li>
-							<li class="" id="test6"><a href="#">비밀번호수정</a></li>
-							<li class="" id="test7"><a href="#">SNS연동설정</a></li>
+							<li class="" id="custModify"><a href="/mypage/custConfirm">회원정보수정</a></li>
+							<c:if test="${socialYn == 'N' }">
+							<li class="" id="passwordModify"><a href="/mypage/passwordModify">비밀번호수정</a></li>
+							<li class="" id="snsLink"><a href="/mypage/snsLink">SNS연동설정</a></li>
+							</c:if>
 						</ul></li>
 				</ul>
 			</div>

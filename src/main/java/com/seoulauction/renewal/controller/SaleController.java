@@ -33,35 +33,5 @@ public class SaleController {
         return SAConst.getUrl(SAConst.SERVICE_SALE , "search" , locale);
     }
 
-    @RequestMapping(value="/searchList" , method = RequestMethod.POST)
-    public ResponseEntity<RestResponse> searchList(
-            @RequestBody CommonMap map, Principal principal) throws Exception {
-
-        if(principal == null){
-            map.put("action_user_no", 126211);
-        }else{
-            map.put("action_user_no", principal.getName());
-        }
-        map.put("list_type", "SEARCH");
-        map.put("for_count", true);
-
-        return ResponseEntity.ok(RestResponse.ok(saleService.search_list_paging(map)));
-    }
-
-    @RequestMapping(value="/addCustInteLot" , method = RequestMethod.POST)
-    public ResponseEntity<RestResponse> addCustInteLot(
-            @RequestBody CommonMap map, Principal principal) throws Exception {
-
-        return ResponseEntity.ok(RestResponse.ok(saleService.add_cust_inte_lot(map)));
-    }
-
-    @RequestMapping(value="/delCustInteLot" , method = RequestMethod.POST)
-    public ResponseEntity<RestResponse> delCustInteLot(
-            @RequestBody CommonMap map, Principal principal) throws Exception {
-
-
-        return ResponseEntity.ok(RestResponse.ok(saleService.del_cust_inte_lot(map)));
-    }
-
 }
 

@@ -6,9 +6,9 @@
 <body class="">
     <div class="wrapper">
         <div class="sub-wrap pageclass bgpage-wrap">
-		<jsp:include page="../../include/ko/header.jsp" flush="false"/>   
+		<jsp:include page="../../include/en/header.jsp" flush="false"/>   
 		<script>
-		app.value('locale', 'ko');
+		app.value('locale', 'en');
 		</script>
             <!-- container -->
             <div id="container">
@@ -50,7 +50,7 @@
                                                 </dl>
                                                 <dl class="info_number">
                                                     <dt>휴대폰 번호</dt>
-                                                    <dd><input type="text" class="textType" id="custPhone" placeholder="" onkeyup="phoneNumber(this);"  style="width:100%"></dd>
+                                                    <dd><input type="text" class="textType" id="custPhone" placeholder="" maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);"  style="width:100%"></dd>
                                                 </dl>
                                             </div>
                                             <div class="info_wrap js-ds_item js-ds_item1" style="display: none;">
@@ -83,7 +83,7 @@
                                         <p class="info_txt">Please, foreigners use English pages.</p>
                                         <div class="btn_set">
                                             <a class="btn btn_gray_line">
-                                                <span>SeoulAuction ENG</span>
+                                                <span>SeoulAuction KOR</span>
                                             </a>
                                         </div>
                                         <ul class="mark_dot-list tb2">
@@ -99,7 +99,7 @@
             <!-- //container -->
 
             <!-- footer -->
-				  <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
+				  <jsp:include page="../../include/en/footer.jsp" flush="false"/>
             <!-- //footer -->
 
         </div>

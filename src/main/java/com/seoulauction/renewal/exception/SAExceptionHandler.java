@@ -3,7 +3,7 @@ package com.seoulauction.renewal.exception;
 import com.seoulauction.renewal.common.RestResponse;
 import com.seoulauction.renewal.component.SlackSender;
 import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.utill.ExceptionUtils;
+import com.seoulauction.renewal.util.ExceptionUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ public class SAExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String error404(){
         log.info("404");
-        return "/error/404";
+        return "/error/ko/error_404";
     }
 
     //Rest API 에서 나오는 오류 캐치. ( RestResponse 리턴!! )
@@ -60,10 +60,11 @@ public class SAExceptionHandler {
     //그외 심각한 오류들
     @ExceptionHandler(Exception.class)
     public String intervalException(Exception e){
+
         String errorMsg = ExceptionUtils.getStackTrace(e);
         log.error(errorMsg);
         slackSender.sendMessage(errorMsg);
-        return "/error/500";
+        return "/error/ko/error_500";
     }
 
 }

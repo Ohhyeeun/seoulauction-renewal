@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/css/plugin/csslibrary.css">
     <link rel="stylesheet" href="/css/common.css" type="text/css" />
     <link rel="stylesheet" href="/css/pages_common_ko.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
@@ -28,7 +28,12 @@
                     <!--class="on" block-->
                     <div class="wrap belttxtbox wrap_padding">
                         <span class="header_beltTit">
-                            <a href="#">구매수수료율 인상 및 약관 개정안내 구매수수료율 인상 및 약관 개정안내 구매수수료율 인상 및 약관 개정안내 구매수수료율 인상 및 약관 개정안내 구매수수료율 인상 및 약관 개정안내 구매수수료율 인상 및 약관 개정안내<span class="beltbanner-triangle"></span></a>
+                            <a href="#">
+                                <span class="text-over belt_tit">
+                                    구매수수료율 인상 및 약관 개정안내 구매수수료율 인상
+                                </span>
+                                <!--<span class="beltbanner-triangle"></span>-->
+                            </a>
                         </span>
                         <span class="beltclose-btn closebtn closebtn-w"></span>
                     </div>
@@ -44,8 +49,8 @@
                         <li class="utility-join"><a href="#">회원가입</a></li> <!-- !login -->
                         <li class="utility-tab utility-account"><a href="#">마이페이지</a>
                             <ul class="bubble-box bubble-box02">
-                                <li><a href="/index_en.html">라이브 경매 관리</a></li>
-                                <li><a href="#">온라인 경매 관리</a></li>
+                                <li><a href="/index_en.html">라이브 경매 관리</a></li> <!-- display block 처리X -->
+                                <li><a href="#">온라인 경매 관리<i class="utility-icon on"></i></a></li>
                                 <li><a href="#">관심작품</a></li>
                                 <li><a href="#">아카데미 신청목록</a></li>
                                 <li><a href="#">회원정보 수정</a></li>
@@ -222,7 +227,6 @@
                     </section>
                 </nav>
             </header>
-
             <!-- //header -->
 
             <!-- container -->
@@ -239,6 +243,7 @@
                                         <!-- 마이페이지 싸이드 메뉴 -->
                                         <aside class="aside-area">
                                             <div class="aside-inner">
+
                                                 <div class="mem-infobox-wrap">
                                                     <div class="mem-name-wrap">
                                                         <span class="tt2">홍길동</span><span class="tt4">님</span>
@@ -258,6 +263,12 @@
                                                         <button class="btn btn_point btn_lg" type="button"><span>정회원 신청하기</span></button>
                                                     </div>
                                                 </div>
+
+
+
+
+
+
                                                 <div class="mypage-lnb-wrap">
                                                     <div class="mypage-lnb">
                                                         <ul class="cate1">
@@ -289,8 +300,10 @@
                                                             <li class="cate1-group">
                                                                 <span>회원정보관리</span>
                                                                 <ul>
+                                                                    <!-- [0523]텍스트 수정 -->
                                                                     <li class=""><a href="#">회원정보수정</a></li>
-                                                                    <li class=""><a href="#">비밀번호수정</a></li>
+                                                                    <!-- //[0523]텍스트 수정 -->
+                                                                    <li class=""><a href="#">비밀번호변경</a></li>
                                                                     <li class=""><a href="#">SNS연동설정</a></li>
                                                                 </ul>
                                                             </li>
@@ -344,50 +357,62 @@
                                                             </dt>
                                                             <dd>
                                                                 <div class="product-infobox">
-                                                                    <button class="btn-heart js-work_heart on"><i class="icon-heart_off"></i></button>
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction01.jpg" alt="">
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">3</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">문형태</div>
+                                                                    <div class="product-infobox-inner">
+                                                                        <button class="btn-heart js-work_heart on"><i class="icon-heart_off"></i></button>
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <div class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                                                </div>
+                                                                            </figure>
                                                                         </div>
-                                                                        <div class="desc">Speed</div>
-                                                                        <div class="sub-box">
-                                                                            <div class="sub-li">
-                                                                                <div class="tit">추정가</div>
-                                                                                <div class="txt"><span>KRW 9,900,000,000</span> <span>~ 9,900,000,000</span></div>
+                                                                        <div class="text-area">
+                                                                            <div class="num">3</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">문형태</div>
                                                                             </div>
+                                                                            <div class="desc">Speed </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pay-infobox">
+                                                                    <div class="pay-infobox-inner">
+                                                                        <div class="pay-area">
+                                                                            <dl class="price">
+                                                                                <dt class="tit">추정가</dt>
+                                                                                <dd class="txt"><span>KRW 9,900,000,000</span> <span>~ 9,900,000,000</span></dd>
+                                                                            </dl>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </dd>
                                                             <dd>
                                                                 <div class="product-infobox">
-                                                                    <button class="btn-heart js-work_heart on"><i class="icon-heart_off"></i></button>
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction02.jpg" alt="">
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">24</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">Black Neon BE2016 긴이름 Black Neon BE2016</div>
+                                                                    <div class="product-infobox-inner">
+                                                                        <button class="btn-heart js-work_heart on"><i class="icon-heart_off"></i></button>
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <div class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction02.jpg" alt="">
+                                                                                </div>
+                                                                            </figure>
                                                                         </div>
-                                                                        <div class="desc">청신</div>
-                                                                        <div class="sub-box">
-                                                                            <div class="sub-li">
-                                                                                <div class="tit">추정가</div>
-                                                                                <div class="txt"><span>KRW 9,900,000,000</span> <span>~ 9,900,000,000</span></div>
+                                                                        <div class="text-area">
+                                                                            <div class="num">24</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">Black Neon BE2016 긴이름 Black Neon BE2016</div>
                                                                             </div>
+                                                                            <div class="desc">청신</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pay-infobox">
+                                                                    <div class="pay-infobox-inner">
+                                                                        <div class="pay-area">
+                                                                            <dl class="price">
+                                                                                <dt class="tit">추정가</dt>
+                                                                                <dd class="txt"><span>KRW 9,900,000,000</span> <span>~ 9,900,000,000</span></dd>
+                                                                            </dl>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -406,75 +431,93 @@
                                                             </dt>
                                                             <dd>
                                                                 <div class="product-infobox">
-                                                                    <button class="btn-heart js-work_heart on"><i class="icon-heart_off"></i></button>
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction01.jpg" alt="">
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">4</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">문형태</div>
+                                                                    <div class="product-infobox-inner">
+                                                                        <button class="btn-heart js-work_heart on"><i class="icon-heart_off"></i></button>
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <div class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                                                </div>
+                                                                            </figure>
                                                                         </div>
-                                                                        <div class="desc">Speed</div>
-                                                                        <div class="sub-box">
-                                                                            <div class="sub-li">
-                                                                                <div class="tit">추정가</div>
-                                                                                <div class="txt"><span>KRW 9,900,000,000</span> <span>~ 9,900,000,000</span></div>
+                                                                        <div class="text-area">
+                                                                            <div class="num">3</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">문형태</div>
                                                                             </div>
+                                                                            <div class="desc">Speed </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pay-infobox">
+                                                                    <div class="pay-infobox-inner">
+                                                                        <div class="pay-area">
+                                                                            <dl class="price">
+                                                                                <dt class="tit">추정가</dt>
+                                                                                <dd class="txt"><span>KRW 9,900,000,000</span> <span>~ 9,900,000,000</span></dd>
+                                                                            </dl>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </dd>
                                                             <dd>
                                                                 <div class="product-infobox">
-                                                                    <button class="btn-heart js-work_heart on"><i class="icon-heart_off"></i></button>
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction02.jpg" alt="">
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">29</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">Black Neon BE2016 긴이름 Black Neon BE2016</div>
+                                                                    <div class="product-infobox-inner">
+                                                                        <button class="btn-heart js-work_heart on"><i class="icon-heart_off"></i></button>
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <div class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction02.jpg" alt="">
+                                                                                </div>
+                                                                            </figure>
                                                                         </div>
-                                                                        <div class="desc">청신</div>
-                                                                        <div class="sub-box">
-                                                                            <div class="sub-li">
-                                                                                <div class="tit">추정가</div>
-                                                                                <div class="txt"><span>KRW 9,900,000,000</span> <span>~ 9,900,000,000</span></div>
+                                                                        <div class="text-area">
+                                                                            <div class="num">24</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">Black Neon BE2016 긴이름 Black Neon BE2016</div>
                                                                             </div>
+                                                                            <div class="desc">청신</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pay-infobox">
+                                                                    <div class="pay-infobox-inner">
+                                                                        <div class="pay-area">
+                                                                            <dl class="price">
+                                                                                <dt class="tit">추정가</dt>
+                                                                                <dd class="txt"><span>KRW 9,900,000,000</span> <span>~ 9,900,000,000</span></dd>
+                                                                            </dl>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </dd>
                                                             <dd>
                                                                 <div class="product-infobox">
-                                                                    <button class="btn-heart js-work_heart on"><i class="icon-heart_off"></i></button>
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction03.jpg" alt="">
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">36</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">Black Neon BE2016</div>
+                                                                    <div class="product-infobox-inner">
+                                                                        <button class="btn-heart js-work_heart on"><i class="icon-heart_off"></i></button>
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <div class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction03.jpg" alt="">
+                                                                                </div>
+                                                                            </figure>
                                                                         </div>
-                                                                        <div class="desc">청신</div>
-                                                                        <div class="sub-box">
-                                                                            <div class="sub-li">
-                                                                                <div class="tit">추정가</div>
-                                                                                <div class="txt"><span>KRW 9,900,000,000</span> <span>~ 9,900,000,000</span></div>
+                                                                        <div class="text-area">
+                                                                            <div class="num">36</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">Black Neon BE2016</div>
                                                                             </div>
+                                                                            <div class="desc">청신</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pay-infobox">
+                                                                    <div class="pay-infobox-inner">
+                                                                        <div class="pay-area">
+                                                                            <dl class="price">
+                                                                                <dt class="tit">추정가</dt>
+                                                                                <dd class="txt"><span>KRW 9,900,000,000</span> <span>~ 9,900,000,000</span></dd>
+                                                                            </dl>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -493,100 +536,93 @@
                                                             </dt>
                                                             <dd>
                                                                 <div class="product-infobox">
-                                                                    <button class="btn-heart js-work_heart on"><i class="icon-heart_off"></i></button>
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction01.jpg" alt="">
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">4</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">문형태</div>
+                                                                    <div class="product-infobox-inner">
+                                                                        <button class="btn-heart js-work_heart on"><i class="icon-heart_off"></i></button>
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <div class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                                                </div>
+                                                                            </figure>
                                                                         </div>
-                                                                        <div class="desc">Speed</div>
-                                                                        <div class="sub-box">
-                                                                            <div class="sub-li">
-                                                                                <div class="tit">추정가</div>
-                                                                                <div class="txt"><span>KRW 9,900,000,000</span> <span>~ 9,900,000,000</span></div>
+                                                                        <div class="text-area">
+                                                                            <div class="num">3</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">문형태</div>
                                                                             </div>
+                                                                            <div class="desc">Speed </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pay-infobox">
+                                                                    <div class="pay-infobox-inner">
+                                                                        <div class="pay-area">
+                                                                            <dl class="price">
+                                                                                <dt class="tit">추정가</dt>
+                                                                                <dd class="txt"><span>KRW 9,900,000,000</span> <span>~ 9,900,000,000</span></dd>
+                                                                            </dl>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </dd>
                                                             <dd>
                                                                 <div class="product-infobox">
-                                                                    <button class="btn-heart js-work_heart on"><i class="icon-heart_off"></i></button>
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction02.jpg" alt="">
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">29</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">Black Neon BE2016 긴이름 Black Neon BE2016</div>
+                                                                    <div class="product-infobox-inner">
+                                                                        <button class="btn-heart js-work_heart on"><i class="icon-heart_off"></i></button>
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <div class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction02.jpg" alt="">
+                                                                                </div>
+                                                                            </figure>
                                                                         </div>
-                                                                        <div class="desc">청신</div>
-                                                                        <div class="sub-box">
-                                                                            <div class="sub-li">
-                                                                                <div class="tit">추정가</div>
-                                                                                <div class="txt"><span>KRW 9,900,000,000</span> <span>~ 9,900,000,000</span></div>
+                                                                        <div class="text-area">
+                                                                            <div class="num">24</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">Black Neon BE2016 긴이름 Black Neon BE2016</div>
                                                                             </div>
+                                                                            <div class="desc">청신</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pay-infobox">
+                                                                    <div class="pay-infobox-inner">
+                                                                        <div class="pay-area">
+                                                                            <dl class="price">
+                                                                                <dt class="tit">추정가</dt>
+                                                                                <dd class="txt"><span>KRW 9,900,000,000</span> <span>~ 9,900,000,000</span></dd>
+                                                                            </dl>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </dd>
                                                             <dd>
                                                                 <div class="product-infobox">
-                                                                    <button class="btn-heart js-work_heart on"><i class="icon-heart_off"></i></button>
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction03.jpg" alt="">
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">36</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">Black Neon BE2016</div>
+                                                                    <div class="product-infobox-inner">
+                                                                        <button class="btn-heart js-work_heart on"><i class="icon-heart_off"></i></button>
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <div class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction03.jpg" alt="">
+                                                                                </div>
+                                                                            </figure>
                                                                         </div>
-                                                                        <div class="desc">청신</div>
-                                                                        <div class="sub-box">
-                                                                            <div class="sub-li">
-                                                                                <div class="tit">추정가</div>
-                                                                                <div class="txt"><span>KRW 9,900,000,000</span> <span>~ 9,900,000,000</span></div>
+                                                                        <div class="text-area">
+                                                                            <div class="num">36</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">Black Neon BE2016</div>
                                                                             </div>
+                                                                            <div class="desc">청신</div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </dd>
-                                                            <dd>
-                                                                <div class="product-infobox">
-                                                                    <button class="btn-heart js-work_heart on"><i class="icon-heart_off"></i></button>
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction01.jpg" alt="">
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">120</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">문형태</div>
-                                                                        </div>
-                                                                        <div class="desc">Speed</div>
-                                                                        <div class="sub-box">
-                                                                            <div class="sub-li">
-                                                                                <div class="tit">추정가</div>
-                                                                                <div class="txt"><span>KRW 9,900,000,000</span> <span>~ 9,900,000,000</span></div>
-                                                                            </div>
+                                                                <div class="pay-infobox">
+                                                                    <div class="pay-infobox-inner">
+                                                                        <div class="pay-area">
+                                                                            <dl class="price">
+                                                                                <dt class="tit">추정가</dt>
+                                                                                <dd class="txt"><span>KRW 9,900,000,000</span> <span>~ 9,900,000,000</span></dd>
+                                                                            </dl>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -606,7 +642,7 @@
                                                                 <a href="#"><em>7</em></a>
                                                                 <a href="#"><em>8</em></a>
                                                                 <a href="#"><em>9</em></a>
-                                                                <a href="#"><em>100</em></a>
+                                                                <a href="#"><em>10</em></a>
                                                             </span>
                                                             <a href="#" class="next icon-page_next "><em>NEXT</em></a><a href="#" class="next_end icon-page_nextnext">END</a>
                                                         </div>
@@ -651,7 +687,9 @@
                         <div class="footer-infomenubox">
                             <ul class="flex_wrap footer-infomenu">
                                 <li><a href="#">경매약관</a></li>
-                                <li><a href="#">개인정보처리방침</a></li>
+                                <!-- [0526]클래스추가 -->
+                                <li class="policy"><a href="#">개인정보처리방침</a></li>
+                                <!-- //[0526]클래스추가 -->
                                 <li><a href="#">내부관리규정</a></li>
                             </ul>
 

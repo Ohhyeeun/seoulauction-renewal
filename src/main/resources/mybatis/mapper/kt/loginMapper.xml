@@ -83,10 +83,10 @@
 
 
 	<select id="selectCustLoginIdByCustName" resultType="CommonMap">
-
 		select
 		concat(rpad(substring(login_id, 1, 2), length(login_id)-1, '*'),
 		substring(login_id, length(login_id), 1) ) LOGIN_ID ,
+		c.SOCIAL_YN ,
 		cs.CUST_NO ,
 		case
 		when cs.SOCIAL_TYPE = 'KA' then 'KAKAO'
@@ -143,10 +143,16 @@
 		from CUST c
 		left
 		outer join cust_social cs on c.CUST_NO = cs.cust_no
-		where JOIN_KIND_CD
-		= 'online' and IFNULL(DEL_YN, 'N') = 'N'
+		where JOIN_KIND_CD = 'online' and IFNULL(DEL_YN, 'N') = 'N'
 		and STAT_CD = #{stat_cd}
 		and LOGIN_ID = #{login_id}
+		and CUST_NAME = #{cust_name}
+		<if test="search_type == 'phone'">
+			and HP = #{search_value}
+		</if>
+		<if test="search_type == 'email'">
+			and EMAIL = #{search_value}
+		</if>
 	</select>
 
 	<select id="selectCustSocialBySocialLoginId" resultType="CommonMap">
@@ -154,5 +160,181 @@
 		from CUST_SOCIAL 
 		where SOCIAL_LOGIN_ID = #{socialLoginId}
 	</select>
+	
+	<select id="selectCustForExist" resultType="CommonMap"> <!-- 탈퇴자는  카운트 제외. 웹회원만 체크 -->
+		select CUST_NO, STAT_CD, FORE_CERT_CODE, CUST_NAME, LOGIN_ID from CUST where STAT_CD &lt;&gt; 'leave'  and JOIN_KIND_CD = 'online'
+		<if test="loginId != null">
+			and LOGIN_ID = #{loginId}
+		</if>
+		<if test="hp != null">
+			and HP = #{hp}  AND CUST_KIND_CD = #{cust_kind_cd}
+		</if>
+		<if test="comp_no != null and comp_no != ''">
+			and COMP_NO = #{comp_no}
+		</if>
+		<if test="fore_cert_code != null">
+			and FORE_CERT_CODE = #{fore_cert_code}
+		</if>
+		<if test="email != null">
+			and EMAIL = #{email}
+		</if>
+	</select>
+	
+	<select id="selectEmpByEmpName" resultType="CommonMap">
+		SELECT *,
+		       (SELECT dept_name
+		        FROM   dept
+		        WHERE  dept_no = emp.dept_no) as DEPT_NAME
+		FROM   emp
+		WHERE EMP_NAME = #{emp_name}
+		AND STAT_CD = 'normal' 
+	</select>
+	
+	<select id="selectEmpByEmpNameCnt" resultType="int">
+		SELECT Count(*) row_cnt
+		FROM  (SELECT emp_no
+		       FROM   emp
+		       WHERE  emp_name = #{emp_name}
+		       AND stat_cd = 'normal')cnt 
+	</select>
+	
+	<select id="selectCode" resultType="CommonMap" parameterType="CommonMap">
+		select 		GRP_ID
+				  , CD_ID, CD_NM, CD_NM_EN, CD_NM_CN
+				  , CD_VAL, CD_VAL2, CD_VAL3
+				  , P_GRP_ID, P_CD_ID, LEVEL
+				  , CMMT, DISP_ORD
+		from 		CODE
+		where		USE_YN = 'Y'
+				<foreach collection="grp_ids" item="item" index="index" open="and GRP_ID in (" close=")" separator=",">
+					'${item}'
+				</foreach>
+		order by GRP_ID, DISP_ORD, CD_NM_EN
+	</select>
+	
+	<insert id="insertCust" parameterType="CommonMap" >
+	    INSERT INTO CUST (
+			LOGIN_ID,
+			PASSWD,
+			CUST_NAME,
+			HP,
+			EMAIL,
+			ZIPNO,
+	    	ADDR,
+			ADDR_DTL,
+			EMP_NO,
+	   		MARKETING_CHK,
+	   		CUST_KIND_CD,
+			JOIN_KIND_CD,
+			LOCAL_KIND_CD,
+			NATION_CD,
+			REG_DT,
+			STAT_CD,
+			SEND_WAY_CD,
+			PASSWD_MOD_DT,
+			<if test="cust_kind_cd == 'company'">
+				TEL, COMP_OWNER, COMP_NO, COMP_MAN_NAME,
+			</if>
+			FORE_BID_REQ_YN,
+			FORE_CERT_CODE,
+			SOCIAL_YN
+		) 
+		VALUES ( 
+			#{login_id},
+			'${@com.seoulauction.renewal.auth.PasswordEncoderAESforSA@saPasswdEncoding(passwd)}',
+			#{cust_name},
+			#{hp},
+			#{email},
+			#{zipno},
+			#{addr},
+			#{addr_dtl},
+			#{emp_no},
+			<if test="maketingAgree1 == 'true'">
+			'Y', <!-- MARKETING_CHK -->
+			</if>
+			<if test="maketingAgree1 == 'false' || maketingAgree1 == null">
+			'N', <!-- MARKETING_CHK -->
+			</if>
+			#{cust_kind_cd},
+			'online', <!-- JOIN_KIND_CD -->
+			#{local_kind_cd},
+			#{nation_cd},
+			now(), <!-- REG_DT -->
+			<if test="local_kind_cd == 'korean'">
+			'normal', <!-- STAT_CD -->
+			</if>
+			<if test="local_kind_cd == 'foreigner'">
+			'not_certify', <!-- STAT_CD -->
+			</if>
+			'normal', <!-- SEND_WAY_CD -->
+			now(), <!-- PASSWD_MOD_DT -->
+			<if test="cust_kind_cd == 'company'">
+			    #{tel}, #{comp_owner}, #{comp_no}, #{comp_man_name},
+			</if>
+			<choose>
+			    <when test="local_kind_cd == 'foreigner'">
+			        #{fore_bid_req_yn}, UUID(),
+			    </when>
+			    <otherwise>'N', null,</otherwise>
+			</choose>
+			<choose>
+			    <when test="social_type != null and social_type != ''">
+			        'Y'
+			    </when>
+			    <otherwise>'N'</otherwise>
+			</choose>
+		);
+	</insert>
+	
+	<insert id="insertCustSocial" parameterType="CommonMap" >
+	    INSERT INTO CUST_SOCIAL (
+	   		CUST_NO,
+	    	SOCIAL_TYPE,
+			SOCIAL_EMAIL,
+			SOCIAL_LOGIN_ID,
+			REG_DT
+		) 
+		VALUES ( 
+			#{cust_no},
+			#{social_type},
+			#{social_email},
+			#{social_login_id},
+			now()
+		);
+		<selectKey keyProperty="reg_dt" resultType="String" order="AFTER">
+			select date_format(REG_DT,'%Y.%m.%d')REG_DT FROM CUST_SOCIAL WHERE CUST_NO = #{cust_no} and SOCIAL_TYPE = #{social_type} and SOCIAL_EMAIL = #{social_email}
+		</selectKey>
+	</insert>
+	
+	<select id="selectCustForCustSocial" resultType="CommonMap">
+		SELECT *
+		FROM   cust
+		       JOIN cust_social
+		         ON cust.cust_no = cust_social.cust_no
+		WHERE  1 = 1
+			<if test="social_email != null">
+				AND social_email = #{social_email}
+			</if>
+			<if test="social_login_id != null">
+				AND social_login_id = #{social_login_id}
+			</if>
+			<if test="social_type != null">
+		       	AND social_type = #{social_type}
+			</if>
+	</select>
+	
+	<insert id="insertCustPushWay" parameterType="CommonMap">
+		INSERT INTO CUST_PUSH_WAY (
+			CUST_NO,
+			PUSH_WAY_CD,
+			REG_DT
+		) 
+		VALUES (
+			#{cust_no},
+			#{push_way_cd},
+			now()
+		);
+	</insert>
+	
 	
 </mapper>

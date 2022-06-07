@@ -46,7 +46,7 @@
 			  order by S.TO_DT desc
 			  limit 5
 		  ) SR
-		order by field(SR.SALE_KIND, 'LIVE', 'ONLINE');
+		order by field(SR.SALE_KIND, 'LIVE', 'ONLINE')
 	]]>
 	</select>
 	<select id="selectIngMenuCount" parameterType="CommonMap" resultType="CommonMap" >
@@ -114,7 +114,7 @@
 		group by
 			L.LOT_NO
 		limit
-			30;
+			30
 	</select>
 
 

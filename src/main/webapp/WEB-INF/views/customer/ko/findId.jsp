@@ -50,7 +50,7 @@
                                                 </dl>
                                                 <dl class="info_number">
                                                     <dt>휴대폰 번호</dt>
-                                                    <dd><input type="text" class="textType" id="custPhone" placeholder="" onkeyup="phoneNumber(this);"  style="width:100%"></dd>
+                                                    <dd><input type="text" class="textType" id="custPhone" placeholder="" maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);"  style="width:100%"></dd>
                                                 </dl>
                                             </div>
                                             <div class="info_wrap js-ds_item js-ds_item1" style="display: none;">
@@ -82,12 +82,12 @@
                                         </ul>
                                         <p class="info_txt">Please, foreigners use English pages.</p>
                                         <div class="btn_set">
-                                            <a class="btn btn_gray_line">
+                                            <a class="btn btn_gray_line" href="/findId?lang=en">
                                                 <span>SeoulAuction ENG</span>
                                             </a>
                                         </div>
                                         <ul class="mark_dot-list tb2">
-                                            <li><span>비밀번호를 찾으시나요?</span><a href="">비밀번호찾기</a></li>
+                                            <li><span>비밀번호를 찾으시나요?</span><a href="/findPassword">비밀번호찾기</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -140,7 +140,7 @@
                             </div>
                             <article class="button-area confirm_btn">
                                 <div class="btn_set-float tac">
-                                    <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+                                    <a class="btn btn_point" href="#" role="button" id="confirm_1"><span>확인</span></a>
                                 </div>
                             </article>
                         </div>
@@ -174,7 +174,7 @@
                             </div>
                             <article class="button-area confirm_btn">
                                 <div class="btn_set-float tac">
-                                    <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+                                    <a class="btn btn_point" href="#" role="button" id="confirm_2"><span>확인</span></a>
                                 </div>
                             </article>
                         </div>
@@ -205,7 +205,7 @@
                         <div class="pop-body">
                             <article class="button-area confirm_btn confirm_btn_md">
                                 <div class="btn_set-float tac">
-                                    <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+                                    <a class="btn btn_point" href="#" role="button" id="confirm_3"><span>확인</span></a>
                                 </div>
                             </article>
                         </div>
@@ -242,7 +242,7 @@
                             </div>
                             <article class="button-area confirm_btn">
                                 <div class="btn_set-float tac">
-                                    <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+                                    <a class="btn btn_point" href="#" role="button" id="confirm_4"><span>확인</span></a>
                                 </div>
                             </article>
                         </div>

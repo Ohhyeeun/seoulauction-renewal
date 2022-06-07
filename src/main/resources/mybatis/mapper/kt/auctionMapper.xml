@@ -41,4 +41,27 @@
 		  and L.lot_no = #{lot_no};
 	</select>
 
+	<select id="selectSalePaddNo" resultType="int" parameterType="commonMap">
+		SELECT MAX(PADD_NO)
+		FROM SALE_PADD sp
+		WHERE sp.CUST_NO = #{cust_no}
+		  and sp.SALE_NO = #{sale_no}
+	</select>
+
+	<select id="selectMaxSalePaddNo" resultType="int" parameterType="commonMap">
+		SELECT IFNULL(MAX(PADD_NO), 600)+1
+		FROM SALE_PADD
+		WHERE sale_no = #{sale_no}
+		  and padd_no > 600
+	</select>
+
+	<insert id="insertSaleCertOff">
+		INSERT INTO SALE_CERT_OFF (SALE_NO, CUST_NO, PADD_NO, REG_DT, REG_EMP_NO)
+		VALUES (#{sale_no}, #{cust_no}, #{padd_no}, now(), #{cust_no})
+	</insert>
+
+	<insert id="insertSalePadd">
+		INSERT INTO SALE_PADD (SALE_NO, CUST_NO, PADD_NO, REG_DT, REG_EMP_NO)
+		VALUES (#{sale_no}, #{cust_no}, #{padd_no}, now(), #{cust_no})
+	</insert>
 </mapper>

@@ -43,8 +43,6 @@ public class MypageController {
     	return SAConst.getUrl(SERVICE_MYPAGE , "onlinePayList" , locale);
     }
     
-
-    
     /*본인인증 TEST*/
     @GetMapping("/test")
     public String test(Locale locale) {
@@ -77,5 +75,44 @@ public class MypageController {
     @GetMapping("/inteLotList")
     public String inteLotList(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "inteLotList" , locale);
+    }
+
+    @GetMapping("/liveBidReqList")
+    public String liveBidReqList(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "liveBidReqList" , locale);
+    }
+
+    @GetMapping("/liveBidList")
+    public String liveBidList(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "liveBidList" , locale);
+    }
+    
+    @GetMapping("/onlineBidList")
+    public String onlineBidList(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "onlineBidList" , locale);
+    }
+    
+    /*비밀번호변경*/
+    @GetMapping("/passwordModify")
+    public String passwordModify(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "passwordModify" , locale);
+    }
+    
+    /*SNS연동설정*/
+    @GetMapping("/snsLink")
+    public String snsLink(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "snsLink" , locale);
+    }
+    
+    /*회원정보수정 비밀번호확인*/
+    @GetMapping("/custConfirm")
+    public String custConfirm(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "custConfirm" , locale);
+    }
+    
+    /*회원정보수정 비밀번호확인*/
+    @GetMapping("/custModify")
+    public String custModify(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "custModify" , locale);
     }
 }

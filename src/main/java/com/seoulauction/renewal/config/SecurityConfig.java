@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -49,6 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override public void configure(WebSecurity web) throws Exception {
+		web.httpFirewall(new DefaultHttpFirewall());
+
 		web.ignoring()
 			.antMatchers("/css/**, /js/**, *.ico");
 		web.ignoring()
@@ -73,6 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/swagger-resources/**").permitAll()
 			.antMatchers( "/favicon.ico").permitAll()
 			.antMatchers("/customer/**").permitAll()
+			.antMatchers("/mypage/**").authenticated()
 			//.anyRequest().authenticated()
 			.and()
 			.formLogin()

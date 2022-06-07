@@ -26,14 +26,27 @@
 <sec:authorize access="isAnonymous()">
     sessionStorage.setItem("is_login", "false" );
 </sec:authorize>
+function logout(loginId){
+	console.log(loginId)
+	//TODO 소셜타입에 따른 SNS로그아웃처리
+	sessionLogout();
+}
+// 세션로그아웃
+function sessionLogout() {
+	window.location.href = "/processLogout";
+}
 </script>
 
 <html lang="en" ng-app="myApp">
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
 
-    <div class="swiper-container beltbox-swiper">
-        <div class="swiper-wrapper"></div>
+    <div class="header_beltbox on"> <!--class="on" block-->
+        <div class="wrap belttxtbox wrap_padding"> <!-- ul -->
+
+        </div>
+        <span class="beltclose-btn closebtn closebtn-w"></span>
     </div>
+
 
     <div>
         <ul class="header_utilitymenu wrap_padding pc-ver">
@@ -44,8 +57,8 @@
                 </ul>
             </li>
             <sec:authorize access="isAnonymous()"> <!-- !login -->
-                <li class="utility-join"><a href="#">JOIN</a></li>
-                <li class="utility-login"><a href="/customer/login">LOGIN</a></li>
+                <li class="utility-join"><a href="/join">JOIN</a></li>
+                <li class="utility-login"><a href="/login">LOGIN</a></li>
             </sec:authorize>
             <sec:authorize access="isAuthenticated()"> <!-- login -->
                 <li class="utility-tab utility-account"><a href="javascript:void(0);">ACCOUNT</a>
@@ -54,7 +67,7 @@
                         <li id="MyMenuOnlineBadge"><a href="#">Online Auction Management</a></li>
                         <li><a href="#">Wish List</a></li>
                         <li><a href="#">Academy Application List</a></li>
-                        <li><a href="#">Edit member information</a></li>
+                        <li><a href="/mypage/custConfirm">Edit member information</a></li>
                     </ul>
                 </li>
                 <li class="utility-login"><a onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')">LOGOUT</a></li> <!-- !login -->

@@ -1,9 +1,11 @@
 package com.seoulauction.renewal.service;
 
 import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.mapper.aws.MainMapper;
 import com.seoulauction.renewal.mapper.kt.KTMainMapper;
+import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -65,32 +67,32 @@ public class MainService {
     }
 
     //어떤 테이블을 참조할지 모르기때문 우선 더미데이텨 리턴.
-    public List<CommonMap> selectAuctions(CommonMap map){
+    public CommonMap selectAuctions(CommonMap map){
 
-        List<CommonMap> resultMapList = new ArrayList<>();
+        CommonMap resultMap = new CommonMap();
 
-        IntStream.range(0 , 12).forEach(c-> {
+        CommonMap counts = ktMainMapper.selectIngMenuCount();
+        List<CommonMap> saleList = ktMainMapper.selectIngAuctions();
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
 
-            if(c > 8){
-                c = c % 8 ;
-            }
-            String pcImgPath = "/images/pc/thumbnail/AuctionBanner_0"+(c+1)+"_280x280.png";
-            String moImgPath = "/images/mobile/thumbnail/AuctionBanner_01_193x193-4.png";
-            String koName = "문형태";
-            String enName = "Moon Hyungtae";
-            String price = "200,000,000";
-            CommonMap paramMap = new CommonMap();
-            paramMap.put("pcImgPath", pcImgPath);
-            paramMap.put("moImgPath", moImgPath);
-            paramMap.put("koName", koName);
-            paramMap.put("enName", enName);
-            paramMap.put("price", price);
-            resultMapList.add(paramMap);
+        saleList.forEach(c-> {
+                CommonMap lotMap = new CommonMap("sale_no" , c.get("SALE_NO"));
+                if (saUserDetails != null ) {
+                    lotMap.put("cust_no", saUserDetails.getUserNo());
+                }
+                c.put("lots" , ktMainMapper.selectLotsBySaleNo(lotMap));
         });
 
-        Collections.shuffle(resultMapList);
+        List<CommonMap> test2 = new ArrayList<>();
 
-        return resultMapList;
+        test2.add(saleList.get(0));
+        test2.add(saleList.get(0));
+        test2.add(saleList.get(0));
+
+        resultMap.put("count" , counts);
+        resultMap.put("list" , test2);
+
+        return resultMap;
     }
 
     public List<CommonMap> selectVideos(CommonMap map) {
@@ -155,7 +157,7 @@ public class MainService {
         return resultMapList;
     }
 
-    public List<CommonMap> selectIngMenuCount(){
+    public CommonMap selectIngMenuCount(){
         return ktMainMapper.selectIngMenuCount();
     }
 
@@ -170,4 +172,16 @@ public class MainService {
 
         return resultMap;
     }
+
+    public List<CommonMap> selectBigBanners() {
+        List<CommonMap> resultMap = mainMapper.selectBigBanners();
+        resultMap.stream().forEach(item -> {
+            List<CommonMap> imageListMap = s3Service.getS3FileDataAll("main_banner",  item.get("id"));
+            CommonMap map = new CommonMap();
+            imageListMap.forEach(c-> map.put(c.getString("tag")+"_url",c.getString("cdn_url")));
+            item.put("image", map);
+        });
+        return resultMap;
+    }
+
 }

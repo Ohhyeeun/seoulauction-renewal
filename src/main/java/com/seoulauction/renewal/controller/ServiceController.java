@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
 
 import static com.seoulauction.renewal.common.SAConst.SERVICE_SERVICE;
@@ -15,18 +14,22 @@ import static com.seoulauction.renewal.common.SAConst.SERVICE_SERVICE;
 @Controller
 @Log4j2
 @RequiredArgsConstructor
-@RequestMapping(SAConst.SERVICE_SERVICE)
+@RequestMapping(SERVICE_SERVICE)
 public class ServiceController {
     @GetMapping("/loan")
     public String loan(Locale locale) {
         return SAConst.getUrl(SERVICE_SERVICE , "loan" , locale);
     }
 
+    @GetMapping("/storage")
+    public String storage(Locale locale) {
+        return SAConst.getUrl(SERVICE_SERVICE , "storage" , locale);
+    }
+
     @GetMapping("/showroom")
     public String showroom(Locale locale) {
         return SAConst.getUrl(SERVICE_SERVICE , "showroom" , locale);
     }
-
 
     @GetMapping("/showroom/vr")
     public String showroom_vr(Locale locale) {

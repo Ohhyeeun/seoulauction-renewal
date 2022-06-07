@@ -1,6 +1,7 @@
 package com.seoulauction.renewal.controller.api;
 
 import com.seoulauction.renewal.common.RestResponse;
+import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.service.AuctionService;
 import lombok.RequiredArgsConstructor;
@@ -13,16 +14,10 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("api/auction")
 public class ApiAuctionController {
-
     private final AuctionService auctionService;
 
-    @RequestMapping(value = "/sale/{saleNo}/lot/{lotNo}", method = RequestMethod.GET)
-    public ResponseEntity<RestResponse> lot(@PathVariable("saleNo")String saleNo, @PathVariable("lotNo")String lotNo){
-        CommonMap map = new CommonMap();
-        map.put("saleNo", saleNo);
-        map.put("lotNo", lotNo);
-        return ResponseEntity.ok(RestResponse.ok(auctionService.lot(map)));
+    @PostMapping("/paddle")
+    public ResponseEntity<RestResponse> paddle(@RequestBody CommonMap paramMap) {
+        return ResponseEntity.ok(RestResponse.ok(auctionService.insertPaddle(paramMap)));
     }
-
-
 }
