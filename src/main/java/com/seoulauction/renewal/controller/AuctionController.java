@@ -67,7 +67,7 @@ public class AuctionController {
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionLiveList" , locale);
     }
 
-    @GetMapping("/live/proceed")
+    @GetMapping("/proceed")
     public String proceed(Locale locale) {
 
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "proceed" , locale);
