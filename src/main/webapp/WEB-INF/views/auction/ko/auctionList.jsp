@@ -213,7 +213,7 @@
                                                             </div>
                                                             <div class="btn_set"><a name="open_popup"
                                                                                     class="btn btn_point"
-                                                                                    href="javscript:void(0);"
+                                                                                    href="javascript:void(0);"
                                                                                     ng-click="popSet(item.SALE_NO,item.LOT_NO,'KYUNGHOON');"
                                                                                     role="button"><span>응찰</span></a>
                                                             </div>
@@ -621,14 +621,19 @@
         }
 
         $scope.popSet = function (saleNo, lotNo, userId) {
-            console.log("TTTTT");
             let popup_biddingPopup1 = $("a[name='open_popup']").trpLayerFixedPopup("#popup_biddingPopup1-wrap");
             popup_biddingPopup1.open(this); // or false
             popup_fixation("#popup_biddingPopup1-wrap");
 
             let init_func_manual = async function (token, saleNo, lotNo, saleType, userId) {
                 //console.log(token, saleNo, lotNo, saleType, userId);
-                let resp = await fetch('http://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/init2', {
+                let url ='';
+                if (window.location.protocol !== "https:") {
+                    url = 'http://dev-bid.seoulauction.xyz/init2';
+                } else {
+                    url = 'https://dev-bid.seoulauction.xyz/init2';
+                }
+                let resp = await fetch(url, {
                     method: "POST",
                     body: JSON.stringify({
                         token: $scope.token,
@@ -779,7 +784,12 @@
                 con_try_cnt = 0
                 return
             }
-            w = new WebSocket("ws://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/ws");
+
+            if (window.location.protocol !== "https:") {
+                w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws");
+            } else {
+                w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws");
+            }
             w.onopen = function () {
                 console.log("open");
             }
@@ -826,7 +836,13 @@
                 $scope.token = d.message.token;
 
                 let init_func_manual = async function (req) {
-                    let response = await fetch('http://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/init', {
+                    let url = '';
+                    if (window.location.protocol !== "https:") {
+                        url = 'http://dev-bid.seoulauction.xyz/init';
+                    } else {
+                        url = 'https://dev-bid.seoulauction.xyz/init';
+                    }
+                    let response = await fetch(url, {
                         method: "POST",
                         body: JSON.stringify({
                             token: req.message.token,
@@ -1101,36 +1117,43 @@
                 if (d.message.bids != null && d.message.bids.length > 0) {
                     $scope.bidsInfoAll = d.message.bids;
                     let matching = new Map();
+
                     // 정보를 처음 가져왔을 때, 인덱스 매핑
                     for (let i = 0; i < $scope.bidsInfoAll.length; i++) {
                         matching.set($scope.bidsInfoAll[i].customer.sale_no + "-" +
                             $scope.bidsInfoAll[i].customer.lot_no, i);
                     }
+
+                    console.log("$scope.bidsInfoAll.length :", $scope.bidsInfoAll.length);
+
+
                     for (let j = 0; j < $scope.saleInfoAll.length; j++) {
                         let idx = matching.get($scope.saleInfoAll[j].SALE_NO + "-" +
                             $scope.saleInfoAll[j].LOT_NO);
+                        if (idx != undefined) {
+                            let curCostValue = ($scope.bidsInfoAll[idx].bid_cost === 0) ?
+                                "KRW " + $scope.bidsInfoAll[idx].open_bid_cost.toLocaleString('ko-KR') :
+                                "KRW " + $scope.bidsInfoAll[idx].bid_cost.toLocaleString('ko-KR');
+                            // 시작일자
+                            $scope.saleInfoAll[j].START_COST = "KRW " + $scope.bidsInfoAll[idx].open_bid_cost.toLocaleString('ko-KR');
+                            // 현재가
+                            $scope.saleInfoAll[j].CUR_COST = curCostValue;
+                            // 응찰 수
+                            $scope.saleInfoAll[j].BID_COUNT = "(응찰 : " + $scope.bidsInfoAll[idx].bid_count + ")";
+                            // 종료일
+                            $scope.saleInfoAll[j].END_DT = $scope.bidsInfoAll[idx].end_bid_time;
 
-                        let curCostValue = ($scope.bidsInfoAll[idx].bid_cost === 0) ?
-                            "KRW " + $scope.bidsInfoAll[idx].open_bid_cost.toLocaleString('ko-KR') :
-                            "KRW " + $scope.bidsInfoAll[idx].bid_cost.toLocaleString('ko-KR');
-                        // 시작일자
-                        $scope.saleInfoAll[j].START_COST = "KRW " + $scope.bidsInfoAll[idx].open_bid_cost.toLocaleString('ko-KR');
-                        // 현재가
-                        $scope.saleInfoAll[j].CUR_COST = curCostValue;
-                        // 응찰 수
-                        $scope.saleInfoAll[j].BID_COUNT = "(응찰 : " + $scope.bidsInfoAll[idx].bid_count + ")";
-                        // 종료일
-                        $scope.saleInfoAll[j].END_DT = $scope.bidsInfoAll[idx].end_bid_time;
-
-                        // 낙찰이 완료 되었다면
-                        if ($scope.bidsInfoAll[idx].is_winner) {
-                            if ($scope.bidsInfoAll[idx].end_bid_time <= 0) {
-                                $scope.saleInfoAll[j].BID_TICK = "경매 시작 전입니다.";
-                            } else if ($scope.bidsInfoAll[idx].end_bid_time <= new Date().getTime()) {
-                                $scope.saleInfoAll[j].BID_TICK = "경매가 종료 되었습니다.";
+                            // 낙찰이 완료 되었다면
+                            if ($scope.bidsInfoAll[idx].is_winner) {
+                                if ($scope.bidsInfoAll[idx].end_bid_time <= 0) {
+                                    $scope.saleInfoAll[j].BID_TICK = "경매 시작 전입니다.";
+                                } else if ($scope.bidsInfoAll[idx].end_bid_time <= new Date().getTime()) {
+                                    $scope.saleInfoAll[j].BID_TICK = "경매가 종료 되었습니다.";
+                                }
+                                $scope.bidsInfoAll[idx].IS_END_BID = true;
                             }
-                            $scope.bidsInfoAll[idx].IS_END_BID = true;
                         }
+
                     }
                     let isCanClose = true;
                     for (let j = 0; j < $scope.saleInfoAll.length; j++) {
@@ -1345,7 +1368,13 @@
 
     let biding = async function (connect_info) {
         let val = document.getElementById("bid_new_cost_val").getAttribute("value");
-        let response = await fetch('http://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/bid', {
+        let url = '';
+        if (window.location.protocol !== "https:") {
+            url = 'http://dev-bid.seoulauction.xyz/bid';
+        } else {
+            url = 'https://dev-bid.seoulauction.xyz/bid';
+        }
+        let response = await fetch(url, {
             method: "POST",
             body: JSON.stringify({
                 customer: {

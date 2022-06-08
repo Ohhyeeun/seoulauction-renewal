@@ -227,6 +227,15 @@ public class ApiMypageController {
 		commonMap.put("action_user_no", principal.getName());
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectLiveBidHistoryList(commonMap)));
 	}
+	@RequestMapping(value = "/liveBidHammers/{sale_no}", method = RequestMethod.GET)
+	public ResponseEntity<RestResponse> liveBidHistories(
+			@PathVariable("sale_no") String sale_no,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		CommonMap commonMap = new CommonMap();
+		commonMap.put("sale_no", sale_no);
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectLiveBidHammerList(commonMap)));
+	}
 	
 	@RequestMapping(value = "/onlineBids", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> onlineBids(

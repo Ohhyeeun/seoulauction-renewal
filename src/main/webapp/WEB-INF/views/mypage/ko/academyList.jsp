@@ -171,7 +171,7 @@
                                 </article>
                                 <div class="button-area">
                                     <div class="btn_set-float tac">
-                                        <a class="btn btn_point href=" #" role="button"><span>확인</span></a>
+                                        <a class="btn btn_point js-closepop" href="#" id="confirm" role="button"><span>확인</span></a>
                                     </div>
                                 </div>
                             </section>
