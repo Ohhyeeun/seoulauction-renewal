@@ -91,6 +91,10 @@
 								.catch(function(error) {
 									console.log(error);
 								});
+						}else if(action.startsWith("socialConfirm")){
+							opener.parent.socialConfirm(naverLogin.user.email)
+							window.close();
+							
 						}
 					} else {
 						console.log("callback 처리에 실패하였습니다.");
