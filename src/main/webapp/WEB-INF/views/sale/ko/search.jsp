@@ -99,15 +99,15 @@
                                             </div>
                                         </div>
                                         <div class="col_item positon-col2">
-                                            <div class="select-box" id="selectSort">
-                                                <select class="select2Basic42" >
-                                                    <option value="1">경매 최신순</option>
+                                            <div class="select-box" id="selectSort" >
+                                                <select class="select2Basic42" onchange="angular.element(this).scope().search();">
+                                                    <option value="1" >경매 최신순</option>
                                                     <option value="2">추정가 낮은순</option>
                                                     <option value="3">추정가 높은순</option>
                                                 </select>
                                             </div>
                                             <div class="select-box" id="selectMore">
-                                                <select class="select2Basic42 js-select_page" >
+                                                <select class="select2Basic42 js-select_page" onchange="angular.element(this).scope().search();">
                                                     <option value="1">더보기 방식</option>
                                                     <option value="2">페이지 방식</option>
                                                 </select>
@@ -140,7 +140,7 @@
                                         </div>
                                     </div>
                                     <div class="only-mb">
-                                        <button class="btn btn_gray_line" type="button"><span>더보기</span></button>
+                                        <button class="btn btn_gray_line" id="more_search_m" type="button" ng-click="moreSearch();"><span>더보기</span></button>
                                     </div>
                                 </div>
                             </div>
@@ -230,7 +230,7 @@
                 <div class="box-inner">
                     <span>Filter</span>
                     <button class="btn-filter_refresh">
-                        <i class="icon-filter_refresh" ng-click="initFilter();"></i><span>초기화</span>
+                        <i class="icon-filter_refresh" onclick="angular.element(this).scope().initFilter();"></i><span>초기화</span>
                     </button>
                 </div>
             </div>

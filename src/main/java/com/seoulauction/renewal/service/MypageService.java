@@ -185,11 +185,19 @@ public class MypageService {
     	return map;
     }
 
+
     public CommonMap selectLiveBidHistoryList(CommonMap commonMap){
     	CommonMap map = new CommonMap();
-    	map.put("list", mypageMapper.selectLiveBidReqHistoryList(commonMap));
+    	map.put("list", mypageMapper.selectLiveBidHistoryList(commonMap));
 //    	map.put("cnt", mypageMapper.selectLiveBidReqCnt(commonMap));                                                                          
         return map;
+    }
+    
+    public CommonMap selectLiveBidHammerList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectLiveBidHammerList(commonMap));
+    	map.put("cnt", mypageMapper.selectLiveBidHammerCnt(commonMap));                                                                          
+    	return map;
     }
     
     public CommonMap selectOnlineBidList(CommonMap commonMap){

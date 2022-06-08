@@ -50,7 +50,11 @@ public class SocialAuthenticationProvider  implements AuthenticationProvider {
         paramMap.put("social_type", socialType);
         paramMap.put("social_email", socialEmail);
         CommonMap resultMap = loginMapper.selectCustForCustSocial(paramMap);;
-
+		
+        if(resultMap == null || resultMap.isEmpty()){
+			throw new BadCredentialsException("User not found.");
+        }
+        
         if(resultMap.get("STAT_CD") != null && resultMap.get("STAT_CD").equals("stop")){
 			throw new BadCredentialsException("Stop User"); // 이용제한 아이디 STAT_CD = 'stop'
         }
@@ -96,6 +100,8 @@ public class SocialAuthenticationProvider  implements AuthenticationProvider {
     			.zipNo(resultMap.get("ZIPNO") != null ? resultMap.get("ZIPNO").toString() : "")
 				.addr(resultMap.get("ADDR") != null ? resultMap.get("ADDR").toString() : "" + resultMap.get("ADDR_DTL") != null ? " " + resultMap.get("ADDR_DTL").toString() : "")
 				.socialYn(resultMap.get("SOCIAL_YN") != null ? resultMap.get("SOCIAL_YN").toString() : "" + resultMap.get("SOCIAL_YN") != null ? " " + resultMap.get("SOCIAL_YN").toString() : "")
+				.socialType(socialType)
+				.socialEmail(socialEmail)
     			.build());
 
         return result;

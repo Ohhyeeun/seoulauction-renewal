@@ -42,6 +42,8 @@ $(document).ready(function(){
                         //lot data
                         currentLotData[idx] = el.lots;
 
+                        console.log(el.lots);
+
                         // 처음은 0부터 10
                         addLot(idx , currentLotData[curruentTab].slice(0 , initCount));
                     });
@@ -67,13 +69,14 @@ $(document).ready(function(){
             let lotName = locale === 'ko' ? lotTitle.ko : lotTitle.en;
             let price = numberWithCommas(el.START_PRICE);
             let lotNo = el.LOT_NO;
+            let like = el.FAVORITE_YN === 'N' ? 'on' : '';
             //lot html
             let html =
                 `<figure class="auction-thumbbox">
                             <img src='${imgPath}' alt="/images/pc/thumbnail/AuctionBanner_05_280x280.png" class="pc-ver">
                                 <img src='${imgPath}' alt="/images/pc/thumbnail/AuctionBanner_05_280x280.png" class="m-ver">
                                     <figcaption class="auction-thumb">
-                                        <button id='id_${lotNo}' class="wish_heart"></button>
+                                        <button id='id_${lotNo}' class="wish_heart ${like}" ></button>
                                         <a href="#">
                                             <p class="auction-thumb-txt">
                                                 <span>${lotName}</span>
@@ -133,6 +136,11 @@ $(document).ready(function(){
         });
         //auction haert 버튼
         $('.wish_heart').on('click', function () {
+
+            if(sessionStorage.getItem("is_login") === 'false'){
+                alert('로그인을 진행해주세요.');
+                return;
+            }
 
             let data = {};
 

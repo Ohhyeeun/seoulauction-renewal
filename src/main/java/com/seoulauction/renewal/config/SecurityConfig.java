@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.seoulauction.renewal.auth.FrontAuthenticationProvider;
@@ -66,10 +67,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity security) throws Exception
     {
         security.httpBasic().disable();
-        security
+		security.cors().configurationSource(corsConfigurationSource())
+		.and()
             .csrf().disable()
             .authorizeRequests()
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+			.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 	        .antMatchers("/*").permitAll()
 			.antMatchers("/api/**").permitAll()
 			.antMatchers("/swagger-ui/**").permitAll()
@@ -103,13 +106,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		    .sessionManagement()
 	        	.maximumSessions(1)
 	        	.maxSessionsPreventsLogin(false)
-	        	.expiredUrl("/?maxSession=true")
-	        	.and();
-    }
+	        	.expiredUrl("/?maxSession=true");
+	}
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("*");
+		configuration.addAllowedOriginPattern("*");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
