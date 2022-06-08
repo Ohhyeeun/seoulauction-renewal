@@ -57,6 +57,32 @@ app.controller('liveBidListCtl', function($scope, consts, common) {
 		
 	}
 	
+	$scope.liveBidHammer = function(input) {
+		  axios.get('/api/mypage/liveBidHammers/'+input.bid.SALE_NO, null)
+		        .then(function(response) {
+		            const result = response.data;
+		
+		            let success = result.success;
+		            if(!success){
+		                alert(result.data.msg);
+		            } else {
+					$scope.liveBidHisHammerList = result["data"]["list"];
+					$scope.liveBidHisHammerCnt = result["data"]["cnt"]["tatal_count"];
+					$scope.liveBidHisHammerTotalFee = result["data"]["cnt"]["sum_fee"];
+					$scope.liveBidHisHammerTotalBidPrice = result["data"]["cnt"]["sum_bid_price"];
+					$scope.liveBidHisHammerTotalPayPrice = result["data"]["cnt"]["sum_total_price"];
+		            console.log($scope.liveBidHisHammerList);
+		            $scope.$apply();
+		            }
+		        })
+		        .catch(function(error){
+		            console.log(error);
+		        })
+		         .finally(function () {
+			    document.getElementById('popup_offline_payment-wrap').style.display="block";
+			  });
+	}
+	
 	$scope.groupBy = function(xs, key) {
 		  return xs.reduce(function(rv, x) {
 		    (rv[x[key]] = rv[x[key]] || []).push(x);
@@ -68,5 +94,5 @@ app.controller('liveBidListCtl', function($scope, consts, common) {
 		str = String(str);
 		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 	}
-	
+
 });
