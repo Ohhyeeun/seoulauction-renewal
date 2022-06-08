@@ -99,7 +99,7 @@
                                             </div>
                                         </div>
                                         <div class="col_item positon-col2">
-                                            <div class="select-box" id="selectSort">
+                                            <div class="select-box" id="selectSort" onchange="angular.element(this).scope().search();">
                                                 <select class="select2Basic42" >
                                                     <option value="1">경매 최신순</option>
                                                     <option value="2">추정가 낮은순</option>
@@ -107,7 +107,7 @@
                                                 </select>
                                             </div>
                                             <div class="select-box" id="selectMore">
-                                                <select class="select2Basic42 js-select_page" >
+                                                <select class="select2Basic42 js-select_page" onchange="angular.element(this).scope().search();">
                                                     <option value="1">더보기 방식</option>
                                                     <option value="2">페이지 방식</option>
                                                 </select>
