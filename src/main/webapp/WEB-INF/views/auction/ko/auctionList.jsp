@@ -629,9 +629,9 @@
                 //console.log(token, saleNo, lotNo, saleType, userId);
                 let url ='';
                 if (window.location.protocol !== "https:") {
-                    url = 'http://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/init2';
+                    url = 'http://dev-bid.seoulauction.xyz/init2';
                 } else {
-                    url = 'https://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/init2';
+                    url = 'https://dev-bid.seoulauction.xyz/init2';
                 }
                 let resp = await fetch(url, {
                     method: "POST",
@@ -786,9 +786,9 @@
             }
 
             if (window.location.protocol !== "https:") {
-                w = new WebSocket("ws://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/ws");
+                w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws");
             } else {
-                w = new WebSocket("wss://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/ws");
+                w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws");
             }
             w.onopen = function () {
                 console.log("open");
@@ -838,9 +838,9 @@
                 let init_func_manual = async function (req) {
                     let url = '';
                     if (window.location.protocol !== "https:") {
-                        url = 'http://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/init';
+                        url = 'http://dev-bid.seoulauction.xyz/init';
                     } else {
-                        url = 'https://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/init';
+                        url = 'https://dev-bid.seoulauction.xyz/init';
                     }
                     let response = await fetch(url, {
                         method: "POST",
@@ -1370,9 +1370,9 @@
         let val = document.getElementById("bid_new_cost_val").getAttribute("value");
         let url = '';
         if (window.location.protocol !== "https:") {
-            url = 'http://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/bid';
+            url = 'http://dev-bid.seoulauction.xyz/bid';
         } else {
-            url = 'https://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/bid';
+            url = 'https://dev-bid.seoulauction.xyz/bid';
         }
         let response = await fetch(url, {
             method: "POST",
