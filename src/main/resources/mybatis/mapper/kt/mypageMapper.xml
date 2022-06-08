@@ -119,8 +119,11 @@
 				, DATE_FORMAT(B.BID_DT, '%T') as BIDTIME
 				, B.CUST_NO BID_CUST_NO
 				, P.CUST_NO PAY_CUST_NO
-				, P.PAY_METHOD_NM, PAY_CNT
+				, P.PAY_METHOD_NM
+				, PAY_CNT
+				, P.PAY_METHOD_ID
 				, P.PAY_PRICE
+				, P.PG_TRANS_ID
 				, case when P.CUST_NO is null then 0 else 1 end PAID_CNT
 				, if((select count(*) from CUST_BASE_FEE where CUST_NO = '1' and FEE_KIND_CD = 'payment') = 0, 'N', 'Y') CUST_FEE_YN
 				, DATE_FORMAT(P.PAY_DT, '%Y.%m.%d') payDate
@@ -134,9 +137,10 @@
 					WHEN '7' THEN '토'
 					END AS payWeekDate
 				,DATE_FORMAT(P.PAY_DT, '%T') as payTime
-				,(select count(*) from bid where cust_no='9186' and sale_no=S.sale_no and LOT_NO=L.LOT_NO) as bid_count
+				,(select count(*) from bid where cust_no='115551' and sale_no=S.sale_no and LOT_NO=L.LOT_NO) as bid_count
+				, IF(P.PG_TRANS_ID is not null and P.pg_cd='nice', 'Y', 'N' ) receipt
 		from
-			( select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO ='9186' and b1.BID_NO = sb.BID_NO 
+			( select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO ='115551' and b1.BID_NO = sb.BID_NO 
 		) B 
 		inner join (
 		select
@@ -150,7 +154,7 @@
 		from
 			sale s1
 		join (
-			select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO ='9186' and b1.BID_NO = sb.BID_NO 
+			select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO ='115551' and b1.BID_NO = sb.BID_NO 
 		) B2 on
 			B2.SALE_NO = s1.SALE_NO
 			group by SALE_NO 
@@ -168,10 +172,13 @@
 		left outer join (
 			select
 				SP.CUST_NO,
+				SP.PG_CD,
+				SP.PG_TRANS_ID,
 				sum(SP.PAY_PRICE) PAY_PRICE,
 				LP.SALE_NO,
 				LP.LOT_NO,
 				C.CD_NM PAY_METHOD_NM,
+				C.CD_ID PAY_METHOD_ID,
 				count(*) PAY_CNT,
 				PAY_DT
 			from
@@ -206,7 +213,7 @@
 					success_bid sb
 				inner join bid b1
 				where
-					b1.CUST_NO = '9186'
+					b1.CUST_NO = '115551'
 					and b1.BID_NO = sb.BID_NO
 				group by
 					sale_no) B
@@ -221,7 +228,7 @@
 		select 
 			case when P.CUST_NO is null then 0 else 1 end PAID_CNT
 		from
-			( select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO ='9186' and b1.BID_NO = sb.BID_NO 
+			( select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO ='115551' and b1.BID_NO = sb.BID_NO 
 		) B 
 		inner join (
 		select
@@ -235,7 +242,7 @@
 		from
 			sale s1
 		join (
-			select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO ='9186' and b1.BID_NO = sb.BID_NO 
+			select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO ='115551' and b1.BID_NO = sb.BID_NO 
 		) B2 on
 			B2.SALE_NO = s1.SALE_NO
 			group by SALE_NO 
