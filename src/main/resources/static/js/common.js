@@ -311,7 +311,6 @@ $(function(){
         const windowWidth1023 = window.matchMedia('screen and (max-width:1023px)');
 
         if(windowWidth1279.matches){
-            console.log(234324);
             $('.topsearch>input').attr('placeholder','작가 또는 작품명 검색');
             $('.topsearch-en>input').attr('placeholder','Search by artist or work name');
             $('.darkmodeBg').hover(function(){
