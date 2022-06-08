@@ -13,7 +13,7 @@
 
 <%--메인이 아닐 경우에만 해당 css 추가.--%>
 <c:if test="${empty param.main}">
-    <jsp:include page="../../common/commonCssNotMain.jsp" flush="false"/>
+    <link rel="stylesheet" href="/css/pages_common_en.css" type="text/css" />
 </c:if>
 
 <%--angular 관련은 미리 로딩--%>

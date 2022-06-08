@@ -56,5 +56,5 @@
 <jsp:include page="../../common/commonJs.jsp" flush="false"/>
 <%--메인이 아닐 경우에만 해당 JS  추가.--%>
 <c:if test="${empty param.main}">
-    <jsp:include page="../../common/commonJSNotMain.jsp" flush="false"/>
+    <script src="/js/pages_common_ko.js"></script>
 </c:if>

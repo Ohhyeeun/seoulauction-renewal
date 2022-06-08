@@ -230,7 +230,7 @@
                 <div class="box-inner">
                     <span>Filter</span>
                     <button class="btn-filter_refresh">
-                        <i class="icon-filter_refresh" ng-click="initFilter();"></i><span>초기화</span>
+                        <i class="icon-filter_refresh" onclick="angular.element(this).scope().initFilter();"></i><span>초기화</span>
                     </button>
                 </div>
             </div>

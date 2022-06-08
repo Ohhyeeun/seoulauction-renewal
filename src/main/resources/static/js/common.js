@@ -27,7 +27,9 @@ $(function(){
                         const titleJSON = JSON.parse(item.TITLE_BLOB);
                         const returnDom = `<a href="/auction/${item.SALE_NO}" class="Ingbanner" target="_blank">
                                             <figure class="border-txt-darkg Ingbanner-img">
-                                                <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" alt="ing_auction01">
+                                                <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" 
+                                                     onerror="this.src='/images/pc/thumbnail/gnb_thubnatil_ready.jpg'"
+                                                    alt="ing_auction01">
                                             </figure>
                                             <div class="Ingbanner-txt text-over">
                                                 <span class="auctionKind-box Ingkind-auction ${item.SALE_KIND === 'LIVE' ? 'on' : ''}">${item.SALE_KIND}</span>
@@ -301,6 +303,8 @@ $(function(){
     });
 
     /*top search placeholder */
+    $('.topsearch>input').attr('placeholder','작가 또는 작품명 검색'); /* placeholder 초기값 */
+
     $(window).resize(function(){
         const windowWidth1279 = window.matchMedia('screen and (min-width:1279px)');
         const windowWidth1024 = window.matchMedia('screen and (min-width:1024px)');
@@ -344,13 +348,12 @@ $(function(){
         $('.familyselect').hide();
     });
 
-
+    /* scroll top */
+    $('.scroll-top').click(function(){
+        $('html, body').animate({scrollTop: '0'}, 700);
+    });
 });
 
-/* scroll top */
-$('.scroll-top').click(function(){
-    $('html, body').animate({scrollTop: '0'}, 700);
-});
 
 /* top search filter 기능 */
 function searchFilter() {

@@ -17,77 +17,81 @@
 		<div class="sub-wrap pageclass">
 			<jsp:include page="../../include/ko/header.jsp" flush="false" />
 			
-			<div id="container footer-bottom footer-bottom30" style="margin-top:60px">
+			<div id="container footer-bottom" style="margin-top:60px">
 				<div id="contents" class="contents">
-				    <section class="basis-section last-section back_gray">
+					<section class="basis-section last-section back_gray">
 		                <div class="section-inner">
 		                    <div class="content-panel type_panel-member">
-		                        <div class="panel-header">
-		                            <div class="title">
-		                                <span class="tt2">회원가입 완료되었습니다.</span>
-		                            </div>
+								<div class="panel-header complete_title">
+									<div class="title">
+										<span class="tt2">Registration complete</span>
+									</div>
 		                        </div>
 		                        <div class="panel-body">
-		
 		                            <div class="complete-wrap">
-		                                <div class="join_txt-wrap">
-		                                    <p class="join_txt ">
-		                                        <b>홍길동</b> 님은 <span class="level">
-														준회원
-												</span>입니다.
-		                                    </p>
-		                                </div>
+										<div class="complete_area">
+											<p class="tb1">An email has been sent for email verification.</p>
+											<p class="tb1">Please verify your email address to complete membership registration.</p>
+											<div class="complete_msg">
+												<p class="tt5"><strong>Sign up email address</strong></p>
+												<p class="tt5 mt5"><em>AAA@ac.com</em></p>
+											</div>
+											<p class="tb1">If you do not receive the registration confirmation email, please check your spam folder or contact the customer center ( <a href="mailto:info@seoulauction.com">info@seoulauction.com</a> ).</p>
+										</div>
+
 		                                <div class="join_guide">
-		                                    <p class="tt4">준회원 및 정회원 안내</p>
-		                                    <dl>
-		                                        <dt class="mem_txt">준회원</dt>
-		                                        <dd>
-		                                            <!-- [0502] -->
-		                                            <ul class="dot_list tb1">
-		                                                <li>온라인 경매 응찰 자격 부여 낙찰 시, 수수료 <br class="only-pc">별도 부가</li>
-		                                            </ul>
-		                                            <!-- //[0502] -->
-		                                        </dd>
-		                                    </dl>
-		                                    <dl>
-		                                        <dt class="mem_txt">정회원</dt>
-		                                        <!-- [0502] -->
-		                                        <dd>
-		                                            <ul class="dot_list tb1">
-		                                                <li>연회비</li>
-		                                            </ul>
-		                                            <p class="tb1">국내 거주 20만원, 해외거주 500USD</p>
-		                                            <ul class="dot_list tb1">
-		                                                <li>혜택</li>
-		                                            </ul>
-		                                            <p class="tb1">라이브 경매(메이저, 기획) 참여 자격 부여</p>
-		                                            <p class="tb1">라이브 경매 도록 발송</p>
-		                                            <p class="tb1">서울옥션 달력 발송</p>
-		
-		                                            <div class="btn_line">
-		                                                <a href="#none" class="btn btn_gray_line pr0"><span>정회원 신청 바로가기</span><i class="icon-page_next"></i></a>
-		                                            </div>
-		                                        </dd>
-		                                        <!-- //[0502] -->
-		                                    </dl>
+											<p class="tt4">Guide for Members</p>
+											<dl>
+												<dt class="mem_txt">Associate Member</dt>
+												<dd>
+													<ul class="dot_list tb1">
+														<li>Provided limited service on the Seoul Auction website</li>
+													</ul>
+												</dd>
+											</dl>
+											<dl>
+												<dt class="mem_txt">Regular member</dt>
+												<dd>
+													<ul class="dot_list tb1">
+														<li>Annual fee 20,000 won</li>
+														<li>Qualification to bid at Seoul Auction</li>
+														<li>Sending Auction Invitations</li>
+														<li>Auction catalog sending service benefit (for one year of membership)</li>
+														<li>Qualifications to participate in exhibitions, events and various events</li>
+														<li>Free access to online information</li>
+													</ul>
+													<!-- 영문삭제
+                          <div class="btn_line">
+                            <a href="#none" class="btn btn_gray_line pr0"><span>정회원 신청 바로가기</span><i class="icon-page_next"></i></a>
+                          </div>
+                           -->
+												</dd>
+											</dl>
 		                                </div>
 		                            </div>
 		                        </div>
-		                        <div class="panel-footer">
+								<%-- 영문삭제 --%>
+		                        <%--<div class="panel-footer">
 		                            <article class="button-area">
 		                                <div class="btn_set-float tac">
 		                                    <a class="btn btn_point btn_lg" href="#" role="button"><span>메인으로 이동</span></a>
 		                                </div>
 		                            </article>
-		                        </div>
-		
+		                        </div>--%>
 		                    </div>
-		
 		                </div>
 		            </section>
 				</div>
 		    </div>
 		    <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
+			<!-- stykey -->
+
+			<div class="scroll_top-box">
+				<div class="box-inner">
+					<a href="#" class="btn-scroll_top js-scroll_top"><i class="icon-scroll_top"></i></a>
+				</div>
+			</div>
+			<!-- // stykey -->
 	    </div>
 	</div>
 	</body>

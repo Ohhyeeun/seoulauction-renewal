@@ -120,7 +120,10 @@ public class MainService {
 
             CommonMap paramMap = new CommonMap();
             paramMap.put("sale_no", item.get("SALE_NO"));
-            CommonMap saleImg = ktMainMapper.selectSaleImage(paramMap);
+            CommonMap saleImg = new CommonMap();
+            if(ktMainMapper.selectSaleImage(paramMap) != null) {
+                saleImg = ktMainMapper.selectSaleImage(paramMap);
+            }
 
             returnMap.put("FILE_PATH", saleImg.get("FILE_PATH"));
             returnMap.put("FILE_NAME", saleImg.get("FILE_NAME"));
@@ -146,7 +149,10 @@ public class MainService {
 
             CommonMap paramMap = new CommonMap();
             paramMap.put("sale_no", item.get("SALE_NO"));
-            CommonMap saleImg = ktMainMapper.selectSaleImage(paramMap);
+            CommonMap saleImg = new CommonMap();
+            if(ktMainMapper.selectSaleImage(paramMap) != null) {
+                saleImg = ktMainMapper.selectSaleImage(paramMap);
+            }
 
             returnMap.put("FILE_PATH", saleImg.get("FILE_PATH"));
             returnMap.put("FILE_NAME", saleImg.get("FILE_NAME"));
