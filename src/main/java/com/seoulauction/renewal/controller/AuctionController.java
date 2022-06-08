@@ -73,8 +73,8 @@ public class AuctionController {
                              @PathVariable("lot_no") int lotNo) {
 
         model.addAttribute("member" , SecurityUtils.getAuthenticationPrincipal());
-
-
+        model.addAttribute("saleNo", saleNo);
+        model.addAttribute("lotNo", lotNo);
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionLiveBiding" , locale);
     }
 

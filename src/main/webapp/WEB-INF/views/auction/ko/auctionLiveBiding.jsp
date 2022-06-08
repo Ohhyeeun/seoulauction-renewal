@@ -43,7 +43,7 @@
                             <!-- 작품응찰신청 -->
                             <div class="content-panel type_panel-proceeding_bidding">
                                 <div class="panel-header">
-                                    <div class="title"><span>제 166회 라이브 경매</span></div>
+                                    <div class="title"><span id="sale_title">제 166회 라이브 경매</span></div>
                                 </div>
                                 <div class="panel-body">
 
@@ -54,13 +54,13 @@
                                                 <div class="guide">
 
                                                     <div class="product-box">
-                                                        <p class="img"><img src="/images/temp/temp_img2.jpg" alt="" /></p>
+                                                        <p class="img"><img id="bidding_lot_img" src="/images/temp/temp_img2.jpg" alt="" /></p>
                                                         <div class="product_info">
-                                                            <div class="num"><span class="tb1">1</span></div>
+                                                            <div class="num"><span class="tb1" id="lot_id">1</span></div>
                                                             <div class="title">
-                                                                <div class="name"><span class="tt4">데미안허스트</span></div>
+                                                                <div class="name"><span class="tt4" id="artist_name">데미안허스트</span></div>
                                                                 <div class="desc">
-                                                                    <span class="tb1">Air (From The Series The Elements) 은제이화문화병,은제이화문담배함,건칠이화문접시</span>
+                                                                    <span class="tb1" id="lot_title">Air (From The Series The Elements) 은제이화문화병,은제이화문담배함,건칠이화문접시</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -69,7 +69,7 @@
                                                 <div class="member_pay">
                                                     <p>
                                                         <span class="tit ">추정가</span>
-                                                        <span class="won">KRW 9,900,000,000 <br />
+                                                        <span class="won" id="expe_price">KRW 9,900,000,000 <br />
                                                             ~ 9,900,000,000</span>
                                                     </p>
                                                 </div>
@@ -105,92 +105,22 @@
                                                         <!-- [0516]select 변경 -->
                                                         <div class="select-box">
                                                             <div class="trp-dropdown-area h50-line_center">
-                                                                <button class="js-dropdown-btn"><span> 1,800,000 KRW</span><i class="icon-select_arrow"></i>
+                                                                <button class="js-dropdown-btn"><span id="selected_lot"> 1,800,000 KRW</span><i class="icon-select_arrow"></i>
                                                                 </button>
                                                                 <div class="trp-dropdown_list-box" data-trp-focusid="js-user_support">
                                                                     <!-- <div class="legend-box">
                                     <span>(호가단위 : 100,000 KRW)</span>
                                   </div> -->
                                                                     <div class="list-box scroll-type">
-                                                                        <ul>
+                                                                        <ul id="select_lot_scroll">
                                                                             <!-- [0523]스크롤 미리보기를 위해 li 갯수 추가 -->
-                                                                            <li>
-                                                                                <a href="#">
-                                                                                    <div class="typo-area">
-                                                                                        <span>1,500,000 KRW</span>
-                                                                                    </div>
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">
-                                                                                    <div class="typo-area">
-                                                                                        <span>1,400,000 KRW</span>
-                                                                                    </div>
-                                                                                </a>
-                                                                            </li>
-                                                                            <li class="active">
-                                                                                <a href="#">
-                                                                                    <div class="typo-area">
-                                                                                        <span>1,300,000 KRW</span>
-                                                                                    </div>
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">
-                                                                                    <div class="typo-area">
-                                                                                        <span>1,200,000 KRW</span>
-                                                                                    </div>
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">
-                                                                                    <div class="typo-area">
-                                                                                        <span>1,100,000 KRW</span>
-                                                                                    </div>
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">
-                                                                                    <div class="typo-area">
-                                                                                        <span>1,000,000 KRW</span>
-                                                                                    </div>
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">
-                                                                                    <div class="typo-area">
-                                                                                        <span>900,000 KRW</span>
-                                                                                    </div>
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">
-                                                                                    <div class="typo-area">
-                                                                                        <span>800,000 KRW</span>
-                                                                                    </div>
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">
-                                                                                    <div class="typo-area">
-                                                                                        <span>800,000 KRW</span>
-                                                                                    </div>
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">
-                                                                                    <div class="typo-area">
-                                                                                        <span>800,000 KRW</span>
-                                                                                    </div>
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">
-                                                                                    <div class="typo-area">
-                                                                                        <span>800,000 KRW</span>
-                                                                                    </div>
-                                                                                </a>
-                                                                            </li>
+<%--                                                                            <li>--%>
+<%--                                                                                <a href="#">--%>
+<%--                                                                                    <div class="typo-area">--%>
+<%--                                                                                        <span>1,500,000 KRW</span>--%>
+<%--                                                                                    </div>--%>
+<%--                                                                                </a>--%>
+<%--                                                                            </li>--%>
                                                                             <!-- //[0523]스크롤 미리보기를 위해 li 갯수 추가 -->
                                                                         </ul>
                                                                     </div>
@@ -201,11 +131,11 @@
                                                         <!-- // [0516]select 변경 -->
 
                                                         <div class="price">
-                                                            <span>구천구백구십구억구천구백구십구만 원</span>
+                                                            <span id="price_to_han">구천구백구십구억구천구백구십구만 원</span>
                                                         </div>
 
                                                         <div class="unit">
-                                                            <span>(호가단위:100,000 KRW)</span>
+                                                            <span id="grow_price">(호가단위:100,000 KRW)</span>
                                                         </div>
 
                                                     </div>
@@ -355,7 +285,99 @@
     <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
 
-    <script type="text/javascript" src="/js/auction/auctionLiveBiding.js" type="text/javascript"></script>
+    <script>
+        $(function() {
+
+            init();
+
+            <!-- 데이터 세팅 -->
+            function init(){
+
+                axios.get('api/auction/lot_info/${saleNo}/${lotNo}')
+                    .then(function(response) {
+
+                        let data = response.data.data;
+
+                        console.log(data);
+
+                        let sale_title = JSON.parse(data.SALE_TITLE_JSON);
+
+                        $("#bidding_lot_img").attr('src' , 'https://www.seoulauction.com/nas_img'+data.LOT_IMG_PATH + '/' +data.LOT_IMG_NAME);
+
+                        $("#sale_title").html(sale_title.ko);
+                        $("#lot_id").html(data.LOT_NO);
+                        $("#artist_name").html(data.ARTIST_NAME_KO_TXT);
+                        $("#lot_title").html(data.TITLE_KO_TXT);
+                        $("#grow_price").html('(호가단위 : ' + numberWithCommas(data.GROW_PRICE) + ' KRW)');
+                        $("#expe_price").html('KRW ' + numberWithCommas(data.EXPE_PRICE_FROM_JSON.KRW) + '<br> ~ ' + numberWithCommas(data.EXPE_PRICE_TO_JSON.KRW));
+
+                        let current_price = data.START_PRICE;
+
+                        $("#selected_lot").text(numberWithCommas(current_price) + ' KRW');
+                        $("#price_to_han").text(num2han(current_price) + ' 원');
+
+                        $("#select_lot_scroll").empty();
+                        while (current_price <= data.EXPE_PRICE_TO_JSON.KRW) {
+
+                            let commasCurrentPrice = numberWithCommas(current_price);
+
+                            let select_html = `<li>
+                                <a href="#">
+                                    <div class="typo-area">
+                                        <span id="` + current_price + `">` + commasCurrentPrice + ` KRW</span>
+                                    </div>
+                                </a>
+                             </li>`;
+
+                            $("#select_lot_scroll").append(select_html);
+
+                            current_price += data.GROW_PRICE;
+                        }
+
+                        <!-- [0516] 셀렉트 드롭다운 -->
+                        let dropdown = $(".js-dropdown-btn").trpDropdown({
+                            list: ".trp-dropdown_list-box",
+                            area: ".trp-dropdown-area"
+                        });
+                        $(".trp-dropdown-area .trp-dropdown_list-box a").on("click", function ($e) {
+                            $e.preventDefault();
+                            var _this = $(this);
+                            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn em").text($("em", _this).text());
+                            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
+
+                            $("#price_to_han").text(num2han($("span", _this).attr('id')) + ' 원');
+                            dropdown.getClose();
+                        });
+                    })
+
+                    .catch(function(error){
+                        console.log(error);
+                    });
+            }
+
+            <!-- 응찰방법 -->
+            $(".js-bidding_method .btn_item").on("click", function($e) {
+                $(".js-bidding_method .btn_item").removeClass("active");
+                $(this).addClass("active");
+            });
+
+
+            <!-- 약관 -->
+            let accordion_toggle;
+            accordion_toggle = $(".js-accordion_btn").trpToggleBtn(
+                function($this) {
+                    $($this).addClass("on");
+                    $($this).closest(".check_all-wrap").find(".gray-box").slideDown("fast");
+                },
+                function($this) {
+                    $($this).removeClass("on");
+                    $($this).closest(".check_all-wrap").find(".gray-box").slideUp("fast");
+                });
+            accordion_toggle.setBtn(0);
+
+            $(".js_all-1").trpCheckBoxAllsImg(".js_all", ".js_item");
+        });
+    </script>
 
 </body>
 
