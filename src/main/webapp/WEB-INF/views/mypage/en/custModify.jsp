@@ -357,5 +357,5 @@
     </div>
 </body>
 <!-- 회원정보수정 비밀번호확인 -->
-<script type="text/javascript" src="/js/mypage/custConfirm.js"></script>
+<script type="text/javascript" src="/js/mypage/custModify.js"></script>
 </html>

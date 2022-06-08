@@ -170,7 +170,7 @@
 							                                                <tr ng-repeat="liveBidReqhis in liveBidReqHisList">
 							                                                    <td>{{liveBidReqhis.CURR_CD}} {{comma(liveBidReqhis.BID_PRICE)}}</td>
 							                                                    <td>{{liveBidReqhis.REQ_DT}}</td>
-							                                                    <td>1회 응찰</td>
+							                                                    <td>{{liveBidReqhis.BID_KIND_NM}}</td>
 							                                                    <td ><span class="succ" ng-if="liveBidReqhis.HAMMER_STAT == 'hammer'">낙찰</span></td>
 							                                                </tr>
 							                                            </tbody>

@@ -13,6 +13,7 @@
                 , FILESIZE
                 , URL
                 , CDN_URL
+                , BUCKET_NAME
                  )
             values
                 (
@@ -22,7 +23,8 @@
                 , #{mimetype}
                 , #{filesize}
                 , #{url}
-                , #{cdn_url}
+                , #{cdnUrl}
+                , #{bucketName}
                 )
     </insert>
     <insert id="insertS3FileData" parameterType="CommonMap">

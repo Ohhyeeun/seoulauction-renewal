@@ -905,7 +905,7 @@
     let biding = async function (connect_info) {
         console.log(new Date().getTime(), "bidding");
         let val = document.getElementById("bid_new_cost_val").getAttribute("value");
-        let response = await fetch('http://localhost:8002/bid', {
+        let response = await fetch('http://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/bid', {
             method: "POST",
             body: JSON.stringify({
                 customer: {
@@ -937,7 +937,7 @@
             con_try_cnt = 0
             return
         }
-        w = new WebSocket("ws://localhost:8002/ws");
+        w = new WebSocket("ws://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/ws");
         w.onopen = function () {
             console.log("open");
         }
@@ -980,7 +980,7 @@
             connect_info.lot_no = lotNo;
 
             let init_func_manual = async function (req) {
-                let response = await fetch('http://localhost:8002/init', {
+                let response = await fetch('http://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/init', {
                     method: "POST",
                     body: JSON.stringify({
                         token: req.message.token,
@@ -1094,8 +1094,6 @@
             let bid_tick = document.getElementById("bid_tick");
             let bid_tick_main = document.getElementById("end_date_time");
             let ddd = new Date(d.message.tick_value);
-
-            console.log(end_bid_time, d.message.tick_value, new Date(end_bid_time), ddd)
 
             if (end_bid_time > 0 && end_bid_time >= d.message.tick_value) {
 
