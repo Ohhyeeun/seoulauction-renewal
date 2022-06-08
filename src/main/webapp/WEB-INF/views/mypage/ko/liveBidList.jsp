@@ -59,7 +59,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="btn-area">
-                                                                    <button class="btn btn_black btn-view-bid" type="button" ng-click="liveBidHammer({'bid':liveBid[1][0]})"><span>낙찰결과보기</span></button>
+                                                                    <button class="btn btn_black btn-view-bid" type="button" ng-if="liveBid[1][0].success_bid_count != 0" ng-click="liveBidHammer({'bid':liveBid[1][0]})"><span>낙찰결과보기</span></button>
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in liveBid[1]">
