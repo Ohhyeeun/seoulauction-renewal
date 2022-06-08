@@ -130,6 +130,11 @@ public class ApiSaleController {
 
         // 현재 베이스 화폐
         String currCd = String.valueOf(saleInfoMap.get("CURR_CD"));
+
+        //String saleTitle = saleInfoMap.getString("")
+
+        lotInfoMap.put("SALE_TITLE_JSON" , saleInfoMap.get("TITLE_JSON"));
+
         // sub 화폐
         String subCurrCd = String.valueOf(baseCurrency.get(currCd));
 

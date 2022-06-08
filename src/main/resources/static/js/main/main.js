@@ -54,7 +54,7 @@ function closeResetPassword(modYn){
 		})
 		.catch(function(error){
 		    console.log(error);
-		});
+    });
 }
 $("body").on("click", "#popup_pwsearch6-wrap .js-closepop, #popup_pwsearch6-wrap .popup-dim", function($e) {
     $e.preventDefault();
