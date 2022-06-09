@@ -69,7 +69,7 @@
                                                 <div class="member_pay">
                                                     <p>
                                                         <span class="tit ">추정가</span>
-                                                        <span class="won" id="expe_price">/span>
+                                                        <span class="won" id="expe_price"></span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -296,6 +296,9 @@
                     let data = response.data.data;
                     let sale_title = JSON.parse(data.SALE_TITLE_JSON);
 
+
+                    console.log(data);
+
                     $("#bidding_lot_img").attr('src' , 'https://www.seoulauction.com/nas_img'+data.LOT_IMG_PATH + '/' +data.LOT_IMG_NAME);
                     $("#sale_title").html(sale_title.ko);
                     $("#lot_id").html(data.LOT_NO);
@@ -402,12 +405,16 @@
                     return;
                 }
 
-                let url = '/api/auction/sale/${saleNo}/lot/${lotNo}/bid';
+                let url = '/api/auction/insertbid';
 
                 try {
                     axios.post(url, {
                         bid_price: currentPrice,
-                        bid_kind_cd: currentBidKind
+                        bid_kind_cd: currentBidKind,
+                        sale_no : ${saleNo},
+                        lot_no : ${lotNo},
+                        cust_no : ${member.userNo},
+                        bid_dt : new Date().toISOString().slice(0, 19).replace('T', ' ')
                     }).then(function(response) {
 
                         if(response.data.success){
