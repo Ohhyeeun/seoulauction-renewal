@@ -902,6 +902,29 @@
     let end_bid_time = 0;
     let is_end_bid = false;
 
+    let autoBiding = async function(connect_info){
+        // let val = document.getElementById("reservation_bid").getAttribute("value");
+        let datet = new Date();
+        let response = await fetch('http://localhost:8002/bid', {
+            method:"POST",
+            body: JSON.stringify({
+                customer : {
+                    sale_no: connect_info.sale_no,
+                    lot_no: connect_info.lot_no,
+                    cust_no: connect_info.cust_no,
+                    paddle: 0,
+                    cust_no: connect_info.user_id,
+                    token:  connect_info.token,
+                },
+                sale_type:  2,
+                bid_type:   22,
+                bid_cost:   0,
+            }),
+        });
+        let vv = response.json();
+        return vv;
+    }
+
     let biding = async function (connect_info) {
         console.log(new Date().getTime(), "bidding");
         let val = document.getElementById("bid_new_cost_val").getAttribute("value");
@@ -911,6 +934,7 @@
                 customer: {
                     sale_no: connect_info.sale_no,
                     lot_no: connect_info.lot_no,
+                    cust_no: connect_info.cust_no,
                     paddle: 0,
                     user_id: "KYUNGHOON",
                     token: connect_info.token,
@@ -923,9 +947,13 @@
         let vv = response.json();
         return vv;
     }
-
+    // 1회응찰
     function bid() {
         biding(connect_info);
+    }
+    // 자동응찰
+    function autoBid() {
+        autoBiding(connect_info);
     }
 
     function retry(saleNo, lotNo, saleType, userId) {
