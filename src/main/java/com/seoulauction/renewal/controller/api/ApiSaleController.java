@@ -456,4 +456,22 @@ public class ApiSaleController {
 
         return ResponseEntity.ok(RestResponse.ok(saleService.selectLotTagList(commonMap)));
     }
+
+    @RequestMapping(value = "/sale/{saleNo}/lot/{lotNo}/bid", method = RequestMethod.POST)
+    public ResponseEntity<RestResponse> insertBid(
+            @RequestBody CommonMap map,
+            @PathVariable("saleNo") int saleNo,
+            @PathVariable("lotNo") int lotNo
+    ){
+        map.put("sale_no", saleNo);
+        map.put("lot_no", lotNo);
+        map.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
+
+        log.info("map : {}" , map);
+
+        saleService.insertBid(map);
+
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
 }

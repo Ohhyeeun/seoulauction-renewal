@@ -43,4 +43,5 @@ public interface SaleMapper {
     List<CommonMap> selectLotTagList(CommonMap commonMap);
 
     CommonMap selectTopBid(CommonMap commonMap);
+    void insertBid(CommonMap commonMap);
 }
