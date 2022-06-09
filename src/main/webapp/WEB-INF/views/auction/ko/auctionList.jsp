@@ -1149,6 +1149,7 @@
                 }
             } else if (d.msg_type === packet_enum.time_sync) {
                 let ddd = new Date(d.message.tick_value);
+                let bid_tick = document.getElementById("bid_tick");
 
                 // 앵귤러 정보 삽입
                 for (let j = 0; j < $scope.searchSaleInfoAll.length; j++) {
@@ -1163,6 +1164,7 @@
                         let diffSec = timeGap.getSeconds();      // 초
                         $scope.searchSaleInfoAll[j].BID_TICK = diffDay + "일 " +
                             diffHour + ":" + diffMin + ":" + diffSec;
+
                     } else if (end_bid_time <= 0) {
                         $scope.searchSaleInfoAll[j].BID_TICK = "경매시작 전입니다."
                     } else {
@@ -1188,7 +1190,32 @@
                         $scope.saleInfoAll[j].BID_TICK = "경매가 종료되었습니다."
                     }
                 }
+
+                for (let j = 0; j < $scope.saleInfoAll.length; j++) {
+
+                    if (parseInt($("#sale_no").val()) === $scope.saleInfoAll[j].SALE_NO &&
+                        parseInt($("#lot_no").val()) === $scope.saleInfoAll[j].LOT_NO) {
+
+                        let endDate = new Date($scope.saleInfoAll[j].END_DT);
+                        let dateGap = endDate - ddd;
+                        let timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
+                        // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
+                        let diffDay = Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
+                        let diffHour = timeGap.getHours();       // 시간
+                        let diffMin = timeGap.getMinutes();      // 분
+                        let diffSec = timeGap.getSeconds();      //
+
+                        bid_tick.innerText = diffDay + "일 " + diffHour + "시간 " + diffMin + "분 " + diffSec + "초 남았습니다.";
+                        break
+                    }
+                }
+
                 $scope.$apply();
+
+               // console.log($scope.saleInfoAll.length);
+               // console.log($scope.saleInfoAll.length);
+
+
             } else if (d.msg_type === packet_enum.bid_info_init) {
                 // popup용 이라면
                 if (d.message.is_list_popup) {
@@ -1200,17 +1227,9 @@
                         let quote_unit = document.getElementById("quote_unit");
                         let bid_new_cost = document.getElementById("bid_new_cost");
 
-                        //let start_cost = document.getElementById("start_cost");
-                        //let bid_cnt2 = document.getElementById("bid_cnt");
-                        //let cur_cost = document.getElementById("cur_cost");
-
                         let curCostValue = (bid_info.bid_cost === 0) ?
                             "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR') :
                             "KRW " + bid_info.bid_cost.toLocaleString('ko-KR');
-
-                        //start_cost.innerText = "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR');
-                        //bid_cnt2.innerText = "(응찰" + bid_info.bid_count + ")"
-                        //cur_cost.innerText = curCostValue;
 
                         bid.innerText = curCostValue;
                         bid_cnt.innerText = "(응찰" + bid_info.bid_count + ")"
