@@ -20,4 +20,16 @@ public class ApiAuctionController {
     public ResponseEntity<RestResponse> paddle(@RequestBody CommonMap paramMap) {
         return ResponseEntity.ok(RestResponse.ok(auctionService.insertPaddle(paramMap)));
     }
+
+    @GetMapping(value = "/progress")
+    public ResponseEntity<RestResponse> progress(){
+        CommonMap map = new CommonMap();
+        return ResponseEntity.ok(RestResponse.ok(auctionService.selectProgressSaleList(map)));
+    }
+
+    @GetMapping(value = "/scheduled")
+    public ResponseEntity<RestResponse> scheduled(){
+        CommonMap map = new CommonMap();
+        return ResponseEntity.ok(RestResponse.ok(auctionService.selectScheduledSaleList(map)));
+    }
 }
