@@ -239,14 +239,15 @@
                                                                     <dd>KRW {{item.EXPE_PRICE_FROM_JSON.KRW}}</dd>
                                                                     <dd>~ {{item.EXPE_PRICE_TO_JSON.KRW}}</dd>
                                                                 </dl>
-                                                                <dl class="price-list">
-                                                                    <dt>낙찰가</dt>
-                                                                    <dd><strong>{{item.CUR_COST}}</strong><em>{{item.BID_COUNT}}</em></dd>
-                                                                </dl>
+<%--                                                                <dl class="price-list">--%>
+<%--                                                                    <dt>낙찰가</dt>--%>
+<%--                                                                    <dd><strong>{{item.CUR_COST}}</strong><em>{{item.BID_COUNT}}</em></dd>--%>
+<%--                                                                </dl>--%>
                                                             </div>
                                                             <div class="bidding-box col_2">
                                                                 <div class="deadline_set"><span>신청마감 02.10(목) 15:00</span></div>
-                                                                <div class="btn_set"><a class="btn btn_point" href="/auction/live/sale/{{item.SALE_NO}}/lot/{{item.LOT_NO}}/biding" role="button"><span>서면/전화 응찰 신청</span></a></div>
+                                                                <div class="btn_set"><a class="btn btn_point" href=""
+                                                                                        role="button"><span ng-click="moveToBidding(item)" >서면/전화 응찰 신청</span></a></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -398,6 +399,16 @@
                 } catch (error) {
                     console.error(error);
                 }
+            }
+
+            $scope.moveToBidding = function(item) {
+
+                if(sessionStorage.getItem("is_login") === 'false'){
+                    alert('로그인을 진행해주세요.');
+                    return;
+                }
+                location.href = '/auction/live/sale/'+item.SALE_NO+'/lot/'+item.LOT_NO +'/biding';
+
             }
 
             // 호출 부
