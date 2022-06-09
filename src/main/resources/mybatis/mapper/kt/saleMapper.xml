@@ -536,7 +536,7 @@
             <if test="bid_grow_price != null">
             ,BID_GROW_PRICE
             </if>
-            <if test="reg_dt != null">
+            <if test="bid_dt != null">
             ,REG_DT
             </if>
             <if test="reg_emp_no != null">
@@ -548,16 +548,13 @@
             <if test="etc != null">
             ,ETC
             </if>
-            <if test="bid_grow_price != null">
-            ,BID_GROW_PRICE
-            </if>
         )
         VALUES(
              #{sale_no}
             ,#{lot_no}
             ,#{cust_no}
             ,#{bid_kind_cd}
-            ,now()
+            ,#{bid_dt}
             ,#{bid_price}
             <if test="emp_no != null">
             ,#{emp_no}
@@ -574,8 +571,8 @@
             <if test="bid_grow_price != null">
             ,#{bid_grow_price}
             </if>
-            <if test="reg_dt != null">
-            ,#{reg_dt}
+            <if test="bid_dt != null">
+             ,#{bid_dt}
             </if>
             <if test="reg_emp_no != null">
             ,#{reg_emp_no}
@@ -586,13 +583,10 @@
             <if test="etc != null">
             ,#{etc}
             </if>
-            <if test="bid_grow_price != null">
-            ,#{bid_grow_price}
-            </if>
         )
     </insert>
 
-    <select id="selectTopBId" parameterType="CommonMap">
+    <select id="selectTopBid" parameterType="CommonMap"  resultType="CommonMap">
         select *
         from bid
         where SALE_NO = #{sale_no}

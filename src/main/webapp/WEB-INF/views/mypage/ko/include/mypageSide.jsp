@@ -1,29 +1,39 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <jsp:include page="../../../common/commonJs.jsp" flush="false"/>
 <script type="text/javascript" src="/js/mypage/mypageSide.js"></script>
-<sec:authentication property="details.socialYn" var="socialYn"/>
+
+<sec:authentication property="details.socialYn" var="socialYn"/> 
+<sec:authentication property="Details.userNm" var="userName"/>
+<%-- <sec:authentication property="Details.validDate" var="validDate"/> --%>
+
 <!-- 마이페이지 싸이드 메뉴 -->
 <div ng-controller="myPageCtl">
 <aside class="aside-area"  >
 	<div class="aside-inner">
 		<div class="mem-infobox-wrap">
 			<div class="mem-name-wrap">
-				<span class="tt2"><sec:authentication property="Details.userNm"/></span><span class="tt4">님</span>
+			
+			<span class="tt2" >
+			<c:choose>
+			<c:when test="${empty userName}">회원</c:when>
+			<c:otherwise>${userName}</c:otherwise>
+			</c:choose> 
+			</span><span class="tt4">님</span>
 			</div>
+			
 			<div class="mem-info-wrap">
 				<div class="mem-lv-box">
-					<div class="mem-lv lv-1">
 					<sec:authorize access="hasRole('ROLE_REGULAR_USER')">
-						정회원
+					 <div class="mem-lv lv-2">정회원</div>
+					 <div class="mem-period">${validDate}</div>	
 					</sec:authorize>
 					<sec:authorize access="hasRole('ROLE_ASSOCIATE_USER')">
-						준회원
+					 <div class="mem-lv lv-1">준회원</div>
 					</sec:authorize>
-					</div>
 				</div>
 				<div class="mem-record-box">
 					<a href="#" class="record-button" ng-click="showMemHisPopup(this);">정회원 이력</a> 
@@ -40,6 +50,7 @@
 			</a>
 			</div>
 		</div>
+                                                
 		<div class="mypage-lnb-wrap">
 			<div class="mypage-lnb">
 				<ul class="cate1">

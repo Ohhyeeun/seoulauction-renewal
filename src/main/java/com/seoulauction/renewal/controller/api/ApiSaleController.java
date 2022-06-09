@@ -351,20 +351,21 @@ public class ApiSaleController {
         return ResponseEntity.ok(RestResponse.ok(lotImagesNew));
     }
 
-    @PostMapping(value="/sale/{saleNo}/lot/{lotNo}/bid/{bidNo}/successBid")
+    @PostMapping(value="/sale/successBid/{saleNo}/{lotNo}")
     public ResponseEntity<RestResponse> successBid(
                @PathVariable("saleNo") int saleNo,
-               @PathVariable("lotNo") int lotNo,
-               @PathVariable("bidNo") int bidNo) {
+               @PathVariable("lotNo") int lotNo) {
 
         CommonMap map = new CommonMap();
-        map.put("sale_no" , saleNo);
-        map.put("lot_no" , lotNo);
-        map.put("bid_no" , bidNo);
+        CommonMap topBid = saleService.selectTopBid(map);
 
+        log.info("bid_no : {}" , topBid.get("BID_NO"));
         log.info("sale_no : {}" , saleNo);
         log.info("lotNo : {}" , lotNo);
-        log.info("bid_no : {}" , bidNo);
+
+        map.put("sale_no" , saleNo);
+        map.put("lot_no" , lotNo);
+        map.put("bid_no" , topBid.get("BID_NO"));
 
         saleService.insertSuccessBid(map);
 
@@ -456,18 +457,12 @@ public class ApiSaleController {
         return ResponseEntity.ok(RestResponse.ok(saleService.selectLotTagList(commonMap)));
     }
 
-    @RequestMapping(value = "/sale/{saleNo}/lot/{lotNo}/bid", method = RequestMethod.POST)
+    @RequestMapping(value = "/insertbid", method = RequestMethod.POST)
     public ResponseEntity<RestResponse> insertBid(
-            @RequestBody CommonMap map,
-            @PathVariable("saleNo") int saleNo,
-            @PathVariable("lotNo") int lotNo
+            @RequestBody CommonMap map
     ){
-        map.put("sale_no", saleNo);
-        map.put("lot_no", lotNo);
-        map.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
-
+        //map.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
         log.info("map : {}" , map);
-
         saleService.insertBid(map);
 
         return ResponseEntity.ok(RestResponse.ok());
