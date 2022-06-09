@@ -414,7 +414,8 @@
                         sale_no : ${saleNo},
                         lot_no : ${lotNo},
                         cust_no : ${member.userNo},
-                        bid_dt : new Date().toISOString().slice(0, 19).replace('T', ' ')
+                        bid_dt : new Date().toISOString().slice(0, 19).replace('T', ' '),
+                        bid_grow_price : growPriceForOffline(currentPrice)
                     }).then(function(response) {
 
                         if(response.data.success){
