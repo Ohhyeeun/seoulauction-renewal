@@ -81,8 +81,9 @@ public class ApiSaleController {
         CommonMap c = new CommonMap();
         c.put("sale_no", saleNo);
 
-        CommonMap saleInfoMap = saleService.selectSaleInfo(c);
 
+
+        CommonMap saleInfoMap = saleService.selectSaleInfo(c);
         return ResponseEntity.ok(RestResponse.ok(saleInfoMap));
     }
 

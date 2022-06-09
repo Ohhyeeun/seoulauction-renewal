@@ -253,6 +253,8 @@
                 <input type="hidden" id="token" value="{{token}}"/>
                 <input type="hidden" id="sale_no" value="{{sale_no}}"/>
                 <input type="hidden" id="lot_no" value=""/>
+                <input type="hidden" id="user_id" value="${member.loginId}"/>
+                <input type="hidden" id="cust_no" value="${member.userNo}"/>
             </div>
 
         </div>
@@ -357,7 +359,7 @@
                                         <div class="btn_set type-pc_mb-column">
                                             <div class="btn_item">
                                                 <div class="select-box ">
-                                                    <select class="select2Basic56_line" disabled>
+                                                    <select id="reservation_bid" class="select2Basic56_line">
                                                         <option value="1">KRW 1,800,000</option>
                                                         <option value="2">KRW 1,900,000</option>
                                                         <option value="3">KRW 2,000,000</option>
@@ -366,7 +368,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="btn_item"><a class="btn btn_point btn_lg" href="#"
+                                            <div class="btn_item"><a class="btn btn_point btn_lg" href="javascript:autoBid();"
                                                                      role="button"><span>응찰하기</span></a></div>
                                         </div>
                                     </div>
@@ -720,7 +722,7 @@
                 $scope.pageingdata = p;
                 $scope.$apply();
 
-                $scope.bidstart();
+                $scope.bidstart('${member.loginId}', ${member.userNo});
                 // lot
                 $("#search_lot").on("keyup", function () {
                     window.event.preventDefault();
@@ -766,12 +768,12 @@
         $scope.bidsInfoAll = [];
 
         // bidstart
-        $scope.bidstart = function () {
-            $scope.retry(parseInt($scope.sale_no), 0, 2, "KYUNGHOON");
+        $scope.bidstart = function (user_id, custNo) {
+            $scope.retry(parseInt($scope.sale_no), 0, 2, user_id, custNo);
         }
 
         // websocket connection retry
-        $scope.retry = function (saleNo, lotNo, saleType, userId) {
+        $scope.retry = function (saleNo, lotNo, saleType, userId, custNo) {
             window.clearTimeout($scope.websocketTimeout);
             if (w != null) {
                 w = null;
@@ -798,19 +800,19 @@
                     if (!is_end_bid) {
                         con_try_cnt++;
                         $scope.websocketTimeout = window.setTimeout(function () {
-                            $scope.retry(saleNo, lotNo, saleType, userId);
+                            $scope.retry(saleNo, lotNo, saleType, userId, custNo);
                         }, 1000);
                     }
                 }
             }
             w.onmessage = function (evt) {
-                $scope.proc(evt, saleNo, lotNo, saleType, userId);
+                $scope.proc(evt, saleNo, lotNo, saleType, userId, custNo);
             }
             con_try_cnt = 0;
         }
 
         // bid protocols
-        $scope.proc = function (evt, saleNo, lotNo, saleType, userId) {
+        $scope.proc = function (evt, saleNo, lotNo, saleType, userId, custNo) {
             const packet_enum = {
                 init: 1,
                 bid_info: 2,
@@ -823,10 +825,11 @@
 
             if (d.msg_type === packet_enum.init) {
                 // 현재 접속 세일/랏 정보
-
                 connect_info.token = d.message.token
                 connect_info.sale_no = saleNo;
                 connect_info.lot_no = 0;
+                connect_info.user_id = userId;
+                connect_info.cust_no = custNo;
 
                 //$scope.popSet();
                 $scope.token = d.message.token;
@@ -838,6 +841,7 @@
                     } else {
                         url = 'https://dev-bid.seoulauction.xyz/init';
                     }
+                    console.log(custNo);
                     let response = await fetch(url, {
                         method: "POST",
                         body: JSON.stringify({
@@ -846,6 +850,7 @@
                             lot_no: 0,
                             sale_type: saleType,
                             user_id: userId,
+                            cust_no: custNo,
                         }),
                     });
                     return response;
@@ -1416,6 +1421,29 @@
     let end_bid_time = 0;
     let is_end_bid = false;
 
+    let autoBiding = async function(connect_info){
+        let val = $("#reservation_bid").val();
+        let datet = new Date();
+        let response = await fetch('https://dev-bid.seoulauction.xyz/bid', {
+            method:"POST",
+            body: JSON.stringify({
+                customer : {
+                    sale_no: parseInt($("#sale_no").val()),
+                    lot_no:  parseInt($("#lot_no").val()),
+                    cust_no: parseInt($("#cust_no").val()),
+                    paddle: 0,
+                    user_id: $("#user_id").val(),
+                    token:  $("#token").val(),
+                    sale_type: 2,
+                    bid_type: 22,
+                },
+                bid_cost:   parseInt(val),
+            }),
+        });
+        let vv = response.json();
+        return vv;
+    }
+
     let biding = async function (connect_info) {
         let val = document.getElementById("bid_new_cost_val").getAttribute("value");
         let url = '';
@@ -1431,7 +1459,8 @@
                     sale_no: parseInt($("#sale_no").val()),
                     lot_no: parseInt($("#lot_no").val()),
                     paddle: 0,
-                    user_id: "KYUNGHOON",
+                    user_id: $("#user_id").val(),
+                    cust_no: parseInt($("#cust_no").val()),
                     token: $("#token").val(),
                     sale_type: 2,
                     bid_type: 21,
@@ -1445,6 +1474,11 @@
 
     function bid() {
         biding(connect_info);
+    }
+
+    // 자동응찰
+    function autoBid() {
+        autoBiding(connect_info);
     }
 </script>
 </body>

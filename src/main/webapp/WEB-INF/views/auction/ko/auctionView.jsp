@@ -8,6 +8,7 @@
 <div class="wrapper">
     <div class="sub-wrap pageclass type-details_view">
         <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+        <link rel="stylesheet" href="/css/plugin/csslibrary.css">
         <!-- container -->
         <div id="container" ng-controller="ctl" data-ng-init="load();">
             <div id="contents" class="contents">
@@ -452,16 +453,16 @@
                                             <div class="btn_item">
                                                 <div class="select-box ">
                                                     <!-- disabled 옵션 -->
-                                                    <select class="select2Basic56_line" disabled id="">
-                                                        <option value="1">KRW 1,800,000</option>
-                                                        <option value="2">KRW 1,900,000</option>
-                                                        <option value="3">KRW 2,000,000</option>
-                                                        <option value="4">KRW 2,100,000</option>
-                                                        <option value="5">KRW 2,200,000</option>
+                                                    <select class="select2Basic56_line" id="reservation_bid">
+                                                        <option value="1800000">KRW 1,800,000</option>
+                                                        <option value="1900000">KRW 1,900,000</option>
+                                                        <option value="2000000">KRW 2,000,000</option>
+                                                        <option value="2100000">KRW 2,100,000</option>
+                                                        <option value="2200000">KRW 2,200,000</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="btn_item"><a class="btn btn_point btn_lg" href="#"
+                                            <div class="btn_item"><a class="btn btn_point btn_lg" href="javascript:autoBid();"
                                                                      role="button"><span>응찰하기</span></a></div>
                                         </div>
                                     </div>
@@ -548,6 +549,7 @@
         $scope.locale = locale;
         $scope.sale_no = "${saleNo}";
         $scope.lot_no = "${lotNo}";
+        $scope.cust_no =  ${member.userNo};
 
 
         // 호출 부
@@ -611,7 +613,7 @@
                 return axios.post('/api/auction/insertRecentlyView', {
                     sale_no: saleNo,
                     lot_no: lotNo,
-                    cust_no: 1
+                    cust_no: $scope.cust_no,
                 });
             } catch (error) {
                 console.error(error);
@@ -703,7 +705,8 @@
 
                 $("#lot_title").html("LOT " + $scope.lotInfo.LOT_NO);
                 // 시작
-                startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2, "PKH*****D");
+                startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2,
+                    '${member.loginId}', ${member.userNo});
                 $scope.$apply();
 
                 // 카카오 init
@@ -903,9 +906,9 @@
     let is_end_bid = false;
 
     let autoBiding = async function(connect_info){
-        // let val = document.getElementById("reservation_bid").getAttribute("value");
+        let val = $("#reservation_bid").val();
         let datet = new Date();
-        let response = await fetch('http://localhost:8002/bid', {
+        let response = await fetch('https://dev-bid.seoulauction.xyz/bid', {
             method:"POST",
             body: JSON.stringify({
                 customer : {
@@ -913,12 +916,12 @@
                     lot_no: connect_info.lot_no,
                     cust_no: connect_info.cust_no,
                     paddle: 0,
-                    cust_no: connect_info.user_id,
+                    user_id: connect_info.user_id,
                     token:  connect_info.token,
+                    sale_type: 2,
+                    bid_type: 22,
                 },
-                sale_type:  2,
-                bid_type:   22,
-                bid_cost:   0,
+                bid_cost:   parseInt(val),
             }),
         });
         let vv = response.json();
@@ -928,7 +931,7 @@
     let biding = async function (connect_info) {
         console.log(new Date().getTime(), "bidding");
         let val = document.getElementById("bid_new_cost_val").getAttribute("value");
-        let response = await fetch('http://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/bid', {
+        let response = await fetch('https://dev-bid.seoulauction.xyz/bid', {
             method: "POST",
             body: JSON.stringify({
                 customer: {
@@ -936,7 +939,7 @@
                     lot_no: connect_info.lot_no,
                     cust_no: connect_info.cust_no,
                     paddle: 0,
-                    user_id: "KYUNGHOON",
+                    user_id: connect_info.user_id,
                     token: connect_info.token,
                     sale_type: 2,
                     bid_type: 21,
@@ -947,16 +950,18 @@
         let vv = response.json();
         return vv;
     }
+
     // 1회응찰
     function bid() {
         biding(connect_info);
     }
+
     // 자동응찰
     function autoBid() {
         autoBiding(connect_info);
     }
 
-    function retry(saleNo, lotNo, saleType, userId) {
+    function retry(saleNo, lotNo, saleType, userId, custNo) {
         window.clearTimeout(websocketTimeout);
         if (w != null) {
             w = null;
@@ -978,18 +983,18 @@
                 if (!is_end_bid) {
                     con_try_cnt++;
                     websocketTimeout = window.setTimeout(function () {
-                        retry(saleNo, lotNo, saleType, userId);
+                        retry(saleNo, lotNo, saleType, userId, custNo);
                     }, 1000);
                 }
             }
         }
         w.onmessage = function (evt) {
-            proc(evt, saleNo, lotNo, saleType, userId);
+            proc(evt, saleNo, lotNo, saleType, userId, custNo);
         }
         con_try_cnt = 0;
     }
 
-    function proc(evt, saleNo, lotNo, saleType, userId) {
+    function proc(evt, saleNo, lotNo, saleType, userId, custNo) {
         let wt;
         const packet_enum = {
             init: 1,
@@ -1002,10 +1007,13 @@
         let d = JSON.parse(evt.data);
 
         if (d.msg_type == packet_enum.init) {
+
             // 현재 접속 세일/랏 정보
             connect_info.token = d.message.token
             connect_info.sale_no = saleNo;
             connect_info.lot_no = lotNo;
+            connect_info.user_id = userId;
+            connect_info.cust_no = custNo;
 
             let init_func_manual = async function (req) {
                 let response = await fetch('http://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/init', {
@@ -1300,12 +1308,12 @@
             }
         }
     }
-    function startBidProcess(saleNo, lotNo, saleType, userId) {
+    function startBidProcess(saleNo, lotNo, saleType, userId, custNo) {
         /*this.saleNo = saleNo;
         this.lotNo = lotNo;
         this.saleType = saleType;
         this.userId = userId;*/
-        retry(saleNo, lotNo, saleType, userId);
+        retry(saleNo, lotNo, saleType, userId, custNo);
     }
 
 </script>

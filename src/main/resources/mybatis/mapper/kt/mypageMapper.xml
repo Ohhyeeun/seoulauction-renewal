@@ -609,6 +609,7 @@ SELECT 'INTE_LOT' AS GUBUN
 			 , (select b.BID_PRICE  from bid b join success_bid sb2 on b.BID_NO = sb2.BID_NO and ABL.sale_no = sb2.SALE_NO and ABL.lot_no = sb2.LOT_NO  ) success_bid_price	
 		from (
 			select AB.SALE_NO, AB.LOT_NO, AB.REQ_NO 
+				, L.EXPE_PRICE_INQ_YN
 			    , COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
 			    , DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT
 			    , DATE_FORMAT(S.TO_DT, '%Y.%m.%d  %T')  as TO_DT
@@ -618,6 +619,7 @@ SELECT 'INTE_LOT' AS GUBUN
 		  		, LI.FILE_PATH as LOT_IMG_PATH
 			    , LI.FILE_NAME as LOT_IMG_NAME
 			    , AB.BID_PRICE
+			    , AB.BID_KIND_CD
 			    , DATE_FORMAT(AB.REQ_DT, '%Y.%m.%d %T') as REQ_DT 
 			    , AB.ABORT_YN, AB.ABORT_DT, AB.ABORT_IP, AB.CUST_NO, CD.CD_NM BID_KIND_NM
 			    , COLUMN_JSON(L.TITLE_BLOB) W_TITLE_JSON
