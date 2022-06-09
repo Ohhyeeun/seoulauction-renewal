@@ -44,6 +44,7 @@ window.addEventListener('load', function () {
 	//div css로 id값 가져와서 넣기
 	var className = document.getElementById('container').classList[0];
 	document.getElementById(className).classList.add('on');
+	
 });
 
         (function() {
