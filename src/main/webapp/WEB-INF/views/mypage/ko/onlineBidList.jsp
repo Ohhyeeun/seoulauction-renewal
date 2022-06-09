@@ -91,10 +91,10 @@
                                                                             <dt class="tit">응찰일</dt>
                                                                             <dd class="txt">{{bidGroup(data.BID_JSON)[0].BID_DT}}</dd>
                                                                         </dl>
-                                                                        <dl class="way">
+<!--                                                                         <dl class="way">
                                                                             <dt class="tit"></dt>
                                                                             <dd class="txt">({{bidGroup(data.BID_JSON)[0].BID_KIND_NM}})</dd>
-                                                                        </dl>
+                                                                        </dl> -->
                                                                     </div>
                                                                     <div class="btn-area">
                                                                         <button class="btn btn_default js-popup_auction_live_record" type="button" ng-click="onlineBidHis({'bid':data})"><span>응찰내역</span></button>
@@ -146,6 +146,7 @@
 							                                <span class="txt_title type-big">응찰 내역</span>
 							                            </div>
 							                        </div>
+							                        <span ng-if="onlineBidHisList[0].ABORT_YN =='N'"> 응찰최고가: {{onlineBidHisList[0].CURR_CD}} {{comma(onlineBidHisList[0].BID_PRICE)}}</span>
 							                        <div class="pop-body">
 							                            <section class="section">
 							                                <article class="article-area thead_item-wrap">
@@ -170,7 +171,7 @@
 							                                                <tr ng-repeat="onlineBidhis in onlineBidHisList">
 							                                                    <td>{{onlineBidhis.CURR_CD}} {{comma(onlineBidhis.BID_PRICE)}}</td>
 							                                                    <td>{{onlineBidhis.BID_DT}}</td>
-							                                                    <td>{{onlineBidhis.BID_KIND_NM}}</td>
+							                                                    <td>{{onlineBidhis.BID_KIND_NM}} <span ng-if="onlineBidhis.ABORT_YN && onlineBidhis.ABORT_YN =='Y'">중지</span></td>
 							                                                    <td ><span class="succ" ng-if="onlineBidhis.HAMMER_STAT == 'hammer'">낙찰</span></td>
 							                                                </tr>
 							                                            </tbody>
