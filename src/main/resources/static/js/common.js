@@ -750,6 +750,42 @@ function num2han(num) {
         }
         return str;
     }
-
   return result.join('');
+}
+//오프라인 가격의 호가를 정해서 알려줌
+function growPriceForOffline(price){
+
+    let growPrice;
+
+    if(price < 1000000 ){
+        growPrice = 50000;
+    } else if (price >= 1000000 && price < 2000000 ){
+        growPrice = 100000;
+    } else if (price >= 2000000 && price < 4000000 ){
+        growPrice = 200000;
+    } else if (price >= 4000000 && price < 10000000 ){
+        growPrice = 300000;
+    } else if (price >= 10000000 && price < 20000000 ){
+        growPrice = 500000;
+    } else if (price >= 20000000 && price < 30000000 ){
+        growPrice = 1000000;
+    } else if (price >= 30000000 && price < 50000000 ){
+        growPrice = 2000000;
+    } else if (price >= 50000000 && price < 100000000 ){
+        growPrice = 3000000;
+    } else if (price >= 100000000 && price < 200000000 ){
+        growPrice = 5000000;
+    } else if (price >= 200000000 && price < 300000000 ){
+        growPrice = 10000000;
+    } else if (price >= 300000000 && price < 500000000 ){
+        growPrice = 20000000;
+    } else if (price >= 500000000 && price < 1000000000 ){
+        growPrice = 30000000;
+    } else if (price >= 1000000000 && price < 2000000000 ){
+        growPrice = 50000000;
+    } else if (price >= 2000000000){
+        growPrice = 100000000;
+    }
+
+    return growPrice;
 }

@@ -17,6 +17,7 @@ public class SaleService {
 
     private final SaleMapper saleMapper;
     private final ArtistMapper artistMapper;
+    private final AuctionService auctionService;
 
     public CommonMap selectSaleInfo(CommonMap commonMap){
         CommonMap resultMap = saleMapper.selectSaleInfo(commonMap);
@@ -158,6 +159,16 @@ public class SaleService {
     }
 
     public void insertBid(CommonMap map){
+
+        String bidKindCd = map.getString("bid_kind_cd");
+
+        //bidKindcd 가 오프라인 경매 일 경우.
+        if(bidKindCd.equals("paper_offline")
+          || bidKindCd.equals("phone")
+          || bidKindCd.equals("floor")
+        ) {
+            map.put("padd_no" , auctionService.selectSalePaddNo(map));
+        }
         saleMapper.insertBid(map);
     }
 }

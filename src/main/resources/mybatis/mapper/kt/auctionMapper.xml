@@ -128,4 +128,23 @@
 				when S.SALE_KIND_CD IN ('exhibit', 'exhibit_sa') then S.TO_DT
 				else (<![CDATA[select (case when LC.CLOSE_YN = 'Y' THEN LC.TO_DT ELSE DATE_ADD(NOW(), INTERVAL 1 HOUR)  END) from LOT LC where LC.SALE_NO = S.SALE_NO AND LC.LOT_NO = (SELECT MAX(LC1.LOT_NO) FROM LOT LC1 WHERE LC1.SALE_NO = S.SALE_NO AND LC1.STAT_CD <> 'reentry')]]>) end
 	</select>
+
+	<select id="selectSaleInfo" parameterType="CommonMap" resultType="CommonMap">
+		select S.SALE_NO
+		    , COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
+		    , S.FROM_DT
+		    , S.TO_DT
+			, (select min(sp.FROM_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_FROM_DT
+			, (select max(sp.FROM_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_TO_DT
+			, S.LIVE_BID_YN
+			, S.LIVE_BID_DT
+			, S.AUTO_BID_REQ_CLOSE_DT
+			, now() as DB_NOW
+			, BW.WRITE_NO
+		from SALE S
+			LEFT OUTER JOIN BBS_WRITE BW ON BW.SALE_NO = S.SALE_NO AND BBS_ID = 'notice'
+		where S.SALE_NO = #{sale_no}
+		  and S.DEL_YN ='N'
+		  and S.WWW_DISP_YN = 'Y'
+	</select>
 </mapper>

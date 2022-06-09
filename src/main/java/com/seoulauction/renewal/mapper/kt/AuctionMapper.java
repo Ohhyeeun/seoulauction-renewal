@@ -20,4 +20,6 @@ public interface AuctionMapper {
     List<CommonMap> selectProgressSaleList(CommonMap commonMap);
 
     List<CommonMap> selectScheduledSaleList(CommonMap commonMap);
+
+    CommonMap selectSaleInfo(CommonMap commonMap);
 }
