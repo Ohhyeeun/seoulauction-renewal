@@ -297,66 +297,64 @@
                 axios.get('api/auction/lot_info/${saleNo}/${lotNo}')
                     .then(function(response) {
 
-                        let data = response.data.data;
+                    let data = response.data.data;
+                    let sale_title = JSON.parse(data.SALE_TITLE_JSON);
 
-                        console.log(data);
+                    $("#bidding_lot_img").attr('src' , 'https://www.seoulauction.com/nas_img'+data.LOT_IMG_PATH + '/' +data.LOT_IMG_NAME);
+                    $("#sale_title").html(sale_title.ko);
+                    $("#lot_id").html(data.LOT_NO);
+                    $("#artist_name").html(data.ARTIST_NAME_KO_TXT);
+                    $("#lot_title").html(data.TITLE_KO_TXT);
+                    $("#grow_price").html('(호가단위 : ' + numberWithCommas(data.GROW_PRICE) + ' KRW)');
+                    $("#expe_price").html('KRW ' + numberWithCommas(data.EXPE_PRICE_FROM_JSON.KRW) + '<br> ~ ' + numberWithCommas(data.EXPE_PRICE_TO_JSON.KRW));
 
-                        let sale_title = JSON.parse(data.SALE_TITLE_JSON);
+                    let current_price = data.START_PRICE;
+                    currentPrice = data.START_PRICE;
+                    currentBidKind = 'paper_offline';
 
-                        $("#bidding_lot_img").attr('src' , 'https://www.seoulauction.com/nas_img'+data.LOT_IMG_PATH + '/' +data.LOT_IMG_NAME);
 
-                        $("#sale_title").html(sale_title.ko);
-                        $("#lot_id").html(data.LOT_NO);
-                        $("#artist_name").html(data.ARTIST_NAME_KO_TXT);
-                        $("#lot_title").html(data.TITLE_KO_TXT);
-                        $("#grow_price").html('(호가단위 : ' + numberWithCommas(data.GROW_PRICE) + ' KRW)');
-                        $("#expe_price").html('KRW ' + numberWithCommas(data.EXPE_PRICE_FROM_JSON.KRW) + '<br> ~ ' + numberWithCommas(data.EXPE_PRICE_TO_JSON.KRW));
+                    $("#selected_lot").text(numberWithCommas(current_price) + ' KRW');
+                    $("#price_to_han").text(num2han(current_price) + ' 원');
 
-                        let current_price = data.START_PRICE;
-                        currentPrice = data.START_PRICE;
-                        currentBidKind = 'paper_offline';
-                        $("#selected_lot").text(numberWithCommas(current_price) + ' KRW');
-                        $("#price_to_han").text(num2han(current_price) + ' 원');
+                    $("#select_lot_scroll").empty();
+                    while (current_price <= data.EXPE_PRICE_TO_JSON.KRW) {
 
-                        $("#select_lot_scroll").empty();
-                        while (current_price <= data.EXPE_PRICE_TO_JSON.KRW) {
+                        let commasCurrentPrice = numberWithCommas(current_price);
 
-                            let commasCurrentPrice = numberWithCommas(current_price);
+                        let select_html = `<li>
+                            <a href="#">
+                                <div class="typo-area">
+                                    <span id="` + current_price + `">` + commasCurrentPrice + ` KRW</span>
+                                </div>
+                            </a>
+                         </li>`;
 
-                            let select_html = `<li>
-                                <a href="#">
-                                    <div class="typo-area">
-                                        <span id="` + current_price + `">` + commasCurrentPrice + ` KRW</span>
-                                    </div>
-                                </a>
-                             </li>`;
+                        $("#select_lot_scroll").append(select_html);
 
-                            $("#select_lot_scroll").append(select_html);
+                        current_price += data.GROW_PRICE;
+                    }
 
-                            current_price += data.GROW_PRICE;
-                        }
-
-                        <!-- [0516] 셀렉트 드롭다운 -->
-                        let dropdown = $(".js-dropdown-btn").trpDropdown({
-                            list: ".trp-dropdown_list-box",
-                            area: ".trp-dropdown-area"
-                        });
-                        $(".trp-dropdown-area .trp-dropdown_list-box a").on("click", function ($e) {
-                            $e.preventDefault();
-                            var _this = $(this);
-                            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn em").text($("em", _this).text());
-                            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
-
-                            currentPrice = $("span", _this).attr('id');
-
-                            $("#price_to_han").text(num2han(currentPrice) + ' 원');
-                            dropdown.getClose();
-                        });
-                    })
-
-                    .catch(function(error){
-                        console.log(error);
+                    <!-- [0516] 셀렉트 드롭다운 -->
+                    let dropdown = $(".js-dropdown-btn").trpDropdown({
+                        list: ".trp-dropdown_list-box",
+                        area: ".trp-dropdown-area"
                     });
+                    $(".trp-dropdown-area .trp-dropdown_list-box a").on("click", function ($e) {
+                        $e.preventDefault();
+                        var _this = $(this);
+                        _this.closest(".trp-dropdown-area").find(".js-dropdown-btn em").text($("em", _this).text());
+                        _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
+
+                        currentPrice = $("span", _this).attr('id');
+
+                        $("#price_to_han").text(num2han(currentPrice) + ' 원');
+                        dropdown.getClose();
+                    });
+                })
+
+                .catch(function(error){
+                    console.log(error);
+                });
             }
 
             <!-- 응찰방법 -->
@@ -373,7 +371,6 @@
                     currentBidKind = 'floor';
                 }
             });
-
 
             <!-- 약관 -->
             let accordion_toggle;
@@ -408,16 +405,13 @@
 
                         if(response.data.success){
                             alert('응찰에 성공하셨습니다.');
-                            return;
-                            //history.back();
+                            location.href ='/auction/live/list/${saleNo}';
                         }
-
                     });
 
                 } catch (error) {
                     console.error(error);
                 }
-
 
             });
 
