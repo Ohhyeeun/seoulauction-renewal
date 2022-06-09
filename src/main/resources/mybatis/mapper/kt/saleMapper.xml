@@ -512,7 +512,7 @@
                 #{bid_no})
     </insert>
 
-    <select id="selectTopBId" parameterType="CommonMap">
+    <select id="selectTopBid" parameterType="CommonMap"  resultType="CommonMap">
         select *
         from bid
         where SALE_NO = #{sale_no}
