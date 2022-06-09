@@ -69,7 +69,7 @@
                                                 <div class="member_pay">
                                                     <p>
                                                         <span class="tit ">추정가</span>
-                                                        <span class="won" id="expe_price">/span>
+                                                        <span class="won" id="expe_price"></span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -131,10 +131,6 @@
 
                                                         <div class="price">
                                                             <span id="price_to_han"></span>
-                                                        </div>
-
-                                                        <div class="unit">
-                                                            <span id="grow_price"></span>
                                                         </div>
 
                                                     </div>
@@ -290,73 +286,85 @@
             init();
             let currentPrice;
             let currentBidKind;
-
+            let growPrice;
             <!-- 데이터 세팅 -->
             function init(){
 
                 axios.get('api/auction/lot_info/${saleNo}/${lotNo}')
                     .then(function(response) {
 
-                        let data = response.data.data;
+                    let data = response.data.data;
+                    let sale_title = JSON.parse(data.SALE_TITLE_JSON);
 
-                        console.log(data);
 
-                        let sale_title = JSON.parse(data.SALE_TITLE_JSON);
+                    console.log(data);
 
-                        $("#bidding_lot_img").attr('src' , 'https://www.seoulauction.com/nas_img'+data.LOT_IMG_PATH + '/' +data.LOT_IMG_NAME);
+                    $("#bidding_lot_img").attr('src' , 'https://www.seoulauction.com/nas_img'+data.LOT_IMG_PATH + '/' +data.LOT_IMG_NAME);
+                    $("#sale_title").html(sale_title.ko);
+                    $("#lot_id").html(data.LOT_NO);
+                    $("#artist_name").html(data.ARTIST_NAME_KO_TXT);
+                    $("#lot_title").html(data.TITLE_KO_TXT);
+                    $("#expe_price").html('KRW ' + numberWithCommas(data.EXPE_PRICE_FROM_JSON.KRW) + '<br> ~ ' + numberWithCommas(data.EXPE_PRICE_TO_JSON.KRW));
 
-                        $("#sale_title").html(sale_title.ko);
-                        $("#lot_id").html(data.LOT_NO);
-                        $("#artist_name").html(data.ARTIST_NAME_KO_TXT);
-                        $("#lot_title").html(data.TITLE_KO_TXT);
-                        $("#grow_price").html('(호가단위 : ' + numberWithCommas(data.GROW_PRICE) + ' KRW)');
-                        $("#expe_price").html('KRW ' + numberWithCommas(data.EXPE_PRICE_FROM_JSON.KRW) + '<br> ~ ' + numberWithCommas(data.EXPE_PRICE_TO_JSON.KRW));
+                    let current_price = data.START_PRICE;
+                    let MAX_PRICE = current_price * 10; // 추청가의 10배가 최대치.
+                    growPrice = growPriceForOffline(current_price);
+                    currentPrice = data.START_PRICE;
+                    currentBidKind = 'paper_offline';
 
-                        let current_price = data.START_PRICE;
-                        currentPrice = data.START_PRICE;
-                        currentBidKind = 'paper_offline';
-                        $("#selected_lot").text(numberWithCommas(current_price) + ' KRW');
-                        $("#price_to_han").text(num2han(current_price) + ' 원');
 
-                        $("#select_lot_scroll").empty();
-                        while (current_price <= data.EXPE_PRICE_TO_JSON.KRW) {
+                    $("#selected_lot").text(numberWithCommas(current_price) + ' KRW');
+                    $("#price_to_han").text(num2han(current_price) + ' 원');
 
-                            let commasCurrentPrice = numberWithCommas(current_price);
+                    $("#select_lot_scroll").empty();
 
-                            let select_html = `<li>
-                                <a href="#">
-                                    <div class="typo-area">
-                                        <span id="` + current_price + `">` + commasCurrentPrice + ` KRW</span>
-                                    </div>
-                                </a>
-                             </li>`;
+                    while (current_price <= ( MAX_PRICE + growPrice ) ) {
 
-                            $("#select_lot_scroll").append(select_html);
+                        let commasCurrentPrice = numberWithCommas(current_price);
 
-                            current_price += data.GROW_PRICE;
+                        //grow price 체크.
+                        growPrice = growPriceForOffline(current_price);
+
+                        let select_html =
+                        `<li>
+                            <a href="#">
+                                <div class="typo-area">
+                                    <span id="` + current_price + `">` + commasCurrentPrice + ` KRW</span>
+                                </div>
+                            </a>
+                         </li>`;
+
+                        $("#select_lot_scroll").append(select_html);
+
+                        if(current_price === MAX_PRICE){
+                            break;
                         }
 
-                        <!-- [0516] 셀렉트 드롭다운 -->
-                        let dropdown = $(".js-dropdown-btn").trpDropdown({
-                            list: ".trp-dropdown_list-box",
-                            area: ".trp-dropdown-area"
-                        });
-                        $(".trp-dropdown-area .trp-dropdown_list-box a").on("click", function ($e) {
-                            $e.preventDefault();
-                            var _this = $(this);
-                            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn em").text($("em", _this).text());
-                            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
+                        current_price += growPrice;
+                    }
 
-                            currentPrice = $("span", _this).attr('id');
-
-                            $("#price_to_han").text(num2han(currentPrice) + ' 원');
-                            dropdown.getClose();
-                        });
-                    })
-
-                    .catch(function(error){
-                        console.log(error);
+                    <!-- [0516] 셀렉트 드롭다운 -->
+                    let dropdown = $(".js-dropdown-btn").trpDropdown({
+                        list: ".trp-dropdown_list-box",
+                        area: ".trp-dropdown-area"
                     });
+                    $(".trp-dropdown-area .trp-dropdown_list-box a").on("click", function ($e) {
+                        $e.preventDefault();
+                        var _this = $(this);
+                        _this.closest(".trp-dropdown-area").find(".js-dropdown-btn em").text($("em", _this).text());
+                        _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
+
+                        currentPrice = $("span", _this).attr('id');
+
+                        $("#price_to_han").text(num2han(currentPrice) + ' 원');
+
+                        dropdown.getClose();
+                    });
+                })
+
+                .catch(function(error){
+                    console.log(error);
+                });
             }
 
             <!-- 응찰방법 -->
@@ -373,7 +381,6 @@
                     currentBidKind = 'floor';
                 }
             });
-
 
             <!-- 약관 -->
             let accordion_toggle;
@@ -398,26 +405,27 @@
                     return;
                 }
 
-                let url = '/api/auction/sale/${saleNo}/lot/${lotNo}/bid';
+                let url = '/api/auction/insertbid';
 
                 try {
                     axios.post(url, {
                         bid_price: currentPrice,
-                        bid_kind_cd: currentBidKind
+                        bid_kind_cd: currentBidKind,
+                        sale_no : ${saleNo},
+                        lot_no : ${lotNo},
+                        cust_no : ${member.userNo},
+                        bid_dt : new Date().toISOString().slice(0, 19).replace('T', ' ')
                     }).then(function(response) {
 
                         if(response.data.success){
                             alert('응찰에 성공하셨습니다.');
-                            return;
-                            //history.back();
+                            location.href ='/auction/live/list/${saleNo}';
                         }
-
                     });
 
                 } catch (error) {
                     console.error(error);
                 }
-
 
             });
 

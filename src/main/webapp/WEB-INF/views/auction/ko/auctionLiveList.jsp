@@ -382,7 +382,7 @@
                     return;
                 }
 
-                let url = '/sale/${saleNo}/lot/${lotNo}/bid';
+                let url = item.FAVORITE_YN ==='N' ? "/api/auction/delCustInteLot" : "/api/auction/addCustInteLot";
 
                 try {
                     axios.post(url, {
