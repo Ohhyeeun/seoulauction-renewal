@@ -8,9 +8,11 @@ import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.service.*;
 import com.seoulauction.renewal.util.CaptchaUtil;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import nl.captcha.Captcha;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +22,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -110,7 +113,8 @@ public class ApiLoginController {
 	        	Map<String, Object> resultMap = new HashMap<String, Object>();
 	        	
 	        	//소셜로그인
-	        	if(custMap.get("SOCIAL_TYPE") != null && !custMap.get("SOCIAL_TYPE").equals("")) {
+	        	if(custMap.get("SOCIAL_YN") != null && custMap.get("SOCIAL_YN").equals("Y")) {
+	        		resultMap.put("SOCIAL_YN", custMap.get("SOCIAL_YN").toString());
 	        		resultMap.put("SOCIAL_TYPE", custMap.get("SOCIAL_TYPE").toString());
 	        		return ResponseEntity.ok(RestResponse.ok(resultMap));
 	        	}
@@ -174,6 +178,17 @@ public class ApiLoginController {
 	    return resultMap;
 	}
 	
+	@RequestMapping(value="/isCompNoExist", method=RequestMethod.POST, headers = {"content-type=application/json"})
+	@ResponseBody
+	public List<CommonMap> isCompNoExist(String domain, @RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+
+	    log.info("isCompNoExist");
+	    log.info(paramMap.toString());
+	    
+	    List<CommonMap> resultMap = loginService.selectCustForExist(paramMap);
+	    return resultMap;
+	}
+	
 	@RequestMapping(value = "/employee", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> findAddr(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
@@ -206,6 +221,7 @@ public class ApiLoginController {
         	String custNo = "";
         	String socialType = paramMap.get("social_type") == null ? "" : paramMap.get("social_type").toString();
         	String localKindCd = paramMap.get("local_kind_cd") == null ? "" : paramMap.get("local_kind_cd").toString();
+        	String custKindCd = paramMap.get("cust_kind_cd") == null ? "" : paramMap.get("cust_kind_cd").toString();
         	Boolean pwEmail = Boolean.parseBoolean(paramMap.get("push_way_email").toString());
         	Boolean pwSms = Boolean.parseBoolean(paramMap.get("push_way_sms").toString());
         	Boolean pwPhone = Boolean.parseBoolean(paramMap.get("push_way_phone").toString());
@@ -235,8 +251,8 @@ public class ApiLoginController {
             			//국내회원 회원가입 완료시 로그인 처리 (국내 소셜)
             			//해외회원은 이메일 인증 후 로그인가능 (현재 STAT_CD == not_certify)
             			SAUserDetails parameterUserDetail = SAUserDetails.builder()
-            					.loginId(paramMap.get("social_login_id").toString())
-            					.userNm(paramMap.get("cust_name").toString())
+            					.socialType(paramMap.get("social_type").toString()) // social_type
+            					.socialEmail(paramMap.get("social_email").toString()) // social_email
             					.ip(loginService.getIp(request))
             					.build();
             			
@@ -254,7 +270,21 @@ public class ApiLoginController {
         	}
         	
         	if(localKindCd.equals("korean")) {
-	        	//국내회원 회원가입 완료시 로그인 처리 (국내 개인)
+        		if(custKindCd.equals("company")){
+        			//사업자회원 사업자등록증 s3 upload
+        			try {	
+        				Map<String, List<MultipartFile>> fileList = request.getMultiFileMap();
+        	    		
+        	    		MultipartFile compFile = fileList.get("comp_file").get(0);
+        	    		if(!compFile.getOriginalFilename().equals("")) {
+        	    			s3Service.insertS3FileData(true, compFile, "cust_comp", custNo);
+        	    		}
+        			} catch (Exception e) {
+        				e.printStackTrace();
+        			}
+        		}
+        		
+	        	//국내회원 회원가입 완료시 로그인 처리 (국내 개인,사업자)
     			//해외회원은 이메일 인증 후 로그인가능 (현재 STAT_CD == not_certify)
 	        	SecurityContext sc = SecurityContextHolder.getContext();
 	        	UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(paramMap.get("login_id").toString(), paramMap.get("passwd").toString());
@@ -294,5 +324,30 @@ public class ApiLoginController {
 		return ResponseEntity.ok(RestResponse.ok());
 	}
 	
+	// 소셜 로그인
+	@RequestMapping(value = "/social", method = RequestMethod.POST)
+	public ResponseEntity<RestResponse> socialLogin(HttpServletRequest request
+			, @RequestBody CommonMap paramMap
+			, RedirectAttributes redirect) {
+    	
+		log.info("socialLogin");
+		log.info(paramMap.toString());
+		
+		SAUserDetails parameterUserDetail = SAUserDetails.builder()
+				.socialType(paramMap.get("social_type").toString()) // social_type
+				.socialEmail(paramMap.get("social_email").toString()) // social_email
+				.ip(loginService.getIp(request))
+				.build();
 
+		SecurityContext sc = SecurityContextHolder.getContext();
+		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(null, null);
+		auth.setDetails(parameterUserDetail);
+		sc.setAuthentication(socialAuthenticationProvider.authenticate(auth));
+
+		HttpSession session = request.getSession(true);
+		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
+
+        return ResponseEntity.ok(RestResponse.ok());
+	}
+	
 }

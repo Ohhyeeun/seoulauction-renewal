@@ -60,26 +60,41 @@
 							document.getElementById('social_type').value = "NV";
 							document.getElementById('social_email').value = naverLogin.user.email;
 							
-// 							var form = document.getElementById('loginForm');
-// 							form.action = '/api/login/social';
-// 							form.submit();
 							var form = document.querySelector('#loginForm');
 							var formData = new FormData(form);
 							var data = {};
 							formData.forEach((value, key) => (data[key] = value));
 							axios.post('/api/login/social' , data)
 				                .then(function(response) {
-				                	location.href="/";
+				                    opener.location.replace("/");
+									window.close();
 				                })
 				                .catch(function(error){
 				                    console.log(error);
 				                });
-						}
-						if(action.startsWith("join")){
-							document.getElementById('name').value = naverLogin.user.name;
-							document.getElementById('mobile').value = naverLogin.user.mobile;
-							document.getElementById('email').value = naverLogin.user.email;
-							document.getElementById('joinForm').submit();
+						}else if(action.startsWith("join")){
+							opener.document.getElementById("name").value = naverLogin.user.name;
+							opener.document.getElementById("mobile").value = naverLogin.user.mobile;
+							opener.document.getElementById("email").value = naverLogin.user.email;
+							opener.document.getElementById("joinForm").action = '/joinForm?socialType=NV';
+							opener.document.getElementById("joinForm").submit();
+							window.close();
+						}else if(action.startsWith("snsLink")){
+							var data = {};
+							data['social_type'] = "NV";
+							data['social_email'] = naverLogin.user.email;
+							axios.post('/api/mypage/snsLink', data)
+								.then(function(response) {
+									opener.location.reload();
+									window.close();
+								})
+								.catch(function(error) {
+									console.log(error);
+								});
+						}else if(action.startsWith("socialConfirm")){
+							opener.parent.socialConfirm(naverLogin.user.email)
+							window.close();
+							
 						}
 					} else {
 						console.log("callback 처리에 실패하였습니다.");

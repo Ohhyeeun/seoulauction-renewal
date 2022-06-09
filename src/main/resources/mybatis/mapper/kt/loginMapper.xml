@@ -84,10 +84,10 @@
 
 
 	<select id="selectCustLoginIdByCustName" resultType="CommonMap">
-
 		select
 		concat(rpad(substring(login_id, 1, 2), length(login_id)-1, '*'),
 		substring(login_id, length(login_id), 1) ) LOGIN_ID ,
+		c.SOCIAL_YN ,
 		cs.CUST_NO ,
 		case
 		when cs.SOCIAL_TYPE = 'KA' then 'KAKAO'
@@ -144,10 +144,16 @@
 		from CUST c
 		left
 		outer join cust_social cs on c.CUST_NO = cs.cust_no
-		where JOIN_KIND_CD
-		= 'online' and IFNULL(DEL_YN, 'N') = 'N'
+		where JOIN_KIND_CD = 'online' and IFNULL(DEL_YN, 'N') = 'N'
 		and STAT_CD = #{stat_cd}
 		and LOGIN_ID = #{login_id}
+		and CUST_NAME = #{cust_name}
+		<if test="search_type == 'phone'">
+			and HP = #{search_value}
+		</if>
+		<if test="search_type == 'email'">
+			and EMAIL = #{search_value}
+		</if>
 	</select>
 
 	<select id="selectCustSocialBySocialLoginId" resultType="CommonMap">
@@ -227,8 +233,12 @@
 			STAT_CD,
 			SEND_WAY_CD,
 			PASSWD_MOD_DT,
+			<if test="cust_kind_cd == 'company'">
+				TEL, COMP_OWNER, COMP_NO, COMP_MAN_NAME,
+			</if>
 			FORE_BID_REQ_YN,
-			FORE_CERT_CODE
+			FORE_CERT_CODE,
+			SOCIAL_YN
 		) 
 		VALUES ( 
 			#{login_id},
@@ -259,11 +269,20 @@
 			</if>
 			'normal', <!-- SEND_WAY_CD -->
 			now(), <!-- PASSWD_MOD_DT -->
+			<if test="cust_kind_cd == 'company'">
+			    #{tel}, #{comp_owner}, #{comp_no}, #{comp_man_name},
+			</if>
 			<choose>
 			    <when test="local_kind_cd == 'foreigner'">
-			        #{fore_bid_req_yn}, UUID()
+			        #{fore_bid_req_yn}, UUID(),
 			    </when>
-			    <otherwise>'N', null</otherwise>
+			    <otherwise>'N', null,</otherwise>
+			</choose>
+			<choose>
+			    <when test="social_type != null and social_type != ''">
+			        'Y'
+			    </when>
+			    <otherwise>'N'</otherwise>
 			</choose>
 		);
 	</insert>
@@ -283,6 +302,9 @@
 			#{social_login_id},
 			now()
 		);
+		<selectKey keyProperty="reg_dt" resultType="String" order="AFTER">
+			select date_format(REG_DT,'%Y.%m.%d')REG_DT FROM CUST_SOCIAL WHERE CUST_NO = #{cust_no} and SOCIAL_TYPE = #{social_type} and SOCIAL_EMAIL = #{social_email}
+		</selectKey>
 	</insert>
 	
 	<select id="selectCustForCustSocial" resultType="CommonMap">
@@ -314,4 +336,6 @@
 			now()
 		);
 	</insert>
+	
+	
 </mapper>

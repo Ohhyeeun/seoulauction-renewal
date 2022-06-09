@@ -45,5 +45,5 @@ public interface LoginMapper {
     int insertCustPushWay(CommonMap paramMap);
 
     CommonMap selectCustForCustSocial(CommonMap paramMap);
-    
+
 }
