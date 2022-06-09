@@ -8,7 +8,7 @@
 
 <sec:authentication property="details.socialYn" var="socialYn"/> 
 <sec:authentication property="Details.userNm" var="userName"/>
-<sec:authentication property="Details.validDate" var="validDate"/>
+<%-- <sec:authentication property="Details.validDate" var="validDate"/> --%>
 
 <!-- 마이페이지 싸이드 메뉴 -->
 <div ng-controller="myPageCtl">
