@@ -133,10 +133,6 @@
                                                             <span id="price_to_han"></span>
                                                         </div>
 
-                                                        <div class="unit">
-                                                            <span id="grow_price"></span>
-                                                        </div>
-
                                                     </div>
                                                 </div>
 
@@ -290,7 +286,7 @@
             init();
             let currentPrice;
             let currentBidKind;
-
+            let growPrice;
             <!-- 데이터 세팅 -->
             function init(){
 
@@ -305,10 +301,11 @@
                     $("#lot_id").html(data.LOT_NO);
                     $("#artist_name").html(data.ARTIST_NAME_KO_TXT);
                     $("#lot_title").html(data.TITLE_KO_TXT);
-                    $("#grow_price").html('(호가단위 : ' + numberWithCommas(data.GROW_PRICE) + ' KRW)');
                     $("#expe_price").html('KRW ' + numberWithCommas(data.EXPE_PRICE_FROM_JSON.KRW) + '<br> ~ ' + numberWithCommas(data.EXPE_PRICE_TO_JSON.KRW));
 
                     let current_price = data.START_PRICE;
+                    let MAX_PRICE = current_price * 10; // 추청가의 10배가 최대치.
+                    growPrice = growPriceForOffline(current_price);
                     currentPrice = data.START_PRICE;
                     currentBidKind = 'paper_offline';
 
@@ -317,11 +314,16 @@
                     $("#price_to_han").text(num2han(current_price) + ' 원');
 
                     $("#select_lot_scroll").empty();
-                    while (current_price <= data.EXPE_PRICE_TO_JSON.KRW) {
+
+                    while (current_price <= ( MAX_PRICE + growPrice ) ) {
 
                         let commasCurrentPrice = numberWithCommas(current_price);
 
-                        let select_html = `<li>
+                        //grow price 체크.
+                        growPrice = growPriceForOffline(current_price);
+
+                        let select_html =
+                        `<li>
                             <a href="#">
                                 <div class="typo-area">
                                     <span id="` + current_price + `">` + commasCurrentPrice + ` KRW</span>
@@ -331,7 +333,11 @@
 
                         $("#select_lot_scroll").append(select_html);
 
-                        current_price += data.GROW_PRICE;
+                        if(current_price === MAX_PRICE){
+                            break;
+                        }
+
+                        current_price += growPrice;
                     }
 
                     <!-- [0516] 셀렉트 드롭다운 -->
@@ -348,6 +354,7 @@
                         currentPrice = $("span", _this).attr('id');
 
                         $("#price_to_han").text(num2han(currentPrice) + ' 원');
+
                         dropdown.getClose();
                     });
                 })
