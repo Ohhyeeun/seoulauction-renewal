@@ -14,7 +14,7 @@
 
 <%--메인이 아닐 경우에만 해당 css 추가.--%>
 <c:if test="${empty param.main}">
-    <jsp:include page="../../common/commonCssNotMain.jsp" flush="false"/>
+    <link rel="stylesheet" href="/css/pages_common_ko.css" type="text/css" />
 </c:if>
 
 <%--angular 관련은 미리 로딩--%>
@@ -86,10 +86,10 @@ function sessionLogout() {
             <section class="topsearch-box">
                 <button class="m-top-search m-ver"></button>
                 <button class="m-gnbmenu m-ver"></button>
-                <form action="" class="scroll_none">
+                <form action="" class="scroll_none" onsubmit="return false; ">
                     <fieldset class="topsearch">
                         <span class="submenuBg-closeBtn top-search-closeBtn m-ver"></span>
-                        <input onkeydown="searchFilter()" onmousedown="searchDown()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();" id="topsearchText"><button type="button" class="topsearch-btn pc-ver" ng-click="goSearch('topsearchText', true);"></button>
+                        <input onkeydown="searchFilter()" onmousedown="searchDown()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();" id="topsearchText" ng-keypress="$event.keyCode === 13 && goSearch('topsearchText', true);"><button type="button" class="topsearch-btn pc-ver" ng-click="goSearch('topsearchText', true);"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">
                             </div>
@@ -112,8 +112,8 @@ function sessionLogout() {
                         <ul class="subGnbmenu">
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
                                 <ul class="submenu submenu-part01">
-                                    <li id="menu_auction"><a href="/auction/proceed">진행경매</a></li>
-                                    <li id="menu_upcoming"><a href="#">예정경매</a></li>
+                                    <li id="menu_auction"><a href="/auction/progress">진행경매</a></li>
+                                    <li id="menu_upcoming"><a href="/auction/scheduled">예정경매</a></li>
                                     <li><a href="#">경매결과</a></li>
                                 </ul>
                             </li>

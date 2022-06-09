@@ -244,13 +244,10 @@
                                                                     <dd><strong>{{item.CUR_COST}}</strong><em>{{item.BID_COUNT}}</em></dd>
                                                                 </dl>
                                                             </div>
-<%--                                                            <div class="bidding-box">--%>
-<%--                                                                <div class="deadline_set"><span>{{item.BID_TICK}}</span>--%>
-<%--                                                                </div>--%>
-<%--                                                                <div class="btn_set"><a class="btn btn_point" href="#"--%>
-<%--                                                                                        role="button"><span>응찰</span></a>--%>
-<%--                                                                </div>--%>
-<%--                                                            </div>--%>
+                                                            <div class="bidding-box col_2">
+                                                                <div class="deadline_set"><span>신청마감 02.10(목) 15:00</span></div>
+                                                                <div class="btn_set"><a class="btn btn_point" href="/auction/live/sale/{{item.SALE_NO}}/lot/{{item.LOT_NO}}/biding" role="button"><span>서면/전화 응찰 신청</span></a></div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </article>

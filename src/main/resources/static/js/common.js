@@ -27,7 +27,9 @@ $(function(){
                         const titleJSON = JSON.parse(item.TITLE_BLOB);
                         const returnDom = `<a href="/auction/${item.SALE_NO}" class="Ingbanner" target="_blank">
                                             <figure class="border-txt-darkg Ingbanner-img">
-                                                <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" alt="ing_auction01">
+                                                <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" 
+                                                     onerror="this.src='/images/pc/thumbnail/gnb_thubnatil_ready.jpg'"
+                                                    alt="ing_auction01">
                                             </figure>
                                             <div class="Ingbanner-txt text-over">
                                                 <span class="auctionKind-box Ingkind-auction ${item.SALE_KIND === 'LIVE' ? 'on' : ''}">${item.SALE_KIND}</span>
@@ -301,13 +303,14 @@ $(function(){
     });
 
     /*top search placeholder */
+    $('.topsearch>input').attr('placeholder','작가 또는 작품명 검색'); /* placeholder 초기값 */
+
     $(window).resize(function(){
         const windowWidth1279 = window.matchMedia('screen and (min-width:1279px)');
         const windowWidth1024 = window.matchMedia('screen and (min-width:1024px)');
         const windowWidth1023 = window.matchMedia('screen and (max-width:1023px)');
 
         if(windowWidth1279.matches){
-            console.log(234324);
             $('.topsearch>input').attr('placeholder','작가 또는 작품명 검색');
             $('.topsearch-en>input').attr('placeholder','Search by artist or work name');
             $('.darkmodeBg').hover(function(){
@@ -344,13 +347,12 @@ $(function(){
         $('.familyselect').hide();
     });
 
-
+    /* scroll top */
+    $('.scroll-top').click(function(){
+        $('html, body').animate({scrollTop: '0'}, 700);
+    });
 });
 
-/* scroll top */
-$('.scroll-top').click(function(){
-    $('html, body').animate({scrollTop: '0'}, 700);
-});
 
 /* top search filter 기능 */
 function searchFilter() {
@@ -717,4 +719,73 @@ function dotSubString(str,len){
         result = str;
     }
     return result;
+}
+//숫자를 한국어로
+function num2han(num) {
+    num = parseInt((num + '').replace(/[^0-9]/g, ''), 10) + '';  // 숫자/문자/돈 을 숫자만 있는 문자열로 변환
+    if (num == '0')
+        return '영';
+    let number = ['영', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구'];
+    let unit = ['', '만', '억', '조'];
+    let smallUnit = ['천', '백', '십', ''];
+    let result = [];  //변환된 값을 저장할 배열
+    let unitCnt = Math.ceil(num.length / 4);  //단위 갯수. 숫자 10000은 일단위와 만단위 2개이다.
+    num = num.padStart(unitCnt * 4, '0')  //4자리 값이 되도록 0을 채운다
+    let regexp = /[\w\W]{4}/g;  //4자리 단위로 숫자 분리
+    let array = num.match(regexp);  //낮은 자릿수에서 높은 자릿수 순으로 값을 만든다(그래야 자릿수 계산이 편하다)
+    for (let i = array.length - 1, unitCnt = 0; i >= 0; i--, unitCnt++) {
+        let hanValue = _makeHan(array[i]);  //한글로 변환된 숫자
+        if (hanValue == '')  //값이 없을땐 해당 단위의 값이 모두 0이란 뜻.
+            continue;
+        result.unshift(hanValue + unit[unitCnt]);
+    }
+    //여기로 들어오는 값은 무조건 네자리이다. 1234 -> 일천이백삼십사
+    function _makeHan(text) {
+        var str = '';
+        for (var i = 0; i < text.length; i++) {
+            var num = text[i];
+            if (num == '0')  //0은 읽지 않는다
+                continue;
+            str += number[num] + smallUnit[i];
+        }
+        return str;
+    }
+  return result.join('');
+}
+//오프라인 가격의 호가를 정해서 알려줌
+function growPriceForOffline(price){
+
+    let growPrice;
+
+    if(price < 1000000 ){
+        growPrice = 50000;
+    } else if (price >= 1000000 && price < 2000000 ){
+        growPrice = 100000;
+    } else if (price >= 2000000 && price < 4000000 ){
+        growPrice = 200000;
+    } else if (price >= 4000000 && price < 10000000 ){
+        growPrice = 300000;
+    } else if (price >= 10000000 && price < 20000000 ){
+        growPrice = 500000;
+    } else if (price >= 20000000 && price < 30000000 ){
+        growPrice = 1000000;
+    } else if (price >= 30000000 && price < 50000000 ){
+        growPrice = 2000000;
+    } else if (price >= 50000000 && price < 100000000 ){
+        growPrice = 3000000;
+    } else if (price >= 100000000 && price < 200000000 ){
+        growPrice = 5000000;
+    } else if (price >= 200000000 && price < 300000000 ){
+        growPrice = 10000000;
+    } else if (price >= 300000000 && price < 500000000 ){
+        growPrice = 20000000;
+    } else if (price >= 500000000 && price < 1000000000 ){
+        growPrice = 30000000;
+    } else if (price >= 1000000000 && price < 2000000000 ){
+        growPrice = 50000000;
+    } else if (price >= 2000000000){
+        growPrice = 100000000;
+    }
+
+    return growPrice;
 }

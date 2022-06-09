@@ -29,14 +29,20 @@ public class S3Service {
     @Value("${aws.s3.url}")
     String S3_BASE_URL;
 
+    @Value("${aws.s3.private.url}")
+    String S3_BASE_PRIVATE_URL;
+
     @Value("${aws.cdn.url}")
     String S3_CDN_BASE_URL;
 
     @Value("${aws.s3.image.base.url}")
     String S3_IMAGE_BASE_URL;
 
-    @Value("${aws.s3.private.image.base.url}")
-    String S3_PRIVATE_IMAGE_BASE_URL;
+    @Value("${cloud.aws.s3.bucket}")
+    public String bucket;  // S3 버킷 이름
+
+    @Value("${cloud.aws.s3.private.bucket}")
+    public String privateBucket;  // S3 버킷 PRIVATE 버킷.
 
     //S3 업로드 이후 디비에 저장.
     private CommonMap insertS3File(Boolean isPrivate , MultipartFile uploadFile , String tableName , String rowId) throws IOException {
@@ -52,7 +58,13 @@ public class S3Service {
         final long fileSize = uploadFile.getSize();
         String contentType = uploadFile.getContentType();
 
-        String path = s3Uploader.upload(isPrivate , uploadFile,S3_IMAGE_BASE_URL   + "/" + tableName + "/" + rowId);
+        String currentBucket = isPrivate ? privateBucket : bucket;
+
+        String baseUrl = isPrivate ? S3_BASE_PRIVATE_URL : S3_BASE_URL;
+
+        String path = s3Uploader.upload(currentBucket , uploadFile , S3_IMAGE_BASE_URL   + "/" + tableName + "/" + rowId);
+
+        String cdnUrl = isPrivate ? null : (S3_CDN_BASE_URL + path);
 
         CommonMap paramMap = null;
 
@@ -64,9 +76,13 @@ public class S3Service {
             paramMap.put("path", path);
             paramMap.put("mimetype", contentType);
             paramMap.put("filesize", fileSize);
-            paramMap.put("url", S3_BASE_URL + path);
-            paramMap.put("cdn_url", S3_CDN_BASE_URL + path);
+            paramMap.put("url", baseUrl + path);
+            paramMap.put("cdnUrl", cdnUrl);
+            paramMap.put("bucketName", currentBucket);
 
+            log.info("path : {}", path);
+            log.info("baseUrl : {}", baseUrl);
+            log.info("currentBucket : {}", currentBucket);
             log.info("origName : {}", origName);
             log.info("ext : {}", ext);
             log.info("fileSize : {}", fileSize);

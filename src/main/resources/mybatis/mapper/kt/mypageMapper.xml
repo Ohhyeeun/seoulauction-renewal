@@ -119,8 +119,11 @@
 				, DATE_FORMAT(B.BID_DT, '%T') as BIDTIME
 				, B.CUST_NO BID_CUST_NO
 				, P.CUST_NO PAY_CUST_NO
-				, P.PAY_METHOD_NM, PAY_CNT
+				, P.PAY_METHOD_NM
+				, PAY_CNT
+				, P.PAY_METHOD_ID
 				, P.PAY_PRICE
+				, P.PG_TRANS_ID
 				, case when P.CUST_NO is null then 0 else 1 end PAID_CNT
 				, if((select count(*) from CUST_BASE_FEE where CUST_NO = '1' and FEE_KIND_CD = 'payment') = 0, 'N', 'Y') CUST_FEE_YN
 				, DATE_FORMAT(P.PAY_DT, '%Y.%m.%d') payDate
@@ -134,9 +137,10 @@
 					WHEN '7' THEN '토'
 					END AS payWeekDate
 				,DATE_FORMAT(P.PAY_DT, '%T') as payTime
-				,(select count(*) from bid where cust_no='9186' and sale_no=S.sale_no and LOT_NO=L.LOT_NO) as bid_count
+				,(select count(*) from bid where cust_no='115551' and sale_no=S.sale_no and LOT_NO=L.LOT_NO) as bid_count
+				, IF(P.PG_TRANS_ID is not null and P.pg_cd='nice', 'Y', 'N' ) receipt
 		from
-			( select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO ='9186' and b1.BID_NO = sb.BID_NO 
+			( select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO ='115551' and b1.BID_NO = sb.BID_NO 
 		) B 
 		inner join (
 		select
@@ -150,7 +154,7 @@
 		from
 			sale s1
 		join (
-			select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO ='9186' and b1.BID_NO = sb.BID_NO 
+			select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO ='115551' and b1.BID_NO = sb.BID_NO 
 		) B2 on
 			B2.SALE_NO = s1.SALE_NO
 			group by SALE_NO 
@@ -168,10 +172,13 @@
 		left outer join (
 			select
 				SP.CUST_NO,
+				SP.PG_CD,
+				SP.PG_TRANS_ID,
 				sum(SP.PAY_PRICE) PAY_PRICE,
 				LP.SALE_NO,
 				LP.LOT_NO,
 				C.CD_NM PAY_METHOD_NM,
+				C.CD_ID PAY_METHOD_ID,
 				count(*) PAY_CNT,
 				PAY_DT
 			from
@@ -206,7 +213,7 @@
 					success_bid sb
 				inner join bid b1
 				where
-					b1.CUST_NO = '9186'
+					b1.CUST_NO = '115551'
 					and b1.BID_NO = sb.BID_NO
 				group by
 					sale_no) B
@@ -221,7 +228,7 @@
 		select 
 			case when P.CUST_NO is null then 0 else 1 end PAID_CNT
 		from
-			( select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO ='9186' and b1.BID_NO = sb.BID_NO 
+			( select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO ='115551' and b1.BID_NO = sb.BID_NO 
 		) B 
 		inner join (
 		select
@@ -235,7 +242,7 @@
 		from
 			sale s1
 		join (
-			select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO ='9186' and b1.BID_NO = sb.BID_NO 
+			select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO ='115551' and b1.BID_NO = sb.BID_NO 
 		) B2 on
 			B2.SALE_NO = s1.SALE_NO
 			group by SALE_NO 
@@ -707,6 +714,7 @@ SELECT 'INTE_LOT' AS GUBUN
 				 , S.CURR_CD
 				 , LI.FILE_PATH as LOT_IMG_PATH
 			     , LI.FILE_NAME as LOT_IMG_NAME
+			     , (select count(*) from success_bid sb join bid b on b.BID_NO= sb.BID_NO and b.CUST_NO='113248' and sb.SALE_NO= S.SALE_NO) success_bid_count
 		FROM (SELECT PAD.PADD_NO PADDLE, BO.* FROM BID_OFFLINE BO LEFT OUTER JOIN SALE_PADD PAD ON BO.SALE_NO = PAD.SALE_NO AND BO.CUST_NO = PAD.CUST_NO) BIO
 		JOIN (
 		select
@@ -787,6 +795,65 @@ SELECT 'INTE_LOT' AS GUBUN
 		ORDER BY BIO.SALE_NO DESC, BIO.LOT_NO ASC, BIO.BID_NO desc;
 	</select>
 
+	<select id="selectLiveBidHammerList" resultType="Map">
+	select
+		b.*, LF.*
+		, COLUMN_GET(S.TITLE_BLOB, 'ko' AS CHAR) SALE_TITLE_KR
+		, COLUMN_GET(S.TITLE_BLOB, 'en' AS CHAR) SALE_TITLE_EN
+		, IFNULL(COLUMN_GET(AL.ARTIST_NAME_BLOB, 'ko' AS CHAR), '') ARTIST_NAME_KR
+		, IFNULL(COLUMN_GET(AL.ARTIST_NAME_BLOB, 'en' AS CHAR), '') ARTIST_NAME_EN
+		, COLUMN_GET(AL.TITLE_BLOB, 'ko' AS CHAR) LOT_TITLE_KR
+		, COLUMN_GET(AL.TITLE_BLOB, 'en' AS CHAR) LOT_TITLE_EN
+		,(LF.FEE + b.BID_PRICE) as PAY_PRICE
+		, LI.*
+		from
+			success_bid sb
+		join bid b on
+			sb.BID_NO = b.BID_NO
+			and sb.SALE_NO = b.SALE_NO
+			and b.CUST_NO = '113248'
+			<if test="sale_no != null and sale_no > 0">
+			and b.SALE_NO = #{sale_no} 
+			</if>
+		left outer join LOT_FEE LF on
+				LF.SALE_NO = sb.SALE_NO
+				and LF.LOT_NO = sb.LOT_NO
+				and LF.FEE_KIND_CD = 'payment'
+		left outer join (
+		select a.artist_no, a.artist_name_blob, l.TITLE_BLOB, l.LOT_NO , l.SALE_NO  from artist a join lot l on a.ARTIST_NO = l.ARTIST_NO
+		) AL on AL.LOT_NO = b.LOT_NO and AL.SALE_NO = b.SALE_NO
+		left outer join sale s on s.SALE_NO =  b.SALE_NO
+		join LOT_IMG LI ON LI.SALE_NO = AL.SALE_NO AND LI.LOT_NO = AL.LOT_NO AND LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = AL.SALE_NO and A.LOT_NO = AL.LOT_NO order by A.DISP_ORD limit 1)
+		order by AL.LOT_NO
+	</select>
+	
+	
+	<select id="selectLiveBidHammerCnt"  resultType="CommonMap">
+		select
+			TA.*,
+			(TA.sum_fee + TA.sum_bid_price) as sum_total_price
+		from
+			(
+			select
+				COUNT(*) as tatal_count,
+				SUM(LF.FEE) sum_fee,
+				SUM(b.BID_PRICE) sum_bid_price
+			from
+						success_bid sb
+			join bid b on
+						sb.BID_NO = b.BID_NO
+				and sb.SALE_NO = b.SALE_NO
+				and b.CUST_NO = '113248'
+				<if test="sale_no != null and sale_no > 0">
+				and b.SALE_NO = #{sale_no} 
+				</if>
+			left outer join LOT_FEE LF on
+							LF.SALE_NO = sb.SALE_NO
+				and LF.LOT_NO = sb.LOT_NO
+				and LF.FEE_KIND_CD = 'payment'
+			) TA 
+	</select>
+	
 	<select id="selectOnlineBidList" resultType="Map">
 		select S.SALE_NO, IF(S.SALE_TH_DSP_YN = 'N', '', CONCAT(S.SALE_TH, f_ordinal_number(S.SALE_TH))) SALE_TH, COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
 			, DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT 

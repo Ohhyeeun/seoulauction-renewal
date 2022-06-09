@@ -118,11 +118,12 @@
                                                                             <button class="btn btn_point" type="button"><span>결제하기</span></button>
                                                                         </div>
                                                                         <div class="btn-area" ng-if="data.PAID_CNT == 1">
-                                                                            <button class="btn btn_gray_line btn-half" type="button"><span>현금영수증</span></button>
-                                                                            <button class="btn btn_gray btn-half btn-print" type="button" disabled>
+                                                                            <button class="btn btn_gray_line" type="button" ng-if="data.PAY_METHOD_ID == 'card' && data.receipt == 'Y'" ng-click="receiptPopup({'pay':data,'type':0})"><span>결제영수증</span></button>
+                                                                            <button class="btn btn_gray_line" type="button" ng-if="data.PAY_METHOD_ID == 'vbank' && data.receipt == 'Y'" ng-click="receiptPopup({'pay':data,'type':1})"><span>현금영수증</span></button>
+<!--                                                                             <button class="btn btn_gray btn-half btn-print" type="button" disabled>
                                                                                 <span>보증서출력하기</span>
                                                                                 <span>7일 이후 가능</span>
-                                                                            </button>
+                                                                            </button> -->
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -133,7 +134,7 @@
                                                     
                                                    <div class="wrap_paging" ng-if ="totalCnt != 0">
 														<paging page="currentPage"
-															page-size=3
+															page-size=5
 															total=totalCnt
 															paging-action="loadOnlinePayList(page)"
 															scroll-top="true"
@@ -158,7 +159,6 @@
                                 </div>
                                 <div class="panel-footer"></div>
                             </div>
-
                         </div>
                     </section>
 

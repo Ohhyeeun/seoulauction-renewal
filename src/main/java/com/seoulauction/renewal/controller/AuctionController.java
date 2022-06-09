@@ -67,9 +67,33 @@ public class AuctionController {
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionLiveList" , locale);
     }
 
-    @GetMapping("/proceed")
-    public String proceed(Locale locale) {
+    @GetMapping("/live/sale/{sale_no}/lot/{lot_no}/biding")
+    public String liveBiding(Locale locale, Model model,
+                             @PathVariable("sale_no") int saleNo,
+                             @PathVariable("lot_no") int lotNo) {
 
-        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "proceed" , locale);
+        model.addAttribute("member" , SecurityUtils.getAuthenticationPrincipal());
+        model.addAttribute("saleNo", saleNo);
+        model.addAttribute("lotNo", lotNo);
+
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionLiveBiding" , locale);
+    }
+
+    @GetMapping("/progress")
+    public String progress(Locale locale) {
+
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "progress" , locale);
+    }
+
+    @GetMapping("/scheduled")
+    public String scheduled(Locale locale) {
+
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "scheduled" , locale);
+    }
+
+    @GetMapping("/scheduled/{sale_no}")
+    public String scheduledView(Locale locale, @PathVariable("sale_no") int saleNo) {
+
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "scheduledView" , locale);
     }
 }

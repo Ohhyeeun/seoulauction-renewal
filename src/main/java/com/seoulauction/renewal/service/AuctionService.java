@@ -8,6 +8,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -37,5 +39,13 @@ public class AuctionService {
         auctionMapper.insertSalePadd(map);
 
         return paddNo;
+    }
+
+    public List<CommonMap> selectProgressSaleList(CommonMap commonMap) {
+        return auctionMapper.selectProgressSaleList(commonMap);
+    }
+
+    public List<CommonMap> selectScheduledSaleList(CommonMap commonMap) {
+        return auctionMapper.selectScheduledSaleList(commonMap);
     }
 }

@@ -149,8 +149,15 @@ public class SaleService {
     public List<CommonMap> selectSaleList(CommonMap commonMap) {
         return saleMapper.selectSaleList(commonMap);
     }
-
     public List<CommonMap> selectLotTagList(CommonMap commonMap) {
         return saleMapper.selectLotTagList(commonMap);
+    }
+
+    public CommonMap selectTopBid(CommonMap commonMap) {
+        return saleMapper.selectTopBid(commonMap);
+    }
+
+    public void insertBid(CommonMap map){
+        saleMapper.insertBid(map);
     }
 }
