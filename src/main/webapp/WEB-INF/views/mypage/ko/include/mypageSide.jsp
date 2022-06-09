@@ -123,25 +123,33 @@
                                                     <div class="tit">결제방법</div>
                                                     <div class="txt">{{pay.PAY_METHOD_NM}}</div>
                                                 </div>
+                                                 <div class="info-li btn-area">
+                                                    <button class="btn btn_gray_line btn_sm" type="button" ng-if="pay.PAY_METHOD_ID == 'card' && pay.receipt == 'Y'" ng-click="receiptPopup({'pay':pay,'type':0})"><span>카드영수증</span></button>
+                                                    <button class="btn btn_gray_line btn_sm" type="button" ng-if="pay.PAY_METHOD_ID == 'vbank' && pay.receipt == 'Y'" ng-click="receiptPopup({'pay':pay,'type':1})"><span>현금영수증</span></button>
+                                                </div>
                                             </dd>
                                         </dl>
                                         <dl class="memlv2_record-list expiry" ng-if="pay.VALID == '기간만료'" >
                                             <dt>
                                                 <div class="title">
-                                                    <div class="tb1"><span>2022.1.5 ~ 2022.2.5</span></div>
+                                                    <div class="tb1"><span>{{pay.VALID_FROM_DT}} ~ {{pay.VALID_TO_DT}}</span></div>
                                                 </div>
                                                 <div class="state icon-wrap">
-                                                    <div class="state-icon">기간만료</div>
+                                                    <div class="state-icon">{{pay.VALID}}</div>
                                                 </div>
                                             </dt>
                                             <dd>
                                                 <div class="info-li">
                                                     <div class="tit">결제일</div>
-                                                    <div class="txt">1.5(금) 13:26:15</div>
+                                                    <div class="txt">{{pay.payDate}}({{pay.weekDate}}) {{pay.payTime}}</div>
                                                 </div>
                                                 <div class="info-li">
                                                     <div class="tit">결제방법</div>
-                                                    <div class="txt">무료</div>
+                                                    <div class="txt">{{pay.PAY_METHOD_NM}}</div>
+                                                </div>
+                                                 <div class="info-li btn-area">
+                                                    <button class="btn btn_gray_line btn_sm" type="button" ng-if="pay.PAY_METHOD_ID == 'card' && pay.receipt == 'Y'" ng-click="receiptPopup({'pay':pay,'type':0})"><span>카드영수증</span></button>
+                                                    <button class="btn btn_gray_line btn_sm" type="button" ng-if="pay.PAY_METHOD_ID == 'vbank' && pay.receipt == 'Y'" ng-click="receiptPopup({'pay':pay,'type':1})"><span>현금영수증</span></button>
                                                 </div>
                                             </dd>
                                         </dl>

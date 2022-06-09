@@ -22,6 +22,9 @@
 		,DATE_FORMAT(P.PAY_DT, '%T') as payTime
 		, CASE WHEN CP.VALID_TO_DT &gt;= NOW() THEN '정회원' ELSE '기간만료' END VALID 
 		, CD1.CD_NM PAY_METHOD_NM
+		, CD1.CD_ID PAY_METHOD_ID
+		, IF(P.PG_TRANS_ID is not null and P.pg_cd='nice', 'Y', 'N' ) receipt
+		, P.PG_TRANS_ID
 		from CUST CU
 		left outer join CUST_PAY CP on CU.cust_no = CP.cust_no
 		join PAY P ON P.pay_no = CP.pay_no and P.cust_no = CP.cust_no
