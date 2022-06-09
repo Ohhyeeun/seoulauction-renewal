@@ -512,6 +512,86 @@
                 #{bid_no})
     </insert>
 
+    <!-- 오프라인/온라인 각 상황에 맞게 insert -->
+    <insert id="insertBid" parameterType="CommonMap">
+        INSERT INTO BID(
+             SALE_NO
+            ,LOT_NO
+            ,CUST_NO
+            ,BID_KIND_CD
+            ,BID_DT
+            ,BID_PRICE
+            <if test="emp_no != null">
+            ,EMP_NO
+            </if>
+            <if test="padd_no != null">
+            ,PADD_NO
+            </if>
+            <if test="auto_bid_req_no != null">
+            ,AUTO_BID_REQ_NO
+            </if>
+            <if test="req_emp_no != null">
+            ,REG_EMP_NO
+            </if>
+            <if test="bid_grow_price != null">
+            ,BID_GROW_PRICE
+            </if>
+            <if test="reg_dt != null">
+            ,REG_DT
+            </if>
+            <if test="reg_emp_no != null">
+            ,REG_EMP_NO
+            </if>
+            <if test="mod_emp_no != null">
+            ,MOD_EMP_NO
+            </if>
+            <if test="etc != null">
+            ,ETC
+            </if>
+            <if test="bid_grow_price != null">
+            ,BID_GROW_PRICE
+            </if>
+        )
+        VALUES(
+             #{sale_no}
+            ,#{lot_no}
+            ,#{cust_no}
+            ,#{bid_kind_cd}
+            ,now()
+            ,#{bid_price}
+            <if test="emp_no != null">
+            ,#{emp_no}
+            </if>
+            <if test="padd_no != null">
+            ,#{padd_no}
+            </if>
+            <if test="auto_bid_req_no != null">
+            ,#{auto_bid_req_no}
+            </if>
+            <if test="req_emp_no != null">
+            ,#{req_emp_no}
+            </if>
+            <if test="bid_grow_price != null">
+            ,#{bid_grow_price}
+            </if>
+            <if test="reg_dt != null">
+            ,#{reg_dt}
+            </if>
+            <if test="reg_emp_no != null">
+            ,#{reg_emp_no}
+            </if>
+            <if test="mod_emp_no != null">
+            ,#{mod_emp_no}
+            </if>
+            <if test="etc != null">
+            ,#{etc}
+            </if>
+            <if test="bid_grow_price != null">
+            ,#{bid_grow_price}
+            </if>
+        )
+    </insert>
+
     <select id="selectTopBId" parameterType="CommonMap">
         select *
         from bid

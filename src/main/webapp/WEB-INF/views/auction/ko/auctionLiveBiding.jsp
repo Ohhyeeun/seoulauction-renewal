@@ -43,7 +43,7 @@
                             <!-- 작품응찰신청 -->
                             <div class="content-panel type_panel-proceeding_bidding">
                                 <div class="panel-header">
-                                    <div class="title"><span id="sale_title">제 166회 라이브 경매</span></div>
+                                    <div class="title"><span id="sale_title"></span></div>
                                 </div>
                                 <div class="panel-body">
 
@@ -54,13 +54,13 @@
                                                 <div class="guide">
 
                                                     <div class="product-box">
-                                                        <p class="img"><img id="bidding_lot_img" src="/images/temp/temp_img2.jpg" alt="" /></p>
+                                                        <p class="img"><img id="bidding_lot_img" alt="" /></p>
                                                         <div class="product_info">
                                                             <div class="num"><span class="tb1" id="lot_id">1</span></div>
                                                             <div class="title">
-                                                                <div class="name"><span class="tt4" id="artist_name">데미안허스트</span></div>
+                                                                <div class="name"><span class="tt4" id="artist_name"></span></div>
                                                                 <div class="desc">
-                                                                    <span class="tb1" id="lot_title">Air (From The Series The Elements) 은제이화문화병,은제이화문담배함,건칠이화문접시</span>
+                                                                    <span class="tb1" id="lot_title"></span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -69,8 +69,7 @@
                                                 <div class="member_pay">
                                                     <p>
                                                         <span class="tit ">추정가</span>
-                                                        <span class="won" id="expe_price">KRW 9,900,000,000 <br />
-                                                            ~ 9,900,000,000</span>
+                                                        <span class="won" id="expe_price">/span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -105,7 +104,7 @@
                                                         <!-- [0516]select 변경 -->
                                                         <div class="select-box">
                                                             <div class="trp-dropdown-area h50-line_center">
-                                                                <button class="js-dropdown-btn"><span id="selected_lot"> 1,800,000 KRW</span><i class="icon-select_arrow"></i>
+                                                                <button class="js-dropdown-btn"><span id="selected_lot"></span><i class="icon-select_arrow"></i>
                                                                 </button>
                                                                 <div class="trp-dropdown_list-box" data-trp-focusid="js-user_support">
                                                                     <!-- <div class="legend-box">
@@ -131,11 +130,11 @@
                                                         <!-- // [0516]select 변경 -->
 
                                                         <div class="price">
-                                                            <span id="price_to_han">구천구백구십구억구천구백구십구만 원</span>
+                                                            <span id="price_to_han"></span>
                                                         </div>
 
                                                         <div class="unit">
-                                                            <span id="grow_price">(호가단위:100,000 KRW)</span>
+                                                            <span id="grow_price"></span>
                                                         </div>
 
                                                     </div>
@@ -251,8 +250,8 @@
                                 <div class="panel-footer">
                                     <article class="button-area">
                                         <div class="btn_set ">
-                                            <a class="btn btn_default btn_lg" href="#" role="button"><span>취소</span></a>
-                                            <a class="btn btn_point btn_lg" href="#" role="button"><span>응찰신청</span></a>
+                                            <a class="btn btn_default btn_lg"  role="button"><span>취소</span></a>
+                                            <a class="btn btn_point btn_lg" role="button" id="biding_req_btn"><span>응찰신청</span></a>
                                         </div>
                                     </article>
                                 </div>
@@ -289,6 +288,8 @@
         $(function() {
 
             init();
+            let currentPrice;
+            let currentBidKind;
 
             <!-- 데이터 세팅 -->
             function init(){
@@ -312,7 +313,8 @@
                         $("#expe_price").html('KRW ' + numberWithCommas(data.EXPE_PRICE_FROM_JSON.KRW) + '<br> ~ ' + numberWithCommas(data.EXPE_PRICE_TO_JSON.KRW));
 
                         let current_price = data.START_PRICE;
-
+                        currentPrice = data.START_PRICE;
+                        currentBidKind = 'paper_offline';
                         $("#selected_lot").text(numberWithCommas(current_price) + ' KRW');
                         $("#price_to_han").text(num2han(current_price) + ' 원');
 
@@ -345,7 +347,9 @@
                             _this.closest(".trp-dropdown-area").find(".js-dropdown-btn em").text($("em", _this).text());
                             _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
 
-                            $("#price_to_han").text(num2han($("span", _this).attr('id')) + ' 원');
+                            currentPrice = $("span", _this).attr('id');
+
+                            $("#price_to_han").text(num2han(currentPrice) + ' 원');
                             dropdown.getClose();
                         });
                     })
@@ -359,6 +363,15 @@
             $(".js-bidding_method .btn_item").on("click", function($e) {
                 $(".js-bidding_method .btn_item").removeClass("active");
                 $(this).addClass("active");
+
+                let bk = $(this).text().trim();
+                if(bk == '서면'){
+                    currentBidKind = 'paper_offline';
+                }else if(bk == '전화'){
+                    currentBidKind = 'phone';
+                }else if(bk == '서면+전화'){
+                    currentBidKind = 'floor';
+                }
             });
 
 
@@ -374,8 +387,40 @@
                     $($this).closest(".check_all-wrap").find(".gray-box").slideUp("fast");
                 });
             accordion_toggle.setBtn(0);
-
             $(".js_all-1").trpCheckBoxAllsImg(".js_all", ".js_item");
+
+            //응찰 신청
+            $("#biding_req_btn").on('click', function(){
+
+                //전체 동의 확인
+                if(!$('#checkbox_all').is(":checked")){
+                    alert('전체 동의를 해주세요.');
+                    return;
+                }
+
+                let url = '/api/auction/sale/${saleNo}/lot/${lotNo}/bid';
+
+                try {
+                    axios.post(url, {
+                        bid_price: currentPrice,
+                        bid_kind_cd: currentBidKind
+                    }).then(function(response) {
+
+                        if(response.data.success){
+                            alert('응찰에 성공하셨습니다.');
+                            return;
+                            //history.back();
+                        }
+
+                    });
+
+                } catch (error) {
+                    console.error(error);
+                }
+
+
+            });
+
         });
     </script>
 
