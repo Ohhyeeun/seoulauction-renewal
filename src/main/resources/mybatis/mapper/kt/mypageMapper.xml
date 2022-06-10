@@ -746,6 +746,7 @@ SELECT 'INTE_LOT' AS GUBUN
 				 , LI.FILE_PATH as LOT_IMG_PATH
 			     , LI.FILE_NAME as LOT_IMG_NAME
 			     , (select count(*) from success_bid sb join bid b on b.BID_NO= sb.BID_NO and b.CUST_NO='113248' and sb.SALE_NO= S.SALE_NO) success_bid_count
+			     , L.HAMMER_CANCEL_YN
 		FROM (SELECT PAD.PADD_NO PADDLE, BO.* FROM BID_OFFLINE BO LEFT OUTER JOIN SALE_PADD PAD ON BO.SALE_NO = PAD.SALE_NO AND BO.CUST_NO = PAD.CUST_NO) BIO
 		JOIN (
 		select
