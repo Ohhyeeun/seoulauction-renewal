@@ -261,17 +261,16 @@
 <%--                                                                    <dd><strong>{{item.CUR_COST}}</strong><em>{{item.BID_COUNT}}</em></dd>--%>
 <%--                                                                </dl>--%>
                                                             </div>
-                                                            <div class="bidding-box col_2">
+                                                            <div id="biding_req" class="bidding-box col_2">
                                                                 <div class="deadline_set"><span>신청마감 02.10(목) 15:00</span></div>
-                                                                <div class="btn_set"><a class="btn btn_point" href=""
-                                                                                        role="button"><span ng-click="moveToBidding(item)" >서면/전화 응찰 신청</span></a></div>
+                                                                <div class="btn_set"><a class="btn btn_point" href="" ng-click="moveToBidding(item)"
+                                                                                        role="button"><span>서면/전화 응찰 신청</span></a></div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </article>
                                             </div>
                                         </li>
-
                                     </ul>
                                 </div>
 

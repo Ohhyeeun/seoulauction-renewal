@@ -287,6 +287,7 @@
             let currentPrice;
             let currentBidKind;
             let growPrice;
+            let bidType;
             <!-- 데이터 세팅 -->
             function init(){
 
@@ -295,9 +296,6 @@
 
                     let data = response.data.data;
                     let sale_title = JSON.parse(data.SALE_TITLE_JSON);
-
-
-                    console.log(data);
 
                     $("#bidding_lot_img").attr('src' , 'https://www.seoulauction.com/nas_img'+data.LOT_IMG_PATH + '/' +data.LOT_IMG_NAME);
                     $("#sale_title").html(sale_title.ko);
@@ -375,10 +373,13 @@
                 let bk = $(this).text().trim();
                 if(bk == '서면'){
                     currentBidKind = 'paper_offline';
+                    bidType = 14;
                 }else if(bk == '전화'){
                     currentBidKind = 'phone';
+                    bidType = 15;
                 }else if(bk == '서면+전화'){
                     currentBidKind = 'floor';
+                    bidType = 16;
                 }
             });
 
@@ -414,11 +415,12 @@
                         sale_no : ${saleNo},
                         lot_no : ${lotNo},
                         cust_no : ${member.userNo},
-                        bid_dt : new Date().toISOString().slice(0, 19).replace('T', ' ')
+                        bid_dt : new Date().toISOString().slice(0, 19).replace('T', ' '),
+                        bid_grow_price : growPriceForOffline(currentPrice),
+                        bid_type : bidType
                     }).then(function(response) {
-
                         if(response.data.success){
-                            alert('응찰에 성공하셨습니다.');
+                            alert("성공적으로 응찰 되었습니다.");
                             location.href ='/auction/live/list/${saleNo}';
                         }
                     });
