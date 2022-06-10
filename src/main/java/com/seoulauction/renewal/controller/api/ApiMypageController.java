@@ -369,4 +369,65 @@ public class ApiMypageController {
 
 		return ResponseEntity.ok(RestResponse.ok(res));
 	}
+	
+	//회원정보조회
+	@RequestMapping(value = "/custs/{custNo}", method = RequestMethod.GET)
+	public ResponseEntity<RestResponse> cust(@PathVariable("custNo") String custNo, 
+//			@RequestParam(required = false) String socialType,
+//			@RequestParam(required = false) String socialEmail,
+			HttpServletRequest request, HttpServletResponse response) throws IOException {
+		CommonMap paramMap = new CommonMap();
+		// user정보 put 공통 함수 호출 필요.
+		paramMap.put("cust_no", custNo);
+		paramMap.put("remember_me", 'N');
+		
+		CommonMap resultMap = loginService.selectCustByCustNo(paramMap);
+		List<CommonMap> inteArtistList = mypageService.selectCustInteArtist(paramMap);
+		if(inteArtistList.size() > 0) {
+			resultMap.put("INTE_ARTIST_LIST", inteArtistList);
+		}
+		
+		return ResponseEntity.ok(RestResponse.ok(resultMap));
+	}
+	
+	//회원정보수정
+	@RequestMapping(value = "/custs/{custNo}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> custModify(@PathVariable("custNo") String custNo, 
+			@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		paramMap.put("cust_no", custNo);
+		try {
+			int result = mypageService.updateCust(paramMap);
+			result += mypageService.updateCustPushWay(custNo, paramMap.get("push_way") == null ? "" : paramMap.get("push_way").toString());
+			result += mypageService.updateCustInteArtist(custNo, paramMap.get("inte_artist") == null ? "" : paramMap.get("inte_artist").toString());
+			result += mypageService.updateCustInteArea(custNo, paramMap.get("inte_area") == null ? "" : paramMap.get("inte_area").toString());
+			return ResponseEntity.ok(RestResponse.ok());
+		} catch (Exception e) {
+			throw new SAException("회원정보 수정이 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping(value = "/interestAreas", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> interestAreas(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+		log.info(paramMap.toString());
+		List<CommonMap> resultMap = loginService.selectCode(paramMap);
+        if(resultMap != null) {
+        	log.info(resultMap.toString());
+        }
+		return ResponseEntity.ok(RestResponse.ok(resultMap));
+	}
+	
+
+	@RequestMapping(value = "/artists", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> artists(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+		log.info(paramMap.toString());
+		List<CommonMap> resultMap = mypageService.selectArtistByArtistName(paramMap);
+        if(resultMap != null) {
+        	log.info(resultMap.toString());
+        }
+		return ResponseEntity.ok(RestResponse.ok(resultMap));
+	}
+	
 }

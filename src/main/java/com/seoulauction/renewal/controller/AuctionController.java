@@ -46,6 +46,13 @@ public class AuctionController {
     	}*/
         model.addAttribute("saleNo", saleNo);
         model.addAttribute("lotNo", lotNo);
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            model.addAttribute("member", saUserDetails);
+        } else {
+            model.addAttribute("member", new SAUserDetails());
+        }
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionView" , locale);
     }
 
@@ -54,7 +61,14 @@ public class AuctionController {
             , HttpServletRequest request, HttpServletResponse response,
             @PathVariable("saleNo") int saleNo) {
 
-         model.addAttribute("saleNo", saleNo);
+        model.addAttribute("saleNo", saleNo);
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            model.addAttribute("member", saUserDetails);
+        } else {
+            model.addAttribute("member", new SAUserDetails());
+        }
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionList" , locale);
     }
 
@@ -92,8 +106,8 @@ public class AuctionController {
     }
 
     @GetMapping("/scheduled/{sale_no}")
-    public String scheduledView(Locale locale, @PathVariable("sale_no") int saleNo) {
-
+    public String scheduledView(Locale locale, @PathVariable("sale_no") int saleNo, Model model) {
+        model.addAttribute("saleNo", saleNo);
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "scheduledView" , locale);
     }
 }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.seoulauction.renewal.common.RestResponse;
+import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.Bid;
 import com.seoulauction.renewal.domain.Bidder;
 import com.seoulauction.renewal.domain.CommonMap;
@@ -19,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -81,8 +83,9 @@ public class ApiSaleController {
         CommonMap c = new CommonMap();
         c.put("sale_no", saleNo);
 
-        CommonMap saleInfoMap = saleService.selectSaleInfo(c);
 
+
+        CommonMap saleInfoMap = saleService.selectSaleInfo(c);
         return ResponseEntity.ok(RestResponse.ok(saleInfoMap));
     }
 
@@ -377,7 +380,7 @@ public class ApiSaleController {
             @RequestBody CommonMap map, Principal principal) throws Exception {
 
         if(principal != null){
-            map.put("action_user_no", principal.getName());
+            map.put("cust_no", principal.getName());
         }
         map.put("list_type", "SEARCH");
         map.put("for_count", true);
@@ -468,4 +471,10 @@ public class ApiSaleController {
         return ResponseEntity.ok(RestResponse.ok());
     }
 
+    @GetMapping("/cust")
+    public ResponseEntity<RestResponse> cust() {
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
+        return ResponseEntity.ok(RestResponse.ok(saleService.getCustomerByCustNo(paramMap)));
+    }
 }

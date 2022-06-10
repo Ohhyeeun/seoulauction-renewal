@@ -20,6 +20,7 @@
 
             <!-- header -->
             <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+            <link rel="stylesheet" href="/css/plugin/csslibrary.css">
             <!-- //header -->
 
             <!-- container -->
@@ -261,17 +262,16 @@
 <%--                                                                    <dd><strong>{{item.CUR_COST}}</strong><em>{{item.BID_COUNT}}</em></dd>--%>
 <%--                                                                </dl>--%>
                                                             </div>
-                                                            <div class="bidding-box col_2">
+                                                            <div id="biding_req" class="bidding-box col_2">
                                                                 <div class="deadline_set"><span>신청마감 02.10(목) 15:00</span></div>
-                                                                <div class="btn_set"><a class="btn btn_point" href=""
-                                                                                        role="button"><span ng-click="moveToBidding(item)" >서면/전화 응찰 신청</span></a></div>
+                                                                <div class="btn_set"><a class="btn btn_point" href="" ng-click="moveToBidding(item)"
+                                                                                        role="button"><span>서면/전화 응찰 신청</span></a></div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </article>
                                             </div>
                                         </li>
-
                                     </ul>
                                 </div>
 
@@ -329,6 +329,8 @@
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/auction/auctionLiveList.js" type="text/javascript"></script>
     <script>
+        var terms_required = $(".js-terms_required").trpLayerFixedPopup("#terms_required-wrap");
+
         app.value('locale', 'ko');
         app.value('is_login', true);
 
@@ -432,6 +434,21 @@
                     location.href = "/login";
                 }
 
+                const membership_yn = $scope.custInfo.MEMBERSHIP_YN;
+                if(membership_yn === 'N') {
+                    location.href = "/payment/member";
+                }
+
+                if($scope.paddNo <= 0) {
+                    console.log(document.querySelector(".js-terms_required"));
+                    terms_required.open(this); // or false
+                    popup_fixation("#terms_required-wrap");
+
+                    $("body").on("click", "#terms_required-wrap .js-closepop, #terms_required-wrap .popup-dim", function($e) {
+                        $e.preventDefault();
+                        terms_required.close();
+                    });
+                }
             }
 
             // 호출 부
@@ -488,7 +505,6 @@
                     $scope.saleImages = r2.data.data;
                     $scope.lotTags = r3.data.data;
                     $scope.sale = r4.data.data;
-                    console.log($scope.sale);
 
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
 
@@ -517,8 +533,9 @@
                     }
                     $scope.pageingdata = p;
 
+                    //get paddle number & cust info
                     $scope.paddNo = 0;
-                    //get paddle number
+                    $scope.custInfo = null;
                     if(sessionStorage.getItem("is_login") === 'true'){
 
                         await axios.get('/api/auction/paddles/${saleNo}')
@@ -532,12 +549,18 @@
                                     }
                                 }
                             });
-                    }
-                    alert($scope.paddNo);
 
+                        await axios.get('/api/auction/cust')
+                            .then(function(response) {
+                                    const data = response.data;
+                                    const success = data.success;
+                                    if (success) {
+                                        $scope.custInfo = data.data;
+                                    }
+                                });
+                    }
 
                     $scope.$apply();
-
                     $scope.bidstart();
 
                     // lot
