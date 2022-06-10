@@ -309,7 +309,7 @@
                     growPrice = growPriceForOffline(current_price);
                     currentPrice = data.START_PRICE;
                     currentBidKind = 'paper_offline';
-
+                    bidType = 14;
 
                     $("#selected_lot").text(numberWithCommas(current_price) + ' KRW');
                     $("#price_to_han").text(num2han(current_price) + ' 원');
@@ -417,7 +417,8 @@
                         cust_no : ${member.userNo},
                         bid_dt : new Date().toISOString().slice(0, 19).replace('T', ' '),
                         bid_grow_price : growPriceForOffline(currentPrice),
-                        bid_type : bidType
+                        bid_type : bidType,
+                        user_id : '${member.loginId}'
                     }).then(function(response) {
                         if(response.data.success){
                             alert("성공적으로 응찰 되었습니다.");

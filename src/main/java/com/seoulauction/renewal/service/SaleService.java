@@ -186,7 +186,7 @@ public class SaleService {
             customerMap.put("lot_no", map.get("lot_no"));
             customerMap.put("cust_no", map.get("cust_no"));
             customerMap.put("paddle", map.get("padd_no"));
-            customerMap.put("user_id", "rladbdgns");
+            customerMap.put("user_id", map.get("user_id"));
             customerMap.put("sale_type", 1);
             customerMap.put("bid_type", map.get("bid_type"));
 
@@ -194,6 +194,8 @@ public class SaleService {
             paramMap.put("bid_cost", map.get("bid_price"));
             //bidder.setToken(map.get("bid_token").toString());
             // 비딩금액 저장
+
+            log.info("paramMap : {}" , paramMap);
 
             // 웹소켓에 데이타 전송
             String result = webClient.post().uri("/bid")
