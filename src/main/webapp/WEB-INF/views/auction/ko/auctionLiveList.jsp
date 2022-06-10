@@ -20,6 +20,7 @@
 
             <!-- header -->
             <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+            <link rel="stylesheet" href="/css/plugin/csslibrary.css">
             <!-- //header -->
 
             <!-- container -->
