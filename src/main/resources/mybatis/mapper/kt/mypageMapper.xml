@@ -916,6 +916,7 @@ SELECT 'INTE_LOT' AS GUBUN
 			 , if(S.TO_DT > NOW(), 'N', 'Y') AS CLOSE_YN
 			 , DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT 
 			 , S.CURR_CD
+			 , L.HAMMER_CANCEL_YN
 	    from LOT L
 		inner join (
 		select S1.*
