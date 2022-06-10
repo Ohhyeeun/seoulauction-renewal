@@ -4,6 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
+
 <body class="">
 	<div class="wrapper" ng-app="myApp">
 		<div class="sub-wrap pageclass">
@@ -87,6 +89,8 @@
                                                                                     <div class="titlename">{{data.ARTIST_NAME_KR}}</div>
                                                                                 </div>
                                                                                 <div class="desc">{{data.LOT_TITLE_KR}}</div>
+                                                                                <div class="desc">{{data.CD_NM}}</div>
+                                                                                <div class="desc">{{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}}X{{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}}({{StringToJson(data.LOT_SIZE_JSON)[0].CANVAS}})</div>
                                                                                 <div class="sub-box">
                                                                                     <div class="sub-li">{{data.BID_DT}} ({{data.BIDWEEKDT}})<br class="m-ver"> {{data.BIDTIME}} ({{data.bid_count}}회 응찰)</div>
                                                                                     <div class="sub-li">
@@ -116,55 +120,37 @@
                                                                             <button class="btn btn_point" type="button"><span>결제하기</span></button>
                                                                         </div>
                                                                         <div class="btn-area" ng-if="data.PAID_CNT == 1">
-                                                                            <button class="btn btn_gray_line btn-half" type="button"><span>현금영수증</span></button>
-                                                                            <button class="btn btn_gray btn-half btn-print" type="button" disabled>
+                                                                            <button class="btn btn_gray_line" type="button" ng-if="data.PAY_METHOD_ID == 'card' && data.receipt == 'Y'" ng-click="receiptPopup({'pay':data,'type':0})"><span>결제영수증</span></button>
+                                                                            <button class="btn btn_gray_line" type="button" ng-if="data.PAY_METHOD_ID == 'vbank' && data.receipt == 'Y'" ng-click="receiptPopup({'pay':data,'type':1})"><span>현금영수증</span></button>
+<!--                                                                             <button class="btn btn_gray btn-half btn-print" type="button" disabled>
                                                                                 <span>보증서출력하기</span>
                                                                                 <span>7일 이후 가능</span>
-                                                                            </button>
+                                                                            </button> -->
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </dd>
                                                         </dl>
                                                     </div>
-                                                    <!-- <div class="paging-area">
-                                                        <div class="paging">
-                                                            <a href="#" class="prev_end icon-page_prevprev">FIRST</a><a href="#" class="prev icon-page_prev">PREV</a>
-                                                            <strong class="on">1</strong>
-                                                            <a href="#"><em>2</em></a>
-                                                            <a href="#"><em>3</em></a>
-                                                            <a href="#"><em>4</em></a>
-                                                            <a href="#"><em>5</em></a>
-                                                            <span class="pc-ver">
-                                                                <a href="#"><em>6</em></a>
-                                                                <a href="#"><em>7</em></a>
-                                                                <a href="#"><em>8</em></a>
-                                                                <a href="#"><em>9</em></a>
-                                                                <a href="#"><em>10</em></a>
-                                                            </span>
-                                                            <a href="#" class="next icon-page_next "><em>NEXT</em></a><a href="#" class="next_end icon-page_nextnext">END</a>
-                                                        </div>
-                                                    </div> -->
                                                     
-                                                   <div class="paging-area">
-                                                    <div class="paging">
+                                                    
+                                                   <div class="wrap_paging" ng-if ="totalCnt != 0">
 														<paging page="currentPage"
-															page-size=3
-															total="totalCnt"
+															page-size=5
+															total=totalCnt
 															paging-action="loadOnlinePayList(page)"
 															scroll-top="true"
 															hide-if-empty="true"
 															show-prev-next="true"
 															show-first-last="true"
-															ul-class="paging"
-															active-class="on"
+															ul-class="page_ul"
+															active-class="page_active"
 														    disabled-class="page_disable"
-														    text-next-class="next icon-page_next"
-														    text-prev-class="prev icon-page_prev"
-														    text-first-class="prev_end icon-page_prevprev"
-														    text-last-class="next_end icon-page_nextnext">
-														</paging>
-													 </div>
+														    text-next-class="icon-page_next next page_btn sp_btn btn_next02"
+														    text-prev-class="icon-page_prev prev page_btn sp_btn btn_prev02"
+														    text-first-class="icon-page_prevprev prev_end page_btn sp_btn btn_prev "
+														    text-last-class="icon-page_nextnext next_end page_btn sp_btn btn_next">
+														</paging>				
 													</div>
                                                 </article>
                                                 <!-- //[0526]상품진열디자인 변경 : product-infobox 안에 product-infobox-inner 생성 -->
@@ -175,7 +161,6 @@
                                 </div>
                                 <div class="panel-footer"></div>
                             </div>
-
                         </div>
                     </section>
 

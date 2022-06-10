@@ -49,8 +49,9 @@ function dotSubString(str,len){
     return result;
 }
 
-function addCookie(id, name) {
-    var items = getCookie(name); // 이미 저장된 값을 쿠키에서 가져오기
+function addCookie(id, cookieName) {
+
+    var items = getCookie(cookieName); // 이미 저장된 값을 쿠키에서 가져오기
     var maxItemNum = 10; // 최대 저장 가능한 아이템개수
     var expire = 1; // 쿠키값을 저장할 기간
     if (items) {
@@ -61,15 +62,16 @@ function addCookie(id, name) {
         }
         else {
             // 새로운 값 저장 및 최대 개수 유지하기
+
             itemArray.unshift(id);
             if (itemArray.length > maxItemNum ) itemArray.length = 10;
             items = itemArray.join(',');
-            setCookie(name, items, expire);
+            setCookie(cookieName, items, expire);
         }
     }
     else {
         // 신규 id값 저장하기
-        setCookie(name, id, expire);
+        setCookie(cookieName, id, expire);
     }
 }
 
@@ -122,34 +124,17 @@ if( getLoginInfo != "LOGOUT" ){ $(document).on('click', 'a[href="#"]', function(
 
 app.requires.push.apply(app.requires, ["ngDialog", "checklist-model"]);
 app.controller('lotListCtl', function($scope, consts, common, is_login, locale, $filter) {
-    $scope.popstate = false;
     $scope.is_login = is_login;
     $scope.locale = locale;
     $scope.pageRows = 20;
     $scope.reqRowCnt = "20";
     $scope.currentPage = 1;
-    $scope.totalCount = 0;
-    $scope.db_now = null;
-    $scope.sale_no = null;
-    $scope.sale_status = null;
-    $scope.lot_map = {};
+    $scope.totalCount = 0
     $scope.is_error = false;
-    $scope.now_timer_start = false;
-    $scope.list_timer_start = false;
-    $scope.modal = null;
-    $scope.expe_from_price = null;
-    $scope.expe_to_price = null;
     $scope.search = {"sale_kind" : []};
     $scope.firstChk = 0;
-
-    $scope.reqRowCnts = {20:"<spring:message code='label.listup.lots' arguments='20' />",
-        50:"<spring:message code='label.listup.lots' arguments='50' />",
-        100:"<spring:message code='label.listup.lots' arguments='100' />"};
-
     $scope.sortBy = "ENDDE";
     $scope.moreBy = "MOREP";
-
-    $scope.sale_kind_all = true;
 
     $scope.loadSubPage = function(subPage){
         $scope.loadLotList(1, subPage);
@@ -213,44 +198,11 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
 
         const request = new Request();
         $scope.search.keyword = request.getParameter("searchContent");
-        console.log(request.getParameter("searchContent"));
         $scope.search.chk = "all";//검색 조건 (all 통합검색, art 작가명, title 작품명)
 
-        addCookie($scope.search.keyword, "keyword");
-
-        //alert(addCookie($scope.search.keyword, "keyword"));
+        addCookie($scope.search.keyword, "keywordHistory");
 
         $('input:checkbox[name="lotCheckBox"]').attr("checked", true);
-
-        if(getCookie("prev_url").indexOf("lotDetail") > -1 || getCookie("prev_url").indexOf("lotSearchList") > -1){
-            if($scope.search.keyword == "undefined" || $scope.search.keyword.length == 0 ){
-                if(getCookie("keyword") == "undefined"){
-                    $scope.search.keyword = undefined;
-                }else{
-                    $scope.search.keyword = getCookie("keyword");
-                }
-                if(getCookie("chk") == "undefined"){
-                    $scope.search.chk = "all";
-                }else{
-                    $scope.search.chk = getCookie("chk");
-                }
-                if(getCookie("mate_nm") == "undefined"){
-                    $scope.search.mate_nm = undefined;
-                }else{
-                    $scope.search.mate_nm = getCookie("mate_nm");
-                }
-                if(getCookie("from_dt") == "undefined"){
-                    $scope.search.from_dt = undefined;
-                }else{
-                    $scope.search.from_dt = getCookie("from_dt");
-                }
-                if(getCookie("to_dt") == "undefined"){
-                    $scope.search.to_dt = undefined;
-                }else{
-                    $scope.search.to_dt = getCookie("to_dt");
-                }
-            }
-        }
 
         if($scope.search.keyword.length > 0){
             if(getCookie("prev_url").indexOf("lotDetail") > -1 || getCookie("prev_url").indexOf("lotSearchList") > -1){
@@ -282,9 +234,9 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
                 });
             }
         })
-            .catch(function(error){
+        .catch(function(error){
                 console.log(error);
-            });
+        });
     }
 
     $scope.search = function(){
@@ -300,31 +252,10 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
         $scope.loadLotList($scope.currentPage, $scope.subPage);
     }
 
-    $scope.clearSearchCondition = function(){
-        $scope.search = {"sale_kind" : ['main', 'online', 'online_zb', 'hongkong', 'plan', 'exhibit']};
-
-        setCookie('page', "", 1);
-        setCookie('subPage', "", 1);
-        setCookie('size', "", 1);
-        setCookie('sale_kind', "", 1);
-        setCookie('keyword', "", 1);
-        setCookie('mate_nm', "", 1);
-        setCookie('from_dt', "", 1);
-        setCookie('to_dt', "", 1);
-        setCookie('chk', "", 1);
-        setCookie('from', "", 1);
-        setCookie('rows', "", 1);
-        setCookie('sort_by', "", 1);
-        setCookie('more_by', "", 1);
-    }
-
     $scope.cnt = 0;
     $scope.loadLotList = function($page, $subPage){
-        $(".product-list").empty();
 
-        if($page > 1){
-            setCookie('prev_url', getCookie('curr_url'), 1);
-        }
+        $(".product-list").empty();
 
         //최신순선택
         const sort = $("#selectSort option:selected").val();
@@ -343,22 +274,6 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
             $scope.moreBy = "PAGNG";
         }
 
-        setCookie('page', $page, 1);
-        setCookie('subPage', $subPage, 1);
-        setCookie('size', name, 1);
-        setCookie('sale_kind', $scope.search.sale_kind, 1);
-        setCookie('keyword', $scope.search.keyword, 1);
-        setCookie('mate_nm', $scope.search.mate_nm, 1);
-        setCookie('from_dt', $scope.search.from_dt, 1);
-        setCookie('to_dt', $scope.search.to_dt, 1);
-        setCookie('chk', $scope.search.chk, 1);
-        setCookie('from', (($scope.currentPage - 1) * parseInt($scope.reqRowCnt)), 1);
-        setCookie('rows', parseInt($scope.reqRowCnt), 1);
-        setCookie('sort_by', $scope.sortBy, 1);
-        setCookie('more_by', $scope.moreBy, 1);
-        setCookie('sale_status_end_yn', $scope.sale_status_end_yn, 1);
-        setCookie('sale_status_ing_yn', $scope.sale_status_ing_yn, 1);
-        setCookie('sale_status_ready_yn', $scope.sale_status_ready_yn, 1);
         $scope.currentPage = $page;
         $scope.subPage = $subPage;
         $api = "/api/auction/searchList";
@@ -366,8 +281,6 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
         let data = {};
         data['page'] = $page;
         data['sub_page'] = $subPage;
-        data['size'] = name;
-        data['sale_kind'] = $scope.search.sale_kind;
         data['keyword'] = $scope.search.keyword;
         data['mate_nm'] = $scope.search.mate_nm;
         data['from_dt'] = $scope.search.from_dt;
@@ -423,12 +336,14 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
                         }
 
                         $("#more_search").hide();
+                        $("#more_search_m").hide();
                         $(".paging").empty();
 
                         if($scope.moreBy == "MOREP") {
 
                             if($scope.totalCount > $scope.pageRows){
                                 $("#more_search").show();
+                                $("#more_search_m").show();
                             }
 
                         }else if($scope.moreBy == "PAGNG"){
@@ -440,7 +355,7 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
                                 totalCount:$scope.totalCount,
                                 itemSize:$scope.reqRowCnt,
                                 pageSize:10,
-                                page:$page,
+                                page:$scope.currentPage,
                                 callBackFunc:function(i) {
                                     $scope.loadLotList(i, $scope.subPage);
                                 }
@@ -469,9 +384,13 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
                             let heart_function= "";
 
                             if(locale === 'ko'){
-                                size = size_text_cm(lotSizeJSON[0], $filter);
+                                $.each(lotSizeJSON , function(idx , el){
+                                    size += size_text_cm(el, $filter) + '</br>';
+                                });
                             }else{
-                                size = size_text(lotSizeJSON[0], $filter);
+                                $.each(lotSizeJSON , function(idx , el){
+                                    size += size_text(el, $filter) + '</br>';
+                                });
                             }
 
                             if(expePriceFromJSON[el.CURR_CD] == undefined) {
@@ -521,7 +440,7 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
                                 + '<i class="'+ heart_status + '" onclick="'+heart_function+'(\''+el.SALE_NO+'\', \''+el.LOT_NO+'\', \''+locale+'\');"></i></button></div>'
                                 + '<div class="info-box">'
                                 + '<div class="title"><span>' + artistJSON[locale] + ' </span><span class="sub"> (' + el.BORN_YEAR + ')</span></div>'
-                                + '<div class="desc"><span> ' + dotSubString(titleJSON[locale], 35) + ' </span></div>'
+                                + '<div class="desc"><span> ' + dotSubString(titleJSON[locale], 30) + ' </span></div>'
                                 + '<div class="standard">'
                                 + '<span> ' + el.MATE_NM + ' </span>'
                                 + '<div class="size_year">'
@@ -561,19 +480,27 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
                             + '<div class="title">검색결과가 없습니다.</div>'
                             + '<div class="desc">단어의 철자나 띄어쓰기가 <br class="only-mb" />정확한지 확인해주세요</div></div></div>';
 
-
                         $("#panel_content").empty();
                         $("#panel_footer").hide();
-                        $('#totalCount').empty();
-                        $('#allCount').empty();
-                        $('#liveCount').empty();
-                        $('#onlineCount').empty();
 
                         $("#panel_content").append(html);
-                        $('#totalCount').append(0);
-                        $('#allCount').append('(0)');
-                        $('#liveCount').append('(0)');
-                        $('#onlineCount').append('(0)');
+
+                        if($scope.firstChk == 0 && $scope.totalCount == 0) {
+                            $('#totalCount').empty();
+                            $('#totalCount').append(0);
+                        }
+                        if($scope.firstChk == 0 && $scope.allCount  == 0) {
+                            $('#allCount').empty();
+                            $('#allCount').append('(0)');
+                        }
+                        if($scope.firstChk == 0 && $scope.liveCount == 0) {
+                            $('#liveCount').empty();
+                            $('#liveCount').append('(0)');
+                        }
+                        if($scope.firstChk == 0 && $scope.onlineCount == 0) {
+                            $('#onlineCount').empty();
+                            $('#onlineCount').append('(0)');
+                        }
 
                     }
                 }
@@ -582,8 +509,6 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
                 $scope.is_error = true;
                 console.log(error);
             });
-
-
     }
 
 });
@@ -603,7 +528,7 @@ function inteSave(saleNo, lotNo, locale) {
             let success = result.success;
 
             if(!success){
-                alert("데이터 로딩 실패");
+                alert("관심작품 추가 실패");
             } else {
                 if(result.data > 0) {
                     if(locale == 'ko') {
@@ -638,7 +563,7 @@ function inteDel(saleNo, lotNo, locale) {
             let success = result.success;
 
             if(!success){
-                alert("데이터 로딩 실패");
+                alert("관심작품 삭제 실패");
             } else {
                 if(result.data > 0) {
                     if(locale == 'ko') {

@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/css/plugin/csslibrary.css">
     <link rel="stylesheet" href="/css/common.css" type="text/css" />
 </head>
-<body class="">
+<body class="" ng-controller="lotListCtl" data-ng-init="init();">
 <div class="wrapper" >
     <div class="sub-wrap pageclass type-width_list">
 
@@ -33,7 +33,7 @@
         </script>
         <script type="text/javascript" src="/js/sale/search.js"></script>
         <!-- container -->
-        <div id="container" ng-controller="lotListCtl" data-ng-init="init();">
+        <div id="container">
             <div id="contents" class="contents">
                 <section class="basis-section search-section">
                     <div class="section-inner">
@@ -99,15 +99,15 @@
                                             </div>
                                         </div>
                                         <div class="col_item positon-col2">
-                                            <div class="select-box" id="selectSort">
-                                                <select class="select2Basic42" >
-                                                    <option value="1">경매 최신순</option>
+                                            <div class="select-box" id="selectSort" >
+                                                <select class="select2Basic42" onchange="angular.element(this).scope().search();">
+                                                    <option value="1" >경매 최신순</option>
                                                     <option value="2">추정가 낮은순</option>
-                                                    <option value="3">추정가 높은순</option>s
+                                                    <option value="3">추정가 높은순</option>
                                                 </select>
                                             </div>
                                             <div class="select-box" id="selectMore">
-                                                <select class="select2Basic42 js-select_page" >
+                                                <select class="select2Basic42 js-select_page" onchange="angular.element(this).scope().search();">
                                                     <option value="1">더보기 방식</option>
                                                     <option value="2">페이지 방식</option>
                                                 </select>
@@ -140,7 +140,7 @@
                                         </div>
                                     </div>
                                     <div class="only-mb">
-                                        <button class="btn btn_gray_line" type="button"><span>더보기</span></button>
+                                        <button class="btn btn_gray_line" id="more_search_m" type="button" ng-click="moreSearch();"><span>더보기</span></button>
                                     </div>
                                 </div>
                             </div>
@@ -155,7 +155,6 @@
         <!-- //container -->
 
         <!-- footer -->
-        <!--footer도 아래와 같이 inculde 하는게 맞지만 일단 깨져서 적용 안함-->
         <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
         <!-- //footer -->
 
@@ -178,6 +177,7 @@
 <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/common/paging.js"></script>
 <script>
+
 
     <!-- ===텝메뉴=== -->
     $('.js-list_tab a').on('click', function($e) {
@@ -221,7 +221,7 @@
 <aside class="filter_fixed-wrap">
     <div class="popup-dim"></div>
 
-    <div class="fixed-panel" ng-controller="lotListCtl" data-ng-init="init();">
+    <div class="fixed-panel" >
         <div class="panel-header">
             <button class="filter_close js-filter_close">
                 <i class="icon-pop_view_close"></i>
@@ -230,7 +230,7 @@
                 <div class="box-inner">
                     <span>Filter</span>
                     <button class="btn-filter_refresh">
-                        <i class="icon-filter_refresh" ng-click="initFilter();"></i><span>초기화</span>
+                        <i class="icon-filter_refresh" onclick="angular.element(this).scope().initFilter();"></i><span>초기화</span>
                     </button>
                 </div>
             </div>

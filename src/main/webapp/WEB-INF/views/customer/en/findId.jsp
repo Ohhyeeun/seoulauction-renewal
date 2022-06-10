@@ -18,49 +18,49 @@
                             <div class="content-panel type_panel-searchid">
                                 <div class="panel-header">
                                     <div class="title">
-                                        <p>아이디 찾기</p>
-                                    </div>
+                                        <p>Find ID</p>
+                                     </div>
                                 </div>
                                 <div class="panel-body">
                                     <div class="tab-cont active" id="tab-cont-1">
                                         <div class="txt_wrap tt6">
                                             <ul class="mark_dot-list">
-                                                <li>회원정보에 등록된 정보로 아이디를 찾을 수 있습니다.</li>
-                                                <li>가입 시 입력한 정보를 입력하신 후 <strong>아이디 찾기 버튼을 클릭해<br class="only-pc"> 주세요.</strong></li>
+                                                <li>You can find the ID by the information registered in the member information.</li>
+                                                <li>Enter your information that you entered when you signed up and <strong>click the Find ID button.</strong></li>
                                             </ul>
                                         </div>
                                         <!--[2022-0503]//-->
                                         <div class="radio_wrap js-menuType-header">
                                             <span class="trp radio-box">
-                                                <input id="radio2-1" type="radio" name="radioSet2" value="phone" checked>
+                                                <input id="radio2-2" type="radio" name="radioSet2" checked>
                                                 <i></i>
-                                                <label for="radio2-1">휴대폰 번호로 찾기</label>
+                                                <label for="radio2-2">Email</label>
                                             </span>
                                             <span class="trp radio-box">
-                                                <input id="radio2-2" type="radio" name="radioSet2" value="email" >
+                                                <input id="radio2-1" type="radio" name="radioSet2">
                                                 <i></i>
-                                                <label for="radio2-2">이메일로 찾기</label>
+                                                <label for="radio2-1">Mobile</label>
                                             </span>
                                         </div>
                                         <div class="js-menuType-body">
                                             <div class="info_wrap js-ds_item js-ds_item0">
                                                 <dl class="info_name">
-                                                    <dt>이름</dt>
-                                                    <dd><input type="text" class="textType" id="custNameByPhone" placeholder="" style="width:100%"></dd>
+                                                    <dt>NAME</dt>
+                                                    <dd><input type="text" class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                                 <dl class="info_number">
-                                                    <dt>휴대폰 번호</dt>
-                                                    <dd><input type="text" class="textType" id="custPhone" placeholder="" maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);"  style="width:100%"></dd>
+                                                    <dt>Mobile</dt>
+                                                    <dd><input type="text" class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                             </div>
                                             <div class="info_wrap js-ds_item js-ds_item1" style="display: none;">
                                                 <dl class="info_name">
-                                                    <dt>이름</dt>
-                                                    <dd><input type="text" class="textType" id="custNameByEmail" placeholder="" style="width:100%"></dd>
+                                                    <dt>NAME</dt>
+                                                    <dd><input type="text" class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                                 <dl class="info_number">
-                                                    <dt>이메일 주소</dt>
-                                                    <dd><input type="text" class="textType" id="custEmail" placeholder="" style="width:100%"></dd>
+                                                    <dt>Email</dt>
+                                                    <dd><input type="text" class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                             </div>
                                         </div>
@@ -68,26 +68,25 @@
 
                                         <article class="button-area search_btn">
                                             <div class="btn_set-float tac">
-                                                <a class="btn btn_point" href="#" role="button" id="findId"><span>아이디 찾기</span></a>
+                                                <a class="btn btn_point" href="#" role="button"><span>Find your ID</span></a>
                                             </div>
                                         </article>
                                     </div>
                                 </div>
                                 <div class="panel-bottom">
                                     <div class="info_box">
-                                        <p><strong>안내사항</strong></p>
+                                        <p><strong>Notification</strong></p>
                                         <ul class="mark_dot-list tb2">
-                                            <li>아이디를 찾으실 수 없을 경우, 대표번호 02-395-0330로<br class="only-pc"> 연락바랍니다.</li>
-                                            <li>해외 국적으로 가입하신 회원은 서울옥션 영문홈페이지를<br class="only-pc"> 이용해 주세요.</li>
+                                            <li>If you can not find your ID, please</li>
                                         </ul>
-                                        <p class="info_txt">Please, foreigners use English pages.</p>
-                                        <div class="btn_set">
-                                            <a class="btn btn_gray_line">
-                                                <span>SeoulAuction KOR</span>
-                                            </a>
-                                        </div>
+                                        <p class="info_txt">email :
+                                            <span>
+                                                <a href="mailto:info@seoulauction.com">info@seoulauction.com</a>
+                                            </span>
+                                        </p>
+
                                         <ul class="mark_dot-list tb2">
-                                            <li><span>비밀번호를 찾으시나요?</span><a href="">비밀번호찾기</a></li>
+                                            <li><span>Forgot your password?</span><a href="">find password</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -100,8 +99,14 @@
 
             <!-- footer -->
 				  <jsp:include page="../../include/en/footer.jsp" flush="false"/>
-            <!-- //footer -->
+            <!-- //footer --><!-- stykey -->
 
+            <div class="scroll_top-box">
+                <div class="box-inner">
+                    <a href="#" class="btn-scroll_top js-scroll_top"><i class="icon-scroll_top"></i></a>
+                </div>
+            </div>
+            <!-- // stykey -->
         </div>
     </div>
 
@@ -118,7 +123,7 @@
 	<script type="text/javascript" src="/js/customer/findId.js"></script>
     
       <!-- 아이디찾기-아이디 검색 결과 -->
-    <div id="popup_idsearch1-wrap" class="trp popupfixed-wrap login-popup" style="display: none;">
+    <%--<div id="popup_idsearch1-wrap" class="trp popupfixed-wrap login-popup" style="display: none;">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">
@@ -250,7 +255,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--%>
 
 </body>
 

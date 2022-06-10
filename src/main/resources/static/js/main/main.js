@@ -48,13 +48,13 @@ function closeResetPassword(modYn){
 				popup_pwsearch6.close();
 				if(modYn == 'Y'){
 					// TODO 차후 비밀번호 변경 페이지 개발시 수정
-					location.href = '/test'
+					location.href = '/mypage/passwordModify'
 				}
 		    }
 		})
 		.catch(function(error){
 		    console.log(error);
-		});
+    });
 }
 $("body").on("click", "#popup_pwsearch6-wrap .js-closepop, #popup_pwsearch6-wrap .popup-dim", function($e) {
     $e.preventDefault();
@@ -84,8 +84,7 @@ function reAlarm(){
 }
 //지금변경하기
 function goModPassword(){
-	// TODO 차후 비밀번호 변경 페이지 개발시 수정
-	location.href = '/test';
+	location.href = '/mypage/passwordModify';
 }
 
 $("body").on("click", "#popup_pwsearch5-wrap .js-closepop, #popup_pwsearch5-wrap .popup-dim", function($e) {
@@ -93,16 +92,6 @@ $("body").on("click", "#popup_pwsearch5-wrap .js-closepop, #popup_pwsearch5-wrap
     popup_pwsearch5.close();
 });
 		
-function logout(loginId){
-	console.log(loginId)
-	//TODO 소셜타입에 따른 SNS로그아웃처리
-	sessionLogout();
-}
-
-// 세션로그아웃
-function sessionLogout() {
-	window.location.href = "/processLogout";
-}
 
 /************* 화면 작업 ***************/
 const locale = document.documentElement.lang;
@@ -112,6 +101,9 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
 $('.main-popupBg').hide();
 
 window.onload = function(){
+
+    //빅배너
+    loadBigBanner();
 
     //상단텍스트공지
     loadTopNotice();
@@ -127,6 +119,111 @@ window.onload = function(){
 
 }
 
+/* visual */
+const visualSwiper = new Swiper('.visual-swiper', {
+    initialSlide : 1,
+    loop: true,
+    autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+    },
+    pagination: {
+        el: '.visual-pagaination',
+        type: 'fraction',
+    },
+    breakpoints: {
+        1023: {
+            pagination: {
+                el: '.visual-pagaination',
+                type: 'bullets',
+                clickable: true,
+            },
+        },
+    },
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+    on: {
+        init: function () {
+            $(".swiper-progressbar").removeClass("animate");
+            $(".swiper-progressbar").removeClass("active");
+            $(".swiper-progressbar").eq(0).addClass("animate");
+            $(".swiper-progressbar").eq(0).addClass("active");
+        },
+        slideChangeTransitionStart: function () {
+            $(".swiper-progressbar").removeClass("animate");
+            $(".swiper-progressbar").removeClass("active");
+            $(".swiper-progressbar").eq(0).addClass("active");
+        },
+        slideChangeTransitionEnd: function () {
+            $(".swiper-progressbar").eq(0).addClass("animate");
+        },
+    },
+});
+
+
+
+function  loadBigBanner (){
+    const slideArray = [];
+    axios.get('/api/main/bigBanners')
+        // await sleep(2000);
+        .then(function(response){
+            const success =  response.data.success;
+            if (success) {
+                const bannerList = response.data.data;
+                // console.log(bannerList);
+                bannerList.map(item => {
+                    console.log(item)
+                    item.content = JSON.parse(item.content);
+                   if(!(locale == 'en' && item.content.banner_kind == 'academy') ) {
+                        let btnListHtml = "";
+                       item.content.button_list.forEach((button) => {
+                            // console.log(button);
+                            btnListHtml +=  `<a href="${locale === 'en' ? button.url_ko : button.url_en }" target="${button.target}" class="commonbtn visual-commonbtn ${button.className}">${locale === 'en' ? button.text_en : button.text_ko }</a>`;
+                        });
+
+                         const returnDom = `<div class="swiper-slide"> 
+                                                <figure class="visual_img">
+                                                    <img src="${item.image.pc_url}" alt="slide" class="pc-ver">
+                                                    <img src="${item.image.mo_url}" alt="slide" class="m-ver">
+                                                </figure>
+                                                <figurecaption class="visual_caption">
+                                                    <div>
+                                                        <h1 class="slide-tit">${item.content.title[locale]}</h1>
+                                                        <p>
+                                                            ${item.content.sub_title[locale]}
+                                                        </p>
+                                                        <div class="visual_btn">
+                                                            ${btnListHtml}
+                                                        </div>
+                                                    </div>
+                                                </figurecaption>
+                                        </div>`
+                        slideArray.push(returnDom);
+                   }
+
+                });
+
+                visualSwiper.appendSlide(slideArray);
+
+                document.querySelector(".playBtn").addEventListener("click", function(e){
+                    visualSwiper.autoplay.start('fast');
+                    $(this).css({'display': 'none'});
+                    $('.stopBtn').css({'display': 'block'});
+                });
+                document.querySelector(".stopBtn").addEventListener("click", function(e){
+                    visualSwiper.autoplay.stop();
+                    $(this).css({'display': 'none'});
+                    $('.playBtn').css({'display': 'block'});
+                });
+            }
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+}
+
 // 상단텍스트공지
 const topNoticeSwiper = new Swiper(".beltbox-swiper", {
     direction : "vertical",
@@ -137,7 +234,7 @@ const topNoticeSwiper = new Swiper(".beltbox-swiper", {
 });
 
 function loadTopNotice(){
-    const slideArray = [];
+    let resultHtml = "";
 
     axios.get('api/main/topNotice')
     .then(function(response){
@@ -147,22 +244,14 @@ function loadTopNotice(){
             if(!getCookie('top-notice') && data) {
                 data.map(item => {
                     const content = JSON.parse(item.content);
-                    const returnDom = `<div class="swiper-slide header_beltbox on"> <!--class="on" block-->
-                                        <div class="wrap belttxtbox wrap_padding">
-                                            <span class="header_beltTit">
-                                                <a href="${locale === 'en' ? content.en_url : content.ko_url}">
-                                                    <span class="text-over belt_tit"> ${locale === 'en' ? content.en_text : content.ko_text}</span>
-                                                    <!--<span class="beltbanner-triangle"></span>--> 
-                                                </a>
-                                            </span> 
-                                            <span class="beltclose-btn closebtn closebtn-w"></span>
-                                        </div>
-                                   </div>`
-
-                    slideArray.push(returnDom);
+                     resultHtml += `<span class="header_beltTit">
+                                            <a href="${locale === 'en' ? content.en_url : content.ko_url}">
+                                                <span class="text-over belt_tit"> ${locale === 'en' ? content.en_text : content.ko_text}</span>
+                                            </a>
+                                        </span>`;
                 });
 
-                topNoticeSwiper.appendSlide(slideArray);
+                document.querySelector(".belttxtbox").insertAdjacentHTML('beforeend', resultHtml);
 
                 /* 상단 텍스트 동적 생성으로 인한 스타일 변경 및 이벤트 바인딩 */
                 document.querySelector(".beltclose-btn").addEventListener("click", function(e){
@@ -183,8 +272,10 @@ function loadTopNotice(){
                         document.querySelector(".main-contents").style.marginTop = '58px';
                     });
                 }
-
+            }else{
+                document.querySelector(".header_beltbox").classList.remove("on");
             }
+
         }
     })
     .catch(function(error){
@@ -365,7 +456,6 @@ function loadBeltBanner() {
 
 $(function() {
     console.log(window.innerWidth);
-
     /* window.addEventListener('resize', (e) => {
          const width = e.target.innerWidth;
          if (width > 1280) {
@@ -377,57 +467,7 @@ $(function() {
          }
      });
      */
-    /* visual */
-    const visualSwiper = new Swiper('.visual-swiper', {
-        autoplay: {
-            delay: 500000,
-            disableOnInteraction: false,
-        },
-        pagination: {
-            el: '.visual-pagaination',
-            type: 'fraction',
-        },
-        breakpoints: {
-            1023: {
-                pagination: {
-                    el: '.visual-pagaination',
-                    type: 'bullets',
-                    clickable: true,
-                },
-            },
-        },
-        navigation: {
-            nextEl: '.slide-btnright',
-            prevEl: '.slide-btnleft',
-        },
-        on: {
-            init: function () {
-                $(".swiper-progressbar").removeClass("animate");
-                $(".swiper-progressbar").removeClass("active");
-                $(".swiper-progressbar").eq(0).addClass("animate");
-                $(".swiper-progressbar").eq(0).addClass("active");
-            },
-            slideChangeTransitionStart: function () {
-                $(".swiper-progressbar").removeClass("animate");
-                $(".swiper-progressbar").removeClass("active");
-                $(".swiper-progressbar").eq(0).addClass("active");
-            },
-            slideChangeTransitionEnd: function () {
-                $(".swiper-progressbar").eq(0).addClass("animate");
-            },
-        },
-        loop: true,
-    });
-    $('.playBtn').on('click', function () {
-        visualSwiper.autoplay.start('fast');
-        $(this).css({'display': 'none'});
-        $('.stopBtn').css({'display': 'block'});
-    });
-    $('.stopBtn').on('click', function () {
-        visualSwiper.autoplay.stop();
-        $(this).css({'display': 'none'});
-        $('.playBtn').css({'display': 'block'});
-    });
+
 
 
 

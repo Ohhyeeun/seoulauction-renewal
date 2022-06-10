@@ -32,7 +32,7 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 				client_id: '5285017753-1tkl3r19jc3e7hesflsm0jj9uhgm7f4j.apps.googleusercontent.com',
 				cookiepolicy: 'single_host_origin',
 			});
-			$scope.JoinWithGoogle(document.getElementById('googleIdJoin'));
+			$scope.joinWithGoogle(document.getElementById('googleIdJoin'));
 		});
 	};
 
@@ -42,8 +42,8 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 	// 네이버초기화
 	naverLogin = new naver.LoginWithNaverId({
 		clientId: "5qXZytacX_Uy60o0StGT",
-		callbackUrl: "https://local.seoulauction.com:9000/social/naver/callback?action=login",
-		isPopup: false,
+		callbackUrl: "https://local.seoulauction.com:9000/social/naver/callback?action=join",
+		isPopup: true,
 		loginButton: {
 			color: "green",
 			type: 3,
@@ -106,7 +106,7 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 	}
 
 	// 구글회원가입
-	$scope.JoinWithGoogle = function(element) {
+	$scope.joinWithGoogle = function(element) {
 		auth2.attachClickHandler(element, {},
 			function(googleUser) {
 				googleProfile = googleUser.getBasicProfile();
@@ -118,13 +118,6 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 
 	// 네이버회원가입
 	$scope.naverJoin = function() {
-		naverLogin = new naver.LoginWithNaverId({
-			clientId: "5qXZytacX_Uy60o0StGT",
-			callbackUrl: "https://local.seoulauction.com:9000/social/naver/callback?action=join",
-			isPopup: false
-		});
-	
-		naverLogin.init();
 		var loginButton = document.getElementById("naverIdLogin").firstChild;
 		loginButton.click();
 	};
@@ -226,13 +219,23 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	$scope.idValid = false;
 	$scope.nameValid = false;
 	$scope.emailValid = false;
+	angular.element(document).ready(function () {
+		if(!$scope.isSocial()){
+			$('form').each(function(){
+				this.reset();
+			})
+			$("#addr_word").val('');
+			$("#emp_name").val('');
+		}
+    });
+    
 	$scope.init = function(){
 		var request = new Request();
 		$scope.type = request.getParameter("type");
 		$scope.socialType = request.getParameter("socialType");
 		$scope.type = $scope.socialType != '' ? 'social' : $scope.type;
 		$scope.langType = document.documentElement.lang;
-		$scope.form_data = {};
+		$scope.form_data = {}; 
 		
 		if ($scope.langType == 'ko') {
 			$scope.form_data.local_kind_cd = 'korean';
@@ -279,6 +282,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	}	
 	
 	//아이디 validation (api호출)
+	$scope.idExpValid = false; 
 	$scope.idValidCheckBlur = function() {
 		if($scope.isSocial()) return;
 		
@@ -291,6 +295,8 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 			
 			$scope.idValid = false;
 		}else{
+			if(!$scope.idExpValid) return;
+			
 			let data = {};
 	        data['loginId'] = $scope.form_data.login_id;
 			axios.post('/api/login/isIdExist' , data)
@@ -332,6 +338,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	//아이디 validation (입력오류)
 	$scope.idValidCheckChange = function() {
 		$scope.idValid = false; //아이디 수정 시 중복체크api호출까지 일단 valid false
+		$scope.idExpValid = false;
 		var regExp = /^[a-z][a-z0-9]{5,13}$/g;
 		
 		if (!regExp.test($scope.form_data.login_id)){
@@ -346,6 +353,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 			}
 		}else{
 			$scope.login_id_msg = "";
+			$scope.idExpValid = true;
 		}
 		$scope.allValidCheck();
 	}
@@ -520,6 +528,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	
 	//이메일 validation
 	$scope.emailValidCheck = function() {
+		$scope.emailValid = false;  
 		if($scope.form_data.email == "" || $scope.form_data.email == undefined){
 			$scope.email_msg = "이메일을 입력해주세요.";
 			$scope.emailValid = false;
@@ -530,11 +539,13 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 			    	$scope.email_msg = "형식에 맞지 않습니다.";
 				} else {
 					$scope.email_msg = "The email you entered is not available.";
+					$scope.allValidCheck();
 				}
-		    	$scope.emailValid = false;  
 		    }else{
 				$scope.email_msg = "";
-				$scope.emailValid = true;
+				if($scope.langType == 'ko'){ //외국인은 이메일중복체크필요
+					$scope.emailValid = true;
+				}
 			}
 		}
 		if ($scope.langType == 'ko') {
@@ -688,14 +699,27 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	$scope.onChangeCheckbox_P = function(){
 		if($("input:checkbox[name=chk_per]:checked").length < 4){
 			$scope.allCheckPerson = false;
+			if(!$($("input:checkbox[name=chk_per]")[3]).is(":checked")){
+				$("input:checkbox[name=pushway_per]").prop("checked", false);
+			}
 		}else{
 			$scope.allCheckPerson = true;
 		}
 	}
 	
 	$scope.clickPushWay = function(){
-		if($("input:checkbox[name=pushway_per]:checked").length > 0){
-			$scope.form_data.maketingAgree1 = true;
+		if($scope.isPerson()){
+			if($("input:checkbox[name=pushway_per]:checked").length > 0){
+				$scope.form_data.maketingAgree1 = true;
+			}
+			$scope.onChangeCheckbox_P();
+		}else{
+			if($("input:checkbox[name=pushway_comp]:checked").length > 0){
+				$scope.form_data.compMaketingAgree1 = true;
+				console.log($scope.form_data.compMaketingAgree1)
+				$($("input:checkbox[name=chk_com]")[3]).prop("checked", true);
+			}
+			$scope.onChangeCheckbox_C();
 		}
 	}
 	
@@ -719,9 +743,78 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	$scope.onChangeCheckbox_C = function(){
 		if($("input:checkbox[name=chk_com]:checked").length < 4){
 			$scope.allCheckComp = false;
+			if(!$($("input:checkbox[name=chk_com]")[3]).is(":checked")){
+				$("input:checkbox[name=pushway_comp]").prop("checked", false);
+			}
 		}else{
 			$scope.allCheckComp = true;
 		}
+	}
+	
+	//사업자회원 사업자등록번호 validation
+	$scope.compNoValid = false;
+	$scope.compNoExpValid = false;
+	$scope.compNoValidCheck = function(){
+		$scope.compNoValid = false;
+		$scope.compNoExpValid = false;
+		$scope.form_data.comp_no = $scope.form_data.comp_no.replaceAll('-', '')
+		var regExp = /^[0-9]{10}$/;
+		
+		if (!regExp.test($scope.form_data.comp_no)){
+			$scope.comp_no_msg = "유효하지 않은 사업자등록번호 입니다.";
+		}else{
+			$scope.comp_no_msg = "중복확인이 필요합니다.";
+			$scope.compNoExpValid = true;
+		}
+		$scope.allValidCheck();
+	}
+	
+	//사업자회원 사업자등록번호 중복체크
+	$scope.compNoExistCheck = function(){
+		if(!$scope.compNoExpValid){
+			return;
+		}
+		//사업자 등록번호 중복체크
+		let data = {};
+	    data['comp_no'] = $scope.form_data.comp_no;
+		axios.post('/api/login/isCompNoExist' , data)
+	    .then(function(response) {
+	        const result = response.data;
+	        if(result && result.length > 0){
+				$scope.comp_no_msg = "이미 사용중인 사업자 등록번호 입니다.";
+				$scope.compNoValid = false;
+	        }else{
+				$scope.comp_no_msg = "";
+				$scope.compNoValid = true;
+			}
+			$scope.$apply();
+			$scope.allValidCheck();
+	    })
+	    .catch(function(error){
+	        console.log(error);
+	    });
+	}
+	
+	//사업자회원 업무담당자 validation
+	$scope.compManNameValid = false;
+	$scope.compManNameValidCheck = function(){
+		if($scope.form_data.comp_man_name == '' || $scope.form_data.comp_man_name == undefined){
+			$scope.compManNameValid = false;			
+		}else{
+			$scope.compManNameValid = true;
+		}
+		$scope.allValidCheck();
+	}
+	
+	//사업자회원 전화번호 validation
+	$scope.telValid = false;
+	$scope.telValidCheck = function(){
+		if($scope.form_data.tel == '' || $scope.form_data.tel == undefined){
+			$scope.telValid = false;			
+		}else{
+			$scope.telValid = true;
+		}
+		$scope.allValidCheck();
 	}
 	
 	//해외회원 국가 validation
@@ -761,22 +854,32 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	}
 	
 	//해외회원 신분증 파일첨부 validation
+	//사업자회원 사업자등록증 파일첨부 validation
 	$scope.fileValid = false;
 	$scope.fileValidCheck = function(inputId){
-		var file = document.getElementById("fore_" + inputId + "_file").files[0];
+		var file = document.getElementById(inputId).files[0];
 		let maxSize  = 5 * 1024 * 1024 
-			
+
+		var msg = "";			
 		//첨부파일 용량체크				
 		if(file.size > maxSize){
-			var msg = "Files of 5 MB or less can be attached";
-			if(inputId == 'id'){
+			if($scope.langType == 'ko'){
+				msg = "5 MB 이하의 파일을 첨부해주세요.";
+			}else{
+				msg = "Files of 5 MB or less can be attached";
+			}
+			
+			if(inputId == 'fore_id_file'){
 				$scope.fore_id_msg = msg;	
 				$scope.fore_id_filename = "";	
-			}else if(inputId == 'doc'){
+			}else if(inputId == 'fore_doc_file'){
 				$scope.fore_doc_msg = msg;	
 				$scope.fore_doc_filename = "";	
+			}else if(inputId == 'comp_file'){
+				$scope.comp_file_msg = msg;
+				$scope.comp_file_filename = "";	
 			}
-			document.getElementById("fore_" + inputId + "_file").value = '';
+			document.getElementById(inputId).value = '';
 			$scope.fileValid = false;
 			$scope.$apply();
 			$scope.allValidCheck();
@@ -786,35 +889,47 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		var filename = file.name;
 		var lastDot = filename.lastIndexOf('.');
 		var fileExt = filename.substring(lastDot+1, filename.length).toLowerCase();
-		var extArray = ["jpg", "jpeg", "png", "gif", "pdf", "zip", "alz"];
+		var extArray = ["jpg", "jpeg", "png", "gif"];
 		
 		//파일 확장자 체크
 		if(extArray.indexOf(fileExt) == -1){
-			var msg = "Please re-register as an image file.";
-			if(inputId == 'id'){
+			if($scope.langType == 'ko'){
+				msg = "확장자를 확인해주세요.";
+			}else{
+				msg = "Please re-register as an image file.";
+			}
+			if(inputId == 'fore_id_file'){
 				$scope.fore_id_msg = msg;	
 				$scope.fore_id_filename = "";	
-			}else if(inputId == 'doc'){
+			}else if(inputId == 'fore_doc_file'){
 				$scope.fore_doc_msg = msg;	
 				$scope.fore_doc_filename = "";	
+			}else if(inputId == 'comp_file'){
+				$scope.comp_file_msg = msg;
+				$scope.comp_file_filename = "";	
 			}
-			document.getElementById("fore_" + inputId + "_file").value = '';
+			document.getElementById(inputId).value = '';
 			$scope.fileValid = false;
 			$scope.$apply();
 			$scope.allValidCheck();
 			return false;		
 		}
 		
-		if(inputId == 'id'){
+		if(inputId == 'fore_id_file'){
 			$scope.fore_id_msg = "";
 			$scope.fore_id_filename = filename;	
-		}else if(inputId == 'doc'){
+		}else if(inputId == 'fore_doc_file'){
 			$scope.fore_doc_msg = "";
 			$scope.fore_doc_filename = filename;	
+		}else if(inputId == 'comp_file'){
+			$scope.comp_file_msg = "";
+			$scope.comp_file_filename = filename;	
 		}
 		
-		if($('input[type="file"]')[0].files.length + $('input[type="file"]')[1].files.length < 2){
-			$scope.fileValid = false;
+		if(inputId.startsWith('fore_')){
+			if($('input[type="file"]')[0].files.length + $('input[type="file"]')[1].files.length < 2){
+				$scope.fileValid = false;
+			}
 		}else{
 			$scope.fileValid = true;
 		}
@@ -825,11 +940,13 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	
 	//첨부파일 삭제
 	$scope.fileDelete = function(inputId){
-		document.getElementById("fore_" + inputId + "_file").value = '';
-		if(inputId == 'id'){
+		document.getElementById(inputId).value = '';
+		if(inputId == 'fore_id_file'){
 			$scope.fore_id_filename = "";	
-		}else if(inputId == 'doc'){
+		}else if(inputId == 'fore_doc_file'){
 			$scope.fore_doc_filename = "";	
+		}else if(inputId == 'comp_file'){
+			$scope.comp_file_filename = "";	
 		}
 		$scope.fileValid = false;
 		$scope.allValidCheck();
@@ -837,6 +954,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	
 	//전체 validation
 	$scope.allValidCheck = function() {
+//		console.log($scope.isPerson()); console.log($scope.langType); console.log($scope.isSocial());
 		if($scope.isPerson()){
 			if($scope.langType == 'ko'){
 				if($scope.isSocial()){ 
@@ -855,7 +973,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 					}
 				}
 			}else if($scope.langType == 'en'){
-				if($scope.isSocial()){ 
+				if($scope.isSocial()){
 					//외국소셜회원 필수 필드 : 이름/이메일/국가/주소/입찰여부/신분증/증빙서류
 					if($scope.nameValid && $scope.emailValid && $scope.countryValid && $scope.addrValidEn && $scope.bidValid){
 						if($scope.form_data.fore_bid_req_yn == 'N' || ($scope.form_data.fore_bid_req_yn == 'Y' && $scope.fileValid)){
@@ -880,8 +998,17 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 				}
 			}
 		}else {
-			//사업자회원
-			console.log("its company")
+			//사업자회원 필수 필드 : 아이디/비밀번호/업체명/사업자등록번호/업무담당자/사업자등록증/휴대폰번호/전화번호/이메일/주소
+//			console.log($scope.idValid ? '아이디통과' : '아이디실패');	console.log($scope.passwdValid ? '비번통과' : '비번실패'); console.log($scope.nameValid ? '이름통과' : '이름실패'); 
+//			console.log($scope.compNoValid ? '사업자등록번호통과' : '사업자등록번호실패'); console.log($scope.authNumValid ? '핸드폰통과' : '핸드폰실패'); console.log($scope.telValid ? '전화번호통과' : '전화번호실패'); 
+//			console.log($scope.emailValid ? '이메일통과' : '이메일실패');  console.log($scope.compManNameValid ? '업무담당자통과' : '업무담당자실패');
+//			console.log($scope.addrValid ? '주소통과' : '주소실패'); console.log($scope.fileValid ? '파일통과' : '파일실패');  
+			if($scope.idValid && $scope.passwdValid && $scope.nameValid && $scope.compNoValid && $scope.compManNameValid 
+				&& $scope.fileValid && $scope.authNumValid && $scope.telValid && $scope.emailValid && $scope.addrValid){
+				$('#joinButton').removeClass('disabled');
+			}else{
+				$('#joinButton').addClass('disabled');
+			}
 		}
 	}
 							
@@ -889,7 +1016,9 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	$scope.join = function() {
 		if($('#joinButton').hasClass('disabled') || !$scope.idValid){
 //			console.log($scope.idValid ? '아이디통과' : '아이디실패');	console.log($scope.passwdValid ? '비번통과' : '비번실패'); console.log($scope.nameValid ? '이름통과' : '이름실패'); 
-//			console.log($scope.authNumValid ? '핸드폰통과' : '핸드폰실패'); console.log($scope.emailValid ? '이메일통과' : '이메일실패');  console.log($scope.addrValid ? '주소통과' : '주소실패');					 
+//			console.log($scope.compNoValid ? '사업자등록번호통과' : '사업자등록번호실패'); console.log($scope.authNumValid ? '핸드폰통과' : '핸드폰실패'); console.log($scope.telValid ? '전화번호통과' : '전화번호실패'); 
+//			console.log($scope.emailValid ? '이메일통과' : '이메일실패');  console.log($scope.compManNameValid ? '업무담당자통과' : '업무담당자실패');
+//			console.log($scope.addrValid ? '주소통과' : '주소실패'); console.log($scope.fileValid ? '파일통과' : '파일실패');  
 //			console.log($scope.bidValid ? '응찰여부통과' : '응찰여부실패'); console.log($scope.countryValid ? '국가통과' : '국가실패'); console.log($scope.addrValidEn ? '외국주소통과' : '외국주소실패');
 			alert("필수항목을 모두 입력해 주세요.");
 			if($scope.isPerson()){
@@ -929,8 +1058,16 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 					}
 				}
 			}else {
-				//사업자회원
-				console.log("its company")
+				//사업자회원 필수 필드 : 아이디/비밀번호/업체명/사업자등록번호/업무담당자/사업자등록증/휴대폰번호/전화번호/이메일/주소
+				if(!$scope.idValid) $("#login_id").focus();
+				else if(!$scope.passwdValid) $("#passwd").focus(); 
+				else if(!$scope.nameValid) $("#cust_name").focus();
+				else if(!$scope.compNoValid) $("#comp_no").focus();
+				else if(!$scope.compManNameValid) $("#comp_man_name").focus();
+				else if(!$scope.authNumValid) $("#hp").focus();
+				else if(!$scope.telValid) $("#tel").focus();
+				else if(!$scope.emailValid) $("#email").focus();
+				else if(!$scope.addrValid) $("#zipno").focus();
 			}
 			return;
 		}else{
@@ -963,7 +1100,19 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 				}
 			}else{
 				//사업자 약관체크
-				
+				if (!$scope.form_data.compOnlineAgree) {
+					alert("온라인 경매 약관에 동의 하셔야 됩니다.");
+					$("input[name=chk_com]")[3].focus();
+					return;
+				}else if (!$scope.form_data.compOfflineAgree) {
+					alert("오프라인 경매 약관에 동의 하셔야 됩니다.");
+					$("input[name=chk_com]")[3].focus();
+					return;
+				}else if (!$scope.form_data.compAgree1) {
+					alert("사업자정보 수집 및 이용에 동의 하셔야 됩니다.");
+					$("input[name=chk_com]")[3].focus();
+					return;
+				}
 			}
 		}
 		
@@ -972,30 +1121,47 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	
 	//회원가입
 	$scope.joinAction = function() {
+						console.log($scope.idValid ? '아이디통과' : '아이디실패');	console.log($scope.passwdValid ? '비번통과' : '비번실패'); console.log($scope.nameValid ? '이름통과' : '이름실패'); 
+				console.log($scope.compNoValid ? '사업자등록번호통과' : '사업자등록번호실패'); console.log($scope.authNumValid ? '핸드폰통과' : '핸드폰실패'); console.log($scope.telValid ? '전화번호통과' : '전화번호실패'); 
+				console.log($scope.emailValid ? '이메일통과' : '이메일실패');  console.log($scope.compManNameValid ? '업무담당자통과' : '업무담당자실패');
+				console.log($scope.addrValid ? '주소통과' : '주소실패'); console.log($scope.fileValid ? '파일통과' : '파일실패'); 
 		let form = document.querySelector('#joinForm');
 		var formData = new FormData(form);
 		
+		//국내외
 		if($scope.langType == 'en'){
-			formData.set('hp', '+' + $scope.nationMobile + ' ' + $scope.form_data.hp);
+			if($scope.form_data.hp != undefined && $scope.form_data.hp != ''){
+				formData.set('hp', '+' + $scope.nationMobile + ' ' + $scope.form_data.hp);
+			}
 			formData.append('fore_bid_req_yn', $scope.form_data.fore_bid_req_yn);
 		}else if($scope.langType == 'ko'){
 			formData.set('addr', $scope.form_data.addr);
 		}
+		
+		//개인사업자
+		if($scope.isPerson()){
+			formData.set('maketingAgree1', $scope.form_data.maketingAgree1 != undefined ? $scope.form_data.maketingAgree1 : false);
+		}else{
+			formData.set('maketingAgree1', $scope.form_data.compMaketingAgree1 != undefined ? $scope.form_data.compMaketingAgree1 : false);
+		}
+		
+		//소셜
 		if($scope.isSocial()){
 			formData.set('social_type', $scope.form_data.social_type);
 		}
-		if($scope.form_data.emp_no != undefined){
-			formData.set('emp_no', $scope.form_data.emp_no);
-		}else{
-			formData.delete('emp_no');	
-		}
+		
 		formData.append('cust_kind_cd', $scope.form_data.cust_kind_cd);
 		formData.append('push_way_email', $scope.form_data.push_way_email != undefined ? $scope.form_data.push_way_email : false);
 		formData.append('push_way_sms', $scope.form_data.push_way_sms != undefined ? $scope.form_data.push_way_sms : false);
 		formData.append('push_way_phone', $scope.form_data.push_way_phone != undefined ? $scope.form_data.push_way_phone : false);
 		formData.append('local_kind_cd', $scope.form_data.local_kind_cd);
 		formData.append('nation_cd', $scope.form_data.nation_cd);
-		formData.set('maketingAgree1', $scope.form_data.maketingAgree1 != undefined ? $scope.form_data.maketingAgree1 : false);
+		if($scope.form_data.emp_no != undefined){
+			formData.set('emp_no', $scope.form_data.emp_no);
+		}else{
+			formData.delete('emp_no');	
+		}
+		
 		
 		// Display the key/value pairs
 		for (var pair of formData.entries()) {
@@ -1012,9 +1178,10 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 				location.href = '/joinDone'
 			}
 		})
-		.catch(function(error){
-		    console.log(error);
-		});
+//		.catch(function(error){
+//		    console.log(error);
+//		});
+
 //		let data = $scope.form_data
 //		axios.post('/api/login/join' , data)
 //	        .then(function(response) {
@@ -1027,4 +1194,3 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 //	        });
 	}
 });
-

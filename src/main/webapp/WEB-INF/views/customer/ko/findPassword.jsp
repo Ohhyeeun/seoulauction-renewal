@@ -18,57 +18,56 @@
                             <div class="content-panel type_panel-searchid">
                                 <div class="panel-header">
                                     <div class="title">
-                                        <p>비밀번호 찾기</p>
+                                        <p>Find Password</p>
                                     </div>
                                 </div>
                                 <div class="panel-body">
                                     <div class="tab-cont active" id="tab-cont-1">
                                         <div class="txt_wrap tt6">
                                             <ul class="mark_dot-list">
-                                                <li>비밀번호의 경우, 암호화 저장되어 분실 시 찾아드릴 수 없습니다.</li>
-                                                <li><em>회원정보에 등록된 이메일로 임시 비밀번호를 발송</em>해 드립니다.</li>
+                                                <li>If the password is encrypted, it can not be retrieved if the password is lost.</li>
+                                                <li>We will send you <em>a temporary password via email to your membership information.</em></li>
                                             </ul>
                                         </div>
-                                        <!--[2022-0503]//-->
                                         <div class="radio_wrap  js-menuType-header">
                                             <span class="trp radio-box">
-                                                <input id="radio2-1" type="radio" name="radioSet2" value="phone" checked>
+                                                <input id="radio2-2" type="radio" name="radioSet2" checked>
                                                 <i></i>
-                                                <label for="radio2-1">휴대폰 번호로 찾기</label>
+                                                <label for="radio2-2">Email</label>
                                             </span>
                                             <span class="trp radio-box">
-                                                <input id="radio2-2" type="radio" name="radioSet2" value="email">
+                                                <input id="radio2-1" type="radio" name="radioSet2">
                                                 <i></i>
-                                                <label for="radio2-2">이메일로 찾기</label>
+                                                <label for="radio2-1">Mobile</label>
                                             </span>
                                         </div>
                                         <div class="js-menuType-body">
                                             <div class="info_wrap  js-ds_item js-ds_item0">
                                                 <dl class="info_id">
-                                                    <dt>아이디</dt>
-                                                    <dd><input type="text"  id="custIdByPhone"  class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dt>ID</dt>
+                                                    <dd><input type="text" class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                                 <dl class="info_name">
-                                                    <dt>이름</dt>
-                                                    <dd><input type="text" id="custNameByPhone" class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dt>NAME</dt>
+                                                    <dd><input type="text" class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                                 <dl class="info_number">
-                                                    <dt>휴대폰 번호</dt>
-                                                    <dd><input type="text"  id="custPhone"  maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);" class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dt>Mobile</dt>
+                                                    <dd><input type="text" class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                             </div>
                                             <div class="info_wrap  js-ds_item js-ds_item1" style="display: none;">
                                                 <dl class="info_id">
-                                                    <dt>아이디</dt>
-                                                    <dd><input type="text" id="custIdByEmail"  class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dt>ID</dt>
+                                                    <dd><input type="text" class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                                 <dl class="info_name">
-                                                    <dt>이름</dt>
-                                                    <dd><input type="text" id="custNameByEmail"  class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dt>NAME</dt>
+                                                    <dd><input type="text" class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                                 <dl class="info_number">
-                                                    <dt>이메일 주소</dt>
-                                                    <dd><input type="text" id="custEmail"  class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dt>Email</dt>
+                                                    <dd><input type="text" class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                             </div>
                                         </div>
@@ -76,25 +75,25 @@
 
                                         <article class="button-area search_btn">
                                             <div class="btn_set-float tac">
-                                                <a class="btn btn_point" href="#" role="button" id="findPassword"><span>비밀번호 찾기</span></a>
+                                                <a class="btn btn_point" href="#" role="button"><span>Find your password</span></a>
                                             </div>
                                         </article>
                                     </div>
                                 </div>
                                 <div class="panel-bottom">
                                     <div class="info_box">
-                                        <p><strong>안내사항</strong></p>
+                                        <p><strong>Notification</strong></p>
                                         <ul class="mark_dot-list tb2">
-                                            <li>해외 국적으로 가입하신 회원은 서울옥션 영문홈페이지를<br class="only-pc"> 이용해 주세요.</li>
+                                            <li>If you cannot find your password, please email</li>
                                         </ul>
-                                        <p class="info_txt">Please, foreigners use English pages.</p>
-                                        <div class="btn_set">
-                                            <a class="btn btn_gray_line" href="/findPassword?lang=en">
-                                                <span>SeoulAuction ENG</span>
-                                            </a>
-                                        </div>
+                                        <p class="info_txt">email :
+                                            <span>
+                                                <a href="mailto:info@seoulauction.com">info@seoulauction.com</a>
+                                            </span>
+
+                                        </p>
                                         <ul class="mark_dot-list tb2">
-                                            <li><span>아이디를 찾으시나요?</span><a href="/findId">아이디찾기</a></li>
+                                            <li><span>Forgot your ID?</span><a href="">find ID</a></li>
                                         </ul>
                                     </div>
                                 </div>

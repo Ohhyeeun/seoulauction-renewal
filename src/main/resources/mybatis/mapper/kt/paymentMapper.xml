@@ -62,7 +62,7 @@
 			   #{cust_no}
 			 , #{pay_no}
 			 , now()
-			 , DATE_ADD(DATE_ADD(now(), INTERVAL 1 YEAR), INTERVAL -1 DAY)
+			 , DATE_SUB((date_format(DATE_ADD(now(), INTERVAL 1 YEAR) ,'%Y-%m-%d')) , interval 1 second) /*1년 뒤 1하루 전 23:59:59초*/
 			 );
 	</insert>
 

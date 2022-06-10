@@ -9,13 +9,10 @@ import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.mapper.kt.PaymentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 
 @Service
 @RequiredArgsConstructor
