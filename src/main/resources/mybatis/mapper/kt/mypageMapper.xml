@@ -992,4 +992,107 @@ SELECT 'INTE_LOT' AS GUBUN
 			CUST_NO = #{cust_no}
 			and SOCIAL_TYPE = #{social_type}
 	</delete>
+	
+	<select id="selectCustInteArtist" resultType="CommonMap">
+	    select CIA.ARTIST_NO, CIA.CUST_NO
+			, COLUMN_JSON(A.ARTIST_NAME_BLOB) ARTIST_NAME_JSON
+		from CUST_INTE_ARTIST CIA
+		join ARTIST A on A.ARTIST_NO = CIA.ARTIST_NO
+	    and CIA.CUST_NO = #{cust_no}
+	</select>
+	
+	<select id="selectArtistByArtistName" resultType="CommonMap">
+		select * from(
+		    select ARTIST_NO
+		    	, COLUMN_GET(ARTIST_NAME_BLOB, 'ko' AS CHAR) AS ARTIST_NM
+		    	, BORN_YEAR 
+		    	, DIE_YEAR  
+		    from artist a
+		)tmp 
+		where tmp.ARTIST_NM like concat('%', #{find_word}, '%')
+	</select>
+	
+	<update id="updateCust" parameterType="CommonMap">
+		UPDATE CUST 
+	    SET 
+			BORN_DT = #{born_dt},
+			SEX_CD = #{sex_cd},
+			HP = #{hp},
+			EMAIL = #{email},
+			
+			ZIPNO = #{zipno},
+	    	ADDR = #{addr},
+			ADDR_DTL = #{addr_dtl},
+			<if test="addr_old_yn != null and addr_old_yn != ''">
+				ADDR_OLD_YN = #{addr_old_yn},
+			</if>
+			
+			DELI_ZIPNO = #{deli_zipno},
+			<if test="deli_addr_old_yn != null and deli_addr_old_yn != ''">
+				DELI_ADDR_OLD_YN = #{deli_addr_old_yn},
+			</if>
+			DELI_ADDR = #{deli_addr},
+			DELI_ADDR_DTL = #{deli_addr_dtl},
+			DELI_RET_YN = 'N',
+			
+			COMP_MAN_NAME = #{comp_man_name},
+			COMP_OWNER = #{comp_owner},
+			COMP_NO = #{comp_no},
+			TEL = #{tel},
+			
+			MOD_DT = now()
+		where CUST_NO = #{cust_no}
+	</update>
+	
+	<update id="deleteCustPushWay" parameterType="CommonMap">
+		delete from CUST_PUSH_WAY where CUST_NO = #{cust_no}
+	</update>
+	
+	<update id="deleteCustInteArtist" parameterType="CommonMap">
+		delete from CUST_INTE_ARTIST where CUST_NO = #{cust_no}
+	</update>
+	
+	<update id="deleteCustInteArea" parameterType="CommonMap">
+		delete from CUST_INTE_AREA where CUST_NO = #{cust_no}
+	</update>
+	
+	<insert id="insertCustPushWay" parameterType="CommonMap">
+		INSERT INTO CUST_PUSH_WAY ( 
+			CUST_NO,
+			PUSH_WAY_CD,
+			REG_DT
+		) 
+		VALUES (
+			#{cust_no},
+			#{push_way_cd},
+			now()
+		)
+	</insert>
+	
+	<insert id="insertCustInteArtist" parameterType="CommonMap">
+		INSERT INTO CUST_INTE_ARTIST ( 
+			CUST_NO,
+			ARTIST_NO,
+			REG_DT
+		) 
+		VALUES (
+			#{cust_no},
+			#{artist_no},
+			now()
+		)
+	</insert>
+	
+	<insert id="insertCustInteArea" parameterType="CommonMap">
+		INSERT INTO CUST_INTE_AREA ( 
+			CUST_NO,
+			INTE_AREA_CD,
+			REG_DT
+		) 
+		VALUES (
+			#{cust_no},
+			#{inte_area_cd},
+			now()
+		)
+	</insert>
+	
 </mapper>

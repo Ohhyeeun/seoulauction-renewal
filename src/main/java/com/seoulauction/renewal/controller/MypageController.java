@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -105,13 +106,13 @@ public class MypageController {
     }
     
     /*회원정보수정 비밀번호확인*/
-    @GetMapping("/custConfirm")
+    @GetMapping("/custModify")
     public String custConfirm(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "custConfirm" , locale);
     }
     
-    /*회원정보수정 비밀번호확인*/
-    @GetMapping("/custModify")
+    /*회원정보수정*/
+    @PostMapping("/custModify")
     public String custModify(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "custModify" , locale);
     }

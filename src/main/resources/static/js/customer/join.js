@@ -715,7 +715,6 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 			$scope.onChangeCheckbox_P();
 		}else{
 			if($("input:checkbox[name=pushway_comp]:checked").length > 0){
-				alert("?")
 				$scope.form_data.compMaketingAgree1 = true;
 				console.log($scope.form_data.compMaketingAgree1)
 				$($("input:checkbox[name=chk_com]")[3]).prop("checked", true);
