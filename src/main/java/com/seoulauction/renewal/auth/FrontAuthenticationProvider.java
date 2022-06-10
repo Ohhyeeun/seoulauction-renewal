@@ -111,9 +111,7 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
         
         List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
         //정,준회원 구분
-        if(resultMap.get("MEMBERSHIP_YN") == null) {
-        	roles.add(new SimpleGrantedAuthority("ROLE_ASSOCIATE_USER"));
-        }else if(resultMap.get("MEMBERSHIP_YN").equals("Y")) {
+        if(resultMap.get("MEMBERSHIP_YN").equals("Y")) {
         	roles.add(new SimpleGrantedAuthority("ROLE_REGULAR_USER"));
         }else if(resultMap.get("MEMBERSHIP_YN").equals("N")) {
         	roles.add(new SimpleGrantedAuthority("ROLE_ASSOCIATE_USER"));
