@@ -95,7 +95,7 @@
 		                                    <div class="form_body">
                                                 <div class="input-group">
 			                                        <input type="text" tabindex="4" ng-model="form_data.comp_no" name="comp_no" id="comp_no" class="form-control" placeholder=""
-			                                         onkeyup="onlyNumber(this);" ng-change="compNoValidCheck()">
+			                                         onkeyup="onlyNumber(this, 'number');" ng-change="compNoValidCheck()">
 			                                        <button class="btn btn_light_gray_line" type="button" ng-click="compNoExistCheck()"><span>중복확인</span></button>
                                                 </div>
                                                 <p class="error_text tb2">{{comp_no_msg}}</p>
@@ -154,7 +154,7 @@
 		                                    </div>
 		                                    <div class="form_body">
 		                                        <div class="input-group">
-		                                            <input type="text" maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);" ng-model="form_data.hp" name="hp" id="hp" class="form-control" placeholder="">
+		                                            <input type="text" maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this, 'number');" ng-model="form_data.hp" name="hp" id="hp" class="form-control" placeholder="">
 		                                            <button class="btn btn_light_gray_line" type="button" ng-click="authNumRequest()"><span>{{authNumMsg}}</span></button>
 		                                        </div>
 		
@@ -180,7 +180,7 @@
 		                                    <div class="form_body">
 		                                        <div class="form_body">
 		                                        	<input type="text" tabindex="9" ng-model="form_data.tel" name="tel" id="tel" class="form-control" value="" placeholder=""
-		                                        	onblur="telNumber(this);" onkeyup="onlyNumber(this);" ng-change="telValidCheck()">
+		                                        	onblur="telNumber(this);" onkeyup="onlyNumber(this, 'number');" ng-change="telValidCheck()">
 		                                        </div>
 		                                    </div>
 		                                </li>
