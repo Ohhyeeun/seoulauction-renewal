@@ -253,6 +253,8 @@
                 <input type="hidden" id="token" value="{{token}}"/>
                 <input type="hidden" id="sale_no" value="{{sale_no}}"/>
                 <input type="hidden" id="lot_no" value=""/>
+                <input type="hidden" id="user_id" value="${member.loginId}"/>
+                <input type="hidden" id="cust_no" value="${member.userNo}"/>
             </div>
 
         </div>
@@ -357,20 +359,186 @@
                                         <div class="btn_set type-pc_mb-column">
                                             <div class="btn_item">
                                                 <div class="select-box ">
-                                                    <select class="select2Basic56_line" disabled>
-                                                        <option value="1">KRW 1,800,000</option>
-                                                        <option value="2">KRW 1,900,000</option>
-                                                        <option value="3">KRW 2,000,000</option>
-                                                        <option value="4">KRW 2,100,000</option>
-                                                        <option value="5">KRW 2,200,000</option>
+                                                    <select id="reservation_bid" class="select2Basic56_line">
+                                                        <option value="1800000">KRW 1,800,000</option>
+                                                        <option value="1900000">KRW 1,900,000</option>
+                                                        <option value="2000000">KRW 2,000,000</option>
+                                                        <option value="2100000">KRW 2,100,000</option>
+                                                        <option value="2200000">KRW 2,200,000</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="btn_item"><a class="btn btn_point btn_lg" href="#"
+                                            <div class="btn_item"><a class="btn btn_point btn_lg" href="javascript:autoBid();"
                                                                      role="button"><span>응찰하기</span></a></div>
                                         </div>
                                     </div>
                                 </article>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="popup_online_confirm-wrap" class="trp popupfixed-wrap online_confirm-popup ">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-ms mode-mb_full">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                        <div class="title-box">
+                            <span class="txt_title">온라인 경매 번호 인증</span>
+                        </div>
+                    </div>
+                    <div class="pop-body scroll-type">
+                        <section class="section">
+                            <div class="text-area">
+                                <P class="text-base">온라인 경매 회차당 한번 번호 인증 후 경매에 참여하실 수 있습니다.</P>
+                            </div>
+                            <div class="form-area">
+                                <div class="form_label">
+                                    <label for="name-1" class="mem_txt">휴대폰 인증</label>
+                                    <i>*</i>
+                                </div>
+                                <div class="form_body">
+                                    <div class="input-group">
+                                        <input type="text" id="name-1" class="form-control" value="" placeholder="">
+                                        <button class="btn btn_light_gray_line" type="button"><span>인증번호 요청</span></button>
+                                    </div>
+                                    <div class="re-check">
+                                        <div class="form_body">
+                                            <div class="input-group">
+                                                <input type="text" id="name-2" class="form-control" value="" placeholder="인증번호 입력">
+                                                <button class="btn btn_light_gray_line" type="button"><span>인증</span></button>
+                                            </div>
+                                            <p class="error_text tb2">안내 메시지 출력 영역</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-area policy_accordion">
+                                <div class="check_all-wrap js_all-1">
+                                    <ul class="accordion-list policy js-accordion_policy">
+                                        <li class="trp_acitem">
+                                            <div class="header-area">
+                                                <div class="accordion_name">
+                                                    <div class="trp checkbox-box">
+                                                        <input id="checkbox_01" class="" type="checkbox" name="">
+                                                        <i></i>
+                                                        <label for="checkbox_01"><span class="required">[필수]</span> 온라인 응찰 안내</label>
+                                                    </div>
+                                                </div>
+                                                <a href="#" class="acc_btn">
+                                                    <i class="icon-accordion_arrow_down"></i>
+                                                </a>
+                                            </div>
+                                            <div class="con-area">
+                                                <div class="con-header">
+                                                    <div class="policy_cont">
+                                                        <div class="trp checkbox-box">
+                                                            <input id="checkbox_01" class="" type="checkbox" name="">
+                                                            <i></i>
+                                                            <label for="checkbox_01 tb1">확인 하였습니다.</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="con-body">
+                                                    <div class="text-area scroll-type">
+                                                        <ul>
+                                                            <li>낙찰 시, 낙찰금의 18%(부가세별도)의 구매수수료가 발생합니다.</li>
+                                                            <li class="point_item">응찰 및 낙찰은 취소가 불가능합니다. 낙찰 철회 시 낙찰가의 30%에 해당하는 낙찰철회비가 부과되오니 신중히 응찰 바랍니다.</li>
+                                                            <li>응찰은 작품 컨디션 확인 후 진행 되는 것을 전제로 하며, 작품 컨디션에 액자 상태는 포함되지 않습니다.</li>
+                                                            <li>마감시간 30초 내에 응찰이 있을 경우, 자동으로 30초 연장됩니다.</li>
+                                                            <li>접속자의 컴퓨터, 인터넷 환경에 따라 반영 속도 차이가 있을 수 있으니 비딩 시 유의해 주시기 바랍니다.</li>
+                                                            <li class="point_item">[1회 응찰] 또는 [자동 응찰] 버튼을 누르시면 ‘확인안내 없이’ 바로 응찰이 되어 취소가 가능합니다.</li>
+                                                            <li class="point_item">남은 시간 1초 미만 시 응찰은 서버 반영 전 종료 될 수 있으니, 주의가 필요합니다.</li>
+                                                            <li>[자동 응찰 중지하기]는 자동 응찰 ‘취소가 아닙니다’, 응찰자가 자동응찰을 중지하는 경우 중지 전까지의 응찰 및 낙찰은 유효합니다. 또한 자동응찰의 중지는 서버에 반영이 되는 시점에 효력이 발생하므로, <em>응찰자가 중지버튼을 클릭한 시점보다 더 높은 금액에 중지되고 이 금액에 낙찰 될 수 있습니다.</em></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="trp_acitem">
+                                            <div class="header-area">
+                                                <div class="accordion_name">
+                                                    <div class="trp checkbox-box">
+                                                        <input id="checkbox_02" class="js_item" type="checkbox" name="">
+                                                        <i></i>
+                                                        <label for="checkbox_02"><span class="required">[필수]</span> 약관 동의 안내</label>
+                                                    </div>
+                                                </div>
+                                                <a href="#" class="acc_btn">
+                                                    <i class="icon-accordion_arrow_down"></i>
+                                                </a>
+                                            </div>
+                                            <div class="con-area">
+                                                <div class="con-header">
+                                                    <div class="policy_cont">
+                                                        <div class="trp checkbox-box">
+                                                            <input id="checkbox_all" class="js_all" type="checkbox" name="">
+                                                            <i></i>
+                                                            <label for="checkbox_all tb1">모두 동의합니다.</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="con-body">
+                                                    <div class="text-area scroll-type check_item">
+                                                        <ul class="">
+                                                            <li>
+                                                                <div class="trp checkbox-box">
+                                                                    <input id="checkbox_all1" class="js_item" type="checkbox" name="">
+                                                                    <i></i>
+                                                                    <label for="checkbox_all1">본인은 서울옥션 경매약관(바로가기)을 모두 읽고 이해하였으며, 그 적용에 동의합니다.</label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="trp checkbox-box">
+                                                                    <input id="checkbox_all2" class="js_item" type="checkbox" name="">
+                                                                    <i></i>
+                                                                    <label for="checkbox_all2">응찰은 작품 실물 및 컨디션을 확인하였음을 전제로 합니다.</label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="trp checkbox-box">
+                                                                    <input id="checkbox_all3" class="js_item" type="checkbox" name="">
+                                                                    <i></i>
+                                                                    <label for="checkbox_all3">낙찰자는 후 7일 이내(낙찰가 3억원 이상인 경우 21일 이내)에 구매수수료를 포함한 금액을 입금하여야 합니다.</label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="trp checkbox-box">
+                                                                    <input id="checkbox_all4" class="js_item" type="checkbox" name="">
+                                                                    <i></i>
+                                                                    <label for="checkbox_all4">낙찰자가 ①지정된 기일에 낙찰대금을 납부하지 않거나, ②부득이 낙찰을 철회하는 경우, 낙찰가의 30%에 해당하는 금액을 낙찰철회(위약금)로 납부하여야 합니다.</label>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="text-area">
+                                    <p class="tb2">응찰 관련 문의가 있으신 경우, 귀하의 담당자(<em>홍길동 02-2075-4411</em>)에게 <br class="only-pc">연락주시기 바랍니다.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="btn-area">
+                                <div class="btn_set-float tac">
+                                    <!-- [0523]a 버튼 href에 # 삽입 -->
+                                    <a class="btn btn_gray_line" href="#" role="button">
+                                        <span>취소</span>
+                                    </a>
+                                    <a class="btn btn_point" href="#" role="button">
+                                        <span>확인</span>
+                                    </a>
+                                    <!-- //[0523]a 버튼 href에 # 삽입 -->
+                                </div>
                             </div>
                         </section>
                     </div>
@@ -481,7 +649,7 @@
 <!-- angular js -->
 <script>
     app.value('locale', 'ko');
-    app.value('is_login', true);
+    app.value('is_login', false);
 
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
 
@@ -616,71 +784,91 @@
             $scope.pageing(1);
         }
 
-        $scope.popSet = function (saleNo, lotNo, userId) {
-            let popup_biddingPopup1 = $("a[name='open_popup']").trpLayerFixedPopup("#popup_biddingPopup1-wrap");
-            popup_biddingPopup1.open(this); // or false
-            popup_fixation("#popup_biddingPopup1-wrap");
+        $scope.popSet = function (saleNo, lotNo) {
+            if (${member.userNo} === 0) {
+                if(sessionStorage.getItem("is_login") === 'false'){
+                    //history.push("/login");
+                    location.href = "/login";
+                    return;
+                }
+            } else {
+                let a = true;
+                if (!a) {
+                    let popup_offline_payment = $(".js-popup_online_confirm").trpLayerFixedPopup("#popup_online_confirm-wrap");
+                    popup_offline_payment.open(this); // or false
+                    popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
 
-            let init_func_manual = async function (token, saleNo, lotNo, saleType, userId) {
-                //console.log(token, saleNo, lotNo, saleType, userId);
-                let url ='';
-                if (window.location.protocol !== "https:") {
-                    url = 'http://dev-bid.seoulauction.xyz/init2';
+                    $("body").on("click", "#popup_online_confirm-wrap .js-closepop, #popup_online_confirm-wrap .popup-dim", function($e) {
+                        $e.preventDefault();
+                        popup_offline_payment.close();
+                    });
                 } else {
-                    url = 'https://dev-bid.seoulauction.xyz/init2';
-                }
-                let resp = await fetch(url, {
-                    method: "POST",
-                    body: JSON.stringify({
-                        token: $scope.token,
-                        sale_no: saleNo,
-                        lot_no: lotNo,
-                        sale_type: saleType,
-                        user_id: userId,
-                    }),
-                });
+                    let popup_biddingPopup1 = $("a[name='open_popup']").trpLayerFixedPopup("#popup_biddingPopup1-wrap");
+                    popup_biddingPopup1.open(this); // or false
+                    popup_fixation("#popup_biddingPopup1-wrap");
 
-                return resp;
-            }
-
-            // 메타데이타
-            let lotInfo = {};
-
-            for (let i = 0; i < $scope.saleInfoAll.length; i++) {
-                if ($scope.saleInfoAll[i].SALE_NO === saleNo &&
-                    $scope.saleInfoAll[i].LOT_NO === lotNo) {
-                    lotInfo = {
-                        imageUrl: $scope.saleInfoAll[i].IMAGE_URL + $scope.saleInfoAll[i].FILE_PATH + "//" + $scope.saleInfoAll[i].FILE_NAME,
-                        artistName: $scope.saleInfoAll[i].ARTIST_NAME_JSON.ko,
-                        bornYear: $scope.saleInfoAll[i].BORN_YEAR,
-                        lotTitle: $scope.saleInfoAll[i].LOT_TITLE_JSON.ko,
-                        material: $scope.saleInfoAll[i].CD_NM,
-                        lotSize: $scope.saleInfoAll[i].SIZE1 + "X" + $scope.saleInfoAll[i].SIZE2 + "X" + $scope.saleInfoAll[i].SIZE3,
-                        makeYear:  $scope.saleInfoAll[i].MAKE_YEAR_JSON.ko,
+                    let init_func_manual = async function (token, saleNo, lotNo, saleType) {
+                        //console.log(token, saleNo, lotNo, saleType, userId);
+                        let url ='';
+                        if (window.location.protocol !== "https:") {
+                            url = 'http://dev-bid.seoulauction.xyz/init2';
+                        } else {
+                            url = 'https://dev-bid.seoulauction.xyz/init2';
+                        }
+                        let resp = await fetch(url, {
+                            method: "POST",
+                            body: JSON.stringify({
+                                token: $scope.token,
+                                sale_no: saleNo,
+                                lot_no: lotNo,
+                                sale_type: saleType,
+                                user_id: '${member.loginId}',
+                            }),
+                        });
+                        return resp;
                     }
+
+                    // 메타데이타
+                    let lotInfo = {};
+
+                    for (let i = 0; i < $scope.saleInfoAll.length; i++) {
+                        if ($scope.saleInfoAll[i].SALE_NO === saleNo &&
+                            $scope.saleInfoAll[i].LOT_NO === lotNo) {
+                            lotInfo = {
+                                imageUrl: $scope.saleInfoAll[i].IMAGE_URL + $scope.saleInfoAll[i].FILE_PATH + "//" + $scope.saleInfoAll[i].FILE_NAME,
+                                artistName: $scope.saleInfoAll[i].ARTIST_NAME_JSON.ko,
+                                bornYear: $scope.saleInfoAll[i].BORN_YEAR,
+                                lotTitle: $scope.saleInfoAll[i].LOT_TITLE_JSON.ko,
+                                material: $scope.saleInfoAll[i].CD_NM,
+                                lotSize: $scope.saleInfoAll[i].SIZE1 + "X" + $scope.saleInfoAll[i].SIZE2 + "X" + $scope.saleInfoAll[i].SIZE3,
+                                makeYear:  $scope.saleInfoAll[i].MAKE_YEAR_JSON.ko,
+                            }
+                        }
+                    }
+                    // 초기화
+                    $("#bid_lst").html('');
+                    // 랏번호 삽입
+                    $("#sale_no").val(saleNo);
+                    // 랏번호 삽입
+                    $("#lot_no").val(lotNo);
+                    //
+                    $("#pop_lot_no").html("LOT " + lotNo);
+                    $("#pop_img_url").attr("src", lotInfo.imageUrl);
+                    $("#pop_artist_nm").html(lotInfo.artistName);
+                    $("#pop_born_year").html(lotInfo.bornYear);
+                    $("#pop_lot_title").html(lotInfo.lotTitle);
+                    $("#pop_material").html(lotInfo.material);
+                    $("#pop_size").html(lotInfo.lotSize);
+                    $("#pop_make_year").html(lotInfo.makeYear);
+
+                    init_func_manual(token, parseInt(saleNo), parseInt(lotNo), 2);
+
+                    $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function ($e) {
+                        $e.preventDefault();
+                        popup_biddingPopup1.close();
+                    });
                 }
             }
-            // 초기화
-            $("#bid_lst").html('');
-            // 랏번호 삽입
-            $("#lot_no").val(lotNo);
-            //
-            $("#pop_lot_no").html("LOT " + lotNo);
-            $("#pop_img_url").attr("src", lotInfo.imageUrl);
-            $("#pop_artist_nm").html(lotInfo.artistName);
-            $("#pop_born_year").html(lotInfo.bornYear);
-            $("#pop_lot_title").html(lotInfo.lotTitle);
-            $("#pop_material").html(lotInfo.material);
-            $("#pop_size").html(lotInfo.lotSize);
-            $("#pop_make_year").html(lotInfo.makeYear);
-
-            init_func_manual(token, parseInt(saleNo), parseInt(lotNo), 2, userId);
-
-            $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function ($e) {
-                $e.preventDefault();
-                popup_biddingPopup1.close();
-            });
-            //});
         }
 
         // 호출 부
@@ -720,7 +908,7 @@
                 $scope.pageingdata = p;
                 $scope.$apply();
 
-                $scope.bidstart();
+                $scope.bidstart('${member.loginId}', ${member.userNo});
                 // lot
                 $("#search_lot").on("keyup", function () {
                     window.event.preventDefault();
@@ -766,12 +954,12 @@
         $scope.bidsInfoAll = [];
 
         // bidstart
-        $scope.bidstart = function () {
-            $scope.retry(parseInt($scope.sale_no), 0, 2, "KYUNGHOON");
+        $scope.bidstart = function (user_id, custNo) {
+            $scope.retry(parseInt($scope.sale_no), 0, 2, user_id, custNo);
         }
 
         // websocket connection retry
-        $scope.retry = function (saleNo, lotNo, saleType, userId) {
+        $scope.retry = function (saleNo, lotNo, saleType, userId, custNo) {
             window.clearTimeout($scope.websocketTimeout);
             if (w != null) {
                 w = null;
@@ -798,19 +986,19 @@
                     if (!is_end_bid) {
                         con_try_cnt++;
                         $scope.websocketTimeout = window.setTimeout(function () {
-                            $scope.retry(saleNo, lotNo, saleType, userId);
+                            $scope.retry(saleNo, lotNo, saleType, userId, custNo);
                         }, 1000);
                     }
                 }
             }
             w.onmessage = function (evt) {
-                $scope.proc(evt, saleNo, lotNo, saleType, userId);
+                $scope.proc(evt, saleNo, lotNo, saleType, userId, custNo);
             }
             con_try_cnt = 0;
         }
 
         // bid protocols
-        $scope.proc = function (evt, saleNo, lotNo, saleType, userId) {
+        $scope.proc = function (evt, saleNo, lotNo, saleType, userId, custNo) {
             const packet_enum = {
                 init: 1,
                 bid_info: 2,
@@ -823,10 +1011,11 @@
 
             if (d.msg_type === packet_enum.init) {
                 // 현재 접속 세일/랏 정보
-
                 connect_info.token = d.message.token
                 connect_info.sale_no = saleNo;
                 connect_info.lot_no = 0;
+                connect_info.user_id = userId;
+                connect_info.cust_no = custNo;
 
                 //$scope.popSet();
                 $scope.token = d.message.token;
@@ -838,6 +1027,7 @@
                     } else {
                         url = 'https://dev-bid.seoulauction.xyz/init';
                     }
+                    console.log(custNo);
                     let response = await fetch(url, {
                         method: "POST",
                         body: JSON.stringify({
@@ -846,6 +1036,7 @@
                             lot_no: 0,
                             sale_type: saleType,
                             user_id: userId,
+                            cust_no: custNo,
                         }),
                     });
                     return response;
@@ -877,6 +1068,11 @@
                         }
                     }
                     $scope.$apply();
+
+                    if (parseInt($("#sale_no").val()) !== d.message.bid[len - 1].customer.sale_no
+                        || parseInt($("#lot_no").val()) !== d.message.bid[len - 1].customer.lot_no) {
+                        return
+                    }
 
                     let bid = document.getElementById("bid_cost_val");
                     let bid_cnt = document.getElementById("bid_cost_cnt");
@@ -953,6 +1149,7 @@
                 }
             } else if (d.msg_type === packet_enum.time_sync) {
                 let ddd = new Date(d.message.tick_value);
+                let bid_tick = document.getElementById("bid_tick");
 
                 // 앵귤러 정보 삽입
                 for (let j = 0; j < $scope.searchSaleInfoAll.length; j++) {
@@ -967,6 +1164,7 @@
                         let diffSec = timeGap.getSeconds();      // 초
                         $scope.searchSaleInfoAll[j].BID_TICK = diffDay + "일 " +
                             diffHour + ":" + diffMin + ":" + diffSec;
+
                     } else if (end_bid_time <= 0) {
                         $scope.searchSaleInfoAll[j].BID_TICK = "경매시작 전입니다."
                     } else {
@@ -992,7 +1190,32 @@
                         $scope.saleInfoAll[j].BID_TICK = "경매가 종료되었습니다."
                     }
                 }
+
+                for (let j = 0; j < $scope.saleInfoAll.length; j++) {
+
+                    if (parseInt($("#sale_no").val()) === $scope.saleInfoAll[j].SALE_NO &&
+                        parseInt($("#lot_no").val()) === $scope.saleInfoAll[j].LOT_NO) {
+
+                        let endDate = new Date($scope.saleInfoAll[j].END_DT);
+                        let dateGap = endDate - ddd;
+                        let timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
+                        // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
+                        let diffDay = Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
+                        let diffHour = timeGap.getHours();       // 시간
+                        let diffMin = timeGap.getMinutes();      // 분
+                        let diffSec = timeGap.getSeconds();      //
+
+                        bid_tick.innerText = diffDay + "일 " + diffHour + "시간 " + diffMin + "분 " + diffSec + "초 남았습니다.";
+                        break
+                    }
+                }
+
                 $scope.$apply();
+
+               // console.log($scope.saleInfoAll.length);
+               // console.log($scope.saleInfoAll.length);
+
+
             } else if (d.msg_type === packet_enum.bid_info_init) {
                 // popup용 이라면
                 if (d.message.is_list_popup) {
@@ -1004,17 +1227,9 @@
                         let quote_unit = document.getElementById("quote_unit");
                         let bid_new_cost = document.getElementById("bid_new_cost");
 
-                        //let start_cost = document.getElementById("start_cost");
-                        //let bid_cnt2 = document.getElementById("bid_cnt");
-                        //let cur_cost = document.getElementById("cur_cost");
-
                         let curCostValue = (bid_info.bid_cost === 0) ?
                             "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR') :
                             "KRW " + bid_info.bid_cost.toLocaleString('ko-KR');
-
-                        //start_cost.innerText = "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR');
-                        //bid_cnt2.innerText = "(응찰" + bid_info.bid_count + ")"
-                        //cur_cost.innerText = curCostValue;
 
                         bid.innerText = curCostValue;
                         bid_cnt.innerText = "(응찰" + bid_info.bid_count + ")"
@@ -1416,6 +1631,29 @@
     let end_bid_time = 0;
     let is_end_bid = false;
 
+    let autoBiding = async function(connect_info){
+        let val = $("#reservation_bid").val();
+        let datet = new Date();
+        let response = await fetch('https://dev-bid.seoulauction.xyz/bid', {
+            method:"POST",
+            body: JSON.stringify({
+                customer : {
+                    sale_no: parseInt($("#sale_no").val()),
+                    lot_no:  parseInt($("#lot_no").val()),
+                    cust_no: parseInt($("#cust_no").val()),
+                    paddle: 0,
+                    user_id: $("#user_id").val(),
+                    token:  $("#token").val(),
+                    sale_type: 2,
+                    bid_type: 22,
+                },
+                bid_cost:   parseInt(val),
+            }),
+        });
+        let vv = response.json();
+        return vv;
+    }
+
     let biding = async function (connect_info) {
         let val = document.getElementById("bid_new_cost_val").getAttribute("value");
         let url = '';
@@ -1431,7 +1669,8 @@
                     sale_no: parseInt($("#sale_no").val()),
                     lot_no: parseInt($("#lot_no").val()),
                     paddle: 0,
-                    user_id: "KYUNGHOON",
+                    user_id: $("#user_id").val(),
+                    cust_no: parseInt($("#cust_no").val()),
                     token: $("#token").val(),
                     sale_type: 2,
                     bid_type: 21,
@@ -1445,6 +1684,11 @@
 
     function bid() {
         biding(connect_info);
+    }
+
+    // 자동응찰
+    function autoBid() {
+        autoBiding(connect_info);
     }
 </script>
 </body>
