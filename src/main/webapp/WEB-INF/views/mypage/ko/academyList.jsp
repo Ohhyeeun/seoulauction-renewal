@@ -69,7 +69,10 @@
                                                                 <tr>
                                                                     <td class="bbs-subject">{{art.TITLE_KO}}</td>
                                                                     <td ng-bind="art.pay_price | number : 0"></td>
-                                                                    <td ng-if="art.CANCEL_YN != 'Y'"><a class="pay complete" href="#" ng-click="academyPayHis({'parent':this, 'academy':art});" class="ng-scope" >결제완료</a></td>
+                                                                    <td ng-if="art.CANCEL_YN != 'Y'"><a class="pay complete" href="#" ng-click="academyPayHis({'parent':this, 'academy':art});" class="ng-scope" >결제완료</a>
+                                                                    <button  type="button" ng-if="art.PAY_METHOD_ID == 'card' && art.receipt == 'Y'" ng-click="receiptPopup({'pay':art,'type':0})"><span>결제영수증</span></button>
+                                                                 	<button  type="button" ng-if="art.PAY_METHOD_ID == 'vbank' && art.receipt == 'Y'" ng-click="receiptPopup({'pay':art,'type':1})"><span>현금영수증</span></button>
+                                                                    </td>
                                                                     <td ng-if="art.CANCEL_YN == 'Y'"><a class="pay">결제취소</a></td>
                                                                     <td>{{art.REG_DT | date:'yyyy-MM-dd'}}</td>
                                                                 </tr>
@@ -89,7 +92,9 @@
                                                                     </dl>
                                                                     <dl>
                                                                         <dt>결제현황</dt>
-                                                                        <dd  ng-if="art.CANCEL_YN != 'Y'"><span class="pay complete" ng-click="academyPayHis({'parent':this, 'academy':art});">결제완료</span></dd>
+                                                                        <dd  ng-if="art.CANCEL_YN != 'Y'">
+                                                                        <span class="pay complete" ng-click="academyPayHis({'parent':this, 'academy':art});">결제완료</span>
+                                                                        </dd>
                                                                         <dd ng-if="art.CANCEL_YN == 'Y'"><span class="pay">결제취소</span></dd>
                                                                     </dl>
                                                                     <dl>

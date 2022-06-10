@@ -57,11 +57,16 @@
 				(select vat_price from pay p where p.PAY_NO = D.PAY_NO)  as vat_price,
 				(select vat from pay p where p.PAY_NO = D.PAY_NO) as vat,
 				(select PAY_METHOD_CD  from pay p where p.PAY_NO = D.PAY_NO) as PAY_METHOD_CD
+				, CD.CD_ID PAY_METHOD_ID
+				, IF(P.PG_TRANS_ID is not null and P.pg_cd='nice', 'Y', 'N' ) receipt
+				, P.PG_TRANS_ID
 			from
 				CUST A 
 				join ACADEMY_REQ B on A.CUST_NO = B.CUST_NO
 				join ACADEMY C on B.ACADEMY_NO = C.ACADEMY_NO
 				join academy_pay D  on D.ACADEMY_NO = C.ACADEMY_NO and A.CUST_NO = D.CUST_NO
+				join PAY P ON P.pay_no =  D.pay_no and P.cust_no = D.cust_no
+				left join code CD on P.PAY_METHOD_CD = CD.CD_ID and CD.GRP_ID = 'pay_method'
 			where
 	 		A.CUST_NO in ('102254','104907','106326','98250','80722','98250','102137','104320','104913','103040') AND B.DEL_YN = 'N'
 			order by
