@@ -1,6 +1,16 @@
 package com.seoulauction.renewal.service;
 
 
+import com.seoulauction.renewal.component.AddressFinder;
+import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.mapper.kt.MypageMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,23 +19,8 @@ import java.net.URL;
 import java.security.Principal;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-
-import com.seoulauction.renewal.component.AddressFinder;
-import com.seoulauction.renewal.component.FileManager;
-import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.mapper.kt.MypageMapper;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 @Service
 @Log4j2

@@ -1,9 +1,9 @@
 package com.seoulauction.renewal.controller;
-import static com.seoulauction.renewal.common.SAConst.SERVICE_MAIN;
 
-import java.util.Locale;
-import java.util.Map;
-
+import com.seoulauction.renewal.common.SAConst;
+import com.seoulauction.renewal.service.MypageService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.seoulauction.renewal.common.SAConst;
-import com.seoulauction.renewal.service.MypageService;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import java.util.Locale;
+import java.util.Map;
 
 import static com.seoulauction.renewal.common.SAConst.SERVICE_MYPAGE;
 

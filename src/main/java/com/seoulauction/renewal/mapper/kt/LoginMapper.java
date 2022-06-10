@@ -1,10 +1,9 @@
 package com.seoulauction.renewal.mapper.kt;
 
-import java.util.List;
-
+import com.seoulauction.renewal.domain.CommonMap;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.seoulauction.renewal.domain.CommonMap;
+import java.util.List;
 
 @Mapper
 public interface LoginMapper {
