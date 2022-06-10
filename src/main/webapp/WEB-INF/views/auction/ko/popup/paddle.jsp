@@ -146,18 +146,6 @@
 </div>
 <script>
     (function() {
-        var terms_required = $(".js-terms_required").trpLayerFixedPopup("#terms_required-wrap");
-        $(terms_required.getBtn).on("click", function($e) {
-            $e.preventDefault();
-            terms_required.open(this); // or false
-            popup_fixation("#terms_required-wrap");
-        });
-
-        $("body").on("click", "#terms_required-wrap .js-closepop, #terms_required-wrap .popup-dim", function($e) {
-            $e.preventDefault();
-            terms_required.close();
-        });
-
         //약관체크
         $(".js_all-terms").trpCheckBoxAllsImg(".js_all", ".js_item");
 

@@ -157,4 +157,8 @@ public class SaleService {
     public void insertBid(CommonMap map){
         saleMapper.insertBid(map);
     }
+
+    public CommonMap getCustomerByCustNo(CommonMap commonMap) {
+        return saleMapper.getCustomerByCustNo(commonMap);
+    }
 }
