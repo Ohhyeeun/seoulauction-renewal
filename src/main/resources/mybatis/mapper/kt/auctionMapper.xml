@@ -130,7 +130,6 @@
 	</select>
 
 	<select id="selectSaleInfo" parameterType="CommonMap" resultType="CommonMap">
-		SET SESSION group_concat_max_len = 1000000;
 		select S.SALE_NO
 		    , COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
 		    , S.FROM_DT
