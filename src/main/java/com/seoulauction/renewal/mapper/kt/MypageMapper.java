@@ -83,5 +83,23 @@ public interface MypageMapper {
     List<CommonMap> selectCustSocialByCustNo(CommonMap commonMap);
 
     int deleteCustSocial(CommonMap commonMap);
+    
+    List<CommonMap> selectCustInteArtist(CommonMap paramMap);
+    
+    List<CommonMap> selectArtistByArtistName(CommonMap paramMap);
 
+    int updateCust(CommonMap paramMap);
+    
+    int deleteCustPushWay(CommonMap paramMap);
+    
+    int deleteCustInteArtist(CommonMap paramMap);
+    
+    int deleteCustInteArea(CommonMap paramMap);
+    
+    int insertCustPushWay(CommonMap paramMap);
+    
+    int insertCustInteArtist(CommonMap paramMap);
+    
+    int insertCustInteArea(CommonMap paramMap);
+    
 }

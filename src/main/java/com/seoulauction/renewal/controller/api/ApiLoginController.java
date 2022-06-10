@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -210,6 +211,17 @@ public class ApiLoginController {
         }
 		return ResponseEntity.ok(RestResponse.ok(resultMap));
 	}
+
+	@RequestMapping(value = "/pushWays", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> pushWays(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+		log.info(paramMap.toString());
+		List<CommonMap> resultMap = loginService.selectCode(paramMap);
+        if(resultMap != null) {
+        	log.info(resultMap.toString());
+        }
+		return ResponseEntity.ok(RestResponse.ok(resultMap));
+	}
 	
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	@ResponseBody
@@ -350,4 +362,11 @@ public class ApiLoginController {
         return ResponseEntity.ok(RestResponse.ok());
 	}
 	
+	//로그아웃
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public ResponseEntity<RestResponse> logout(HttpServletRequest request, HttpServletResponse response){
+		log.info("logout");
+		new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+		return ResponseEntity.ok(RestResponse.ok());
+	}
 }
