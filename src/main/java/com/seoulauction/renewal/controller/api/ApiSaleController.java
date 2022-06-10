@@ -106,7 +106,6 @@ public class ApiSaleController {
         // 관심정보가져오기
         CommonMap favoriteMap = saleService.selectCustInteLot(map);
 
-        log.info("favoriteMap");
         log.info(favoriteMap);
 
         if (favoriteMap == null) {

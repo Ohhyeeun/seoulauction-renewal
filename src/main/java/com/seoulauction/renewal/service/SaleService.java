@@ -193,8 +193,6 @@ public class SaleService {
             //bidder.setToken(map.get("bid_token").toString());
             // 비딩금액 저장
 
-            log.info("paramMap : {}" , paramMap);
-
             // 웹소켓에 데이타 전송
             String result = webClient.post().uri("/bid")
                     .bodyValue(paramMap)
