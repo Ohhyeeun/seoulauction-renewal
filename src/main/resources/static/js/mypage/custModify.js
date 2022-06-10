@@ -2,7 +2,7 @@ app.value('locale', 'ko');
 var langType = document.documentElement.lang;
 var bornDtValid, sexCdValid, hpValid, emailValid, addrValid = false;
 var compNoValid, compManNameValid = false; 
-var oldHp = '';
+var oldHp, oldCompNo = '';
 var artistList, inteArtistList = [];
 var inteArtistJson = {};
 $(window).on("load", function() {
@@ -48,7 +48,7 @@ $(document).ready(function() {
 			const result = response.data;
 			if(result.success == true){
 				const data = result.data;
-console.log(data);
+
 				$("#custName").html(data.CUST_NAME);
 				if(!undefCheck(data.BORN_DT)){
 					$("#yy").val(data.BORN_DT.split("-")[0]); $("#select2-yy-container").html(data.BORN_DT.split("-")[0]);
@@ -118,6 +118,7 @@ console.log(data);
 				
 				//사업자
 				if(!undefCheck(data.COMP_NO)){
+					oldCompNo = data.COMP_NO;
 					$("#comp_no").val(data.COMP_NO.substring(0, 3) + "-" + data.COMP_NO.substring(3, 5) + "-" + data.COMP_NO.substring(5));
 					compNoValid = true;
 				}
@@ -169,11 +170,21 @@ function replaceAll(str, searchStr, replaceStr) {
 //수정 버튼 (비)활성화
 function buttonActive(){
 //	console.log(bornDtValid ? '생일통과' : '생일실패');	console.log(sexCdValid ? '성별통과' : '성별실패');	console.log(hpValid ? '폰통과' : '폰실패');	console.log(emailValid ? '이메일통과' : '이메일실패');	console.log(addrValid ? '주소통과' : '주소실패');
-	if(bornDtValid && sexCdValid && hpValid && emailValid && addrValid){
-		$('#modifyButton').removeAttr('disabled');
-	}else{
-		$('#modifyButton').attr('disabled', 'disabled');
+//	console.log(compNoValid ? '사업자번호통과' : '사업자번호실패');	console.log(compManNameValid ? '업무 담당자통과' : '업무 담당자실패');
+	if(userKind == 'person'){ //개인 소셜
+		if(bornDtValid && sexCdValid && hpValid && emailValid && addrValid){
+			$('#modifyButton').removeAttr('disabled');
+		}else{
+			$('#modifyButton').attr('disabled', 'disabled');
+		}
+	}else { //사업자
+		if(hpValid && emailValid && addrValid && compNoValid && compManNameValid){
+			$('#modifyButton').removeAttr('disabled');
+		}else{
+			$('#modifyButton').attr('disabled', 'disabled');
+		}
 	}
+	
 }
 
 //생년월일 validation
@@ -525,12 +536,14 @@ function deleteArtist(artistNo){
 
 //사업자용 validation
 function compNoValidCheck(){
+	compNoValid = false;
 	var compNo = $("#comp_no").val();
+	compNo = replaceAll(compNo, "-", "");
+	$("#comp_no").val(compNo);
 	
 	if(undefCheck(compNo)){
 		$("#compNoMsg").html("사업자 번호를 입력해주세요.");
 	}else{
-		compNo = replaceAll(compNo, "-", "");
 		if(compNo.length == 10) {
 			compNo = compNo.substring(0, 3) + "-" + compNo.substring(3, 5) + "-" + compNo.substring(5);
 			$("#comp_no").val(compNo);
@@ -538,11 +551,17 @@ function compNoValidCheck(){
 		$("#compNoMsg").html("사업자 번호 중복확인이 필요합니다.");
 	}
 
+	buttonActive();
 }
 
 function compNoExistCheck(){
 	var compNo = $("#comp_no").val();
 	compNo = replaceAll(compNo, "-", "");
+	if(oldCompNo == compNo){
+		$("#compNoMsg").html("등록된 사업자 등록번호와 동일합니다.");
+		compNoValid = true;
+		return;
+	}
 	//사업자 등록번호 중복체크
 	let data = {};
     data['comp_no'] = compNo;
@@ -563,22 +582,42 @@ function compNoExistCheck(){
     });
 }
 
+function compManNameValidCheck(){
+	var compManName = $("#comp_man_name").val();
+	if(undefCheck(compManName)){
+		compManNameValid = false;
+		$("#compManNameMsg").html("업무 담당자 이름을 입력해주세요.");
+	}else{
+		compManNameValid = true;
+	}
+	buttonActive();
+}
 
 function custModify(){
 //	console.log(bornDtValid ? '생일통과' : '생일실패');	console.log(sexCdValid ? '성별통과' : '성별실패');	console.log(hpValid ? '폰통과' : '폰실패');	console.log(emailValid ? '이메일통과' : '이메일실패');	console.log(addrValid ? '주소통과' : '주소실패');
+//	console.log(compNoValid ? '사업자번호통과' : '사업자번호실패');	console.log(compManNameValid ? '업무 담당자통과' : '업무 담당자실패');
 	
 	if($('#modifyButton').attr('disabled') == "disabled"){
-		if(!bornDtValid || !sexCdValid || !hpValid || !emailValid || !addrValid){
-			alert("필수항목을 모두 입력해 주세요.");
+		if(userKind == 'person'){ //개인 소셜
+			if(!bornDtValid || !sexCdValid || !hpValid || !emailValid || !addrValid){
+				alert("필수항목을 모두 입력해 주세요.");
+				return;
+			}
+		}else { //사업자
+			if(!hpValid || !emailValid || !addrValid || !compNoValid || !compManNameValid){
+				alert("필수항목을 모두 입력해 주세요.");
+				return;
+			}
 		}
-		return;
 	}
 	let form = document.querySelector('#modifyForm');
 	var formData = new FormData(form);
-	
+	formData.set("user_kind", userKind);
 	formData.set("born_dt", formData.getAll('born_dt').join('-'));
 	formData.set("addr", $("#addr").html());
 	formData.set("deli_addr", $("#deli_addr").html());
+	formData.set("comp_no", replaceAll($("#comp_no").val(), "-", ""));
+	
 	var ways = formData.getAll('push_way').join('|');
 	if(!undefCheck(ways)){
 		formData.set("push_way", ways);

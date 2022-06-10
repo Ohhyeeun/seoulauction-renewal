@@ -151,7 +151,7 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
                                                         </div>
                                                         <div class="form_body vertical_item">
                                                             <div class="input-group">
-                                                                <input type="text" maxlength="10" onkeyup="compNoValidCheck();"id="comp_no" name="comp_no" class="form-control" value="" placeholder="">
+                                                                <input type="text" onkeyup="compNoValidCheck(); "id="comp_no" name="comp_no" class="form-control" value="" placeholder="">
                                                                 <button class="btn btn_light_gray_line" type="button" onclick="compNoExistCheck()">
                                                                     <span>중복확인</span>
                                                                 </button>
@@ -173,7 +173,8 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
                                                             <i>*</i>
                                                         </div>
                                                         <div class="form_body vertical_item">
-                                                            <input type="text" name="comp_man_name" id="comp_man_name" class="form-control" value="김유미" placeholder="">
+                                                            <input type="text" onkeyup="compManNameValidCheck()" name="comp_man_name" id="comp_man_name" class="form-control" value="김유미" placeholder="">
+                                                            <p class="error_text tb2" id="compManNameMsg"></p>
                                                         </div>
                                                     </li>
                                                     </c:if>
@@ -185,7 +186,7 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
                                                         </div>
                                                         <div class="form_body vertical_item">
                                                             <div class="input-group">
-                                                                <input type="text" maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);compareOldHp();" name="hp" id="hp" class="form-control" placeholder="">
+                                                                <input type="text" maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this, 'number');compareOldHp();" name="hp" id="hp" class="form-control" placeholder="">
                                                                 <button onclick="authNumRequest()" class="btn btn_light_gray_line" type="button">
                                                                     <span id="authNumMsg">인증번호 요청</span>
                                                                 </button>
@@ -207,7 +208,7 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
                                                             <label for="telNo" class="label_text">전화번호</label>
                                                         </div>
                                                         <div class="form_body vertical_item">
-                                                            <input type="text" name="tel" id="tel" class="form-control" value="" placeholder="">
+                                                            <input type="text" name="tel" id="tel" onblur="telNumber(this);" onkeyup="onlyNumber(this, 'number');" class="form-control" value="" placeholder="">
                                                         </div>
                                                     </li>
                                                     </c:if>
