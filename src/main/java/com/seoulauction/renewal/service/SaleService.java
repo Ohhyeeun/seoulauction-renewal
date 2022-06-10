@@ -216,5 +216,9 @@ public class SaleService {
         }
         saleMapper.insertBid(map);
     }
+
+    public CommonMap getCustomerByCustNo(CommonMap commonMap) {
+        return saleMapper.getCustomerByCustNo(commonMap);
+    }
 }
 

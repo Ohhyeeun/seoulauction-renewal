@@ -34,7 +34,9 @@ function logout(loginId){
 }
 // 세션로그아웃
 function sessionLogout() {
-	window.location.href = "/processLogout";
+	axios.get("/api/login/logout").then(function(response) {
+		location.reload();
+	});
 }
 </script>
 <html lang="ko" ng-app="myApp">
@@ -67,7 +69,7 @@ function sessionLogout() {
                         <li id="MyMenuOnlineBadge"><a href="#">온라인 경매 관리</a></li>
                         <li><a href="#">관심작품</a></li>
                         <li><a href="#">아카데미 신청목록</a></li>
-                        <li><a href="/mypage/custConfirm">회원정보 수정</a></li>
+                        <li><a href="/mypage/custModify">회원정보 수정</a></li>
                     </ul>
                 </li>
                 <li class="utility-login"><a onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')">로그아웃</a></li>
@@ -75,7 +77,7 @@ function sessionLogout() {
         </ul>
     </div>
     <nav class="header_navbox">
-        <div class="header_nav wrap_padding" ng-controller="headCtl">
+        <div class="header_nav wrap_padding" >
             <a href="/" class="header_logo"><span class="blind-text">logo</span></a>
             <ul class="header_gnbmenu pc-ver">
                 <li><a href="#" class="">AUCTION</a></li>
@@ -89,7 +91,7 @@ function sessionLogout() {
                 <form action="" class="scroll_none" onsubmit="return false; ">
                     <fieldset class="topsearch">
                         <span class="submenuBg-closeBtn top-search-closeBtn m-ver"></span>
-                        <input onkeydown="searchFilter()" onmousedown="searchDown()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();" id="topsearchText" ng-keypress="$event.keyCode === 13 && goSearch('topsearchText', true);"><button type="button" class="topsearch-btn pc-ver" ng-click="goSearch('topsearchText', true);"></button>
+                        <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();" id="topsearchText" ng-keypress="$event.keyCode === 13 && goSearch('topsearchText', true);"><button type="button" class="topsearch-btn pc-ver" ng-click="goSearch('topsearchText', true);"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">
                             </div>

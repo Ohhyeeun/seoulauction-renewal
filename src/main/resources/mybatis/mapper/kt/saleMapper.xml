@@ -166,9 +166,10 @@
         , IFNULL(L.FRAME_CD, 'none') AS FRAME_CD
         , IFNULL(L.GUARANTEE_YN, 'Y') GUARANTEE_YN
         , L.ZEROBASE_PRICE_YN
+        , COLUMN_JSON(L.EXHIBITION_PRICE_BLOB) EXHIBITION_PRICE_JSON
         from LOT L
         left outer join (<include refid="com.seoulauction.renewal.mapper.kt.CommonMapper.saleLastBidInfos"/>) BD on
-        BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+        BD.SALE_NO = L.SALE_NO and BD.LOT_NO	 = L.LOT_NO
         left outer join ARTIST AT
         on AT.ARTIST_NO = L.ARTIST_NO
         left outer join CODE CD
@@ -249,7 +250,7 @@
         from CUST CU
         where JOIN_KIND_CD = 'online'
           and CU.STAT_CD = 'normal'
-          and CU.CUST_NO = #{action_user_no}
+          and CU.CUST_NO = #{cust_no}
     </select>
 
     <insert id="searchLog" parameterType="CommonMap">
@@ -354,10 +355,10 @@
         left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
         left outer join CUST_INTE_LOT IL ON L.SALE_NO = IL.SALE_NO AND L.LOT_NO = IL.LOT_NO AND IL.DEL_YN = 'N' AND
         IL.CUST_NO = #{action_user_no}
-        <if test="list_type == 'SEARCH' and action_user_no != null">
-            , (select CUST_NO, EMP_GB from CUST where CUST_NO = #{action_user_no}) CU
+        <if test="list_type == 'SEARCH' and cust_no != null">
+            , (select CUST_NO, EMP_GB from CUST where CUST_NO = #{cust_no}) CU
         </if>
-        <if test="list_type == 'SEARCH' and action_user_no == null">
+        <if test="list_type == 'SEARCH' and cust_no == null">
             , (select NULL AS CUST_NO, 'N' AS EMP_GB from dual) CU
         </if>
         where 1=1

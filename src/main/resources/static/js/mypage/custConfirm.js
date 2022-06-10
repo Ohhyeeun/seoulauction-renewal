@@ -16,6 +16,14 @@ $(window).on("load", function() {
 	}
 });
 
+function goPost(){
+    let f = document.createElement('form');
+    f.setAttribute('method', 'post');
+    f.setAttribute('action', '/mypage/custModify');
+    document.body.appendChild(f);
+    f.submit();
+}
+
 /* 개인회원 */
 // 비밀번호 입력 event
 function passwdKeyUp() {
@@ -28,6 +36,12 @@ function passwdKeyUp() {
 		$("#modifyButton").removeClass('btn_point');
 		$("#modifyButton").addClass('btn_gray');
 	}	
+}
+
+function enterKey(){
+    if(window.event.keyCode == 13){
+        passwdConfirm();
+    }
 }
 
 // 회원번호수정 페이지이동
@@ -47,7 +61,7 @@ function passwdConfirm() {
 					$("#passwdMsg").html("비밀번호가 일치하지 않습니다. 비밀번호를 다시 확인해주세요.");
 				}
 			}else{
-				location.href = "/mypage/custModify";
+				goPost();
 			}
 		})
 		.catch(function(error){
@@ -60,8 +74,7 @@ function passwdConfirm() {
 function passwdCancel() {
 	var backPage = document.referrer;
 	if(backPage.indexOf('/mypage/') > -1
-		&& backPage.indexOf('/mypage/custModify') == -1
-		&& backPage.indexOf('/mypage/custConfirm') == -1){
+		&& backPage.indexOf('/mypage/custModify') == -1){
 		history.go(-1);
 	}else{
 		location.href = '/mypage/liveBidReqList';
@@ -74,7 +87,7 @@ function passwdCancel() {
 function socialConfirm(snsEmail) {
 	if(snsEmail === socialEmail){
 		alert("연결 되었습니다.");
-		location.href = "/mypage/custModify";
+		goPost();
 	}	
 }
 

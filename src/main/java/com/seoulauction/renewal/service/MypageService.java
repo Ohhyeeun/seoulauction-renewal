@@ -9,6 +9,7 @@ import java.net.URL;
 import java.security.Principal;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -258,5 +259,70 @@ public class MypageService {
 		} else {
 			return null;
 		}
+    }
+    
+    public List<CommonMap> selectCustInteArtist(CommonMap paramMap){
+    	return mypageMapper.selectCustInteArtist(paramMap);
+    }
+
+    public List<CommonMap> selectArtistByArtistName(CommonMap paramMap){
+    	return mypageMapper.selectArtistByArtistName(paramMap);
+    }
+    
+    public int updateCust(CommonMap paramMap){
+        return mypageMapper.updateCust(paramMap);
+    }
+
+    public int updateCustPushWay(String custNo, String pushWayStr){
+		CommonMap paramMap = new CommonMap();
+		paramMap.put("cust_no", custNo);
+		
+    	int result = mypageMapper.deleteCustPushWay(paramMap);
+    	
+    	System.out.println(pushWayStr);
+    	String[] pushWays = pushWayStr.split("\\|");
+    	if(pushWayStr != "" && pushWays.length > 0) {
+    		for (int i = 0; i < pushWays.length; i++) {
+    			System.out.println(pushWays[i]);
+        		paramMap.put("push_way_cd", pushWays[i]);
+        		result += mypageMapper.insertCustPushWay(paramMap);
+			}
+    	}
+    	
+        return result >= pushWays.length + 1 ? 1 : 0;
+    }
+
+    public int updateCustInteArtist(String custNo, String inteArtistStr){
+    	CommonMap paramMap = new CommonMap();
+		paramMap.put("cust_no", custNo);
+		
+    	int result = mypageMapper.deleteCustInteArtist(paramMap);
+    	
+    	String[] inteArtists = inteArtistStr.split("\\|");
+    	if(inteArtistStr != "" && inteArtists.length > 0) {
+    		for (int i = 0; i < inteArtists.length; i++) {
+        		paramMap.put("artist_no", inteArtists[i]);
+        		result += mypageMapper.insertCustInteArtist(paramMap);
+			}
+    	}
+    	
+        return result >= inteArtists.length + 1 ? 1 : 0;
+    }
+
+    public int updateCustInteArea(String custNo, String inteAreaStr){
+    	CommonMap paramMap = new CommonMap();
+		paramMap.put("cust_no", custNo);
+		
+    	int result = mypageMapper.deleteCustInteArea(paramMap);
+    	
+    	String[] inteAreas = inteAreaStr.split("\\|");
+    	if(inteAreaStr != "" && inteAreas.length > 0) {
+    		for (int i = 0; i < inteAreas.length; i++) {
+        		paramMap.put("inte_area_cd", inteAreas[i]);
+        		result += mypageMapper.insertCustInteArea(paramMap);
+			}
+    	}
+    	
+        return result >= inteAreas.length + 1 ? 1 : 0;
     }
 }

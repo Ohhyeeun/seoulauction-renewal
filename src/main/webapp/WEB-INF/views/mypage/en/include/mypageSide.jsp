@@ -61,7 +61,7 @@
 							class="icon-view_more"></i></a></li>
 					<li class="cate1-group"><span>회원정보관리</span>
 						<ul>
-							<li class="" id="custModify"><a href="/mypage/custConfirm">회원정보수정</a></li>
+							<li class="" id="custModify"><a href="/mypage/custModify">회원정보수정</a></li>
 							<c:if test="${socialYn == 'N' }">
 							<li class="" id="passwordModify"><a href="/mypage/passwordModify">비밀번호수정</a></li>
 							<li class="" id="test7"><a href="#">SNS연동설정</a></li>

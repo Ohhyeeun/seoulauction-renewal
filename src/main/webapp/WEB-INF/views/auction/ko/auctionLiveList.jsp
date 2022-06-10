@@ -329,6 +329,8 @@
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/auction/auctionLiveList.js" type="text/javascript"></script>
     <script>
+        var terms_required = $(".js-terms_required").trpLayerFixedPopup("#terms_required-wrap");
+
         app.value('locale', 'ko');
         app.value('is_login', true);
 
@@ -432,6 +434,21 @@
                     location.href = "/login";
                 }
 
+                const membership_yn = $scope.custInfo.MEMBERSHIP_YN;
+                if(membership_yn === 'N') {
+                    location.href = "/payment/member";
+                }
+
+                if($scope.paddNo <= 0) {
+                    console.log(document.querySelector(".js-terms_required"));
+                    terms_required.open(this); // or false
+                    popup_fixation("#terms_required-wrap");
+
+                    $("body").on("click", "#terms_required-wrap .js-closepop, #terms_required-wrap .popup-dim", function($e) {
+                        $e.preventDefault();
+                        terms_required.close();
+                    });
+                }
             }
 
             // 호출 부
@@ -516,8 +533,9 @@
                     }
                     $scope.pageingdata = p;
 
+                    //get paddle number & cust info
                     $scope.paddNo = 0;
-                    //get paddle number
+                    $scope.custInfo = null;
                     if(sessionStorage.getItem("is_login") === 'true'){
 
                         await axios.get('/api/auction/paddles/${saleNo}')
@@ -531,6 +549,15 @@
                                     }
                                 }
                             });
+
+                        await axios.get('/api/auction/cust')
+                            .then(function(response) {
+                                    const data = response.data;
+                                    const success = data.success;
+                                    if (success) {
+                                        $scope.custInfo = data.data;
+                                    }
+                                });
                     }
 
                     $scope.$apply();

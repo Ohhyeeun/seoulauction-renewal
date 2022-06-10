@@ -121,7 +121,7 @@
 		                                    </div>
 		                                    <div class="form_body">
 												<div ng-show="nationMobile != '' && nationMobile != undefined">+{{nationMobile}}</div>
-												<input type="text" tabindex="6" onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);" ng-model="form_data.hp" name="hp" id="hp" class="form-control" placeholder="">
+												<input type="text" tabindex="6" onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this, 'number');" ng-model="form_data.hp" name="hp" id="hp" class="form-control" placeholder="">
 		                                    </div>
 		                                </li>
 		                                
