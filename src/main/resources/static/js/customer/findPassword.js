@@ -48,7 +48,7 @@ $('#findPassword').on('click', function() {
 		let success = result.success;
 		if (!success) {
 			$('#popup_pwsearch3-wrap').attr("style", "display:block");
-		} else if (result.data.SOCIAL_TYPE) {
+		} else if (result.data.SOCIAL_YN == 'Y') {
 			$('#socialType').text(result.data.SOCIAL_TYPE);
 			$('#popup_pwsearch4-wrap').attr("style", "display:block");
 		} else {

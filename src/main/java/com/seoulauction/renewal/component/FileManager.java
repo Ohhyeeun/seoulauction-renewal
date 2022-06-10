@@ -36,8 +36,6 @@ public class FileManager  {
 	//public static final String DATA_FILE_PATH = "/tmp/DATA/";
 	public static final String THUMB_PATH = "thum/";
 
-	protected final static Logger logger = LoggerFactory.getLogger(FileManager.class);
-	    
     public static String fileTempPath;
     public static String fileRootPath;
 
@@ -84,11 +82,11 @@ public class FileManager  {
 	//isMove SQL에서 isMove false 호출되는 경우는 srcPath를 리턴해주고 종료한다.
 	public static String moveTempFileChk(String srcPath, String srcFile, String kind, boolean isMove){
 		if(isMove){
-			logger.debug("file move : {}/{}", srcPath, srcFile);
+			log.debug("file move : {}/{}", srcPath, srcFile);
 			return moveTempFile(srcPath, srcFile, kind);
 		}
 		else{
-			logger.debug("skip file move : {}/{}", srcPath, srcFile);
+			log.debug("skip file move : {}/{}", srcPath, srcFile);
 			return srcPath;
 		}
 	}

@@ -126,6 +126,13 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
         UsernamePasswordAuthenticationToken result 
         	= new UsernamePasswordAuthenticationToken(custNo, resultMap.get("PASSWD").toString(), roles);
         
+        String addr = "";
+        if(resultMap.get("ADDR") != null) {
+        	addr = resultMap.get("ADDR").toString();
+        	if(resultMap.get("ADDR_DTL") != null) {
+        		addr += resultMap.get("ADDR_DTL").toString();
+        	}
+        }
         result.setDetails(SAUserDetails.builder()
         					.loginId(loginId)
         					.password(resultMap.get("PASSWD") != null ? resultMap.get("PASSWD").toString() : "")
@@ -135,7 +142,11 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
         					.userNm(resultMap.get("CUST_NAME").toString())
         					.ip(userIPAddress)
         					.zipNo(resultMap.get("ZIPNO") != null ? resultMap.get("ZIPNO").toString() : "")
-        					.addr(resultMap.get("ADDR") != null ? resultMap.get("ADDR").toString() : "" + resultMap.get("ADDR_DTL") != null ? " " + resultMap.get("ADDR_DTL").toString() : "")
+        					.addr(addr)
+        					.hp(resultMap.get("HP") != null ? resultMap.get("HP").toString() : "")
+        					.email(resultMap.get("EMAIL") != null ? resultMap.get("EMAIL").toString() : "")
+        					.validDate(resultMap.get("VALID_DATE") != null ? resultMap.get("VALID_DATE").toString() : "")
+        					.socialYn(resultMap.get("SOCIAL_YN") != null ? resultMap.get("SOCIAL_YN").toString() : "" + resultMap.get("SOCIAL_YN") != null ? " " + resultMap.get("SOCIAL_YN").toString() : "")
         					.build());
 		return result;
 	}

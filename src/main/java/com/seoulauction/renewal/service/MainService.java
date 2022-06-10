@@ -1,9 +1,11 @@
 package com.seoulauction.renewal.service;
 
 import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.mapper.aws.MainMapper;
 import com.seoulauction.renewal.mapper.kt.KTMainMapper;
+import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -71,7 +73,15 @@ public class MainService {
 
         CommonMap counts = ktMainMapper.selectIngMenuCount();
         List<CommonMap> saleList = ktMainMapper.selectIngAuctions();
-        saleList.forEach(c-> c.put("lots" , ktMainMapper.selectLotsBySaleNo(new CommonMap("sale_no" , c.get("SALE_NO")))));
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+
+        saleList.forEach(c-> {
+                CommonMap lotMap = new CommonMap("sale_no" , c.get("SALE_NO"));
+                if (saUserDetails != null ) {
+                    lotMap.put("cust_no", saUserDetails.getUserNo());
+                }
+                c.put("lots" , ktMainMapper.selectLotsBySaleNo(lotMap));
+        });
 
         List<CommonMap> test2 = new ArrayList<>();
 
@@ -110,7 +120,10 @@ public class MainService {
 
             CommonMap paramMap = new CommonMap();
             paramMap.put("sale_no", item.get("SALE_NO"));
-            CommonMap saleImg = ktMainMapper.selectSaleImage(paramMap);
+            CommonMap saleImg = new CommonMap();
+            if(ktMainMapper.selectSaleImage(paramMap) != null) {
+                saleImg = ktMainMapper.selectSaleImage(paramMap);
+            }
 
             returnMap.put("FILE_PATH", saleImg.get("FILE_PATH"));
             returnMap.put("FILE_NAME", saleImg.get("FILE_NAME"));
@@ -136,7 +149,10 @@ public class MainService {
 
             CommonMap paramMap = new CommonMap();
             paramMap.put("sale_no", item.get("SALE_NO"));
-            CommonMap saleImg = ktMainMapper.selectSaleImage(paramMap);
+            CommonMap saleImg = new CommonMap();
+            if(ktMainMapper.selectSaleImage(paramMap) != null) {
+                saleImg = ktMainMapper.selectSaleImage(paramMap);
+            }
 
             returnMap.put("FILE_PATH", saleImg.get("FILE_PATH"));
             returnMap.put("FILE_NAME", saleImg.get("FILE_NAME"));
@@ -162,4 +178,16 @@ public class MainService {
 
         return resultMap;
     }
+
+    public List<CommonMap> selectBigBanners() {
+        List<CommonMap> resultMap = mainMapper.selectBigBanners();
+        resultMap.stream().forEach(item -> {
+            List<CommonMap> imageListMap = s3Service.getS3FileDataAll("main_banner",  item.get("id"));
+            CommonMap map = new CommonMap();
+            imageListMap.forEach(c-> map.put(c.getString("tag")+"_url",c.getString("cdn_url")));
+            item.put("image", map);
+        });
+        return resultMap;
+    }
+
 }

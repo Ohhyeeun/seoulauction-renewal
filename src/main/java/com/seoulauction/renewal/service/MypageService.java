@@ -1,10 +1,15 @@
 package com.seoulauction.renewal.service;
 
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.Principal;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,8 +25,10 @@ import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.mapper.kt.MypageMapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Service
+@Log4j2
 @RequiredArgsConstructor
 public class MypageService {
 
@@ -156,5 +163,166 @@ public class MypageService {
 
     public int deleteCustInteLot(CommonMap commonMap){                                                                
     	return mypageMapper.deleteCustInteLot(commonMap);
+    }
+    
+    public CommonMap selectBidReqList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectLiveBidReqList(commonMap));
+    	map.put("cnt", mypageMapper.selectLiveBidReqCnt(commonMap));                                                                          
+        return map;
+    }
+    
+    public CommonMap selectLiveBidReqHistoryList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectLiveBidReqHistoryList(commonMap));
+//    	map.put("cnt", mypageMapper.selectLiveBidReqCnt(commonMap));                                                                          
+        return map;
+    }
+    
+    public CommonMap selectLiveBidList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectLiveBidList(commonMap));
+    	map.put("cnt", mypageMapper.selectLiveBidCnt(commonMap));                                                                          
+    	return map;
+    }
+
+
+    public CommonMap selectLiveBidHistoryList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectLiveBidHistoryList(commonMap));
+//    	map.put("cnt", mypageMapper.selectLiveBidReqCnt(commonMap));                                                                          
+        return map;
+    }
+    
+    public CommonMap selectLiveBidHammerList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectLiveBidHammerList(commonMap));
+    	map.put("cnt", mypageMapper.selectLiveBidHammerCnt(commonMap));                                                                          
+    	return map;
+    }
+    
+    public CommonMap selectOnlineBidList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectOnlineBidList(commonMap));
+    	map.put("cnt", mypageMapper.selectOnlineBidCnt(commonMap));                                                                          
+    	return map;
+    }
+
+    public CommonMap selectOnlineBidHistoryList(CommonMap commonMap){
+    	CommonMap map = new CommonMap();
+    	map.put("list", mypageMapper.selectOnlineBidHistoryList(commonMap));
+//    	map.put("cnt", mypageMapper.selectLiveBidReqCnt(commonMap));                                                                          
+        return map;
+    }
+    
+    public CommonMap selectCustForChkPassword(CommonMap paramMap){
+    	return mypageMapper.selectCustForChkPassword(paramMap);
+    }
+    
+    public int updateCustPasswdByCustNo(CommonMap paramMap){
+        return mypageMapper.updateCustPasswdByCustNo(paramMap);
+    }
+    
+    public List<CommonMap> selectCustSocialByCustNo(CommonMap commonMap){
+        return mypageMapper.selectCustSocialByCustNo(commonMap);
+    }
+    
+    public int deleteCustSocial(CommonMap paramMap){
+        return mypageMapper.deleteCustSocial(paramMap);
+    }
+    
+    public String requestToServer(String apiURL) throws IOException {
+		URL url = new URL(apiURL);
+		HttpURLConnection con = (HttpURLConnection)url.openConnection();
+		con.setRequestMethod("GET");
+		int responseCode = con.getResponseCode();
+		BufferedReader br;
+		
+		log.info("responseCode===== {}", responseCode);
+		if(responseCode == 200) { // 정상 호출
+			br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		} else {  // 에러 발생
+			br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+		}
+		
+		String inputLine;
+		StringBuffer res = new StringBuffer();
+		while ((inputLine = br.readLine()) != null) {
+		  res.append(inputLine);
+		}
+		
+		br.close();
+		if(responseCode == 200) {
+			log.info(res.toString());
+			String new_res=res.toString().replaceAll("&#39;", "");
+			return new_res; 
+		} else {
+			return null;
+		}
+    }
+    
+    public List<CommonMap> selectCustInteArtist(CommonMap paramMap){
+    	return mypageMapper.selectCustInteArtist(paramMap);
+    }
+
+    public List<CommonMap> selectArtistByArtistName(CommonMap paramMap){
+    	return mypageMapper.selectArtistByArtistName(paramMap);
+    }
+    
+    public int updateCust(CommonMap paramMap){
+        return mypageMapper.updateCust(paramMap);
+    }
+
+    public int updateCustPushWay(String custNo, String pushWayStr){
+		CommonMap paramMap = new CommonMap();
+		paramMap.put("cust_no", custNo);
+		
+    	int result = mypageMapper.deleteCustPushWay(paramMap);
+    	
+    	System.out.println(pushWayStr);
+    	String[] pushWays = pushWayStr.split("\\|");
+    	if(pushWayStr != "" && pushWays.length > 0) {
+    		for (int i = 0; i < pushWays.length; i++) {
+    			System.out.println(pushWays[i]);
+        		paramMap.put("push_way_cd", pushWays[i]);
+        		result += mypageMapper.insertCustPushWay(paramMap);
+			}
+    	}
+    	
+        return result >= pushWays.length + 1 ? 1 : 0;
+    }
+
+    public int updateCustInteArtist(String custNo, String inteArtistStr){
+    	CommonMap paramMap = new CommonMap();
+		paramMap.put("cust_no", custNo);
+		
+    	int result = mypageMapper.deleteCustInteArtist(paramMap);
+    	
+    	String[] inteArtists = inteArtistStr.split("\\|");
+    	if(inteArtistStr != "" && inteArtists.length > 0) {
+    		for (int i = 0; i < inteArtists.length; i++) {
+        		paramMap.put("artist_no", inteArtists[i]);
+        		result += mypageMapper.insertCustInteArtist(paramMap);
+			}
+    	}
+    	
+        return result >= inteArtists.length + 1 ? 1 : 0;
+    }
+
+    public int updateCustInteArea(String custNo, String inteAreaStr){
+    	CommonMap paramMap = new CommonMap();
+		paramMap.put("cust_no", custNo);
+		
+    	int result = mypageMapper.deleteCustInteArea(paramMap);
+    	
+    	String[] inteAreas = inteAreaStr.split("\\|");
+    	if(inteAreaStr != "" && inteAreas.length > 0) {
+    		for (int i = 0; i < inteAreas.length; i++) {
+        		paramMap.put("inte_area_cd", inteAreas[i]);
+        		result += mypageMapper.insertCustInteArea(paramMap);
+			}
+    	}
+    	
+        return result >= inteAreas.length + 1 ? 1 : 0;
     }
 }

@@ -1,28 +1,35 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <jsp:include page="../../../common/commonJs.jsp" flush="false"/>
 <script type="text/javascript" src="/js/mypage/mypageSide.js"></script>
+
+<sec:authentication property="details.socialYn" var="socialYn"/> 
+<sec:authentication property="Details.userNm" var="userName"/>
+<sec:authentication property="Details.validDate" var="validDate"/> 
+
 <!-- 마이페이지 싸이드 메뉴 -->
 <div ng-controller="myPageCtl">
 <aside class="aside-area"  >
 	<div class="aside-inner">
 		<div class="mem-infobox-wrap">
 			<div class="mem-name-wrap">
-				<span class="tt2"><sec:authentication property="Details.userNm"/></span><span class="tt4">님</span>
+			
+			<span class="tt2" >
+			<c:choose>
+			<c:when test="${empty userName}">회원</c:when>
+			<c:otherwise>${userName}</c:otherwise>
+			</c:choose> 
+			</span><span class="tt4">님</span>
 			</div>
+			
+			<sec:authorize access="hasRole('ROLE_REGULAR_USER')">
 			<div class="mem-info-wrap">
 				<div class="mem-lv-box">
-					<div class="mem-lv lv-1">
-					<sec:authorize access="hasRole('ROLE_REGULAR_USER')">
-						정회원
-					</sec:authorize>
-					<sec:authorize access="hasRole('ROLE_ASSOCIATE_USER')">
-						준회원
-					</sec:authorize>
-					</div>
+					 <div class="mem-lv lv-2">정회원</div>
+					 
 				</div>
 				<div class="mem-record-box">
 					<a href="#" class="record-button" ng-click="showMemHisPopup(this);">정회원 이력</a> 
@@ -32,24 +39,40 @@
 				</div>
 			</div>
 			<div class="mem-button-wrap">
+				<button class="btn btn_point btn_lg" type="button" >
+					<span>${validDate}</span>
+				</button>
+			</div>  
+			</sec:authorize>
+			<sec:authorize access="hasRole('ROLE_ASSOCIATE_USER')"> 
+        	<div class="mem-info-wrap">
+				<div class="mem-lv-box">
+					 <div class="mem-lv lv-1">준회원</div>
+				</div>
+			</div>
+			<div class="mem-button-wrap">
 			<a href="/payment/member">
 				<button class="btn btn_point btn_lg" type="button" >
 					<span>정회원 신청하기</span>
 				</button>
 			</a>
-			</div>
+			</div>     
+        </sec:authorize>  
 		</div>
+        
+                       
+                         
 		<div class="mypage-lnb-wrap">
 			<div class="mypage-lnb">
 				<ul class="cate1">
 					<li class="cate1-group"><span>라이브경매관리</span>
 						<ul>
-							<li class="" id="test1"><a href="#">응찰신청내역</a></li>
-							<li class="" id="test2"><a href="#">온라인패들응찰내역</a></li>
+							<li class="" id="liveBidReq"><a href="/mypage/liveBidReqList">응찰신청내역</a></li>
+							<li class="" id="liveBid"><a href="/mypage/liveBidList">온라인패들응찰내역</a></li>
 						</ul></li>
 					<li class="cate1-group"><span>온라인경매관리</span>
 						<ul>
-							<li class="" id="test3"><a href="#">응찰내역</a></li>
+							<li class="" id="onlineBid"><a href="/mypage/onlineBidList">응찰내역</a></li>
 							<li class="" id="onlinePay"><a href="/mypage/onlinePayList">결제/구매내역</a></li>
 						</ul></li>
 					<li class="cate1-li" id="intelot"><a href="/mypage/inteLotList" class="">관심작품 <i
@@ -60,9 +83,11 @@
 							class="icon-view_more"></i></a></li>
 					<li class="cate1-group"><span>회원정보관리</span>
 						<ul>
-							<li class="" id="test5"><a href="#">회원정보수정</a></li>
-							<li class="" id="test6"><a href="#">비밀번호수정</a></li>
-							<li class="" id="test7"><a href="#">SNS연동설정</a></li>
+							<li class="" id="custModify"><a href="/mypage/custModify">회원정보수정</a></li>
+							<c:if test="${socialYn == 'N' }">
+							<li class="" id="passwordModify"><a href="/mypage/passwordModify">비밀번호수정</a></li>
+							<li class="" id="snsLink"><a href="/mypage/snsLink">SNS연동설정</a></li>
+							</c:if>
 						</ul></li>
 				</ul>
 			</div>
@@ -109,25 +134,33 @@
                                                     <div class="tit">결제방법</div>
                                                     <div class="txt">{{pay.PAY_METHOD_NM}}</div>
                                                 </div>
+                                                 <div class="info-li btn-area">
+                                                    <button class="btn btn_gray_line btn_sm" type="button" ng-if="pay.PAY_METHOD_ID == 'card' && pay.receipt == 'Y'" ng-click="receiptPopup({'pay':pay,'type':0})"><span>카드영수증</span></button>
+                                                    <button class="btn btn_gray_line btn_sm" type="button" ng-if="pay.PAY_METHOD_ID == 'vbank' && pay.receipt == 'Y'" ng-click="receiptPopup({'pay':pay,'type':1})"><span>현금영수증</span></button>
+                                                </div>
                                             </dd>
                                         </dl>
                                         <dl class="memlv2_record-list expiry" ng-if="pay.VALID == '기간만료'" >
                                             <dt>
                                                 <div class="title">
-                                                    <div class="tb1"><span>2022.1.5 ~ 2022.2.5</span></div>
+                                                    <div class="tb1"><span>{{pay.VALID_FROM_DT}} ~ {{pay.VALID_TO_DT}}</span></div>
                                                 </div>
                                                 <div class="state icon-wrap">
-                                                    <div class="state-icon">기간만료</div>
+                                                    <div class="state-icon">{{pay.VALID}}</div>
                                                 </div>
                                             </dt>
                                             <dd>
                                                 <div class="info-li">
                                                     <div class="tit">결제일</div>
-                                                    <div class="txt">1.5(금) 13:26:15</div>
+                                                    <div class="txt">{{pay.payDate}}({{pay.weekDate}}) {{pay.payTime}}</div>
                                                 </div>
                                                 <div class="info-li">
                                                     <div class="tit">결제방법</div>
-                                                    <div class="txt">무료</div>
+                                                    <div class="txt">{{pay.PAY_METHOD_NM}}</div>
+                                                </div>
+                                                 <div class="info-li btn-area">
+                                                    <button class="btn btn_gray_line btn_sm" type="button" ng-if="pay.PAY_METHOD_ID == 'card' && pay.receipt == 'Y'" ng-click="receiptPopup({'pay':pay,'type':0})"><span>카드영수증</span></button>
+                                                    <button class="btn btn_gray_line btn_sm" type="button" ng-if="pay.PAY_METHOD_ID == 'vbank' && pay.receipt == 'Y'" ng-click="receiptPopup({'pay':pay,'type':1})"><span>현금영수증</span></button>
                                                 </div>
                                             </dd>
                                         </dl>
