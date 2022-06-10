@@ -1036,8 +1036,11 @@ SELECT 'INTE_LOT' AS GUBUN
 	<update id="updateCust" parameterType="CommonMap">
 		UPDATE CUST 
 	    SET 
-			BORN_DT = #{born_dt},
-			SEX_CD = #{sex_cd},
+	    	<if test="user_kind == 'person'"> <!-- 개인 -->
+				BORN_DT = #{born_dt},
+				SEX_CD = #{sex_cd},
+			</if>
+			
 			HP = #{hp},
 			EMAIL = #{email},
 			
@@ -1056,11 +1059,12 @@ SELECT 'INTE_LOT' AS GUBUN
 			DELI_ADDR_DTL = #{deli_addr_dtl},
 			DELI_RET_YN = 'N',
 			
-			COMP_MAN_NAME = #{comp_man_name},
-			COMP_OWNER = #{comp_owner},
-			COMP_NO = #{comp_no},
-			TEL = #{tel},
-			
+			<if test="user_kind != 'person'"> <!-- 사업자 -->
+				COMP_MAN_NAME = #{comp_man_name},
+				COMP_OWNER = #{comp_owner},
+				COMP_NO = #{comp_no},
+				TEL = #{tel},
+			</if>
 			MOD_DT = now()
 		where CUST_NO = #{cust_no}
 	</update>
