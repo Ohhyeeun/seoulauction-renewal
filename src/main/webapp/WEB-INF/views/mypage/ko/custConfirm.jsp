@@ -56,7 +56,7 @@
 	                                                                <label for="" class="">비밀번호</label>
 	                                                            </div>
 	                                                            <div class="td">
-	                                                                <input type="password" id="passwd" onkeyup="passwdKeyUp()" class="form-control" value="" placeholder="">
+	                                                                <input type="password" id="passwd" onkeyup="passwdKeyUp()" onkeypress="enterKey()" class="form-control" value="" placeholder="">
 	                                                                <p class="error_text tb2" id="passwdMsg"></p>
 	                                                            </div>
 	                                                        </li>

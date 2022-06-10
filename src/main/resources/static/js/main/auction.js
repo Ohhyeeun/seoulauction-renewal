@@ -41,9 +41,6 @@ $(document).ready(function(){
 
                         //lot data
                         currentLotData[idx] = el.lots;
-
-                        console.log(el.lots);
-
                         // 처음은 0부터 10
                         addLot(idx , currentLotData[curruentTab].slice(0 , initCount));
                     });
@@ -111,7 +108,6 @@ $(document).ready(function(){
             }
 
             curruentTab = $(this).index()
-
             currentSaleNo = currentLotData[curruentTab][0].SALE_NO;
 
             //기존 데이터 초기화.
@@ -173,7 +169,6 @@ $(document).ready(function(){
             $('#MoreAuction').hide();
             //$(".auctionTab-contents.on").css('height', '100%');
 
-            // 10부터 최대 20
             addLot(curruentTab , currentLotData[curruentTab].slice(initCount , currentLotData[curruentTab].length )  );
             //auctionDataInit();
         });

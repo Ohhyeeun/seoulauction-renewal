@@ -20,6 +20,7 @@
 
             <!-- header -->
             <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+            <link rel="stylesheet" href="/css/plugin/csslibrary.css">
             <!-- //header -->
 
             <!-- container -->
@@ -47,8 +48,26 @@
                                         </div>
                                     </div>
                                 </article>
+
+                                <%--라이브 응찰 신청기간--%>
                                 <article class="proceeding-article">
-                                    <a href="#" title="진행중 Lot 10|김선우">
+                                    <a ng-click="goLiveBid()" title="라이브 응찰 신청" class="js-terms_required">
+                                        <div class="article-inner">
+                                            <div class="column view">
+                                                <strong class="note_msg" id="note_msg">라이브 응찰 신청</strong>
+                                            </div>
+                                            <div class="column">
+                                                <div class="note_etc" id="note_etc">
+                                                    <span>정회원만 응찰 신청이 가능합니다.</span><strong>{{paddNo}}</strong>
+                                                </div>
+                                            </div>
+                                            <i class="icon-link_arrow"></i>
+                                        </div>
+                                    </a>
+                                </article>
+                                <%--
+                                <article class="proceeding-article">
+                                    <a href="#">
                                         <div class="article-inner">
                                             <div class="column view">
                                                 <strong class="note_msg">라이브 경매 보기</strong>
@@ -63,22 +82,21 @@
                                     </a>
                                 </article>
 
-                                <%--라이브 응찰 신청기간--%>
                                 <article class="proceeding-article">
-                                    <a href="#" title="라이브 응찰 신청" class="js-terms_required">
+                                    <a href="#" title="라이브 경매 참가">
                                         <div class="article-inner">
                                             <div class="column view">
-                                                <strong class="note_msg">라이브 응찰 신청</strong>
+                                                <strong class="note_msg">라이브 경매 참가</strong>
                                             </div>
                                             <div class="column">
                                                 <div class="note_etc">
-                                                    <span>정회원만 응찰 신청이 가능합니다.</span>
+                                                    <span>나의 패들번호</span><strong>{{paddNo}}</strong>
                                                 </div>
                                             </div>
                                             <i class="icon-link_arrow"></i>
                                         </div>
                                     </a>
-                                </article>
+                                </article>--%>
                             </div>
                         </div>
                     </section>
@@ -239,24 +257,21 @@
                                                                     <dd>KRW {{item.EXPE_PRICE_FROM_JSON.KRW}}</dd>
                                                                     <dd>~ {{item.EXPE_PRICE_TO_JSON.KRW}}</dd>
                                                                 </dl>
-                                                                <dl class="price-list">
-                                                                    <dt>낙찰가</dt>
-                                                                    <dd><strong>{{item.CUR_COST}}</strong><em>{{item.BID_COUNT}}</em></dd>
-                                                                </dl>
+<%--                                                                <dl class="price-list">--%>
+<%--                                                                    <dt>낙찰가</dt>--%>
+<%--                                                                    <dd><strong>{{item.CUR_COST}}</strong><em>{{item.BID_COUNT}}</em></dd>--%>
+<%--                                                                </dl>--%>
                                                             </div>
-<%--                                                            <div class="bidding-box">--%>
-<%--                                                                <div class="deadline_set"><span>{{item.BID_TICK}}</span>--%>
-<%--                                                                </div>--%>
-<%--                                                                <div class="btn_set"><a class="btn btn_point" href="#"--%>
-<%--                                                                                        role="button"><span>응찰</span></a>--%>
-<%--                                                                </div>--%>
-<%--                                                            </div>--%>
+                                                            <div id="biding_req" class="bidding-box col_2">
+                                                                <div class="deadline_set"><span>신청마감 02.10(목) 15:00</span></div>
+                                                                <div class="btn_set"><a class="btn btn_point" href="" ng-click="moveToBidding(item)"
+                                                                                        role="button"><span>서면/전화 응찰 신청</span></a></div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </article>
                                             </div>
                                         </li>
-
                                     </ul>
                                 </div>
 
@@ -314,6 +329,8 @@
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/auction/auctionLiveList.js" type="text/javascript"></script>
     <script>
+        var terms_required = $(".js-terms_required").trpLayerFixedPopup("#terms_required-wrap");
+
         app.value('locale', 'ko');
         app.value('is_login', true);
 
@@ -403,6 +420,37 @@
                 }
             }
 
+            $scope.moveToBidding = function(item) {
+
+                if (sessionStorage.getItem("is_login") === 'false') {
+                    alert('로그인을 진행해주세요.');
+                    return;
+                }
+                location.href = '/auction/live/sale/' + item.SALE_NO + '/lot/' + item.LOT_NO + '/biding';
+            }
+
+            $scope.goLiveBid = function(item) {
+                if(sessionStorage.getItem("is_login") === 'false'){
+                    location.href = "/login";
+                }
+
+                const membership_yn = $scope.custInfo.MEMBERSHIP_YN;
+                if(membership_yn === 'N') {
+                    location.href = "/payment/member";
+                }
+
+                if($scope.paddNo <= 0) {
+                    console.log(document.querySelector(".js-terms_required"));
+                    terms_required.open(this); // or false
+                    popup_fixation("#terms_required-wrap");
+
+                    $("body").on("click", "#terms_required-wrap .js-closepop, #terms_required-wrap .popup-dim", function($e) {
+                        $e.preventDefault();
+                        terms_required.close();
+                    });
+                }
+            }
+
             // 호출 부
             const getSaleInfo = (saleNo) => {
                 try {
@@ -428,6 +476,14 @@
                 }
             }
 
+            const getSale = (saleNo) => {
+                try {
+                    return axios.get('/api/auction/sales/'+saleNo);
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+
             $scope.searchLotTags = function (lotTag) {
                 $scope.selectLotTag = lotTag;
                 let pp = [];
@@ -443,11 +499,12 @@
             // 호출 부
             $scope.load = function () {
                 let run = async function () {
-                    let [r1, r2, r3] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no)]);
+                    let [r1, r2, r3, r4] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no), getSale($scope.sale_no)]);
 
                     $scope.saleInfoAll = r1.data.data;
                     $scope.saleImages = r2.data.data;
                     $scope.lotTags = r3.data.data;
+                    $scope.sale = r4.data.data;
 
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
 
@@ -475,8 +532,35 @@
                         p.push(i);
                     }
                     $scope.pageingdata = p;
-                    $scope.$apply();
 
+                    //get paddle number & cust info
+                    $scope.paddNo = 0;
+                    $scope.custInfo = null;
+                    if(sessionStorage.getItem("is_login") === 'true'){
+
+                        await axios.get('/api/auction/paddles/${saleNo}')
+                            .then(function(response) {
+                                const data = response.data;
+                                const success = data.success;
+                                if (success) {
+                                    const paddNo = data.data;
+                                    if(paddNo > 0) {
+                                        $scope.paddNo = paddNo;
+                                    }
+                                }
+                            });
+
+                        await axios.get('/api/auction/cust')
+                            .then(function(response) {
+                                    const data = response.data;
+                                    const success = data.success;
+                                    if (success) {
+                                        $scope.custInfo = data.data;
+                                    }
+                                });
+                    }
+
+                    $scope.$apply();
                     $scope.bidstart();
 
                     // lot
@@ -501,6 +585,9 @@
 
                 }
                 run();
+
+
+
             }
 
             /*################ 웹소켓 #################*/

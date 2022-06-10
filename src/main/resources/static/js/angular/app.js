@@ -28,36 +28,28 @@ app.run(function ($rootScope, consts, locale, common, $filter) {
 			}
  		}
 	}
-	
+
 	$rootScope.getWeek = function(date){
 		var enWeek = $filter('date')(date, 'EEE');
 		if(locale != 'ko') return enWeek;
-		var hanja = "";
 		switch(enWeek){
-		case "Mon":
-			hanja = "月";
-			break;
-		case "Tue":
-			hanja = "火";
-			break;
-		case "Wed":
-			hanja = "水";
-			break;
-		case "Thu":
-			hanja = "木";
-			break;
-		case "Fri":
-			hanja = "金";
-			break;
-		case "Sat":
-			hanja = "土";
-			break;
-		case "Sun":
-			hanja = "日";
-			break;
-		default:
+			case "Mon":
+				return "월";
+			case "Tue":
+				return "화";
+			case "Wed":
+				return "수";
+			case "Thu":
+				return "목";
+			case "Fri":
+				return "금";
+			case "Sat":
+				return "토";
+			case "Sun":
+				return "일";
+			default:
+				return enWeek;
 		}
-		return hanja;
 	}
 	$rootScope.getPayTotal = function(price, lot_fee) {
 

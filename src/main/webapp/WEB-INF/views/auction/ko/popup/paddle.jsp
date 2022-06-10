@@ -146,19 +146,6 @@
 </div>
 <script>
     (function() {
-        var terms_required = $(".js-terms_required").trpLayerFixedPopup("#terms_required-wrap");
-        $(terms_required.getBtn).on("click", function($e) {
-            $e.preventDefault();
-            terms_required.open(this); // or false
-            popup_fixation("#terms_required-wrap");
-        });
-
-        $("body").on("click", "#terms_required-wrap .js-closepop, #terms_required-wrap .popup-dim", function($e) {
-            $e.preventDefault();
-            terms_required.close();
-            $(".js_all-terms input[type='checkbox']").prop("checked", false);
-        });
-
         //약관체크
         $(".js_all-terms").trpCheckBoxAllsImg(".js_all", ".js_item");
 
@@ -167,7 +154,6 @@
             $e.preventDefault();
 
             if($(".js_all-terms #checkbox_all").is(":checked")) {
-                // ajax
                 fetch('/api/auction/paddle', {
                     method: 'POST',
                     headers: {
@@ -185,6 +171,7 @@
                 terms_required.close();
                 paddle_number.open(this); // or false
                 popup_fixation("#paddle_number-wrap");
+                $(".js_all-terms input[type='checkbox']").prop("checked", false);
             } else {
                 alert("약관에 동의해주세요.");
             }

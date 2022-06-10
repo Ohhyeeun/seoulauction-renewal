@@ -34,7 +34,9 @@ function logout(loginId){
 }
 // 세션로그아웃
 function sessionLogout() {
-	window.location.href = "/processLogout";
+	axios.get("/api/login/logout").then(function(response) {
+		location.reload();
+	});
 }
 </script>
 <html lang="ko" ng-app="myApp">
@@ -67,7 +69,7 @@ function sessionLogout() {
                         <li id="MyMenuOnlineBadge"><a href="#">온라인 경매 관리</a></li>
                         <li><a href="#">관심작품</a></li>
                         <li><a href="#">아카데미 신청목록</a></li>
-                        <li><a href="/mypage/custConfirm">회원정보 수정</a></li>
+                        <li><a href="/mypage/custModify">회원정보 수정</a></li>
                     </ul>
                 </li>
                 <li class="utility-login"><a onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')">로그아웃</a></li>
@@ -112,8 +114,8 @@ function sessionLogout() {
                         <ul class="subGnbmenu">
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
                                 <ul class="submenu submenu-part01">
-                                    <li id="menu_auction"><a href="/auction/proceed">진행경매</a></li>
-                                    <li id="menu_upcoming"><a href="#">예정경매</a></li>
+                                    <li id="menu_auction"><a href="/auction/progress">진행경매</a></li>
+                                    <li id="menu_upcoming"><a href="/auction/scheduled">예정경매</a></li>
                                     <li><a href="#">경매결과</a></li>
                                 </ul>
                             </li>

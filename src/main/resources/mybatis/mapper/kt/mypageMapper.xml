@@ -22,6 +22,9 @@
 		,DATE_FORMAT(P.PAY_DT, '%T') as payTime
 		, CASE WHEN CP.VALID_TO_DT &gt;= NOW() THEN '정회원' ELSE '기간만료' END VALID 
 		, CD1.CD_NM PAY_METHOD_NM
+		, CD1.CD_ID PAY_METHOD_ID
+		, IF(P.PG_TRANS_ID is not null and P.pg_cd='nice', 'Y', 'N' ) receipt
+		, P.PG_TRANS_ID
 		from CUST CU
 		left outer join CUST_PAY CP on CU.cust_no = CP.cust_no
 		join PAY P ON P.pay_no = CP.pay_no and P.cust_no = CP.cust_no
@@ -54,26 +57,33 @@
 				(select vat_price from pay p where p.PAY_NO = D.PAY_NO)  as vat_price,
 				(select vat from pay p where p.PAY_NO = D.PAY_NO) as vat,
 				(select PAY_METHOD_CD  from pay p where p.PAY_NO = D.PAY_NO) as PAY_METHOD_CD
+				, CD.CD_ID PAY_METHOD_ID
+				, IF(P.PG_TRANS_ID is not null and P.pg_cd='nice', 'Y', 'N' ) receipt
+				, P.PG_TRANS_ID
 			from
 				CUST A 
 				join ACADEMY_REQ B on A.CUST_NO = B.CUST_NO
 				join ACADEMY C on B.ACADEMY_NO = C.ACADEMY_NO
 				join academy_pay D  on D.ACADEMY_NO = C.ACADEMY_NO and A.CUST_NO = D.CUST_NO
+				join PAY P ON P.pay_no =  D.pay_no and P.cust_no = D.cust_no
+				left join code CD on P.PAY_METHOD_CD = CD.CD_ID and CD.GRP_ID = 'pay_method'
 			where
-					A.CUST_NO in ('102254','104907','106326','98250','80722','98250','102137','104320','104913','103040')
-					<!-- and B.DEL_YN = 'N' -->
-	<!-- A.CUST_NO = #{cust_no} AND B.DEL_YN = 'N' -->
+	 		A.CUST_NO in ('102254','104907','106326','98250','80722','98250','102137','104320','104913','103040') AND B.DEL_YN = 'N'
 			order by
 					B.REG_DT desc
 			limit #{offset}, #{size}
 	</select>
 	
 	<select id="selectAcademyCnt" resultType="int">
-		SELECT 
-		COUNT(*)	     ROW_CNT
-		FROM CUST A , ACADEMY_REQ B , ACADEMY C
-		<!-- WHERE A.CUST_NO = B.CUST_NO AND B.ACADEMY_NO = C.ACADEMY_NO AND A.CUST_NO = #{cust_no} AND B.DEL_YN = 'N' -->
-		WHERE A.CUST_NO = B.CUST_NO AND B.ACADEMY_NO = C.ACADEMY_NO AND A.CUST_NO in ('102254','104907','106326','98250','80722','98250','102137','104320','104913','103040')
+			select
+				COUNT(*)
+			from
+				CUST A 
+				join ACADEMY_REQ B on A.CUST_NO = B.CUST_NO
+				join ACADEMY C on B.ACADEMY_NO = C.ACADEMY_NO
+				join academy_pay D  on D.ACADEMY_NO = C.ACADEMY_NO and A.CUST_NO = D.CUST_NO
+			where
+	 		A.CUST_NO in ('102254','104907','106326','98250','80722','98250','102137','104320','104913','103040') AND B.DEL_YN = 'N'
 	</select>
 	
 	<!-- 아카데미 결제정보 -->
@@ -139,6 +149,23 @@
 				,DATE_FORMAT(P.PAY_DT, '%T') as payTime
 				,(select count(*) from bid where cust_no='115551' and sale_no=S.sale_no and LOT_NO=L.LOT_NO) as bid_count
 				, IF(P.PG_TRANS_ID is not null and P.pg_cd='nice', 'Y', 'N' ) receipt
+				, C.CD_NM 
+				, C.CD_NM_EN 
+				, C.CD_NM_CN 
+				, CONCAT('['
+		        , GROUP_CONCAT('{',
+		        '"UNIT_CD":"', ifnull(LS.UNIT_CD, 'cm') ,'",',
+		        '"SIZE1":', ifnull(LS.SIZE1,0) ,',',
+		        '"SIZE2":', ifnull(LS.SIZE2,0) ,',',
+		        '"SIZE3":', ifnull(LS.SIZE3,0) ,',',
+		        '"CANVAS":', ifnull(LS.CANVAS,0) ,',',
+		        '"DIAMETER_YN":"', ifnull(LS.DIAMETER_YN,'N') ,'",',
+		        '"PREFIX":"', ifnull(LS.PREFIX,'') ,'",',
+		        '"SUFFIX":"', ifnull(LS.SUFFIX,'') ,'",',
+		        '"MIX_CD":"', ifnull(LS.MIX_CD,'h') ,'",',
+		        '"CANVAS_EXT_YN":"', ifnull(LS.CANVAS_EXT_YN,'N') , '"',
+		        '}')
+		        ,']') AS LOT_SIZE_JSON
 		from
 			( select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO ='115551' and b1.BID_NO = sb.BID_NO 
 		) B 
@@ -165,6 +192,8 @@
 		left outer join lot L on L.SALE_NO = B.Sale_no and L.LOT_NO = B.LOT_NO and L.SALE_NO = S.SALE_NO AND L.TO_DT &lt;= NOW()
 		left outer join ARTIST A on
 			L.ARTIST_NO = A.ARTIST_NO
+		left outer join code c on C.grp_id = 'material' and L.MATE_CD = c.CD_ID
+		left outer join lot_size ls ON ls.SALE_NO = L.SALE_NO and ls.LOT_NO = L.LOT_NO 
 		left outer join LOT_FEE LF on
 			LF.SALE_NO = L.SALE_NO
 			and LF.LOT_NO = L.LOT_NO
@@ -606,6 +635,7 @@ SELECT 'INTE_LOT' AS GUBUN
 			 , (select b.BID_PRICE  from bid b join success_bid sb2 on b.BID_NO = sb2.BID_NO and ABL.sale_no = sb2.SALE_NO and ABL.lot_no = sb2.LOT_NO  ) success_bid_price	
 		from (
 			select AB.SALE_NO, AB.LOT_NO, AB.REQ_NO 
+				, L.EXPE_PRICE_INQ_YN
 			    , COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
 			    , DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT
 			    , DATE_FORMAT(S.TO_DT, '%Y.%m.%d  %T')  as TO_DT
@@ -615,6 +645,7 @@ SELECT 'INTE_LOT' AS GUBUN
 		  		, LI.FILE_PATH as LOT_IMG_PATH
 			    , LI.FILE_NAME as LOT_IMG_NAME
 			    , AB.BID_PRICE
+			    , AB.BID_KIND_CD
 			    , DATE_FORMAT(AB.REQ_DT, '%Y.%m.%d %T') as REQ_DT 
 			    , AB.ABORT_YN, AB.ABORT_DT, AB.ABORT_IP, AB.CUST_NO, CD.CD_NM BID_KIND_NM
 			    , COLUMN_JSON(L.TITLE_BLOB) W_TITLE_JSON
@@ -931,6 +962,8 @@ SELECT 'INTE_LOT' AS GUBUN
 				and sb2.LOT_NO = #{lot_no}) 
 				</if>
 				= B.BID_PRICE , 'hammer', 'bidding') AS HAMMER_STAT
+				, abr.ABORT_YN 
+				, S.CURR_CD
 	    from LOT L
 		inner join SALE S on L.SALE_NO = S.SALE_NO 
 		inner join (
@@ -938,6 +971,7 @@ SELECT 'INTE_LOT' AS GUBUN
 			join CODE SCD on SB.BID_KIND_CD = SCD.CD_ID and SCD.GRP_ID = 'bid_kind'
 			where SB.BID_KIND_CD in ('online_once', 'online_auto') 
 		) B on L.SALE_NO = B.SALE_NO and L.LOT_NO = B.LOT_NO 
+		left outer join auto_bid_req abr on B.AUTO_BID_REQ_NO = abr.REQ_NO 
 		where
 		B.CUST_NO = '75396'
 		<if test="sale_no != null and sale_no > 0">
@@ -984,4 +1018,111 @@ SELECT 'INTE_LOT' AS GUBUN
 			CUST_NO = #{cust_no}
 			and SOCIAL_TYPE = #{social_type}
 	</delete>
+	
+	<select id="selectCustInteArtist" resultType="CommonMap">
+	    select CIA.ARTIST_NO, CIA.CUST_NO
+			, COLUMN_JSON(A.ARTIST_NAME_BLOB) ARTIST_NAME_JSON
+		from CUST_INTE_ARTIST CIA
+		join ARTIST A on A.ARTIST_NO = CIA.ARTIST_NO
+	    and CIA.CUST_NO = #{cust_no}
+	</select>
+	
+	<select id="selectArtistByArtistName" resultType="CommonMap">
+		select * from(
+		    select ARTIST_NO
+		    	, COLUMN_GET(ARTIST_NAME_BLOB, 'ko' AS CHAR) AS ARTIST_NM
+		    	, BORN_YEAR 
+		    	, DIE_YEAR  
+		    from artist a
+		)tmp 
+		where tmp.ARTIST_NM like concat('%', #{find_word}, '%')
+	</select>
+	
+	<update id="updateCust" parameterType="CommonMap">
+		UPDATE CUST 
+	    SET 
+	    	<if test="user_kind == 'person'"> <!-- 개인 -->
+				BORN_DT = #{born_dt},
+				SEX_CD = #{sex_cd},
+			</if>
+			
+			HP = #{hp},
+			EMAIL = #{email},
+			
+			ZIPNO = #{zipno},
+	    	ADDR = #{addr},
+			ADDR_DTL = #{addr_dtl},
+			<if test="addr_old_yn != null and addr_old_yn != ''">
+				ADDR_OLD_YN = #{addr_old_yn},
+			</if>
+			
+			DELI_ZIPNO = #{deli_zipno},
+			<if test="deli_addr_old_yn != null and deli_addr_old_yn != ''">
+				DELI_ADDR_OLD_YN = #{deli_addr_old_yn},
+			</if>
+			DELI_ADDR = #{deli_addr},
+			DELI_ADDR_DTL = #{deli_addr_dtl},
+			DELI_RET_YN = 'N',
+			
+			<if test="user_kind != 'person'"> <!-- 사업자 -->
+				COMP_MAN_NAME = #{comp_man_name},
+				COMP_OWNER = #{comp_owner},
+				COMP_NO = #{comp_no},
+				TEL = #{tel},
+			</if>
+			MOD_DT = now()
+		where CUST_NO = #{cust_no}
+	</update>
+	
+	<update id="deleteCustPushWay" parameterType="CommonMap">
+		delete from CUST_PUSH_WAY where CUST_NO = #{cust_no}
+	</update>
+	
+	<update id="deleteCustInteArtist" parameterType="CommonMap">
+		delete from CUST_INTE_ARTIST where CUST_NO = #{cust_no}
+	</update>
+	
+	<update id="deleteCustInteArea" parameterType="CommonMap">
+		delete from CUST_INTE_AREA where CUST_NO = #{cust_no}
+	</update>
+	
+	<insert id="insertCustPushWay" parameterType="CommonMap">
+		INSERT INTO CUST_PUSH_WAY ( 
+			CUST_NO,
+			PUSH_WAY_CD,
+			REG_DT
+		) 
+		VALUES (
+			#{cust_no},
+			#{push_way_cd},
+			now()
+		)
+	</insert>
+	
+	<insert id="insertCustInteArtist" parameterType="CommonMap">
+		INSERT INTO CUST_INTE_ARTIST ( 
+			CUST_NO,
+			ARTIST_NO,
+			REG_DT
+		) 
+		VALUES (
+			#{cust_no},
+			#{artist_no},
+			now()
+		)
+	</insert>
+	
+	<insert id="insertCustInteArea" parameterType="CommonMap">
+		INSERT INTO CUST_INTE_AREA ( 
+			CUST_NO,
+			INTE_AREA_CD,
+			REG_DT
+		) 
+		VALUES (
+			#{cust_no},
+			#{inte_area_cd},
+			now()
+		)
+	</insert>
+	
 </mapper>
