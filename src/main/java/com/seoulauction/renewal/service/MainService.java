@@ -84,11 +84,11 @@ public class MainService {
         });
 
         List<CommonMap> test2 = new ArrayList<>();
-
-        test2.add(saleList.get(0));
-        test2.add(saleList.get(0));
-        test2.add(saleList.get(0));
-
+        if(!saleList.isEmpty()) {
+            test2.add(saleList.get(0));
+            test2.add(saleList.get(0));
+            test2.add(saleList.get(0));
+        }
         resultMap.put("count" , counts);
         resultMap.put("list" , test2);
 

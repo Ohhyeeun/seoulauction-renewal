@@ -14,6 +14,10 @@
     <!-- //header -->
 </head>
 
+<c:set var="isRegular" value="false" />
+<sec:authorize access="hasAuthority('ROLE_REGULAR_USER')">
+    <c:set var="isRegular" value="true" />
+</sec:authorize>
 <body class="">
     <div class="wrapper">
         <div class="sub-wrap pageclass type-width_list">
@@ -426,6 +430,17 @@
                     alert('로그인을 진행해주세요.');
                     return;
                 }
+
+                let isRegular = ${isRegular};
+                if(!isRegular){
+                    alert('정회원만 서면/전화 응찰 신청이 가능합니다.')
+                    return;
+                }
+                //TODO 회원 수정 페이지 가는 조건
+                //location.href = '/mypage/custModify';
+
+
+                //전부 다 조건을 만족햇을경우.
                 location.href = '/auction/live/sale/' + item.SALE_NO + '/lot/' + item.LOT_NO + '/biding';
             }
 
