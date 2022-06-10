@@ -18,7 +18,7 @@
         <!-- //header -->
 
         <!-- container -->
-        <div id="container">
+        <div id="container" ng-controller="auctionCtl" data-ng-init="loadAuction()">
             <div id="contents" class="contents">
                 <section class="basis-section key_visual-section">
                     <div class="section-inner">
@@ -34,23 +34,1316 @@
                             <div class="panel-header">
                                 <div class="title">오픈까지</div>
 
+
                                 <article class="countdown-article">
-                                    <div class="trp_counter-area type-3 ">
-                                        <ul class="flip hourPlay">
+                                    <div class="trp_counter-area type-day ">
+                                        <ul class="flip dayPlay">
 
                                             <li>
                                                 <div class="li-box">
                                                     <div class="up">
                                                         <div class="shadow"></div>
-                                                        <div class="inn"><span class="m_m">24</span></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">99</span></div>
                                                     </div>
                                                     <div class="down">
                                                         <div class="shadow"></div>
-                                                        <div class="inn"><span class="m_m">24</span></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">99</span></div>
                                                     </div>
                                                 </div>
                                             </li>
 
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">98</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">98</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">97</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">97</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">96</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">96</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">95</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">95</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">94</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">94</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">93</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">93</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">92</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">92</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">91</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">91</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">90</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">90</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">89</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">89</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">88</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">88</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">87</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">87</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">86</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">86</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">85</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">85</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">84</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">84</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">83</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">83</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">82</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">82</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">81</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">81</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">80</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">80</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">79</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">79</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">78</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">78</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">77</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">77</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">76</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">76</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">75</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">75</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">74</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">74</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">73</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">73</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">72</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">72</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">71</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">71</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">70</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">70</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">69</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">69</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">68</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">68</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">67</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">67</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">66</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">66</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">65</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">65</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">64</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">64</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">63</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">63</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">62</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">62</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">61</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">61</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">60</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">60</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">59</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">59</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">58</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">58</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">57</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">57</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">56</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">56</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">55</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">55</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">54</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">54</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">53</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">53</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">52</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">52</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">51</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">51</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">50</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">50</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">49</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">49</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">48</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">48</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">47</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">47</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">46</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">46</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">45</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">45</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">44</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">44</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">43</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">43</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">42</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">42</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">41</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">41</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">40</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">40</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">39</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">39</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">38</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">38</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">37</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">37</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">36</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">36</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">35</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">35</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">34</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">34</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">33</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">33</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">32</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">32</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">31</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">31</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">30</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">30</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">29</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">29</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">28</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">28</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">27</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">27</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">26</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">26</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">25</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">25</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">24</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">24</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">23</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">23</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">22</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">22</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">21</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">21</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">20</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">20</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">19</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">19</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">18</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">18</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">17</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">17</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">16</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">16</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">15</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">15</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">14</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">14</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">13</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">13</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">12</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">12</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">11</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">11</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">10</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">10</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">09</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">09</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">08</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">08</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">07</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">07</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">06</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">06</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">05</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">05</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">04</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">04</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">03</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">03</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">02</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">02</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">01</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">01</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-box">
+                                                    <div class="up">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">00</span></div>
+                                                    </div>
+                                                    <div class="down">
+                                                        <div class="shadow"></div>
+                                                        <div class="inn"><span>D -</span> <span class="m_m">00</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+
+                                    <div class="trp_counter-area type-3 ">
+                                        <ul class="flip hourPlay">
                                             <li>
                                                 <div class="li-box">
                                                     <div class="up">
@@ -1934,34 +3227,40 @@
                                         </ul>
                                     </div>
                                 </article>
-
                             </div>
-                            <div class="panel-body">
 
+                            <div class="panel-body">
                                 <div class="schedule-article">
                                     <div class="schedule_name">
-                                        <span>4월 e BID 퍼블릭 온라인 경매 I</span>
+                                        <span>{{auction.TITLE_JSON['ko']}}</span>
                                     </div>
                                     <ul class="info-list">
-                                        <li><em>오픈일</em><span>04.08(금) 10:00</span></li>
-                                        <li><em>프리뷰</em><span>04.08(금) - 04.12(화), 서울옥션 강남센터</span></li>
-                                        <li><em>경매일</em><span>04.13(수) 14:00 순차마감</span></li>
+                                        <li><em>오픈일</em><span>{{auction.FROM_DT | date : 'MM.dd'}}({{getWeek(auction.FROM_DT)}}) {{auction.FROM_DT | date : 'H:m'}}</span></li>
+                                        <li>
+                                            <em>프리뷰</em>
+                                            <span ng-repeat="prev in auction.PREVIEW_JSON">
+                                                {{prev.FROM_DT | date : 'MM.dd'}}({{getWeek(prev.FROM_DT)}})
+                                                 - {{prev.TO_DT | date : 'MM.dd'}}({{getWeek(prev.TO_DT)}}), {{prev.PLACE_JSON['ko']}}
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <em>경매일</em>
+                                            <span>
+                                                {{auction.TO_DT | date : 'MM.dd'}}({{getWeek(auction.TO_DT)}}) {{auction.TO_DT | date : 'H:m'}}
+                                                <ng:template ng-if="['online','online_zb'].indexOf(auction.SALE_KIND_CD) > -1"> 순차마감</ng:template>
+                                            </span>
+                                        </li>
                                     </ul>
                                 </div>
-
                             </div>
                             <div class="panel-footer">
                                 <div class="tac">
                                     <a class="btn btn_default " href="#" role="button"><span>이전으로 이동</span></a>
                                 </div>
                             </div>
-
-
                         </div>
-
                     </div>
                 </section>
-
             </div>
         </div>
         <!-- //container -->
@@ -1979,7 +3278,32 @@
         <!-- // stykey -->
     </div>
 </div>
+<!-- angular js -->
 <script>
+app.value('locale', 'ko');
+app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
+app.controller('auctionCtl', function($scope, consts, common, locale) {
+    $scope.loadAuction = function() {
+        axios.get('/api/auction/sales/${saleNo}').then(function(response) {
+            const success = response.data.success;
+            if (success) {
+                $scope.auction = response.data.data;
+                $scope.auction.PREVIEW_JSON = JSON.parse($scope.auction.PREVIEW_JSON);
+                $scope.auction.TITLE_JSON = JSON.parse($scope.auction.TITLE_JSON);
+                $scope.$apply();
+
+                CountDownTimer($scope.auction.FROM_DT);
+                //CountDownTimer('06/16/2022 00:00 AM');
+            }
+        }).
+        catch(function(error){
+            console.log(error);
+        });
+    }
+});
+</script>
+<script>
+
     /*
     [0523]날짜계산수정 ddayCounter( "2022-06-16:00:00:00+0900"); // 년- 월- 일: 시: 분 : 초 +표준시
     function ddayCounter($time ){
@@ -2178,8 +3502,6 @@
 
 <!-- [0523]날짜계산수정 -->
 <script>
-    CountDownTimer('06/16/2022 00:00 AM');
-
     function CountDownTimer($time) {
         var end = new Date($time);
         var _second = 1000;

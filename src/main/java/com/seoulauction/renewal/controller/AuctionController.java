@@ -106,8 +106,8 @@ public class AuctionController {
     }
 
     @GetMapping("/scheduled/{sale_no}")
-    public String scheduledView(Locale locale, @PathVariable("sale_no") int saleNo) {
-
+    public String scheduledView(Locale locale, @PathVariable("sale_no") int saleNo, Model model) {
+        model.addAttribute("saleNo", saleNo);
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "scheduledView" , locale);
     }
 }
