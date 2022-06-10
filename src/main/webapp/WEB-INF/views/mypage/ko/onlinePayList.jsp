@@ -89,6 +89,8 @@
                                                                                     <div class="titlename">{{data.ARTIST_NAME_KR}}</div>
                                                                                 </div>
                                                                                 <div class="desc">{{data.LOT_TITLE_KR}}</div>
+                                                                                <div class="desc">{{data.CD_NM}}</div>
+                                                                                <div class="desc">{{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}}X{{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}}({{StringToJson(data.LOT_SIZE_JSON)[0].CANVAS}})</div>
                                                                                 <div class="sub-box">
                                                                                     <div class="sub-li">{{data.BID_DT}} ({{data.BIDWEEKDT}})<br class="m-ver"> {{data.BIDTIME}} ({{data.bid_count}}회 응찰)</div>
                                                                                     <div class="sub-li">
