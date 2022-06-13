@@ -21,5 +21,13 @@ public class PrivateSaleService {
         return resultMaps;
     }
 
+    public CommonMap selectExhibitLotInfo(CommonMap commonMap) {
+        CommonMap resultMap = privateSaleMapper.selectExhibitLotInfo(commonMap);
+        if(MapUtils.isEmpty(resultMap)) {
+            throw new SAException("일치하는 작품정보가 없습니다.");
+        }
+        return resultMap;
+    }
+
 
 }
