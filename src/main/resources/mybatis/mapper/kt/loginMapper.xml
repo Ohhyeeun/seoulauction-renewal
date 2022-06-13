@@ -31,15 +31,15 @@
 			Date_format(Now(), '%y-%m-%d'), 'Y', 'N') PASSWD_MOD_NECESSARY_YN <!-- 
 				Y시 180일 경과로 비밀번호변경필요 -->
 		</if>
-		, (CASE WHEN DATEDIFF(CP.valid_to_dt, Now()) <![CDATA[<=]]> 0 THEN "정회원" ELSE "준회원"
+		, (CASE WHEN DATEDIFF(CP.valid_to_dt, Now()) <![CDATA[>=]]> 0 THEN "정회원" ELSE "준회원"
 		END) MEMBERSHIP_NM
-		, (CASE WHEN DATEDIFF(CP.valid_to_dt, Now()) <![CDATA[<=]]> 0 THEN "Y" ELSE "N" 
+		, (CASE WHEN DATEDIFF(CP.valid_to_dt, Now()) <![CDATA[>=]]> 0 THEN "Y" ELSE "N" 
 		END) MEMBERSHIP_YN
 		, (select CONCAT('[', GROUP_CONCAT('"', PW.PUSH_WAY_CD, '"'), ']')
         from CUST_PUSH_WAY PW where PW.CUST_NO = CU.CUST_NO) PUSH_WAY_JSON
         , (select CONCAT('[', GROUP_CONCAT('"', IA.INTE_AREA_CD, '"'), ']')
         from CUST_INTE_AREA IA where IA.CUST_NO = CU.CUST_NO) INTE_AREA_JSON
-        , IF(-11 <![CDATA[<]]> TIMESTAMPDIFF(DAY ,cp.VALID_TO_DT, NOW()) and TIMESTAMPDIFF(DAY ,cp.VALID_TO_DT, NOW()) <![CDATA[<]]> 0 , CONCAT('D',TIMESTAMPDIFF(DAY ,cp.VALID_TO_DT, NOW())) ,  cp.VALID_TO_DT) VALID_DATE
+        , IF(-11 <![CDATA[<]]> TIMESTAMPDIFF(DAY ,cp.VALID_TO_DT, NOW()) and TIMESTAMPDIFF(DAY ,cp.VALID_TO_DT, NOW()) <![CDATA[<]]> 0 , CONCAT('D',TIMESTAMPDIFF(DAY ,cp.VALID_TO_DT, NOW())) ,  DATE_FORMAT(cp.VALID_TO_DT, '%Y-%m-%d')) VALID_DATE
 		<!-- , CS.* -->
         from CUST CU left outer join (select CP1.* from CUST_PAY CP1 where CP1.CUST_NO = #{cust_no} order by VALID_TO_DT desc limit 1 ) CP on CP.CUST_NO = CU.CUST_NO
 		<!-- left outer join CUST_SOCIAL CS -->

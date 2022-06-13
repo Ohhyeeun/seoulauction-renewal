@@ -57,11 +57,16 @@
 				(select vat_price from pay p where p.PAY_NO = D.PAY_NO)  as vat_price,
 				(select vat from pay p where p.PAY_NO = D.PAY_NO) as vat,
 				(select PAY_METHOD_CD  from pay p where p.PAY_NO = D.PAY_NO) as PAY_METHOD_CD
+				, CD.CD_ID PAY_METHOD_ID
+				, IF(P.PG_TRANS_ID is not null and P.pg_cd='nice', 'Y', 'N' ) receipt
+				, P.PG_TRANS_ID
 			from
 				CUST A 
 				join ACADEMY_REQ B on A.CUST_NO = B.CUST_NO
 				join ACADEMY C on B.ACADEMY_NO = C.ACADEMY_NO
 				join academy_pay D  on D.ACADEMY_NO = C.ACADEMY_NO and A.CUST_NO = D.CUST_NO
+				join PAY P ON P.pay_no =  D.pay_no and P.cust_no = D.cust_no
+				left join code CD on P.PAY_METHOD_CD = CD.CD_ID and CD.GRP_ID = 'pay_method'
 			where
 	 		A.CUST_NO in ('102254','104907','106326','98250','80722','98250','102137','104320','104913','103040') AND B.DEL_YN = 'N'
 			order by
@@ -741,6 +746,7 @@ SELECT 'INTE_LOT' AS GUBUN
 				 , LI.FILE_PATH as LOT_IMG_PATH
 			     , LI.FILE_NAME as LOT_IMG_NAME
 			     , (select count(*) from success_bid sb join bid b on b.BID_NO= sb.BID_NO and b.CUST_NO='113248' and sb.SALE_NO= S.SALE_NO) success_bid_count
+			     , L.HAMMER_CANCEL_YN
 		FROM (SELECT PAD.PADD_NO PADDLE, BO.* FROM BID_OFFLINE BO LEFT OUTER JOIN SALE_PADD PAD ON BO.SALE_NO = PAD.SALE_NO AND BO.CUST_NO = PAD.CUST_NO) BIO
 		JOIN (
 		select
@@ -910,6 +916,7 @@ SELECT 'INTE_LOT' AS GUBUN
 			 , if(S.TO_DT > NOW(), 'N', 'Y') AS CLOSE_YN
 			 , DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT 
 			 , S.CURR_CD
+			 , L.HAMMER_CANCEL_YN
 	    from LOT L
 		inner join (
 		select S1.*

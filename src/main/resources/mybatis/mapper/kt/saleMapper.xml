@@ -166,6 +166,7 @@
         , IFNULL(L.FRAME_CD, 'none') AS FRAME_CD
         , IFNULL(L.GUARANTEE_YN, 'Y') GUARANTEE_YN
         , L.ZEROBASE_PRICE_YN
+        , COLUMN_JSON(L.EXHIBITION_PRICE_BLOB) EXHIBITION_PRICE_JSON
         from LOT L
         left outer join (<include refid="com.seoulauction.renewal.mapper.kt.CommonMapper.saleLastBidInfos"/>) BD on
         BD.SALE_NO = L.SALE_NO and BD.LOT_NO	 = L.LOT_NO

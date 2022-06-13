@@ -2,11 +2,9 @@ package com.seoulauction.renewal.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.seoulauction.renewal.domain.Bid;
-import com.seoulauction.renewal.domain.Bidder;
 import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.mapper.aws.ArtistMapper;
 import com.seoulauction.renewal.exception.SAException;
+import com.seoulauction.renewal.mapper.aws.ArtistMapper;
 import com.seoulauction.renewal.mapper.kt.SaleMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -194,8 +192,6 @@ public class SaleService {
             paramMap.put("bid_cost", map.get("bid_price"));
             //bidder.setToken(map.get("bid_token").toString());
             // 비딩금액 저장
-
-            log.info("paramMap : {}" , paramMap);
 
             // 웹소켓에 데이타 전송
             String result = webClient.post().uri("/bid")

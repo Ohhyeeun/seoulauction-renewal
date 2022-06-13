@@ -162,11 +162,11 @@
                                                     </dl>
                                                     <dl class="dtdd-list">
                                                         <dt><span>휴대폰</span></dt>
-                                                        <dd><span>010-1111-2222</span></dd>
+                                                        <dd><span>${member.hp}</span></dd>
                                                     </dl>
                                                     <dl class="dtdd-list">
                                                         <dt><span>이메일</span></dt>
-                                                        <dd><span>gildong92@gmailssen.com</span></dd>
+                                                        <dd><span>${member.email}</span></dd>
                                                     </dl>
                                                 </div>
                                                 <div class="help-box">
