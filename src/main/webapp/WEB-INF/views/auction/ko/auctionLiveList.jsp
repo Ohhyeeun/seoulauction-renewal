@@ -340,6 +340,7 @@
             $scope.itemsize = 20;
             $scope.curpage = 1;
 
+
             $scope.modelSortType = [{
                 name: "LOT 번호순",
                 value: 1
@@ -427,19 +428,27 @@
 
             $scope.moveToBidding = function(item) {
 
+                //로그인 했는지 여부.
                 if (sessionStorage.getItem("is_login") === 'false') {
                     alert('로그인을 진행해주세요.');
                     return;
                 }
 
+                //정회원 여부.
                 let isRegular = ${isRegular};
                 if(!isRegular){
                     alert('정회원만 서면/전화 응찰 신청이 가능합니다.')
                     return;
                 }
-                //TODO 회원 수정 페이지 가는 조건
-                //location.href = '/mypage/custModify';
 
+                //필수값 있는지 여부. ( 생년월일 , 성별 )
+                let isCustRequired = ${isCustRequired};
+                if(!isCustRequired){
+                    if(confirm('서면/전화 응찰 신청에 필요한 필수회원정보가 있습니다.\n회원정보를 수정하시겠습니까?')){
+                        location.href = '/mypage/custModify';
+                    }
+                    return;
+                }
 
                 //전부 다 조건을 만족햇을경우.
                 location.href = '/auction/live/sale/' + item.SALE_NO + '/lot/' + item.LOT_NO + '/biding';

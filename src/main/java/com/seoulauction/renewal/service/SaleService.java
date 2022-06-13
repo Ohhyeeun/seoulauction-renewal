@@ -218,5 +218,11 @@ public class SaleService {
     public CommonMap getCustomerByCustNo(CommonMap commonMap) {
         return saleMapper.getCustomerByCustNo(commonMap);
     }
+    /*
+    생년월일 , 성별 확인.
+     */
+    public Boolean checkCustRequired(CommonMap commonMap) {
+        return saleMapper.selectCustCheckRequired(commonMap) != null;
+    }
 }
 
