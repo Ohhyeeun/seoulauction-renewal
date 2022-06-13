@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seoulauction.renewal.mapper.kt.PrivateSaleMapper">
+
+    <select id="selectExhibitSale"  parameterType="CommonMap" resultType="CommonMap">
+        select a.SALE_NO,
+               COLUMN_JSON(a.TITLE_BLOB)           SALE_TITLE_JSON,
+               b.LOT_NO,
+               COLUMN_JSON(b.TITLE_BLOB)           TITLE_JSON,
+               COLUMN_JSON(b.MAKE_YEAR_BLOB)       MAKE_YEAR_JSON,
+               d.ARTIST_NO,
+               d.BORN_YEAR,
+               COLUMN_JSON(d.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON,
+               c.FILE_PATH as LOT_IMG_PATH,
+               c.FILE_NAME as LOT_IMG_NAME,
+               ifnull(e.UNIT_CD, 'cm')             UNIT_CD,
+               ifnull(e.SIZE1, '0')                SIZE1,
+               ifnull(e.SIZE2, '0')                SIZE2,
+               ifnull(e.SIZE3, '0')                SIZE3,
+               ifnull(e.CANVAS, '0')               CANVAS,
+               ifnull(e.DIAMETER_YN, 'N')          DIAMETER_YN,
+               ifnull(e.PREFIX, '')                PREFIX,
+               ifnull(e.SUFFIX, '')                SUFFIX,
+               ifnull(e.MIX_CD, 'h')               MIX_CD,
+               ifnull(e.CANVAS_EXT_YN, 'N')        CANVAS_EXT_YN,
+               f.CD_NM,
+               COLUMN_JSON(b.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON,
+               COLUMN_JSON(b.EXPE_PRICE_TO_BLOB)   EXPE_PRICE_TO_JSON,
+               b.LOT_TAG,
+               date_format(a.FROM_DT,'%m.%d(%a)') FROM_DT,
+               date_format(a.TO_DT, '%m.%d(%a)') TO_DT,
+               f.CD_NM as MATE_NM,
+               CONCAT('['
+                   , GROUP_CONCAT('{',
+                                  '"UNIT_CD":"', ifnull(e.UNIT_CD, 'cm') ,'",',
+                                  '"SIZE1":', ifnull(e.SIZE1,0) ,',',
+                                  '"SIZE2":', ifnull(e.SIZE2,0) ,',',
+                                  '"SIZE3":', ifnull(e.SIZE3,0) ,',',
+                                  '"CANVAS":', ifnull(e.CANVAS,0) ,',',
+                                  '"DIAMETER_YN":"', ifnull(e.DIAMETER_YN,'N') ,'",',
+                                  '"PREFIX":"', ifnull(e.PREFIX,'') ,'",',
+                                  '"SUFFIX":"', ifnull(e.SUFFIX,'') ,'",',
+                                  '"MIX_CD":"', ifnull(e.MIX_CD,'h') ,'",',
+                                  '"CANVAS_EXT_YN":"', ifnull(e.CANVAS_EXT_YN,'N') , '"',
+                                  '}')
+                   ,']') AS LOT_SIZE_JSON
+        from sale a
+                 inner join lot b on a.SALE_NO = b.SALE_NO
+                 inner join lot_img c on b.SALE_NO = c.SALE_NO and b.LOT_NO = c.LOT_NO and c.DISP_ORD = 1
+                 inner join artist d on b.ARTIST_NO = d.ARTIST_NO
+                 left outer join lot_size e on b.SALE_NO = e.SALE_NO and b.LOT_NO = e.LOT_NO
+                 left outer join CODE f on f.grp_id = 'material' and f.CD_ID = b.MATE_CD
+        where
+            a.WWW_DISP_YN = 'Y'
+          and a.CLOSE_YN = 'N'
+          and b.CLOSE_YN = 'N'
+          and a.stat_cd = 'open'
+          and a.SALE_KIND_CD in ('exhibit', 'exhibit_sa')
+          and a.FROM_DT &lt;= now() and a.TO_DT &gt;=now()
+        group by a.SALE_NO, b.LOT_NO
+        order by a.TO_DT desc
+            limit #{offset}, #{size}
+    </select>
+
+    <select id="selectExhibitLotInfo" resultType="CommonMap" parameterType="commonMap">
+        select L.SALE_NO, L.LOT_NO, L.STAT_CD, L.FROM_DT, L.TO_DT
+             , L.TO_DT AS SALE_TO_DT
+             , L.START_PRICE
+             , L.GROW_PRICE
+             , COLUMN_JSON(L.TITLE_BLOB) TITLE_JSON
+             , COLUMN_JSON(L.STITLE_BLOB) STITLE_JSON
+             , COLUMN_GET(L.TITLE_BLOB, 'ko' as CHAR) TITLE_KO_TXT
+             , COLUMN_GET(L.TITLE_BLOB, 'en' as CHAR) TITLE_EN_TXT
+             , L.EDITION
+             , COLUMN_JSON(L.MAKE_YEAR_BLOB) MAKE_YEAR_JSON
+             , TRIM(COLUMN_GET(L.MAKE_YEAR_BLOB, 'ko' as char)) as MAKE_YEAR_KO
+             , COLUMN_JSON(L.SIGN_INFO_BLOB) SIGN_INFO_JSON
+             , COLUMN_JSON(L.COND_RPT_BLOB) COND_RPT_JSON # YDH. 컨디션리포트용 데이터 컬럼 추가.
+        , COLUMN_JSON(L.LITE_INFO_BLOB) LITE_INFO_JSON
+             , COLUMN_JSON(L.EXHI_INFO_BLOB) EXHI_INFO_JSON # YDH. 전시정보 데이터 컬럼 추가.
+        , COLUMN_JSON(L.PROV_INFO_BLOB) PROV_INFO_JSON # YDH. 소장정보 데이터 컬럼 추가.
+        , COLUMN_JSON(L.ETC_INFO_BLOB) ETC_INFO_JSON # YDH. 기타정보 데이터 컬럼 추가.
+        , COLUMN_JSON(L.CMMT_BLOB) CMMT_JSON
+             , COLUMN_JSON(AT.ARTIST_NAME_BLOB) ARTIST_NAME_JSON
+             , COLUMN_GET(AT.ARTIST_NAME_BLOB, 'ko' as CHAR) ARTIST_NAME_KO_TXT
+             , COLUMN_GET(AT.ARTIST_NAME_BLOB, 'en' as CHAR) ARTIST_NAME_EN_TXT
+             , AT.BORN_YEAR
+             , AT.DIE_YEAR
+             , CD.CD_NM as MATE_NM
+             , CD.CD_NM_EN as MATE_NM_EN
+             , CD.CD_NM_CN as MATE_NM_CN
+             , LI.FILE_PATH as LOT_IMG_PATH
+             , LI.FILE_NAME as LOT_IMG_NAME
+             , L.CLOSE_YN as CLOSE_YN
+             , L.EXPE_PRICE_INQ_YN as EXPE_PRICE_INQ_YN
+             , COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON
+             , COLUMN_JSON(L.EXPE_PRICE_TO_BLOB) EXPE_PRICE_TO_JSON
+             , CONCAT('['
+            , GROUP_CONCAT('{',
+                           '"UNIT_CD":"', ifnull(LS.UNIT_CD, 'cm') ,'",',
+                           '"SIZE1":', ifnull(LS.SIZE1,0) ,',',
+                           '"SIZE2":', ifnull(LS.SIZE2,0) ,',',
+                           '"SIZE3":', ifnull(LS.SIZE3,0) ,',',
+                           '"CANVAS":', ifnull(LS.CANVAS,0) ,',',
+                           '"DIAMETER_YN":"', ifnull(LS.DIAMETER_YN,'N') ,'",',
+                           '"PREFIX":"', ifnull(LS.PREFIX,'') ,'",',
+                           '"SUFFIX":"', ifnull(LS.SUFFIX,'') ,'",',
+                           '"MIX_CD":"', ifnull(LS.MIX_CD,'h') ,'",',
+                           '"CANVAS_EXT_YN":"', ifnull(LS.CANVAS_EXT_YN,'N') , '"',
+                           '}')
+            ,']') AS LOT_SIZE_JSON
+             , GROUP_CONCAT(ifnull(LS.PREFIX,''),' ', CASE WHEN LS.DIAMETER_YN = 'Y' THEN 'ø' ELSE '' END,
+                            ifnull(truncate(LS.SIZE1, 1),''), CASE WHEN LS.SIZE1 IS NULL THEN '' ELSE '×' END,
+                            ifnull(truncate(LS.SIZE2, 1),''), CASE WHEN LS.SIZE3 IS NULL THEN '' ELSE '×' END,
+                            ifnull(truncate(LS.SIZE3, 1),''), case when LS.MIX_CD = 'height' then '(h)' else '' end, 'cm', case when
+                                                                                                                                    LS.SUFFIX is null then '' else ' (' end, ifnull(LS.SUFFIX,''), case when LS.SUFFIX is null then '' else ')' end,
+            CHAR(10))
+            AS LOT_SIZE_STRING
+             , COLUMN_JSON(AT.PROFILE_BLOB) PROFILE_JSON
+             , LI.FILE_PATH as LOT_IMG_PATH
+             , LI.FILE_NAME as LOT_IMG_NAME
+             , SA.ARTWORK_NOS
+             , L.IMG_DISP_YN
+             , L.EXPE_PRICE_INQ_YN
+             , now() as DB_NOW
+             , L.WINE_YN
+             , IFNULL(L.FRAME_CD, 'none') AS FRAME_CD
+             , IFNULL(L.GUARANTEE_YN, 'Y') GUARANTEE_YN
+             , L.ZEROBASE_PRICE_YN
+             , COLUMN_JSON(L.EXHIBITION_PRICE_BLOB) EXHIBITION_PRICE_JSON
+        from LOT L
+                 left outer join ARTIST AT
+        on AT.ARTIST_NO = L.ARTIST_NO
+            left outer join CODE CD
+            on CD.grp_id = 'material' and CD.CD_ID = L.MATE_CD
+            left outer join LOT_IMG LI
+            on LI.SALE_NO = L.SALE_NO and LI.LOT_NO = L.LOT_NO
+            and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by
+            A.DISP_ORD limit 1)
+            left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
+            LEFT OUTER JOIN (SELECT SALE_NO, LOT_NO, GROUP_CONCAT(ARTWORK_NO) ARTWORK_NOS FROM SALE_ARTWORK WHERE SALE_NO =
+            #{sale_no} AND LOT_NO = #{lot_no}) SA
+            ON L.SALE_NO = SA.SALE_NO AND L.LOT_NO = SA.LOT_NO
+        where L.SALE_NO = #{sale_no}
+          and L.LOT_NO = #{lot_no}
+        group by L.SALE_NO, L.LOT_NO
+    </select>
+
+</mapper>

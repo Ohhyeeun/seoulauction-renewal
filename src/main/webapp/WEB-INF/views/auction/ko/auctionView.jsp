@@ -1093,7 +1093,14 @@
     let autoBiding = async function(connect_info){
         let val = $("#reservation_bid").val();
         let datet = new Date();
-        let response = await fetch('https://dev-bid.seoulauction.xyz/bid', {
+        let url = '';
+        if (window.location.protocol !== "https:") {
+            url = new WebSocket("https://dev-bid.seoulauction.xyz/bid");
+        } else {
+            url = new WebSocket("https://dev-bid.seoulauction.xyz/bid");
+        }
+
+        let response = await fetch(url, {
             method:"POST",
             body: JSON.stringify({
                 customer : {
@@ -1116,7 +1123,13 @@
     let biding = async function (connect_info) {
         console.log(new Date().getTime(), "bidding");
         let val = document.getElementById("bid_new_cost_val").getAttribute("value");
-        let response = await fetch('https://dev-bid.seoulauction.xyz/bid', {
+        let url = '';
+        if (window.location.protocol !== "https:") {
+            url = new WebSocket("https://dev-bid.seoulauction.xyz/bid");
+        } else {
+            url = new WebSocket("https://dev-bid.seoulauction.xyz/bid");
+        }
+        let response = await fetch(url, {
             method: "POST",
             body: JSON.stringify({
                 customer: {
@@ -1155,7 +1168,11 @@
             con_try_cnt = 0
             return
         }
-        w = new WebSocket("ws://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/ws");
+        if (window.location.protocol !== "https:") {
+            w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws");
+        } else {
+            w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws");
+        }
         w.onopen = function () {
             console.log("open");
         }

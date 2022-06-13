@@ -2,7 +2,6 @@ package com.seoulauction.renewal.service;
 
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
-import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.mapper.kt.AuctionMapper;
 import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;

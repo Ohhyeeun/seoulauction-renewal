@@ -8,11 +8,9 @@ import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.service.*;
 import com.seoulauction.renewal.util.CaptchaUtil;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import nl.captcha.Captcha;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -111,44 +109,50 @@ public class ApiLoginController {
 				paramMap.put("stat_cd", "normal");
 	        	CommonMap custMap = loginService.selectCustomerByStatCdAndLoginId(paramMap);
 	        	
-	        	Map<String, Object> resultMap = new HashMap<String, Object>();
-	        	
-	        	//소셜로그인
-	        	if(custMap.get("SOCIAL_YN") != null && custMap.get("SOCIAL_YN").equals("Y")) {
-	        		resultMap.put("SOCIAL_YN", custMap.get("SOCIAL_YN").toString());
-	        		resultMap.put("SOCIAL_TYPE", custMap.get("SOCIAL_TYPE").toString());
-	        		return ResponseEntity.ok(RestResponse.ok(resultMap));
-	        	}
-	        	
-		        int result = loginService.updatePasswordByLoginId(paramMap);
-		        
-		        if(result > 0 ){
-		        	if("email".equals(paramMap.get("search_type"))) {
-			        	resultMap.put("PASSWD", paramMap.get("passwd").toString());
-			        	resultMap.put("LOGIN_ID", paramMap.get("login_id").toString());
-			        	resultMap.put("CUST_NAME", paramMap.get("cust_name").toString());
-			        	
-			        	String subject = locale.equals("en") ? "[SeoulAuction] Issued a temporary password reminder" : "[서울옥션] 임시 비밀번호 발급 알림";
-			        	String template = locale.equals("en") ? "passwd_en.html" : "passwd.html";
-				        messageService.sendMail(paramMap.get("search_value").toString(), subject, template, resultMap);
-		        	} else {
-			        	String msg = locale.equals("en") ? 
-			        			"[SeoulAuction SMS] Issued a temporary password reminder\n temporary password : " + paramMap.get("passwd").toString()
-			        			: "[서울옥션 문자발송] 임시 비밀번호 발급 알림\n 임시비밀번호 : "+ paramMap.get("passwd").toString(); 
-			        	
-			        	//최종 문자 발송 데이터
-			        	paramMap.put("from_phone", callback.toString()); //02-395-0330
-			        	paramMap.put("to_phone", paramMap.get("search_value").toString());
-			        	paramMap.put("msg", msg.toString()); 
-				   		resultMap = certificationService.selectAuthNumber(paramMap);
+	        	if(custMap != null) {
+	        		Map<String, Object> resultMap = new HashMap<String, Object>();
+		        	
+		        	//소셜로그인
+		        	if(custMap.get("SOCIAL_YN") != null && custMap.get("SOCIAL_YN").equals("Y")) {
+		        		resultMap.put("SOCIAL_YN", custMap.get("SOCIAL_YN").toString());
+		        		resultMap.put("SOCIAL_TYPE", custMap.get("SOCIAL_TYPE").toString());
+		        		return ResponseEntity.ok(RestResponse.ok(resultMap));
 		        	}
-		        	//성공
-		        	return ResponseEntity.ok(RestResponse.ok(resultMap));
-		        }
-		        else{
-		        	//실패
-		        	 throw new SAException("일치하는 회원 정보가 없습니다.");
-		        }
+		        	
+			        int result = loginService.updatePasswordByLoginId(paramMap);
+			        
+			        if(result > 0 ){
+			        	if("email".equals(paramMap.get("search_type"))) {
+				        	resultMap.put("PASSWD", paramMap.get("passwd").toString());
+				        	resultMap.put("LOGIN_ID", paramMap.get("login_id").toString());
+				        	resultMap.put("CUST_NAME", paramMap.get("cust_name").toString());
+				        	
+				        	String subject = locale.toString().equals("en") ? "[SeoulAuction] Issued a temporary password reminder" : "[서울옥션] 임시 비밀번호 발급 알림";
+				        	String template = locale.toString().equals("en") ? "passwd_en.html" : "passwd.html";
+				        	String port = request.getServerPort() == 9000 ? ":" + String.format("%d", request.getServerPort()) : "";
+				        	resultMap.put("currentUrl", "http://" + request.getServerName() + port);
+				        	
+				        	messageService.sendMail(paramMap.get("search_value").toString(), subject, template, resultMap);
+			        	} else {
+				        	String msg = locale.equals("en") ? 
+				        			"[SeoulAuction SMS] Issued a temporary password reminder\n temporary password : " + paramMap.get("passwd").toString()
+				        			: "[서울옥션 문자발송] 임시 비밀번호 발급 알림\n 임시비밀번호 : "+ paramMap.get("passwd").toString(); 
+				        	
+				        	//최종 문자 발송 데이터
+				        	paramMap.put("from_phone", callback.toString()); //02-395-0330
+				        	paramMap.put("to_phone", paramMap.get("search_value").toString());
+				        	paramMap.put("msg", msg.toString()); 
+
+					   		resultMap = certificationService.selectAuthNumber(paramMap);
+			        	}
+			        	//성공
+			        	return ResponseEntity.ok(RestResponse.ok(resultMap));
+			        } else {
+			        	throw new SAException("오류가 발생하였습니다. 관리자에게 문의하세요."); 
+			        }
+	        	} else {
+	        		throw new SAException("일치하는 회원 정보가 없습니다.");
+	        	}
 			}
 			catch(Exception ex){
 				//실패
@@ -164,7 +168,7 @@ public class ApiLoginController {
 	    log.info("isIdExist");
 	    log.info(paramMap.toString());
 	    
-	    List<CommonMap> resultMap = loginService.selectCustForExist(paramMap);
+	    List<CommonMap> resultMap = loginService.selectCustForIdExist(paramMap);
 	    return resultMap;
 	}
 	
@@ -322,9 +326,9 @@ public class ApiLoginController {
     	    		}
 					
 	    	    	//해외회원 인증 메일 발송
-	    	    	String port = request.getServerPort() != 80 ? ":" + String.format("%d", request.getServerPort()) : "";
-	    	    	//resultMap.put("authURL", "https://" + request.getServerName() + port + "/join/" + resultMap.get("FORE_CERT_CODE").toString());
-	    	    	resultMap.put("authURL", "http://" + request.getServerName() + port + "/join/" + resultMap.get("FORE_CERT_CODE").toString() + "?lang=en");
+	    	    	String port = request.getServerPort() == 9000 ? ":" + String.format("%d", request.getServerPort()) : "";
+		        	resultMap.put("authURL", "http://" + request.getServerName() + port + "/join/" + resultMap.get("FORE_CERT_CODE").toString() + "?lang=en");
+		        	resultMap.put("currentURL", "http://" + request.getServerName() + port);
 	    	    	messageService.sendMail(paramMap.get("email").toString(),"Please, complete your registration." , "foreign_auth.html", resultMap);
 	    	    	
     			} catch (Exception e) {

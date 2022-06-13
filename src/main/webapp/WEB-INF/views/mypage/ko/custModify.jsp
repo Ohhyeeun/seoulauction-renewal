@@ -298,7 +298,7 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
                                                 <input type="hidden" name="deli_addr_old_yn" id="deli_addr_old_yn" />
                                                 </form>
                                                 <div class="dropOut_text">
-                                                    <a href="#">회원탈퇴</a>
+                                                    <a href="#" onclick="custLeave();">회원탈퇴</a>
                                                 </div>
                                                 <div class="btn_area" onclick="custModify()">
                                                     <button class="btn btn_point btn_lg" id="modifyButton" type="button" disabled>

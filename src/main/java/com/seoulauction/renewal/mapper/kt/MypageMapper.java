@@ -1,11 +1,10 @@
 package com.seoulauction.renewal.mapper.kt;
 
-import java.util.List;
-import java.util.Map;
-
+import com.seoulauction.renewal.domain.CommonMap;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.seoulauction.renewal.domain.CommonMap;
+import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface MypageMapper {
@@ -90,6 +89,10 @@ public interface MypageMapper {
 
     int updateCust(CommonMap paramMap);
     
+    int deleteCust(CommonMap paramMap);
+    
+    int updateCustSendInfoNew(CommonMap paramMap);
+    
     int deleteCustPushWay(CommonMap paramMap);
     
     int deleteCustInteArtist(CommonMap paramMap);
@@ -101,5 +104,9 @@ public interface MypageMapper {
     int insertCustInteArtist(CommonMap paramMap);
     
     int insertCustInteArea(CommonMap paramMap);
+    
+    List<CommonMap> selectBidForCustLeave(CommonMap map);
+    
+    List<CommonMap> selectAutoBidReqForcustLeave(CommonMap map);
     
 }
