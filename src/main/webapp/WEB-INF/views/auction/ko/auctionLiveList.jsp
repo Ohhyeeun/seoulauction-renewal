@@ -172,39 +172,26 @@
                                                 </div>
 
                                                 <div class="search-box">
-                                                    <input type="search" placeholder="작가/작품명" id="" class="h42">
-                                                    <i class="form-search_md"></i>
+                                                    <input type="search" placeholder="작가/작품명" id="search_value"
+                                                           ng-model="searchValue"
+                                                           ng-keyup="searchArtist(event=$event)" class="h42">
+                                                    <i class="form-search_md" ng-click="searchArtist2()"></i>
                                                 </div>
                                             </div>
+
                                             <div class="col_item mb-col2">
                                                 <div class="select-box">
-                                                    <select class="select2Basic42 select2-hidden-accessible"
-                                                            data-select2-id="1" tabindex="-1" aria-hidden="true"
-                                                            ng-model="selectSortType" ng-change="rerange();">
-                                                        <option ng-repeat="item in sortType" value="{{item.value}}"
-                                                                data-select2-id="{{$index+1}}">{{item.name}}
-                                                        </option>
+                                                    <select id="sortType" class="select2Basic42 select2-hidden-accessible"
+                                                            ng-init="selectSortType = selectSortType || options[0].value"
+                                                            onchange="angular.element(this).scope().rerange();">
+                                                        <option ng-repeat="item in modelSortType" value="{{item.value}}">{{item.name}}</option>
                                                     </select>
-
                                                 </div>
                                                 <div class="select-box">
-                                                    <select class="select2Basic42 js-select_page select2-hidden-accessible"
-                                                            id="" data-select2-id="4" tabindex="-1" aria-hidden="true">
-                                                        <option value="1" data-select2-id="6">페이지 방식</option>
-                                                        <option value="2">더보기 방식</option>
-                                                    </select><span
-                                                        class="select2 select2-container select2-container--default"
-                                                        dir="ltr" data-select2-id="5" style="width: 152px;"><span
-                                                        class="selection"><span
-                                                        class="select2-selection select2-selection--single" role="combobox"
-                                                        aria-haspopup="true" aria-expanded="false" tabindex="0"
-                                                        aria-labelledby="select2--container"><span
-                                                        class="select2-selection__rendered" id="select2--container"
-                                                        role="textbox" aria-readonly="true"
-                                                        title="페이지 방식">페이지 방식</span><span class="select2-selection__arrow"
-                                                                                          role="presentation"><b
-                                                        role="presentation"></b></span></span></span><span
-                                                        class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                                    <select id="viewType" class="select2Basic42 js-select_page select2-hidden-accessible"
+                                                            onchange="angular.element(this).scope().chgViewType();">
+                                                        <option ng-repeat="item in modelViewType" value="{{item.value}}">{{item.name}}</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -261,10 +248,6 @@
                                                                     <dd>KRW {{item.EXPE_PRICE_FROM_JSON.KRW}}</dd>
                                                                     <dd>~ {{item.EXPE_PRICE_TO_JSON.KRW}}</dd>
                                                                 </dl>
-<%--                                                                <dl class="price-list">--%>
-<%--                                                                    <dt>낙찰가</dt>--%>
-<%--                                                                    <dd><strong>{{item.CUR_COST}}</strong><em>{{item.BID_COUNT}}</em></dd>--%>
-<%--                                                                </dl>--%>
                                                             </div>
                                                             <div id="biding_req" class="bidding-box col_2">
                                                                 <div class="deadline_set"><span>신청마감 02.10(목) 15:00</span></div>
@@ -281,26 +264,25 @@
 
                                 <div class="panel-footer">
                                     <div class="set-pc_mb">
-                                        <div class="only-pc">
+                                        <div id="page_layer" class="only-pc">
                                             <div class="paging-area">
                                                 <!-- paging -->
                                                 <div class="paging">
-                                                    <a href="#" class="prev_end icon-page_prevprev">FIRST</a><a href="#"
-                                                                                                                class="prev_end icon-page_prev"><em>PREV</em></a>
+                                                    <a href="javascript:void(0);" class="prev_end icon-page_prevprev">FIRST</a><a href="javascript:void(0);"
                                                     <a href="javascript:void(0);" ng-click="pageing(item);"
                                                        ng-repeat="item in pageingdata">
                                                         <strong ng-if="item === curpage" ng-class="{'on':item === curpage}"
                                                                 ng-bind="item"></strong>
                                                         <span ng-if="item != curpage" ng-bind="item"></span></a>
-                                                    <a href="#" class="next icon-page_next "><em>NEXT</em></a><a href="#"
-                                                                                                                 class="next_end icon-page_nextnext">END</a>
+                                                    <a href="javascript:void(0);" class="next icon-page_next "><em>NEXT</em></a><a href="#"
+                                                                                                                                   class="next_end icon-page_nextnext">END</a>
                                                 </div>
                                                 <!-- paging -->
                                             </div>
                                         </div>
                                         <!-- 더보기 -->
-                                        <div class="only-mb">
-                                            <button class="btn btn_gray_line" type="button"><span>더보기</span></button>
+                                        <div id="add_layer" class="only-mb">
+                                            <button class="btn btn_gray_line" type="button" ng-click="addpage(curpage + 1);"><span>더보기</span></button>
                                         </div>
                                         <!-- 더보기 -->
                                     </div>
@@ -329,8 +311,17 @@
 
         </div>
     </div>
-
+    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
+    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+    <!-- [0516]삭제
+    <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
+    -->
+    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
+
     <script type="text/javascript" src="/js/auction/auctionLiveList.js" type="text/javascript"></script>
     <script>
         var terms_required = $(".js-terms_required").trpLayerFixedPopup("#terms_required-wrap");
@@ -344,11 +335,12 @@
             $scope.is_login = is_login;
             $scope.locale = locale;
             $scope.sale_no = "${saleNo}";
+
             $scope.pagesize = 10;
             $scope.itemsize = 20;
             $scope.curpage = 1;
 
-            $scope.sortType = [{
+            $scope.modelSortType = [{
                 name: "LOT 번호순",
                 value: 1
             }, {
@@ -371,7 +363,16 @@
                 value: 7
             }];
 
-            $scope.selectSortType = 0;
+            $scope.modelViewType = [{
+                name: "페이징 방식",
+                value: 1
+            }, {
+                name: "더보기 방식",
+                value: 2
+            }];
+
+            $scope.selectSortType = 1;
+            $scope.selectViewType = 1;
             $scope.searchValue = "";
             $scope.searchSaleInfoAll = [];
             $scope.selectLotTag = "전체";
@@ -391,7 +392,7 @@
                     }
                 }
                 $scope.searchSaleInfoAll = pp;
-                $scope.pageing($scope.curpage);
+                $scope.pageing(1);
 
             }
 
@@ -508,7 +509,7 @@
                     }
                 }
                 $scope.searchSaleInfoAll = pp;
-                $scope.pageing($scope.curpage);
+                $scope.pageing(1);
             }
 
             // 호출 부
@@ -546,7 +547,6 @@
                     for (let i = 1; i <= endVal; i++) {
                         p.push(i);
                     }
-                    $scope.pageingdata = p;
 
                     //get paddle number & cust info
                     $scope.paddNo = 0;
@@ -575,8 +575,10 @@
                                 });
                     }
 
+                    $scope.pageingdata = p;
                     $scope.$apply();
-                    $scope.bidstart();
+
+                    <%--$scope.bidstart('${member.loginId}', ${member.userNo});--%>
 
                     // lot
                     $("#search_lot").on("keyup", function () {
@@ -839,8 +841,32 @@
                 }
             }
             /*##################### 웹소켓 끝 #####################*/
+            $scope.chgViewType = function () {
+                let sst = parseInt($("#viewType option:selected").val())
+
+
+                switch (sst) {
+                    case 1:
+                        $("#page_layer").removeClass('only-mb');
+                        $("#page_layer").addClass('only-pc');
+                        $("#add_layer").removeClass('only-pc');
+                        $("#add_layer").addClass('only-mb');
+
+                        $scope.pageing($scope.curpage)
+                        break;
+                    case 2:
+                        $("#page_layer").removeClass('only-pc');
+                        $("#page_layer").addClass('only-mb');
+                        $("#add_layer").removeClass('only-mb');
+                        $("#add_layer").addClass('only-pc');
+
+                        $scope.addpage($scope.curpage);
+                        break;
+                }
+                $scope.selectViewType = sst;
+            }
             $scope.rerange = function () {
-                let sst = parseInt($scope.selectSortType)
+                let sst = parseInt($("#sortType").val())
 
                 let v = $scope.saleInfoAll;
                 if ($scope.searchSaleInfoAll != null && $scope.searchSaleInfoAll.length > 0) {
@@ -911,6 +937,22 @@
                 }
                 $scope.pageing($scope.curpage);
             }
+            $scope.addpage = function (page) {
+                let v = $scope.saleInfoAll;
+
+                if ($scope.searchValue.length > 0) {
+                    v = $scope.searchSaleInfoAll;
+                } else {
+                    if ($scope.searchSaleInfoAll != null && $scope.searchSaleInfoAll.length > 0) {
+                        v = $scope.searchSaleInfoAll;
+                    }
+                }
+
+                $scope.saleInfo = v.slice(0, $scope.itemsize * (page));
+                $scope.curpage = page;
+                //let token = $scope.token;
+                //$scope.popSet();
+            }
             $scope.pageing = function (page) {
                 let v = $scope.saleInfoAll;
                 if ($scope.searchValue.length > 0) {
@@ -922,24 +964,33 @@
                 }
                 $scope.saleInfo = v.slice(($scope.itemsize * (page - 1)), $scope.itemsize * page);
 
-                //paging
-                $scope.pageingdata = function () {
-                    let p = [];
-                    let endVal = 0;
-                    let etc = (v.length % $scope.itemsize > 0) ? 1 : 0;
-                    let end = parseInt(v.length / $scope.itemsize) + etc;
+                let pp = $scope.makePageing(v, page);
 
-                    if (end < (parseInt(page / $scope.pagesize) + 1) + $scope.pagesize) {
-                        endVal = end;
-                    } else {
-                        endVal = $scope.pagesize + (parseInt(page / $scope.pagesize) + 1);
-                    }
-                    for (let i = ($scope.pagesize * parseInt((page - 1) / $scope.pagesize)) + 1; i <= endVal; i++) {
-                        p.push(i);
-                    }
-                    return p;
-                }()
+                $scope.pageingdata = pp;
                 $scope.curpage = page;
+                if(!$scope.$$phase) {
+                    $scope.$apply();
+                }
+
+                //let token = $scope.token;
+                //$scope.popSet();
+            }
+            //paging
+            $scope.makePageing = function (v, page) {
+                let p = [];
+                let endVal = 0;
+                let etc = (v.length % $scope.itemsize > 0) ? 1 : 0;
+                let end = parseInt(v.length / $scope.itemsize) + etc;
+
+                if (end < (parseInt(page / $scope.pagesize) + 1) + $scope.pagesize) {
+                    endVal = end;
+                } else {
+                    endVal = $scope.pagesize + (parseInt(page / $scope.pagesize) + 1);
+                }
+                for (let i = ($scope.pagesize * parseInt((page - 1) / $scope.pagesize)) + 1; i <= endVal; i++) {
+                    p.push(i);
+                }
+                return p;
             }
         });
     </script>
