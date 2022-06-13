@@ -56,6 +56,10 @@ public class LoginService {
     public CommonMap selectCustSocialBySocialLoginId(CommonMap paramMap){
         return loginMapper.selectCustSocialBySocialLoginId(paramMap);
     }
+
+    public List<CommonMap> selectCustForIdExist(CommonMap paramMap){
+        return loginMapper.selectCustForIdExist(paramMap);
+    }
     
     public List<CommonMap> selectCustForExist(CommonMap paramMap){
         return loginMapper.selectCustForExist(paramMap);

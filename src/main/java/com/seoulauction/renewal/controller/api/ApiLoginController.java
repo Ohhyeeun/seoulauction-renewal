@@ -162,7 +162,7 @@ public class ApiLoginController {
 	    log.info("isIdExist");
 	    log.info(paramMap.toString());
 	    
-	    List<CommonMap> resultMap = loginService.selectCustForExist(paramMap);
+	    List<CommonMap> resultMap = loginService.selectCustForIdExist(paramMap);
 	    return resultMap;
 	}
 	

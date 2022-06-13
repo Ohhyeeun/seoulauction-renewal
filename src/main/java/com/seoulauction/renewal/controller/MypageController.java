@@ -113,4 +113,10 @@ public class MypageController {
     public String custModify(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "custModify" , locale);
     }
+
+    /*회원탈퇴*/
+    @GetMapping("/custLeave")
+    public String custLeave(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "custLeave" , locale);
+    }
 }
