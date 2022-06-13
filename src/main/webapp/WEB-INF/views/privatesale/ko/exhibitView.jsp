@@ -158,7 +158,7 @@
                                                             <div class="sns-item">
                                                                 <button class="js-share_url">
                                                                     <i class="icon-share_url_copy"></i>
-                                                                    <div class="txt"><span>URL 복사</span></div>
+                                                                    <div class="txt" ng-click="urlCopy();"><span>URL 복사</span></div>
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -453,6 +453,16 @@
             $("header").hide();
             window.print();
             $("header").show();
+        }
+
+        $scope.urlCopy = function () {
+            let url = location.href;
+            let $temp = $('<input>');
+            $('body').append($temp);
+            $temp.val(url).select();
+            document.execCommand('copy');
+            $temp.remove();
+            alert('URL이 복사되었습니다.');
         }
 
         // 호출 부

@@ -10,6 +10,15 @@
     <title>전시 | Seoul Auction</title>
     <!-- //header -->
 </head>
+<script>
+    function goExhibit(){
+        window.location.href = '/privatesale/exhibit/';
+    }
+
+    function goExhibitFirst(){
+        window.location.href = '/privatesale/exhibit/first';
+    }
+</script>
 
 <body class="">
 <div class="wrapper">
@@ -41,8 +50,8 @@
                         <div class="tab-wrap">
                             <div class="tab-area type-left_lg">
                                 <ul class="tab-list js-maintab_list">
-                                    <li class="active"><a href="/privatesale/exhibit"><span>소개</span></a></li>
-                                    <li class=""><a href="/privatesale/exhibit/first"><span>전시명 1</span></a></li>
+                                    <li class="active"><a href="#" onclick="goExhibit();"><span>소개</span></a></li>
+                                    <li class=""><a href="#" onclick="goExhibitFirst();"><span>전시명 1</span></a></li>
                                 </ul>
                             </div>
                         </div>

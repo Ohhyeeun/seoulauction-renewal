@@ -111,6 +111,15 @@
             function goExhibitView(saleNo, lotNo){
                 window.location.href = '/privatesale/exhibitView/' + saleNo + '/' + lotNo;
             }
+
+            function goExhibit(){
+                window.location.href = '/privatesale/exhibit/';
+            }
+
+            function goExhibitFirst(){
+                window.location.href = '/privatesale/exhibit/first';
+            }
+
         </script>
 
         <!-- container -->
@@ -135,8 +144,8 @@
                         <div class="tab-wrap">
                             <div class="tab-area type-left_lg">
                                 <ul class="tab-list js-maintab_list">
-                                    <li class=""><a href="/privatesale/exhibit"><span>소개</span></a></li>
-                                    <li class="active"><a href="/privatesale/exhibit/first"><span>전시 1</span></a></li>
+                                    <li class=""><a href="#" onclick="goExhibit();"><span>소개</span></a></li>
+                                    <li class="active"><a href="#" onclick="goExhibitFirst();"><span>전시 1</span></a></li>
                                     <!--<li class=""><a href="#"><span>전시 2</span></a></li>-->
                                 </ul>
                             </div>

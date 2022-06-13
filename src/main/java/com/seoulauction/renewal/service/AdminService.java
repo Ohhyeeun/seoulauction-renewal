@@ -3,12 +3,10 @@ package com.seoulauction.renewal.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.mapper.kt.AuctionMapper;
 import com.seoulauction.renewal.mapper.kt.KTAdminMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
