@@ -22,104 +22,10 @@
         <script type="text/javascript" src="/js/angular/checklist-model.js"></script>
         <script type="text/javascript" src="/js/angular/rzslider.min.js"></script>
         <script type="text/javascript" src="/js/customer/login.js"></script>
+        <script type="text/javascript" src="/js/private_sale/firstExhibit.js" type="text/javascript"></script>
 
         <script type="text/javascript">
             app.value('locale', 'ko');
-            app.requires.push.apply(app.requires, ["ngDialog", "checklist-model"]);
-            app.controller("exhibitCtl", function($scope, consts, common, locale) {
-                $scope.locale = locale;
-                $scope.$size = 10;
-
-                $scope.loadExhibitList = function($page){
-
-                    $scope.currentPage = $page;
-                    $page = $scope.currentPage;
-
-                    $api = '/api/privatesale/selectExhibitSale?page=' + $scope.currentPage + "&size=" + $scope.$size;
-
-                    //현재 전시중인 작품을 뿌린다.
-                    axios.get($api, null).then(function(response) {
-                        console.log(response);
-                        const success = response.data.success;
-                        if (success) {
-                            const data = response.data.data;
-                            $(".product-list").empty();
-
-                            if(data.length != 0){
-
-                                if(data.length < parseInt($scope.currentPage) * parseInt($scope.$size)){
-                                    $("#more_search").hide();
-                                }
-
-                                data.map(item =>{
-                                    const titleJSON = JSON.parse(item.TITLE_JSON);
-                                    const makeYearJSON = JSON.parse(item.MAKE_YEAR_JSON);
-
-                                    let html = '<li class="">'
-                                        + '<div class="li-inner" onclick="goExhibitView(\''+item.SALE_NO + '\', \'' +item.LOT_NO +'\');">'
-                                        + '<article class="item-article">'
-                                        + '<div class="image-area">'
-                                        + '<figure class="img-ratio">'
-                                        + '<div class="img-align">'
-                                        + '<img src="https://www.seoulauction.com/nas_img/' + item.LOT_IMG_PATH + '/' + item.LOT_IMG_NAME + '" alt="">'
-                                        + '</div>'
-                                        + '</figure>'
-                                        + '</div>'
-                                        + '<div class="typo-area">'
-                                        + '<div class="product_info">'
-                                        + '<div class="num_heart-box">'
-                                        + '<span class="num">'+item.LOT_NO+'</span>'
-                                        + '</div>'
-                                        + '<div class="info-box">'
-                                        + '<div class="title"><span>' + titleJSON[locale] + '</span>'
-                                        + '</div>'
-                                        + '<div class="desc"><span>Air (From The Series The Elements)</span></div>'
-                                        + '<div class="standard">'
-                                        + '<span>'+ item.MATE_NM +'</span>'
-                                        + '<div class="size_year">'
-                                        + '<span>80.9 X 73.4cm</span>'
-                                        + '<span>' +makeYearJSON[locale]+ '</span>'
-                                        + '</div>'
-                                        + '</div>'
-                                        + '</div>'
-                                        + '</div>'
-                                        + '</div>'
-                                        + '</article>'
-                                        + '</div>'
-                                        + '</li>';
-
-                                    $(".product-list").append(html);
-                                });
-                            }
-                        }else{
-                            alert("데이터 로딩 실패");
-                        }
-                    })
-                .catch(function(error){
-                        console.log(error);
-                    });
-                }
-
-                $scope.moreSearch = function(){
-                    //더보기가 선택된 경우 더보기 계산
-                    $scope.$size = parseInt($scope.$size) + 10;
-                    $scope.loadExhibitList($scope.currentPage);
-                }
-
-            });
-
-            function goExhibitView(saleNo, lotNo){
-                window.location.href = '/privatesale/exhibitView/' + saleNo + '/' + lotNo;
-            }
-
-            function goExhibit(){
-                window.location.href = '/privatesale/exhibit/';
-            }
-
-            function goExhibitFirst(){
-                window.location.href = '/privatesale/exhibit/first';
-            }
-
         </script>
 
         <!-- container -->

@@ -371,7 +371,7 @@
         };
         const getLotInfo = (saleNo, lotNo) => {
             try {
-                return axios.get('/api/auction/lot_info/${saleNo}/${lotNo}');
+                return axios.get('/api/privatesale/lot_info/${saleNo}/${lotNo}');
             } catch (error) {
                 console.error(error);
             }
@@ -492,8 +492,6 @@
                     $("#exhibitPrice").html($scope.lotInfo.EXHIBITION_PRICE_JSON);
                 }
 
-
-
                 // popup setting
                 let imgUrl = $scope.lotImages[0].IMAGE_URL +
                     $scope.lotImages[0].FILE_PATH + "/" + $scope.lotImages[0].FILE_NAME;
@@ -529,14 +527,6 @@
                         sharedCount: 845,
                     },
                 })
-                /*
-                for (let i = 0 ; i < $scope.recentlyViews.length;i++) {
-                    if ($scope.recentlyViews[i].FAVORITE_YN === 'Y'){
-                        //console.log($("#recently_views .js-work_heart").eq(i).addClass("on"));
-                        $("#recently_views .js-work_heart").eq(i).addClass("on");
-                    }
-                }*/
-
                 // swiper
 
                 let view_visual = new Swiper(".js-view_visual .gallery_center", {
