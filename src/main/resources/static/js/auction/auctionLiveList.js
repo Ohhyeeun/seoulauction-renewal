@@ -39,7 +39,7 @@ $(function() {
     });
 
     $(window).on("resize", function($e) {
-        select_resize_change();
+     //   select_resize_change();
     });
 
     function select_resize_change() {
@@ -50,5 +50,5 @@ $(function() {
         }
         $(".js-select_page").trigger('change');
     }
-    select_resize_change();
+   //select_resize_change();
 });

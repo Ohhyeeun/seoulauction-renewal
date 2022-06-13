@@ -1,6 +1,7 @@
 package com.seoulauction.renewal.controller;
 
 import com.seoulauction.renewal.common.SAConst;
+import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.service.SaleService;
 import com.seoulauction.renewal.util.SecurityUtils;
@@ -69,7 +70,19 @@ public class AuctionController {
             , HttpServletRequest request, HttpServletResponse response,
                        @PathVariable("sale_no") int saleNo) {
 
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+
         model.addAttribute("saleNo", saleNo);
+
+        //필수값 있는지 여부.
+        Boolean isCustRequired = false;
+
+        if( saUserDetails != null){
+            isCustRequired = saleService.checkCustRequired(new CommonMap("cust_no", saUserDetails.getUserNo()));
+        }
+
+        model.addAttribute("isCustRequired", isCustRequired);
+
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionLiveList" , locale);
     }
 

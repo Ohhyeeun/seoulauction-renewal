@@ -8,15 +8,34 @@ $('#findPassword').on('click', function() {
 	var custName;
 	var custId;
 	var popupNumber;
+	var inputNull;
+	var locale = document.documentElement.lang;
 	
 	if (searchType == 'email') {
-		if ($('#custIdByEmail').val() == '' || $('#custNameByEmail').val() == '' || $('#custEmail').val() == '') {
+		$("#email").find("input[type=text]").each(function(index,item){
+                if ($(this).val().trim() == '') {
+                  	if(locale == 'en'){
+					$('#inputTitle').text("Please enter " + $(this).attr("data-id"));
+					} else {
+						$('#inputTitle').text($(this).attr("data-id")+" 입력해 주세요.");
+					}
+                  	inputNull = true;
+                  	return false;
+                }
+            });
+		
+		if(inputNull){
 			$('#popup_idsearch3-wrap').attr("style", "display:block");
 			return;
 		} else {
 			var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 			if (regEmail.test($('#custEmail').val()) === false) {
-				alert('이메일을 확인해주세요.');
+				if(locale == 'en'){
+					$('#inputTitle').text('Check out the Email'); 
+				} else {
+					$('#inputTitle').text('이메일을 확인해주세요.'); 
+				}
+				$('#popup_idsearch3-wrap').attr("style", "display:block");
 				return;
 			}
 			searchValue = $('#custEmail').val();
@@ -24,23 +43,41 @@ $('#findPassword').on('click', function() {
 			custId = $('#custIdByEmail').val();
 			popupNumber=2;
 		}
-
 	} else {
-		if ($('#custIdByPhone').val() == '' || $('#custNameByPhone').val() == '' || $('#custPhone').val() == '') {
+		$("#phone").find("input[type=text]").each(function(index,item){
+                if ($(this).val().trim() == '') {
+                  	if(locale == 'en'){
+					$('#inputTitle').text("Please enter " + $(this).attr("data-id"));
+					} else {
+						$('#inputTitle').text($(this).attr("data-id")+" 입력해 주세요.");
+					}
+                  	inputNull = true;
+                  	return false;
+                }
+        });
+        
+        if(inputNull){
 			$('#popup_idsearch3-wrap').attr("style", "display:block");
 			return;
 		} else {
 			var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 			if (regPhone.test($('#custPhone').val()) === false) {
-				alert('휴대폰 번호를 확인해주세요.');
+				if(locale == 'en'){
+				$('#inputTitle').text('Check out the Mobile'); 			
+				} else {
+				$('#inputTitle').text('휴대폰 번호를 확인해주세요.'); 
+				}
+				$('#popup_idsearch3-wrap').attr("style", "display:block");
 				return;
 			}
 			searchValue = $('#custPhone').val();
 			custName = $('#custNameByPhone').val();
 			custId = $('#custIdByPhone').val();
 			popupNumber=1;
+
 		}
 	}
+	
 	var formData = { "search_type": searchType, "login_id": custId, "cust_name": custName, "search_value": searchValue };
 
 	axios.post("/api/login/findCustPassword", formData).then(function(response) {

@@ -646,4 +646,17 @@
         select LOT_TAG from lot where SALE_NO = #{sale_no} and LOT_TAG is not null
         group by LOT_TAG
     </select>
+    <!--생년월일 성별 값 둘다 잇는지 여부-->
+    <select id="selectCustCheckRequired" parameterType="CommonMap" resultType="CommonMap">
+        select
+            *
+        from
+            CUST
+        where
+            CUST_NO = #{cust_no}
+            and SEX_CD IS NOT NULL
+            and BORN_DT IS NOT NULL
+        LIMIT
+            1
+    </select>
 </mapper>

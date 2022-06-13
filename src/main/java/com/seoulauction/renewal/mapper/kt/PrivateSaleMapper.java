@@ -10,4 +10,6 @@ public interface PrivateSaleMapper {
 
     List<CommonMap> selectExhibitSale(CommonMap commonMap);
 
+    CommonMap selectExhibitLotInfo(CommonMap commonMap);
+
 }

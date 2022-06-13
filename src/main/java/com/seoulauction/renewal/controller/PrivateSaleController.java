@@ -43,5 +43,4 @@ public class PrivateSaleController {
         return SAConst.getUrl(SEVICE_PRIVATE_SALE , "exhibitView" , locale);
     }
 
-
 }
