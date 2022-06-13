@@ -19,6 +19,15 @@
 			WHEN '6' THEN '금'
 			WHEN '7' THEN '토'
 		END AS weekDate
+		,CASE DAYOFWEEK(P.PAY_DT)
+			WHEN '1' THEN 'Sun'
+			WHEN '2' THEN 'Mon'
+			WHEN '3' THEN 'Tue'
+			WHEN '4' THEN 'Wnd'
+			WHEN '5' THEN 'Thur'
+			WHEN '6' THEN 'Fri'
+			WHEN '7' THEN 'sat'
+		END AS weekDateEn
 		,DATE_FORMAT(P.PAY_DT, '%T') as payTime
 		, CASE WHEN CP.VALID_TO_DT &gt;= NOW() THEN '정회원' ELSE '기간만료' END VALID 
 		, CD1.CD_NM PAY_METHOD_NM
