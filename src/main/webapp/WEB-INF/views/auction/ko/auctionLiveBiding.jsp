@@ -90,17 +90,13 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="gray-box">
+                                                <div id="select_field" class="gray-box">
                                                     <div class="price_mark">
 
                                                         <div class="title">
                                                             <span>응찰가</span>
                                                         </div>
-                                                        <!-- [0516]삭제 <div class="select-box"> 
-                              <select class="select2Basic">
-                                <option value="1">KRW 99,999,990,000</option>
-                              </select>
-                            </div> -->
+
                                                         <!-- [0516]select 변경 -->
                                                         <div class="select-box">
                                                             <div class="trp-dropdown-area h50-line_center">
@@ -374,12 +370,15 @@
                 if(bk == '서면'){
                     currentBidKind = 'paper_offline';
                     bidType = 14;
+                    $("#select_field").show();
                 }else if(bk == '전화'){
                     currentBidKind = 'phone';
                     bidType = 15;
+                    $("#select_field").hide();
                 }else if(bk == '서면+전화'){
                     currentBidKind = 'floor';
                     bidType = 16;
+                    $("#select_field").show();
                 }
             });
 
