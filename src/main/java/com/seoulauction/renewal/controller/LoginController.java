@@ -40,8 +40,8 @@ public class LoginController {
     	
     	// 로그인 이전페이지 기억
     	String referrer = request.getHeader("Referer");
-    	if(referrer != null && !referrer.contains("/login")) {
-    		log.info("referrer : {}",referrer);
+    	log.info("referrer : {}",referrer);
+    	if(referrer != null && !referrer.contains("/login") && !referrer.contains("/mypage/custLeave")) {
     		request.getSession().setAttribute("prevPage", referrer);
     	}
 
