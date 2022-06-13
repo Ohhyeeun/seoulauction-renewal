@@ -1127,4 +1127,45 @@ SELECT 'INTE_LOT' AS GUBUN
 		)
 	</insert>
 	
+	<update id="deleteCust" parameterType="CommonMap">
+		UPDATE CUST 
+	    SET 
+	    	STAT_CD = 'leave', LEAVE_DT = now()
+		where CUST_NO = #{cust_no}
+	</update>
+	
+	<update id="updateCustSendInfoNew" parameterType="CommonMap">
+		update CUST_SEND_INFO_NEW
+		set
+			DEL_YN = 'Y', MOD_DT = now()
+		where cust_no = #{cust_no}
+			and DEL_YN = 'N';
+	</update>
+	
+	<select id="selectBidForCustLeave" resultType="CommonMap">
+		select 
+			b.CUST_NO, b.SALE_NO, b.LOT_NO, l.TO_DT 
+		from 
+			bid b  
+		join 
+			lot l 
+		on b.SALE_NO = l.SALE_NO and b.LOT_NO = l.LOT_NO 
+		where 
+			cust_no = #{cust_no}
+			and l.TO_DT > now()
+	</select>
+	
+	<select id="selectAutoBidReqForcustLeave" resultType="CommonMap">
+		select 
+			abr.CUST_NO, abr.SALE_NO, abr.LOT_NO, l.TO_DT 
+		from 
+			auto_bid_req abr 
+		join 
+			lot l 
+		on abr.SALE_NO = l.SALE_NO and abr.LOT_NO = l.LOT_NO 
+		where 
+			cust_no = #{cust_no}
+			and l.TO_DT > now()
+	</select>
+	
 </mapper>

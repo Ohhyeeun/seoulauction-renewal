@@ -29,6 +29,8 @@ public interface LoginMapper {
     
     CommonMap selectCustSocialBySocialLoginId(CommonMap paramMap);
 
+    List<CommonMap> selectCustForIdExist(CommonMap paramMap);
+    
     List<CommonMap> selectCustForExist(CommonMap paramMap);
     
     List<CommonMap> selectEmpByEmpName(CommonMap paramMap);

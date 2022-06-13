@@ -3,6 +3,7 @@ package com.seoulauction.renewal.controller.api;
 import com.seoulauction.renewal.common.RestResponse;
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.service.LoginService;
 import com.seoulauction.renewal.service.MypageService;
@@ -397,6 +398,36 @@ public class ApiMypageController {
 		} catch (Exception e) {
 			throw new SAException("회원정보 수정이 실패하였습니다.");
 		}
+	}
+
+	//회원탈퇴
+	@RequestMapping(value = "/custs/leave", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> custLeave(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+		paramMap.put("cust_no", saUserDetails.getUserNo());
+		
+		try {
+			//응찰 중이거나, 자동응찰 중이거나, 낙찰 후 결제대기 경매가 있을 경우 탈퇴불가
+			int validCheck = mypageService.custLeaveValidCheck(paramMap);
+			
+			if(validCheck > 0) {
+				throw new SAException("응찰 중이거나, 낙찰 후 결제대기 중이므로 탈퇴가 불가능합니다.");
+			}else {
+				log.info("========== cust Leave Available ==========");
+				//회원탈퇴, 고객수신방법삭제, 고객발송정보delyn=y 처리
+				int result = mypageService.deleteCust(paramMap);
+				if(result > 0) {
+					//탈퇴 성공 시 로그아웃
+					new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new SAException(e.getMessage());
+		}
+		
+		return ResponseEntity.ok(RestResponse.ok());
 	}
 	
 	@RequestMapping(value = "/interestAreas", method = RequestMethod.POST)

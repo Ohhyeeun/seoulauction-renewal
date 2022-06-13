@@ -161,6 +161,14 @@
 		where SOCIAL_LOGIN_ID = #{socialLoginId}
 	</select>
 	
+	<select id="selectCustForIdExist" resultType="CommonMap">
+		select CUST_NO, STAT_CD, FORE_CERT_CODE, CUST_NAME, LOGIN_ID 
+		from CUST 
+		where 1 = 1 
+			and JOIN_KIND_CD = 'online'
+			and LOGIN_ID = #{loginId}
+	</select>
+	
 	<select id="selectCustForExist" resultType="CommonMap"> <!-- 탈퇴자는  카운트 제외. 웹회원만 체크 -->
 		select CUST_NO, STAT_CD, FORE_CERT_CODE, CUST_NAME, LOGIN_ID from CUST where STAT_CD &lt;&gt; 'leave'  and JOIN_KIND_CD = 'online'
 		<if test="loginId != null">
