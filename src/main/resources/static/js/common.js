@@ -172,10 +172,10 @@ $(function(){
 
         // /* 띠배너 beltbanner */
         // $('.header_beltbox.on').show(function(){
-        //     $('.main-contents').css('margin-top','180px');
+        //     $('.main-contents').css('margin-top','162px');
         // });
         // $('.beltclose-btn').click(function(){
-        //     $('.main-contents').css('margin-top','120px');
+        //     $('.main-contents').css('margin-top','102px');
         // });
     } else { /* 테블릿 */
         $('.header_gnbmenu>li>a').mouseenter(false);
@@ -228,7 +228,7 @@ $(function(){
         $('.header').show(function(){
             $('.main-header').show(function(){
                 /*$('.main-contents').css('top','56px'); */
-                $('.main-contents').css('margin-top','56px');
+                $('.main-contents').css('margin-top','57px');
             });
             $(this).hasClass('main-header');
         });
@@ -806,7 +806,7 @@ function growPriceForOffline(price){
 
 
 /* 반응형 resize */
-$(window).on('reszie', function(){
+$(window).resize(function(){
     let gnb = $(this).index();
     if(matchMedia("all and (min-width: 1024px)").matches) {
         $('.header_gnbmenu>li>a').mouseenter(function(){
