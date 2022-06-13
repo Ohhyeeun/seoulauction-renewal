@@ -260,16 +260,16 @@ function loadTopNotice(){
                 });
 
                 if(matchMedia("all and (min-width: 1024px)").matches) {
-                    document.querySelector(".main-contents").style.marginTop = '180px';
+                    document.querySelector(".main-contents").style.marginTop = '162px';
                     document.querySelector(".beltclose-btn").addEventListener("click", function(e){
-                        document.querySelector(".main-contents").style.marginTop = '120px';
+                        document.querySelector(".main-contents").style.marginTop = '100px';
                     });
                 } else { /* 모바일, 테블릿 */
                     /* main gnb fixed */
-                    document.querySelector(".main-contents").style.marginTop = '101px';
+                    document.querySelector(".main-contents").style.marginTop = '100px';
                     $('.main-contents').css('margin-top','101px');
                     document.querySelector(".beltclose-btn").addEventListener("click", function(e){
-                        document.querySelector(".main-contents").style.marginTop = '58px';
+                        document.querySelector(".main-contents").style.marginTop = '56px'; 
                     });
                 }
             }else{

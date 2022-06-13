@@ -8,11 +8,9 @@ import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.service.*;
 import com.seoulauction.renewal.util.CaptchaUtil;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import nl.captcha.Captcha;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -164,7 +162,7 @@ public class ApiLoginController {
 	    log.info("isIdExist");
 	    log.info(paramMap.toString());
 	    
-	    List<CommonMap> resultMap = loginService.selectCustForExist(paramMap);
+	    List<CommonMap> resultMap = loginService.selectCustForIdExist(paramMap);
 	    return resultMap;
 	}
 	

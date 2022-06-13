@@ -746,6 +746,7 @@ SELECT 'INTE_LOT' AS GUBUN
 				 , LI.FILE_PATH as LOT_IMG_PATH
 			     , LI.FILE_NAME as LOT_IMG_NAME
 			     , (select count(*) from success_bid sb join bid b on b.BID_NO= sb.BID_NO and b.CUST_NO='113248' and sb.SALE_NO= S.SALE_NO) success_bid_count
+			     , L.HAMMER_CANCEL_YN
 		FROM (SELECT PAD.PADD_NO PADDLE, BO.* FROM BID_OFFLINE BO LEFT OUTER JOIN SALE_PADD PAD ON BO.SALE_NO = PAD.SALE_NO AND BO.CUST_NO = PAD.CUST_NO) BIO
 		JOIN (
 		select
@@ -915,6 +916,7 @@ SELECT 'INTE_LOT' AS GUBUN
 			 , if(S.TO_DT > NOW(), 'N', 'Y') AS CLOSE_YN
 			 , DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT 
 			 , S.CURR_CD
+			 , L.HAMMER_CANCEL_YN
 	    from LOT L
 		inner join (
 		select S1.*
@@ -1124,5 +1126,46 @@ SELECT 'INTE_LOT' AS GUBUN
 			now()
 		)
 	</insert>
+	
+	<update id="deleteCust" parameterType="CommonMap">
+		UPDATE CUST 
+	    SET 
+	    	STAT_CD = 'leave', LEAVE_DT = now()
+		where CUST_NO = #{cust_no}
+	</update>
+	
+	<update id="updateCustSendInfoNew" parameterType="CommonMap">
+		update CUST_SEND_INFO_NEW
+		set
+			DEL_YN = 'Y', MOD_DT = now()
+		where cust_no = #{cust_no}
+			and DEL_YN = 'N';
+	</update>
+	
+	<select id="selectBidForCustLeave" resultType="CommonMap">
+		select 
+			b.CUST_NO, b.SALE_NO, b.LOT_NO, l.TO_DT 
+		from 
+			bid b  
+		join 
+			lot l 
+		on b.SALE_NO = l.SALE_NO and b.LOT_NO = l.LOT_NO 
+		where 
+			cust_no = #{cust_no}
+			and l.TO_DT > now()
+	</select>
+	
+	<select id="selectAutoBidReqForcustLeave" resultType="CommonMap">
+		select 
+			abr.CUST_NO, abr.SALE_NO, abr.LOT_NO, l.TO_DT 
+		from 
+			auto_bid_req abr 
+		join 
+			lot l 
+		on abr.SALE_NO = l.SALE_NO and abr.LOT_NO = l.LOT_NO 
+		where 
+			cust_no = #{cust_no}
+			and l.TO_DT > now()
+	</select>
 	
 </mapper>

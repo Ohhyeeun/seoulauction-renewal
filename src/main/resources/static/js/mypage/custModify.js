@@ -653,3 +653,7 @@ function custModify(){
 		    
 		});
 }
+
+function custLeave(){
+	location.href = "/mypage/custLeave";
+}

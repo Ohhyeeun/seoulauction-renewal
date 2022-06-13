@@ -175,7 +175,7 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
                 $scope.$apply();
 
                 CountDownTimer($scope.auction.FROM_DT);
-                //CountDownTimer('06/16/2022 00:00 AM');
+                bidstart(${saleNo}, '', 0, $scope.auction.FROM_DT)
             }
         }).
         catch(function(error){
@@ -185,29 +185,89 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
 });
 </script>
 <script>
+    let w;
+    let con_try_cnt = 0;
+    let websocketTimeout;
+    let token='';
+    let end;
 
-    /*
-    [0523]날짜계산수정 ddayCounter( "2022-06-16:00:00:00+0900"); // 년- 월- 일: 시: 분 : 초 +표준시
-    function ddayCounter($time ){
-        var today = new Date().getTime();
-        var dday  = new Date( $time ).getTime();
-        var gap  = dday - today;
-        var day  = Math.floor(gap / (1000 * 60 * 60 * 24));
-        var hour = Math.floor((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var min  = Math.floor((gap % (1000 * 60 * 60)) / (1000 * 60));
-        var sec  = Math.floor((gap % (1000 * 60)) / 1000);
-        console.log( "D-DAY까지 " + day + "일 " + hour + "시간 " + min + "분 " + sec + "초 남았습니다." );
-
-        dayCountGo(    "ul.dayPlay"    , day);  // 99 day
-        hourCountGo(   "ul.hourPlay"   , hour); // 23 시
-        numnumCountGo( "ul.minutePlay" , min);  // 59 분
-        numnumCountGo( "ul.secondPlay" , sec);  // 59 초
+    // bidstart
+    function bidstart(saleNo, user_id, custNo, toDt) {
+        end = toDt;
+        retry(saleNo, 0, 2, user_id, custNo);
     }
- */
-    var call_ss = setInterval(function() {
-        numnumPlay("ul.secondPlay");
-    }, 1000);
 
+    // websocket connection retry
+    function retry(saleNo, lotNo, saleType, userId, custNo) {
+        window.clearTimeout(websocketTimeout);
+        if (w != null) {
+            w = null;
+        }
+        if (con_try_cnt > 5) {
+            con_try_cnt = 0
+            return
+        }
+        if (window.location.protocol !== "https:") {
+            w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws");
+        } else {
+            w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws");
+        }
+        w.onopen = function () {
+            console.log("open");
+        }
+        w.onerror = function () {
+            w.close();
+            console.log('error');
+        }
+        w.onclose = function () {
+            if (w.readyState === w.CLOSED) {
+                if (!is_end_bid) {
+                    con_try_cnt++;
+                    websocketTimeout = window.setTimeout(function () {
+                        retry(saleNo, lotNo, saleType, userId, custNo);
+                    }, 1000);
+                }
+            }
+        }
+        w.onmessage = function (evt) {
+            proc(evt, saleNo, lotNo, saleType, userId, custNo);
+        }
+        con_try_cnt = 0;
+    }
+    // bid protocols
+    function proc(evt, saleNo, lotNo, saleType, userId, custNo) {
+        const packet_enum = {
+            init: 1, time_sync: 3,
+        }
+        let d = JSON.parse(evt.data);
+        if (d.msg_type === packet_enum.init) {
+            // 현재 토큰정보
+            token = d.message.token;
+            let init_func_manual = async function (req) {
+                let url = '';
+                if (window.location.protocol !== "https:") {
+                    url = 'http://dev-bid.seoulauction.xyz/init';
+                } else {
+                    url = 'https://dev-bid.seoulauction.xyz/init';
+                }
+                let response = await fetch(url, {
+                    method: "POST", body: JSON.stringify({
+                        token: req.message.token,
+                        sale_no: saleNo,
+                        lot_no: 0,
+                        sale_type: saleType,
+                        user_id: userId,
+                        cust_no: custNo,
+                    }),
+                });
+                return response;
+            }
+            init_func_manual(d);
+        }  else if (d.msg_type === packet_enum.time_sync) {
+            numnumPlay("ul.secondPlay", d.msg_type.tick_value);
+            //CountDownTimer(d.message.tick_value);
+        }
+    }
     /* 카운트셋 */
     function numnumSet($target, $num) {
         var max = 59;
@@ -333,7 +393,7 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
                 /* ==end== */
                 //if( _d == "00" && _h == "00" && _m=="00" ){
                 if (_d == "00") {
-                    clearInterval(call_ss);
+                    //clearInterval(call_ss);
                     openDdayFn();
                     return false;
                 }
@@ -369,6 +429,7 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
                 .closest(".countdown-article")
                 .addClass("play");
         }
+        //$($target).attr("data-time", $tick);
         $($target).attr("data-time", $("li.active", $target).find(".up .inn>.m_m").text());
     }
 
@@ -378,7 +439,8 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
         numnumSet("ul.hourPlay", 0);
         numnumSet("ul.minutePlay", 0);
         numnumSet("ul.secondPlay", 0);
-        alert("오픈");
+        location.href = "/auction/list/${saleNo}";
+        return;
     }
 </script>
 
@@ -395,7 +457,7 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
         var now = new Date();
         var distance = end - now;
         if (distance < 0) {
-            alert("지난 날짜!")
+            location.href = "/auction/list/${saleNo}";
             return;
         }
         var days = Math.floor(distance / _day);
