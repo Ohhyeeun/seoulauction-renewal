@@ -813,6 +813,22 @@ function growPriceForOffline(price){
     return growPrice;
 }
 
+//영어 요일을 한글 요일로
+function enDayToHanDay(enDay){
+    let hanDay;
+    switch (enDay){
+        case 'Mon' : hanDay = '월'; break;
+        case 'Tue' : hanDay = '화'; break;
+        case 'Wed' : hanDay = '수'; break;
+        case 'Thu' : hanDay = '목'; break;
+        case 'Fri' : hanDay = '금'; break;
+        case 'Sat' : hanDay = '토'; break;
+        case 'Sun' : hanDay = '일'; break;
+    }
+
+    return hanDay;
+}
+
 
 /* 반응형 resize */
 $(window).resize(function(){
