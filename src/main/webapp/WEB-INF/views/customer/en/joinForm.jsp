@@ -107,7 +107,7 @@
 		                                    </div>
 		                                    <div class="form_body">
 		                                        <div class="select-box">
-		                                        	<select class="select2Basic" id="select_nation" ng-model="select_nation" tabindex="5" name="select_nation" ng-required="langType == 'en'" ng-change="changeNation()">
+		                                        	<select class="select2Basic" id="select_nation" ng-model="select_nation" tabindex="5" name="select_nation" ng-required="langType == 'en'" onchange="angular.element(this).scope().changeNation()">
 														<option value="">Select your country</option>
 														<option ng-repeat="nation in nationList" value="{{nation.CD_ID}}|{{nation.CD_VAL3}}">{{nation.CD_NM}} +{{nation.CD_VAL3}}</option>
 													</select>
