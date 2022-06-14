@@ -85,6 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers( "/favicon.ico").permitAll()
 			.antMatchers("/customer/**").permitAll()
 			.antMatchers("/mypage/**").authenticated()
+			.antMatchers("/payment/**").authenticated()
 			//.anyRequest().authenticated()
 			.and()
 			.formLogin()

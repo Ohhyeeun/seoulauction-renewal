@@ -626,6 +626,7 @@
                COLUMN_JSON(b.EXPE_PRICE_TO_BLOB)   EXPE_PRICE_TO_JSON,
                IFNULL(g.DEL_YN,'Y') FAVORITE_YN, /*N 이면 좋아요가 있음. Y면 좋아요가 아님.*/
                b.LOT_TAG,
+               b.EXPE_PRICE_INQ_YN,
                date_format(a.FROM_DT,'%m.%d(%a)') FROM_DT,
                date_format(a.TO_DT, '%m.%d(%a)') TO_DT
         from sale a
