@@ -248,7 +248,7 @@
                                 <div class="panel-footer">
                                     <article class="button-area">
                                         <div class="btn_set ">
-                                            <a class="btn btn_default btn_lg"  role="button"><span>취소</span></a>
+                                            <a class="btn btn_default btn_lg"  role="button" id="biding_cancel_btn" ><span>취소</span></a>
                                             <a class="btn btn_point btn_lg" role="button" id="biding_req_btn"><span>응찰신청</span></a>
                                         </div>
                                     </article>
@@ -457,7 +457,9 @@
                 } catch (error) {
                     console.error(error);
                 }
-
+            });
+            $("#biding_cancel_btn").on('click', function(){
+                location.href ='/auction/live/list/${saleNo}';
             });
 
         });
