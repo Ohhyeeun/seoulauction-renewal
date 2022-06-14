@@ -13,7 +13,10 @@
 	    <title>Seoul Auction</title>
 	    <link rel="stylesheet" href="/css/main.css" type="text/css" />
 	</head>
+	<spring:eval expression="@environment.getProperty('social.service.domain')" var="socialServiceDomain" />
 	<script>
+		var socialServiceDomain = '${socialServiceDomain}'
+		console.log(socialServiceDomain);
 		var loginFailCntYn = '${sessionScope.LOGIN_FAIL_CNT_YN}' == 'true' ? 'Y' : 'N';
 	</script>
 	<body>

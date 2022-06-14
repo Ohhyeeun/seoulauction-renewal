@@ -440,6 +440,9 @@ public class ApiSaleController {
         } catch (JsonProcessingException e) {
 
         }
+
+        log.info("lotImages : {}" , lotImages.size());
+
         return ResponseEntity.ok(RestResponse.ok(lotImages));
    }
     @RequestMapping(value = "/lotTag/{saleNo}", method = RequestMethod.GET)

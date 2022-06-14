@@ -629,6 +629,7 @@ img {
     padding: 14px 0;
     display: flex;
     position: relative;
+    cursor: pointer;
 }
 .header_utilitymenu>li:before {
     content: "";
@@ -1068,6 +1069,9 @@ img {
 .footer-infomenu>li>a {
     font-weight: 600;
 }
+.footer-infomenu>li:nth-child(2)>a {
+    font-weight: 800;
+}
 .snsbox_icon>li {
     margin-right: 12px;
 }
@@ -1123,6 +1127,7 @@ img {
     position: relative;
     top: 0;
     z-index: 1;
+    cursor: pointer;
 }
 .familyselect {
     position: absolute;
@@ -2211,4 +2216,4 @@ body.dark,
     .submenuBg {
         max-width: 300px;
     }
-}
+} 

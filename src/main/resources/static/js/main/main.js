@@ -331,7 +331,7 @@ function loadUpcomings() {
                     const to_dt = moment(item.TO_DT);
                     const open_dt = moment(item.OPEN_DT);
                     const returnDom =  ` <div class="swiper-slide upcomingSlide " style="padding-right: 40px;">
-                                            <a href="#">
+                                            <a href="/auction/scheduled/${item.SALE_NO}">
                                                 <div class="upcoming-caption">
                                                     <span class="auctionKind-box ${ item.SALE_KIND === 'LIVE' ? 'on' : ''}">
                                                         ${item.SALE_KIND} 
