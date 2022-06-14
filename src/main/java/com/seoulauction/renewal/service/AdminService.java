@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,7 +25,7 @@ public class AdminService {
 
         return ktAdminMapper.selectActiveSales(map).stream().map(c->{
             Map maps = null;
-            CommonMap resultMap =new CommonMap();
+            CommonMap resultMap = new CommonMap();
             try {
                 maps = mapper.readValue(String.valueOf(c.get("SALE_TITLE_JSON")) , Map.class);
             } catch (JsonProcessingException e) {
@@ -36,5 +37,27 @@ public class AdminService {
             return resultMap;
         }).collect(Collectors.toList());
     }
+    public CommonMap getArtistByNo(CommonMap map){
+        return Optional.ofNullable(ktAdminMapper.selectArtistByNo(map)).map(c->{
 
+            ObjectMapper mapper = new ObjectMapper();
+            Map maps = null;
+            try {
+                maps = mapper.readValue(String.valueOf(c.get("ARTIST_NAME_BLOB")) , Map.class);
+                CommonMap nameMap = new CommonMap();
+                nameMap.put("ko" , maps.get("ko"));
+                nameMap.put("en" , maps.get("en"));
+                c.put("name", nameMap);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+
+            c.remove("ARTIST_NAME_BLOB");
+
+            return c;
+        }).orElse(new CommonMap());
+    }
+    public List<CommonMap> getCode(CommonMap map){
+        return ktAdminMapper.selectCode(map);
+    }
 }
