@@ -117,7 +117,7 @@
                                         <dl class="memlv2_record-list memlv2"  ng-if="pay.VALID == '정회원'" >
                                             <dt>
                                                 <div class="title">
-                                                    <div class="tb1"><span>{{pay.VALID_FROM_DT}} ~ {{pay.VALID_TO_DT}}</span></div>
+                                                    <div class="tb1"><span>{{pay.VALID_FROM_DT_EN}} ~ {{pay.VALID_TO_DT_EN}}</span></div>
                                                 </div>
                                                 <div class="state icon-wrap">
                                                     <div class="state-icon">Subscription Member</div>
@@ -126,11 +126,11 @@
                                             <dd>
                                                 <div class="info-li">
                                                     <div class="tit">Payment Date</div>
-                                                    <div class="txt">{{pay.payDate}}({{pay.weekDateEn}}) {{pay.payTime}}</div>
+                                                    <div class="txt">{{pay.PAY_DT_EN}}</div>
                                                 </div>
                                                 <div class="info-li">
                                                     <div class="tit">Payment Method</div>
-                                                    <div class="txt">{{pay.PAY_METHOD_CD}}</div>
+                                                    <div class="txt">{{pay.PAY_METHOD_NM_EN}}</div>
                                                 </div>
                                                  <div class="info-li btn-area">
                                                     <button class="btn btn_gray_line btn_sm" type="button" ng-if="pay.PAY_METHOD_ID == 'card' && pay.receipt == 'Y'" ng-click="receiptPopup({'pay':pay,'type':0})"><span>카드영수증</span></button>
@@ -162,6 +162,9 @@
                                                 </div>
                                             </dd>
                                         </dl>
+                                    </div>
+                                    <div class="data-empty" ng-if="custPayCnt == 0">
+                                            <p class="txt_empty">No Membership History.</p>
                                     </div>
                                 </article>
                                 <div class="button-area">

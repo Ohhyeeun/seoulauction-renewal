@@ -1,234 +1,223 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<body>
-	<div id="wrap">
-		<jsp:include page="../../include/ko/header.jsp" flush="false" />
-		<section class="main-contents footer-bottom">
-			<div id="wrap" ng-app="myApp">
+<link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
 
-				<script type="text/javascript" src="/js/mypage/onlinePay.js"></script>
-				<div class="container_wrap" ng-controller="onlinePayListCtl"
-					data-ng-init="init();">
+<body class="">
+	<div class="wrapper" ng-app="myApp">
+		<div class="sub-wrap pageclass">
+			<jsp:include page="../../include/en/header.jsp" flush="false" />
+			<script type="text/javascript" src="/js/mypage/onlinePay.js"></script>
+            <!-- container -->
+            <div id="container" class="onlinePay"  ng-controller="onlinePayListCtl" data-ng-init="loadOnlinePayList(1);">
+                <div id="contents" class="contents">
 
-					<div id="container">
-						<div class="contents_wrap">
-							<div class="contents">
-								<div class="tit_h2">
-									<h2>결제 및 구매 목록</h2>
-								</div>
-								<p style="font-size: 12px; line-height: 18px;">구매가(Purchase
-									Price) : 낙찰가 + 낙찰 수수료 + 부가가치세가 합산된 금액입니다. 구매수수료 18%(부가가치세 별도)
-									일괄 적용합니다.</p>
-								<p style="font-size: 12px; line-height: 18px; color: #F00">낙찰
-									계좌안내 : 우리은행 1005-200-281649 서울옥션 (입금뒤 전화주세요)​</p>
-								<p style="font-size: 12px; line-height: 18px;">
-									문의 : 02-395-0330​​(본사) <br /> <br />
-								</p>
-								<article class="search-wrap">
-									<div class="search-bar">
-										<div class="date-wrap">
-											<div class="select-box h42-line">
-												<select id="searchMonth" ng-model="sale"
-													ng-change="loadOnlinePayList(1,'searchMonth');">
-													<option value="">전체</option>
-													<option ng-repeat="sale in saleList track by $index"
-														value="{{sale.saleMonth}}">{{sale.saleMonth}}</option>
-												</select>
-											</div>
-										</div>
-										<div class="search-detail-btnbox">
-											<a href="#" class="search-detail-btn"> <i
-												class="form-search_md" title="상세검색"></i>
-											</a>
-										</div>
-									</div>
-									<div class="search-detail-box">
-										<div class="input-wrap">
-											<input type="text" placeholder="" id="searchKeyword"
-												class="h42">
-										</div>
-										<div class="period-wrap">
-											<dl>
-												<dt>기간</dt>
-												<dd>
-													<div class="date-wrap">
-														<input type="text" placeholder="" id="searchStartDt"
-															class="h42"> <span>~</span> <input type="text"
-															placeholder="" id="searchEndDt" class="h42">
+                    <section class="basis-section last-section mypage-section">
+                        <div class="section-inner">
+
+                            <div class="content-panel type_panel-mypage_auction online-buy">
+                                <div class="panel-body">
+                                    <div class="mypage-container">
+
+                                        <!-- 마이페이지 싸이드 메뉴 -->
+                                        <jsp:include page="include/mypageSide.jsp" flush="false" />
+                                        
+                                        
+                                        <!-- container -->
+                                        <div class="content-area">
+                                            <div class="subtitle-wrap">
+                                                <div class="subtitle-inner">
+                                                    <div class="title">
+                                                        <span class="tt2">Payment & Purchase History</span>
+                                                    </div>
+                                                    <div class="btn-wrap js-history_back m-ver"><i class="icon-page_back"></i></div>
+                                                </div>
+                                            </div>
+                                            <div class="contents-wrap">
+                                                <article class="help-box-wrap">
+                                                    <div class="help-box">
+                                                        <i class="icon-inquiry_g"></i>
+                                                        <ul>
+                                                            <li><span>Purchase Price: The sum of the successful bid price + the successful bid fee + VAT.</span></li>
+                                                            <li><span>18% of purchase fee (excluding VAT) is applied collectively.</span></li>
+                                                        </ul>
+                                                    </div>
+                                                </article>
+                                                <article class="list_count-wrap">
+                                               		<div class="count-area textlist-wrap">
+                                                        <div class="tit">There is a total of <span class="point">{{allCnt}}</span> history.</div>
+                                                        <div class="sub">(Payment to be made <span class="point">{{payCnt}}</span> cases, Purchase history <span class="point">{{paidCnt}}</span> cases)</div>
+                                                    </div>
+                                                </article>
+                                                <!-- [0526]상품진열디자인 변경 : product-infobox 안에 product-infobox-inner 생성 -->
+                                                <article class="bid-list-wrap">
+                                                    <div class="bid-list">
+                                                        <dl class="bid-item" ng-repeat="pl in payList">
+                                                            <dt>
+                                                                <div class="title-area">
+                                                                    <div class="title tt4 line-1">
+                                                                        <span>{{pl[1][0].SALE_TITLE_EN}}</span>
+                                                                    </div>
+                                                                    <div class="desc tb1">
+                                                                        <span class="tit">Auction Date</span>
+                                                                        <span>{{pl[1][0].FROM_DT_EN}}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </dt>
+                                                            <dd class="item-ea"  ng-repeat="data in pl[1]">
+                                                                <div class="item-ea-tit">
+                                                                    <div class="paystate pending" ng-if="data.PAID_CNT != 1">Waiting for payment ({{data.PAY_METHOD_NM_EN}})</div>
+                                                                    <div class="paystate complete" ng-if="data.PAID_CNT == 1">Payment complete</div>
+                                                                    <div class="txt" ng-if="data.PAID_CNT == 1">{{data.PAY_DT_EN}} ({{data.PAY_METHOD_NM_EN}})</div>
+                                                                </div>
+                                                                <div class="item-ea-inner">
+                                                                    <div class="product-infobox">
+                                                                        <div class="product-infobox-inner">
+                                                                            <div class="thumb-area">
+                                                                                <figure class="img-ratio">
+                                                                                    <div class="img-align">
+                                                                                        <img src="/nas_img{{data.LOT_IMG}}" alt="">
+                                                                                    </div>
+                                                                                </figure>
+                                                                            </div>
+                                                                            <div class="text-area">
+                                                                                <div class="num">{{data.LOT_NO}}</div>
+                                                                                <div class="title">
+                                                                                    <div class="titlename">{{data.ARTIST_NAME_EN}}</div>
+                                                                                </div>
+                                                                                <div class="desc">{{data.LOT_TITLE_EN}}</div>
+                                                                                <div class="sub-box">
+                                                                                <!-- [0613]재질/사이즈로 수정 -->
+                                                                                    <div class="sub-li">{{data.CD_NM}}</div>
+                                                                                    <div class="sub-li">
+                                                                                        <span>{{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}} X {{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}}cm</span>
+                                                                                        <span>{{StringToJson(data.LOT_SIZE_JSON)[0].CANVAS}}</span>
+                                                                                    </div>
+                                                                                    <!-- //[0613]재질/사이즈로 수정 -->
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="pay-infobox">
+                                                                        <div class="pay-area">
+                                                                         	<dl class="price">
+                                                                                <dt class="tit">Bid Price</dt>
+                                                                                <dd class="txt">
+                                                                                    <span>{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</span>
+                                                                                    <div class="sub">
+                                                                                        <span>{{data.BID_DT_EN}} </span>
+                                                                                        <span>({{bidCountToString(data.bid_count)}})</span>
+                                                                                    </div>
+                                                                                </dd>
+                                                                            </dl>
+                                                                            <dl class="price">
+                                                                                <dt class="tit">Hammer</dt>
+                                                                                <dd class="txt">{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</dd>
+                                                                            </dl>
+                                                                            <dl class="price">
+                                                                                <dt class="tit">Fees</dt>
+                                                                                <dd class="txt">{{data.CURR_CD}} {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).fee}}</dd>
+                                                                            </dl>
+                                                                            <dl class="price succ">
+                                                                                <dt class="tit">Purchase</dt>
+                                                                                <dd class="txt">{{data.CURR_CD}} {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price}}</dd>
+                                                                            </dl>
+                                                                        </div>
+                                                                        <div class="btn-area" ng-if="data.PAID_CNT != 1">
+                                                                            <button class="btn btn_point" type="button"><span>Make a PayMent</span></button>
+                                                                        </div>
+                                                                        <div class="btn-area" ng-if="data.PAID_CNT == 1">
+                                                                            <button class="btn btn_gray_line" type="button" ng-if="data.PAY_METHOD_ID == 'card' && data.receipt == 'Y'" ng-click="receiptPopup({'pay':data,'type':0})"><span>Payment Receipt</span></button>
+                                                                            <button class="btn btn_gray_line" type="button" ng-if="data.PAY_METHOD_ID == 'vbank' && data.receipt == 'Y'" ng-click="receiptPopup({'pay':data,'type':1})"><span>Cash Receipt</span></button>
+<!--                                                                             <button class="btn btn_gray btn-half btn-print" type="button" disabled>
+                                                                                <span>보증서출력하기</span>
+                                                                                <span>7일 이후 가능</span>
+                                                                            </button> -->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </dd>
+                                                        </dl>
+	                                                    <div class="data-empty" ng-if="totalCnt == 0">
+	                                                            <p class="txt_empty">There is no payment or purchase history.</p>
+	                                                    </div>
+                                                    </div>
+                                                    
+                                                    
+                                                    
+                                                   <div class="wrap_paging" ng-if ="totalCnt != 0">
+														<paging page="currentPage"
+															page-size=5
+															total=totalCnt
+															paging-action="loadOnlinePayList(page)"
+															scroll-top="true"
+															hide-if-empty="true"
+															show-prev-next="true"
+															show-first-last="true"
+															ul-class="page_ul"
+															active-class="page_active"
+														    disabled-class="page_disable"
+														    text-next-class="icon-page_next next page_btn sp_btn btn_next02"
+														    text-prev-class="icon-page_prev prev page_btn sp_btn btn_prev02"
+														    text-first-class="icon-page_prevprev prev_end page_btn sp_btn btn_prev "
+														    text-last-class="icon-page_nextnext next_end page_btn sp_btn btn_next">
+														</paging>				
 													</div>
-													<button class="btn btn_black btn_sm" type="button"
-														ng-click="loadOnlinePayList(1, 'searchDetail')">
-														<span>검색</span>
-													</button>
-												</dd>
-											</dl>
-										</div>
-										</diiv>
-								</article>
-								<div class="tbl_top">
-									<div class="left">
-										<div class="txt" style="margin-bottom: 10px;">
-											총 <span class="txt_green">{{allCnt}}</span>건의 내역(결재할 내역
-											{{payCnt}}건, 구매 내역 {{paidCnt}}건)이 있습니다.
-										</div>
-									</div>
-									<div class="right web_only"></div>
-								</div>
-								<div class="bid_group mt0">
-									<div class="bid">
-										<div class="customer_bidlist clearfix"
-											ng-repeat="lot in payList">
-											<div class="customer_bidlist_title">{{lot.SALE_TH}}
-												{{lot.TITLE_JSON[locale]}} ({{lot.FROM_DT |dateFormat }} ~
-												{{lot.TO_DT |dateFormat}})</div>
+                                                </article>
+                                                <!-- //[0526]상품진열디자인 변경 : product-infobox 안에 product-infobox-inner 생성 -->
+                                            </div>
+                                        </div>
 
-											<div class="customer_paylistbox_imgbox clearfix">
-												<div class="customer_bidlist_img"
-													oncontextmenu="return false" ondragstart="return false"
-													style="text-align: center;"></div>
-											</div>
-											<!-- //customer_bidlist_imgbox -->
+                                    </div>
+                                </div>
+                                <div class="panel-footer"></div>
+                            </div>
+                        </div>
+                    </section>
 
-											<div class="customer_paylistbox_captionbox clearfix">
-												<div class="customer_bidlist_caption">
-													<p class="customer_bidlist_txt txt-over">
-														<!-- <div class="txt_dark"><strong>Lot. {{lot.LOT_NO}}</strong></div> -->
-														<span title="{{lot.LOT_NO}}">{{lot.LOT_NO}}</span>
-													</p>
+                </div>
+            </div>
+            <!-- //container -->
 
-													<p class="customer_paylistbox_txt txt-over">
-														<span title="{{lot.ARTIST_NAME_JSON[locale]}}">{{lot.ARTIST_NAME_JSON[locale]}}</span>
-														<sub class="lang web_only txt-over"
-															style="font-size: 12px; font-weight: normal;"> <span
-															class="txt_cn" ng-if="lot.ARTIST_NAME_JSON.zh != null"
-															style="padding-right: 5px;"
-															title="{{lot.ARTIST_NAME_JSON.zh}}">{{lot.ARTIST_NAME_JSON.zh}}</span>
-															<span
-															ng-if="locale != 'en' && lot.ARTIST_NAME_JSON.en != null"
-															title="{{lot.ARTIST_NAME_JSON.en}}">
-																{{lot.ARTIST_NAME_JSON.en}} </span> <span
-															class="txt_pale txt-over"
-															style="font-size: 12px; font-weight: normal;"
-															title="{{lot.BORN_YEAR}}{{lot.DIE_YEAR != null && lot.DIE_YEAR != '' ? '~' + lot.DIE_YEAR : ''}}">{{lot.BORN_YEAR}}{{lot.DIE_YEAR
-																!= null && lot.DIE_YEAR != '' ? '~' + lot.DIE_YEAR :
-																''}}</span>
-														</sub>
-													</p>
+            <!-- footer -->
+            <jsp:include page="../../include/en/footer.jsp" flush="false" />
+            <!-- //footer -->
 
-													<div class="customer_paylistbox_txt txt-over"
-														style="border: none; font-weight: normal; font-size: 14px;">
-														<div class="tit txt-over">
-															title="{{lot.LOT_TITLE_JSON.en | trimSameCheck :
-															lot.LOT_TITLE_JSON[locale] }}{{lot.LOT_TITLE_JSON.zh |
-															trimSameCheck : lot.LOT_TITLE_JSON[locale] }}">
-															{{lot.LOT_TITLE_JSON.en | trimSameCheck :
-															lot.LOT_TITLE_JSON[locale] }} {{lot.LOT_TITLE_JSON.zh |
-															trimSameCheck : lot.LOT_TITLE_JSON[locale] }} </span>
-														</div>
-													</div>
-												</div>
-												<!-- //customer_bidlist_captionbox -->
+            <!-- stykey -->
 
-												<div class="customer_paylistbox">
-													<div class="pay_pricebox">
-														<div>{{lot.CURR_CD}} {{lot.BID_PRICE | number : 0}}</div>
-														<div>
-															{{lot.BID_DT | dateFormat}} <span class="state_box"
-																style="margin-left: 5px;"> <span
-																class="state02 buy_list_state02"
-																style="font-size: 12px;"> <span
-																	ng-if="locale == 'ko'">낙찰</span> <span
-																	ng-if="locale != 'ko'">Hammer</span>
-															</span>
-															</span>
-														</div>
-													</div>
+            <div class="scroll_top-box">
+                <div class="box-inner">
+                    <a href="#" class="btn-scroll_top js-scroll_top"><i class="icon-scroll_top"></i></a>
+                </div>
+            </div>
+            <!-- // stykey -->
 
-													<div class="pay_pricebox02">
-														<dl>
-															<!-- <dt>낙찰가</dt>
-												<dd>: {{lot.CURR_CD}} {{lot.BID_PRICE | number : 0}}</dd> -->
-															<dt
-																ng-if="lot.CUST_FEE_YN == 'N' || (lot.CUST_FEE_YN == 'Y' && lot.PAYMENT_P_SET_CD == 'customer')">낙찰수수료</dt>
-															<dd
-																ng-if="lot.CUST_FEE_YN == 'N' || (lot.CUST_FEE_YN == 'Y' && lot.PAYMENT_P_SET_CD == 'customer')">:
-																{{lot.CURR_CD}} {{getPayTotal(lot.BID_PRICE,
-																lot.LOT_FEE_JSON).fee | number : 0}}</dd>
-															<dt
-																ng-if="lot.CUST_FEE_YN == 'N' || (lot.CUST_FEE_YN == 'Y' && lot.PAYMENT_P_SET_CD == 'customer')">총결제액</dt>
-															<dd
-																ng-if="lot.CUST_FEE_YN == 'N' || (lot.CUST_FEE_YN == 'Y' && lot.PAYMENT_P_SET_CD == 'customer')">
-																: <span style="font-weight: 900; color: #f30;">{{lot.CURR_CD}}
-																	{{getPayTotal(lot.BID_PRICE, lot.LOT_FEE_JSON).price |
-																	number : 0}}</span>
-															</dd>
-															<dt>결제현황</dt>
-															<dd>
-																: <strong ng-if="lot.PAY_PRICE > 0">
-																	{{lot.CURR_CD}} {{lot.PAY_PRICE | number : 0}} </strong> <span
-																	class="state_box buy_list_state02"
-																	style="margin-left: 5px;"> <!--  과거의 이관자료는 입금내역이 명확하지 않아서 미납/완납 표시 불명확함. 미납표시는 제외처리.-->
-																	<!--  <span class="state03" ng-if="lot.PAY_PRICE == null || lot.PAY_PRICE == 0">결제미진행</span>  -->
-																	<span class="state03 buy_list_state03"
-																	ng-if="lot.PAY_PRICE > 0 && lot.PAY_PRICE < getPayTotal(lot.BID_PRICE, lot.LOT_FEE_JSON).price"
-																	style="font-size: 12px;"><span
-																		ng-if="locale == 'ko'">일부결제</span><span
-																		ng-if="locale != 'ko'">Partial payment</span></span> <span
-																	class="state03 buy_list_state03"
-																	ng-if="lot.PAY_PRICE == getPayTotal(lot.BID_PRICE, lot.LOT_FEE_JSON).price"
-																	style="font-size: 12px;"><span
-																		ng-if="locale == 'ko'">결제완료</span><span
-																		ng-if="locale != 'ko'">full payment</span></span>
-																</span>
-															</dd>
-															<dt
-																ng-if="lot.PAY_PRICE < getPayTotal(lot.BID_PRICE, lot.LOT_FEE_JSON).price"></dt>
-															<dd
-																ng-if="lot.PAY_PRICE < getPayTotal(lot.BID_PRICE, lot.LOT_FEE_JSON).price">
-																<!-- 고객우대수수료 적용 12/11 bk 수정  -->
-																<span class="btn_style01"
-																	style="padding: 3px 20px 3px 20px; background-color: #62c3bc;">
-																	<button type="button"
-																		ng-click="showPurchasePopup(lot.LOT_NO, lot.SALE_NO);"
-																		style="color: #FFF; font-size: 14px; font-weight: 700;">결제하기</button>
-																</span> <span class="btn_style01"
-																	style="padding: 3px 20px 3px 20px; background-color: #62c3bc;"
-																	ng-if="custInfo.CUST_NO == 98250">
-																	<button type="button"
-																		ng-click="showPurchasePopupTest(lot.LOT_NO, lot.SALE_NO);"
-																		style="color: #FFF; font-size: 14px; font-weight: 700;">결제하기</button>
-																</span>
-																<!-- 
-													<span class="btn_style01 gray02" ng-if="lot.CUST_FEE_YN == 'N' || (lot.CUST_FEE_YN == 'Y' && lot.PAYMENT_P_SET_CD == 'customer')">
-														<button type="button" ng-click="showPurchasePopup(lot.LOT_NO, lot.SALE_NO);">결제하기</button>
-													</span> -->
-																<!-- <span style="color:red" ng-if="lot.CUST_FEE_YN == 'Y' && lot.PAYMENT_P_SET_CD != 'customer'">
-														고객할인 대상입니다. 담당자에게 연락 바랍니다.(02-542-2412)
-													</span> -->
-															</dd>
-															<dt ng-if="lot.PAY_CNT > 0">결제방법</dt>
-															<dd ng-if="lot.PAY_CNT > 0">
-																: {{lot.PAY_METHOD_NM}} <span ng-if="lot.PAY_CNT > 1">외
-																	{{lot.PAY_CNT - 1}}건</span>
-															</dd>
-														</dl>
-													</div>
-												</div>
-												<!-- //customer_bidinglistbox -->
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
+        </div>
+    </div>
 
 
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+    <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
+    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+    <!-- [0516]삭제
+  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
+-->
+
+
+    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
+
+
+
+    <script>
+        $(".js-history_back").click(function() {
+            window.history.back();
+        })
+    </script>
+</body>
+
+</html>
