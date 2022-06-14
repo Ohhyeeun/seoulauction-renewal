@@ -25,7 +25,7 @@ $(function(){
                     const ingAuctionList = response.data.data;
                     ingAuctionList.map(item => {
                         const titleJSON = JSON.parse(item.TITLE_BLOB);
-                        const returnDom = `<a href="/auction/${item.SALE_NO}" class="Ingbanner" target="_blank">
+                        const returnDom = `<a href="/auction/list/${item.SALE_NO}" class="Ingbanner" target="_blank">
                                             <figure class="border-txt-darkg Ingbanner-img">
                                                 <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" 
                                                      onerror="this.src='/images/pc/thumbnail/gnb_thubnatil_ready.jpg'"
