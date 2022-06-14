@@ -27899,7 +27899,7 @@ header.win_header .header-inner .header_logo {
   padding-left: 10px;
 }
 .contents input[type="text"].nation_hp {
-  padding-left: 82px;
+  padding-left: 100px;
 } 
 
 @media all and (max-width: 1023px) {
@@ -27907,7 +27907,7 @@ header.win_header .header-inner .header_logo {
     font-size: 15px;
   }
   .nation_hpbox>div {
-    font-size: 0.875vw;
+    font-size: 14px;
   }
   .contents input[type="text"].nation_hp {
     padding-left: 70px;
