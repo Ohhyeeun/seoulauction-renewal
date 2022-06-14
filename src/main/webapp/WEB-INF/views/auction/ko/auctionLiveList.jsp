@@ -228,7 +228,7 @@
                                                                 </dl>
                                                             </div>
                                                             <div id="biding_req" class="bidding-box col_2">
-                                                                <div class="deadline_set"><span>신청마감 {{item.LOT_EXPIRE_DATE_T}}</span></div>
+                                                                <div class="deadline_set"><span>신청마감 {{ item.LOT_EXPIRE_DATE_HAN }}</span></div>
                                                                 <div class="btn_set"><a class="btn btn_point" href="" ng-click="moveToBidding(item)"
                                                                                         role="button"><span>서면/전화 응찰 신청</span></a></div>
                                                             </div>
@@ -518,7 +518,7 @@
             // 호출 부
             const getSaleInfo = (saleNo) => {
                 try {
-                    return axios.get('/api/auction/list/${saleNo}?isLive=Y');
+                    return axios.get('/api/auction/list/${saleNo}?is_live=Y');
                 } catch (error) {
                     console.error(error);
                 }
@@ -569,6 +569,9 @@
 
 
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
+
+                        //영문 요일 -> 한국 요일로 치환처리.
+                        $scope.saleInfoAll[i].LOT_EXPIRE_DATE_HAN = $scope.saleInfoAll[i].LOT_EXPIRE_DATE_TIME_T.replace($scope.saleInfoAll[i].LOT_EXPIRE_DATE_DAY ,  enDayToHanDay($scope.saleInfoAll[i].LOT_EXPIRE_DATE_DAY) );
 
                         if($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW !=null) {
                             $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW.toLocaleString('ko-KR');

@@ -406,10 +406,13 @@ public class ApiSaleController {
 
     @GetMapping(value="/list/{saleNo}")
     public ResponseEntity<RestResponse> list(
-            @PathVariable("saleNo") int saleNo) {
+            @PathVariable("saleNo") int saleNo,
+            @RequestParam(value = "is_live" ,defaultValue = "N") String isLive
+    ) {
 
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
+        commonMap.put("is_live" , isLive);
 
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
         if (saUserDetails != null ) {
