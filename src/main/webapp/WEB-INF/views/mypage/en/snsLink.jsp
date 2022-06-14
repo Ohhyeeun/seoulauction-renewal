@@ -3,7 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<spring:eval expression="@environment.getProperty('social.service.domain')" var="socialServiceDomain" />
 <script>
+	var socialServiceDomain = '${socialServiceDomain}'
+	console.log(socialServiceDomain);
 	console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
 </script>
 <body class="">

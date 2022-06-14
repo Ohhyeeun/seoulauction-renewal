@@ -42,7 +42,7 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 	// 네이버초기화
 	naverLogin = new naver.LoginWithNaverId({
 		clientId: "5qXZytacX_Uy60o0StGT",
-		callbackUrl: "https://local.seoulauction.com:9000/social/naver/callback?action=join",
+		callbackUrl: socialServiceDomain + "/social/naver/callback?action=join",
 		isPopup: true,
 		loginButton: {
 			color: "green",
@@ -58,7 +58,7 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 	AppleID.auth.init({
 		clientId: 'com.seoulauction.renewal-web',
 		scope: 'name email',
-		redirectURI: 'https://local.seoulauction.com:9000/api/login/auth/apple',
+		redirectURI: socialServiceDomain + '/api/login/auth/apple',
 		state: 'SARenewal',
 		usePopup: true
 	});
@@ -820,6 +820,8 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	//해외회원 국가 validation
 	$scope.countryValid = false;
 	$scope.changeNation = function(){
+		var tmp = $("#select_nation").val()
+		$scope.select_nation = tmp;
 		if($scope.select_nation != "" && $scope.select_nation != undefined){
 			var sn = $scope.select_nation.split("|");
 			$scope.form_data.nation_cd = sn[0];
@@ -828,6 +830,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		}else{
 			$scope.countryValid = false;
 		}
+		$scope.$apply()
 		$scope.allValidCheck();
 	}
 	
