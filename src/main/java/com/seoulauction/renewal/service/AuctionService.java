@@ -29,15 +29,13 @@ public class AuctionService {
         if (saUserDetails != null) {
             map.put("cust_no", saUserDetails.getUserNo());
         }
-
-        Integer paddNo = auctionMapper.selectSalePaddNo(map);
-        if(paddNo != null){
+        int paddNo = auctionMapper.selectSalePaddNo(map);
+        if(paddNo > 0){
             return paddNo;
         }
 
         paddNo = auctionMapper.selectMaxSalePaddNo(map);
         map.put("padd_no", paddNo);
-
         auctionMapper.insertSaleCertOff(map);
         auctionMapper.insertSalePadd(map);
 

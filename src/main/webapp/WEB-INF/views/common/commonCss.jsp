@@ -8,4 +8,3 @@
     
 <link href="/css/angular/ngDialog.css" rel="stylesheet">
 <link href="/css/angular/popup.css" rel="stylesheet">
-<link rel="stylesheet" href="/css/common_popup.css" type="text/css" />   

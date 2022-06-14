@@ -10,7 +10,7 @@
 <head>
     <!-- header -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>온프라인 경매중 응찰신정gn | Seoul Auction</title>
+    <title>오프라인 경매 | Seoul Auction</title>
     <!-- //header -->
 </head>
 
@@ -54,53 +54,21 @@
                                 </article>
 
                                 <%--라이브 응찰 신청기간--%>
-                                <article class="proceeding-article">
-                                    <a ng-click="goLiveBid()" title="라이브 응찰 신청" class="js-terms_required">
+                                <article class="proceeding-article" ng-if="sale.LIVE_BID_YN == 'Y'">
+                                    <a href="#" ng-click="goLiveBid()" class="js-terms_required">
                                         <div class="article-inner">
                                             <div class="column view">
-                                                <strong class="note_msg" id="note_msg">라이브 응찰 신청</strong>
+                                                <strong class="note_msg" id="note_msg">{{paddNoteMsg}}</strong>
                                             </div>
                                             <div class="column">
-                                                <div class="note_etc" id="note_etc">
-                                                    <span>정회원만 응찰 신청이 가능합니다.</span><strong>{{paddNo}}</strong>
+                                                <div class="note_etc">
+                                                    <span id="note_etc">{{paddNoteEtc}}</span><strong ng-if="paddNo > 0">{{paddNo}}</strong>
                                                 </div>
                                             </div>
                                             <i class="icon-link_arrow"></i>
                                         </div>
                                     </a>
                                 </article>
-                                <%--
-                                <article class="proceeding-article">
-                                    <a href="#">
-                                        <div class="article-inner">
-                                            <div class="column view">
-                                                <strong class="note_msg">라이브 경매 보기</strong>
-                                            </div>
-                                            <div class="column">
-                                                <div class="note_etc">
-                                                    <span>사전 신청한 회원만 응찰 가능합니다.</span>
-                                                </div>
-                                            </div>
-                                            <i class="icon-link_arrow"></i>
-                                        </div>
-                                    </a>
-                                </article>
-
-                                <article class="proceeding-article">
-                                    <a href="#" title="라이브 경매 참가">
-                                        <div class="article-inner">
-                                            <div class="column view">
-                                                <strong class="note_msg">라이브 경매 참가</strong>
-                                            </div>
-                                            <div class="column">
-                                                <div class="note_etc">
-                                                    <span>나의 패들번호</span><strong>{{paddNo}}</strong>
-                                                </div>
-                                            </div>
-                                            <i class="icon-link_arrow"></i>
-                                        </div>
-                                    </a>
-                                </article>--%>
                             </div>
                         </div>
                     </section>
@@ -293,6 +261,7 @@
                     </section>
 
                 </div>
+                <jsp:include page="popup/paddle.jsp" />
             </div>
             <!-- //container -->
 
@@ -311,27 +280,18 @@
 
         </div>
     </div>
-    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-    <!--[if lt IE 9]>
-    <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-    <!-- [0516]삭제
-    <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
-    -->
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
-
     <script type="text/javascript" src="/js/auction/auctionLiveList.js" type="text/javascript"></script>
     <script>
         var terms_required = $(".js-terms_required").trpLayerFixedPopup("#terms_required-wrap");
+        var paddle_number = $(".js-paddle_number").trpLayerFixedPopup("#paddle_number-wrap");
 
         app.value('locale', 'ko');
         app.value('is_login', true);
 
         app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
 
-        app.controller('ctl', function ($scope, consts, common, is_login, locale) {
+        app.controller('ctl', function ($scope, consts, common, is_login, locale, $filter) {
             $scope.is_login = is_login;
             $scope.locale = locale;
             $scope.sale_no = "${saleNo}";
@@ -447,16 +407,17 @@
 
             $scope.goLiveBid = function(item) {
                 if(sessionStorage.getItem("is_login") === 'false'){
+                    alert("미로그인");
                     location.href = "/login";
                 }
 
-                const membership_yn = $scope.custInfo.MEMBERSHIP_YN;
+                const membership_yn = '${isRegular}';
                 if(membership_yn === 'N') {
+                    alert("준회원");
                     location.href = "/payment/member";
                 }
 
                 if($scope.paddNo <= 0) {
-                    console.log(document.querySelector(".js-terms_required"));
                     terms_required.open(this); // or false
                     popup_fixation("#terms_required-wrap");
 
@@ -465,6 +426,69 @@
                         terms_required.close();
                     });
                 }
+            }
+
+            $scope.goLiveBidAgree = function() {
+                if($(".js_all-terms #checkbox_all").is(":checked")) {
+                    axios.post('/api/auction/paddle', {sale_no : '${saleNo}'})
+                        .then(function (response) {
+                            if (response.data.success) {
+                                $scope.paddNo = response.data.data;
+                                $("em#paddle-number").html($scope.paddNo+"번");
+                                $scope.paddleStatus();
+                            }
+                        });
+
+                    terms_required.close();
+                    paddle_number.open(this); // or false
+                    popup_fixation("#paddle_number-wrap");
+                    $(".js_all-terms input[type='checkbox']").prop("checked", false);
+                } else {
+                    alert("약관에 동의해주세요.");
+                }
+
+                $("body").on("click", "#paddle_number-wrap .js-closepop, #paddle_number-wrap .popup-dim, #paddle_number-wrap #btn-paddle-number", function($e) {
+                    $e.preventDefault();
+                    paddle_number.close();
+                });
+            }
+
+            $scope.setSale = async function (saleNo) {
+                await axios.get('/api/auction/sales/' + saleNo)
+                    .then(function (response) {
+                        if (response.data.success) {
+                            $scope.sale = response.data.data;
+
+                            var S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
+                            var S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
+                            var FROM_DT_D = $filter('date')($scope.sale.FROM_DT, 'yyyyMMdd');
+                            var TO_DT_D = $filter('date')($scope.sale.TO_DT, 'yyyyMMdd');
+                            var END_DT = $filter('date')($scope.sale.END_DT, 'yyyyMMddHHmm');
+                            var LIVE_START_DT = $filter('date')($scope.sale.LIVE_BID_DT, 'yyyyMMddHHmm');
+                            // 오프라인 경매인 경우에는 SALE.TO_DT는 YYYY.MM.DD로 체크. 비교 서버시간은 S_DB_NOW_D (YDH. 2016.10.05)
+
+                            //라이브 응찰 시간 체크
+                            $scope.liveEnd = TO_DT_D;
+                            $scope.nowTime = S_DB_NOW_D;
+                            $scope.liveStartDt = LIVE_START_DT;
+                            $scope.liveCheckDt = S_DB_NOW;
+
+                            if (FROM_DT_D > S_DB_NOW_D && TO_DT_D > S_DB_NOW_D) {
+                                $scope.sale_status = "READY";
+                            } else if (FROM_DT_D <= S_DB_NOW_D && $scope.sale.CLOSE_YN != 'Y') {
+                                $scope.sale_status = "ING";
+                            } else {
+                                $scope.sale_status = "END";
+
+                                if (sessionStorage.getItem("is_login") === 'false') {
+                                    alert("권한이 없거나 허용되지 않은 접근입니다.");
+                                    //history_back();
+                                }
+                            }
+
+                            $scope.$apply();
+                        }
+                    });
             }
 
             // 호출 부
@@ -492,14 +516,6 @@
                 }
             }
 
-            const getSale = (saleNo) => {
-                try {
-                    return axios.get('/api/auction/sales/'+saleNo);
-                } catch (error) {
-                    console.error(error);
-                }
-            };
-
             $scope.searchLotTags = function (lotTag) {
                 $scope.selectLotTag = lotTag;
                 let pp = [];
@@ -515,12 +531,11 @@
             // 호출 부
             $scope.load = function () {
                 let run = async function () {
-                    let [r1, r2, r3, r4] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no), getSale($scope.sale_no)]);
+                    let [r1, r2, r3] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no)]);
 
                     $scope.saleInfoAll = r1.data.data;
                     $scope.saleImages = r2.data.data;
                     $scope.lotTags = r3.data.data;
-                    $scope.sale = r4.data.data;
 
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
 
@@ -548,37 +563,26 @@
                         p.push(i);
                     }
 
-                    //get paddle number & cust info
+                    await $scope.setSale($scope.sale_no);
+                    //get paddle number
                     $scope.paddNo = 0;
-                    $scope.custInfo = null;
                     if(sessionStorage.getItem("is_login") === 'true'){
-
                         await axios.get('/api/auction/paddles/${saleNo}')
                             .then(function(response) {
-                                const data = response.data;
-                                const success = data.success;
-                                if (success) {
-                                    const paddNo = data.data;
+                                if (response.data.success) {
+                                    const paddNo = response.data.data;
                                     if(paddNo > 0) {
                                         $scope.paddNo = paddNo;
                                     }
                                 }
                             });
-
-                        await axios.get('/api/auction/cust')
-                            .then(function(response) {
-                                    const data = response.data;
-                                    const success = data.success;
-                                    if (success) {
-                                        $scope.custInfo = data.data;
-                                    }
-                                });
                     }
 
                     $scope.pageingdata = p;
-                    $scope.$apply();
 
+                    $scope.$apply();
                     <%--$scope.bidstart('${member.loginId}', ${member.userNo});--%>
+                    $scope.paddleStatus();
 
                     // lot
                     $("#search_lot").on("keyup", function () {
@@ -602,9 +606,6 @@
 
                 }
                 run();
-
-
-
             }
 
             /*################ 웹소켓 #################*/
@@ -992,9 +993,66 @@
                 }
                 return p;
             }
+
+            $scope.paddleStatus = function () {
+                console.log("paddleStatus");
+                let paddNoteMsg = "라이브 응찰 신청";
+                let paddNoteEtc = "정회원만 응찰 신청이 가능합니다.";
+
+                const is_login = sessionStorage.getItem("is_login");
+                const membership_yn = '${isRegular}';
+                const padd_no = $scope.paddNo;
+                const sale_status = $scope.sale_status;
+
+                const live_start_dt = $filter('date')($scope.liveStartDt, 'M/d');
+                const live_start_dt_date = $scope.getWeek($scope.liveStartDt);
+                const live_start_dt_hour = $filter('date')($scope.liveStartDt, 'H');
+                const live_start_dt_minute = $filter('date')($scope.liveStartDt, 'm');
+
+                console.log("paddleStatus ", is_login, membership_yn, padd_no, sale_status);
+                //라이브 진행 중
+                if(sale_status == 'ING' && $scope.liveCheckDt >= $scope.liveStartDt) {
+                    console.log("1");
+                    if (is_login === 'true' && membership_yn === 'true' && padd_no > 0) {
+                        paddNoteMsg = "라이브 경매 참가";
+                        paddNoteEtc = "나의 패들번호 : ";
+                    } else {
+                        paddNoteMsg = "라이브 경매 보기";
+                        paddNoteEtc = "사전 신청한 회원만 응찰 가능합니다.";
+                    }
+                } else if(sale_status == 'ING' && $scope.nowTime == $scope.liveEnd && $scope.liveCheckDt < $scope.liveStartDt) {
+                    console.log("2");
+                    if(is_login === 'true' && membership_yn === 'true' && padd_no > 0){
+                        paddNoteMsg = "라이브 경매 신청완료";
+                        paddNoteEtc = live_start_dt+"("+live_start_dt_date+") "+live_start_dt_hour+"시에 시작합니다.";
+                    } else {
+                        paddNoteMsg = "라이브 경매 준비 중";
+                        paddNoteEtc = live_start_dt+"("+live_start_dt_date+") "+live_start_dt_hour+"시에 시작합니다.";
+                    }
+                } else if(sale_status == 'ING' && $scope.nowTime < $scope.liveEnd) {
+                    console.log("3");
+                    if(is_login === 'true' && membership_yn === 'true' && padd_no > 0){
+                        paddNoteMsg = "라이브 경매 신청완료";
+                        paddNoteEtc = live_start_dt+"("+live_start_dt_date+") "+live_start_dt_hour+"시에 시작합니다.";
+                    } else {
+                        paddNoteMsg = "라이브 응찰 신청";
+                        paddNoteEtc = "정회원만 응찰 신청이 가능합니다.";
+                    }
+                }
+
+                $scope.paddNoteMsg = paddNoteMsg;
+                $scope.paddNoteEtc = paddNoteEtc;
+                $scope.$apply();
+            }
+
         });
+
+    (function() {
+        //약관체크
+        $(".js_all-terms").trpCheckBoxAllsImg(".js_all", ".js_item");
+    })();
     </script>
-    <jsp:include page="popup/paddle.jsp" />
+
 </body>
 
 </html>
