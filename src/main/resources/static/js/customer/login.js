@@ -160,7 +160,7 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 	// 네이버초기화
 	naverLogin = new naver.LoginWithNaverId({
 		clientId: "5qXZytacX_Uy60o0StGT",
-		callbackUrl: "https://local.seoulauction.com:9000/social/naver/callback?action=login",
+		callbackUrl: socialServiceDomain + "/social/naver/callback?action=login",
 		isPopup: true,
 		loginButton: {
 			color: "green",
@@ -175,7 +175,7 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 	AppleID.auth.init({
 		clientId: 'com.seoulauction.renewal-web',
 		scope: 'name email',
-		redirectURI: 'https://local.seoulauction.com:9000/api/login/auth/apple',
+		redirectURI: socialServiceDomain + '/api/login/auth/apple',
 		state: 'SARenewal',
 		usePopup: true
 	});

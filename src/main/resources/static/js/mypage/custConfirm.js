@@ -111,7 +111,7 @@ if(socialYn == 'Y'){
 	// 네이버초기화
 	naverLogin = new naver.LoginWithNaverId({
 		clientId: "5qXZytacX_Uy60o0StGT",
-		callbackUrl: "https://local.seoulauction.com:9000/social/naver/callback?action=socialConfirm",
+		callbackUrl: socialServiceDomain + "/social/naver/callback?action=socialConfirm",
 		isPopup: true,
 		loginButton: {
 			color: "green",
@@ -126,7 +126,7 @@ if(socialYn == 'Y'){
 	AppleID.auth.init({
 		clientId: 'com.seoulauction.renewal-web',
 		scope: 'name email',
-		redirectURI: 'https://local.seoulauction.com:9000/api/login/auth/apple',
+		redirectURI: socialServiceDomain + '/api/login/auth/apple',
 		state: 'SARenewal',
 		usePopup: true
 	});

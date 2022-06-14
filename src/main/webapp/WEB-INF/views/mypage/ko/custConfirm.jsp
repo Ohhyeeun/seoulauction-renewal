@@ -8,7 +8,10 @@
 <sec:authentication property="details.socialYn" var="socialYn"></sec:authentication>
 <sec:authentication property="details.socialType" var="socialType"></sec:authentication>
 <sec:authentication property="details.socialEmail" var="socialEmail"></sec:authentication>
+<spring:eval expression="@environment.getProperty('social.service.domain')" var="socialServiceDomain" />
 <script>
+	var socialServiceDomain = '${socialServiceDomain}'
+	console.log(socialServiceDomain);
 	console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
 	var socialYn = '${socialYn}';
 	var socialType = '${socialType}';

@@ -66,7 +66,12 @@
 							formData.forEach((value, key) => (data[key] = value));
 							axios.post('/api/login/social' , data)
 				                .then(function(response) {
-				                    opener.location.replace("/");
+				                	var result = response.data;
+				                	if(result.success){
+					                    opener.location.replace("/");
+				                	}else{
+				                		opener.alert("로그인에 실패하였습니다.");
+				                	}
 									window.close();
 				                })
 				                .catch(function(error){
