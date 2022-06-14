@@ -43,4 +43,14 @@ public class PrivateSaleController {
         return SAConst.getUrl(SEVICE_PRIVATE_SALE , "exhibitView" , locale);
     }
 
+    @GetMapping("/psGuide")
+    public String psGuide(Locale locale) {
+        return SAConst.getUrl(SEVICE_PRIVATE_SALE , "psGuide" , locale);
+    }
+
+    @GetMapping("/psList")
+    public String psList(Locale locale) {
+        return SAConst.getUrl(SEVICE_PRIVATE_SALE , "psList" , locale);
+    }
+
 }

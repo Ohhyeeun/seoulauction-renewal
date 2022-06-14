@@ -10,6 +10,7 @@ import com.seoulauction.renewal.service.PrivateSaleService;
 import com.seoulauction.renewal.service.SaleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,9 @@ public class ApiPrivateSaleController {
 
     private final PrivateSaleService privateSaleService;
     private final SaleService saleService;
+
+    @Value("${image.root.path}")
+    private String IMAGE_URL;
 
 
     @RequestMapping(value = "/selectExhibitSale", method = RequestMethod.GET)
@@ -154,6 +158,61 @@ public class ApiPrivateSaleController {
 
         }
         return ResponseEntity.ok(RestResponse.ok(lotInfoMap));
+    }
+
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> selectPrivateSale() {
+
+        CommonMap commonMap = new CommonMap();
+        List<CommonMap> privateList = privateSaleService.selectPrivateSaleList(commonMap);
+
+        String[] mapKeys = {"SALE_TITLE_JSON", "LOT_TITLE_JSON",
+                "MAKE_YEAR_JSON", "ARTIST_NAME_JSON", "EXPE_PRICE_FROM_JSON", "EXPE_PRICE_TO_JSON"};
+
+        // 맵 형태 거름
+        ObjectMapper mapper  = new ObjectMapper();
+        try{
+            // 맵 변환
+            for (var i = 0; i < privateList.size(); i++) {
+                for (var item : mapKeys) {
+                    privateList.get(i).put(item, mapper.readValue(String.valueOf(privateList.get(i).get(item)),
+                            Map.class));
+                }
+                privateList.get(i).put("IMAGE_URL", IMAGE_URL);
+            }
+        } catch (JsonProcessingException e) {
+
+        }
+
+        return ResponseEntity.ok(RestResponse.ok(privateList));
+    }
+
+
+    @RequestMapping(value="/saleImages/{saleAsNo}", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> saleImages(HttpServletRequest req,
+                                                   HttpServletResponse res,
+                                                   Locale locale, @PathVariable("saleAsNo") int saleAsNo) {
+
+        CommonMap map = new CommonMap();
+        map.put("sale_as_no", saleAsNo);
+
+        // 랏 이미지 정보 가져오기
+        List<CommonMap> lotImages = privateSaleService.selectPrivateSaleLotImages(map);
+
+        // 필터를 적용한 새로운 랏이미지 정보
+        List<CommonMap> lotImagesNew = new ArrayList<>();
+
+        // 랏 디스플레이 필터
+        for (var item : lotImages) {
+            CommonMap lotImagesNewItem = new CommonMap();
+            for (var k : new ArrayList<>(item.keySet())){
+                lotImagesNewItem.put(k, item.get(k));
+            }
+            lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
+            lotImagesNew.add(lotImagesNewItem);
+        }
+        return ResponseEntity.ok(RestResponse.ok(lotImagesNew));
     }
 
 

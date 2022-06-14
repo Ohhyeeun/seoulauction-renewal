@@ -146,4 +146,82 @@
         group by L.SALE_NO, L.LOT_NO
     </select>
 
+    <select id="selectPrivateSaleList"  parameterType="CommonMap" resultType="CommonMap">
+        SELECT S.SALE_AS_NO,
+               S.AS_NO,
+               S.SALE_AS_KIND,
+               COLUMN_GET(S.SALE_AS_TITLE_BLOB, 'ko' AS CHAR) AS SALE_AS_TITLE_BLOB_KO,
+               COLUMN_GET(S.SALE_AS_TITLE_BLOB, 'en' AS CHAR) AS SALE_AS_TITLE_BLOB_EN,
+               COLUMN_GET(S.SALE_AS_TITLE_BLOB, 'cn' AS CHAR) AS SALE_AS_TITLE_BLOB_CN,
+               COLUMN_GET(S.TITLE_BLOB, 'ko' AS CHAR) AS TITLE_BLOB_KO,
+               COLUMN_GET(S.TITLE_BLOB, 'en' AS CHAR) AS TITLE_BLOB_EN,
+               COLUMN_GET(S.TITLE_BLOB, 'cn' AS CHAR) AS TITLE_BLOB_CN,
+               COLUMN_GET(A.ARTIST_NAME_BLOB, 'ko' AS CHAR) AS ARTIST_NAME_BLOB_KO,
+               COLUMN_GET(A.ARTIST_NAME_BLOB, 'en' AS CHAR) AS ARTIST_NAME_BLOB_EN,
+               COLUMN_GET(A.ARTIST_NAME_BLOB, 'cn' AS CHAR) AS ARTIST_NAME_BLOB_CN,
+               LI.FILE_PATH,
+               LI.FILE_NAME,
+               A.BORN_YEAR,
+               CD.CD_NM,
+               CD.CD_NM_EN,
+               CD_NM_CN,
+               S.EDITION,
+               COLUMN_GET(S.MAKE_YEAR_BLOB, 'ko' AS CHAR) AS MAKE_YEAR_BLOB,
+               COLUMN_JSON(S.SIGN_INFO_BLOB) SIGN_INFO_JSON,
+               COLUMN_JSON(S.COND_RPT_BLOB) COND_RPT_JSON,
+               COLUMN_JSON(S.LITE_INFO_BLOB) LITE_INFO_JSON,
+               COLUMN_JSON(S.EXHI_INFO_BLOB) EXHI_INFO_JSON,
+               COLUMN_JSON(S.PROV_INFO_BLOB) PROV_INFO_JSON,
+               COLUMN_JSON(S.ETC_INFO_BLOB) ETC_INFO_JSON,
+               COLUMN_JSON(S.CMMT_BLOB) CMMT_JSON,
+               S.WWW_DISP_YN,
+               S.IMG_DISP_YN,
+               S.DISP_CHK_REMARK,
+               LI.FILE_PATH as AS_IMG_PATH,
+               LI.FILE_NAME as AS_IMG_NAME,
+               ifnull(ASI.UNIT_CD, 'cm')             UNIT_CD,
+               ifnull(ASI.SIZE1, '0')                SIZE1,
+               ifnull(ASI.SIZE2, '0')                SIZE2,
+               ifnull(ASI.SIZE3, '0')                SIZE3,
+               ifnull(ASI.CANVAS, '0')               CANVAS,
+               ifnull(ASI.DIAMETER_YN, 'N')          DIAMETER_YN,
+               ifnull(ASI.PREFIX, '')                PREFIX,
+               ifnull(ASI.SUFFIX, '')                SUFFIX,
+               ifnull(ASI.MIX_CD, 'h')               MIX_CD,
+               ifnull(ASI.CANVAS_EXT_YN, 'N')        CANVAS_EXT_YN,
+               CONCAT('['
+                   , GROUP_CONCAT('{',
+                                  '"UNIT_CD":"', ifnull(ASI.UNIT_CD, 'cm') ,'",',
+                                  '"SIZE1":', ifnull(ASI.SIZE1,0) ,',',
+                                  '"SIZE2":', ifnull(ASI.SIZE2,0) ,',',
+                                  '"SIZE3":', ifnull(ASI.SIZE3,0) ,',',
+                                  '"CANVAS":', ifnull(ASI.CANVAS,0) ,',',
+                                  '"DIAMETER_YN":"', ifnull(ASI.DIAMETER_YN,'N') ,'",',
+                                  '"PREFIX":"', ifnull(ASI.PREFIX,'') ,'",',
+                                  '"SUFFIX":"', ifnull(ASI.SUFFIX,'') ,'",',
+                                  '"MIX_CD":"', ifnull(ASI.MIX_CD,'h') ,'",',
+                                  '"CANVAS_EXT_YN":"', ifnull(ASI.CANVAS_EXT_YN,'N'), '"',
+                                  '}')
+                   ,']') AS LOT_SIZE_JSON
+        FROM SALE_AS S
+                 left outer join ARTIST A on A.ARTIST_NO = S.ARTIST_NO
+                 left outer join CODE CD	on CD.grp_id = 'material' and CD.CD_ID = S.MATE_CD
+                 left outer join SALE_AS_SIZE ASI on ASI.SALE_AS_NO = S.SALE_AS_NO
+                 left outer join SALE_AS_IMG LI on LI.SALE_AS_NO = S.SALE_AS_NO
+            and LI.IMG_NO = (select AI.IMG_NO from SALE_AS_IMG AI where AI.SALE_AS_NO = LI.SALE_AS_NO order by AI.DISP_ORD limit 1)
+        WHERE S.DEL_YN = 'N' AND S.WWW_DISP_YN = 'Y'
+        group by S.SALE_AS_NO, S.AS_NO
+    </select>
+
+    <select id="selectPrivateSaleLotImages" resultType="CommonMap" parameterType="commonMap">
+        select SAI.SALE_AS_NO   SALE_AS_NO,
+               SAI.FILE_PATH FILE_PATH,
+               SAI.FILE_NAME FILE_NAME,
+               SA.AS_NO, AS_NO
+        from SALE_AS_IMG SAI
+             INNER JOIN SALE_AS SA on SAI.SALE_AS_NO = SA.SALE_AS_NO
+        where SAI.SALE_AS_NO = #{sale_as_no}
+        order by SA.AS_NO asc
+    </select>
+
 </mapper>
