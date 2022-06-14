@@ -30,7 +30,7 @@ var authorities = '${authorities}'
 <div class="wrapper">
     <div class="sub-wrap pageclass">
         <!-- header -->
-        <jsp:include page="../../include/en/header.jsp" flush="false"/>
+        <jsp:include page="../../include/ko/header.jsp" flush="false"/>
         <script type="text/javascript" src="/js/service/academy.js"></script>
         <!-- //header -->
 
@@ -258,7 +258,7 @@ var authorities = '${authorities}'
         <!-- //container -->
 
         <!-- footer -->
-        <jsp:include page="../../include/en/footer.jsp" />
+        <jsp:include page="../../include/ko/footer.jsp" />
         <!-- //footer -->
 
         <!-- stykey -->
