@@ -78,7 +78,7 @@ function sessionLogout() {
         </ul>
     </div>
     <nav class="header_navbox">
-        <div class="header_nav wrap_padding" >
+        <div class="header_nav wrap_padding" ng-controller="headCtl">
             <a href="/" class="header_logo"><span class="blind-text">logo</span></a>
             <ul class="header_gnbmenu pc-ver">
                 <li><a href="#" class="">AUCTION</a></li>
