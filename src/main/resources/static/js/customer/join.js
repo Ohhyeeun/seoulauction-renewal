@@ -29,9 +29,9 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 	var googleInit = function() {
 		gapi.load('auth2', function() {
 			auth2 = gapi.auth2.init({
-				client_id: '528051401827-bnm4hb471rqjvk61lc43c6bqau7mh4vf.apps.googleusercontent.com',
+				client_id: '5285017753-1tkl3r19jc3e7hesflsm0jj9uhgm7f4j.apps.googleusercontent.com',
 				cookiepolicy: 'single_host_origin',
-				plugin_name:'SA-Renewal-test'
+				plugin_name: 'SA-Renewal'
 			});
 			$scope.joinWithGoogle(document.getElementById('googleIdJoin'));
 		});

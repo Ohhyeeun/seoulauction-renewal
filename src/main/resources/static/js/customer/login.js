@@ -150,6 +150,7 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 			auth2 = gapi.auth2.init({
 				client_id: '5285017753-1tkl3r19jc3e7hesflsm0jj9uhgm7f4j.apps.googleusercontent.com',
 				cookiepolicy: 'single_host_origin',
+				plugin_name: 'SA-Renewal'
 			});
 			$scope.loginWithGoogle(document.getElementById('googleIdLogin'));
 		});
