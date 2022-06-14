@@ -47,11 +47,12 @@ public class AdminService {
                 CommonMap nameMap = new CommonMap();
                 nameMap.put("ko" , maps.get("ko"));
                 nameMap.put("en" , maps.get("en"));
-                c.put("name", nameMap);
+                c.put("NAME", nameMap);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
-
+            c.putIfAbsent("NATION_CD", null);
+            c.putIfAbsent("DIE_YEAR", null);
             c.remove("ARTIST_NAME_BLOB");
 
             return c;
