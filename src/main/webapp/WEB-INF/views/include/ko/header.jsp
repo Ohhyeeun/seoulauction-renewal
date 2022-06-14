@@ -121,9 +121,9 @@ function sessionLogout() {
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
                                 <ul class="submenu submenu-part02">
-                                    <li id="menu_exhibit"><a href="#">전시</a></li>
-                                    <li><a href="#">프라이빗 세일</a></li>
-                                    <li><a href="#">프라이빗 세일 가이드</a></li>
+                                    <li id="menu_exhibit"><a href="/privatesale/exhibit">전시</a></li>
+                                    <li><a href="/privatesale/psList">프라이빗 세일</a></li>
+                                    <li><a href="/privatesale/psGuide">프라이빗 세일 가이드</a></li>
                                 </ul>
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>
