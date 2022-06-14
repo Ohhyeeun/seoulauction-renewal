@@ -165,6 +165,9 @@
                                             </dd>
                                         </dl>
                                     </div>
+                                    <div class="data-empty" ng-if="custPayCnt == 0">
+                                            <p class="txt_empty">결제내역이 존재하지 않습니다.</p>
+                                    </div>
                                 </article>
                                 <div class="button-area">
                                     <div class="btn_set-float tac">

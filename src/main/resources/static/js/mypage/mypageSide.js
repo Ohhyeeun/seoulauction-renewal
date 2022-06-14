@@ -11,6 +11,7 @@ app.controller('myPageCtl', function($scope, consts, common, ngDialog) {
             } else {
             	console.log(result.data);
             	$scope.custPayList = result.data;
+            	$scope.custPayCnt = result.data.length;
             	$scope.$apply();
             	document.getElementById('popup_memlv2_record-wrap').style.display = "block";
             } 

@@ -34,7 +34,10 @@ function logout(loginId){
 }
 // 세션로그아웃
 function sessionLogout() {
-	location.href = "/processLogout";
+	axios.get("/api/login/logout").then(function(response) {
+		location.reload();
+	});
+
 }
 </script>
 <html lang="ko" ng-app="myApp">
@@ -132,7 +135,7 @@ function sessionLogout() {
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
                                 <ul class="submenu submenu-part04">
-                                    <li id="menu_academy"><a href="#">아카데미</a></li>
+                                    <li id="menu_academy"><a href="/service/academy">아카데미</a></li>
                                     <li><a href="/service/loan">담보대출</a></li>
                                     <li><a href="/service/storage">미술품보관</a></li>
                                     <li><a href="/service/showroom">전시장대관</a></li>

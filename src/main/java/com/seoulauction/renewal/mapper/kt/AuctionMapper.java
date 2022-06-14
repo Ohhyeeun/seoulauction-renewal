@@ -9,9 +9,9 @@ import java.util.List;
 public interface AuctionMapper {
     CommonMap selectLotBySaleNoAndLotNo(CommonMap map);
 
-    Integer selectSalePaddNo(CommonMap map);
+    int selectSalePaddNo(CommonMap map);
 
-    Integer selectMaxSalePaddNo(CommonMap map);
+    int selectMaxSalePaddNo(CommonMap map);
 
     void insertSaleCertOff(CommonMap map);
 
