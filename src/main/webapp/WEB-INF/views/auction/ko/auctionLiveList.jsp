@@ -249,6 +249,7 @@
                                                                     <div ng-switch on="item.EXPE_PRICE_INQ_YN">
                                                                         <div ng-switch-when="Y">
                                                                             <dd>별도 문의</dd>
+                                                                            <dd> </dd>
                                                                         </div>
                                                                         <div ng-switch-when="N">
                                                                             <dd>KRW {{item.EXPE_PRICE_FROM_JSON.KRW}}</dd>
@@ -412,10 +413,12 @@
 
             $scope.favorite = function(item) {
 
-                if(sessionStorage.getItem("is_login") === 'false'){
+                if (sessionStorage.getItem("is_login") === 'false') {
                     alert('로그인을 진행해주세요.');
+                    location.href = "/login";
                     return;
                 }
+
 
                 let url = item.FAVORITE_YN ==='N' ? "/api/auction/delCustInteLot" : "/api/auction/addCustInteLot";
 
@@ -440,6 +443,7 @@
                 //로그인 했는지 여부.
                 if (sessionStorage.getItem("is_login") === 'false') {
                     alert('로그인을 진행해주세요.');
+                    location.href = "/login";
                     return;
                 }
 
