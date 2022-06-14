@@ -245,8 +245,17 @@
                                                             <div class="price-box">
                                                                 <dl class="price-list">
                                                                     <dt>추정가</dt>
-                                                                    <dd>KRW {{item.EXPE_PRICE_FROM_JSON.KRW}}</dd>
-                                                                    <dd>~ {{item.EXPE_PRICE_TO_JSON.KRW}}</dd>
+
+                                                                    <div ng-switch on="item.EXPE_PRICE_INQ_YN">
+                                                                        <div ng-switch-when="Y">
+                                                                            <dd>별도 문의</dd>
+                                                                        </div>
+                                                                        <div ng-switch-when="N">
+                                                                            <dd>KRW {{item.EXPE_PRICE_FROM_JSON.KRW}}</dd>
+                                                                            <dd>~ {{item.EXPE_PRICE_TO_JSON.KRW}}</dd>
+                                                                        </div>
+                                                                    </div>
+
                                                                 </dl>
                                                             </div>
                                                             <div id="biding_req" class="bidding-box col_2">
@@ -530,6 +539,8 @@
                     $scope.saleImages = r2.data.data;
                     $scope.lotTags = r3.data.data;
                     $scope.sale = r4.data.data;
+
+                    console.log($scope.saleInfoAll);
 
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
 
