@@ -349,16 +349,25 @@ $(function(){
     });
 
     /* footer family site */
-    $('.Familysite').click(function(){
+    $('.Familysite-selectbox').click(function(){
         let familyH = $(this).index();
+        $('.innerfooter').removeClass('on');
         $(this).removeClass('on');
+        $('.innerfooter').eq(familyH).addClass('on');
         $('.Familysite').eq(familyH).addClass('on');
-        $('.familyselect').toggle();
-    });
 
-    $('.familyselect>li>a').click(function(){
-        $('.Familysite').removeClass('on');
-        $('.familyselect').hide();
+        if($('.familyselect').hasClass('on')){ /* familyselet 탭 닫기 */
+            $('.familyselect').addClass('on');
+            $('.Familysite').removeClass('on'); /* 화살표 */
+        } else {
+            $('.innerfooter').click(function(){
+                $('.familyselect').removeClass('on');
+                $('.familyselect').click(false);
+                $('.Familysite-selectbox').click(false);
+            });
+            $('.familyselect').removeClass('on'); /* familyselet 탭 오픈 */
+        };
+        $('.familyselect').toggleClass('on');
     });
 
     /* scroll top */
