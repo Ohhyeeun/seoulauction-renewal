@@ -80,7 +80,7 @@
                         <h2 class="main-sectiontit sale-tit">Sell</h2>
                         <p>고객님의 소중한 작품을 기다립니다.<br>
                             서울옥션에 문의하세요</p>
-                        <a href="#">위탁안내</a>
+                        <a href="/sell/consignment">위탁안내</a>
                     </figcaption>
                 </figure>
             </section>
