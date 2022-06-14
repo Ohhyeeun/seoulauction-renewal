@@ -431,12 +431,14 @@
                 if(sessionStorage.getItem("is_login") === 'false'){
                     alert("미로그인");
                     location.href = "/login";
+                    return;
                 }
 
                 const membership_yn = '${isRegular}';
                 if(membership_yn === 'N') {
                     alert("준회원");
                     location.href = "/payment/member";
+                    return;
                 }
 
                 if($scope.paddNo <= 0) {
@@ -1034,8 +1036,8 @@
                 const live_start_dt_minute = $filter('date')($scope.liveStartDt, 'm');
 
                 console.log("paddleStatus ", is_login, membership_yn, padd_no, sale_status);
-                //라이브 진행 중
                 if(sale_status == 'ING' && $scope.liveCheckDt >= $scope.liveStartDt) {
+                    // 경매 당일 응찰하기
                     console.log("1");
                     if (is_login === 'true' && membership_yn === 'true' && padd_no > 0) {
                         paddNoteMsg = "라이브 경매 참가";
@@ -1045,19 +1047,27 @@
                         paddNoteEtc = "사전 신청한 회원만 응찰 가능합니다.";
                     }
                 } else if(sale_status == 'ING' && $scope.nowTime == $scope.liveEnd && $scope.liveCheckDt < $scope.liveStartDt) {
+                    // 경매 당일 패들번호 출력
                     console.log("2");
                     if(is_login === 'true' && membership_yn === 'true' && padd_no > 0){
                         paddNoteMsg = "라이브 경매 신청완료";
-                        paddNoteEtc = live_start_dt+"("+live_start_dt_date+") "+live_start_dt_hour+"시에 시작합니다.";
+                        paddNoteEtc = live_start_dt+"("+live_start_dt_date+") "+live_start_dt_hour+"시";
+                        if(live_start_dt_minute > 0) paddNoteEtc += " "+live_start_dt_minute+"분";
+                        paddNoteEtc += "에 시작합니다.";
                     } else {
                         paddNoteMsg = "라이브 경매 준비 중";
-                        paddNoteEtc = live_start_dt+"("+live_start_dt_date+") "+live_start_dt_hour+"시에 시작합니다.";
+                        paddNoteEtc = live_start_dt+"("+live_start_dt_date+") "+live_start_dt_hour+"시";
+                        if(live_start_dt_minute > 0) paddNoteEtc += " "+live_start_dt_minute+"분";
+                        paddNoteEtc += "에 시작합니다.";
                     }
                 } else if(sale_status == 'ING' && $scope.nowTime < $scope.liveEnd) {
+                    // 경매 당일 전 신청하기 자동생성
                     console.log("3");
                     if(is_login === 'true' && membership_yn === 'true' && padd_no > 0){
                         paddNoteMsg = "라이브 경매 신청완료";
-                        paddNoteEtc = live_start_dt+"("+live_start_dt_date+") "+live_start_dt_hour+"시에 시작합니다.";
+                        paddNoteEtc = live_start_dt+"("+live_start_dt_date+") "+live_start_dt_hour+"시";
+                        if(live_start_dt_minute > 0) paddNoteEtc += " "+live_start_dt_minute+"분";
+                        paddNoteEtc += "에 시작합니다.";
                     } else {
                         paddNoteMsg = "라이브 응찰 신청";
                         paddNoteEtc = "정회원만 응찰 신청이 가능합니다.";
