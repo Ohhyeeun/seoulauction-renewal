@@ -238,7 +238,7 @@
                                                                     <span class="text-over span_block">{{item.CD_NM}}</span>
                                                                     <div class="size_year">
                                                                         <span>{{item.SIZE1}} X {{item.SIZE2}} X {{item.SIZE3}}</span>
-                                                                        <span>{{item.MAKE_YEAR_JSON.ko}}</span>
+                                                                       <%-- <span>{{item.MAKE_YEAR_JSON.ko}}</span>--%>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -260,7 +260,7 @@
                                                                 </dl>
                                                             </div>
                                                             <div id="biding_req" class="bidding-box col_2">
-                                                                <div class="deadline_set"><span>신청마감 02.10(목) 15:00</span></div>
+                                                                <div class="deadline_set"><span>신청마감 {{item.LOT_EXPIRE_DATE_T}}</span></div>
                                                                 <div class="btn_set"><a class="btn btn_point" href="" ng-click="moveToBidding(item)"
                                                                                         role="button"><span>서면/전화 응찰 신청</span></a></div>
                                                             </div>
