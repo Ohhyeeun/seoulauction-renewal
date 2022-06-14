@@ -53,6 +53,7 @@ public class AdminService {
             }
             c.putIfAbsent("NATION_CD", null);
             c.putIfAbsent("DIE_YEAR", null);
+            c.putIfAbsent("BORN_YEAR", null);
             c.remove("ARTIST_NAME_BLOB");
 
             return c;
