@@ -79,14 +79,20 @@
                                             <div class="bidding-area">
                                                 <p class="list_tit tt4">응찰방법</p>
                                                 <div class="btn_radios js-bidding_method">
-                                                    <div class="btn_item active">
-                                                        <button class="btn btn_gray_line btn_lg " type="button"><span>서면</span></button>
+                                                    <div id ="btn_select_paper_offline" class="btn_item">
+                                                        <button id="select_paper_offline" class="btn btn_gray_line btn_lg " type="button">
+                                                            <span id="span_select_paper_offline">서면</span>
+                                                        </button>
                                                     </div>
-                                                    <div class="btn_item">
-                                                        <button class="btn btn_gray_line btn_lg" type="button"><span>전화</span></button>
+                                                    <div id ="btn_select_phone" class="btn_item">
+                                                        <button id="select_phone" class="btn btn_gray_line btn_lg" type="button">
+                                                            <span>전화</span>
+                                                        </button>
                                                     </div>
-                                                    <div class="btn_item">
-                                                        <button class="btn btn_gray_line btn_lg" type="button"><span>서면+전화</span></button>
+                                                    <div id ="btn_select_floor" class="btn_item">
+                                                        <button id="select_floor" class="btn btn_gray_line btn_lg" type="button">
+                                                            <span id="span_select_floor">서면+전화</span>
+                                                        </button>
                                                     </div>
                                                 </div>
 
@@ -291,28 +297,71 @@
                     .then(function(response) {
 
                     let data = response.data.data;
+
                     let sale_title = JSON.parse(data.SALE_TITLE_JSON);
 
-                    $("#bidding_lot_img").attr('src' , 'https://www.seoulauction.com/nas_img'+data.LOT_IMG_PATH + '/' +data.LOT_IMG_NAME);
+                    $("#bidding_lot_img").attr('src' , 'https://www.seoulauction.com/nas_img'+ data.LOT_IMG_PATH + '/' +data.LOT_IMG_NAME);
                     $("#sale_title").html(sale_title.ko);
                     $("#lot_id").html(data.LOT_NO);
                     $("#artist_name").html(data.ARTIST_NAME_KO_TXT);
                     $("#lot_title").html(data.TITLE_KO_TXT);
-                    $("#expe_price").html('KRW ' + numberWithCommas(data.EXPE_PRICE_FROM_JSON.KRW) + '<br> ~ ' + numberWithCommas(data.EXPE_PRICE_TO_JSON.KRW));
+
 
                     let current_price = data.START_PRICE;
                     let MAX_PRICE = current_price * 10; // 추청가의 10배가 최대치.
                     growPrice = growPriceForOffline(current_price);
                     currentPrice = data.START_PRICE;
-                    currentBidKind = 'paper_offline';
-                    bidType = 14;
+
+                    <!-- 응찰방법 -->
+                    $(".js-bidding_method .btn_item").on("click", function($e) {
+                        $(".js-bidding_method .btn_item").removeClass("active");
+                        $(this).addClass("active");
+
+                        let bk = $(this).text().trim();
+                        if(bk == '서면'){
+                            currentBidKind = 'paper_offline';
+                            bidType = 14;
+                            $("#select_field").show();
+                        }else if(bk == '전화'){
+                            currentBidKind = 'phone';
+                            bidType = 15;
+                            $("#select_field").hide();
+                        }else if(bk == '서면+전화'){
+                            currentBidKind = 'floor';
+                            bidType = 16;
+                            $("#select_field").show();
+                        }
+                    });
+
+                    let expe_text =
+                        data.EXPE_PRICE_INQ_YN == 'Y' ?  '별도 문의' :
+                            ('KRW ' + numberWithCommas(data.EXPE_PRICE_FROM_JSON.KRW) + '<br> ~ ' + numberWithCommas(data.EXPE_PRICE_TO_JSON.KRW))
+
+                    $("#expe_price").html(expe_text);
+
+                    //볃로문의 시
+                    if(data.EXPE_PRICE_INQ_YN == 'Y') {
+                        $("#select_paper_offline").attr("disabled", true);
+                        $("#select_floor").attr("disabled", true);
+
+                        $(".js-bidding_method .btn_item").off("click");
+                        $("#btn_select_phone").addClass("active");
+                        currentBidKind = 'phone';
+                        bidType = 15;
+                        $("#select_field").hide();
+                    } else {
+                        //기본값 세팅
+                        $("#btn_select_paper_offline").addClass("active");
+                        currentBidKind = 'paper_offline';
+                        bidType = 14;
+                    }
 
                     $("#selected_lot").text(numberWithCommas(current_price) + ' KRW');
                     $("#price_to_han").text(num2han(current_price) + ' 원');
 
                     $("#select_lot_scroll").empty();
 
-                    while (current_price <= ( MAX_PRICE + growPrice ) ) {
+                    while (current_price <= ( MAX_PRICE + growPrice )) {
 
                         let commasCurrentPrice = numberWithCommas(current_price);
 
@@ -323,10 +372,11 @@
                         `<li>
                             <a href="#">
                                 <div class="typo-area">
-                                    <span id="` + current_price + `">` + commasCurrentPrice + ` KRW</span>
+                                      <span id="` + current_price + `">` + commasCurrentPrice + ` KRW</span>
                                 </div>
                             </a>
                          </li>`;
+
 
                         $("#select_lot_scroll").append(select_html);
 
@@ -360,27 +410,6 @@
                     console.log(error);
                 });
             }
-
-            <!-- 응찰방법 -->
-            $(".js-bidding_method .btn_item").on("click", function($e) {
-                $(".js-bidding_method .btn_item").removeClass("active");
-                $(this).addClass("active");
-
-                let bk = $(this).text().trim();
-                if(bk == '서면'){
-                    currentBidKind = 'paper_offline';
-                    bidType = 14;
-                    $("#select_field").show();
-                }else if(bk == '전화'){
-                    currentBidKind = 'phone';
-                    bidType = 15;
-                    $("#select_field").hide();
-                }else if(bk == '서면+전화'){
-                    currentBidKind = 'floor';
-                    bidType = 16;
-                    $("#select_field").show();
-                }
-            });
 
             <!-- 약관 -->
             let accordion_toggle;
