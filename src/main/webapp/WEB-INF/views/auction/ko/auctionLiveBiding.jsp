@@ -298,6 +298,7 @@
 
                     let data = response.data.data;
 
+
                     let sale_title = JSON.parse(data.SALE_TITLE_JSON);
 
                     $("#bidding_lot_img").attr('src' , 'https://www.seoulauction.com/nas_img'+ data.LOT_IMG_PATH + '/' +data.LOT_IMG_NAME);

@@ -643,6 +643,9 @@
           and a.WWW_DISP_YN = 'Y'
           and a.CLOSE_YN = 'N'
           and b.CLOSE_YN = 'N'
+        <if test='isLive !=null and isLive.equals("Y")'>
+          and a.LIVE_BID_YN = 'Y'
+        </if>
         group by a.SALE_NO, b.LOT_NO;
     </select>
     <select id="selectLotTagList" parameterType="CommonMap" resultType="CommonMap">
