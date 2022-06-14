@@ -34,7 +34,10 @@ function logout(loginId){
 }
 // 세션로그아웃
 function sessionLogout() {
-	location.href = "/processLogout";
+	axios.get("/api/login/logout").then(function(response) {
+		location.reload();
+	});
+
 }
 </script>
 <html lang="ko" ng-app="myApp">
