@@ -27886,10 +27886,31 @@ header.win_header .header-inner .header_logo {
 .content-panel.type_panel-member .join_account .btn-wrap a {
   width: 170px;
 }
+.nation_hpbox {
+  position: relative;
+}
+.nation_hpbox>div {
+  position: absolute;
+  z-index: 1;
+  font-size: 1.125vw;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-left: 10px;
+}
+.contents input[type="text"].nation_hp {
+  padding-left: 82px;
+} 
 
 @media all and (max-width: 1023px) {
   .content-panel.type_panel-member .mem_txt {
     font-size: 15px;
+  }
+  .nation_hpbox>div {
+    font-size: 0.875vw;
+  }
+  .contents input[type="text"].nation_hp {
+    padding-left: 70px;
   }
   .content-panel.type_panel-member .panel-header {
     position: relative;
