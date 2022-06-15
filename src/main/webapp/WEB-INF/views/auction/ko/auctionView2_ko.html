@@ -245,23 +245,11 @@
                                                         <a href="#" conclick="window.history.back()" title="뒤로가기">
                                                             <i class="icon-page_back"></i>
                                                         </a>
-                                                        <span>2019 12월 온라인 경매 Day2 Britannia Collection Contemporary & Korean Traditional Art
-                                                        </span>
+                                                        <span>2월 e BID 프리미엄 온라인 경매</span>
                                                     </div>
                                                 </div>
                                                 <div class="col_item">
                                                     <!-- [0516]select 변경 -->
-                                                    <!-- 
-                            <div class="select-box"> 
-                            <select class="select2Basic42"  id="">
-                              <option value="1">Lot 10</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              <option value="5">5</option>
-                            </select>
-                          </div> -->
-
                                                     <div class="select-box">
                                                         <div class="trp-dropdown-area h42-lines">
                                                             <button class="js-dropdown-btn"><span>LOT 10</span><i class="form-select_arrow_md"></i>
@@ -497,13 +485,11 @@
                                                 </div>
                                                 <div class="artist-area">
                                                     <div class="name">
-                                                        <strong>개인 자작품 (KTS Audio, Western Electric Replica 외), Baroque Audio, Creation, Audio Note, Silvaweld
-                                                        </strong>
+                                                        <strong>김선우</strong>
                                                         <span>b.1988</span>
                                                     </div>
                                                     <div class="desc">
-                                                        <span>은제이화문화병,은제이화문담배함,건칠이화문접시,은제이화문신선로,덕수궁마차출입패,유리이화문맥주잔,은제이화문인주함,채색놀이판,주칠가죽베개 일괄
-                                                        </span>
+                                                        <span>Flight of 3 Dodos</span>
                                                     </div>
                                                 </div>
                                                 <div class="price-area">
@@ -531,7 +517,7 @@
                                                 <div class="button-area">
                                                     <div class="btn_set only-pc">
                                                         <div class="btn_item">
-                                                            <a class="btn btn_point btn_lg" href="#" role="button"><span>응찰하기</span></a>
+                                                            <a class="btn btn_point btn_lg" href="#" role="button"><span>서면/전화 응찰 신청</span></a>
                                                         </div>
                                                     </div>
                                                     <div class="btn_set cols_2">
@@ -549,11 +535,9 @@
                                                         <div class="btn_item only-mb">
                                                             <a class="btn btn_default btn_lg js-delivery_price" href="#" role="button"><span>낙찰수수료</span></a>
                                                         </div>
-                                                        <!-- [0607]텍스트수정 -->
                                                         <div class="btn_item">
                                                             <a class="btn btn_default btn_lg" href="#" role="button"><span>경매 호가표</span></a>
                                                         </div>
-                                                        <!-- //[0607]텍스트수정 -->
                                                     </div>
                                                 </div>
                                                 <div class="other-area">
@@ -991,22 +975,6 @@
     </script>
 
 
-    <!-- [0516] 셀렉트 드롭다운 -->
-    <script>
-        var dropdown = $(".js-dropdown-btn").trpDropdown({
-            list: ".trp-dropdown_list-box",
-            area: ".trp-dropdown-area"
-        });
-        $(".trp-dropdown-area .trp-dropdown_list-box a").on("click", function($e) {
-            $e.preventDefault();
-            var _this = $(this);
-            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn em").text($("em", _this).text());
-            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
-            dropdown.getClose();
-        });
-    </script>
-
-
     <!--  sns 공유 -->
     <script>
         var toggle_sns;
@@ -1024,6 +992,21 @@
             $e.preventDefault();
             toggle_sns.toggleAllSet(false);
         })
+    </script>
+
+    <!-- [0516] 셀렉트 드롭다운 -->
+    <script>
+        var dropdown = $(".js-dropdown-btn").trpDropdown({
+            list: ".trp-dropdown_list-box",
+            area: ".trp-dropdown-area"
+        });
+        $(".trp-dropdown-area .trp-dropdown_list-box a").on("click", function($e) {
+            $e.preventDefault();
+            var _this = $(this);
+            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn em").text($("em", _this).text());
+            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
+            dropdown.getClose();
+        });
     </script>
 
 
@@ -1049,6 +1032,7 @@
         }
     </script>
     <!-- // [2022-0516] 사용 -->
+
 </body>
 
 </html>
