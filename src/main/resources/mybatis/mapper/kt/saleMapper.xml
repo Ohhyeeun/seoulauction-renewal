@@ -668,4 +668,45 @@
         LIMIT
             1
     </select>
+    <!-- 오프라인/온라인 각 상황에 맞게 insert -->
+    <insert id="insertAutoBid" parameterType="CommonMap">
+        INSERT INTO AUTO_BID_REQ(
+            SALE_NO,
+            LOT_NO,
+            CUST_NO,
+            EMP_NO,
+            BID_KIND_CD,
+            REQ_DT,
+            BID_PRICE,
+            HP,
+            EMAIL,
+            MEMO,
+            ABORT_YN,
+            ABORT_DT,
+            ABORT_IP,
+            REG_DT,
+            REG_EMP_NO,
+            MOD_DT,
+            MOD_EMP_NO
+        )
+        VALUES(
+             #{sale_no}
+            ,#{lot_no}
+            ,#{cust_no}
+            ,#{emp_no}
+            ,#{bid_kind_cd}
+            ,now()
+            ,#{bid_price}
+            ,#{hp}
+            ,#{email}
+            ,#{memo}
+            ,#{abort_yn}
+            ,#{abort_dt}
+            ,#{abort_ip}
+            ,#{reg_dt}
+            ,#{reg_emp_no}
+            ,#{mod_dt}
+            ,#{mod_emp_no}
+        )
+    </insert>
 </mapper>
