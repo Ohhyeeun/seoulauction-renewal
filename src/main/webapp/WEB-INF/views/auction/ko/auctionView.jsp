@@ -192,11 +192,11 @@
                                                 <div class="btn_set cols_2">
                                                     <div class="btn_item hover_change only-pc">
                                                         <div class="op_default">
-                                                            <a class="btn btn_default btn_lg       " href="#"
+                                                            <a class="btn btn_default btn_lg "
                                                                role="button"><span>낙찰수수료</span></a>
                                                         </div>
                                                         <div class="op_hover">
-                                                            <a class="btn btn_black btn_2 btn_lg   " href="#"
+                                                            <a class="btn btn_black btn_2 btn_lg js-popup_alert1"
                                                                role="button">
                                                                 <em>현재가 기준</em>
                                                                 <strong>1,584,000</strong>
@@ -650,6 +650,10 @@
 <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
+<%--낙찰 수수료 팝업 --%>
+<jsp:include page="popup/bidCommissionPopup.jsp" />
+
 <%--경매 호가 팝업 --%>
 <jsp:include page="popup/growBiddingPopup.jsp" />
 <%--경매 호가 스크립트 --%>
