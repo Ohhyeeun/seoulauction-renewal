@@ -102,6 +102,9 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 			.then(function(response) {
 				console.log(response)
 				if(response.data.success == true){
+					var expire = new Date();
+					expire.setDate(expire.getDate() + 30);
+					document.cookie = 'recentSocialType=' + socialType + '; path=/; expires=' + expire.toGMTString() + ';';
 					location.href = "/";
 				}else{
 					alert("로그인에 실패하였습니다.")
@@ -1188,6 +1191,8 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		//소셜
 		if($scope.isSocial()){
 			formData.set('social_type', $scope.form_data.social_type);
+			formData.set('social_email', $scope.form_data.social_email);
+			formData.set('social_login_id', $scope.form_data.social_login_id);
 		}
 		
 		formData.append('cust_kind_cd', $scope.form_data.cust_kind_cd);

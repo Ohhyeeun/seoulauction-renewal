@@ -106,11 +106,31 @@
 			                                <div class="sns_icon_wrap">
 			                                    <!-- [0516]링크추가 -->
 			                                    <ul>
-			                                        <li><a ng-click="naverButtonClick()" href="#"><i class="icon-sns_naver"></i></a></li>
+			                                        <li>
+			                                        	<a ng-click="naverButtonClick()" href="#"><i class="icon-sns_naver"></i></a>
+			                                        	<div id="recentSocialTypeNV" class="sns_latest_wrap" style="display:none">
+	                                                        <img class="only-mb" src="/images/mobile/login/latest_login.png">
+	                                                    </div>
+			                                        </li>
 			                                        <div id="naverIdLogin" style="display:none"></div>
-			                                        <li><a ng-click="loginWithKakao()" href="#"><i class="icon-sns_kakao"></i></a></li>
-			                                        <li><a id="googleIdLogin" href="#"><i class="icon-sns_google"></i></a></li>
-			                                        <li><a ng-click="loginWithApple()" href="#"><i class="icon-sns_apple"></i></a></li>
+			                                        <li>
+			                                        	<a ng-click="loginWithKakao()" href="#"><i class="icon-sns_kakao"></i></a>
+			                                        	<div id="recentSocialTypeKA" class="sns_latest_wrap" style="display:none">
+	                                                        <img class="only-mb" src="/images/mobile/login/latest_login.png">
+	                                                    </div>
+			                                        </li>
+			                                        <li>
+			                                        	<a id="googleIdLogin" href="#"><i class="icon-sns_google"></i></a>
+			                                        	<div id="recentSocialTypeGL" class="sns_latest_wrap" style="display:none">
+	                                                        <img class="only-mb" src="/images/mobile/login/latest_login.png">
+	                                                    </div>
+			                                        </li>
+			                                        <li>
+			                                        	<a ng-click="loginWithApple()" href="#"><i class="icon-sns_apple"></i></a>
+			                                        	<div id="recentSocialTypeAP" class="sns_latest_wrap" style="display:none">
+	                                                        <img class="only-mb" src="/images/mobile/login/latest_login.png">
+	                                                    </div>
+			                                        </li>
 			                                        <div id="appleid-signin" style="display:none" data-type="sign in"></div>
 			                                    </ul>
 			                                    <!-- // [0516]링크추가 -->
