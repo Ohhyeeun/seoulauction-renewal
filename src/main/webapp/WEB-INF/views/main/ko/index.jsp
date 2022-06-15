@@ -202,7 +202,7 @@
                                 <p class="family-infotxt tit-size16">해외경매대행 "미술을 직구하다"</p>
                             </div>
                             <figure class="family-infoimg">
-                                <a href="#">
+                                <a href="https://www.auctionblue.com">
                                     <img src="/images/pc/banner/FamilyBanner_01_383x150.png" alt="action blue" class="pc-ver">
                                     <img src="/images/mobile/banner/FamilyBanner_01_520x204.png" alt="action blue" class="m-ver">
                                 </a>
@@ -214,7 +214,7 @@
                                 <p class="family-infotxt tit-size16">미술품 공동구매 플랫폼</p>
                             </div>
                             <figure class="family-infoimg">
-                                <a href="#">
+                                <a href="https://sotwo.com">
                                     <img src="/images/pc/banner/FamilyBanner_02_383x150.png" alt="action blue" class="pc-ver">
                                     <img src="/images/mobile/banner/FamilyBanner_02_520x204.png" alt="action blue" class="m-ver">
                                 </a>
@@ -226,7 +226,7 @@
                                 <p class="family-infotxt tit-size16">일상의 예술을 맛보다.</p>
                             </div>
                             <figure class="family-infoimg">
-                                <a href="#">
+                                <a href="https://printbakery.com">
                                     <img src="/images/pc/banner/FamilyBanner_03_383x150.png" alt="action blue" class="pc-ver">
                                     <img src="/images/mobile/banner/FamilyBanner_03_520x204.png" alt="action blue" class="m-ver">
                                 </a>

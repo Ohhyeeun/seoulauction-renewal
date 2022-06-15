@@ -123,8 +123,8 @@ app.controller('newsLetterCtl', function($scope, consts, common, locale) {
                     }
 
                     let returnDom = '<div class="title">'
-                        + '<span>' + $scope.newsletter.title[locale] +  newDom + '</span>'
                         + '</div>'
+                        + '<span>' + $scope.newsletter.title[locale] +  newDom + '</span>'
                         + '<div class="desc">'
                         + '<span class="">' + $scope.newsletter.content[locale].newsletter_memo  + '</span>'
                         + '</div>';
