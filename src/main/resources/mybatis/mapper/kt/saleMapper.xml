@@ -668,4 +668,35 @@
         LIMIT
             1
     </select>
+    <!-- 자동 경매 insert -->
+    <insert id="insertAutoBid" parameterType="CommonMap">
+        INSERT INTO AUTO_BID_REQ(
+             SALE_NO
+            ,LOT_NO
+            ,CUST_NO
+            ,BID_KIND_CD
+            ,REQ_DT
+            ,BID_PRICE
+            ,HP
+            ,EMAIL
+            ,MEMO
+            ,EMP_NO
+            ,ABORT_YN
+            ,REG_DT
+        )
+        VALUES(
+             #{sale_no}
+            ,#{lot_no}
+            ,#{cust_no}
+            ,#{bid_kind_cd}
+            ,#{bid_dt}
+            ,#{bid_price}
+            ,#{hp}
+            ,#{email}
+            ,#{memo}
+            ,#{emp_no}
+            ,'N'
+            ,#{bid_dt}
+        )
+    </insert>
 </mapper>
