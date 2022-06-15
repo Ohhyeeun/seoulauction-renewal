@@ -1135,7 +1135,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		//국내외
 		if($scope.langType == 'en'){
 			if($scope.form_data.hp != undefined && $scope.form_data.hp != ''){
-				formData.set('hp', '+' + $scope.nationMobile + ' ' + $scope.form_data.hp);
+				formData.set('hp', '+' + $scope.nationMobile + $scope.form_data.hp);
 			}
 			formData.append('fore_bid_req_yn', $scope.form_data.fore_bid_req_yn);
 		}else if($scope.langType == 'ko'){
@@ -1179,7 +1179,12 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		}).then(function(response) {
 			var result = response.data;
 			if(result.success){
-				location.href = '/joinDone'
+				var doneStr = '/joinDone';
+				//해외회원
+				if($scope.langType == 'en'){
+					doneStr += '?email=' + $scope.form_data.email;
+				}
+				location.href = doneStr;
 			}
 		})
 //		.catch(function(error){
@@ -1196,5 +1201,29 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 //	        })
 //	        .catch(function(error){
 //	        });
+	}
+});
+
+app.controller('joinDoneCtl', function($scope, consts, common, ngDialog) {
+	function Request(){
+		this.getParameter = function(param){
+	    	var requestParam ="";
+	        var url = unescape(location.href);
+	        var paramArr = (url.substring(url.indexOf("?")+1,url.length)).split("&");
+	
+	        for(var i = 0 ; i < paramArr.length ; i++){
+	           var temp = paramArr[i].split("=");
+	           if(temp[0].toUpperCase() == param.toUpperCase()){
+	             requestParam = paramArr[i].split("=")[1];
+	             break;
+	           }
+	        }
+	        return requestParam.replace("#","");
+	    }
+	}
+	
+	$scope.init = function(){
+		var request = new Request();
+		$scope.email = request.getParameter("email");
 	}
 });
