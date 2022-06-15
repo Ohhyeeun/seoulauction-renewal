@@ -62,6 +62,7 @@ public class MainService {
             throw new SAException("해당 정보로 이미 구독한 정보가 있습니다.");
         }
         mainMapper.insertNewsletter(map);
+        mainMapper.insertNewsletterHistory(map);
     }
 
     //어떤 테이블을 참조할지 모르기때문 우선 더미데이텨 리턴.

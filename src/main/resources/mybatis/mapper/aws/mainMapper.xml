@@ -45,12 +45,20 @@
         WHERE status = 'A'
             and id = #{id}
     </select>
-    <select id="insertNewsletter" parameterType="CommonMap">
+    <insert id="insertNewsletter" parameterType="CommonMap"
+            useGeneratedKeys="true"
+            keyProperty="newsletter_id" keyColumn="id">
         INSERT INTO newsletter_subscriber
             ( name , email , lang , is_subscribe )
         VALUES
             ( #{name} , #{email} , #{lang} , 'Y' )
-    </select>
+    </insert>
+    <insert id="insertNewsletterHistory" parameterType="CommonMap">
+        INSERT INTO newsletter_subscribe_history
+            ( newsletter_subscriber_id , is_subscribe )
+        VALUES
+            ( #{newsletter_id} , 'Y' )
+    </insert>
 
     <select id="selectNewsletterForOverlapCheck" parameterType="CommonMap" resultType="CommonMap">
         SELECT

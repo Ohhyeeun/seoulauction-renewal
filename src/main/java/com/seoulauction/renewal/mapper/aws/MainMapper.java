@@ -21,6 +21,7 @@ public interface MainMapper {
     List<CommonMap> selectNewsletters(CommonMap map);
     CommonMap selectNewsletterById(CommonMap map);
     void insertNewsletter(CommonMap map);
+    void insertNewsletterHistory(CommonMap map);
     CommonMap selectNewsletterForOverlapCheck(CommonMap map);
     List<CommonMap> selectBigBanners();
 
