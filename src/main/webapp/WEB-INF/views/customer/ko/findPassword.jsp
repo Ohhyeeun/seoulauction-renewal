@@ -3,12 +3,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<body class="">
+<html lang="ko">
+    <head>
+	    <meta charset="UTF-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	    <title>Seoul Auction</title>
+	</head>
+	<body>
     <div class="wrapper">
         <div class="sub-wrap pageclass bgpage-wrap">
-		<jsp:include page="../../include/ko/header.jsp" flush="false"/>   
+		<jsp:include page="../../include/en/header.jsp" flush="false"/>   
 		<script>
-		app.value('locale', 'ko');
+		app.value('locale', 'en');
 		</script>
               <!-- container -->
             <div id="container">
@@ -43,34 +50,38 @@
                                             </span>
                                         </div>
                                         <div class="js-menuType-body">
+                                            <form id="phone">
                                             <div class="info_wrap  js-ds_item js-ds_item0">
                                                 <dl class="info_id">
                                                     <dt>아이디</dt>
-                                                    <dd><input type="text"  id="custIdByPhone"  class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dd><input type="text" data-id="아이디를" id="custIdByPhone"  class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                                 <dl class="info_name">
                                                     <dt>이름</dt>
-                                                    <dd><input type="text" id="custNameByPhone" class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dd><input type="text" data-id="이름을" id="custNameByPhone" class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                                 <dl class="info_number">
                                                     <dt>휴대폰 번호</dt>
-                                                    <dd><input type="text"  id="custPhone"  maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);" class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dd><input type="text"  data-id="휴대폰 번호를" id="custPhone"  maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);" class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                             </div>
+                                            </form>
+                                            <form id="email">
                                             <div class="info_wrap  js-ds_item js-ds_item1" style="display: none;">
                                                 <dl class="info_id">
                                                     <dt>아이디</dt>
-                                                    <dd><input type="text" id="custIdByEmail"  class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dd><input type="text" data-id="아이디를" id="custIdByEmail"  class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                                 <dl class="info_name">
                                                     <dt>이름</dt>
-                                                    <dd><input type="text" id="custNameByEmail"  class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dd><input type="text" data-id="이름을" id="custNameByEmail"  class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                                 <dl class="info_number">
                                                     <dt>이메일 주소</dt>
-                                                    <dd><input type="text" id="custEmail"  class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dd><input type="text" data-id="이메일을" id="custEmail"  class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                             </div>
+                                            </form>
                                         </div>
                                         <!--//[2022-0503]-->
 
@@ -106,7 +117,7 @@
             <!-- //container -->
 
             <!-- footer -->
-				 <jsp:include page="../../include/ko/footer.jsp" flush="false"/> 
+				 <jsp:include page="../../include/en/footer.jsp" flush="false"/> 
             <!-- //footer -->
 
         </div>
@@ -153,7 +164,7 @@
                                 <img class="only_ib-mb" src="/images/mobile/login/search_ico_01.png">
                             </div>
                             <div class="title-box_tac title_md">
-                                <span class="title_tac tt4">필수 항목명을 입력해 주세요.</span>
+                                <span class="title_tac tt4" id="inputTitle"></span>
                             </div>
                         </div>
                         <div class="pop-body">
@@ -271,7 +282,7 @@
                             <div class="title-box_tac">
                                 <span class="title_tac tt4">회원님은 SNS를 통해 <br class="only-mb">회원가입 되어 있습니다.<br>
                                     연동된 SNS를 통해 로그인 하여<br class="only-mb"> 주시기 바랍니다.
-                                </span>
+                                </span>1
                             </div>
                         </div>
                         <div class="pop-body">
@@ -289,8 +300,6 @@
             </div>
         </div>
     </div>
-
-  
 </body>
-
 </html>
+  

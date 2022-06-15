@@ -17,15 +17,35 @@ $('#findId').on('click', function() {
 	var searchType = $('input[name="radioSet2"]:checked').val();
 	var searchValue;
 	var custName ;
-	
+	var inputNull ;
+	var locale = document.documentElement.lang;
 	if (searchType == 'email') {
-		if ($('#custNameByEmail').val() == '' || $('#custEmail').val() == '') {
+		
+		$("#email").find("input[type=text]").each(function(index,item){
+	        if ($(this).val().trim() == '') {
+				if(locale == 'en'){
+					$('#inputTitle').text("Please enter " + $(this).attr("data-id"));
+				} else {
+					$('#inputTitle').text($(this).attr("data-id")+" 입력해 주세요.");
+				}
+	          	inputNull = true;
+	          	return false;
+	        }
+	    });
+            
+		if(inputNull){
 			$('#popup_idsearch3-wrap').attr("style", "display:block");
 			return;
 		} else {
 			var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 			if (regEmail.test($('#custEmail').val()) === false) {
-				alert('이메일을 확인해주세요.');
+				if(locale == 'en'){
+					$('#inputTitle').text('Check out the Email'); 
+				} else {
+					$('#inputTitle').text('이메일을 확인해주세요.'); 
+				}
+				
+				$('#popup_idsearch3-wrap').attr("style", "display:block");
 				return;
 			}
 			searchValue = $('#custEmail').val();
@@ -33,19 +53,37 @@ $('#findId').on('click', function() {
 		}
 		
 	} else {
-		if ($('#custNameByPhone').val() == '' || $('#custPhone').val() == '') {
+		$("#phone").find("input[type=text]").each(function(index,item){
+                if ($(this).val().trim() == '') {
+					if(locale == 'en'){
+						$('#inputTitle').text("Please enter " + $(this).attr("data-id"));
+					} else {
+						$('#inputTitle').text($(this).attr("data-id")+" 입력해 주세요.");
+					}
+                  	inputNull = true;
+                  	return false;
+                }
+        });
+        
+		if(inputNull){
 			$('#popup_idsearch3-wrap').attr("style", "display:block");
 			return;
 		} else {
 			var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 			if (regPhone.test($('#custPhone').val()) === false) {
-				alert('휴대폰 번호를 확인해주세요.');
+				if(locale == 'en'){
+				$('#inputTitle').text('Check out the Mobile'); 			
+				} else {
+				$('#inputTitle').text('휴대폰 번호를 확인해주세요.'); 
+				}
+				$('#popup_idsearch3-wrap').attr("style", "display:block");
 				return;
 			}
 			searchValue = $('#custPhone').val();
 			custName = $('#custNameByPhone').val();
 		}
 	}
+	
 	var formData = {"search_type" : searchType , "cust_name":custName, "search_value" : searchValue};
 	
 	axios.post("/api/login/findCustId", formData).then(function(response) {
@@ -53,7 +91,7 @@ $('#findId').on('click', function() {
 		let success = result.success;
 		if (!success) {
 			$('#popup_idsearch2-wrap').attr("style", "display:block");
-		} else if(result.data.SOCIAL_TYPE){
+		} else if(result.data.SOCIAL_YN == 'Y'){
 			$('#socialType').text(result.data.SOCIAL_TYPE);
 			$('#popup_idsearch4-wrap').attr("style", "display:block");
 		} else {

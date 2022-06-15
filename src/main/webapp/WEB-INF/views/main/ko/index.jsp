@@ -19,114 +19,7 @@
 </jsp:include>
 
 <section class="main-contents footer-bottom footer-bottom40">
-    <section class="visual visual-contents">
-        <div class="swiper-container visual-swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide"> <!-- slide 구간 -->
-                    <figure class="visual_img">
-                        <img src="/images/pc/slide/main/slide01.jpg" alt="slide" class="pc-ver">
-                        <img src="/images/mobile/slide/main/slide01.jpg" alt="slide" class="m-ver">
-                    </figure>
-                    <figurecaption class="visual_caption">
-                        <div>
-                            <h1 class="slide-tit">제1회 ART SHOPPING 신세계 센텀시티 오픈 기념 경매</h1>
-                            <p>
-                                2/22(화) 15:00 부산 신세계백화점 센텀시티 문화홀(9층)
-                            </p>
-                            <div class="visual_btn">
-                                <a href="#" class="commonbtn visual-commonbtn btn-bg-w">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a>
-                            </div>
-                        </div>
-                    </figurecaption>
-                </div>
-
-                <div class="swiper-slide"> <!-- slide 구간 -->
-                    <figure class="visual_img">
-                        <img src="/images/pc/slide/main/slide01.jpg" alt="slide" class="pc-ver">
-                        <img src="/images/mobile/slide/main/slide01.jpg" alt="slide" class="m-ver">
-                    </figure>
-                    <figurecaption class="visual_caption">
-                        <div>
-                            <h1 class="slide-tit">제1회 Autunm Scape _ Land, Life, Inner scape</h1>
-                            <p>
-                                서울시 강남구 도산대로 북 33길 6 호림아트센터 1층 서울옥션 강남점
-                            </p>
-                            <div class="visual_btn">
-                                <a href="#" class="commonbtn visual-commonbtn btn-bg-w">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a>
-                            </div>
-                        </div>
-                    </figurecaption>
-                </div>
-
-                <div class="swiper-slide"> <!-- slide 구간 -->
-                    <figure class="visual_img">
-                        <img src="/images/pc/slide/main/slide03.jpg" alt="slide" class="pc-ver">
-                        <img src="/images/mobile/slide/main/slide03.jpg" alt="slide" class="m-ver">
-                    </figure>
-                    <figurecaption class="visual_caption black"> <%-- 흰 배경일때 버튼, 텍스트 black--%>
-                        <div>
-                            <h1 class="slide-tit">165회 미술품 경매</h1>
-                            <p>
-                                2/22(화) 15:00 서울옥션 강남
-                            </p>
-                            <div class="visual_btn">
-                                <a href="#" class="commonbtn visual-commonbtn btn-border-3">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a> <!-- figure img 배경 흰색일때 button black -->
-                            </div>
-                        </div>
-                    </figurecaption>
-                </div>
-
-                <div class="swiper-slide"> <!-- slide 구간 -->
-                    <figure class="visual_img">
-                        <img src="/images/pc/slide/main/slide01.jpg" alt="slide" class="pc-ver">
-                        <img src="/images/mobile/slide/main/slide01.jpg" alt="slide" class="m-ver">
-                    </figure>
-                    <figurecaption class="visual_caption">
-                        <div>
-                            <h1 class="slide-tit">제로베이스</h1>
-                            <p>
-                                2/22(화) 15:00 서울옥션 홈페이지
-                            </p>
-                            <div class="visual_btn">
-                                <a href="#" class="commonbtn visual-commonbtn btn-bg-g">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-border-w">e-book</a>
-                            </div> <%-- 버튼 색상 --%>
-                        </div>
-                    </figurecaption>
-                </div>
-
-                <div class="swiper-slide"> <!-- slide 구간 -->
-                    <figure class="visual_img">
-                        <img src="/images/pc/slide/main/slide01.jpg" alt="slide" class="pc-ver">
-                        <img src="/images/mobile/slide/main/slide01.jpg" alt="slide" class="m-ver">
-                    </figure>
-                    <figurecaption class="visual_caption">
-                        <div>
-                            <h1 class="slide-tit">e BID 프리미엄</h1>
-                            <p>
-                                2/22(화) 15:00 서울옥션 홈페이지
-                            </p>
-                            <div class="visual_btn">
-                                <a href="#" class="commonbtn visual-commonbtn btn-bg-w">작품보기</a><a href="#" class="commonbtn visual-commonbtn btn-bg-b">e-book</a>
-                            </div>
-                        </div>
-                    </figurecaption>
-                </div>
-            </div>
-
-            <span class="visualController">
-                <button type="button" class="playBtn pc-ver"></button>
-                <button type="button" class="stopBtn pc-ver"></button>
-                <span class="swiper-progressbar">
-                    <span class="visual-progressbar"></span>
-                </span>
-                <span class="swiper-pagination visual-pagaination"></span>
-            </span>
-            <div class="swiper-btn-wrap">
-                <div class="swiper-button-next slide-btnleft pc-ver"></div>
-                <div class="swiper-button-prev slide-btnright pc-ver"></div>
-            </div>
-        </div>
-    </section>
+    <jsp:include page="../include/bigBanner.jsp" />
 
     <%--auction--%>
     <div class="wrap">
@@ -136,16 +29,23 @@
                     <h1 class="main-sectiontit">Auction</h1>
                     <div class="auctiontab-scroll">
                         <div class="auctionTab"> <!-- 최대 5개 까지 -->
-                            <span class="auctionTab-btn on"><span class="text-over">제1회 ART SHOPPING 신세계 센텀시티 오픈 기념 경매</span></span>
-                            <span class="auctionTab-btn"><span class="text-over">제1회 Autunm Scape _ Land, Life, Inner scape</span></span>
-                            <span class="auctionTab-btn"><span class="text-over">165회 미술품 경매</span></span>
-                            <span class="auctionTab-btn"><span clasrs="text-over">제로베이스</span></span>
-                            <span class="auctionTab-btn"><span class="text-over">e BID 프리미엄</span></span>
+<%--                            <span class="auctionTab-btn on"><span class="text-over">제1회 ART SHOPPING 신세계 센텀시티 오픈 기념 경매</span></span>--%>
+<%--                            <span class="auctionTab-btn">--%>
+<%--                                <span class="text-over">제1회 Autunm Scape _ Land, Life, Inner scape</span>--%>
+<%--                            </span>--%>
+<%--                            <span class="auctionTab-btn"><span class="text-over">165회 미술품 경매</span></span>--%>
+<%--                            <span class="auctionTab-btn"><span class="text-over">제로베이스</span></span>--%>
+<%--                            <span class="auctionTab-btn"><span class="text-over">e BID 프리미엄</span></span>--%>
                         </div>
                     </div>
                 </div>
-                <div class="flex_wrap auctionTab-contents on"></div><div class="flex_wrap auctionTab-contents"></div><div class="flex_wrap auctionTab-contents"></div><div class="flex_wrap auctionTab-contents"></div><div class="flex_wrap auctionTab-contents"></div>
-
+                <div id="auction_contents">
+<%--                    <div class="flex_wrap auctionTab-contents on"></div>--%>
+<%--                    <div class="flex_wrap auctionTab-contents"></div>--%>
+<%--                    <div class="flex_wrap auctionTab-contents"></div>--%>
+<%--                    <div class="flex_wrap auctionTab-contents"></div>--%>
+<%--                    <div class="flex_wrap auctionTab-contents"></div>--%>
+                </div>
                 <div class="commonbtn-box">
                     <button type="button" id="MoreAuction" class="commonbtn">더보기</button>
                     <a href="#" id="AllAuction" style="display: none" class="commonbtn">전체보기</a>
@@ -180,7 +80,7 @@
                         <h2 class="main-sectiontit sale-tit">Sell</h2>
                         <p>고객님의 소중한 작품을 기다립니다.<br>
                             서울옥션에 문의하세요</p>
-                        <a href="#">위탁안내</a>
+                        <a href="/sell/consignment">위탁안내</a>
                     </figcaption>
                 </figure>
             </section>
@@ -243,7 +143,7 @@
                     </form>
                     <div class="flex_wrap newsletter-btnbox">
                         <button type="button" class="commonbtn btn-bg-b subscriptBtn">구독하기</button>
-                        <a href="#" class="commonbtn btn-border-3">
+                        <a href="/newsletter" class="commonbtn btn-border-3">
                             <span>지난 뉴스레터 보기</span>
                         </a>
                     </div>
@@ -262,7 +162,7 @@
         <button class="darkmode" type="button"></button><span class="darktxt">다크모드로 보기</span>
     </span>
 <!--scroll top-->
-<a href="#" class="scroll-top">
+<a href="javascript:void(0);" class="scroll-top">
     <span class="topBtn up"></span>
 </a>
 

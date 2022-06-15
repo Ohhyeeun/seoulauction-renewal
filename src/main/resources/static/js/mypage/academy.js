@@ -47,10 +47,19 @@ app.controller('academyListCtl', function($scope, consts, common, ngDialog) {
 		//$scope.academyPayDiscount = comma(dis_aca_pay);
 		$scope.academyPayDiscount = 0;
 		$scope.academyPayTotal = comma(aca_pay_sum - dis_aca_pay);
-		$scope.academyPayMethodCd =input.academy.PAY_METHOD_CD == 'card' ? '신용카드' : '무통장입금';
+		$scope.academyPayMethodCd =input.academy.PAY_METHOD_CD == 'card' ? '신용카드' : '가상계좌';
 		
 		document.getElementById('popup_myacademy_pay-wrap').style.display="block";
 	}
+	
+	$scope.receiptPopup = function(input) {
+		var status = "toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=420,height=540"; 
+        var url = "https://npg.nicepay.co.kr/issue/IssueLoader.do?TID="+input.pay.PG_TRANS_ID+"&type="+input.type; 
+        //type  값  세팅  ::  매출전표: 0,  현금영수증: 1 
+        
+        window.open(url,"popupIssue",status); 
+	}
+	
 });
 
 	

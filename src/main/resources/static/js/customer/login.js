@@ -19,8 +19,8 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 		}else{
 			$scope.captchaShow = false;
 		}
-		
-		if($scope.loginForm.loginId.$viewValue == ""){
+
+		if($("#loginId").val() == ""){
 			if(lang === 'en'){
 				$scope.validMsg = "Please enter your ID.";
 			}else{
@@ -136,6 +136,147 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 //	function audioPlayer(objUrl){ 
 //		document.querySelector('#ccaudio').innerHTML = '<bgsoun src="' +objUrl +'">'; 
 //	}
-	
 
+
+	/*********** 소셜 로그인 ************/
+	// 카카오 init
+	Kakao.init('cf2233f55e74d6d0982ab74909c97835');
+	// SDK 초기화 여부 판단
+	console.log(Kakao.isInitialized() ? "카카오init성공" : "카카오init실패");
+
+	// 구글초기화
+	var googleInit = function() {
+		gapi.load('auth2', function() {
+			auth2 = gapi.auth2.init({
+				client_id: '5285017753-1tkl3r19jc3e7hesflsm0jj9uhgm7f4j.apps.googleusercontent.com',
+				cookiepolicy: 'single_host_origin',
+				plugin_name: 'SA-Renewal'
+			});
+			$scope.loginWithGoogle(document.getElementById('googleIdLogin'));
+		});
+	};
+	// 구글 init
+	googleInit();
+
+	// 네이버초기화
+	naverLogin = new naver.LoginWithNaverId({
+		clientId: "5qXZytacX_Uy60o0StGT",
+		callbackUrl: socialServiceDomain + "/social/naver/callback?action=login",
+		isPopup: true,
+		loginButton: {
+			color: "green",
+			type: 3,
+			height: 60
+		}
+	});
+	// 네이버 init
+	naverLogin.init();
+
+	// 애플 init
+	AppleID.auth.init({
+		clientId: 'com.seoulauction.renewal-web',
+		scope: 'name email',
+		redirectURI: socialServiceDomain + '/api/login/auth/apple',
+		state: 'SARenewal',
+		usePopup: true
+	});
+
+	// SNS공통로그인
+	function submitLogin(socialType, socialEmail) {
+		document.getElementById('social_type').value = socialType;
+		document.getElementById('social_email').value = socialEmail;
+
+		var form = document.querySelector('#loginForm');
+		var formData = new FormData(form);
+		var data = {};
+		formData.forEach((value, key) => (data[key] = value));
+		console.log(data)
+		axios.post('/api/login/social', data)
+			.then(function(response) {
+				console.log(response)
+				if(response.data.success == true){
+					location.href = "/";
+				}else{
+					alert("로그인에 실패하였습니다.")
+				}
+			})
+			.catch(function(error) {
+				console.log(error);
+			});
+	}
+
+	// 카카오 로그인
+	$scope.loginWithKakao = function() {
+		Kakao.Auth.login({
+			success: function(authObj) {
+				Kakao.Auth.setAccessToken(authObj.access_token); // access-token 저장
+				$scope.getKakaoUser();
+			},
+			fail: function(err) {
+				console.log(err);
+			}
+		});
+	}
+
+	// 카카오사용자정보로 DB조회하여 로그인진행
+	$scope.getKakaoUser = function() {
+		Kakao.API.request({
+			url: '/v2/user/me',
+			success: function(res) {
+				kakaoUser = res.kakao_account;
+
+				console.log(kakaoUser);
+				submitLogin("KA", kakaoUser.email);
+			},
+			fail: function(error) {
+				alert('카카오 로그인에 실패했습니다. 관리자에게 문의하세요.' + JSON.stringify(error));
+			}
+		});
+	}
+
+	// 네이버 로그인
+	$scope.naverButtonClick = function() {
+		var loginButton = document.getElementById("naverIdLogin").firstChild;
+		loginButton.click();
+	}
+			
+	// 구글로그인
+	$scope.loginWithGoogle = function(element) {
+		auth2.attachClickHandler(element, {},
+			function(googleUser) {
+				googleProfile = googleUser.getBasicProfile();
+				submitLogin("GL", googleProfile.getEmail());
+			}, function(error) {
+				alert(JSON.stringify(error, undefined, 2));
+			});
+	}
+
+	// 애플 로그인
+	$scope.loginWithApple = function() {
+		$("#appleid-signin").trigger("click");
+	}
+
+	//애플로 로그인 성공 시.
+	document.addEventListener('AppleIDSignInOnSuccess', (data) => {
+		var name = '';
+		if (data.detail.user != undefined) {
+			var user = data.detail.user;
+			name = user.name.lastName + user.name.firstName;
+			console.log(name);
+		}
+		var token = data.detail.authorization.id_token;
+		var payload = JSON.parse(atob(token.split(".")[1]))
+		console.log(payload)
+		var email = payload.email;
+		var sub = payload.sub;
+
+		console.log("email : " + email + "sub : " + sub);
+		submitLogin("AP", payload.sub);
+	});
+
+	//애플로 로그인 실패 시.
+	document.addEventListener('AppleIDSignInOnFailure', (error) => {
+		console.log("AppleIDSignInOnFailure")
+		console.log(error)
+	});
 });

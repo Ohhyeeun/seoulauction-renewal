@@ -3,7 +3,7 @@ const windowAxios = window.axios;
 const axiosExtension = window['axios-extensions'];
 const axios = windowAxios.create({
     baseURL,
-    timeout: 5 * 1000,
+    timeout: 10 * 1000,
 
     /**
      * 요청 전송 시, 클라이언트 쿠키를 포함해서 전송

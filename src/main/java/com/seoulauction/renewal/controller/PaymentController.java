@@ -1,18 +1,16 @@
 package com.seoulauction.renewal.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.auth.Cryptography;
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.mapper.kt.PaymentMapper;
 import com.seoulauction.renewal.service.AuctionService;
 import com.seoulauction.renewal.service.PaymentService;
+import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Locale;
-import java.util.Map;
 import java.util.UUID;
-
-import static org.apache.commons.lang3.StringUtils.defaultIfEmpty;
 
 @Controller
 @Log4j2
@@ -58,10 +53,13 @@ public class PaymentController {
         String moid = "mnoid1234567890"; 			// 상품주문번호
         String returnURL = nicePayMobileBaseReturnUrl + "/payment/memberResult"; // 결과페이지(절대경로) - 모
 
-        String cust_name = "김융훈"; 						// 구매자명
-        String hp = "01000000000"; 				// 구매자연락처
-        String email = "happy@day.co.kr"; 			// 구매자메일주소
-        String address  = "(02123) 경기도 부천시 양지로 234-38";
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+
+        String cust_name = saUserDetails.getUserNm();						// 구매자명
+        String hp = saUserDetails.getHp();			// 구매자연락처
+        String email = saUserDetails.getEmail();		// 구매자메일주소
+        String address  = saUserDetails.getAddr();
 
         String ediDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         String signData = Cryptography.encrypt(ediDate + nicePayMerchantId + price + nicePaymerchantKey);
@@ -137,12 +135,14 @@ public class PaymentController {
 
         // select cust
 
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+
         String goodsName 		= "서울옥션-아카데미"; 					// 결제상품명
         int price 			    = 1100;//Integer.parseInt(ObjectUtils.defaultIfNull(resultMap.get("academy_pay"), "0").toString()); 						// 결제상품금액
 
-        String cust_name 		= "김선진"; 						// 구매자명
-        String hp 		        = "01033720384"; 				// 구매자연락처
-        String email 		    = "sjk@seoulauction.com"; 			// 구매자메일주소
+        String cust_name 		= saUserDetails.getUserNm(); 						// 구매자명
+        String hp 		        = saUserDetails.getHp(); 				// 구매자연락처
+        String email 		    = saUserDetails.getEmail(); 			// 구매자메일주소
         String moid 			= "mnoid1234567890"; 			// 상품주문번호
         String returnURL 		= nicePayMobileBaseReturnUrl +"/payment/academyProcess"; // 결과페이지(절대경로) - 모바일 결제창 전용
 
@@ -228,13 +228,14 @@ public class PaymentController {
 
         CommonMap paramMap = new CommonMap();
 
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+
         /* 구매자 정보 */
-        paramMap.put("cust_no", "108855");
-        CommonMap custInfoMap = paymentMapper.selectCustByCustNo(paramMap);
-        request.setAttribute("custInfo", custInfoMap);
-        request.setAttribute("cust_name", custInfoMap.get("cust_name"));
-        request.setAttribute("hp", custInfoMap.get("hp"));
-        request.setAttribute("email", custInfoMap.get("email"));
+        paramMap.put("cust_no", saUserDetails.getUserNo());
+        //CommonMap custInfoMap = paymentMapper.selectCustByCustNo(paramMap);
+
+        //request.setAttribute("custInfo", custInfoMap);
 
         /* 결제작품정보 */
         paramMap.put("sale_no", saleNo);
@@ -249,6 +250,9 @@ public class PaymentController {
         request.setAttribute("lotInfo" , payWorkInfoMap);
 
         /* payment attribute */
+        request.setAttribute("cust_name", saUserDetails.getUserNm());
+        request.setAttribute("hp", saUserDetails.getHp());
+        request.setAttribute("email", saUserDetails.getEmail());
         request.setAttribute("goodsName" , goodsName);
         request.setAttribute("price", tmpPrice);
         request.setAttribute("no_vat_price", payWorkInfoMap.get("no_vat_price"));

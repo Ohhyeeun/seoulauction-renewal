@@ -1,11 +1,10 @@
 package com.seoulauction.renewal.mapper.kt;
 
-import java.util.List;
-import java.util.Map;
-
+import com.seoulauction.renewal.domain.CommonMap;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.seoulauction.renewal.domain.CommonMap;
+import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface MypageMapper {
@@ -21,6 +20,8 @@ public interface MypageMapper {
     List<CommonMap> selectPayListByCustNo(CommonMap commonMap);
 
     List<CommonMap> selectSaleListByCustNo(CommonMap commonMap);
+
+    int selectPayTotalCountByCustNo(CommonMap commonMap);
 
     CommonMap selectPayCountByCustNo(CommonMap commonMap);
 
@@ -51,4 +52,61 @@ public interface MypageMapper {
     CommonMap insertCustInteLot(CommonMap commonMap);
 
     int deleteCustInteLot(CommonMap commonMap);
+
+    CommonMap selectCustForChkPassword(CommonMap paramMap);
+    
+    int updateCustPasswdByCustNo(CommonMap paramMap);
+    
+    List<CommonMap> selectLiveBidReqList(CommonMap commonMap);
+
+    int selectLiveBidReqCnt(CommonMap commonMap);
+    
+    List<CommonMap> selectLiveBidReqHistoryList(CommonMap commonMap);
+
+    List<CommonMap> selectLiveBidList(CommonMap commonMap);
+    
+    int selectLiveBidCnt(CommonMap commonMap);
+
+    List<CommonMap> selectLiveBidHistoryList(CommonMap commonMap);
+    
+    List<CommonMap> selectLiveBidHammerList(CommonMap commonMap);
+
+    CommonMap selectLiveBidHammerCnt(CommonMap commonMap);
+
+    List<CommonMap> selectOnlineBidList(CommonMap commonMap);
+    
+    int selectOnlineBidCnt(CommonMap commonMap);
+    
+    List<CommonMap> selectOnlineBidHistoryList(CommonMap commonMap);
+    
+    List<CommonMap> selectCustSocialByCustNo(CommonMap commonMap);
+
+    int deleteCustSocial(CommonMap commonMap);
+    
+    List<CommonMap> selectCustInteArtist(CommonMap paramMap);
+    
+    List<CommonMap> selectArtistByArtistName(CommonMap paramMap);
+
+    int updateCust(CommonMap paramMap);
+    
+    int deleteCust(CommonMap paramMap);
+    
+    int updateCustSendInfoNew(CommonMap paramMap);
+    
+    int deleteCustPushWay(CommonMap paramMap);
+    
+    int deleteCustInteArtist(CommonMap paramMap);
+    
+    int deleteCustInteArea(CommonMap paramMap);
+    
+    int insertCustPushWay(CommonMap paramMap);
+    
+    int insertCustInteArtist(CommonMap paramMap);
+    
+    int insertCustInteArea(CommonMap paramMap);
+    
+    List<CommonMap> selectBidForCustLeave(CommonMap map);
+    
+    List<CommonMap> selectAutoBidReqForcustLeave(CommonMap map);
+    
 }

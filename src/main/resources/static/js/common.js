@@ -25,9 +25,11 @@ $(function(){
                     const ingAuctionList = response.data.data;
                     ingAuctionList.map(item => {
                         const titleJSON = JSON.parse(item.TITLE_BLOB);
-                        const returnDom = `<a href="/auction/${item.SALE_NO}" class="Ingbanner" target="_blank">
+                        const returnDom = `<a href="/auction/list/${item.SALE_NO}" class="Ingbanner" target="_blank">
                                             <figure class="border-txt-darkg Ingbanner-img">
-                                                <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" alt="ing_auction01">
+                                                <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" 
+                                                     onerror="this.src='/images/pc/thumbnail/gnb_thubnatil_ready.jpg'"
+                                                    alt="ing_auction01">
                                             </figure>
                                             <div class="Ingbanner-txt text-over">
                                                 <span class="auctionKind-box Ingkind-auction ${item.SALE_KIND === 'LIVE' ? 'on' : ''}">${item.SALE_KIND}</span>
@@ -53,7 +55,7 @@ $(function(){
             .then(function(response){
                 const success =  response.data.success;
                 if (success) {
-                    const menuCount = response.data.data[0];
+                    const menuCount = response.data.data;
                     const badgeHtml = '<span class="currentIng">NOW</span>';
                     if(menuCount.AuctionCount > 0)
                         document.querySelector('#menu_auction').insertAdjacentHTML('beforeend', badgeHtml);
@@ -138,13 +140,12 @@ $(function(){
     /*gnb menu */
     let gnb = $(this).index();
     if(matchMedia("all and (min-width: 1024px)").matches) {
-        $('.submenuBg').show(function(){
-            $('.main-contents').click(function(){
-                $('.submenuBg').slideUp();
-            });
-        });
-
         $('.header_gnbmenu>li>a').mouseenter(function(){
+            $('.main-contents').click(function(){
+                $(".submenuBg").stop().slideUp();
+                $('.header_gnbmenu>li>a').removeClass('on');
+            });
+
             $('.header_gnbmenu>li>a').removeClass('on');
             $(".submenuBg").stop().slideDown();
             $(this).eq(gnb).addClass('on');
@@ -153,66 +154,81 @@ $(function(){
             $(".submenuBg").stop().slideUp();
             $('.header_gnbmenu>li>a').removeClass('on');
         });
-        $(".submenuBg").hide();
+
+        /*$('.submenuBg').show(function(){
+            $('.main-contents').click(function(){
+                $('.submenuBg').slideUp();
+            });
+        });*/
 
         /* main gnb fixed */
         $('.header').show(function(){
             $('.main-header').show(function(){
                 /*$('.main-contents').css('top','118px'); */
-                $('.main-contents').css('margin-top','120px');
+                $('.main-contents').css('margin-top','162px');
             });
             $(this).hasClass('main-header');
         });
 
         // /* 띠배너 beltbanner */
         // $('.header_beltbox.on').show(function(){
-        //     $('.main-contents').css('margin-top','180px');
+        //     $('.main-contents').css('margin-top','162px');
         // });
         // $('.beltclose-btn').click(function(){
-        //     $('.main-contents').css('margin-top','120px');
+        //     $('.main-contents').css('margin-top','102px');
         // });
     } else { /* 테블릿 */
-        /* 모바일 gnb */
-        $('.header_gnbmenu>li>a').mouseenter(function(){
-            return false;
-        });
-        $(".submenuBg").mouseleave(function(){
-            return false;
-        });
+        $('.header_gnbmenu>li>a').mouseenter(false);
+        $(".submenuBg").mouseleave(false);
+
         /* mobile gnb bg */
         $('.m-gnbmenu').click(function(){
-            $('.gnb_submenuBg').show();
-            $('.submenuBg').animate({'right':'0','transition':'ease .5s','display':'block'});
+            $('.gnb_submenuBg').addClass('on');
+            $('.submenuBg').addClass('on');
+            $('body').css({'overflow':'hidden'});
+            $('.submenuBg').animate({'right':'0','transition':'ease .3s','display':'block'}, function(){
+                $('.gnb_submenuBg').click(function(){
+                    $('body').css({'overflow':'visible'});
+                    $('.submenu').stop().slideUp(function(){
+                        $('.gnbmenu_arrow').removeClass('on');
+                    });
+                    $('.submenuBg').animate({'right':'-100%','transition':'ease .2s'}, function(){
+                        $(this).removeClass('on');
+                        $('.gnb_submenuBg').removeClass('on');
+                    });
+                });
+
+                $('.subGnbmenu-tit').click(function(){
+                    let Mobilegnb = $(this).index();
+
+                    $('.gnbmenu_arrow>span').removeClass('on');
+                    $('.gnbmenu_arrow').removeClass('on');
+                    $('.submenu').stop().slideUp();
+
+
+                    $('.gnbmenu_arrow>span').eq(Mobilegnb).toggleClass('on');
+                    $('.gnbmenu_arrow').eq(Mobilegnb).addClass('on');
+                    $('.submenu').eq(Mobilegnb).stop().slideDown();
+
+                    $('.modebox').removeClass('on');
+                });
+            });
+            $('.submenuBg').click(false);
         });
         $('.submenuBg-closeBtn').click(function(){
-            $('.gnb_submenuBg').hide();
-            $('.submenuBg').animate({'right':'-100%','transition':'ease .3s'});
-        });
-
-        /*$('.submenuBg').click(function(){
-            $('.gnb_submenuBg').animate({'right':'-100%','transition':'ease .5s'});
-            $('.submenuBg').animate({'right':'-100%','transition':'ease .3s'});
-        }); */
-
-        $('.subGnbmenu-tit').click(function(){
-            let Mobilegnb = $(this).index();
-
-            $('.gnbmenu_arrow>span').removeClass('on');
+            $('body').css({'overflow':'visible'});
             $('.gnbmenu_arrow').removeClass('on');
-            $('.submenu').stop().slideUp();
-
-
-            $('.gnbmenu_arrow>span').eq(Mobilegnb).toggleClass('on');
-            $('.gnbmenu_arrow').eq(Mobilegnb).addClass('on');
-            $('.submenu').eq(Mobilegnb).stop().slideDown();
-
-            $('.modebox').removeClass('on');
+            $('.submenuBg').animate({'right':'-100%','transition':'ease .2s'}, function(){
+                $(this).removeClass('on');
+                $('.gnb_submenuBg').removeClass('on');
+            });
         });
+
         /* main gnb fixed */
         $('.header').show(function(){
             $('.main-header').show(function(){
                 /*$('.main-contents').css('top','56px'); */
-                $('.main-contents').css('margin-top','56px');
+                $('.main-contents').css('margin-top','57px');
             });
             $(this).hasClass('main-header');
         });
@@ -264,6 +280,21 @@ $(function(){
         $(this).children('a').removeClass('on');
         $('.bubble-box').removeClass('on');
     });
+
+    /* top search 유틸리티 겹침X */
+    $('.topsearch-text').click(function(){
+        if($('.search-bubble-box').hasClass('on')){
+            $('.bubble-box01').eq(utilityMenu).removeClass('hide');
+            $('.bubble-box02').eq(utilityMenu).removeClass('hide');
+            $('.search-bubble-box').addClass('on');
+        } else { /* 검색기능 보여질 때 겹침X */
+            $('.bubble-box01').addClass('hide');
+            $('.bubble-box02').addClass('hide');
+            $('.search-bubble-box').removeClass('on');
+        }
+        $('.search-bubble-box').toggleClass('on');
+    });
+
     /* 최근검색 키워드 삭제 */
     $('.keyword-del').click(function(){
         $(this).parent('.recent-keyword').hide();
@@ -271,6 +302,7 @@ $(function(){
     /* 최근검색 전체삭제 */
     $('.keyword-all-del').click(function(){
         $('.recent-keyword').hide();
+        setCookie("keywordHistory", "", 1);
     });
     /* 모바일 gnb 서치*/
     $('.m-top-search').click(function(){
@@ -285,53 +317,65 @@ $(function(){
     });
 
     /*top search placeholder */
-    const inWidth = window.innerWidth;
-    if(inWidth > 1279) {
-        $('.topsearch>input').attr('placeholder','작가 또는 작품명 검색');
-        $('.topsearch-en>input').attr('placeholder','Search by artist or work name');
-        $('.darkmodeBg').hover(function(){
-            $('.darkmode').toggleClass('active');
-        }, function(){
-            $('.darkmode').toggleClass('active');
-        });
-        $('.darkmodeBg.dark').hover(function(){
-            $('.darkmode.dark').toggleClass('active');
-        }, function(){
-            $('.darkmode.dark').toggleClass('active');
-        });
-    } else if(inWidth > 720) {
-        $('.topsearch>input').attr('placeholder','검색');
-        $('.topsearch-en>input').attr('placeholder','Search');
-    } else {
-        $('.topsearch>input').attr('placeholder','검색을 입력하세요');
-        $('.topsearch-en>input').attr('placeholder','Search');
-    };
+    $('.topsearch>input').attr('placeholder','작가 또는 작품명 검색'); /* placeholder 초기값 */
+
+    $(window).resize(function(){
+        const windowWidth1279 = window.matchMedia('screen and (min-width:1279px)');
+        const windowWidth1024 = window.matchMedia('screen and (min-width:1024px)');
+        const windowWidth1023 = window.matchMedia('screen and (max-width:1023px)');
+
+        if(windowWidth1279.matches){
+            $('.topsearch>input').attr('placeholder','작가 또는 작품명 검색');
+            $('.topsearch-en>input').attr('placeholder','Search by artist or work name');
+            $('.darkmodeBg').hover(function(){
+                $('.darkmode').toggleClass('active');
+            }, function(){
+                $('.darkmode').toggleClass('active');
+            });
+            $('.darkmodeBg.dark').hover(function(){
+                $('.darkmode.dark').toggleClass('active');
+            }, function(){
+                $('.darkmode.dark').toggleClass('active');
+            });
+        } else if(windowWidth1024.matches) {
+            console.log(42365235);
+            $('.topsearch>input').attr('placeholder','검색');
+            $('.topsearch-en>input').attr('placeholder','Search');
+        } else if(windowWidth1023.matches){
+            console.log(32523);
+            $('.topsearch>input').attr('placeholder','검색을 입력하세요');
+            $('.topsearch-en>input').attr('placeholder','Search');
+        }
+    });
 
     /* footer family site */
-    $('.Familysite').click(function(){
+    $('.Familysite-selectbox').click(function(){
         let familyH = $(this).index();
+        $('.innerfooter').removeClass('on');
         $(this).removeClass('on');
+        $('.innerfooter').eq(familyH).addClass('on');
         $('.Familysite').eq(familyH).addClass('on');
-        $('.familyselect').toggle();
+
+        if($('.familyselect').hasClass('on')){ /* familyselet 탭 닫기 */
+            $('.familyselect').addClass('on');
+            $('.Familysite').removeClass('on'); /* 화살표 */
+        } else {
+            $('.innerfooter').click(function(){
+                $('.familyselect').removeClass('on');
+                $('.familyselect').click(false);
+                $('.Familysite-selectbox').click(false);
+            });
+            $('.familyselect').removeClass('on'); /* familyselet 탭 오픈 */
+        };
+        $('.familyselect').toggleClass('on');
     });
 
-    $('.familyselect>li>a').click(function(){
-        $('.Familysite').removeClass('on');
-        $('.familyselect').hide();
+    /* scroll top */
+    $('.scroll-top').click(function(){
+        $('html, body').animate({scrollTop: '0'}, 700);
     });
-
-
 });
 
-/* scroll top */
-$('.scroll-top').click(function(){
-    $('html, body').animate({scrollTop: '0'}, 700);
-});
-
-/* top search 클릭 할 때 filter 기능 */
-$('.topsearch-text').click(function(){
-    $('.search-bubble-box').toggleClass('on');
-});
 
 /* top search filter 기능 */
 function searchFilter() {
@@ -407,6 +451,29 @@ function phoneNumber(obj) {
         obj.value += '-';
     }
 
+}
+
+function telNumber(obj){
+	if (obj.value != '') {
+		obj.value = obj.value.replaceAll("-", "");
+		if (obj.value.length == 11) {
+			obj.value = obj.value.substring(0, 3) + "-" + obj.value.substring(3, 7) + "-" + obj.value.substring(7);
+		} else if (obj.value.length == 8) {
+			obj.value = obj.value.substring(0, 4) + "-" + obj.value.substring(4);
+		} else if (obj.value.length == 10) {
+			if (obj.value.startsWith("02")) {
+				obj.value = obj.value.substring(0, 2) + "-" + obj.value.substring(2, 6) + "-" + obj.value.substring(6);
+			}else{
+				obj.value = obj.value.substring(0, 3) + "-" + obj.value.substring(3, 6) + "-" + obj.value.substring(6);
+			}
+		} else {
+			if (obj.value.startsWith("02")) {
+				obj.value = obj.value.substring(0, 2) + "-" + obj.value.substring(2, 5) + "-" + obj.value.substring(5);
+			} else { // 그외는 012-123-1345
+				obj.value = obj.value.substring(0, 3) + "-" + obj.value.substring(3, 6) + "-" + obj.value.substring(6);
+			}
+		}
+	}
 }
 
 /* 공통 login 팝업 */
@@ -550,3 +617,333 @@ jQuery.fn.trpBgDim = function($opacity,$bgColor){
         t();
     }), t();
 }
+
+app.requires.push.apply(app.requires, ["ngDialog", "checklist-model"]);
+app.controller('headCtl', function($scope, consts, common, locale, $filter) {
+
+    $scope.recommandSearch =  function(){
+
+        //추천 검색어
+        axios.get('/api/auction/selectRecommandArtist').then(function (response) {
+            console.log(response);
+            const success = response.data.success;
+
+            $('.recommend-search-part').empty();
+
+            if (success) {
+                const data = response.data.data;
+                let html = '<span class="keyword-search-tit">추천검색</span>';
+                $('.recommend-search-part').append(html);
+                data.map(item => {
+                    let innerHtml = '<a href="/sale/search?searchContent=' + item.name + '" class="recommend-keyword">' + dotSubString(item.name, 10) + '</a>';
+                    $('.recommend-search-part').append(innerHtml);
+                });
+            }
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+    // 최근 검색어
+    let keywords = getCookie("keywordHistory");
+    let html = '<span class="keyword-search-tit">최근검색<span class="keyword-all-del">전체삭제</span></span>';
+    if(keywords){
+        $(".recent-search").empty();
+        let keywordsArray = keywords.split(',');
+        $.each(keywordsArray , function(idx , el){
+            html += '<span class="recent-keyword"><a href="/sale/search?searchContent='+ el +'">'+ el+'</a><span class="keyword-del"></span></span>';
+        });
+
+    }else{
+        html += '<span class="recent-keyword">표시할내용없음</span>';
+    }
+
+    $(".recent-search").append(html);
+
+
+    $scope.goSearch =  function(elementId, bIsKorean){
+
+        var sSearchContent = $("#" + elementId).val();
+        if(sSearchContent) {
+            location.href = bIsKorean ? "/sale/search?searchContent=" + sSearchContent : "/eng/sale/search?searchContent=" + sSearchContent;
+        }
+        else {
+            alert(bIsKorean ? "검색어를 입력해주세요." : "Please write search keyword.");
+        }
+    }
+
+});
+
+//pc, mobile 구분
+function checkPlatform(ua) {
+    if(ua === undefined) {
+        ua = window.navigator.userAgent;
+    }
+
+    ua = ua.toLowerCase();
+    var platform = {};
+    var matched = {};
+    var userPlatform = "pc";
+    var platform_match = /(ipad)/.exec(ua) || /(ipod)/.exec(ua)
+        || /(windows phone)/.exec(ua) || /(iphone)/.exec(ua)
+        || /(kindle)/.exec(ua) || /(silk)/.exec(ua) || /(android)/.exec(ua)
+        || /(win)/.exec(ua) || /(mac)/.exec(ua) || /(linux)/.exec(ua)
+        || /(cros)/.exec(ua) || /(playbook)/.exec(ua)
+        || /(bb)/.exec(ua) || /(blackberry)/.exec(ua)
+        || [];
+
+    matched.platform = platform_match[0] || "";
+
+    if(matched.platform) {
+        platform[matched.platform] = true;
+    }
+
+    if(platform.android || platform.bb || platform.blackberry
+        || platform.ipad || platform.iphone
+        || platform.ipod || platform.kindle
+        || platform.playbook || platform.silk
+        || platform["windows phone"]) {
+        userPlatform = "mobile";
+    }
+
+    if(platform.cros || platform.mac || platform.linux || platform.win) {
+        userPlatform = "pc";
+    }
+
+    return userPlatform;
+}
+
+/* notice 슬라이드 배너 (무한루프)*/
+$(function(){
+
+    let i = 0;
+
+    setInterval(noticeSlide, 2500);
+
+    function noticeSlide(){
+        $('.belttxtbox').append('<span class="header_beltTit"><a href="#"><span class="text-over belt_tit">구매수수료율 인상 및 약관 개정안내 구매수수료율 '+i+'</span></a></span>');  /*끝에 반복 생성  */
+        $('.belttxtbox').css('top','0');
+
+        if(i < 5){
+            i++;
+        }
+        if(i == 5) {
+            i = 0;
+        }
+        $('.belttxtbox>span:nth-child(1)').remove(); /*반복 첫번째 삭제  */
+        $('.belttxtbox').animate({'top':'100%'},1000);
+    } // noticeSlide() 종료구문;
+});
+
+function dotSubString(str,len){
+    let result ='';
+    if(str.length > len){
+        result = str.substring(0,len)+'...';
+    }else{
+        result = str;
+    }
+    return result;
+}
+//숫자를 한국어로
+function num2han(num) {
+    num = parseInt((num + '').replace(/[^0-9]/g, ''), 10) + '';  // 숫자/문자/돈 을 숫자만 있는 문자열로 변환
+    if (num == '0')
+        return '영';
+    let number = ['영', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구'];
+    let unit = ['', '만', '억', '조'];
+    let smallUnit = ['천', '백', '십', ''];
+    let result = [];  //변환된 값을 저장할 배열
+    let unitCnt = Math.ceil(num.length / 4);  //단위 갯수. 숫자 10000은 일단위와 만단위 2개이다.
+    num = num.padStart(unitCnt * 4, '0')  //4자리 값이 되도록 0을 채운다
+    let regexp = /[\w\W]{4}/g;  //4자리 단위로 숫자 분리
+    let array = num.match(regexp);  //낮은 자릿수에서 높은 자릿수 순으로 값을 만든다(그래야 자릿수 계산이 편하다)
+    for (let i = array.length - 1, unitCnt = 0; i >= 0; i--, unitCnt++) {
+        let hanValue = _makeHan(array[i]);  //한글로 변환된 숫자
+        if (hanValue == '')  //값이 없을땐 해당 단위의 값이 모두 0이란 뜻.
+            continue;
+        result.unshift(hanValue + unit[unitCnt]);
+    }
+    //여기로 들어오는 값은 무조건 네자리이다. 1234 -> 일천이백삼십사
+    function _makeHan(text) {
+        var str = '';
+        for (var i = 0; i < text.length; i++) {
+            var num = text[i];
+            if (num == '0')  //0은 읽지 않는다
+                continue;
+            str += number[num] + smallUnit[i];
+        }
+        return str;
+    }
+  return result.join('');
+}
+//오프라인 가격의 호가를 정해서 알려줌
+function growPriceForOffline(price){
+
+    let growPrice;
+
+    if(price < 1000000 ){
+        growPrice = 50000;
+    } else if (price >= 1000000 && price < 2000000 ){
+        growPrice = 100000;
+    } else if (price >= 2000000 && price < 4000000 ){
+        growPrice = 200000;
+    } else if (price >= 4000000 && price < 10000000 ){
+        growPrice = 300000;
+    } else if (price >= 10000000 && price < 20000000 ){
+        growPrice = 500000;
+    } else if (price >= 20000000 && price < 30000000 ){
+        growPrice = 1000000;
+    } else if (price >= 30000000 && price < 50000000 ){
+        growPrice = 2000000;
+    } else if (price >= 50000000 && price < 100000000 ){
+        growPrice = 3000000;
+    } else if (price >= 100000000 && price < 200000000 ){
+        growPrice = 5000000;
+    } else if (price >= 200000000 && price < 300000000 ){
+        growPrice = 10000000;
+    } else if (price >= 300000000 && price < 500000000 ){
+        growPrice = 20000000;
+    } else if (price >= 500000000 && price < 1000000000 ){
+        growPrice = 30000000;
+    } else if (price >= 1000000000 && price < 2000000000 ){
+        growPrice = 50000000;
+    } else if (price >= 2000000000){
+        growPrice = 100000000;
+    }
+
+    return growPrice;
+}
+
+//영어 요일을 한글 요일로
+function enDayToHanDay(enDay){
+    let hanDay;
+    switch (enDay){
+        case 'Mon' : hanDay = '월'; break;
+        case 'Tue' : hanDay = '화'; break;
+        case 'Wed' : hanDay = '수'; break;
+        case 'Thu' : hanDay = '목'; break;
+        case 'Fri' : hanDay = '금'; break;
+        case 'Sat' : hanDay = '토'; break;
+        case 'Sun' : hanDay = '일'; break;
+    }
+
+    return hanDay;
+}
+
+
+/* 반응형 resize */
+$(window).resize(function(){
+    let gnb = $(this).index();
+    if(matchMedia("all and (min-width: 1024px)").matches) {
+        $('.header_gnbmenu>li>a').mouseenter(function(){
+            $('.main-contents').click(function(){ /* 외부 클릭시 닫기 */
+                $(".submenuBg").stop().slideUp();
+                $('.header_gnbmenu>li>a').removeClass('on');
+            });
+
+            $('.submenuBg').css({'right':'auto','height':'auto','background-color':'#f2f2f2'}).stop().slideDown();
+
+            /*$('.gnb_submenuBg').removeClass('on').css({'right':'-100%'}); */
+            $('.gnb_submenuBg').show(function(){
+                $(this).css({'right':'-100%'});
+            });
+
+            $('.subGnbmenu-tit').unbind().click();
+            $('.gnbmenu_arrow').removeClass('on');
+            /*$('.submenu').unbind.stop().slideUp(); */
+            $('.submenu').css({'display':'block'});
+
+
+            $('.header_gnbmenu>li>a').removeClass('on');
+            $(".submenuBg").stop().slideDown();
+            $(this).eq(gnb).addClass('on');
+        });
+
+        $(".submenuBg").mouseleave(function(){
+            $(".submenuBg").stop().slideUp();
+            $('.header_gnbmenu>li>a').removeClass('on');
+        });
+
+        $('.bubble-box').mouseleave(function(){
+            $(this).removeClass('on');
+            $('.utility-lang>a').removeClass('on');
+        });
+
+        $('.utility-tab').mouseleave(function(){
+            $(this).children('a').removeClass('on');
+            $('.bubble-box').removeClass('on');
+        });
+
+        $('.gnb_submenuBg').hide();
+
+        /* 띠배너 beltbanner */
+        $('.header_beltbox.on').show(function(){
+            $('.main-contents').css('margin-top','162px');
+        });
+        $('.beltclose-btn').click(function(){
+            $('.main-contents').css('margin-top','102px');
+        });
+    } else { /* 테블릿 */
+        $('.m-gnbmenu').click(function(){
+            $('.submenuBg').show(function(){
+                $('.submenuBg').css({
+                    'right':'0',
+                    'height':'100%',
+                    'transition':'.3s',
+                });
+
+                $(this).unbind().mouseleave(function(t){
+                    t.stopPropagation();
+                    /*t.preventDefault(); */
+                    $('.submenuBg').click(false);
+                });
+
+                $('.gnb_submenuBg').click(function(){
+                    $('.submenuBg').css({'right':'-100%', 'transition':'.3s'});
+                    $(this).css({'right':'-100%', 'transition':'.2s','display':'none'});
+                    $('.gnb_submenuBg').css('overflow','visible');
+                    $('.submenuBg').click(false);
+                });
+            });
+
+            $('.gnb_submenuBg').css('overflow','hidden');
+            $('.gnb_submenuBg').show();
+        });
+
+        /*$(".submenuBg").mouseleave(false);*/
+
+        /* 띠배너 beltbanner */
+        $('.header_beltbox.on').show(function(){
+            $('.main-contents').css('margin-top','100px');
+        });
+        $('.beltclose-btn').click(function(){
+            $('.main-contents').css('margin-top','56px');
+            $('.gnb_submenuBg').css('overflow','visible');
+        });
+    };
+
+    /*top search place holder*/
+    const windowWidth1279 = window.matchMedia('screen and (min-width:1279px)');
+    const windowWidth1024 = window.matchMedia('screen and (min-width:1024px)');
+    const windowWidth1023 = window.matchMedia('screen and (max-width:1023px)');
+
+    if(windowWidth1279.matches){
+        $('.topsearch>input').attr('placeholder','작가 또는 작품명 검색');
+        $('.topsearch-en>input').attr('placeholder','Search by artist or work name');
+        $('.darkmodeBg').hover(function(){
+            $('.darkmode').toggleClass('active');
+        }, function(){
+            $('.darkmode').toggleClass('active');
+        });
+        $('.darkmodeBg.dark').hover(function(){
+            $('.darkmode.dark').toggleClass('active');
+        }, function(){
+            $('.darkmode.dark').toggleClass('active');
+        });
+    } else if(windowWidth1024.matches) {
+        $('.topsearch>input').attr('placeholder','검색');
+        $('.topsearch-en>input').attr('placeholder','Search');
+    } else if(windowWidth1023.matches){
+        $('.topsearch>input').attr('placeholder','검색을 입력하세요');
+        $('.topsearch-en>input').attr('placeholder','Search');
+    };
+});

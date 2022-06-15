@@ -19,7 +19,7 @@
         <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
         <!-- container -->
-        <div id="container" ng-controller="newsLetterCtl" data-ng-init="loadNewsletter(1)">
+        <div id="container" ng-controller="newsLetterCtl" data-ng-init="loadNewsletter()">
             <div id="contents" class="contents">
 
                 <!-- page title -->
@@ -39,24 +39,6 @@
 
                             <div class="panel-body">
                                 <ul class="news-list">
-                                    <li ng-repeat="newsletter in newsletterList | limitTo:totalDisplayed">
-                                        <div class="li-inner">
-                                            <a href="/newsletter/{{newsletter.id}}">
-                                                <div class="image-area">
-                                                    <figure class="img-ratio">
-                                                        <div class="img-align">
-                                                            <img src="/images/mobile/main/newsletter_55.jpg" alt="newsletter. Jan. Vol.55">
-                                                        </div>
-                                                    </figure>
-                                                </div>
-                                                <div class="typo-area">
-                                                    <div class="title"><span>{{newsletter.content['ko'].newsletter_title}}</span><i class="new" ng-if="newsletter.is_new == 'Y'">N</i></div>
-                                                    <div class="desc"><span>{{newsletter.content['ko'].newsletter_memo}}</span></div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </li>
-
                                 </ul>
                             </div>
                             <div class="panel-footer">
@@ -90,26 +72,62 @@
 app.value('locale', 'ko');
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
 app.controller('newsLetterCtl', function($scope, consts, common, locale) {
-    $scope.currentPage = 1;
-    $scope.rowPerPages = 4;
+
+    $scope.rowPerPages = 8;
     $scope.locale = locale;
     $scope.totalDisplayed = $scope.rowPerPages;
 
     $scope.loadNewsletter = function() {
-        common.callGetAPI('/api/main/newsletters', {}, function(data, status) {
-            $scope.newsletterList = data.data;
-            console.log( $scope.newsletterList);
-            $scope.newsletterList.map(item => {
-                item.content = JSON.parse(item.content);
-            });
-            $scope.totalCnt = $scope.newsletterList.length;
-            if( ($scope.currentPage+1)*$scope.rowPerPages >= $scope.totalCnt ) {
-                //$("#moreBtn").hide();
+
+        axios.get('/api/main/newsletters').then(function(response) {
+
+            console.log(response);
+            const success = response.data.success;
+            if (success) {
+                const newsletterList = response.data.data;
+                $('.news-list').empty();
+                $.each(newsletterList , function(idx , el){
+                    if($scope.totalDisplayed > idx){
+
+                        const itemJSON = JSON.parse(el.content);
+                        let newDom = '';
+                        if(el.isnew == 'Y'){
+                            newDom = '<i class="new">N</i>';
+                        }
+
+                        let returnDom = '<li><div class="li-inner"><a href="/newsletter/'+ el.id + '">'
+                            + '<div class="image-area">'
+                            +    '<figure class="img-ratio">'
+                            +       '<div class="img-align">'
+                            +            '<img src="' + itemJSON[$scope.locale].img_url + '" alt="newsletter. Jan. Vol.55">'
+                            +        '</div>'
+                            +    '</figure>'
+                            + '</div>'
+                            + '<div class="typo-area">'
+                            +    '<div class="title"><span>' + itemJSON[$scope.locale].newsletter_title + '</span>' + newDom + '</div>'
+                            +    '<div class="desc"><span>' + itemJSON[$scope.locale].newsletter_memo + ' </span></div>'
+                            + '</div>'
+                            + '</a>'
+                            + '</div></li>';
+
+                        $('.news-list').append(returnDom);
+                    }
+                });
+
+                if(newsletterList.length < $scope.totalDisplayed) {
+                    $("#moreBtn").hide();
+                }
+                $scope.totalCnt = newsletterList.length;
+
             }
+        }).
+        catch(function(error){
+            console.log(error);
         });
 
         $scope.loadMore = function () {
-            $scope.totalDisplayed += 4;
+            $scope.totalDisplayed += 8;
+            $scope.loadNewsletter();
         };
     }
 

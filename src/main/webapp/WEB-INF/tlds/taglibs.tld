@@ -9,7 +9,7 @@
     <function>
         <description>String to JSON</description>
         <name>getJSONString</name>
-        <function-class>com.seoulauction.renewal.utill.TagLibrary</function-class>
+        <function-class>com.seoulauction.renewal.util.TagLibrary</function-class>
         <function-signature>java.lang.String getJSONString(java.lang.String, java.lang.String)</function-signature>
     </function>
 </taglib>

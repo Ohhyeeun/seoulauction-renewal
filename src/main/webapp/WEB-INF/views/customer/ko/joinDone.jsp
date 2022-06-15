@@ -70,7 +70,7 @@
 		                                            <p class="tb1">서울옥션 달력 발송</p>
 		
 		                                            <div class="btn_line">
-		                                                <a href="#none" class="btn btn_gray_line pr0"><span>정회원 신청 바로가기</span><i class="icon-page_next"></i></a>
+		                                                <a href="/payment/member" class="btn btn_gray_line pr0"><span>정회원 신청 바로가기</span><i class="icon-page_next"></i></a>
 		                                            </div>
 		                                        </dd>
 		                                        <!-- //[0502] -->

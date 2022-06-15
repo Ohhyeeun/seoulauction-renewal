@@ -4,6 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
+
 <body class="">
 	<div class="wrapper" ng-app="myApp">
 		<div class="sub-wrap pageclass">
@@ -67,7 +69,10 @@
                                                                 <tr>
                                                                     <td class="bbs-subject">{{art.TITLE_KO}}</td>
                                                                     <td ng-bind="art.pay_price | number : 0"></td>
-                                                                    <td ng-if="art.CANCEL_YN != 'Y'"><a class="pay complete" href="#"ng-click="academyPayHis({'parent':this, 'academy':art});" class="ng-scope" >결제완료</a></td>
+                                                                    <td ng-if="art.CANCEL_YN != 'Y'"><a class="pay complete" href="#" ng-click="academyPayHis({'parent':this, 'academy':art});" class="ng-scope" >결제완료</a>
+                                                                    <button  type="button" ng-if="art.PAY_METHOD_ID == 'card' && art.receipt == 'Y'" ng-click="receiptPopup({'pay':art,'type':0})"><span>결제영수증</span></button>
+                                                                 	<button  type="button" ng-if="art.PAY_METHOD_ID == 'vbank' && art.receipt == 'Y'" ng-click="receiptPopup({'pay':art,'type':1})"><span>현금영수증</span></button>
+                                                                    </td>
                                                                     <td ng-if="art.CANCEL_YN == 'Y'"><a class="pay">결제취소</a></td>
                                                                     <td>{{art.REG_DT | date:'yyyy-MM-dd'}}</td>
                                                                 </tr>
@@ -87,7 +92,9 @@
                                                                     </dl>
                                                                     <dl>
                                                                         <dt>결제현황</dt>
-                                                                        <dd  ng-if="art.CANCEL_YN != 'Y'"><span class="pay complete">결제완료</span></dd>
+                                                                        <dd  ng-if="art.CANCEL_YN != 'Y'">
+                                                                        <span class="pay complete" ng-click="academyPayHis({'parent':this, 'academy':art});">결제완료</span>
+                                                                        </dd>
                                                                         <dd ng-if="art.CANCEL_YN == 'Y'"><span class="pay">결제취소</span></dd>
                                                                     </dl>
                                                                     <dl>
@@ -97,28 +104,8 @@
                                                                 </div>
                                                             </li>
                                                         </ul>
-                                                    </div>
-                                                    <!-- <div class="paging-area">
-                                                        <div class="paging">
-                                                            <a href="#" class="prev_end icon-page_prevprev">FIRST</a><a href="#" class="prev icon-page_prev">PREV</a>
-                                                            <strong class="on">1</strong>
-                                                            <a href="#"><em>2</em></a>
-                                                            <a href="#"><em>3</em></a>
-                                                            <a href="#"><em>4</em></a>
-                                                            <a href="#"><em>5</em></a>
-                                                            <span class="pc-ver">
-                                                                <a href="#"><em>6</em></a>
-                                                                <a href="#"><em>7</em></a>
-                                                                <a href="#"><em>8</em></a>
-                                                                <a href="#"><em>9</em></a>
-                                                                <a href="#"><em>100</em></a>
-                                                            </span>
-                                                            <a href="#" class="next icon-page_next "><em>NEXT</em></a><a href="#" class="next_end icon-page_nextnext">END</a>
-                                                        </div>
-                                                    </div> -->
-                                                    
-                                                    <div class="paging-area">
-                                                    <div class="paging">
+                                                    </div>                                                   
+                                                    <div class="wrap_paging" ng-if="academyCnt != 0">
 														<paging page="currentPage"
 															page-size=10
 															total="academyCnt"
@@ -127,15 +114,14 @@
 															hide-if-empty="true"
 															show-prev-next="true"
 															show-first-last="true"
-															ul-class="paging"
-															active-class="on"
+															ul-class="page_ul"
+															active-class="page_active"
 														    disabled-class="page_disable"
-														    text-next-class="next icon-page_next"
-														    text-prev-class="prev icon-page_prev"
-														    text-first-class="prev_end icon-page_prevprev"
-														    text-last-class="next_end icon-page_nextnext">
-														</paging>
-													
+														    text-next-class="icon-page_next next page_btn sp_btn btn_next02"
+														    text-prev-class="icon-page_prev prev page_btn sp_btn btn_prev02"
+														    text-first-class="icon-page_prevprev prev_end page_btn sp_btn btn_prev "
+														    text-last-class="icon-page_nextnext next_end page_btn sp_btn btn_next">
+														</paging>				
 													</div>
                                                 </article>
                                             </div>
@@ -190,7 +176,7 @@
                                 </article>
                                 <div class="button-area">
                                     <div class="btn_set-float tac">
-                                        <a class="btn btn_point href=" #" role="button"><span>확인</span></a>
+                                        <a class="btn btn_point js-closepop" href="#" id="confirm" role="button"><span>확인</span></a>
                                     </div>
                                 </div>
                             </section>
@@ -242,7 +228,7 @@
                 popup_motion_open("#popup_myacademy_pay-wrap"); // mb 모션 
             });
 
-            $("body").on("click", "#popup_myacademy_pay-wrap .js-closepop, #popup_myacademy_pay-wrap .popup-dim", function($e) {
+            $("body").on("click", "#popup_myacademy_pay-wrap .js-closepop, #popup_myacademy_pay-wrap .popup-dim, .confirmBtn", function($e) {
                 $e.preventDefault();
                 popup_marketing1.close();
                 popup_motion_close("#popup_myacademy_pay-wrap");

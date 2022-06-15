@@ -3,7 +3,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<body class="">
+<html lang="ko">
+    <head>
+	    <meta charset="UTF-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	    <title>Seoul Auction</title>
+	</head>
+	<body>
     <div class="wrapper">
         <div class="sub-wrap pageclass bgpage-wrap">
 		<jsp:include page="../../include/ko/header.jsp" flush="false"/>   
@@ -43,26 +50,30 @@
                                             </span>
                                         </div>
                                         <div class="js-menuType-body">
+                                        <form id="phone">
                                             <div class="info_wrap js-ds_item js-ds_item0">
                                                 <dl class="info_name">
                                                     <dt>이름</dt>
-                                                    <dd><input type="text" class="textType" id="custNameByPhone" placeholder="" style="width:100%"></dd>
+                                                    <dd><input type="text" data-id="이름을" class="textType" id="custNameByPhone" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                                 <dl class="info_number">
                                                     <dt>휴대폰 번호</dt>
-                                                    <dd><input type="text" class="textType" id="custPhone" placeholder="" onkeyup="phoneNumber(this);"  style="width:100%"></dd>
+                                                    <dd><input type="text" data-id="휴대폰 번호를"  class="textType" id="custPhone" placeholder="" maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);"  style="width:100%"></dd>
                                                 </dl>
                                             </div>
+                                        </form>
+                                        <form id="email">
                                             <div class="info_wrap js-ds_item js-ds_item1" style="display: none;">
                                                 <dl class="info_name">
                                                     <dt>이름</dt>
-                                                    <dd><input type="text" class="textType" id="custNameByEmail" placeholder="" style="width:100%"></dd>
+                                                    <dd><input type="text" data-id="이름을" class="textType" id="custNameByEmail" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                                 <dl class="info_number">
                                                     <dt>이메일 주소</dt>
-                                                    <dd><input type="text" class="textType" id="custEmail" placeholder="" style="width:100%"></dd>
+                                                    <dd><input type="text" data-id="이메일을"  class="textType" id="custEmail" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                             </div>
+                                         </form>
                                         </div>
                                         <!--//[2022-0503]-->
 
@@ -162,7 +173,9 @@
                         <div class="pop-header">
                             <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
                             <div class="title-box_tac">
+                            <div class="title-box_tac">
                                 <span class="title_tac tt4">일치하는 회원 정보가 없습니다.</span>
+                                
                             </div>
                         </div>
                         <div class="pop-body">
@@ -199,7 +212,7 @@
                                 <img class="only_ib-mb" src="/images/mobile/login/search_ico_01.png">
                             </div>
                             <div class="title-box_tac title_md">
-                                <span class="title_tac tt4">필수 항목명을 입력해 주세요.</span>
+                                <span class="title_tac tt4" id="inputTitle"></span>
                             </div>
                         </div>
                         <div class="pop-body">

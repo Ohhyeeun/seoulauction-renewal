@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
 <body class="">
 	<div class="wrapper" ng-app="myApp">
 		<div class="sub-wrap pageclass">
@@ -66,7 +67,8 @@
                                                                 </div>
                                                                 <div class="btn-area">
                                                                     <button ng-if="il[1][0].CLOSE_YN != 'Y'" class="btn btn_point btn-view-bid" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span >진행경매보기</span></a></button>
-                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray btn-view-bid" type="button" disabled><span>경매 종료</span></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')"  class="btn btn_gray btn-view-bid" type="button" ><span>경매 종료</span></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')"  class="btn btn_gray_line btn-view-result" type="button" ><span>경매결과보기</span></button>
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in il[1]">
@@ -75,7 +77,7 @@
                                                                     <div class="thumb-area">
                                                                         <figure class="img-ratio">
                                                                             <div class="img-align">
-                                                                                 <img ng-src="/nas_img{{data.FILE_NAME | imagePath1 : data.FILE_PATH : 'detail'}}" />
+                                                                                 <img src="/nas_img{{data.FILE_PATH}}/{{data.FILE_NAME}}" />
                                                                             </div>
                                                                         </figure>
                                                                     </div>
@@ -95,9 +97,11 @@
                                                                 </div>
                                                             </dd>
                                                         </dl>
+                                                        <div class="data-empty" ng-if="inteLotCnt == 0">
+                                                           <p class="txt_empty">관심작품이 존재하지 않습니다.</p>
+                                                        </div>
                                                     </div>
-                                                    <div class="paging-area">
-                                                    <div class="paging">
+                                                    <div class="wrap_paging" ng-if="inteLotCnt != 0">
 														<paging page="currentPage"
 															page-size=3
 															total="inteLotCnt"
@@ -106,15 +110,14 @@
 															hide-if-empty="true"
 															show-prev-next="true"
 															show-first-last="true"
-															ul-class="paging"
-															active-class="on"
+															ul-class="page_ul"
+															active-class="page_active"
 														    disabled-class="page_disable"
-														    text-next-class="next icon-page_next"
-														    text-prev-class="prev icon-page_prev"
-														    text-first-class="prev_end icon-page_prevprev"
-														    text-last-class="next_end icon-page_nextnext">
-														</paging>
-													</div>
+														    text-next-class="icon-page_next next page_btn sp_btn btn_next02"
+														    text-prev-class="icon-page_prev prev page_btn sp_btn btn_prev02"
+														    text-first-class="icon-page_prevprev prev_end page_btn sp_btn btn_prev "
+														    text-last-class="icon-page_nextnext next_end page_btn sp_btn btn_next">
+														</paging>				
 													</div>
                                                 </article>
                                             </div>

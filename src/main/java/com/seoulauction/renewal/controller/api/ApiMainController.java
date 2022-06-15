@@ -19,8 +19,8 @@ import java.security.Principal;
 @RequiredArgsConstructor
 @RequestMapping("api/main")
 public class ApiMainController {
+
     private final MainService mainService;
-    
     private final LoginService loginService;
 
     @RequestMapping(value = "/topNotice", method = RequestMethod.GET)
@@ -150,4 +150,10 @@ public class ApiMainController {
     	
         return ResponseEntity.ok(RestResponse.ok());
     }
+
+    @RequestMapping(value = "/bigBanners", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> bigBanners(){
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectBigBanners()));
+    }
+
 }

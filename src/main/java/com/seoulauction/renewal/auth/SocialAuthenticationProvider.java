@@ -1,13 +1,10 @@
 package com.seoulauction.renewal.auth;
 
-import java.util.ArrayList;
-import java.util.List;
-
-//import com.seoulauction.common.auth.SAUserDetails;
-//import com.seoulauction.front.util.AuctionUtil;
-//import com.seoulauction.ws.dao.CommonDao;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.mapper.kt.LoginMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,48 +13,48 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.domain.SAUserDetails;
-import com.seoulauction.renewal.mapper.kt.LoginMapper;
-
-import lombok.RequiredArgsConstructor;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Component
+@Log4j2
 public class SocialAuthenticationProvider  implements AuthenticationProvider {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private final LoginMapper loginMapper;
 
 	@Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        logger.info("social authenticate");
+        log.info("social authenticate");
 
-        String custId = (String) authentication.getPrincipal();
         SAUserDetails parameterUserDetail = (SAUserDetails) authentication.getDetails();
-        String userNm = parameterUserDetail.getUserNm();
-        String agreeYn = parameterUserDetail.getAgreeYn();
+        String socialType = parameterUserDetail.getSocialType();
+        String socialEmail = parameterUserDetail.getSocialEmail();
         String ip = parameterUserDetail.getIp();
 
-        logger.info("custId : {}, userNm: {}, agreeYn: {}, ip: {}", custId, userNm, agreeYn, ip);
+        log.info("socialType : {}, socialEmail: {}, ip: {}", socialType, socialEmail, ip);
 
         // check CUST
         CommonMap paramMap = new CommonMap();
-        paramMap.put("social_login_id", custId);
-        CommonMap resultMap = loginMapper.selectCustForCustSocial(paramMap);;
+        paramMap.put("social_type", socialType);
+        paramMap.put("social_email", socialEmail);
+        CommonMap resultMap = loginMapper.selectCustForCustSocial(paramMap);
+		
+        if(resultMap == null || resultMap.isEmpty()){
+			throw new BadCredentialsException("User not found.");
+        }
         
         if(resultMap.get("STAT_CD") != null && resultMap.get("STAT_CD").equals("stop")){
 			throw new BadCredentialsException("Stop User"); // 이용제한 아이디 STAT_CD = 'stop'
         }
-        
+
         if(resultMap.get("STAT_CD") != null && resultMap.get("STAT_CD").equals("not_certify")){
 			throw new BadCredentialsException("Not Certify User"); // 해외고객 이메일 미인증 STAT_CD = 'not_certify'
         }
-		
+        String socialLoginId= resultMap.getString("SOCIAL_LOGIN_ID");
+
         paramMap.put("ip", ip);
         paramMap.put("user_no", resultMap.get("CUST_NO"));
         paramMap.put("user_kind_cd", "customer");
@@ -79,23 +76,36 @@ public class SocialAuthenticationProvider  implements AuthenticationProvider {
         if(resultMap.get("EMP_GB").equals("Y")) {
         	roles.add(new SimpleGrantedAuthority("ROLE_EMPLOYEE_USER"));
         }
-        
+
         int custNo = Integer.parseInt(resultMap.get("CUST_NO").toString());
 
-        UsernamePasswordAuthenticationToken result
-                = new UsernamePasswordAuthenticationToken(custNo, null, roles);
+        UsernamePasswordAuthenticationToken result = new UsernamePasswordAuthenticationToken(custNo, null, roles);
+        
+        String addr = "";
+        if(resultMap.get("ADDR") != null) {
+        	addr = resultMap.get("ADDR").toString();
+        	if(resultMap.get("ADDR_DTL") != null) {
+        		addr += resultMap.get("ADDR_DTL").toString();
+        	}
+        }
         result.setDetails(SAUserDetails.builder()
-    			.loginId(custId)
+    			.loginId(socialLoginId)
     			.password(null)
     			.userNo(custNo)
     			.authorities(roles)
-    			.userKind(resultMap.get("CUST_KIND_CD").toString())
-    			.userNm(userNm)
+    			.userKind(resultMap.get("CUST_KIND_CD") != null ? resultMap.get("CUST_KIND_CD").toString() : "")
+    			.userNm(resultMap.get("CUST_NAME") != null ? resultMap.get("CUST_NAME").toString() : "")
     			.ip(ip)
-    			.zipNo(resultMap.get("ZIPNO").toString())
-    			.addr(resultMap.get("ADDR").toString() + " " + resultMap.get("ADDR_DTL").toString())
+    			.zipNo(resultMap.get("ZIPNO") != null ? resultMap.get("ZIPNO").toString() : "")
+    			.addr(addr)
+    			.hp(resultMap.get("HP") != null ? resultMap.get("HP").toString() : "")
+				.email(resultMap.get("EMAIL") != null ? resultMap.get("EMAIL").toString() : "")
+				.validDate(resultMap.get("VALID_DATE") != null ? resultMap.get("VALID_DATE").toString() : "")
+				.socialYn(resultMap.get("SOCIAL_YN") != null ? resultMap.get("SOCIAL_YN").toString() : "" + resultMap.get("SOCIAL_YN") != null ? " " + resultMap.get("SOCIAL_YN").toString() : "")
+				.socialType(socialType)
+				.socialEmail(socialEmail)
     			.build());
-        
+
         return result;
     }
 
