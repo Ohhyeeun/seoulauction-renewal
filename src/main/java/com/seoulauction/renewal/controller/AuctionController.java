@@ -69,6 +69,24 @@ public class AuctionController {
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionLiveView" , locale);
     }
 
+    @GetMapping("/view/print/{sale_no}/{lot_no}")
+    public String printView(Locale locale, Model model
+            , HttpServletRequest request, HttpServletResponse response,
+                       @PathVariable("sale_no") int saleNo,
+                       @PathVariable("lot_no") int lotNo) {
+
+        model.addAttribute("saleNo", saleNo);
+        model.addAttribute("lotNo", lotNo);
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            model.addAttribute("member", saUserDetails);
+        } else {
+            model.addAttribute("member", new SAUserDetails());
+        }
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionViewPrint" , locale);
+    }
+
 
     @GetMapping(value="/list/{saleNo}")
     public String list(Locale locale, Model model
