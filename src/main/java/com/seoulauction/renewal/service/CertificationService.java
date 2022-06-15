@@ -23,7 +23,19 @@ public class CertificationService {
     }
     
     public CommonMap selectAuthNumber(CommonMap commonMap){  
-    	return certificationMapper.selectAuthNumber(commonMap);
+    	int randNum = certificationMapper.selectAuthNumber();
+    	int result = 0;
+    	CommonMap resultMap = new CommonMap();
+    	if(randNum > 0 ) {
+    		commonMap.put("rand_num", randNum);
+    		result = certificationMapper.insertAuthNumber(commonMap);	
+    	}
+  
+    	if(result > 0) {
+    		resultMap.put("AUTH_NUM", randNum);
+    	}
+    	
+    	return resultMap;
     }
     
     public CommonMap inertSaleCert(CommonMap commonMap){  

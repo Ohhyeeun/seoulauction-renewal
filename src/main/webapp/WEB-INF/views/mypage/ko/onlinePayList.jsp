@@ -69,7 +69,8 @@
                                                             </dt>
                                                             <dd class="item-ea"  ng-repeat="data in pl[1]">
                                                                 <div class="item-ea-tit">
-                                                                    <div class="paystate pending" ng-if="data.PAID_CNT != 1">결제대기중 ({{data.PAY_METHOD_NM}})</div>
+                                                                    <!-- <div class="paystate pending" ng-if="data.PAID_CNT != 1">결제대기중 ({{data.PAY_METHOD_NM}})</div> -->
+                                                                    <div class="paystate pending" ng-if="data.PAID_CNT != 1">결제대기중</div>
                                                                     <div class="paystate complete" ng-if="data.PAID_CNT == 1">결제완료</div>
                                                                     <div class="txt" ng-if="data.PAID_CNT == 1">{{data.payDate}} ({{data.payWeekDate}}) {{data.payTime}} ({{data.PAY_METHOD_NM}})</div>
                                                                 </div>

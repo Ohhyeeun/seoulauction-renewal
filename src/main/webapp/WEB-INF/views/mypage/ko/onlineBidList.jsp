@@ -64,7 +64,7 @@
                                                                             <figure class="img-ratio">
                                                                                 <div class="img-align">
                                                                                      <img src="/nas_img{{data.LOT_IMG}}" alt="">
-                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'N' && data.BID_PRICE == data.success_bid_price"><span class="bid_result-icon">낙찰</span></div>
+                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'N' && bidGroup(data.BID_JSON)[0].BID_PRICE == data.success_bid_price"><span class="bid_result-icon">낙찰</span></div>
                                                                                      <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'Y'"><span class="bid_result-icon">낙찰취소</span></div>
                                                                                 </div>
                                                                             </figure>
