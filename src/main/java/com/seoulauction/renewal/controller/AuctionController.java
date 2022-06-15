@@ -53,11 +53,19 @@ public class AuctionController {
         model.addAttribute("lotNo", lotNo);
 
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+
+        //필수값 있는지 여부.
+        Boolean isCustRequired = false;
+
         if (saUserDetails != null) {
             model.addAttribute("member", saUserDetails);
+            isCustRequired = saleService.checkCustRequired(new CommonMap("cust_no", saUserDetails.getUserNo()));
         } else {
             model.addAttribute("member", new SAUserDetails());
         }
+
+        model.addAttribute("isCustRequired", isCustRequired);
+
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionLiveView" , locale);
     }
 

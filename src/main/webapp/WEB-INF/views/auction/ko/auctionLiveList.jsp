@@ -368,7 +368,7 @@
             }
 
             $scope.goLot = function (saleNo, lotNo) {
-                window.location.href = '/auction/online/view/' + saleNo + '/' + lotNo;
+                window.location.href = '/auction/live/view/' + saleNo + '/' + lotNo;
             }
 
             $scope.favorite = function(item) {
