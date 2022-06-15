@@ -12,7 +12,9 @@ public interface CertificationMapper {
 
     List<CommonMap> selectDuplicationForJoin(CommonMap commonMap);
     
-    CommonMap selectAuthNumber(CommonMap commonMap);
+    int selectAuthNumber();
+  
+    int insertAuthNumber(CommonMap commonMap);
 
     int inertSaleCert(CommonMap commonMap);
    
