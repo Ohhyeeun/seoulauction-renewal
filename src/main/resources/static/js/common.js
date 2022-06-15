@@ -25,7 +25,7 @@ $(function(){
                     const ingAuctionList = response.data.data;
                     ingAuctionList.map(item => {
                         const titleJSON = JSON.parse(item.TITLE_BLOB);
-                        const returnDom = `<a href="/auction/${item.SALE_NO}" class="Ingbanner" target="_blank">
+                        const returnDom = `<a href="/auction/list/${item.SALE_NO}" class="Ingbanner" target="_blank">
                                             <figure class="border-txt-darkg Ingbanner-img">
                                                 <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" 
                                                      onerror="this.src='/images/pc/thumbnail/gnb_thubnatil_ready.jpg'"
@@ -349,16 +349,25 @@ $(function(){
     });
 
     /* footer family site */
-    $('.Familysite').click(function(){
+    $('.Familysite-selectbox').click(function(){
         let familyH = $(this).index();
+        $('.innerfooter').removeClass('on');
         $(this).removeClass('on');
+        $('.innerfooter').eq(familyH).addClass('on');
         $('.Familysite').eq(familyH).addClass('on');
-        $('.familyselect').toggle();
-    });
 
-    $('.familyselect>li>a').click(function(){
-        $('.Familysite').removeClass('on');
-        $('.familyselect').hide();
+        if($('.familyselect').hasClass('on')){ /* familyselet 탭 닫기 */
+            $('.familyselect').addClass('on');
+            $('.Familysite').removeClass('on'); /* 화살표 */
+        } else {
+            $('.innerfooter').click(function(){
+                $('.familyselect').removeClass('on');
+                $('.familyselect').click(false);
+                $('.Familysite-selectbox').click(false);
+            });
+            $('.familyselect').removeClass('on'); /* familyselet 탭 오픈 */
+        };
+        $('.familyselect').toggleClass('on');
     });
 
     /* scroll top */
@@ -802,6 +811,22 @@ function growPriceForOffline(price){
     }
 
     return growPrice;
+}
+
+//영어 요일을 한글 요일로
+function enDayToHanDay(enDay){
+    let hanDay;
+    switch (enDay){
+        case 'Mon' : hanDay = '월'; break;
+        case 'Tue' : hanDay = '화'; break;
+        case 'Wed' : hanDay = '수'; break;
+        case 'Thu' : hanDay = '목'; break;
+        case 'Fri' : hanDay = '금'; break;
+        case 'Sat' : hanDay = '토'; break;
+        case 'Sun' : hanDay = '일'; break;
+    }
+
+    return hanDay;
 }
 
 

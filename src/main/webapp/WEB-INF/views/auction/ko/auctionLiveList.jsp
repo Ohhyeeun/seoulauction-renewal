@@ -206,7 +206,7 @@
                                                                     <span class="text-over span_block">{{item.CD_NM}}</span>
                                                                     <div class="size_year">
                                                                         <span>{{item.SIZE1}} X {{item.SIZE2}} X {{item.SIZE3}}</span>
-                                                                        <span>{{item.MAKE_YEAR_JSON.ko}}</span>
+                                                                       <%-- <span>{{item.MAKE_YEAR_JSON.ko}}</span>--%>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -228,7 +228,7 @@
                                                                 </dl>
                                                             </div>
                                                             <div id="biding_req" class="bidding-box col_2">
-                                                                <div class="deadline_set"><span>신청마감 02.10(목) 15:00</span></div>
+                                                                <div class="deadline_set"><span>신청마감 {{ item.LOT_EXPIRE_DATE_HAN }}</span></div>
                                                                 <div class="btn_set"><a class="btn btn_point" href="" ng-click="moveToBidding(item)"
                                                                                         role="button"><span>서면/전화 응찰 신청</span></a></div>
                                                             </div>
@@ -518,7 +518,7 @@
             // 호출 부
             const getSaleInfo = (saleNo) => {
                 try {
-                    return axios.get('/api/auction/list/${saleNo}');
+                    return axios.get('/api/auction/list/${saleNo}?is_live=Y');
                 } catch (error) {
                     console.error(error);
                 }
@@ -558,12 +558,21 @@
                     let [r1, r2, r3] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no)]);
 
                     $scope.saleInfoAll = r1.data.data;
+
+                    //데이터가 없을 시 , 오프라인 경매인데 온라인으로 올 시 등등 접근 불가.
+                    if($scope.saleInfoAll.length === 0){
+                        alert('잘못된 접근 입니다.');
+                        history.back();
+                    }
+
                     $scope.saleImages = r2.data.data;
                     $scope.lotTags = r3.data.data;
 
-                    console.log($scope.saleInfoAll);
 
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
+
+                        //영문 요일 -> 한국 요일로 치환처리.
+                        $scope.saleInfoAll[i].LOT_EXPIRE_DATE_HAN = $scope.saleInfoAll[i].LOT_EXPIRE_DATE_TIME_T.replace($scope.saleInfoAll[i].LOT_EXPIRE_DATE_DAY ,  enDayToHanDay($scope.saleInfoAll[i].LOT_EXPIRE_DATE_DAY) );
 
                         if($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW !=null) {
                             $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW.toLocaleString('ko-KR');

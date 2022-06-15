@@ -406,10 +406,13 @@ public class ApiSaleController {
 
     @GetMapping(value="/list/{saleNo}")
     public ResponseEntity<RestResponse> list(
-            @PathVariable("saleNo") int saleNo) {
+            @PathVariable("saleNo") int saleNo,
+            @RequestParam(value = "is_live" ,defaultValue = "N") String isLive
+    ) {
 
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
+        commonMap.put("is_live" , isLive);
 
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
         if (saUserDetails != null ) {
@@ -437,6 +440,9 @@ public class ApiSaleController {
         } catch (JsonProcessingException e) {
 
         }
+
+        log.info("lotImages : {}" , lotImages.size());
+
         return ResponseEntity.ok(RestResponse.ok(lotImages));
    }
     @RequestMapping(value = "/lotTag/{saleNo}", method = RequestMethod.GET)

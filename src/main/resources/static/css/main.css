@@ -342,9 +342,10 @@
 }
 .auctionTab-contents.on {
     display: flex;
-    height: 36.25rem;
+    height: 0;
     overflow-y: hidden;
     margin-bottom: 40px;
+    /*padding-bottom: 33%;*/
 }
 .auction-thumbbox {
     background-color: #ededed;
@@ -355,13 +356,15 @@
     top: 0;
     cursor: pointer;
     margin-bottom: 20px;
-    /*flex-shrink: 0;
-    flex-grow: 0;*/
-    width:17.5em;
-    height:17.5em;
+    width: calc(16.6667% -  16.6667px);
+    height: 0;
+    padding-bottom: calc(16.6667% -  16.6667px);
 }
 .auction-thumbbox>img {
-    background-color: #ededed;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
 }
 .auction-thumbbox:nth-of-type(6n) {
     margin-right: 0;
@@ -378,6 +381,7 @@
 }
 .auction-thumb.on {
     display: block;
+    z-index: 1;
 }
 .wish_heart {
     position: absolute;
@@ -990,8 +994,12 @@
     .swiper-button-next.slide-btnright {
         right: 40px;
     }
+    .auctionTab-contents.on {
+        /*padding-bottom: calc(65% - 20px);*/
+    }
     .auction-thumbbox {
-        width: calc(100% / 4 - 1.06rem);
+        width: calc(25% - 15px);
+        padding-bottom: calc(25% - 15px);
     }
     .auction-thumbbox:nth-of-type(6n) {
         margin-right: 20px;
@@ -1069,7 +1077,8 @@
         padding: 0 120px;
     }*/
     .auction-thumbbox {
-        width: calc(100% / 3 - 13.333px);
+        width: calc(33.3333% - 13.3333px);
+        padding-bottom: calc(33.3333% - 13.3333px);
     }
     .auction-thumbbox:nth-of-type(4n) {
         margin-right: 20px;
@@ -1097,7 +1106,6 @@
 }
 /* mobile */
 @media all and (max-width: 1023px) {
-
     .auctionTab-btn>span {
         max-width: 250px;
     }
@@ -1210,7 +1218,7 @@
         -ms-overflow-style: none;
     }
     .auctionTab-contents.on {
-        height: 619px;
+        /*padding-bottom: 68%;*/
     }
     .auctionTab-btn {
         font-size: 14px;
@@ -1308,6 +1316,10 @@
         top: auto;
         left: auto;
         transform: none;
+    }
+    .video-icon {
+        width: 20px;
+        height: 20px;
     }
     .video-play>iframe {
         z-index: -1;
@@ -1581,7 +1593,6 @@
     }
     .auctionTab-contents.on {
         margin-top: 20px;
-        height: 406px;
     }
     .wish_heart {
         top:15px;
@@ -1605,6 +1616,9 @@
     }
     .swiper-pagination.platform-pagination {
         margin-top: 15px;
+    }
+    .swiper-slide.upcomingSlide {
+        margin-right: 10px;
     }
     .video,
     .article-contents {
@@ -1675,9 +1689,6 @@
     .upcoming-preview,
     .upcoming-datebox {
         line-height: 1.5;
-    }
-    .auctionTab-contents.on {
-        height: 287px;
     }
     .upcoming-img,
     .upcoming-img:lang(en) {

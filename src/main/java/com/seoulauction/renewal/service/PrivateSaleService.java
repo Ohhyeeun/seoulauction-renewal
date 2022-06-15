@@ -3,7 +3,6 @@ package com.seoulauction.renewal.service;
 
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.exception.SAException;
-import com.seoulauction.renewal.mapper.kt.SaleMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.collections.MapUtils;
@@ -29,6 +28,16 @@ public class PrivateSaleService {
         if(MapUtils.isEmpty(resultMap)) {
             throw new SAException("일치하는 작품정보가 없습니다.");
         }
+        return resultMap;
+    }
+
+    public List<CommonMap> selectPrivateSaleList(CommonMap commonMap) {
+        List<CommonMap> resultMaps = privateSaleMapper.selectPrivateSaleList(commonMap);
+        return resultMaps;
+    }
+
+    public List<CommonMap> selectPrivateSaleLotImages(CommonMap commonMap) {
+        List<CommonMap> resultMap = privateSaleMapper.selectPrivateSaleLotImages(commonMap);
         return resultMap;
     }
 

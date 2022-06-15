@@ -102,12 +102,12 @@
 		                                
 		                                <li>
 		                                    <div class="form_label">
-		                                        <label for="name-3" class="mem_txt">Country</label>
+		                                        <label for="select_nation" class="mem_txt">Country</label>
 		                                        <i>*</i>
 		                                    </div>
 		                                    <div class="form_body">
 		                                        <div class="select-box">
-		                                        	<select class="select2Basic" id="select_nation" ng-model="select_nation" tabindex="5" name="select_nation" ng-required="langType == 'en'" ng-change="changeNation()">
+		                                        	<select class="select2Basic" id="select_nation" ng-model="select_nation" tabindex="5" name="select_nation" ng-required="langType == 'en'" onchange="angular.element(this).scope().changeNation()">
 														<option value="">Select your country</option>
 														<option ng-repeat="nation in nationList" value="{{nation.CD_ID}}|{{nation.CD_VAL3}}">{{nation.CD_NM}} +{{nation.CD_VAL3}}</option>
 													</select>
@@ -119,15 +119,15 @@
 		                                    <div class="form_label">
 		                                        <label for="hp" class="mem_txt">Mobile Number</label>
 		                                    </div>
-		                                    <div class="form_body">
+		                                    <div class="form_body nation_hpbox">
 												<div ng-show="nationMobile != '' && nationMobile != undefined">+{{nationMobile}}</div>
-												<input type="text" tabindex="6" onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this, 'number');" ng-model="form_data.hp" name="hp" id="hp" class="form-control" placeholder="">
+												<input type="text" tabindex="6" onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this, 'number');" ng-model="form_data.hp" name="hp" id="hp" class="form-control nation_hp" placeholder="">
 		                                    </div>
 		                                </li>
 		                                
 		                                <li>
 		                                    <div class="form_label ">
-		                                        <label for="postal_code" class="mem_txt">Address</label>
+		                                        <label for="zipno" class="mem_txt">Address</label>
 		                                        <i>*</i>
 		                                    </div>
 		                                    <div class="form_body">
@@ -144,7 +144,7 @@
 		                                
 		                                <li>
 		                                    <div class="form_label">
-		                                        <label for="name-7" class="mem_txt">Fill the bidding registration</label>
+		                                        <label for="bidRadio" class="mem_txt">Fill the bidding registration</label>
 		                                        <i>*</i>
 		                                    </div>
 		                                    <div class="form_body">
@@ -169,7 +169,7 @@
 		                                
 		                                <li ng-show="form_data.fore_bid_req_yn == 'Y'">
 		                                    <div class="form_label">
-		                                        <label for="name-2" class="mem_txt">ID card attached</label>
+		                                        <label for="fore_id_file" class="mem_txt">ID card attached</label>
 		                                        <i>*</i>
 		                                    </div>
 		                                    <div class="form_body">
@@ -202,8 +202,8 @@
 		                                
 		                                <li ng-show="form_data.fore_bid_req_yn == 'Y'">
 		                                    <div class="form_label">
-		                                        <label for="name-2" class="mem_txt">Supporting Documents</label>
-		                                        <i>*</i>
+		                                        <label for="fore_doc_file" class="mem_txt">Supporting Documents</label>
+		                                        <i>*</i> 
 		                                    </div>
 		                                    <div class="form_body">
 												<p class="tb2 warning_text">Please attach a copy of your credit card or bankbook</p>

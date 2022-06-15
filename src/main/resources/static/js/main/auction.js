@@ -175,6 +175,7 @@ $(document).ready(function(){
         //auction 전체 보기 버튼
         $('#AllAuction').click(function () {
            //TODO 옥션 랏 상세페이지로 이동.
+            location.href = '/auction/progress';
         })
     }
 

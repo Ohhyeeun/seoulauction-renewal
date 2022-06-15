@@ -627,6 +627,11 @@
                IFNULL(g.DEL_YN,'Y') FAVORITE_YN, /*N 이면 좋아요가 있음. Y면 좋아요가 아님.*/
                b.LOT_TAG,
                b.EXPE_PRICE_INQ_YN,
+
+               DATE_FORMAT(b.TO_DT,'%Y-%m-%d') LOT_EXPIRE_DATE,
+               DATE_FORMAT(b.TO_DT,'%a') LOT_EXPIRE_DATE_DAY,
+               DATE_FORMAT(b.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T,
+
                date_format(a.FROM_DT,'%m.%d(%a)') FROM_DT,
                date_format(a.TO_DT, '%m.%d(%a)') TO_DT
         from sale a
@@ -641,6 +646,9 @@
           and a.WWW_DISP_YN = 'Y'
           and a.CLOSE_YN = 'N'
           and b.CLOSE_YN = 'N'
+        <if test='is_live !=null and is_live.equals("Y")'>
+          and a.LIVE_BID_YN = 'Y'
+        </if>
         group by a.SALE_NO, b.LOT_NO;
     </select>
     <select id="selectLotTagList" parameterType="CommonMap" resultType="CommonMap">
