@@ -6,7 +6,10 @@
 	<select id="selectCustomerCustpayList" resultType="Map">
 		select CU.CUST_NO
 		, DATE_FORMAT(CP.VALID_FROM_DT, '%Y.%m.%d') as  VALID_FROM_DT
+		, DATE_FORMAT(CP.VALID_FROM_DT, '%d %b, %Y') as  VALID_FROM_DT_EN
 		, DATE_FORMAT(CP.VALID_TO_DT, '%Y.%m.%d')  as VALID_TO_DT
+		, DATE_FORMAT(CP.VALID_TO_DT, '%d %b, %Y')  as VALID_TO_DT_EN
+		, DATE_FORMAT(P.PAY_DT, '(%a) %d %b, %T')  as PAY_DT_EN
 		, P.PAY_METHOD_CD
 		, P.PAY_PRICE
 		, DATE_FORMAT(P.PAY_DT, '%m.%d') payDate
@@ -22,6 +25,7 @@
 		,DATE_FORMAT(P.PAY_DT, '%T') as payTime
 		, CASE WHEN CP.VALID_TO_DT &gt;= NOW() THEN '정회원' ELSE '기간만료' END VALID 
 		, CD1.CD_NM PAY_METHOD_NM
+		, CD1.CD_NM_EN PAY_METHOD_NM_EN
 		, CD1.CD_ID PAY_METHOD_ID
 		, IF(P.PG_TRANS_ID is not null and P.pg_cd='nice', 'Y', 'N' ) receipt
 		, P.PG_TRANS_ID
@@ -57,11 +61,16 @@
 				(select vat_price from pay p where p.PAY_NO = D.PAY_NO)  as vat_price,
 				(select vat from pay p where p.PAY_NO = D.PAY_NO) as vat,
 				(select PAY_METHOD_CD  from pay p where p.PAY_NO = D.PAY_NO) as PAY_METHOD_CD
+				, CD.CD_ID PAY_METHOD_ID
+				, IF(P.PG_TRANS_ID is not null and P.pg_cd='nice', 'Y', 'N' ) receipt
+				, P.PG_TRANS_ID
 			from
 				CUST A 
 				join ACADEMY_REQ B on A.CUST_NO = B.CUST_NO
 				join ACADEMY C on B.ACADEMY_NO = C.ACADEMY_NO
 				join academy_pay D  on D.ACADEMY_NO = C.ACADEMY_NO and A.CUST_NO = D.CUST_NO
+				join PAY P ON P.pay_no =  D.pay_no and P.cust_no = D.cust_no
+				left join code CD on P.PAY_METHOD_CD = CD.CD_ID and CD.GRP_ID = 'pay_method'
 			where
 	 		A.CUST_NO in ('102254','104907','106326','98250','80722','98250','102137','104320','104913','103040') AND B.DEL_YN = 'N'
 			order by
@@ -98,6 +107,7 @@
 		select 
 				S.SALE_NO 
 				, DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT
+				, DATE_FORMAT(S.FROM_DT, '%d %b, %Y %T')  as FROM_DT_EN
 				, DATE_FORMAT(S.TO_DT, '%Y.%m.%d  %T')  as TO_DT
 				, IF(S.SALE_TH_DSP_YN = 'N', '', CONCAT(S.SALE_TH, f_ordinal_number(S.SALE_TH))) SALE_TH, COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
 			   	, COLUMN_GET(S.TITLE_BLOB, 'ko' AS CHAR) SALE_TITLE_KR
@@ -105,10 +115,12 @@
 				, L.LOT_NO, L.ARTIST_NO, L.REAL_CUST_NO, L.PAYMENT_FEE_SET_CD
 				, COLUMN_JSON(L.TITLE_BLOB) LOT_TITLE_JSON
 				, COLUMN_GET(L.TITLE_BLOB, 'ko' AS CHAR) LOT_TITLE_KR
+				, COLUMN_GET(L.TITLE_BLOB, 'en' AS CHAR) LOT_TITLE_EN
 				, (select CONCAT(LI.FILE_PATH, "/", LI.FILE_NAME) from LOT_IMG LI 
 					where LI.SALE_NO = L.SALE_NO and LI.LOT_NO = L.LOT_NO limit 1) LOT_IMG
 				, CAST(COLUMN_JSON(A.ARTIST_NAME_BLOB) AS CHAR) ARTIST_NAME_JSON
 				, IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'ko' AS CHAR), '') ARTIST_NAME_KR
+				, IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'en' AS CHAR), '') ARTIST_NAME_EN
 				, CONCAT('[', GROUP_CONCAT('{"PRICE_FROM":', ifnull(LF.PRICE_FROM, 0), ', "PRICE_TO":', ifnull(LF.PRICE_TO, 0) , ', "RATE":', ifnull(LF.RATE, 0.0), '}'), ']') LOT_FEE_JSON
 				, B.BID_PRICE
 				, DATE_FORMAT(B.BID_DT, '%Y.%m.%d') as BID_DT
@@ -122,9 +134,12 @@
 					WHEN '7' THEN '토'
 				END AS BIDWEEKDT
 				, DATE_FORMAT(B.BID_DT, '%T') as BIDTIME
+				, DATE_FORMAT(B.BID_DT, '(%a) %d %b, %Y %T')  as BID_DT_EN
+				, DATE_FORMAT(P.PAY_DT, '(%a) %d %b, %Y %T')  as PAY_DT_EN
 				, B.CUST_NO BID_CUST_NO
 				, P.CUST_NO PAY_CUST_NO
 				, P.PAY_METHOD_NM
+				, P.PAY_METHOD_NM_EN
 				, PAY_CNT
 				, P.PAY_METHOD_ID
 				, P.PAY_PRICE
@@ -202,6 +217,7 @@
 				LP.SALE_NO,
 				LP.LOT_NO,
 				C.CD_NM PAY_METHOD_NM,
+				C.CD_NM_EN PAY_METHOD_NM_EN,
 				C.CD_ID PAY_METHOD_ID,
 				count(*) PAY_CNT,
 				PAY_DT
@@ -358,19 +374,21 @@
 	<!-- 문의 리스트 -->
 	<sql id="sql_bbs_w_list">
 		select * from (
-		    select
-			    A.*,
-			    CASE WHEN C.P_CD_NM IS NULL THEN '' ELSE C.CD_NM END AS CATE_NM,
+		   	SELECT A.*,
+		   	CASE WHEN C.P_CD_NM IS NULL THEN '' ELSE C.CD_NM END AS CATE_NM,
 			    CASE WHEN C.P_CD_NM IS NULL THEN C.CD_NM ELSE C.P_CD_NM END AS P_CATE_NM,
+			    C.CD_NM_EN P_CATE_NM_EN,
+			    if(C.P_CD_NM is not null ,(select cd.CD_NM_EN  from code cd where cd.CD_ID = C.P_CD_ID AND cd.grp_id = 'bbs_inquiry_category_en'),'') CATE_NM_EN,
 				case when B.reply_cnt > 0 then 'Y' else 'N' end as REPLY_YN,
 				B.LAST_REPLY_DT, 
-				D.EMP_NAME
+				D.EMP_NAME,
+				DATE_FORMAT(A.REG_DT, '%m-%d-%Y') as REG_DT_EN
 			from BBS_WRITE A
 			left outer join (
 				select bbs_id, write_no, count(*) REPLY_CNT, max(reg_dt) LAST_REPLY_DT from BBS_REPLY group by bbs_id, write_no
 			) B ON A.bbs_id = B.bbs_id and A.write_no = B.write_no
 			left outer join (
-				select distinct CA.CD_ID, CA.CD_NM, CC.CD_ID P_CD_ID, CC.CD_NM P_CD_NM from CODE CA 
+				select distinct CA.CD_ID, CA.CD_NM, CA.CD_NM_EN ,CC.CD_ID P_CD_ID, CC.CD_NM P_CD_NM from CODE CA 
 				join CODE_GRP CB on CA.grp_id = CB.grp_id
 				left outer join CODE CC on CA.P_cd_id = CC.cd_id
 				where CA.grp_id = 'bbs_inquiry_category'
@@ -378,15 +396,10 @@
 			) C on A.cate_cd = C.cd_id
 			left outer join EMP D on A.EMP_NO = D.EMP_NO
 			where A.writer_no = #{action_user_no}
-			<if test="emp_read_yn != null and emp_read_yn != ''">
-			    and A.EMP_READ_YN = #{emp_read_yn}
-		    </if>
 		) Z
 		where 1=1
-	    <if test="complet_yn != null and complet_yn != ''">
-	       and Z.reply_yn = #{complet_yn}
-	    </if>
 	</sql>
+	
 	<select id="selectInquiryList" resultType="Map">
 	    <include refid="sql_bbs_w_list" />
     	and	BBS_ID='inquiry' and STAT_CD='normal'
@@ -406,15 +419,18 @@
 		    A.*,
 		    CASE WHEN C.P_CD_NM IS NULL THEN '' ELSE C.CD_NM END AS CATE_NM,
 		    CASE WHEN C.P_CD_NM IS NULL THEN C.CD_NM ELSE C.P_CD_NM END AS P_CATE_NM,
+		    C.CD_NM_EN P_CATE_NM_EN,
+		    if(C.P_CD_NM is not null ,(select cd.CD_NM_EN  from code cd where cd.CD_ID = C.P_CD_ID AND cd.grp_id = 'bbs_inquiry_category_en'),'') CATE_NM_EN,
 			case when B.reply_cnt > 0 then 'Y' else 'N' end as REPLY_YN,
 			B.LAST_REPLY_DT, 
-			D.EMP_NAME
+			D.EMP_NAME,
+			DATE_FORMAT(B.LAST_REPLY_DT, '%m-%d-%Y') as LAST_REPLY_DT_EN
 		from BBS_WRITE A
 		left outer join (
 			select bbs_id, write_no, count(*) REPLY_CNT, max(reg_dt) LAST_REPLY_DT from BBS_REPLY group by bbs_id, write_no
 		) B ON A.bbs_id = B.bbs_id and A.write_no = B.write_no
 		left outer join (
-			select distinct CA.CD_ID, CA.CD_NM, CC.CD_ID P_CD_ID, CC.CD_NM P_CD_NM from CODE CA 
+			select distinct CA.CD_ID, CA.CD_NM, CA.CD_NM_EN, CC.CD_ID P_CD_ID, CC.CD_NM P_CD_NM from CODE CA 
 			join CODE_GRP CB on CA.grp_id = CB.grp_id
 			left outer join CODE CC on CA.P_cd_id = CC.cd_id
 			where CA.grp_id = 'bbs_inquiry_category'
@@ -554,11 +570,13 @@ SELECT 'INTE_LOT' AS GUBUN
 		     , S.SALE_OUTSIDE_YN 
  		     , LI.FILE_NAME
 		     , LI.FILE_PATH
+		     , S.SALE_KIND_CD
+		     , S.CURR_CD
 		  FROM CUST_INTE_LOT CL INNER JOIN CUST CU ON CL.CUST_NO = CU.CUST_NO
 							   inner join 
 							   (
 							   select 
-									s1.SALE_NO , s1.SALE_TH, S1.SALE_TH_DSP_YN, S1.TITLE_BLOB, S1.SALE_OUTSIDE_YN, S1.TO_DT
+									s1.SALE_NO , s1.SALE_TH, S1.SALE_TH_DSP_YN, S1.TITLE_BLOB, S1.SALE_OUTSIDE_YN, S1.TO_DT, S1.SALE_KIND_CD, S1.CURR_CD
 								from
 									sale s1
 								join cust_inte_lot cil on
@@ -633,6 +651,7 @@ SELECT 'INTE_LOT' AS GUBUN
 				, L.EXPE_PRICE_INQ_YN
 			    , COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
 			    , DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT
+			    , DATE_FORMAT(S.FROM_DT, '%d %b, %Y %T') as FROM_DT_EN
 			    , DATE_FORMAT(S.TO_DT, '%Y.%m.%d  %T')  as TO_DT
 			    , S.CURR_CD
 			    , IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH
@@ -642,7 +661,8 @@ SELECT 'INTE_LOT' AS GUBUN
 			    , AB.BID_PRICE
 			    , AB.BID_KIND_CD
 			    , DATE_FORMAT(AB.REQ_DT, '%Y.%m.%d %T') as REQ_DT 
-			    , AB.ABORT_YN, AB.ABORT_DT, AB.ABORT_IP, AB.CUST_NO, CD.CD_NM BID_KIND_NM
+			    , DATE_FORMAT(AB.REQ_DT, '%d %b, %Y %T') as REQ_DT_EN
+			    , AB.ABORT_YN, AB.ABORT_DT, AB.ABORT_IP, AB.CUST_NO, CD.CD_NM BID_KIND_NM, CD.CD_NM_EN BID_KIND_NM_EN
 			    , COLUMN_JSON(L.TITLE_BLOB) W_TITLE_JSON
 			    , COLUMN_JSON(A.ARTIST_NAME_BLOB) ARTIST
 			    , (select count(*) from BID B 
@@ -686,7 +706,7 @@ SELECT 'INTE_LOT' AS GUBUN
 		  		, IF(S.SALE_TH_DSP_YN = 'N', '', f_ordinal_number(S.SALE_TH)) SALE_TH_DSP
 		  		, LI.FILE_PATH as LOT_IMG_PATH
 			    , LI.FILE_NAME as LOT_IMG_NAME
-			    , AB.BID_PRICE, AB.ABORT_YN, AB.ABORT_DT, AB.ABORT_IP, AB.CUST_NO, CD.CD_NM BID_KIND_NM
+			    , AB.BID_PRICE, AB.ABORT_YN, AB.ABORT_DT, AB.ABORT_IP, AB.CUST_NO, CD.CD_NM BID_KIND_NM, CD.CD_NM_EN BID_KIND_NM_EN
 			    , COLUMN_JSON(L.TITLE_BLOB) W_TITLE_JSON
 			    , (select count(*) from BID B 
 					where B.SALE_NO = AB.SALE_NO and B.LOT_NO = AB.LOT_NO and B.CUST_NO = AB.CUST_NO and B.AUTO_BID_REQ_NO = AB.REQ_NO) BID_CNT
@@ -706,6 +726,7 @@ SELECT 'INTE_LOT' AS GUBUN
 				</if>
 				= AB.BID_PRICE , 'hammer', 'bidding') AS HAMMER_STAT
 				, DATE_FORMAT(AB.REQ_DT, '%Y.%m.%d  %T')  as REQ_DT 
+				, DATE_FORMAT(AB.REQ_DT, '%d %b, %Y %T')  as REQ_DT_EN
 		from AUTO_BID_REQ AB
 		join SALE S ON AB.SALE_NO = S.SALE_NO
 		join LOT L ON AB.SALE_NO = L.SALE_NO and AB.LOT_NO = L.LOT_NO
@@ -728,6 +749,7 @@ SELECT 'INTE_LOT' AS GUBUN
 	<select id="selectLiveBidList" resultType="Map">
 		SELECT S.SALE_NO, L.LOT_NO ,BIO.PADDLE 
 				 , DATE_FORMAT(BIO.BID_DT, '%Y.%m.%d  %T')  as BID_DT  
+				 , DATE_FORMAT(BIO.BID_DT, '%d %b, %Y %T')  as BID_DT_EN
 				 , MBIO.BID_NO, MBIO.BID_PRICE, MBIO.success_bid_price, IF(MBIO.BID_PRICE = MBIO.success_bid_price , 'hammer', 'bidding' ) AS HAMMER_STAT
 				 ,COLUMN_GET(S.TITLE_BLOB, 'ko' AS CHAR) SALE_TITLE_KR
 				 ,COLUMN_GET(S.TITLE_BLOB, 'en' AS CHAR) SALE_TITLE_EN
@@ -737,10 +759,12 @@ SELECT 'INTE_LOT' AS GUBUN
 				 , COLUMN_GET(L.TITLE_BLOB, 'en' AS CHAR) LOT_TITLE_EN
 				 , if(S.TO_DT > NOW(), 'N', 'Y') AS CLOSE_YN
 				 , DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT 
+				 , DATE_FORMAT(S.FROM_DT, '%d %b, %Y %T')  as FROM_DT_EN 
 				 , S.CURR_CD
 				 , LI.FILE_PATH as LOT_IMG_PATH
 			     , LI.FILE_NAME as LOT_IMG_NAME
 			     , (select count(*) from success_bid sb join bid b on b.BID_NO= sb.BID_NO and b.CUST_NO='113248' and sb.SALE_NO= S.SALE_NO) success_bid_count
+			     , L.HAMMER_CANCEL_YN
 		FROM (SELECT PAD.PADD_NO PADDLE, BO.* FROM BID_OFFLINE BO LEFT OUTER JOIN SALE_PADD PAD ON BO.SALE_NO = PAD.SALE_NO AND BO.CUST_NO = PAD.CUST_NO) BIO
 		JOIN (
 		select
@@ -795,7 +819,9 @@ SELECT 'INTE_LOT' AS GUBUN
 
 	<select id="selectLiveBidHistoryList" resultType="Map">
 		SELECT S.SALE_NO, L.LOT_NO ,BIO.PADDLE 
+				 , S.CURR_CD
 				 , DATE_FORMAT(BIO.BID_DT, '%Y.%m.%d  %T')  as BID_DT  
+				 , DATE_FORMAT(BIO.BID_DT, '%d %b, %Y %T')  as BID_DT_EN
 				 , BIO.BID_NO, BIO.BID_PRICE
 				 ,IF(BIO.BID_PRICE = (select b.BID_PRICE from bid b join success_bid sb2 on b.BID_NO = sb2.BID_NO 
 				<if test="sale_no != null and sale_no > 0">
@@ -883,6 +909,7 @@ SELECT 'INTE_LOT' AS GUBUN
 	<select id="selectOnlineBidList" resultType="Map">
 		select S.SALE_NO, IF(S.SALE_TH_DSP_YN = 'N', '', CONCAT(S.SALE_TH, f_ordinal_number(S.SALE_TH))) SALE_TH, COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
 			, DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT 
+			, DATE_FORMAT(S.FROM_DT, '%d %b, %Y %T')  as FROM_DT_EN 
 			, DATE_FORMAT(S.TO_DT, '%Y.%m.%d  %T')  as TO_DT 
 			, S.CURR_CD
 			, L.LOT_NO, L.ARTIST_NO, L.STAT_CD
@@ -895,10 +922,11 @@ SELECT 'INTE_LOT' AS GUBUN
 			, (select MB.BID_DT from BID MB where B.SALE_NO = MB.SALE_NO and B.LOT_NO = MB.LOT_NO order by MB.BID_PRICE desc, MB.BID_DT limit 1) SUCCESS_BID_DT
 			, COUNT(*) BID_CNT
 			, CONCAT('['
-			, GROUP_CONCAT('{"BID_PRICE":', B.BID_PRICE, ', "BID_DT":"',  DATE_FORMAT(B.BID_DT, '%Y.%m.%d  %T'), '", "BID_KIND_NM":"', B.BID_KIND_NM, '"}' order by B.BID_PRICE desc, B.BID_DT)
+			, GROUP_CONCAT('{"BID_PRICE":', B.BID_PRICE, ', "BID_DT":"',  DATE_FORMAT(B.BID_DT, '%Y.%m.%d  %T'), '", "BID_DT_EN":"',  DATE_FORMAT(B.BID_DT, '%d %b, %Y %T'),'", "BID_KIND_NM":"', B.BID_KIND_NM, '"}' order by B.BID_PRICE desc, B.BID_DT)
 			, ']') BID_JSON
 			, B.BID_PRICE
 			, DATE_FORMAT(B.BID_DT, '%Y.%m.%d  %T')  BID_DT
+			, DATE_FORMAT(B.BID_DT, '%d %b, %Y %T')  as BID_DT_EN 
 			, B.BID_KIND_NM
 			,  (select b.BID_PRICE  from bid b join success_bid sb2 on b.BID_NO = sb2.BID_NO and S.sale_no = sb2.SALE_NO and L.lot_no = sb2.LOT_NO  ) success_bid_price
 			 ,COLUMN_GET(S.TITLE_BLOB, 'ko' AS CHAR) SALE_TITLE_KR
@@ -908,8 +936,7 @@ SELECT 'INTE_LOT' AS GUBUN
 			 , COLUMN_GET(L.TITLE_BLOB, 'ko' AS CHAR) LOT_TITLE_KR
 			 , COLUMN_GET(L.TITLE_BLOB, 'en' AS CHAR) LOT_TITLE_EN
 			 , if(S.TO_DT > NOW(), 'N', 'Y') AS CLOSE_YN
-			 , DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT 
-			 , S.CURR_CD
+			 , L.HAMMER_CANCEL_YN
 	    from LOT L
 		inner join (
 		select S1.*
@@ -948,7 +975,9 @@ SELECT 'INTE_LOT' AS GUBUN
 	</select>
 	
 	<select id="selectOnlineBidHistoryList" resultType="Map">
-		select S.SALE_NO, L.LOT_NO, B.BID_NO , B.BID_KIND_NM, B.BID_PRICE,DATE_FORMAT(B.BID_DT, '%Y.%m.%d  %T')  as BID_DT
+		select S.SALE_NO, L.LOT_NO, B.BID_NO , B.BID_KIND_NM, B.BID_KIND_NM_EN, B.BID_PRICE
+				, DATE_FORMAT(B.BID_DT, '%Y.%m.%d  %T')  as BID_DT
+				, DATE_FORMAT(B.BID_DT, '%d %b, %Y %T')  as BID_DT_EN 
 				,  IF((select b.BID_PRICE  from bid b join success_bid sb2 on b.BID_NO = sb2.BID_NO 
 				<if test="sale_no != null and sale_no > 0">
 				and sb2.SALE_NO = #{sale_no} 
@@ -962,7 +991,7 @@ SELECT 'INTE_LOT' AS GUBUN
 	    from LOT L
 		inner join SALE S on L.SALE_NO = S.SALE_NO 
 		inner join (
-			select SB.*, SCD.CD_NM BID_KIND_NM from BID SB
+			select SB.*, SCD.CD_NM BID_KIND_NM, SCD.CD_NM_EN BID_KIND_NM_EN from BID SB
 			join CODE SCD on SB.BID_KIND_CD = SCD.CD_ID and SCD.GRP_ID = 'bid_kind'
 			where SB.BID_KIND_CD in ('online_once', 'online_auto') 
 		) B on L.SALE_NO = B.SALE_NO and L.LOT_NO = B.LOT_NO 
@@ -1119,5 +1148,46 @@ SELECT 'INTE_LOT' AS GUBUN
 			now()
 		)
 	</insert>
+	
+	<update id="deleteCust" parameterType="CommonMap">
+		UPDATE CUST 
+	    SET 
+	    	STAT_CD = 'leave', LEAVE_DT = now()
+		where CUST_NO = #{cust_no}
+	</update>
+	
+	<update id="updateCustSendInfoNew" parameterType="CommonMap">
+		update CUST_SEND_INFO_NEW
+		set
+			DEL_YN = 'Y', MOD_DT = now()
+		where cust_no = #{cust_no}
+			and DEL_YN = 'N';
+	</update>
+	
+	<select id="selectBidForCustLeave" resultType="CommonMap">
+		select 
+			b.CUST_NO, b.SALE_NO, b.LOT_NO, l.TO_DT 
+		from 
+			bid b  
+		join 
+			lot l 
+		on b.SALE_NO = l.SALE_NO and b.LOT_NO = l.LOT_NO 
+		where 
+			cust_no = #{cust_no}
+			and l.TO_DT > now()
+	</select>
+	
+	<select id="selectAutoBidReqForcustLeave" resultType="CommonMap">
+		select 
+			abr.CUST_NO, abr.SALE_NO, abr.LOT_NO, l.TO_DT 
+		from 
+			auto_bid_req abr 
+		join 
+			lot l 
+		on abr.SALE_NO = l.SALE_NO and abr.LOT_NO = l.LOT_NO 
+		where 
+			cust_no = #{cust_no}
+			and l.TO_DT > now()
+	</select>
 	
 </mapper>

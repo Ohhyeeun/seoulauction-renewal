@@ -37,7 +37,7 @@ dependencies {
     implementation 'javax.servlet:jstl'
     implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
     implementation 'org.springframework.security:spring-security-taglibs'
-    implementation 'org.springframework.boot:spring-boot-devtools'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     //db
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'

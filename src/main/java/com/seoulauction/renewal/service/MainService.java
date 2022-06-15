@@ -12,10 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -84,11 +82,11 @@ public class MainService {
         });
 
         List<CommonMap> test2 = new ArrayList<>();
-
-        test2.add(saleList.get(0));
-        test2.add(saleList.get(0));
-        test2.add(saleList.get(0));
-
+        if(!saleList.isEmpty()) {
+            test2.add(saleList.get(0));
+            test2.add(saleList.get(0));
+            test2.add(saleList.get(0));
+        }
         resultMap.put("count" , counts);
         resultMap.put("list" , test2);
 

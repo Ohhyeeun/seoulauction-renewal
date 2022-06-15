@@ -44,4 +44,5 @@ public interface SaleMapper {
 
     CommonMap selectTopBid(CommonMap commonMap);
     void insertBid(CommonMap commonMap);
+    CommonMap selectCustCheckRequired(CommonMap commonMap);
 }

@@ -260,16 +260,16 @@ function loadTopNotice(){
                 });
 
                 if(matchMedia("all and (min-width: 1024px)").matches) {
-                    document.querySelector(".main-contents").style.marginTop = '180px';
+                    document.querySelector(".main-contents").style.marginTop = '162px';
                     document.querySelector(".beltclose-btn").addEventListener("click", function(e){
-                        document.querySelector(".main-contents").style.marginTop = '120px';
+                        document.querySelector(".main-contents").style.marginTop = '100px';
                     });
                 } else { /* 모바일, 테블릿 */
                     /* main gnb fixed */
-                    document.querySelector(".main-contents").style.marginTop = '101px';
+                    document.querySelector(".main-contents").style.marginTop = '100px';
                     $('.main-contents').css('margin-top','101px');
                     document.querySelector(".beltclose-btn").addEventListener("click", function(e){
-                        document.querySelector(".main-contents").style.marginTop = '58px';
+                        document.querySelector(".main-contents").style.marginTop = '56px'; 
                     });
                 }
             }else{
@@ -331,7 +331,7 @@ function loadUpcomings() {
                     const to_dt = moment(item.TO_DT);
                     const open_dt = moment(item.OPEN_DT);
                     const returnDom =  ` <div class="swiper-slide upcomingSlide " style="padding-right: 40px;">
-                                            <a href="#">
+                                            <a href="/auction/scheduled/${item.SALE_NO}">
                                                 <div class="upcoming-caption">
                                                     <span class="auctionKind-box ${ item.SALE_KIND === 'LIVE' ? 'on' : ''}">
                                                         ${item.SALE_KIND} 

@@ -1,10 +1,9 @@
 package com.seoulauction.renewal.mapper.kt;
 
-import java.util.List;
-
+import com.seoulauction.renewal.domain.CommonMap;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.seoulauction.renewal.domain.CommonMap;
+import java.util.List;
 
 @Mapper
 public interface LoginMapper {
@@ -30,6 +29,8 @@ public interface LoginMapper {
     
     CommonMap selectCustSocialBySocialLoginId(CommonMap paramMap);
 
+    List<CommonMap> selectCustForIdExist(CommonMap paramMap);
+    
     List<CommonMap> selectCustForExist(CommonMap paramMap);
     
     List<CommonMap> selectEmpByEmpName(CommonMap paramMap);

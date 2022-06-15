@@ -3,12 +3,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<body class="">
+<html lang="ko">
+    <head>
+	    <meta charset="UTF-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	    <title>Seoul Auction</title>
+	</head>
+	<body>
     <div class="wrapper">
         <div class="sub-wrap pageclass bgpage-wrap">
-		<jsp:include page="../../include/ko/header.jsp" flush="false"/>   
+		<jsp:include page="../../include/en/header.jsp" flush="false"/>   
 		<script>
-		app.value('locale', 'ko');
+		app.value('locale', 'en');
 		</script>
               <!-- container -->
             <div id="container">
@@ -18,82 +25,87 @@
                             <div class="content-panel type_panel-searchid">
                                 <div class="panel-header">
                                     <div class="title">
-                                        <p>Find Password</p>
+                                        <p>비밀번호 찾기</p>
                                     </div>
                                 </div>
                                 <div class="panel-body">
                                     <div class="tab-cont active" id="tab-cont-1">
                                         <div class="txt_wrap tt6">
                                             <ul class="mark_dot-list">
-                                                <li>If the password is encrypted, it can not be retrieved if the password is lost.</li>
-                                                <li>We will send you <em>a temporary password via email to your membership information.</em></li>
+                                                <li>비밀번호의 경우, 암호화 저장되어 분실 시 찾아드릴 수 없습니다.</li>
+                                                <li><em>회원정보에 등록된 이메일로 임시 비밀번호를 발송</em>해 드립니다.</li>
                                             </ul>
                                         </div>
+                                        <!--[2022-0503]//-->
                                         <div class="radio_wrap  js-menuType-header">
                                             <span class="trp radio-box">
-                                                <input id="radio2-2" type="radio" name="radioSet2" checked>
+                                                <input id="radio2-1" type="radio" name="radioSet2" value="phone" checked>
                                                 <i></i>
-                                                <label for="radio2-2">Email</label>
+                                                <label for="radio2-1">휴대폰 번호로 찾기</label>
                                             </span>
                                             <span class="trp radio-box">
-                                                <input id="radio2-1" type="radio" name="radioSet2">
+                                                <input id="radio2-2" type="radio" name="radioSet2" value="email">
                                                 <i></i>
-                                                <label for="radio2-1">Mobile</label>
+                                                <label for="radio2-2">이메일로 찾기</label>
                                             </span>
                                         </div>
                                         <div class="js-menuType-body">
+                                            <form id="phone">
                                             <div class="info_wrap  js-ds_item js-ds_item0">
                                                 <dl class="info_id">
-                                                    <dt>ID</dt>
-                                                    <dd><input type="text" class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dt>아이디</dt>
+                                                    <dd><input type="text" data-id="아이디를" id="custIdByPhone"  class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                                 <dl class="info_name">
-                                                    <dt>NAME</dt>
-                                                    <dd><input type="text" class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dt>이름</dt>
+                                                    <dd><input type="text" data-id="이름을" id="custNameByPhone" class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                                 <dl class="info_number">
-                                                    <dt>Mobile</dt>
-                                                    <dd><input type="text" class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dt>휴대폰 번호</dt>
+                                                    <dd><input type="text"  data-id="휴대폰 번호를" id="custPhone"  maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);" class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                             </div>
+                                            </form>
+                                            <form id="email">
                                             <div class="info_wrap  js-ds_item js-ds_item1" style="display: none;">
                                                 <dl class="info_id">
-                                                    <dt>ID</dt>
-                                                    <dd><input type="text" class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dt>아이디</dt>
+                                                    <dd><input type="text" data-id="아이디를" id="custIdByEmail"  class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                                 <dl class="info_name">
-                                                    <dt>NAME</dt>
-                                                    <dd><input type="text" class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dt>이름</dt>
+                                                    <dd><input type="text" data-id="이름을" id="custNameByEmail"  class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                                 <dl class="info_number">
-                                                    <dt>Email</dt>
-                                                    <dd><input type="text" class="textType" placeholder="" style="width:100%"></dd>
+                                                    <dt>이메일 주소</dt>
+                                                    <dd><input type="text" data-id="이메일을" id="custEmail"  class="textType" placeholder="" style="width:100%"></dd>
                                                 </dl>
                                             </div>
+                                            </form>
                                         </div>
                                         <!--//[2022-0503]-->
 
                                         <article class="button-area search_btn">
                                             <div class="btn_set-float tac">
-                                                <a class="btn btn_point" href="#" role="button"><span>Find your password</span></a>
+                                                <a class="btn btn_point" href="#" role="button" id="findPassword"><span>비밀번호 찾기</span></a>
                                             </div>
                                         </article>
                                     </div>
                                 </div>
                                 <div class="panel-bottom">
                                     <div class="info_box">
-                                        <p><strong>Notification</strong></p>
+                                        <p><strong>안내사항</strong></p>
                                         <ul class="mark_dot-list tb2">
-                                            <li>If you cannot find your password, please email</li>
+                                            <li>해외 국적으로 가입하신 회원은 서울옥션 영문홈페이지를<br class="only-pc"> 이용해 주세요.</li>
                                         </ul>
-                                        <p class="info_txt">email :
-                                            <span>
-                                                <a href="mailto:info@seoulauction.com">info@seoulauction.com</a>
-                                            </span>
-
-                                        </p>
+                                        <p class="info_txt">Please, foreigners use English pages.</p>
+                                        <div class="btn_set">
+                                            <a class="btn btn_gray_line" href="/findPassword?lang=en">
+                                                <span>SeoulAuction ENG</span>
+                                            </a>
+                                        </div>
                                         <ul class="mark_dot-list tb2">
-                                            <li><span>Forgot your ID?</span><a href="">find ID</a></li>
+                                            <li><span>아이디를 찾으시나요?</span><a href="/findId">아이디찾기</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -105,7 +117,7 @@
             <!-- //container -->
 
             <!-- footer -->
-				 <jsp:include page="../../include/ko/footer.jsp" flush="false"/> 
+				 <jsp:include page="../../include/en/footer.jsp" flush="false"/> 
             <!-- //footer -->
 
         </div>
@@ -152,7 +164,7 @@
                                 <img class="only_ib-mb" src="/images/mobile/login/search_ico_01.png">
                             </div>
                             <div class="title-box_tac title_md">
-                                <span class="title_tac tt4">필수 항목명을 입력해 주세요.</span>
+                                <span class="title_tac tt4" id="inputTitle"></span>
                             </div>
                         </div>
                         <div class="pop-body">
@@ -270,7 +282,7 @@
                             <div class="title-box_tac">
                                 <span class="title_tac tt4">회원님은 SNS를 통해 <br class="only-mb">회원가입 되어 있습니다.<br>
                                     연동된 SNS를 통해 로그인 하여<br class="only-mb"> 주시기 바랍니다.
-                                </span>
+                                </span>1
                             </div>
                         </div>
                         <div class="pop-body">
@@ -288,8 +300,6 @@
             </div>
         </div>
     </div>
-
-  
 </body>
-
 </html>
+  

@@ -1,6 +1,5 @@
 package com.seoulauction.renewal.controller;
 
-import com.seoulauction.renewal.auth.PasswordEncoderAESforSA;
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
@@ -8,7 +7,6 @@ import com.seoulauction.renewal.service.CertificationService;
 import com.seoulauction.renewal.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.WebAttributes;
@@ -17,15 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import static com.seoulauction.renewal.common.SAConst.SERVICE_LOGIN;
-
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Locale;
@@ -47,8 +40,13 @@ public class LoginController {
     	
     	// 로그인 이전페이지 기억
     	String referrer = request.getHeader("Referer");
-    	if(referrer != null && !referrer.contains("/login")) {
-    		log.info("referrer : {}",referrer);
+    	log.info("referrer : {}",referrer);
+    	if(referrer != null 
+    			&& !referrer.contains("/login") 
+    			&& !referrer.contains("/join") 
+    			&& !referrer.contains("/findId")
+    			&& !referrer.contains("/findPassword")
+    			&& !referrer.contains("/mypage/custLeave")) {
     		request.getSession().setAttribute("prevPage", referrer);
     	}
 

@@ -25,11 +25,11 @@
         <!-- //header -->
         <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
         <script type="text/javascript" src="/js/angular/checklist-model.js"></script>
-        <script type="text/javascript" src="/js/angular/rzslider.min.js"></script>
+        <script type="text/javascript" src="/js/angular/hrzslider.min.js"></script>
         <link href="/css/jquery.nouislider.css" rel="stylesheet">
-        <script type="text/javascript" src="/js/customer/login.js"></script>
         <script>
             app.value('locale', 'ko');
+            app.value('is_login', 'false');
         </script>
         <script type="text/javascript" src="/js/sale/search.js"></script>
         <!-- container -->

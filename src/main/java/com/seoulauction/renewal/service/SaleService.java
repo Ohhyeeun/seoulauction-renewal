@@ -2,11 +2,9 @@ package com.seoulauction.renewal.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.seoulauction.renewal.domain.Bid;
-import com.seoulauction.renewal.domain.Bidder;
 import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.mapper.aws.ArtistMapper;
 import com.seoulauction.renewal.exception.SAException;
+import com.seoulauction.renewal.mapper.aws.ArtistMapper;
 import com.seoulauction.renewal.mapper.kt.SaleMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -186,7 +184,7 @@ public class SaleService {
             customerMap.put("lot_no", map.get("lot_no"));
             customerMap.put("cust_no", map.get("cust_no"));
             customerMap.put("paddle", map.get("padd_no"));
-            customerMap.put("user_id", "rladbdgns");
+            customerMap.put("user_id", map.get("user_id"));
             customerMap.put("sale_type", 1);
             customerMap.put("bid_type", map.get("bid_type"));
 
@@ -219,6 +217,12 @@ public class SaleService {
 
     public CommonMap getCustomerByCustNo(CommonMap commonMap) {
         return saleMapper.getCustomerByCustNo(commonMap);
+    }
+    /*
+    생년월일 , 성별 확인.
+     */
+    public Boolean checkCustRequired(CommonMap commonMap) {
+        return saleMapper.selectCustCheckRequired(commonMap) != null;
     }
 }
 

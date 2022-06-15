@@ -16,7 +16,6 @@
                     </div>
                     <div class="pop-body scroll-type">
                         <section class="section" style="display: block;">
-
                             <article class="terms_required-article js_all-terms">
                                 <table class="table_base data-table">
                                     <thead>
@@ -82,15 +81,13 @@
 
                                 <div class="btn_bottom">
                                     <div class="btn_set">
-                                        <a class="btn btn_point js-paddle_number" href="#" role="button"><span>동의</span></a>
+                                        <a class="btn btn_point js-paddle_number" href="#" ng-click="goLiveBidAgree()" role="button"><span>동의</span></a>
                                     </div>
                                 </div>
                             </article>
-
                         </section>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -102,14 +99,12 @@
     <div class="popup-align mode-ms mode-mb_center">
         <div class="popup-vertical">
             <div class="popup-layer">
-
                 <div class="pop-panel">
                     <div class="pop-header">
                         <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
                     </div>
                     <div class="pop-body scroll-type">
                         <section class="section" style="display: block;">
-
                             <article class="paddle_number-article">
                                 <div class="header-article">
                                     <div class="title"><span>패들번호 부여</span></div>
@@ -117,7 +112,7 @@
                                 <div class="body-article">
                                     <div class="paddle-box">
                                         <span>고객님의 패들 넘버는</span>
-                                        <em id="paddle-number">123번</em>
+                                        <em id="paddle-number">번</em>
                                         <span>입니다.</span>
                                     </div>
                                     <div class="gray-box">
@@ -135,51 +130,10 @@
                                     </div>
                                 </div>
                             </article>
-
                         </section>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
-<script>
-    (function() {
-        //약관체크
-        $(".js_all-terms").trpCheckBoxAllsImg(".js_all", ".js_item");
-
-        var paddle_number = $(".js-paddle_number").trpLayerFixedPopup("#paddle_number-wrap");
-        $(paddle_number.getBtn).on("click", function($e) {
-            $e.preventDefault();
-
-            if($(".js_all-terms #checkbox_all").is(":checked")) {
-                fetch('/api/auction/paddle', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        'sale_no' : '${saleNo}'
-                    })
-                })
-                    .then(res => res.json())
-                    .then(res => {
-                        $("em#paddle-number").html(res.data+"번");
-                    });
-
-                terms_required.close();
-                paddle_number.open(this); // or false
-                popup_fixation("#paddle_number-wrap");
-                $(".js_all-terms input[type='checkbox']").prop("checked", false);
-            } else {
-                alert("약관에 동의해주세요.");
-            }
-        });
-
-        $("body").on("click", "#paddle_number-wrap .js-closepop, #paddle_number-wrap .popup-dim, #paddle_number-wrap #btn-paddle-number", function($e) {
-            $e.preventDefault();
-            paddle_number.close();
-        });
-    })();
-</script>

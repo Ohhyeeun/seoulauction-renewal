@@ -166,6 +166,7 @@
         , IFNULL(L.FRAME_CD, 'none') AS FRAME_CD
         , IFNULL(L.GUARANTEE_YN, 'Y') GUARANTEE_YN
         , L.ZEROBASE_PRICE_YN
+        , COLUMN_JSON(L.EXHIBITION_PRICE_BLOB) EXHIBITION_PRICE_JSON
         from LOT L
         left outer join (<include refid="com.seoulauction.renewal.mapper.kt.CommonMapper.saleLastBidInfos"/>) BD on
         BD.SALE_NO = L.SALE_NO and BD.LOT_NO	 = L.LOT_NO
@@ -625,6 +626,12 @@
                COLUMN_JSON(b.EXPE_PRICE_TO_BLOB)   EXPE_PRICE_TO_JSON,
                IFNULL(g.DEL_YN,'Y') FAVORITE_YN, /*N 이면 좋아요가 있음. Y면 좋아요가 아님.*/
                b.LOT_TAG,
+               b.EXPE_PRICE_INQ_YN,
+
+               DATE_FORMAT(b.TO_DT,'%Y-%m-%d') LOT_EXPIRE_DATE,
+               DATE_FORMAT(b.TO_DT,'%a') LOT_EXPIRE_DATE_DAY,
+               DATE_FORMAT(b.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T,
+
                date_format(a.FROM_DT,'%m.%d(%a)') FROM_DT,
                date_format(a.TO_DT, '%m.%d(%a)') TO_DT
         from sale a
@@ -639,10 +646,26 @@
           and a.WWW_DISP_YN = 'Y'
           and a.CLOSE_YN = 'N'
           and b.CLOSE_YN = 'N'
+        <if test='is_live !=null and is_live.equals("Y")'>
+          and a.LIVE_BID_YN = 'Y'
+        </if>
         group by a.SALE_NO, b.LOT_NO;
     </select>
     <select id="selectLotTagList" parameterType="CommonMap" resultType="CommonMap">
         select LOT_TAG from lot where SALE_NO = #{sale_no} and LOT_TAG is not null
         group by LOT_TAG
+    </select>
+    <!--생년월일 성별 값 둘다 잇는지 여부-->
+    <select id="selectCustCheckRequired" parameterType="CommonMap" resultType="CommonMap">
+        select
+            *
+        from
+            CUST
+        where
+            CUST_NO = #{cust_no}
+            and SEX_CD IS NOT NULL
+            and BORN_DT IS NOT NULL
+        LIMIT
+            1
     </select>
 </mapper>

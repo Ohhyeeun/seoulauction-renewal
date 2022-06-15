@@ -12,6 +12,11 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	    <title>Seoul Auction</title>
 	</head>
+	<spring:eval expression="@environment.getProperty('social.service.domain')" var="socialServiceDomain" />
+	<script>
+		var socialServiceDomain = '${socialServiceDomain}'
+		console.log(socialServiceDomain);
+	</script>
 	<body>
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">

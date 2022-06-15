@@ -9,4 +9,6 @@ import java.util.List;
 public interface KTAdminMapper {
 
     List<CommonMap> selectActiveSales(CommonMap map);
+    CommonMap selectArtistByNo(CommonMap map);
+    List<CommonMap> selectCode(CommonMap map);
 }

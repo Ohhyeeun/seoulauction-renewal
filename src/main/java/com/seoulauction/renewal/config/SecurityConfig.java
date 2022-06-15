@@ -1,5 +1,11 @@
 package com.seoulauction.renewal.config;
 
+import com.seoulauction.renewal.auth.FrontAuthenticationProvider;
+import com.seoulauction.renewal.auth.FrontLoginSuccessHandler;
+import com.seoulauction.renewal.auth.FrontLogoutSuccessHandler;
+import com.seoulauction.renewal.auth.RememberMeLoginSuccessHandler;
+import com.seoulauction.renewal.auth.RememberMeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,18 +16,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import com.seoulauction.renewal.auth.FrontAuthenticationProvider;
-import com.seoulauction.renewal.auth.FrontLoginSuccessHandler;
-import com.seoulauction.renewal.auth.RememberMeLoginSuccessHandler;
-import com.seoulauction.renewal.auth.RememberMeService;
-
-import lombok.RequiredArgsConstructor;
 
 
 @Configuration
@@ -48,6 +48,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public AuthenticationSuccessHandler successHandler() {
 	    return new FrontLoginSuccessHandler("/"); // Default targetUrl
+	}
+	
+	@Bean
+	public LogoutSuccessHandler logoutHandler() {
+	    return new FrontLogoutSuccessHandler(); // Default targetUrl
 	}
 
 	@Override public void configure(WebSecurity web) throws Exception {
@@ -80,6 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers( "/favicon.ico").permitAll()
 			.antMatchers("/customer/**").permitAll()
 			.antMatchers("/mypage/**").authenticated()
+			.antMatchers("/payment/**").authenticated()
 			//.anyRequest().authenticated()
 			.and()
 			.formLogin()
@@ -93,7 +99,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	            .and()
 			.logout()
 				.logoutUrl("/processLogout")
-				.logoutSuccessUrl("/")
+//				.logoutSuccessUrl("/")
+				.logoutSuccessHandler(logoutHandler())
 				.permitAll()
 	            .and()
 	        .rememberMe()

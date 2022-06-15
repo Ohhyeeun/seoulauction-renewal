@@ -34,9 +34,7 @@ function logout(loginId){
 }
 // 세션로그아웃
 function sessionLogout() {
-	axios.get("/api/login/logout").then(function(response) {
-		location.reload();
-	});
+	location.href = "/processLogout";
 }
 </script>
 <html lang="ko" ng-app="myApp">
@@ -91,7 +89,7 @@ function sessionLogout() {
                 <form action="" class="scroll_none" onsubmit="return false; ">
                     <fieldset class="topsearch">
                         <span class="submenuBg-closeBtn top-search-closeBtn m-ver"></span>
-                        <input onkeydown="searchFilter()" onmousedown="searchDown()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();" id="topsearchText" ng-keypress="$event.keyCode === 13 && goSearch('topsearchText', true);"><button type="button" class="topsearch-btn pc-ver" ng-click="goSearch('topsearchText', true);"></button>
+                        <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();" id="topsearchText" ng-keypress="$event.keyCode === 13 && goSearch('topsearchText', true);"><button type="button" class="topsearch-btn pc-ver" ng-click="goSearch('topsearchText', true);"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">
                             </div>
@@ -121,9 +119,9 @@ function sessionLogout() {
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
                                 <ul class="submenu submenu-part02">
-                                    <li id="menu_exhibit"><a href="#">전시</a></li>
-                                    <li><a href="#">프라이빗 세일</a></li>
-                                    <li><a href="#">프라이빗 세일 가이드</a></li>
+                                    <li id="menu_exhibit"><a href="/privatesale/exhibit">전시</a></li>
+                                    <li><a href="/privatesale/psList">프라이빗 세일</a></li>
+                                    <li><a href="/privatesale/psGuide">프라이빗 세일 가이드</a></li>
                                 </ul>
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>
@@ -134,7 +132,7 @@ function sessionLogout() {
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
                                 <ul class="submenu submenu-part04">
-                                    <li id="menu_academy"><a href="#">아카데미</a></li>
+                                    <li id="menu_academy"><a href="/service/academy">아카데미</a></li>
                                     <li><a href="/service/loan">담보대출</a></li>
                                     <li><a href="/service/storage">미술품보관</a></li>
                                     <li><a href="/service/showroom">전시장대관</a></li>

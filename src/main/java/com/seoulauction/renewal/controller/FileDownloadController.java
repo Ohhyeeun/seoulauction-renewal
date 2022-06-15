@@ -1,18 +1,14 @@
 package com.seoulauction.renewal.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.seoulauction.renewal.component.S3Downloader;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.seoulauction.renewal.component.S3Downloader;
-import com.seoulauction.renewal.component.S3Uploader;
-import com.seoulauction.renewal.mapper.aws.S3Mapper;
-
-import lombok.RequiredArgsConstructor;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequiredArgsConstructor

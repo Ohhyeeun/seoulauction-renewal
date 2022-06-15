@@ -33,9 +33,7 @@ function logout(loginId){
 }
 // 세션로그아웃
 function sessionLogout() {
-	axios.get("/api/login/logout").then(function(response) {
-		location.reload();
-	});
+	location.href = "/processLogout";
 }
 </script>
 
@@ -150,7 +148,7 @@ function sessionLogout() {
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
                                 <ul class="submenu submenu-part04">
-                                    <li id="menu_academy"><a href="#">Academy</a></li>
+                                    <li id="menu_academy"><a href="/service/academy">Academy</a></li>
                                     <li><a href="#">Art Collateral Loans</a></li>
                                     <li><a href="#">Art Storage</a></li>
                                     <li><a href="#">Rental of Space</a></li>
