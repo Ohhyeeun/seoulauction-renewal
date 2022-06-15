@@ -350,6 +350,7 @@
                         currentBidKind = 'phone';
                         bidType = 15;
                         $("#select_field").hide();
+                        currentPrice = 0;
                     } else {
                         //기본값 세팅
                         $("#btn_select_paper_offline").addClass("active");
