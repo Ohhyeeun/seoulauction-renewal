@@ -76,6 +76,9 @@
                                                                     <td ng-if="art.CANCEL_YN == 'Y'"><a class="pay">결제취소</a></td>
                                                                     <td>{{art.REG_DT | date:'yyyy-MM-dd'}}</td>
                                                                 </tr>
+                                                            <tbody  ng-if="academyCnt == 0">
+                                                                <tr ><td colspan="4">내역이 존재하지 않습니다.</td></tr>
+                                                            </tbody>
                                                             </tbody>
                                                         </table>
                                                     </div>
