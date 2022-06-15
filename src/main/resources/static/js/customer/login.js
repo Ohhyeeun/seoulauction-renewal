@@ -83,6 +83,23 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 		}else{
 			$scope.captchaShow = false;
 		}
+		
+		var recentSocialType = '';
+		var cookie = document.cookie.split(';');
+	    cookie.some(function (item) {
+	        item = item.replace(' ', '');
+	        var dic = item.split('=');
+	        dic[0] = dic[0].replace(' ', '');
+	        if (dic[0].indexOf('recentSocialType') > -1) {
+	            recentSocialType = dic[1];
+	            return true;    // break;
+	        }
+	    });
+	
+		if(recentSocialType != ''){
+			console.log("recentSocialType : " + recentSocialType)
+			$('#recentSocialType' + recentSocialType).css('display', 'block');
+		}
 	}
 
 	$scope.getImage = function (){ 
@@ -195,6 +212,9 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 			.then(function(response) {
 				console.log(response)
 				if(response.data.success == true){
+					var expire = new Date();
+					expire.setDate(expire.getDate() + 30);
+					document.cookie = 'recentSocialType=' + socialType + '; path=/; expires=' + expire.toGMTString() + ';';
 					location.href = "/";
 				}else{
 					if(response.data.data.msg == "Not Certify User"){

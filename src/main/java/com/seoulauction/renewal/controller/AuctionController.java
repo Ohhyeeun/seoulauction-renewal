@@ -31,12 +31,6 @@ public class AuctionController {
                        @PathVariable("sale_no") int saleNo,
                        @PathVariable("lot_no") int lotNo) {
     	
-    	// 로그인 이전페이지 기억
-    	/*String referrer = request.getHeader("Referer");
-    	if(referrer != null && !referrer.endsWith("/login")) {
-    		log.info("referrer : {}",referrer);
-    		request.getSession().setAttribute("prevPage", referrer);
-    	}*/
         model.addAttribute("saleNo", saleNo);
         model.addAttribute("lotNo", lotNo);
 
@@ -48,6 +42,33 @@ public class AuctionController {
         }
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionView" , locale);
     }
+
+    @GetMapping("/live/view/{sale_no}/{lot_no}")
+    public String liveView(Locale locale, Model model
+            , HttpServletRequest request, HttpServletResponse response,
+                       @PathVariable("sale_no") int saleNo,
+                       @PathVariable("lot_no") int lotNo) {
+
+        model.addAttribute("saleNo", saleNo);
+        model.addAttribute("lotNo", lotNo);
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+
+        //필수값 있는지 여부.
+        Boolean isCustRequired = false;
+
+        if (saUserDetails != null) {
+            model.addAttribute("member", saUserDetails);
+            isCustRequired = saleService.checkCustRequired(new CommonMap("cust_no", saUserDetails.getUserNo()));
+        } else {
+            model.addAttribute("member", new SAUserDetails());
+        }
+
+        model.addAttribute("isCustRequired", isCustRequired);
+
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionLiveView" , locale);
+    }
+
 
     @GetMapping(value="/list/{saleNo}")
     public String list(Locale locale, Model model

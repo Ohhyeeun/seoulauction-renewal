@@ -51,6 +51,9 @@
                 .then(function(response) {
                 	var result = response.data;
                 	if(result.success){
+                		var expire = new Date();
+    					expire.setDate(expire.getDate() + 30);
+    					document.cookie = 'recentSocialType=NV; path=/; expires=' + expire.toGMTString() + ';';
 	                    opener.location.replace("/");
                 	}else{
                 		if(response.data.data.msg == "Not Certify User"){
