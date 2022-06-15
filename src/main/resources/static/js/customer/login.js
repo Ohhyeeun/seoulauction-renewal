@@ -83,6 +83,23 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 		}else{
 			$scope.captchaShow = false;
 		}
+		
+		var recentSocialType = '';
+		var cookie = document.cookie.split(';');
+	    cookie.some(function (item) {
+	        item = item.replace(' ', '');
+	        var dic = item.split('=');
+	        dic[0] = dic[0].replace(' ', '');
+	        if (dic[0].indexOf('recentSocialType') > -1) {
+	            recentSocialType = dic[1];
+	            return true;    // break;
+	        }
+	    });
+	
+		if(recentSocialType != ''){
+			console.log("recentSocialType : " + recentSocialType)
+			$('#recentSocialType' + recentSocialType).css('display', 'block');
+		}
 	}
 
 	$scope.getImage = function (){ 
@@ -182,7 +199,7 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 	});
 
 	// SNS공통로그인
-	function submitLogin(socialType, socialEmail) {
+	function submitLogin(socialType, socialEmail, name, email, mobile, sub) {
 		document.getElementById('social_type').value = socialType;
 		document.getElementById('social_email').value = socialEmail;
 
@@ -195,9 +212,24 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 			.then(function(response) {
 				console.log(response)
 				if(response.data.success == true){
+					var expire = new Date();
+					expire.setDate(expire.getDate() + 30);
+					document.cookie = 'recentSocialType=' + socialType + '; path=/; expires=' + expire.toGMTString() + ';';
 					location.href = "/";
 				}else{
-					alert("로그인에 실패하였습니다.")
+					if(response.data.data.msg == "Not Certify User"){
+						alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
+					}else if(response.data.data.msg == "User not found."){
+						//미가입 = 회원가입페이지이동
+						document.getElementById('name').value = name;
+						document.getElementById('email').value = email;
+						document.getElementById('mobile').value = mobile;
+						document.getElementById('sub').value = sub;
+				
+						var form = document.getElementById('joinForm');
+						form.action = '/joinForm?socialType=' + socialType;
+						form.submit();
+					}
 				}
 			})
 			.catch(function(error) {
@@ -226,7 +258,7 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 				kakaoUser = res.kakao_account;
 
 				console.log(kakaoUser);
-				submitLogin("KA", kakaoUser.email);
+				submitLogin("KA", kakaoUser.email, kakaoUser.profile.nickname, kakaoUser.email, null, null);
 			},
 			fail: function(error) {
 				alert('카카오 로그인에 실패했습니다. 관리자에게 문의하세요.' + JSON.stringify(error));
@@ -245,7 +277,7 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 		auth2.attachClickHandler(element, {},
 			function(googleUser) {
 				googleProfile = googleUser.getBasicProfile();
-				submitLogin("GL", googleProfile.getEmail());
+				submitLogin("GL", googleProfile.getEmail(), googleProfile.getName(), googleProfile.getEmail(), null, null, null);
 			}, function(error) {
 				alert(JSON.stringify(error, undefined, 2));
 			});
@@ -271,7 +303,7 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 		var sub = payload.sub;
 
 		console.log("email : " + email + "sub : " + sub);
-		submitLogin("AP", payload.sub);
+		submitLogin("AP", payload.sub, name, payload.email, null, payload.sub);
 	});
 
 	//애플로 로그인 실패 시.
