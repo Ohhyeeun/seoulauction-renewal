@@ -97,7 +97,8 @@ public class ApiMypageController {
 		commonMap.put("searchStartDt", searchStartDt);
 		commonMap.put("searchEndDt", searchEndDt);
 		
-		commonMap.put("cust_no", principal.getName());
+		commonMap.put("action_user_no", principal.getName());
+//		commonMap.put("action_user_no", 115551);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectPayListByCustNo(commonMap)));
 	}
 		
@@ -184,6 +185,7 @@ public class ApiMypageController {
 		CommonMap commonMap = new CommonMap();
 		commonMap.putPage(page, size);
 		commonMap.put("action_user_no", principal.getName());
+		//commonMap.put("action_user_no", 23094);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectBidReqList(commonMap)));
 	}
 	
@@ -195,6 +197,7 @@ public class ApiMypageController {
 		commonMap.put("sale_no", sale_no);
 		commonMap.put("lot_no", lot_no);
 		commonMap.put("action_user_no", principal.getName());
+//		commonMap.put("action_user_no", 23094);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectLiveBidReqHistoryList(commonMap)));
 	}
 
@@ -206,6 +209,7 @@ public class ApiMypageController {
 		CommonMap commonMap = new CommonMap();
 		commonMap.putPage(page, size);
 		commonMap.put("action_user_no", principal.getName());
+//		commonMap.put("action_user_no", 113248);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectLiveBidList(commonMap)));
 	}
 	
@@ -218,6 +222,7 @@ public class ApiMypageController {
 		commonMap.put("sale_no", sale_no);
 		commonMap.put("lot_no", lot_no);
 		commonMap.put("action_user_no", principal.getName());
+//		commonMap.put("action_user_no", 113248);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectLiveBidHistoryList(commonMap)));
 	}
 	@RequestMapping(value = "/liveBidHammers/{sale_no}", method = RequestMethod.GET)
@@ -227,6 +232,7 @@ public class ApiMypageController {
 		CommonMap commonMap = new CommonMap();
 		commonMap.put("sale_no", sale_no);
 		commonMap.put("action_user_no", principal.getName());
+//		commonMap.put("action_user_no", 113248);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectLiveBidHammerList(commonMap)));
 	}
 	
@@ -238,6 +244,7 @@ public class ApiMypageController {
 		CommonMap commonMap = new CommonMap();
 		commonMap.putPage(page, size);
 		commonMap.put("action_user_no", principal.getName());
+//		commonMap.put("action_user_no", 75396);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectOnlineBidList(commonMap)));
 	}
 	
@@ -249,6 +256,7 @@ public class ApiMypageController {
 		commonMap.put("sale_no", sale_no);
 		commonMap.put("lot_no", lot_no);
 		commonMap.put("action_user_no", principal.getName());
+//		commonMap.put("action_user_no", 75396);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectOnlineBidHistoryList(commonMap)));
 	}
 	
