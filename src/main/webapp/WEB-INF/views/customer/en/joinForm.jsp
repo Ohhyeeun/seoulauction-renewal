@@ -120,8 +120,8 @@
 		                                        <label for="hp" class="mem_txt">Mobile Number</label>
 		                                    </div>
 		                                    <div class="form_body nation_hpbox">
-												<div ng-show="nationMobile != '' && nationMobile != undefined">+{{nationMobile}}</div>
-												<input type="text" tabindex="6" onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this, 'number');" ng-model="form_data.hp" name="hp" id="hp" class="form-control nation_hp" placeholder="">
+<!-- 												<div ng-show="nationMobile != '' && nationMobile != undefined">+{{nationMobile}}</div> -->
+												<input type="text" tabindex="6" onkeyup="onlyNumber(this, 'number');" ng-model="form_data.hp" name="hp" id="hp" class="form-control" placeholder="">
 		                                    </div>
 		                                </li>
 		                                
