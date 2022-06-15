@@ -43,8 +43,10 @@ public class LoginController {
     	log.info("referrer : {}",referrer);
     	if(referrer != null 
     			&& !referrer.contains("/login") 
-    			&& !referrer.contains("/mypage/custLeave") 
-    			&& !referrer.contains("/join")) {
+    			&& !referrer.contains("/join") 
+    			&& !referrer.contains("/findId")
+    			&& !referrer.contains("/findPassword")
+    			&& !referrer.contains("/mypage/custLeave")) {
     		request.getSession().setAttribute("prevPage", referrer);
     	}
 

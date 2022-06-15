@@ -106,11 +106,11 @@
 			                                <div class="sns_icon_wrap">
 			                                    <!-- [0516]링크추가 -->
 			                                    <ul>
-			                                        <li><a ng-click="naverButtonClick()" href="#" target="_blank"><i class="icon-sns_naver"></i></a></li>
+			                                        <li><a ng-click="naverButtonClick()" href="#"><i class="icon-sns_naver"></i></a></li>
 			                                        <div id="naverIdLogin" style="display:none"></div>
-			                                        <li><a ng-click="loginWithKakao()" href="#" target="_blank"><i class="icon-sns_kakao"></i></a></li>
-			                                        <li><a id="googleIdLogin" href="#" target="_blank"><i class="icon-sns_google"></i></a></li>
-			                                        <li><a ng-click="appleButtonClick()" href="#" target="_blank"><i class="icon-sns_apple"></i></a></li>
+			                                        <li><a ng-click="loginWithKakao()" href="#"><i class="icon-sns_kakao"></i></a></li>
+			                                        <li><a id="googleIdLogin" href="#"><i class="icon-sns_google"></i></a></li>
+			                                        <li><a ng-click="appleButtonClick()" href="#"><i class="icon-sns_apple"></i></a></li>
 			                                        <div id="appleid-signin" style="display:none" data-type="sign in"></div>
 			                                    </ul>
 			                                    <!-- // [0516]링크추가 -->
