@@ -126,6 +126,12 @@
 					<input type="hidden" name="social_type" id="social_type" ng-model="social_type"/>
 					<input type="hidden" name="social_email" id="social_email" ng-model="social_email"/>
 					</form>
+					<form id="joinForm" method="post">
+						<input type="hidden" id="name" name="name" />
+						<input type="hidden" id="email" name="email" />
+						<input type="hidden" id="mobile" name="mobile" />
+						<input type="hidden" id="sub" name="sub" />
+					</form>
 				</div>
 			<jsp:include page="../../include/ko/footer.jsp" flush="false"/>
 		</div>

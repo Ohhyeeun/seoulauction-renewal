@@ -22,7 +22,7 @@
 	<body>
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
-			<jsp:include page="../../include/ko/header.jsp" flush="false" />
+			<jsp:include page="../../include/en/header.jsp" flush="false" />
 			    <div id="container" ng-controller="loginCtl" data-ng-init="init();">
 			    	<form name="loginForm" id="loginForm" action="/processLogin" method="post">
 			    	<div id="contents" class="contents">
@@ -110,7 +110,7 @@
 			                                        <div id="naverIdLogin" style="display:none"></div>
 			                                        <li><a ng-click="loginWithKakao()" href="#"><i class="icon-sns_kakao"></i></a></li>
 			                                        <li><a id="googleIdLogin" href="#"><i class="icon-sns_google"></i></a></li>
-			                                        <li><a ng-click="appleButtonClick()" href="#"><i class="icon-sns_apple"></i></a></li>
+			                                        <li><a ng-click="loginWithApple()" href="#"><i class="icon-sns_apple"></i></a></li>
 			                                        <div id="appleid-signin" style="display:none" data-type="sign in"></div>
 			                                    </ul>
 			                                    <!-- // [0516]링크추가 -->
@@ -125,8 +125,14 @@
 					<input type="hidden" name="social_type" id="social_type" ng-model="social_type"/>
 					<input type="hidden" name="social_email" id="social_email" ng-model="social_email"/>
 					</form>
+					<form id="joinForm" method="post">
+						<input type="hidden" id="name" name="name" />
+						<input type="hidden" id="email" name="email" />
+						<input type="hidden" id="mobile" name="mobile" />
+						<input type="hidden" id="sub" name="sub" />
+					</form>
 				</div>
-			<jsp:include page="../../include/ko/footer.jsp" flush="false"/>
+			<jsp:include page="../../include/en/footer.jsp" flush="false"/>
 		</div>
 	</div>
 	</body>

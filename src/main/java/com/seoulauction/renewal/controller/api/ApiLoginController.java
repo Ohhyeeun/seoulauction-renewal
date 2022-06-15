@@ -378,4 +378,15 @@ public class ApiLoginController {
 		new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
 		return ResponseEntity.ok(RestResponse.ok());
 	}
+	
+	//소셜회원 기가입체크
+	@RequestMapping(value="/isCustSocialExist", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> isCustSocialExist(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+
+	    log.info("isCustSocialExist");
+	    log.info(paramMap.toString());
+	    
+	    return ResponseEntity.ok(RestResponse.ok(loginService.selectCustForCustSocial(paramMap)));
+	}
 }
