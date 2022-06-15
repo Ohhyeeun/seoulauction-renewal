@@ -44,7 +44,6 @@ public class ApiPrivateSaleController {
         return ResponseEntity.ok(RestResponse.ok(exhibitList));
     }
 
-
     @RequestMapping(value="/lot_info/{sale_no}/{lot_no}", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> lotInfo(HttpServletRequest req,
                                                 HttpServletResponse res,
@@ -73,7 +72,6 @@ public class ApiPrivateSaleController {
             lotInfoMap.put("FAVORITE_YN", "Y");
         }
 
-
         // 한국일때 홍콩, 홍콩일때 한국
         Map<String, String> baseCurrency = new HashMap<String, String>();
         baseCurrency.put("KRW", "HKD");
@@ -81,8 +79,6 @@ public class ApiPrivateSaleController {
 
         // 현재 베이스 화폐
         String currCd = String.valueOf(saleInfoMap.get("CURR_CD"));
-
-        //String saleTitle = saleInfoMap.getString("")
 
         lotInfoMap.put("SALE_TITLE_JSON" , saleInfoMap.get("TITLE_JSON"));
 
@@ -115,34 +111,6 @@ public class ApiPrivateSaleController {
                 } else if (item.equals("EXPE_PRICE_TO_JSON")
                         || item.equals("EXPE_PRICE_FROM_JSON")) {
 
-                    //NumberFormat formatter = NumberFormat.getCurrencyInstance();
-
-                    /*
-
-                    DecimalFormat formatter = new DecimalFormat("###,###");
-
-                    String cvf = formatter.format((int)m.get(currCd));
-                    String svf = formatter.format((int)(m.get(subCurrCd) == null?0:m.get(subCurrCd)));
-                    String uvf = formatter.format((int)(m.get("USD") == null?0:m.get("USD")));
-
-                    String cv = new StringBuilder().append(currCd + " ")
-                            .append(cvf).toString();
-                    String sv = new StringBuilder().append(subCurrCd + " ")
-                            .append(svf).toString();
-                    String uv = new StringBuilder().append("USD ")
-                            .append(uvf).toString();
-
-                    if (item.equals("EXPE_PRICE_TO_JSON")) {
-                        lotInfoMap.put("BASE_EXPE_TO_PRICE", cv);
-                        lotInfoMap.put("SUB_EXPE_TO_PRICE", sv);
-                        lotInfoMap.put("USD_EXPE_TO_PRICE", uv);
-                    } else if (item.equals("EXPE_PRICE_FROM_JSON")) {
-                        lotInfoMap.put("BASE_EXPE_FROM_PRICE", cv);
-                        lotInfoMap.put("SUB_EXPE_FROM_PRICE", sv);
-                        lotInfoMap.put("USD_EXPE_FROM_PRICE", uv);
-                    }
-
-                     */
                 }
             }
             // 리스트 변환
@@ -182,39 +150,54 @@ public class ApiPrivateSaleController {
                 privateList.get(i).put("IMAGE_URL", IMAGE_URL);
             }
         } catch (JsonProcessingException e) {
-
         }
-
         return ResponseEntity.ok(RestResponse.ok(privateList));
     }
 
+    @RequestMapping(value="/saleAsInfo/{sale_as_no}", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> saleAsInfo(HttpServletRequest req, HttpServletResponse res, Locale locale,
+                                                 @PathVariable("sale_as_no") int saleAsNo) {
+        CommonMap map = new CommonMap();
+        map.put("sale_as_no", saleAsNo);
 
-    @RequestMapping(value="/saleImages/{saleAsNo}", method = RequestMethod.GET)
-    public ResponseEntity<RestResponse> saleImages(HttpServletRequest req,
-                                                   HttpServletResponse res,
-                                                   Locale locale, @PathVariable("saleAsNo") int saleAsNo) {
+        CommonMap saleInfoMap = privateSaleService.selectPrivateSaleInfo(map);
+
+        return ResponseEntity.ok(RestResponse.ok(saleInfoMap));
+    }
+
+
+    @RequestMapping(value="/saleImages/{sale_as_no}", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> privateSaleImages(HttpServletRequest req,
+                                                          HttpServletResponse res,
+                                                          Locale locale,
+                                                          @PathVariable("sale_as_no") int saleAsNo) {
 
         CommonMap map = new CommonMap();
         map.put("sale_as_no", saleAsNo);
 
+        //  정보 가져오기
+        CommonMap saleInfoMap = privateSaleService.selectPrivateSaleInfo(map);
         // 랏 이미지 정보 가져오기
-        List<CommonMap> lotImages = privateSaleService.selectPrivateSaleLotImages(map);
-
+        List<CommonMap> privateSaleImages = privateSaleService.selectPrivateSaleImages(map);
         // 필터를 적용한 새로운 랏이미지 정보
-        List<CommonMap> lotImagesNew = new ArrayList<>();
+        List<CommonMap> privateSaleImagesNew = new ArrayList<>();
 
         // 랏 디스플레이 필터
-        for (var item : lotImages) {
-            CommonMap lotImagesNewItem = new CommonMap();
+        for (var item : privateSaleImages) {
+            CommonMap privateSaleImagesNewItem = new CommonMap();
             for (var k : new ArrayList<>(item.keySet())){
-                lotImagesNewItem.put(k, item.get(k));
+                privateSaleImagesNewItem.put(k, item.get(k));
             }
-            lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
-            lotImagesNew.add(lotImagesNewItem);
+            /*
+            if (saleInfoMap.get("IMG_DISP_YN").equals("N")) {
+                privateSaleImagesNewItem.put("FILE_PATH", "/images/bg/no_image.jpg");
+            }
+            */
+
+            privateSaleImagesNewItem.put("IMAGE_URL", IMAGE_URL);
+            privateSaleImagesNew.add(privateSaleImagesNewItem);
         }
-        return ResponseEntity.ok(RestResponse.ok(lotImagesNew));
+        return ResponseEntity.ok(RestResponse.ok(privateSaleImagesNew));
     }
-
-
 
 }
