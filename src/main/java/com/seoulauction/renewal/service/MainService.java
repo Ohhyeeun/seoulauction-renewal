@@ -62,6 +62,7 @@ public class MainService {
             throw new SAException("해당 정보로 이미 구독한 정보가 있습니다.");
         }
         mainMapper.insertNewsletter(map);
+        mainMapper.insertNewsletterHistory(map);
     }
 
     //어떤 테이블을 참조할지 모르기때문 우선 더미데이텨 리턴.
@@ -109,6 +110,7 @@ public class MainService {
             returnMap.put("SALE_NO", item.get("SALE_NO"));
             returnMap.put("SALE_KIND", item.get("SALE_KIND_CD").equals("online") || item.get("SALE_KIND_CD").equals("online_zb") ? "ONLINE" : "LIVE" );
             returnMap.put("TITLE_BLOB", item.get("TITLE_BLOB"));
+            returnMap.put("SALE_TH", item.get("SALE_TH") != null ? item.get("SALE_TH") : "");
 
             returnMap.put("D_DAY", item.get("DDAY"));
 
@@ -141,6 +143,8 @@ public class MainService {
             CommonMap returnMap = new CommonMap();
             returnMap.put("SALE_NO", item.get("SALE_NO"));
             returnMap.put("SALE_KIND", item.get("SALE_KIND"));
+//            returnMap.put("SALE_TH_DSP", item.get("SALE_TH_DSP") != null ? item.get("SALE_TH_DSP") : "");
+            returnMap.put("SALE_TH", item.get("SALE_TH") != null ? item.get("SALE_TH") : "");
             returnMap.put("TITLE_BLOB", item.get("TITLE_BLOB"));
             returnMap.put("FROM_DT", item.get("FROM_DT"));
             returnMap.put("TO_DT", item.get("TO_DT"));
