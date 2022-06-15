@@ -167,9 +167,9 @@ public class SaleService {
         String bidKindCd = map.getString("bid_kind_cd");
 
         //bidKindcd 가 오프라인 경매 일 경우.
-        if(bidKindCd.equals("paper_offline")
+        if(bidKindCd.equals("paper_online")
           || bidKindCd.equals("phone")
-          || bidKindCd.equals("floor")
+          || bidKindCd.equals("paper_phone")
         ) {
             map.put("padd_no", auctionService.selectSalePaddNo(map));
 

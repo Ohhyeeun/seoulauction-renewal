@@ -4,6 +4,20 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <!-- header -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>경매상세 | Seoul Auction</title>
+    <!-- //header -->
+</head>
+<c:set var="isRegular" value="false" />
+<sec:authorize access="hasAuthority('ROLE_REGULAR_USER')">
+    <c:set var="isRegular" value="true" />
+</sec:authorize>
 <body class="">
 <div class="wrapper">
     <div class="sub-wrap pageclass type-details_view">
@@ -186,7 +200,8 @@
                                                 <div class="btn_set only-pc">
                                                     <div class="btn_item">
                                                         <a class="btn btn_point btn_lg" href="#" role="button"
-                                                           id="bid_btn"><span>응찰하기</span></a>
+                                                           ng-click="moveToBidding(lotInfo)"
+                                                        ><span>서면/전화 응찰 신청</span></a>
                                                     </div>
                                                 </div>
                                                 <div class="btn_set cols_2">
@@ -208,7 +223,9 @@
                                                            role="button"><span>낙찰수수료</span></a>
                                                     </div>
                                                     <div class="btn_item">
+<%--                                                        <a class="btn btn_default btn_lg" href="#" role="button"><span>배송비안내</span></a>--%>
                                                         <a class="btn btn_default btn_lg js-popup_alert3"  role="button"><span>경매 호가표</span></a>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -348,7 +365,6 @@
             </div>
         </div>
         <!-- //container -->
-
         <!-- footer -->
         <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
         <!-- //footer -->
@@ -650,47 +666,52 @@
 <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
 <%--경매 호가 팝업 --%>
 <jsp:include page="popup/growBiddingPopup.jsp" />
 <%--경매 호가 스크립트 --%>
 <script>
     let dataArray = [];
 
-    //온라인 경매 호가
+    //라이브 경매 호가
     dataArray.push({'up' : null , 'down' : '100만' ,'price' : 50000});
-    dataArray.push({'up' : '100만' , 'down' : '300만' ,'price' : 100000});
-    dataArray.push({'up' : '300만' , 'down' : '500만' ,'price' : 200000});
-    dataArray.push({'up' : '500만' , 'down' : '1,000만' ,'price' : 300000});
-    dataArray.push({'up' : '1,000만' , 'down' : '3,000만' ,'price' : 500000});
-    dataArray.push({'up' : '3,000만' , 'down' : '5,000만' ,'price' : 1000000});
-    dataArray.push({'up' : '5,000만' , 'down' : '1억' ,'price' : 2000000});
-    dataArray.push({'up' : '1억' , 'down' : '2억' ,'price' : 3000000});
-    dataArray.push({'up' : '2억' , 'down' : null ,'price' : 5000000});
+    dataArray.push({'up' : '100만' , 'down' : '200만' ,'price' : 100000});
+    dataArray.push({'up' : '200만' , 'down' : '400만' ,'price' : 200000});
+    dataArray.push({'up' : '400만' , 'down' : '1000만' ,'price' : 300000});
+    dataArray.push({'up' : '1,000만' , 'down' : '2,000만' ,'price' : 500000});
+    dataArray.push({'up' : '2,000만' , 'down' : '3,000만' ,'price' : 1000000});
+    dataArray.push({'up' : '3,000만' , 'down' : '5,000만' ,'price' : 2000000});
+    dataArray.push({'up' : '5,000만' , 'down' : '1억' ,'price' : 3000000});
+    dataArray.push({'up' : '1억' , 'down' : '2억' ,'price' : 5000000});
+    dataArray.push({'up' : '2억' , 'down' : '3억' ,'price' : 10000000});
+    dataArray.push({'up' : '3억' , 'down' : '5억' ,'price' : 20000000});
+    dataArray.push({'up' : '5억' , 'down' : '10억' ,'price' : 30000000});
+    dataArray.push({'up' : '10억' , 'down' : '20억' ,'price' : 50000000});
+    dataArray.push({'up' : '20억' , 'down' : null ,'price' : 100000000});
 
     $.each(dataArray , function (idx , item){
-        let text = (item.up != null ? item.up +' 이상' : '')  + ' ~ ' + (item.down != null ? item.down +' 미만' : '');
-        let html = '<tr><td><span>' + text + '</span>'
-            +'</td><td>'
-            +'<span>'+ numberWithCommas(item.price) +'</span>'
-            +'</td></tr>';
-        $("#grow_off_tbody").append(html);
+    let text = (item.up != null ? item.up +' 이상' : '')  + ' ~ ' + (item.down != null ? item.down +' 미만' : '');
+    let html = '<tr><td><span>' + text + '</span>'
+        +'</td><td>'
+        +'<span>'+ numberWithCommas(item.price) +'</span>'
+        +'</td></tr>';
+    $("#grow_off_tbody").append(html);
     });
 
     var popup_alert3 = $(".js-popup_alert3").trpLayerFixedPopup("#popup_alert3-wrap");
     $(popup_alert3.getBtn).on("click", function($e) {
-        $e.preventDefault();
-        popup_alert3.open(this); // or false
-        popup_fixation("#popup_alert3-wrap"); // pc 스크롤
-        popup_motion_open("#popup_alert3-wrap"); // mb 모션
+    $e.preventDefault();
+    popup_alert3.open(this); // or false
+    popup_fixation("#popup_alert3-wrap"); // pc 스크롤
+    popup_motion_open("#popup_alert3-wrap"); // mb 모션
     });
 
     $("body").on("click", "#popup_alert3-wrap .js-closepop, #popup_alert3-wrap .popup-dim", function($e) {
-        $e.preventDefault();
-        popup_alert3.close();
-        popup_motion_close("#popup_alert3-wrap");
+    $e.preventDefault();
+    popup_alert3.close();
+    popup_motion_close("#popup_alert3-wrap");
     });
 </script>
-
 <!-- swiper function-->
 <script>
     document.cookie = "crossCookie=bar; SameSite=None; Secure";
@@ -835,7 +856,7 @@
         }
 
         $scope.goLot = function (saleNo, lotNo) {
-            window.location.href = '/auction/online/view/' + saleNo + '/' + lotNo;
+            window.location.href = '/auction/live/view/' + saleNo + '/' + lotNo;
         }
 
         $scope.favorite = function(saleNo, lotNo) {
@@ -879,6 +900,37 @@
             } catch (error) {
                 console.error(error);
             }
+        }
+
+        $scope.moveToBidding = function(item) {
+
+            console.log(item);
+
+            //로그인 했는지 여부.
+            if (sessionStorage.getItem("is_login") === 'false') {
+                alert('로그인을 진행해주세요.');
+                location.href = "/login";
+                return;
+            }
+
+            //정회원 여부.
+            let isRegular = ${isRegular};
+            if(!isRegular){
+                alert('정회원만 서면/전화 응찰 신청이 가능합니다.')
+                return;
+            }
+
+            //필수값 있는지 여부. ( 생년월일 , 성별 )
+            let isCustRequired = ${isCustRequired};
+            if(!isCustRequired){
+                if(confirm('서면/전화 응찰 신청에 필요한 필수회원정보가 있습니다.\n회원정보를 수정하시겠습니까?')){
+                    location.href = '/mypage/custModify';
+                }
+                return;
+            }
+
+            //전부 다 조건을 만족햇을경우.
+            location.href = '/auction/live/sale/' + item.SALE_NO + '/lot/' + item.LOT_NO + '/biding';
         }
 
         // 호출 부
@@ -1015,43 +1067,6 @@
             run();
         }
     });
-</script>
-
-<script>
-    $("#bid_btn").on('click', function(){
-        if (${member.userNo} === 0) {
-            if(sessionStorage.getItem("is_login") === 'false'){
-                location.href = "/login";
-                return
-            }
-        } else {
-            let a = true;
-            if (!a) {
-                let popup_offline_payment = $("#bid_btn").trpLayerFixedPopup("#popup_online_confirm-wrap");
-                popup_offline_payment.open(this); // or false
-                popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
-
-                $("body").on("click", "#popup_online_confirm-wrap .js-closepop, #popup_online_confirm-wrap .popup-dim", function ($e) {
-                    $e.preventDefault();
-                    popup_offline_payment.close();
-                });
-            } else {
-                (function () {
-                    var popup_biddingPopup1 = $("#bid_btn").trpLayerFixedPopup("#popup_biddingPopup1-wrap");
-                    $(popup_biddingPopup1.getBtn).on("click", function ($e) {
-                        $e.preventDefault();
-                        popup_biddingPopup1.open(this); // or false
-                        popup_fixation("#popup_biddingPopup1-wrap");
-                    });
-
-                    $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function ($e) {
-                        $e.preventDefault();
-                        popup_biddingPopup1.close();
-                    });
-                })();
-            }
-        }
-    })
 </script>
 
 <!-- popup tab -->
