@@ -13,11 +13,6 @@ app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
 app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 	$scope.form_data = {};
 	
-	if(socialExist == 'Y'){
-		alert("이미 가입된 계정입니다. 로그인해주세요.")
-		location.href = '/join'
-	}
-	
 	$scope.goJoin = function(type){
 		location.href = '/joinForm?type=' + type				
 	}
@@ -66,16 +61,57 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 
 	// SNS공통회원가입
 	function submitJoin(socialType, name, email, mobile, sub) {
-		document.getElementById('name').value = name;
-		document.getElementById('email').value = email;
-		document.getElementById('mobile').value = mobile;
-		document.getElementById('sub').value = sub;
-
-		var form = document.getElementById('joinForm');
-		form.action = '/joinForm?socialType=' + socialType;
-		form.submit();
+		//기가입체크
+		let data = {};
+	    data['social_type'] = socialType;
+	    data['social_email'] = email;
+	    if(socialType == "AP"){
+			data['social_email'] = sub;
+		}
+		axios.post('/api/login/isCustSocialExist' , data)
+		    .then(function(response) {
+		        const result = response.data;
+		        console.log(result)
+		        if(result.data != undefined){
+					if(result.data.STAT_CD == "not_certify"){
+						//기가입 + 미인증 = 안내메세지
+						alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
+					}else{
+						//기가입 + 상태normal = 로그인처리
+						socialLogin(data);
+					}
+				}else{
+					//미가입 = 회원가입페이지이동
+					document.getElementById('name').value = name;
+					document.getElementById('email').value = email;
+					document.getElementById('mobile').value = mobile;
+					document.getElementById('sub').value = sub;
+			
+					var form = document.getElementById('joinForm');
+					form.action = '/joinForm?socialType=' + socialType;
+					form.submit();
+				}
+		    })
+		    .catch(function(error){
+		        console.log(error);
+		    });
 	}
-
+	
+	function socialLogin(data){
+		axios.post('/api/login/social', data)
+			.then(function(response) {
+				console.log(response)
+				if(response.data.success == true){
+					location.href = "/";
+				}else{
+					alert("로그인에 실패하였습니다.")
+				}
+			})
+			.catch(function(error) {
+				console.log(error);
+			});
+	}
+	
 	// 카카오 로그인 / 카카오 회원가입
 	$scope.joinWithKakao = function() {
 		Kakao.Auth.login({
