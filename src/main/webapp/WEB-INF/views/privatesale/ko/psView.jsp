@@ -6,13 +6,12 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko" ng-app="myApp">
-
 <head>
     <!-- header -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>전시 상세 | Seoul Auction</title>
+    <title>프라이빗 세일 상세 | Seoul Auction</title>
     <!-- //header -->
 </head>
 
@@ -23,8 +22,8 @@
         <jsp:include page="../../include/ko/header.jsp" flush="false"/>
         <!-- //header -->
         <!-- container -->
-        <div id="container" ng-controller="ctl" data-ng-init="load();">
-            <div id="contents" class="contents">
+        <div id="container">
+            <div id="contents" class="contents" ng-controller="ctl" data-ng-init="load();">
                 <section class="basis-section last-section auction_view-section">
                     <div class="section-inner">
                         <div class="content-panel type_panel-product_view">
@@ -34,46 +33,15 @@
                                         <div class="row-box">
                                             <div class="col_item">
                                                 <div class="page_title">
-                                                    <a href="#" ng-click="goExhibit();" title="뒤로가기">
+                                                    <a href="#" onclick="goPrivateSale();" title="뒤로가기">
                                                         <i class="icon-page_back"></i>
                                                     </a>
-                                                    <span ng-bind="saleInfo.SALE_TITLE_KO"></span>
+                                                    <span ng-bind="saleInfo.SALE_AS_TITLE_KO">목록</span>
                                                 </div>
                                             </div>
                                             <div class="col_item">
                                                 <!-- [0516]select 변경 -->
-                                                <div class="select-box">
-                                                    <div class="trp-dropdown-area h42-lines">
-                                                        <button class="js-dropdown-btn">
-                                                            <span>LOT {{lotInfo.LOT_NO}}</span><i class="form-select_arrow_md"></i>
-                                                        </button>
-                                                        <div class="trp-dropdown_list-box" data-trp-focusid="js-user_support">
-                                                            <div class="search-box">
-                                                                <input type="search" placeholder="LOT 번호 입력" id="search_lot" class="">
-                                                                <i class="form-search_md"></i>
-                                                            </div>
-                                                            <div class="list-box scroll-type">
-                                                                <ul id="sale_lot_list">
-                                                                    <li ng-repeat="item in saleImages" data-index="{{item.LOT_NO}}">
-                                                                        <a href="#" ng-click="goLot(item.SALE_NO, item.LOT_NO)">
-                                                                            <div class="image-area">
-                                                                                <figure class="img-ratio">
-                                                                                    <div class="img-align">
-                                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
-                                                                                    </div>
-                                                                                </figure>
-                                                                            </div>
-                                                                            <div class="typo-area">
-                                                                                <span>LOT {{::item.LOT_NO}}</span>
-                                                                            </div>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
 
-                                                    </div>
-                                                </div>
                                                 <!-- // [0516]select 변경 -->
 
                                             </div>
@@ -93,7 +61,7 @@
                                                         <div class="gallery_center">
                                                             <div class="swiper-wrapper">
 
-                                                                <div ng-repeat="item in lotImages"
+                                                                <div ng-repeat="item in saleImages"
                                                                      ng-class="{'swiper-slide':$index>-1,'swiper-slide-active':$index == 0}"
                                                                      data-index="$index">
 
@@ -116,7 +84,7 @@
                                                     <div class="gallery_thumbnail js-view_thumnail">
                                                         <div class="gallery_center">
                                                             <div class="swiper-wrapper">
-                                                                <div ng-repeat="item in lotImages"
+                                                                <div ng-repeat="item in saleImages"
                                                                      ng-class="{'slide':$index>-1,'images':$index>-1,'active':$index==0}"
                                                                      data-index="$index">
                                                                     <figure class="img-ratio">
@@ -131,20 +99,19 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="view_scale-area">
                                                 <a href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
                                         </article>
 
                                     </div>
-
                                     <div class="col_item">
                                         <article class="product_detail-article js-product_detail-article">
                                             <div class="index-area">
-                                                <div class="index-box"><span ng-bind="lotInfo.LOT_NO">10</span></div>
+                                                <div class="index-box"><span ng-bind="saleInfo.SALE_AS_NO">10</span></div>
                                                 <div class="btn-box">
-                                                    <a href="#" title="" class="sns_share js-sns_share" id>
-                                                        <i class="icon-view_sns"></i></a>
+                                                    <a href="#" title="" class="sns_share js-sns_share"><i class="icon-view_sns"></i></a>
                                                     <div class="sns_layer-area">
                                                         <div class="sns-layer">
                                                             <div class="sns-item">
@@ -165,20 +132,12 @@
                                             </div>
                                             <div class="artist-area">
                                                 <div class="name">
-                                                    <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT">김선우</strong>
-                                                    <span>b.{{lotInfo.BORN_YEAR}}</span>
+                                                    <strong ng-bind="saleInfo.ARTIST_NAME_KO">김선우</strong>
+                                                    <span>b.{{saleInfo.BORN_YEAR}}</span>
                                                 </div>
                                                 <div class="desc">
-                                                    <span ng-bind="lotInfo.TITLE_KO_TXT">Flight of 3 Dodos</span>
+                                                    <span ng-bind="saleInfo.TITLE_KO">Flight of 3 Dodos</span>
                                                 </div>
-                                            </div>
-
-
-                                            <div class="saleprice-area">
-                                                <dl>
-                                                    <dt>전시가</dt>
-                                                    <dd id="exhibitPrice"></dd>
-                                                </dl>
                                             </div>
                                             <div class="inquirybtn-area">
                                                 <div class="btnset">
@@ -202,8 +161,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-
                                         </article>
                                     </div>
                                 </div>
@@ -214,17 +171,16 @@
                                         <div class="info-box">
                                             <div class="title">작품정보</div>
                                             <div class="desc">
-                                                {{lotInfo.MATE_NM_EN}} <br />
-                                                <span ng-repeat="size in lotInfo.LOT_SIZE_JSON">
-                                                        <span>{{::size.SIZE1}}X{{::size.SIZE2}}X{{::size.SIZE3}}cm</span>
-                                                    </span> <br />
-                                                <span bind-html-compile="lotInfo.SIGN_INFO_JSON.ko"> <br />
+                                                {{saleInfo.MATE_NM}} <br />
+                                                <span>{{saleInfo.SIZE1}}X{{saleInfo.SIZE2}}X{{saleInfo.SIZE3}}cm</span>
+                                                | <span>{{saleInfo.MAKE_YEAR_KO}}</span> <br />
+                                                <span bind-html-compile="saleInfo.SIGN_INFO_KO"> <br />
                                             </div>
                                         </div>
 
                                         <div class="info-box">
                                             <div class="title">Condition Report</div>
-                                            <div class="desc" ng-bind="lotInfo.COND_RPT_JSON.ko">
+                                            <div class="desc" <div class="desc" ng-bind="saleInfo.COND_RPT_KO">>
                                             </div>
                                         </div>
 
@@ -232,10 +188,10 @@
                                             <div class="title">작가정보</div>
                                             <div class="desc">
                                                 Artist <br />
-                                                {{lotInfo.ARTIST_NAME_KO_TXT}} {{lotInfo.ARTIST_NAME_EN_TXT}}
-                                                b.{{lotInfo.BORN_YEAR}}
+                                                {{saleInfo.ARTIST_NAME_KO}} {{saleInfo.ARTIST_NAME_EN}}
+                                                b.{{saleInfo.BORN_YEAR}}
                                             </div>
-                                            <div class="desc" ng-bind-html="lotInfo.PROFILE_JSON.ko">
+                                            <div class="desc" ng-bind-html="saleInfo.PROFILE_JSON.ko">
                                             </div>
                                         </div>
 
@@ -246,7 +202,7 @@
                             <div class="panel-footer">
 
                                 <div class="btn_set_more">
-                                    <button class="btn btn_gray_line" type="button" ng-click="goExhibit();"><span>목록</span></button>
+                                    <button class="btn btn_gray_line" type="button" onclick="goPrivateSale();"><span>목록</span></button>
                                 </div>
 
                             </div>
@@ -282,9 +238,6 @@
 <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
-<!-- visual swiper -->
-
-
 <!-- [0516] 셀렉트 드롭다운 -->
 <script>
     var dropdown = $(".js-dropdown-btn").trpDropdown({
@@ -300,10 +253,8 @@
     });
 </script>
 
-
 <!--  sns 공유 -->
 
-<!-- hold side : positionTar2 : $(".js-page_name-article"), -->
 <!-- [2022-0516] 사용 -->
 <script>
     var _hold_info = $(".js-product_detail-article").trpScrollSyncTopView({
@@ -339,6 +290,7 @@
     };
 </script>
 
+
 <!-- angular js -->
 <script>
     app.value('locale', 'ko');
@@ -350,52 +302,35 @@
 
         $scope.is_login = is_login;
         $scope.locale = locale;
-        $scope.sale_no = "${saleNo}";
-        $scope.lot_no = "${lotNo}";
+        $scope.saleAsNo = "${saleAsNo}";
 
         // 호출 부
-        const getSaleInfo = (saleNo) => {
+        const getPrivateSaleInfo = (saleAsNo) => {
             try {
-                return axios.get('/api/auction/sale_info/${saleNo}');
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        const getLotInfo = (saleNo, lotNo) => {
-            try {
-                return axios.get('/api/privatesale/lot_info/${saleNo}/${lotNo}');
+                return axios.get('/api/privatesale/saleAsInfo/${saleAsNo}');
             } catch (error) {
                 console.error(error);
             }
         };
 
-        const getLotImages = (saleNo, lotNo) => {
+        const getPrivateSaleImages = (saleAsNo) => {
             try {
-                return axios.get('/api/auction/lot_images/${saleNo}/${lotNo}');
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        const getSaleImages = (saleNo, lotNo) => {
-            try {
-                return axios.get('/api/auction/sale_images/${saleNo}');
+                return axios.get('/api/privatesale/saleImages/${saleAsNo}');
             } catch (error) {
                 console.error(error);
             }
         }
 
-
-        $scope.goLot = function (saleNo, lotNo) {
-            window.location.href = '/privatesale/exhibitView/' + saleNo + '/' + lotNo;
+        $scope.goLot = function (saleAsNo) {
+            window.location.href = '/privatesale/psView/' + saleAsNo;
         }
 
         $scope.goInquery = function () {
             window.location.href = '/mypage/inquiryList';
         }
 
-        $scope.goExhibit = function () {
-            window.location.href = '/privatesale/exhibit/first';
+        $scope.goPrivateSaleList = function () {
+            window.location.href = '/privatesale/psList';
         }
 
         $scope.print = function () {
@@ -417,34 +352,33 @@
         // 호출 부
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3, r4] = await Promise.all([getSaleInfo($scope.sale_no),
-                    getLotInfo($scope.sale_no, $scope.lot_no),
-                    getLotImages($scope.sale_no, $scope.lot_no),
-                    getSaleImages($scope.sale_no, $scope.lot_no)]);
+                let [r1, r2] = await Promise.all([getPrivateSaleInfo($scope.saleAsNo),
+                    getPrivateSaleImages($scope.saleAsNo)]);
 
                 $scope.saleInfo = r1.data.data;
-                $scope.lotInfo = r2.data.data;
-                $scope.lotImages = r3.data.data;
-                $scope.saleImages = r4.data.data;
+                $scope.saleImages = r2.data.data;
 
                 //전시가 처리
-                if($scope.lotInfo.EXHIBITION_PRICE_JSON.length <= 2){
+                /*
+                if($scope.saleInfo.EXPE_PRICE_FROM_KRW == undefined ||
+                    $scope.saleInfo.EXPE_PRICE_FROM_KRW.length <= 2){
                     $(".saleprice-area").hide();
                 }else{
                     $(".saleprice-area").show();
-                    $("#exhibitPrice").html($scope.lotInfo.EXHIBITION_PRICE_JSON);
+                    $("#exhibitPrice").html($scope.saleInfo.EXPE_PRICE_FROM_KRW);
                 }
+                 */
 
                 // popup setting
-                let imgUrl = $scope.lotImages[0].IMAGE_URL +
-                    $scope.lotImages[0].FILE_PATH + "/" + $scope.lotImages[0].FILE_NAME;
+                let imgUrl = $scope.saleImages[0].IMAGE_URL +
+                    $scope.saleImages[0].FILE_PATH + "/" + $scope.saleImages[0].FILE_NAME;
 
-                $("#bidding_title").html($scope.lotInfo.TITLE_KO_TXT);
+                $("#bidding_title").html($scope.saleInfo.TITLE_KO);
                 $("#img_url").attr("src", imgUrl);
-                $("#artist_nm").html($scope.lotInfo.ARTIST_NAME_KO_TXT);
-                $("#born_year").html("(" + $scope.lotInfo.BORN_YEAR + ")");
+                $("#artist_nm").html($scope.saleInfo.ARTIST_NAME_KO);
+                $("#born_year").html("(" + $scope.saleInfo.BORN_YEAR + ")");
 
-                $("#lot_title").html("LOT " + $scope.lotInfo.LOT_NO);
+                $("#lot_title").html("LOT " + $scope.saleInfo.SALE_AS_NO);
                 $scope.$apply();
 
                 // 카카오 init
@@ -454,8 +388,8 @@
                     container: "#kakao-share",
                     objectType: "feed",
                     content: {
-                        title: $scope.saleInfo.SALE_TITLE_KO,
-                        description: $scope.lotInfo.TITLE_KO_TXT,
+                        title: $scope.saleInfo.SALE_AS_TITLE_KO,
+                        description: $scope.saleInfo.TITLE_KO,
                         imageUrl:imgUrl,
                         link: {
                             mobileWebUrl: window.location.href,
@@ -541,9 +475,13 @@
             run();
         }
     });
-</script>
-<!-- // [2022-0516] 사용 -->
 
+    function goPrivateSale(){
+        window.location.href = '/privatesale/psList';
+    }
+</script>
+
+<!-- // [2022-0516] 사용 -->
 </body>
 
 </html>

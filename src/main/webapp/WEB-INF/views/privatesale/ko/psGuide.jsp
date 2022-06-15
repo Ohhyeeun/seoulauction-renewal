@@ -171,44 +171,8 @@
 <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
 <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-<!-- [0516]삭제
-<script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
--->
+<script type="text/javascript" src="/js/private_sale/psGuide.js" type="text/javascript"></script>
 
-
-<script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
-
-<script>
-    function goPsGuide(){
-        window.location.href = '/privatesale/psGuide/';
-    }
-
-    function goPrivateSale(){
-        window.location.href = '/privatesale/psList';
-    }
-</script>
-
-<!-- tab menu -->
-<script>
-    $('.js-maintab_list a').on('click', function(e) {
-        e.preventDefault();
-        var tar = $(this).position().left;
-        var scrollX = tar - ($(".js-maintab_list").parents(".tab-area").width() / 2) + $(this).width() / 2;
-
-        if ($(this).parents('li').hasClass('active')) return false;
-        var id = $(this).attr('href');
-        if ($(id).length > 0) {
-            $('.tab-cont').removeClass('active');
-            $(id).addClass('active');
-            $(this).parents('li').siblings('li').removeClass('active').end().addClass('active');
-
-            $(".js-maintab_list").parents(".tab-area").scrollLeft(scrollX);
-        }
-
-        return false;
-    });
-</script>
 
 
 
