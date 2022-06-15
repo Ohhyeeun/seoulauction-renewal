@@ -211,17 +211,17 @@
                                                                role="button"><span>낙찰수수료</span></a>
                                                         </div>
                                                         <div class="op_hover">
-                                                            <a class="btn btn_black btn_2 btn_lg   " href="#"
+                                                            <a class="btn btn_black btn_2 btn_lg js-popup_alert1"
                                                                role="button">
                                                                 <em>현재가 기준</em>
                                                                 <strong>1,584,000</strong>
                                                             </a>
                                                         </div>
                                                     </div>
-                                                    <div class="btn_item only-mb">
-                                                        <a class="btn btn_default btn_lg js-delivery_price" href="#"
-                                                           role="button"><span>낙찰수수료</span></a>
-                                                    </div>
+<%--                                                    <div class="btn_item only-mb">--%>
+<%--                                                        <a class="btn btn_default btn_lg js-delivery_price js-popup_alert1" href="#"--%>
+<%--                                                           role="button"><span>낙찰수수료</span></a>--%>
+<%--                                                    </div>--%>
                                                     <div class="btn_item">
 <%--                                                        <a class="btn btn_default btn_lg" href="#" role="button"><span>배송비안내</span></a>--%>
                                                         <a class="btn btn_default btn_lg js-popup_alert3"  role="button"><span>경매 호가표</span></a>
@@ -666,6 +666,9 @@
 <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
+<%--낙찰 수수료 팝업 --%>
+<jsp:include page="popup/bidCommissionPopup.jsp" />
 
 <%--경매 호가 팝업 --%>
 <jsp:include page="popup/growBiddingPopup.jsp" />
