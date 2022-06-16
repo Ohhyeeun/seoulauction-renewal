@@ -147,8 +147,13 @@
 							                            <div class="title-box">
 							                                <span class="txt_title type-big">응찰 내역</span>
 							                            </div>
+							                        <!-- [0613] 추가 -->
+						                            <div class="right_txt" ng-if="onlineBidHisList[0].ABORT_YN =='N'">
+						                                <span>자동응찰설정가 <em>{{onlineBidHisList[0].CURR_CD}} {{comma(onlineBidHisList[0].BID_PRICE)}}</em></span>
+						                            </div>
+						                            <!-- //[0613] 추가 -->
 							                        </div>
-							                        <span ng-if="onlineBidHisList[0].ABORT_YN =='N'"> 응찰최고가: {{onlineBidHisList[0].CURR_CD}} {{comma(onlineBidHisList[0].BID_PRICE)}}</span>
+                            
 							                        <div class="pop-body">
 							                            <section class="section">
 							                                <article class="article-area thead_item-wrap">

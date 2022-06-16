@@ -126,7 +126,7 @@
                                             <dd>
                                                 <div class="info-li">
                                                     <div class="tit">결제일</div>
-                                                    <div class="txt">{{pay.payDate}}({{pay.weekDate}}) {{pay.payTime}}</div>
+                                                    <div class="txt">{{pay.PAY_DT}}</div>
                                                 </div>
                                                 <div class="info-li">
                                                     <div class="tit">결제방법</div>
