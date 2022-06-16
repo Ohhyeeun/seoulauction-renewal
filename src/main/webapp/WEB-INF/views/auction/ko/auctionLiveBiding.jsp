@@ -354,7 +354,7 @@
                     } else {
                         //기본값 세팅
                         $("#btn_select_paper_offline").addClass("active");
-                        currentBidKind = 'paper_offline';
+                        currentBidKind = 'paper_online';
                         bidType = 14;
                     }
 

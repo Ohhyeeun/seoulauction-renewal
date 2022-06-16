@@ -1,6 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <!-- header -->
     <meta charset="UTF-8">
@@ -126,5 +131,33 @@
     </div>
 
 </body>
+
+<%--공통 footer 를 안쓰는관계로 필요 스크립트 다 import --%>
+
+<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+
+
+<script src="/js/pages_common_ko.js"></script>
+<!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
+<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+
+<%--Axios--%>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.js"></script>
+<script defer src="https://unpkg.com/axios-extensions/dist/axios-extensions.js"></script>
+<script defer src="/js/common/axios.js" type="text/javascript"></script>
+
+<!--[if lt IE 9]>
+<script src="/js/plugin/html5shiv.js"></script> <![endif]-->
+<script src="/js/plugin/prefixfree.min.js"></script>
+<script src="/js/plugin/swiper.min.js" type="text/javascript"></script>
+<%--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>--%>
+<%--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ko.min.js"></script>--%>
+<%--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/1.3.0/moment-duration-format.min.js"></script>--%>
+<%--<script src="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.5.6/js/ngDialog.min.js"></script>--%>
+<%--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>--%>
+<%--<script src="/js/common.js" type="text/javascript"></script>--%>
 
 </html>
