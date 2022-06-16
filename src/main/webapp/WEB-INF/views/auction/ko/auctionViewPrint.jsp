@@ -192,7 +192,6 @@ $(function(){
                     );
                     //TODO 오프라인인경우 USD 달러 나와야함.
 
-
                     $("#price_lot_desc").html(
                         lotData.MATE_NM_EN + '<br/>'
                         + '<span>'

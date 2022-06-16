@@ -832,7 +832,7 @@
             }
         };
 
-        const getSaleImages = (saleNo,d lotNo) => {
+        const getSaleImages = (saleNo) => {
             try {
                 return axios.get('/api/auction/sale_images/${saleNo}');
             } catch (error) {
