@@ -5,12 +5,12 @@
     <div class="innerfooter">
         <section class="flex_wrap footer_menubox">
             <ul class="footer-gnbmenu">
-                <li><a href="#">회사소개</a></li>
-                <li><a href="#">언론보도</a></li>
-                <li><a href="#">채용공고</a></li>
-                <li><a href="#">위치안내</a></li>
-                <li><a href="#">공지사항</a></li>
-                <li><a href="#">FAQ</a></li>
+                <li><a href="/footer/companyIntro">회사소개</a></li>
+                <li><a href="/footer/boardMediaList">언론보도</a></li>
+                <li><a href="/footer/boardIncruitList">채용공고</a></li>
+                <li><a href="/footer/location">위치안내</a></li>
+                <li><a href="/footer/boardNoticeList">공지사항</a></li>
+                <li><a href="/footer/faq">FAQ</a></li>
             </ul>
 
             <ul class="snsbox_icon">
@@ -24,9 +24,9 @@
         <section class="flex_wrap footer_infobox">
             <div class="footer-infomenubox">
                 <ul class="flex_wrap footer-infomenu">
-                    <li><a href="#">경매약관</a></li>
-                    <li><a href="#">개인정보처리방침</a></li>
-                    <li><a href="#">내부관리규정</a></li>
+                    <li><a href="/footer/terms">경매약관</a></li>
+                    <li><a href="/footer/privacy">개인정보처리방침</a></li>
+                    <li><a href="/footer/rules">내부관리규정</a></li>
                 </ul>
 
                 <div class="Familysite-selectbox">
