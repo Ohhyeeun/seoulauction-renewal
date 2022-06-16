@@ -126,7 +126,6 @@
 -->
 
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
 
 
