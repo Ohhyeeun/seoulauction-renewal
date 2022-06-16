@@ -69,7 +69,8 @@
                                                             </dt>
                                                             <dd class="item-ea"  ng-repeat="data in pl[1]">
                                                                 <div class="item-ea-tit">
-                                                                    <div class="paystate pending" ng-if="data.PAID_CNT != 1">결제대기중 ({{data.PAY_METHOD_NM}})</div>
+                                                                    <!-- <div class="paystate pending" ng-if="data.PAID_CNT != 1">결제대기중 ({{data.PAY_METHOD_NM}})</div> -->
+                                                                    <div class="paystate pending" ng-if="data.PAID_CNT != 1">결제대기중</div>
                                                                     <div class="paystate complete" ng-if="data.PAID_CNT == 1">결제완료</div>
                                                                     <div class="txt" ng-if="data.PAID_CNT == 1">{{data.payDate}} ({{data.payWeekDate}}) {{data.payTime}} ({{data.PAY_METHOD_NM}})</div>
                                                                 </div>
@@ -89,20 +90,30 @@
                                                                                     <div class="titlename">{{data.ARTIST_NAME_KR}}</div>
                                                                                 </div>
                                                                                 <div class="desc">{{data.LOT_TITLE_KR}}</div>
-                                                                                <div class="desc">{{data.CD_NM}}</div>
-                                                                                <div class="desc">{{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}}X{{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}}({{StringToJson(data.LOT_SIZE_JSON)[0].CANVAS}})</div>
                                                                                 <div class="sub-box">
-                                                                                    <div class="sub-li">{{data.BID_DT}} ({{data.BIDWEEKDT}})<br class="m-ver"> {{data.BIDTIME}} ({{data.bid_count}}회 응찰)</div>
+                                                                                    <!-- [0613]재질/사이즈로 수정 -->
+                                                                                    <div class="sub-li">{{data.CD_NM}}</div>
                                                                                     <div class="sub-li">
-                                                                                        <div class="tit">응찰가</div>
-                                                                                        <div class="txt">{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</div>
+                                                                                        <span>{{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}} X {{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}}cm</span>
+                                                                                        <span>{{StringToJson(data.LOT_SIZE_JSON)[0].CANVAS}}</span>
                                                                                     </div>
+                                                                                    <!-- //[0613]재질/사이즈로 수정 -->
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="pay-infobox">
                                                                         <div class="pay-area">
+                                                                        	<dl class="price">
+                                                                                <dt class="tit">응찰가</dt>
+                                                                                <dd class="txt">
+                                                                                    <span>{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</span>
+                                                                                    <div class="sub">
+                                                                                        <span>{{data.BID_DT}} <!-- ({{data.BIDWEEKDT}}) --><br class="m-ver"> {{data.BIDTIME}}</span>
+                                                                                       <!--  <span>({{data.bid_count}}회 응찰)</span> -->
+                                                                                    </div>
+                                                                                </dd>
+                                                                            </dl>
                                                                             <dl class="price">
                                                                                 <dt class="tit">낙찰가</dt>
                                                                                 <dd class="txt">{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</dd>
@@ -131,6 +142,9 @@
                                                                 </div>
                                                             </dd>
                                                         </dl>
+                                                        <div class="data-empty" ng-if="totalCnt == 0">
+                                                            <p class="txt_empty">결재/구매 내역이 존재하지 않습니다.</p>
+                                                        </div>
                                                     </div>
                                                     
                                                     
@@ -194,7 +208,6 @@
 -->
 
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 
 

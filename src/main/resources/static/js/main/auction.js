@@ -29,7 +29,7 @@ $(document).ready(function(){
                     //TODO 인클루드 작업.
                     $.each(auctionData , function(idx , el){
 
-                        let title = JSON.parse(el.TITLE_BLOB);
+                        let title = JSON.parse(el.SHORT_TITLE);
                         let name = locale === 'ko' ? title.ko : title.en;
 
                         //sale html
@@ -175,6 +175,7 @@ $(document).ready(function(){
         //auction 전체 보기 버튼
         $('#AllAuction').click(function () {
            //TODO 옥션 랏 상세페이지로 이동.
+            location.href = '/auction/progress';
         })
     }
 

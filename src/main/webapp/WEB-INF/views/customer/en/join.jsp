@@ -12,6 +12,11 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	    <title>Seoul Auction</title>
 	</head>
+	<spring:eval expression="@environment.getProperty('social.service.domain')" var="socialServiceDomain" />
+	<script>
+		var socialServiceDomain = '${socialServiceDomain}'
+		console.log(socialServiceDomain);
+	</script>
 	<body>
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
@@ -96,9 +101,6 @@
 	</div>
 	</body>
 	
-	<script>
-	var socialExist = '${socialExist}';
-	</script>
 	<!-- 카카오 -->
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>

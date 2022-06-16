@@ -40,8 +40,13 @@ public class LoginController {
     	
     	// 로그인 이전페이지 기억
     	String referrer = request.getHeader("Referer");
-    	if(referrer != null && !referrer.contains("/login")) {
-    		log.info("referrer : {}",referrer);
+    	log.info("referrer : {}",referrer);
+    	if(referrer != null 
+    			&& !referrer.contains("/login") 
+    			&& !referrer.contains("/join") 
+    			&& !referrer.contains("/findId")
+    			&& !referrer.contains("/findPassword")
+    			&& !referrer.contains("/mypage/custLeave")) {
     		request.getSession().setAttribute("prevPage", referrer);
     	}
 
@@ -119,16 +124,6 @@ public class LoginController {
     	if(socialType.equals("AP")) {
     		socialEmail = request.getParameter("sub");
 		}
-    	//소셜 기가입 확인
-		CommonMap paramMap = new CommonMap();
-		paramMap.put("social_email", socialEmail);
-		paramMap.put("social_type", socialType);
-        CommonMap resultMap = loginService.selectCustForCustSocial(paramMap);
-        
-		if(resultMap != null) {
-			model.addAttribute("socialExist", "Y");
-			return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "join" , locale);
-		}
 		
     	String socialLoginId = "";
 		
@@ -136,8 +131,9 @@ public class LoginController {
 		while(duplIdCheck) {
 			socialLoginId = socialType + "_" + Double.toString(Math.random() * 10).replace(".", "").substring(0, 8);
 			log.info(socialLoginId);
+			CommonMap paramMap = new CommonMap();
 			paramMap.put("socialLoginId", socialLoginId);
-	        resultMap = loginService.selectCustSocialBySocialLoginId(paramMap);
+			CommonMap resultMap = loginService.selectCustSocialBySocialLoginId(paramMap);
 	        if(resultMap == null) {
 	        	duplIdCheck = false;
 	        }

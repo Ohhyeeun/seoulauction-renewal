@@ -250,7 +250,7 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
                                                             <span class="trp checkbox-box address_text2">
                                                                 <input id="copyAddrChk" type="checkbox" onclick="copyAddr()">
                                                                 <i></i>
-                                                                <label for="checkbox1">주소와 동일한 경우 체크해 주세요.</label>
+                                                                <label for="copyAddrChk">주소와 동일한 경우 체크해 주세요.</label>
                                                             </span>
                                                             <div class="input-group">
                                                                 <input type="text" name="deli_zipno" id="deli_zipno" class="form-control" value="" placeholder="" readonly>
@@ -298,7 +298,7 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
                                                 <input type="hidden" name="deli_addr_old_yn" id="deli_addr_old_yn" />
                                                 </form>
                                                 <div class="dropOut_text">
-                                                    <a href="#">회원탈퇴</a>
+                                                    <a href="#" onclick="custLeave();">회원탈퇴</a>
                                                 </div>
                                                 <div class="btn_area" onclick="custModify()">
                                                     <button class="btn btn_point btn_lg" id="modifyButton" type="button" disabled>

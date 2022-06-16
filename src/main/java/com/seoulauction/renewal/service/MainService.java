@@ -62,6 +62,7 @@ public class MainService {
             throw new SAException("해당 정보로 이미 구독한 정보가 있습니다.");
         }
         mainMapper.insertNewsletter(map);
+        mainMapper.insertNewsletterHistory(map);
     }
 
     //어떤 테이블을 참조할지 모르기때문 우선 더미데이텨 리턴.
@@ -70,7 +71,7 @@ public class MainService {
         CommonMap resultMap = new CommonMap();
 
         CommonMap counts = ktMainMapper.selectIngMenuCount();
-        List<CommonMap> saleList = ktMainMapper.selectIngAuctions();
+        List<CommonMap> saleList = selectIngAuctions();
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
 
         saleList.forEach(c-> {
@@ -82,11 +83,11 @@ public class MainService {
         });
 
         List<CommonMap> test2 = new ArrayList<>();
-
-        test2.add(saleList.get(0));
-        test2.add(saleList.get(0));
-        test2.add(saleList.get(0));
-
+        if(!saleList.isEmpty()) {
+            test2.add(saleList.get(0));
+            test2.add(saleList.get(0));
+            test2.add(saleList.get(0));
+        }
         resultMap.put("count" , counts);
         resultMap.put("list" , test2);
 
@@ -109,6 +110,7 @@ public class MainService {
             returnMap.put("SALE_NO", item.get("SALE_NO"));
             returnMap.put("SALE_KIND", item.get("SALE_KIND_CD").equals("online") || item.get("SALE_KIND_CD").equals("online_zb") ? "ONLINE" : "LIVE" );
             returnMap.put("TITLE_BLOB", item.get("TITLE_BLOB"));
+            returnMap.put("SALE_TH", item.get("SALE_TH") != null ? item.get("SALE_TH") : "");
 
             returnMap.put("D_DAY", item.get("DDAY"));
 
@@ -141,6 +143,8 @@ public class MainService {
             CommonMap returnMap = new CommonMap();
             returnMap.put("SALE_NO", item.get("SALE_NO"));
             returnMap.put("SALE_KIND", item.get("SALE_KIND"));
+            returnMap.put("SHORT_TITLE", "{\"en\": \"en short\", \"ko\":\"ko short\"}");
+            returnMap.put("SALE_TH", item.get("SALE_TH") != null ? item.get("SALE_TH") : "");
             returnMap.put("TITLE_BLOB", item.get("TITLE_BLOB"));
             returnMap.put("FROM_DT", item.get("FROM_DT"));
             returnMap.put("TO_DT", item.get("TO_DT"));

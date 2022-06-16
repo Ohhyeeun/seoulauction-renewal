@@ -67,7 +67,8 @@
                                                                 </div>
                                                                 <div class="btn-area">
                                                                     <button ng-if="il[1][0].CLOSE_YN != 'Y'" class="btn btn_point btn-view-bid" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span >진행경매보기</span></a></button>
-                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray btn-view-bid" type="button" disabled><span>경매 종료</span></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')"  class="btn btn_gray btn-view-bid" type="button" ><span>경매 종료</span></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')"  class="btn btn_gray_line btn-view-result" type="button" ><span>경매결과보기</span></button>
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in il[1]">
@@ -96,6 +97,9 @@
                                                                 </div>
                                                             </dd>
                                                         </dl>
+                                                        <div class="data-empty" ng-if="inteLotCnt == 0">
+                                                           <p class="txt_empty">관심작품이 존재하지 않습니다.</p>
+                                                        </div>
                                                     </div>
                                                     <div class="wrap_paging" ng-if="inteLotCnt != 0">
 														<paging page="currentPage"
@@ -157,7 +161,6 @@
 -->
 
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 
 

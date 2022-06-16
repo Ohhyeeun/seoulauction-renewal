@@ -145,8 +145,6 @@
                                                 <div class="btn-box">
                                                     <a href="#" title="" class="sns_share js-sns_share" id>
                                                         <i class="icon-view_sns"></i></a>
-
-
                                                     <div class="sns_layer-area">
                                                         <div class="sns-layer">
                                                             <div class="sns-item">
@@ -155,10 +153,10 @@
                                                                     <div class="txt"><span>카카오톡</span></div>
                                                                 </button>
                                                             </div>
-                                                            <div class="sns-item">
+                                                            <div class="sns-item" ng-click="urlCopy();">
                                                                 <button class="js-share_url">
                                                                     <i class="icon-share_url_copy"></i>
-                                                                    <div class="txt" ng-click="urlCopy();"><span>URL 복사</span></div>
+                                                                    <div class="txt"><span>URL 복사</span></div>
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -282,12 +280,7 @@
 <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
 <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<!-- [0516]삭제
-<script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
--->
 
 <!-- visual swiper -->
 
@@ -360,7 +353,6 @@
         $scope.sale_no = "${saleNo}";
         $scope.lot_no = "${lotNo}";
 
-
         // 호출 부
         const getSaleInfo = (saleNo) => {
             try {
@@ -371,7 +363,7 @@
         };
         const getLotInfo = (saleNo, lotNo) => {
             try {
-                return axios.get('/api/auction/lot_info/${saleNo}/${lotNo}');
+                return axios.get('/api/privatesale/lot_info/${saleNo}/${lotNo}');
             } catch (error) {
                 console.error(error);
             }
@@ -385,30 +377,6 @@
             }
         };
 
-        const getLotArtistOtherLots = (saleNo, lotNo) => {
-            try {
-                return axios.get('/api/auction/lot_artist_other_lots');
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        const getLotCustomer = (saleNo, lotNo) => {
-            try {
-                return axios.get('/api/auction/get_customer_by_cust_no');
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        const getSaleCertInfo = (saleNo, lotNo) => {
-            try {
-                return axios.get('/api/auction/sale_cert_info');
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
         const getSaleImages = (saleNo, lotNo) => {
             try {
                 return axios.get('/api/auction/sale_images/${saleNo}');
@@ -417,25 +385,6 @@
             }
         }
 
-        const insertRecentlyView =  (saleNo, lotNo) => {
-            try {
-                return axios.post('/api/auction/insertRecentlyView', {
-                    sale_no: saleNo,
-                    lot_no: lotNo,
-                    cust_no: 1
-                });
-            } catch (error) {
-                console.error(error);
-            }
-        }
-
-        const getRecentlyView = (saleNo, lotNo) => {
-            try {
-                return axios.get('/api/auction/recently/${saleNo}/${lotNo}');
-            } catch (error) {
-                console.error(error);
-            }
-        }
 
         $scope.goLot = function (saleNo, lotNo) {
             window.location.href = '/privatesale/exhibitView/' + saleNo + '/' + lotNo;
@@ -468,21 +417,15 @@
         // 호출 부
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3, r4, _, r6] = await Promise.all([getSaleInfo($scope.sale_no),
+                let [r1, r2, r3, r4] = await Promise.all([getSaleInfo($scope.sale_no),
                     getLotInfo($scope.sale_no, $scope.lot_no),
                     getLotImages($scope.sale_no, $scope.lot_no),
-                    getSaleImages($scope.sale_no, $scope.lot_no),
-                    insertRecentlyView($scope.sale_no, $scope.lot_no),
-                    getRecentlyView($scope.sale_no, $scope.lot_no)]);
+                    getSaleImages($scope.sale_no, $scope.lot_no)]);
 
                 $scope.saleInfo = r1.data.data;
                 $scope.lotInfo = r2.data.data;
                 $scope.lotImages = r3.data.data;
                 $scope.saleImages = r4.data.data;
-                let baseFromPrice = '';
-                let baseToPrice = '';
-
-                $scope.recentlyViews = r6.data.data;
 
                 //전시가 처리
                 if($scope.lotInfo.EXHIBITION_PRICE_JSON.length <= 2){
@@ -491,8 +434,6 @@
                     $(".saleprice-area").show();
                     $("#exhibitPrice").html($scope.lotInfo.EXHIBITION_PRICE_JSON);
                 }
-
-
 
                 // popup setting
                 let imgUrl = $scope.lotImages[0].IMAGE_URL +
@@ -504,8 +445,6 @@
                 $("#born_year").html("(" + $scope.lotInfo.BORN_YEAR + ")");
 
                 $("#lot_title").html("LOT " + $scope.lotInfo.LOT_NO);
-                // 시작
-                //startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2, "PKH*****D");
                 $scope.$apply();
 
                 // 카카오 init
@@ -529,14 +468,6 @@
                         sharedCount: 845,
                     },
                 })
-                /*
-                for (let i = 0 ; i < $scope.recentlyViews.length;i++) {
-                    if ($scope.recentlyViews[i].FAVORITE_YN === 'Y'){
-                        //console.log($("#recently_views .js-work_heart").eq(i).addClass("on"));
-                        $("#recently_views .js-work_heart").eq(i).addClass("on");
-                    }
-                }*/
-
                 // swiper
 
                 let view_visual = new Swiper(".js-view_visual .gallery_center", {

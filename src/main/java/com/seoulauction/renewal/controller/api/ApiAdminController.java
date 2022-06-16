@@ -39,4 +39,29 @@ public class ApiAdminController {
 
         return ResponseEntity.ok(RestResponse.ok(adminService.activeSales(map)));
     }
+
+    @GetMapping("/artists/{no}")
+    public ResponseEntity<RestResponse> getArtistByNo(
+            @RequestHeader(value = "Authorization") String auth,
+            @PathVariable("no") int no) {
+
+        if(!ADMIN_TOKEN.equals(auth)){
+            throw new SAException("인증 토큰이 올바르지 않습니다.");
+        }
+
+
+        return ResponseEntity.ok(RestResponse.ok(adminService.getArtistByNo(new CommonMap("no" , no))));
+    }
+
+    @GetMapping("/codes")
+    public ResponseEntity<RestResponse> getCodes(
+            @RequestHeader(value = "Authorization") String auth,
+            @RequestParam(value = "grp_id", defaultValue = "nation") String grp_id) {
+
+        if(!ADMIN_TOKEN.equals(auth)){
+            throw new SAException("인증 토큰이 올바르지 않습니다.");
+        }
+
+        return ResponseEntity.ok(RestResponse.ok(adminService.getCode(new CommonMap("grp_id" , grp_id))));
+    }
 }
