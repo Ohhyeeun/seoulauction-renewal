@@ -621,13 +621,14 @@
                ifnull(e.SUFFIX, '')                SUFFIX,
                ifnull(e.MIX_CD, 'h')               MIX_CD,
                ifnull(e.CANVAS_EXT_YN, 'N')        CANVAS_EXT_YN,
-               f.CD_NM,
+               f.CD_NM CD_NM,
                COLUMN_JSON(b.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON,
                COLUMN_JSON(b.EXPE_PRICE_TO_BLOB)   EXPE_PRICE_TO_JSON,
                IFNULL(g.DEL_YN,'Y') FAVORITE_YN, /*N 이면 좋아요가 있음. Y면 좋아요가 아님.*/
                b.LOT_TAG,
                date_format(a.FROM_DT,'%m.%d(%a)') FROM_DT,
-               date_format(a.TO_DT, '%m.%d(%a)') TO_DT
+               date_format(a.TO_DT, '%m.%d(%a)') TO_DT,
+               a.WWW_DISP_YN DISP_YN
         from sale a
                  inner join lot b on a.SALE_NO = b.SALE_NO
                  inner join lot_img c on b.SALE_NO = c.SALE_NO and b.LOT_NO = c.LOT_NO and c.DISP_ORD = 1

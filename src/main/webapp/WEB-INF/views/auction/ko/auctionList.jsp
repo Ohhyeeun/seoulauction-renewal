@@ -654,6 +654,8 @@
         // 모든 비딩 정보
         $scope.bidsInfoAll = [];
 
+        let w;
+
         // bidstart
         $scope.bidstart = function (user_id, custNo) {
             $scope.retry(parseInt($scope.sale_no), 0, 2, user_id, custNo);
