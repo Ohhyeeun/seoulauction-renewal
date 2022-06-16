@@ -236,7 +236,9 @@
                                                 </div>
                                                 <div class="print-box">
                                                     <button class="print-btn">
-                                                        <i class="icon-view_print"></i>
+                                                        <a href="/auction/view/print/{{lotInfo.SALE_NO}}/{{lotInfo.LOT_NO}}" target="_blank">
+                                                            <i class="icon-view_print"></i>
+                                                        </a>
                                                     </button>
                                                 </div>
                                             </div>
@@ -830,7 +832,7 @@
             }
         };
 
-        const getSaleImages = (saleNo, lotNo) => {
+        const getSaleImages = (saleNo,d lotNo) => {
             try {
                 return axios.get('/api/auction/sale_images/${saleNo}');
             } catch (error) {
@@ -939,7 +941,7 @@
         // 호출 부
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3, r4, _, r6] = await Promise.all([getSaleInfo($scope.sale_no),
+                let [r1, r2, r3, r4, , r6] = await Promise.all([getSaleInfo($scope.sale_no),
                     getLotInfo($scope.sale_no, $scope.lot_no),
                     getLotImages($scope.sale_no, $scope.lot_no),
                     getSaleImages($scope.sale_no, $scope.lot_no),
@@ -950,6 +952,7 @@
                 $scope.lotInfo = r2.data.data;
                 $scope.lotImages = r3.data.data;
                 $scope.saleImages = r4.data.data;
+
                 $scope.estimatedRange = $scope.lotInfo.BASE_EXPE_FROM_PRICE + ' ~ '
                     + $scope.lotInfo.BASE_EXPE_TO_PRICE;
 

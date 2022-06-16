@@ -218,9 +218,11 @@
                                                     <span>작품문의 02-395-0330</span>
                                                 </div>
                                                 <div class="print-box">
-                                                    <button class="print-btn">
-                                                        <i class="icon-view_print"></i>
-                                                    </button>
+                                                    <a href="/auction/view/print/{{lotInfo.SALE_NO}}/{{lotInfo.LOT_NO}}" target="_blank">
+                                                        <button class="print-btn">
+                                                            <i class="icon-view_print"></i>
+                                                        </button>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </article>
