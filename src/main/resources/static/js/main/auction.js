@@ -29,7 +29,7 @@ $(document).ready(function(){
                     //TODO 인클루드 작업.
                     $.each(auctionData , function(idx , el){
 
-                        let title = JSON.parse(el.TITLE_BLOB);
+                        let title = JSON.parse(el.SHORT_TITLE);
                         let name = locale === 'ko' ? title.ko : title.en;
 
                         //sale html
