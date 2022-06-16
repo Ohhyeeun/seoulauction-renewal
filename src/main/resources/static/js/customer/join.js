@@ -104,7 +104,7 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 				if(response.data.success == true){
 					var expire = new Date();
 					expire.setDate(expire.getDate() + 30);
-					document.cookie = 'recentSocialType=' + socialType + '; path=/; expires=' + expire.toGMTString() + ';';
+					document.cookie = 'recentSocialType=' + data.social_type + '; path=/; expires=' + expire.toGMTString() + ';';
 					location.href = "/";
 				}else{
 					alert("로그인에 실패하였습니다.")
@@ -1063,9 +1063,9 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 //			console.log($scope.emailValid ? '이메일통과' : '이메일실패');  console.log($scope.compManNameValid ? '업무담당자통과' : '업무담당자실패');
 //			console.log($scope.addrValid ? '주소통과' : '주소실패'); console.log($scope.fileValid ? '파일통과' : '파일실패');  
 //			console.log($scope.bidValid ? '응찰여부통과' : '응찰여부실패'); console.log($scope.countryValid ? '국가통과' : '국가실패'); console.log($scope.addrValidEn ? '외국주소통과' : '외국주소실패');
-			alert("필수항목을 모두 입력해 주세요.");
 			if($scope.isPerson()){
 				if($scope.langType == 'ko'){
+					alert("필수항목을 모두 입력해 주세요.");
 					if($scope.isSocial()){ 
 						//내국소셜회원 필수 필드 : 이름/휴대폰번호/이메일/주소
 						if(!$scope.nameValid) $("#cust_name").focus();
@@ -1082,6 +1082,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 						else if(!$scope.addrValid) $("#addr_dtl").focus();
 					}
 				}else if($scope.langType == 'en'){
+					alert("Fill additional information below.")
 					if($scope.isSocial()){ 
 						//외국소셜회원 필수 필드 : 이름/이메일/국가/주소/입찰여부/신분증/증빙서류
 						if(!$scope.nameValid) $("#cust_name").focus();
@@ -1101,6 +1102,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 					}
 				}
 			}else {
+				alert("필수항목을 모두 입력해 주세요.");
 				//사업자회원 필수 필드 : 아이디/비밀번호/업체명/사업자등록번호/업무담당자/사업자등록증/휴대폰번호/전화번호/이메일/주소
 				if(!$scope.idValid) $("#login_id").focus();
 				else if(!$scope.passwdValid) $("#passwd").focus(); 

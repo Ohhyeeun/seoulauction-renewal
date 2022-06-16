@@ -250,7 +250,7 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
                                                             <span class="trp checkbox-box address_text2">
                                                                 <input id="copyAddrChk" type="checkbox" onclick="copyAddr()">
                                                                 <i></i>
-                                                                <label for="checkbox1">주소와 동일한 경우 체크해 주세요.</label>
+                                                                <label for="copyAddrChk">주소와 동일한 경우 체크해 주세요.</label>
                                                             </span>
                                                             <div class="input-group">
                                                                 <input type="text" name="deli_zipno" id="deli_zipno" class="form-control" value="" placeholder="" readonly>

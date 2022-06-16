@@ -43,10 +43,9 @@
 			                            </div>
 			                            <div class="checkbox_wrap">
 			                                <span class="trp checkbox-box">
-			                                    <input id="checkbox1" type="checkbox" name="">
-			                                    <input type="checkbox" id="remember-me" name="remember-me" />
+			                                    <input id="checkedID" type="checkbox" name="checkedID">
 			                                    <i></i>
-			                                    <label for="checkbox1" class="tb1">Stay logined in</label>
+			                                    <label for="checkedID" class="tb1">Save ID</label>
 			                                </span>
 			                            </div>
 			                            <div ng-show="captchaShow">
