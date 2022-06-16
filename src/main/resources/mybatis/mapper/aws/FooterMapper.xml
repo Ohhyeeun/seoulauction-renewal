@@ -6,7 +6,7 @@
         SELECT
             *
         FROM
-            FAQS
+            faq
         WHERE
             IS_OPEN = 'Y'
             AND STATUS = 'A'
@@ -20,7 +20,7 @@
         SELECT
             *
         FROM
-            CONTENT_PRESS
+            content_press
         WHERE
             STATUS = 'A'
         ORDER BY
@@ -29,11 +29,11 @@
             #{offset} , #{size}
     </select>
     <!--채용 공고 -->
-    <select id="selectRecruit" parameterType="CommonMap" resultType="CommonMap">
+    <select id="selectRecruits" parameterType="CommonMap" resultType="CommonMap">
         SELECT
             *
         FROM
-            RECRUIT
+            recruit
         WHERE
             STATUS = 'A'
             AND IS_OPEN = 'Y'
@@ -45,11 +45,11 @@
             #{offset} , #{size}
     </select>
     <!--공지 사항 -->
-    <select id="selectNotice" parameterType="CommonMap" resultType="CommonMap">
+    <select id="selectNotices" parameterType="CommonMap" resultType="CommonMap">
         SELECT
             *
         FROM
-            NOTICE
+            notice
         WHERE
             STATUS = 'A'
             AND IS_OPEN = 'Y'

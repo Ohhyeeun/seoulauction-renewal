@@ -217,10 +217,10 @@
                                         <div class="paging">
                                             <a href="#" class="prev_end icon-page_prevprev">FIRST</a><a href="#" class="prev icon-page_prev">PREV</a>
                                             <strong class="on">1</strong>
-                                            <a href="#"><em>2</em></a>
-                                            <a href="#"><em>3</em></a>
-                                            <a href="#"><em>4</em></a>
-                                            <a href="#"><em>5</em></a>
+                                                <a href="#"><em>2</em></a>
+                                                <a href="#"><em>3</em></a>
+                                                <a href="#"><em>4</em></a>
+                                                <a href="#"><em>5</em></a>
                                             <span class="pc-ver">
                                                 <a href="#"><em>6</em></a>
                                                 <a href="#"><em>7</em></a>
@@ -317,9 +317,7 @@
 -->
 
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
-
+    <script src="/js/footer/notice.js" type="text/javascript"></script>
 
 
 

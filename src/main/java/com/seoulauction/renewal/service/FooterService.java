@@ -17,19 +17,19 @@ public class FooterService {
 
 
     public List<CommonMap> getFaqList(CommonMap map){
-        return null;
+        return footerMapper.selectFaqs(map);
     }
 
     public List<CommonMap> getBoardMediaList(CommonMap map){
-        return null;
+        return footerMapper.selectContentPress(map);
     }
 
     public List<CommonMap> getBoardIncruitList(CommonMap map){
-        return null;
+        return footerMapper.selectRecruits(map);
     }
 
     public List<CommonMap> getBoardNoticeList(CommonMap map){
-        return null;
+        return footerMapper.selectNotices(map);
     }
 
 

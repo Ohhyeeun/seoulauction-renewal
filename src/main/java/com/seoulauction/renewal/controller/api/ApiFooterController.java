@@ -1,6 +1,8 @@
 package com.seoulauction.renewal.controller.api;
 
 import com.seoulauction.renewal.common.RestResponse;
+import com.seoulauction.renewal.common.SAConst;
+import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.service.FooterService;
 import lombok.RequiredArgsConstructor;
@@ -18,26 +20,34 @@ public class ApiFooterController {
 
     @GetMapping(value="/faqs")
     public ResponseEntity<RestResponse> faqs(
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size
     ) {
-        return ResponseEntity.ok(RestResponse.ok(footerService.getFaqList(null)));
+        return ResponseEntity.ok(RestResponse.ok(footerService.getFaqList(CommonMap.create(page,size))));
     }
 
-    @GetMapping(value="/boardMedias")
+    @GetMapping(value="/medias")
     public ResponseEntity<RestResponse> boardMedias(
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size
     ) {
-        return ResponseEntity.ok(RestResponse.ok(footerService.getBoardMediaList(null)));
+        return ResponseEntity.ok(RestResponse.ok(footerService.getBoardMediaList(CommonMap.create(page,size))));
     }
 
-    @GetMapping(value="/boardNotices")
+    @GetMapping(value="/notices")
     public ResponseEntity<RestResponse> boardNotices(
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size
     ) {
-        return ResponseEntity.ok(RestResponse.ok(footerService.getBoardNoticeList(null)));
+        return ResponseEntity.ok(RestResponse.ok(footerService.getBoardNoticeList(CommonMap.create(page,size))));
     }
 
-    @GetMapping(value="/boardIncruit")
+    @GetMapping(value="/incruit")
     public ResponseEntity<RestResponse> boardIncruit(
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size
     ) {
-        return ResponseEntity.ok(RestResponse.ok(footerService.getBoardIncruitList(null)));
+        return ResponseEntity.ok(RestResponse.ok(footerService.getBoardIncruitList(CommonMap.create(page,size))));
     }
 
 }

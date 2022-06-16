@@ -8,8 +8,8 @@ import java.util.List;
 @Mapper
 public interface FooterMapper {
     List<CommonMap> selectFaqs(CommonMap map);
-    List<CommonMap> selectFaqs(CommonMap map);
-    List<CommonMap> selectFaqs(CommonMap map);
-    List<CommonMap> selectFaqs(CommonMap map);
+    List<CommonMap> selectRecruits(CommonMap map);
+    List<CommonMap> selectNotices(CommonMap map);
+    List<CommonMap> selectContentPress(CommonMap map);
 
 }
