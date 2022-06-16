@@ -187,7 +187,7 @@
                                                         <button class="btn btn_black btn_lg" type="button" ng-click="goInquery();"><span>1:1 문의하기</span></button>
                                                     </div>
                                                     <div class="btn-box">
-                                                        <button class="print-btn" ng-click="print();">
+                                                        <button class="print-btn" ng-click="print(lotInfo.SALE_NO, lotInfo.LOT_NO);">
                                                             <i class="icon-view_print"></i>
                                                         </button>
                                                     </div>
@@ -459,10 +459,8 @@
             window.location.href = '/privatesale/exhibit/first';
         }
 
-        $scope.print = function () {
-            $("header").hide();
-            window.print();
-            $("header").show();
+        $scope.print = function (saleNo, lotNo) {
+            window.location.href = '/auction/view/print/' + saleNo + '/' + lotNo;
         }
 
         $scope.urlCopy = function () {
