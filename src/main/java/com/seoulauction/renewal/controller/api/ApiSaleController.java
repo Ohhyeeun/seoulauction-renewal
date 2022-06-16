@@ -257,6 +257,9 @@ public class ApiSaleController {
             if (lotInfoMap.get("IMG_DISP_YN").equals("N")) {
                 lotImagesNewItem.put("FILE_PATH", "/images/bg/no_image.jpg");
             }
+            lotImagesNewItem.put("UNIT_CD", lotInfoMap.get("UNIT_CD"));
+            lotImagesNewItem.put("SIZE1", lotInfoMap.get("SIZE1"));
+            lotImagesNewItem.put("SIZE2", lotInfoMap.get("SIZE2"));
             lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
             lotImagesNew.add(lotImagesNewItem);
         }
