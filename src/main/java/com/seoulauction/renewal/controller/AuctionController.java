@@ -154,4 +154,9 @@ public class AuctionController {
         model.addAttribute("saleNo", saleNo);
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "scheduledView" , locale);
     }
+
+    @GetMapping("/info")
+    public String info(Locale locale) {
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION, "info", locale);
+    }
 }
