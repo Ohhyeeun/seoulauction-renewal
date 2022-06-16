@@ -136,15 +136,17 @@
                                         <div class="video_area">
                                             <div class="view_box">
                                                 <!-- Youtube -->
-                                                <a href="#" class="video_wrap">
+                                                <video id="llnw-rts-subscriber" width="582" height="331" autoplay controls muted>
+                                                </video>
+                                                <!--a href="#" class="video_wrap">
                                                         <span class="video_thumbnail_wrap">
                                                             <span class="video_thumbnail"
                                                                   style="background-image: url(/images/temp/temp_video_bg.jpg)"></span>
                                                             <div class="" id="thevideo"></div>
-                                                            <!-- <iframe  src="https://www.youtube-nocookie.com/embed/IwATrgHOefo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+                                                            <iframe  src="https://www.youtube-nocookie.com/embed/IwATrgHOefo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                                         </span>
                                                     <span class="ic_video_play"></span>
-                                                </a>
+                                                </a> -->
                                             </div>
                                             <div class="view_info">
                                                 <p class="view_count">
@@ -919,5 +921,6 @@
         });
     </script>
 </div>
+<script src="/js/simple.js?ver=1.0.0"></script>
 </body>
 </html>
