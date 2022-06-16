@@ -126,6 +126,8 @@ public class ApiSaleController {
         //String saleTitle = saleInfoMap.getString("")
 
         lotInfoMap.put("SALE_TITLE_JSON" , saleInfoMap.get("TITLE_JSON"));
+        lotInfoMap.put("LOT_EXPIRE_DATE_DAY" , saleInfoMap.get("LOT_EXPIRE_DATE_DAY"));
+        lotInfoMap.put("LOT_EXPIRE_DATE_TIME_T" , saleInfoMap.get("LOT_EXPIRE_DATE_TIME_T"));
 
         // sub 화폐
         String subCurrCd = String.valueOf(baseCurrency.get(currCd));
