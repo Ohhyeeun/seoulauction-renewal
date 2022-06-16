@@ -20,17 +20,15 @@
                         <div class="padding-inner">
                             <article class="auction_head_info-article">
                                 <div class="center-box ing">
-                                    <h2 class="page_title"><span class="th1"
-                                                                 ng_bind="saleInfo[0].SALE_TITLE_JSON.ko"></span>
+                                    <h2 class="page_title"><span class="th1">{{sale.TITLE_JSON['ko']}}</span>
                                     </h2>
                                     <ul class="event_day-list">
-                                        <li><span class="colorB2">프리뷰</span><span class=""> : {{saleInfo[0].FROM_DT}} - {{saleInfo[0].TO_DT}}</span>
+                                        <li><span class="colorB2">프리뷰</span><span class=""> : {{sale.PREV_FROM_DT | date:'MM.dd'+'('+getWeek(sale.PREV_FROM_DT)+')'}} - {{sale.PREV_TO_DT| date:'MM.dd'+'('+getWeek(sale.PREV_TO_DT)+')'}}</span>
                                         </li>
-                                        <li><span class="colorB2">경매일</span><span
-                                                class=""> : {{saleInfo[0].TO_DT}}</span></li>
+                                        <li><span class="colorB2">경매일</span><span class=""> : {{sale.TO_DT | date:'MM.dd'+'('+getWeek(sale.TO_DT)+')'}}</span></li>
                                     </ul>
                                     <div class="btn_set">
-                                        <a class="btn btn_white " href="#" role="button"><span>안내사항</span></a>
+                                        <a class="btn btn_white " href="#" target="_blank" ng-href="/notices/{{sale.WRITE_NO}}" role="button" ng-if="sale.WRITE_NO > 0"><span>안내사항</span></a>
                                     </div>
                                 </div>
                             </article>
@@ -275,17 +273,7 @@
 <jsp:include page="popup/auctionBidPopup.jsp" flush="false"/>
 <jsp:include page="popup/auctionConfirmPopup.jsp" flush="false"/>
 
-
-<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-<!--[if lt IE 9]>
-<script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-<!-- [0516]삭제
-<script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
--->
-<script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 
 <!-- 하트 토글 -->
 <script>
@@ -375,7 +363,7 @@
     app.value('is_login', false);
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
 
-    app.controller('ctl', function ($scope, consts, common, is_login, locale) {
+    app.controller('ctl', function ($scope, consts, common, is_login, locale, $filter) {
         $scope.is_login = is_login;
         $scope.locale = locale;
         $scope.sale_no = "${saleNo}";
@@ -615,6 +603,9 @@
                 }
 
                 $scope.pageingdata = p;
+
+                await $scope.setSale($scope.sale_no);
+
                 $scope.$apply();
 
                 $scope.bidstart('${member.loginId}', ${member.userNo});
@@ -1229,6 +1220,45 @@
                 p.push(i);
             }
             return p;
+        }
+
+        $scope.setSale = async function (saleNo) {
+            await axios.get('/api/auction/sales/' + saleNo)
+                .then(function (response) {
+                    if (response.data.success) {
+                        $scope.sale = response.data.data;
+                        $scope.sale.TITLE_JSON = JSON.parse($scope.sale.TITLE_JSON);
+
+                        var S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
+                        var S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
+                        var FROM_DT_D = $filter('date')($scope.sale.FROM_DT, 'yyyyMMdd');
+                        var TO_DT_D = $filter('date')($scope.sale.TO_DT, 'yyyyMMdd');
+                        var END_DT = $filter('date')($scope.sale.END_DT, 'yyyyMMddHHmm');
+                        var LIVE_START_DT = $filter('date')($scope.sale.LIVE_BID_DT, 'yyyyMMddHHmm');
+                        // 오프라인 경매인 경우에는 SALE.TO_DT는 YYYY.MM.DD로 체크. 비교 서버시간은 S_DB_NOW_D (YDH. 2016.10.05)
+
+                        //라이브 응찰 시간 체크
+                        $scope.liveEnd = TO_DT_D;
+                        $scope.nowTime = S_DB_NOW_D;
+                        $scope.liveStartDt = LIVE_START_DT;
+                        $scope.liveCheckDt = S_DB_NOW;
+
+                        if (FROM_DT_D > S_DB_NOW_D && TO_DT_D > S_DB_NOW_D) {
+                            $scope.sale_status = "READY";
+                        } else if (FROM_DT_D <= S_DB_NOW_D && $scope.sale.CLOSE_YN != 'Y') {
+                            $scope.sale_status = "ING";
+                        } else {
+                            $scope.sale_status = "END";
+
+                            if (sessionStorage.getItem("is_login") === 'false') {
+                                alert("권한이 없거나 허용되지 않은 접근입니다.");
+                                //history_back();
+                            }
+                        }
+
+                        $scope.$apply();
+                    }
+                });
         }
     });
 </script>
