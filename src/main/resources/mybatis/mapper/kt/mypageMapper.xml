@@ -9,10 +9,10 @@
 		, DATE_FORMAT(CP.VALID_FROM_DT, '%d %b, %Y') as  VALID_FROM_DT_EN
 		, DATE_FORMAT(CP.VALID_TO_DT, '%Y.%m.%d')  as VALID_TO_DT
 		, DATE_FORMAT(CP.VALID_TO_DT, '%d %b, %Y')  as VALID_TO_DT_EN
-		, DATE_FORMAT(P.PAY_DT, '(%a) %d %b, %T')  as PAY_DT_EN
+		, DATE_FORMAT(P.PAY_DT, '%d %b, %Y')  as PAY_DT_EN
 		, P.PAY_METHOD_CD
 		, P.PAY_PRICE
-		, DATE_FORMAT(P.PAY_DT, '%m.%d') payDate
+		, DATE_FORMAT(P.PAY_DT, '%Y.%m.%d') as PAY_DT
 		,CASE DAYOFWEEK(P.PAY_DT)
 			WHEN '1' THEN '일'
 			WHEN '2' THEN '월'
@@ -134,7 +134,7 @@
 					WHEN '7' THEN '토'
 				END AS BIDWEEKDT
 				, DATE_FORMAT(B.BID_DT, '%T') as BIDTIME
-				, DATE_FORMAT(B.BID_DT, '(%a) %d %b, %Y %T')  as BID_DT_EN
+				, DATE_FORMAT(B.BID_DT, '%d %b, %Y %T')  as BID_DT_EN
 				, DATE_FORMAT(P.PAY_DT, '(%a) %d %b, %Y %T')  as PAY_DT_EN
 				, B.CUST_NO BID_CUST_NO
 				, P.CUST_NO PAY_CUST_NO

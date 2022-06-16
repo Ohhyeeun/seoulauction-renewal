@@ -149,7 +149,7 @@
 							                            </div>
 							                            <!-- [0610] 추가 -->
 							                            <div class="right_txt" ng-if="onlineBidHisList[0].ABORT_YN =='N'">
-							                                <span>Highest Bid <em>{{onlineBidHisList[0].CURR_CD}} {{comma(onlineBidHisList[0].BID_PRICE)}}</em></span>
+							                                <span>Automatic bid set price <em>{{onlineBidHisList[0].CURR_CD}} {{comma(onlineBidHisList[0].BID_PRICE)}}</em></span>
 							                            </div>
 							                            <!-- //[0610] 추가 -->
 							                        </div>
@@ -224,7 +224,6 @@
 -->
 
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
 
     <script>

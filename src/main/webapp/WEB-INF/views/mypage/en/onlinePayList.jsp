@@ -109,7 +109,7 @@
                                                                                     <span>{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</span>
                                                                                     <div class="sub">
                                                                                         <span>{{data.BID_DT_EN}} </span>
-                                                                                        <span>({{bidCountToString(data.bid_count)}})</span>
+                                                                                        <!-- <span>({{bidCountToString(data.bid_count)}})</span> -->
                                                                                     </div>
                                                                                 </dd>
                                                                             </dl>
@@ -208,7 +208,6 @@
 -->
 
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
 
 

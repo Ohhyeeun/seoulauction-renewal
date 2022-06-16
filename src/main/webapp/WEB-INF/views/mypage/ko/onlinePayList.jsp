@@ -109,8 +109,8 @@
                                                                                 <dd class="txt">
                                                                                     <span>{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</span>
                                                                                     <div class="sub">
-                                                                                        <span>{{data.BID_DT}} ({{data.BIDWEEKDT}})<br class="m-ver"> {{data.BIDTIME}}</span>
-                                                                                        <span>({{data.bid_count}}회 응찰)</span>
+                                                                                        <span>{{data.BID_DT}} <!-- ({{data.BIDWEEKDT}}) --><br class="m-ver"> {{data.BIDTIME}}</span>
+                                                                                       <!--  <span>({{data.bid_count}}회 응찰)</span> -->
                                                                                     </div>
                                                                                 </dd>
                                                                             </dl>
@@ -208,7 +208,6 @@
 -->
 
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 
 
