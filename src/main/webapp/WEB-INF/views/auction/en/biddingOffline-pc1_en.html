@@ -19,7 +19,7 @@
 
 <body>
     <div class="wrapper">
-        <div class="sub-wrap pageclass">
+        <div class="sub-wrap pageclass type-bidding">
             <!-- header -->
             <header class="win_header">
                 <div class="header-inner">
@@ -32,10 +32,10 @@
             <!-- container -->
             <div id="container">
                 <div id="contents" class="contents">
+                   
                     <section class="basis-section last-section bidding_offline-section"> 
-                        <div class="section-inner">
-
-                            <div class="section-header">
+                        <div class="section-inner"> 
+                            <div class="section-header"> 
                                 <div class="title-area">
                                     <div class="title">
                                         <span>The 163rd Seoul Auction Art Auction</span>
@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="btn-area pc-ver"> 
                                     <div class="select-box">
-                                        <select class="" id="">
+                                        <select class="js-money_help" id="" onchange="selectCurrency()"> 
                                             <option value="1">KRW</option>
                                             <option value="2">USD</option>
                                             <option value="3">USD3</option>
@@ -501,7 +501,6 @@
                                 
                                 <!-- 모바일 화면 -->
                                     <div class="bidding_mo">
-
                                     <div class="bidding-offline-wrap">
                                         <article class="bidding-offline-center">
                                             <div class="notice">
@@ -543,7 +542,7 @@
                                                         <div class="type1_info_box">
                                                             <div>
                                                                 <div class="select-box">
-                                                                    <select class="" id="">
+                                                                    <select class="js-money_help" id="" onchange="selectCurrency()"> 
                                                                         <option value="1">KRW</option>
                                                                         <option value="2">USD</option>
                                                                         <option value="3">USD3</option>
@@ -776,7 +775,7 @@
                 </div>
                 
                 <!-- 전체 LOT 보기 -->
-                <aside class="allview_fixed-wrap"> 
+                <aside class="allview_fixed-wrap m-ver"> 
                     <div class="popup-dim"></div>
                     <div class="fixed-panel">
                         <div class="panel-header">
@@ -969,7 +968,54 @@
                     </div> 
                 </aside>
             </div>
-            <!-- //container -->
+            <!-- //container --> 
+            
+            <!-- 통화안내 --> 
+            <div id="money_help-wrap" class="trp popupfixed-wrap auction_info-popup  ">
+                <div class="popup-dim"></div>
+                <div class="popup-align mode-ms mode-mb_center">
+                    <div class="popup-vertical">
+                        <div class="popup-layer">
+
+                            <div class="pop-panel">
+                                <div class="pop-header">
+                                    <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                                </div>
+                                <div class="pop-body scroll-type">
+                                    <section class="section" style="display: block;">
+                                        <article class="auction_info-article">
+                                            <div class="img">
+                                                <img class="only_ib-pc" src="/images/pc/auction/symbol-none_data.png" alt="안내" />
+                                                <img class="only_ib-mb" src="/images/pc/auction/symbol-none_data.png" alt="안내" />
+                                            </div>
+                                            <div class="title"><span>SEOULAUCTION Guide</span></div>
+                                            <div class="gray-box">
+                                                <ul class="mark_dot-list">
+                                                    <li>Currencies other than Korean Won (KRW) are provided for reference for overseas bidders.</li>
+                                                    <li>All bids and payments are made in Korean Won (KRW).</li>
+                                                    <li>Seoul Auction is not responsible for any differences or mistakes in the exchange rate application process.</li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="check-box">
+                                                <span class="trp checkbox-box">
+                                                    <input id="checkbox_check" type="checkbox" name="">
+                                                    <i></i>
+                                                    <label for="checkbox_check">Agree</label>
+                                                </span>
+                                            </div>
+                                            <div class="btn_set-float tac">
+                                                <button class="btn btn_point js-checkbox_check" disabled><span>Confirm</span></button>
+                                            </div>
+                                        </article>
+                                    </section>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div> 
             
              
             <!-- stykey -->
@@ -1029,9 +1075,33 @@
             $($this).removeClass("on");
             $($this).closest(".allview_fixed-wrap").removeClass("active");
         });
-    </script> 
+        
+        /* 통화 전환 시 */
+        function selectCurrency(){
+            const Currency = document.getElementsByName('js-money_help'); 
 
+            var money_help = $(".js-money_help").trpLayerFixedPopup("#money_help-wrap"); 
+            $(money_help.getBtn).on("click", function($e) {
+                $e.preventDefault();
+                money_help.open(this); // or false   
+                popup_fixation("#money_help-wrap"); 
+            }); 
 
+            $("body").on("click", "#money_help-wrap .js-closepop, #money_help-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                money_help.close();
+            });
+
+            $("#checkbox_check").on("change", function($e) {
+                console.log(" $(this).val() >>>", $(this).prop("checked"))
+                if ($(this).prop("checked")) {
+                    $(".js-checkbox_check").prop("disabled", false);
+                } else {
+                    $(".js-checkbox_check").prop("disabled", true);
+                }
+            });   
+        } 
+    </script>   
 </body>
 
 </html>
