@@ -1142,12 +1142,15 @@ SELECT 'INTE_LOT' AS GUBUN
 	<select id="selectArtistByArtistName" resultType="CommonMap">
 		select * from(
 		    select ARTIST_NO
-		    	, COLUMN_GET(ARTIST_NAME_BLOB, 'ko' AS CHAR) AS ARTIST_NM
+		    	, COLUMN_GET(ARTIST_NAME_BLOB, 'ko' AS CHAR) AS ARTIST_NM_KO
+		    	, COLUMN_GET(ARTIST_NAME_BLOB, 'en' AS CHAR) AS ARTIST_NM_EN
 		    	, BORN_YEAR 
 		    	, DIE_YEAR  
 		    from artist a
 		)tmp 
-		where tmp.ARTIST_NM like concat('%', #{find_word}, '%')
+		where 1 = 1
+			and tmp.ARTIST_NM_KO like concat('%', #{find_word}, '%') 
+			or tmp.ARTIST_NM_EN like concat('%', #{find_word}, '%')
 	</select>
 	
 	<update id="updateCust" parameterType="CommonMap">
@@ -1181,6 +1184,10 @@ SELECT 'INTE_LOT' AS GUBUN
 				COMP_OWNER = #{comp_owner},
 				COMP_NO = #{comp_no},
 				TEL = #{tel},
+			</if>
+			
+			<if test="local_kind_cd == 'foreigner'"> <!-- 해외 -->
+				NATION_CD = #{nation_cd},
 			</if>
 			MOD_DT = now()
 		where CUST_NO = #{cust_no}

@@ -3,71 +3,13 @@ var langType = document.documentElement.lang;
 var bornDtValid, sexCdValid, hpValid, emailValid, addrValid, countryValid = false;
 var compNoValid, compManNameValid = false; 
 var oldHp, oldCompNo, oldEmail = '';
-var artistList, inteArtistList = [];
+var nationList, artistList, inteArtistList = [];
 var inteArtistJson = {};
 $(window).on("load", function() {
 	if(socialYn == 'Y'){
        document.getElementById('snsImg').src = '/images/common/icon-sns_' + snsFullName() + '.png';
 	}
-});
-
-$(document).ready(function() {
-	var data = {};
 	
-	let interestAreaData = {"grp_ids": ["interest_area"]};
-	axios.post('/api/mypage/interestAreas' , interestAreaData)
-	.then(function(response) {
-	    const result = response.data;
-	    var interestAreaList = result.data;
-		interestAreaList.forEach(function(ele){
-			if (langType == 'ko') {
-				$("#interestAreaList").append("<span class='trp checkbox-box'><input name='inte_area' id='" + ele.CD_ID + "' value='" + ele.CD_ID + "' type='checkbox'><i></i><label for='" + ele.CD_ID + "'>" + ele.CD_NM + "</label></span>");
-			}else{
-				$("#interestAreaList").append("<span class='trp checkbox-box'><input name='inte_area' id='" + ele.CD_ID + "' value='" + ele.CD_ID + "' type='checkbox'><i></i><label for='" + ele.CD_ID + "'>" + ele.CD_NM_EN + "</label></span>");
-			}
-		});		
-	    
-	})
-	.catch(function(error){
-	    console.log(error);
-	});
-	
-	
-	let pushWayData = {"grp_ids": ["push_way"]};
-	axios.post('/api/login/pushWays' , pushWayData)
-	.then(function(response) {
-	    const result = response.data;
-	    var pushWayList = result.data;
-		pushWayList.forEach(function(ele){
-			if (langType == 'ko') {
-				$("#pushWayList").append("<span class='trp checkbox-box'><input type='checkbox' name='push_way' id='pushway_" + ele.CD_ID + "' value='" + ele.CD_ID + "'><i></i><label for='checkbox1'>" + ele.CD_NM + "</label>");
-			}else{
-				$("#pushWayList").append("<span class='trp checkbox-box'><input type='checkbox' name='push_way' id='pushway_" + ele.CD_ID + "' value='" + ele.CD_ID + "'><i></i><label for='checkbox1'>" + ele.CD_NM_EN + "</label>");
-			}
-		});		
-	    
-	})
-	.catch(function(error){
-	    console.log(error);
-	});
-	
-	//국가목록 api호출
-	if(langType == 'en'){
-		let data = {"grp_ids": ["nation"]};
-		axios.post('/api/login/nations' , data)
-	    .then(function(response) {
-	        const result = response.data;
-	        var nationList = result.data;
-	        nationList.forEach(function(ele){
-//				$("#nation_cd").append("<option value='" + ele.CD_ID + "|" + ele.CD_VAL3 + "'>" + ele.CD_NM + "</option>");
-				$("#nation_cd").append("<option value='" + ele.CD_ID + "'>" + ele.CD_NM + "</option>");
-			})
-	    })
-	    .catch(function(error){
-	        console.log(error);
-	    });
-	}
-		
 	axios.get('/api/mypage/custs/' + userNo)
 		.then(function(response) {
 			const result = response.data;
@@ -140,10 +82,14 @@ $(document).ready(function() {
 				}
 				if(!undefCheck(data.INTE_ARTIST_LIST)){
 					artistList = data.INTE_ARTIST_LIST;
-					
 					artistList.forEach(function(ele){
 						var tmpJson = JSON.parse(ele.ARTIST_NAME_JSON);
-						var artistName = tmpJson["ko"];
+						var artistName = '';
+						if(langType == 'ko'){
+							artistName = tmpJson["ko"];
+						}else{
+							artistName = tmpJson["en"];
+						}
 						inteArtistList.push(ele.ARTIST_NO);
 						inteArtistJson[ele.ARTIST_NO] = artistName;
 						$("#artistList").append('<li id="artist' + ele.ARTIST_NO + '"><span>' + artistName + '</span><button><i class="icon-filter_del" onclick="deleteArtist(' + ele.ARTIST_NO + ')"></i></button></li>');
@@ -169,7 +115,12 @@ $(document).ready(function() {
 				
 				//해외
 				if(!undefCheck(data.NATION_CD)){
-					$("#nation_cd").val(data.NATION_CD);
+					nationList.forEach(function(ele){
+						if(ele.CD_ID == data.NATION_CD){
+							$("#nation_cd").val(ele.CD_ID + "|" + ele.CD_VAL3);
+							return false;
+						}
+					});
 					$("#select2-nation_cd-container").text($("#nation_cd option:selected").text())
 					countryValid = true;
 				}
@@ -182,6 +133,66 @@ $(document).ready(function() {
 		.catch(function(error) {
 			console.log(error);
 		});
+});
+
+$(document).ready(function() {
+	var data = {};
+	
+	let interestAreaData = {"grp_ids": ["interest_area"]};
+	axios.post('/api/mypage/interestAreas' , interestAreaData)
+	.then(function(response) {
+	    const result = response.data;
+	    var interestAreaList = result.data;
+		interestAreaList.forEach(function(ele){
+			if (langType == 'ko') {
+				$("#interestAreaList").append("<span class='trp checkbox-box'><input name='inte_area' id='" + ele.CD_ID + "' value='" + ele.CD_ID + "' type='checkbox'><i></i><label for='" + ele.CD_ID + "'>" + ele.CD_NM + "</label></span>");
+			}else{
+				$("#interestAreaList").append("<span class='trp checkbox-box'><input name='inte_area' id='" + ele.CD_ID + "' value='" + ele.CD_ID + "' type='checkbox'><i></i><label for='" + ele.CD_ID + "'>" + ele.CD_NM_EN + "</label></span>");
+			}
+		});		
+	    
+	})
+	.catch(function(error){
+	    console.log(error);
+	});
+	
+	
+	let pushWayData = {"grp_ids": ["push_way"]};
+	axios.post('/api/login/pushWays' , pushWayData)
+	.then(function(response) {
+	    const result = response.data;
+	    var pushWayList = result.data;
+		pushWayList.forEach(function(ele){
+			if (langType == 'ko') {
+				$("#pushWayList").append("<span class='trp checkbox-box'><input type='checkbox' name='push_way' id='pushway_" + ele.CD_ID + "' value='" + ele.CD_ID + "'><i></i><label for='checkbox1'>" + ele.CD_NM + "</label>");
+			}else{
+				$("#pushWayList").append("<span class='trp checkbox-box'><input type='checkbox' name='push_way' id='pushway_" + ele.CD_ID + "' value='" + ele.CD_ID + "'><i></i><label for='checkbox1'>" + ele.CD_NM_EN + "</label>");
+			}
+		});		
+	    
+	})
+	.catch(function(error){
+	    console.log(error);
+	});
+	
+	//국가목록 api호출
+	if(langType == 'en'){
+		let data = {"grp_ids": ["nation"]};
+		axios.post('/api/login/nations' , data)
+	    .then(function(response) {
+	        const result = response.data;
+	        nationList = result.data;
+	        nationList.forEach(function(ele){
+				$("#nation_cd").append("<option value='" + ele.CD_ID + "|" + ele.CD_VAL3 + "'>" + ele.CD_NM + "</option>");
+//				$("#nation_cd").append("<option value='" + ele.CD_ID + "'>" + ele.CD_NM + "</option>");
+			})
+	    })
+	    .catch(function(error){
+	        console.log(error);
+	    });
+	}
+		
+	
 });
 
 function snsFullName(){
@@ -205,7 +216,11 @@ function undefCheck(param){
 }
 
 function replaceAll(str, searchStr, replaceStr) {
-   return str.split(searchStr).join(replaceStr);
+	if(undefCheck(str)){
+		return '';
+	}else{
+	   return str.split(searchStr).join(replaceStr);
+	}
 }
 
 //수정 버튼 (비)활성화
@@ -430,6 +445,8 @@ function emailDuplCheck() {
 function changeNation(){
 	if($("#nation_cd").val() != ''){
 		countryValid = true;
+		var sn = $("#nation_cd").val().split("|");
+		$("#hp").val("+" + sn[1]);
 	}else{
 		countryValid = false;
 	}
@@ -572,6 +589,7 @@ function findArtistNewForm(){
 		return;
 	}
     data['find_word'] = findWord;
+    data['langType'] = langType;
     axios.post('/api/mypage/artists' , data)
         .then(function(response) {
             const result = response.data;
@@ -585,9 +603,14 @@ function findArtistNewForm(){
 				$("#artistCnt").html(resultList.length);
 				if(resultList.length > 0){
 					
+					console.log(resultList)
 					$("#artistListBody").html("");
 					resultList.forEach(function(ele){
-						$("#artistListBody").append("<tr><td><span class='trp checkbox-box'><input onclick='setArtist(\"" + ele.ARTIST_NO + "|" + ele.ARTIST_NM + "\")' value='" +  ele.ARTIST_NO + "|" + ele.ARTIST_NM + "' name='artistChk' type='checkbox' id='artistChk" + ele.ARTIST_NO + "' name=''><i></i><label for='checkbox_1'></label></span></td><td class='left_item'>" + replaceAll(ele.ARTIST_NM, findWord, "<em>" + findWord + "</em>") + "</td><td>" + (ele.BORN_YEAR == undefined ? '' : ele.BORN_YEAR) + " ~ " + (ele.DIE_YEAR == undefined ? '' : ele.DIE_YEAR) + "</td></tr>");
+						if(langType == 'ko'){
+							$("#artistListBody").append("<tr><td><span class='trp checkbox-box'><input onclick='setArtist(\"" + ele.ARTIST_NO + "|" + ele.ARTIST_NM_KO + "\")' value='" +  ele.ARTIST_NO + "|" + ele.ARTIST_NM_KO + "' name='artistChk' type='checkbox' id='artistChk" + ele.ARTIST_NO + "' name=''><i></i><label for='checkbox_1'></label></span></td><td class='left_item'>" + replaceAll(ele.ARTIST_NM_KO, findWord, "<em>" + findWord + "</em>") + "</td><td>" + (ele.BORN_YEAR == undefined ? '' : ele.BORN_YEAR) + " ~ " + (ele.DIE_YEAR == undefined ? '' : ele.DIE_YEAR) + "</td></tr>");
+						}else{
+							$("#artistListBody").append("<tr><td><span class='trp checkbox-box'><input onclick='setArtist(\"" + ele.ARTIST_NO + "|" + ele.ARTIST_NM_EN + "\")' value='" +  ele.ARTIST_NO + "|" + ele.ARTIST_NM_EN + "' name='artistChk' type='checkbox' id='artistChk" + ele.ARTIST_NO + "' name=''><i></i><label for='checkbox_1'></label></span></td><td class='left_item'>" + replaceAll(ele.ARTIST_NM_EN, findWord, "<em>" + findWord + "</em>") + "</td><td>" + (ele.BORN_YEAR == undefined ? '' : ele.BORN_YEAR) + " ~ " + (ele.DIE_YEAR == undefined ? '' : ele.DIE_YEAR) + "</td></tr>");
+						}
 					});	
 					
 					inteArtistList.forEach(function(ele){
@@ -739,6 +762,10 @@ function custModify(){
 		formData.set("local_kind_cd", "korean");
 		formData.set("addr", $("#addr").html());
 		formData.set("deli_addr", $("#deli_addr").html());
+	}else{
+		var sn = $("#nation_cd").val().split("|");
+		formData.set("nation_cd", sn[0]);
+		formData.set("local_kind_cd", "foreigner");
 	}
 	if(userKind != 'person'){
 		formData.set("comp_no", replaceAll($("#comp_no").val(), "-", ""));
