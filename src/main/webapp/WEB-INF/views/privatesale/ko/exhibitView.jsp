@@ -447,7 +447,7 @@
         }
 
 
-        $scope.goLot = function (saleNo, lotNo) {
+        $scope.goLot = function (saleNo, lotNo) R{
             window.location.href = '/privatesale/exhibitView/' + saleNo + '/' + lotNo;
         }
 
@@ -460,7 +460,7 @@
         }
 
         $scope.print = function (saleNo, lotNo) {
-            window.location.href = '/auction/view/print/' + saleNo + '/' + lotNo;
+            window.location.href = '/privatesale/exhibitView/print/' + saleNo + '/' + lotNo;
         }
 
         $scope.urlCopy = function () {

@@ -128,6 +128,8 @@
              , IFNULL(L.GUARANTEE_YN, 'Y') GUARANTEE_YN
              , L.ZEROBASE_PRICE_YN
              , COLUMN_JSON(L.EXHIBITION_PRICE_BLOB) EXHIBITION_PRICE_JSON
+             , DATE_FORMAT(L.TO_DT,'%a') LOT_EXPIRE_DATE_DAY
+             , DATE_FORMAT(L.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T
         from LOT L
                  left outer join ARTIST AT
         on AT.ARTIST_NO = L.ARTIST_NO
@@ -317,6 +319,8 @@
                                   '}')
                    ,']') AS LOT_SIZE_JSON
              , COLUMN_JSON(A.PROFILE_BLOB) PROFILE_JSON
+             , DATE_FORMAT(SA.TO_DT,'%a') LOT_EXPIRE_DATE_DAY
+             , DATE_FORMAT(SA.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T
         FROM SALE_AS SA	LEFT OUTER JOIN EMP RE ON RE.EMP_NO = SA.REG_EMP_NO
                            LEFT OUTER JOIN EMP ME ON ME.EMP_NO = SA.MOD_EMP_NO
                            LEFT OUTER JOIN ARTIST A ON A.ARTIST_NO = SA.ARTIST_NO
