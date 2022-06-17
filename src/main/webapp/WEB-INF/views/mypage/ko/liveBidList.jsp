@@ -45,7 +45,7 @@
                                                             <dt>
                                                                 <div class="title-area">
                                                                     <div class="title tt4">
-                                                                          <span>{{liveBid[1][0].SALE_TITLE_KR}}</span>
+                                                                          <span>{{liveBid[1][0].SALE_TH}}{{liveBid[1][0].SALE_TH_DSP}} {{liveBid[1][0].SALE_TITLE_KR}}</span>
                                                                     </div>
                                                                     <div class="sub">
                                                                         <div class="desc tb1">

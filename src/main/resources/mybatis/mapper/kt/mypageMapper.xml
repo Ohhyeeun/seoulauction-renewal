@@ -851,10 +851,12 @@ SELECT 'INTE_LOT' AS GUBUN
 			     , LI.FILE_NAME as LOT_IMG_NAME
 			     , (select count(*) from success_bid sb join bid b on b.BID_NO= sb.BID_NO and b.CUST_NO = #{action_user_no} and sb.SALE_NO= S.SALE_NO) success_bid_count
 			     , L.HAMMER_CANCEL_YN
+			     , IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH
+		  		 , IF(S.SALE_TH_DSP_YN = 'N', '', f_ordinal_number(S.SALE_TH)) SALE_TH_DSP
 		FROM (SELECT PAD.PADD_NO PADDLE, BO.* FROM BID_OFFLINE BO LEFT OUTER JOIN SALE_PADD PAD ON BO.SALE_NO = PAD.SALE_NO AND BO.CUST_NO = PAD.CUST_NO) BIO
 		JOIN (
 		select
-			S.SALE_NO , S.SALE_KIND_CD, S.STAT_CD, S.TITLE_BLOB, S.TO_DT, S.FROM_DT , S.CURR_CD
+			S.SALE_NO , S.SALE_KIND_CD, S.STAT_CD, S.TITLE_BLOB, S.TO_DT, S.FROM_DT , S.CURR_CD, S.SALE_TH_DSP_YN ,S.SALE_TH
 		from
 			BID_OFFLINE BO
 		left outer join SALE_PADD pad on
