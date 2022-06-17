@@ -116,7 +116,7 @@
 
 				//		$d = {"sale_no": $scope.sale.SALE_NO, "hp": $scope.form_data.hp, "done_cd": (is_same_hp ? "no_modify" : "un_modify"), "auth_num": $scope.form_data.auth_num};
 
-				$d = { "auth_num": authNum };
+				$d = { "auth_num": authNum , "to_phone": phone};
 
 				axios.post('/api/cert/confirmAuthNumCheck', $d)
 					.then(function(response) {
@@ -136,7 +136,7 @@
 							messageArea3.innerText = "";
 
 							checkHpAuth.check = true;
-							
+							checkHpAuth.is_same_hp= data.data.is_same_hp;
 							//수정필요
 							//$scope.parent.sale_cert.CNT = 1;
 
@@ -158,18 +158,17 @@
 			saleCertSuccess = function (){
 				if(checkHpAuth.check){
 				//$scope.parent.sale_cert?????? 로그인 사용자의 전화번호오ㅏ 인증전화번호를 비교????(추후 확인필요)
-				//var is_same_hp = (($scope.sale_cert.HP || '').replace(/[^\d]/g, "") == $scope.form_data.hp.replace(/[^\d]/g, ""));
-				var is_same_hp = false;
+				
 
-				$d = { "sale_no": saleNo, "to_phone": phone, "done_cd": (is_same_hp ? "no_modify" : "un_modify")};
+				$d = { "sale_no": saleNo, "to_phone": phone, "done_cd": (checkHpAuth.is_same_hp ? "no_modify" : "un_modify")};
 					
 				axios.post('/api/cert/inertSaleCert', $d)
 				.then(function(response) {
 					const data = response.data;
 					let success = data.success;
 					if(success){
-						//변경필요.
-						if (!is_same_hp) {
+						
+						if (!checkHpAuth.is_same_hp) {
 							if (confirm("고객정보의 핸드폰번호와 일치하지 않습니다.\n인증받은 핸드폰번호로 갱신하시겠습니까?")) {
 								$d = { "hp": phone, "sale_cert_no": data['data']['sale_cert_no'] };
 								axios.post('/api/cert/updateSaleCertHp', $d)

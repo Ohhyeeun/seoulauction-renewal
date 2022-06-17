@@ -18,8 +18,12 @@ public interface CertificationMapper {
 
     int inertSaleCert(CommonMap commonMap);
    
+    int updateCustHp(CommonMap commonMap);
+
     int updateSaleCertHp(CommonMap commonMap);
 
     int updateCustForForeAuth(CommonMap commonMap);
+
+    CommonMap selectCustHpByCustNo(CommonMap commonMap);
 
 }

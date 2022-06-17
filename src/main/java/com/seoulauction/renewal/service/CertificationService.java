@@ -44,10 +44,19 @@ public class CertificationService {
     }
     
     public int updateSaleCertHp(CommonMap commonMap){
-    	return certificationMapper.updateSaleCertHp(commonMap);
+    	int result = certificationMapper.updateCustHp(commonMap);
+    	if(result > 0) {
+    		result = certificationMapper.updateSaleCertHp(commonMap);	
+    	}  	
+    	return result;
+    }
+
+    public CommonMap selectCustHpByCustNo(CommonMap commonMap){
+    	return certificationMapper.selectCustHpByCustNo(commonMap);
     }
     
     public int updateCustForForeAuth(CommonMap commonMap){
     	return certificationMapper.updateCustForForeAuth(commonMap);
     }
+    
 }

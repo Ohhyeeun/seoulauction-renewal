@@ -62,36 +62,43 @@
                                                             <dt>
                                                                 <div class="title-area">
                                                                     <div class="title tt4">
-                                                                        <span>{{il[1][0].SALE_TITLE_KO}}</span>
+                                                                        <span>{{il[1][0].SALE_TH}}{{il[1][0].SALE_TH_DSP}} {{il[1][0].SALE_TITLE_KO}}</span>
                                                                     </div>
                                                                 </div>
                                                                 <div class="btn-area">
-                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y'" class="btn btn_point btn-view-bid" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span >진행경매보기</span></a></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')" class="btn btn_point btn-view-bid" type="button"><a href="/auction/list/{{il[1][0].SALE_NO}}"><span >진행경매보기</span></a></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')" class="btn btn_point btn-view-bid" type="button"><a href="/auction/live/list/{{il[1][0].SALE_NO}}"><span >진행경매보기</span></a></button>
                                                                     <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')"  class="btn btn_gray btn-view-bid" type="button" ><span>경매 종료</span></button>
-                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')"  class="btn btn_gray_line btn-view-result" type="button" ><span>경매결과보기</span></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')"  class="btn btn_gray_line btn-view-result" type="button" ><a href="/auction/live/list/{{il[1][0].SALE_NO}}"><span>경매결과보기</span></a></button>
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in il[1]">
                                                                 <div class="product-infobox">
-                                                                    <button class="btn-heart js-work_heart on" ng-click="inteDel(data.SALE_NO, data.LOT_NO)"><i class="icon-heart_off"></i></button>
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                 <img src="/nas_img{{data.FILE_PATH}}/{{data.FILE_NAME}}" />
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">{{data.LOT_NO}}</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">{{data.ARTIST_NAME_KO}}</div>
+                                                                    <div class="product-infobox-inner">
+                                                                        <button class="btn-heart js-work_heart on" ng-click="inteDel(data.SALE_NO, data.LOT_NO)"><i class="icon-heart_off"></i></button>
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <div class="img-align">
+                                                                                    <img src="/nas_img{{data.FILE_PATH}}/{{data.FILE_NAME}}" alt="">
+                                                                                </div>
+                                                                            </figure>
                                                                         </div>
-                                                                        <div class="desc">{{data.TITLE_KO}}</div>
-                                                                        <div class="sub-box">
-                                                                            <div class="sub-li">
-                                                                                <div class="tit">추정가</div>
-                                                                                <div class="txt"><span>KRW {{comma(data.EXPE_PRICE_FROM_KO)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_KO)}}</span></div>
+                                                                        <div class="text-area">
+                                                                            <div class="num">{{data.LOT_NO}}</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">{{data.TITLE_KO}}</div>
                                                                             </div>
+                                                                            <div class="desc">{{data.ARTIST_NAME_KO}}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pay-infobox">
+                                                                    <div class="pay-infobox-inner">
+                                                                        <div class="pay-area">
+                                                                            <dl class="price">
+                                                                                <dt class="tit">추정가</dt>
+                                                                                <dd class="txt"><span>KRW {{comma(data.EXPE_PRICE_FROM_KO)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_KO)}}</span></dd>
+                                                                            </dl>
                                                                         </div>
                                                                     </div>
                                                                 </div>
