@@ -45,7 +45,7 @@
                                                             <dt>
                                                                 <div class="title-area">
                                                                     <div class="title tt4">
-                                                                        <span>{{liveBidReq[1][0].SALE_TITLE_EN}}</span>
+                                                                        <span>{{liveBidReq[1][0].SALE_TH}}{{liveBidReq[1][0].SALE_TH_DSP}} {{liveBidReq[1][0].SALE_TITLE_EN}}</span>
                                                                     </div>
                                                                     <div class="desc tb1">
                                                                         <span class="tit">Auction Date</span>

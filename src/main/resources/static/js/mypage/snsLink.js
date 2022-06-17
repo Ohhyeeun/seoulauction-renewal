@@ -10,10 +10,15 @@ $(document).ready(function() {
 				var resultList = result.data;
 				for(var r of resultList){
 					var type = r.SOCIAL_TYPE;
-					$("#" + type + "RegDt").html(r.REG_DT + " 연동");
+					if(langType == 'ko'){
+						$("#" + type + "RegDt").html(r.REG_DT + " 연동");
+						$("#" + type + "Button > span").html('연동해제');
+					}else{
+						$("#" + type + "RegDt").html(r.REG_DT);
+						$("#" + type + "Button > span").html('Activated');
+					}
 					$("#" + type + "Button").removeClass('btn_point');
 					$("#" + type + "Button").addClass('btn_gray_line');
-					$("#" + type + "Button > span").html('연동해제');
 					eval(type + "LinkYn = true");
 					console.log(type + "LinkYn : " + eval(type + "LinkYn"));
 				}
@@ -36,17 +41,27 @@ function snsLink(socialType, socialEmail) {
 	data['social_email'] = socialEmail;
 	axios.post('/api/mypage/snsLink', data)
 		.then(function(response) {
+			console.log(response);
 			const result = response.data;
 			if(result.success == true){
 				const data = result.data;
-				$("#" + data.social_type + "RegDt").html(data.reg_dt + " 연동");
+				if(langType == 'ko'){
+					$("#" + data.social_type + "RegDt").html(data.reg_dt + " 연동");
+					$("#" + data.social_type + "Button > span").html('연동해제');
+				}else{
+					$("#" + data.social_type + "RegDt").html(data.reg_dt);
+					$("#" + data.social_type + "Button > span").html('Activated');
+				}
 				$("#" + data.social_type + "Button").removeClass('btn_point');
 				$("#" + data.social_type + "Button").addClass('btn_gray_line');
-				$("#" + data.social_type + "Button > span").html('연동해제');
 				eval(data.social_type + "LinkYn = true");
 				console.log(data.social_type + "LinkYn : " + eval(data.social_type + "LinkYn"));
 			}else{
-				alert(result.data.msg)
+				if(langType == 'ko'){
+					alert(result.data.msg)
+				}else{
+					alert("It is a social account that has already been subscribed to or linked to Seoul Auction. Please link it to another account.");
+				}
 			}
 		})
 		.catch(function(error) {
@@ -62,10 +77,15 @@ function snsUnLink(socialType) {
 		.then(function(response) {
 			const result = response.data;
 			if(result.success == true){
+				if(langType == 'ko'){
+					$("#" + socialType + "Button > span").html('연동하기');
+				}else{
+					$("#" + socialType + "Button > span").html('Connect');
+				}
 				$("#" + socialType + "RegDt").html("");
 				$("#" + socialType + "Button").removeClass('btn_gray_line');
 				$("#" + socialType + "Button").addClass('btn_point');
-				$("#" + socialType + "Button > span").html('연동하기');
+				
 				eval(socialType + "LinkYn = false");
 				console.log(socialType + "LinkYn : " + eval(socialType + "LinkYn"));
 				
@@ -246,7 +266,11 @@ function KAUnLink(){
 	Kakao.API.request({
 		url: '/v1/user/unlink',
 		success: function(response) {
-			alert('연결 해제 되었습니다.');
+			if(langType == 'ko'){
+				alert('연결 해제 되었습니다.');
+			}else{
+				alert('Disconnected.');
+			}
 		},
 		fail: function(error) {
 			console.log(error);
@@ -258,12 +282,20 @@ function KAUnLink(){
 function GLUnLink(){
 	var auth2 = gapi.auth2.getAuthInstance();
 	auth2.disconnect().then(function() {
-		alert('연결 해제 되었습니다.');
+		if(langType == 'ko'){
+			alert('연결 해제 되었습니다.');
+		}else{
+			alert('Disconnected.');
+		}
 	});
 }
 
 //애플 연동해제
 function APUnLink(){
 	//애플 연동해제 api 미지원
-	alert('연결 해제 되었습니다.');
+	if(langType == 'ko'){
+		alert('연결 해제 되었습니다.');
+	}else{
+		alert('Disconnected.');
+	}
 }

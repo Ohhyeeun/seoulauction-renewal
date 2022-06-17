@@ -33,7 +33,7 @@
                                             <div class="subtitle-wrap">
                                                 <div class="subtitle-inner">
                                                     <div class="title">
-                                                        <span class="tt2">회원탈퇴</span>
+                                                        <span class="tt2">Delete Account</span>
                                                     </div>
                                                     <div class="btn-wrap js-history_back m-ver"><i class="icon-page_back"></i></div>
                                                 </div>
@@ -41,17 +41,17 @@
                                             <div class="contents-wrap">
                                                 <article class="mem-infobox-wrap">
                                                     <div class="mem-infobox">
-                                                        <div class="tit"><span class="tt4">회원 탈퇴에 대한 안내</span></div>
+                                                        <div class="tit"><span class="tt4">Information on membership cancellation</span></div>
                                                         <div class="txt-body">
                                                             <ul class="mark_dot-list tb1">
                                                                 <li>
-                                                                    <span>회원탈퇴 후 재가입 시 신규회원으로 가입되며, 탈퇴 전의 회원정보, 응찰내역, 관심작품은 복원되지 않습니다.</span>
+                                                                    <span>When you re-register as a member after withdrawal from membership, you are registered as a new member, and member information, bid details, and works of interest before the withdrawal are not restored. </span>
                                                                 </li>
                                                                 <li>
-                                                                    <span>응찰한 경매가 진행 중인 경우, 해당 경매가 마감되기 전까지 탈퇴가 불가능합니다.</span>
+                                                                    <span>If the auction you bid for is in progress, you cannot withdraw from the auction until the auction closes.</span>
                                                                 </li>
                                                                 <li>
-                                                                    <span>경매 낙찰작이 있는 경우, 낙찰대금을 지불하기 전까지 탈퇴가 불가능합니다.</span>
+                                                                    <span>If there is a successful bid at the auction, you cannot withdraw until the successful bid price is paid.</span>
                                                                 </li>
                                                             </ul>
                                                         </div>
@@ -60,14 +60,14 @@
                                                         <span class="trp checkbox-box">
                                                             <input id="agreeCheck" type="checkbox" name="" onclick="agreeCheck()">
                                                             <i></i>
-                                                            <label for="checkbox1">회원탈퇴에 대한 유의사항을 모두 확인했습니다.<br class="m-ver"> 서울옥션 회원탈퇴에 동의합니다.</label>
+                                                            <label for="checkbox1">I have checked all the cautions regarding membership cancellation.<br> I agree to the withdrawal of membership from Seoul Auction.</label>
                                                         </span>
                                                     </div>
                                                 </article>
                                                 <article class="button-area">
                                                     <div class="btn_set-float tac">
-                                                        <button class="btn btn_default btn_lg"><span>취소</span></button>
-                                                        <button id="leaveButton" onclick="custLeave()" class="btn btn_gray btn_lg" disabled><span>회원탈퇴</span></button>
+                                                        <button class="btn btn_default btn_lg"><span>Cancel</span></button>
+                                                        <button id="leaveButton" onclick="custLeave()" class="btn btn_gray btn_lg" disabled><span>Delete Account</span></button>
                                                     </div>
                                                 </article>
                                             </div>

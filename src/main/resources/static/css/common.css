@@ -222,8 +222,9 @@ button {
     line-height: 0;
     text-indent: -9999px;
 }
-.blind {
-    display: none; 
+/* pc, mobile 공통 display: none */
+.blind_none {
+    display: none;
 }
 img {
     max-width: 100%;
@@ -1191,7 +1192,8 @@ img {
 .span_block,
 .familyselect.on,
 .gnb_submenuBg.on,
-.submenuBg.on {
+.submenuBg.on,
+.common_block {
     display: block;
 }
 .header_beltbox.on {
@@ -2219,4 +2221,4 @@ body.dark,
     .submenuBg {
         max-width: 300px;
     }
-} 
+}

@@ -270,6 +270,7 @@
         <!-- // stykey -->
     </div>
 </div>
+<script type="text/javascript" src="/js/auction/saleCert.js"></script>
 <jsp:include page="popup/auctionBidPopup.jsp" flush="false"/>
 <jsp:include page="popup/auctionConfirmPopup.jsp" flush="false"/>
 
@@ -358,6 +359,8 @@
 */
 </script>
 <script>
+    var popup_offline_payment = $(".js-popup_online_confirm").trpLayerFixedPopup("#popup_online_confirm-wrap");
+
     <!-- angular js -->
     app.value('locale', 'ko');
     app.value('is_login', false);
@@ -491,11 +494,16 @@
                     return;
                 }
             } else {
-                let a = true;
-                if (!a) {
-                    let popup_offline_payment = $(".js-popup_online_confirm").trpLayerFixedPopup("#popup_online_confirm-wrap");
+                const is_sale_cert = $scope.is_sale_cert || $("#is_sale_cert").val();
+                alert(is_sale_cert);
+                if (!is_sale_cert) {
                     popup_offline_payment.open(this); // or false
                     popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
+
+                    // 랏번호 삽입
+                    $("#sale_no").val(saleNo);
+                    // 랏번호 삽입
+                    $("#lot_no").val(lotNo);
 
                     $("body").on("click", "#popup_online_confirm-wrap .js-closepop, #popup_online_confirm-wrap .popup-dim", function ($e) {
                         $e.preventDefault();
@@ -605,6 +613,20 @@
                 $scope.pageingdata = p;
 
                 await $scope.setSale($scope.sale_no);
+                //get sale cert
+                $scope.is_sale_cert = false;
+                $scope.cust_hp = "";
+                if(sessionStorage.getItem("is_login") === 'true'){
+                    await axios.get('/api/cert/sales/${saleNo}')
+                        .then(function(response) {
+                            if (response.data.success) {
+                                if(response.data.data.CNT > 0) {
+                                    $scope.is_sale_cert = true;
+                                }
+                                $("#cust_hp").val(response.data.data.HP);
+                            }
+                        });
+                }
 
                 $scope.$apply();
 
