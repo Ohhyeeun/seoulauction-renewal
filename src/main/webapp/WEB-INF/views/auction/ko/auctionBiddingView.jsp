@@ -204,8 +204,8 @@
                                                             <div class="standard">
                                                                 <span ng-bind="userLot.CD_NM"></span>
                                                                 <div class="size_year">
-                                                                    <span>{{userLot.SIZE1}} X {{userLot.SIZE2}} X {{userLot.SIZE3}}</span>
-                                                                    <span ng-bind="userLot.MAKE_YEAR_JSON.ko"></span>
+                                                                    <span ng-bind="userLot | size_text_cm"></span>
+                                                                    <span ng-bind="userLot.MAKE_YEAR_JSON.ko" ng-if="userLot.MAKE_YEAR_JSON.ko !== undefined"></span>
                                                                 </div>
                                                             </div>
                                                             <!-- // [0516]년도내용수정 -->
@@ -672,7 +672,7 @@
             // bid protocols
             $scope.proc = function (evt, saleNo, lotNo, saleType, userId, custNo) {
                 const packet_enum = {
-                    init: 1, bid_info: 2, time_sync: 3, bid_info_init: 4, end_time_sync: 5, winner: 6, viewers: 7, user_bid_hist: 8,
+                    init: 1, bid_info: 2, time_sync: 3, bid_info_init: 4, end_time_sync: 5, winner: 6, viewers: 7, user_bid_hist: 8, lot_change:9
                 }
                 let d = JSON.parse(evt.data);
                 if (d.msg_type === packet_enum.init) {
@@ -915,6 +915,14 @@
                     $scope.viewers = d.message.viewers;
                 }  else if (d.msg_type === packet_enum.user_bid_hist) {
                     $scope.userBids = d.message;
+                    $scope.$apply();
+                } else if (d.msg_type === packet_enum.lot_change) {
+                    for (let j = 0; j < $scope.saleInfoAll.length; j++) {
+                        if ($scope.saleInfoAll[j].LOT_NO === d.message.cur_lot_no) {
+                            $scope.curLot = $scope.saleInfoAll[j];
+                            break;
+                        }
+                    }
                     $scope.$apply();
                 }
             }

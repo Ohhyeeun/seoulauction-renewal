@@ -996,6 +996,8 @@
                     $scope.bidsInfoAll = d.message.bids;
                     let matching = new Map();
 
+                    //d.message.bids[0].cur_lot_no
+
                     // 정보를 처음 가져왔을 때, 인덱스 매핑
                     for (let i = 0; i < $scope.bidsInfoAll.length; i++) {
                         matching.set($scope.bidsInfoAll[i].customer.sale_no + "-" + $scope.bidsInfoAll[i].customer.lot_no, i);
