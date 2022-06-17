@@ -54,8 +54,8 @@
 												</div>
 											</div> -->
                                             <div class="bbs_search-box">
-                                                <input type="text" class="bbs_search-text" placeholder="">
-                                                <button type="submit" class="bbs_search-btn">검색</button>
+                                                <input id="search_text" type="text" class="bbs_search-text" placeholder="">
+                                                <button id="search_btn" type="submit" class="bbs_search-btn">검색</button>
                                             </div>
                                         </div>
                                     </div>
