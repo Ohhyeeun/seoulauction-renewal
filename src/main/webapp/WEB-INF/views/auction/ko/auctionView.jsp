@@ -192,11 +192,11 @@
                                                 <div class="btn_set cols_2">
                                                     <div class="btn_item hover_change only-pc">
                                                         <div class="op_default">
-                                                            <a class="btn btn_default btn_lg       " href="#"
+                                                            <a class="btn btn_default btn_lg "
                                                                role="button"><span>낙찰수수료</span></a>
                                                         </div>
                                                         <div class="op_hover">
-                                                            <a class="btn btn_black btn_2 btn_lg   " href="#"
+                                                            <a class="btn btn_black btn_2 btn_lg js-popup_alert1"
                                                                role="button">
                                                                 <em>현재가 기준</em>
                                                                 <strong>1,584,000</strong>
@@ -208,7 +208,7 @@
                                                            role="button"><span>낙찰수수료</span></a>
                                                     </div>
                                                     <div class="btn_item">
-                                                        <a class="btn btn_default btn_lg" href="#" role="button"><span>배송비안내</span></a>
+                                                        <a class="btn btn_default btn_lg js-popup_alert3"  role="button"><span>경매 호가표</span></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -218,9 +218,11 @@
                                                     <span>작품문의 02-395-0330</span>
                                                 </div>
                                                 <div class="print-box">
-                                                    <button class="print-btn">
-                                                        <i class="icon-view_print"></i>
-                                                    </button>
+                                                    <a href="/auction/view/print/{{lotInfo.SALE_NO}}/{{lotInfo.LOT_NO}}" target="_blank">
+                                                        <button class="print-btn">
+                                                            <i class="icon-view_print"></i>
+                                                        </button>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </article>
@@ -650,6 +652,50 @@
 <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
+<%--낙찰 수수료 팝업 --%>
+<jsp:include page="popup/bidCommissionPopup.jsp" />
+
+<%--경매 호가 팝업 --%>
+<jsp:include page="popup/growBiddingPopup.jsp" />
+<%--경매 호가 스크립트 --%>
+<script>
+    let dataArray = [];
+
+    //온라인 경매 호가
+    dataArray.push({'up' : null , 'down' : '100만' ,'price' : 50000});
+    dataArray.push({'up' : '100만' , 'down' : '300만' ,'price' : 100000});
+    dataArray.push({'up' : '300만' , 'down' : '500만' ,'price' : 200000});
+    dataArray.push({'up' : '500만' , 'down' : '1,000만' ,'price' : 300000});
+    dataArray.push({'up' : '1,000만' , 'down' : '3,000만' ,'price' : 500000});
+    dataArray.push({'up' : '3,000만' , 'down' : '5,000만' ,'price' : 1000000});
+    dataArray.push({'up' : '5,000만' , 'down' : '1억' ,'price' : 2000000});
+    dataArray.push({'up' : '1억' , 'down' : '2억' ,'price' : 3000000});
+    dataArray.push({'up' : '2억' , 'down' : null ,'price' : 5000000});
+
+    $.each(dataArray , function (idx , item){
+        let text = (item.up != null ? item.up +' 이상' : '')  + ' ~ ' + (item.down != null ? item.down +' 미만' : '');
+        let html = '<tr><td><span>' + text + '</span>'
+            +'</td><td>'
+            +'<span>'+ numberWithCommas(item.price) +'</span>'
+            +'</td></tr>';
+        $("#grow_off_tbody").append(html);
+    });
+
+    var popup_alert3 = $(".js-popup_alert3").trpLayerFixedPopup("#popup_alert3-wrap");
+    $(popup_alert3.getBtn).on("click", function($e) {
+        $e.preventDefault();
+        popup_alert3.open(this); // or false
+        popup_fixation("#popup_alert3-wrap"); // pc 스크롤
+        popup_motion_open("#popup_alert3-wrap"); // mb 모션
+    });
+
+    $("body").on("click", "#popup_alert3-wrap .js-closepop, #popup_alert3-wrap .popup-dim", function($e) {
+        $e.preventDefault();
+        popup_alert3.close();
+        popup_motion_close("#popup_alert3-wrap");
+    });
+</script>
 
 <!-- swiper function-->
 <script>

@@ -50,10 +50,7 @@
                                     </article>
                                     <div class="file-area">
                                         <!-- [0613] -->
-                                        <div class="file-item">
-                                            <a href="#">
-                                                <i class="icon_down"></i> <span>Attached_filename.jpg</span>
-                                            </a>
+                                        <div id="notice_file_list" class="file-item">
                                         </div>
                                         <!-- //[0613] -->
                                     </div>
@@ -143,8 +140,6 @@
                         if(success){
                             let data = response.data.data;
 
-                            console.log(data);
-
                             if(!data){
                                 alert('잘못된 경로입니다.');
                                 history.back();
@@ -152,6 +147,16 @@
                             $("#notice_content").html(JSON.parse(data.content).ko);
                             $("#notice_title").html(JSON.parse(data.title).ko);
                             $("#notice_date").html(data.dt_date);
+
+                            if(data.images.length !==0){
+                                let images = data.images;
+                                $.each(images , function(idx , el){
+
+                                    let html = `<a href=/fileDownload?fileKey=` + el.path + `&downloadFileName=` + el.name  + `>`
+                                                + `<i class="icon_down"></i> <span>` + el.name + `</span></a>`;
+                                    $("#notice_file_list").html(html);
+                                });
+                            }
                         }
                     })
                     .catch(function(error) {
