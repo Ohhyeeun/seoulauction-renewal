@@ -93,8 +93,8 @@
                                                                                 <!-- [0613]재질/사이즈로 수정 -->
                                                                                     <div class="sub-li">{{data.CD_NM}}</div>
                                                                                     <div class="sub-li">
-                                                                                        <span>{{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}} X {{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}}cm</span>
-                                                                                        <span>{{StringToJson(data.LOT_SIZE_JSON)[0].CANVAS}}</span>
+                                                                                        <span>{{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}} X {{StringToJson(data.LOT_SIZE_JSON)[0].SIZE2}} X {{StringToJson(data.LOT_SIZE_JSON)[0].SIZE3}}</span>
+                                                                                        <span ng-if="StringToJson(data.MAKE_YEAR_JSON).ko">{{StringToJson(data.MAKE_YEAR_JSON).ko}}</span>
                                                                                     </div>
                                                                                     <!-- //[0613]재질/사이즈로 수정 -->
                                                                                 </div>
