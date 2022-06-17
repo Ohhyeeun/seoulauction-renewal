@@ -6,11 +6,20 @@ $(document).ready(function(){
     let page_size = 5;
     let total_count = 0;
     let locale = document.documentElement.lang;
+    let search_text = '';
+
+
     init();
 
     //초기작업.
     function init(){
-        axios.get('/api/footer/notice?page='+current_page+"&size="+data_size)
+
+        let url = '/api/footer/notice?page='+current_page+"&size="+data_size;
+        if(search_text){
+            url +="&search="+search_text;
+        }
+
+        axios.get(url)
             .then(function(response) {
                 const data = response.data;
                 let success = data.success;
@@ -71,5 +80,12 @@ $(document).ready(function(){
                 console.log(error);
         });
     }
+
+    $("#search_btn").on('click',function (){
+        search_text = $("#search_text").val();
+        current_page = 1;
+        init();
+
+    });
 
 });

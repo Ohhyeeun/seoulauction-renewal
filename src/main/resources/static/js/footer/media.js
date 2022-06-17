@@ -68,7 +68,6 @@ $(document).ready(function(){
         });
     }
     $("#search_btn").on('click',function (){
-
         search_text = $("#search_text").val();
         current_page = 1;
         init();

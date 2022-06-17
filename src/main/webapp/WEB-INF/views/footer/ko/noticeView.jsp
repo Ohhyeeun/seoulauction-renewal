@@ -31,9 +31,6 @@
                             </div>
                         </div>
                     </section>
-
-
-
                     <section class="basis-section bbs-section">
                         <div class="section-inner">
                             <div class="content-panel type_panel-notice_view">
