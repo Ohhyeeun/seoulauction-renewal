@@ -180,6 +180,10 @@ $(function(){
         // $('.beltclose-btn').click(function(){
         //     $('.main-contents').css('margin-top','102px');
         // });
+
+        /* 오프라인 라이브응찰 화면(pc) */
+        $('.bidding_pc').show();
+        $('.bidding_mo').hide();
     } else { /* 테블릿 */
         $('.header_gnbmenu>li>a').mouseenter(false);
         $(".submenuBg").mouseleave(false);
@@ -216,7 +220,10 @@ $(function(){
                     $('.modebox').removeClass('on');
                 });
             });
-            $('.submenuBg').click(false);
+            //$('.submenuBg').click(false);
+            /* 오프라인 라이브응찰 화면(pc) */
+            $('.bidding_pc').hide();
+            $('.bidding_mo').show();
         });
         $('.submenuBg-closeBtn').click(function(){
             $('body').css({'overflow':'visible'});
@@ -884,6 +891,9 @@ $(window).resize(function(){
         $('.beltclose-btn').click(function(){
             $('.main-contents').css('margin-top','102px');
         });
+        /* 오프라인 라이브응찰 화면(pc) */
+        $('.bidding_pc').show();
+        $('.bidding_mo').hide();
     } else { /* 테블릿 */
         $('.m-gnbmenu').click(function(){
             $('.submenuBg').show(function(){
@@ -921,6 +931,9 @@ $(window).resize(function(){
             $('.main-contents').css('margin-top','56px');
             $('.gnb_submenuBg').css('overflow','visible');
         });
+        /* 오프라인 라이브응찰 화면(mobile) */
+        $('.bidding_pc').hide();
+        $('.bidding_mo').show();
     };
 
     /*top search place holder*/
