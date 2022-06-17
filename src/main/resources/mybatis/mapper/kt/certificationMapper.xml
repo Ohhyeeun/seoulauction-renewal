@@ -16,8 +16,11 @@
 			1
 	</select>
 	
-	<select id="selectAuthNumber" resultType="CommonMap">
-	    set @rand_num := CAST(FLOOR(100000 + RAND() * 899999) AS unsigned integer);
+	<select id="selectAuthNumber" resultType="int">
+   		select CAST(FLOOR(100000 + RAND() * 899999) AS unsigned integer);
+	</select>
+	
+	<insert id="insertAuthNumber" >
 	   	insert into SC_TRAN(
 			TR_PHONE,
 			TR_CALLBACK,
@@ -27,11 +30,10 @@
 		values(
 			#{to_phone},
 			#{from_phone},
-			replace('${msg}', '##rand_num##', @rand_num),
+			replace(#{msg}, '##rand_num##', #{rand_num}),
 			now()
 		);
-	    select @rand_num as AUTH_NUM
-	</select>
+	</insert>
 	
 	<insert id="inertSaleCert" parameterType="Map" useGeneratedKeys="true" keyProperty="sale_cert_no">
 		insert into SALE_CERT (SALE_NO, CUST_NO, HP, CUST_HP, DONE_CD, REG_DT, REG_EMP_NO)

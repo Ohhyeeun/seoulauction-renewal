@@ -31,12 +31,6 @@ public class AuctionController {
                        @PathVariable("sale_no") int saleNo,
                        @PathVariable("lot_no") int lotNo) {
     	
-    	// 로그인 이전페이지 기억
-    	/*String referrer = request.getHeader("Referer");
-    	if(referrer != null && !referrer.endsWith("/login")) {
-    		log.info("referrer : {}",referrer);
-    		request.getSession().setAttribute("prevPage", referrer);
-    	}*/
         model.addAttribute("saleNo", saleNo);
         model.addAttribute("lotNo", lotNo);
 
@@ -48,6 +42,51 @@ public class AuctionController {
         }
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionView" , locale);
     }
+
+    @GetMapping("/live/view/{sale_no}/{lot_no}")
+    public String liveView(Locale locale, Model model
+            , HttpServletRequest request, HttpServletResponse response,
+                       @PathVariable("sale_no") int saleNo,
+                       @PathVariable("lot_no") int lotNo) {
+
+        model.addAttribute("saleNo", saleNo);
+        model.addAttribute("lotNo", lotNo);
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+
+        //필수값 있는지 여부.
+        Boolean isCustRequired = false;
+
+        if (saUserDetails != null) {
+            model.addAttribute("member", saUserDetails);
+            isCustRequired = saleService.checkCustRequired(new CommonMap("cust_no", saUserDetails.getUserNo()));
+        } else {
+            model.addAttribute("member", new SAUserDetails());
+        }
+
+        model.addAttribute("isCustRequired", isCustRequired);
+
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionLiveView" , locale);
+    }
+
+    @GetMapping("/view/print/{sale_no}/{lot_no}")
+    public String printView(Locale locale, Model model
+            , HttpServletRequest request, HttpServletResponse response,
+                       @PathVariable("sale_no") int saleNo,
+                       @PathVariable("lot_no") int lotNo) {
+
+        model.addAttribute("saleNo", saleNo);
+        model.addAttribute("lotNo", lotNo);
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            model.addAttribute("member", saUserDetails);
+        } else {
+            model.addAttribute("member", new SAUserDetails());
+        }
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionViewPrint" , locale);
+    }
+
 
     @GetMapping(value="/list/{saleNo}")
     public String list(Locale locale, Model model
@@ -63,6 +102,21 @@ public class AuctionController {
             model.addAttribute("member", new SAUserDetails());
         }
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionList" , locale);
+    }
+
+    @GetMapping(value="/live/bidder/{saleNo}")
+    public String bidder(Locale locale, Model model
+            , HttpServletRequest request, HttpServletResponse response,
+                       @PathVariable("saleNo") int saleNo) {
+        model.addAttribute("saleNo", saleNo);
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            model.addAttribute("member", saUserDetails);
+        } else {
+            model.addAttribute("member", new SAUserDetails());
+        }
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionBiddingView" , locale);
     }
 
     @GetMapping("/live/list/{sale_no}")
@@ -114,5 +168,10 @@ public class AuctionController {
     public String scheduledView(Locale locale, @PathVariable("sale_no") int saleNo, Model model) {
         model.addAttribute("saleNo", saleNo);
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "scheduledView" , locale);
+    }
+
+    @GetMapping("/info")
+    public String info(Locale locale) {
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION, "info", locale);
     }
 }

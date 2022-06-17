@@ -53,8 +53,8 @@
                                                                     </div>
                                                                 </div>
                                                                  <div class="btn-area">
-                                                                   <button ng-if="onlineBid[1][0].CLOSE_YN != 'Y'"  class="btn btn_point btn-view-ing" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span >View Auction</span></a></button>
-                                                                   <button ng-if="onlineBid[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray_line btn-view-result" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span>End Auction</span></a></button>
+                                                                   <button ng-if="onlineBid[1][0].CLOSE_YN != 'Y'"  class="btn btn_point btn-view-ing" type="button"><a href="{{onlineBid[1][0].SALE_NO}}"><span >View Auction</span></a></button>
+                                                                   <button ng-if="onlineBid[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray_line btn-view-result" type="button"><a href="{{onlineBid[1][0].SALE_NO}}"><span>End Auction</span></a></button>
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in onlineBid[1]">
@@ -149,7 +149,7 @@
 							                            </div>
 							                            <!-- [0610] 추가 -->
 							                            <div class="right_txt" ng-if="onlineBidHisList[0].ABORT_YN =='N'">
-							                                <span>Highest Bid <em>{{onlineBidHisList[0].CURR_CD}} {{comma(onlineBidHisList[0].BID_PRICE)}}</em></span>
+							                                <span>Automatic bid set price <em>{{onlineBidHisList[0].CURR_CD}} {{comma(onlineBidHisList[0].BID_PRICE)}}</em></span>
 							                            </div>
 							                            <!-- //[0610] 추가 -->
 							                        </div>
@@ -224,7 +224,6 @@
 -->
 
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
 
     <script>

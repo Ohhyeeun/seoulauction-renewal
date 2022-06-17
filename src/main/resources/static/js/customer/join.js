@@ -13,11 +13,6 @@ app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
 app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 	$scope.form_data = {};
 	
-	if(socialExist == 'Y'){
-		alert("이미 가입된 계정입니다. 로그인해주세요.")
-		location.href = '/join'
-	}
-	
 	$scope.goJoin = function(type){
 		location.href = '/joinForm?type=' + type				
 	}
@@ -66,16 +61,60 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 
 	// SNS공통회원가입
 	function submitJoin(socialType, name, email, mobile, sub) {
-		document.getElementById('name').value = name;
-		document.getElementById('email').value = email;
-		document.getElementById('mobile').value = mobile;
-		document.getElementById('sub').value = sub;
-
-		var form = document.getElementById('joinForm');
-		form.action = '/joinForm?socialType=' + socialType;
-		form.submit();
+		//기가입체크
+		let data = {};
+	    data['social_type'] = socialType;
+	    data['social_email'] = email;
+	    if(socialType == "AP"){
+			data['social_email'] = sub;
+		}
+		axios.post('/api/login/isCustSocialExist' , data)
+		    .then(function(response) {
+		        const result = response.data;
+		        console.log(result)
+		        if(result.data != undefined){
+					if(result.data.STAT_CD == "not_certify"){
+						//기가입 + 미인증 = 안내메세지
+						alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
+					}else{
+						//기가입 + 상태normal = 로그인처리
+						socialLogin(data);
+					}
+				}else{
+					//미가입 = 회원가입페이지이동
+					document.getElementById('name').value = name;
+					document.getElementById('email').value = email;
+					document.getElementById('mobile').value = mobile;
+					document.getElementById('sub').value = sub;
+			
+					var form = document.getElementById('joinForm');
+					form.action = '/joinForm?socialType=' + socialType;
+					form.submit();
+				}
+		    })
+		    .catch(function(error){
+		        console.log(error);
+		    });
 	}
-
+	
+	function socialLogin(data){
+		axios.post('/api/login/social', data)
+			.then(function(response) {
+				console.log(response)
+				if(response.data.success == true){
+					var expire = new Date();
+					expire.setDate(expire.getDate() + 30);
+					document.cookie = 'recentSocialType=' + data.social_type + '; path=/; expires=' + expire.toGMTString() + ';';
+					location.href = "/";
+				}else{
+					alert("로그인에 실패하였습니다.")
+				}
+			})
+			.catch(function(error) {
+				console.log(error);
+			});
+	}
+	
 	// 카카오 로그인 / 카카오 회원가입
 	$scope.joinWithKakao = function() {
 		Kakao.Auth.login({
@@ -1024,9 +1063,9 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 //			console.log($scope.emailValid ? '이메일통과' : '이메일실패');  console.log($scope.compManNameValid ? '업무담당자통과' : '업무담당자실패');
 //			console.log($scope.addrValid ? '주소통과' : '주소실패'); console.log($scope.fileValid ? '파일통과' : '파일실패');  
 //			console.log($scope.bidValid ? '응찰여부통과' : '응찰여부실패'); console.log($scope.countryValid ? '국가통과' : '국가실패'); console.log($scope.addrValidEn ? '외국주소통과' : '외국주소실패');
-			alert("필수항목을 모두 입력해 주세요.");
 			if($scope.isPerson()){
 				if($scope.langType == 'ko'){
+					alert("필수항목을 모두 입력해 주세요.");
 					if($scope.isSocial()){ 
 						//내국소셜회원 필수 필드 : 이름/휴대폰번호/이메일/주소
 						if(!$scope.nameValid) $("#cust_name").focus();
@@ -1043,6 +1082,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 						else if(!$scope.addrValid) $("#addr_dtl").focus();
 					}
 				}else if($scope.langType == 'en'){
+					alert("Fill additional information below.")
 					if($scope.isSocial()){ 
 						//외국소셜회원 필수 필드 : 이름/이메일/국가/주소/입찰여부/신분증/증빙서류
 						if(!$scope.nameValid) $("#cust_name").focus();
@@ -1062,6 +1102,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 					}
 				}
 			}else {
+				alert("필수항목을 모두 입력해 주세요.");
 				//사업자회원 필수 필드 : 아이디/비밀번호/업체명/사업자등록번호/업무담당자/사업자등록증/휴대폰번호/전화번호/이메일/주소
 				if(!$scope.idValid) $("#login_id").focus();
 				else if(!$scope.passwdValid) $("#passwd").focus(); 
@@ -1152,6 +1193,8 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		//소셜
 		if($scope.isSocial()){
 			formData.set('social_type', $scope.form_data.social_type);
+			formData.set('social_email', $scope.form_data.social_email);
+			formData.set('social_login_id', $scope.form_data.social_login_id);
 		}
 		
 		formData.append('cust_kind_cd', $scope.form_data.cust_kind_cd);

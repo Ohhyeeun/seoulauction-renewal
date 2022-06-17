@@ -53,8 +53,8 @@
                                                                     </div>
                                                                 </div>
                                                                  <div class="btn-area">
-                                                                   <button ng-if="liveBidReq[1][0].CLOSE_YN != 'Y'"  class="btn btn_point btn-view-ing" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span >View Auction</span></a></button>
-                                                                   <button ng-if="liveBidReq[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray_line btn-view-result" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span>View Result</span></a></button>
+                                                                   <button ng-if="liveBidReq[1][0].CLOSE_YN != 'Y'"  class="btn btn_point btn-view-ing" type="button"><a href="/auction/live/list/{{liveBidReq[1][0].SALE_NO}}"><span >View Auction</span></a></button>
+                                                                   <button ng-if="liveBidReq[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray_line btn-view-result" type="button"><a href="/auction/live/list/{{liveBidReq[1][0].SALE_NO}}"><span>View Result</span></a></button>
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in liveBidReq[1]">
@@ -217,7 +217,6 @@
 -->
 
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
 
     <script>

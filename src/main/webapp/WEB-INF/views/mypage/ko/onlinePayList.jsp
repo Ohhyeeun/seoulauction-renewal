@@ -69,7 +69,8 @@
                                                             </dt>
                                                             <dd class="item-ea"  ng-repeat="data in pl[1]">
                                                                 <div class="item-ea-tit">
-                                                                    <div class="paystate pending" ng-if="data.PAID_CNT != 1">결제대기중 ({{data.PAY_METHOD_NM}})</div>
+                                                                    <!-- <div class="paystate pending" ng-if="data.PAID_CNT != 1">결제대기중 ({{data.PAY_METHOD_NM}})</div> -->
+                                                                    <div class="paystate pending" ng-if="data.PAID_CNT != 1">결제대기중</div>
                                                                     <div class="paystate complete" ng-if="data.PAID_CNT == 1">결제완료</div>
                                                                     <div class="txt" ng-if="data.PAID_CNT == 1">{{data.payDate}} ({{data.payWeekDate}}) {{data.payTime}} ({{data.PAY_METHOD_NM}})</div>
                                                                 </div>
@@ -108,8 +109,8 @@
                                                                                 <dd class="txt">
                                                                                     <span>{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</span>
                                                                                     <div class="sub">
-                                                                                        <span>{{data.BID_DT}} ({{data.BIDWEEKDT}})<br class="m-ver"> {{data.BIDTIME}}</span>
-                                                                                        <span>({{data.bid_count}}회 응찰)</span>
+                                                                                        <span>{{data.BID_DT}} <!-- ({{data.BIDWEEKDT}}) --><br class="m-ver"> {{data.BIDTIME}}</span>
+                                                                                       <!--  <span>({{data.bid_count}}회 응찰)</span> -->
                                                                                     </div>
                                                                                 </dd>
                                                                             </dl>
@@ -119,17 +120,20 @@
                                                                             </dl>
                                                                             <dl class="price">
                                                                                 <dt class="tit">낙찰 수수료</dt>
-                                                                                <dd class="txt">{{data.CURR_CD}} {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).fee}}</dd>
+                                                                              <!--   <dd class="txt">{{data.CURR_CD}} {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).fee}}</dd> -->
+                                                                                <dd class="txt">{{data.CURR_CD}} {{comma(data.FEE)}}</dd>
                                                                             </dl>
                                                                             <dl class="price succ">
                                                                                 <dt class="tit">구매가</dt>
-                                                                                <dd class="txt">KRW {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price}}</dd>
+                                                                                <!-- <dd class="txt" ng-if="{{data.PAY_PRICE}}">{{data.CURR_CD}} {{data.PAY_PRICE}}</dd> -->
+                                                                                <dd class="txt" ng-if="data.PAID_CNT == 0">{{data.CURR_CD}} {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price}}</dd>
+                                                                                <dd class="txt" ng-if="data.PAID_CNT >= 1">{{data.CURR_CD}} {{comma(data.PAY_PRICE)}}</dd>
                                                                             </dl>
                                                                         </div>
-                                                                        <div class="btn-area" ng-if="data.PAID_CNT != 1">
-                                                                            <button class="btn btn_point" type="button"><span>결제하기</span></button>
+                                                                        <div class="btn-area" ng-if="data.PAID_CNT == 0">
+                                                                            <a href="payment/sale/{{data.SALE_NO}}/lot/{{data.LOT_NO}}"><button class="btn btn_point" type="button"><span>결제하기</span></button></a>
                                                                         </div>
-                                                                        <div class="btn-area" ng-if="data.PAID_CNT == 1">
+                                                                        <div class="btn-area" ng-if="data.PAID_CNT >= 1">
                                                                             <button class="btn btn_gray_line" type="button" ng-if="data.PAY_METHOD_ID == 'card' && data.receipt == 'Y'" ng-click="receiptPopup({'pay':data,'type':0})"><span>결제영수증</span></button>
                                                                             <button class="btn btn_gray_line" type="button" ng-if="data.PAY_METHOD_ID == 'vbank' && data.receipt == 'Y'" ng-click="receiptPopup({'pay':data,'type':1})"><span>현금영수증</span></button>
 <!--                                                                             <button class="btn btn_gray btn-half btn-print" type="button" disabled>
@@ -207,7 +211,6 @@
 -->
 
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 
 

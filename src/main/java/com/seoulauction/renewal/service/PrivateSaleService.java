@@ -36,9 +36,17 @@ public class PrivateSaleService {
         return resultMaps;
     }
 
-    public List<CommonMap> selectPrivateSaleLotImages(CommonMap commonMap) {
-        List<CommonMap> resultMap = privateSaleMapper.selectPrivateSaleLotImages(commonMap);
+    public CommonMap selectPrivateSaleInfo(CommonMap commonMap){
+        CommonMap resultMap = privateSaleMapper.selectPrivateSaleInfo(commonMap);
+        if(MapUtils.isEmpty(resultMap)) {
+            throw new SAException("일치하는 경매정보가 없습니다.");
+        }
         return resultMap;
+    }
+
+    public List<CommonMap> selectPrivateSaleImages(CommonMap commonMap) {
+        List<CommonMap> resultMaps = privateSaleMapper.selectPrivateSaleImages(commonMap);
+        return resultMaps;
     }
 
 

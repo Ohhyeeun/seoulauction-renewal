@@ -53,8 +53,8 @@
                                                                     </div>
                                                                 </div>
                                                                  <div class="btn-area">
-                                                                   <button ng-if="onlineBid[1][0].CLOSE_YN != 'Y'"  class="btn btn_point btn-view-ing" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span >진행경매보기</span></a></button>
-                                                                   <button ng-if="onlineBid[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray_line btn-view-result" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span>경매결과보기</span></a></button>
+                                                                   <button ng-if="onlineBid[1][0].CLOSE_YN != 'Y'"  class="btn btn_point btn-view-ing" type="button"><a href="{{onlineBid[1][0].SALE_NO}}"><span >진행경매보기</span></a></button>
+                                                                   <button ng-if="onlineBid[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray_line btn-view-result" type="button"><a href="{{onlineBid[1][0].SALE_NO}}"><span>경매결과보기</span></a></button>
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in onlineBid[1]">
@@ -64,7 +64,7 @@
                                                                             <figure class="img-ratio">
                                                                                 <div class="img-align">
                                                                                      <img src="/nas_img{{data.LOT_IMG}}" alt="">
-                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'N' && data.BID_PRICE == data.success_bid_price"><span class="bid_result-icon">낙찰</span></div>
+                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'N' && bidGroup(data.BID_JSON)[0].BID_PRICE == data.success_bid_price"><span class="bid_result-icon">낙찰</span></div>
                                                                                      <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'Y'"><span class="bid_result-icon">낙찰취소</span></div>
                                                                                 </div>
                                                                             </figure>
@@ -147,8 +147,13 @@
 							                            <div class="title-box">
 							                                <span class="txt_title type-big">응찰 내역</span>
 							                            </div>
+							                        <!-- [0613] 추가 -->
+						                            <div class="right_txt" ng-if="onlineBidHisList[0].ABORT_YN =='N'">
+						                                <span>자동응찰설정가 <em>{{onlineBidHisList[0].CURR_CD}} {{comma(onlineBidHisList[0].BID_PRICE)}}</em></span>
+						                            </div>
+						                            <!-- //[0613] 추가 -->
 							                        </div>
-							                        <span ng-if="onlineBidHisList[0].ABORT_YN =='N'"> 응찰최고가: {{onlineBidHisList[0].CURR_CD}} {{comma(onlineBidHisList[0].BID_PRICE)}}</span>
+                            
 							                        <div class="pop-body">
 							                            <section class="section">
 							                                <article class="article-area thead_item-wrap">
@@ -220,7 +225,6 @@
 -->
 
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 
     <script>

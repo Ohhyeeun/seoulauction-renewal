@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <sec:authentication property="details.socialYn" var="socialYn"></sec:authentication>
 <sec:authentication property="details.socialType" var="socialType"></sec:authentication>
@@ -37,7 +38,7 @@
                                             <div class="subtitle-wrap">
                                                 <div class="subtitle-inner">
                                                     <div class="title">
-                                                        <span class="tt2">회원정보수정</span>
+                                                        <span class="tt2">Change Information</span>
                                                     </div>
                                                     <div class="btn-wrap js-history_back m-ver"><i class="icon-page_back"></i></div>
                                                 </div>
@@ -47,14 +48,15 @@
 	                                            <c:if test="${socialYn == 'N' }">
 	                                                <article class="tit-textbox">
 	                                                    <p class="tb1">
-	                                                        회원정보수정을 위해 본인 확인이 필요합니다.<br class="m-ver"> 회원님의 비밀번호를 다시 한번 입력해주세요.
+	                                                        Identity verification is required to modify member information. <br>
+                                                        	Please re-enter your password.
 	                                                    </p>
 	                                                </article>
 	                                                <article class="inquiry-write-wrap">
 	                                                    <ul class="form_table-list data_size-185">
 	                                                        <li>
 	                                                            <div class="th">
-	                                                                <label for="" class="">비밀번호</label>
+	                                                                <label for="" class="">Password</label>
 	                                                            </div>
 	                                                            <div class="td">
 	                                                                <input type="password" id="passwd" onkeyup="passwdKeyUp()" class="form-control" value="" placeholder="">
@@ -68,7 +70,8 @@
 	                                            <c:if test="${socialYn == 'Y' }">
 		                                            <article class="tit-textbox">
 		                                                <p class="tb1">
-		                                                    회원정보수정을 위해 본인 확인이 필요합니다.<br class="m-ver"> 가입 시 연동한 SNS 서비스의 인증을 진행해주세요.
+		                                                    Identity verification is required to modify member information. <br class="m-ver"> Please verify through the linked SNS.
+
 		                                                </p>
 		                                            </article>
 		                                            <article class="inquiry-write-wrap">
@@ -79,8 +82,8 @@
 	                                            </c:if>
                                                 <article class="button-area">
                                                     <div class="btn_set-float tac">
-                                                        <button class="btn btn_default btn_lg" onclick="passwdCancel()"><span>취소</span></button>
-                                                        <button id="modifyButton" onclick="passwdConfirm()" class="btn btn_gray btn_lg" disabled><span>회원정보수정</span></button>
+                                                        <button class="btn btn_default btn_lg" onclick="passwdCancel()"><span>Cancel</span></button>
+                                                        <button id="modifyButton" onclick="passwdConfirm()" class="btn btn_gray btn_lg" disabled><span>Submit</span></button>
                                                     </div>
                                                 </article>
                                             </div>

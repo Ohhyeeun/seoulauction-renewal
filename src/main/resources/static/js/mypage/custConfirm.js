@@ -58,7 +58,7 @@ function passwdConfirm() {
 				if (langType == 'ko') {
 					$("#passwdMsg").html("비밀번호가 일치하지 않습니다. 비밀번호를 다시 확인해주세요.");
 				} else {
-					$("#passwdMsg").html("비밀번호가 일치하지 않습니다. 비밀번호를 다시 확인해주세요.");
+					$("#passwdMsg").html("Passwords do not match. Please check your password again.");
 				}
 			}else{
 				goPost();

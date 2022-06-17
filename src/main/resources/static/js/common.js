@@ -16,7 +16,10 @@ $(function(){
         setMyMenuBadge();
     }
 
+
+
     function loadIngAuctionList(){
+
 
         axios.get('api/main/ingAuctions')
             .then(function(response){
@@ -33,7 +36,7 @@ $(function(){
                                             </figure>
                                             <div class="Ingbanner-txt text-over">
                                                 <span class="auctionKind-box Ingkind-auction ${item.SALE_KIND === 'LIVE' ? 'on' : ''}">${item.SALE_KIND}</span>
-                                                  <p class="text-over">${titleJSON[locale]}</p>
+                                                  <p class="text-over">${localeOrdinal(item.TITLE_TH,locale) + titleJSON[locale]}</p>
                                                 <span class="Ingbanner-arrow"></span>
                                             </div>
                                         </a>`;
@@ -177,6 +180,10 @@ $(function(){
         // $('.beltclose-btn').click(function(){
         //     $('.main-contents').css('margin-top','102px');
         // });
+
+        /* 오프라인 라이브응찰 화면(pc) */
+        $('.bidding_pc').show();
+        $('.bidding_mo').hide();
     } else { /* 테블릿 */
         $('.header_gnbmenu>li>a').mouseenter(false);
         $(".submenuBg").mouseleave(false);
@@ -213,7 +220,10 @@ $(function(){
                     $('.modebox').removeClass('on');
                 });
             });
-            $('.submenuBg').click(false);
+            //$('.submenuBg').click(false);
+            /* 오프라인 라이브응찰 화면(pc) */
+            $('.bidding_pc').hide();
+            $('.bidding_mo').show();
         });
         $('.submenuBg-closeBtn').click(function(){
             $('body').css({'overflow':'visible'});
@@ -714,13 +724,12 @@ function checkPlatform(ua) {
 
 /* notice 슬라이드 배너 (무한루프)*/
 $(function(){
-
     let i = 0;
 
     setInterval(noticeSlide, 2500);
 
     function noticeSlide(){
-        $('.belttxtbox').append('<span class="header_beltTit"><a href="#"><span class="text-over belt_tit">구매수수료율 인상 및 약관 개정안내 구매수수료율 '+i+'</span></a></span>');  /*끝에 반복 생성  */
+        $('.belttxtbox').append('<span class="header_beltTit"><a href="#"><span class="text-over belt_tit"></span></a></span>');  /*끝에 반복 생성  */
         $('.belttxtbox').css('top','0');
 
         if(i < 5){
@@ -882,6 +891,9 @@ $(window).resize(function(){
         $('.beltclose-btn').click(function(){
             $('.main-contents').css('margin-top','102px');
         });
+        /* 오프라인 라이브응찰 화면(pc) */
+        $('.bidding_pc').show();
+        $('.bidding_mo').hide();
     } else { /* 테블릿 */
         $('.m-gnbmenu').click(function(){
             $('.submenuBg').show(function(){
@@ -919,6 +931,9 @@ $(window).resize(function(){
             $('.main-contents').css('margin-top','56px');
             $('.gnb_submenuBg').css('overflow','visible');
         });
+        /* 오프라인 라이브응찰 화면(mobile) */
+        $('.bidding_pc').hide();
+        $('.bidding_mo').show();
     };
 
     /*top search place holder*/
@@ -947,3 +962,20 @@ $(window).resize(function(){
         $('.topsearch-en>input').attr('placeholder','Search');
     };
 });
+
+//경매 회차 필터
+function localeOrdinal(n, l) {
+    if(!l) l = locale;
+    if (n != "" && typeof n != 'undefined')
+    {
+        if(l == "ko" ) return "제" + n + "회 ";
+
+        var s = ["th","st","nd","rd"],
+            v = n % 100;
+
+        return n+(s[(v-20)%10]||s[v]||s[0]);
+    }else{
+        return "";
+    }
+
+}
