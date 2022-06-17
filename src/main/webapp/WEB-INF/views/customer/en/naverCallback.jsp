@@ -131,7 +131,12 @@
 							data['social_email'] = naverLogin.user.email;
 							axios.post('/api/mypage/snsLink', data)
 								.then(function(response) {
-									opener.location.reload();
+									const result = response.data;
+									if(result.success == false){
+										opener.alert("It is a social account that has already been subscribed to or linked to Seoul Auction. Please link it to another account.");
+									}else{
+										opener.location.reload();
+									}
 									window.close();
 								})
 								.catch(function(error) {

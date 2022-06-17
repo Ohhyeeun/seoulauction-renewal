@@ -31,7 +31,7 @@
                                             <div class="subtitle-wrap">
                                                 <div class="subtitle-inner">
                                                     <div class="title">
-                                                        <span class="tt2">SNS 연동 설정</span>
+                                                        <span class="tt2">SNS Setting</span>
                                                     </div>
                                                     <div class="btn-wrap js-history_back m-ver"><i class="icon-page_back"></i></div>
                                                 </div>
@@ -39,14 +39,14 @@
                                             <div class="contents-wrap">
                                                 <article class="tit-textbox">
                                                     <p class="tb1">
-                                                        회원님의 아이디를 SNS 계정과 연결하여 간편하게 서울옥션에 로그인할 수 있는 서비스 입니다.
+                                                        This is a service that allows you to easily log in to Seoul Auction by linking your ID with your SNS account.
                                                     </p>
                                                 </article>
                                                 <article class="help-box-wrap">
                                                     <div class="help-box">
                                                         <i class="icon-inquiry_g"></i>
                                                         <ul>
-                                                            <li><span>연동 설정 시, 해당 SNS 서비스의 인증이 필요합니다.</span></li>
+                                                            <li><span> When setting the linkage, authentication of the corresponding SNS service is required.</span></li>
                                                         </ul>
                                                     </div>
                                                 </article>
@@ -56,12 +56,12 @@
                                                             <div class="sns-wrap">
                                                                 <div class="sns-logo"><i class="icon-sns_naver_type1"></i></div>
                                                                 <div class="sns-txt">
-                                                                    <div class="tit tt4">네이버</div>
+                                                                    <div class="tit tt4">NAVER</div>
                                                                     <div class="disc tb2" id="NVRegDt"></div>
                                                                 </div>
                                                             </div>
                                                             <div class="btn-wrap">
-                                                                <button class="btn btn_point btn_sm" id="NVButton" type="button" onclick="naverButtonClick()"><span>연동하기</span></button>
+                                                                <button class="btn btn_point btn_sm" id="NVButton" type="button" onclick="naverButtonClick()"><span>Connect</span></button>
                                                                 <div id="naverIdLogin" style="display:none"></div>
                                                             </div>
                                                         </li>
@@ -69,24 +69,24 @@
                                                             <div class="sns-wrap">
                                                                 <div class="sns-logo"><i class="icon-sns_kakao_type1"></i></div>
                                                                 <div class="sns-txt">
-                                                                    <div class="tit tt4">카카오톡</div>
+                                                                    <div class="tit tt4">KAKAO</div>
                                                                     <div class="disc tb2" id="KARegDt"></div>
                                                                 </div>
                                                             </div>
                                                             <div class="btn-wrap">
-                                                                <button class="btn btn_point btn_sm" id="KAButton" type="button" onclick="loginWithKakao()"><span>연동하기</span></button>
+                                                                <button class="btn btn_point btn_sm" id="KAButton" type="button" onclick="loginWithKakao()"><span>Connect</span></button>
                                                             </div>
                                                         </li>
                                                         <li>
                                                             <div class="sns-wrap">
                                                                 <div class="sns-logo"><i class="icon-sns_google_type1"></i></div>
                                                                 <div class="sns-txt">
-                                                                    <div class="tit tt4">구글</div>
+                                                                    <div class="tit tt4">GOOGLE</div>
                                                                     <div class="disc tb2" id="GLRegDt"></div>
                                                                 </div>
                                                             </div>
                                                             <div class="btn-wrap">
-                                                                <button class="btn btn_point btn_sm" id="GLButton" type="button" onclick="loginWithGoogle()"><span>연동하기</span></button>
+                                                                <button class="btn btn_point btn_sm" id="GLButton" type="button" onclick="loginWithGoogle()"><span>Connect</span></button>
                                                                 <div id="googleIdLogin" style="display:none"></div>
                                                             </div>
                                                         </li>
@@ -94,12 +94,12 @@
                                                             <div class="sns-wrap">
                                                                 <div class="sns-logo"><i class="icon-sns_apple_type1"></i></div>
                                                                 <div class="sns-txt">
-                                                                    <div class="tit tt4">애플</div>
+                                                                    <div class="tit tt4">Connect</div>
                                                                     <div class="disc tb2" id="APRegDt"></div>
                                                                 </div>
                                                             </div>
                                                             <div class="btn-wrap">
-                                                                <button class="btn btn_point btn_sm" id="APButton" type="button" onclick="loginWithApple()"><span>연동하기</span></button>
+                                                                <button class="btn btn_point btn_sm" id="APButton" type="button" onclick="loginWithApple()"><span>Connect</span></button>
                                                                 <div id="appleid-signin" style="display:none" data-type="sign in"></div>
                                                             </div>
                                                         </li>
