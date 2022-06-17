@@ -18,7 +18,7 @@ function paging(config){
         if (all_paging_cnt < start_page + config.pageSize) {
             return all_paging_cnt
         } else {
-            return start_page + config.pageSize - 1
+            return start_page + config.pageSize - 1;
         }
     }(all_paging_cnt, is_mod, start_page)
 
@@ -36,7 +36,6 @@ function paging(config){
         let start_arrow = document.createElement("a");
         start_arrow.setAttribute("href", "javascript:void(0);");
         start_arrow.addEventListener("click", function (){
-            console.log("start_page ::: " + start_page);
             if(config.page == 1) {
                 config.callBackFunc(1);
             }else{
@@ -49,18 +48,21 @@ function paging(config){
     }
 
     for (let i = start_page; i <= paging_end; i++) {
-        let pp = document.createElement("strong");
+        let pp = document.createElement("a");
         let et = document.createElement("em");
+        let st = document.createElement("strong");
         pp.setAttribute("href", "javascript:void(0);");
         pp.addEventListener("click", function (){
             config.callBackFunc(i);
         });
         et.innerText = i.toString();
-        pp.appendChild(et);
+
         if  (i == config.page) {
-            pp.setAttribute("class", "on");
-            paging_div.appendChild(pp);
+            st.setAttribute("class", "on");
+            st.appendChild(et);
+            paging_div.appendChild(st);
         }else{
+            pp.appendChild(et);
             paging_div.appendChild(pp);
         }
     }
