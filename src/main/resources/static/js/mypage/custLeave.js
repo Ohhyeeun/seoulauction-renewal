@@ -21,11 +21,20 @@ function custLeave(){
 				if(socialYn == 'Y'){
 					eval(socialType + "UnLink();");
 				}else{
-					alert("탈퇴되셨습니다.");
+					if(langType == 'ko'){
+						alert("회원탈퇴가 완료되었습니다.");
+					}else{
+						alert("Delete account has been completed.");
+					}
+					
 					location.href = "/login";
 				}
 			}else{
-				alert(result.data.msg)	
+				if(langType == 'ko'){
+					alert(result.data.msg)
+				}else{
+					alert("Delete account is not possible because there is an auction pending bid or payment pending.");
+				}
 			}
 		})	
 		.catch(function(error){
@@ -64,7 +73,11 @@ function NVUnLink(){
 		.then(function(response) {
 			const result = response.data;
 			if(result.success){
-				alert("탈퇴되셨습니다.");
+				if(langType == 'ko'){
+					alert("회원탈퇴가 완료되었습니다.");
+				}else{
+					alert("Delete account has been completed.");
+				}
 				location.href = "/login";
 			}
 		})
@@ -78,7 +91,11 @@ function KAUnLink(){
 	Kakao.API.request({
 		url: '/v1/user/unlink',
 		success: function(response) {
-			alert("탈퇴되셨습니다.");
+			if(langType == 'ko'){
+				alert("회원탈퇴가 완료되었습니다.");
+			}else{
+				alert("Delete account has been completed.");
+			}
 			location.href = "/login";
 		},
 		fail: function(error) {
@@ -91,7 +108,7 @@ function KAUnLink(){
 function GLUnLink(){
 	var auth2 = gapi.auth2.getAuthInstance();
 	auth2.disconnect().then(function() {
-		alert("탈퇴되셨습니다.");
+		alert("회원탈퇴가 완료되었습니다.");
 		location.href = "/login";
 	});
 }
@@ -99,6 +116,6 @@ function GLUnLink(){
 //애플 연동해제
 function APUnLink(){
 	//애플 연동해제 api 미지원
-	alert("탈퇴되셨습니다.");
+	alert("회원탈퇴가 완료되었습니다.");
 	location.href = "/login";
 }
