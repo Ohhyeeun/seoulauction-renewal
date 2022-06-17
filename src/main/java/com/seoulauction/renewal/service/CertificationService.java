@@ -50,8 +50,13 @@ public class CertificationService {
     	}  	
     	return result;
     }
+
+    public CommonMap selectCustHpByCustNo(CommonMap commonMap){
+    	return certificationMapper.selectCustHpByCustNo(commonMap);
+    }
     
     public int updateCustForForeAuth(CommonMap commonMap){
     	return certificationMapper.updateCustForForeAuth(commonMap);
     }
+    
 }

@@ -1,23 +1,31 @@
 package com.seoulauction.renewal.controller.api;
 
-import com.seoulauction.renewal.common.RestResponse;
-import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.exception.SAException;
-import com.seoulauction.renewal.service.CertificationService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.apache.commons.collections4.MapUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.collections4.MapUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.seoulauction.renewal.common.RestResponse;
+import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.exception.SAException;
+import com.seoulauction.renewal.service.CertificationService;
+import com.seoulauction.renewal.service.MypageService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @RestController
 @Log4j2
@@ -68,6 +76,7 @@ public class ApiCertificationController {
 			resultMap.put("AUTH_NUM", "");
 			resultMap.put("SEND_STATUS", true);
 			resultMap.put("AUTH_EXISTS", false);
+			
 		} else { // 폰인증을 막음.
 			resultMap.put("AUTH_EXISTS", true);
 		}
@@ -79,7 +88,13 @@ public class ApiCertificationController {
 	public ResponseEntity<RestResponse> confirmAuthNumCheck(@RequestBody CommonMap commonMap, Principal principal,
 			HttpServletRequest request, HttpServletResponse response) {
 		boolean b = this.confirmAuthNumber(commonMap, request, response);
+		commonMap.put("action_user_no", principal.getName());
 		if (b) {
+			if(commonMap.get("to_phone").equals(certificationService.selectCustHpByCustNo(commonMap).get("hp"))) {
+				commonMap.put("is_same_hp", true);
+			} else {
+				commonMap.put("is_same_hp", false);
+			}
 			return ResponseEntity.ok(RestResponse.ok(commonMap));
 		} else {
 			throw new SAException("인증번호가 일치하지 않습니다."); 

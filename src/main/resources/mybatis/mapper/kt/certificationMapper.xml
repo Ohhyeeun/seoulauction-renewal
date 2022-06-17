@@ -56,6 +56,10 @@
 		update SALE_CERT set DONE_CD='modify' where	SALE_CERT_NO = #{sale_cert_no};
 	</update>	
 
+	<select id="selectCustHpByCustNo" resultType="CommonMap">
+   		select hp from CUST where cust_no = #{action_user_no} 
+	</select>
+	
 	<select id="selectDuplicationForJoin" resultType="CommonMap"> <!-- 탈퇴자는  카운트 제외. 웹회원만 체크 -->
 		select CUST_NO from CUST where STAT_CD &lt;&gt; 'leave'  and JOIN_KIND_CD = 'online'
 		<if test="login_id != null">
