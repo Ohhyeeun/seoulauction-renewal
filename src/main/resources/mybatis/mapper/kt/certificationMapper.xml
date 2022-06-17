@@ -48,8 +48,11 @@
 		);
 	</insert>	
 	
-	<update id="updateSaleCertHp">
+	<update id="updateCustHp">
 		update CUST set HP = #{hp} where CUST_NO = #{action_user_no};
+	</update>	
+	
+	<update id="updateSaleCertHp">
 		update SALE_CERT set DONE_CD='modify' where	SALE_CERT_NO = #{sale_cert_no};
 	</update>	
 
