@@ -447,7 +447,7 @@
         }
 
 
-        $scope.goLot = function (saleNo, lotNo) R{
+        $scope.goLot = function (saleNo, lotNo) {
             window.location.href = '/privatesale/exhibitView/' + saleNo + '/' + lotNo;
         }
 
