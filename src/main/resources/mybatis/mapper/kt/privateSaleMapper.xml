@@ -77,7 +77,7 @@
              , COLUMN_JSON(L.SIGN_INFO_BLOB) SIGN_INFO_JSON
              , COLUMN_JSON(L.COND_RPT_BLOB) COND_RPT_JSON # YDH. 컨디션리포트용 데이터 컬럼 추가.
         , COLUMN_JSON(L.LITE_INFO_BLOB) LITE_INFO_JSON
-             , COLUMN_JSON(L.EXHI_INFO_BLOB) EXHI_INFO_JSON # YDH. 전시정보 데이터 컬럼 추가.
+             , COLUMN_JSON(L.EXHI_INFO_BLOB) EXHI_INFO_JSON # YH. 전시정보 데이터 컬럼 추가.
         , COLUMN_JSON(L.PROV_INFO_BLOB) PROV_INFO_JSON # YDH. 소장정보 데이터 컬럼 추가.
         , COLUMN_JSON(L.ETC_INFO_BLOB) ETC_INFO_JSON # YDH. 기타정보 데이터 컬럼 추가.
         , COLUMN_JSON(L.CMMT_BLOB) CMMT_JSON

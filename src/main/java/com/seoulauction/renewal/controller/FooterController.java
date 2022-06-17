@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
 
 import static com.seoulauction.renewal.common.SAConst.SERVICE_FOOTER;
@@ -19,20 +21,26 @@ import static com.seoulauction.renewal.common.SAConst.SERVICE_SERVICE;
 @RequestMapping(SERVICE_FOOTER)
 public class FooterController {
 
-    @GetMapping("/boardIncruitApply")
+    @GetMapping("/incruitApply")
     public String boardIncruitApply(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "boardIncruitApply" , locale);}
-    @GetMapping("/boardIncruitEmpty")
+    @GetMapping("/incruitEmpty")
     public String boardIncruitEmpty(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "boardIncruitEmpty" , locale);}
-    @GetMapping("/boardIncruitList")
-    public String boardIncruitList(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "boardIncruitList" , locale);}
-    @GetMapping("/boardIncruitView")
-    public String boardIncruitView(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "boardIncruitView" , locale);}
-    @GetMapping("/boardMediaList")
-    public String boardMediaList(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "boardMediaList" , locale);}
-    @GetMapping("/boardNoticeList")
-    public String boardNoticeList(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "boardNoticeList" , locale);}
-    @GetMapping("/boardNoticeView")
-    public String boardNoticeView(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "boardNoticeView" , locale);}
+    @GetMapping("/incruit")
+    public String boardIncruitList(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "incruit" , locale);}
+    @GetMapping("/incruit/{id}")
+    public String boardIncruitView(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "incruitView" , locale);}
+    @GetMapping("/media")
+    public String boardMediaList(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "media" , locale);}
+    @GetMapping("/notice")
+    public String boardNoticeList(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "notice" , locale);}
+    @GetMapping("/notice/{id}")
+    public String boardNoticeView(
+            @PathVariable("id") int id,
+            HttpServletRequest request,
+            Locale locale) {
+            request.setAttribute("id", id);
+            return SAConst.getUrl(SERVICE_FOOTER , "noticeView" , locale);
+    }
     @GetMapping("/companyHistory")
     public String companyHistory(Locale locale) {
         return SAConst.getUrl(SERVICE_FOOTER , "companyHistory" , locale);

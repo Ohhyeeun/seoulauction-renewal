@@ -34,12 +34,19 @@ public class ApiFooterController {
         return ResponseEntity.ok(RestResponse.ok(footerService.getBoardMediaList(CommonMap.create(page,size))));
     }
 
-    @GetMapping(value="/notices")
+    @GetMapping(value="/notice")
     public ResponseEntity<RestResponse> boardNotices(
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size
     ) {
         return ResponseEntity.ok(RestResponse.ok(footerService.getBoardNoticeList(CommonMap.create(page,size))));
+    }
+
+    @GetMapping(value="/notice/{id}")
+    public ResponseEntity<RestResponse> getBoardById(
+            @PathVariable("id") int id
+    ) {
+        return ResponseEntity.ok(RestResponse.ok(footerService.getBoardById(new CommonMap("id", id))));
     }
 
     @GetMapping(value="/incruit")
