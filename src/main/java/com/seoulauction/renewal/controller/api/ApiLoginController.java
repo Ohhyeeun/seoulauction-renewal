@@ -356,13 +356,18 @@ public class ApiLoginController {
 				.ip(loginService.getIp(request))
 				.build();
 
-		SecurityContext sc = SecurityContextHolder.getContext();
-		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(null, null);
-		auth.setDetails(parameterUserDetail);
-		sc.setAuthentication(socialAuthenticationProvider.authenticate(auth));
-
-		HttpSession session = request.getSession(true);
-		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
+		try {
+			SecurityContext sc = SecurityContextHolder.getContext();
+			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(null, null);
+			auth.setDetails(parameterUserDetail);
+			sc.setAuthentication(socialAuthenticationProvider.authenticate(auth));
+			
+			HttpSession session = request.getSession(true);
+			session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new SAException(e.getMessage());
+		}
 
         return ResponseEntity.ok(RestResponse.ok());
 	}
@@ -373,5 +378,16 @@ public class ApiLoginController {
 		log.info("logout");
 		new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
 		return ResponseEntity.ok(RestResponse.ok());
+	}
+	
+	//소셜회원 기가입체크
+	@RequestMapping(value="/isCustSocialExist", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> isCustSocialExist(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+
+	    log.info("isCustSocialExist");
+	    log.info(paramMap.toString());
+	    
+	    return ResponseEntity.ok(RestResponse.ok(loginService.selectCustForCustSocial(paramMap)));
 	}
 }

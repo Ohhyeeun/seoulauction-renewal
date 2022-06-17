@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seoulauction.renewal.mapper.kt.ServiceMapper">	
+	
+	<!-- get_academy_now_list -->
+	<select id="selectAcademyListForNow" resultType="CommonMap">
+		<include refid="get_academy_now_sql"/>
+		    limit	 #{offset}, #{size}
+	</select>
+	
+	<!-- get_academy_now_count -->
+	<select id="selectAcademyCntForNow" resultType="int">
+		select  count(A.ACADEMY_NO) as CNT
+				,SUM(IF(A.ACADEMY_CD = 'CULTURE' AND A.END_YN='N', 1, 0)) CULTURE_NEW,
+				SUM(IF(A.ACADEMY_CD = 'ARTAUCTION' AND A.END_YN='N', 1, 0)) ARTAUCTION_NEW,
+				SUM(IF(A.ACADEMY_CD = 'LECTURE' AND A.END_YN='N', 1, 0)) LECTURE_NEW,
+				SUM(IF(A.ACADEMY_CD = 'ARTBRUNCH' AND A.END_YN='N', 1, 0)) ARTBRUNCH_NEW,
+				SUM(IF(A.ACADEMY_CD = 'ARTCULTURE' AND A.END_YN='N', 1, 0)) ARTCULTURE_NEW,
+				SUM(IF(A.ACADEMY_CD = 'ARTBUSAN' AND A.END_YN='N', 1, 0)) ARTBUSAN_NEW,
+				SUM(IF(A.ACADEMY_CD = 'ARTISTTALK' AND A.END_YN='N', 1, 0)) ARTISTTALK_NEW
+	    	 from 	(
+	    	 <include refid="get_academy_now_sql"/>
+	    	 ) A
+	</select>
+	
+	<sql id="get_academy_now_sql">
+		select A.ACADEMY_NO AS ACADEMY_NO, 
+			   A.ACADEMY_CD AS ACADEMY_CD,
+			   A.CLOSE_YN,
+			   COLUMN_JSON(A.TITLE_BLOB) TITLE_JSON ,
+			   COLUMN_JSON(A.CONTENTS_BLOB) CONTENTS_JSON ,	
+		       A.FROM_DT AS FROM_DT, 
+		       A.TO_DT AS TO_DT, 
+		       A.ACADEMY_TIME AS ACADEMY_TIME,
+		       A.ACADEMY_TIME_EN AS ACADEMY_TIME_EN,
+		       A.IMG_PATH AS IMG_PATH, 
+		       A.IMG_PATH_EN AS IMG_PATH_EN, 
+		       A.IMG_VIEW_PATH AS IMG_VIEW_PATH,
+		       A.IMG_VIEW_PATH_EN AS IMG_VIEW_PATH_EN,
+		       A.FILE_NAME AS FILE_NAME,
+		       A.FILE_NAME_EN AS FILE_NAME_EN,
+		       A.FILE_ORG_NAME AS FILE_ORG_NAME,
+		       A.FILE_ORG_NAME_EN AS FILE_ORG_NAME_EN,
+		       A.FILE_PATH AS FILE_PATH, 
+		       A.FILE_PATH_EN AS FILE_PATH_EN,
+		       A.REG_DT AS  REG_DT, 
+		       A.REG_EMP_NO AS REG_EMP_NO, 
+		       B.EMP_NAME AS REG_EMP_NAME,
+		       A.VIEW_FILE_NAME AS VIEW_FILE_NAME,
+		       A.VIEW_FILE_NAME_EN AS VIEW_FILE_NAME_EN,
+		       A.VIEW_FILE_ORG_NAME AS VIEW_FILE_ORG_NAME,
+		       A.VIEW_FILE_ORG_NAME_EN AS VIEW_FILE_ORG_NAME_EN,
+		       A.ACADEMY_PAY AS ACADEMY_PAY,		       
+		       (case when #{action_user_no} = null then 0 else (SELECT COUNT(*) FROM ACADEMY_PAY C WHERE A.ACADEMY_NO = C.ACADEMY_NO AND C.CUST_NO = #{action_user_no} ) end )  AS ACADEMY_COMPLETE,
+		       IF(CAST(DATE_FORMAT(NOW(), "%Y-%m-%d") AS CHAR) > A.TO_DT, 'Y', 'N') END_YN,
+		       date_format(NOW(), '%Y-%m-%d') as DB_NOW
+		   from ACADEMY A INNER JOIN EMP B ON A.REG_EMP_NO = B.EMP_NO
+		     where A.DISP_YN = 'Y' AND A.DEL_YN = 'N'
+		order by A.FROM_DT DESC 
+	</sql>
+	
+	<!-- get_academy_view -->
+	<select id="selectAcademy" resultType="CommonMap">
+		select A.ACADEMY_NO AS ACADEMY_NO, 
+			   A.ACADEMY_CD AS ACADEMY_CD,
+			   COLUMN_JSON(A.TITLE_BLOB) TITLE_JSON ,
+			   COLUMN_JSON(A.CONTENTS_BLOB) CONTENTS_JSON ,	
+		       A.FROM_DT AS FROM_DT, 
+		       A.TO_DT AS TO_DT, 
+		       A.ACADEMY_TIME AS ACADEMY_TIME,
+		       A.ACADEMY_TIME_EN AS ACADEMY_TIME_EN,
+		       A.IMG_PATH AS IMG_PATH, 
+		       A.IMG_PATH_EN AS IMG_PATH_EN,
+		       A.IMG_VIEW_PATH AS IMG_VIEW_PATH,
+		       A.IMG_VIEW_PATH_EN AS IMG_VIEW_PATH_EN,
+		       A.FILE_NAME AS FILE_NAME,
+		       A.FILE_NAME_EN AS FILE_NAME_EN,
+		       A.FILE_ORG_NAME AS FILE_ORG_NAME,
+		       A.FILE_ORG_NAME_EN AS FILE_ORG_NAME_EN,		       
+		       A.FILE_PATH AS FILE_PATH, 
+		       A.FILE_PATH_EN AS FILE_PATH_EN,
+		       A.REG_DT AS  REG_DT, 
+		       A.REG_EMP_NO AS REG_EMP_NO, 
+		       B.EMP_NAME AS REG_EMP_NAME,
+		       A.VIEW_FILE_NAME AS VIEW_FILE_NAME,
+		       A.VIEW_FILE_NAME_EN AS VIEW_FILE_NAME_EN,
+		       A.VIEW_FILE_ORG_NAME AS VIEW_FILE_ORG_NAME,
+		       A.VIEW_FILE_ORG_NAME_EN AS VIEW_FILE_ORG_NAME_EN,
+		       A.ACADEMY_PAY AS ACADEMY_PAY,		
+		       A.CLOSE_YN AS CLOSE_YN,       
+		       (case when #{action_user_no} = null then 0 else (SELECT COUNT(*) FROM ACADEMY_PAY C WHERE A.ACADEMY_NO = C.ACADEMY_NO AND C.CUST_NO = #{action_user_no} ) end )  AS ACADEMY_COMPLETE,
+		       IF(CAST(DATE_FORMAT(NOW(), "%Y-%m-%d") AS CHAR) > A.TO_DT, 'Y', 'N') END_YN,
+		       date_format(NOW(), '%Y-%m-%d') as DB_NOW
+		   from ACADEMY A INNER JOIN EMP B ON A.REG_EMP_NO = B.EMP_NO
+		     where A.ACADEMY_CD = #{academy_cd} 
+		     and A.ACADEMY_NO = #{academy_no}
+		     and A.DISP_YN = 'Y' AND A.DEL_YN = 'N'
+		order by A.REG_DT DESC
+	</select>
+	
+	<!-- get_academy_list -->
+	<select id="selectAcademyList" resultType="CommonMap">
+		select A.ACADEMY_NO AS ACADEMY_NO, 
+			   A.ACADEMY_CD AS ACADEMY_CD,
+			   COLUMN_JSON(A.TITLE_BLOB) TITLE_JSON ,
+			   COLUMN_JSON(A.CONTENTS_BLOB) CONTENTS_JSON ,	
+		       A.FROM_DT AS FROM_DT, 
+		       A.TO_DT AS TO_DT, 
+		       A.ACADEMY_TIME AS ACADEMY_TIME,
+		       A.ACADEMY_TIME_EN AS ACADEMY_TIME_EN,
+		       A.CLOSE_YN AS CLOSE_YN,    
+		       A.IMG_PATH AS IMG_PATH, 
+		       A.IMG_PATH_EN AS IMG_PATH_EN, 
+		       A.IMG_VIEW_PATH AS IMG_VIEW_PATH,
+		       A.IMG_VIEW_PATH_EN AS IMG_VIEW_PATH_EN,
+		       A.FILE_NAME AS FILE_NAME,
+		       A.FILE_NAME_EN AS FILE_NAME_EN,
+		       A.FILE_ORG_NAME AS FILE_ORG_NAME,
+		       A.FILE_ORG_NAME_EN AS FILE_ORG_NAME_EN,
+		       A.FILE_PATH AS FILE_PATH, 
+		       A.FILE_PATH_EN AS FILE_PATH_EN,
+		       A.REG_DT AS  REG_DT, 
+		       A.REG_EMP_NO AS REG_EMP_NO, 
+		       B.EMP_NAME AS REG_EMP_NAME,
+		       A.VIEW_FILE_NAME AS VIEW_FILE_NAME,
+		       A.VIEW_FILE_NAME_EN AS VIEW_FILE_NAME_EN,
+		       A.VIEW_FILE_ORG_NAME AS VIEW_FILE_ORG_NAME,
+		       A.VIEW_FILE_ORG_NAME_EN AS VIEW_FILE_ORG_NAME_EN,
+		       A.ACADEMY_PAY AS ACADEMY_PAY,		       
+		       (case when #{action_user_no} = null then 0 else (SELECT COUNT(*) FROM ACADEMY_PAY C WHERE A.ACADEMY_NO = C.ACADEMY_NO AND C.CUST_NO = #{action_user_no} ) end )  AS ACADEMY_COMPLETE,
+		       IF(CAST(DATE_FORMAT(NOW(), "%Y-%m-%d") AS CHAR) > A.TO_DT, 'Y', 'N') END_YN,
+		       date_format(NOW(), '%Y-%m-%d') as DB_NOW
+		   from ACADEMY A INNER JOIN EMP B ON A.REG_EMP_NO = B.EMP_NO
+		     where 1 = 1
+		      <if test="academy_cd != 'all'"> 
+		      and A.ACADEMY_CD = #{academy_cd} 
+		      </if>
+		      and A.DISP_YN = 'Y' AND A.DEL_YN = 'N'
+		order by A.FROM_DT DESC limit	#{offset}, #{size}
+	</select>
+	
+	<!-- get_academy_cnt -->
+	<select id="selectAcademyListCnt" resultType="int">
+		select count(*) as CNT   
+		   from ACADEMY A INNER JOIN EMP B ON A.REG_EMP_NO = B.EMP_NO
+		      where 1 = 1
+		      <if test="academy_cd != 'all'"> 
+		      and A.ACADEMY_CD = #{academy_cd} 
+		      </if> 
+		      and A.DISP_YN = 'Y' AND A.DEL_YN = 'N'
+		order by A.REG_DT DESC
+	</select>
+</mapper>

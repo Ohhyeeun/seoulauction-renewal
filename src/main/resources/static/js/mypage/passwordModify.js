@@ -33,7 +33,7 @@ function chkPassword(oldNew, pwVal){
 				if (langType == 'ko') {
 					$("#oldPasswordMsg").html("현재 비밀번호와 일치하지 않습니다.");
 				} else {
-					$("#newPasswordMsg").html("The current password does not match.");
+					$("#oldPasswordMsg").html("The current password does not match.");
 				}
 				oldValid = false;
 			}else if(oldNew === 'new'){
@@ -99,7 +99,11 @@ function modifyPw(){
 		    const result = response.data;
 		    console.log(result);
 		    if(result.success){
-				alert("비밀번호가 정상적으로 변경되었습니다. 변경된 비밀번호로 다시 로그인 해 주세요.");
+				if (langType == 'ko') {
+					alert("비밀번호가 정상적으로 변경되었습니다. 변경된 비밀번호로 다시 로그인 해 주세요.");
+				} else {
+					alert("Your password has been successfully changed. Please log in again with the changed password.");
+				}
 				window.location.href = "/login";
 			}else{
 				alert(result.data.msg)
@@ -110,13 +114,29 @@ function modifyPw(){
 		});
 	}else{
 		if($('#oldPassword').val() === ""){
-			alert("현재 비밀번호를 입력해 주세요.");
+			if (langType == 'ko') {
+				alert("현재 비밀번호를 입력해 주세요.");
+			} else {
+				alert("Please enter current password.");
+			}
 		}else if($('#newPassword').val() === ""){
-			alert("새 비밀번호를 입력해 주세요.");
+			if (langType == 'ko') {
+				alert("새 비밀번호를 입력해 주세요.");
+			} else {
+				alert("Please enter new password.");
+			}
 		}else if($('#confirmPassword').val() === ""){
-			alert("새 비밀번호 확인을 입력해 주세요.");
+			if (langType == 'ko') {
+				alert("새 비밀번호 확인을 입력해 주세요.");
+			} else {
+				alert("Please enter new password confirm.");
+			}
 		}else{
-			alert("필수값을 확인해주세요.");
+			if (langType == 'ko') {
+				alert("필수값을 확인해주세요.");
+			} else {
+				alert("Please, fill in the field.");
+			}
 		}
 	}
 }

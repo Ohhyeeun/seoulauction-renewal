@@ -173,7 +173,7 @@ onclick="javascript:window_close();"
         "padding-top": o,
         "padding-bottom": e
     }), $("footer.footer").css({
-        "margin-top": -e,
+        "margin-top": -e
     })) : ($("#contents").css({
         "padding-top": n,
         "padding-bottom": i

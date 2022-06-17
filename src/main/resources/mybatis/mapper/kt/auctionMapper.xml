@@ -42,7 +42,7 @@
 	</select>
 
 	<select id="selectSalePaddNo" resultType="int" parameterType="commonMap">
-		SELECT MAX(PADD_NO)
+		SELECT IFNULL(MAX(PADD_NO), 0)
 		FROM SALE_PADD sp
 		WHERE sp.CUST_NO = #{cust_no}
 		  and sp.SALE_NO = #{sale_no}
@@ -82,7 +82,7 @@
 			 , S.SALE_OUTSIDE_YN
 			 , if(S.SALE_KIND_CD in ('plan', 'main', 'hongkong') and S.TO_DT &lt; current_timestamp - interval 5 year, 'Y', 'N') as IS_OLD_SALE
 			 , (select min(sp.FROM_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_FROM_DT
-			 , (select max(sp.FROM_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_TO_DT
+			 , (select max(sp.TO_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_TO_DT
 			 , now() as DB_NOW
 		from SALE S
 			left outer join SALE_IMG SI on SI.SALE_NO = S.SALE_NO
@@ -114,7 +114,7 @@
 			, S.SALE_OUTSIDE_YN
 			, if(S.SALE_KIND_CD in ('plan', 'main', 'hongkong') and S.TO_DT &lt; current_timestamp - interval 5 year, 'Y', 'N') as IS_OLD_SALE
 			, (select min(sp.FROM_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_FROM_DT
-			, (select max(sp.FROM_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_TO_DT
+			, (select max(sp.TO_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_TO_DT
 			, now() as DB_NOW
 		from SALE S
 			left outer join SALE_IMG SI on SI.SALE_NO = S.SALE_NO
@@ -138,9 +138,11 @@
 			, S.LIVE_BID_DT
 			, S.AUTO_BID_REQ_CLOSE_DT
 			, now() as DB_NOW
+			, (select MAX(L.TO_DT) from LOT L where L.SALE_NO = S.SALE_NO GROUP BY L.SALE_NO) END_DT
+			, (<![CDATA[select LC.CLOSE_YN from LOT LC where LC.SALE_NO = S.SALE_NO AND LC.LOT_NO = (SELECT MAX(LC1.LOT_NO) FROM LOT LC1 WHERE LC1.SALE_NO = S.SALE_NO AND LC1.STAT_CD <> 'reentry')]]>) AS CLOSE_YN
 			, BW.WRITE_NO
-		    , min(sp.FROM_DT) PREV_FROM_DT
-		    , max(sp.TO_DT) PREV_TO_DT
+		    , min(SP.FROM_DT) PREV_FROM_DT
+		    , max(SP.TO_DT) PREV_TO_DT
 			, concat('[',
 		  		GROUP_CONCAT('{'
 				, '"PLACE_JSON":', ifnull(CAST(COLUMN_JSON(SP.PLACE_BLOB) as char), ''), ', '

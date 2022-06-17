@@ -82,11 +82,11 @@
                                                 <ul class="pay_info tb1">
                                                     <li>
                                                         <span class="th">이름</span>
-                                                        <span class="td">${custInfo.cust_name}</span>
+                                                        <span class="td">${cust_name}</span>
                                                     </li>
                                                     <li>
                                                         <span class="th">연락처</span>
-                                                        <span class="td">${custInfo.hp}</span>
+                                                        <span class="td">${hp}</span>
                                                     </li>
                                                 </ul>
                                             </li>

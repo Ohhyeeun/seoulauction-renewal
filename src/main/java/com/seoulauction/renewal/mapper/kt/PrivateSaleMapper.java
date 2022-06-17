@@ -12,4 +12,10 @@ public interface PrivateSaleMapper {
 
     CommonMap selectExhibitLotInfo(CommonMap commonMap);
 
+    List<CommonMap> selectPrivateSaleList(CommonMap commonMap);
+
+    CommonMap selectPrivateSaleInfo(CommonMap commonMap);
+
+    List<CommonMap> selectPrivateSaleImages(CommonMap commonMap);
+
 }

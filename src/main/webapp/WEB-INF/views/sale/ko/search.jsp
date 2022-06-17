@@ -27,9 +27,9 @@
         <script type="text/javascript" src="/js/angular/checklist-model.js"></script>
         <script type="text/javascript" src="/js/angular/hrzslider.min.js"></script>
         <link href="/css/jquery.nouislider.css" rel="stylesheet">
-        <script type="text/javascript" src="/js/customer/login.js"></script>
         <script>
             app.value('locale', 'ko');
+            app.value('is_login', 'false');
         </script>
         <script type="text/javascript" src="/js/sale/search.js"></script>
         <!-- container -->
@@ -99,11 +99,12 @@
                                             </div>
                                         </div>
                                         <div class="col_item positon-col2">
-                                            <div class="select-box" id="selectSort" >
-                                                <select class="select2Basic42" onchange="angular.element(this).scope().search();">
-                                                    <option value="1" >경매 최신순</option>
-                                                    <option value="2">추정가 낮은순</option>
-                                                    <option value="3">추정가 높은순</option>
+                                            <div class="select-box" id="selectSort" onchange="angular.element(this).scope().search();">
+                                                <select class="select2Basic42" >
+                                                    <option value="1">경매 최신순</option>
+                                                    <option value="2">LOT 번호순</option>
+                                                    <option value="3">추정가 낮은순</option>
+                                                    <option value="4">추정가 높은순</option>
                                                 </select>
                                             </div>
                                             <div class="select-box" id="selectMore">

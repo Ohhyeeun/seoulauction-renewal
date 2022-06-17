@@ -222,6 +222,10 @@ button {
     line-height: 0;
     text-indent: -9999px;
 }
+/* pc, mobile 공통 display: none */
+.blind_none {
+    display: none;
+}
 img {
     max-width: 100%;
     max-height: 100%;
@@ -629,6 +633,7 @@ img {
     padding: 14px 0;
     display: flex;
     position: relative;
+    cursor: pointer;
 }
 .header_utilitymenu>li:before {
     content: "";
@@ -1068,6 +1073,9 @@ img {
 .footer-infomenu>li>a {
     font-weight: 600;
 }
+.footer-infomenu>li:nth-child(2)>a {
+    font-weight: 800;
+}
 .snsbox_icon>li {
     margin-right: 12px;
 }
@@ -1123,6 +1131,7 @@ img {
     position: relative;
     top: 0;
     z-index: 1;
+    cursor: pointer;
 }
 .familyselect {
     position: absolute;
@@ -1183,7 +1192,8 @@ img {
 .span_block,
 .familyselect.on,
 .gnb_submenuBg.on,
-.submenuBg.on {
+.submenuBg.on,
+.common_block {
     display: block;
 }
 .header_beltbox.on {

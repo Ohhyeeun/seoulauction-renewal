@@ -33,9 +33,7 @@ function logout(loginId){
 }
 // 세션로그아웃
 function sessionLogout() {
-	axios.get("/api/login/logout").then(function(response) {
-		location.reload();
-	});
+	location.href = "/processLogout";
 }
 </script>
 
@@ -65,10 +63,10 @@ function sessionLogout() {
             <sec:authorize access="isAuthenticated()"> <!-- login -->
                 <li class="utility-tab utility-account"><a href="javascript:void(0);">ACCOUNT</a>
                     <ul class="bubble-box bubble-box02">
-                        <li><a href="#">Live Auction Management</a></li>
-                        <li id="MyMenuOnlineBadge"><a href="#">Online Auction Management</a></li>
-                        <li><a href="#">Wish List</a></li>
-                        <li><a href="#">Academy Application List</a></li>
+                        <li><a href="/mypage/liveBidReqList">Live Auction Management</a></li>
+                        <li id="MyMenuOnlineBadge"><a href="/mypage/onlineBidList">Online Auction Management</a></li>
+                        <li><a href="/mypage/inteLotList">Wish List</a></li>
+                        <li><a href="/mypage/academyList">Academy Application List</a></li>
                         <li><a href="/mypage/custModify">Edit member information</a></li>
                     </ul>
                 </li>
@@ -150,7 +148,7 @@ function sessionLogout() {
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
                                 <ul class="submenu submenu-part04">
-                                    <li id="menu_academy"><a href="#">Academy</a></li>
+                                    <li id="menu_academy"><a href="/service/academy">Academy</a></li>
                                     <li><a href="#">Art Collateral Loans</a></li>
                                     <li><a href="#">Art Storage</a></li>
                                     <li><a href="#">Rental of Space</a></li>
