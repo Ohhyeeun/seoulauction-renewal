@@ -647,6 +647,8 @@
         // 모든 비딩 정보
         $scope.bidsInfoAll = [];
 
+        let w;
+
         // bidstart
         $scope.bidstart = function (user_id, custNo) {
             $scope.retry(parseInt($scope.sale_no), 0, 2, user_id, custNo);
@@ -984,6 +986,8 @@
                 if (d.message.bids != null && d.message.bids.length > 0) {
                     $scope.bidsInfoAll = d.message.bids;
                     let matching = new Map();
+
+                    //d.message.bids[0].cur_lot_no
 
                     // 정보를 처음 가져왔을 때, 인덱스 매핑
                     for (let i = 0; i < $scope.bidsInfoAll.length; i++) {

@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class ApiAuctionController {
     private final AuctionService auctionService;
 
-    @PostMapping("/paddle")
+    @PostMapping(value="/paddle")
     public ResponseEntity<RestResponse> paddle(@RequestBody CommonMap paramMap) {
         return ResponseEntity.ok(RestResponse.ok(auctionService.insertPaddle(paramMap)));
     }
 
-    @GetMapping("/paddles/{saleNo}")
+    @GetMapping(value="/paddles/{saleNo}")
     public ResponseEntity<RestResponse> getPaddle(@PathVariable("saleNo") int saleNo) {
         CommonMap paramMap = new CommonMap();
         paramMap.put("sale_no", saleNo);
