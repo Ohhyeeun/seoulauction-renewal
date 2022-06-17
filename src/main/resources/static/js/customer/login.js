@@ -9,6 +9,33 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 	$scope.form_data.captchaImg = "";
 	$scope.validCheck = true;
 	
+	function setCookie(cookieName, value, exdays){
+	    var exdate = new Date();
+	    exdate.setDate(exdate.getDate() + exdays);
+	    var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
+	    document.cookie = cookieName + "=" + cookieValue;
+	}
+	 
+	function deleteCookie(cookieName){
+	    var expireDate = new Date();
+	    expireDate.setDate(expireDate.getDate() - 1);
+	    document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+	}
+	
+	function getCookie(cookieName) {
+	    cookieName = cookieName + '=';
+	    var cookieData = document.cookie;
+	    var start = cookieData.indexOf(cookieName);
+	    var cookieValue = '';
+	    if(start != -1){
+	        start += cookieName.length;
+	        var end = cookieData.indexOf(';', start);
+	        if(end == -1)end = cookieData.length;
+	        cookieValue = cookieData.substring(start, end);
+	    }
+	    return unescape(cookieValue); 
+	}  
+	
 	$scope.login = function(){				
 		var lang = document.documentElement.lang;
 		$scope.validCheck = false;
@@ -65,6 +92,13 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 				return;
 			}
 			
+			//로그인 시도 전 아이디저장 체크 Y시 쿠키저장
+			if($("#checkedID").is(":checked")){
+				var LoginID = $("input[name='loginId']").val();     
+				setCookie("LoginID", LoginID, 30);
+			}else{
+				deleteCookie("LoginID");   
+			}  
 			document.getElementById('loginForm').submit();
 		}
 		
@@ -99,6 +133,16 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 		if(recentSocialType != ''){
 			console.log("recentSocialType : " + recentSocialType)
 			$('#recentSocialType' + recentSocialType).css('display', 'block');
+		}
+		
+		var LoginID = getCookie("LoginID");  
+		$scope.form_data.loginId = LoginID;
+		if(LoginID != ''){
+			$("#loginId").val(LoginID);
+			$("#password").focus();
+			$("#checkedID").prop("checked", true);   
+		}else{
+			$("#loginId").focus();
 		}
 	}
 

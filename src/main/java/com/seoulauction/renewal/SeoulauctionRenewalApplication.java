@@ -1,6 +1,7 @@
 package com.seoulauction.renewal;
 
-import lombok.extern.log4j.Log4j2;
+import javax.servlet.http.HttpSessionListener;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -8,6 +9,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+
+import com.seoulauction.renewal.auth.SessionListener;
+
+import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @SpringBootApplication
@@ -29,5 +34,10 @@ public class SeoulauctionRenewalApplication extends SpringBootServletInitializer
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(SeoulauctionRenewalApplication.class);
+    }
+    
+    @Bean
+    public HttpSessionListener httpSessionListener(){
+        return new SessionListener();
     }
 }

@@ -333,8 +333,12 @@
         select IM.SALE_AS_NO,
                IM.IMG_NO,
                IM.FILE_PATH FILE_PATH,
-               IM.FILE_NAME FILE_NAME
+               IM.FILE_NAME FILE_NAME,
+               ifnull(SAS.UNIT_CD, 'cm')             UNIT_CD,
+               ifnull(SAS.SIZE1, '0')                SIZE1,
+               ifnull(SAS.SIZE2, '0')                SIZE2
         from   SALE_AS_IMG IM
+               INNER JOIN SALE_AS_SIZE SAS ON IM.SALE_AS_NO = SAS.SALE_AS_NO
         where  IM.SALE_AS_NO = #{sale_as_no}
         order by IM.DISP_ORD is null, IM.DISP_ORD, IM.IMG_NO
     </select>

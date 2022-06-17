@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seoulauction.renewal.mapper.aws.FooterMapper">
+    <!--FAQ -->
+    <select id="selectFaqs" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+            *
+        FROM
+            faq
+        WHERE
+            IS_OPEN = 'Y'
+            AND STATUS = 'A'
+        ORDER BY
+            CREATED_AT desc
+        limit
+            #{offset} , #{size}
+    </select>
+    <!--언론 보도 -->
+    <select id="selectContentPress" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+            *
+        FROM
+            content_press
+        WHERE
+            STATUS = 'A'
+        ORDER BY
+            CREATED_AT desc
+        limit
+            #{offset} , #{size}
+    </select>
+    <!--채용 공고 -->
+    <select id="selectRecruits" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+            *
+        FROM
+            recruit
+        WHERE
+            STATUS = 'A'
+            AND IS_OPEN = 'Y'
+            AND NOW() >= START_AT
+            AND NOW()  <![CDATA[ <= ]]> END_AT
+        ORDER BY
+            CREATED_AT desc
+        limit
+            #{offset} , #{size}
+    </select>
+    <!--공지 사항 -->
+    <select id="selectNotices" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+            *
+        FROM
+            notice
+        WHERE
+            STATUS = 'A'
+            AND IS_OPEN = 'Y'
+        ORDER BY
+            CREATED_AT desc
+        limit
+            #{offset} , #{size}
+    </select>
+</mapper>
