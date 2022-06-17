@@ -37,7 +37,7 @@
                         <div class="section-inner">
                             <div class="section-header">  
                                 <div class="title-area">
-                                    <div class="title">
+                                    <div class="title"> 
                                         <span>163회 미술품 라이브 경매</span>
                                     </div>
                                 </div>
@@ -282,7 +282,7 @@
                                                             <a href="#" class="lot-btn_tabmenu on" role="button">LOT</a>
                                                         </div>
                                                         <div class="btn_item">
-                                                            <a href="#" class="lot-btn_tabmenu" role="button">내 응찰내역</a> 
+                                                            <a href="#" class="lot-btn_tabmenu" role="button">내 응찰내역</a>
                                                         </div>
                                                     </div>
                                                     <p class="count"><span class="txt">패들번호 : </span><span class="num">633</span></p>
@@ -323,7 +323,7 @@
                                                     
                                                     <!-- 내 응찰내역 --> 
                                                     <div class="my_lot_type2 blind_none"> <!-- 임시주석 클래스 blind_none -->
-                                                        <div class="my_lot_header"> 
+                                                        <div class="my_lot_header">
 
                                                             <table class="table_base my_lot_table">
                                                                 <colgroup>
@@ -398,7 +398,7 @@
                                                         </div>
                                                     </div><!--// my_lot_type2 -->
                                                     
-                                                    <!-- 준회원 -->  
+                                                    <!-- 준회원, 비회원 -->  
                                                     <div class="my_lot_type3 blind_none"> <!-- 임시주석 클래스 blind_none -->
                                                         <p class="title">
                                                             라이브 경매 응찰은 <span>정회원부터 가능</span>합니다.
@@ -413,25 +413,7 @@
                               // -->
                                                             <!-- <a href="#" class="btn btn_member">정회원 결제</a> -->
                                                         </div>
-                                                    </div> <!-- //my_lot_type3 --> 
-                                                    
-                                                    <!-- 비회원 -->   
-                                                    <div class="my_lot_type3 blind_none"> <!-- 임시주석 클래스 blind_none -->  
-                                                        <p class="title">
-                                                            라이브 경매 응찰은 <span>정회원부터 가능</span>합니다.
-                                                        </p>
-                                                        <p class="txt">
-                                                            정회원은 유료로 운영되며 서울옥션이 발행하는 <br>
-                                                            간행물(각종 도록, 전시 안내 등)을 받으실 수 있습니다.
-                                                        </p>
-                                                        <div class="member_price">
-                                                            <!-- [0613]삭제 
-                              <p class="p_txt">정회원 연회비 : 라이브 경매 응찰은 사전 신청한 정회원만 가능합니다.</p>
-                              // -->
-                                                            <!-- <a href="#" class="btn btn_member">정회원 결제</a> -->
-                                                        </div>
-                                                    </div> <!-- //my_lot_type3 --> 
-                                                    
+                                                    </div> <!-- //my_lot_type3 -->  
                                                 </div>
                                             </div>
 
@@ -571,8 +553,8 @@
                                                         </div>
                                                         <div class="type1_info_box">
                                                             <div>
-                                                                <div class="select-box">
-                                                                    <select class="currency_select" id="">
+                                                                <div class="select-box"> 
+                                                                    <select class="js-money_help" id="" onchange="selectCurrency()">
                                                                         <option value="1">USD</option>
                                                                         <option value="2">USD2</option>
                                                                         <option value="3">USD3</option>
@@ -668,7 +650,7 @@
 
                                                 <div class="my_lot_wrap">
 
-                                                    <div class="my_lot_type1">
+                                                    <div class="my_lot_type1" style="display: none;">  
                                                         <a href="#" class="lot_link"> 현재 LOT 이동 </a>
                                                         <div class="view-img_wrap">
                                                             <div class="view-img">
@@ -702,7 +684,7 @@
                                                     </div>
                                                     
                                                     <!-- 내 응찰내역 -->
-                                                    <div class="my_lot_type2 blind_none"> <!-- 임시주석 클래스 blind_none --> 
+                                                    <div class="my_lot_type2"> <!-- 임시주석 클래스 blind_none --> 
                                                         <div class="my_lot_header">
 
                                                             <table class="table_base my_lot_table">
@@ -794,28 +776,9 @@
                                                             <!-- <a href="#" class="btn btn_member">정회원 결제</a> -->
                                                         </div>
                                                     </div>  
-                                                    
-                                                    <!-- 비회원 --> 
-                                                    <div class="my_lot_type3 blind_none"> <!-- 임시주석 클래스 blind_none --> 
-                                                        <p class="title"> 
-                                                            라이브 경매 응찰은 <span>정회원부터 가능</span>합니다.
-                                                        </p>
-                                                        <p class="txt">
-                                                            정회원은 유료로 운영되며 서울옥션이 발행하는 <br>
-                                                            간행물(각종 도록, 전시 안내 등)을 받으실 수 있습니다.
-                                                        </p>
-                                                        <div class="member_price">
-                                                            <!-- [0613]삭제 
-                              <p class="p_txt">정회원 연회비 : 라이브 경매 응찰은 사전 신청한 정회원만 가능합니다.</p>
-                              // -->
-                                                            <!-- <a href="#" class="btn btn_member">정회원 결제</a> -->
-                                                        </div>
-                                                    </div>  
-                                                </div>
-
+                                                </div> 
                                             </div>
-
-                                        </article>
+                                        </article> 
                                     </div> 
                                 </div> <!-- //mobile 버전 -->  
                             </div> <!-- section body -->   
@@ -1040,8 +1003,8 @@
                             </div>
                             <div class="pop-body scroll-type">
                                 <section class="section" style="display: block;">
-                                    <article class="auction_info-article">
-                                        <div class="img">
+                                    <article class="auction_info-article"> 
+                                        <div class="img"> 
                                             <img class="only_ib-pc" src="/images/pc/auction/symbol-none_data.png" alt="안내" />
                                             <img class="only_ib-mb" src="/images/pc/auction/symbol-none_data.png" alt="안내" />
                                         </div>
@@ -1076,18 +1039,16 @@
                 </div>
             </div> 
         </div> 
+        <!-- stykey --> 
 
-            
-            <!-- stykey -->
-
-            <div class="scroll_top-box">
-                <div class="box-inner">
-                    <a href="#" class="btn-scroll_top js-scroll_top"><i class="icon-scroll_top"></i></a>
-                </div>
+        <div class="scroll_top-box">
+            <div class="box-inner">
+                <a href="#" class="btn-scroll_top js-scroll_top"><i class="icon-scroll_top"></i></a>
             </div>
-            <!-- // stykey -->
-        </div>   
-    </div>  
+        </div>
+        <!-- // stykey -->
+    </div>   
+</div>  
        
         <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
         <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
@@ -1153,9 +1114,17 @@
                     money_help.close();
                 });
                 
+                $("#checkbox_check").on("change", function($e) {
+                    console.log(" $(this).val() >>>", $(this).prop("checked"))
+                    if ($(this).prop("checked")) {
+                        $(".js-checkbox_check").prop("disabled", false);
+                    } else {
+                        $(".js-checkbox_check").prop("disabled", true);
+                    }
+                });  
             }
             
-            (function() {  
+            /* (function() {  
                 var money_help = $(".js-money_help").trpLayerFixedPopup("#money_help-wrap"); 
                 $(money_help.getBtn).on("click", function($e) {
                     $e.preventDefault();
@@ -1177,7 +1146,7 @@
                         $(".js-checkbox_check").prop("disabled", true);
                     }
                 }); 
-            })();  
+            })(); */    
         </script> 
 </body>
 
