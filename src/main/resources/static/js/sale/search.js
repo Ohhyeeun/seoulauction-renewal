@@ -316,8 +316,10 @@ app.controller('lotListCtl', function($scope, consts, common, is_login, locale, 
         if(sort == 1){
             $scope.sortBy = "ENDDE";
         }else if(sort == 2){
+            $scope.sortBy = "LOTAS";
+        }else if(sort == 3){
             $scope.sortBy = "ESTAS";
-        }else if(sort ==3){
+        }else if(sort ==4){
             $scope.sortBy = "ESTDE";
         }
         const more = $("#selectMore option:selected").val();
