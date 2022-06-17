@@ -1,4 +1,4 @@
- /*Auction*/
+ /*공지사항*/
 $(document).ready(function(){
 
     let current_page = 1;
