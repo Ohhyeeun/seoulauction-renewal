@@ -48,7 +48,7 @@ public class FooterService {
 
         CommonMap resultMap = footerMapper.selectNoticeById(map);
         if(resultMap != null) {
-            resultMap.put("images", s3Service.getS3FileData("notice", resultMap.get("id")));
+            resultMap.put("images", s3Service.getS3FileDataAll("notice", resultMap.get("id")));
         }
         return resultMap;
     }
