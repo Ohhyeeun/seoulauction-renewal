@@ -16,7 +16,7 @@ public interface CertificationMapper {
   
     int insertAuthNumber(CommonMap commonMap);
 
-    int inertSaleCert(CommonMap commonMap);
+    int insertSaleCert(CommonMap commonMap);
    
     int updateCustHp(CommonMap commonMap);
 
@@ -26,4 +26,5 @@ public interface CertificationMapper {
 
     CommonMap selectCustHpByCustNo(CommonMap commonMap);
 
+    CommonMap selectSaleCertInfo(CommonMap paramMap);
 }
