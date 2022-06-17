@@ -119,17 +119,20 @@
                                                                             </dl>
                                                                             <dl class="price">
                                                                                 <dt class="tit">Fees</dt>
-                                                                                <dd class="txt">{{data.CURR_CD}} {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).fee}}</dd>
+                                                                                <!-- <dd class="txt">{{data.CURR_CD}} {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).fee}}</dd> -->
+                                                                                <dd class="txt">{{data.CURR_CD}} {{comma(data.FEE)}}</dd>
                                                                             </dl>
                                                                             <dl class="price succ">
                                                                                 <dt class="tit">Purchase</dt>
-                                                                                <dd class="txt">{{data.CURR_CD}} {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price}}</dd>
+                                                                                <!-- <dd class="txt" ng-if="{{data.PAY_PRICE}}">{{data.CURR_CD}} {{data.PAY_PRICE}}</dd> -->
+                                                                                <dd class="txt" ng-if="data.PAID_CNT == 0">{{data.CURR_CD}} {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price}}</dd>
+                                                                                <dd class="txt" ng-if="data.PAID_CNT >= 1">{{data.CURR_CD}} {{comma(data.PAY_PRICE)}}</dd>
                                                                             </dl>
                                                                         </div>
-                                                                        <div class="btn-area" ng-if="data.PAID_CNT != 1">
-                                                                            <button class="btn btn_point" type="button"><span>Make a PayMent</span></button>
+                                                                        <div class="btn-area" ng-if="data.PAID_CNT == 0">
+                                                                        	<a href="payment/sale/{{data.SALE_NO}}/lot/{{data.LOT_NO}}"><button class="btn btn_point" type="button"><span>Make a PayMent</span></button></a>
                                                                         </div>
-                                                                        <div class="btn-area" ng-if="data.PAID_CNT == 1">
+                                                                        <div class="btn-area" ng-if="data.PAID_CNT >= 1">
                                                                             <button class="btn btn_gray_line" type="button" ng-if="data.PAY_METHOD_ID == 'card' && data.receipt == 'Y'" ng-click="receiptPopup({'pay':data,'type':0})"><span>Payment Receipt</span></button>
                                                                             <button class="btn btn_gray_line" type="button" ng-if="data.PAY_METHOD_ID == 'vbank' && data.receipt == 'Y'" ng-click="receiptPopup({'pay':data,'type':1})"><span>Cash Receipt</span></button>
 <!--                                                                             <button class="btn btn_gray btn-half btn-print" type="button" disabled>
