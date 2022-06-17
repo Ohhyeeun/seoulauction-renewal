@@ -15,12 +15,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>아카데미 | Seoul Auction</title>
     <link rel="stylesheet" href="/css/plugin/csslibrary.css">
-    <link rel="stylesheet" href="/css/common.css" type="text/css" />
-    <link rel="stylesheet" href="/css/pages_common_ko.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
     <!-- //header -->
 </head>
 
@@ -371,15 +365,12 @@
 </div>
     <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
     <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
     <!-- [0516]삭제
   <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
 -->
 
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 	<!-- Swiper 아카데미 리스트 -->
     <script class="js-append-script">
         // Swiper 세팅
