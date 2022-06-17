@@ -27,11 +27,17 @@ public class ApiFooterController {
     }
 
     @GetMapping(value="/medias")
-    public ResponseEntity<RestResponse> boardMedias(
+    public ResponseEntity<RestResponse> medias(
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
-            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size,
+            @RequestParam(value = "langs" , required = false , defaultValue = "KO")  String langs,
+            @RequestParam(value = "search" , required = false ) String search
     ) {
-        return ResponseEntity.ok(RestResponse.ok(footerService.getBoardMediaList(CommonMap.create(page,size))));
+        CommonMap maps = CommonMap.create(page,size);
+        maps.put("langs" , langs);
+        maps.put("search" , search);
+
+        return ResponseEntity.ok(RestResponse.ok(footerService.getBoardMediaList(maps)));
     }
 
     @GetMapping(value="/notice")

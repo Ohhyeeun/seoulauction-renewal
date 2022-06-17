@@ -18,15 +18,33 @@
     <!--언론 보도 -->
     <select id="selectContentPress" parameterType="CommonMap" resultType="CommonMap">
         SELECT
-            *
+            *,
+            date_format(press_date, '%Y.%m.%d') dt_date
         FROM
             content_press
         WHERE
             STATUS = 'A'
+            AND LANG = #{langs}
+        <if test="search !=null">
+            AND TITLE like #{search} '%'
+        </if>
         ORDER BY
             CREATED_AT desc
         limit
             #{offset} , #{size}
+    </select>
+    <!--언론 보도 총 카운트 -->
+    <select id="selectCountContentPress" parameterType="CommonMap" resultType="int">
+        SELECT
+            count(*)
+        FROM
+            content_press
+        WHERE
+            STATUS = 'A'
+            AND LANG = #{langs}
+        <if test="search !=null">
+            AND TITLE like #{search} '%'
+        </if>
     </select>
     <!--채용 공고 -->
     <select id="selectRecruits" parameterType="CommonMap" resultType="CommonMap">

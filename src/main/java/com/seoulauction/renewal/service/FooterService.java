@@ -25,8 +25,12 @@ public class FooterService {
         }).collect(Collectors.toList());
     }
 
-    public List<CommonMap> getBoardMediaList(CommonMap map){
-        return footerMapper.selectContentPress(map);
+    public CommonMap getBoardMediaList(CommonMap map){
+
+        CommonMap resultMap = new CommonMap();
+        resultMap.put("list" , footerMapper.selectContentPress(map));
+        resultMap.put("count" , footerMapper.selectCountContentPress(map));
+        return resultMap;
     }
 
     public List<CommonMap> getBoardIncruitList(CommonMap map){
@@ -44,7 +48,7 @@ public class FooterService {
 
         CommonMap resultMap = footerMapper.selectNoticeById(map);
         if(resultMap != null) {
-            resultMap.put("images", s3Service.getS3FileData("notice", resultMap.get("id")));
+            resultMap.put("images", s3Service.getS3FileDataAll("notice", resultMap.get("id")));
         }
         return resultMap;
     }
