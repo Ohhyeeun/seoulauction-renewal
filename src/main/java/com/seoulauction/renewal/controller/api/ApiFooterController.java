@@ -20,10 +20,15 @@ public class ApiFooterController {
 
     @GetMapping(value="/faqs")
     public ResponseEntity<RestResponse> faqs(
-            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
-            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size
+            @RequestParam(value = "faq_type" , required = false , defaultValue = "customer")  String faqType,
+            @RequestParam(value = "search" , required = false) String search
     ) {
-        return ResponseEntity.ok(RestResponse.ok(footerService.getFaqList(CommonMap.create(page,size))));
+
+        //search
+        CommonMap map = new CommonMap("faq_type" , faqType);
+        map.put("search" , search);
+
+        return ResponseEntity.ok(RestResponse.ok(footerService.getFaqList(map)));
     }
 
     @GetMapping(value="/medias")
@@ -40,7 +45,7 @@ public class ApiFooterController {
         return ResponseEntity.ok(RestResponse.ok(footerService.getBoardMediaList(maps)));
     }
 
-    @GetMapping(value="/notice")
+    @GetMapping(value="/notices")
     public ResponseEntity<RestResponse> boardNotices(
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size,
@@ -51,7 +56,7 @@ public class ApiFooterController {
         return ResponseEntity.ok(RestResponse.ok(footerService.getBoardNoticeList(maps)));
     }
 
-    @GetMapping(value="/notice/{id}")
+    @GetMapping(value="/notices/{id}")
     public ResponseEntity<RestResponse> getBoardById(
             @PathVariable("id") int id
     ) {

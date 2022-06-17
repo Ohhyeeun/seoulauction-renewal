@@ -10,10 +10,12 @@
         WHERE
             IS_OPEN = 'Y'
             AND STATUS = 'A'
+            AND FAQ_TYPE = #{faq_type}
+            <if test="search !=null">
+                AND JSON_UNQUOTE(JSON_EXTRACT( TITLE, "$.ko" )) like #{search} '%'
+            </if>
         ORDER BY
             CREATED_AT desc
-        limit
-            #{offset} , #{size}
     </select>
     <!--언론 보도 -->
     <select id="selectContentPress" parameterType="CommonMap" resultType="CommonMap">

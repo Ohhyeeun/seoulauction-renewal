@@ -130,7 +130,7 @@
 
             init();
             function init(){
-                axios.get('/api/footer/notice/${id}')
+                axios.get('/api/footer/notices/${id}')
                     .then(function(response) {
                         const data = response.data;
                         let success = data.success;

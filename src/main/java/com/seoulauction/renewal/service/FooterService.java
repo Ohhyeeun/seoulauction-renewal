@@ -19,10 +19,7 @@ public class FooterService {
     private final S3Service s3Service;
 
     public List<CommonMap> getFaqList(CommonMap map){
-        return footerMapper.selectFaqs(map).stream().map(c->{
-            c.put("image", s3Service.getS3FileData("main_popup", c.get("id")));
-            return c;
-        }).collect(Collectors.toList());
+        return footerMapper.selectFaqs(map);
     }
 
     public CommonMap getBoardMediaList(CommonMap map){

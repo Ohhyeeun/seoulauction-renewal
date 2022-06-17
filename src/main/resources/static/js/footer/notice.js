@@ -14,7 +14,7 @@ $(document).ready(function(){
     //초기작업.
     function init(){
 
-        let url = '/api/footer/notice?page='+current_page+"&size="+data_size;
+        let url = '/api/footer/notices?page='+current_page+"&size="+data_size;
         if(search_text){
             url +="&search="+search_text;
         }
