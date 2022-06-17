@@ -53,8 +53,8 @@
                                                                     </div>
                                                                 </div>
                                                                  <div class="btn-area">
-                                                                   <button ng-if="onlineBid[1][0].CLOSE_YN != 'Y'"  class="btn btn_point btn-view-ing" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span >진행경매보기</span></a></button>
-                                                                   <button ng-if="onlineBid[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray_line btn-view-result" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span>경매결과보기</span></a></button>
+                                                                   <button ng-if="onlineBid[1][0].CLOSE_YN != 'Y'"  class="btn btn_point btn-view-ing" type="button"><a href="{{onlineBid[1][0].SALE_NO}}"><span >진행경매보기</span></a></button>
+                                                                   <button ng-if="onlineBid[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray_line btn-view-result" type="button"><a href="{{onlineBid[1][0].SALE_NO}}"><span>경매결과보기</span></a></button>
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in onlineBid[1]">

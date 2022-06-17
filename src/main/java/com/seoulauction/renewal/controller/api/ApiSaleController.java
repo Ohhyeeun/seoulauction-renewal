@@ -126,6 +126,8 @@ public class ApiSaleController {
         //String saleTitle = saleInfoMap.getString("")
 
         lotInfoMap.put("SALE_TITLE_JSON" , saleInfoMap.get("TITLE_JSON"));
+        lotInfoMap.put("LOT_EXPIRE_DATE_DAY" , saleInfoMap.get("LOT_EXPIRE_DATE_DAY"));
+        lotInfoMap.put("LOT_EXPIRE_DATE_TIME_T" , saleInfoMap.get("LOT_EXPIRE_DATE_TIME_T"));
 
         // sub 화폐
         String subCurrCd = String.valueOf(baseCurrency.get(currCd));
@@ -255,6 +257,9 @@ public class ApiSaleController {
             if (lotInfoMap.get("IMG_DISP_YN").equals("N")) {
                 lotImagesNewItem.put("FILE_PATH", "/images/bg/no_image.jpg");
             }
+            lotImagesNewItem.put("UNIT_CD", lotInfoMap.get("UNIT_CD"));
+            lotImagesNewItem.put("SIZE1", lotInfoMap.get("SIZE1"));
+            lotImagesNewItem.put("SIZE2", lotInfoMap.get("SIZE2"));
             lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
             lotImagesNew.add(lotImagesNewItem);
         }

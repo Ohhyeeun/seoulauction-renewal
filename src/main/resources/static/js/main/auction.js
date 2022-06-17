@@ -78,7 +78,7 @@ $(document).ready(function(){
                                 <img src='${imgPath}' alt="/images/pc/thumbnail/AuctionBanner_05_280x280.png" class="m-ver">
                                     <figcaption class="auction-thumb">
                                         <button id='id_${lotNo}' class="wish_heart ${like}" ></button>
-                                        <a href="#">
+                                        <a>
                                             <p class="auction-thumb-txt">
                                                 <span>${lotName}</span>
                                                 <span>${starting} ${price}</span>

@@ -70,7 +70,7 @@
                         <h2 class="main-sectiontit sale-tit">Buy</h2>
                         <p>회원가입부터 응찰까지<br>
                             누구나 쉽게 경매에 참여 할 수 있습니다.</p>
-                        <a href="#">경매안내</a>
+                        <a href="/auction/info">경매안내</a>
                     </figcaption>
                 </figure>
                 <figure class="sale-box">

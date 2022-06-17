@@ -123,6 +123,7 @@
 				, IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'en' AS CHAR), '') ARTIST_NAME_EN
 				, CONCAT('[', GROUP_CONCAT('{"PRICE_FROM":', ifnull(LF.PRICE_FROM, 0), ', "PRICE_TO":', ifnull(LF.PRICE_TO, 0) , ', "RATE":', ifnull(LF.RATE, 0.0), '}'), ']') LOT_FEE_JSON
 				, B.BID_PRICE
+				, LF.FEE
 				, DATE_FORMAT(B.BID_DT, '%Y.%m.%d') as BID_DT
 				, CASE DAYOFWEEK(B.BID_DT)
 					WHEN '1' THEN '일'
@@ -157,7 +158,7 @@
 					WHEN '7' THEN '토'
 					END AS payWeekDate
 				,DATE_FORMAT(P.PAY_DT, '%T') as payTime
-				,(select count(*) from bid where cust_no = #{action_user_no} and sale_no=S.sale_no and LOT_NO=L.LOT_NO) as bid_count
+				,(select count(*) from bid where cust_no= #{action_user_no} and sale_no=S.sale_no and LOT_NO=L.LOT_NO) as bid_count
 				, IF(P.PG_TRANS_ID is not null and P.pg_cd='nice', 'Y', 'N' ) receipt
 				, C.CD_NM 
 				, C.CD_NM_EN 
@@ -177,7 +178,24 @@
 		        '}')
 		        ,']') AS LOT_SIZE_JSON
 		from
-			( select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO = #{action_user_no} and b1.BID_NO = sb.BID_NO 
+			( 
+			select
+				b1.*
+			from
+				success_bid sb3
+			join lot l on
+				sb3.sale_no = l.SALE_NO
+				and sb3.lot_no = l.LOT_NO
+			join bid b1 on
+				b1.BID_NO = SB3.BID_NO
+			where 
+				(REAL_CUST_NO =  #{action_user_no}
+				or (B1.CUST_NO =  #{action_user_no}
+					and REAL_CUST_NO is null))
+				AND L.TO_DT &lt;= NOW()
+			group by
+				l.SALE_NO,
+				l.LOT_NO
 		) B 
 		inner join (
 		select
@@ -191,15 +209,31 @@
 		from
 			sale s1
 		join (
-			select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO = #{action_user_no} and b1.BID_NO = sb.BID_NO 
+			select
+				b1.*
+			from
+				success_bid sb3
+			join lot l on
+				sb3.sale_no = l.SALE_NO
+				and sb3.lot_no = l.LOT_NO
+			join bid b1 on
+				b1.BID_NO = SB3.BID_NO
+			where 
+				(REAL_CUST_NO =  #{action_user_no}
+				or (B1.CUST_NO =  #{action_user_no}
+					and REAL_CUST_NO is null))
+				AND L.TO_DT &lt;= NOW()
+			group by
+				l.SALE_NO,
+				l.LOT_NO
 		) B2 on
 			B2.SALE_NO = s1.SALE_NO
 			group by SALE_NO 
 		order by
 			SALE_NO desc
-		limit #{offset}, #{size}
+			limit #{offset}, #{size}
 		) S on s.sale_no = b.sale_no 
-		left outer join lot L on L.SALE_NO = B.Sale_no and L.LOT_NO = B.LOT_NO and L.SALE_NO = S.SALE_NO AND L.TO_DT &lt;= NOW()
+		left outer join lot L on L.SALE_NO = B.Sale_no and L.LOT_NO = B.LOT_NO and L.SALE_NO = S.SALE_NO 
 		left outer join ARTIST A on
 			L.ARTIST_NO = A.ARTIST_NO
 		left outer join code c on C.grp_id = 'material' and L.MATE_CD = c.CD_ID
@@ -234,41 +268,77 @@
 				LP.LOT_NO ) P on
 			P.SALE_NO = L.SALE_NO
 			and P.LOT_NO = L.LOT_NO
-			and P.CUST_NO = B.CUST_NO
 		group by
 			B.SALE_NO,
 			B.LOT_NO
 		order by
-			S.SALE_NO desc, L.LOT_NO;
+			S.SALE_NO desc, L.LOT_NO
 	</select>
 		
 	<select id="selectPayTotalCountByCustNo" resultType="int">
 			select
 				count(*)
-			from 
-						(
+			from
+					(
 				select
-					b1.*
+						s1.sale_no ,
+						S1.SALE_TH_DSP_YN,
+						S1.SALE_TH,
+						S1.TITLE_BLOB,
+						S1.FROM_DT,
+						s1.TO_DT,
+						S1.CURR_CD
 				from
-					success_bid sb
-				inner join bid b1
-				where
-					b1.CUST_NO = #{action_user_no}
-					and b1.BID_NO = sb.BID_NO
+						sale s1
+				join (
+					select
+							b1.*
+					from
+							success_bid sb3
+					join lot l on
+							sb3.sale_no = l.SALE_NO
+						and sb3.lot_no = l.LOT_NO
+					join bid b1 on
+							b1.SALE_NO = l.SALE_NO
+						and b1.LOT_NO = l.LOT_NO
+					where 
+							(REAL_CUST_NO = #{action_user_no}
+							or (B1.CUST_NO = #{action_user_no}
+								and REAL_CUST_NO is null))
+						and L.TO_DT &lt;= NOW()
+					group by
+							l.SALE_NO,
+							l.LOT_NO
+					) B2 on
+						B2.SALE_NO = s1.SALE_NO
 				group by
-					sale_no) B
-			join lot l on
-				B.sale_no = l.SALE_NO
-				and B.lot_no = l.LOT_NO
-				and L.TO_DT &lt;= NOW();
+					SALE_NO) as cnt
 	</select>
 	
 	<select id="selectPayCountByCustNo" resultType="CommonMap">
 		select count(*) ROW_CNT, SUM(PAID_CNT) PAID_CNT from (
 		select 
+		B.*,
 			case when P.CUST_NO is null then 0 else 1 end PAID_CNT
 		from
-			( select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO = #{action_user_no} and b1.BID_NO = sb.BID_NO 
+			( 
+			select
+				b1.*, l.TO_DT 
+			from
+				success_bid sb3
+			join lot l on
+				sb3.sale_no = l.SALE_NO
+				and sb3.lot_no = l.LOT_NO
+			join bid b1 on
+				b1.BID_NO = SB3.BID_NO
+			where 
+				(REAL_CUST_NO =  #{action_user_no}
+				or (B1.CUST_NO =  #{action_user_no}
+					and REAL_CUST_NO is null))
+				AND L.TO_DT &lt;= NOW()
+			group by
+				l.SALE_NO,
+				l.LOT_NO
 		) B 
 		inner join (
 		select
@@ -282,7 +352,23 @@
 		from
 			sale s1
 		join (
-			select b1.* from success_bid sb inner join bid b1 where b1.CUST_NO = #{action_user_no} and b1.BID_NO = sb.BID_NO 
+			select
+				b1.*, l.TO_DT 
+			from
+				success_bid sb3
+			join lot l on
+				sb3.sale_no = l.SALE_NO
+				and sb3.lot_no = l.LOT_NO
+			join bid b1 on
+				b1.BID_NO = SB3.BID_NO
+			where 
+				(REAL_CUST_NO =  #{action_user_no}
+				or (B1.CUST_NO =  #{action_user_no}
+					and REAL_CUST_NO is null))
+				AND L.TO_DT &lt;= NOW()
+			group by
+				l.SALE_NO,
+				l.LOT_NO
 		) B2 on
 			B2.SALE_NO = s1.SALE_NO
 			group by SALE_NO 
@@ -315,7 +401,6 @@
 				LP.LOT_NO ) P on
 			P.SALE_NO = L.SALE_NO
 			and P.LOT_NO = L.LOT_NO
-			and P.CUST_NO = B.CUST_NO
 		group by
 			B.SALE_NO,
 			B.LOT_NO
