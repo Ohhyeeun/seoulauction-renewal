@@ -131,7 +131,12 @@
 							data['social_email'] = naverLogin.user.email;
 							axios.post('/api/mypage/snsLink', data)
 								.then(function(response) {
-									opener.location.reload();
+									const result = response.data;
+									if(result.success == false){
+										opener.alert(result.data.msg)
+									}else{
+										opener.location.reload();
+									}
 									window.close();
 								})
 								.catch(function(error) {

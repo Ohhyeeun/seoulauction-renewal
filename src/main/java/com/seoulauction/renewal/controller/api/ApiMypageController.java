@@ -316,7 +316,7 @@ public class ApiMypageController {
 
         CommonMap resultMap = loginService.selectCustForCustSocial(paramMap);
         if(resultMap != null) {
-        	throw new SAException("이미 가입된 SNS계정입니다.");
+        	throw new SAException("이미 서울옥션에 가입 또는 연동된 소셜 계정입니다. 다른 계정으로 연동해 주세요.");
         }
         
 	    log.info("snsLink");
