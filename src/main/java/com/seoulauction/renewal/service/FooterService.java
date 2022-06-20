@@ -30,8 +30,12 @@ public class FooterService {
         return resultMap;
     }
 
-    public List<CommonMap> getBoardIncruitList(CommonMap map){
-        return footerMapper.selectRecruits(map);
+    public CommonMap getBoardRecruitList(CommonMap map){
+
+        CommonMap resultMap = new CommonMap();
+        resultMap.put("list" , footerMapper.selectRecruits(map));
+        resultMap.put("count" , footerMapper.selectCountRecruits(map));
+        return resultMap;
     }
 
     public CommonMap getBoardNoticeList(CommonMap map){
@@ -49,6 +53,4 @@ public class FooterService {
         }
         return resultMap;
     }
-
-
 }

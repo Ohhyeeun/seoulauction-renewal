@@ -7,7 +7,7 @@
             <ul class="footer-gnbmenu">
                 <li><a href="/footer/companyIntro">회사소개</a></li>
                 <li><a href="/footer/media">언론보도</a></li>
-                <li><a href="/footer/incruit">채용공고</a></li>
+                <li><a href="/footer/recruit">채용공고</a></li>
                 <li><a href="/footer/location">위치안내</a></li>
                 <li><a href="/footer/notice">공지사항</a></li>
                 <li><a href="/footer/faq">FAQ</a></li>
