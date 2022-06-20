@@ -92,7 +92,7 @@
                                                                         </dl>
                                                                         <dl class="price succ">
                                                                             <dt class="tit">Hammer</dt>
-                                                                            <dd class="txt">{{data.CURR_CD}} {{comma(data.success_bid_price)}}</dd>
+                                                                            <dd class="txt" ng-if="data.success_bid_price">{{data.CURR_CD}} {{comma(data.success_bid_price)}}</dd>
                                                                         </dl>
                                                                         <dl class="date">
                                                                             <dt class="tit">Bid Date</dt>
