@@ -74,7 +74,36 @@
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in il[1]">
-                                                                <div class="product-infobox">
+                                                             <div class="product-infobox">
+                                                                    <div class="product-infobox-inner">
+                                                                        <button class="btn-heart js-work_heart on" ng-click="inteDel(data.SALE_NO, data.LOT_NO)"><i class="icon-heart_off"></i></button>
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <div class="img-align">
+                                                                                    <img src="${imageRootPath}{{data.FILE_PATH}}/{{data.FILE_NAME}}" alt="">
+                                                                                </div>
+                                                                            </figure>
+                                                                        </div>
+                                                                        <div class="text-area">
+                                                                            <div class="num">{{data.LOT_NO}}</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">{{data.TITLE_KO}}</div>
+                                                                            </div>
+                                                                            <div class="desc">{{data.ARTIST_NAME_KO}}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pay-infobox">
+                                                                    <div class="pay-infobox-inner">
+                                                                        <div class="pay-area">
+                                                                            <dl class="price">
+                                                                                <dt class="tit">Estimate</dt>
+                                                                                <dd class="txt"><span>{{data.CURR_CD}} {{comma(data.EXPE_PRICE_FROM_KO)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_KO)}}</span></dd>
+                                                                            </dl>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                               <%--  <div class="product-infobox">
                                                                     <button class="btn-heart js-work_heart on" ng-click="inteDel(data.SALE_NO, data.LOT_NO)"><i class="icon-heart_off"></i></button>
                                                                     <div class="thumb-area">
                                                                         <figure class="img-ratio">
@@ -96,7 +125,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> --%>
                                                             </dd>
                                                         </dl>
                                                         <div class="data-empty" ng-if="inteLotCnt == 0">
