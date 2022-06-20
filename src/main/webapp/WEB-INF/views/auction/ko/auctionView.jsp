@@ -123,7 +123,7 @@
                                                 </div>
                                             </div>
                                             <div class="view_scale-area">
-                                                <a href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
+                                                <a class="btn btn_default js-popup_image_viewer" href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
                                         </article>
                                     </div>
@@ -469,11 +469,11 @@
                         </section>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
+
 <div id="popup_online_confirm-wrap" class="trp popupfixed-wrap online_confirm-popup ">
     <div class="popup-dim"></div>
     <div class="popup-align mode-ms mode-mb_full">
@@ -639,7 +639,42 @@
         </div>
     </div>
 </div>
-
+<!-- 이미지 뷰어 -->
+<div id="popup_image_viewer-wrap" class="trp popupfixed-wrap image_viewer-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_view_close js-closepop" href="#" title="닫기">X</a>
+                    </div>
+                    <div class="pop-body">
+                        <article class="viewer-article">
+                            <div class="gallery_view js-image_viewer" style="">
+                                <div class="gallery_center">
+                                    <div id="swiper-wrapper" class="swiper-wrapper">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="size-area">
+                                <button class="size-btn js-size_btn">
+                                    <i class="icon-viewer_size-off"></i>
+                                    <i class="icon-viewer_size-on"></i>
+                                </button>
+                            </div>
+                            <div class="view_paging-area">
+                                <button class="page_prev"><i class="icon-view_paging_left"></i></button>
+                                <span id="view_lot_no"></span>
+                                <button class="page_next"><i class="icon-view_paging_right"></i></button>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
 <!--[if lt IE 9]>
 <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
@@ -975,6 +1010,66 @@
 
                 $(window).on("resize", function () {
                     view_visual.update();
+                });
+
+                let lot_images = $scope.lotImages;
+
+                $.each(lot_images, function(index, el){
+                  let size1 = el.SIZE1;
+                  let size2 = el.SIZE2;
+                  let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
+                  let swiper_slide_item = `<div class="swiper-slide">
+                                            <div class="img-area">
+                                                <div class="img-box">
+                                                    <div class="size_x"><span>`+size1+`</span></div>
+                                                    <div class="size_y"><span>`+size2+`</span></div>
+                                                    <div class="images">
+                                                        <img class="imageViewer" src="`+img_url+`" alt="" size1="`+size1+`" size2="`+size2+`"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                  </div>`
+                  $("#swiper-wrapper").append(swiper_slide_item);
+                });
+
+                /* 스와이퍼 */
+                var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
+                    loop: true,
+                    onSlideChangeStart: function(swiper) { // 움직임이 끝나면 실행
+                        imagesResizePcMb();
+                    },
+                    onSlideChangeEnd: function(swiper) { // 움직임이 끝나면 실행
+                        imagesResizePcMb();
+                    }
+                });
+
+                var popup_image_viewer = $(".js-popup_image_viewer").trpLayerFixedPopup("#popup_image_viewer-wrap");
+                $(popup_image_viewer.getBtn).on("click", function($e) {
+                    $e.preventDefault();
+                    popup_image_viewer.open(this); // or false
+                    imagesResizePcMb();
+                    imageViewer.update();
+                    imageViewer.slideTo(1, 0);
+                });
+                // 좌우버튼
+                $('.view_paging-area .page_prev').on('click', function($e) {
+                    $e.preventDefault();
+                    imageViewer.slidePrev();
+                })
+                $('.view_paging-area .page_next').on('click', function($e) {
+                    $e.preventDefault();
+                    imageViewer.slideNext();
+                })
+
+                /* PC,MB images resize */
+                $(window).on("resize", function() {
+                    imagesResizePcMb();
+                });
+
+
+                $("body").on("click", "#popup_image_viewer-wrap .js-closepop, #popup_image_viewer-wrap .popup-dim", function($e) {
+                    $e.preventDefault();
+                    popup_image_viewer.close();
                 });
 
                 // lot
