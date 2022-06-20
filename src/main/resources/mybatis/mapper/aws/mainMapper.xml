@@ -7,10 +7,11 @@
         select *
         from main_banner
         where banner_type = 'top-text'
+            and is_open = 'Y'
             and status = 'A'
             and start_at <= (now() + interval 9 hour)
             and end_at >= (now() + interval 9 hour)
-            order by sort desc
+            order by start_at, updated_at
        limit 3;
     ]]>
     </select>

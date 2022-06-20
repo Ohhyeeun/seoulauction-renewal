@@ -322,7 +322,6 @@
     });
 </script>
 
-
 <!-- popup tab -->
 <script>
     $("body").on("click", ".selection", function () {
@@ -359,7 +358,11 @@
 */
 </script>
 <script>
-    var popup_offline_payment = $(".js-popup_online_confirm").trpLayerFixedPopup("#popup_online_confirm-wrap");
+    //약관체크
+    $(".js_all-1").trpCheckBoxAllsImg(".js_all", ".js_item");
+
+    let popup_offline_payment = $(".js-popup_online_confirm").trpLayerFixedPopup("#popup_online_confirm-wrap");
+    let popup_biddingPopup1 = $("a[name='open_popup']").trpLayerFixedPopup("#popup_biddingPopup1-wrap");
 
     <!-- angular js -->
     app.value('locale', 'ko');
@@ -513,7 +516,6 @@
                         popup_offline_payment.close();
                     });
                 } else {
-                    let popup_biddingPopup1 = $("a[name='open_popup']").trpLayerFixedPopup("#popup_biddingPopup1-wrap");
                     popup_biddingPopup1.open(this); // or false
                     popup_fixation("#popup_biddingPopup1-wrap");
 
@@ -628,6 +630,13 @@
                                     $scope.is_sale_cert = true;
                                 }
                                 $("#cust_hp").val(response.data.data.HP);
+                            }
+                        });
+
+                    await axios.get('/api/mypage/manager')
+                        .then(function(response) {
+                            if (response.data.success) {
+                                $("em#manager").html(response.data.data.EMP_NAME + " " +response.data.data.HP);
                             }
                         });
                 }

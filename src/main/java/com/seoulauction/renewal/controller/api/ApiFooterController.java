@@ -3,7 +3,6 @@ package com.seoulauction.renewal.controller.api;
 import com.seoulauction.renewal.common.RestResponse;
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.service.FooterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -63,12 +62,24 @@ public class ApiFooterController {
         return ResponseEntity.ok(RestResponse.ok(footerService.getBoardById(new CommonMap("id", id))));
     }
 
-    @GetMapping(value="/incruit")
+    @GetMapping(value="/recruits")
     public ResponseEntity<RestResponse> boardIncruit(
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
-            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size,
+            @RequestParam(value = "search" , required = false ) String search
     ) {
-        return ResponseEntity.ok(RestResponse.ok(footerService.getBoardIncruitList(CommonMap.create(page,size))));
+
+        CommonMap maps = CommonMap.create(page,size);
+        maps.put("search" , search);
+
+        return ResponseEntity.ok(RestResponse.ok(footerService.getRecruitList(maps)));
+    }
+
+    @GetMapping(value="/recruits/{id}")
+    public ResponseEntity<RestResponse> getRecruitById(
+            @PathVariable("id") int id
+    ) {
+        return ResponseEntity.ok(RestResponse.ok(footerService.getRecruitById(new CommonMap("id", id))));
     }
 
 }
