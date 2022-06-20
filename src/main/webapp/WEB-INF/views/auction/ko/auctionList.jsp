@@ -495,7 +495,6 @@
                 }
             } else {
                 const is_sale_cert = $scope.is_sale_cert || $("#is_sale_cert").val();
-                alert(is_sale_cert);
                 if (!is_sale_cert) {
                     popup_offline_payment.open(this); // or false
                     popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
