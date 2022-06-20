@@ -51,7 +51,7 @@
                                         </div>
                                         <div class="button-area">
                                             <a id="recruit_file_down" class="btn btn_default" href="#" role="button"><span>입사지원서</span><i class="icon-file_down"></i></a>
-                                            <a class="btn btn_point" href="/footer/recruitForm" role="button"><span>지원</span></a>
+                                            <a class="btn btn_point" href="/footer/recruit/${id}/form" role="button"><span>지원</span></a>
                                         </div>
                                     </article>
                                 </div>

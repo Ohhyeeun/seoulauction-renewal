@@ -31,9 +31,6 @@
                             </div>
                         </div>
                     </section>
-
-
-
                     <section class="basis-section bbs-section">
                         <div class="section-inner">
                             <div class="content-panel type_panel-board">
@@ -52,7 +49,7 @@
                                                 <tr>
                                                     <th>이름<i>*</i></th>
                                                     <td>
-                                                        <input type="text" class="textType">
+                                                        <input id="recruit_form_name" type="text" class="textType">
                                                         <p class="form_alert">
                                                             ※ 이름을 정확하게 입력해 주세요.
                                                         </p>
@@ -60,7 +57,7 @@
                                                 </tr>
                                                 <tr>
                                                     <th>이메일 <i>*</i></th>
-                                                    <td><input type="email" class="textType">
+                                                    <td><input id="recruit_form_email" type="email" class="textType">
                                                         <p class="form_alert">
                                                             ※ 이메일 주소를 정확하게 입력해 주세요.
                                                         </p>
@@ -70,7 +67,7 @@
                                                     <th>휴대폰 <i>*</i></th>
                                                     <td>
                                                         <div>
-                                                            <input type="text" class="textType">
+                                                            <input id="recruit_form_phone" type="text" class="textType">
                                                         </div>
                                                         <!-- <p class="form_alert" style="display: block;">
 																※ 휴대폰 번호 인증에 성공하였습니다.
@@ -135,7 +132,7 @@
                                 <div class="panel-footer">
                                     <article class="button-area">
                                         <div class="btn_set-float tac">
-                                            <a class="btn btn_gray_line btn_lg" href="#" role="button"><span>취소</span></a>
+                                            <a class="btn btn_gray_line btn_lg" href="/footer/recruit/${id}" role="button"><span>취소</span></a>
                                             <a class="btn btn_point btn_lg" href="#" role="button"><span>지원</span></a>
                                         </div>
                                     </article>
@@ -180,10 +177,47 @@
     <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
     <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-    <!-- [0516]삭제
-  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
--->
+    <script>
+        $(function(){
 
+            function form(){
+                axios.get('/api/footer/recruits/${id}')
+                    .then(function(response) {
+                        const data = response.data;
+                        let success = data.success;
+                        if(success){
+                            let data = response.data.data;
+
+                            if(!data){
+                                alert('잘못된 경로입니다.');
+                                history.back();
+                            }
+                            $("#recruit_title").html(data.title);
+                            $("#recruit_content").html(data.content);
+                            $("#recruit_date").html(data.start_date +' ~ ' + data.end_date);
+
+                            //입사 지원서 없을 경우 하이드!
+                            //$("#recruit_file_down").hide();
+
+                            if(data.images.length !==0){
+                                let images = data.images;
+
+                                $("#recruit_file_down").show();
+                                $("#recruit_file_down").attr('href' , '/fileDownload?fileKey=' + images.path + '&downloadFileName=' + images.name);
+
+                                //입사 지원서 파일 다운 작업.
+                                // // let html = `<a href=/fileDownload?fileKey=` + images.path + `&downloadFileName=` + images.name  + `>`
+                                // //     + `<i class="icon_down"></i> <span>` + images.name + `</span></a>`;
+                                // $("#notice_file_list").html(html);
+                            }
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            }
+        });
+    </script>
 
 
 </body>
