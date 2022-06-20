@@ -174,7 +174,7 @@ function  loadBigBanner (){
                 const bannerList = response.data.data;
                 // console.log(bannerList);
                 bannerList.map(item => {
-                    console.log(item)
+                    // console.log(item)
                     item.content = JSON.parse(item.content);
                    if(!(locale == 'en' && item.content.banner_kind == 'academy') ) {
                         let btnListHtml = "";
@@ -250,28 +250,29 @@ function loadTopNotice(){
                                             </a>
                                         </span>`;
                 });
-
+                    // console.log(resultHtml)
                 document.querySelector(".belttxtbox").insertAdjacentHTML('beforeend', resultHtml);
 
-                /* 상단 텍스트 동적 생성으로 인한 스타일 변경 및 이벤트 바인딩 */
-                document.querySelector(".beltclose-btn").addEventListener("click", function(e){
-                    $('.header_beltbox').slideUp(400);
-                    closeToday('top-notice');
-                });
 
-                if(matchMedia("all and (min-width: 1024px)").matches) {
-                    document.querySelector(".main-contents").style.marginTop = '162px';
-                    document.querySelector(".beltclose-btn").addEventListener("click", function(e){
-                        document.querySelector(".main-contents").style.marginTop = '100px';
-                    });
-                } else { /* 모바일, 테블릿 */
-                    /* main gnb fixed */
-                    document.querySelector(".main-contents").style.marginTop = '100px';
-                    $('.main-contents').css('margin-top','101px');
-                    document.querySelector(".beltclose-btn").addEventListener("click", function(e){
-                        document.querySelector(".main-contents").style.marginTop = '56px'; 
-                    });
-                }
+                // /* 상단 텍스트 동적 생성으로 인한 스타일 변경 및 이벤트 바인딩 */
+                // document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                //     $('.header_beltbox').slideUp(400);
+                //     closeToday('top-notice');
+                // });
+                //
+                // if(matchMedia("all and (min-width: 1024px)").matches) {
+                //     document.querySelector(".main-contents").style.marginTop = '162px';
+                //     document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                //         document.querySelector(".main-contents").style.marginTop = '100px';
+                //     });
+                // } else { /* 모바일, 테블릿 */
+                //     /* main gnb fixed */
+                //     document.querySelector(".main-contents").style.marginTop = '100px';
+                //     $('.main-contents').css('margin-top','100px');
+                //     document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                //         document.querySelector(".main-contents").style.marginTop = '56px';
+                //     });
+                // }
             }else{
                 document.querySelector(".header_beltbox").classList.remove("on");
             }
@@ -315,6 +316,8 @@ const upcomingSwiper = new Swiper(".upcoming-swiper", {
     }
 });
 
+
+
 //업커밍 바인딩
 function loadUpcomings() {
     const slideArray = [];
@@ -331,7 +334,7 @@ function loadUpcomings() {
                     const to_dt = moment(item.TO_DT);
                     const open_dt = moment(item.OPEN_DT);
                     const returnDom =  ` <div class="swiper-slide upcomingSlide " style="padding-right: 40px;">
-                                            <a href="#">
+                                            <a href="/auction/scheduled/${item.SALE_NO}">
                                                 <div class="upcoming-caption">
                                                     <span class="auctionKind-box ${ item.SALE_KIND === 'LIVE' ? 'on' : ''}">
                                                         ${item.SALE_KIND} 
@@ -341,11 +344,11 @@ function loadUpcomings() {
                                                             ${ item.D_DAY <= 0 ? "TODAY" : "D-" + item.D_DAY }
                                                         </span>` 
                                                     : ``}
-                                                    <h4 class="text-over">${ titleJSON[locale] }</h4>
+                                                    <h4 class="text-over">${localeOrdinal(item.SALE_TH,locale) + titleJSON[locale] }</h4>
                                                     <div class="upcoming-datebox">
                                                         ${ locale === 'en'?
                                                             `<p class="upcoming-open on"> <!-- today 일때만 오픈일 생성 --> 
-                                                                <span>OPEN</span><span>${ open_dt.format('DD MMMM')}</span>
+                                                                <span>OPEN</span><span\>${ open_dt.format('DD MMMM')}</span>
                                                             </p>
                                                             <p class="upcoming-preview">
                                                                 <span>PREVIEW</span><span>${ from_dt.format('DD MMMM') +" - " +  to_dt.format('DD MMMM')}</span>
@@ -554,4 +557,20 @@ function loadPopup(){
     }
 }
 
+//경매 회차 필터
+function localeOrdinal(n, l) {
+    if(!l) l = locale;
+    if (n != "" && typeof n != 'undefined')
+    {
+        if(l == "ko" ) return "제" + n + "회 ";
+
+        var s = ["th","st","nd","rd"],
+            v = n % 100;
+
+        return n+(s[(v-20)%10]||s[v]||s[0]);
+    }else{
+        return "";
+    }
+
+}
 

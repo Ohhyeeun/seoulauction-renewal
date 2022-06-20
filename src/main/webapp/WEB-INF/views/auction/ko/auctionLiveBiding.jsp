@@ -248,7 +248,7 @@
                                 <div class="panel-footer">
                                     <article class="button-area">
                                         <div class="btn_set ">
-                                            <a class="btn btn_default btn_lg"  role="button"><span>취소</span></a>
+                                            <a class="btn btn_default btn_lg"  role="button" id="biding_cancel_btn" ><span>취소</span></a>
                                             <a class="btn btn_point btn_lg" role="button" id="biding_req_btn"><span>응찰신청</span></a>
                                         </div>
                                     </article>
@@ -298,6 +298,7 @@
 
                     let data = response.data.data;
 
+
                     let sale_title = JSON.parse(data.SALE_TITLE_JSON);
 
                     $("#bidding_lot_img").attr('src' , 'https://www.seoulauction.com/nas_img'+ data.LOT_IMG_PATH + '/' +data.LOT_IMG_NAME);
@@ -319,7 +320,7 @@
 
                         let bk = $(this).text().trim();
                         if(bk == '서면'){
-                            currentBidKind = 'paper_offline';
+                            currentBidKind = 'paper_online';
                             bidType = 14;
                             $("#select_field").show();
                         }else if(bk == '전화'){
@@ -327,7 +328,7 @@
                             bidType = 15;
                             $("#select_field").hide();
                         }else if(bk == '서면+전화'){
-                            currentBidKind = 'floor';
+                            currentBidKind = 'paper_phone';
                             bidType = 16;
                             $("#select_field").show();
                         }
@@ -349,10 +350,11 @@
                         currentBidKind = 'phone';
                         bidType = 15;
                         $("#select_field").hide();
+                        currentPrice = 0;
                     } else {
                         //기본값 세팅
                         $("#btn_select_paper_offline").addClass("active");
-                        currentBidKind = 'paper_offline';
+                        currentBidKind = 'paper_online';
                         bidType = 14;
                     }
 
@@ -457,7 +459,9 @@
                 } catch (error) {
                     console.error(error);
                 }
-
+            });
+            $("#biding_cancel_btn").on('click', function(){
+                location.href ='/auction/live/list/${saleNo}';
             });
 
         });

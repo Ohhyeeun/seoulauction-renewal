@@ -63,10 +63,10 @@ function sessionLogout() {
             <sec:authorize access="isAuthenticated()"> <!-- login -->
                 <li class="utility-tab utility-account"><a href="#">마이페이지</a>
                     <ul class="bubble-box bubble-box02">
-                        <li><a href="#">라이브 경매 관리</a></li>
-                        <li id="MyMenuOnlineBadge"><a href="#">온라인 경매 관리</a></li>
-                        <li><a href="#">관심작품</a></li>
-                        <li><a href="#">아카데미 신청목록</a></li>
+                        <li><a href="/mypage/liveBidReqList">라이브 경매 관리</a></li>
+                        <li id="MyMenuOnlineBadge"><a href="/mypage/onlineBidList">온라인 경매 관리</a></li>
+                        <li><a href="/mypage/inteLotList">관심작품</a></li>
+                        <li><a href="/mypage/academyList">아카데미 신청목록</a></li>
                         <li><a href="/mypage/custModify">회원정보 수정</a></li>
                     </ul>
                 </li>
@@ -75,7 +75,7 @@ function sessionLogout() {
         </ul>
     </div>
     <nav class="header_navbox">
-        <div class="header_nav wrap_padding" >
+        <div class="header_nav wrap_padding" ng-controller="headCtl">
             <a href="/" class="header_logo"><span class="blind-text">logo</span></a>
             <ul class="header_gnbmenu pc-ver">
                 <li><a href="#" class="">AUCTION</a></li>
@@ -88,7 +88,7 @@ function sessionLogout() {
                 <button class="m-gnbmenu m-ver"></button>
                 <form action="" class="scroll_none" onsubmit="return false; ">
                     <fieldset class="topsearch">
-                        <span class="submenuBg-closeBtn top-search-closeBtn m-ver"></span>
+                        <span class="submenuBg-closeBtn top-search-closeBtn closebtn-b m-ver"></span>
                         <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();" id="topsearchText" ng-keypress="$event.keyCode === 13 && goSearch('topsearchText', true);"><button type="button" class="topsearch-btn pc-ver" ng-click="goSearch('topsearchText', true);"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">
@@ -119,9 +119,9 @@ function sessionLogout() {
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
                                 <ul class="submenu submenu-part02">
-                                    <li id="menu_exhibit"><a href="#">전시</a></li>
-                                    <li><a href="#">프라이빗 세일</a></li>
-                                    <li><a href="#">프라이빗 세일 가이드</a></li>
+                                    <li id="menu_exhibit"><a href="/privatesale/exhibit">전시</a></li>
+                                    <li><a href="/privatesale/psList">프라이빗 세일</a></li>
+                                    <li><a href="/privatesale/psGuide">프라이빗 세일 가이드</a></li>
                                 </ul>
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>

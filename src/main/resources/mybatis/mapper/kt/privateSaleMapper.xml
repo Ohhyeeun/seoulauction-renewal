@@ -77,7 +77,7 @@
              , COLUMN_JSON(L.SIGN_INFO_BLOB) SIGN_INFO_JSON
              , COLUMN_JSON(L.COND_RPT_BLOB) COND_RPT_JSON # YDH. 컨디션리포트용 데이터 컬럼 추가.
         , COLUMN_JSON(L.LITE_INFO_BLOB) LITE_INFO_JSON
-             , COLUMN_JSON(L.EXHI_INFO_BLOB) EXHI_INFO_JSON # YDH. 전시정보 데이터 컬럼 추가.
+             , COLUMN_JSON(L.EXHI_INFO_BLOB) EXHI_INFO_JSON # YH. 전시정보 데이터 컬럼 추가.
         , COLUMN_JSON(L.PROV_INFO_BLOB) PROV_INFO_JSON # YDH. 소장정보 데이터 컬럼 추가.
         , COLUMN_JSON(L.ETC_INFO_BLOB) ETC_INFO_JSON # YDH. 기타정보 데이터 컬럼 추가.
         , COLUMN_JSON(L.CMMT_BLOB) CMMT_JSON
@@ -128,6 +128,8 @@
              , IFNULL(L.GUARANTEE_YN, 'Y') GUARANTEE_YN
              , L.ZEROBASE_PRICE_YN
              , COLUMN_JSON(L.EXHIBITION_PRICE_BLOB) EXHIBITION_PRICE_JSON
+             , DATE_FORMAT(L.TO_DT,'%a') LOT_EXPIRE_DATE_DAY
+             , DATE_FORMAT(L.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T
         from LOT L
                  left outer join ARTIST AT
         on AT.ARTIST_NO = L.ARTIST_NO
@@ -146,4 +148,202 @@
         group by L.SALE_NO, L.LOT_NO
     </select>
 
+    <select id="selectPrivateSaleList"  parameterType="CommonMap" resultType="CommonMap">
+        SELECT S.SALE_AS_NO,
+               S.AS_NO,
+               S.SALE_AS_KIND,
+               COLUMN_GET(S.SALE_AS_TITLE_BLOB, 'ko' AS CHAR) AS SALE_AS_TITLE_BLOB_KO,
+               COLUMN_GET(S.SALE_AS_TITLE_BLOB, 'en' AS CHAR) AS SALE_AS_TITLE_BLOB_EN,
+               COLUMN_GET(S.SALE_AS_TITLE_BLOB, 'cn' AS CHAR) AS SALE_AS_TITLE_BLOB_CN,
+               COLUMN_GET(S.TITLE_BLOB, 'ko' AS CHAR) AS TITLE_BLOB_KO,
+               COLUMN_GET(S.TITLE_BLOB, 'en' AS CHAR) AS TITLE_BLOB_EN,
+               COLUMN_GET(S.TITLE_BLOB, 'cn' AS CHAR) AS TITLE_BLOB_CN,
+               COLUMN_GET(A.ARTIST_NAME_BLOB, 'ko' AS CHAR) AS ARTIST_NAME_BLOB_KO,
+               COLUMN_GET(A.ARTIST_NAME_BLOB, 'en' AS CHAR) AS ARTIST_NAME_BLOB_EN,
+               COLUMN_GET(A.ARTIST_NAME_BLOB, 'cn' AS CHAR) AS ARTIST_NAME_BLOB_CN,
+               LI.FILE_PATH,
+               LI.FILE_NAME,
+               A.BORN_YEAR,
+               CD.CD_NM,
+               CD.CD_NM_EN,
+               CD_NM_CN,
+               S.EDITION,
+               COLUMN_GET(S.MAKE_YEAR_BLOB, 'ko' AS CHAR) AS MAKE_YEAR_BLOB,
+               COLUMN_JSON(S.SIGN_INFO_BLOB) SIGN_INFO_JSON,
+               COLUMN_JSON(S.COND_RPT_BLOB) COND_RPT_JSON,
+               COLUMN_JSON(S.LITE_INFO_BLOB) LITE_INFO_JSON,
+               COLUMN_JSON(S.EXHI_INFO_BLOB) EXHI_INFO_JSON,
+               COLUMN_JSON(S.PROV_INFO_BLOB) PROV_INFO_JSON,
+               COLUMN_JSON(S.ETC_INFO_BLOB) ETC_INFO_JSON,
+               COLUMN_JSON(S.CMMT_BLOB) CMMT_JSON,
+               S.WWW_DISP_YN,
+               S.IMG_DISP_YN,
+               S.DISP_CHK_REMARK,
+               LI.FILE_PATH as AS_IMG_PATH,
+               LI.FILE_NAME as AS_IMG_NAME,
+               ifnull(ASI.UNIT_CD, 'cm')             UNIT_CD,
+               ifnull(ASI.SIZE1, '0')                SIZE1,
+               ifnull(ASI.SIZE2, '0')                SIZE2,
+               ifnull(ASI.SIZE3, '0')                SIZE3,
+               ifnull(ASI.CANVAS, '0')               CANVAS,
+               ifnull(ASI.DIAMETER_YN, 'N')          DIAMETER_YN,
+               ifnull(ASI.PREFIX, '')                PREFIX,
+               ifnull(ASI.SUFFIX, '')                SUFFIX,
+               ifnull(ASI.MIX_CD, 'h')               MIX_CD,
+               ifnull(ASI.CANVAS_EXT_YN, 'N')        CANVAS_EXT_YN,
+               CONCAT('['
+                   , GROUP_CONCAT('{',
+                                  '"UNIT_CD":"', ifnull(ASI.UNIT_CD, 'cm') ,'",',
+                                  '"SIZE1":', ifnull(ASI.SIZE1,0) ,',',
+                                  '"SIZE2":', ifnull(ASI.SIZE2,0) ,',',
+                                  '"SIZE3":', ifnull(ASI.SIZE3,0) ,',',
+                                  '"CANVAS":', ifnull(ASI.CANVAS,0) ,',',
+                                  '"DIAMETER_YN":"', ifnull(ASI.DIAMETER_YN,'N') ,'",',
+                                  '"PREFIX":"', ifnull(ASI.PREFIX,'') ,'",',
+                                  '"SUFFIX":"', ifnull(ASI.SUFFIX,'') ,'",',
+                                  '"MIX_CD":"', ifnull(ASI.MIX_CD,'h') ,'",',
+                                  '"CANVAS_EXT_YN":"', ifnull(ASI.CANVAS_EXT_YN,'N'), '"',
+                                  '}')
+                   ,']') AS LOT_SIZE_JSON
+        FROM SALE_AS S
+                 left outer join ARTIST A on A.ARTIST_NO = S.ARTIST_NO
+                 left outer join CODE CD	on CD.grp_id = 'material' and CD.CD_ID = S.MATE_CD
+                 left outer join SALE_AS_SIZE ASI on ASI.SALE_AS_NO = S.SALE_AS_NO
+                 left outer join SALE_AS_IMG LI on LI.SALE_AS_NO = S.SALE_AS_NO
+            and LI.IMG_NO = (select AI.IMG_NO from SALE_AS_IMG AI where AI.SALE_AS_NO = LI.SALE_AS_NO order by AI.DISP_ORD limit 1)
+        WHERE S.DEL_YN = 'N' AND S.WWW_DISP_YN = 'Y'
+        group by S.SALE_AS_NO, S.AS_NO
+    </select>
+
+    <select id="selectPrivateSaleInfo"  parameterType="CommonMap" resultType="CommonMap">
+        SELECT	SA.SALE_AS_NO
+             , SA.SALE_AS_KIND
+             , COLUMN_GET(SA.SALE_AS_TITLE_BLOB, 'ko' AS CHAR) SALE_AS_TITLE_KO
+             , COLUMN_GET(SA.SALE_AS_TITLE_BLOB, 'en' AS CHAR) SALE_AS_TITLE_EN
+             , COLUMN_GET(SA.SALE_AS_TITLE_BLOB, 'zh' AS CHAR) SALE_AS_TITLE_CN
+             , SA.AS_NO
+             , SA.ARTIST_NO
+             , COLUMN_GET(A.ARTIST_NAME_BLOB, 'ko' AS CHAR) ARTIST_NAME_KO
+             , COLUMN_GET(A.ARTIST_NAME_BLOB, 'en' AS CHAR) ARTIST_NAME_EN
+             , COLUMN_GET(A.ARTIST_NAME_BLOB, 'zh' AS CHAR) ARTIST_NAME_CN
+             , CONCAT('(영문)', ifnull(column_get(A.ARTIST_NAME_BLOB, 'en' as char), ''), '/ (한문)', ifnull(column_get(A.ARTIST_NAME_BLOB, 'zh' as char), ''), '/ (생몰연도)', IFNULL(A.BORN_YEAR, ''), '~', IFNULL(A.DIE_YEAR, ''), '/ (국적)', IFNULL(A.NATION_CD, '')) as ARTIST_INFO
+             , COLUMN_GET(SA.TITLE_BLOB, 'ko' AS CHAR) TITLE_KO
+             , COLUMN_GET(SA.TITLE_BLOB, 'en' AS CHAR) TITLE_EN
+             , COLUMN_GET(SA.TITLE_BLOB, 'zh' AS CHAR) TITLE_CN
+             , COLUMN_GET(SA.STITLE_BLOB, 'ko' AS CHAR) STITLE_KO
+             , COLUMN_GET(SA.STITLE_BLOB, 'en' AS CHAR) STITLE_EN
+             , COLUMN_GET(SA.STITLE_BLOB, 'zh' AS CHAR) STITLE_CN
+             , SA.CATE_CD
+             , if(CD_C1.CD_ID is null, if(CD_C2.CD_ID is null, CD_C3.CD_ID, CD_C2.CD_ID), CD_C1.CD_ID) as CATE_CD1
+             , if(CD_C1.CD_ID is not null, if(CD_C2.CD_ID is null, CD_C3.CD_ID, CD_C2.CD_ID), CD_C3.CD_ID) as CATE_CD2
+             , if(CD_C1.CD_ID is not null and CD_C2.CD_ID is not null, CD_C3.CD_ID, null) as CATE_CD3
+             , if(CD_C1.CD_ID is null, if(CD_C2.CD_ID is null, CD_C3.CD_NM, CD_C2.CD_NM), CD_C1.CD_NM) as CATE_NAME1
+             , if(CD_C1.CD_ID is not null, if(CD_C2.CD_ID is null, CD_C3.CD_NM, CD_C2.CD_NM), CD_C3.CD_NM) as CATE_NAME2
+             , if(CD_C1.CD_ID is not null and CD_C2.CD_ID is not null, CD_C3.CD_NM, null) as CATE_NAME3
+             , SA.MATE_CD
+             , CD_M.CD_NM as MATE_NAME
+             , SA.EDITION
+             , COLUMN_GET(SA.MAKE_YEAR_BLOB, 'ko' AS CHAR) MAKE_YEAR_KO
+             , COLUMN_GET(SA.MAKE_YEAR_BLOB, 'en' AS CHAR) MAKE_YEAR_EN
+             , COLUMN_GET(SA.MAKE_YEAR_BLOB, 'zh' AS CHAR) MAKE_YEAR_CN
+             , COLUMN_GET(SA.SIGN_INFO_BLOB, 'ko' AS CHAR) SIGN_INFO_KO
+             , COLUMN_GET(SA.SIGN_INFO_BLOB, 'en' AS CHAR) SIGN_INFO_EN
+             , COLUMN_GET(SA.SIGN_INFO_BLOB, 'zh' AS CHAR) SIGN_INFO_CN
+             , COLUMN_GET(SA.COND_RPT_BLOB, 'ko' AS CHAR) COND_RPT_KO
+             , COLUMN_GET(SA.COND_RPT_BLOB, 'en' AS CHAR) COND_RPT_EN
+             , COLUMN_GET(SA.COND_RPT_BLOB, 'zh' AS CHAR) COND_RPT_CN
+             , COLUMN_GET(SA.LITE_INFO_BLOB, 'ko' AS CHAR) LITE_INFO_KO
+             , COLUMN_GET(SA.LITE_INFO_BLOB, 'en' AS CHAR) LITE_INFO_EN
+             , COLUMN_GET(SA.LITE_INFO_BLOB, 'zh' AS CHAR) LITE_INFO_CN
+             , COLUMN_GET(SA.EXHI_INFO_BLOB, 'ko' AS CHAR) EXHI_INFO_KO
+             , COLUMN_GET(SA.EXHI_INFO_BLOB, 'en' AS CHAR) EXHI_INFO_EN
+             , COLUMN_GET(SA.EXHI_INFO_BLOB, 'zh' AS CHAR) EXHI_INFO_CN
+             , COLUMN_GET(SA.PROV_INFO_BLOB, 'ko' AS CHAR) PROV_INFO_KO
+             , COLUMN_GET(SA.PROV_INFO_BLOB, 'en' AS CHAR) PROV_INFO_EN
+             , COLUMN_GET(SA.PROV_INFO_BLOB, 'zh' AS CHAR) PROV_INFO_CN
+             , COLUMN_GET(SA.ETC_INFO_BLOB, 'ko' AS CHAR) ETC_INFO_KO
+             , COLUMN_GET(SA.ETC_INFO_BLOB, 'en' AS CHAR) ETC_INFO_EN
+             , COLUMN_GET(SA.ETC_INFO_BLOB, 'zh' AS CHAR) ETC_INFO_CN
+             , COLUMN_GET(SA.CMMT_BLOB, 'ko' AS CHAR) CMMT_KO
+             , COLUMN_GET(SA.CMMT_BLOB, 'en' AS CHAR) CMMT_EN
+             , COLUMN_GET(SA.CMMT_BLOB, 'zh' AS CHAR) CMMT_CN
+             , SA.EXPE_PRICE_INQ_YN
+             , COLUMN_GET(SA.EXPE_PRICE_FROM_BLOB, 'KRW' AS CHAR) EXPE_PRICE_FROM_KRW
+             , COLUMN_GET(SA.EXPE_PRICE_FROM_BLOB, 'USD' AS CHAR) EXPE_PRICE_FROM_USD
+             , COLUMN_GET(SA.EXPE_PRICE_FROM_BLOB, 'HKD' AS CHAR) EXPE_PRICE_FROM_HKD
+             , COLUMN_GET(SA.EXPE_PRICE_TO_BLOB, 'KRW' AS CHAR) EXPE_PRICE_TO_KRW
+             , COLUMN_GET(SA.EXPE_PRICE_TO_BLOB, 'USD' AS CHAR) EXPE_PRICE_TO_USD
+             , COLUMN_GET(SA.EXPE_PRICE_TO_BLOB, 'HKD' AS CHAR) EXPE_PRICE_TO_HKD
+             , SA.FROM_DT
+             , SA.TO_DT
+             , SA.WWW_DISP_YN
+             , SA.IMG_DISP_YN
+             , SA.DISP_CHK_REMARK
+             , SA.START_PRICE
+             , SA.GROW_PRICE
+             , SA.SALE_AS_MEMO
+             , SA.WINE_YN
+             , COLUMN_GET(SA.EXHIBITION_PRICE_BLOB, 'KRW' AS CHAR) EXHIBITION_PRICE_KRW
+             , COLUMN_GET(SA.EXHIBITION_PRICE_BLOB, 'USD' AS CHAR) EXHIBITION_PRICE_USD
+             , COLUMN_GET(SA.EXHIBITION_PRICE_BLOB, 'HKD' AS CHAR) EXHIBITION_PRICE_HKD
+             , COLUMN_GET(SA.SALE_PRICE_BLOB, 'KRW' AS CHAR) SALE_PRICE_KRW
+             , COLUMN_GET(SA.SALE_PRICE_BLOB, 'USD' AS CHAR) SALE_PRICE_USD
+             , COLUMN_GET(SA.SALE_PRICE_BLOB, 'HKD' AS CHAR) SALE_PRICE_HKD
+             , SA.SALE_AS_ARTWORK_NO
+             , RE.EMP_NAME AS REG_EMP_NAME
+             , ME.EMP_NAME AS MOD_EMP_NAME
+             , A.BORN_YEAR
+             , CD_M.CD_NM AS MATE_NM
+             , ifnull(ASI.UNIT_CD, 'cm')             UNIT_CD
+             , ifnull(ASI.SIZE1, '0')                SIZE1
+             , ifnull(ASI.SIZE2, '0')                SIZE2
+             , ifnull(ASI.SIZE3, '0')                SIZE3
+             , ifnull(ASI.CANVAS, '0')               CANVAS
+             , ifnull(ASI.DIAMETER_YN, 'N')          DIAMETER_YN
+             , ifnull(ASI.PREFIX, '')                PREFIX
+             , ifnull(ASI.SUFFIX, '')                SUFFIX
+             , ifnull(ASI.MIX_CD, 'h')               MIX_CD
+             , ifnull(ASI.CANVAS_EXT_YN, 'N')        CANVAS_EXT_YN
+             , CONCAT('['
+                   , GROUP_CONCAT('{',
+                                  '"UNIT_CD":"', ifnull(ASI.UNIT_CD, 'cm') ,'",',
+                                  '"SIZE1":', ifnull(ASI.SIZE1,0) ,',',
+                                  '"SIZE2":', ifnull(ASI.SIZE2,0) ,',',
+                                  '"SIZE3":', ifnull(ASI.SIZE3,0) ,',',
+                                  '"CANVAS":', ifnull(ASI.CANVAS,0) ,',',
+                                  '"DIAMETER_YN":"', ifnull(ASI.DIAMETER_YN,'N') ,'",',
+                                  '"PREFIX":"', ifnull(ASI.PREFIX,'') ,'",',
+                                  '"SUFFIX":"', ifnull(ASI.SUFFIX,'') ,'",',
+                                  '"MIX_CD":"', ifnull(ASI.MIX_CD,'h') ,'",',
+                                  '"CANVAS_EXT_YN":"', ifnull(ASI.CANVAS_EXT_YN,'N'), '"',
+                                  '}')
+                   ,']') AS LOT_SIZE_JSON
+             , COLUMN_JSON(A.PROFILE_BLOB) PROFILE_JSON
+             , DATE_FORMAT(SA.TO_DT,'%a') LOT_EXPIRE_DATE_DAY
+             , DATE_FORMAT(SA.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T
+        FROM SALE_AS SA	LEFT OUTER JOIN EMP RE ON RE.EMP_NO = SA.REG_EMP_NO
+                           LEFT OUTER JOIN EMP ME ON ME.EMP_NO = SA.MOD_EMP_NO
+                           LEFT OUTER JOIN ARTIST A ON A.ARTIST_NO = SA.ARTIST_NO
+                           left outer join (SELECT * FROM CODE WHERE GRP_ID = 'artwork_category') CD_C3 on CD_C3.CD_ID = SA.CATE_CD
+                           left outer join (SELECT * FROM CODE WHERE GRP_ID = 'artwork_category') CD_C2 on CD_C2.GRP_ID = CD_C3.P_GRP_ID and CD_C2.CD_ID = CD_C3.P_CD_ID
+                           left outer join (SELECT * FROM CODE WHERE GRP_ID = 'artwork_category') CD_C1 on CD_C1.GRP_ID = CD_C2.P_GRP_ID and CD_C1.CD_ID = CD_C2.P_CD_ID
+                           left outer join (SELECT * FROM CODE WHERE GRP_ID = 'material') CD_M on CD_M.CD_ID = SA.MATE_CD
+                           left outer join SALE_AS_SIZE ASI on ASI.SALE_AS_NO = SA.SALE_AS_NO
+        WHERE SA.DEL_YN = 'N'
+          AND SA.SALE_AS_NO = #{sale_as_no}
+    </select>
+
+    <select id="selectPrivateSaleImages" parameterType="CommonMap" resultType="CommonMap">
+        select IM.SALE_AS_NO,
+               IM.IMG_NO,
+               IM.FILE_PATH FILE_PATH,
+               IM.FILE_NAME FILE_NAME,
+               ifnull(SAS.UNIT_CD, 'cm')             UNIT_CD,
+               ifnull(SAS.SIZE1, '0')                SIZE1,
+               ifnull(SAS.SIZE2, '0')                SIZE2
+        from   SALE_AS_IMG IM
+               INNER JOIN SALE_AS_SIZE SAS ON IM.SALE_AS_NO = SAS.SALE_AS_NO
+        where  IM.SALE_AS_NO = #{sale_as_no}
+        order by IM.DISP_ORD is null, IM.DISP_ORD, IM.IMG_NO
+    </select>
 </mapper>

@@ -64,6 +64,8 @@
         , S.AUTO_BID_REQ_CLOSE_DT
         , COLUMN_JSON(S.NOTICE_BLOB) NOTICE_JSON
         , COLUMN_JSON(S.NOTICE_DTL_BLOB) NOTICE_DTL_JSON
+        , DATE_FORMAT(S.TO_DT,'%a') LOT_EXPIRE_DATE_DAY
+        , DATE_FORMAT(S.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T
         , S.SALE_OUTSIDE_YN
         , S.LIVE_BID_YN
         , S.LIVE_BID_DT
@@ -167,6 +169,9 @@
         , IFNULL(L.GUARANTEE_YN, 'Y') GUARANTEE_YN
         , L.ZEROBASE_PRICE_YN
         , COLUMN_JSON(L.EXHIBITION_PRICE_BLOB) EXHIBITION_PRICE_JSON
+        , ifnull(LS.UNIT_CD, 'cm')             UNIT_CD
+        , ifnull(LS.SIZE1, '0')                SIZE1
+        , ifnull(LS.SIZE2, '0')                SIZE2
         from LOT L
         left outer join (<include refid="com.seoulauction.renewal.mapper.kt.CommonMapper.saleLastBidInfos"/>) BD on
         BD.SALE_NO = L.SALE_NO and BD.LOT_NO	 = L.LOT_NO
@@ -621,14 +626,20 @@
                ifnull(e.SUFFIX, '')                SUFFIX,
                ifnull(e.MIX_CD, 'h')               MIX_CD,
                ifnull(e.CANVAS_EXT_YN, 'N')        CANVAS_EXT_YN,
-               f.CD_NM,
+               f.CD_NM CD_NM,
                COLUMN_JSON(b.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON,
                COLUMN_JSON(b.EXPE_PRICE_TO_BLOB)   EXPE_PRICE_TO_JSON,
                IFNULL(g.DEL_YN,'Y') FAVORITE_YN, /*N 이면 좋아요가 있음. Y면 좋아요가 아님.*/
                b.LOT_TAG,
                b.EXPE_PRICE_INQ_YN,
+
+               DATE_FORMAT(b.TO_DT,'%Y-%m-%d') LOT_EXPIRE_DATE,
+               DATE_FORMAT(b.TO_DT,'%a') LOT_EXPIRE_DATE_DAY,
+               DATE_FORMAT(b.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T,
+
                date_format(a.FROM_DT,'%m.%d(%a)') FROM_DT,
-               date_format(a.TO_DT, '%m.%d(%a)') TO_DT
+               date_format(a.TO_DT, '%m.%d(%a)') TO_DT,
+               a.WWW_DISP_YN DISP_YN
         from sale a
                  inner join lot b on a.SALE_NO = b.SALE_NO
                  inner join lot_img c on b.SALE_NO = c.SALE_NO and b.LOT_NO = c.LOT_NO and c.DISP_ORD = 1
@@ -641,6 +652,9 @@
           and a.WWW_DISP_YN = 'Y'
           and a.CLOSE_YN = 'N'
           and b.CLOSE_YN = 'N'
+        <if test='is_live !=null and is_live.equals("Y")'>
+          and a.LIVE_BID_YN = 'Y'
+        </if>
         group by a.SALE_NO, b.LOT_NO;
     </select>
     <select id="selectLotTagList" parameterType="CommonMap" resultType="CommonMap">
@@ -660,4 +674,35 @@
         LIMIT
             1
     </select>
+    <!-- 자동 경매 insert -->
+    <insert id="insertAutoBid" parameterType="CommonMap">
+        INSERT INTO AUTO_BID_REQ(
+             SALE_NO
+            ,LOT_NO
+            ,CUST_NO
+            ,BID_KIND_CD
+            ,REQ_DT
+            ,BID_PRICE
+            ,HP
+            ,EMAIL
+            ,MEMO
+            ,EMP_NO
+            ,ABORT_YN
+            ,REG_DT
+        )
+        VALUES(
+             #{sale_no}
+            ,#{lot_no}
+            ,#{cust_no}
+            ,#{bid_kind_cd}
+            ,#{bid_dt}
+            ,#{bid_price}
+            ,#{hp}
+            ,#{email}
+            ,#{memo}
+            ,#{emp_no}
+            ,'N'
+            ,#{bid_dt}
+        )
+    </insert>
 </mapper>

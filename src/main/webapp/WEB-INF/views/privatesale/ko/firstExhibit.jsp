@@ -21,7 +21,6 @@
         <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
         <script type="text/javascript" src="/js/angular/checklist-model.js"></script>
         <script type="text/javascript" src="/js/angular/rzslider.min.js"></script>
-        <script type="text/javascript" src="/js/customer/login.js"></script>
         <script type="text/javascript" src="/js/private_sale/firstExhibit.js" type="text/javascript"></script>
 
         <script type="text/javascript">
@@ -248,10 +247,6 @@
 <!-- [0516]삭제
 <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 -->
-
-
-<script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 
 
 

@@ -1,54 +1,21 @@
 app.value('locale', 'ko');
 var langType = document.documentElement.lang;
-var bornDtValid, sexCdValid, hpValid, emailValid, addrValid = false;
+var bornDtValid, sexCdValid, hpValid, emailValid, addrValid, countryValid = false;
 var compNoValid, compManNameValid = false; 
-var oldHp, oldCompNo = '';
-var artistList, inteArtistList = [];
+var oldHp, oldCompNo, oldEmail = '';
+var nationList, artistList, inteArtistList = [];
 var inteArtistJson = {};
 $(window).on("load", function() {
 	if(socialYn == 'Y'){
        document.getElementById('snsImg').src = '/images/common/icon-sns_' + snsFullName() + '.png';
 	}
-});
-
-$(document).ready(function() {
-	var data = {};
-	
-	let interestAreaData = {"grp_ids": ["interest_area"]};
-	axios.post('/api/mypage/interestAreas' , interestAreaData)
-	.then(function(response) {
-	    const result = response.data;
-	    var interestAreaList = result.data;
-		interestAreaList.forEach(function(ele){
-			$("#interestAreaList").append("<span class='trp checkbox-box'><input name='inte_area' id='" + ele.CD_ID + "' value='" + ele.CD_ID + "' type='checkbox'><i></i><label for='" + ele.CD_ID + "'>" + ele.CD_NM + "</label></span>");
-		});		
-	    
-	})
-	.catch(function(error){
-	    console.log(error);
-	});
-	
-	
-	let pushWayData = {"grp_ids": ["push_way"]};
-	axios.post('/api/login/pushWays' , pushWayData)
-	.then(function(response) {
-	    const result = response.data;
-	    var pushWayList = result.data;
-		pushWayList.forEach(function(ele){
-			$("#pushWayList").append("<span class='trp checkbox-box'><input type='checkbox' name='push_way' id='pushway_" + ele.CD_ID + "' value='" + ele.CD_ID + "'><i></i><label for='checkbox1'>" + ele.CD_NM + "</label>");
-		});		
-	    
-	})
-	.catch(function(error){
-	    console.log(error);
-	});
 	
 	axios.get('/api/mypage/custs/' + userNo)
 		.then(function(response) {
 			const result = response.data;
 			if(result.success == true){
 				const data = result.data;
-
+				console.log(data)
 				$("#custName").html(data.CUST_NAME);
 				if(!undefCheck(data.BORN_DT)){
 					$("#yy").val(data.BORN_DT.split("-")[0]); $("#select2-yy-container").html(data.BORN_DT.split("-")[0]);
@@ -70,12 +37,17 @@ $(document).ready(function() {
 					hpValid = true;
 				}
 				if(!undefCheck(data.EMAIL)){
+					oldEmail = data.EMAIL;
 					$("#email").val(data.EMAIL);
 					emailValid = true;
 				}
 				if(!undefCheck(data.ZIPNO)){
 					$("#zipno").val(data.ZIPNO);
-					$("#addr").html(data.ADDR);
+					if(langType == 'ko'){
+						$("#addr").html(data.ADDR);
+					}else{
+						$("#addr").val(data.ADDR);
+					}
 					$("#addr_dtl").val(data.ADDR_DTL);
 					if(!undefCheck(data.ADDR) && !undefCheck(data.ADDR_DTL)){
 						addrValid = true;
@@ -87,7 +59,11 @@ $(document).ready(function() {
 				}
 				if(!undefCheck(data.DELI_ZIPNO)){
 					$("#deli_zipno").val(data.DELI_ZIPNO);
-					$("#deli_addr").html(data.DELI_ADDR);
+					if(langType == 'ko'){
+						$("#deli_addr").html(data.DELI_ADDR);
+					}else{
+						$("#deli_addr").val(data.DELI_ADDR);
+					}
 					$("#deli_addr_dtl").val(data.DELI_ADDR_DTL);
 				}
 //				if(data.PUSH_WAY_JSON != "[\"\"]"){
@@ -106,10 +82,14 @@ $(document).ready(function() {
 				}
 				if(!undefCheck(data.INTE_ARTIST_LIST)){
 					artistList = data.INTE_ARTIST_LIST;
-					
 					artistList.forEach(function(ele){
 						var tmpJson = JSON.parse(ele.ARTIST_NAME_JSON);
-						var artistName = tmpJson["ko"];
+						var artistName = '';
+						if(langType == 'ko'){
+							artistName = tmpJson["ko"];
+						}else{
+							artistName = tmpJson["en"];
+						}
 						inteArtistList.push(ele.ARTIST_NO);
 						inteArtistJson[ele.ARTIST_NO] = artistName;
 						$("#artistList").append('<li id="artist' + ele.ARTIST_NO + '"><span>' + artistName + '</span><button><i class="icon-filter_del" onclick="deleteArtist(' + ele.ARTIST_NO + ')"></i></button></li>');
@@ -133,14 +113,86 @@ $(document).ready(function() {
 					$("#tel").val(data.TEL);
 				}
 				
+				//해외
+				if(!undefCheck(data.NATION_CD)){
+					nationList.forEach(function(ele){
+						if(ele.CD_ID == data.NATION_CD){
+							$("#nation_cd").val(ele.CD_ID + "|" + ele.CD_VAL3);
+							return false;
+						}
+					});
+					$("#select2-nation_cd-container").text($("#nation_cd option:selected").text())
+					countryValid = true;
+				}
+				
 				buttonActive();
 			}else{
-				alert(result.data.msg)
+				alert(result.data.msg);
 			}
 		})
 		.catch(function(error) {
 			console.log(error);
 		});
+});
+
+$(document).ready(function() {
+	var data = {};
+	
+	let interestAreaData = {"grp_ids": ["interest_area"]};
+	axios.post('/api/mypage/interestAreas' , interestAreaData)
+	.then(function(response) {
+	    const result = response.data;
+	    var interestAreaList = result.data;
+		interestAreaList.forEach(function(ele){
+			if (langType == 'ko') {
+				$("#interestAreaList").append("<span class='trp checkbox-box'><input name='inte_area' id='" + ele.CD_ID + "' value='" + ele.CD_ID + "' type='checkbox'><i></i><label for='" + ele.CD_ID + "'>" + ele.CD_NM + "</label></span>");
+			}else{
+				$("#interestAreaList").append("<span class='trp checkbox-box'><input name='inte_area' id='" + ele.CD_ID + "' value='" + ele.CD_ID + "' type='checkbox'><i></i><label for='" + ele.CD_ID + "'>" + ele.CD_NM_EN + "</label></span>");
+			}
+		});		
+	    
+	})
+	.catch(function(error){
+	    console.log(error);
+	});
+	
+	
+	let pushWayData = {"grp_ids": ["push_way"]};
+	axios.post('/api/login/pushWays' , pushWayData)
+	.then(function(response) {
+	    const result = response.data;
+	    var pushWayList = result.data;
+		pushWayList.forEach(function(ele){
+			if (langType == 'ko') {
+				$("#pushWayList").append("<span class='trp checkbox-box'><input type='checkbox' name='push_way' id='pushway_" + ele.CD_ID + "' value='" + ele.CD_ID + "'><i></i><label for='checkbox1'>" + ele.CD_NM + "</label>");
+			}else{
+				$("#pushWayList").append("<span class='trp checkbox-box'><input type='checkbox' name='push_way' id='pushway_" + ele.CD_ID + "' value='" + ele.CD_ID + "'><i></i><label for='checkbox1'>" + ele.CD_NM_EN + "</label>");
+			}
+		});		
+	    
+	})
+	.catch(function(error){
+	    console.log(error);
+	});
+	
+	//국가목록 api호출
+	if(langType == 'en'){
+		let data = {"grp_ids": ["nation"]};
+		axios.post('/api/login/nations' , data)
+	    .then(function(response) {
+	        const result = response.data;
+	        nationList = result.data;
+	        nationList.forEach(function(ele){
+				$("#nation_cd").append("<option value='" + ele.CD_ID + "|" + ele.CD_VAL3 + "'>" + ele.CD_NM + "</option>");
+//				$("#nation_cd").append("<option value='" + ele.CD_ID + "'>" + ele.CD_NM + "</option>");
+			})
+	    })
+	    .catch(function(error){
+	        console.log(error);
+	    });
+	}
+		
+	
 });
 
 function snsFullName(){
@@ -164,18 +216,30 @@ function undefCheck(param){
 }
 
 function replaceAll(str, searchStr, replaceStr) {
-   return str.split(searchStr).join(replaceStr);
+	if(undefCheck(str)){
+		return '';
+	}else{
+	   return str.split(searchStr).join(replaceStr);
+	}
 }
 
 //수정 버튼 (비)활성화
 function buttonActive(){
-//	console.log(bornDtValid ? '생일통과' : '생일실패');	console.log(sexCdValid ? '성별통과' : '성별실패');	console.log(hpValid ? '폰통과' : '폰실패');	console.log(emailValid ? '이메일통과' : '이메일실패');	console.log(addrValid ? '주소통과' : '주소실패');
-//	console.log(compNoValid ? '사업자번호통과' : '사업자번호실패');	console.log(compManNameValid ? '업무 담당자통과' : '업무 담당자실패');
+	console.log(bornDtValid ? '생일통과' : '생일실패');	console.log(sexCdValid ? '성별통과' : '성별실패');	console.log(hpValid ? '폰통과' : '폰실패');	console.log(emailValid ? '이메일통과' : '이메일실패');	console.log(addrValid ? '주소통과' : '주소실패');
+	console.log(compNoValid ? '사업자번호통과' : '사업자번호실패');	console.log(compManNameValid ? '업무 담당자통과' : '업무 담당자실패');
 	if(userKind == 'person'){ //개인 소셜
-		if(bornDtValid && sexCdValid && hpValid && emailValid && addrValid){
-			$('#modifyButton').removeAttr('disabled');
-		}else{
-			$('#modifyButton').attr('disabled', 'disabled');
+		if(langType == 'ko'){ //국내
+			if(bornDtValid && sexCdValid && hpValid && emailValid && addrValid){
+				$('#modifyButton').removeAttr('disabled');
+			}else{
+				$('#modifyButton').attr('disabled', 'disabled');
+			}
+		}else{ //해외
+			if(bornDtValid && sexCdValid && emailValid && countryValid && addrValid){
+				$('#modifyButton').removeAttr('disabled');
+			}else{
+				$('#modifyButton').attr('disabled', 'disabled');
+			}
 		}
 	}else { //사업자
 		if(hpValid && emailValid && addrValid && compNoValid && compManNameValid){
@@ -348,6 +412,46 @@ function emailValidCheck() {
 	buttonActive();
 }
 
+//해외회원 이메일 validation (api호출)
+function emailDuplCheck() {
+	emailValid = false;
+	var email = $("#email").val();
+	
+	if(oldEmail == email){
+		$("#emailMsg").html('It is the same as the registered email address.');
+		return;
+	}
+		
+	//외국 가입자 이메일 중복체크필요
+	let data = {};
+    data['email'] = email;
+	axios.post('/api/login/isEmailExist' , data)
+    .then(function(response) {
+        const result = response.data;
+        if(result && result.length > 0){
+			$("#emailMsg").html("The email you entered is already in use.");
+			emailValid = false;
+        }else{
+			$("#emailMsg").html("The email you entered is available.");
+			emailValid = true;
+		}
+		buttonActive();
+    })
+    .catch(function(error){
+        console.log(error);
+    });
+}
+
+function changeNation(){
+	if($("#nation_cd").val() != ''){
+		countryValid = true;
+		var sn = $("#nation_cd").val().split("|");
+		$("#hp").val("+" + sn[1]);
+	}else{
+		countryValid = false;
+	}
+}
+	
 var address_search1 = $(".js-address_search1").trpLayerFixedPopup("#address_search1-wrap")
 function addressSearch(addrType){
     address_search1.open(this); // or false   
@@ -428,14 +532,33 @@ function copyAddr(){
 	if($("#copyAddrChk").is(":checked")){
 		$("#deli_addr_old_yn").val($("#addr_old_yn").val());
 		$("#deli_zipno").val($("#zipno").val());
-		$("#deli_addr").html($("#addr").html());
+		if(langType == 'ko'){
+			$("#deli_addr").html($("#addr").html());
+		}else{
+			$("#deli_addr").val($("#addr").val());
+		}
 		$("#deli_addr_dtl").val($("#addr_dtl").val());
 	}else{
 		$("#deli_zipno, #deli_addr_dtl").val('');
-		$("#deli_addr").html('');
+		if(langType == 'ko'){
+			$("#deli_addr").html('');
+		}else{
+			$("#deli_addr").val('');
+		}
 	}
 }
 
+//해외고객 주소 validation
+function addrValidBlur(){
+	if($("#zipno").val() != '' && $("#zipno").val() != undefined
+		&& $("#addr").val() != '' && $("#addr").val() != undefined
+		&& $("#addr_dtl").val() != '' && $("#addr_dtl").val() != undefined){
+		addrValid = true;		
+	}else{
+		addrValid = false;
+	}
+	buttonActive();
+}
 
 var staff_search1 = $(".js-writer_search1").trpLayerFixedPopup("#writer_search1-wrap");
 function artistSearch(){
@@ -445,7 +568,11 @@ function artistSearch(){
 	if($("#writer").val() != ''){
 	    findArtistNewForm()
 	}
-    $("#artistListBody").html('<tr><td colspan="3"><div class="data-empty_mem tb1">검색결과가 없습니다.</div></td></tr>');
+	if (langType == 'ko') {
+		$("#artistListBody").html('<tr><td colspan="3"><div class="data-empty_mem tb1">검색결과가 없습니다.</div></td></tr>');
+	}else{
+		$("#artistListBody").html('<tr><td colspan="3"><div class="data-empty_mem tb1">No results were found for your search.</div></td></tr>');
+	}
 }
 	
 $("body").on("click", "#writer_search1-wrap .js-closepop, #writer_search1-wrap .popup-dim, #writerClose", function($e) {
@@ -462,6 +589,7 @@ function findArtistNewForm(){
 		return;
 	}
     data['find_word'] = findWord;
+    data['langType'] = langType;
     axios.post('/api/mypage/artists' , data)
         .then(function(response) {
             const result = response.data;
@@ -475,9 +603,14 @@ function findArtistNewForm(){
 				$("#artistCnt").html(resultList.length);
 				if(resultList.length > 0){
 					
+					console.log(resultList)
 					$("#artistListBody").html("");
 					resultList.forEach(function(ele){
-						$("#artistListBody").append("<tr><td><span class='trp checkbox-box'><input onclick='setArtist(\"" + ele.ARTIST_NO + "|" + ele.ARTIST_NM + "\")' value='" +  ele.ARTIST_NO + "|" + ele.ARTIST_NM + "' name='artistChk' type='checkbox' id='artistChk" + ele.ARTIST_NO + "' name=''><i></i><label for='checkbox_1'></label></span></td><td class='left_item'>" + replaceAll(ele.ARTIST_NM, findWord, "<em>" + findWord + "</em>") + "</td><td>" + (ele.BORN_YEAR == undefined ? '' : ele.BORN_YEAR) + " ~ " + (ele.DIE_YEAR == undefined ? '' : ele.DIE_YEAR) + "</td></tr>");
+						if(langType == 'ko'){
+							$("#artistListBody").append("<tr><td><span class='trp checkbox-box'><input onclick='setArtist(\"" + ele.ARTIST_NO + "|" + ele.ARTIST_NM_KO + "\")' value='" +  ele.ARTIST_NO + "|" + ele.ARTIST_NM_KO + "' name='artistChk' type='checkbox' id='artistChk" + ele.ARTIST_NO + "' name=''><i></i><label for='checkbox_1'></label></span></td><td class='left_item'>" + replaceAll(ele.ARTIST_NM_KO, findWord, "<em>" + findWord + "</em>") + "</td><td>" + (ele.BORN_YEAR == undefined ? '' : ele.BORN_YEAR) + " ~ " + (ele.DIE_YEAR == undefined ? '' : ele.DIE_YEAR) + "</td></tr>");
+						}else{
+							$("#artistListBody").append("<tr><td><span class='trp checkbox-box'><input onclick='setArtist(\"" + ele.ARTIST_NO + "|" + ele.ARTIST_NM_EN + "\")' value='" +  ele.ARTIST_NO + "|" + ele.ARTIST_NM_EN + "' name='artistChk' type='checkbox' id='artistChk" + ele.ARTIST_NO + "' name=''><i></i><label for='checkbox_1'></label></span></td><td class='left_item'>" + replaceAll(ele.ARTIST_NM_EN, findWord, "<em>" + findWord + "</em>") + "</td><td>" + (ele.BORN_YEAR == undefined ? '' : ele.BORN_YEAR) + " ~ " + (ele.DIE_YEAR == undefined ? '' : ele.DIE_YEAR) + "</td></tr>");
+						}
 					});	
 					
 					inteArtistList.forEach(function(ele){
@@ -487,7 +620,11 @@ function findArtistNewForm(){
 					tmpArtistJson = inteArtistJson;
 	
 				}else{
-					$("#artistListBody").html('<tr><td colspan="3"><div class="data-empty_mem tb1">검색결과가 없습니다.</div></td></tr>');
+					if (langType == 'ko') {
+						$("#artistListBody").html('<tr><td colspan="3"><div class="data-empty_mem tb1">검색결과가 없습니다.</div></td></tr>');
+					}else{
+						$("#artistListBody").html('<tr><td colspan="3"><div class="data-empty_mem tb1">No results were found for your search.</div></td></tr>');
+					}
 				}
             }
         })
@@ -599,9 +736,16 @@ function custModify(){
 	
 	if($('#modifyButton').attr('disabled') == "disabled"){
 		if(userKind == 'person'){ //개인 소셜
-			if(!bornDtValid || !sexCdValid || !hpValid || !emailValid || !addrValid){
-				alert("필수항목을 모두 입력해 주세요.");
-				return;
+			if(langType == 'ko'){ //국내
+				if(!bornDtValid || !sexCdValid || !hpValid || !emailValid || !addrValid){
+					alert("필수항목을 모두 입력해 주세요.");
+					return;
+				}
+			}else{
+				if(!bornDtValid || !sexCdValid || !emailValid || !countryValid || !addrValid){
+					alert("Fill additional information below.");
+					return;
+				}
 			}
 		}else { //사업자
 			if(!hpValid || !emailValid || !addrValid || !compNoValid || !compManNameValid){
@@ -614,9 +758,18 @@ function custModify(){
 	var formData = new FormData(form);
 	formData.set("user_kind", userKind);
 	formData.set("born_dt", formData.getAll('born_dt').join('-'));
-	formData.set("addr", $("#addr").html());
-	formData.set("deli_addr", $("#deli_addr").html());
-	formData.set("comp_no", replaceAll($("#comp_no").val(), "-", ""));
+	if(langType == 'ko'){
+		formData.set("local_kind_cd", "korean");
+		formData.set("addr", $("#addr").html());
+		formData.set("deli_addr", $("#deli_addr").html());
+	}else{
+		var sn = $("#nation_cd").val().split("|");
+		formData.set("nation_cd", sn[0]);
+		formData.set("local_kind_cd", "foreigner");
+	}
+	if(userKind != 'person'){
+		formData.set("comp_no", replaceAll($("#comp_no").val(), "-", ""));
+	}
 	
 	var ways = formData.getAll('push_way').join('|');
 	if(!undefCheck(ways)){
