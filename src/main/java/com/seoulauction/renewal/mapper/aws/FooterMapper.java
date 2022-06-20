@@ -15,6 +15,7 @@ public interface FooterMapper {
     List<CommonMap> selectRecruits(CommonMap map);
     List<CommonMap> selectCountRecruits(CommonMap map);
     CommonMap selectRecruitById(CommonMap map);
+    CommonMap insertRecruitApply(CommonMap map);
 
     //공지사항
     List<CommonMap> selectNotices(CommonMap map);

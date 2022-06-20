@@ -105,9 +105,9 @@
                                                 <div class="header-area">
                                                     <div class="accordion_name">
                                                         <div class="trp checkbox-box">
-                                                            <input id="" class="" type="checkbox" name="">
+                                                            <input id="info_check" class="" type="checkbox" name="">
                                                             <i></i>
-                                                            <label for=""><span class="required">개인정보수집 및 이용동의(필수)</label>
+                                                            <label for="info_check"><span class="required">개인정보수집 및 이용동의(필수)</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -133,7 +133,7 @@
                                     <article class="button-area">
                                         <div class="btn_set-float tac">
                                             <a class="btn btn_gray_line btn_lg" href="/footer/recruit/${id}" role="button"><span>취소</span></a>
-                                            <a class="btn btn_point btn_lg" href="#" role="button"><span>지원</span></a>
+                                            <a id="recruit_btn" class="btn btn_point btn_lg"  role="button"><span>지원</span></a>
                                         </div>
                                     </article>
                                 </div>
@@ -180,41 +180,41 @@
     <script>
         $(function(){
 
+            $("#recruit_btn").on('click',function (){
+
+                form();
+            });
+
             function form(){
-                axios.get('/api/footer/recruits/${id}')
-                    .then(function(response) {
-                        const data = response.data;
-                        let success = data.success;
-                        if(success){
-                            let data = response.data.data;
 
-                            if(!data){
-                                alert('잘못된 경로입니다.');
-                                history.back();
-                            }
-                            $("#recruit_title").html(data.title);
-                            $("#recruit_content").html(data.content);
-                            $("#recruit_date").html(data.start_date +' ~ ' + data.end_date);
 
-                            //입사 지원서 없을 경우 하이드!
-                            //$("#recruit_file_down").hide();
+                let form_name = $("#recruit_form_name").val();
+                let form_email = $("#recruit_form_email").val();
+                let form_phone = $("#recruit_form_phone").val();
+                let checkboxCheck = $("#info_check").is(':checked');
 
-                            if(data.images.length !==0){
-                                let images = data.images;
+                console.log('name : ' + form_name);
+                console.log('email : ' + form_email);
+                console.log('phone : ' + form_phone);
 
-                                $("#recruit_file_down").show();
-                                $("#recruit_file_down").attr('href' , '/fileDownload?fileKey=' + images.path + '&downloadFileName=' + images.name);
+                alert('11111' + checkboxCheck);
 
-                                //입사 지원서 파일 다운 작업.
-                                // // let html = `<a href=/fileDownload?fileKey=` + images.path + `&downloadFileName=` + images.name  + `>`
-                                // //     + `<i class="icon_down"></i> <span>` + images.name + `</span></a>`;
-                                // $("#notice_file_list").html(html);
-                            }
-                        }
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                    });
+
+                <%--axios.get('/api/footer/recruits/${id}'--%>
+
+
+
+                <%--)--%>
+                <%--    .then(function(response) {--%>
+                <%--        const data = response.data;--%>
+                <%--        let success = data.success;--%>
+                <%--        if(success){--%>
+
+                <%--        }--%>
+                <%--    })--%>
+                <%--    .catch(function(error) {--%>
+                <%--        console.log(error);--%>
+                <%--    });--%>
             }
         });
     </script>

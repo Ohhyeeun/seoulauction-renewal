@@ -82,5 +82,15 @@ public class ApiFooterController {
         return ResponseEntity.ok(RestResponse.ok(footerService.getRecruitById(new CommonMap("id", id))));
     }
 
+    @PostMapping(value="/recruits/{id}/form")
+    public ResponseEntity<RestResponse> forms(@RequestBody CommonMap paramMap) {
+
+
+
+
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
+
 }
 
