@@ -108,5 +108,6 @@ public interface MypageMapper {
     List<CommonMap> selectBidForCustLeave(CommonMap map);
     
     List<CommonMap> selectAutoBidReqForcustLeave(CommonMap map);
-    
+
+    CommonMap selectManager(CommonMap map);
 }
