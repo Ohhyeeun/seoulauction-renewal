@@ -30,11 +30,20 @@ public class FooterService {
         return resultMap;
     }
 
-    public CommonMap getBoardRecruitList(CommonMap map){
+    public CommonMap getRecruitList(CommonMap map){
 
         CommonMap resultMap = new CommonMap();
         resultMap.put("list" , footerMapper.selectRecruits(map));
         resultMap.put("count" , footerMapper.selectCountRecruits(map));
+        return resultMap;
+    }
+
+    public CommonMap getRecruitById(CommonMap map){
+
+        CommonMap resultMap = footerMapper.selectRecruitById(map);
+        if(resultMap != null) {
+            resultMap.put("images", s3Service.getS3FileDataAll("recruit", resultMap.get("id")));
+        }
         return resultMap;
     }
 

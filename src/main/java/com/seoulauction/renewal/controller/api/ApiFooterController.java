@@ -3,7 +3,6 @@ package com.seoulauction.renewal.controller.api;
 import com.seoulauction.renewal.common.RestResponse;
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.service.FooterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -73,7 +72,14 @@ public class ApiFooterController {
         CommonMap maps = CommonMap.create(page,size);
         maps.put("search" , search);
 
-        return ResponseEntity.ok(RestResponse.ok(footerService.getBoardRecruitList(maps)));
+        return ResponseEntity.ok(RestResponse.ok(footerService.getRecruitList(maps)));
+    }
+
+    @GetMapping(value="/recruits/{id}")
+    public ResponseEntity<RestResponse> getRecruitById(
+            @PathVariable("id") int id
+    ) {
+        return ResponseEntity.ok(RestResponse.ok(footerService.getRecruitById(new CommonMap("id", id))));
     }
 
 }

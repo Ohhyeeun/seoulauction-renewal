@@ -7,9 +7,14 @@ import java.util.List;
 
 @Mapper
 public interface FooterMapper {
+
+    //FAQ
     List<CommonMap> selectFaqs(CommonMap map);
+
+    //채용공고
     List<CommonMap> selectRecruits(CommonMap map);
     List<CommonMap> selectCountRecruits(CommonMap map);
+    CommonMap selectRecruitById(CommonMap map);
 
     //공지사항
     List<CommonMap> selectNotices(CommonMap map);
