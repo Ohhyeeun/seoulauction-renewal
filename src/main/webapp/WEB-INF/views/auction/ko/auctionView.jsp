@@ -186,8 +186,7 @@
                                             <div class="button-area">
                                                 <div class="btn_set only-pc">
                                                     <div class="btn_item">
-                                                        <a class="btn btn_point btn_lg" href="#" role="button"
-                                                           id="bid_btn"><span>응찰하기</span></a>
+                                                        <a class="btn btn_point btn_lg" href="#" role="button" id="bid_btn"><span>응찰하기</span></a>
                                                     </div>
                                                 </div>
                                                 <div class="btn_set cols_2">
@@ -348,6 +347,8 @@
                         </div>
                     </div>
                 </article>
+                <input type="hidden" id="sale_no" value="{{sale_no}}" />
+                <input type="hidden" id="lot_no" value="{{lot_no}}" />
             </div>
         </div>
         <!-- //container -->
@@ -368,284 +369,11 @@
     </div>
 
 </div>
-<!--  응찰하기(온라인)  -->
-<div id="popup_biddingPopup1-wrap" class="trp popupfixed-wrap bidding-online-popup">
-    <div class="popup-dim"></div>
-    <div class="popup-align mode-lg mode-mb_full">
-        <div class="popup-vertical">
-            <div class="popup-layer">
-                <div class="pop-panel">
-                    <div class="pop-header">
-                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
-                        <div class="title-box">
-                            <span id="lot_title" class="txt_title">LOT </span>
-                        </div>
-                    </div>
-                    <div class="pop-body scroll-type">
-                        <section class="section  " style="display: block;">
-                            <div class="bidding-online-wrap">
-                                <article class="bidding-online-left">
-                                    <figure class="view-area">
-                                        <div class="view-img">
-                                            <div class="img-box">
-                                                <div class="box-inner">
-                                                    <img id="img_url" alt="LOT 02">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <figcaption class="view-typo">
-                                            <div class="typo-header">
-                                                <div class="title"><span id="artist_nm"></span><em id="born_year"></em>
-                                                </div>
-                                                <div class="desc"><span id="bidding_title">Air (From The Series The Elements)</span>
-                                                </div>
-                                            </div>
-                                            <div class="typo-body">
-                                                <span>spray paint on canvas</span>
-                                                <ul>
-                                                    <li>80.9 X73.4cm</li>
-                                                    <li>2021</li>
-                                                </ul>
-                                            </div>
-                                        </figcaption>
-                                    </figure>
-                                </article>
-                                <article class="bidding-online-right js-bidding_tab">
-                                    <div class="legend-area">
-                                        <div class="side_time">
-                                            <span id="bid_tick"></span>
-                                        </div>
-                                        <div class="unit">
-                                            <span>호가단위 : </span>
-                                            <em id="quote_unit"></em>
-                                        </div>
-                                    </div>
-                                    <div class="product-list-area">
-                                        <div class="list-header">
-                                            <div class="price-name"><span>현재가</span></div>
-                                            <div class="price-amount"><em id="bid_cost_val"></em> <span
-                                                    id="bid_cost_cnt"></span></div>
-                                        </div>
-                                        <div class="list-body scroll-type">
-                                            <ul id="bid_lst" class="product-list">
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="topbtn-area">
-                                        <div class="btn_set">
-                                            <div class="btn_item"><a class="btn btn_default btn_lg" href="#"
-                                                                     role="button"><span>1회 응찰</span></a></div>
-                                            <div class="btn_item"><a class="btn btn_gray btn_lg" href="#" role="button"><span>자동응찰</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="caution-area">
-                                        <ul class="mark_char-list">
-                                            <li class="accent"><span>응찰하기 버튼을 누르시면 취소가 불가능합니다.</span></li>
-                                            <li class=""><span>동시 응찰자 경우, 서버시각 기준 우선순위가 부여됩니다.</span></li>
-                                        </ul>
-                                    </div>
-                                    <div class="bottombtn-area">
-                                        <div class="btn_set active">
-                                            <div class="btn_item"><a class="btn btn_point btn_lg typo-pc_mb-line"
-                                                                     id="bid_new_cost_val" href="javascript:bid();"
-                                                                     role="button" value=""><span
-                                                    id="bid_new_cost"></span> <span>응찰하기</span></a></div>
-                                        </div>
-                                        <div class="btn_set type-pc_mb-column">
-                                            <div class="btn_item">
-                                                <div class="select-box ">
-                                                    <!-- disabled 옵션 -->
-                                                    <select class="select2Basic56_line" id="reservation_bid">
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="btn_item"><a class="btn btn_point btn_lg" href="javascript:autoBid();"
-                                                                     role="button"><span>응찰하기</span></a></div>
-                                        </div>
-                                    </div>
-                                </article>
-                            </div>
-                        </section>
-                    </div>
-                </div>
+<script type="text/javascript" src="/js/auction/saleCert.js"></script>
+<jsp:include page="popup/auctionBidPopup.jsp" flush="false"/>
+<jsp:include page="popup/auctionConfirmPopup.jsp" flush="false"/>
 
-            </div>
-        </div>
-    </div>
-</div>
-<div id="popup_online_confirm-wrap" class="trp popupfixed-wrap online_confirm-popup ">
-    <div class="popup-dim"></div>
-    <div class="popup-align mode-ms mode-mb_full">
-        <div class="popup-vertical">
-            <div class="popup-layer">
-                <div class="pop-panel">
-                    <div class="pop-header">
-                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
-                        <div class="title-box">
-                            <span class="txt_title">온라인 경매 번호 인증</span>
-                        </div>
-                    </div>
-                    <div class="pop-body scroll-type">
-                        <section class="section">
-                            <div class="text-area">
-                                <P class="text-base">온라인 경매 회차당 한번 번호 인증 후 경매에 참여하실 수 있습니다.</P>
-                            </div>
-                            <div class="form-area">
-                                <div class="form_label">
-                                    <label for="name-1" class="mem_txt">휴대폰 인증</label>
-                                    <i>*</i>
-                                </div>
-                                <div class="form_body">
-                                    <div class="input-group">
-                                        <input type="text" id="name-1" class="form-control" value="" placeholder="">
-                                        <button class="btn btn_light_gray_line" type="button"><span>인증번호 요청</span></button>
-                                    </div>
-                                    <div class="re-check">
-                                        <div class="form_body">
-                                            <div class="input-group">
-                                                <input type="text" id="name-2" class="form-control" value="" placeholder="인증번호 입력">
-                                                <button class="btn btn_light_gray_line" type="button"><span>인증</span></button>
-                                            </div>
-                                            <p class="error_text tb2">안내 메시지 출력 영역</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-area policy_accordion">
-                                <div class="check_all-wrap js_all-1">
-                                    <ul class="accordion-list policy js-accordion_policy">
-                                        <li class="trp_acitem">
-                                            <div class="header-area">
-                                                <div class="accordion_name">
-                                                    <div class="trp checkbox-box">
-                                                        <input id="checkbox_01" class="" type="checkbox" name="">
-                                                        <i></i>
-                                                        <label for="checkbox_01"><span class="required">[필수]</span> 온라인 응찰 안내</label>
-                                                    </div>
-                                                </div>
-                                                <a href="#" class="acc_btn">
-                                                    <i class="icon-accordion_arrow_down"></i>
-                                                </a>
-                                            </div>
-                                            <div class="con-area">
-                                                <div class="con-header">
-                                                    <div class="policy_cont">
-                                                        <div class="trp checkbox-box">
-                                                            <input id="checkbox_01" class="" type="checkbox" name="">
-                                                            <i></i>
-                                                            <label for="checkbox_01 tb1">확인 하였습니다.</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="con-body">
-                                                    <div class="text-area scroll-type">
-                                                        <ul>
-                                                            <li>낙찰 시, 낙찰금의 18%(부가세별도)의 구매수수료가 발생합니다.</li>
-                                                            <li class="point_item">응찰 및 낙찰은 취소가 불가능합니다. 낙찰 철회 시 낙찰가의 30%에 해당하는 낙찰철회비가 부과되오니 신중히 응찰 바랍니다.</li>
-                                                            <li>응찰은 작품 컨디션 확인 후 진행 되는 것을 전제로 하며, 작품 컨디션에 액자 상태는 포함되지 않습니다.</li>
-                                                            <li>마감시간 30초 내에 응찰이 있을 경우, 자동으로 30초 연장됩니다.</li>
-                                                            <li>접속자의 컴퓨터, 인터넷 환경에 따라 반영 속도 차이가 있을 수 있으니 비딩 시 유의해 주시기 바랍니다.</li>
-                                                            <li class="point_item">[1회 응찰] 또는 [자동 응찰] 버튼을 누르시면 ‘확인안내 없이’ 바로 응찰이 되어 취소가 가능합니다.</li>
-                                                            <li class="point_item">남은 시간 1초 미만 시 응찰은 서버 반영 전 종료 될 수 있으니, 주의가 필요합니다.</li>
-                                                            <li>[자동 응찰 중지하기]는 자동 응찰 ‘취소가 아닙니다’, 응찰자가 자동응찰을 중지하는 경우 중지 전까지의 응찰 및 낙찰은 유효합니다. 또한 자동응찰의 중지는 서버에 반영이 되는 시점에 효력이 발생하므로, <em>응찰자가 중지버튼을 클릭한 시점보다 더 높은 금액에 중지되고 이 금액에 낙찰 될 수 있습니다.</em></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="trp_acitem">
-                                            <div class="header-area">
-                                                <div class="accordion_name">
-                                                    <div class="trp checkbox-box">
-                                                        <input id="checkbox_02" class="js_item" type="checkbox" name="">
-                                                        <i></i>
-                                                        <label for="checkbox_02"><span class="required">[필수]</span> 약관 동의 안내</label>
-                                                    </div>
-                                                </div>
-                                                <a href="#" class="acc_btn">
-                                                    <i class="icon-accordion_arrow_down"></i>
-                                                </a>
-                                            </div>
-                                            <div class="con-area">
-                                                <div class="con-header">
-                                                    <div class="policy_cont">
-                                                        <div class="trp checkbox-box">
-                                                            <input id="checkbox_all" class="js_all" type="checkbox" name="">
-                                                            <i></i>
-                                                            <label for="checkbox_all tb1">모두 동의합니다.</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="con-body">
-                                                    <div class="text-area scroll-type check_item">
-                                                        <ul class="">
-                                                            <li>
-                                                                <div class="trp checkbox-box">
-                                                                    <input id="checkbox_all1" class="js_item" type="checkbox" name="">
-                                                                    <i></i>
-                                                                    <label for="checkbox_all1">본인은 서울옥션 경매약관(바로가기)을 모두 읽고 이해하였으며, 그 적용에 동의합니다.</label>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="trp checkbox-box">
-                                                                    <input id="checkbox_all2" class="js_item" type="checkbox" name="">
-                                                                    <i></i>
-                                                                    <label for="checkbox_all2">응찰은 작품 실물 및 컨디션을 확인하였음을 전제로 합니다.</label>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="trp checkbox-box">
-                                                                    <input id="checkbox_all3" class="js_item" type="checkbox" name="">
-                                                                    <i></i>
-                                                                    <label for="checkbox_all3">낙찰자는 후 7일 이내(낙찰가 3억원 이상인 경우 21일 이내)에 구매수수료를 포함한 금액을 입금하여야 합니다.</label>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="trp checkbox-box">
-                                                                    <input id="checkbox_all4" class="js_item" type="checkbox" name="">
-                                                                    <i></i>
-                                                                    <label for="checkbox_all4">낙찰자가 ①지정된 기일에 낙찰대금을 납부하지 않거나, ②부득이 낙찰을 철회하는 경우, 낙찰가의 30%에 해당하는 금액을 낙찰철회(위약금)로 납부하여야 합니다.</label>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="text-area">
-                                    <p class="tb2">응찰 관련 문의가 있으신 경우, 귀하의 담당자(<em>홍길동 02-2075-4411</em>)에게 <br class="only-pc">연락주시기 바랍니다.
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="btn-area">
-                                <div class="btn_set-float tac">
-                                    <!-- [0523]a 버튼 href에 # 삽입 -->
-                                    <a class="btn btn_gray_line" href="#" role="button">
-                                        <span>취소</span>
-                                    </a>
-                                    <a class="btn btn_point" href="#" role="button">
-                                        <span>확인</span>
-                                    </a>
-                                    <!-- //[0523]a 버튼 href에 # 삽입 -->
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-<!--[if lt IE 9]>
-<script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
 <%--낙찰 수수료 팝업 --%>
@@ -745,6 +473,12 @@
 
 <!-- angular js -->
 <script>
+    //약관체크
+    $(".js_all-1").trpCheckBoxAllsImg(".js_all", ".js_item");
+
+    let popup_offline_payment = $(".js-popup_online_confirm").trpLayerFixedPopup("#popup_online_confirm-wrap");
+    let popup_biddingPopup1 = $("#bid_btn").trpLayerFixedPopup("#popup_biddingPopup1-wrap");
+
     app.value('locale', 'ko');
     app.value('is_login', true);
 
@@ -914,6 +648,30 @@
                 // 시작
                 startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2,
                     '${member.loginId}', ${member.userNo});
+
+                //get sale cert
+                $scope.is_sale_cert = false;
+                $scope.cust_hp = "";
+                if(sessionStorage.getItem("is_login") === 'true'){
+                    await axios.get('/api/cert/sales/${saleNo}')
+                        .then(function(response) {
+                            if (response.data.success) {
+                                if(response.data.data.CNT > 0) {
+                                    $scope.is_sale_cert = true;
+                                }
+                                $("#cust_hp").val(response.data.data.HP);
+                                $scope.cust_hp = response.data.data.HP;
+                            }
+                        });
+
+                    await axios.get('/api/mypage/manager')
+                        .then(function(response) {
+                            if (response.data.success && response.data.data != undefined) {
+                                $("em#manager").html(response.data.data.EMP_NAME + " " + response.data.data.HP);
+                            }
+                        });
+                }
+
                 $scope.$apply();
 
                 // 카카오 init
@@ -1019,6 +777,11 @@
 </script>
 
 <script>
+    function Scope() {
+        var scope = angular.element(document.getElementById("container")).scope();
+        return scope;
+    }
+
     $("#bid_btn").on('click', function(){
         if (${member.userNo} === 0) {
             if(sessionStorage.getItem("is_login") === 'false'){
@@ -1026,9 +789,8 @@
                 return
             }
         } else {
-            let a = true;
-            if (!a) {
-                let popup_offline_payment = $("#bid_btn").trpLayerFixedPopup("#popup_online_confirm-wrap");
+            const is_sale_cert = Scope().is_sale_cert || $("#is_sale_cert").val();
+            if (!is_sale_cert) {
                 popup_offline_payment.open(this); // or false
                 popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
 
@@ -1037,19 +799,16 @@
                     popup_offline_payment.close();
                 });
             } else {
-                (function () {
-                    var popup_biddingPopup1 = $("#bid_btn").trpLayerFixedPopup("#popup_biddingPopup1-wrap");
-                    $(popup_biddingPopup1.getBtn).on("click", function ($e) {
-                        $e.preventDefault();
-                        popup_biddingPopup1.open(this); // or false
-                        popup_fixation("#popup_biddingPopup1-wrap");
-                    });
+                $(popup_biddingPopup1.getBtn).on("click", function ($e) {
+                    $e.preventDefault();
+                    popup_biddingPopup1.open(this); // or false
+                    popup_fixation("#popup_biddingPopup1-wrap");
+                });
 
-                    $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function ($e) {
-                        $e.preventDefault();
-                        popup_biddingPopup1.close();
-                    });
-                })();
+                $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function ($e) {
+                    $e.preventDefault();
+                    popup_biddingPopup1.close();
+                });
             }
         }
     })
