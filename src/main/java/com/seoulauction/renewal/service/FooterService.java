@@ -62,4 +62,12 @@ public class FooterService {
         }
         return resultMap;
     }
+    public void saveRecruitApply(CommonMap map){
+
+        CommonMap insertMap = footerMapper.insertRecruitApply(map);
+
+
+        s3Service.insertS3FileData();
+
+    }
 }

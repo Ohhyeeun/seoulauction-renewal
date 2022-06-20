@@ -22,7 +22,7 @@ import static com.seoulauction.renewal.common.SAConst.SERVICE_SERVICE;
 public class FooterController {
 
     @GetMapping("/recruit/{id}/form")
-    public String boardIncruitForm(
+    public String boardRecruitForm(
         @PathVariable("id") int id,
         HttpServletRequest request,
         Locale locale) {
