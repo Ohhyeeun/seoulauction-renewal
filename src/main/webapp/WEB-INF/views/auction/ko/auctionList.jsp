@@ -543,6 +543,8 @@
                     // 메타데이타
                     let lotInfo = {};
 
+
+
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
                         if ($scope.saleInfoAll[i].SALE_NO === saleNo && $scope.saleInfoAll[i].LOT_NO === lotNo) {
                             lotInfo = {
@@ -554,8 +556,10 @@
                                 lotSize: $scope.saleInfoAll[i].SIZE1 + "X" + $scope.saleInfoAll[i].SIZE2 + "X" + $scope.saleInfoAll[i].SIZE3,
                                 makeYear: $scope.saleInfoAll[i].MAKE_YEAR_JSON.ko,
                             }
+                            break
                         }
                     }
+                    console.log("lotInfo", lotInfo)
                     // 초기화
                     $("#bid_lst").html('');
                     // 랏번호 삽입

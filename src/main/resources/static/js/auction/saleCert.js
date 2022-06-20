@@ -12,6 +12,12 @@ document.addEventListener("DOMContentLoaded", function(){
 	var messageArea2 = document.getElementById('messageArea2');
 	var messageArea3 = document.getElementById('messageArea3');
 
+
+	function Scope() {
+		var scope = angular.element(document.getElementById("container")).scope();
+		return scope;
+	}
+
 	authNumRequest = function() {
 		saleNo = document.getElementById('sale_no').value;
 		phone = document.getElementById('phone').value;
@@ -183,7 +189,7 @@ document.addEventListener("DOMContentLoaded", function(){
 						saleCertClose(true);
 
 						// page open
-						scope().popSet(scope().sale_no, 1, scope().user_id, scope().cust_no)
+						Scope().popSet(parseInt(Scope().sale_no), parseInt($("#lot_no").val()), Scope().user_id, parseInt(Scope().cust_no));
 						/*
                         *
                         *
