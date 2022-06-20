@@ -9,6 +9,7 @@ import java.util.List;
 public interface FooterMapper {
     List<CommonMap> selectFaqs(CommonMap map);
     List<CommonMap> selectRecruits(CommonMap map);
+    List<CommonMap> selectCountRecruits(CommonMap map);
 
     //공지사항
     List<CommonMap> selectNotices(CommonMap map);

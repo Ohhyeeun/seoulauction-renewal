@@ -106,7 +106,7 @@ app.controller('newsLetterCtl', function($scope, consts, common, locale) {
                             + '</div>'
                             + '<div class="typo-area">'
                             +    '<div class="title"><span>' + titleJSON[$scope.locale] + '</span>' + newDom + '</div>'
-                            +    '<div class="desc"><span>' + itemJSON[$scope.locale].newsletter_memo + ' </span></div>'
+                            +    '<div class="desc"><span>' + itemJSON.newsletter_memo + ' </span></div>'
                             + '</div>'
                             + '</a>'
                             + '</div></li>';

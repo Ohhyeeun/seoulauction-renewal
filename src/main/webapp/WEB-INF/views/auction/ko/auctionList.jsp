@@ -987,6 +987,30 @@
                                     }
                                 }
                             }
+                            let quoute_arr = [];
+                            if (d.message.quotes != null && d.message.quotes.length > 0) {
+                                let cnt = 0;
+                                let viewCnt = 0;
+                                while( viewCnt < 70 ) {
+                                    if (cnt > d.message.quotes.length - 1) {
+                                        quoute_arr.push(cost_tmp)
+                                        cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
+                                        viewCnt++;
+                                        continue
+                                    }
+                                    if (d.message.quotes[cnt].cost > cost_tmp){
+                                        quoute_arr.push(cost_tmp)
+                                        cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
+                                        cnt = 0;
+                                        viewCnt++;
+                                        continue
+                                    }
+                                    cnt++
+                                }
+                                $.each(quoute_arr, function(idx, el) {
+                                    $("#reservation_bid").append(`<option value="` + el +`">KRW ` + el.toLocaleString('ko-KR') +`</option>`);
+                                });
+                            }
                         }
                         // 낙찰이 완료 되었다면
                         if (bid_info.is_winner) {
