@@ -80,7 +80,6 @@ public class ApiCertificationController {
 	public ResponseEntity<RestResponse> confirmAuthNumCheck(@RequestBody CommonMap commonMap, Principal principal,
 			HttpServletRequest request, HttpServletResponse response) {
 		boolean b = this.confirmAuthNumber(commonMap, request, response);
-		commonMap.put("action_user_no", principal.getName());
 		if (b) {
 			return ResponseEntity.ok(RestResponse.ok(commonMap));
 		} else {
