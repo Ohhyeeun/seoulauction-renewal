@@ -991,6 +991,11 @@
                             if (d.message.quotes != null && d.message.quotes.length > 0) {
                                 let cnt = 0;
                                 let viewCnt = 0;
+
+                                let cost_tmp = (bid_info.bid_cost === 0) ?
+                                    bid_info.open_bid_cost :
+                                    bid_info.bid_cost;
+
                                 while( viewCnt < 70 ) {
                                     if (cnt > d.message.quotes.length - 1) {
                                         quoute_arr.push(cost_tmp)

@@ -181,6 +181,13 @@ document.addEventListener("DOMContentLoaded", function(){
 				}
 				checkHpAuth.saleCert = true;
 				saleCertClose(true);
+
+				// page open
+				scope().popSet(scope().sale_no, 1, scope().user_id, scope().cust_no)
+				/*
+				*
+				*
+				* */
 			}
 		})
 		.catch(function(error) {
