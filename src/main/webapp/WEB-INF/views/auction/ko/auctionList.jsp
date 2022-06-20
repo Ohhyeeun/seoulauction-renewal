@@ -209,7 +209,7 @@
                                                             <div class="btn_set"><a name="open_popup"
                                                                                     class="btn btn_point"
                                                                                     href="javascript:void(0);"
-                                                                                    ng-click="popSet(item.SALE_NO,item.LOT_NO,'KYUNGHOON');"
+                                                                                    ng-click="popSet(item.SALE_NO,item.LOT_NO, user_id, cust_no);"
                                                                                     role="button"><span>응찰</span></a>
                                                             </div>
                                                         </div>
@@ -367,10 +367,14 @@
         $scope.is_login = is_login;
         $scope.locale = locale;
         $scope.sale_no = "${saleNo}";
+        $scope.cust_no = ${member.userNo};
+        $scope.user_id = '${member.loginId}';
 
         $scope.pagesize = 10;
         $scope.itemsize = 20;
         $scope.curpage = 1;
+
+
 
         $scope.modelSortType = [{
             name: "LOT 번호순", value: 1
@@ -483,7 +487,7 @@
             $scope.pageing(1);
         }
 
-        $scope.popSet = function (saleNo, lotNo) {
+        $scope.popSet = function (saleNo, lotNo, userId, custNo) {
             if (${member.userNo} === 0){
                 if (sessionStorage.getItem("is_login") === 'false') {
                     //history.push("/login");
@@ -506,7 +510,7 @@
                     popup_biddingPopup1.open(this); // or false
                     popup_fixation("#popup_biddingPopup1-wrap");
 
-                    let init_func_manual = async function (token, saleNo, lotNo, saleType) {
+                    let init_func_manual = async function (token, saleNo, lotNo, saleType, custNo) {
                         //console.log(token, saleNo, lotNo, saleType, userId);
                         let url = '';
                         if (window.location.protocol !== "https:") {
@@ -521,6 +525,7 @@
                                 lot_no: lotNo,
                                 sale_type: saleType,
                                 user_id: '${member.loginId}',
+                                cust_no: custNo,
                             }),
                         });
                         return resp;
@@ -558,7 +563,7 @@
                     $("#pop_size").html(lotInfo.lotSize);
                     $("#pop_make_year").html(lotInfo.makeYear);
 
-                    init_func_manual(token, parseInt(saleNo), parseInt(lotNo), 2);
+                    init_func_manual(token, parseInt(saleNo), parseInt(lotNo), 2, custNo);
 
                     $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function ($e) {
                         $e.preventDefault();
