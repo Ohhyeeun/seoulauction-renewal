@@ -82,11 +82,6 @@ public class ApiCertificationController {
 		boolean b = this.confirmAuthNumber(commonMap, request, response);
 		commonMap.put("action_user_no", principal.getName());
 		if (b) {
-			if(commonMap.get("to_phone").equals(certificationService.selectCustHpByCustNo(commonMap).get("hp"))) {
-				commonMap.put("is_same_hp", true);
-			} else {
-				commonMap.put("is_same_hp", false);
-			}
 			return ResponseEntity.ok(RestResponse.ok(commonMap));
 		} else {
 			throw new SAException("인증번호가 일치하지 않습니다."); 
