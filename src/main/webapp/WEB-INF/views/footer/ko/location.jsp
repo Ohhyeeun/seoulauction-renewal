@@ -67,7 +67,9 @@
                                                             </dd>
                                                         </dl>
                                                         <div class="btn_wrap">
-                                                            <a class="btn btn_default btn_sm" href="#" role="button"><span>지도보기</span></a>
+                                                            <a class="btn btn_default btn_sm"
+                                                               href="https://www.google.com/maps?ll=37.611418,126.975635&z=14&t=m&hl=ko&gl=KR&mapclient=embed&cid=14820446719005225461"
+                                                               target="_blank" role="button"><span>지도보기</span></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -100,7 +102,10 @@
                                                             </dd>
                                                         </dl>
                                                         <div class="btn_wrap">
-                                                            <a class="btn btn_default btn_sm" href="#" role="button"><span>지도보기</span></a>
+                                                            <a class="btn btn_default btn_sm"
+                                                               href="https://www.google.com/maps?ll=37.527431,127.033828&z=14&t=m&hl=ko-KR&gl=KR&mapclient=embed&cid=2344469587349732876"
+                                                               target="_blank"
+                                                               role="button"><span>지도보기</span></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -132,7 +137,9 @@
                                                             </dd>
                                                         </dl>
                                                         <div class="btn_wrap">
-                                                            <a class="btn btn_default btn_sm" href="#" role="button"><span>지도보기</span></a>
+                                                            <a class="btn btn_default btn_sm" href="https://www.google.com/maps?ll=22.286071,114.154495&z=16&t=m&hl=ko&gl=KR&mapclient=embed&cid=17681965338020509289"
+                                                               target="_blank"
+                                                               role="button"><span>지도보기</span></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -162,7 +169,9 @@
                                                             </dd>
                                                         </dl>
                                                         <div class="btn_wrap">
-                                                            <a class="btn btn_default btn_sm" href="#" role="button"><span>지도보기</span></a>
+                                                            <a class="btn btn_default btn_sm" href="https://www.google.com/maps?ll=35.160016,129.16305&z=16&t=m&hl=ko&gl=KR&mapclient=embed&q=%EB%B6%80%EC%82%B0%EA%B4%91%EC%97%AD%EC%8B%9C+%ED%95%B4%EC%9A%B4%EB%8C%80%EA%B5%AC+%ED%95%B4%EC%9A%B4%EB%8C%80%ED%95%B4%EB%B3%80%EB%A1%9C+292"
+                                                               target="_blank"
+                                                               role="button"><span>지도보기</span></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -207,13 +216,6 @@
     <!-- [0516]삭제
   <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
 -->
-
-
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
-
-
-
 
 </body>
 

@@ -21,14 +21,14 @@ import static com.seoulauction.renewal.common.SAConst.SERVICE_SERVICE;
 @RequestMapping(SERVICE_FOOTER)
 public class FooterController {
 
-    @GetMapping("/incruitApply")
-    public String boardIncruitApply(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "boardIncruitApply" , locale);}
+    @GetMapping("/recruitForm")
+    public String boardIncruitApply(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "incruitForm" , locale);}
     @GetMapping("/incruitEmpty")
     public String boardIncruitEmpty(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "boardIncruitEmpty" , locale);}
-    @GetMapping("/incruit")
-    public String boardIncruitList(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "incruit" , locale);}
-    @GetMapping("/incruit/{id}")
-    public String boardIncruitView(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "incruitView" , locale);}
+    @GetMapping("/recruit")
+    public String boardIncruitList(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "recruit" , locale);}
+    @GetMapping("/recruit/{id}")
+    public String boardIncruitView(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "recruitView" , locale);}
     @GetMapping("/media")
     public String boardMediaList(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "media" , locale);}
     @GetMapping("/notice")

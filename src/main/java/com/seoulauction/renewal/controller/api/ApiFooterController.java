@@ -63,12 +63,17 @@ public class ApiFooterController {
         return ResponseEntity.ok(RestResponse.ok(footerService.getBoardById(new CommonMap("id", id))));
     }
 
-    @GetMapping(value="/incruit")
+    @GetMapping(value="/recruits")
     public ResponseEntity<RestResponse> boardIncruit(
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
-            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size,
+            @RequestParam(value = "search" , required = false ) String search
     ) {
-        return ResponseEntity.ok(RestResponse.ok(footerService.getBoardIncruitList(CommonMap.create(page,size))));
+
+        CommonMap maps = CommonMap.create(page,size);
+        maps.put("search" , search);
+
+        return ResponseEntity.ok(RestResponse.ok(footerService.getBoardRecruitList(maps)));
     }
 
 }
