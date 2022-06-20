@@ -113,8 +113,9 @@ app.controller('newsLetterCtl', function($scope, consts, common, locale) {
                     $scope.newsletter.title = JSON.parse(response.data.data.title);
 
                     const date = response.data.data.publish_at.replace(/(\d+)\-(\d+)\-(\d+)/, '$1$2');
+                    let url = locale === 'ko' ? $scope.newsletter.content.ko_url : $scope.newsletter.content.en_url;
 
-                    let iframeHtml = '<iframe id="iframe-id" src="'+ $scope.newsletter.content[locale].link_url +'" frameborder="0" width="100%" height="900"></iframe>'
+                    let iframeHtml = '<iframe id="iframe-id" src="'+ url +'" frameborder="0" width="100%" height="900"></iframe>'
                     $("#loadHtml").append(iframeHtml);
 
                     let newDom = '';
