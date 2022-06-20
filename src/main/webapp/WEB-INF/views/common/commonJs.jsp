@@ -11,7 +11,7 @@
 <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
 <script src="/js/plugin/prefixfree.min.js"></script>
 <script src="/js/plugin/swiper.min.js" type="text/javascript"></script>
-<script src="https://code.angularjs.org/1.5.8/angular.js"></script>
+<%--<script src="https://code.angularjs.org/1.5.8/angular.js"></script>--%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ko.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/1.3.0/moment-duration-format.min.js"></script>
