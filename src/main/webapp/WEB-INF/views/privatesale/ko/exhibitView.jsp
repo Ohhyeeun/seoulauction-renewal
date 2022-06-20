@@ -304,8 +304,8 @@
                                         <div class="swiper-slide" ng-repeat="item in lotImages" data-index="{{item.LOT_NO}}">
                                             <div class="img-area">
                                                 <div class="img-box ">
-                                                    <div class="size_x"><span ng-bind="item.SIZE1 | size_text_cm"></span></div>
-                                                    <div class="size_y"><span ng-bind="item.SIZE2 | size_text_cm"></span></div>
+                                                    <div class="size_x"><span>{{item.SIZE1}} {{item.UNIT_CD}}</span></div>
+                                                    <div class="size_y"><span>{{item.SIZE2}} {{item.UNIT_CD}}</span></div>
                                                     <div class="images">
                                                         <img class="imageViewer" src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="" size1="{{item.SIZE1}}" size2="{{item.SIZE2}}" />
                                                     </div>
