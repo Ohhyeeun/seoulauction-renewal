@@ -14,6 +14,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.seoulauction.renewal.domain.SAUserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -65,18 +66,8 @@ public class MypageService {
     	map.put("payTotalCount", mypageMapper.selectPayTotalCountByCustNo(commonMap));
     	map.put("payCount", mypageMapper.selectPayCountByCustNo(commonMap));
     	map.put("payList", mypageMapper.selectPayListByCustNo(commonMap));
-
     	
-//    	Map<Object, List<CommonMap>> result = list.stream().collect(
-//    	Collectors.groupingBy(m->m.get("SALE_TITLE_KR"), Map <String,List<CommonMap>>, Collectors.toList()));
-    	
-		/*
-		 * List<Test> list2 = null;
-		 * Map<String, List<Test>> result = list2.stream().collect(
-		 * Collectors.groupingBy(Test::getSaleTitle));
-		 */
-    	
-    	map.put("customerInfo", mypageMapper.selectCustomerByCustNo(commonMap));
+    	//map.put("customerInfo", mypageMapper.selectCustomerByCustNo(commonMap));
         return map;
     }
       
@@ -385,4 +376,16 @@ public class MypageService {
     public int deleteCustInteArea(CommonMap paramMap){
         return mypageMapper.deleteCustInteArea(paramMap);
     }
+
+	public CommonMap selectManager(){
+		CommonMap paramMap = new CommonMap();
+		SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+		if (saUserDetails != null) {
+			paramMap.put("cust_no", saUserDetails.getUserNo());
+		} else {
+			paramMap.put("cust_no", 0);
+		}
+
+		return mypageMapper.selectManager(paramMap);
+	}
 }

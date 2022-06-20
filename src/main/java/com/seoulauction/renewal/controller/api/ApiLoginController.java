@@ -54,6 +54,9 @@ public class ApiLoginController {
 	@Value("${mobile.msg.callback}")
 	String callback;
 
+	@Value("${social.service.domain}")
+	String currentUrl;
+
 	
 	// captcha 이미지 가져오는 메서드
 	@GetMapping("/captchaImg")
@@ -129,8 +132,7 @@ public class ApiLoginController {
 				        	
 				        	String subject = locale.toString().equals("en") ? "[SeoulAuction] Issued a temporary password reminder" : "[서울옥션] 임시 비밀번호 발급 알림";
 				        	String template = locale.toString().equals("en") ? "passwd_en.html" : "passwd.html";
-				        	String port = request.getServerPort() == 9000 ? ":" + String.format("%d", request.getServerPort()) : "";
-				        	resultMap.put("currentUrl", "http://" + request.getServerName() + port);
+				        	resultMap.put("currentUrl", currentUrl);
 				        	
 				        	messageService.sendMail(paramMap.get("search_value").toString(), subject, template, resultMap);
 			        	} else {
@@ -326,9 +328,8 @@ public class ApiLoginController {
     	    		}
 					
 	    	    	//해외회원 인증 메일 발송
-	    	    	String port = request.getServerPort() == 9000 ? ":" + String.format("%d", request.getServerPort()) : "";
-		        	resultMap.put("authURL", "http://" + request.getServerName() + port + "/join/" + resultMap.get("FORE_CERT_CODE").toString() + "?lang=en");
-		        	resultMap.put("currentURL", "http://" + request.getServerName() + port);
+		        	resultMap.put("authURL", currentUrl + "/join/" + resultMap.get("FORE_CERT_CODE").toString() + "?lang=en");
+		        	resultMap.put("currentUrl", currentUrl);
 	    	    	messageService.sendMail(paramMap.get("email").toString(),"Please, complete your registration." , "foreign_auth.html", resultMap);
 	    	    	
     			} catch (Exception e) {
@@ -355,13 +356,18 @@ public class ApiLoginController {
 				.ip(loginService.getIp(request))
 				.build();
 
-		SecurityContext sc = SecurityContextHolder.getContext();
-		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(null, null);
-		auth.setDetails(parameterUserDetail);
-		sc.setAuthentication(socialAuthenticationProvider.authenticate(auth));
-
-		HttpSession session = request.getSession(true);
-		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
+		try {
+			SecurityContext sc = SecurityContextHolder.getContext();
+			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(null, null);
+			auth.setDetails(parameterUserDetail);
+			sc.setAuthentication(socialAuthenticationProvider.authenticate(auth));
+			
+			HttpSession session = request.getSession(true);
+			session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new SAException(e.getMessage());
+		}
 
         return ResponseEntity.ok(RestResponse.ok());
 	}
@@ -372,5 +378,16 @@ public class ApiLoginController {
 		log.info("logout");
 		new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
 		return ResponseEntity.ok(RestResponse.ok());
+	}
+	
+	//소셜회원 기가입체크
+	@RequestMapping(value="/isCustSocialExist", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> isCustSocialExist(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+
+	    log.info("isCustSocialExist");
+	    log.info(paramMap.toString());
+	    
+	    return ResponseEntity.ok(RestResponse.ok(loginService.selectCustForCustSocial(paramMap)));
 	}
 }

@@ -19,6 +19,7 @@ public class FrontLogoutSuccessHandler implements LogoutSuccessHandler{
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
                              Authentication authentication) throws IOException, ServletException {
+    	log.info("onLogoutSuccess");
         if (authentication != null && authentication.getDetails() != null) {
             try {
                  request.getSession().invalidate();

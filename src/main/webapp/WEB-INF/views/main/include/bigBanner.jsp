@@ -13,9 +13,9 @@
             </span>
             <span class="swiper-pagination visual-pagaination"></span>
         </span>
-        <div class="swiper-btn-wrap">
-            <div class="swiper-button-next pc-ver"></div>
-            <div class="swiper-button-prev pc-ver"></div>
-        </div>
     </div>
+    <div class="swiper-btn-wrap">
+        <div class="swiper-button-next slide-btnright pc-ver"></div>
+        <div class="swiper-button-prev slide-btnleft pc-ver"></div>
+    </div> 
 </section>

@@ -4,6 +4,20 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<head>
+    <!-- header -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>마이페이지 | Seoul Auction</title>
+    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+    <!-- //header -->
+</head>
 <body class="">
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
@@ -58,7 +72,7 @@
 																	<div class="col_select">
 																		<div class="select-box half">
 																			<select name="category1" id="category1"
-																				class="select2Basic" ng-model="form_data.cate1"
+																				class="" ng-model="form_data.cate1"
 																				ng-change="changeCate1()">
 																				<option value="">선택하세요</option>
 																				<option
@@ -68,7 +82,7 @@
 																		</div>
 																		<div class="select-box half">
 																			<select name="category2" id="category2"
-																				class="select2Basic" ng-model="form_data.cate2"
+																				class="" ng-model="form_data.cate2"
 																				ng-if="inqCate2 != undefined && inqCate2.length > 0">
 																				<option value="">선택하세요</option>
 																				<option ng-repeat="code in inqCate2"
@@ -83,7 +97,7 @@
 																	<label for="" class="">이메일</label> <i>*</i>
 																</div>
 																<div class="td">
-																	<input type="text" name="email1" id="emailAccount"
+																	<input type="text" name="email1" id="emailAccount" 
 																		class="form-control half" value="{{custInfo.EMAIL}}"
 																		placeholder="">
 																</div>
@@ -93,7 +107,7 @@
 																	<label for="" class="">휴대폰</label> <i>*</i>
 																</div>
 																<div class="td">
-																	<input type="text" name="hp" id="hp"
+																	<input type="text" name="hp" id="hp" 
 																		class="form-control half" maxlength="13"
 																		value="{{custInfo.HP}}" placeholder="">
 																</div>
@@ -270,25 +284,19 @@
 																	<label for="" class="">첨부파일</label> <i>*</i>
 																</div>
 																<div class="td">
-																	<!-- <div class="trp file-box">
+																<div class="trp file-box">
                                                                     <label for="fileName" class="screen-reader-text">파일 선택</label>
                                                                     <input type="text" id="fileName" class="trp-Filetext">
                                                                     <input type="button" class="btn btn_light_gray_line" value="파일첨부">
-                                                                    <input type="file" name="file" id="file" class="trp-Filehidden" ng-model="form_file_data.files" onchange="javascript: document.getElementById('fileName').value = this.value" title="Insert Attachment">
-																		
-                                                                </div> -->
-
-																	<div>
-																		<input type="file" name="file" class="uploadify"
-																			id="file" multiple="multiple"
-																			ng-model="form_file_data.files" /><br>
-
-																		<ul class="fileList" id="selectedFileList">
-																			<li
-																				ng-repeat="att in form_file_data.att_files_name track by $index">
-																				{{att}}</li>
-																		</ul>
-																	</div>
+                                                                    <input type="file" multiple="multiple" tabindex="7" class="trp-Filehidden" ng-model="form_data.file" name="file" id="file" onchange="angular.element(this).scope().fileValidCheck()" title="Insert Attachment">
+                                                                </div>
+						                                        <div class="file-box-list" ng-repeat="file in fileNameList" >
+						                                            <p class="label" >
+						                                                <i class="icon_down"></i>
+						                                                <span class="tb1">{{file.filename}}</span>
+						                                            </p>
+						                                        </div>
+																	
 																	<ul class="dot_list tb2 mt10">
 																		<li>10 MB 이하의 파일 첨부가 가능합니다.</li>
 																		<li>10개의 파일 업로드 가능합니다.</li>
@@ -299,55 +307,94 @@
 															</li>
 														</ul>
 													</article>
-													<div style="display: none;" id="sell_form">
+													<div  style="display:none" id="sell_form">
 														<div class="tbl_style01 form inner">
-															<table>
-																<caption>위탁신청내용</caption>
-																<colgroup>
-																	<col style="width: 12%;">
-																	<col style="width: 38%;">
-																	<col style="width: 12%;">
-																	<col>
-																</colgroup>
-																<tbody>
-																	<tr>
-																		<th>작가명</th>
-																		<td id="tmp_artist_name"></td>
-																		<th>작품명</th>
-																		<td id="tmp_work_name"></td>
-																	</tr>
-																	<tr>
-																		<th>작품재료</th>
-																		<td id="tmp_work_material"></td>
-																		<th>작품구분</th>
-																		<td id="tmp_work_category"></td>
-																	</tr>
-																	<tr>
-																		<th>추정시대</th>
-																		<td id="tmp_work_estate"></td>
-																		<th>희망가격</th>
-																		<td id="tmp_hope_price"></td>
-																	</tr>
-																	<tr>
-																		<th>작품크기</th>
-																		<td id="tmp_work_size"></td>
-																	</tr>
-																	<tr>
-																		<th>작가 설명</th>
-																		<td colspan="3" id="tmp_artist_desc"></td>
-																	</tr>
-																	<tr>
-																		<th>작품 설명</th>
-																		<td colspan="3" id="tmp_work_desc"></td>
-																	</tr>
-																	<tr>
-																		<th>소장 경위</th>
-																		<td colspan="3" id="tmp_possession_details"></td>
-																	</tr>
-																</tbody>
-															</table>
-														</div>
-													</div>
+															<article class="inquiry-write-wrap">
+                                                    <ul class="form_table-list data_size-185">
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="">작품명</label>
+                                                                <i>*</i>
+                                                            </div>
+                                                            <div class="td" id="tmp_work_name">
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="" >작가명</label>
+                                                                <i>*</i>
+                                                           </div>
+                                                            <div class="td" id="tmp_artist_name">
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="">작품재질</label>
+                                                            </div>
+                                                            <div class="td" id="tmp_work_material">
+                                                               
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="" >추정시대</label>
+                                                            </div>
+                                                            <div class="td" id="tmp_work_estate">
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="">작품크기</label>
+                                                                <i>*</i>
+                                                            </div>
+                                                            <div class="td" id="tmp_work_size">
+                                                                
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="" >작품구분</label>
+                                                            </div>
+                                                            <div class="td">
+                                                                <div  id="tmp_work_category">
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="" >희망가격</label>
+                                                            </div>
+                                                            <div class="td">
+                                                                <div id="tmp_hope_price">
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="">작품설명</label>
+                                                            </div>
+                                                            <div class="td" id="tmp_work_desc">
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="">작가설명</label>
+                                                            </div>
+                                                            <div class="td" id="tmp_artist_desc">
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="">소장경위</label>
+                                                                <i>*</i>
+                                                            </div>
+                                                            <div class="td" id="tmp_possession_details">
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </article>
+											</div>
+									</div>
 												</form>
 												<article class="button-area">
 													<div class="btn_set-float tac">
@@ -406,8 +453,6 @@
 -->
 
 
-	<script type="text/javascript" src="/js/common.js"
-		type="text/javascript"></script>
 	<script type="text/javascript" src="/js/pages_common_ko.js"
 		type="text/javascript"></script>
 

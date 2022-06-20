@@ -16,14 +16,15 @@
     <!-- //header -->
 </head>
 
-<body class="">
+<body class="" ng-controller="ctl" data-ng-init="load();">
 <div class="wrapper">
     <div class="sub-wrap pageclass type-details_view">
         <!-- header -->
         <jsp:include page="../../include/ko/header.jsp" flush="false"/>
         <!-- //header -->
+
         <!-- container -->
-        <div id="container" ng-controller="ctl" data-ng-init="load();">
+        <div id="container">
             <div id="contents" class="contents">
                 <section class="basis-section last-section auction_view-section">
                     <div class="section-inner">
@@ -132,7 +133,7 @@
                                                 </div>
                                             </div>
                                             <div class="view_scale-area">
-                                                <a href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
+                                                <a class="btn btn_default js-popup_image_viewer" href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
                                         </article>
 
@@ -145,8 +146,6 @@
                                                 <div class="btn-box">
                                                     <a href="#" title="" class="sns_share js-sns_share" id>
                                                         <i class="icon-view_sns"></i></a>
-
-
                                                     <div class="sns_layer-area">
                                                         <div class="sns-layer">
                                                             <div class="sns-item">
@@ -155,10 +154,10 @@
                                                                     <div class="txt"><span>카카오톡</span></div>
                                                                 </button>
                                                             </div>
-                                                            <div class="sns-item">
+                                                            <div class="sns-item" ng-click="urlCopy();">
                                                                 <button class="js-share_url">
                                                                     <i class="icon-share_url_copy"></i>
-                                                                    <div class="txt" ng-click="urlCopy();"><span>URL 복사</span></div>
+                                                                    <div class="txt"><span>URL 복사</span></div>
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -188,7 +187,7 @@
                                                         <button class="btn btn_black btn_lg" type="button" ng-click="goInquery();"><span>1:1 문의하기</span></button>
                                                     </div>
                                                     <div class="btn-box">
-                                                        <button class="print-btn" ng-click="print();">
+                                                        <button class="print-btn" ng-click="print(lotInfo.SALE_NO, lotInfo.LOT_NO);">
                                                             <i class="icon-view_print"></i>
                                                         </button>
                                                     </div>
@@ -218,7 +217,7 @@
                                             <div class="desc">
                                                 {{lotInfo.MATE_NM_EN}} <br />
                                                 <span ng-repeat="size in lotInfo.LOT_SIZE_JSON">
-                                                        <span>{{::size.SIZE1}}X{{::size.SIZE2}}X{{::size.SIZE3}}cm</span>
+                                                        <span ng-bind="size | size_text_cm"></span>
                                                     </span> <br />
                                                 <span bind-html-compile="lotInfo.SIGN_INFO_JSON.ko"> <br />
                                             </div>
@@ -282,12 +281,67 @@
 <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
 <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<!-- [0516]삭제
-<script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
--->
+
+
+<!-- 이미지 뷰어 -->
+<div id="popup_image_viewer-wrap" class="trp popupfixed-wrap image_viewer-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_view_close js-closepop" href="#" title="닫기">X</a>
+                    </div>
+                    <div class="pop-body">
+
+                        <article class="viewer-article">
+                            <div class="gallery_view js-image_viewer" style="">
+                                <div class="gallery_center">
+                                    <div class="swiper-wrapper">
+
+                                        <div class="swiper-slide" ng-repeat="item in lotImages" data-index="{{item.LOT_NO}}">
+                                            <div class="img-area">
+                                                <div class="img-box ">
+                                                    <div class="size_x"><span>{{item.SIZE1}} {{item.UNIT_CD}}</span></div>
+                                                    <div class="size_y"><span>{{item.SIZE2}} {{item.UNIT_CD}}</span></div>
+                                                    <div class="images">
+                                                        <img class="imageViewer" src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" style="width:540px; height: 360px;" alt="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="size-area">
+                                <button class="size-btn js-size_btn">
+                                    <i class="icon-viewer_size-off"></i>
+                                    <i class="icon-viewer_size-on"></i>
+                                </button>
+                            </div>
+
+                            <div class="view_paging-area">
+                                <button class="page_prev"><i class="icon-view_paging_left"></i></button>
+                                <span>LOT {{lotInfo.LOT_NO}}</span>
+                                <button class="page_next"><i class="icon-view_paging_right"></i></button>
+                            </div>
+
+                        </article>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- visual swiper -->
 
@@ -360,7 +414,6 @@
         $scope.sale_no = "${saleNo}";
         $scope.lot_no = "${lotNo}";
 
-
         // 호출 부
         const getSaleInfo = (saleNo) => {
             try {
@@ -385,30 +438,6 @@
             }
         };
 
-        const getLotArtistOtherLots = (saleNo, lotNo) => {
-            try {
-                return axios.get('/api/auction/lot_artist_other_lots');
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        const getLotCustomer = (saleNo, lotNo) => {
-            try {
-                return axios.get('/api/auction/get_customer_by_cust_no');
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        const getSaleCertInfo = (saleNo, lotNo) => {
-            try {
-                return axios.get('/api/auction/sale_cert_info');
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
         const getSaleImages = (saleNo, lotNo) => {
             try {
                 return axios.get('/api/auction/sale_images/${saleNo}');
@@ -417,25 +446,6 @@
             }
         }
 
-        const insertRecentlyView =  (saleNo, lotNo) => {
-            try {
-                return axios.post('/api/auction/insertRecentlyView', {
-                    sale_no: saleNo,
-                    lot_no: lotNo,
-                    cust_no: 1
-                });
-            } catch (error) {
-                console.error(error);
-            }
-        }
-
-        const getRecentlyView = (saleNo, lotNo) => {
-            try {
-                return axios.get('/api/auction/recently/${saleNo}/${lotNo}');
-            } catch (error) {
-                console.error(error);
-            }
-        }
 
         $scope.goLot = function (saleNo, lotNo) {
             window.location.href = '/privatesale/exhibitView/' + saleNo + '/' + lotNo;
@@ -449,10 +459,8 @@
             window.location.href = '/privatesale/exhibit/first';
         }
 
-        $scope.print = function () {
-            $("header").hide();
-            window.print();
-            $("header").show();
+        $scope.print = function (saleNo, lotNo) {
+            window.location.href = '/privatesale/exhibitView/print/' + saleNo + '/' + lotNo;
         }
 
         $scope.urlCopy = function () {
@@ -468,21 +476,15 @@
         // 호출 부
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3, r4, _, r6] = await Promise.all([getSaleInfo($scope.sale_no),
+                let [r1, r2, r3, r4] = await Promise.all([getSaleInfo($scope.sale_no),
                     getLotInfo($scope.sale_no, $scope.lot_no),
                     getLotImages($scope.sale_no, $scope.lot_no),
-                    getSaleImages($scope.sale_no, $scope.lot_no),
-                    insertRecentlyView($scope.sale_no, $scope.lot_no),
-                    getRecentlyView($scope.sale_no, $scope.lot_no)]);
+                    getSaleImages($scope.sale_no, $scope.lot_no)]);
 
                 $scope.saleInfo = r1.data.data;
                 $scope.lotInfo = r2.data.data;
                 $scope.lotImages = r3.data.data;
                 $scope.saleImages = r4.data.data;
-                let baseFromPrice = '';
-                let baseToPrice = '';
-
-                $scope.recentlyViews = r6.data.data;
 
                 //전시가 처리
                 if($scope.lotInfo.EXHIBITION_PRICE_JSON.length <= 2){
@@ -502,8 +504,6 @@
                 $("#born_year").html("(" + $scope.lotInfo.BORN_YEAR + ")");
 
                 $("#lot_title").html("LOT " + $scope.lotInfo.LOT_NO);
-                // 시작
-                //startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2, "PKH*****D");
                 $scope.$apply();
 
                 // 카카오 init
@@ -602,6 +602,189 @@
     });
 </script>
 <!-- // [2022-0516] 사용 -->
+
+<script>
+    (function() {
+        var popup_image_viewer = $(".js-popup_image_viewer").trpLayerFixedPopup("#popup_image_viewer-wrap");
+        $(popup_image_viewer.getBtn).on("click", function($e) {
+            $e.preventDefault();
+            popup_image_viewer.open(this); // or false
+            imagesResizePcMb();
+            imageViewer.update();
+            imageViewer.slideTo(1, 0);
+
+        });
+
+        $("body").on("click", "#popup_image_viewer-wrap .js-closepop, #popup_image_viewer-wrap .popup-dim", function($e) {
+            $e.preventDefault();
+            popup_image_viewer.close();
+        });
+        // popup_image_viewer.open(false);     // or false
+        // imagesResizePcMb();
+
+        /* 싸이즈 버튼 */
+        var size_btn_toggle = $(".js-size_btn").trpToggleBtn(
+            function($this) {
+                $($this).closest(".viewer-article").addClass("active");
+            },
+            function($this) {
+                $($this).closest(".viewer-article").removeClass("active");
+            });
+
+        /* 스와이퍼 */
+        var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
+            loop: true,
+            onSlideChangeStart: function(swiper) { // 움직임이 끝나면 실행
+                imagesResizePcMb();
+            },
+            onSlideChangeEnd: function(swiper) { // 움직임이 끝나면 실행
+                imagesResizePcMb();
+            }
+        })
+        // 좌우버튼
+        $('.view_paging-area .page_prev').on('click', function($e) {
+            $e.preventDefault();
+            imageViewer.slidePrev();
+        })
+        $('.view_paging-area .page_next').on('click', function($e) {
+            $e.preventDefault();
+            imageViewer.slideNext();
+        })
+
+        /* PC,MB images resize */
+        $(window).on("resize", function() {
+            imagesResizePcMb();
+        });
+
+    })();
+</script>
+<script>
+    $(function() {
+
+        var popup_images = $(".js-popup_images").trpLayerFixedPopup("#popup_images-wrap");
+        $(popup_images.getBtn).on("click", function($e) {
+            $e.preventDefault();
+            popup_images.open(this); // or false
+            imagesResizePcMb();
+            imagesSwiper.update();
+            imagesSwiper.slideTo(1, 0);
+        });
+        $("body").on("click", "#popup_images-wrap .js-closepop, #popup_images-wrap .popup-dim", function($e) {
+            $e.preventDefault();
+            popup_images.close();
+        });
+        // popup_images.open(false);     // or false
+        // imagesResizePcMb();
+
+
+
+        /* === zoom ===  panzoom.reset()*/
+        var zoom_range = document.querySelector('.js-zoom_inout');
+        var panzoom = "";
+
+        function panzoom_set() {
+            console.log("=====================>panzoom_set");
+
+            panzoom = Panzoom(zoom_range, {
+                /* disablePan: true, */
+                maxScale: 4, // (Default: 4)
+                minScale: 1 // (Default: 0.125)
+            });
+            $(".js-zoomin").on("click", function() {
+                panzoom.zoomIn();
+            });
+            $(".js-zoomout").on("click", function() {
+                panzoom.zoomOut();
+            });
+            panzoom.zoom(1, {
+                animate: true
+            })
+        }
+
+        function panzoom_reset() {
+            console.log("-------------------------->panzoom_reset");
+            panzoom.reset();
+            panzoom.destroy();
+            panzoom = "";
+            $(".js-zoomin").off("click");
+            $(".js-zoomout").off("click");
+        }
+        if ($("body").hasClass("is_pc")) {
+            panzoom_set();
+        }
+
+        /* === 스와이퍼 === */
+        console.log("스와이퍼 set");
+        var imagesSwiper = new Swiper('.js-imagesSwiper .gallery_center', {
+            loop: true,
+            simulateTouch: false,
+            pagination: ".js-imagesSwiper_pagination",
+            paginationClickable: true,
+            breakpoints: {
+                1023: {
+                    effect: "slide",
+                    simulateTouch: true,
+                    slidesPerView: 1,
+                    spaceBetween: 10
+                }
+            },
+            onSlideChangeStart: function(swiper) { // 움직임이 시작하면 실행
+                imagesResizePcMb();
+                if ($("body").hasClass("is_pc")) {
+                    panzoom.reset(); // zoom reset
+                }
+            },
+            onSlideChangeEnd: function(swiper) { // 움직임이 끝나면 실행
+                imagesResizePcMb();
+                thumbnailActive(swiper.realIndex);
+                console.log(">>> ", swiper.realIndex)
+            }
+        })
+        // 좌우버튼
+        $('.images-popup .page_prev').on('click', function($e) {
+            $e.preventDefault();
+            imagesSwiper.slidePrev();
+        })
+        $('.images-popup .page_next').on('click', function($e) {
+            $e.preventDefault();
+            console.log("next")
+            imagesSwiper.slideNext();
+        })
+
+        /* 섭네일 클릭 */
+        $(".js-thumbnail-list a").on("click", function($e) {
+            $e.preventDefault();
+            var _index = $(this).closest("li").index();
+            imagesSwiper.slideTo(_index + 1);
+            thumbnailActive(_index);
+        })
+
+        function thumbnailActive($index) {
+            $(".js-thumbnail-list li").removeClass("active")
+            $(".js-thumbnail-list li").eq($index).addClass("active");
+        }
+
+
+        /* PC,MB images resize */
+        $(window).on("resize", function() {
+            imagesResizePcMb();
+            if ($("body").hasClass("is_mb")) {
+                if (panzoom != "") {
+                    panzoom_reset();
+                }
+            } else {
+                /* pc */
+                if (panzoom == "") {
+                    panzoom_set();
+                }
+            }
+        });
+
+
+
+    });
+</script>
+
 
 </body>
 

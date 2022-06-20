@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
-
+<spring:eval expression="@environment.getProperty('image.root.path')" var="imageRootPath" />
 <body class="">
 	<div class="wrapper" ng-app="myApp">
 		<div class="sub-wrap pageclass">
@@ -79,7 +79,7 @@
                                                                             <div class="thumb-area">
                                                                                 <figure class="img-ratio">
                                                                                     <div class="img-align">
-                                                                                        <img src="/nas_img{{data.LOT_IMG}}" alt="">
+                                                                                        <img src="${imageRootPath}{{data.LOT_IMG}}" alt="">
                                                                                     </div>
                                                                                 </figure>
                                                                             </div>
@@ -93,8 +93,8 @@
                                                                                 <!-- [0613]재질/사이즈로 수정 -->
                                                                                     <div class="sub-li">{{data.CD_NM}}</div>
                                                                                     <div class="sub-li">
-                                                                                        <span>{{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}} X {{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}}cm</span>
-                                                                                        <span>{{StringToJson(data.LOT_SIZE_JSON)[0].CANVAS}}</span>
+                                                                                        <span>{{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}} X {{StringToJson(data.LOT_SIZE_JSON)[0].SIZE2}} X {{StringToJson(data.LOT_SIZE_JSON)[0].SIZE3}}</span>
+                                                                                        <span ng-if="StringToJson(data.MAKE_YEAR_JSON).ko">{{StringToJson(data.MAKE_YEAR_JSON).ko}}</span>
                                                                                     </div>
                                                                                     <!-- //[0613]재질/사이즈로 수정 -->
                                                                                 </div>
@@ -109,7 +109,7 @@
                                                                                     <span>{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</span>
                                                                                     <div class="sub">
                                                                                         <span>{{data.BID_DT_EN}} </span>
-                                                                                        <span>({{bidCountToString(data.bid_count)}})</span>
+                                                                                        <!-- <span>({{bidCountToString(data.bid_count)}})</span> -->
                                                                                     </div>
                                                                                 </dd>
                                                                             </dl>
@@ -119,17 +119,20 @@
                                                                             </dl>
                                                                             <dl class="price">
                                                                                 <dt class="tit">Fees</dt>
-                                                                                <dd class="txt">{{data.CURR_CD}} {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).fee}}</dd>
+                                                                                <!-- <dd class="txt">{{data.CURR_CD}} {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).fee}}</dd> -->
+                                                                                <dd class="txt">{{data.CURR_CD}} {{comma(data.FEE)}}</dd>
                                                                             </dl>
                                                                             <dl class="price succ">
                                                                                 <dt class="tit">Purchase</dt>
-                                                                                <dd class="txt">{{data.CURR_CD}} {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price}}</dd>
+                                                                                <!-- <dd class="txt" ng-if="{{data.PAY_PRICE}}">{{data.CURR_CD}} {{data.PAY_PRICE}}</dd> -->
+                                                                                <dd class="txt" ng-if="data.PAID_CNT == 0">{{data.CURR_CD}} {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price}}</dd>
+                                                                                <dd class="txt" ng-if="data.PAID_CNT >= 1">{{data.CURR_CD}} {{comma(data.PAY_PRICE)}}</dd>
                                                                             </dl>
                                                                         </div>
-                                                                        <div class="btn-area" ng-if="data.PAID_CNT != 1">
-                                                                            <button class="btn btn_point" type="button"><span>Make a PayMent</span></button>
+                                                                        <div class="btn-area" ng-if="data.PAID_CNT == 0">
+                                                                        	<a href="payment/sale/{{data.SALE_NO}}/lot/{{data.LOT_NO}}"><button class="btn btn_point" type="button"><span>Make a PayMent</span></button></a>
                                                                         </div>
-                                                                        <div class="btn-area" ng-if="data.PAID_CNT == 1">
+                                                                        <div class="btn-area" ng-if="data.PAID_CNT >= 1">
                                                                             <button class="btn btn_gray_line" type="button" ng-if="data.PAY_METHOD_ID == 'card' && data.receipt == 'Y'" ng-click="receiptPopup({'pay':data,'type':0})"><span>Payment Receipt</span></button>
                                                                             <button class="btn btn_gray_line" type="button" ng-if="data.PAY_METHOD_ID == 'vbank' && data.receipt == 'Y'" ng-click="receiptPopup({'pay':data,'type':1})"><span>Cash Receipt</span></button>
 <!--                                                                             <button class="btn btn_gray btn-half btn-print" type="button" disabled>
@@ -208,7 +211,6 @@
 -->
 
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
 
 

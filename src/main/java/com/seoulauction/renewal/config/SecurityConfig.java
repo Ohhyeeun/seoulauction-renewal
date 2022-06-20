@@ -3,8 +3,6 @@ package com.seoulauction.renewal.config;
 import com.seoulauction.renewal.auth.FrontAuthenticationProvider;
 import com.seoulauction.renewal.auth.FrontLoginSuccessHandler;
 import com.seoulauction.renewal.auth.FrontLogoutSuccessHandler;
-import com.seoulauction.renewal.auth.RememberMeLoginSuccessHandler;
-import com.seoulauction.renewal.auth.RememberMeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -28,10 +26,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
-	private final RememberMeService rememberMeService;
-
-	private final RememberMeLoginSuccessHandler rememberMeLoginSuccessHandler;
 
 	private final FrontAuthenticationProvider frontAuthenticationProvider;
 
@@ -103,13 +97,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutSuccessHandler(logoutHandler())
 				.permitAll()
 	            .and()
-	        .rememberMe()
-		        .key("SeoulAuction")
-		        .rememberMeParameter("remember-me")
-		        .tokenValiditySeconds(86400 * 30) // 1달
-		        .userDetailsService(rememberMeService)
-		        .authenticationSuccessHandler(rememberMeLoginSuccessHandler)
-		        .and()
 		    .sessionManagement()
 	        	.maximumSessions(1)
 	        	.maxSessionsPreventsLogin(false)

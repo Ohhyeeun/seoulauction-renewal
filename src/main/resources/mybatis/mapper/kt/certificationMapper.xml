@@ -16,8 +16,11 @@
 			1
 	</select>
 	
-	<select id="selectAuthNumber" resultType="CommonMap">
-	    set @rand_num := CAST(FLOOR(100000 + RAND() * 899999) AS unsigned integer);
+	<select id="selectAuthNumber" resultType="int">
+   		select CAST(FLOOR(100000 + RAND() * 899999) AS unsigned integer);
+	</select>
+	
+	<insert id="insertAuthNumber" >
 	   	insert into SC_TRAN(
 			TR_PHONE,
 			TR_CALLBACK,
@@ -27,13 +30,12 @@
 		values(
 			#{to_phone},
 			#{from_phone},
-			replace('${msg}', '##rand_num##', @rand_num),
+			replace(#{msg}, '##rand_num##', #{rand_num}),
 			now()
 		);
-	    select @rand_num as AUTH_NUM
-	</select>
+	</insert>
 	
-	<insert id="inertSaleCert" parameterType="Map" useGeneratedKeys="true" keyProperty="sale_cert_no">
+	<insert id="insertSaleCert" parameterType="Map" useGeneratedKeys="true" keyProperty="sale_cert_no">
 		insert into SALE_CERT (SALE_NO, CUST_NO, HP, CUST_HP, DONE_CD, REG_DT, REG_EMP_NO)
 		VALUES (
 			#{sale_no}, 
@@ -46,8 +48,11 @@
 		);
 	</insert>	
 	
-	<update id="updateSaleCertHp">
+	<update id="updateCustHp">
 		update CUST set HP = #{hp} where CUST_NO = #{action_user_no};
+	</update>	
+	
+	<update id="updateSaleCertHp">
 		update SALE_CERT set DONE_CD='modify' where	SALE_CERT_NO = #{sale_cert_no};
 	</update>	
 
@@ -77,5 +82,10 @@
 	    	STAT_CD = 'normal'
 		where FORE_CERT_CODE = #{fore_cert_code}
 	</update>
-	
+
+	<select id="selectSaleCertInfo" resultType="CommonMap">
+		select 	count(*) as CNT, (select max(A.HP) from CUST A where A.CUST_NO = #{cust_no}) as HP
+		from	SALE_CERT A
+		where	A.DEL_YN = 'N' and A.SALE_NO = #{sale_no} and A.CUST_NO = #{cust_no}
+	</select>
 </mapper>

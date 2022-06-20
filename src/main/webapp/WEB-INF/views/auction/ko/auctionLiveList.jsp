@@ -37,16 +37,16 @@
                             <div class="padding-inner">
                                 <article class="auction_head_info-article">
                                     <div class="center-box view">
-                                        <h2 class="page_title"><span class="th1">3월 라이브 경매</span></h2>
+                                        <h2 class="page_title"><span class="th1">{{sale.TITLE_JSON['ko']}}</span></h2>
 
                                         <ul class="event_day-list">
-                                            <li><span class="colorB2">프리뷰</span><span class=""> : {{saleInfo[0].FROM_DT}} - {{saleInfo[0].TO_DT}}</span>
+                                            <li><span class="colorB2">프리뷰</span><span class=""> : {{sale.PREV_FROM_DT | date:'MM.dd'+'('+getWeek(sale.PREV_FROM_DT)+')'}} - {{sale.PREV_TO_DT| date:'MM.dd'+'('+getWeek(sale.PREV_TO_DT)+')'}}</span>
                                             </li>
                                             <li><span class="colorB2">경매일</span><span
-                                                    class=""> : {{saleInfo[0].TO_DT}}</span></li>
+                                                    class=""> : {{sale.TO_DT | date:'MM.dd'+'('+getWeek(sale.TO_DT)+')'}}</span></li>
                                         </ul>
                                         <div class="btn_set">
-                                            <a class="btn btn_white " href="#" role="button"><span>안내사항</span></a>
+                                            <a class="btn btn_white " href="#" target="_blank" ng-href="/notices/{{sale.WRITE_NO}}" role="button" ng-if="sale.WRITE_NO > 0"><span>안내사항</span></a>
                                             <a class="btn btn_white " href="#" role="button"><span>E-BOOK</span></a>
                                             <a class="btn btn_white " href="#" role="button"><span>VR보기</span></a>
                                         </div>
@@ -182,10 +182,11 @@
                                                 <article class="item-article">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
-                                                            <div class="img-align">
-                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                     alt="">
-                                                            </div>
+                                                            <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}" target="_blank">
+                                                                <div class="img-align">
+                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"  alt="">
+                                                                </div>
+                                                            </a>
                                                         </figure>
                                                     </div>
                                                     <div class="typo-area">
@@ -228,7 +229,7 @@
                                                                 </dl>
                                                             </div>
                                                             <div id="biding_req" class="bidding-box col_2">
-                                                                <div class="deadline_set"><span>신청마감 {{item.LOT_EXPIRE_DATE_T}}</span></div>
+                                                                <div class="deadline_set"><span>신청마감 {{ item.LOT_EXPIRE_DATE_HAN }}</span></div>
                                                                 <div class="btn_set"><a class="btn btn_point" href="" ng-click="moveToBidding(item)"
                                                                                         role="button"><span>서면/전화 응찰 신청</span></a></div>
                                                             </div>
@@ -368,7 +369,7 @@
             }
 
             $scope.goLot = function (saleNo, lotNo) {
-                window.location.href = '/auction/online/view/' + saleNo + '/' + lotNo;
+                window.location.href = '/auction/live/view/' + saleNo + '/' + lotNo;
             }
 
             $scope.favorite = function(item) {
@@ -482,6 +483,7 @@
                     .then(function (response) {
                         if (response.data.success) {
                             $scope.sale = response.data.data;
+                            $scope.sale.TITLE_JSON = JSON.parse($scope.sale.TITLE_JSON);
 
                             var S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
                             var S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
@@ -518,7 +520,7 @@
             // 호출 부
             const getSaleInfo = (saleNo) => {
                 try {
-                    return axios.get('/api/auction/list/${saleNo}');
+                    return axios.get('/api/auction/list/${saleNo}?is_live=Y');
                 } catch (error) {
                     console.error(error);
                 }
@@ -558,12 +560,21 @@
                     let [r1, r2, r3] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no)]);
 
                     $scope.saleInfoAll = r1.data.data;
+
+                    //데이터가 없을 시 , 오프라인 경매인데 온라인으로 올 시 등등 접근 불가.
+                    if($scope.saleInfoAll.length === 0){
+                        alert('잘못된 접근 입니다.');
+                        history.back();
+                    }
+
                     $scope.saleImages = r2.data.data;
                     $scope.lotTags = r3.data.data;
 
-                    console.log($scope.saleInfoAll);
 
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
+
+                        //영문 요일 -> 한국 요일로 치환처리.
+                        $scope.saleInfoAll[i].LOT_EXPIRE_DATE_HAN = $scope.saleInfoAll[i].LOT_EXPIRE_DATE_TIME_T.replace($scope.saleInfoAll[i].LOT_EXPIRE_DATE_DAY ,  enDayToHanDay($scope.saleInfoAll[i].LOT_EXPIRE_DATE_DAY) );
 
                         if($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW !=null) {
                             $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW.toLocaleString('ko-KR');
@@ -666,7 +677,7 @@
                     con_try_cnt = 0
                     return
                 }
-                w = new WebSocket("ws://localhost:8002/ws");
+                w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws");
                 w.onopen = function () {
                     console.log("open");
                 }
@@ -709,7 +720,7 @@
                     connect_info.lot_no = 0;
 
                     let init_func_manual = async function (req) {
-                        let response = await fetch('http://localhost:8002/init', {
+                        let response = await fetch('http://dev-bid.seoulauction.xyz/init', {
                             method: "POST",
                             body: JSON.stringify({
                                 token: req.message.token,
@@ -1078,13 +1089,14 @@
                 $scope.paddNoteEtc = paddNoteEtc;
                 $scope.$apply();
             }
-
         });
 
     (function() {
         //약관체크
         $(".js_all-terms").trpCheckBoxAllsImg(".js_all", ".js_item");
     })();
+
+
     </script>
 
 </body>

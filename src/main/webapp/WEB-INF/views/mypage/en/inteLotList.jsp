@@ -5,6 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
+<spring:eval expression="@environment.getProperty('image.root.path')" var="imageRootPath" />
 <body class="">
 	<div class="wrapper" ng-app="myApp">
 		<div class="sub-wrap pageclass">
@@ -62,22 +63,52 @@
                                                             <dt>
                                                                 <div class="title-area">
                                                                     <div class="title tt4">
-                                                                        <span>{{il[1][0].SALE_TITLE_EN}}</span>
+                                                                        <span>{{il[1][0].SALE_TH}}{{il[1][0].SALE_TH_DSP}} {{il[1][0].SALE_TITLE_EN}}</span>
                                                                     </div>
                                                                 </div>
-                                                                <div class="btn-area"  >
-                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y'" class="btn btn_point btn-view-bid" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span >View Auction</span></a></button>
-                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')"  class="btn btn_gray btn-view-bid" type="button" disabled><span>View Result</span></button>
-                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y'&& (il[1][0].SALE_KIND_CD !='online'&&il[1][0].SALE_KIND_CD !='online_zb')"  class="btn btn_gray_line btn-view-result" type="button" disabled><span>End Auction</span></button>
+                                                                <div class="btn-area">
+                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')" class="btn btn_point btn-view-bid" type="button"><a href="/auction/list/{{il[1][0].SALE_NO}}"><span >View Auction</span></a></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')" class="btn btn_point btn-view-bid" type="button"><a href="/auction/live/list/{{il[1][0].SALE_NO}}"><span >View Auction</span></a></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')"  class="btn btn_gray btn-view-bid" type="button" ><span>View End Auction</span></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')"  class="btn btn_gray_line btn-view-result" type="button" ><a href="/auction/live/list/{{il[1][0].SALE_NO}}"><span>View Result</span></a></button>
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in il[1]">
-                                                                <div class="product-infobox">
+                                                             <div class="product-infobox">
+                                                                    <div class="product-infobox-inner">
+                                                                        <button class="btn-heart js-work_heart on" ng-click="inteDel(data.SALE_NO, data.LOT_NO)"><i class="icon-heart_off"></i></button>
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <div class="img-align">
+                                                                                    <img src="${imageRootPath}{{data.FILE_PATH}}/{{data.FILE_NAME}}" alt="">
+                                                                                </div>
+                                                                            </figure>
+                                                                        </div>
+                                                                        <div class="text-area">
+                                                                            <div class="num">{{data.LOT_NO}}</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">{{data.TITLE_KO}}</div>
+                                                                            </div>
+                                                                            <div class="desc">{{data.ARTIST_NAME_KO}}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pay-infobox">
+                                                                    <div class="pay-infobox-inner">
+                                                                        <div class="pay-area">
+                                                                            <dl class="price">
+                                                                                <dt class="tit">Estimate</dt>
+                                                                                <dd class="txt"><span>{{data.CURR_CD}} {{comma(data.EXPE_PRICE_FROM_KO)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_KO)}}</span></dd>
+                                                                            </dl>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                               <%--  <div class="product-infobox">
                                                                     <button class="btn-heart js-work_heart on" ng-click="inteDel(data.SALE_NO, data.LOT_NO)"><i class="icon-heart_off"></i></button>
                                                                     <div class="thumb-area">
                                                                         <figure class="img-ratio">
                                                                             <div class="img-align">
-                                                                                 <img src="/nas_img{{data.FILE_PATH}}/{{data.FILE_NAME}}" />
+                                                                                  <img src="${imageRootPath}{{data.FILE_PATH}}/{{data.FILE_NAME}}" alt="">
                                                                             </div>
                                                                         </figure>
                                                                     </div>
@@ -94,7 +125,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> --%>
                                                             </dd>
                                                         </dl>
                                                         <div class="data-empty" ng-if="inteLotCnt == 0">
@@ -161,7 +192,6 @@
 -->
 
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
 
 
