@@ -128,77 +128,76 @@ function sessionLogout() {
                 </form>
             </section>
         </div>
-        <section class="gnb_submenuBg scroll_none">
-            <section class="submenuBg scroll_none">
-                <div class="wrap">
-                    <span class="submenuBg-closeBtn closebtn closebtn-b m-ver"></span>
-                    <div class="flex_wrap submenuBg-box">
-                        <div class="Ingbanner-box">
-                            <%--경매 준비중 추가--%>
-                            <a href="javascript:void(0);" class="Ingbanner" target="_blank">
-                                <figure class="border-txt-darkg Ingbanner-img">
-                                    <img src="/images/pc/thumbnail/gnb_thubnatil_ready.jpg" alt="ing_auction03">
-                                </figure>
-                                <div class="Ingbanner-txt text-over">
-                                    <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                    <p class="text-over">경매 준비중</p>
-                                    <span class="Ingbanner-arrow"></span>
-                                </div>
-                            </a>
-                        </div>
-
-                        <ul class="subGnbmenu">
-                            <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
-                                <ul class="submenu submenu-part01">
-                                    <li id="menu_auction"><a href="/auction/progress">진행경매</a></li>
-                                    <li id="menu_upcoming"><a href="/auction/scheduled">예정경매</a></li>
-                                    <li><a href="#">경매결과</a></li>
-                                </ul>
-                            </li>
-                            <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
-                                <ul class="submenu submenu-part02">
-                                    <li id="menu_exhibit"><a href="/privatesale/exhibit">전시</a></li>
-                                    <li><a href="/privatesale/psList">프라이빗 세일</a></li>
-                                    <li><a href="/privatesale/psGuide">프라이빗 세일 가이드</a></li>
-                                </ul>
-                            </li>
-                            <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>
-                                <ul class="submenu submenu-part03">
-                                    <li><a href="/sell/consignment">위탁안내</a></li>
-                                    <li><a href="#">위탁신청</a></li>
-                                </ul>
-                            </li>
-                            <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
-                                <ul class="submenu submenu-part04">
-                                    <li id="menu_academy"><a href="/service/academy">아카데미</a></li>
-                                    <li><a href="/service/loan">담보대출</a></li>
-                                    <li><a href="/service/storage">미술품보관</a></li>
-                                    <li><a href="/service/showroom">전시장대관</a></li>
-                                    <li><a href="/service/marketing">아트컨설팅&#38;기업마케팅</a></li>
-                                </ul>
-                            </li>
-                            <li class="subGnbmenu-tit m-ver">
-                                    <span class="gnbmenu_arrow modebox">Light Mode
-                                        <label for="dark" class="mode-toggle">
-                                            <input type="checkbox" id="dark" name="dark">
-                                            <span class="mode-switch"></span>
-                                        </label>
-                                    </span>
-                            </li>
-                        </ul>
-                        <figure class="blacklotbox">
-                            <a href="https://www.blacklot.com/" target="_blank">
-                                <img src="/images/pc/thumbnail/gnb_blacklot.jpg" alt="blacklot">
-                            </a>
-                        </figure>
+        <section class="gnb_submenuBg scroll_none"></section>
+        <section class="submenuBg">
+            <div class="wrap">
+                <span class="submenuBg-closeBtn closebtn closebtn-b m-ver"></span>
+                <div class="flex_wrap submenuBg-box">
+                    <div class="Ingbanner-box">
+                        <%--경매 준비중 추가--%>
+                        <a href="javascript:void(0);" class="Ingbanner" target="_blank">
+                            <figure class="border-txt-darkg Ingbanner-img">
+                                <img src="/images/pc/thumbnail/gnb_thubnatil_ready.jpg" alt="ing_auction03">
+                            </figure>
+                            <div class="Ingbanner-txt text-over">
+                                <span class="auctionKind-box Ingkind-auction">ONLINE</span>
+                                <p class="text-over">경매 준비중</p>
+                                <span class="Ingbanner-arrow"></span>
+                            </div>
+                        </a>
                     </div>
-                    <ul class="mobile-utility m-ver">
-                        <li><a href="#">ENG</a></li>
-                        <li><a href="#" class="gnb_join">회원가입</a><a href="#" class="gnb_member">마이페이지</a></li>
-                        <li><a href="#" class="gnb_login">로그인</a><a class="gnb_logout">로그아웃</a></li>
+
+                    <ul class="subGnbmenu">
+                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
+                            <ul class="submenu submenu-part01">
+                                <li id="menu_auction"><a href="/auction/progress">진행경매</a></li>
+                                <li id="menu_upcoming"><a href="/auction/scheduled">예정경매</a></li>
+                                <li><a href="#">경매결과</a></li>
+                            </ul>
+                        </li>
+                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
+                            <ul class="submenu submenu-part02">
+                                <li id="menu_exhibit"><a href="/privatesale/exhibit">전시</a></li>
+                                <li><a href="/privatesale/psList">프라이빗 세일</a></li>
+                                <li><a href="/privatesale/psGuide">프라이빗 세일 가이드</a></li>
+                            </ul>
+                        </li>
+                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>
+                            <ul class="submenu submenu-part03">
+                                <li><a href="/sell/consignment">위탁안내</a></li>
+                                <li><a href="#">위탁신청</a></li>
+                            </ul>
+                        </li>
+                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
+                            <ul class="submenu submenu-part04">
+                                <li id="menu_academy"><a href="/service/academy">아카데미</a></li>
+                                <li><a href="/service/loan">담보대출</a></li>
+                                <li><a href="/service/storage">미술품보관</a></li>
+                                <li><a href="/service/showroom">전시장대관</a></li>
+                                <li><a href="/service/marketing">아트컨설팅&#38;기업마케팅</a></li>
+                            </ul>
+                        </li>
+                        <li class="subGnbmenu-tit m-ver">
+                                <span class="gnbmenu_arrow modebox">Light Mode
+                                    <label for="dark" class="mode-toggle">
+                                        <input type="checkbox" id="dark" name="dark">
+                                        <span class="mode-switch"></span>
+                                    </label>
+                                </span>
+                        </li>
                     </ul>
+                    <figure class="blacklotbox">
+                        <a href="https://www.blacklot.com/" target="_blank">
+                            <img src="/images/pc/thumbnail/gnb_blacklot.jpg" alt="blacklot">
+                        </a>
+                    </figure>
                 </div>
-            </section>
+                <ul class="mobile-utility m-ver">
+                    <li><a href="#">ENG</a></li>
+                    <li><a href="#" class="gnb_join">회원가입</a><a href="#" class="gnb_member">마이페이지</a></li>
+                    <li><a href="#" class="gnb_login">로그인</a><a class="gnb_logout">로그아웃</a></li>
+                </ul>
+            </div>
         </section>
     </nav>
 </header>
