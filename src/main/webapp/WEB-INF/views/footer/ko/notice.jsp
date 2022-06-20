@@ -147,7 +147,6 @@
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
     <!-- [0516]삭제
   <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
--->
 
     <script src="/js/common/paging.js" type="text/javascript"></script>
     <script src="/js/footer/notice.js" type="text/javascript"></script>

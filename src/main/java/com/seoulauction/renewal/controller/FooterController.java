@@ -22,7 +22,7 @@ import static com.seoulauction.renewal.common.SAConst.SERVICE_SERVICE;
 public class FooterController {
 
     @GetMapping("/incruitApply")
-    public String boardIncruitApply(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "boardIncruitApply" , locale);}
+    public String boardIncruitApply(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "incruitForm" , locale);}
     @GetMapping("/incruitEmpty")
     public String boardIncruitEmpty(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "boardIncruitEmpty" , locale);}
     @GetMapping("/incruit")
