@@ -365,11 +365,8 @@
             </div>
         </div>
         <!-- stykey -->
-
     </div>
-
 </div>
-<<<<<<< HEAD
 <!--  응찰하기(온라인)  -->
 <div id="popup_biddingPopup1-wrap" class="trp popupfixed-wrap bidding-online-popup">
     <div class="popup-dim"></div>
@@ -476,6 +473,7 @@
     </div>
 </div>
 
+<<<<<<< HEAD
 <div id="popup_online_confirm-wrap" class="trp popupfixed-wrap online_confirm-popup ">
     <div class="popup-dim"></div>
     <div class="popup-align mode-ms mode-mb_full">
@@ -682,8 +680,9 @@
 <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
 <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
 =======
+=======
+>>>>>>> 0b5d4b2d25e7ec6b7811c0b5563c214351f1090b
 <script type="text/javascript" src="/js/auction/saleCert.js"></script>
-<jsp:include page="popup/auctionBidPopup.jsp" flush="false"/>
 <jsp:include page="popup/auctionConfirmPopup.jsp" flush="false"/>
 
 >>>>>>> ecdf49a20fc4615c8db8c12dec022209df93d0b3
