@@ -13,7 +13,7 @@ app.controller('myPageCtl', function($scope, consts, common, ngDialog) {
             	$scope.custPayList = result.data;
             	$scope.custPayCnt = result.data.length;
             	$scope.$apply();
-            	document.getElementById('popup_memlv2_record-wrap').style.display = "block";
+            	//document.getElementById('popup_memlv2_record-wrap').style.display = "block";
             } 
         })
         .catch(function(error){
@@ -46,6 +46,7 @@ app.controller('myPageCtl', function($scope, consts, common, ngDialog) {
 	}
 	
 });
+
 window.addEventListener('load', function () {
 	var currentUrl = window.location.href;
 	var addClassName;

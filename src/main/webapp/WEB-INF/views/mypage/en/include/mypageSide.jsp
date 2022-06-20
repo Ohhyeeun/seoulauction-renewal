@@ -32,8 +32,8 @@
 					 
 				</div>
 				<div class="mem-record-box">
-					<a href="#" class="record-button" ng-click="showMemHisPopup(this);">Membership History</a> 
-					<a href="#" class="tooltip-button" ng-click="showTooltip();">
+					<a href="#" class="record-button js-popup_memlv2_record" ng-click="showMemHisPopup(this);">Membership History</a> 
+					<a href="#" class="tooltip-button js-popup_tooltip" ng-click="showTooltip();">
 						<div class="txt-icon-tooltip">툴팁</div>
 					</a>
 				</div>
