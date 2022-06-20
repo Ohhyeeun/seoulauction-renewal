@@ -24,7 +24,5 @@ public interface CertificationMapper {
 
     int updateCustForForeAuth(CommonMap commonMap);
 
-    CommonMap selectCustHpByCustNo(CommonMap commonMap);
-
     CommonMap selectSaleCertInfo(CommonMap paramMap);
 }
