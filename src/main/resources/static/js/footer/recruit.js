@@ -57,7 +57,7 @@ $(document).ready(function(){
                                      </div>`;
                         }
                             html +=
-                                    `<a href="#" class="tit">${el.title}</a>
+                                    `<a href="/footer/recruit/${el.id}" class="tit">${el.title}</a>
                                     </td>
                                     <td class="bbs-date long">${el.start_date} ~ ${el.end_date}</td>
                                     </tr>`;

@@ -22,13 +22,20 @@ import static com.seoulauction.renewal.common.SAConst.SERVICE_SERVICE;
 public class FooterController {
 
     @GetMapping("/recruitForm")
-    public String boardIncruitApply(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "incruitForm" , locale);}
+    public String boardIncruitApply(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "recruitForm" , locale);}
     @GetMapping("/incruitEmpty")
     public String boardIncruitEmpty(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "boardIncruitEmpty" , locale);}
     @GetMapping("/recruit")
     public String boardIncruitList(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "recruit" , locale);}
     @GetMapping("/recruit/{id}")
-    public String boardIncruitView(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "recruitView" , locale);}
+    public String boardIncruitView(
+        @PathVariable("id") int id,
+        HttpServletRequest request,
+        Locale locale) {
+        request.setAttribute("id", id);
+        return SAConst.getUrl(SERVICE_FOOTER , "recruitView" , locale);
+    }
+
     @GetMapping("/media")
     public String boardMediaList(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "media" , locale);}
     @GetMapping("/notice")
