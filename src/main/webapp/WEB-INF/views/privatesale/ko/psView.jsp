@@ -172,7 +172,7 @@
                                             <div class="title">작품정보</div>
                                             <div class="desc">
                                                 {{saleInfo.MATE_NM}} <br />
-                                                <span>{{saleInfo.SIZE1}}X{{saleInfo.SIZE2}}X{{saleInfo.SIZE3}}cm</span>
+                                                <span ng-bind="saleInfo | size_text_cm"></span>
                                                 | <span>{{saleInfo.MAKE_YEAR_KO}}</span> <br />
                                                 <span bind-html-compile="saleInfo.SIGN_INFO_KO"> <br />
                                             </div>

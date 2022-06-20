@@ -268,7 +268,7 @@ function loadTopNotice(){
                 // } else { /* 모바일, 테블릿 */
                 //     /* main gnb fixed */
                 //     document.querySelector(".main-contents").style.marginTop = '100px';
-                //     $('.main-contents').css('margin-top','101px');
+                //     $('.main-contents').css('margin-top','100px');
                 //     document.querySelector(".beltclose-btn").addEventListener("click", function(e){
                 //         document.querySelector(".main-contents").style.marginTop = '56px';
                 //     });

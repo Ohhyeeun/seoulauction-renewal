@@ -889,7 +889,7 @@ $(window).resize(function(){
             $('.main-contents').css('margin-top','162px');
         });
         $('.beltclose-btn').click(function(){
-            $('.main-contents').css('margin-top','102px');
+            $('.main-contents').css('margin-top','100px');
         });
         /* 오프라인 라이브응찰 화면(pc) */
         $('.bidding_pc').show();

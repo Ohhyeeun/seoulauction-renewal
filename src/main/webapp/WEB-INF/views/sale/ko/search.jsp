@@ -4,6 +4,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+
+<!--
 <!DOCTYPE html>
 <html lang="ko" ng-app="myApp">
 <head>
@@ -12,9 +14,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>search | Seoul Auction</title>
-    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
+
+
     <link rel="stylesheet" href="/css/common.css" type="text/css" />
 </head>
+-->
 <body class="" ng-controller="lotListCtl" data-ng-init="init();">
 <div class="wrapper" >
     <div class="sub-wrap pageclass type-width_list">
@@ -23,6 +27,7 @@
         <%--<link rel="stylesheet" href="/css/main.css" type="text/css" />--%>
         <jsp:include page="../../include/ko/header.jsp" flush="false"/>
         <!-- //header -->
+        <link rel="stylesheet" href="/css/plugin/csslibrary.css">
         <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
         <script type="text/javascript" src="/js/angular/checklist-model.js"></script>
         <script type="text/javascript" src="/js/angular/hrzslider.min.js"></script>
@@ -326,4 +331,4 @@
     toggle_accordion.setBtn(0);
 </script>
 </body>
-</html>
+<!--</html>-->
