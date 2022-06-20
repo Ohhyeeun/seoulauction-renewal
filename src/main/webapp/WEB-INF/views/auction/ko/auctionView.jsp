@@ -186,8 +186,7 @@
                                             <div class="button-area">
                                                 <div class="btn_set only-pc">
                                                     <div class="btn_item">
-                                                        <a class="btn btn_point btn_lg" href="#" role="button"
-                                                           id="bid_btn"><span>응찰하기</span></a>
+                                                        <a class="btn btn_point btn_lg" href="#" role="button" id="bid_btn"><span>응찰하기</span></a>
                                                     </div>
                                                 </div>
                                                 <div class="btn_set cols_2">
@@ -348,6 +347,8 @@
                         </div>
                     </div>
                 </article>
+                <input type="hidden" id="sale_no" value="{{sale_no}}" />
+                <input type="hidden" id="lot_no" value="{{lot_no}}" />
             </div>
         </div>
         <!-- //container -->
@@ -368,6 +369,7 @@
     </div>
 
 </div>
+<<<<<<< HEAD
 <!--  응찰하기(온라인)  -->
 <div id="popup_biddingPopup1-wrap" class="trp popupfixed-wrap bidding-online-popup">
     <div class="popup-dim"></div>
@@ -679,8 +681,13 @@
 <!--[if lt IE 9]>
 <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
 <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
+=======
+<script type="text/javascript" src="/js/auction/saleCert.js"></script>
+<jsp:include page="popup/auctionBidPopup.jsp" flush="false"/>
+<jsp:include page="popup/auctionConfirmPopup.jsp" flush="false"/>
+
+>>>>>>> ecdf49a20fc4615c8db8c12dec022209df93d0b3
 <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
 <%--낙찰 수수료 팝업 --%>
@@ -780,6 +787,12 @@
 
 <!-- angular js -->
 <script>
+    //약관체크
+    $(".js_all-1").trpCheckBoxAllsImg(".js_all", ".js_item");
+
+    let popup_offline_payment = $(".js-popup_online_confirm").trpLayerFixedPopup("#popup_online_confirm-wrap");
+    let popup_biddingPopup1 = $("#bid_btn").trpLayerFixedPopup("#popup_biddingPopup1-wrap");
+
     app.value('locale', 'ko');
     app.value('is_login', true);
 
@@ -949,6 +962,30 @@
                 // 시작
                 startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2,
                     '${member.loginId}', ${member.userNo});
+
+                //get sale cert
+                $scope.is_sale_cert = false;
+                $scope.cust_hp = "";
+                if(sessionStorage.getItem("is_login") === 'true'){
+                    await axios.get('/api/cert/sales/${saleNo}')
+                        .then(function(response) {
+                            if (response.data.success) {
+                                if(response.data.data.CNT > 0) {
+                                    $scope.is_sale_cert = true;
+                                }
+                                $("#cust_hp").val(response.data.data.HP);
+                                $scope.cust_hp = response.data.data.HP;
+                            }
+                        });
+
+                    await axios.get('/api/mypage/manager')
+                        .then(function(response) {
+                            if (response.data.success && response.data.data != undefined) {
+                                $("em#manager").html(response.data.data.EMP_NAME + " " + response.data.data.HP);
+                            }
+                        });
+                }
+
                 $scope.$apply();
 
                 // 카카오 init
@@ -1114,6 +1151,11 @@
 </script>
 
 <script>
+    function Scope() {
+        var scope = angular.element(document.getElementById("container")).scope();
+        return scope;
+    }
+
     $("#bid_btn").on('click', function(){
         if (${member.userNo} === 0) {
             if(sessionStorage.getItem("is_login") === 'false'){
@@ -1121,9 +1163,8 @@
                 return
             }
         } else {
-            let a = true;
-            if (!a) {
-                let popup_offline_payment = $("#bid_btn").trpLayerFixedPopup("#popup_online_confirm-wrap");
+            const is_sale_cert = Scope().is_sale_cert || $("#is_sale_cert").val();
+            if (!is_sale_cert) {
                 popup_offline_payment.open(this); // or false
                 popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
 
@@ -1132,19 +1173,16 @@
                     popup_offline_payment.close();
                 });
             } else {
-                (function () {
-                    var popup_biddingPopup1 = $("#bid_btn").trpLayerFixedPopup("#popup_biddingPopup1-wrap");
-                    $(popup_biddingPopup1.getBtn).on("click", function ($e) {
-                        $e.preventDefault();
-                        popup_biddingPopup1.open(this); // or false
-                        popup_fixation("#popup_biddingPopup1-wrap");
-                    });
+                $(popup_biddingPopup1.getBtn).on("click", function ($e) {
+                    $e.preventDefault();
+                    popup_biddingPopup1.open(this); // or false
+                    popup_fixation("#popup_biddingPopup1-wrap");
+                });
 
-                    $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function ($e) {
-                        $e.preventDefault();
-                        popup_biddingPopup1.close();
-                    });
-                })();
+                $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function ($e) {
+                    $e.preventDefault();
+                    popup_biddingPopup1.close();
+                });
             }
         }
     })
