@@ -639,8 +639,8 @@
 
                     await axios.get('/api/mypage/manager')
                         .then(function(response) {
-                            if (response.data.success) {
-                                $("em#manager").html(response.data.data.EMP_NAME + " " +response.data.data.HP);
+                            if (response.data.success && response.data.data != undefined) {
+                                $("em#manager").html(response.data.data.EMP_NAME + " " + response.data.data.HP);
                             }
                         });
                 }
