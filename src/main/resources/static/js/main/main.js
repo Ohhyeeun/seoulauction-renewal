@@ -225,12 +225,12 @@ function  loadBigBanner (){
 }
 
 // 상단텍스트공지
-const topNoticeSwiper = new Swiper(".beltbox-swiper", {
-    direction : "vertical",
-    autoplay : {
-        delay: 2500,
-        disableOnInteraction: false
-    }
+const beltNoticeSwiper = new Swiper(".belt-swiper", {
+    autoplay: {
+        delay: 400000,
+    },
+    direction:'vertical',
+    loop: true,
 });
 
 function loadTopNotice(){

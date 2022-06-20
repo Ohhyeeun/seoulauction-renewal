@@ -137,7 +137,8 @@ $(function(){
 
     /* 띠배너 */
     $('.beltclose-btn').click(function(){
-        $('.header_beltbox').slideUp(400);
+        $('.header_beltbox').stop().slideUp(400);
+        $(this).removeClass('on');
     });
 
     /*gnb menu */
@@ -177,9 +178,9 @@ $(function(){
         // $('.header_beltbox.on').show(function(){
         //     $('.main-contents').css('margin-top','162px');
         // });
-        // $('.beltclose-btn').click(function(){
-        //     $('.main-contents').css('margin-top','102px');
-        // });
+        $('.beltclose-btn').click(function(){
+            $('.main-contents').css('margin-top','102px');
+        });
 
         /* 오프라인 라이브응찰 화면(pc) */
         $('.bidding_pc').show();
@@ -722,26 +723,6 @@ function checkPlatform(ua) {
     return userPlatform;
 }
 
-/* notice 슬라이드 배너 (무한루프)*/
-$(function(){
-    let i = 0;
-
-    setInterval(noticeSlide, 2500);
-
-    function noticeSlide(){
-        $('.belttxtbox').append('<span class="header_beltTit"><a href="#"><span class="text-over belt_tit"></span></a></span>');  /*끝에 반복 생성  */
-        $('.belttxtbox').css('top','0');
-
-        if(i < 5){
-            i++;
-        }
-        if(i == 5) {
-            i = 0;
-        }
-        $('.belttxtbox>span:nth-child(1)').remove(); /*반복 첫번째 삭제  */
-        $('.belttxtbox').animate({'top':'100%'},1000);
-    } // noticeSlide() 종료구문;
-});
 
 function dotSubString(str,len){
     let result ='';

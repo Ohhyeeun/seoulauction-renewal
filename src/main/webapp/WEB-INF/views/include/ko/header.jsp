@@ -42,10 +42,38 @@ function sessionLogout() {
 
 
     <div class="header_beltbox on"> <!--class="on" block-->
-        <div class="wrap belttxtbox wrap_padding"> <!-- ul -->
-
+        <div class="swiper-container belt-swiper wrap_padding belttxtbox">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"> <!-- slide 구간 -->
+                    <span class="header_beltTit">
+                        <a href="/html/footer/board_notice_list_ko.html">
+                            <span class="text-over belt_tit">
+                                구매수수료율 인상 및 약관 개정안내 구매수수료율 0
+                            </span>
+                        </a>
+                    </span>
+                </div>
+                <div class="swiper-slide"> <!-- slide 구간 -->
+                    <span class="header_beltTit">
+                        <a href="/html/footer/board_notice_list_ko.html">
+                            <span class="text-over belt_tit">
+                                국문 텍스트 입니다. 국문 텍스트 입니다. 국문 텍스트 입니다. 국문 텍스트 입니다.
+                            </span>
+                        </a>
+                    </span>
+                </div>
+                <div class="swiper-slide"> <!-- slide 구간 -->
+                    <span class="header_beltTit">
+                        <a href="/html/footer/board_notice_list_ko.html">
+                            <span class="text-over belt_tit">
+                                국문 공지사항 입니다.
+                            </span>
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <span class="beltclose-btn closebtn closebtn-w"></span>
         </div>
-        <span class="beltclose-btn closebtn closebtn-w"></span>
     </div>
 
     <div>
@@ -106,7 +134,17 @@ function sessionLogout() {
                     <span class="submenuBg-closeBtn closebtn closebtn-b m-ver"></span>
                     <div class="flex_wrap submenuBg-box">
                         <div class="Ingbanner-box">
-
+                            <%--경매 준비중 추가--%>
+                            <a href="javascript:void(0);" class="Ingbanner" target="_blank">
+                                <figure class="border-txt-darkg Ingbanner-img">
+                                    <img src="/images/pc/thumbnail/gnb_thubnatil_ready.jpg" alt="ing_auction03">
+                                </figure>
+                                <div class="Ingbanner-txt text-over">
+                                    <span class="auctionKind-box Ingkind-auction">ONLINE</span>
+                                    <p class="text-over">경매 준비중</p>
+                                    <span class="Ingbanner-arrow"></span>
+                                </div>
+                            </a>
                         </div>
 
                         <ul class="subGnbmenu">
