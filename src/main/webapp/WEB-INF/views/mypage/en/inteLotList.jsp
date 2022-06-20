@@ -62,13 +62,14 @@
                                                             <dt>
                                                                 <div class="title-area">
                                                                     <div class="title tt4">
-                                                                        <span>{{il[1][0].SALE_TITLE_EN}}</span>
+                                                                        <span>{{il[1][0].SALE_TH}}{{il[1][0].SALE_TH_DSP}} {{il[1][0].SALE_TITLE_EN}}</span>
                                                                     </div>
                                                                 </div>
-                                                                <div class="btn-area"  >
-                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y'" class="btn btn_point btn-view-bid" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span >View Auction</span></a></button>
-                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')"  class="btn btn_gray btn-view-bid" type="button" disabled><span>View Result</span></button>
-                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y'&& (il[1][0].SALE_KIND_CD !='online'&&il[1][0].SALE_KIND_CD !='online_zb')"  class="btn btn_gray_line btn-view-result" type="button" disabled><span>End Auction</span></button>
+                                                                <div class="btn-area">
+                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')" class="btn btn_point btn-view-bid" type="button"><a href="/auction/list/{{il[1][0].SALE_NO}}"><span >View Auction</span></a></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')" class="btn btn_point btn-view-bid" type="button"><a href="/auction/live/list/{{il[1][0].SALE_NO}}"><span >View Auction</span></a></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')"  class="btn btn_gray btn-view-bid" type="button" ><span>View End Auction</span></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')"  class="btn btn_gray_line btn-view-result" type="button" ><a href="/auction/live/list/{{il[1][0].SALE_NO}}"><span>View Result</span></a></button>
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in il[1]">

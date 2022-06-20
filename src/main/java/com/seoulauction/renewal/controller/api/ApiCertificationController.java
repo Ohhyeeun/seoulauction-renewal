@@ -52,7 +52,7 @@ public class ApiCertificationController {
 		
 		Map<String, Object> resultMap = new HashMap<>();
 
-		//현재 폰인증한 내역이 없으면 무시.
+		//현재 폰인증한 내역이 있으면 무시.
 		if (MapUtils.isEmpty(existMap)) {
 
 			commonMap.put("from_phone", callback); // 02-395-0330
@@ -68,6 +68,7 @@ public class ApiCertificationController {
 			resultMap.put("AUTH_NUM", "");
 			resultMap.put("SEND_STATUS", true);
 			resultMap.put("AUTH_EXISTS", false);
+			
 		} else { // 폰인증을 막음.
 			resultMap.put("AUTH_EXISTS", true);
 		}
@@ -79,6 +80,7 @@ public class ApiCertificationController {
 	public ResponseEntity<RestResponse> confirmAuthNumCheck(@RequestBody CommonMap commonMap, Principal principal,
 			HttpServletRequest request, HttpServletResponse response) {
 		boolean b = this.confirmAuthNumber(commonMap, request, response);
+		commonMap.put("action_user_no", principal.getName());
 		if (b) {
 			return ResponseEntity.ok(RestResponse.ok(commonMap));
 		} else {
@@ -114,12 +116,12 @@ public class ApiCertificationController {
 		}
 	}
 
-	@RequestMapping(value = "/inertSaleCert", method = RequestMethod.POST)
+	@RequestMapping(value = "/insertSaleCert", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<RestResponse> inertSaleCert(@RequestBody CommonMap commonMap, Principal principal,
+	public ResponseEntity<RestResponse> insertSaleCert(@RequestBody CommonMap commonMap, Principal principal,
 			HttpServletRequest request, HttpServletResponse response) {
 		commonMap.put("action_user_no", principal.getName());
-		return ResponseEntity.ok(RestResponse.ok(certificationService.inertSaleCert(commonMap)));
+		return ResponseEntity.ok(RestResponse.ok(certificationService.insertSaleCert(commonMap)));
 	}
 	
 	@RequestMapping(value = "/updateSaleCertHp", method = RequestMethod.POST)
@@ -129,5 +131,13 @@ public class ApiCertificationController {
 		commonMap.put("action_user_no", principal.getName());
 		return ResponseEntity.ok(RestResponse.ok(certificationService.updateSaleCertHp(commonMap)));
 	}
-	
+
+	@GetMapping(value = "/sales/{saleNo}")
+	public ResponseEntity<RestResponse> saleCert(@PathVariable("saleNo") int saleNo){
+		System.out.println(saleNo);
+		CommonMap paramMap = new CommonMap();
+		paramMap.put("sale_no", saleNo);
+
+		return ResponseEntity.ok(RestResponse.ok(certificationService.selectSaleCertInfo(paramMap)));
+	}
 }

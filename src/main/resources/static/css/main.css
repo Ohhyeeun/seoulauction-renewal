@@ -345,7 +345,7 @@
     height: 0;
     overflow-y: hidden;
     margin-bottom: 40px;
-    /*padding-bottom: 33%;*/
+    padding-bottom: 33%;
 }
 .auction-thumbbox {
     background-color: #ededed;
@@ -995,7 +995,7 @@
         right: 40px;
     }
     .auctionTab-contents.on {
-        /*padding-bottom: calc(65% - 20px);*/
+        padding-bottom: 50%;
     }
     .auction-thumbbox {
         width: calc(25% - 15px);
@@ -1076,6 +1076,9 @@
         max-width: 1024px;
         padding: 0 120px;
     }*/
+    .auctionTab-contents.on {
+        padding-bottom: 67%;
+    }
     .auction-thumbbox {
         width: calc(33.3333% - 13.3333px);
         padding-bottom: calc(33.3333% - 13.3333px);
@@ -1218,7 +1221,7 @@
         -ms-overflow-style: none;
     }
     .auctionTab-contents.on {
-        /*padding-bottom: 68%;*/
+        padding-bottom: 68%;
     }
     .auctionTab-btn {
         font-size: 14px;

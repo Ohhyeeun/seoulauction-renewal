@@ -145,7 +145,7 @@
                                                         <button class="btn btn_black btn_lg" type="button" ng-click="goInquery();"><span>1:1 문의하기</span></button>
                                                     </div>
                                                     <div class="btn-box">
-                                                        <button class="print-btn" ng-click="print();">
+                                                        <button class="print-btn" ng-click="print(saleInfo.SALE_AS_NO);">
                                                             <i class="icon-view_print"></i>
                                                         </button>
                                                     </div>
@@ -172,7 +172,7 @@
                                             <div class="title">작품정보</div>
                                             <div class="desc">
                                                 {{saleInfo.MATE_NM}} <br />
-                                                <span>{{saleInfo.SIZE1}}X{{saleInfo.SIZE2}}X{{saleInfo.SIZE3}}cm</span>
+                                                <span ng-bind="saleInfo | size_text_cm"></span>
                                                 | <span>{{saleInfo.MAKE_YEAR_KO}}</span> <br />
                                                 <span bind-html-compile="saleInfo.SIGN_INFO_KO"> <br />
                                             </div>
@@ -390,10 +390,8 @@
             window.location.href = '/privatesale/psList';
         }
 
-        $scope.print = function () {
-            $("header").hide();
-            window.print();
-            $("header").show();
+        $scope.print = function (saleAsNo) {
+            window.location.href = '/privatesale/psView/print/' + saleAsNo;
         }
 
         $scope.urlCopy = function () {
@@ -414,17 +412,6 @@
 
                 $scope.saleInfo = r1.data.data;
                 $scope.saleImages = r2.data.data;
-
-                //전시가 처리
-                /*
-                if($scope.saleInfo.EXPE_PRICE_FROM_KRW == undefined ||
-                    $scope.saleInfo.EXPE_PRICE_FROM_KRW.length <= 2){
-                    $(".saleprice-area").hide();
-                }else{
-                    $(".saleprice-area").show();
-                    $("#exhibitPrice").html($scope.saleInfo.EXPE_PRICE_FROM_KRW);
-                }
-                 */
 
                 // popup setting
                 let imgUrl = $scope.saleImages[0].IMAGE_URL +

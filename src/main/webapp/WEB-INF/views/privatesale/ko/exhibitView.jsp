@@ -217,7 +217,7 @@
                                             <div class="desc">
                                                 {{lotInfo.MATE_NM_EN}} <br />
                                                 <span ng-repeat="size in lotInfo.LOT_SIZE_JSON">
-                                                        <span>{{::size.SIZE1}}X{{::size.SIZE2}}X{{::size.SIZE3}}cm</span>
+                                                        <span ng-bind="size | size_text_cm"></span>
                                                     </span> <br />
                                                 <span bind-html-compile="lotInfo.SIGN_INFO_JSON.ko"> <br />
                                             </div>
@@ -460,7 +460,7 @@
         }
 
         $scope.print = function (saleNo, lotNo) {
-            window.location.href = '/auction/view/print/' + saleNo + '/' + lotNo;
+            window.location.href = '/privatesale/exhibitView/print/' + saleNo + '/' + lotNo;
         }
 
         $scope.urlCopy = function () {

@@ -2,7 +2,9 @@ package com.seoulauction.renewal.service;
 
 
 import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.mapper.kt.CertificationMapper;
+import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,16 +40,31 @@ public class CertificationService {
     	return resultMap;
     }
     
-    public CommonMap inertSaleCert(CommonMap commonMap){  
-    	certificationMapper.inertSaleCert(commonMap);
+    public CommonMap insertSaleCert(CommonMap commonMap){
+    	certificationMapper.insertSaleCert(commonMap);
     	return commonMap;
     }
     
     public int updateSaleCertHp(CommonMap commonMap){
-    	return certificationMapper.updateSaleCertHp(commonMap);
+    	int result = certificationMapper.updateCustHp(commonMap);
+    	if(result > 0) {
+    		result = certificationMapper.updateSaleCertHp(commonMap);	
+    	}  	
+    	return result;
     }
     
     public int updateCustForForeAuth(CommonMap commonMap){
     	return certificationMapper.updateCustForForeAuth(commonMap);
+    }
+
+    public CommonMap selectSaleCertInfo(CommonMap paramMap) {
+		SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+		if (saUserDetails != null) {
+			paramMap.put("cust_no", saUserDetails.getUserNo());
+		} else {
+			paramMap.put("cust_no", 0);
+		}
+
+		return certificationMapper.selectSaleCertInfo(paramMap);
     }
 }

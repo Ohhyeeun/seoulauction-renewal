@@ -45,10 +45,10 @@
                                     <div class="search-area">
                                         <div class="search-box">
                                             <div class="input_del">
-                                                <input class="" type="text" placeholder="검색어를 입력하세요." value="">
+                                                <input id="search_text" class="" type="text" placeholder="검색어를 입력하세요." value="">
                                                 <button class="btn_del"><i class="form-search-del_lg"></i></button>
                                             </div>
-                                            <button class="btn_search"><i class="form-search_lg"></i></button>
+                                            <button id="search_btn" class="btn_search"><i class="form-search_lg"></i></button>
                                         </div>
                                     </div>
                                     <!--//검색필드-->
@@ -59,7 +59,7 @@
                                         <div class="tab-wrap">
                                             <div class="tab-area type-sorting">
                                                 <ul class="tab-list js-list_tab">
-                                                    <li class="active"><a href="#none"><span>회원정보</span></a></li>
+                                                    <li class="active"><a href=""><span>회원정보</span></a></li>
                                                     <li class=""><a href="#none"><span>라이브경매</span></a></li>
                                                     <li class=""><a href="#none"><span>온라인경매</span></a></li>
                                                     <li class=""><a href="#none"><span>위탁</span></a></li>
@@ -71,7 +71,7 @@
                                         <!--//faq tab-->
 
                                         <!--faq cont//-->
-                                        <ul class="accordion-list faq js-accordion_faq">
+                                        <ul id="faq_content" class="accordion-list faq js-accordion_faq">
                                             <li class="trp_acitem">
                                                 <div class="header-area">
                                                     <div class="accordion_name tt4">
@@ -159,7 +159,7 @@
                                                 </div>
                                             </div>
                                             <div class="btn-area">
-                                                <a class="btn btn_gray_line" href="#" role="button"><span>1:1 문의</span></a>
+                                                <a class="btn btn_gray_line" href="/mypage/inquiryForm" role="button"><span>1:1 문의</span></a>
                                             </div>
                                         </div>
                                     </article>
@@ -198,30 +198,12 @@
     <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
     <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+
+    <script src="/js/footer/faq.js" type="text/javascript"></script>
     <!-- [0516]삭제
   <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
 -->
 
-    <script>
-        //===텝메뉴===//
-        $('.js-list_tab a').on('click', function($e) {
-            $e.preventDefault();
-            var tar = $(this).position().left;
-            var scrollX = tar - ($(".js-list_tab").parents(".tab-area").width() / 2) + $(this).width() / 2;
-
-            if ($(this).parents('li').hasClass('active')) {
-                return false;
-            } else {
-                $(".js-list_tab li").removeClass('active');
-                $(this).parents('li').addClass('active');
-
-                $(".js-list_tab").parents(".tab-area").scrollLeft(scrollX);
-            }
-        });
-
-        //===아코디언FAQ===//
-        $(".js-accordion_faq").trpAccordionMenu(".accordion_name", ".con-area", "on");
-    </script>
 
 
 
