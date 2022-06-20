@@ -11,6 +11,7 @@ app.controller('myPageCtl', function($scope, consts, common, ngDialog) {
             } else {
             	console.log(result.data);
             	$scope.custPayList = result.data;
+            	$scope.custPayCnt = result.data.length;
             	$scope.$apply();
             	document.getElementById('popup_memlv2_record-wrap').style.display = "block";
             } 
@@ -36,6 +37,14 @@ app.controller('myPageCtl', function($scope, consts, common, ngDialog) {
 	}
 	
 	
+	$scope.receiptPopup = function(input) {
+		var status = "toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=420,height=540"; 
+        var url = "https://npg.nicepay.co.kr/issue/IssueLoader.do?TID="+input.pay.PG_TRANS_ID+"&type="+input.type; 
+        //type  값  세팅  ::  매출전표: 0,  현금영수증: 1 
+        
+        window.open(url,"popupIssue",status); 
+	}
+	
 });
 window.addEventListener('load', function () {
 	var currentUrl = window.location.href;
@@ -44,36 +53,39 @@ window.addEventListener('load', function () {
 	//div css로 id값 가져와서 넣기
 	var className = document.getElementById('container').classList[0];
 	document.getElementById(className).classList.add('on');
+	
+    (function() {
+    var popup_marketing1 = $(".js-popup_memlv2_record").trpLayerFixedPopup("#popup_memlv2_record-wrap");
+    $(popup_marketing1.getBtn).on("click", function($e) {
+        $e.preventDefault();
+        popup_marketing1.open(this); // or false   
+        popup_fixation("#popup_memlv2_record-wrap"); // pc 스크롤
+        popup_motion_open("#popup_memlv2_record-wrap"); // mb 모션 
+    });
+
+    $("body").on("click", "#popup_memlv2_record-wrap .js-closepop, #popup_memlv2_record-wrap .popup-dim", function($e) {
+        $e.preventDefault();
+        popup_marketing1.close();
+        popup_motion_close("#popup_memlv2_record-wrap");
+    });
+})();
+
+ (function() {
+    var popup_tooltip = $(".js-popup_tooltip").trpLayerFixedPopup("#popup_tooltip-wrap");
+    $(popup_tooltip.getBtn).on("click", function($e) {
+        $e.preventDefault();
+        popup_tooltip.open(this); // or false   
+        popup_fixation("#popup_tooltip-wrap"); // pc 스크롤
+        popup_motion_open("#popup_tooltip-wrap"); // mb 모션 
+    });
+
+    $("body").on("click", "#popup_tooltip-wrap .js-closepop, #popup_tooltip-wrap .popup-dim", function($e) {
+        $e.preventDefault();
+        popup_tooltip.close();
+        popup_motion_close("#popup_tooltip-wrap");
+    });
+})();
+	
 });
 
-        (function() {
-            var popup_marketing1 = $(".js-popup_memlv2_record").trpLayerFixedPopup("#popup_memlv2_record-wrap");
-            $(popup_marketing1.getBtn).on("click", function($e) {
-                $e.preventDefault();
-                popup_marketing1.open(this); // or false   
-                popup_fixation("#popup_memlv2_record-wrap"); // pc 스크롤
-                popup_motion_open("#popup_memlv2_record-wrap"); // mb 모션 
-            });
 
-            $("body").on("click", "#popup_memlv2_record-wrap .js-closepop, #popup_memlv2_record-wrap .popup-dim", function($e) {
-                $e.preventDefault();
-                popup_marketing1.close();
-                popup_motion_close("#popup_memlv2_record-wrap");
-            });
-        })();
-        
-         (function() {
-            var popup_tooltip = $(".js-popup_tooltip").trpLayerFixedPopup("#popup_tooltip-wrap");
-            $(popup_tooltip.getBtn).on("click", function($e) {
-                $e.preventDefault();
-                popup_tooltip.open(this); // or false   
-                popup_fixation("#popup_tooltip-wrap"); // pc 스크롤
-                popup_motion_open("#popup_tooltip-wrap"); // mb 모션 
-            });
-
-            $("body").on("click", "#popup_tooltip-wrap .js-closepop, #popup_tooltip-wrap .popup-dim", function($e) {
-                $e.preventDefault();
-                popup_tooltip.close();
-                popup_motion_close("#popup_tooltip-wrap");
-            });
-        })();

@@ -64,6 +64,8 @@
         , S.AUTO_BID_REQ_CLOSE_DT
         , COLUMN_JSON(S.NOTICE_BLOB) NOTICE_JSON
         , COLUMN_JSON(S.NOTICE_DTL_BLOB) NOTICE_DTL_JSON
+        , DATE_FORMAT(S.TO_DT,'%a') LOT_EXPIRE_DATE_DAY
+        , DATE_FORMAT(S.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T
         , S.SALE_OUTSIDE_YN
         , S.LIVE_BID_YN
         , S.LIVE_BID_DT
@@ -166,9 +168,13 @@
         , IFNULL(L.FRAME_CD, 'none') AS FRAME_CD
         , IFNULL(L.GUARANTEE_YN, 'Y') GUARANTEE_YN
         , L.ZEROBASE_PRICE_YN
+        , COLUMN_JSON(L.EXHIBITION_PRICE_BLOB) EXHIBITION_PRICE_JSON
+        , ifnull(LS.UNIT_CD, 'cm')             UNIT_CD
+        , ifnull(LS.SIZE1, '0')                SIZE1
+        , ifnull(LS.SIZE2, '0')                SIZE2
         from LOT L
         left outer join (<include refid="com.seoulauction.renewal.mapper.kt.CommonMapper.saleLastBidInfos"/>) BD on
-        BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+        BD.SALE_NO = L.SALE_NO and BD.LOT_NO	 = L.LOT_NO
         left outer join ARTIST AT
         on AT.ARTIST_NO = L.ARTIST_NO
         left outer join CODE CD
@@ -249,7 +255,7 @@
         from CUST CU
         where JOIN_KIND_CD = 'online'
           and CU.STAT_CD = 'normal'
-          and CU.CUST_NO = #{action_user_no}
+          and CU.CUST_NO = #{cust_no}
     </select>
 
     <insert id="searchLog" parameterType="CommonMap">
@@ -354,10 +360,10 @@
         left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
         left outer join CUST_INTE_LOT IL ON L.SALE_NO = IL.SALE_NO AND L.LOT_NO = IL.LOT_NO AND IL.DEL_YN = 'N' AND
         IL.CUST_NO = #{action_user_no}
-        <if test="list_type == 'SEARCH' and action_user_no != null">
-            , (select CUST_NO, EMP_GB from CUST where CUST_NO = #{action_user_no}) CU
+        <if test="list_type == 'SEARCH' and cust_no != null">
+            , (select CUST_NO, EMP_GB from CUST where CUST_NO = #{cust_no}) CU
         </if>
-        <if test="list_type == 'SEARCH' and action_user_no == null">
+        <if test="list_type == 'SEARCH' and cust_no == null">
             , (select NULL AS CUST_NO, 'N' AS EMP_GB from dual) CU
         </if>
         where 1=1
@@ -512,7 +518,81 @@
                 #{bid_no})
     </insert>
 
-    <select id="selectTopBId" parameterType="CommonMap">
+    <!-- 오프라인/온라인 각 상황에 맞게 insert -->
+    <insert id="insertBid" parameterType="CommonMap">
+        INSERT INTO BID(
+             SALE_NO
+            ,LOT_NO
+            ,CUST_NO
+            ,BID_KIND_CD
+            ,BID_DT
+            ,BID_PRICE
+            <if test="emp_no != null">
+            ,EMP_NO
+            </if>
+            <if test="padd_no != null">
+            ,PADD_NO
+            </if>
+            <if test="auto_bid_req_no != null">
+            ,AUTO_BID_REQ_NO
+            </if>
+            <if test="req_emp_no != null">
+            ,REG_EMP_NO
+            </if>
+            <if test="bid_grow_price != null">
+            ,BID_GROW_PRICE
+            </if>
+            <if test="bid_dt != null">
+            ,REG_DT
+            </if>
+            <if test="reg_emp_no != null">
+            ,REG_EMP_NO
+            </if>
+            <if test="mod_emp_no != null">
+            ,MOD_EMP_NO
+            </if>
+            <if test="etc != null">
+            ,ETC
+            </if>
+        )
+        VALUES(
+             #{sale_no}
+            ,#{lot_no}
+            ,#{cust_no}
+            ,#{bid_kind_cd}
+            ,#{bid_dt}
+            ,#{bid_price}
+            <if test="emp_no != null">
+            ,#{emp_no}
+            </if>
+            <if test="padd_no != null">
+            ,#{padd_no}
+            </if>
+            <if test="auto_bid_req_no != null">
+            ,#{auto_bid_req_no}
+            </if>
+            <if test="req_emp_no != null">
+            ,#{req_emp_no}
+            </if>
+            <if test="bid_grow_price != null">
+            ,#{bid_grow_price}
+            </if>
+            <if test="bid_dt != null">
+             ,#{bid_dt}
+            </if>
+            <if test="reg_emp_no != null">
+            ,#{reg_emp_no}
+            </if>
+            <if test="mod_emp_no != null">
+            ,#{mod_emp_no}
+            </if>
+            <if test="etc != null">
+            ,#{etc}
+            </if>
+        )
+    </insert>
+
+    <select id="selectTopBid" parameterType="CommonMap"  resultType="CommonMap">
         select *
         from bid
         where SALE_NO = #{sale_no}
@@ -546,13 +626,20 @@
                ifnull(e.SUFFIX, '')                SUFFIX,
                ifnull(e.MIX_CD, 'h')               MIX_CD,
                ifnull(e.CANVAS_EXT_YN, 'N')        CANVAS_EXT_YN,
-               f.CD_NM,
+               f.CD_NM CD_NM,
                COLUMN_JSON(b.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON,
                COLUMN_JSON(b.EXPE_PRICE_TO_BLOB)   EXPE_PRICE_TO_JSON,
                IFNULL(g.DEL_YN,'Y') FAVORITE_YN, /*N 이면 좋아요가 있음. Y면 좋아요가 아님.*/
                b.LOT_TAG,
+               b.EXPE_PRICE_INQ_YN,
+
+               DATE_FORMAT(b.TO_DT,'%Y-%m-%d') LOT_EXPIRE_DATE,
+               DATE_FORMAT(b.TO_DT,'%a') LOT_EXPIRE_DATE_DAY,
+               DATE_FORMAT(b.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T,
+
                date_format(a.FROM_DT,'%m.%d(%a)') FROM_DT,
-               date_format(a.TO_DT, '%m.%d(%a)') TO_DT
+               date_format(a.TO_DT, '%m.%d(%a)') TO_DT,
+               a.WWW_DISP_YN DISP_YN
         from sale a
                  inner join lot b on a.SALE_NO = b.SALE_NO
                  inner join lot_img c on b.SALE_NO = c.SALE_NO and b.LOT_NO = c.LOT_NO and c.DISP_ORD = 1
@@ -565,10 +652,57 @@
           and a.WWW_DISP_YN = 'Y'
           and a.CLOSE_YN = 'N'
           and b.CLOSE_YN = 'N'
+        <if test='is_live !=null and is_live.equals("Y")'>
+          and a.LIVE_BID_YN = 'Y'
+        </if>
         group by a.SALE_NO, b.LOT_NO;
     </select>
     <select id="selectLotTagList" parameterType="CommonMap" resultType="CommonMap">
         select LOT_TAG from lot where SALE_NO = #{sale_no} and LOT_TAG is not null
         group by LOT_TAG
     </select>
+    <!--생년월일 성별 값 둘다 잇는지 여부-->
+    <select id="selectCustCheckRequired" parameterType="CommonMap" resultType="CommonMap">
+        select
+            *
+        from
+            CUST
+        where
+            CUST_NO = #{cust_no}
+            and SEX_CD IS NOT NULL
+            and BORN_DT IS NOT NULL
+        LIMIT
+            1
+    </select>
+    <!-- 자동 경매 insert -->
+    <insert id="insertAutoBid" parameterType="CommonMap">
+        INSERT INTO AUTO_BID_REQ(
+             SALE_NO
+            ,LOT_NO
+            ,CUST_NO
+            ,BID_KIND_CD
+            ,REQ_DT
+            ,BID_PRICE
+            ,HP
+            ,EMAIL
+            ,MEMO
+            ,EMP_NO
+            ,ABORT_YN
+            ,REG_DT
+        )
+        VALUES(
+             #{sale_no}
+            ,#{lot_no}
+            ,#{cust_no}
+            ,#{bid_kind_cd}
+            ,#{bid_dt}
+            ,#{bid_price}
+            ,#{hp}
+            ,#{email}
+            ,#{memo}
+            ,#{emp_no}
+            ,'N'
+            ,#{bid_dt}
+        )
+    </insert>
 </mapper>

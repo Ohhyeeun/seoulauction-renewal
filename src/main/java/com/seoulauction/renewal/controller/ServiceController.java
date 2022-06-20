@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Locale;
 
@@ -59,5 +60,20 @@ public class ServiceController {
     @GetMapping("/marketing/consulting")
     public String marketing_consulting(Locale locale) {
         return SAConst.getUrl(SERVICE_SERVICE , "marketing_consulting" , locale);
+    }
+    
+    @GetMapping("/academy")
+    public String academy(Locale locale) {
+        return SAConst.getUrl(SERVICE_SERVICE , "academy" , locale);
+    }
+    
+    @GetMapping("/academyDetail")
+    public String inquiryView(@RequestParam(required = true ) int academyNo, @RequestParam(required = true ) String academyCd, Locale locale) {
+        return SAConst.getUrl(SERVICE_SERVICE, "academyDetail", locale);
+    }
+    
+    @GetMapping("/academyList")
+    public String inquiryList(@RequestParam(required = true ) String academyCd, Locale locale) {
+        return SAConst.getUrl(SERVICE_SERVICE, "academyList", locale);
     }
 }

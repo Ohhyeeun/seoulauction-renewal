@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
+<spring:eval expression="@environment.getProperty('image.root.path')" var="imageRootPath" />
 <body class="">
     <div class="wrapper" ng-app="myApp">
         <div class="sub-wrap pageclass">
@@ -45,7 +46,7 @@
                                                             <dt>
                                                                 <div class="title-area">
                                                                     <div class="title tt4">
-                                                                        <span>{{liveBidReq[1][0].SALE_TITLE_KR}}</span>
+                                                                        <span>{{liveBidReq[1][0].SALE_TH}}{{liveBidReq[1][0].SALE_TH_DSP}} {{liveBidReq[1][0].SALE_TITLE_KR}}</span>
                                                                     </div>
                                                                     <div class="desc tb1">
                                                                         <span class="tit">경매일</span>
@@ -53,8 +54,8 @@
                                                                     </div>
                                                                 </div>
                                                                  <div class="btn-area">
-                                                                   <button ng-if="liveBidReq[1][0].CLOSE_YN != 'Y'"  class="btn btn_point btn-view-ing" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span >진행경매보기</span></a></button>
-                                                                   <button ng-if="liveBidReq[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray_line btn-view-result" type="button"><a href="/currentAuction?sale_kind=online_only&page=1&lang=ko#page1"><span>경매결과보기</span></a></button>
+                                                                   <button ng-if="liveBidReq[1][0].CLOSE_YN != 'Y'"  class="btn btn_point btn-view-ing" type="button"><a href="/auction/live/list/{{liveBidReq[1][0].SALE_NO}}"><span >진행경매보기</span></a></button>
+                                                                   <button ng-if="liveBidReq[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray_line btn-view-result" type="button"><a href="/auction/live/list/{{liveBidReq[1][0].SALE_NO}}"><span>경매결과보기</span></a></button>
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in liveBidReq[1]">
@@ -63,7 +64,7 @@
                                                                         <div class="thumb-area">
                                                                             <figure class="img-ratio">
                                                                                 <div class="img-align">
-                                                                                     <img src="/nas_img{{data.LOT_IMG}}" alt="">
+                                                                                     <img src="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}" alt="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}">
                                                                                 </div>
                                                                             </figure>
                                                                         </div>
@@ -81,11 +82,11 @@
                                                                     <div class="pay-area">
                                                                         <dl class="price">
                                                                             <dt class="tit">응찰가</dt>
-                                                                            <dd class="txt">{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</dd>
+                                                                            <dd class="txt" ng-if="data.BID_KIND_CD != 'phone'">{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</dd>
                                                                         </dl>
                                                                         <dl class="price succ">
                                                                             <dt class="tit">낙찰가</dt>
-                                                                            <dd class="txt">{{data.CURR_CD}} {{comma(data.success_bid_price)}}</dd>
+                                                                            <dd class="txt" ng-if="data.success_bid_price && data.EXPE_PRICE_INQ_YN =='N'" >{{data.CURR_CD}} {{comma(data.success_bid_price)}}</dd>
                                                                         </dl>
                                                                         <dl class="date">
                                                                             <dt class="tit">응찰일</dt>
@@ -217,7 +218,6 @@
 -->
 
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 
     <script>

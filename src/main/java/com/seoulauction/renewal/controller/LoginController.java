@@ -1,6 +1,5 @@
 package com.seoulauction.renewal.controller;
 
-import com.seoulauction.renewal.auth.PasswordEncoderAESforSA;
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
@@ -8,7 +7,6 @@ import com.seoulauction.renewal.service.CertificationService;
 import com.seoulauction.renewal.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.WebAttributes;
@@ -17,15 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import static com.seoulauction.renewal.common.SAConst.SERVICE_LOGIN;
-
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Locale;
@@ -47,8 +40,13 @@ public class LoginController {
     	
     	// 로그인 이전페이지 기억
     	String referrer = request.getHeader("Referer");
-    	if(referrer != null && !referrer.endsWith("/login")) {
-    		log.info("referrer : {}",referrer);
+    	log.info("referrer : {}",referrer);
+    	if(referrer != null 
+    			&& !referrer.contains("/login") 
+    			&& !referrer.contains("/join") 
+    			&& !referrer.contains("/findId")
+    			&& !referrer.contains("/findPassword")
+    			&& !referrer.contains("/mypage/custLeave")) {
     		request.getSession().setAttribute("prevPage", referrer);
     	}
 
@@ -126,16 +124,6 @@ public class LoginController {
     	if(socialType.equals("AP")) {
     		socialEmail = request.getParameter("sub");
 		}
-    	//소셜 기가입 확인
-		CommonMap paramMap = new CommonMap();
-		paramMap.put("social_email", socialEmail);
-		paramMap.put("social_type", socialType);
-        CommonMap resultMap = loginService.selectCustForCustSocial(paramMap);
-        
-		if(resultMap != null) {
-			model.addAttribute("socialExist", "Y");
-			return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "join" , locale);
-		}
 		
     	String socialLoginId = "";
 		
@@ -143,8 +131,9 @@ public class LoginController {
 		while(duplIdCheck) {
 			socialLoginId = socialType + "_" + Double.toString(Math.random() * 10).replace(".", "").substring(0, 8);
 			log.info(socialLoginId);
+			CommonMap paramMap = new CommonMap();
 			paramMap.put("socialLoginId", socialLoginId);
-	        resultMap = loginService.selectCustSocialBySocialLoginId(paramMap);
+			CommonMap resultMap = loginService.selectCustSocialBySocialLoginId(paramMap);
 	        if(resultMap == null) {
 	        	duplIdCheck = false;
 	        }

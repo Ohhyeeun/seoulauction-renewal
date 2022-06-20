@@ -41,4 +41,9 @@ public interface SaleMapper {
     List<CommonMap> selectSaleList(CommonMap commonMap);
 
     List<CommonMap> selectLotTagList(CommonMap commonMap);
+
+    CommonMap selectTopBid(CommonMap commonMap);
+    void insertBid(CommonMap commonMap);
+    void insertAutoBid(CommonMap commonMap);
+    CommonMap selectCustCheckRequired(CommonMap commonMap);
 }

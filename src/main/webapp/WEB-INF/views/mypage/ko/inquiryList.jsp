@@ -65,6 +65,9 @@
 															</div>
 														</li>
 													</ul>
+													 <div class="data-empty" ng-if="inquiryCnt == 0">
+                                                            <p class="txt_empty">내역이 존재하지 않습니다.</p>
+                                                     </div>
 													 <div class="wrap_paging"  ng-if="inquiryCnt != 0">
 														<paging page="currentPage"
 															page-size=10
@@ -128,8 +131,7 @@
 -->
 
 
-	<script type="text/javascript" src="/js/common.js"
-		type="text/javascript"></script>
+
 	<script type="text/javascript" src="/js/pages_common_ko.js"
 		type="text/javascript"></script>
 

@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
+<spring:eval expression="@environment.getProperty('image.root.path')" var="imageRootPath" />
 <body class="">
     <div class="wrapper" ng-app="myApp">
         <div class="sub-wrap pageclass">
@@ -45,7 +46,7 @@
                                                             <dt>
                                                                 <div class="title-area">
                                                                     <div class="title tt4">
-                                                                          <span>{{liveBid[1][0].SALE_TITLE_KR}}</span>
+                                                                          <span>{{liveBid[1][0].SALE_TH}}{{liveBid[1][0].SALE_TH_DSP}} {{liveBid[1][0].SALE_TITLE_KR}}</span>
                                                                     </div>
                                                                     <div class="sub">
                                                                         <div class="desc tb1">
@@ -68,7 +69,9 @@
                                                                         <div class="thumb-area">
                                                                             <figure class="img-ratio">
                                                                                 <div class="img-align">
-                                                                                    <img src="/nas_img{{data.LOT_IMG}}" alt="">
+                                                                                    <img src="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}" alt="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}">
+                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'N' && data.BID_PRICE == data.success_bid_price"><span class="bid_result-icon">낙찰</span></div>
+                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'Y'"><span class="bid_result-icon">낙찰취소</span></div>
                                                                                 </div>
                                                                             </figure>
                                                                         </div>
@@ -89,7 +92,7 @@
                                                                         </dl>
                                                                         <dl class="price succ">
                                                                             <dt class="tit">낙찰가</dt>
-                                                                            <dd class="txt">{{data.CURR_CD}} {{comma(data.success_bid_price)}}</dd>
+                                                                            <dd class="txt" ng-if="data.success_bid_price">{{data.CURR_CD}} {{comma(data.success_bid_price)}}</dd>
                                                                         </dl>
                                                                         <dl class="date">
                                                                             <dt class="tit">응찰일</dt>
@@ -444,7 +447,6 @@
 -->
 
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 
 
@@ -455,8 +457,57 @@
             window.history.back();
         })
     </script>
+    <script>
+        (function() {
+            var popup_marketing1 = $(".js-popup_auction_live_record").trpLayerFixedPopup("#popup_auction_live_record-wrap");
+            $(popup_marketing1.getBtn).on("click", function($e) {
+                $e.preventDefault();
+                popup_marketing1.open(this); // or false   
+                popup_fixation("#popup_auction_live_record-wrap"); // pc 스크롤
+                popup_motion_open("#popup_auction_live_record-wrap"); // mb 모션 
+            });
+
+            $("body").on("click", "#popup_auction_live_record-wrap .js-closepop, #popup_auction_live_record-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                popup_marketing1.close();
+                popup_motion_close("#popup_auction_live_record-wrap");
+            });
+
+            $(".js-history_back").click(function() {
+                window.history.back();
+            })
+        })();
+    </script>
+   <script>
+        (function() {
+            var popup_offline_payment = $(".js-popup_offline_payment").trpLayerFixedPopup("#popup_offline_payment-wrap");
+            $(popup_offline_payment.getBtn).on("click", function($e) {
+                $e.preventDefault();
+                console.log("open11")
+                popup_offline_payment.open(this); // or false 
+                popup_fixation("#popup_offline_payment-wrap");
+            });
+
+            $("body").on("click", "#popup_offline_payment-wrap .js-closepop, #popup_offline_payment-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                popup_offline_payment.close();
+            });
+
+            /* 아코디언 */
+            var pop_accordion = $(".js-accordion-btn").trpToggleBtn(
+                function($this) {
+                    $($this).addClass("on");
+                    $($this).closest(".payment_price-accordion").find(".accordion-body").slideDown("fast");
+                },
+                function($this) {
+                    $($this).removeClass("on");
+                    $($this).closest(".payment_price-accordion").find(".accordion-body").slideUp("fast");
+                });
 
 
+
+        })();
+    </script>
 
 </body>
 

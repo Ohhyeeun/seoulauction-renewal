@@ -1,36 +1,29 @@
 package com.seoulauction.renewal.controller.api;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.seoulauction.renewal.common.RestResponse;
+import com.seoulauction.renewal.common.SAConst;
+import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.exception.SAException;
+import com.seoulauction.renewal.service.LoginService;
+import com.seoulauction.renewal.service.MypageService;
+import com.seoulauction.renewal.util.SecurityUtils;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.seoulauction.renewal.common.RestResponse;
-import com.seoulauction.renewal.common.SAConst;
-import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.exception.SAException;
-import com.seoulauction.renewal.service.LoginService;
-import com.seoulauction.renewal.service.MypageService;
-import com.seoulauction.renewal.util.SecurityUtils;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.security.Principal;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @Log4j2
@@ -104,7 +97,8 @@ public class ApiMypageController {
 		commonMap.put("searchStartDt", searchStartDt);
 		commonMap.put("searchEndDt", searchEndDt);
 		
-		commonMap.put("cust_no", principal.getName());
+		commonMap.put("action_user_no", principal.getName());
+//		commonMap.put("action_user_no", 115551);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectPayListByCustNo(commonMap)));
 	}
 		
@@ -191,6 +185,7 @@ public class ApiMypageController {
 		CommonMap commonMap = new CommonMap();
 		commonMap.putPage(page, size);
 		commonMap.put("action_user_no", principal.getName());
+		//commonMap.put("action_user_no", 23094);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectBidReqList(commonMap)));
 	}
 	
@@ -202,6 +197,7 @@ public class ApiMypageController {
 		commonMap.put("sale_no", sale_no);
 		commonMap.put("lot_no", lot_no);
 		commonMap.put("action_user_no", principal.getName());
+//		commonMap.put("action_user_no", 23094);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectLiveBidReqHistoryList(commonMap)));
 	}
 
@@ -213,6 +209,7 @@ public class ApiMypageController {
 		CommonMap commonMap = new CommonMap();
 		commonMap.putPage(page, size);
 		commonMap.put("action_user_no", principal.getName());
+//		commonMap.put("action_user_no", 113248);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectLiveBidList(commonMap)));
 	}
 	
@@ -225,6 +222,7 @@ public class ApiMypageController {
 		commonMap.put("sale_no", sale_no);
 		commonMap.put("lot_no", lot_no);
 		commonMap.put("action_user_no", principal.getName());
+//		commonMap.put("action_user_no", 113248);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectLiveBidHistoryList(commonMap)));
 	}
 	@RequestMapping(value = "/liveBidHammers/{sale_no}", method = RequestMethod.GET)
@@ -234,6 +232,7 @@ public class ApiMypageController {
 		CommonMap commonMap = new CommonMap();
 		commonMap.put("sale_no", sale_no);
 		commonMap.put("action_user_no", principal.getName());
+//		commonMap.put("action_user_no", 113248);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectLiveBidHammerList(commonMap)));
 	}
 	
@@ -245,6 +244,7 @@ public class ApiMypageController {
 		CommonMap commonMap = new CommonMap();
 		commonMap.putPage(page, size);
 		commonMap.put("action_user_no", principal.getName());
+//		commonMap.put("action_user_no", 75396);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectOnlineBidList(commonMap)));
 	}
 	
@@ -256,6 +256,7 @@ public class ApiMypageController {
 		commonMap.put("sale_no", sale_no);
 		commonMap.put("lot_no", lot_no);
 		commonMap.put("action_user_no", principal.getName());
+//		commonMap.put("action_user_no", 75396);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectOnlineBidHistoryList(commonMap)));
 	}
 	
@@ -315,7 +316,7 @@ public class ApiMypageController {
 
         CommonMap resultMap = loginService.selectCustForCustSocial(paramMap);
         if(resultMap != null) {
-        	throw new SAException("이미 가입된 SNS계정입니다.");
+        	throw new SAException("이미 서울옥션에 가입 또는 연동된 소셜 계정입니다. 다른 계정으로 연동해 주세요.");
         }
         
 	    log.info("snsLink");
@@ -368,5 +369,100 @@ public class ApiMypageController {
 		}
 
 		return ResponseEntity.ok(RestResponse.ok(res));
+	}
+	
+	//회원정보조회
+	@RequestMapping(value = "/custs/{custNo}", method = RequestMethod.GET)
+	public ResponseEntity<RestResponse> cust(@PathVariable("custNo") String custNo, 
+//			@RequestParam(required = false) String socialType,
+//			@RequestParam(required = false) String socialEmail,
+			HttpServletRequest request, HttpServletResponse response) throws IOException {
+		CommonMap paramMap = new CommonMap();
+		// user정보 put 공통 함수 호출 필요.
+		paramMap.put("cust_no", custNo);
+		paramMap.put("remember_me", 'N');
+		
+		CommonMap resultMap = loginService.selectCustByCustNo(paramMap);
+		List<CommonMap> inteArtistList = mypageService.selectCustInteArtist(paramMap);
+		if(inteArtistList.size() > 0) {
+			resultMap.put("INTE_ARTIST_LIST", inteArtistList);
+		}
+		
+		return ResponseEntity.ok(RestResponse.ok(resultMap));
+	}
+	
+	//회원정보수정
+	@RequestMapping(value = "/custs/{custNo}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> custModify(@PathVariable("custNo") String custNo, 
+			@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		paramMap.put("cust_no", custNo);
+		try {
+			int result = mypageService.updateCust(paramMap);
+			result += mypageService.updateCustPushWay(custNo, paramMap.get("push_way") == null ? "" : paramMap.get("push_way").toString());
+			result += mypageService.updateCustInteArtist(custNo, paramMap.get("inte_artist") == null ? "" : paramMap.get("inte_artist").toString());
+			result += mypageService.updateCustInteArea(custNo, paramMap.get("inte_area") == null ? "" : paramMap.get("inte_area").toString());
+			return ResponseEntity.ok(RestResponse.ok());
+		} catch (Exception e) {
+			throw new SAException("회원정보 수정이 실패하였습니다.");
+		}
+	}
+
+	//회원탈퇴
+	@RequestMapping(value = "/custs/leave", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> custLeave(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+		paramMap.put("cust_no", saUserDetails.getUserNo());
+		
+		try {
+			//응찰 중이거나, 자동응찰 중이거나, 낙찰 후 결제대기 경매가 있을 경우 탈퇴불가
+			int validCheck = mypageService.custLeaveValidCheck(paramMap);
+			
+			if(validCheck > 0) {
+				throw new SAException("응찰 중이거나, 낙찰 후 결제대기 중이므로 탈퇴가 불가능합니다.");
+			}else {
+				log.info("========== cust Leave Available ==========");
+				//회원탈퇴, 고객수신방법삭제, 고객발송정보delyn=y 처리
+				int result = mypageService.deleteCust(paramMap);
+				if(result > 0) {
+					//탈퇴 성공 시 로그아웃
+					new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new SAException(e.getMessage());
+		}
+		
+		return ResponseEntity.ok(RestResponse.ok());
+	}
+	
+	@RequestMapping(value = "/interestAreas", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> interestAreas(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+		log.info(paramMap.toString());
+		List<CommonMap> resultMap = loginService.selectCode(paramMap);
+        if(resultMap != null) {
+        	log.info(resultMap.toString());
+        }
+		return ResponseEntity.ok(RestResponse.ok(resultMap));
+	}
+	
+
+	@RequestMapping(value = "/artists", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> artists(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+		log.info(paramMap.toString());
+		List<CommonMap> resultMap = mypageService.selectArtistByArtistName(paramMap);
+        if(resultMap != null) {
+        	log.info(resultMap.toString());
+        }
+		return ResponseEntity.ok(RestResponse.ok(resultMap));
+	}
+
+	@GetMapping(value = "/manager")
+	public ResponseEntity<RestResponse> manager(){
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectManager()));
 	}
 }

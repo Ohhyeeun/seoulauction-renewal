@@ -1,30 +1,23 @@
 package com.seoulauction.renewal.controller.api;
 
-import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.collections4.MapUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.seoulauction.renewal.common.RestResponse;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.service.CertificationService;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.collections4.MapUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @Log4j2
@@ -39,7 +32,10 @@ public class ApiCertificationController {
 
 	@Value("${mobile.msg.auth}")
 	String auth;
-			
+
+	@Value("${is.phone.auth.bypass}")
+	boolean isPhoneAuthBypass;
+
 	//휴대폰 인증
 	@RequestMapping(value = "/sendAuthNum", method = RequestMethod.POST)
 	@ResponseBody
@@ -59,7 +55,7 @@ public class ApiCertificationController {
 		
 		Map<String, Object> resultMap = new HashMap<>();
 
-		//현재 폰인증한 내역이 없으면 무시.
+		//현재 폰인증한 내역이 있으면 무시.
 		if (MapUtils.isEmpty(existMap)) {
 
 			commonMap.put("from_phone", callback); // 02-395-0330
@@ -75,6 +71,7 @@ public class ApiCertificationController {
 			resultMap.put("AUTH_NUM", "");
 			resultMap.put("SEND_STATUS", true);
 			resultMap.put("AUTH_EXISTS", false);
+			
 		} else { // 폰인증을 막음.
 			resultMap.put("AUTH_EXISTS", true);
 		}
@@ -86,6 +83,7 @@ public class ApiCertificationController {
 	public ResponseEntity<RestResponse> confirmAuthNumCheck(@RequestBody CommonMap commonMap, Principal principal,
 			HttpServletRequest request, HttpServletResponse response) {
 		boolean b = this.confirmAuthNumber(commonMap, request, response);
+		if(isPhoneAuthBypass) b = true;
 		if (b) {
 			return ResponseEntity.ok(RestResponse.ok(commonMap));
 		} else {
@@ -97,8 +95,7 @@ public class ApiCertificationController {
 	@ResponseBody
 	public boolean confirmAuthNumber(@RequestBody Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response) {
-		if (paramMap == null || paramMap.get("auth_num") == null || paramMap.get("auth_num").toString().equals(""))
-			return false;
+		if (paramMap == null || paramMap.get("auth_num") == null || paramMap.get("auth_num").toString().equals("")) return false;
 		BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
 		try {
 			boolean result = encode.matches(paramMap.get("auth_num").toString(),
@@ -121,12 +118,12 @@ public class ApiCertificationController {
 		}
 	}
 
-	@RequestMapping(value = "/inertSaleCert", method = RequestMethod.POST)
+	@RequestMapping(value = "/insertSaleCert", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<RestResponse> inertSaleCert(@RequestBody CommonMap commonMap, Principal principal,
+	public ResponseEntity<RestResponse> insertSaleCert(@RequestBody CommonMap commonMap, Principal principal,
 			HttpServletRequest request, HttpServletResponse response) {
 		commonMap.put("action_user_no", principal.getName());
-		return ResponseEntity.ok(RestResponse.ok(certificationService.inertSaleCert(commonMap)));
+		return ResponseEntity.ok(RestResponse.ok(certificationService.insertSaleCert(commonMap)));
 	}
 	
 	@RequestMapping(value = "/updateSaleCertHp", method = RequestMethod.POST)
@@ -136,5 +133,13 @@ public class ApiCertificationController {
 		commonMap.put("action_user_no", principal.getName());
 		return ResponseEntity.ok(RestResponse.ok(certificationService.updateSaleCertHp(commonMap)));
 	}
-	
+
+	@GetMapping(value = "/sales/{saleNo}")
+	public ResponseEntity<RestResponse> saleCert(@PathVariable("saleNo") int saleNo){
+		System.out.println(saleNo);
+		CommonMap paramMap = new CommonMap();
+		paramMap.put("sale_no", saleNo);
+
+		return ResponseEntity.ok(RestResponse.ok(certificationService.selectSaleCertInfo(paramMap)));
+	}
 }

@@ -130,6 +130,22 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 		
 		return {"price" : $scope.comma(price + totalFee), "fee" : $scope.comma(totalFee)};
 	}
+	
+	$scope.StringToJson = function(stringData) {	
+		console.log(stringData);	
+		return JSON.parse(stringData);
+	}
+	
+	$scope.bidCountToString = function(bidCount) {	
+		var bidCountToString ;
+		if(parseInt(bidCount) == 1){
+			bidCountToString= 'Single Bid';
+		} else {
+			bidCountToString = 'Bid '+bidCount;
+		}
+		console.log(bidCountToString);
+		return bidCountToString;
+	}
 		
 	
 });

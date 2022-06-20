@@ -15,9 +15,9 @@
 	<body>
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
-			<jsp:include page="../../include/ko/header.jsp" flush="false" />
+			<jsp:include page="../../include/en/header.jsp" flush="false" />
 			
-			<div id="container footer-bottom" style="margin-top:60px">
+			<div id="container" style="margin-top:60px" ng-controller="joinDoneCtl" data-ng-init="init();">
 				<div id="contents" class="contents">
 					<section class="basis-section last-section back_gray">
 		                <div class="section-inner">
@@ -34,7 +34,7 @@
 											<p class="tb1">Please verify your email address to complete membership registration.</p>
 											<div class="complete_msg">
 												<p class="tt5"><strong>Sign up email address</strong></p>
-												<p class="tt5 mt5"><em>AAA@ac.com</em></p>
+												<p class="tt5 mt5"><em>{{email}}</em></p>
 											</div>
 											<p class="tb1">If you do not receive the registration confirmation email, please check your spam folder or contact the customer center ( <a href="mailto:info@seoulauction.com">info@seoulauction.com</a> ).</p>
 										</div>
@@ -83,7 +83,7 @@
 		            </section>
 				</div>
 		    </div>
-		    <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
+		    <jsp:include page="../../include/en/footer.jsp" flush="false"/>
 			<!-- stykey -->
 
 			<div class="scroll_top-box">
@@ -95,4 +95,5 @@
 	    </div>
 	</div>
 	</body>
+	<script type="text/javascript" src="/js/customer/join.js"></script>
 </html>

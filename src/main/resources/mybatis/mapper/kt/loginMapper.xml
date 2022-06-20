@@ -31,17 +31,17 @@
 			Date_format(Now(), '%y-%m-%d'), 'Y', 'N') PASSWD_MOD_NECESSARY_YN <!-- 
 				Y시 180일 경과로 비밀번호변경필요 -->
 		</if>
-		, (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "정회원" ELSE "준회원"
-		END
-		from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_NM
-		, (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "Y" ELSE "N" END
-		from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_YN
+		, (CASE WHEN DATEDIFF(CP.valid_to_dt, Now()) <![CDATA[>=]]> 0 THEN "정회원" ELSE "준회원"
+		END) MEMBERSHIP_NM
+		, (CASE WHEN DATEDIFF(CP.valid_to_dt, Now()) <![CDATA[>=]]> 0 THEN "Y" ELSE "N" 
+		END) MEMBERSHIP_YN
 		, (select CONCAT('[', GROUP_CONCAT('"', PW.PUSH_WAY_CD, '"'), ']')
-		from CUST_PUSH_WAY PW where PW.CUST_NO = CU.CUST_NO) PUSH_WAY_JSON
-		, (select CONCAT('[', GROUP_CONCAT('"', IA.INTE_AREA_CD, '"'), ']')
-		from CUST_INTE_AREA IA where IA.CUST_NO = CU.CUST_NO) INTE_AREA_JSON
+        from CUST_PUSH_WAY PW where PW.CUST_NO = CU.CUST_NO) PUSH_WAY_JSON
+        , (select CONCAT('[', GROUP_CONCAT('"', IA.INTE_AREA_CD, '"'), ']')
+        from CUST_INTE_AREA IA where IA.CUST_NO = CU.CUST_NO) INTE_AREA_JSON
+        , IF(-11 <![CDATA[<]]> TIMESTAMPDIFF(DAY ,cp.VALID_TO_DT, NOW()) and TIMESTAMPDIFF(DAY ,cp.VALID_TO_DT, NOW()) <![CDATA[<]]> 0 , CONCAT('D',TIMESTAMPDIFF(DAY ,cp.VALID_TO_DT, NOW())) ,  DATE_FORMAT(cp.VALID_TO_DT, '%Y-%m-%d')) VALID_DATE
 		<!-- , CS.* -->
-		from CUST CU
+        from CUST CU left outer join (select CP1.* from CUST_PAY CP1 where CP1.CUST_NO = #{cust_no} order by VALID_TO_DT desc limit 1 ) CP on CP.CUST_NO = CU.CUST_NO
 		<!-- left outer join CUST_SOCIAL CS -->
 		<!-- on CU.CUST_NO = CS.CUST_NO -->
 		where 1 = 1
@@ -161,6 +161,14 @@
 		where SOCIAL_LOGIN_ID = #{socialLoginId}
 	</select>
 	
+	<select id="selectCustForIdExist" resultType="CommonMap">
+		select CUST_NO, STAT_CD, FORE_CERT_CODE, CUST_NAME, LOGIN_ID 
+		from CUST 
+		where 1 = 1 
+			and JOIN_KIND_CD = 'online'
+			and LOGIN_ID = #{loginId}
+	</select>
+	
 	<select id="selectCustForExist" resultType="CommonMap"> <!-- 탈퇴자는  카운트 제외. 웹회원만 체크 -->
 		select CUST_NO, STAT_CD, FORE_CERT_CODE, CUST_NAME, LOGIN_ID from CUST where STAT_CD &lt;&gt; 'leave'  and JOIN_KIND_CD = 'online'
 		<if test="loginId != null">
@@ -237,7 +245,8 @@
 			</if>
 			FORE_BID_REQ_YN,
 			FORE_CERT_CODE,
-			SOCIAL_YN
+			SOCIAL_YN,
+			ADDR_OLD_YN <!-- 구주소여부 -->
 		) 
 		VALUES ( 
 			#{login_id},
@@ -279,10 +288,11 @@
 			</choose>
 			<choose>
 			    <when test="social_type != null and social_type != ''">
-			        'Y'
+			        'Y',
 			    </when>
-			    <otherwise>'N'</otherwise>
+			    <otherwise>'N',</otherwise>
 			</choose>
+			'N' <!-- 구주소여부 -->
 		);
 	</insert>
 	

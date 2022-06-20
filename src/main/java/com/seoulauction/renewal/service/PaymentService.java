@@ -5,17 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.component.NicePayModule;
 import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.mapper.kt.PaymentMapper;
+import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +30,7 @@ public class PaymentService {
     private void setRefNo(HttpServletRequest request, CommonMap resultMap) {
         switch (request.getAttribute("pay_kind").toString()){
             case SAConst.PAYMENT_KIND_MEMBERSHIP:
-                resultMap.put("ref_no", "108855"); // TODO: cust_no
+                resultMap.put("ref_no", resultMap.get("cust_no")); // TODO: cust_no
                 break;
             case SAConst.PAYMENT_KIND_ACADEMY:
                 resultMap.put("ref_no", request.getParameter("academy_no"));
@@ -46,11 +45,11 @@ public class PaymentService {
     public CommonMap insertPayWait(HttpServletRequest request, CommonMap resultMap){
         setRefNo(request, resultMap);
 
-        resultMap.put("cust_no", "108855");
+        // resultMap.put("cust_no", "108855"); 이미 들어있음.
         resultMap.put("payer", resultMap.get("BuyerName"));
         resultMap.put("pay_price", resultMap.get("Amt"));
         resultMap.put("pg_trans_id", resultMap.get("TID"));
-        resultMap.put("reg_emp_no",  "108855");
+        resultMap.put("reg_emp_no",  resultMap.get("cust_no")); // 로그인한 유저 값?
 
         resultMap.put("academy_no", request.getParameter("academy_no"));
         resultMap.put("uuid", request.getAttribute("uuid"));
@@ -76,6 +75,9 @@ public class PaymentService {
 
     //실제 결제 요청이 성공적으로 된경우.
     public CommonMap insertPay(HttpServletRequest request){
+
+        SAUserDetails details = SecurityUtils.getAuthenticationPrincipal();
+
         String method = request.getParameter("PayMethod");
 
         CommonMap resultMap = new CommonMap();
@@ -95,7 +97,7 @@ public class PaymentService {
         }
 
         //공통 페이먼트 테이블 필요한 부분 미리 넣기.
-        resultMap.put("cust_no", "108855"); //TODO: 로그인 한 유저 번호 가져와야함.
+        resultMap.put("cust_no", details.getUserNo()); //TODO: 로그인 한 유저 번호 가져와야함.
         resultMap.put("pay_method", method);
         resultMap.put("pay_price", request.getParameter("Amt"));
         resultMap.put("pg_cd", SAConst.PG_NICEPAY);
@@ -114,13 +116,11 @@ public class PaymentService {
                 }
                 paymentMapper.insertAcademyPay(resultMap);
 
-                resultMap.put("reg_emp_no", "117997"); //TODO: 로그인 한 유저 번호 가져와야함.
+                resultMap.put("reg_emp_no", details.getUserNo()); //TODO: 로그인 한 유저 번호 가져와야함.
                 paymentMapper.insertAcademyReq(resultMap);
 
                 break;
             case SAConst.PAYMENT_KIND_WORK:
-                log.info("sale_no :{}", request.getParameter("sale_no"));
-                log.info("lot_no :{}", request.getParameter("lot_no"));
                 resultMap.put("sale_no", request.getParameter("sale_no"));
                 resultMap.put("lot_no", request.getParameter("lot_no"));
                 paymentMapper.insertLotPay(resultMap);
@@ -135,8 +135,13 @@ public class PaymentService {
     @Transactional("ktTransactionManager")
     public CommonMap paymentProcess(HttpServletRequest request){
 
+        SAUserDetails details = SecurityUtils.getAuthenticationPrincipal();
+
         //결제 처리 요청.
         CommonMap resultMap = nicePayModule.payProcess(request); //결제 처리
+
+        resultMap.put("cust_no" , details.getUserNo()); // 로그인한 유저 정보.
+
         String payMethod = request.getParameter("PayMethod");
 
         String mall_reserved = request.getParameter("MallReserved");
@@ -146,8 +151,6 @@ public class PaymentService {
             reservedMap = new ObjectMapper().readValue(mall_reserved, CommonMap.class);
             request.setAttribute("uuid", reservedMap.get("uuid"));
             request.setAttribute("pay_kind", reservedMap.get("pay_kind"));
-            log.info(reservedMap.get("uuid"));
-            log.info(reservedMap.get("pay_kind"));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -178,12 +181,12 @@ public class PaymentService {
 
     public CommonMap getPaymentForPayResult(String payMethod, String payId){
 
-        CommonMap resultMap = null;
-        String custNo = "108855"; //로그인한 유저정보를 가져와야함.
+        SAUserDetails details = SecurityUtils.getAuthenticationPrincipal();
 
+        CommonMap resultMap = null;
 
         CommonMap paramMap = new CommonMap();
-        paramMap.put("cust_no",custNo);
+        paramMap.put("cust_no",details.getUserNo());
         paramMap.put("pay_no", payId);
 
         if(SAConst.PAYMENT_METHOD_VBANK.equals(payMethod)){
@@ -282,10 +285,13 @@ public class PaymentService {
     }
 
     public CommonMap goPaymentResultWork(String payMethod, String payId) {
+
+        SAUserDetails details = SecurityUtils.getAuthenticationPrincipal();
+
         CommonMap resultMap = getPaymentForPayResult(payMethod, payId);
 
         CommonMap paramMap = new CommonMap();
-        paramMap.put("cust_no", "108855");
+        paramMap.put("cust_no", details.getUserNo());
         paramMap.put("pay_no", payId);
 
         if(SAConst.PAYMENT_METHOD_VBANK.equals(payMethod)){

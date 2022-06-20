@@ -1,19 +1,14 @@
 package com.seoulauction.renewal.service;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.collections.MapUtils;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
-import com.seoulauction.renewal.common.RestResponse;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.mapper.kt.LoginMapper;
-
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections.MapUtils;
+import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +22,10 @@ public class LoginService {
 
     public int insertConnHist(CommonMap paramMap){
         return loginMapper.insertConnHist(paramMap);
+    }
+    
+    public CommonMap selectCustByCustNo(CommonMap paramMap){
+        return loginMapper.selectCustByCustNo(paramMap);
     }
     
     public int updateCustPwdResetByCustNo(CommonMap paramMap){
@@ -56,6 +55,10 @@ public class LoginService {
 
     public CommonMap selectCustSocialBySocialLoginId(CommonMap paramMap){
         return loginMapper.selectCustSocialBySocialLoginId(paramMap);
+    }
+
+    public List<CommonMap> selectCustForIdExist(CommonMap paramMap){
+        return loginMapper.selectCustForIdExist(paramMap);
     }
     
     public List<CommonMap> selectCustForExist(CommonMap paramMap){

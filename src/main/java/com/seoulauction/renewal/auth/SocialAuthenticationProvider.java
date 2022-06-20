@@ -1,14 +1,10 @@
 package com.seoulauction.renewal.auth;
 
-import java.util.ArrayList;
-import java.util.List;
-
-//import com.seoulauction.common.auth.SAUserDetails;
-//import com.seoulauction.front.util.AuctionUtil;
-//import com.seoulauction.ws.dao.CommonDao;
+import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.mapper.kt.LoginMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,14 +13,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.domain.SAUserDetails;
-import com.seoulauction.renewal.mapper.kt.LoginMapper;
-
-import lombok.RequiredArgsConstructor;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Component
@@ -49,7 +40,7 @@ public class SocialAuthenticationProvider  implements AuthenticationProvider {
         CommonMap paramMap = new CommonMap();
         paramMap.put("social_type", socialType);
         paramMap.put("social_email", socialEmail);
-        CommonMap resultMap = loginMapper.selectCustForCustSocial(paramMap);;
+        CommonMap resultMap = loginMapper.selectCustForCustSocial(paramMap);
 		
         if(resultMap == null || resultMap.isEmpty()){
 			throw new BadCredentialsException("User not found.");
@@ -62,6 +53,7 @@ public class SocialAuthenticationProvider  implements AuthenticationProvider {
         if(resultMap.get("STAT_CD") != null && resultMap.get("STAT_CD").equals("not_certify")){
 			throw new BadCredentialsException("Not Certify User"); // 해외고객 이메일 미인증 STAT_CD = 'not_certify'
         }
+        String socialLoginId= resultMap.getString("SOCIAL_LOGIN_ID");
 
         paramMap.put("ip", ip);
         paramMap.put("user_no", resultMap.get("CUST_NO"));
@@ -87,10 +79,17 @@ public class SocialAuthenticationProvider  implements AuthenticationProvider {
 
         int custNo = Integer.parseInt(resultMap.get("CUST_NO").toString());
 
-        UsernamePasswordAuthenticationToken result
-                = new UsernamePasswordAuthenticationToken(custNo, null, roles);
+        UsernamePasswordAuthenticationToken result = new UsernamePasswordAuthenticationToken(custNo, null, roles);
+        
+        String addr = "";
+        if(resultMap.get("ADDR") != null) {
+        	addr = resultMap.get("ADDR").toString();
+        	if(resultMap.get("ADDR_DTL") != null) {
+        		addr += resultMap.get("ADDR_DTL").toString();
+        	}
+        }
         result.setDetails(SAUserDetails.builder()
-    			.loginId(resultMap.get("LOGIN_ID") != null ? resultMap.get("LOGIN_ID").toString() : "")
+    			.loginId(socialLoginId)
     			.password(null)
     			.userNo(custNo)
     			.authorities(roles)
@@ -98,7 +97,10 @@ public class SocialAuthenticationProvider  implements AuthenticationProvider {
     			.userNm(resultMap.get("CUST_NAME") != null ? resultMap.get("CUST_NAME").toString() : "")
     			.ip(ip)
     			.zipNo(resultMap.get("ZIPNO") != null ? resultMap.get("ZIPNO").toString() : "")
-				.addr(resultMap.get("ADDR") != null ? resultMap.get("ADDR").toString() : "" + resultMap.get("ADDR_DTL") != null ? " " + resultMap.get("ADDR_DTL").toString() : "")
+    			.addr(addr)
+    			.hp(resultMap.get("HP") != null ? resultMap.get("HP").toString() : "")
+				.email(resultMap.get("EMAIL") != null ? resultMap.get("EMAIL").toString() : "")
+				.validDate(resultMap.get("VALID_DATE") != null ? resultMap.get("VALID_DATE").toString() : "")
 				.socialYn(resultMap.get("SOCIAL_YN") != null ? resultMap.get("SOCIAL_YN").toString() : "" + resultMap.get("SOCIAL_YN") != null ? " " + resultMap.get("SOCIAL_YN").toString() : "")
 				.socialType(socialType)
 				.socialEmail(socialEmail)

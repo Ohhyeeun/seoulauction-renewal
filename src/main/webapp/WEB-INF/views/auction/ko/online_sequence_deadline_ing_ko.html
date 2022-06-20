@@ -295,7 +295,8 @@
                             <div class="content-panel type_panel-search_tab ">
                                 <div class="panel-header">
 
-                                    <div class="tab-wrap">
+                                    <!-- [0613]탭메뉴 스티키 : 클래스명(js-tabmenu-sticky) 추가 -->
+                                    <div class="tab-wrap js-tabmenu-sticky">
                                         <div class="tab-area type-left">
                                             <ul class="tab-list js-list_tab">
                                                 <li class="active"><a href="#tab-cont-1"><span>전체</span></a></li>
@@ -1110,6 +1111,28 @@
             }
             select_resize_change();
         });
+    </script>
+
+    <!-- [0613]탭메뉴 스티키 -->
+    <script>
+        $(window).scroll(function(e) {
+            var _headerH = $("header.header").height();
+            var _tabMT = $(".tab-auction-section").css("margin-top").replace(/[^-\d\.]/g, '');
+            var _eventTopPos = $(".type_panel-search_tab").offset().top - _headerH;
+            var _fixedTop = _headerH + _tabMT;
+            if ($(window).scrollTop() < (_eventTopPos)) {
+                $(".js-tabmenu-sticky").removeClass("hold_start");
+                $(".js-tabmenu-sticky").css({
+                    top: "auto"
+                });
+            } else {
+                $(".js-tabmenu-sticky").addClass("hold_start");
+                $(".js-tabmenu-sticky").css({
+                    top: _headerH,
+                    bottom: "auto"
+                });
+            }
+        })
     </script>
 
 </body>

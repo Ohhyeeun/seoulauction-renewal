@@ -1,11 +1,9 @@
 package com.seoulauction.renewal.mapper.kt;
 
-import java.util.List;
-import java.util.Map;
-
+import com.seoulauction.renewal.domain.CommonMap;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.seoulauction.renewal.domain.CommonMap;
+import java.util.List;
 
 @Mapper
 public interface CertificationMapper {
@@ -14,12 +12,17 @@ public interface CertificationMapper {
 
     List<CommonMap> selectDuplicationForJoin(CommonMap commonMap);
     
-    CommonMap selectAuthNumber(CommonMap commonMap);
+    int selectAuthNumber();
+  
+    int insertAuthNumber(CommonMap commonMap);
 
-    int inertSaleCert(CommonMap commonMap);
+    int insertSaleCert(CommonMap commonMap);
    
+    int updateCustHp(CommonMap commonMap);
+
     int updateSaleCertHp(CommonMap commonMap);
 
     int updateCustForForeAuth(CommonMap commonMap);
 
+    CommonMap selectSaleCertInfo(CommonMap paramMap);
 }

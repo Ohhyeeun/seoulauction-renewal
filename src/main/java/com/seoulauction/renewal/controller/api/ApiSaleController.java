@@ -3,20 +3,15 @@ package com.seoulauction.renewal.controller.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.seoulauction.renewal.common.RestResponse;
 import com.seoulauction.renewal.domain.Bid;
 import com.seoulauction.renewal.domain.Bidder;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
-import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.service.SaleService;
 import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,11 +19,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Array;
-import java.lang.reflect.Type;
 import java.security.Principal;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.*;
 
 @RestController
@@ -81,8 +73,9 @@ public class ApiSaleController {
         CommonMap c = new CommonMap();
         c.put("sale_no", saleNo);
 
-        CommonMap saleInfoMap = saleService.selectSaleInfo(c);
 
+
+        CommonMap saleInfoMap = saleService.selectSaleInfo(c);
         return ResponseEntity.ok(RestResponse.ok(saleInfoMap));
     }
 
@@ -113,7 +106,6 @@ public class ApiSaleController {
         // 관심정보가져오기
         CommonMap favoriteMap = saleService.selectCustInteLot(map);
 
-        log.info("favoriteMap");
         log.info(favoriteMap);
 
         if (favoriteMap == null) {
@@ -134,6 +126,8 @@ public class ApiSaleController {
         //String saleTitle = saleInfoMap.getString("")
 
         lotInfoMap.put("SALE_TITLE_JSON" , saleInfoMap.get("TITLE_JSON"));
+        lotInfoMap.put("LOT_EXPIRE_DATE_DAY" , saleInfoMap.get("LOT_EXPIRE_DATE_DAY"));
+        lotInfoMap.put("LOT_EXPIRE_DATE_TIME_T" , saleInfoMap.get("LOT_EXPIRE_DATE_TIME_T"));
 
         // sub 화폐
         String subCurrCd = String.valueOf(baseCurrency.get(currCd));
@@ -263,6 +257,9 @@ public class ApiSaleController {
             if (lotInfoMap.get("IMG_DISP_YN").equals("N")) {
                 lotImagesNewItem.put("FILE_PATH", "/images/bg/no_image.jpg");
             }
+            lotImagesNewItem.put("UNIT_CD", lotInfoMap.get("UNIT_CD"));
+            lotImagesNewItem.put("SIZE1", lotInfoMap.get("SIZE1"));
+            lotImagesNewItem.put("SIZE2", lotInfoMap.get("SIZE2"));
             lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
             lotImagesNew.add(lotImagesNewItem);
         }
@@ -351,20 +348,21 @@ public class ApiSaleController {
         return ResponseEntity.ok(RestResponse.ok(lotImagesNew));
     }
 
-    @PostMapping(value="/sale/{saleNo}/lot/{lotNo}/bid/{bidNo}/successBid")
+    @PostMapping(value="/sale/successBid/{saleNo}/{lotNo}")
     public ResponseEntity<RestResponse> successBid(
                @PathVariable("saleNo") int saleNo,
-               @PathVariable("lotNo") int lotNo,
-               @PathVariable("bidNo") int bidNo) {
+               @PathVariable("lotNo") int lotNo) {
 
         CommonMap map = new CommonMap();
-        map.put("sale_no" , saleNo);
-        map.put("lot_no" , lotNo);
-        map.put("bid_no" , bidNo);
+        CommonMap topBid = saleService.selectTopBid(map);
 
+        log.info("bid_no : {}" , topBid.get("BID_NO"));
         log.info("sale_no : {}" , saleNo);
         log.info("lotNo : {}" , lotNo);
-        log.info("bid_no : {}" , bidNo);
+
+        map.put("sale_no" , saleNo);
+        map.put("lot_no" , lotNo);
+        map.put("bid_no" , topBid.get("BID_NO"));
 
         saleService.insertSuccessBid(map);
 
@@ -376,7 +374,7 @@ public class ApiSaleController {
             @RequestBody CommonMap map, Principal principal) throws Exception {
 
         if(principal != null){
-            map.put("action_user_no", principal.getName());
+            map.put("cust_no", principal.getName());
         }
         map.put("list_type", "SEARCH");
         map.put("for_count", true);
@@ -413,10 +411,13 @@ public class ApiSaleController {
 
     @GetMapping(value="/list/{saleNo}")
     public ResponseEntity<RestResponse> list(
-            @PathVariable("saleNo") int saleNo) {
+            @PathVariable("saleNo") int saleNo,
+            @RequestParam(value = "is_live" ,defaultValue = "N") String isLive
+    ) {
 
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
+        commonMap.put("is_live" , isLive);
 
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
         if (saUserDetails != null ) {
@@ -444,6 +445,9 @@ public class ApiSaleController {
         } catch (JsonProcessingException e) {
 
         }
+
+        log.info("lotImages : {}" , lotImages.size());
+
         return ResponseEntity.ok(RestResponse.ok(lotImages));
    }
     @RequestMapping(value = "/lotTag/{saleNo}", method = RequestMethod.GET)
@@ -454,5 +458,23 @@ public class ApiSaleController {
         commonMap.put("sale_no", saleNo);
 
         return ResponseEntity.ok(RestResponse.ok(saleService.selectLotTagList(commonMap)));
+    }
+
+    @RequestMapping(value = "/insertbid", method = RequestMethod.POST)
+    public ResponseEntity<RestResponse> insertBid(
+            @RequestBody CommonMap map
+    ){
+        //map.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
+        log.info("map : {}" , map);
+        saleService.insertBid(map);
+
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
+    @GetMapping("/cust")
+    public ResponseEntity<RestResponse> cust() {
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
+        return ResponseEntity.ok(RestResponse.ok(saleService.getCustomerByCustNo(paramMap)));
     }
 }

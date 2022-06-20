@@ -16,6 +16,14 @@ $(window).on("load", function() {
 	}
 });
 
+function goPost(){
+    let f = document.createElement('form');
+    f.setAttribute('method', 'post');
+    f.setAttribute('action', '/mypage/custModify');
+    document.body.appendChild(f);
+    f.submit();
+}
+
 /* 개인회원 */
 // 비밀번호 입력 event
 function passwdKeyUp() {
@@ -23,11 +31,18 @@ function passwdKeyUp() {
 		$("#modifyButton").removeAttr('disabled');
 		$("#modifyButton").removeClass('btn_gray');
 		$("#modifyButton").addClass('btn_point');
+		enterKey();
 	}else{
 		$("#modifyButton").attr('disabled', true);
 		$("#modifyButton").removeClass('btn_point');
 		$("#modifyButton").addClass('btn_gray');
 	}	
+}
+
+function enterKey(){
+    if(window.event.keyCode == 13){
+        passwdConfirm();
+    }
 }
 
 // 회원번호수정 페이지이동
@@ -44,10 +59,10 @@ function passwdConfirm() {
 				if (langType == 'ko') {
 					$("#passwdMsg").html("비밀번호가 일치하지 않습니다. 비밀번호를 다시 확인해주세요.");
 				} else {
-					$("#passwdMsg").html("비밀번호가 일치하지 않습니다. 비밀번호를 다시 확인해주세요.");
+					$("#passwdMsg").html("Passwords do not match. Please check your password again.");
 				}
 			}else{
-				location.href = "/mypage/custModify";
+				goPost();
 			}
 		})
 		.catch(function(error){
@@ -60,8 +75,7 @@ function passwdConfirm() {
 function passwdCancel() {
 	var backPage = document.referrer;
 	if(backPage.indexOf('/mypage/') > -1
-		&& backPage.indexOf('/mypage/custModify') == -1
-		&& backPage.indexOf('/mypage/custConfirm') == -1){
+		&& backPage.indexOf('/mypage/custModify') == -1){
 		history.go(-1);
 	}else{
 		location.href = '/mypage/liveBidReqList';
@@ -73,8 +87,12 @@ function passwdCancel() {
 // session의 socialEmail가 같으면 회원정보수정페이지로 이동
 function socialConfirm(snsEmail) {
 	if(snsEmail === socialEmail){
-		alert("연결 되었습니다.");
-		location.href = "/mypage/custModify";
+		if(langType == 'ko'){
+			alert("연결 되었습니다.");
+		}else{
+			alert("Connected.");
+		}
+		goPost();
 	}	
 }
 
@@ -88,6 +106,7 @@ if(socialYn == 'Y'){
 			auth2 = gapi.auth2.init({
 				client_id: '5285017753-1tkl3r19jc3e7hesflsm0jj9uhgm7f4j.apps.googleusercontent.com',
 				cookiepolicy: 'single_host_origin',
+				plugin_name: 'SA-Renewal'
 			});
 			attachClickGoogle(document.getElementById('googleIdLogin'));
 		});
@@ -98,7 +117,7 @@ if(socialYn == 'Y'){
 	// 네이버초기화
 	naverLogin = new naver.LoginWithNaverId({
 		clientId: "5qXZytacX_Uy60o0StGT",
-		callbackUrl: "https://local.seoulauction.com:9000/social/naver/callback?action=socialConfirm",
+		callbackUrl: socialServiceDomain + "/social/naver/callback?action=socialConfirm",
 		isPopup: true,
 		loginButton: {
 			color: "green",
@@ -113,7 +132,7 @@ if(socialYn == 'Y'){
 	AppleID.auth.init({
 		clientId: 'com.seoulauction.renewal-web',
 		scope: 'name email',
-		redirectURI: 'https://local.seoulauction.com:9000/api/login/auth/apple',
+		redirectURI: socialServiceDomain + '/api/login/auth/apple',
 		state: 'SARenewal',
 		usePopup: true
 	});
