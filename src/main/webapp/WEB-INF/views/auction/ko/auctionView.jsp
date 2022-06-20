@@ -922,11 +922,17 @@
                     view_visual.update();
                 });
 
-                let lot_images = $scope.lotImages;
+                let sale_images = $scope.saleImages;
 
-                $.each(lot_images, function (index, el) {
-                    let size1 = el.SIZE1;
-                    let size2 = el.SIZE2;
+                $.each(sale_images, function (index, el) {
+                    let size1 = 0;
+                    let size2 = 0;
+                    let lot_no = el.LOT_NO;
+                    if (el.LOT_SIZE_JSON.length > 0) {
+                        size1 = el.LOT_SIZE_JSON[0].SIZE1;
+                        size2 = el.LOT_SIZE_JSON[0].SIZE2;
+
+                    }
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
                     let swiper_slide_item = `<div class="swiper-slide">
                                             <div class="img-area">
@@ -934,13 +940,14 @@
                                                     <div class="size_x"><span>` + size1 + `</span></div>
                                                     <div class="size_y"><span>` + size2 + `</span></div>
                                                     <div class="images">
-                                                        <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `" size2="` + size2 + `"/>
+                                                        <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + lot_no + `" />
                                                     </div>
                                                 </div>
                                             </div>
                   </div>`
                     $("#swiper-wrapper").append(swiper_slide_item);
                 });
+                $("#view_lot_no").html("LOT 1");
 
                 /* 스와이퍼 */
                 var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
@@ -965,10 +972,14 @@
                 $('.view_paging-area .page_prev').on('click', function ($e) {
                     $e.preventDefault();
                     imageViewer.slidePrev();
+                    $("#view_lot_no").html("LOT " + $(".swiper-slide-active .imageViewer").attr('lot_no'));
+
                 })
                 $('.view_paging-area .page_next').on('click', function ($e) {
                     $e.preventDefault();
                     imageViewer.slideNext();
+                    $("#view_lot_no").html("LOT " + $(".swiper-slide-active .imageViewer").attr('lot_no'));
+
                 })
 
                 /* PC,MB images resize */
