@@ -6,9 +6,10 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <body class="">
 <div class="wrapper">
+    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
     <div class="sub-wrap pageclass type-details_view">
         <jsp:include page="../../include/ko/header.jsp" flush="false"/>
-        <link rel="stylesheet" href="/css/plugin/csslibrary.css">
+
         <!-- container -->
         <div id="container" ng-controller="ctl" data-ng-init="load();">
             <div id="contents" class="contents">
@@ -236,7 +237,7 @@
                                             <div class="desc">
                                                 {{lotInfo.MATE_NM_EN}} <br/>
                                                 <span ng-repeat="size in lotInfo.LOT_SIZE_JSON">
-                                                        <span>{{::size.SIZE1}}X{{::size.SIZE2}}X{{::size.SIZE3}}cm</span>
+                                                        <span ng-bind="size | size_text_cm"></span>
                                                     </span><br/>
                                                 <span bind-html-compile="lotInfo.SIGN_INFO_JSON.ko"></span>
                                             </div>
@@ -456,11 +457,6 @@
                                                 <div class="select-box ">
                                                     <!-- disabled 옵션 -->
                                                     <select class="select2Basic56_line" id="reservation_bid">
-                                                        <option value="1800000">KRW 1,800,000</option>
-                                                        <option value="1900000">KRW 1,900,000</option>
-                                                        <option value="2000000">KRW 2,000,000</option>
-                                                        <option value="2100000">KRW 2,100,000</option>
-                                                        <option value="2200000">KRW 2,200,000</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -1141,9 +1137,9 @@
         let datet = new Date();
         let url = '';
         if (window.location.protocol !== "https:") {
-            url = new WebSocket("https://dev-bid.seoulauction.xyz/bid");
+            url = "http://dev-bid.seoulauction.xyz/bid";
         } else {
-            url = new WebSocket("https://dev-bid.seoulauction.xyz/bid");
+            url = "https://dev-bid.seoulauction.xyz/bid";
         }
 
         let response = await fetch(url, {
@@ -1171,9 +1167,9 @@
         let val = document.getElementById("bid_new_cost_val").getAttribute("value");
         let url = '';
         if (window.location.protocol !== "https:") {
-            url = new WebSocket("https://dev-bid.seoulauction.xyz/bid");
+            url = "http://dev-bid.seoulauction.xyz/bid";
         } else {
-            url = new WebSocket("https://dev-bid.seoulauction.xyz/bid");
+            url = "https://dev-bid.seoulauction.xyz/bid";
         }
         let response = await fetch(url, {
             method: "POST",
@@ -1255,7 +1251,6 @@
         let d = JSON.parse(evt.data);
 
         if (d.msg_type == packet_enum.init) {
-
             // 현재 접속 세일/랏 정보
             connect_info.token = d.message.token
             connect_info.sale_no = saleNo;
@@ -1264,7 +1259,7 @@
             connect_info.cust_no = custNo;
 
             let init_func_manual = async function (req) {
-                let response = await fetch('http://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/init', {
+                let response = await fetch('http://dev-bid.seoulauction.xyz/init', {
                     method: "POST",
                     body: JSON.stringify({
                         token: req.message.token,
@@ -1272,6 +1267,7 @@
                         lot_no: lotNo,
                         sale_type: saleType,
                         user_id: userId,
+                        cust_no: custNo,
                     }),
                 });
                 return response;
@@ -1328,7 +1324,7 @@
                             let li = document.createElement("li");
 
                             let user_id_ly = document.createElement("div");
-                            if (bid_hist_info.user_id === "KYUNGHOON" ){
+                            if (bid_hist_info.cust_no === custNo ){
                                 user_id_ly.setAttribute("class", "product-user on_green");
                             } else {
                                 user_id_ly.setAttribute("class", "product-user");
@@ -1402,6 +1398,8 @@
             }
 
         } else if (d.msg_type == packet_enum.bid_info_init) {
+
+
             if (d.message.bids != null && d.message.bids.length > 0) {
                 let bid_info = d.message.bids[0];
 
@@ -1441,6 +1439,37 @@
                     bid_info.open_bid_cost :
                     bid_info.bid_cost) + bid_info.bid_quote);
 
+
+                let cost_tmp = (bid_info.bid_cost === 0) ?
+                    bid_info.open_bid_cost :
+                    bid_info.bid_cost;
+
+                let quoute_arr = [];
+
+                if (d.message.quotes != null && d.message.quotes.length > 0) {
+                    let cnt = 0;
+                    let viewCnt = 0;
+                    while( viewCnt < 70 ) {
+                        if (cnt > d.message.quotes.length - 1) {
+                            quoute_arr.push(cost_tmp)
+                            cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
+                            viewCnt++;
+                            continue
+                        }
+                        if (d.message.quotes[cnt].cost > cost_tmp){
+                            quoute_arr.push(cost_tmp)
+                            cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
+                            cnt = 0;
+                            viewCnt++;
+                            continue
+                        }
+                        cnt++
+                    }
+                    $.each(quoute_arr, function(idx, el) {
+                        $("#reservation_bid").append(`<option value="` + el +`">KRW ` + el.toLocaleString('ko-KR') +`</option>`);
+                    });
+                }
+
                 let item = '';
 
                 if (d.message.bids_hist != null && d.message.bids_hist.length > 0) {
@@ -1454,7 +1483,7 @@
                                     let li = document.createElement("li");
 
                                     let user_id_ly = document.createElement("div");
-                                    if (bid_hist_info[i].value[j].user_id === "KYUNGHOON") {
+                                    if (bid_hist_info[i].value[j].cust_no === custNo) {
                                         user_id_ly.setAttribute("class", "product-user on_green");
                                     } else {
                                         user_id_ly.setAttribute("class", "product-user");
