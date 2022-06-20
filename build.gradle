@@ -37,7 +37,7 @@ dependencies {
     implementation 'javax.servlet:jstl'
     implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
     implementation 'org.springframework.security:spring-security-taglibs'
-    //developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     //db
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
@@ -77,7 +77,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE'
 
     //static파일 수정시 서버 자동 재시작
-    //implementation 'org.springframework.boot:spring-boot-devtools'
+    implementation 'org.springframework.boot:spring-boot-devtools'
 
     //webClient
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
