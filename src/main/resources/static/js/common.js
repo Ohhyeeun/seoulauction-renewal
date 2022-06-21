@@ -144,7 +144,9 @@ $(function(){
     /*gnb menu */
     let gnb = $(this).index();
     if(matchMedia("all and (min-width: 1024px)").matches) {
+
         $('.header_gnbmenu>li>a').mouseenter(function(){
+
             $('.main-contents').click(function(){
                 $(".submenuBg").stop().slideUp();
                 $('.header_gnbmenu>li>a').removeClass('on');
@@ -193,6 +195,7 @@ $(function(){
         // });
 
     } else { /* 테블릿 */
+
         $('.header_gnbmenu>li>a').mouseenter(false);
         $(".submenuBg").mouseleave(false);
 
@@ -214,6 +217,9 @@ $(function(){
                 });
 
                 $('.subGnbmenu-tit').click(function(){
+
+                    console.log('fffff');
+
                     let Mobilegnb = $(this).index();
 
                     $('.gnbmenu_arrow>span').removeClass('on');
@@ -844,6 +850,160 @@ function enDayToHanDay(enDay){
 
 /* 반응형 resize */ 
 $(window).resize(function(){
+
+    let gnb = $(this).index();
+
+    console.log('gnb :' + gnb);
+
+     $('.submenuBg').hide();
+
+
+    if(matchMedia("all and (min-width: 1024px)").matches) {
+
+        console.log('asdfasdf');
+
+        // if($('.submenuBg').show()){
+        //     $('.submenuBg').hide();
+        // }
+
+        $('.header_gnbmenu>li>a').off('mouseenter');
+        $('.header_gnbmenu>li>a').mouseenter(function(){
+
+            $('.main-contents').click(function(){ /* 외부 클릭시 닫기 */
+                $(".submenuBg").stop().slideUp('fast', function(){
+                    $(this).css({'top':'61px'});
+                });
+                $('.header_gnbmenu>li>a').removeClass('on');
+            });
+
+            $('.submenuBg').css({'right':'auto','height':'auto','background-color':'#f2f2f2','top':'61px'}).stop().slideDown();
+
+            /*$('.gnb_submenuBg').removeClass('on').css({'right':'-100%'}); */
+            $('.gnb_submenuBg').show(function(){
+                $(this).css({'right':'-100%'});
+            });
+
+           // $('.subGnbmenu-tit').unbind().click();
+            $('.gnbmenu_arrow').removeClass('on');
+            /*$('.submenu').unbind.stop().slideUp(); */
+            $('.submenu').css({'display':'block'});
+
+
+            $('.header_gnbmenu>li>a').removeClass('on');
+            $(".submenuBg").stop().slideDown();
+            $(this).eq(gnb).addClass('on');
+        });
+
+        $(".submenuBg").mouseleave(function(){
+            $(".submenuBg").stop().slideUp();
+            $('.header_gnbmenu>li>a').removeClass('on');
+        });
+
+        $('.bubble-box').mouseleave(function(){
+            $(this).removeClass('on');
+            $('.utility-lang>a').removeClass('on');
+        });
+
+        $('.utility-tab').mouseleave(function(){
+            $(this).children('a').removeClass('on');
+            $('.bubble-box').removeClass('on');
+        });
+
+        $('.gnb_submenuBg').hide();
+
+        $('.header_beltbox.on').show(function(){
+            $('.main-contents').css('margin-top','162px');
+        });
+        $('.beltclose-btn').click(function(){
+            $('.header_beltbox').stop().slideUp(400);
+            $('.main-contents').css('margin-top','102px');
+            $('.header_beltbox').removeClass('on');
+        });
+
+        /* 오프라인 라이브응찰 화면(pc) */
+        $('.bidding_pc').show();
+        $('.bidding_mo').hide();
+
+    } else {
+
+        //서브 메뉴 클릭.
+        $('.subGnbmenu-tit').off('click');
+        $('.subGnbmenu-tit').click(function(){
+
+
+            let Mobilegnb = $(this).index();
+
+            $('.gnbmenu_arrow>span').removeClass('on');
+            $('.gnbmenu_arrow').removeClass('on');
+            $('.submenu').stop().slideUp();
+
+
+            $('.gnbmenu_arrow>span').eq(Mobilegnb).toggleClass('on');
+            $('.gnbmenu_arrow').eq(Mobilegnb).addClass('on');
+            $('.submenu').eq(Mobilegnb).stop().slideDown();
+
+            $('.modebox').removeClass('on');
+        });
+
+        /* 테블릿 */
+        $('.m-gnbmenu').click(function(){
+            $('.submenuBg').show(function(){
+                $('.submenuBg').css({
+                    'right':'0',
+                    'height':'100vh',
+                    'transition':'.1s',
+                    'top': '-43px',
+                });
+
+                $(this).unbind().mouseleave(function(t){
+                    t.stopPropagation();
+                    /* t.preventDefault();
+                    $('.submenuBg').click(false);*/
+                });
+
+                $('.gnb_submenuBg').click(function(){
+                    $('.submenuBg').css({'right':'-100%', 'transition':'.3s'});
+                    $(this).css({'right':'-100%', 'transition':'.2s','display':'none'});
+                    $('.gnb_submenuBg').css('overflow','visible');
+                });
+
+                $('.header_beltbox').hide(function(){
+                    $('.submenuBg').css({
+                        'top': '0',
+                    });
+                    $('.main-contents').css({'margin-top':'56px'})
+                });
+            });
+            /* 띠배너 beltbanner */
+            $('.header_beltbox.on').show(function(){
+                $('.main-contents').css('margin-top','100px');
+            });
+            $('.beltclose-btn').click(function(){
+                $('.main-contents').css('margin-top','56px');
+                $('.gnb_submenuBg').css('overflow','visible');
+            });
+
+            /* 오프라인 라이브응찰 화면(mobile) */
+            $('.bidding_mo').show();
+            $('.bidding_pc').hide();
+        });
+
+        /*$(".submenuBg").mouseleave(false);*/
+
+        /* 띠배너 beltbanner */
+        $('.header_beltbox.on').show(function(){
+            $('.main-contents').css('margin-top','100px');
+        });
+        $('.beltclose-btn').click(function(){
+            $('.main-contents').css('margin-top','56px');
+            $('.gnb_submenuBg').css('overflow','visible');
+            $('.header_beltbox').removeClass('on');
+        });
+        /* 오프라인 라이브응찰 화면(mobile) */
+        $('.bidding_pc').hide();
+        $('.bidding_mo').show();
+    };
+
     /*top search place holder*/
     const windowWidth1279 = window.matchMedia('screen and (min-width:1279px)');
     const windowWidth1024 = window.matchMedia('screen and (min-width:1024px)');
