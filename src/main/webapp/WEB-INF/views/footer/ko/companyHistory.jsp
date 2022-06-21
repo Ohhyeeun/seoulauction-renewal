@@ -83,10 +83,10 @@
                                                         </div>
                                                         <div class="history-item">
                                                             <figure>
-                                                                <img src="/images/pc/footer/histroy_2022_02.png" alt="산불 피해 이재민 돕기 자선경매">
+                                                                <img src="/images/pc/footer/histroy_2022_02.png" alt="산불 피해 이재민 돕기 온라인 자선경매">
                                                                 <figcaption>
                                                                     <ul>
-                                                                        <li>산불 피해 이재민 돕기 자선경매</li> 
+                                                                        <li>산불 피해 이재민 돕기 온라인 자선경매</li>
                                                                     </ul>
                                                                 </figcaption>
                                                             </figure>
