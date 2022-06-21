@@ -49,9 +49,9 @@
                                             <article class="item-article">
                                                 <div class="image-area">
                                                     <figure class="img-ratio">
-                                                        <div class="img-align">
+                                                        <a href="javascript:void(0)" class="img-align" ng-click="goScheduledAuction(auction.SALE_NO);">
                                                             <img ng-src="<spring:eval expression="@environment.getProperty('image.root.path')" />{{auction.SALE_IMG_NAME ? (auction.SALE_IMG_PATH + '/' + auction.SALE_IMG_NAME)  : (auction.LOT_IMG_NAME | imagePath : auction.LOT_IMG_PATH : true)}}" alt="">
-                                                        </div>
+                                                        </a>
                                                     </figure>
                                                 </div>
                                                 <div class="typo-area">
