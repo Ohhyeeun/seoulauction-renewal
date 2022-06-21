@@ -59,7 +59,7 @@
                                                             <dt>
                                                                 <div class="title-area">
                                                                     <div class="title tt4 line-1">
-                                                                        <span>{{pl[1][0].SALE_TITLE_KR}}</span>
+                                                                        <span>{{pl[1][0].SALE_TH}}{{pl[1][0].SALE_TH_DSP}} {{pl[1][0].SALE_TITLE_KR}}</span>
                                                                     </div>
                                                                     <div class="desc tb1">
                                                                         <span class="tit">경매일</span>

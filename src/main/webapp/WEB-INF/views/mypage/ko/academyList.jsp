@@ -6,13 +6,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
 
-<body class="">
+<body class="" ng-controller="academyListCtl" data-ng-init="loadAcademyList(1)">
 	<div class="wrapper" ng-app="myApp">
 		<div class="sub-wrap pageclass">
 			<jsp:include page="../../include/ko/header.jsp" flush="false" />
 			<script type="text/javascript" src="/js/mypage/academy.js"></script>
             <!-- container -->
-            <div id="container" class="academy" ng-controller="academyListCtl" data-ng-init="loadAcademyList(1)">
+            <div id="container" class="academy" >
                 <div id="contents" class="contents">
 
                     <section class="basis-section last-section mypage-section">
@@ -140,58 +140,6 @@
                     </section>
 
                 </div>
-                 <!-- 팝업 : 결제완료 -->
-    <div id="popup_myacademy_pay-wrap" class="trp popupfixed-wrap myacademy_pay-popup">
-        <div class="popup-dim"></div>
-        <div class="popup-align mode-md mode-mb_full">
-            <div class="popup-vertical">
-                <div class="popup-layer">
-
-                    <div class="pop-panel">
-                        <div class="pop-header">
-                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
-                            <div class="title-box">
-                                <span class="txt_title type-big">결제 정보</span>
-                            </div>
-                        </div>
-                        <div class="pop-body">
-                            <section class="section scroll-type">
-                                <article class="article-area">
-                                    <div class="academy-pay-wrap tb1">
-                                        <div class="detail-wrap">
-                                            <dl>
-                                                <dt><span>수강료</span></dt>
-                                                <dd><span>KRW {{academyPay}}</span></dd>
-                                            </dl>
-                                            <dl>
-                                                <dt><span>할인금액</span></dt>
-                                                <dd><span>KRW {{academyPayDiscount}}</span></dd>
-                                            </dl>
-                                        </div>
-                                        <div class="total-wrap">
-                                            <dl>
-                                                <dt><span>총 결제금액</span></dt>
-                                                <dd>
-                                                    <span class="pay-amount">KRW {{academyPayTotal}}</span>
-                                                    <span class="pay-method">{{academyPayMethodCd}}</span>
-                                                </dd>
-                                            </dl>
-                                        </div>
-                                    </div>
-                                </article>
-                                <div class="button-area">
-                                    <div class="btn_set-float tac">
-                                        <a class="btn btn_point js-closepop" href="#" id="confirm" role="button"><span>확인</span></a>
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
             </div>
             <!-- //container -->
 
@@ -222,27 +170,8 @@
 
 
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
-    <script>
-        (function() {
-            var popup_marketing1 = $(".js-popup_myacademy_pay").trpLayerFixedPopup("#popup_myacademy_pay-wrap");
-            $(popup_marketing1.getBtn).on("click", function($e) {
-                $e.preventDefault();
-                popup_marketing1.open(this); // or false   
-                popup_fixation("#popup_myacademy_pay-wrap"); // pc 스크롤
-                popup_motion_open("#popup_myacademy_pay-wrap"); // mb 모션 
-            });
-
-            $("body").on("click", "#popup_myacademy_pay-wrap .js-closepop, #popup_myacademy_pay-wrap .popup-dim, .confirmBtn", function($e) {
-                $e.preventDefault();
-                popup_marketing1.close();
-                popup_motion_close("#popup_myacademy_pay-wrap");
-            });
-
-            $(".js-history_back").click(function() {
-                window.history.back();
-            })
-        })();
-    </script>
+    <!-- 팝업 : 결제완료 -->
+	<jsp:include page="popup/academyPayPopup.jsp"/>
 </body>
 
 </html>

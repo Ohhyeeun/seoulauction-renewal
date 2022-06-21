@@ -57,9 +57,7 @@
 			</div>     
         </sec:authorize>  
 		</div>
-        
-                       
-                         
+    
 		<div class="mypage-lnb-wrap">
 			<div class="mypage-lnb">
 				<ul class="cate1">
@@ -92,9 +90,6 @@
 		</div>
 	</div>
 </aside>
-<script>
-
-</script>
 
 <!-- 팝업 : 정회원 결제 이력 -->
     <div id="popup_memlv2_record-wrap" class="trp popupfixed-wrap memlv2_record-popup" >
