@@ -31,9 +31,6 @@
                             </div>
                         </div>
                     </section>
-
-
-
                     <section class="basis-section bbs-section">
                         <div class="section-inner">
                             <div class="content-panel type_panel-board">
@@ -52,7 +49,7 @@
                                                 <tr>
                                                     <th>이름<i>*</i></th>
                                                     <td>
-                                                        <input type="text" class="textType">
+                                                        <input id="recruit_form_name" type="text" class="textType" value="${member.userNm}">
                                                         <p class="form_alert">
                                                             ※ 이름을 정확하게 입력해 주세요.
                                                         </p>
@@ -60,7 +57,7 @@
                                                 </tr>
                                                 <tr>
                                                     <th>이메일 <i>*</i></th>
-                                                    <td><input type="email" class="textType">
+                                                    <td><input id="recruit_form_email" type="email" class="textType" value="${member.email}">
                                                         <p class="form_alert">
                                                             ※ 이메일 주소를 정확하게 입력해 주세요.
                                                         </p>
@@ -70,7 +67,7 @@
                                                     <th>휴대폰 <i>*</i></th>
                                                     <td>
                                                         <div>
-                                                            <input type="text" class="textType">
+                                                            <input id="recruit_form_phone" type="text" class="textType" value="${member.hp}">
                                                         </div>
                                                         <!-- <p class="form_alert" style="display: block;">
 																※ 휴대폰 번호 인증에 성공하였습니다.
@@ -80,15 +77,13 @@
                                                 <tr class="file_row">
                                                     <th>첨부파일 <i>*</i></th>
                                                     <td>
-                                                        <!-- [0516] 수정 : 파일선택 버튼 -->
-                                                        <div class="trp file-box">
+                                                        <div id="file_box" class="trp file-box">
                                                             <label for="fileName" class="screen-reader-text">파일 선택</label>
                                                             <input type="text" id="fileName" class="trp-Filetext">
-                                                            <input type="button" class="btn btn_light_gray_line" value="파일첨부">
-                                                            <input type="file" class="trp-Filehidden" onchange="javascript: document.getElementById('fileName').value = this.value" title="Insert Attachment">
+                                                            <input  type="button" class="btn btn_light_gray_line" value="파일첨부">
+                                                            <input id="recruit_file" type="file" class="trp-Filehidden" title="Insert Attachment">
                                                         </div>
-                                                        <!-- //[0516] 수정 : 파일선택 버튼 -->
-                                                        <!-- [0516]삭제 <button class="btn btn_light_gray_line file-btn" type="button"><span>파일선택</span></button> -->
+                                                        <div id="current_file"></div>
                                                         <div class="mark_list-wrap">
                                                             <ul class="mark_dot-list">
                                                                 <li>20 MB 이하의 1개 파일 첨부가 가능합니다.</li>
@@ -108,9 +103,9 @@
                                                 <div class="header-area">
                                                     <div class="accordion_name">
                                                         <div class="trp checkbox-box">
-                                                            <input id="" class="" type="checkbox" name="">
+                                                            <input id="info_check" class="" type="checkbox" name="">
                                                             <i></i>
-                                                            <label for=""><span class="required">개인정보수집 및 이용동의(필수)</label>
+                                                            <label for="info_check"><span class="required">개인정보수집 및 이용동의(필수)</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -135,8 +130,8 @@
                                 <div class="panel-footer">
                                     <article class="button-area">
                                         <div class="btn_set-float tac">
-                                            <a class="btn btn_gray_line btn_lg" href="#" role="button"><span>취소</span></a>
-                                            <a class="btn btn_point btn_lg" href="#" role="button"><span>지원</span></a>
+                                            <a class="btn btn_gray_line btn_lg" href="/footer/recruit/${id}" role="button"><span>취소</span></a>
+                                            <a id="recruit_btn" class="btn btn_point btn_lg"  role="button"><span>지원</span></a>
                                         </div>
                                     </article>
                                 </div>
@@ -180,10 +175,113 @@
     <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
     <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-    <!-- [0516]삭제
-  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
--->
+    <script>
+        $(function(){
 
+            let fileVal;
+            let current_file;
+
+            $("#recruit_file").on('change',function (){
+
+                current_file = $(this);
+                fileVal = current_file.val();
+
+                if(fileVal !=='') {
+                    let ext = fileVal.split('.').pop().toLowerCase();
+                    let fileName = fileVal.split('\\').pop().toLowerCase();
+
+                    if ($.inArray(ext, ['hwp', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx', 'pdf', 'txt', 'zip', 'alz']) == -1) {
+                        alert('hwp , doc, docx, ppt, pptx, xls, xlsx, pdf, txt, zip, alz 파일만 \n업로드 할수 있습니다.');
+                        return;
+                    }
+                    $("#current_file").html('첨부 파일 : ' + fileName);
+                }
+
+            });
+
+            $("#recruit_btn").on('click',function (){
+                form();
+            });
+
+            function form(){
+
+                let form_name = $("#recruit_form_name").val();
+                let form_email = $("#recruit_form_email").val();
+                let form_phone = $("#recruit_form_phone").val();
+
+                let checkboxCheck = $("#info_check").is(':checked');
+
+
+                //valid
+                if(!form_name){
+                    alert('이름을 입력해주세요.');
+                    return;
+                }
+
+                if(!form_email){
+                    alert('이메일을 입력해주세요.');
+                    return;
+                }
+
+                if(!form_phone){
+                    alert('휴대폰을 입력해주세요.');
+                    return;
+                }
+
+                let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+                if(!regEmail.test(form_email)){
+                    alert('이메일 형식이 아닙니다.');
+                    return;
+                }
+
+                // if(form_phone.length !== 11){
+                //     alert('휴대폰 11자리를 입력해주세요.');
+                //     return;
+                // }
+
+
+                if(!current_file){
+                    alert('파일을 등록해주세요.');
+                    return;
+                }
+
+                if(!checkboxCheck){
+                    alert('개인정보 동의를 해주세요.')
+                    return;
+                }
+
+                let obj = {};
+                obj.name = form_name;
+                obj.email = form_email;
+                obj.phone_number = form_phone;
+
+
+                const frm = new FormData()
+                frm.append('file', current_file[0].files[0]);
+                frm.append('key', new Blob([JSON.stringify(obj)] , { type: "application/json" }));
+
+                    axios.post('/api/footer/recruits/${id}/form',frm ,{
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                    .then(function(response) {
+                        const data = response.data;
+                        let success = data.success;
+                        if(success){
+
+                            alert('정상 접수 되었습니다. \n지원해주셔서 감사합니다.');
+                            location.href= '/footer/recruit';
+                        } else {
+                            alert('서버에서 오류가 발생 하였습니다.');
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            }
+        });
+    </script>
 
 
 </body>

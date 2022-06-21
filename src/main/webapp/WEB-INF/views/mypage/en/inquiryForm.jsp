@@ -4,6 +4,20 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<head>
+    <!-- header -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>마이페이지 | Seoul Auction</title>
+    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+    <!-- //header -->
+</head>
 <body class="">
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
@@ -37,7 +51,7 @@
 											</div>
 											<div class="contents-wrap">
 												<article class="tit-textbox">
-													 <p class="tb1">
+													<p class="tb1">
                                                         Please contact us if you have any questions about using Seoul Auction. You can check the answer in My Page > 1:1 Inquiry. Inquiries about Korean modern and ancient art and overseas art will be answered within 7 days after reviewing whether the auction can be held.
                                                     </p>
 												</article>
@@ -56,7 +70,7 @@
 																	<div class="col_select">
 																		<div class="select-box half">
 																			<select name="category1" id="category1"
-																				class="select2Basic" ng-model="form_data.cate1"
+																				class="" ng-model="form_data.cate1"
 																				ng-change="changeCate1()">
 																				<option value="">Choose</option>
 																				<option
@@ -66,7 +80,7 @@
 																		</div>
 																		<div class="select-box half">
 																			<select name="category2" id="category2"
-																				class="select2Basic" ng-model="form_data.cate2"
+																				class="" ng-model="form_data.cate2"
 																				ng-if="inqCate2 != undefined && inqCate2.length > 0">
 																				<option value="">Choose</option>
 																				<option ng-repeat="code in inqCate2"
@@ -81,7 +95,7 @@
 																	<label for="" class="">Email</label> <i>*</i>
 																</div>
 																<div class="td">
-																	<input type="text" name="email1" id="emailAccount"
+																	<input type="text" name="email1" id="emailAccount" 
 																		class="form-control half" value="{{custInfo.EMAIL}}"
 																		placeholder="">
 																</div>
@@ -91,7 +105,7 @@
 																	<label for="" class="">Mobile Number</label> <i>*</i>
 																</div>
 																<div class="td">
-																	<input type="text" name="hp" id="hp"
+																	<input type="text" name="hp" id="hp" 
 																		class="form-control half" maxlength="13"
 																		value="{{custInfo.HP}}" placeholder="">
 																</div>
@@ -105,8 +119,8 @@
 																		<div class="input-byte">
 																			<input type="text" name="inquiry_subject"
 																				id="inquirySubject" ng-model="form_data.title"
-																				class="form-control" value="" placeholder="">
-																			<div class="byte_check">
+																				class="form-control" value="" placeholder="" data-id="inquirySubject" data-size=100>
+																			<div class="byte_check" id="inquirySubject_length">
 																				<em>0</em> <span>/ 100</span>
 																			</div>
 																		</div>
@@ -115,8 +129,8 @@
 																		<div class="textarea-box byte">
 																			<textarea name="inquiry_subject" id="inquirySubject"
 																				ng-model="form_data.title" cols="30" rows="10"
-																				style="height: 86px"></textarea>
-																			<div class="byte_check">
+																				style="height: 86px" data-id="inquirySubjectMb" data-size=100></textarea>
+																			<div class="byte_check" id="inquirySubjectMb_length">
 																				<em>0</em> <span>/ 100</span>
 																			</div>
 																		</div>
@@ -130,8 +144,8 @@
 																<div class="td">
 																	<div class="textarea-box byte">
 																		<textarea id="inquiryContent"
-																			ng-model="form_data.content" cols="30" rows="10"></textarea>
-																		<div class="byte_check">
+																			ng-model="form_data.content" cols="30" rows="10" data-id="inquiryContent"  data-size=1000></textarea>
+																		<div class="byte_check" id="inquiryContent_length">
 																			<em>0</em> <span>/ 1000자</span>
 																		</div>
 																	</div>
@@ -179,7 +193,7 @@
 															</li>
 															<li class="hide_row" style="display: none">
 																<div class="th">
-																	<label for="" class="">Size </label> <i>*</i>
+																	<label for="" class="">Size</label> <i>*</i>
 																</div>
 																<div class="td">
 																	<input type="text" class="form-control half" value=""
@@ -217,7 +231,7 @@
 															</li>
 															<li class="hide_row" style="display: none">
 																<div class="th">
-																	<label for="" class="">Hope price</label>
+																	<label for="" class="">Hope Price</label>
 																</div>
 																<div class="td">
 																	<div class="input_grid">
@@ -231,7 +245,7 @@
 															</li>
 															<li class="hide_row" style="display: none">
 																<div class="th">
-																	<label for="" class="">Work description</label>
+																	<label for="" class="">Work Description</label>
 																</div>
 																<div class="td">
 																	<div class="textarea-box">
@@ -268,27 +282,21 @@
 																	<label for="" class="">Attached Files</label> <i>*</i>
 																</div>
 																<div class="td">
-																	<!-- <div class="trp file-box">
-                                                                    <label for="fileName" class="screen-reader-text">파일 선택</label>
+																<div class="trp file-box">
+                                                                    <label for="fileName" class="screen-reader-text">Select Files</label>
                                                                     <input type="text" id="fileName" class="trp-Filetext">
-                                                                    <input type="button" class="btn btn_light_gray_line" value="파일첨부">
-                                                                    <input type="file" name="file" id="file" class="trp-Filehidden" ng-model="form_file_data.files" onchange="javascript: document.getElementById('fileName').value = this.value" title="Insert Attachment">
-																		
-                                                                </div> -->
-
-																	<div>
-																		<input type="file" name="file" class="uploadify"
-																			id="file" multiple="multiple"
-																			ng-model="form_file_data.files" /><br>
-
-																		<ul class="fileList" id="selectedFileList">
-																			<li
-																				ng-repeat="att in form_file_data.att_files_name track by $index">
-																				{{att}}</li>
-																		</ul>
-																	</div>
+                                                                    <input type="button" class="btn btn_light_gray_line" value="Select Files">
+                                                                    <input type="file" multiple="multiple" tabindex="7" class="trp-Filehidden" ng-model="form_data.file" name="file" id="file" onchange="angular.element(this).scope().fileValidCheck()" title="Insert Attachment">
+                                                                </div>
+						                                        <div class="file-box-list" ng-repeat="file in fileNameList" >
+						                                            <p class="label" >
+						                                                <i class="icon_down"></i>
+						                                                <span class="tb1">{{file.filename}}</span>
+						                                            </p>
+						                                        </div>
+																	
 																	<ul class="dot_list tb2 mt10">
-																		<li>You can attach files of 10 MB or less.</li>
+																		<li>ou can attach files of 10 MB or less.</li>
 																		<li>You can upload 10 files</li>
 																		<li>File type : jpg, jpeg, png, gif, pdf, zip, alz</li>
 																		<li><u>Please attach the image file to get a prompt accurate answer, Choose the File</u></li>
@@ -297,55 +305,94 @@
 															</li>
 														</ul>
 													</article>
-													<div style="display: none;" id="sell_form">
+													<div  style="display:none" id="sell_form">
 														<div class="tbl_style01 form inner">
-															<table>
-																<caption>위탁신청내용</caption>
-																<colgroup>
-																	<col style="width: 12%;">
-																	<col style="width: 38%;">
-																	<col style="width: 12%;">
-																	<col>
-																</colgroup>
-																<tbody>
-																	<tr>
-																		<th>Artwork </th>
-																		<td id="tmp_artist_name"></td>
-																		<th>Author </th>
-																		<td id="tmp_work_name"></td>
-																	</tr>
-																	<tr>
-																		<th>Material</th>
-																		<td id="tmp_work_material"></td>
-																		<th>Classificdation</th>
-																		<td id="tmp_work_category"></td>
-																	</tr>
-																	<tr>
-																		<th>Age</th>
-																		<td id="tmp_work_estate"></td>
-																		<th>Hope price</th>
-																		<td id="tmp_hope_price"></td>
-																	</tr>
-																	<tr>
-																		<th>Size </th>
-																		<td id="tmp_work_size"></td>
-																	</tr>
-																	<tr>
-																		<th>Author Description</th>
-																		<td colspan="3" id="tmp_artist_desc"></td>
-																	</tr>
-																	<tr>
-																		<th>Work description</th>
-																		<td colspan="3" id="tmp_work_desc"></td>
-																	</tr>
-																	<tr>
-																		<th>Inspector </th>
-																		<td colspan="3" id="tmp_possession_details"></td>
-																	</tr>
-																</tbody>
-															</table>
-														</div>
-													</div>
+															<article class="inquiry-write-wrap">
+                                                    <ul class="form_table-list data_size-185">
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="">Artwork</label>
+                                                                <i>*</i>
+                                                            </div>
+                                                            <div class="td" id="tmp_work_name">
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="" >Author</label>
+                                                                <i>*</i>
+                                                           </div>
+                                                            <div class="td" id="tmp_artist_name">
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="">Material</label>
+                                                            </div>
+                                                            <div class="td" id="tmp_work_material">
+                                                               
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="" >Age</label>
+                                                            </div>
+                                                            <div class="td" id="tmp_work_estate">
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="">Size</label>
+                                                                <i>*</i>
+                                                            </div>
+                                                            <div class="td" id="tmp_work_size">
+                                                                
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="" >Classification</label>
+                                                            </div>
+                                                            <div class="td">
+                                                                <div  id="tmp_work_category">
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="" >Hope Price</label>
+                                                            </div>
+                                                            <div class="td">
+                                                                <div id="tmp_hope_price">
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="">Work Description</label>
+                                                            </div>
+                                                            <div class="td" id="tmp_work_desc">
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="">Author Description</label>
+                                                            </div>
+                                                            <div class="td" id="tmp_artist_desc">
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="th">
+                                                                <label for="" class="">Inspector</label>
+                                                                <i>*</i>
+                                                            </div>
+                                                            <div class="td" id="tmp_possession_details">
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </article>
+											</div>
+									</div>
 												</form>
 												<article class="button-area">
 													<div class="btn_set-float tac">
@@ -404,7 +451,7 @@
 -->
 
 
-	<script type="text/javascript" src="/js/pages_common_ko.js"
+	<script type="text/javascript" src="/js/pages_common_en.js"
 		type="text/javascript"></script>
 
 

@@ -1,6 +1,8 @@
 package com.seoulauction.renewal.controller;
 
 import com.seoulauction.renewal.common.SAConst;
+import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -21,8 +23,17 @@ import static com.seoulauction.renewal.common.SAConst.SERVICE_SERVICE;
 @RequestMapping(SERVICE_FOOTER)
 public class FooterController {
 
-    @GetMapping("/recruitForm")
-    public String boardIncruitApply(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "recruitForm" , locale);}
+    @GetMapping("/recruit/{id}/form")
+    public String boardRecruitForm(
+        @PathVariable("id") int id,
+        HttpServletRequest request,
+        Locale locale) {
+        request.setAttribute("id", id);
+        request.setAttribute("member",  SecurityUtils.getAuthenticationPrincipal());
+
+
+        return SAConst.getUrl(SERVICE_FOOTER , "recruitForm" , locale);
+    }
     @GetMapping("/incruitEmpty")
     public String boardIncruitEmpty(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "boardIncruitEmpty" , locale);}
     @GetMapping("/recruit")
@@ -32,6 +43,7 @@ public class FooterController {
         @PathVariable("id") int id,
         HttpServletRequest request,
         Locale locale) {
+
         request.setAttribute("id", id);
         return SAConst.getUrl(SERVICE_FOOTER , "recruitView" , locale);
     }
