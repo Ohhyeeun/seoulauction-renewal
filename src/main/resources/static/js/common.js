@@ -254,6 +254,12 @@ $(function(){
         $('.beltclose-btn').click(function(){
             $('.main-contents').css('margin-top','56px');
             $('.submenuBg').css({'top':'0'});
+            $('.header_beltbox').hide(function(){
+                $('.submenuBg').css({
+                    'top': '0',
+                });
+                $('.main-contents').css({'margin-top':'56px'});
+            });
         });
 
         /* 오프라인 라이브응찰 화면(mo) */
@@ -898,6 +904,7 @@ $(window).resize(function(){
 
     } else { /* 테블릿 */
         $('.m-gnbmenu').click(function(){
+            $('.gnb_submenuBg').show();
             $('.submenuBg').show(function(){
                 $('.submenuBg').css({
                     'right':'0',
@@ -908,21 +915,14 @@ $(window).resize(function(){
 
                 $(this).unbind().mouseleave(function(t){
                     t.stopPropagation();
-                    /* t.preventDefault();
-                    $('.submenuBg').click(false);*/
+                    /* t.preventDefault(); */
+                    /*$('.submenuBg').click(false);*/
                 });
 
                 $('.gnb_submenuBg').click(function(){
                     $('.submenuBg').css({'right':'-100%', 'transition':'.3s'});
                     $(this).css({'right':'-100%', 'transition':'.2s','display':'none'});
                     $('.gnb_submenuBg').css('overflow','visible');
-                });
-
-                $('.header_beltbox').hide(function(){
-                    $('.submenuBg').css({
-                        'top': '0',
-                    });
-                    $('.main-contents').css({'margin-top':'56px'})
                 });
             });
             /* 띠배너 beltbanner */
@@ -932,6 +932,12 @@ $(window).resize(function(){
             $('.beltclose-btn').click(function(){
                 $('.main-contents').css('margin-top','56px');
                 $('.gnb_submenuBg').css('overflow','visible');
+                $('.header_beltbox').hide(function(){
+                    $('.submenuBg').css({
+                        'top': '0',
+                    });
+                    $('.main-contents').css({'margin-top':'56px'});
+                });
             });
 
             /* 오프라인 라이브응찰 화면(mobile) */
@@ -939,7 +945,7 @@ $(window).resize(function(){
             $('.bidding_pc').hide();
         });
 
-        /*$(".submenuBg").mouseleave(false);*/
+        /* $(".submenuBg").mouseleave(false);*/
 
         /* 띠배너 beltbanner */
         $('.header_beltbox.on').show(function(){
@@ -949,6 +955,7 @@ $(window).resize(function(){
             $('.main-contents').css('margin-top','56px');
             $('.gnb_submenuBg').css('overflow','visible');
             $('.header_beltbox').removeClass('on');
+            $('.submenuBg').css({'top':'0'});
         });
         /* 오프라인 라이브응찰 화면(mobile) */
         $('.bidding_pc').hide();
