@@ -1032,9 +1032,9 @@ $(window).resize(function(){
 });
 
 /* 새로고침 */
-window.onresize=function(){
-    document.location.reload();
-}
+// window.onresize=function(){
+//     document.location.reload(); 
+// }
 
 //경매 회차 필터
 function localeOrdinal(n, l) {
