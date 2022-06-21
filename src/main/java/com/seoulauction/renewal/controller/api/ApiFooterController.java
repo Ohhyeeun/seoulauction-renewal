@@ -6,6 +6,7 @@ import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.service.FooterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -90,11 +91,12 @@ public class ApiFooterController {
     @PostMapping(value="/recruits/{id}/form")
     public ResponseEntity<RestResponse> forms(
             @PathVariable("id") int id,
-            MultipartHttpServletRequest request, HttpServletResponse response) {
+            @RequestPart(value="key", required=false) CommonMap map,
+            @RequestPart(value="file", required=true) MultipartFile file,
+            HttpServletResponse response) {
 
-        log.info("file : {}" , request.getMultiFileMap());
-        log.info(" : {}" , request.getParameterMap());
-
+        map.put("recruit_id" , id);
+        footerService.saveRecruitApply(file , map);
 
         return ResponseEntity.ok(RestResponse.ok());
     }
