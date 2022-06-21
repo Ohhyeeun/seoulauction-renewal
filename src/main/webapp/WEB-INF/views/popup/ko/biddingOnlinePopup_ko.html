@@ -236,6 +236,9 @@
                         <div class="section-inner">
 
                             <a class="btn btn_default js-popup_biddingPopup1" href="#" role="button"><span>응찰하기(온라인)</span><i class="icon-page_next"></i></a>
+                            <!-- [0613]자동응찰 옵션활성화,js 수정 -->
+                            <a class="btn btn_default js-popup_biddingPopup1 ing" href="#" role="button"><span>응찰하기(온라인) - 자동응찰중일때</span><i class="icon-page_next"></i></a>
+                            <!-- //[0613]자동응찰 옵션활성화,js 수정 -->
                             <a class="btn btn_default js-popup_biddingPopup2" href="#" role="button"><span>응찰하기(입찰종료)</span><i class="icon-page_next"></i></a>
 
                         </div>
@@ -442,7 +445,9 @@
                                                 <div class="btn_item">
                                                     <div class="select-box ">
                                                         <!-- disabled 옵션 -->
-                                                        <select class="select2Basic56_line" disabled id="">
+                                                        <!-- [0613]자동응찰 옵션활성화,js 수정 -->
+                                                        <select class="select2Basic56_line js-bidding_option" id="">
+                                                            <!-- //[0613]자동응찰 옵션활성화,js 수정 -->
                                                             <option value="1">KRW 1,800,000</option>
                                                             <option value="2">KRW 1,900,000</option>
                                                             <option value="3">KRW 2,000,000</option>
@@ -451,7 +456,9 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="btn_item"><a class="btn btn_point btn_lg" href="#" role="button"><span>응찰하기</span></a></div>
+                                                <!-- [0613]자동응찰 옵션활성화,js 수정 -->
+                                                <div class="btn_item"><a class="btn btn_point btn_lg js-bidding_btn" href="#" role="button"><span>응찰하기</span></a></div>
+                                                <!-- //[0613]자동응찰 옵션활성화,js 수정 -->
                                             </div>
                                         </div>
                                     </article>
@@ -472,6 +479,15 @@
                 console.log("open11")
                 popup_biddingPopup1.open(this); // or false   
                 popup_fixation("#popup_biddingPopup1-wrap");
+
+                // [0613]자동응찰 옵션활성화,js 수정
+                if ($(this).hasClass("ing") == true) {
+                    $(".js-bidding_option").attr("disabled", true);
+                    $(".js-bidding_btn span").text("자동응찰 중지")
+                } else {
+                    $(".js-bidding_option").attr("disabled", false);
+                    $(".js-bidding_btn span").text("응찰하기")
+                }
             });
 
             $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function($e) {
