@@ -369,7 +369,7 @@
     app.value('is_login', false);
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
 
-    app.controller('ctl', function ($scope, consts, common, is_login, locale, $filter) {
+    app.controller('ctl', function ($scope, consts, common, is_login, locale, $filter, $interval) {
         $scope.is_login = is_login;
         $scope.locale = locale;
         $scope.sale_no = "${saleNo}";
@@ -671,6 +671,7 @@
             run();
         }
         /*################ 웹소켓 #################*/
+        let promise;
         // connect 정보
         $scope.connectInfo = {};
         // 웹소켓
@@ -688,6 +689,65 @@
 
         let w;
 
+
+
+        $scope.timeTickInterval = function(){
+            let ddd = new Date();
+            // 앵귤러 정보 삽입
+            for (let j = 0; j < $scope.searchSaleInfoAll.length; j++) {
+                if ($scope.searchSaleInfoAll[j].END_DT > 0 && $scope.searchSaleInfoAll[j].END_DT >= ddd.getTime()) {
+                    let endDate = new Date($scope.searchSaleInfoAll[j].END_DT);
+                    let dateGap = endDate - ddd;
+                    let timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
+                    // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
+                    let diffDay = Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
+                    let diffHour = timeGap.getHours();       // 시간
+                    let diffMin = timeGap.getMinutes();      // 분
+                    let diffSec = timeGap.getSeconds();      // 초
+                    $scope.searchSaleInfoAll[j].BID_TICK = diffDay + "일 " + diffHour + ":" + diffMin + ":" + diffSec;
+
+                } else if (end_bid_time <= 0) {
+                    $scope.searchSaleInfoAll[j].BID_TICK = "경매시작 전입니다."
+                } else {
+                    $scope.searchSaleInfoAll[j].BID_TICK = "경매가 종료되었습니다."
+                }
+            }
+            // 앵귤러 정보 삽입
+            for (let j = 0; j < $scope.saleInfoAll.length; j++) {
+                if ($scope.saleInfoAll[j].END_DT > 0 && $scope.saleInfoAll[j].END_DT >= ddd.getTime()) {
+                    let endDate = new Date($scope.saleInfoAll[j].END_DT);
+                    let dateGap = endDate - ddd;
+                    let timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
+                    // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
+                    let diffDay = Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
+                    let diffHour = timeGap.getHours();       // 시간
+                    let diffMin = timeGap.getMinutes();      // 분
+                    let diffSec = timeGap.getSeconds();      // 초
+                    $scope.saleInfoAll[j].BID_TICK = diffDay + "일 " + diffHour + ":" + diffMin + ":" + diffSec;
+
+                } else if (end_bid_time <= 0) {
+                    $scope.saleInfoAll[j].BID_TICK = "경매시작 전입니다."
+                } else {
+                    $scope.saleInfoAll[j].BID_TICK = "경매가 종료되었습니다."
+                }
+            }
+
+            for (let j = 0; j < $scope.saleInfoAll.length; j++) {
+                if (parseInt($("#sale_no").val()) === $scope.saleInfoAll[j].SALE_NO && parseInt($("#lot_no").val()) === $scope.saleInfoAll[j].LOT_NO) {
+                    let endDate = new Date($scope.saleInfoAll[j].END_DT);
+                    let dateGap = endDate - ddd;
+                    let timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
+                    // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
+                    let diffDay = Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
+                    let diffHour = timeGap.getHours();       // 시간
+                    let diffMin = timeGap.getMinutes();      // 분
+                    let diffSec = timeGap.getSeconds();      //
+                    bid_tick.innerText = diffDay + "일 " + diffHour + "시간 " + diffMin + "분 " + diffSec + "초 남았습니다.";
+                    break
+                }
+            }
+            //console.log($scope.saleInfoAll.length, ddd.getTime());
+        }
         // bidstart
         $scope.bidstart = function (user_id, custNo) {
             $scope.retry(parseInt($scope.sale_no), 0, 2, user_id, custNo);
@@ -763,6 +823,8 @@
                     return response;
                 }
                 init_func_manual(d);
+
+
             } else if (d.msg_type === packet_enum.bid_info) {
                 if (d.message.bid != null && d.message.bid.length > 0) {
 
@@ -860,7 +922,8 @@
                     }
                 }
             } else if (d.msg_type === packet_enum.time_sync) {
-                let ddd = new Date(d.message.tick_value);
+                //$interval.cancel(promise);
+                /*let ddd = new Date(d.message.tick_value);
                 let bid_tick = document.getElementById("bid_tick");
 
                 // 앵귤러 정보 삽입
@@ -918,7 +981,8 @@
                         break
                     }
                 }
-                $scope.$apply();
+                $scope.$apply();*/
+
             } else if (d.msg_type === packet_enum.bid_info_init) {
                 // popup용 이라면
                 if (d.message.is_list_popup) {
@@ -1108,7 +1172,13 @@
                     if (!isCanClose) {
                         w.close();
                     }
+
+                    $scope.timeTickInterval();
+                    promise = $interval(function(){
+                        $scope.timeTickInterval();
+                    },1000);
                     $scope.$apply();
+
                 }
             } else if (d.msg_type === packet_enum.end_time_sync) {
                 if (d.message.value != null) {

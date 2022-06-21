@@ -945,9 +945,9 @@
                                                 </div>
                                             </div>
                   </div>`
-                    $("#swiper-wrapper").append(swiper_slide_item);
+                  $("#swiper-wrapper").append(swiper_slide_item);
                 });
-                $("#view_lot_no").html("LOT 1");
+
 
                 /* 스와이퍼 */
                 var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
@@ -957,8 +957,19 @@
                     },
                     onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
                         imagesResizePcMb();
+                    },
+                });
+                $.each($(".swiper-slide"), function(){
+                    let data = $(this).attr("data-swiper-slide-index");
+                    let lot_no = $(this).find(".imageViewer").attr("lot_no");
+                    if (lot_no === Scope().lot_no) {
+                        console.log(data, lot_no, Scope().lot_no);
+                        $("#view_lot_no").attr("sel-data-index", lot_no);
+                        $("#view_lot_no").html("LOT " + lot_no);
                     }
                 });
+
+
 
                 var popup_image_viewer = $(".js-popup_image_viewer").trpLayerFixedPopup("#popup_image_viewer-wrap");
                 $(popup_image_viewer.getBtn).on("click", function ($e) {
@@ -966,7 +977,7 @@
                     popup_image_viewer.open(this); // or false
                     imagesResizePcMb();
                     imageViewer.update();
-                    imageViewer.slideTo(1, 0);
+                    imageViewer.slideTo($("#view_lot_no").attr("sel-data-index"), 0);
                 });
                 // 좌우버튼
                 $('.view_paging-area .page_prev').on('click', function ($e) {
