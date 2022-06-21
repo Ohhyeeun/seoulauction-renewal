@@ -8,6 +8,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @Log4j2
@@ -78,14 +82,18 @@ public class ApiFooterController {
     @GetMapping(value="/recruits/{id}")
     public ResponseEntity<RestResponse> getRecruitById(
             @PathVariable("id") int id
+
     ) {
         return ResponseEntity.ok(RestResponse.ok(footerService.getRecruitById(new CommonMap("id", id))));
     }
 
     @PostMapping(value="/recruits/{id}/form")
-    public ResponseEntity<RestResponse> forms(@RequestBody CommonMap paramMap) {
+    public ResponseEntity<RestResponse> forms(
+            @PathVariable("id") int id,
+            MultipartHttpServletRequest request, HttpServletResponse response) {
 
-
+        log.info("file : {}" , request.getMultiFileMap());
+        log.info(" : {}" , request.getParameterMap());
 
 
         return ResponseEntity.ok(RestResponse.ok());
