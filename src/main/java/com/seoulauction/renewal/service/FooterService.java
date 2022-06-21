@@ -5,6 +5,8 @@ import com.seoulauction.renewal.mapper.aws.FooterMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,5 +63,12 @@ public class FooterService {
             resultMap.put("images", s3Service.getS3FileDataAll("notice", resultMap.get("id")));
         }
         return resultMap;
+    }
+    @Transactional("awsTransactionManager")
+    public void saveRecruitApply(MultipartFile file , CommonMap map){
+
+        footerMapper.insertRecruitApply(map);
+        s3Service.insertS3FileData(false , file , "recruit_apply" , map.get("id").toString());
+
     }
 }

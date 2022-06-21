@@ -145,4 +145,23 @@
                 AND JSON_UNQUOTE(JSON_EXTRACT( TITLE, "$.ko" )) like #{search} '%'
             </if>
     </select>
+
+    <insert id="insertRecruitApply" parameterType="CommonMap"
+            useGeneratedKeys="true"
+            keyProperty="id" keyColumn="id">
+        INSERT into recruit_apply
+            (
+                  RECRUIT_ID
+                , NAME
+                , PHONE_NUMBER
+                , EMAIL
+            )
+            values
+            (
+                  #{recruit_id}
+                , #{name}
+                , #{phone_number}
+                , #{email}
+            )
+    </insert>
 </mapper>
