@@ -93,22 +93,9 @@ $(function(){
             });
     }
 
-    window.addEventListener('resize', (e) => {
-        const width = e.target.innerWidth;
-        if (width > 1280) {
-            console.log(76767);
-            //$('.topsearch>input').attr('placeholder','작가 또는 작품명 검색');
-        } else if (width > 720) {
-            console.log(35256);
-            //$('.topsearch>input').attr('placeholder','검색');
-        } else {
-            //$('.topsearch>input').attr('placeholder','검색을 입력하세요.');
-        }
-    });
 
     /* pc 다크모드 */
     $('.darkmodeBg').click(function(){
-        console.log(32423);
         $('*').toggleClass('dark');
 
         $('.auctionTab-btn').click(function(){
@@ -207,9 +194,6 @@ $(function(){
             $('body').css({'overflow':'hidden'});
             $('.submenuBg').animate({'right':'0','transition':'ease .3s','display':'block'}, function(){
                 $('.gnb_submenuBg').click(function(){
-
-
-
                     $('body').css({'overflow':'visible'});
                     $('.submenu').stop().slideUp(function(){
                         $('.gnbmenu_arrow').removeClass('on');
@@ -222,7 +206,6 @@ $(function(){
 
                 $('.subGnbmenu-tit').click(function(){
 
-                    console.log('fffff1111111');
 
                     let Mobilegnb = $(this).index();
 
@@ -381,11 +364,9 @@ $(function(){
                 $('.darkmode.dark').toggleClass('active');
             });
         } else if(windowWidth1024.matches) {
-            console.log(42365235);
             $('.topsearch>input').attr('placeholder','검색');
             $('.topsearch-en>input').attr('placeholder','Search');
         } else if(windowWidth1023.matches){
-            console.log(32523);
             $('.topsearch>input').attr('placeholder','검색을 입력하세요');
             $('.topsearch-en>input').attr('placeholder','Search');
         }
@@ -868,14 +849,9 @@ $(window).resize(function(){
 
     let gnb = $(this).index();
 
-    console.log('gnb :' + gnb);
-
      //$('.submenuBg').hide();
 
-
     if(matchMedia("all and (min-width: 1024px)").matches) {
-
-        console.log('asdfasdf');
 
         // if($('.submenuBg').show()){
         //     $('.submenuBg').hide();
@@ -963,10 +939,9 @@ $(window).resize(function(){
         $('.m-gnbmenu').off('click');
 
         $('.m-gnbmenu').click(function(){
+
             if($('.header_beltbox').hasClass('on')){ /* on */
-                console.log(7577457);
             } else {
-                console.log(2341412);
                 $('.submenuBg').animate({'top':'0'});
                 $('')
             };
@@ -981,12 +956,10 @@ $(window).resize(function(){
             $('.submenuBg').show();
             $('.submenuBg').animate({'right':'0','transition':'ease .3s','display':'block'}, function(){
 
-                console.log('14123123');
                 $('.gnb_submenuBg').show();
                 $('.gnb_submenuBg').off('click');
                 $('.gnb_submenuBg').click(function(){
 
-                    console.log('fffff4322323');
 
                     $('body').css({'overflow':'visible'});
                     $('.submenu').stop().slideUp(function(){
@@ -999,7 +972,6 @@ $(window).resize(function(){
                 });
                 $('.subGnbmenu-tit').off('click');
                 $('.subGnbmenu-tit').click(function(){
-                    console.log('fffff');
 
                     let Mobilegnb = $(this).index();
 
