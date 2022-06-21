@@ -164,7 +164,8 @@ var authorities = '${authorities}'
                                                             <div class="image-box">
                                                                 <figure class="img-ratio">
                                                                     <div class="img-align">
-                                                                        <img class="" ng-src="/nas_img{{academyList.IMG_VIEW_PATH}}/{{academyList.VIEW_FILE_NAME}}" alt="" />
+<%--                                                                     <img ng-src="<spring:eval expression="@environment.getProperty('image.root.path')" />{{academyList.IMG_VIEW_PATH}}/{{academyList.VIEW_FILE_NAME}}" alt=""> --%>
+																		<img ng-src="/images/pc/service/{{getAcademyImg(academyList.ACADEMY_CD)}}" alt="" />
                                                                     </div>
                                                                     <figcaption class="typo-align">
                                                                         <div class="category_name">

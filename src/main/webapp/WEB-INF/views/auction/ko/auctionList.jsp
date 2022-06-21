@@ -543,6 +543,8 @@
                     // 메타데이타
                     let lotInfo = {};
 
+
+
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
                         if ($scope.saleInfoAll[i].SALE_NO === saleNo && $scope.saleInfoAll[i].LOT_NO === lotNo) {
                             lotInfo = {
@@ -554,8 +556,10 @@
                                 lotSize: $scope.saleInfoAll[i].SIZE1 + "X" + $scope.saleInfoAll[i].SIZE2 + "X" + $scope.saleInfoAll[i].SIZE3,
                                 makeYear: $scope.saleInfoAll[i].MAKE_YEAR_JSON.ko,
                             }
+                            break
                         }
                     }
+                    console.log("lotInfo", lotInfo)
                     // 초기화
                     $("#bid_lst").html('');
                     // 랏번호 삽입
@@ -635,8 +639,8 @@
 
                     await axios.get('/api/mypage/manager')
                         .then(function(response) {
-                            if (response.data.success) {
-                                $("em#manager").html(response.data.data.EMP_NAME + " " +response.data.data.HP);
+                            if (response.data.success && response.data.data != undefined) {
+                                $("em#manager").html(response.data.data.EMP_NAME + " " + response.data.data.HP);
                             }
                         });
                 }
@@ -1000,6 +1004,11 @@
                             if (d.message.quotes != null && d.message.quotes.length > 0) {
                                 let cnt = 0;
                                 let viewCnt = 0;
+
+                                let cost_tmp = (bid_info.bid_cost === 0) ?
+                                    bid_info.open_bid_cost :
+                                    bid_info.bid_cost;
+
                                 while( viewCnt < 70 ) {
                                     if (cnt > d.message.quotes.length - 1) {
                                         quoute_arr.push(cost_tmp)

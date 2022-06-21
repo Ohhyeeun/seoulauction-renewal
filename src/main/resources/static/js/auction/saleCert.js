@@ -12,6 +12,12 @@ document.addEventListener("DOMContentLoaded", function(){
 	var messageArea2 = document.getElementById('messageArea2');
 	var messageArea3 = document.getElementById('messageArea3');
 
+
+	function Scope() {
+		var scope = angular.element(document.getElementById("container")).scope();
+		return scope;
+	}
+
 	authNumRequest = function() {
 		saleNo = document.getElementById('sale_no').value;
 		phone = document.getElementById('phone').value;
@@ -155,33 +161,32 @@ document.addEventListener("DOMContentLoaded", function(){
 	}
 
 	//확인버튼
-	saleCertSuccess = function (){
-		if(!checkHpAuth.check){
+	saleCertSuccess = function () {
+		if (!checkHpAuth.check) {
 			alert("휴대폰 인증을 받아주세요.");
 			return;
 		}
 
-		if(!$("input:checkbox#checkbox_all").is(":checked")) {
+		if (!$("input:checkbox#checkbox_all").is(":checked")) {
 			alert("약관에 모두 동의해주세요.");
 			return;
 		}
 
 		var is_same_hp = (document.getElementById("cust_hp").value.replace(/[^\d]/g, "") == phone.replace(/[^\d]/g, ""));
-		$d = { "sale_no": saleNo, "to_phone": phone, "done_cd": (is_same_hp ? "no_modify" : "un_modify")};
+		$d = {"sale_no": saleNo, "to_phone": phone, "done_cd": (is_same_hp ? "no_modify" : "un_modify")};
 		axios.post('/api/cert/insertSaleCert', $d)
-			.then(function(response) {
+			.then(function (response) {
 				const data = response.data;
-				let success = data.success;
-				if(success){
+				if (data.success) {
 					//변경필요.
 					if (!is_same_hp) {
 						if (confirm("고객정보의 핸드폰번호와 일치하지 않습니다.\n인증받은 핸드폰번호로 갱신하시겠습니까?")) {
-							$d = { "hp": phone, "sale_cert_no": data['data']['sale_cert_no'] };
+							$d = {"hp": phone, "sale_cert_no": data['data']['sale_cert_no']};
 							axios.post('/api/cert/updateSaleCertHp', $d)
-								.then(function(response) {
+								.then(function (response) {
 									console.log('갱신완료');
 								})
-								.catch(function(error) {
+								.catch(function (error) {
 									console.log(error);
 								});
 						}
@@ -190,11 +195,12 @@ document.addEventListener("DOMContentLoaded", function(){
 					saleCertClose(true);
 				}
 			})
-			.catch(function(error) {
+			.catch(function (error) {
 				console.log(error);
 
 			});
-		// TODO: 경매창 팝업
+
+		Scope().popSet(parseInt(Scope().sale_no), parseInt($("#lot_no").val()), Scope().user_id, parseInt(Scope().cust_no));
 	}
 
 	//체크박스

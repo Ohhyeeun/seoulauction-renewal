@@ -25,7 +25,7 @@
             <div class="footer-infomenubox">
                 <ul class="flex_wrap footer-infomenu">
                     <li><a href="/footer/terms">경매약관</a></li>
-                    <li><a href="/footer/privacy">개인정보처리방침</a></li>
+                    <li><a href="/footer/privacy"><strong>개인정보처리방침</strong></a></li>
                     <li><a href="/footer/rules">내부관리규정</a></li>
                 </ul>
 

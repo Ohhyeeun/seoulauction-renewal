@@ -225,12 +225,14 @@ function  loadBigBanner (){
 }
 
 // 상단텍스트공지
-const topNoticeSwiper = new Swiper(".beltbox-swiper", {
-    direction : "vertical",
-    autoplay : {
-        delay: 2500,
-        disableOnInteraction: false
-    }
+const beltNoticeSwiper = new Swiper(".belt-swiper", {
+    autoplay: {
+        delay: 4000,
+    },
+    allowTouchMove:false, /* 마우스 및 손가락 터치 시 슬라이드 이동 가능여부 */
+    touchMoveStopPropagation: true,   /* touchmove 중지 */
+    direction:'vertical',
+    loop: true,
 });
 
 function loadTopNotice(){
@@ -574,3 +576,57 @@ function localeOrdinal(n, l) {
 
 }
 
+/* 반응형 resize 추가 */ 
+$(window).resize(function(){
+    /* visual */
+    const visualSwiper = new Swiper('.visual-swiper', {
+        autoplay: {
+            delay:7000,
+            disableOnInteraction:false,
+        },
+        pagination: {
+            el: '.visual-pagaination',
+            type:'fraction',
+        },
+        breakpoints: {
+            1023:{
+                pagination: {
+                    el: '.visual-pagaination',
+                    type:'bullets',
+                    clickable:true,
+                },
+            },
+        },
+        navigation: {
+            nextEl: '.slide-btnright',
+            prevEl: '.slide-btnleft',
+        },
+        on: {
+            init: function () {
+                $(".swiper-progressbar").removeClass("animate");
+                $(".swiper-progressbar").removeClass("active");
+                $(".swiper-progressbar").eq(0).addClass("animate");
+                $(".swiper-progressbar").eq(0).addClass("active");
+            },
+            slideChangeTransitionStart: function () {
+                $(".swiper-progressbar").removeClass("animate");
+                $(".swiper-progressbar").removeClass("active");
+                $(".swiper-progressbar").eq(0).addClass("active");
+            },
+            slideChangeTransitionEnd: function () {
+                $(".swiper-progressbar").eq(0).addClass("animate");
+            },
+        },
+        loop:true,
+    });
+    $('.playBtn').on('click', function(){
+        visualSwiper.autoplay.start('fast');
+        $(this).css({'display':'none'});
+        $('.stopBtn').css({'display':'block'});
+    });
+    $('.stopBtn').on('click', function(){
+        visualSwiper.autoplay.stop();
+        $(this).css({'display':'none'});
+        $('.playBtn').css({'display':'block'});
+    });
+});

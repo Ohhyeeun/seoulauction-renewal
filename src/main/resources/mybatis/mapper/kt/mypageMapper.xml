@@ -301,8 +301,7 @@
 							sb3.sale_no = l.SALE_NO
 						and sb3.lot_no = l.LOT_NO
 					join bid b1 on
-							b1.SALE_NO = l.SALE_NO
-						and b1.LOT_NO = l.LOT_NO
+							b1.BID_NO = SB3.BID_NO
 					where 
 							(REAL_CUST_NO = #{action_user_no}
 							or (B1.CUST_NO = #{action_user_no}

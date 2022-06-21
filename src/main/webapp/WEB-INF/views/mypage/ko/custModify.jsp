@@ -384,8 +384,8 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
 			                                <span class="txt_title type-big">작가검색</span>
 			                            </div>
 			                        </div>
-			                        <div class="pop-body scroll-type" style="height: 800px;">
-			                            <section class="section" style="display: block; height: 20px;">
+			                        <div class="pop-body scroll-type">
+			                            <section class="section">
 			                                <div class="search-group">
 			                                    <input type="text" id="artist_word" class="form-control" value="" placeholder="이름 입력">
 			                                    <button onclick="findArtistNewForm()" class="btn btn_black" type="button"><span>검색</span></button>

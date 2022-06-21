@@ -137,20 +137,25 @@ $(function(){
 
     /* 띠배너 */
     $('.beltclose-btn').click(function(){
-        $('.header_beltbox').slideUp(400);
+        $('.header_beltbox').stop().slideUp(400);
+        $('.header_beltbox').removeClass('on');
     });
 
     /*gnb menu */
     let gnb = $(this).index();
     if(matchMedia("all and (min-width: 1024px)").matches) {
+
         $('.header_gnbmenu>li>a').mouseenter(function(){
+
             $('.main-contents').click(function(){
                 $(".submenuBg").stop().slideUp();
                 $('.header_gnbmenu>li>a').removeClass('on');
             });
 
             $('.header_gnbmenu>li>a').removeClass('on');
-            $(".submenuBg").stop().slideDown();
+            $(".submenuBg").stop().slideDown(function(){
+                $(this).css({'top':'61px'});
+            });
             $(this).eq(gnb).addClass('on');
         });
         $(".submenuBg").mouseleave(function(){
@@ -158,33 +163,39 @@ $(function(){
             $('.header_gnbmenu>li>a').removeClass('on');
         });
 
+        /* main gnb fixed */
+        $('.header').show(function(){
+            $('.main-header').show(function(){
+                /*$('.main-contents').css('top','118px'); */
+                $('.main-contents').css('margin-top','102px');
+            });
+            $(this).hasClass('main-header');
+        });
+
+        /* 띠배너 beltbanner */
+        $('.header_beltbox.on').show(function(){
+            $('.main-contents').css('margin-top','162px');
+        });
+        $('.beltclose-btn').click(function(){
+            $('.main-contents').css('margin-top','102px');
+        });
+        /* 오프라인 라이브응찰 화면(pc) */
+        $('.bidding_pc').show();
+        $('.bidding_mo').hide();
+
         /*$('.submenuBg').show(function(){
             $('.main-contents').click(function(){
                 $('.submenuBg').slideUp();
             });
         });*/
 
-        /* main gnb fixed */
-        $('.header').show(function(){
-            $('.main-header').show(function(){
-                /*$('.main-contents').css('top','118px'); */
-                $('.main-contents').css('margin-top','162px');
-            });
-            $(this).hasClass('main-header');
-        });
-
         // /* 띠배너 beltbanner */
         // $('.header_beltbox.on').show(function(){
         //     $('.main-contents').css('margin-top','162px');
         // });
-        // $('.beltclose-btn').click(function(){
-        //     $('.main-contents').css('margin-top','102px');
-        // });
 
-        /* 오프라인 라이브응찰 화면(pc) */
-        $('.bidding_pc').show();
-        $('.bidding_mo').hide();
     } else { /* 테블릿 */
+
         $('.header_gnbmenu>li>a').mouseenter(false);
         $(".submenuBg").mouseleave(false);
 
@@ -206,6 +217,9 @@ $(function(){
                 });
 
                 $('.subGnbmenu-tit').click(function(){
+
+                    console.log('fffff');
+
                     let Mobilegnb = $(this).index();
 
                     $('.gnbmenu_arrow>span').removeClass('on');
@@ -220,10 +234,6 @@ $(function(){
                     $('.modebox').removeClass('on');
                 });
             });
-            //$('.submenuBg').click(false);
-            /* 오프라인 라이브응찰 화면(pc) */
-            $('.bidding_pc').hide();
-            $('.bidding_mo').show();
         });
         $('.submenuBg-closeBtn').click(function(){
             $('body').css({'overflow':'visible'});
@@ -238,10 +248,29 @@ $(function(){
         $('.header').show(function(){
             $('.main-header').show(function(){
                 /*$('.main-contents').css('top','56px'); */
-                $('.main-contents').css('margin-top','57px');
+                $('.main-contents').css('margin-top','56px');
             });
             $(this).hasClass('main-header');
         });
+
+        /* 띠배너 beltbanner */
+        $('.header_beltbox.on').show(function(){
+            $('.main-contents').css('margin-top','100px');
+        });
+        $('.beltclose-btn').click(function(){
+            $('.main-contents').css('margin-top','56px');
+            $('.submenuBg').css({'top':'0'});
+            $('.header_beltbox').hide(function(){
+                $('.submenuBg').css({
+                    'top': '0',
+                });
+                $('.main-contents').css({'margin-top':'56px'});
+            });
+        });
+
+        /* 오프라인 라이브응찰 화면(mo) */
+        $('.bidding_mo').show();
+        $('.bidding_pc').hide();
 
         // /* 띠배너 beltbanner */
         // $('.header_beltbox.on').show(function(){
@@ -722,26 +751,6 @@ function checkPlatform(ua) {
     return userPlatform;
 }
 
-/* notice 슬라이드 배너 (무한루프)*/
-$(function(){
-    let i = 0;
-
-    setInterval(noticeSlide, 2500);
-
-    function noticeSlide(){
-        $('.belttxtbox').append('<span class="header_beltTit"><a href="#"><span class="text-over belt_tit"></span></a></span>');  /*끝에 반복 생성  */
-        $('.belttxtbox').css('top','0');
-
-        if(i < 5){
-            i++;
-        }
-        if(i == 5) {
-            i = 0;
-        }
-        $('.belttxtbox>span:nth-child(1)').remove(); /*반복 첫번째 삭제  */
-        $('.belttxtbox').animate({'top':'100%'},1000);
-    } // noticeSlide() 종료구문;
-});
 
 function dotSubString(str,len){
     let result ='';
@@ -839,24 +848,42 @@ function enDayToHanDay(enDay){
 }
 
 
-/* 반응형 resize */
+/* 반응형 resize */ 
 $(window).resize(function(){
+
     let gnb = $(this).index();
+
+    console.log('gnb :' + gnb);
+
+     $('.submenuBg').hide();
+
+
     if(matchMedia("all and (min-width: 1024px)").matches) {
+
+        console.log('asdfasdf');
+
+        // if($('.submenuBg').show()){
+        //     $('.submenuBg').hide();
+        // }
+
+        $('.header_gnbmenu>li>a').off('mouseenter');
         $('.header_gnbmenu>li>a').mouseenter(function(){
+
             $('.main-contents').click(function(){ /* 외부 클릭시 닫기 */
-                $(".submenuBg").stop().slideUp();
+                $(".submenuBg").stop().slideUp('fast', function(){
+                    $(this).css({'top':'61px'});
+                });
                 $('.header_gnbmenu>li>a').removeClass('on');
             });
 
-            $('.submenuBg').css({'right':'auto','height':'auto','background-color':'#f2f2f2'}).stop().slideDown();
+            $('.submenuBg').css({'right':'auto','height':'auto','background-color':'#f2f2f2','top':'61px'}).stop().slideDown();
 
             /*$('.gnb_submenuBg').removeClass('on').css({'right':'-100%'}); */
             $('.gnb_submenuBg').show(function(){
                 $(this).css({'right':'-100%'});
             });
 
-            $('.subGnbmenu-tit').unbind().click();
+           // $('.subGnbmenu-tit').unbind().click();
             $('.gnbmenu_arrow').removeClass('on');
             /*$('.submenu').unbind.stop().slideUp(); */
             $('.submenu').css({'display':'block'});
@@ -884,41 +911,81 @@ $(window).resize(function(){
 
         $('.gnb_submenuBg').hide();
 
-        /* 띠배너 beltbanner */
         $('.header_beltbox.on').show(function(){
             $('.main-contents').css('margin-top','162px');
         });
         $('.beltclose-btn').click(function(){
-            $('.main-contents').css('margin-top','100px');
+            $('.header_beltbox').stop().slideUp(400);
+            $('.main-contents').css('margin-top','102px');
+            $('.header_beltbox').removeClass('on');
         });
+
         /* 오프라인 라이브응찰 화면(pc) */
         $('.bidding_pc').show();
         $('.bidding_mo').hide();
-    } else { /* 테블릿 */
+
+    } else {
+
+        //서브 메뉴 클릭.
+        $('.subGnbmenu-tit').off('click');
+        $('.subGnbmenu-tit').click(function(){
+
+
+            let Mobilegnb = $(this).index();
+
+            $('.gnbmenu_arrow>span').removeClass('on');
+            $('.gnbmenu_arrow').removeClass('on');
+            $('.submenu').stop().slideUp();
+
+
+            $('.gnbmenu_arrow>span').eq(Mobilegnb).toggleClass('on');
+            $('.gnbmenu_arrow').eq(Mobilegnb).addClass('on');
+            $('.submenu').eq(Mobilegnb).stop().slideDown();
+
+            $('.modebox').removeClass('on');
+        });
+
+        /* 테블릿 */
         $('.m-gnbmenu').click(function(){
             $('.submenuBg').show(function(){
                 $('.submenuBg').css({
                     'right':'0',
-                    'height':'100%',
-                    'transition':'.3s',
+                    'height':'100vh',
+                    'transition':'.1s',
+                    'top': '-43px',
                 });
 
                 $(this).unbind().mouseleave(function(t){
                     t.stopPropagation();
-                    /*t.preventDefault(); */
-                    $('.submenuBg').click(false);
+                    /* t.preventDefault();
+                    $('.submenuBg').click(false);*/
                 });
 
                 $('.gnb_submenuBg').click(function(){
                     $('.submenuBg').css({'right':'-100%', 'transition':'.3s'});
                     $(this).css({'right':'-100%', 'transition':'.2s','display':'none'});
                     $('.gnb_submenuBg').css('overflow','visible');
-                    $('.submenuBg').click(false);
+                });
+
+                $('.header_beltbox').hide(function(){
+                    $('.submenuBg').css({
+                        'top': '0',
+                    });
+                    $('.main-contents').css({'margin-top':'56px'})
                 });
             });
+            /* 띠배너 beltbanner */
+            $('.header_beltbox.on').show(function(){
+                $('.main-contents').css('margin-top','100px');
+            });
+            $('.beltclose-btn').click(function(){
+                $('.main-contents').css('margin-top','56px');
+                $('.gnb_submenuBg').css('overflow','visible');
+            });
 
-            $('.gnb_submenuBg').css('overflow','hidden');
-            $('.gnb_submenuBg').show();
+            /* 오프라인 라이브응찰 화면(mobile) */
+            $('.bidding_mo').show();
+            $('.bidding_pc').hide();
         });
 
         /*$(".submenuBg").mouseleave(false);*/
@@ -930,6 +997,7 @@ $(window).resize(function(){
         $('.beltclose-btn').click(function(){
             $('.main-contents').css('margin-top','56px');
             $('.gnb_submenuBg').css('overflow','visible');
+            $('.header_beltbox').removeClass('on');
         });
         /* 오프라인 라이브응찰 화면(mobile) */
         $('.bidding_pc').hide();
@@ -962,6 +1030,11 @@ $(window).resize(function(){
         $('.topsearch-en>input').attr('placeholder','Search');
     };
 });
+
+/* 새로고침 */
+// window.onresize=function(){
+//     document.location.reload(); 
+// }
 
 //경매 회차 필터
 function localeOrdinal(n, l) {

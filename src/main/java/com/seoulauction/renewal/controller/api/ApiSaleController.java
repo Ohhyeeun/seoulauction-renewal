@@ -217,14 +217,28 @@ public class ApiSaleController {
         // 필터를 적용한 새로운 랏이미지 정보
         List<CommonMap> lotImagesNew = new ArrayList<>();
 
+
+        String[] listKeys = {"LOT_SIZE_JSON"};
+        ObjectMapper mapper  = new ObjectMapper();
         // 랏 디스플레이 필터
-        for (var item : lotImages) {
-            CommonMap lotImagesNewItem = new CommonMap();
-            for (var k : new ArrayList<>(item.keySet())){
-                lotImagesNewItem.put(k, item.get(k));
+        try{
+            for (var item : lotImages) {
+                CommonMap lotImagesNewItem = new CommonMap();
+                for (var k : new ArrayList<>(item.keySet())){
+                    lotImagesNewItem.put(k, item.get(k));
+                }
+                lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
+                // 리스트 변환
+                for(var item2 : listKeys) {
+                    lotImagesNewItem.put(item2,
+                            mapper.readValue(String.valueOf(lotImagesNewItem.get(item2)), List.class));
+                }
+                lotImagesNew.add(lotImagesNewItem);
             }
-            lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
-            lotImagesNew.add(lotImagesNewItem);
+        } catch (JsonMappingException e) {
+
+        } catch (JsonProcessingException e) {
+
         }
         return ResponseEntity.ok(RestResponse.ok(lotImagesNew));
     }
