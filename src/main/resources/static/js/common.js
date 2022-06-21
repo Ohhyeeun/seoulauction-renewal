@@ -883,7 +883,6 @@ $(window).resize(function(){
 
         $('.header_gnbmenu>li>a').off('mouseenter');
         $('.header_gnbmenu>li>a').mouseenter(function(){
-
             $('.main-contents').click(function(){ /* 외부 클릭시 닫기 */
                 $(".submenuBg").stop().slideUp('fast', function(){
                     $(this).css({'top':'61px'});
@@ -907,6 +906,9 @@ $(window).resize(function(){
             $('.header_gnbmenu>li>a').removeClass('on');
             $(".submenuBg").stop().slideDown();
             $(this).eq(gnb).addClass('on');
+
+            $('.subGnbmenu-tit').off('click');
+            $('.submenu').css({'margin-top':'0'});
         });
 
         $(".submenuBg").mouseleave(function(){
@@ -929,18 +931,30 @@ $(window).resize(function(){
         $('.header_beltbox.on').show(function(){
             $('.main-contents').css('margin-top','162px');
         });
+        /* main gnb fixed */
+        $('.header').show(function(){
+            $('.main-header').show(function(){
+                /*$('.main-contents').css('top','56px'); */
+                $('.main-contents').css('margin-top','102px');
+            });
+            $(this).hasClass('main-header');
+        });
         $('.beltclose-btn').click(function(){
             $('.header_beltbox').stop().slideUp(400);
             $('.main-contents').css('margin-top','102px');
             $('.header_beltbox').removeClass('on');
         });
 
+        /* 모바일 메뉴 open 된 채로 resize 될 때 gnb 닫힘 */
+        $('.gnb_submenuBg').removeClass('on'); 
+        $('.submenuBg').removeClass('on');
+
+
         /* 오프라인 라이브응찰 화면(pc) */
         $('.bidding_pc').show();
         $('.bidding_mo').hide();
 
     } else {
-
         $(".submenuBg").off('mouseleave');
         $('.header_gnbmenu>li>a').off('mouseenter');
         $('.submenuBg').off('mouseenter');
@@ -949,6 +963,13 @@ $(window).resize(function(){
         $('.m-gnbmenu').off('click');
 
         $('.m-gnbmenu').click(function(){
+            if($('.header_beltbox').hasClass('on')){ /* on */
+                console.log(7577457);
+            } else {
+                console.log(2341412);
+                $('.submenuBg').animate({'top':'0'});
+                $('')
+            };
 
             $('.submenuBg').removeAttr("style");
             $('.submenuBg').hide();
@@ -978,7 +999,6 @@ $(window).resize(function(){
                 });
                 $('.subGnbmenu-tit').off('click');
                 $('.subGnbmenu-tit').click(function(){
-
                     console.log('fffff');
 
                     let Mobilegnb = $(this).index();
@@ -992,6 +1012,10 @@ $(window).resize(function(){
                     $('.gnbmenu_arrow').eq(Mobilegnb).addClass('on');
                     $('.submenu').eq(Mobilegnb).stop().slideDown();
 
+                    $('.submenu').css({
+                        'margin-top':'29.5px',
+                    })
+
                     $('.modebox').removeClass('on');
                 });
             });
@@ -1000,8 +1024,6 @@ $(window).resize(function(){
             $('.bidding_mo').show();
             $('.bidding_pc').hide();
         });
-
-        /*$(".submenuBg").mouseleave(false);*/
 
         /* 띠배너 beltbanner */
         $('.header_beltbox.on').show(function(){
@@ -1012,6 +1034,26 @@ $(window).resize(function(){
             $('.gnb_submenuBg').css('overflow','visible');
             $('.header_beltbox').removeClass('on');
         });
+
+        /* main gnb fixed */
+        $('.header').show(function(){
+            $('.main-header').show(function(){
+                /*$('.main-contents').css('top','56px'); */
+                $('.main-contents').css('margin-top','56px');
+            });
+            $(this).hasClass('main-header');
+        });
+
+        /* 닫기 버튼 */
+        $('.submenuBg-closeBtn').click(function(){
+            $('body').css({'overflow':'visible'});
+            $('.gnbmenu_arrow').removeClass('on');
+            $('.submenuBg').animate({'right':'-100%','transition':'ease .2s'}, function(){
+                $(this).removeClass('on');
+                $('.gnb_submenuBg').removeClass('on');
+            });
+        });
+
         /* 오프라인 라이브응찰 화면(mobile) */
         $('.bidding_pc').hide();
         $('.bidding_mo').show();
