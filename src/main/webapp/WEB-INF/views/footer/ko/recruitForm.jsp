@@ -194,18 +194,16 @@
                         alert('hwp , doc, docx, ppt, pptx, xls, xlsx, pdf, txt, zip, alz 파일만 \n업로드 할수 있습니다.');
                         return;
                     }
-                    $("#current_file").html(fileName);
+                    $("#current_file").html('첨부 파일 : ' + fileName);
                 }
 
             });
 
             $("#recruit_btn").on('click',function (){
-
                 form();
             });
 
             function form(){
-
 
                 let form_name = $("#recruit_form_name").val();
                 let form_email = $("#recruit_form_email").val();
@@ -213,14 +211,49 @@
 
                 let checkboxCheck = $("#info_check").is(':checked');
 
-                console.log('name : ' + form_name);
-                console.log('email : ' + form_email);
-                console.log('phone : ' + form_phone);
 
-                console.log(fileVal);
+                //valid
+                if(!form_name){
+                    alert('이름을 입력해주세요.');
+                    return;
+                }
+
+                if(!form_email){
+                    alert('이메일을 입력해주세요.');
+                    return;
+                }
+
+                if(!form_phone){
+                    alert('휴대폰을 입력해주세요.');
+                    return;
+                }
+
+                let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+                if(!regEmail.test(form_email)){
+                    alert('이메일 형식이 아닙니다.');
+                    return;
+                }
+
+                if(!current_file){
+                    alert('파일을 등록해주세요.');
+                    return;
+                }
+
+                if(!checkboxCheck){
+                    alert('개인정보 동의를 해주세요.')
+                    return;
+                }
+
+
+                let obj = {};
+                obj.name = form_name;
+                obj.email = form_email;
+                obj.phone_number = form_phone;
+
+
                 const frm = new FormData()
-                frm.append('file', current_file);
-                frm.append('paramMap', '값');
+                frm.append('file', current_file[0].files[0]);
+                frm.append('key', new Blob([JSON.stringify(obj)] , { type: "application/json" }));
 
                     axios.post('/api/footer/recruits/${id}/form',frm ,{
                         headers: {
@@ -229,10 +262,11 @@
                     })
                     .then(function(response) {
                         const data = response.data;
-                        console.log(data);
                         let success = data.success;
                         if(success){
 
+                            alert('지원에 성공하셨습니다.');
+                            location.href= '/footer/recruit';
                         }
                     })
                     .catch(function(error) {
