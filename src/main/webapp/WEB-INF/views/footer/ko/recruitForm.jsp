@@ -244,7 +244,6 @@
                     return;
                 }
 
-
                 let obj = {};
                 obj.name = form_name;
                 obj.email = form_email;
