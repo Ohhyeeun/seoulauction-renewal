@@ -3,7 +3,9 @@ app.value('locale', 'ko');
 app.requires.push.apply(app.requires, ["bw.paging", "ngDialog"]);
 
 app.controller('onlineBidListCtl', function($scope, consts, common) {
-
+	
+	var popup_marketing1 = $(".js-popup_auction_live_record").trpLayerFixedPopup("#popup_auction_live_record-wrap");
+	
 	$scope.loadonlineBidList = function($page) {
 				$scope.currentPage = $page;
 		 		$page = $scope.currentPage;
@@ -45,6 +47,15 @@ app.controller('onlineBidListCtl', function($scope, consts, common) {
 					$scope.onlineBidHisList = result["data"]["list"];
 		            console.log($scope.onlineBidHisList);
 		            $scope.$apply();
+		            
+		            popup_marketing1.open(this); // or false
+					popup_fixation("#popup_auction_live_record-wrap");
+		            
+		            $("body").on("click", "#popup_auction_live_record-wrap .js-closepop, #popup_auction_live_record-wrap .popup-dim", function($e) {
+			            $e.preventDefault();
+			            popup_marketing1.close();
+			            popup_motion_close("#popup_auction_live_record-wrap");
+			        });
 		            }
 		        })
 		        .catch(function(error){

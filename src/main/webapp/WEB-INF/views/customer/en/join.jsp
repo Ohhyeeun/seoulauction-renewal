@@ -88,6 +88,39 @@
 						<input type="hidden" id="sub" name="sub" />
 					</form>
 				</div>
+				
+				<!-- validation alert -->
+			    <div id="popup_idsearch3-wrap" class="trp popupfixed-wrap login-popup">
+			        <div class="popup-dim"></div>
+			        <div class="popup-align mode-ms mode-mb_center">
+			            <div class="popup-vertical">
+			                <div class="popup-layer">
+			                    <div class="pop-panel">
+			                        <div class="pop-header">
+			                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+			                            <div class="ico_box">
+			                                <img class="only_ib-pc" src="/images/mobile/login/search_ico_01_pc.png">
+			                                <img class="only_ib-mb" src="/images/mobile/login/search_ico_01.png">
+			                            </div>
+			                            <div class="title-box_tac title_md">
+			                                <span class="title_tac tt4" id="alertMsg">필수 항목명을 입력해 주세요.</span>
+			                            </div>
+			                        </div>
+			                        <div class="pop-body">
+			                            <!--[0523]-->
+			                            <article class="confirm_btn confirm_btn_md">
+			                                <div class="btn_set-float tac">
+			                                    <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+			                                </div>
+			                            </article>
+			                            <!--//[0523]-->
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			    
 		    </div>
 		    <jsp:include page="../../include/en/footer.jsp" flush="false"/>
 			<!-- stykey -->

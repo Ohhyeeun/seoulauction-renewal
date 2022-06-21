@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Locale;
 
 import static com.seoulauction.renewal.common.SAConst.SERVICE_SERVICE;
+import static com.seoulauction.renewal.common.SAConst.SERVICE_ERROR;;
 
 @Controller
 @Log4j2
@@ -64,16 +65,28 @@ public class ServiceController {
     
     @GetMapping("/academy")
     public String academy(Locale locale) {
-        return SAConst.getUrl(SERVICE_SERVICE , "academy" , locale);
+    	if(locale.getLanguage().equals("ko")) {
+    		return SAConst.getUrl(SERVICE_SERVICE , "academy" , locale);
+    	}else {
+    		return SAConst.getUrl(SERVICE_ERROR , "error_404" , locale);
+    	}
     }
     
     @GetMapping("/academyDetail")
     public String inquiryView(@RequestParam(required = true ) int academyNo, @RequestParam(required = true ) String academyCd, Locale locale) {
-        return SAConst.getUrl(SERVICE_SERVICE, "academyDetail", locale);
+    	if(locale.getLanguage().equals("ko")) {
+    		return SAConst.getUrl(SERVICE_SERVICE, "academyDetail", locale);
+    	}else {
+    		return SAConst.getUrl(SERVICE_ERROR , "error_404" , locale);
+    	}
     }
     
     @GetMapping("/academyList")
     public String inquiryList(@RequestParam(required = true ) String academyCd, Locale locale) {
-        return SAConst.getUrl(SERVICE_SERVICE, "academyList", locale);
+    	if(locale.getLanguage().equals("ko")) {
+    		return SAConst.getUrl(SERVICE_SERVICE, "academyList", locale);
+    	}else {
+    		return SAConst.getUrl(SERVICE_ERROR , "error_404" , locale);
+    	}
     }
 }

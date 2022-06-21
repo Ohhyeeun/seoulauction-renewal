@@ -66,7 +66,6 @@ function sessionLogout() {
                         <li><a href="/mypage/liveBidReqList">Live Auction Management</a></li>
                         <li id="MyMenuOnlineBadge"><a href="/mypage/onlineBidList">Online Auction Management</a></li>
                         <li><a href="/mypage/inteLotList">Wish List</a></li>
-                        <li><a href="/mypage/academyList">Academy Application List</a></li>
                         <li><a href="/mypage/custModify">Edit member information</a></li>
                     </ul>
                 </li>
@@ -148,7 +147,6 @@ function sessionLogout() {
                             </li>
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
                                 <ul class="submenu submenu-part04">
-                                    <li id="menu_academy"><a href="/service/academy">Academy</a></li>
                                     <li><a href="#">Art Collateral Loans</a></li>
                                     <li><a href="#">Art Storage</a></li>
                                     <li><a href="#">Rental of Space</a></li>
