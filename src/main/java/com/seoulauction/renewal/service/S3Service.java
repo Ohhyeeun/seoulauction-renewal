@@ -104,7 +104,7 @@ public class S3Service {
      * @param tableName - s3파일이 필요한 테이블.
      * @param rowId - s3파일이 필요한 테이블의 row Id.
      */
-    @Transactional("ktTransactionManager")
+    @Transactional("awsTransactionManager")
     public void insertS3FileData(boolean isPrivate , MultipartFile uploadFile , String tableName , String rowId) {
 
             //성공적으로 업로드 된경우!! s3file_id 값이 map 에 담김.
