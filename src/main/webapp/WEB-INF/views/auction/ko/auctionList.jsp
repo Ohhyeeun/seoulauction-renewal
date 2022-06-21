@@ -20,17 +20,15 @@
                         <div class="padding-inner">
                             <article class="auction_head_info-article">
                                 <div class="center-box ing">
-                                    <h2 class="page_title"><span class="th1"
-                                                                 ng_bind="saleInfo[0].SALE_TITLE_JSON.ko"></span>
+                                    <h2 class="page_title"><span class="th1">{{sale.TITLE_JSON['ko']}}</span>
                                     </h2>
                                     <ul class="event_day-list">
-                                        <li><span class="colorB2">프리뷰</span><span class=""> : {{saleInfo[0].FROM_DT}} - {{saleInfo[0].TO_DT}}</span>
+                                        <li><span class="colorB2">프리뷰</span><span class=""> : {{sale.PREV_FROM_DT | date:'MM.dd'+'('+getWeek(sale.PREV_FROM_DT)+')'}} - {{sale.PREV_TO_DT| date:'MM.dd'+'('+getWeek(sale.PREV_TO_DT)+')'}}</span>
                                         </li>
-                                        <li><span class="colorB2">경매일</span><span
-                                                class=""> : {{saleInfo[0].TO_DT}}</span></li>
+                                        <li><span class="colorB2">경매일</span><span class=""> : {{sale.TO_DT | date:'MM.dd'+'('+getWeek(sale.TO_DT)+')'}}</span></li>
                                     </ul>
                                     <div class="btn_set">
-                                        <a class="btn btn_white " href="#" role="button"><span>안내사항</span></a>
+                                        <a class="btn btn_white " href="#" target="_blank" ng-href="/notices/{{sale.WRITE_NO}}" role="button" ng-if="sale.WRITE_NO > 0"><span>안내사항</span></a>
                                     </div>
                                 </div>
                             </article>
@@ -157,10 +155,12 @@
                                             <article class="item-article">
                                                 <div class="image-area">
                                                     <figure class="img-ratio">
-                                                        <div class="img-align">
-                                                            <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                 alt="">
-                                                        </div>
+                                                        <a href="/auction/online/view/{{item.SALE_NO}}/{{item.LOT_NO}}" target="_blank">
+                                                            <div class="img-align">
+                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
+                                                                     alt="">
+                                                            </div>
+                                                        </a>
                                                     </figure>
                                                 </div>
                                                 <div class="typo-area">
@@ -209,7 +209,7 @@
                                                             <div class="btn_set"><a name="open_popup"
                                                                                     class="btn btn_point"
                                                                                     href="javascript:void(0);"
-                                                                                    ng-click="popSet(item.SALE_NO,item.LOT_NO,'KYUNGHOON');"
+                                                                                    ng-click="popSet(item.SALE_NO,item.LOT_NO, user_id, cust_no);"
                                                                                     role="button"><span>응찰</span></a>
                                                             </div>
                                                         </div>
@@ -270,20 +270,11 @@
         <!-- // stykey -->
     </div>
 </div>
+<script type="text/javascript" src="/js/auction/saleCert.js"></script>
 <jsp:include page="popup/auctionBidPopup.jsp" flush="false"/>
 <jsp:include page="popup/auctionConfirmPopup.jsp" flush="false"/>
 
-
-<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-<!--[if lt IE 9]>
-<script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-<!-- [0516]삭제
-<script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
--->
-<script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 
 <!-- 하트 토글 -->
 <script>
@@ -331,7 +322,6 @@
     });
 </script>
 
-
 <!-- popup tab -->
 <script>
     $("body").on("click", ".selection", function () {
@@ -368,19 +358,29 @@
 */
 </script>
 <script>
+    //약관체크
+    $(".js_all-1").trpCheckBoxAllsImg(".js_all", ".js_item");
+
+    let popup_offline_payment = $(".js-popup_online_confirm").trpLayerFixedPopup("#popup_online_confirm-wrap");
+    let popup_biddingPopup1 = $("a[name='open_popup']").trpLayerFixedPopup("#popup_biddingPopup1-wrap");
+
     <!-- angular js -->
     app.value('locale', 'ko');
     app.value('is_login', false);
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
 
-    app.controller('ctl', function ($scope, consts, common, is_login, locale) {
+    app.controller('ctl', function ($scope, consts, common, is_login, locale, $filter) {
         $scope.is_login = is_login;
         $scope.locale = locale;
         $scope.sale_no = "${saleNo}";
+        $scope.cust_no = ${member.userNo};
+        $scope.user_id = '${member.loginId}';
 
         $scope.pagesize = 10;
         $scope.itemsize = 20;
         $scope.curpage = 1;
+
+
 
         $scope.modelSortType = [{
             name: "LOT 번호순", value: 1
@@ -493,7 +493,7 @@
             $scope.pageing(1);
         }
 
-        $scope.popSet = function (saleNo, lotNo) {
+        $scope.popSet = function (saleNo, lotNo, userId, custNo) {
             if (${member.userNo} === 0){
                 if (sessionStorage.getItem("is_login") === 'false') {
                     //history.push("/login");
@@ -501,22 +501,25 @@
                     return;
                 }
             } else {
-                let a = true;
-                if (!a) {
-                    let popup_offline_payment = $(".js-popup_online_confirm").trpLayerFixedPopup("#popup_online_confirm-wrap");
+                const is_sale_cert = $scope.is_sale_cert || $("#is_sale_cert").val();
+                if (!is_sale_cert) {
                     popup_offline_payment.open(this); // or false
                     popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
+
+                    // 랏번호 삽입
+                    $("#sale_no").val(saleNo);
+                    // 랏번호 삽입
+                    $("#lot_no").val(lotNo);
 
                     $("body").on("click", "#popup_online_confirm-wrap .js-closepop, #popup_online_confirm-wrap .popup-dim", function ($e) {
                         $e.preventDefault();
                         popup_offline_payment.close();
                     });
                 } else {
-                    let popup_biddingPopup1 = $("a[name='open_popup']").trpLayerFixedPopup("#popup_biddingPopup1-wrap");
                     popup_biddingPopup1.open(this); // or false
                     popup_fixation("#popup_biddingPopup1-wrap");
 
-                    let init_func_manual = async function (token, saleNo, lotNo, saleType) {
+                    let init_func_manual = async function (token, saleNo, lotNo, saleType, custNo) {
                         //console.log(token, saleNo, lotNo, saleType, userId);
                         let url = '';
                         if (window.location.protocol !== "https:") {
@@ -531,6 +534,7 @@
                                 lot_no: lotNo,
                                 sale_type: saleType,
                                 user_id: '${member.loginId}',
+                                cust_no: custNo,
                             }),
                         });
                         return resp;
@@ -538,6 +542,8 @@
 
                     // 메타데이타
                     let lotInfo = {};
+
+
 
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
                         if ($scope.saleInfoAll[i].SALE_NO === saleNo && $scope.saleInfoAll[i].LOT_NO === lotNo) {
@@ -550,8 +556,10 @@
                                 lotSize: $scope.saleInfoAll[i].SIZE1 + "X" + $scope.saleInfoAll[i].SIZE2 + "X" + $scope.saleInfoAll[i].SIZE3,
                                 makeYear: $scope.saleInfoAll[i].MAKE_YEAR_JSON.ko,
                             }
+                            break
                         }
                     }
+                    console.log("lotInfo", lotInfo)
                     // 초기화
                     $("#bid_lst").html('');
                     // 랏번호 삽입
@@ -568,7 +576,7 @@
                     $("#pop_size").html(lotInfo.lotSize);
                     $("#pop_make_year").html(lotInfo.makeYear);
 
-                    init_func_manual(token, parseInt(saleNo), parseInt(lotNo), 2);
+                    init_func_manual(token, parseInt(saleNo), parseInt(lotNo), 2, custNo);
 
                     $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function ($e) {
                         $e.preventDefault();
@@ -613,6 +621,30 @@
                 }
 
                 $scope.pageingdata = p;
+
+                await $scope.setSale($scope.sale_no);
+                //get sale cert
+                $scope.is_sale_cert = false;
+                $scope.cust_hp = "";
+                if(sessionStorage.getItem("is_login") === 'true'){
+                    await axios.get('/api/cert/sales/${saleNo}')
+                        .then(function(response) {
+                            if (response.data.success) {
+                                if(response.data.data.CNT > 0) {
+                                    $scope.is_sale_cert = true;
+                                }
+                                $("#cust_hp").val(response.data.data.HP);
+                            }
+                        });
+
+                    await axios.get('/api/mypage/manager')
+                        .then(function(response) {
+                            if (response.data.success && response.data.data != undefined) {
+                                $("em#manager").html(response.data.data.EMP_NAME + " " + response.data.data.HP);
+                            }
+                        });
+                }
+
                 $scope.$apply();
 
                 $scope.bidstart('${member.loginId}', ${member.userNo});
@@ -653,6 +685,8 @@
         $scope.isEndBid = false;
         // 모든 비딩 정보
         $scope.bidsInfoAll = [];
+
+        let w;
 
         // bidstart
         $scope.bidstart = function (user_id, custNo) {
@@ -966,6 +1000,35 @@
                                     }
                                 }
                             }
+                            let quoute_arr = [];
+                            if (d.message.quotes != null && d.message.quotes.length > 0) {
+                                let cnt = 0;
+                                let viewCnt = 0;
+
+                                let cost_tmp = (bid_info.bid_cost === 0) ?
+                                    bid_info.open_bid_cost :
+                                    bid_info.bid_cost;
+
+                                while( viewCnt < 70 ) {
+                                    if (cnt > d.message.quotes.length - 1) {
+                                        quoute_arr.push(cost_tmp)
+                                        cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
+                                        viewCnt++;
+                                        continue
+                                    }
+                                    if (d.message.quotes[cnt].cost > cost_tmp){
+                                        quoute_arr.push(cost_tmp)
+                                        cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
+                                        cnt = 0;
+                                        viewCnt++;
+                                        continue
+                                    }
+                                    cnt++
+                                }
+                                $.each(quoute_arr, function(idx, el) {
+                                    $("#reservation_bid").append(`<option value="` + el +`">KRW ` + el.toLocaleString('ko-KR') +`</option>`);
+                                });
+                            }
                         }
                         // 낙찰이 완료 되었다면
                         if (bid_info.is_winner) {
@@ -991,6 +1054,8 @@
                 if (d.message.bids != null && d.message.bids.length > 0) {
                     $scope.bidsInfoAll = d.message.bids;
                     let matching = new Map();
+
+                    //d.message.bids[0].cur_lot_no
 
                     // 정보를 처음 가져왔을 때, 인덱스 매핑
                     for (let i = 0; i < $scope.bidsInfoAll.length; i++) {
@@ -1227,6 +1292,45 @@
                 p.push(i);
             }
             return p;
+        }
+
+        $scope.setSale = async function (saleNo) {
+            await axios.get('/api/auction/sales/' + saleNo)
+                .then(function (response) {
+                    if (response.data.success) {
+                        $scope.sale = response.data.data;
+                        $scope.sale.TITLE_JSON = JSON.parse($scope.sale.TITLE_JSON);
+
+                        var S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
+                        var S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
+                        var FROM_DT_D = $filter('date')($scope.sale.FROM_DT, 'yyyyMMdd');
+                        var TO_DT_D = $filter('date')($scope.sale.TO_DT, 'yyyyMMdd');
+                        var END_DT = $filter('date')($scope.sale.END_DT, 'yyyyMMddHHmm');
+                        var LIVE_START_DT = $filter('date')($scope.sale.LIVE_BID_DT, 'yyyyMMddHHmm');
+                        // 오프라인 경매인 경우에는 SALE.TO_DT는 YYYY.MM.DD로 체크. 비교 서버시간은 S_DB_NOW_D (YDH. 2016.10.05)
+
+                        //라이브 응찰 시간 체크
+                        $scope.liveEnd = TO_DT_D;
+                        $scope.nowTime = S_DB_NOW_D;
+                        $scope.liveStartDt = LIVE_START_DT;
+                        $scope.liveCheckDt = S_DB_NOW;
+
+                        if (FROM_DT_D > S_DB_NOW_D && TO_DT_D > S_DB_NOW_D) {
+                            $scope.sale_status = "READY";
+                        } else if (FROM_DT_D <= S_DB_NOW_D && $scope.sale.CLOSE_YN != 'Y') {
+                            $scope.sale_status = "ING";
+                        } else {
+                            $scope.sale_status = "END";
+
+                            if (sessionStorage.getItem("is_login") === 'false') {
+                                alert("권한이 없거나 허용되지 않은 접근입니다.");
+                                //history_back();
+                            }
+                        }
+
+                        $scope.$apply();
+                    }
+                });
         }
     });
 </script>

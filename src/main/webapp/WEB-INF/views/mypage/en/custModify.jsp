@@ -3,8 +3,25 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
+<link rel="stylesheet" href="/css/plugin/csslibrary.css">
+<sec:authentication property="details.socialYn" var="socialYn"></sec:authentication>
+<sec:authentication property="details.socialType" var="socialType"></sec:authentication>
+<sec:authentication property="details.userNo" var="userNo"></sec:authentication>
+<sec:authentication property="details.userKind" var="userKind"></sec:authentication>
+<sec:authentication property="details.loginId" var="loginId"></sec:authentication>
+<sec:authentication property="details.userNm" var="userNm"></sec:authentication>
+
+<c:set var="now" value="<%=new java.util.Date()%>" />
+<c:set var="thisYear"><fmt:formatDate value="${now}" pattern="yyyy" /></c:set> 
+ 
 <script>
-	console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
+console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
+	var socialYn = '${socialYn}';
+	var socialType = '${socialType}';
+	var userNo = '${userNo}';
+	var userKind = '${userKind}';
 </script>
 <body class="">
 	<div class="wrapper">
@@ -28,7 +45,7 @@
                                             <div class="subtitle-wrap">
                                                 <div class="subtitle-inner">
                                                     <div class="title">
-                                                        <span class="tt2">회원정보수정</span>
+                                                        <span class="tt2">Change Information</span>
                                                     </div>
                                                     <div class="btn-wrap js-history_back m-ver"><i class="icon-page_back"></i></div>
                                                 </div>
@@ -37,294 +54,205 @@
                                                 <div class="required">
                                                     <span>
                                                         <i>*</i>
-                                                        필수
+                                                        Required
                                                     </span>
                                                 </div>
+                                                <form id="modifyForm">
                                                 <ul class="form_list">
                                                     <li>
                                                         <div class="form_label">
-                                                            <label for="id" class="label_text">아이디</label>
+                                                            <label for="id" class="label_text">Account ID</label>
                                                             <i>*</i>
                                                         </div>
                                                         <div class="form_body id_space">
                                                             <div class="sns_icon-wrap">
-                                                                <span class="mem_text">Gildong.hong92</span>
-                                                                <span class="sns_icon">
-                                                                    <img src="/images/common/icon-sns_naver.png">
-                                                                </span>
+                                                                <span class="mem_text">${loginId }</span>
+	                                            				<c:if test="${socialYn == 'Y' }">
+	                                                                <span class="sns_icon">
+	                                                                    <img id="snsImg">
+	                                                                </span>
+                                                                </c:if>
                                                             </div>
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div class="form_label name_space">
-                                                            <label for="name" class="label_text">이름</label>
+                                                            <label for="name" class="label_text">Name</label>
                                                             <i>*</i>
                                                         </div>
                                                         <div class="form_body">
-                                                            <span class="mem_text">홍길동</span>
+                                                            <span class="mem_text">${userNm }</span>
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div class="form_label">
-                                                            <label for="yy" class="label_text">생년월일</label>
+                                                            <label for="yy" class="label_text">Birth Date</label>
                                                             <i>*</i>
                                                         </div>
                                                         <div class="form_body select-box_wrap">
                                                             <div class="select-box">
-                                                                <select class="select2Basic50" id="yy">
-                                                                    <option value="1">년도</option>
-                                                                    <option value="2">2</option>
-                                                                    <option value="3">3</option>
-                                                                    <option value="4">4</option>
-                                                                    <option value="5">5</option>
+                                                                <select name="born_dt" class="select2Basic50" id="yy" onchange="bornDtValidCheck()">
+                                                                    <option value="1">Year</option>
+                                                                    <c:forEach var="cnt" begin="0" end="${thisYear - 12 - 1920 }" step="1">
+                                                                    	<option value="${thisYear - 12 - cnt}">${thisYear - 12 - cnt}</option>
+                                                                    </c:forEach>
                                                                 </select>
                                                             </div>
                                                             <div class="select-box">
-                                                                <select class="select2Basic50" id="mm">
-                                                                    <option value="1">월</option>
-                                                                    <option value="2">2</option>
-                                                                    <option value="3">3</option>
-                                                                    <option value="4">4</option>
-                                                                    <option value="5">5</option>
+                                                                <select name="born_dt" class="select2Basic50" id="mm" onchange="bornDtValidCheck()">
+                                                                    <option value="1">Month</option>
+                                                                    <c:forEach var="cnt" begin="1" end="12" step="1">
+                                                                    	<option value="<fmt:formatNumber value='${cnt}' pattern ='00' />"><fmt:formatNumber value='${cnt}' pattern ='00' /></option>
+                                                                    </c:forEach>
                                                                 </select>
                                                             </div>
                                                             <div class="select-box">
-                                                                <select class="select2Basic50" id="dd">
-                                                                    <option value="1">일</option>
-                                                                    <option value="2">2</option>
-                                                                    <option value="3">3</option>
-                                                                    <option value="4">4</option>
-                                                                    <option value="5">5</option>
+                                                                <select name="born_dt" class="select2Basic50" id="dd" onchange="bornDtValidCheck()">
+                                                                    <option value="1">Day</option>
+                                                                    <c:forEach var="cnt" begin="1" end="31" step="1">
+                                                                    	<option value="<fmt:formatNumber value='${cnt}' pattern ='00' />"><fmt:formatNumber value='${cnt}' pattern ='00' /></option>
+                                                                    </c:forEach>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div class="form_label">
-                                                            <label for="gender" class="label_text">성별</label>
+                                                            <label for="gender" class="label_text">Gender</label>
                                                             <i>*</i>
                                                         </div>
                                                         <div class="form_body">
                                                             <span class="trp radio-box">
-                                                                <input id="radio1-1" type="radio" name="radioset1">
+                                                                <input id="radio1-1" type="radio" name="sex_cd" value="male" onclick="javascript:sexCdValid=true;buttonActive();">
                                                                 <i></i>
-                                                                <label for="radio1-1">남자</label>
+                                                                <label for="radio1-1">Male</label>
                                                             </span>
                                                             <span class="trp radio-box">
-                                                                <input id="radio1-2" type="radio" name="radioset1">
+                                                                <input id="radio1-2" type="radio" name="sex_cd" value="female" onclick="javascript:sexCdValid=true;buttonActive();">
                                                                 <i></i>
-                                                                <label for="radio1-2">여자</label>
+                                                                <label for="radio1-2">Female</label>
                                                             </span>
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div class="form_label">
-                                                            <label for="phoneNo" class="label_text">휴대폰번호</label>
+                                                            <label for="email" class="label_text">Email</label>
                                                             <i>*</i>
                                                         </div>
                                                         <div class="form_body vertical_item">
-                                                            <div class="input-group">
-                                                                <input type="text" id="phoneNo" class="form-control" value="010-111-2222" placeholder="">
-                                                                <button class="btn btn_light_gray_line" type="button">
-                                                                    <span>인증번호 요청</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="input-group">
-                                                                <input type="text" id="phoneNo" class="form-control" value="" placeholder="인증번호 입력">
-                                                                <button class="btn btn_light_gray_line" type="button">
-                                                                    <span>인증번호 확인</span>
-                                                                </button>
-                                                            </div>
-                                                            <p class="error_text tb2">안내 메시지 출력 영역</p>
+                                                            <input type="text" tabindex="4" onkeyup="emailValidCheck()" name="email" id="email" class="form-control" placeholder="">
+															<button class="btn btn_light_gray_line mt10" type="button" onclick="emailDuplCheck()">
+                                                                <span>Check Availability</span>
+                                                            </button>
+                                                            <p class="error_text tb2" id="emailMsg"></p>
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div class="form_label">
-                                                            <label for="email" class="label_text">이메일</label>
+                                                            <label for="country" class="label_text">Country</label>
                                                             <i>*</i>
                                                         </div>
                                                         <div class="form_body vertical_item">
-                                                            <input type="text" id="email" class="form-control" value="gildong.hong92@seoulauction.co.kr" placeholder="">
-                                                            <p class="error_text tb2">안내 메시지 출력 영역</p>
+                                                            <div class="select-box country_box">
+                                                                <select class="select2Basic" id="nation_cd" tabindex="5" name="nation_cd" onchange="changeNation();">
+																	<option value="">Select your country</option>
+																</select>
+                                                            </div>
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div class="form_label">
-                                                            <label for="zipcode" class="label_text">주소</label>
+                                                            <label for="phoneNo" class="label_text">Mobile Number</label>
+                                                        </div>
+                                                        <div class="form_body vertical_item">
+                                                            <input type="text" tabindex="6" onkeyup="onlyNumber(this, 'number');" name="hp" id="hp" class="form-control" placeholder="">
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="form_label">
+                                                            <label for="zipno" class="label_text">Address</label>
                                                             <i>*</i>
                                                         </div>
                                                         <div class="form_body vertical_item">
-                                                            <div class="input-group">
-                                                                <input type="text" id="zipcode" class="form-control" value="03344" placeholder="">
-                                                                <button class="btn btn_light_gray_line" type="button">
-                                                                    <span>주소검색</span>
-                                                                </button>
-                                                            </div>
-                                                            <span class="mem_text address_text">서울특별시 종로구 평창 31길 5 (평창동)</span>
+                                                            <span class="mem_text address_text mt0">Postal Code</span>
                                                             <div>
-                                                                <input type="text" id="address" class="form-control" value="" placeholder="평창동 앞마당 상세주소">
+                                                                <input onblur="addrValidBlur()" type="text" tabindex="7" name="zipno" id="zipno" class="form-control" placeholder="">
                                                             </div>
-                                                            <p class="error_text tb2">안내 메시지 출력 영역</p>
+                                                            <span class="mem_text address_text">Address Line</span>
+                                                            <div>
+                                                                <input onblur="addrValidBlur()" type="text" tabindex="8" name="addr" id="addr" class="form-control" placeholder="">
+															</div>
+                                                            <span class="mem_text address_text">Province / state. City</span>
+                                                            <div>
+                                                                <input onblur="addrValidBlur()" type="text" tabindex="9" name="addr_dtl" id="addr_dtl" class="form-control" placeholder="">
+                                                            </div>
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div class="form_label">
-                                                            <label for="zipcode2" class="label_text">배송 주소</label>
+                                                            <label for="deli_zipno" class="label_text">Shipping Address</label>
                                                         </div>
                                                         <div class="form_body vertical_item">
                                                             <span class="trp checkbox-box address_text2">
-                                                                <input id="checkbox1" type="checkbox">
+                                                                <input id="copyAddrChk" type="checkbox" onclick="copyAddr()">
                                                                 <i></i>
-                                                                <label for="checkbox1">주소와 동일한 경우 체크해 주세요.</label>
+                                                                <label for="copyAddrChk">If the address is the same as above, please select the checkbox.</label>
                                                             </span>
-                                                            <div class="input-group">
-                                                                <input type="text" id="zipcode2" class="form-control" value="03344" placeholder="">
-                                                                <button class="btn btn_light_gray_line" type="button">
-                                                                    <span>주소검색</span>
-                                                                </button>
-                                                            </div>
-                                                            <span class="mem_text address_text">서울특별시 종로구 평창 31길 5 (평창동)</span>
                                                             <div>
-                                                                <input type="text" id="address2" class="form-control" value="" placeholder="평창동 앞마당 상세주소">
+                                                                <span class="mem_text address_text">Postal Code</span>
+                                                                <div>
+	                                                                <input onblur="addrValidBlur()" type="text" tabindex="7" name="deli_zipno" id="deli_zipno" class="form-control" placeholder="">
+	                                                            </div>
+	                                                            <span class="mem_text address_text">Address Line</span>
+	                                                            <div>
+	                                                                <input onblur="addrValidBlur()" type="text" tabindex="8" name="deli_addr" id="deli_addr" class="form-control" placeholder="">
+																</div>
+	                                                            <span class="mem_text address_text">Province / state. City</span>
+	                                                            <div>
+	                                                                <input onblur="addrValidBlur()" type="text" tabindex="9" name="deli_addr_dtl" id="deli_addr_dtl" class="form-control" placeholder="">
+	                                                            </div>
                                                             </div>
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div class="form_label">
-                                                            <label for="checkbox1" class="label_text">정보수신방법</label>
+                                                            <label for="checkbox1" class="label_text">Receive via</label>
                                                         </div>
-                                                        <div class="form_body">
-                                                            <span class="trp checkbox-box">
-                                                                <input id="checkbox1" type="checkbox">
-                                                                <i></i>
-                                                                <label for="checkbox1">이메일</label>
-                                                            </span>
-                                                            <span class="trp checkbox-box">
-                                                                <input id="checkbox2" type="checkbox">
-                                                                <i></i>
-                                                                <label for="checkbox2">SMS</label>
-                                                            </span>
-                                                            <span class="trp checkbox-box">
-                                                                <input id="checkbox3" type="checkbox">
-                                                                <i></i>
-                                                                <label for="checkbox3">전화</label>
-                                                            </span>
+                                                        <div class="form_body" id="pushWayList">
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div class="form_label">
-                                                            <label for="checkbox1" class="label_text">작품관심분야</label>
+                                                            <label for="checkbox1" class="label_text">Art Work Interest</label>
                                                         </div>
-                                                        <div class="form_body widthExtend box_Over">
-                                                            <span class="trp checkbox-box">
-                                                                <input id="checkbox1" type="checkbox">
-                                                                <i></i>
-                                                                <label for="checkbox1">해외미술</label>
-                                                            </span>
-                                                            <span class="trp checkbox-box">
-                                                                <input id="checkbox2" type="checkbox">
-                                                                <i></i>
-                                                                <label for="checkbox2">국내 근현대 미술</label>
-                                                            </span>
-                                                            <span class="trp checkbox-box">
-                                                                <input id="checkbox3" type="checkbox">
-                                                                <i></i>
-                                                                <label for="checkbox3">도자기</label>
-                                                            </span>
-                                                            <span class="trp checkbox-box">
-                                                                <input id="checkbox3" type="checkbox">
-                                                                <i></i>
-                                                                <label for="checkbox3">고화</label>
-                                                            </span>
-                                                            <span class="trp checkbox-box">
-                                                                <input id="checkbox3" type="checkbox">
-                                                                <i></i>
-                                                                <label for="checkbox3">고서</label>
-                                                            </span>
+                                                        <div class="form_body widthExtend box_Over" id="interestAreaList">
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div class="form_label">
-                                                            <label for="writer" class="label_text">관심작가</label>
+                                                            <label for="writer" class="label_text">Favorite Artist</label>
                                                         </div>
                                                         <div class="form_body widthExtend">
                                                             <div class="input-group">
-                                                                <input type="text" id="writer" class="form-control" value="유혜경" placeholder="">
-                                                                <button class="btn btn_light_gray_line" type="button">
-                                                                    <span>작가 검색</span>
+                                                                <input type="text" id="writer" class="form-control" value="" placeholder="">
+                                                                <button onclick="artistSearch()" class="btn btn_light_gray_line" type="button">
+                                                                    <span>Artist search</span>
                                                                 </button>
                                                             </div>
-                                                            <ul class="writer_list js-writer_del-list">
-                                                                <li>
-                                                                    <span>김우진</span>
-                                                                    <button>
-                                                                        <i class="icon-filter_del"></i>
-                                                                    </button>
-                                                                </li>
-                                                                <li>
-                                                                    <span>김우진</span>
-                                                                    <button>
-                                                                        <i class="icon-filter_del"></i>
-                                                                    </button>
-                                                                </li>
-                                                                <li>
-                                                                    <span>김우진</span>
-                                                                    <button>
-                                                                        <i class="icon-filter_del"></i>
-                                                                    </button>
-                                                                </li>
-                                                                <li>
-                                                                    <span>김우진</span>
-                                                                    <button>
-                                                                        <i class="icon-filter_del"></i>
-                                                                    </button>
-                                                                </li>
-                                                                <li>
-                                                                    <span>김우진</span>
-                                                                    <button>
-                                                                        <i class="icon-filter_del"></i>
-                                                                    </button>
-                                                                </li>
-                                                                <li>
-                                                                    <span>김우진</span>
-                                                                    <button>
-                                                                        <i class="icon-filter_del"></i>
-                                                                    </button>
-                                                                </li>
-                                                                <li>
-                                                                    <span>김우진</span>
-                                                                    <button>
-                                                                        <i class="icon-filter_del"></i>
-                                                                    </button>
-                                                                </li>
-                                                                <li>
-                                                                    <span>김우진</span>
-                                                                    <button>
-                                                                        <i class="icon-filter_del"></i>
-                                                                    </button>
-                                                                </li>
-                                                                <li>
-                                                                    <span>김우진</span>
-                                                                    <button>
-                                                                        <i class="icon-filter_del"></i>
-                                                                    </button>
-                                                                </li>
-                                                                <li>
-                                                                    <span>김우진</span>
-                                                                    <button>
-                                                                        <i class="icon-filter_del"></i>
-                                                                    </button>
-                                                                </li>
+                                                            <ul class="writer_list js-writer_del-list" id="artistList">
                                                             </ul>
                                                         </div>
                                                     </li>
                                                 </ul>
+                                                <input type="hidden" name="addr_old_yn" id="addr_old_yn" />
+                                                <input type="hidden" name="deli_addr_old_yn" id="deli_addr_old_yn" />
+                                                </form>
                                                 <div class="dropOut_text">
-                                                    <a href="#">회원탈퇴</a>
+                                                    <a href="#" onclick="custLeave();">Delete Account</a>
                                                 </div>
-                                                <div class="btn_area">
-                                                    <button class="btn btn_point btn_lg" type="button">
-                                                        <span>회원정보 수정</span>
+                                                <div class="btn_area" onclick="custModify()">
+                                                    <button class="btn btn_point btn_lg" id="modifyButton" type="button" disabled>
+                                                        <span>SAVE</span>
                                                     </button>
                                                 </div>
                                             </div>
@@ -337,6 +265,80 @@
                         </div>
                     </section>
                 </div>
+                
+			    <!-- 작가검색 -->
+			    <div id="writer_search1-wrap" class="trp popupfixed-wrap default-popup ">
+			        <div class="popup-dim"></div>
+			        <div class="popup-align mode-ms mode-mb_full">
+			            <div class="popup-vertical">
+			                <div class="popup-layer">
+			                    <div class="pop-panel">
+			                        <div class="pop-header">
+			                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+			                            <div class="title-box">
+			                                <span class="txt_title type-big">Author Search</span>
+			                            </div>
+			                        </div>
+			                        <div class="pop-body scroll-type">
+			                            <section class="section">
+			                                <div class="search-group">
+			                                    <input type="text" id="artist_word" class="form-control" value="" placeholder="Enter name">
+			                                    <button onclick="findArtistNewForm()" class="btn btn_black" type="button"><span>Search</span></button>
+			                                </div>
+			                                <article class="articles-box">
+			                                    <div class="table-panel">
+			                                        <div class="table-header">
+			                                            <div class="dataTables_length tb1">
+			                                                <span>Result <em id="artistCnt"></em></span>
+			                                            </div>
+			                                        </div>
+			                                        <div class="table-body">
+			                                            <div class="table_scroll thead_item">
+			                                                <table class="table_base list-table writer_list">
+			                                                    <thead>
+			                                                        <tr>
+			                                                            <th class="radio">Select</th>
+			                                                            <th>Artist</th>
+			                                                            <th>Year of birth/death</th>
+			                                                        </tr>
+			                                                    </thead>
+			                                                </table>
+			                                            </div>
+			                                        </div>
+			                                        <div class="table-body">
+			                                            <div class="table_scroll scroll-type tbody_item writer_btn_list">
+			                                                <table class="table_base list-table writer_list">
+			                                                    <tbody id="artistListBody">
+				                                                    <tr>
+			                                                            <td colspan="3">
+			                                                                <div class="data-empty_mem tb1">
+			                                                                    No results were found for your search.
+			                                                                </div>
+			                                                            </td>
+			                                                        </tr>
+			                                                    </tbody>
+			                                                </table>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                </article>
+			                                <div class="btn-set search-group_btn">
+			                                    <a id="writerClose" class="btn btn_default" href="#" role="button">
+			                                        <span>Cancel</span>
+			                                    </a>
+			                                    <a onclick="setArtists()" class="btn btn_point" href="#" role="button">
+			                                        <span>Registration</span>
+			                                    </a>
+			                                </div>
+			                            </section>
+			                        </div>
+			                    </div>
+			
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			    
             </div>
             <!-- //container -->
 

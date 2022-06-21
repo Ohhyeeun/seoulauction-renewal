@@ -90,6 +90,8 @@ app.controller('newsLetterCtl', function($scope, consts, common, locale) {
                     if($scope.totalDisplayed > idx){
 
                         const itemJSON = JSON.parse(el.content);
+                        const titleJSON = JSON.parse(el.title);
+
                         let newDom = '';
                         if(el.isnew == 'Y'){
                             newDom = '<i class="new">N</i>';
@@ -99,13 +101,13 @@ app.controller('newsLetterCtl', function($scope, consts, common, locale) {
                             + '<div class="image-area">'
                             +    '<figure class="img-ratio">'
                             +       '<div class="img-align">'
-                            +            '<img src="' + itemJSON[$scope.locale].img_url + '" alt="newsletter. Jan. Vol.55">'
+                            +            '<img src="' + el.image._url + '" alt="newsletter. Jan. Vol.55">'
                             +        '</div>'
                             +    '</figure>'
                             + '</div>'
                             + '<div class="typo-area">'
-                            +    '<div class="title"><span>' + itemJSON[$scope.locale].newsletter_title + '</span>' + newDom + '</div>'
-                            +    '<div class="desc"><span>' + itemJSON[$scope.locale].newsletter_memo + ' </span></div>'
+                            +    '<div class="title"><span>' + titleJSON[$scope.locale] + '</span>' + newDom + '</div>'
+                            +    '<div class="desc"><span>' + itemJSON.newsletter_memo + ' </span></div>'
                             + '</div>'
                             + '</a>'
                             + '</div></li>';

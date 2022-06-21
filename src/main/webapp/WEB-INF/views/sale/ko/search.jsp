@@ -4,6 +4,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+
+<!--
 <!DOCTYPE html>
 <html lang="ko" ng-app="myApp">
 <head>
@@ -12,9 +14,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>search | Seoul Auction</title>
-    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
+
+
     <link rel="stylesheet" href="/css/common.css" type="text/css" />
 </head>
+-->
 <body class="" ng-controller="lotListCtl" data-ng-init="init();">
 <div class="wrapper" >
     <div class="sub-wrap pageclass type-width_list">
@@ -23,6 +27,7 @@
         <%--<link rel="stylesheet" href="/css/main.css" type="text/css" />--%>
         <jsp:include page="../../include/ko/header.jsp" flush="false"/>
         <!-- //header -->
+        <link rel="stylesheet" href="/css/plugin/csslibrary.css">
         <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
         <script type="text/javascript" src="/js/angular/checklist-model.js"></script>
         <script type="text/javascript" src="/js/angular/hrzslider.min.js"></script>
@@ -99,11 +104,12 @@
                                             </div>
                                         </div>
                                         <div class="col_item positon-col2">
-                                            <div class="select-box" id="selectSort" >
-                                                <select class="select2Basic42" onchange="angular.element(this).scope().search();">
-                                                    <option value="1" >경매 최신순</option>
-                                                    <option value="2">추정가 낮은순</option>
-                                                    <option value="3">추정가 높은순</option>
+                                            <div class="select-box" id="selectSort" onchange="angular.element(this).scope().search();">
+                                                <select class="select2Basic42" >
+                                                    <option value="1">경매 최신순</option>
+                                                    <option value="2">LOT 번호순</option>
+                                                    <option value="3">추정가 낮은순</option>
+                                                    <option value="4">추정가 높은순</option>
                                                 </select>
                                             </div>
                                             <div class="select-box" id="selectMore">
@@ -325,4 +331,4 @@
     toggle_accordion.setBtn(0);
 </script>
 </body>
-</html>
+<!--</html>-->

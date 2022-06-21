@@ -31,6 +31,7 @@ function passwdKeyUp() {
 		$("#modifyButton").removeAttr('disabled');
 		$("#modifyButton").removeClass('btn_gray');
 		$("#modifyButton").addClass('btn_point');
+		enterKey();
 	}else{
 		$("#modifyButton").attr('disabled', true);
 		$("#modifyButton").removeClass('btn_point');
@@ -58,7 +59,7 @@ function passwdConfirm() {
 				if (langType == 'ko') {
 					$("#passwdMsg").html("비밀번호가 일치하지 않습니다. 비밀번호를 다시 확인해주세요.");
 				} else {
-					$("#passwdMsg").html("비밀번호가 일치하지 않습니다. 비밀번호를 다시 확인해주세요.");
+					$("#passwdMsg").html("Passwords do not match. Please check your password again.");
 				}
 			}else{
 				goPost();
@@ -86,7 +87,11 @@ function passwdCancel() {
 // session의 socialEmail가 같으면 회원정보수정페이지로 이동
 function socialConfirm(snsEmail) {
 	if(snsEmail === socialEmail){
-		alert("연결 되었습니다.");
+		if(langType == 'ko'){
+			alert("연결 되었습니다.");
+		}else{
+			alert("Connected.");
+		}
 		goPost();
 	}	
 }

@@ -22,6 +22,7 @@ public class SaleService {
     private final SaleMapper saleMapper;
     private final ArtistMapper artistMapper;
     private final AuctionService auctionService;
+    private final LoginService loginService;
 
     public CommonMap selectSaleInfo(CommonMap commonMap){
         CommonMap resultMap = saleMapper.selectSaleInfo(commonMap);
@@ -167,9 +168,9 @@ public class SaleService {
         String bidKindCd = map.getString("bid_kind_cd");
 
         //bidKindcd 가 오프라인 경매 일 경우.
-        if(bidKindCd.equals("paper_offline")
+        if(bidKindCd.equals("paper_online")
           || bidKindCd.equals("phone")
-          || bidKindCd.equals("floor")
+          || bidKindCd.equals("paper_phone")
         ) {
             map.put("padd_no", auctionService.selectSalePaddNo(map));
 
@@ -211,8 +212,23 @@ public class SaleService {
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
+            CommonMap custMap = loginService.selectCustByCustNo(map);
+
+            map.put("hp", custMap.get("HP"));
+            map.put("email", custMap.get("EMAIL"));
+
+            //임시
+            map.put("memo", null);
+            map.put("emp_no", null);
+
+            //오프라인 응찰 시 자동 응찰 기록 해야함.
+            saleMapper.insertAutoBid(map);
+
         }
         saleMapper.insertBid(map);
+    }
+    public void insertAutoBid(CommonMap map){
+        saleMapper.insertAutoBid(map);
     }
 
     public CommonMap getCustomerByCustNo(CommonMap commonMap) {

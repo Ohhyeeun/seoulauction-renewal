@@ -3,9 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<jsp:include page="../../../common/commonJs.jsp" flush="false"/>
 <script type="text/javascript" src="/js/mypage/mypageSide.js"></script>
-
 <sec:authentication property="details.socialYn" var="socialYn"/> 
 <sec:authentication property="Details.userNm" var="userName"/>
 <sec:authentication property="Details.validDate" var="validDate"/> 
@@ -128,7 +126,7 @@
                                             <dd>
                                                 <div class="info-li">
                                                     <div class="tit">결제일</div>
-                                                    <div class="txt">{{pay.payDate}}({{pay.weekDate}}) {{pay.payTime}}</div>
+                                                    <div class="txt">{{pay.PAY_DT}}</div>
                                                 </div>
                                                 <div class="info-li">
                                                     <div class="tit">결제방법</div>

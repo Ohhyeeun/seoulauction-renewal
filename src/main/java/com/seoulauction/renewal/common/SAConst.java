@@ -18,6 +18,8 @@ public class SAConst {
     public static final String API_LOGIN ="api/login";
     public static final String SERVICE_MYPAGE ="mypage";
     public static final String SERVICE_SERVICE ="service";
+    public static final String SERVICE_FOOTER ="footer";
+    public static final String SERVICE_ERROR ="error";
 
     public static final String SEVICE_PRIVATE_SALE = "privatesale";
 
