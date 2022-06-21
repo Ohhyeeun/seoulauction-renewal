@@ -69,6 +69,5 @@ public class FooterService {
 
         footerMapper.insertRecruitApply(map);
         s3Service.insertS3FileData(false , file , "recruit_apply" , map.get("id").toString());
-
     }
 }
