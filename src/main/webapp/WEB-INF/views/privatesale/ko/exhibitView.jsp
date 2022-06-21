@@ -301,14 +301,13 @@
                             <div class="gallery_view js-image_viewer" style="">
                                 <div class="gallery_center">
                                     <div class="swiper-wrapper">
-
                                         <div class="swiper-slide" ng-repeat="item in lotImages" data-index="{{item.LOT_NO}}">
                                             <div class="img-area">
                                                 <div class="img-box ">
                                                     <div class="size_x"><span>{{item.SIZE1}} {{item.UNIT_CD}}</span></div>
                                                     <div class="size_y"><span>{{item.SIZE2}} {{item.UNIT_CD}}</span></div>
                                                     <div class="images">
-                                                        <img class="imageViewer" src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" style="width:540px; height: 360px;" alt="" />
+                                                        <img class="imageViewer" src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="" size1="{{item.SIZE1}}" size2="{{item.SIZE2}}" />
                                                     </div>
                                                 </div>
                                             </div>

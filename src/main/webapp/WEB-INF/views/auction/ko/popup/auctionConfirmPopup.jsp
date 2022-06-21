@@ -98,7 +98,7 @@
                                     </ul>
                                 </div>
                                 <div class="text-area">
-                                    <p class="tb2">응찰 관련 문의가 있으신 경우, 귀하의 담당자<br class="only-mb">(<em>홍길동 02-2075-4411</em>)에게 <br class="only-pc">연락주시기 바랍니다.
+                                    <p class="tb2">응찰 관련 문의가 있으신 경우, 귀하의 담당자<br class="only-mb">(<em id="manager">고객관리자 02-395-0330</em>)에게 <br class="only-pc">연락주시기 바랍니다.
                                     </p>
                                 </div>
                             </div>
@@ -122,20 +122,9 @@
         </div>
     </div>
 </div>
-<%--
-<script>
-    (function() {
-        var popup_offline_payment = $(".js-popup_online_confirm").trpLayerFixedPopup("#popup_online_confirm-wrap");
-        $(popup_offline_payment.getBtn).on("click", function($e) {
-            $e.preventDefault();
-            console.log("open11")
-            popup_offline_payment.open(this); // or false
-            popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
-        });
 
-        $("body").on("click", "#popup_online_confirm-wrap .js-closepop, #popup_online_confirm-wrap .popup-dim", function($e) {
-            $e.preventDefault();
-            popup_offline_payment.close();
-        });
-    })();
-</script>--%>
+<!-- [2022-0613] 스크립트수정 -->
+<script>
+
+</script>
+<!-- // [2022-0613] -->

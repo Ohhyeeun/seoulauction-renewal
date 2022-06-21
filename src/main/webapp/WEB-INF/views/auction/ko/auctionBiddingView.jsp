@@ -446,7 +446,7 @@
                 let func = async function () {
                     let url = '';
                     if (window.location.protocol !== "https:") {
-                        url = 'http://localhost:8002/user/bid/hist';
+                        url = 'http://dev-bid.seoulauction.xyz/user/bid/hist';
                     } else {
                         url = 'https://dev-bid.seoulauction.xyz/init2';
                     }
@@ -613,7 +613,7 @@
                 }
 
                 if (window.location.protocol !== "https:") {
-                    w = new WebSocket("ws://localhost:8002/ws");
+                    w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws");
                 } else {
                     w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws");
                 }
@@ -648,9 +648,9 @@
                 }
                 let url = '';
                 if (window.location.protocol !== "https:") {
-                    url = 'http://localhost:8002/bid';
+                    url = 'http://dev-bid.seoulauction.xyz/bid';
                 } else {
-                    url = 'https://localhost:8002/bid';
+                    url = 'https://dev-bid.seoulauction.xyz/bid';
                 }
                 fetch(url, {
                     method: "POST", body: JSON.stringify({
@@ -681,7 +681,7 @@
                     let init_func_manual = async function (req) {
                         let url = '';
                         if (window.location.protocol !== "https:") {
-                            url = 'http://localhost:8002/init';
+                            url = 'http://dev-bid.seoulauction.xyz/init';
                         } else {
                             url = 'https://dev-bid.seoulauction.xyz/init';
                         }
@@ -863,7 +863,7 @@
                             let currentLotInfoFunc = async function (token, saleNo, lotNo, saleType) {
                                 let url = '';
                                 if (window.location.protocol !== "https:") {
-                                    url = 'http://localhost:8002/init2';
+                                    url = 'http://dev-bid.seoulauction.xyz/init2';
                                 } else {
                                     url = 'https://dev-bid.seoulauction.xyz/init2';
                                 }

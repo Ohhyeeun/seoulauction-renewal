@@ -5,6 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
+<spring:eval expression="@environment.getProperty('image.root.path')" var="imageRootPath" />
 <body class="">
 	<div class="wrapper" ng-app="myApp">
 		<div class="sub-wrap pageclass">
@@ -79,7 +80,7 @@
                                                                         <div class="thumb-area">
                                                                             <figure class="img-ratio">
                                                                                 <div class="img-align">
-                                                                                    <img src="/nas_img{{data.FILE_PATH}}/{{data.FILE_NAME}}" alt="">
+                                                                                    <img src="${imageRootPath}{{data.FILE_PATH}}/{{data.FILE_NAME}}" alt="">
                                                                                 </div>
                                                                             </figure>
                                                                         </div>
@@ -97,7 +98,7 @@
                                                                         <div class="pay-area">
                                                                             <dl class="price">
                                                                                 <dt class="tit">추정가</dt>
-                                                                                <dd class="txt"><span>KRW {{comma(data.EXPE_PRICE_FROM_KO)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_KO)}}</span></dd>
+                                                                                <dd class="txt"><span>{{data.CURR_CD}} {{comma(data.EXPE_PRICE_FROM_KO)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_KO)}}</span></dd>
                                                                             </dl>
                                                                         </div>
                                                                     </div>

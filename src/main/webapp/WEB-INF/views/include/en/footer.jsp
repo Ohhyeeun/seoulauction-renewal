@@ -24,7 +24,7 @@
             <div class="footer-infomenubox">
                 <ul class="flex_wrap footer-infomenu">
                     <li><a href="#">Terms</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#"><strong>Privacy Policy</strong></a></li>
                     <li><a href="#">Information Mgmt. Rules</a></li>
                 </ul>
                 <div class="Familysite-selectbox">

@@ -677,7 +677,7 @@
                     con_try_cnt = 0
                     return
                 }
-                w = new WebSocket("ws://localhost:8002/ws");
+                w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws");
                 w.onopen = function () {
                     console.log("open");
                 }
@@ -720,7 +720,7 @@
                     connect_info.lot_no = 0;
 
                     let init_func_manual = async function (req) {
-                        let response = await fetch('http://localhost:8002/init', {
+                        let response = await fetch('http://dev-bid.seoulauction.xyz/init', {
                             method: "POST",
                             body: JSON.stringify({
                                 token: req.message.token,

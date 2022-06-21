@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
+<spring:eval expression="@environment.getProperty('image.root.path')" var="imageRootPath" />
 <body class="">
     <div class="wrapper" ng-app="myApp">
         <div class="sub-wrap pageclass">
@@ -68,7 +69,7 @@
                                                                         <div class="thumb-area">
                                                                             <figure class="img-ratio">
                                                                                 <div class="img-align">
-                                                                                    <img src="/nas_img{{data.LOT_IMG}}" alt="">
+                                                                                    <img src="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}" alt="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}">
                                                                                      <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'N' && data.BID_PRICE == data.success_bid_price"><span class="bid_result-icon">Hammer</span></div>
                                                                                      <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'Y'"><span class="bid_result-icon">Cancel</span></div>
                                                                                 </div>
@@ -91,7 +92,7 @@
                                                                         </dl>
                                                                         <dl class="price succ">
                                                                             <dt class="tit">Hammer</dt>
-                                                                            <dd class="txt">{{data.CURR_CD}} {{comma(data.success_bid_price)}}</dd>
+                                                                            <dd class="txt" ng-if="data.success_bid_price">{{data.CURR_CD}} {{comma(data.success_bid_price)}}</dd>
                                                                         </dl>
                                                                         <dl class="date">
                                                                             <dt class="tit">Bid Date</dt>

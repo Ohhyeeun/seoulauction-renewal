@@ -261,7 +261,7 @@
                                                     <div class="size_x"><span>{{item.SIZE1}} {{item.UNIT_CD}}</span></div>
                                                     <div class="size_y"><span>{{item.SIZE2}} {{item.UNIT_CD}}</span></div>
                                                     <div class="images">
-                                                        <img class="imageViewer" src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" style="width:540px; height: 360px;" alt="" />
+                                                        <img class="imageViewer" src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="" size1="{{item.SIZE1}}" size2="{{item.SIZE2}}" />
                                                     </div>
                                                 </div>
                                             </div>

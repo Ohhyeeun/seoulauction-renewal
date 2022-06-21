@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
+<spring:eval expression="@environment.getProperty('image.root.path')" var="imageRootPath" />
 <body class="">
     <div class="wrapper" ng-app="myApp">
         <div class="sub-wrap pageclass">
@@ -63,7 +64,7 @@
                                                                         <div class="thumb-area">
                                                                             <figure class="img-ratio">
                                                                                 <div class="img-align">
-                                                                                     <img src="/nas_img{{data.LOT_IMG}}" alt="">
+                                                                                     <img src="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}" alt="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}">
                                                                                 </div>
                                                                             </figure>
                                                                         </div>
