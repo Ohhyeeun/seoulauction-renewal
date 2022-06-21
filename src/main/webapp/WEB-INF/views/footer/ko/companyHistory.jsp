@@ -60,7 +60,7 @@
                                                 <h4 class="tt4">한국 최초의 경매회사로 시작하여, 고객과 함께 성장해온 서울옥션의 역사를 소개합니다.</h4>
                                                 <div class="select-box">
                                                     <select class="select2Basic42" name="history-change" id="history-change">
-                                                        <option value="history-body-1">2021 ~ 2018</option>
+                                                        <option value="history-body-1">2022 ~ 2018</option>
                                                         <option value="history-body-2">2017 ~ 2010</option>
                                                         <option value="history-body-3">2008 ~ 1998</option>
                                                     </select>
@@ -68,6 +68,31 @@
                                             </div>
                                             <!-- history-body-1 -->
                                             <div class="history-body active" id="history-body-1">
+                                                <div class="history-item_area">
+                                                    <h5>2022</h5>
+                                                    <div class="history-item_list"
+                                                        <div class="history-item">
+                                                            <figure>
+                                                                <img src="/images/pc/footer/histroy_2022_01.png" alt="블랙랏(blacklot.com) 아트위크 개최">
+                                                                <figcaption>
+                                                                    <ul>
+                                                                        <li>블랙랏(blacklot.com) 아트위크 개최</li>
+                                                                    </ul>
+                                                                </figcaption>
+                                                            </figure>
+                                                        </div>
+                                                        <div class="history-item">
+                                                            <figure>
+                                                                <img src="/images/pc/footer/histroy_2022_02.png" alt="산불 피해 이재민 돕기 자선경매">
+                                                                <figcaption>
+                                                                    <ul>
+                                                                        <li>산불 피해 이재민 돕기 자선경매</li>
+                                                                    </ul>
+                                                                </figcaption>
+                                                            </figure>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="history-item_area">
                                                     <h5>2021</h5>
                                                     <div class="history-item_list">
