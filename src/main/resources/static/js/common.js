@@ -201,11 +201,15 @@ $(function(){
 
         /* mobile gnb bg */
         $('.m-gnbmenu').click(function(){
+
             $('.gnb_submenuBg').addClass('on');
             $('.submenuBg').addClass('on');
             $('body').css({'overflow':'hidden'});
             $('.submenuBg').animate({'right':'0','transition':'ease .3s','display':'block'}, function(){
                 $('.gnb_submenuBg').click(function(){
+
+
+
                     $('body').css({'overflow':'visible'});
                     $('.submenu').stop().slideUp(function(){
                         $('.gnbmenu_arrow').removeClass('on');
@@ -218,7 +222,7 @@ $(function(){
 
                 $('.subGnbmenu-tit').click(function(){
 
-                    console.log('fffff');
+                    console.log('fffff1111111');
 
                     let Mobilegnb = $(this).index();
 
@@ -855,7 +859,7 @@ $(window).resize(function(){
 
     console.log('gnb :' + gnb);
 
-     $('.submenuBg').hide();
+     //$('.submenuBg').hide();
 
 
     if(matchMedia("all and (min-width: 1024px)").matches) {
@@ -926,61 +930,59 @@ $(window).resize(function(){
 
     } else {
 
-        //서브 메뉴 클릭.
-        $('.subGnbmenu-tit').off('click');
-        $('.subGnbmenu-tit').click(function(){
+        $(".submenuBg").off('mouseleave');
+        $('.header_gnbmenu>li>a').off('mouseenter');
+        $('.submenuBg').off('mouseenter');
+        $('.submenu').hide();
 
+        $('.m-gnbmenu').off('click');
 
-            let Mobilegnb = $(this).index();
-
-            $('.gnbmenu_arrow>span').removeClass('on');
-            $('.gnbmenu_arrow').removeClass('on');
-            $('.submenu').stop().slideUp();
-
-
-            $('.gnbmenu_arrow>span').eq(Mobilegnb).toggleClass('on');
-            $('.gnbmenu_arrow').eq(Mobilegnb).addClass('on');
-            $('.submenu').eq(Mobilegnb).stop().slideDown();
-
-            $('.modebox').removeClass('on');
-        });
-
-        /* 테블릿 */
         $('.m-gnbmenu').click(function(){
-            $('.submenuBg').show(function(){
-                $('.submenuBg').css({
-                    'right':'0',
-                    'height':'100vh',
-                    'transition':'.1s',
-                    'top': '-43px',
-                });
 
-                $(this).unbind().mouseleave(function(t){
-                    t.stopPropagation();
-                    /* t.preventDefault();
-                    $('.submenuBg').click(false);*/
-                });
+            $('.submenuBg').removeAttr("style");
+            $('.submenuBg').hide();
 
+            $('.gnb_submenuBg').addClass('on');
+            $('.submenuBg').addClass('on');
+            $('body').css({'overflow':'hidden'});
+            $('.submenuBg').css({'right':'-100%'});
+            $('.submenuBg').show();
+            $('.submenuBg').animate({'right':'0','transition':'ease .3s','display':'block'}, function(){
+
+                console.log('14123123');
+                $('.gnb_submenuBg').show();
+                $('.gnb_submenuBg').off('click');
                 $('.gnb_submenuBg').click(function(){
-                    $('.submenuBg').css({'right':'-100%', 'transition':'.3s'});
-                    $(this).css({'right':'-100%', 'transition':'.2s','display':'none'});
-                    $('.gnb_submenuBg').css('overflow','visible');
-                });
 
-                $('.header_beltbox').hide(function(){
-                    $('.submenuBg').css({
-                        'top': '0',
+                    console.log('fffff4322323');
+
+                    $('body').css({'overflow':'visible'});
+                    $('.submenu').stop().slideUp(function(){
+                        $('.gnbmenu_arrow').removeClass('on');
                     });
-                    $('.main-contents').css({'margin-top':'56px'})
+                    $('.submenuBg').animate({'right':'-100%','transition':'ease .2s'}, function(){
+                        $(this).removeClass('on');
+                        $('.gnb_submenuBg').removeClass('on');
+                    });
                 });
-            });
-            /* 띠배너 beltbanner */
-            $('.header_beltbox.on').show(function(){
-                $('.main-contents').css('margin-top','100px');
-            });
-            $('.beltclose-btn').click(function(){
-                $('.main-contents').css('margin-top','56px');
-                $('.gnb_submenuBg').css('overflow','visible');
+                $('.subGnbmenu-tit').off('click');
+                $('.subGnbmenu-tit').click(function(){
+
+                    console.log('fffff');
+
+                    let Mobilegnb = $(this).index();
+
+                    $('.gnbmenu_arrow>span').removeClass('on');
+                    $('.gnbmenu_arrow').removeClass('on');
+                    $('.submenu').stop().slideUp();
+
+
+                    $('.gnbmenu_arrow>span').eq(Mobilegnb).toggleClass('on');
+                    $('.gnbmenu_arrow').eq(Mobilegnb).addClass('on');
+                    $('.submenu').eq(Mobilegnb).stop().slideDown();
+
+                    $('.modebox').removeClass('on');
+                });
             });
 
             /* 오프라인 라이브응찰 화면(mobile) */
