@@ -66,8 +66,7 @@ public class FooterService {
 
         CommonMap insertMap = footerMapper.insertRecruitApply(map);
 
-
-        s3Service.insertS3FileData();
+        //s3Service.insertS3FileData();
 
     }
 }

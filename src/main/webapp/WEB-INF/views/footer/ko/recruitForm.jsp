@@ -77,15 +77,13 @@
                                                 <tr class="file_row">
                                                     <th>첨부파일 <i>*</i></th>
                                                     <td>
-                                                        <!-- [0516] 수정 : 파일선택 버튼 -->
-                                                        <div class="trp file-box">
+                                                        <div id="file_box" class="trp file-box">
                                                             <label for="fileName" class="screen-reader-text">파일 선택</label>
                                                             <input type="text" id="fileName" class="trp-Filetext">
-                                                            <input type="button" class="btn btn_light_gray_line" value="파일첨부">
-                                                            <input type="file" class="trp-Filehidden" onchange="javascript: document.getElementById('fileName').value = this.value" title="Insert Attachment">
+                                                            <input  type="button" class="btn btn_light_gray_line" value="파일첨부">
+                                                            <input id="recruit_file" type="file" class="trp-Filehidden" title="Insert Attachment">
                                                         </div>
-                                                        <!-- //[0516] 수정 : 파일선택 버튼 -->
-                                                        <!-- [0516]삭제 <button class="btn btn_light_gray_line file-btn" type="button"><span>파일선택</span></button> -->
+                                                        <div id="current_file"></div>
                                                         <div class="mark_list-wrap">
                                                             <ul class="mark_dot-list">
                                                                 <li>20 MB 이하의 1개 파일 첨부가 가능합니다.</li>
@@ -180,6 +178,27 @@
     <script>
         $(function(){
 
+            let fileVal;
+            let current_file;
+
+            $("#recruit_file").on('change',function (){
+
+                current_file = $(this);
+                fileVal = current_file.val();
+
+                if(fileVal !=='') {
+                    let ext = fileVal.split('.').pop().toLowerCase();
+                    let fileName = fileVal.split('\\').pop().toLowerCase();
+
+                    if ($.inArray(ext, ['hwp', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx', 'pdf', 'txt', 'zip', 'alz']) == -1) {
+                        alert('hwp , doc, docx, ppt, pptx, xls, xlsx, pdf, txt, zip, alz 파일만 \n업로드 할수 있습니다.');
+                        return;
+                    }
+                    $("#current_file").html(fileName);
+                }
+
+            });
+
             $("#recruit_btn").on('click',function (){
 
                 form();
@@ -191,30 +210,34 @@
                 let form_name = $("#recruit_form_name").val();
                 let form_email = $("#recruit_form_email").val();
                 let form_phone = $("#recruit_form_phone").val();
+
                 let checkboxCheck = $("#info_check").is(':checked');
 
                 console.log('name : ' + form_name);
                 console.log('email : ' + form_email);
                 console.log('phone : ' + form_phone);
 
-                alert('11111' + checkboxCheck);
+                console.log(fileVal);
+                const frm = new FormData()
+                frm.append('file', current_file);
+                frm.append('paramMap', '값');
 
+                    axios.post('/api/footer/recruits/${id}/form',frm ,{
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                    .then(function(response) {
+                        const data = response.data;
+                        console.log(data);
+                        let success = data.success;
+                        if(success){
 
-                <%--axios.get('/api/footer/recruits/${id}'--%>
-
-
-
-                <%--)--%>
-                <%--    .then(function(response) {--%>
-                <%--        const data = response.data;--%>
-                <%--        let success = data.success;--%>
-                <%--        if(success){--%>
-
-                <%--        }--%>
-                <%--    })--%>
-                <%--    .catch(function(error) {--%>
-                <%--        console.log(error);--%>
-                <%--    });--%>
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
             }
         });
     </script>
