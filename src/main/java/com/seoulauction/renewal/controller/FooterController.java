@@ -1,6 +1,8 @@
 package com.seoulauction.renewal.controller;
 
 import com.seoulauction.renewal.common.SAConst;
+import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,9 @@ public class FooterController {
         HttpServletRequest request,
         Locale locale) {
         request.setAttribute("id", id);
+        request.setAttribute("member",  SecurityUtils.getAuthenticationPrincipal());
+
+
         return SAConst.getUrl(SERVICE_FOOTER , "recruitForm" , locale);
     }
     @GetMapping("/incruitEmpty")
@@ -38,6 +43,7 @@ public class FooterController {
         @PathVariable("id") int id,
         HttpServletRequest request,
         Locale locale) {
+
         request.setAttribute("id", id);
         return SAConst.getUrl(SERVICE_FOOTER , "recruitView" , locale);
     }
