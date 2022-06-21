@@ -70,8 +70,8 @@
                                                                     <td class="bbs-subject">{{art.TITLE_KO}}</td>
                                                                     <td ng-bind="art.pay_price | number : 0"></td>
                                                                     <td ng-if="art.CANCEL_YN != 'Y'"><a class="pay complete" href="#" ng-click="academyPayHis({'parent':this, 'academy':art});" class="ng-scope" >결제완료</a>
-                                                                    <button class="btn btn_gray_line btn_sm"  type="button" ng-if="art.PAY_METHOD_ID == 'card' && art.receipt == 'Y'" ng-click="receiptPopup({'pay':art,'type':0})"><span>결제영수증</span></button>
-                                                                 	<button class="btn btn_gray_line btn_sm"  type="button" ng-if="art.PAY_METHOD_ID == 'vbank' && art.receipt == 'Y'" ng-click="receiptPopup({'pay':art,'type':1})"><span>현금영수증</span></button>
+                                                                    <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="0" ng-if="art.PAY_METHOD_ID == 'card' && art.receipt == 'Y'" onclick="receiptPopup(this)"><span>결제영수증</span></button>
+                                                                 	<button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="1" ng-if="art.PAY_METHOD_ID == 'vbank' && art.receipt == 'Y'" onclick="receiptPopup(this)"><span>현금영수증</span></button>
                                                                     </td>
                                                                     <td ng-if="art.CANCEL_YN == 'Y'"><a class="pay">결제취소</a></td>
                                                                     <td>{{art.REG_DT | date:'yyyy-MM-dd'}}</td>
@@ -97,10 +97,10 @@
                                                                         <dt>결제현황</dt>
                                                                         <dd  ng-if="art.CANCEL_YN != 'Y'">
                                                                         <span class="pay complete" ng-click="academyPayHis({'parent':this, 'academy':art});">결제완료</span>
-                                                                         <button class="btn btn_gray_line btn_sm"  type="button" ng-if="art.PAY_METHOD_ID == 'card' && art.receipt == 'Y'" ng-click="receiptPopup({'pay':art,'type':0})"><span>결제영수증</span></button>
-                                                                 		 <button class="btn btn_gray_line btn_sm"  type="button" ng-if="art.PAY_METHOD_ID == 'vbank' && art.receipt == 'Y'" ng-click="receiptPopup({'pay':art,'type':1})"><span>현금영수증</span></button>
+                                                                         <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="0" ng-if="art.PAY_METHOD_ID == 'card' && art.receipt == 'Y'" onclick="receiptPopup(this)"><span>결제영수증</span></button>
+                                                                 		 <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="1" ng-if="art.PAY_METHOD_ID == 'vbank' && art.receipt == 'Y'" onclick="receiptPopup(this)"><span>현금영수증</span></button>
                                                                         </dd>
-                                                                        <dd ng-if="art.CANCEL_YN == 'Y'"><span class="pay">결제취소</span></dd>
+                                                                        <dd ng-if="art.CANCEL_YN == 'Y'"><span class="pay">결제취	소</span></dd>
                                                                     </dl>
                                                                     <dl>
                                                                         <dt>결제일시</dt>

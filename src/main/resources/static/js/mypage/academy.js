@@ -59,15 +59,7 @@ app.controller('academyListCtl', function($scope, consts, common, ngDialog) {
             popup_motion_close("#popup_myacademy_pay-wrap");
         });
 	}
-	
-	$scope.receiptPopup = function(input) {
-		var status = "toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=420,height=540"; 
-        var url = "https://npg.nicepay.co.kr/issue/IssueLoader.do?TID="+input.pay.PG_TRANS_ID+"&type="+input.type; 
-        //type  값  세팅  ::  매출전표: 0,  현금영수증: 1 
-        
-        window.open(url,"popupIssue",status); 
-	}
-	
+
 });
 
 	

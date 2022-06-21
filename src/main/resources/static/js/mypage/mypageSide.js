@@ -35,16 +35,6 @@ app.controller('myPageCtl', function($scope, consts, common, ngDialog) {
 	window.open('/customer/TermCheckPop?locale='+$scope.locale,'popup','width=720,height=750,toobar=0,resizable=yes,status=0,scrollbars=0,left=500,top=100');
 //	window.open('/customer/payRegularRequest','popup','width=720,height=750,toobar=0,resizable=yes,status=0,scrollbars=0');
 	}
-	
-	
-	$scope.receiptPopup = function(input) {
-		var status = "toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=420,height=540"; 
-        var url = "https://npg.nicepay.co.kr/issue/IssueLoader.do?TID="+input.pay.PG_TRANS_ID+"&type="+input.type; 
-        //type  값  세팅  ::  매출전표: 0,  현금영수증: 1 
-        
-        window.open(url,"popupIssue",status); 
-	}
-	
 });
 
 window.addEventListener('load', function () {

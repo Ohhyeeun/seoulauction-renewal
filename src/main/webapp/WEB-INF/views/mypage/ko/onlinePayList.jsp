@@ -134,8 +134,8 @@
                                                                             <a href="payment/sale/{{data.SALE_NO}}/lot/{{data.LOT_NO}}"><button class="btn btn_point" type="button"><span>결제하기</span></button></a>
                                                                         </div>
                                                                         <div class="btn-area" ng-if="data.PAID_CNT >= 1">
-                                                                            <button class="btn btn_gray_line" type="button" ng-if="data.PAY_METHOD_ID == 'card' && data.receipt == 'Y'" ng-click="receiptPopup({'pay':data,'type':0})"><span>결제영수증</span></button>
-                                                                            <button class="btn btn_gray_line" type="button" ng-if="data.PAY_METHOD_ID == 'vbank' && data.receipt == 'Y'" ng-click="receiptPopup({'pay':data,'type':1})"><span>현금영수증</span></button>
+                                                                            <button class="btn btn_gray_line" type="button" data-id="{{data.PG_TRANS_ID}}" data-type="0" ng-if="data.PAY_METHOD_ID == 'card' && data.receipt == 'Y'" onclick="receiptPopup(this)"><span>결제영수증</span></button>
+                                                                            <button class="btn btn_gray_line" type="button" data-id="{{data.PG_TRANS_ID}}" data-type="1" ng-if="data.PAY_METHOD_ID == 'vbank' && data.receipt == 'Y'" onclick="receiptPopup(this)"><span>현금영수증</span></button>
 <!--                                                                             <button class="btn btn_gray btn-half btn-print" type="button" disabled>
                                                                                 <span>보증서출력하기</span>
                                                                                 <span>7일 이후 가능</span>

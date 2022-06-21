@@ -128,8 +128,8 @@
                                                     <div class="txt">{{pay.PAY_METHOD_NM}}</div>
                                                 </div>
                                                  <div class="info-li btn-area">
-                                                    <button class="btn btn_gray_line btn_sm" type="button" ng-if="pay.PAY_METHOD_ID == 'card' && pay.receipt == 'Y'" ng-click="receiptPopup({'pay':pay,'type':0})"><span>카드영수증</span></button>
-                                                    <button class="btn btn_gray_line btn_sm" type="button" ng-if="pay.PAY_METHOD_ID == 'vbank' && pay.receipt == 'Y'" ng-click="receiptPopup({'pay':pay,'type':1})"><span>현금영수증</span></button>
+                                                    <button class="btn btn_gray_line btn_sm" type="button" data-id="{{pay.PG_TRANS_ID}}" data-type="0" ng-if="pay.PAY_METHOD_ID == 'card' && pay.receipt == 'Y'" onclick="receiptPopup(this)"><span>카드영수증</span></button>
+                                                    <button class="btn btn_gray_line btn_sm" type="button" data-id="{{pay.PG_TRANS_ID}}" data-type="1" ng-if="pay.PAY_METHOD_ID == 'vbank' && pay.receipt == 'Y'" onclick="receiptPopup(this)"><span>현금영수증</span></button>
                                                 </div>
                                             </dd>
                                         </dl>
