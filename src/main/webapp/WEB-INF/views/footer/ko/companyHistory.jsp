@@ -70,7 +70,7 @@
                                             <div class="history-body active" id="history-body-1">
                                                 <div class="history-item_area">
                                                     <h5>2022</h5>
-                                                    <div class="history-item_list"
+                                                    <div class="history-item_list">
                                                         <div class="history-item">
                                                             <figure>
                                                                 <img src="/images/pc/footer/histroy_2022_01.png" alt="블랙랏(blacklot.com) 아트위크 개최">
@@ -86,7 +86,52 @@
                                                                 <img src="/images/pc/footer/histroy_2022_02.png" alt="산불 피해 이재민 돕기 자선경매">
                                                                 <figcaption>
                                                                     <ul>
-                                                                        <li>산불 피해 이재민 돕기 자선경매</li>
+                                                                        <li>산불 피해 이재민 돕기 자선경매</li> 
+                                                                    </ul>
+                                                                </figcaption>
+                                                            </figure>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="history-item_area">
+                                                    <h5>2021</h5>
+                                                    <div class="history-item_list">
+                                                        <div class="history-item">
+                                                            <figure>
+                                                                <img src="/images/pc/footer/history_2021_pumpkin.png" alt="쿠사마 야요이 - Pumpkin">
+                                                                <figcaption>
+                                                                    <ul>
+                                                                        <li>쿠사마 야요이 1981년 작 &lt;Pumpkin&gt; 국내 경매 최고가 달성</li>
+                                                                    </ul>
+                                                                </figcaption>
+                                                            </figure>
+                                                        </div>
+                                                        <div class="history-item">
+                                                            <figure>
+                                                                <img src="/images/pc/footer/history_2021_dongpung.png" alt="이우환 - 동풍">
+                                                                <figcaption>
+                                                                    <ul>
+                                                                        <li>이우환 ‘동풍’ 낙찰가 31억원(162회 경매) 국내생존작가 첫 30억원 돌파</li>
+                                                                    </ul>
+                                                                </figcaption>
+                                                            </figure>
+                                                        </div>
+                                                        <div class="history-item">
+                                                            <figure>
+                                                                <img src="/images/pc/footer/history_2021_kjsk.png" alt="겸재 실경 작품">
+                                                                <figcaption>
+                                                                    <ul>
+                                                                        <li>겸재 실경 작품 최고가 기록(161회 경매) 낙찰가 4억 4,000만원</li>
+                                                                    </ul>
+                                                                </figcaption>
+                                                            </figure>
+                                                        </div>
+                                                        <div class="history-item">
+                                                            <figure>
+                                                                <img src="/images/pc/footer/history_2021_record.png" alt="김창열 작가 레코드 기록">
+                                                                <figcaption>
+                                                                    <ul>
+                                                                        <li>김창열 작가 레코드 기록(159회 경매) 낙찰가 10억 4천만원</li>
                                                                     </ul>
                                                                 </figcaption>
                                                             </figure>
