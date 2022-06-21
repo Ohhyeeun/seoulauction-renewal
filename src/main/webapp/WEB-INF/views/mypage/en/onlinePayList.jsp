@@ -59,7 +59,7 @@
                                                             <dt>
                                                                 <div class="title-area">
                                                                     <div class="title tt4 line-1">
-                                                                        <span>{{pl[1][0].SALE_TITLE_EN}}</span>
+                                                                        <span>{{pl[1][0].SALE_TH}}{{pl[1][0].SALE_TH_DSP}} {{pl[1][0].SALE_TITLE_EN}}</span>
                                                                     </div>
                                                                     <div class="desc tb1">
                                                                         <span class="tit">Auction Date</span>
@@ -133,8 +133,8 @@
                                                                         	<a href="payment/sale/{{data.SALE_NO}}/lot/{{data.LOT_NO}}"><button class="btn btn_point" type="button"><span>Make a PayMent</span></button></a>
                                                                         </div>
                                                                         <div class="btn-area" ng-if="data.PAID_CNT >= 1">
-                                                                            <button class="btn btn_gray_line" type="button" ng-if="data.PAY_METHOD_ID == 'card' && data.receipt == 'Y'" ng-click="receiptPopup({'pay':data,'type':0})"><span>Payment Receipt</span></button>
-                                                                            <button class="btn btn_gray_line" type="button" ng-if="data.PAY_METHOD_ID == 'vbank' && data.receipt == 'Y'" ng-click="receiptPopup({'pay':data,'type':1})"><span>Cash Receipt</span></button>
+                                                                        	<button class="btn btn_gray_line" type="button" data-id="{{data.PG_TRANS_ID}}" data-type="0" ng-if="data.PAY_METHOD_ID == 'card' && data.receipt == 'Y'" onclick="receiptPopup(this)"><span>Payment Receipt</span></button>
+                                                                            <button class="btn btn_gray_line" type="button" data-id="{{data.PG_TRANS_ID}}" data-type="1" ng-if="data.PAY_METHOD_ID == 'vbank' && data.receipt == 'Y'" onclick="receiptPopup(this)"><span>Cash Receipt</span></button>
 <!--                                                                             <button class="btn btn_gray btn-half btn-print" type="button" disabled>
                                                                                 <span>보증서출력하기</span>
                                                                                 <span>7일 이후 가능</span>

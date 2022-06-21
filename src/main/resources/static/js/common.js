@@ -466,6 +466,17 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
+//영수증 출력 함수
+function receiptPopup (pay) {
+		var _width = '420';
+   		var _height = '540';
+		var _left = Math.ceil(( window.screen.width - _width )/2);
+    	var _top = Math.ceil(( window.screen.height - _height )/2);
+		var status = "toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=420,height=540,top="+_top+",left="+_left; 
+        var url = "https://npg.nicepay.co.kr/issue/IssueLoader.do?TID="+pay.getAttribute('data-id')+"&type="+pay.getAttribute('data-type'); 
+        //type  값  세팅  ::  매출전표: 0,  현금영수증: 1 
+       window.open(url,"popupIssue",status); 
+}
 
 function onlyNumber(obj, type) {
     const regExp = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;

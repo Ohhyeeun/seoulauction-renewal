@@ -1,9 +1,12 @@
-
 app.value('locale', 'ko');
 app.requires.push.apply(app.requires, ["bw.paging", "ngDialog"]);
 
+
+
 app.controller('liveBidReqListCtl', function($scope, consts, common) {
 
+	var popup_marketing1 = $(".js-popup_auction_live_record").trpLayerFixedPopup("#popup_auction_live_record-wrap");
+	
 	$scope.loadLiveBidReqList = function($page) {
 				$scope.currentPage = $page;
 		 		$page = $scope.currentPage;
@@ -23,8 +26,7 @@ app.controller('liveBidReqListCtl', function($scope, consts, common) {
 					$scope.liveBidReqCnt = result["data"]["cnt"] || 0;
 					
 					$scope.liveBidReqList = Object.keys($scope.groupBy(result["data"]["list"],'SALE_NO')).map((key) => [Number(key), $scope.groupBy(result["data"]["list"],'SALE_NO')[key]]).sort((a, b) => b[0] - a[0]);
-					console.log($scope.liveBidReqList);
-					$scope.$apply();
+					$scope.$apply();					            
 		            }
 		        })
 		        .catch(function(error){
@@ -43,17 +45,21 @@ app.controller('liveBidReqListCtl', function($scope, consts, common) {
 		                alert(result.data.msg);
 		            } else {
 					$scope.liveBidReqHisList = result["data"]["list"];
-		            console.log($scope.liveBidReqHisList);
 		            $scope.$apply();
+		            
+		            popup_marketing1.open(this); // or false
+					popup_fixation("#popup_auction_live_record-wrap");
+		            
+		            $("body").on("click", "#popup_auction_live_record-wrap .js-closepop, #popup_auction_live_record-wrap .popup-dim", function($e) {
+			            $e.preventDefault();
+			            popup_marketing1.close();
+			            popup_motion_close("#popup_auction_live_record-wrap");
+			        });
 		            }
 		        })
 		        .catch(function(error){
 		            console.log(error);
-		        })
-		         .finally(function () {
-			    document.getElementById('popup_auction_live_record-wrap').style.display="block";
-			  });
-					        
+		        })       
 		
 	}
 	
@@ -68,5 +74,24 @@ app.controller('liveBidReqListCtl', function($scope, consts, common) {
 		str = String(str);
 		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 	}
+	
+});
 
+window.addEventListener('load', function () {
+(function() {
+       	console.log(11);
+        var popup_marketing1 = $(".js-popup_auction_live_record").trpLayerFixedPopup("#popup_auction_live_record-wrap");
+        $(popup_marketing1.getBtn).on("click", function($e) {
+            $e.preventDefault();
+            popup_marketing1.open(this); // or false   
+            popup_fixation("#popup_auction_live_record-wrap"); // pc 스크롤
+            popup_motion_open("#popup_auction_live_record-wrap"); // mb 모션 
+        });
+
+        
+
+        $(".js-history_back").click(function() {
+            window.history.back();
+        })
+})();
 });

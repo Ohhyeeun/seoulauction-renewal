@@ -6,7 +6,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
 <spring:eval expression="@environment.getProperty('image.root.path')" var="imageRootPath" />
-<body class="">
+<body class="" ng-controller="liveBidReqListCtl" data-ng-init="loadLiveBidReqList(1);">
     <div class="wrapper" ng-app="myApp">
         <div class="sub-wrap pageclass">
 
@@ -16,7 +16,7 @@
             <!-- //header -->
 
             <!-- container -->
-                <div id="container" class="liveBidReq" ng-controller="liveBidReqListCtl" data-ng-init="loadLiveBidReqList(1);">
+                <div id="container" class="liveBidReq" >
                 <div id="contents" class="contents">
 
                     <section class="basis-section last-section mypage-section">
@@ -134,57 +134,6 @@
                                 </div>
                                 <div class="panel-footer"></div>
                             </div>
-							<!-- 팝업 : 라이브경매관리 온라인패들 응찰 이력 -->
-							    <div id="popup_auction_live_record-wrap" class="trp popupfixed-wrap auction_live_record-popup" >
-							        <div class="popup-dim"></div>
-							        <div class="popup-align mode-lg mode-mb_full">
-							            <div class="popup-vertical">
-							                <div class="popup-layer">
-							                    <div class="pop-panel">
-							                        <div class="pop-header">
-							                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
-							                            <div class="title-box">
-							                                <span class="txt_title type-big">Bid History</span>
-							                            </div>
-							                        </div>
-							                        <div class="pop-body">
-							                            <section class="section">
-							                                <article class="article-area thead_item-wrap">
-							                                    <div class="table-wrap thead_item">
-							                                        <table class="table_base data-table auction-bid-history">
-							                                            <thead>
-							                                                <tr>
-							                                                    <th>Bid Price</th>
-							                                                    <th>Bid Date	</th>
-							                                                    <th>Bid Method</th>
-							                                                    <th>etc</th>
-							                                                </tr>
-							                                            </thead>
-							                                        </table>
-							                                    </div>
-							                                </article>
-							                                <article class="article-area scroll-type mCustomScrollbar tbody_item-wrap">
-							                                    <div class="table-wrap">
-							                                        <table class="table_base data-table auction-bid-history">
-							                                            <tbody>
-							                                            
-							                                                <tr ng-repeat="liveBidReqhis in liveBidReqHisList">
-							                                                    <td>{{liveBidReqhis.CURR_CD}} {{comma(liveBidReqhis.BID_PRICE)}}</td>
-							                                                    <td>{{liveBidReqhis.REQ_DT_EN}}</td>
-							                                                    <td>{{liveBidReqhis.BID_KIND_NM_EN}}</td>
-							                                                    <td ><span class="succ" ng-if="liveBidReqhis.HAMMER_STAT == 'hammer'">Hammer</span></td>
-							                                                </tr>
-							                                            </tbody>
-							                                        </table>
-							                                    </div>
-							                                </article>
-							                            </section>
-							                        </div>
-							                    </div>
-							                </div>
-							            </div>
-							        </div>
-							    </div>
                         </div>
                     </section>
 
@@ -220,34 +169,8 @@
 
     <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
 
-    <script>
-        $(".js-history_back").click(function() {
-            window.history.back();
-        })
-    </script>
-	
-    
-    <script>
-        (function() {
-            var popup_marketing1 = $(".js-popup_auction_live_record").trpLayerFixedPopup("#popup_auction_live_record-wrap");
-            $(popup_marketing1.getBtn).on("click", function($e) {
-                $e.preventDefault();
-                popup_marketing1.open(this); // or false   
-                popup_fixation("#popup_auction_live_record-wrap"); // pc 스크롤
-                popup_motion_open("#popup_auction_live_record-wrap"); // mb 모션 
-            });
-
-            $("body").on("click", "#popup_auction_live_record-wrap .js-closepop, #popup_auction_live_record-wrap .popup-dim", function($e) {
-                $e.preventDefault();
-                popup_marketing1.close();
-                popup_motion_close("#popup_auction_live_record-wrap");
-            });
-
-            $(".js-history_back").click(function() {
-                window.history.back();
-            })
-        })();
-    </script>
+<!-- 팝업 : 라이브경매관리 온라인패들 응찰 이력 -->
+<jsp:include page="popup/liveBidReqHistoryListPopup.jsp" flush="false"/>
 
 </body>
 
