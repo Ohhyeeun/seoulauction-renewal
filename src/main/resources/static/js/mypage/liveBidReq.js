@@ -77,21 +77,3 @@ app.controller('liveBidReqListCtl', function($scope, consts, common) {
 	
 });
 
-window.addEventListener('load', function () {
-(function() {
-       	console.log(11);
-        var popup_marketing1 = $(".js-popup_auction_live_record").trpLayerFixedPopup("#popup_auction_live_record-wrap");
-        $(popup_marketing1.getBtn).on("click", function($e) {
-            $e.preventDefault();
-            popup_marketing1.open(this); // or false   
-            popup_fixation("#popup_auction_live_record-wrap"); // pc 스크롤
-            popup_motion_open("#popup_auction_live_record-wrap"); // mb 모션 
-        });
-
-        
-
-        $(".js-history_back").click(function() {
-            window.history.back();
-        })
-})();
-});
