@@ -73,10 +73,14 @@
                                 <article class="search_tab-article">
                                     <div class="article-body">
                                         <div class="col_item mb-col1">
+                                            <!-- [0617]카운트/LOT셀렉트박스 분리 -->
+                                            <div class="count tb1">
+                                                <span>ALL <em>{{saleInfoAll.length}}</em></span>
+                                            </div>
                                             <div class="select-box">
                                                 <div class="trp-dropdown-area h42-line">
                                                     <button class="js-dropdown-btn">
-                                                        <em>{{saleInfoAll.length}}</em><span>LOT</span><i
+                                                        <span>LOT</span><i
                                                             class="form-select_arrow_md"></i>
                                                     </button>
                                                     <div class="trp-dropdown_list-box"
@@ -114,6 +118,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="col_item mb-col2">
                                             <!-- 작가/작품서치  -->
                                             <div class="search-box">
                                                 <input type="search" placeholder="작가/작품명" id="search_value"
@@ -121,9 +127,7 @@
                                                        ng-keyup="searchArtist(event=$event)" class="h42">
                                                 <i class="form-search_md" ng-click="searchArtist2()"></i>
                                             </div>
-                                            <!-- 작가/작품서치 -->
-                                        </div>
-                                        <div class="col_item mb-col2">
+                                            <!-- 작가/작품서치 --> 
                                             <div class="select-box">
                                                 <select id="sortType" class="select2Basic42 select2-hidden-accessible"
                                                         ng-init="selectSortType = selectSortType || options[0].value"
