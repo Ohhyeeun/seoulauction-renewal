@@ -77,7 +77,7 @@ var userNo = '${userNo}';
                                             <div class="row_2">
                                                 <div class="col-item">
                                                     <div class="img-box img-tar">
-                                                        <img class="" ng-src="/nas_img{{academyView.IMG_VIEW_PATH}}/{{academyView.VIEW_FILE_NAME}}" alt="" />
+                                                    	<img ng-src="<spring:eval expression="@environment.getProperty('image.root.path')" />{{academyView.IMG_VIEW_PATH}}/{{academyView.VIEW_FILE_NAME}}" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="col-item">

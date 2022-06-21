@@ -237,6 +237,22 @@ app.controller('academyListCtl', function($scope, consts, common) {
 		}
 	}
 	
+	$scope.getAcademyImg = function(param){
+		if(param == "artauction"){ // 대학생 아카데미
+			return "academy-thum_student.jpg";
+		}else if(param == "artbrunch"){ // CEO
+			return "academy-thum_ceo.jpg";
+		}else if(param == "artculture"){ //아트마켓
+			return "academy-thum_market.jpg";
+		}else if(param == "artisttalk"){ //작가론
+			return "academy-thum_authorism.jpg";
+		}else if(param == "culture"){ // 건축
+			return "academy-thum_architecture.jpg";
+		}else if(param == "lecture"){ // 특강
+			return "academy-thum_lecture.jpg";
+		}
+	}
+	
 });
 
 
