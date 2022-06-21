@@ -21,5 +21,9 @@ public interface AuctionMapper {
 
     List<CommonMap> selectScheduledSaleList(CommonMap commonMap);
 
+    List<CommonMap> selectResultSaleListPaging(CommonMap paramMap);
+
+    int selectResultSaleListCount(CommonMap paramMap);
+
     CommonMap selectSaleInfo(CommonMap commonMap);
 }

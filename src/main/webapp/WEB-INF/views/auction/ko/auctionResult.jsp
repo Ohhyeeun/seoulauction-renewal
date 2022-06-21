@@ -19,7 +19,7 @@
         <!-- //header -->
 
         <!-- container -->
-        <div id="container" ng-controller="auctionCtl" data-ng-init="loadAuction()">
+        <div id="container" ng-controller="auctionCtl" data-ng-init="init()">
             <div id="contents" class="contents">
 
                 <!-- page title -->
@@ -39,11 +39,11 @@
                                 <div class="tab-wrap">
                                     <div class="tab-area type-left_mm">
                                         <ul class="tab-list js-left_mm">
-                                            <li class="active"><a href="#tab-cont-1"><span>전체</span></a></li>
-                                            <li class=""><a href="#tab-cont-2"><span>라이브</span></a></li>
-                                            <li class=""><a href="#tab-cont-3"><span>온라인</span></a></li>
-                                            <li class=""><a href="#tab-cont-4"><span>홍콩</span></a></li>
-                                            <li class=""><a href="#tab-cont-5"><span>기타</span></a></li>
+                                            <li class="active"><a href="#" ng-click="loadSubPage('');"><span>전체</span></a></li>
+                                            <li class=""><a href="#" ng-click="loadSubPage('live');"><span>라이브</span></a></li>
+                                            <li class=""><a href="#" ng-click="loadSubPage('online');"><span>온라인</span></a></li>
+                                            <li class=""><a href="#" ng-click="loadSubPage('hongkong');"><span>홍콩</span></a></li>
+                                            <li class=""><a href="#" ng-click="loadSubPage('etc');"><span>기타</span></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -53,14 +53,16 @@
                                     <div class="article-body">
                                         <div class="col_item col2">
                                             <div class="search-box">
-                                                <input type="search" placeholder="경매명 또는 전시장소 검색" id="" class="h42">
-                                                <i class="form-search_md"></i>
+                                                <form name="pageForm" method="get" ng-submit="loadSaleList(1, sale_kind_cd);">
+                                                    <input type="search" placeholder="경매명 검색" id="" class="h42" ng-model="find_word">
+                                                    <i class="form-search_md" ng-click="loadSaleList(1, sale_kind_cd);"></i>
+                                                </form>
                                             </div>
                                         </div>
 
                                         <div class="col_item col1">
                                             <div class="count-box">
-                                                <span>총</span> <em>{{totalCnt}}</em><span>건</span>
+                                                <span>총</span> <em>{{totalCount}}</em><span>건</span>
                                             </div>
                                         </div>
                                     </div>
@@ -75,7 +77,7 @@
                         <div class="content-panel type_panel-product_result_list">
                             <div class="panel-body">
                                 <ul class="product-list">
-                                    <li ng-repeat="auction in auctionList | limitTo:totalDisplayed">
+                                    <li ng-repeat="auction in auctionList">
                                         <div class="li-inner">
                                             <article class="item-article">
                                                 <div class="image-area">
@@ -88,22 +90,26 @@
                                                 <div class="typo-area">
                                                     <div class="product_info">
                                                         <div class="title-box">
-                                                            <span class="title">Contemporary Art Sale</span>
+                                                            <span class="title">{{auction.TITLE_JSON['ko']}}</span>
                                                         </div>
                                                         <div class="info-box">
                                                             <!-- [0523] 날짜수정 -->
                                                             <dl>
                                                                 <dt>경매일</dt>
-                                                                <dd>2022.03.22(화) 16:00</dd>
+                                                                <dd>{{auction.TO_DT | date:'yyyy.MM.dd'+'('+getWeek(auction.TO_DT)+')'}} {{auction.TO_DT | date:'H'}}:{{auction.TO_DT | date:'mm'}}</dd>
                                                             </dl>
                                                             <!-- //[0523] 날짜수정 -->
                                                             <dl>
                                                                 <dt>전시장</dt>
-                                                                <dd>서울 옥션 강남센터</dd>
+                                                                <dd>
+                                                                    <ng:template ng-repeat="prev in auction.PREVIEW_JSON">
+                                                                        {{prev.PLACE_JSON['ko']}}<ng:template ng-if="!$last">,</ng:template>
+                                                                    </ng:template>
+                                                                </dd>
                                                             </dl>
                                                         </div>
                                                         <div class="btn-box">
-                                                            <div class="btn_set"><a class="btn btn_default" href="#" role="button"><span>결과보기</span></a>
+                                                            <div class="btn_set"><a class="btn btn_default" href="#" role="button" ng-click="goSale(auction.SALE_KIND_CD, auction.SALE_NO);"><span>결과보기</span></a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -114,30 +120,10 @@
                                 </ul>
                             </div>
 
-                            <paging page="currentPage"
-                                    page-size="pageRows"
-                                    total="totalCount"
-                                    paging-action="loadAuction(page)"
-                                    scroll-top="true"
-                                    hide-if-empty="true"
-                                    show-prev-next="true"
-                                    show-first-last="true"
-                                    ul-class="page_ul"
-                                    active-class="page_active"
-                                    disabled-class="page_disable"
-                                    text-next-class="page_btn sp_btn btn_next02"
-                                    text-prev-class="page_btn sp_btn btn_prev02"
-                                    text-first-class="page_btn sp_btn btn_prev"
-                                    text-last-class="page_btn sp_btn btn_next"
-                            >
-                            </paging>
-
                             <div class="panel-footer">
                                 <div class="set-pc_mb">
                                     <div class="only-pc">
                                         <div class="paging-area" id="paging_search">
-                                            <div class="paging">
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="only-mb">
@@ -172,24 +158,34 @@
 app.value('locale', 'ko');
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
 app.controller('auctionCtl', function($scope, consts, common, locale) {
-    $scope.pageRows = 20;
-    $scope.reqRowCnt = 20;
+    $scope.reqRowCnt = 8;
     $scope.currentPage = 1;
     $scope.totalCount = 0;
-    $scope.rowPerPages = 4;
-    $scope.totalDisplayed = $scope.rowPerPages;
 
-    $scope.loadAuction = function ($page) {
-        axios.get('/api/auction/results').then(function (response) {
-            console.log(response);
+    $scope.init = function(){
+        $scope.loadSaleList(1, '');
+    }
+
+    $scope.loadSaleList = function (page, sale_kind_cd) {
+        $scope.currentPage = page;
+        $scope.sale_kind_cd = sale_kind_cd;
+
+        let data = {};
+        data['from'] = (($scope.currentPage - 1) * parseInt($scope.reqRowCnt));
+        data['rows'] = parseInt($scope.reqRowCnt);
+        data['sale_kind_cd'] = $scope.sale_kind_cd;
+        data['find_word'] = $scope.find_word;
+        console.log(data);
+        axios.post('/api/auction/results', data).then(function (response) {
             const success = response.data.success;
             if (success) {
-                $scope.auctionList = response.data.data;
+                $scope.auctionList = response.data.data.list;
                 $scope.auctionList.map(item => {
                     item.TITLE_JSON = JSON.parse(item.TITLE_JSON);
+                    item.PREVIEW_JSON = JSON.parse(item.PREVIEW_JSON);
                 });
 
-                $scope.totalCnt = $scope.auctionList.length;
+                $scope.totalCount = response.data.data.cnt;
                 //paging이 선택된 경우 paging 계산
                 paging({
                     id: "paging_search",
@@ -199,18 +195,30 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
                     pageSize:10,
                     page:$scope.currentPage,
                     callBackFunc:function(i) {
-                        $scope.loadAuction(i);
+                        $scope.loadSaleList(i, sale_kind_cd);
                     }
                 });
 
-                if( ($scope.currentPage+1)*$scope.rowPerPages >= $scope.totalCnt ) {
+                //if( ($scope.currentPage+1)*$scope.rowPerPages >= $scope.totalCnt ) {
                     //$("#moreBtn").hide();
-                }
+                //}
                 $scope.$apply();
             }
         }).catch(function (error) {
             console.log(error);
         });
+    }
+
+    $scope.loadSubPage = function(sale_kind_cd){
+        $scope.loadSaleList(1, sale_kind_cd);
+    }
+
+    $scope.goSale = function(sale_kind_cd, sale_no) {
+        if(['online','online_zb'].indexOf(sale_kind_cd) > -1) {
+            location.href = "/auction/list/"+sale_no;
+        } else {
+            location.href = "/auction/live/list/"+sale_no;
+        }
     }
 });
 
