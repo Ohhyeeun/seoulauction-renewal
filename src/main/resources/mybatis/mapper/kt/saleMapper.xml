@@ -204,15 +204,31 @@
         order by LI.LOT_NO, LI.DISP_ORD
     </select>
     <select id="selectSaleLotImages" resultType="CommonMap" parameterType="commonMap">
-        select b.SALE_NO   SALE_NO,
-               b.LOT_NO    LOT_NO,
-               c.FILE_PATH FILE_PATH,
-               c.FILE_NAME FILE_NAME
+        select b.SALE_NO     SALE_NO,
+               b.LOT_NO      LOT_NO,
+               c.FILE_PATH   FILE_PATH,
+               c.FILE_NAME   FILE_NAME,
+               CONCAT('['
+                   , GROUP_CONCAT('{',
+                                  '"UNIT_CD":"', ifnull(d.UNIT_CD, 'cm'), '",',
+                                  '"SIZE1":', ifnull(d.SIZE1, 0), ',',
+                                  '"SIZE2":', ifnull(d.SIZE2, 0), ',',
+                                  '"SIZE3":', ifnull(d.SIZE3, 0), ',',
+                                  '"CANVAS":', ifnull(d.CANVAS, 0), ',',
+                                  '"DIAMETER_YN":"', ifnull(d.DIAMETER_YN, 'N'), '",',
+                                  '"PREFIX":"', ifnull(d.PREFIX, ''), '",',
+                                  '"SUFFIX":"', ifnull(d.SUFFIX, ''), '",',
+                                  '"MIX_CD":"', ifnull(d.MIX_CD, 'h'), '",',
+                                  '"CANVAS_EXT_YN":"', ifnull(d.CANVAS_EXT_YN, 'N'), '"',
+                                  '}')
+                   , ']') AS LOT_SIZE_JSON
         from lot b
                  inner join lot_img c on b.SALE_NO = c.SALE_NO and b.LOT_NO = c.LOT_NO and c.DISP_ORD = 1
-        where b.SALE_NO = #{sale_no}
+                 left outer join lot_size d ON d.SALE_NO = b.SALE_NO AND d.LOT_NO = b.LOT_NO
+        where b.SALE_NO =  #{sale_no}
           and b.CLOSE_YN = 'N'
-        order by b.LOT_NO asc
+        group by b.SALE_NO, b.LOT_NO, c.FILE_PATH, c.FILE_NAME
+        order by b.LOT_NO asc;
     </select>
 
     <select id="searchListCount" parameterType="CommonMap" resultType="CommonMap">

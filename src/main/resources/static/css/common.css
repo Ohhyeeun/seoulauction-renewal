@@ -1051,7 +1051,7 @@ img {
 .footer-infomenu>li>a {
     font-weight: 600;
 }
-.footer-infomenu>li:nth-child(2)>a {
+.footer-infomenu>li:nth-child(2)>a>strong {
     font-weight: 800;
 }
 .snsbox_icon>li {
@@ -1697,7 +1697,7 @@ body.dark,
     }
     .submenuBg {
         position: absolute;
-        top: 0;
+        top: -43px;
         right: -100%;
         left: auto;
         height: 100vh;

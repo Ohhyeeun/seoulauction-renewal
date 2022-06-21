@@ -229,6 +229,8 @@ const beltNoticeSwiper = new Swiper(".belt-swiper", {
     autoplay: {
         delay: 4000,
     },
+    allowTouchMove:false, /* 마우스 및 손가락 터치 시 슬라이드 이동 가능여부 */
+    touchMoveStopPropagation: true,   /* touchmove 중지 */
     direction:'vertical',
     loop: true,
 });
