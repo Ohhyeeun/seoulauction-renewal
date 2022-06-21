@@ -49,7 +49,7 @@
                                                 <tr>
                                                     <th>이름<i>*</i></th>
                                                     <td>
-                                                        <input id="recruit_form_name" type="text" class="textType">
+                                                        <input id="recruit_form_name" type="text" class="textType" value="${member.userNm}">
                                                         <p class="form_alert">
                                                             ※ 이름을 정확하게 입력해 주세요.
                                                         </p>
@@ -57,7 +57,7 @@
                                                 </tr>
                                                 <tr>
                                                     <th>이메일 <i>*</i></th>
-                                                    <td><input id="recruit_form_email" type="email" class="textType">
+                                                    <td><input id="recruit_form_email" type="email" class="textType" value="${member.email}">
                                                         <p class="form_alert">
                                                             ※ 이메일 주소를 정확하게 입력해 주세요.
                                                         </p>
@@ -67,7 +67,7 @@
                                                     <th>휴대폰 <i>*</i></th>
                                                     <td>
                                                         <div>
-                                                            <input id="recruit_form_phone" type="text" class="textType">
+                                                            <input id="recruit_form_phone" type="text" class="textType" value="${member.hp}">
                                                         </div>
                                                         <!-- <p class="form_alert" style="display: block;">
 																※ 휴대폰 번호 인증에 성공하였습니다.
@@ -234,6 +234,12 @@
                     return;
                 }
 
+                // if(form_phone.length !== 11){
+                //     alert('휴대폰 11자리를 입력해주세요.');
+                //     return;
+                // }
+
+
                 if(!current_file){
                     alert('파일을 등록해주세요.');
                     return;
@@ -265,8 +271,10 @@
                         let success = data.success;
                         if(success){
 
-                            alert('지원에 성공하셨습니다.');
+                            alert('정상 접수 되었습니다. \n지원해주셔서 감사합니다.');
                             location.href= '/footer/recruit';
+                        } else {
+                            alert('서버에서 오류가 발생 하였습니다.');
                         }
                     })
                     .catch(function(error) {

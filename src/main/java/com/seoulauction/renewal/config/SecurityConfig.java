@@ -80,6 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/customer/**").permitAll()
 			.antMatchers("/mypage/**").authenticated()
 			.antMatchers("/payment/**").authenticated()
+			.antMatchers("/footer/recruit/{id}/**").authenticated()
 			//.anyRequest().authenticated()
 			.and()
 			.formLogin()
