@@ -209,7 +209,7 @@
                                                             <div class="btn_set"><a name="open_popup"
                                                                                     class="btn btn_point"
                                                                                     href="javascript:void(0);"
-                                                                                    ng-click="popSet(item.SALE_NO,item.LOT_NO,'KYUNGHOON');"
+                                                                                    ng-click="popSet(item.SALE_NO,item.LOT_NO, user_id, cust_no);"
                                                                                     role="button"><span>응찰</span></a>
                                                             </div>
                                                         </div>
@@ -322,7 +322,6 @@
     });
 </script>
 
-
 <!-- popup tab -->
 <script>
     $("body").on("click", ".selection", function () {
@@ -359,7 +358,11 @@
 */
 </script>
 <script>
-    var popup_offline_payment = $(".js-popup_online_confirm").trpLayerFixedPopup("#popup_online_confirm-wrap");
+    //약관체크
+    $(".js_all-1").trpCheckBoxAllsImg(".js_all", ".js_item");
+
+    let popup_offline_payment = $(".js-popup_online_confirm").trpLayerFixedPopup("#popup_online_confirm-wrap");
+    let popup_biddingPopup1 = $("a[name='open_popup']").trpLayerFixedPopup("#popup_biddingPopup1-wrap");
 
     <!-- angular js -->
     app.value('locale', 'ko');
@@ -370,10 +373,14 @@
         $scope.is_login = is_login;
         $scope.locale = locale;
         $scope.sale_no = "${saleNo}";
+        $scope.cust_no = ${member.userNo};
+        $scope.user_id = '${member.loginId}';
 
         $scope.pagesize = 10;
         $scope.itemsize = 20;
         $scope.curpage = 1;
+
+
 
         $scope.modelSortType = [{
             name: "LOT 번호순", value: 1
@@ -486,7 +493,7 @@
             $scope.pageing(1);
         }
 
-        $scope.popSet = function (saleNo, lotNo) {
+        $scope.popSet = function (saleNo, lotNo, userId, custNo) {
             if (${member.userNo} === 0){
                 if (sessionStorage.getItem("is_login") === 'false') {
                     //history.push("/login");
@@ -509,11 +516,10 @@
                         popup_offline_payment.close();
                     });
                 } else {
-                    let popup_biddingPopup1 = $("a[name='open_popup']").trpLayerFixedPopup("#popup_biddingPopup1-wrap");
                     popup_biddingPopup1.open(this); // or false
                     popup_fixation("#popup_biddingPopup1-wrap");
 
-                    let init_func_manual = async function (token, saleNo, lotNo, saleType) {
+                    let init_func_manual = async function (token, saleNo, lotNo, saleType, custNo) {
                         //console.log(token, saleNo, lotNo, saleType, userId);
                         let url = '';
                         if (window.location.protocol !== "https:") {
@@ -528,6 +534,7 @@
                                 lot_no: lotNo,
                                 sale_type: saleType,
                                 user_id: '${member.loginId}',
+                                cust_no: custNo,
                             }),
                         });
                         return resp;
@@ -535,6 +542,8 @@
 
                     // 메타데이타
                     let lotInfo = {};
+
+
 
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
                         if ($scope.saleInfoAll[i].SALE_NO === saleNo && $scope.saleInfoAll[i].LOT_NO === lotNo) {
@@ -547,8 +556,10 @@
                                 lotSize: $scope.saleInfoAll[i].SIZE1 + "X" + $scope.saleInfoAll[i].SIZE2 + "X" + $scope.saleInfoAll[i].SIZE3,
                                 makeYear: $scope.saleInfoAll[i].MAKE_YEAR_JSON.ko,
                             }
+                            break
                         }
                     }
+                    console.log("lotInfo", lotInfo)
                     // 초기화
                     $("#bid_lst").html('');
                     // 랏번호 삽입
@@ -565,7 +576,7 @@
                     $("#pop_size").html(lotInfo.lotSize);
                     $("#pop_make_year").html(lotInfo.makeYear);
 
-                    init_func_manual(token, parseInt(saleNo), parseInt(lotNo), 2);
+                    init_func_manual(token, parseInt(saleNo), parseInt(lotNo), 2, custNo);
 
                     $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function ($e) {
                         $e.preventDefault();
@@ -623,6 +634,13 @@
                                     $scope.is_sale_cert = true;
                                 }
                                 $("#cust_hp").val(response.data.data.HP);
+                            }
+                        });
+
+                    await axios.get('/api/mypage/manager')
+                        .then(function(response) {
+                            if (response.data.success && response.data.data != undefined) {
+                                $("em#manager").html(response.data.data.EMP_NAME + " " + response.data.data.HP);
                             }
                         });
                 }
@@ -981,6 +999,35 @@
                                         }
                                     }
                                 }
+                            }
+                            let quoute_arr = [];
+                            if (d.message.quotes != null && d.message.quotes.length > 0) {
+                                let cnt = 0;
+                                let viewCnt = 0;
+
+                                let cost_tmp = (bid_info.bid_cost === 0) ?
+                                    bid_info.open_bid_cost :
+                                    bid_info.bid_cost;
+
+                                while( viewCnt < 70 ) {
+                                    if (cnt > d.message.quotes.length - 1) {
+                                        quoute_arr.push(cost_tmp)
+                                        cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
+                                        viewCnt++;
+                                        continue
+                                    }
+                                    if (d.message.quotes[cnt].cost > cost_tmp){
+                                        quoute_arr.push(cost_tmp)
+                                        cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
+                                        cnt = 0;
+                                        viewCnt++;
+                                        continue
+                                    }
+                                    cnt++
+                                }
+                                $.each(quoute_arr, function(idx, el) {
+                                    $("#reservation_bid").append(`<option value="` + el +`">KRW ` + el.toLocaleString('ko-KR') +`</option>`);
+                                });
                             }
                         }
                         // 낙찰이 완료 되었다면
