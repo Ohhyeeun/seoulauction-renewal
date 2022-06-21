@@ -114,7 +114,14 @@ app.controller('newsLetterCtl', function($scope, consts, common, locale) {
 
                     const date = response.data.data.publish_at.replace(/(\d+)\-(\d+)\-(\d+)/, '$1$2');
 
-                    let iframeHtml = '<iframe id="iframe-id" src="'+ locale === 'en' ? $scope.newsletter.content.en_url : $scope.newsletter.content.ko_url +'" frameborder="0" width="100%" height="900"></iframe>'
+                    let url = '';
+                    if(locale == 'en'){
+                        url = $scope.newsletter.content.en_url;
+                    }else{
+                        url = $scope.newsletter.content.ko_url;
+                    }
+
+                    let iframeHtml = '<iframe id="iframe-id" src="'+ url +'" frameborder="0" width="100%" height="900"></iframe>'
                     $("#loadHtml").append(iframeHtml);
 
                     let newDom = '';
@@ -126,7 +133,7 @@ app.controller('newsLetterCtl', function($scope, consts, common, locale) {
                         + '</div>'
                         + '<span>' + $scope.newsletter.title[locale] +  newDom + '</span>'
                         + '<div class="desc">'
-                        + '<span class="">' + $scope.newsletter.content[locale].newsletter_memo  + '</span>'
+                        + '<span class="">' + $scope.newsletter.content.newsletter_memo  + '</span>'
                         + '</div>';
 
                     $('#title_area').append(returnDom);
