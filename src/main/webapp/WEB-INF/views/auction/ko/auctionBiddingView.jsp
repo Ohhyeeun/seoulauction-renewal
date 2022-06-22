@@ -339,7 +339,7 @@
                                         <div class="video_area">
                                             <div class="view_box">
                                                 <!-- Youtube -->
-                                                <video id="llnw-rts-subscriber" width="100%" autoplay controls muted></video>
+                                                <video id="llnw-rts-subscriber" style="width:calc( 100% - 50px );margin:0 25px;" autoplay controls muted></video>
                                                 <!--a href="#" class="video_wrap">
                                                         <span class="video_thumbnail_wrap">
                                                             <span class="video_thumbnail" style="background-image: url(/images/temp/temp_video_bg.jpg)"></span>
@@ -364,7 +364,7 @@
                                                         <div class="view-img">
                                                             <div class="img-box">
                                                                 <div class="box-inner">
-                                                                    <img src="/images/temp/temp_img1_big.jpg" alt="LOT 02">
+                                                                    <img src="{{curLot.IMAGE_URL}}{{curLot.FILE_PATH}}/{{curLot.FILE_NAME}}" alt="LOT {{curLot.LOT_NO}}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -382,7 +382,7 @@
 
                                                             <div class="num"><span>2</span> <em class="live_box">LIVE</em> </div>
                                                             <!-- [0516]년도수정 -->
-                                                            <div class="title"><span ng-bind="curLot.ARTIST_NAME_JSON.ko">데미안허스트</span></div>
+                                                            <div class="title"><span ng-bind="curLot.ARTIST_NAME_JSON.ko"></span></div>
                                                             <!-- // [0516]년도수정  -->
                                                             <div class="desc"><span ng-bind="curLot.LOT_TITLE_JSON.ko"></span></div>
                                                             <div class="price"><span>KRW {{curLot.EXPE_PRICE_FROM_JSON.KRW}} ~ {{curLot.EXPE_PRICE_TO_JSON.KRW}}</span></div>
@@ -397,7 +397,7 @@
                                             <div class="biddingprice_wrap">
                                                 <div class="now_price">
                                                     <p class="txt">현재가</p>
-                                                    <p class="price_unit1" ng-bind="curLot.bid_cost">KRW 9,999,999,999</p>
+                                                    <p class="price_unit1" ng-bind="curLot.bid_cost"></p>
                                                     <p class="price_unit2"></p>
                                                 </div>
                                                 <div class="bid_price">
