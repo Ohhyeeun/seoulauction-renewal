@@ -1,7 +1,9 @@
-$(function(){
+$(function() {
 
     const locale = document.documentElement.lang;
-    const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
+    const sleep = (ms) => new Promise(resolve => {
+        setTimeout(resolve, ms)
+    });
 
     console.log(window.innerWidth);
 
@@ -12,18 +14,17 @@ $(function(){
     setGnbNowBadge();
 
     //마이페이지 확장메뉴 now표시
-    if(sessionStorage.getItem("is_login") === "true"){
+    if (sessionStorage.getItem("is_login") === "true") {
         setMyMenuBadge();
     }
 
 
-
-    function loadIngAuctionList(){
+    function loadIngAuctionList() {
 
 
         axios.get('api/main/ingAuctions')
-            .then(function(response){
-                const success =  response.data.success;
+            .then(function (response) {
+                const success = response.data.success;
                 if (success) {
                     const ingAuctionList = response.data.data;
                     ingAuctionList.map(item => {
@@ -36,7 +37,7 @@ $(function(){
                                             </figure>
                                             <div class="Ingbanner-txt text-over">
                                                 <span class="auctionKind-box Ingkind-auction ${item.SALE_KIND === 'LIVE' ? 'on' : ''}">${item.SALE_KIND}</span>
-                                                  <p class="text-over">${localeOrdinal(item.TITLE_TH,locale) + titleJSON[locale]}</p>
+                                                  <p class="text-over">${localeOrdinal(item.TITLE_TH, locale) + titleJSON[locale]}</p>
                                                 <span class="Ingbanner-arrow"></span>
                                             </div>
                                         </a>`;
@@ -46,59 +47,59 @@ $(function(){
 
                 }
             })
-            .catch(function(error){
+            .catch(function (error) {
                 console.log(error);
             });
     }
 
-    function setGnbNowBadge(){
+    function setGnbNowBadge() {
 
 
         axios.get('api/main/ingMenuCount')
-            .then(function(response){
-                const success =  response.data.success;
+            .then(function (response) {
+                const success = response.data.success;
                 if (success) {
                     const menuCount = response.data.data;
                     const badgeHtml = '<span class="currentIng">NOW</span>';
-                    if(menuCount.AuctionCount > 0)
+                    if (menuCount.AuctionCount > 0)
                         document.querySelector('#menu_auction').insertAdjacentHTML('beforeend', badgeHtml);
-                    if(menuCount.UpcomingCount > 0)
+                    if (menuCount.UpcomingCount > 0)
                         document.querySelector('#menu_upcoming').insertAdjacentHTML('beforeend', badgeHtml);
-                    if(menuCount.ExhibitionCount > 0)
+                    if (menuCount.ExhibitionCount > 0)
                         document.querySelector('#menu_exhibit').insertAdjacentHTML('beforeend', badgeHtml);
-                    if(menuCount.AcademyCount > 0)
+                    if (menuCount.AcademyCount > 0)
                         document.querySelector('#menu_academy').insertAdjacentHTML('beforeend', badgeHtml);
                 }
             })
-            .catch(function(error){
+            .catch(function (error) {
                 console.log(error);
             });
     }
 
-    function setMyMenuBadge(){
+    function setMyMenuBadge() {
 
         axios.get('api/main/isHaveToPayWorkExist')
-            .then(function(response){
-                const success =  response.data.success;
+            .then(function (response) {
+                const success = response.data.success;
                 if (success) {
                     const isExist = response.data.data.isExist;
                     const badgeHtml = '<i class="utility-icon on"></i>';
                     console.log(isExist)
-                    if(isExist)
+                    if (isExist)
                         document.querySelector('#MyMenuOnlineBadge a').insertAdjacentHTML('beforeend', badgeHtml);
                 }
             })
-            .catch(function(error){
+            .catch(function (error) {
                 console.log(error);
             });
     }
 
 
     /* pc 다크모드 */
-    $('.darkmodeBg').click(function(){
+    $('.darkmodeBg').click(function () {
         $('*').toggleClass('dark');
 
-        $('.auctionTab-btn').click(function(){
+        $('.auctionTab-btn').click(function () {
             const darkIngTab = $(this).index();
             $('.auctionTab-btn').removeClass('dark');
             $('.auctionTab-contents').removeClass('dark');
@@ -114,8 +115,8 @@ $(function(){
     });
 
     /* mobile 다크모드 */
-    $('.modebox').click(function(){
-        if($('.mode-toggle>input').is(":checked")){
+    $('.modebox').click(function () {
+        if ($('.mode-toggle>input').is(":checked")) {
             $('*').addClass('dark');
         } else {
             $('*').removeClass('dark');
@@ -123,48 +124,48 @@ $(function(){
     });
 
     /* 띠배너 */
-    $('.beltclose-btn').click(function(){
+    $('.beltclose-btn').click(function () {
         $('.header_beltbox').stop().slideUp(400);
         $('.header_beltbox').removeClass('on');
     });
 
     /*gnb menu */
     let gnb = $(this).index();
-    if(matchMedia("all and (min-width: 1024px)").matches) {
+    if (matchMedia("all and (min-width: 1024px)").matches) {
 
-        $('.header_gnbmenu>li>a').mouseenter(function(){
+        $('.header_gnbmenu>li>a').mouseenter(function () {
 
-            $('.main-contents').click(function(){
+            $('.main-contents').click(function () {
                 $(".submenuBg").stop().slideUp();
                 $('.header_gnbmenu>li>a').removeClass('on');
             });
 
             $('.header_gnbmenu>li>a').removeClass('on');
-            $(".submenuBg").stop().slideDown(function(){
-                $(this).css({'top':'61px'});
+            $(".submenuBg").stop().slideDown(function () {
+                $(this).css({'top': '61px'});
             });
             $(this).eq(gnb).addClass('on');
         });
-        $(".submenuBg").mouseleave(function(){
+        $(".submenuBg").mouseleave(function () {
             $(".submenuBg").stop().slideUp();
             $('.header_gnbmenu>li>a').removeClass('on');
         });
 
         /* main gnb fixed */
-        $('.header').show(function(){
-            $('.main-header').show(function(){
+        $('.header').show(function () {
+            $('.main-header').show(function () {
                 /*$('.main-contents').css('top','118px'); */
-                $('.main-contents').css('margin-top','102px');
+                $('.main-contents').css('margin-top', '102px');
             });
             $(this).hasClass('main-header');
         });
 
         /* 띠배너 beltbanner */
-        $('.header_beltbox.on').show(function(){
-            $('.main-contents').css('margin-top','162px');
+        $('.header_beltbox.on').show(function () {
+            $('.main-contents').css('margin-top', '162px');
         });
-        $('.beltclose-btn').click(function(){
-            $('.main-contents').css('margin-top','102px');
+        $('.beltclose-btn').click(function () {
+            $('.main-contents').css('margin-top', '102px');
         });
         /* 오프라인 라이브응찰 화면(pc) */
         $('.bidding_pc').show();
@@ -187,24 +188,24 @@ $(function(){
         $(".submenuBg").mouseleave(false);
 
         /* mobile gnb bg */
-        $('.m-gnbmenu').click(function(){
+        $('.m-gnbmenu').click(function () {
 
             $('.gnb_submenuBg').addClass('on');
             $('.submenuBg').addClass('on');
-            $('body').css({'overflow':'hidden'});
-            $('.submenuBg').animate({'right':'0','transition':'ease .3s','display':'block'}, function(){
-                $('.gnb_submenuBg').click(function(){
-                    $('body').css({'overflow':'visible'});
-                    $('.submenu').stop().slideUp(function(){
+            $('body').css({'overflow': 'hidden'});
+            $('.submenuBg').animate({'right': '0', 'transition': 'ease .3s', 'display': 'block'}, function () {
+                $('.gnb_submenuBg').click(function () {
+                    $('body').css({'overflow': 'visible'});
+                    $('.submenu').stop().slideUp(function () {
                         $('.gnbmenu_arrow').removeClass('on');
                     });
-                    $('.submenuBg').animate({'right':'-100%','transition':'ease .2s'}, function(){
+                    $('.submenuBg').animate({'right': '-100%', 'transition': 'ease .2s'}, function () {
                         $(this).removeClass('on');
                         $('.gnb_submenuBg').removeClass('on');
                     });
                 });
 
-                $('.subGnbmenu-tit').click(function(){
+                $('.subGnbmenu-tit').click(function () {
 
 
                     let Mobilegnb = $(this).index();
@@ -222,36 +223,36 @@ $(function(){
                 });
             });
         });
-        $('.submenuBg-closeBtn').click(function(){
-            $('body').css({'overflow':'visible'});
+        $('.submenuBg-closeBtn').click(function () {
+            $('body').css({'overflow': 'visible'});
             $('.gnbmenu_arrow').removeClass('on');
-            $('.submenuBg').animate({'right':'-100%','transition':'ease .2s'}, function(){
+            $('.submenuBg').animate({'right': '-100%', 'transition': 'ease .2s'}, function () {
                 $(this).removeClass('on');
                 $('.gnb_submenuBg').removeClass('on');
             });
         });
 
         /* main gnb fixed */
-        $('.header').show(function(){
-            $('.main-header').show(function(){
+        $('.header').show(function () {
+            $('.main-header').show(function () {
                 /*$('.main-contents').css('top','56px'); */
-                $('.main-contents').css('margin-top','56px');
+                $('.main-contents').css('margin-top', '56px');
             });
             $(this).hasClass('main-header');
         });
 
         /* 띠배너 beltbanner */
-        $('.header_beltbox.on').show(function(){
-            $('.main-contents').css('margin-top','100px');
+        $('.header_beltbox.on').show(function () {
+            $('.main-contents').css('margin-top', '100px');
         });
-        $('.beltclose-btn').click(function(){
-            $('.main-contents').css('margin-top','56px');
-            $('.submenuBg').css({'top':'0'});
-            $('.header_beltbox').hide(function(){
+        $('.beltclose-btn').click(function () {
+            $('.main-contents').css('margin-top', '56px');
+            $('.submenuBg').css({'top': '0'});
+            $('.header_beltbox').hide(function () {
                 $('.submenuBg').css({
                     'top': '0',
                 });
-                $('.main-contents').css({'margin-top':'56px'});
+                $('.main-contents').css({'margin-top': '56px'});
             });
         });
 
@@ -278,7 +279,7 @@ $(function(){
     $('.gnb_login').hide();*/
 
     /* 모바일 gnb 유틸리티 */
-    $('.gnb_logout').click(function(){
+    $('.gnb_logout').click(function () {
         $('.gnb_join').show();
         $('.gnb_member').hide();
         $('.gnb_login').show();
@@ -293,23 +294,23 @@ $(function(){
         $(this).hide();
     });*/
     let utilityMenu = $(this).index();
-    $('.utility-tab').mouseenter(function(){
+    $('.utility-tab').mouseenter(function () {
         $(this).children('a').addClass('on');
         $('.bubble-box').removeClass('on');
         $(this).children('.bubble-box').eq(utilityMenu).addClass('on');
     });
-    $('.bubble-box').mouseleave(function(){
+    $('.bubble-box').mouseleave(function () {
         $(this).removeClass('on');
         $('.utility-lang>a').removeClass('on');
     });
-    $('.utility-tab').mouseleave(function(){
+    $('.utility-tab').mouseleave(function () {
         $(this).children('a').removeClass('on');
         $('.bubble-box').removeClass('on');
     });
 
     /* top search 유틸리티 겹침X */
-    $('.topsearch-text').click(function(){
-        if($('.search-bubble-box').hasClass('on')){
+    $('.topsearch-text').click(function () {
+        if ($('.search-bubble-box').hasClass('on')) {
             $('.bubble-box01').eq(utilityMenu).removeClass('hide');
             $('.bubble-box02').eq(utilityMenu).removeClass('hide');
             $('.search-bubble-box').addClass('on');
@@ -322,82 +323,92 @@ $(function(){
     });
 
     /* 최근검색 키워드 삭제 */
-    $('.keyword-del').click(function(){
+    $('.keyword-del').click(function () {
         $(this).parent('.recent-keyword').hide();
     });
     /* 최근검색 전체삭제 */
-    $('.keyword-all-del').click(function(){
+    $('.keyword-all-del').click(function () {
         $('.recent-keyword').hide();
         setCookie("keywordHistory", "", 1);
     });
     /* 모바일 gnb 서치*/
-    $('.m-top-search').click(function(){
-        $('.topsearch-box>form').animate({'right':'0','transition':'ease .5s'});
+    $('.m-top-search').click(function () {
+        $('.topsearch-box>form').animate({'right': '0', 'transition': 'ease .5s'});
         //$('.topsearch-box>form').show();
         $('.topsearch>input').show();
         $('.topsearch-btn').show();
         $('.search-bubble-box').show();
     });
-    $('.top-search-closeBtn').click(function(){
-        $('.topsearch-box>form').animate({'right':'-100%','transition':'ease .5s'});
+    $('.top-search-closeBtn').click(function () {
+        $('.topsearch-box>form').animate({'right': '-100%', 'transition': 'ease .5s'});
     });
 
     /*top search placeholder */
-    $('.topsearch>input').attr('placeholder','작가 또는 작품명 검색'); /* placeholder 초기값 */
+    $('.topsearch>input').attr('placeholder', '작가 또는 작품명 검색'); /* placeholder 초기값 */
 
-    $(window).resize(function(){
+    $(window).resize(function () {
         const windowWidth1279 = window.matchMedia('screen and (min-width:1279px)');
         const windowWidth1024 = window.matchMedia('screen and (min-width:1024px)');
         const windowWidth1023 = window.matchMedia('screen and (max-width:1023px)');
 
-        if(windowWidth1279.matches){
-            $('.topsearch>input').attr('placeholder','작가 또는 작품명 검색');
-            $('.topsearch-en>input').attr('placeholder','Search by artist or work name');
-            $('.darkmodeBg').hover(function(){
+        if (windowWidth1279.matches) {
+            $('.topsearch>input').attr('placeholder', '작가 또는 작품명 검색');
+            $('.topsearch-en>input').attr('placeholder', 'Search by artist or work name');
+            $('.darkmodeBg').hover(function () {
                 $('.darkmode').toggleClass('active');
-            }, function(){
+            }, function () {
                 $('.darkmode').toggleClass('active');
             });
-            $('.darkmodeBg.dark').hover(function(){
+            $('.darkmodeBg.dark').hover(function () {
                 $('.darkmode.dark').toggleClass('active');
-            }, function(){
+            }, function () {
                 $('.darkmode.dark').toggleClass('active');
             });
-        } else if(windowWidth1024.matches) {
-            $('.topsearch>input').attr('placeholder','검색');
-            $('.topsearch-en>input').attr('placeholder','Search');
-        } else if(windowWidth1023.matches){
-            $('.topsearch>input').attr('placeholder','검색을 입력하세요');
-            $('.topsearch-en>input').attr('placeholder','Search');
+        } else if (windowWidth1024.matches) {
+            $('.topsearch>input').attr('placeholder', '검색');
+            $('.topsearch-en>input').attr('placeholder', 'Search');
+        } else if (windowWidth1023.matches) {
+            $('.topsearch>input').attr('placeholder', '검색을 입력하세요');
+            $('.topsearch-en>input').attr('placeholder', 'Search');
         }
     });
 
     /* footer family site */
-    $('.Familysite-selectbox').click(function(){
+    $('.Familysite-selectbox').click(function () {
         let familyH = $(this).index();
         $('.innerfooter').removeClass('on');
         $(this).removeClass('on');
         $('.innerfooter').eq(familyH).addClass('on');
         $('.Familysite').eq(familyH).addClass('on');
 
-        if($('.familyselect').hasClass('on')){ /* familyselet 탭 닫기 */
+        if ($('.familyselect').hasClass('on')) { /* familyselet 탭 닫기 */
             $('.familyselect').addClass('on');
             $('.Familysite').removeClass('on'); /* 화살표 */
         } else {
-            $('.innerfooter').click(function(){
+            $('.innerfooter').click(function () {
                 $('.familyselect').removeClass('on');
                 $('.familyselect').click(false);
                 $('.Familysite-selectbox').click(false);
             });
             $('.familyselect').removeClass('on'); /* familyselet 탭 오픈 */
-        };
+        }
+        ;
         $('.familyselect').toggleClass('on');
     });
 
     /* scroll top */
-    $('.scroll-top').click(function(){
+    $('.scroll-top').click(function () {
         $('html, body').animate({scrollTop: '0'}, 700);
     });
+
+    //모바일 한글/영문 변환 버튼
+    let lang = getCookie('lang');
+    if (!lang || lang === 'ko') {
+        $("#mb_common_lang").append('<a href="/?lang=en">ENG</a>');
+    } else if ( lang === 'en'){
+        $("#mb_common_lang").append('<a href="/?lang=ko">KO</a>');
+    }
+
 });
 
 

@@ -193,13 +193,13 @@ function sessionLogout() {
                     </figure>
                 </div>
                 <ul class="mobile-utility m-ver">
-                    <li>
-                        <c:if test="${empty cookie.lang.value || cookie.lang.value eq 'ko'}">
-                            <a href="${pageContext.request.contextPath}/?lang=en">ENG</a>
-                        </c:if>
-                        <c:if test="${cookie.lang.value eq 'en'}">
-                            <a href="${pageContext.request.contextPath}/?lang=ko">KO</a>
-                        </c:if>
+                    <li id="mb_common_lang">
+<%--                        <c:if test="${empty cookie.lang.value || cookie.lang.value eq 'ko'}">--%>
+<%--                            <a href="${pageContext.request.contextPath}/?lang=en">ENG</a>--%>
+<%--                        </c:if>--%>
+<%--                        <c:if test="${cookie.lang.value eq 'en'}">--%>
+<%--                            <a href="${pageContext.request.contextPath}/?lang=ko">KO</a>--%>
+<%--                        </c:if>--%>
                     </li>
                     <li>
                         <sec:authorize access="isAnonymous()"> <!-- !login -->
