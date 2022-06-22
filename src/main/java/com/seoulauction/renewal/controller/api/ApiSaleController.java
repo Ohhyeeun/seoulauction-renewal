@@ -144,6 +144,7 @@ public class ApiSaleController {
                 lotInfoMap.put(item, mapper.readValue(String.valueOf(lotInfoMap.get(item)), Map.class));
                 Map<String,Object> m = (Map<String,Object>)lotInfoMap.get(item);
                 if (item.equals("ARTIST_NAME_JSON")) {
+
                     // artist filter DB화 필요
                     List<String> artistFilters = new ArrayList<>();
                     artistFilters.add("김환기");
