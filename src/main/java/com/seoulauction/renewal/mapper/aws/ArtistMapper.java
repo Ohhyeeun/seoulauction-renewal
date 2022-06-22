@@ -10,4 +10,6 @@ public interface ArtistMapper {
 
     List<CommonMap> selectRecommandArtist();
 
+    CommonMap selectArtistInfo(CommonMap commonMap);
+
 }
