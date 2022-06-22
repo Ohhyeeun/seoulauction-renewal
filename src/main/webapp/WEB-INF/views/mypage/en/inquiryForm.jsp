@@ -291,7 +291,8 @@
 						                                        <div class="file-box-list" ng-repeat="file in fileNameList" >
 						                                            <p class="label" >
 						                                                <i class="icon_down"></i>
-						                                                <span class="tb1">{{file.filename}}</span>
+						                                                <span class="tb1">{{file.fileName}}</span>
+						                                                <a href="#none" class="btn_del" ng-click="deleteFile(file.fileIndex)"><span class="icon-del"></span></a>
 						                                            </p>
 						                                        </div>
 																	
