@@ -817,8 +817,6 @@
                 //artist 번호
                 $scope.artistNo = $scope.lotInfo.ARTIST_NO;
 
-                console.log("artistNo ::: " + $scope.artistNo);
-
                 // popup setting
                 let imgUrl = $scope.lotImages[0].IMAGE_URL +
                     $scope.lotImages[0].FILE_PATH + "/" + $scope.lotImages[0].FILE_NAME;
@@ -924,18 +922,20 @@
                 $.each(sale_images, function (index, el) {
                     let size1 = 0;
                     let size2 = 0;
+                    let unitCd = '';
                     let lot_no = el.LOT_NO;
                     if (el.LOT_SIZE_JSON.length > 0) {
                         size1 = el.LOT_SIZE_JSON[0].SIZE1;
                         size2 = el.LOT_SIZE_JSON[0].SIZE2;
+                        unitCd = el.LOT_SIZE_JSON[0].UNIT_CD;
 
                     }
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
                     let swiper_slide_item = `<div class="swiper-slide">
                                             <div class="img-area">
                                                 <div class="img-box">
-                                                    <div class="size_x"><span>` + size1 + `</span></div>
-                                                    <div class="size_y"><span>` + size2 + `</span></div>
+                                                    <div class="size_x"><span>` + size2 + unitCd + `</span></div>
+                                                    <div class="size_y"><span>` + size1 + unitCd + `</span></div>
                                                     <div class="images">
                                                         <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + lot_no + `" />
                                                     </div>
@@ -944,6 +944,15 @@
                   </div>`
                   $("#swiper-wrapper").append(swiper_slide_item);
                 });
+
+                /* 싸이즈 버튼 */
+                var size_btn_toggle = $(".js-size_btn").trpToggleBtn(
+                    function($this) {
+                        $($this).closest(".viewer-article").addClass("active");
+                    },
+                    function($this) {
+                        $($this).closest(".viewer-article").removeClass("active");
+                    });
 
 
                 /* 스와이퍼 */
@@ -1074,7 +1083,6 @@
         var scope = angular.element(document.getElementById("container")).scope();
         return scope;
     }
-
 </script>
 
 <!-- popup tab -->
