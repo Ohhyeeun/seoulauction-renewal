@@ -46,7 +46,9 @@ public class MainService {
 
     public CommonMap selectPopup() {
         CommonMap map = mainMapper.selectPopup();
-        map.put("image", s3Service.getS3FileDataForOne("main_popup", map.get("id")));
+        if(map !=null) {
+            map.put("image", s3Service.getS3FileDataForOne("main_popup", map.get("id")));
+        }
         return map;
     }
 
