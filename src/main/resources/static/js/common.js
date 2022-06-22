@@ -242,34 +242,22 @@ $(function() {
         });
 
         /* 띠배너 beltbanner */
-        $('.header_beltbox.on').show(function () {
-            $('.main-contents').css('margin-top', '100px');
-        });
-        $('.beltclose-btn').click(function () {
-            $('.main-contents').css('margin-top', '56px');
-            $('.submenuBg').css({'top': '0'});
-            $('.header_beltbox').hide(function () {
-                $('.submenuBg').css({
-                    'top': '0',
-                });
-                $('.main-contents').css({'margin-top': '56px'});
-            });
-        });
+        // $('.header_beltbox.on').show(function () {
+        //     $('.main-contents').css('margin-top', '100px');
+        //     $('.m-gnbmenu').click(function(){
+        //         $('.submenuBg').css({'top':'-43px'});
+        //     });
+        // });
+        // $('.beltclose-btn').click(function () {
+        //     $('.main-contents').css('margin-top', '56px');
+        //     $('.m-gnbmenu').click(function(){
+        //         $('.submenuBg').css({'top':'0'});
+        //     });
+        // });
 
         /* 오프라인 라이브응찰 화면(mo) */
         $('.bidding_mo').show();
         $('.bidding_pc').hide();
-
-        // /* 띠배너 beltbanner */
-        // $('.header_beltbox.on').show(function(){
-        //     /*$('.main-contents').css('top','99px');*/
-        //     $('.main-contents').css('margin-top','101px');
-        // });
-        //
-        // $('.beltclose-btn').click(function(){
-        //     /*$('.main-contents').css('top','56px');*/
-        //     $('.main-contents').css('margin-top','58px');
-        // });
     }
 
     /* utility menu */
