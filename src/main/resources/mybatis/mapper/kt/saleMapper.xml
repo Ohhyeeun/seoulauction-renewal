@@ -367,7 +367,8 @@
         , now() as DB_NOW
         , IFNULL((SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = L.SALE_NO AND LOT_NO = L.LOT_NO), L.DISP_SOLD_PRICE) AS
         LAST_PRICE
-        , IFNULL(IL.DEL_YN, 'Y') AS INTE_LOT_DEL
+        , CASE WHEN IFNULL(IL.LOT_NO, 0) = 0 THEN 'N'
+            ELSE 'Y' END  FAVORITE_YN
         , IFNULL(L.START_PRICE, 0) AS START_PRICE
         ,(select count(B.BID_NO) from BID B where B.SALE_NO = L.SALE_NO and B.LOT_NO = L.LOT_NO) as BID_CNT
         from LOT L join SALE S ON S.SALE_NO = L.SALE_NO AND S.SALE_KIND_CD not in ('exhibit', 'exhibit_sa')
@@ -377,8 +378,9 @@
         and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by
         A.DISP_ORD limit 1)
         left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
-        left outer join CUST_INTE_LOT IL ON L.SALE_NO = IL.SALE_NO AND L.LOT_NO = IL.LOT_NO AND IL.DEL_YN = 'N' AND
-        IL.CUST_NO = #{action_user_no}
+        left outer join cust_inte_lot IL
+        on L.sale_no = IL.sale_no and L.lot_no = IL.lot_no and IL.cust_no = #{cust_no} and
+        IL.del_yn = 'N'
         <if test="list_type == 'SEARCH' and cust_no != null">
             , (select CUST_NO, EMP_GB from CUST where CUST_NO = #{cust_no}) CU
         </if>

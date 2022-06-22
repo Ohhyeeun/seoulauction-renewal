@@ -1,6 +1,7 @@
 package com.seoulauction.renewal.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.exception.SAException;
@@ -8,11 +9,15 @@ import com.seoulauction.renewal.mapper.aws.ArtistMapper;
 import com.seoulauction.renewal.mapper.kt.SaleMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.collections.ArrayStack;
 import org.apache.commons.collections.MapUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +28,9 @@ public class SaleService {
     private final ArtistMapper artistMapper;
     private final AuctionService auctionService;
     private final LoginService loginService;
+
+    @Value("${image.root.path}")
+    private String IMAGE_URL;
 
     public CommonMap selectSaleInfo(CommonMap commonMap){
         CommonMap resultMap = saleMapper.selectSaleInfo(commonMap);
@@ -79,9 +87,46 @@ public class SaleService {
 
         CommonMap map = new CommonMap();
         map.put("list", saleMapper.searchListPaging(paramMap));
-        map.put("cntList", saleMapper.searchListCount(paramMap));
-        map.put("cust_info", saleMapper.getCustomerByCustNo(paramMap));
 
+        List<CommonMap> lst = saleMapper.searchListPaging(paramMap);
+        //List<CommonMap> lst2 = new ArrayList<CommonMap>();
+
+        String[] listKeys = {"LOT_SIZE_JSON", "LOT_TITLE_JSON"};
+        String[] mapKeys = {"SALE_TITLE_JSON", "TITLE_JSON",
+                "MAKE_YEAR_JSON", "ARTIST_NAME_JSON", "EXPE_PRICE_FROM_JSON", "EXPE_PRICE_TO_JSON"};
+        ObjectMapper mapper  = new ObjectMapper();
+        // 랏 디스플레이 필터
+        try{
+            for (var i = 0; i < lst.size(); i++) {
+                lst.get(i).put("IMAGE_URL", IMAGE_URL);
+
+                if(lst.get(i).get("END_YN").equals("N") ||
+                        lst.get(i).get("CLOSE_YN").equals("N")){
+                    lst.get(i).put("STATUS","진행");
+                } else if(lst.get(i).get("END_YN").equals("Y") ||
+                        lst.get(i).get("CLOSE_YN").equals("Y")) {
+                    lst.get(i).put("STATUS","완료");
+                }
+
+                for (var item : mapKeys) {
+                    lst.get(i).put(item, mapper.readValue(String.valueOf(lst.get(i).get(item)),
+                            Map.class));
+                }
+                // 리스트 변환
+                for(var item2 : listKeys) {
+                    lst.get(i).put(item2,
+                            mapper.readValue(String.valueOf(lst.get(i).get(item2)), List.class));
+                }
+            }
+        } catch (JsonMappingException e) {
+
+        } catch (JsonProcessingException e) {
+
+        }
+
+        map.put("cntList", saleMapper.searchListCount(paramMap));
+        map.put("list", lst);
+        map.put("cust_info", saleMapper.getCustomerByCustNo(paramMap));
         //검색 히스토리 적재
         if (map.get("chk") != null) {
             saleMapper.searchLog(paramMap);

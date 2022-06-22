@@ -380,7 +380,7 @@
                                                                 <i class="form-bidding_select_arrow"></i>
                                                             </div>
 
-                                                            <div class="num"><span>2</span> <em class="live_box">LIVE</em> </div>
+                                                            <div class="num"><span ng-bind="curLot.LOT_NO">2</span> <em class="live_box">LIVE</em> </div>
                                                             <!-- [0516]년도수정 -->
                                                             <div class="title"><span ng-bind="curLot.ARTIST_NAME_JSON.ko"></span></div>
                                                             <!-- // [0516]년도수정  -->
@@ -609,6 +609,32 @@
             $('.video_thumbnail').hide();
             $('.ic_video_play').hide();
         })
+
+        /* 통화 전환 시 */
+        function selectCurrency(){
+            const Currency = document.getElementsByName('js-money_help');
+
+            var money_help = $(".js-money_help").trpLayerFixedPopup("#money_help-wrap");
+            $(money_help.getBtn).on("click", function($e) {
+                $e.preventDefault();
+                money_help.open(this); // or false
+                popup_fixation("#money_help-wrap");
+            });
+
+            $("body").on("click", "#money_help-wrap .js-closepop, #money_help-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                money_help.close();
+            });
+
+            $("#checkbox_check").on("change", function($e) {
+                console.log(" $(this).val() >>>", $(this).prop("checked"))
+                if ($(this).prop("checked")) {
+                    $(".js-checkbox_check").prop("disabled", false);
+                } else {
+                    $(".js-checkbox_check").prop("disabled", true);
+                }
+            });
+        }
     </script>
     <script>
         <!-- angular js -->
@@ -1101,7 +1127,6 @@
                             }
                             // 현재 랏정보 가져옴
                             currentLotInfoFunc($scope.token, saleNo, $scope.curLot.LOT_NO, saleType);
-                            //$scope.$apply();
                         }
                     }
                 } else if (d.msg_type === packet_enum.winner) {
