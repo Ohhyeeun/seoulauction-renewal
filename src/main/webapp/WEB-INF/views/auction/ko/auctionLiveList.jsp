@@ -62,7 +62,8 @@
                                             </div>
                                             <div class="column">
                                                 <div class="note_etc">
-                                                    <span id="note_etc">{{paddNoteEtc}}</span><strong ng-if="paddNo > 0">{{paddNo}}</strong>
+                                                    <span id="note_etc">{{paddNoteEtc}}</span>
+<%--                                                    <strong ng-if="paddNo > 0">{{paddNo}}</strong>--%>
                                                 </div>
                                             </div>
                                             <i class="icon-link_arrow"></i>
@@ -99,11 +100,14 @@
                                     <article class="search_tab-article">
                                         <div class="article-body">
                                             <div class="col_item mb-col1">
-
+                                                <!-- [0617]카운트/LOT셀렉트박스 분리 -->
+                                                <div class="count tb1">
+                                                    <span>ALL <em>{{saleInfoAll.length}}</em></span>
+                                                </div>
                                                 <div class="select-box">
                                                     <div class="trp-dropdown-area h42-line">
                                                         <button class="js-dropdown-btn">
-                                                            <em>{{saleInfoAll.length}}</em><span>LOT</span>
+                                                            <span>LOT</span>
                                                             <i class="form-select_arrow_md"></i>
                                                         </button>
                                                         <div class="trp-dropdown_list-box" data-trp-focusid="js-user_support">
@@ -138,16 +142,16 @@
 
                                                     </div>
                                                 </div>
+                                            </div>
 
+                                            <div class="col_item mb-col2">
+                                                <!-- [0617]검색창위치 변경 -->
                                                 <div class="search-box">
                                                     <input type="search" placeholder="작가/작품명" id="search_value"
                                                            ng-model="searchValue"
                                                            ng-keyup="searchArtist(event=$event)" class="h42">
                                                     <i class="form-search_md" ng-click="searchArtist2()"></i>
                                                 </div>
-                                            </div>
-
-                                            <div class="col_item mb-col2">
                                                 <div class="select-box">
                                                     <select id="sortType" class="select2Basic42 select2-hidden-accessible"
                                                             ng-init="selectSortType = selectSortType || options[0].value"
@@ -430,14 +434,14 @@
 
             $scope.goLiveBid = function(item) {
                 if(sessionStorage.getItem("is_login") === 'false'){
-                    alert("미로그인");
+                    alert('로그인을 진행해주세요.');
                     location.href = "/login";
                     return;
                 }
 
-                const membership_yn = '${isRegular}';
-                if(membership_yn === 'N') {
-                    alert("준회원");
+                let isRegular = ${isRegular};
+                if(!isRegular){
+                    alert('정회원만 서면/전화 응찰 신청이 가능합니다.')
                     location.href = "/payment/member";
                     return;
                 }

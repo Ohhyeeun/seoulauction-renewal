@@ -42,12 +42,20 @@ public class AuctionService {
         return paddNo;
     }
 
-    public List<CommonMap> selectProgressSaleList(CommonMap commonMap) {
-        return auctionMapper.selectProgressSaleList(commonMap);
+    public List<CommonMap> selectProgressSaleList(CommonMap paramMap) {
+        return auctionMapper.selectProgressSaleList(paramMap);
     }
 
-    public List<CommonMap> selectScheduledSaleList(CommonMap commonMap) {
-        return auctionMapper.selectScheduledSaleList(commonMap);
+    public List<CommonMap> selectScheduledSaleList(CommonMap paramMap) {
+        return auctionMapper.selectScheduledSaleList(paramMap);
+    }
+
+    public CommonMap selectResultSaleList(CommonMap paramMap) {
+        CommonMap map = new CommonMap();
+        map.put("list", auctionMapper.selectResultSaleListPaging(paramMap));
+        map.put("cnt", auctionMapper.selectResultSaleListCount(paramMap));
+
+        return map;
     }
 
     public CommonMap selectSaleInfo(CommonMap commonMap) {

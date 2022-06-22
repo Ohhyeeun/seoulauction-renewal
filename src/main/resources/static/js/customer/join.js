@@ -75,7 +75,9 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 		        if(result.data != undefined){
 					if(result.data.STAT_CD == "not_certify"){
 						//기가입 + 미인증 = 안내메세지
-						alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
+						$("#alertMsg").html("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
+						popup_alert.open(this); // or false
+//						alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
 					}else{
 						//기가입 + 상태normal = 로그인처리
 						socialLogin(data);
@@ -107,7 +109,9 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 					document.cookie = 'recentSocialType=' + data.social_type + '; path=/; expires=' + expire.toGMTString() + ';';
 					location.href = "/";
 				}else{
-					alert("로그인에 실패하였습니다.")
+					$("#alertMsg").html("로그인에 실패하였습니다.");
+					popup_alert.open(this); // or false
+//					alert("로그인에 실패하였습니다.")
 				}
 			})
 			.catch(function(error) {
@@ -359,6 +363,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 					}
 	            }else{
 					$scope.idValid = true;
+					$('#login_id').removeClass('input_error');
 					if ($scope.langType == 'ko') {
 						$scope.login_id_msg = "사용가능한 ID 입니다.";
 					} else {
@@ -420,6 +425,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 				$scope.passwd_msg = "This password is available.";
 			}
 			$scope.passwdValid = true;
+			$('#passwd').removeClass('input_error');
 		}
 		$scope.allValidCheck();
 	}
@@ -442,6 +448,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 			$scope.nameValid = false;			
 		}else{
 			$scope.nameValid = true;
+			$('#cust_name').removeClass('input_error');
 		}
 		$scope.allValidCheck();
 	}
@@ -522,6 +529,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 					$interval.cancel($scope.timer_duration);
 					document.getElementById('hpMsg').innerText ="인증에 성공 하였습니다.";
 					$scope.authNumValid  = true;
+					$('#hp').removeClass('input_error');
 					document.getElementById('checkHpAuthMsg').innerText = "";
 					
 					//인증 완료시, 인증번호 입력 영역 disabled 처리
@@ -585,6 +593,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 				$scope.email_msg = "";
 				if($scope.langType == 'ko'){ //외국인은 이메일중복체크필요
 					$scope.emailValid = true;
+					$('#email').removeClass('input_error');
 				}
 			}
 		}
@@ -607,6 +616,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	        }else{
 				$scope.email_msg = "The email you entered is available.";
 				$scope.emailValid = true;
+				$('#email').removeClass('input_error');
 			}
 			$scope.$apply();
 			$scope.allValidCheck();
@@ -666,6 +676,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 				$scope.addrValid = false;
 			}else{
 				$scope.addrValid = true;
+				$('#addr_dtl').removeClass('input_error');
 				$scope.addr_msg = "";
 			}
 		}
@@ -826,6 +837,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	        }else{
 				$scope.comp_no_msg = "";
 				$scope.compNoValid = true;
+				$('#comp_no').removeClass('input_error');
 			}
 			$scope.$apply();
 			$scope.allValidCheck();
@@ -842,6 +854,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 			$scope.compManNameValid = false;			
 		}else{
 			$scope.compManNameValid = true;
+			$('#comp_man_name').removeClass('input_error');
 		}
 		$scope.allValidCheck();
 	}
@@ -853,6 +866,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 			$scope.telValid = false;			
 		}else{
 			$scope.telValid = true;
+			$('#tel').removeClass('input_error');
 		}
 		$scope.allValidCheck();
 	}
@@ -1058,6 +1072,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	//가입버튼 클릭시 미입력 필수사항 focus처리 + 약관 validation
 	$scope.join = function() {
 		if($('#joinButton').hasClass('disabled') || !$scope.idValid){
+			$('input').removeClass('input_error');
 //			console.log($scope.idValid ? '아이디통과' : '아이디실패');	console.log($scope.passwdValid ? '비번통과' : '비번실패'); console.log($scope.nameValid ? '이름통과' : '이름실패'); 
 //			console.log($scope.compNoValid ? '사업자등록번호통과' : '사업자등록번호실패'); console.log($scope.authNumValid ? '핸드폰통과' : '핸드폰실패'); console.log($scope.telValid ? '전화번호통과' : '전화번호실패'); 
 //			console.log($scope.emailValid ? '이메일통과' : '이메일실패');  console.log($scope.compManNameValid ? '업무담당자통과' : '업무담당자실패');
@@ -1065,54 +1080,60 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 //			console.log($scope.bidValid ? '응찰여부통과' : '응찰여부실패'); console.log($scope.countryValid ? '국가통과' : '국가실패'); console.log($scope.addrValidEn ? '외국주소통과' : '외국주소실패');
 			if($scope.isPerson()){
 				if($scope.langType == 'ko'){
-					alert("필수항목을 모두 입력해 주세요.");
+					$("#alertMsg").html("필수항목을 모두 입력해 주세요.");
+					popup_alert.open(this); // or false  
+//					alert("필수항목을 모두 입력해 주세요.");
 					if($scope.isSocial()){ 
 						//내국소셜회원 필수 필드 : 이름/휴대폰번호/이메일/주소
-						if(!$scope.nameValid) $("#cust_name").focus();
-						else if(!$scope.authNumValid) $("#hp").focus();
-						else if(!$scope.emailValid) $("#email").focus();
-						else if(!$scope.addrValid) $("#addr_dtl").focus();
+						if(!$scope.nameValid) $("#cust_name").addClass('input_error');
+						else if(!$scope.authNumValid) $("#hp").addClass('input_error');
+						else if(!$scope.emailValid) $("#email").addClass('input_error');
+						else if(!$scope.addrValid) $("#addr_dtl").addClass('input_error');
 					}else{ 
 						//내국개인회원 필수 필드 : 아이디/비밀번호/이름/휴대폰번호/이메일/주소
-						if(!$scope.idValid) $("#login_id").focus();
-						else if(!$scope.passwdValid) $("#passwd").focus(); 
-						else if(!$scope.nameValid) $("#cust_name").focus();
-						else if(!$scope.authNumValid) $("#hp").focus();
-						else if(!$scope.emailValid) $("#email").focus();
-						else if(!$scope.addrValid) $("#addr_dtl").focus();
+						if(!$scope.idValid) $("#login_id").addClass('input_error');
+						else if(!$scope.passwdValid) $("#passwd").addClass('input_error'); 
+						else if(!$scope.nameValid) $("#cust_name").addClass('input_error');
+						else if(!$scope.authNumValid) $("#hp").addClass('input_error');
+						else if(!$scope.emailValid) $("#email").addClass('input_error');
+						else if(!$scope.addrValid) $("#addr_dtl").addClass('input_error');
 					}
 				}else if($scope.langType == 'en'){
-					alert("Fill additional information below.")
+					$("#alertMsg").html("Fill additional information below.");
+					popup_alert.open(this); // or false  
+//					alert("Fill additional information below.")
 					if($scope.isSocial()){ 
 						//외국소셜회원 필수 필드 : 이름/이메일/국가/주소/입찰여부/신분증/증빙서류
-						if(!$scope.nameValid) $("#cust_name").focus();
-						else if(!$scope.emailValid) $("#email").focus();
+						if(!$scope.nameValid) $("#cust_name").addClass('input_error');
+						else if(!$scope.emailValid) $("#email").addClass('input_error');
 						else if(!$scope.countryValid) $("#select_nation").focus();
-						else if(!$scope.addrValidEn) $("#zipno").focus();
+						else if(!$scope.addrValidEn) $("#zipno").addClass('input_error');
 						else if(!$scope.bidValid) $("#bid").focus();
 					}else{
 						//외국개인회원 필수 필드 : 아이디/비밀번호/이름/이메일/국가/주소/입찰여부/신분증/증빙서류
-						if(!$scope.idValid) $("#login_id").focus();
-						else if(!$scope.passwdValid) $("#passwd").focus(); 
-						else if(!$scope.nameValid) $("#cust_name").focus();
-						else if(!$scope.emailValid) $("#email").focus();
+						if(!$scope.idValid) $("#login_id").addClass('input_error');
+						else if(!$scope.passwdValid) $("#passwd").addClass('input_error'); 
+						else if(!$scope.nameValid) $("#cust_name").addClass('input_error');
+						else if(!$scope.emailValid) $("#email").addClass('input_error');
 						else if(!$scope.countryValid) $("#select_nation").focus();
-						else if(!$scope.addrValidEn) $("#zipno").focus();
+						else if(!$scope.addrValidEn) $("#zipno").addClass('input_error');
 						else if(!$scope.bidValid) $("#bid").focus();
 					}
 				}
 			}else {
-				alert("필수항목을 모두 입력해 주세요.");
+				$("#alertMsg").html("필수항목을 모두 입력해 주세요.");
+				popup_alert.open(this); // or false  
+//				alert("필수항목을 모두 입력해 주세요.");
 				//사업자회원 필수 필드 : 아이디/비밀번호/업체명/사업자등록번호/업무담당자/사업자등록증/휴대폰번호/전화번호/이메일/주소
-				if(!$scope.idValid) $("#login_id").focus();
-				else if(!$scope.passwdValid) $("#passwd").focus(); 
-				else if(!$scope.nameValid) $("#cust_name").focus();
-				else if(!$scope.compNoValid) $("#comp_no").focus();
-				else if(!$scope.compManNameValid) $("#comp_man_name").focus();
-				else if(!$scope.authNumValid) $("#hp").focus();
-				else if(!$scope.telValid) $("#tel").focus();
-				else if(!$scope.emailValid) $("#email").focus();
-				else if(!$scope.addrValid) $("#zipno").focus();
+				if(!$scope.idValid) $("#login_id").addClass('input_error');
+				else if(!$scope.passwdValid) $("#passwd").addClass('input_error'); 
+				else if(!$scope.nameValid) $("#cust_name").addClass('input_error');
+				else if(!$scope.compNoValid) $("#comp_no").addClass('input_error');
+				else if(!$scope.compManNameValid) $("#comp_man_name").addClass('input_error');
+				else if(!$scope.authNumValid) $("#hp").addClass('input_error');
+				else if(!$scope.telValid) $("#tel").addClass('input_error');
+				else if(!$scope.emailValid) $("#email").addClass('input_error');
+				else if(!$scope.addrValid) $("#zipno").addClass('input_error');
 			}
 			return;
 		}else{
@@ -1120,25 +1141,37 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 				//국내/해외/개인/소셜회원 약관체크 
 				if (!$scope.form_data.personOnlineAgree) {
 					if ($scope.langType == 'ko') {
-						alert("온라인 경매 약관에 동의 하셔야 됩니다.");
+						$("#alertMsg").html("온라인 경매 약관에 동의 하셔야 됩니다.");
+						popup_alert.open(this); // or false  
+//						alert("온라인 경매 약관에 동의 하셔야 됩니다.");
 					} else {
-						alert("Agree the Online Auction Terms.");
+						$("#alertMsg").html("Agree the Online Auction Terms.");
+						popup_alert.open(this); // or false  
+//						alert("Agree the Online Auction Terms.");
 					}
 					$("input[name=chk_per]")[3].focus();
 					return;
 				}else if (!$scope.form_data.personOfflineAgree) {
 					if ($scope.langType == 'ko') {
-						alert("오프라인 경매 약관에 동의 하셔야 됩니다.");
+						$("#alertMsg").html("오프라인 경매 약관에 동의 하셔야 됩니다.");
+						popup_alert.open(this); // or false  
+//						alert("오프라인 경매 약관에 동의 하셔야 됩니다.");
 					} else {
-						alert("Agree the Offline Auction Terms.");
+						$("#alertMsg").html("Agree the Offline Auction Terms.");
+						popup_alert.open(this); // or false  
+//						alert("Agree the Offline Auction Terms.");
 					}
 					$("input[name=chk_per]")[3].focus();
 					return;
 				}else if (!$scope.form_data.personAgree1) {
 					if ($scope.langType == 'ko') {
-						alert("개인정보 수집 및 이용에 동의 하셔야 됩니다.");
+						$("#alertMsg").html("개인정보 수집 및 이용에 동의 하셔야 됩니다.");
+						popup_alert.open(this); // or false  
+//						alert("개인정보 수집 및 이용에 동의 하셔야 됩니다.");
 					} else {
-						alert("Agree to collect and use personal information.");
+						$("#alertMsg").html("Agree to collect and use personal information.");
+						popup_alert.open(this); // or false  
+//						alert("Agree to collect and use personal information.");
 					}
 					$("input[name=chk_per]")[3].focus();
 					return;
@@ -1146,15 +1179,21 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 			}else{
 				//사업자 약관체크
 				if (!$scope.form_data.compOnlineAgree) {
-					alert("온라인 경매 약관에 동의 하셔야 됩니다.");
+					$("#alertMsg").html("온라인 경매 약관에 동의 하셔야 됩니다.");
+					popup_alert.open(this); // or false 
+//					alert("온라인 경매 약관에 동의 하셔야 됩니다.");
 					$("input[name=chk_com]")[3].focus();
 					return;
 				}else if (!$scope.form_data.compOfflineAgree) {
-					alert("오프라인 경매 약관에 동의 하셔야 됩니다.");
+					$("#alertMsg").html("오프라인 경매 약관에 동의 하셔야 됩니다.");
+					popup_alert.open(this); // or false
+//					alert("오프라인 경매 약관에 동의 하셔야 됩니다.");
 					$("input[name=chk_com]")[3].focus();
 					return;
 				}else if (!$scope.form_data.compAgree1) {
-					alert("사업자정보 수집 및 이용에 동의 하셔야 됩니다.");
+					$("#alertMsg").html("사업자정보 수집 및 이용에 동의 하셔야 됩니다.");
+					popup_alert.open(this); // or false
+//					alert("사업자정보 수집 및 이용에 동의 하셔야 됩니다.");
 					$("input[name=chk_com]")[3].focus();
 					return;
 				}
@@ -1270,3 +1309,12 @@ app.controller('joinDoneCtl', function($scope, consts, common, ngDialog) {
 		$scope.email = request.getParameter("email");
 	}
 });
+
+var popup_alert = $(".js-popup_idsearch3").trpLayerFixedPopup("#popup_idsearch3-wrap");
+(function() {
+    $("body").on("click", "#popup_idsearch3-wrap .js-closepop, #popup_idsearch3-wrap .popup-dim, #popup_idsearch3-wrap .btn_point", function($e) {
+        $e.preventDefault();
+        popup_alert.close();
+        //popup_motion_close("#popup_idsearch3-wrap");  //  mb 모션 
+    });
+})();

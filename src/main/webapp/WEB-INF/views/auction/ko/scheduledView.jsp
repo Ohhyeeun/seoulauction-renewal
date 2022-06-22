@@ -164,6 +164,9 @@
 <script>
 app.value('locale', 'ko');
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
+
+let myInterval;
+
 app.controller('auctionCtl', function($scope, consts, common, locale) {
     $scope.loadAuction = function() {
         axios.get('/api/auction/sales/${saleNo}').then(function(response) {
@@ -175,7 +178,11 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
                 $scope.$apply();
 
                 CountDownTimer($scope.auction.FROM_DT);
-                bidstart(${saleNo}, '', 0, $scope.auction.FROM_DT)
+
+                // 다시 카운트로 바꿈
+                myInterval = window.setInterval(function(){
+                    numnumPlay("ul.secondPlay", (new Date()).getTime())
+                }, 1000);
             }
         }).
         catch(function(error){
@@ -184,6 +191,8 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
     }
 });
 </script>
+
+<!-- 웹소켓 호출안함 --->
 <script>
     let w;
     let con_try_cnt = 0;
@@ -264,10 +273,12 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
             }
             init_func_manual(d);
         }  else if (d.msg_type === packet_enum.time_sync) {
-            numnumPlay("ul.secondPlay", d.msg_type.tick_value);
+            //numnumPlay("ul.secondPlay", d.msg_type.tick_value);
             //CountDownTimer(d.message.tick_value);
         }
     }
+
+
     /* 카운트셋 */
     function numnumSet($target, $num) {
         var max = 59;
@@ -443,6 +454,7 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
         return;
     }
 </script>
+<!-- 웹소켓 호출안함 --->
 
 <!-- [0523]날짜계산수정 -->
 <script>

@@ -30,8 +30,8 @@
 					 
 				</div>
 				<div class="mem-record-box">
-					<a href="#" class="record-button" ng-click="showMemHisPopup(this);">정회원 이력</a> 
-					<a href="#" class="tooltip-button" ng-click="showTooltip();">
+					<a href="#" class="record-button js-popup_memlv2_record" ng-click="showMemHisPopup(this);">정회원 이력</a> 
+					<a href="#" class="tooltip-button js-popup_tooltip" ng-click="showTooltip();">
 						<div class="txt-icon-tooltip">툴팁</div>
 					</a>
 				</div>
@@ -57,9 +57,7 @@
 			</div>     
         </sec:authorize>  
 		</div>
-        
-                       
-                         
+    
 		<div class="mypage-lnb-wrap">
 			<div class="mypage-lnb">
 				<ul class="cate1">
@@ -92,9 +90,6 @@
 		</div>
 	</div>
 </aside>
-<script>
-
-</script>
 
 <!-- 팝업 : 정회원 결제 이력 -->
     <div id="popup_memlv2_record-wrap" class="trp popupfixed-wrap memlv2_record-popup" >
@@ -133,8 +128,8 @@
                                                     <div class="txt">{{pay.PAY_METHOD_NM}}</div>
                                                 </div>
                                                  <div class="info-li btn-area">
-                                                    <button class="btn btn_gray_line btn_sm" type="button" ng-if="pay.PAY_METHOD_ID == 'card' && pay.receipt == 'Y'" ng-click="receiptPopup({'pay':pay,'type':0})"><span>카드영수증</span></button>
-                                                    <button class="btn btn_gray_line btn_sm" type="button" ng-if="pay.PAY_METHOD_ID == 'vbank' && pay.receipt == 'Y'" ng-click="receiptPopup({'pay':pay,'type':1})"><span>현금영수증</span></button>
+                                                    <button class="btn btn_gray_line btn_sm" type="button" data-id="{{pay.PG_TRANS_ID}}" data-type="0" ng-if="pay.PAY_METHOD_ID == 'card' && pay.receipt == 'Y'" onclick="receiptPopup(this)"><span>카드영수증</span></button>
+                                                    <button class="btn btn_gray_line btn_sm" type="button" data-id="{{pay.PG_TRANS_ID}}" data-type="1" ng-if="pay.PAY_METHOD_ID == 'vbank' && pay.receipt == 'Y'" onclick="receiptPopup(this)"><span>현금영수증</span></button>
                                                 </div>
                                             </dd>
                                         </dl>

@@ -120,9 +120,9 @@
 																	<div class="only-pc">
 																		<div class="input-byte">
 																			<input type="text" name="inquiry_subject"
-																				id="inquirySubject" ng-model="form_data.title"
-																				class="form-control" value="" placeholder="">
-																			<div class="byte_check">
+																				id="inquirySubject" ng-model="form_data.title" 
+																				class="form-control" value="" placeholder="" data-id="inquirySubject" data-size=100>
+																			<div class="byte_check" id="inquirySubject_length">
 																				<em>0</em> <span>/ 100자</span>
 																			</div>
 																		</div>
@@ -131,8 +131,8 @@
 																		<div class="textarea-box byte">
 																			<textarea name="inquiry_subject" id="inquirySubject"
 																				ng-model="form_data.title" cols="30" rows="10"
-																				style="height: 86px"></textarea>
-																			<div class="byte_check">
+																				style="height: 86px" data-id="inquirySubjectMb" data-size=100></textarea>
+																			<div class="byte_check" id="inquirySubjectMb_length">
 																				<em>0</em> <span>/ 100자</span>
 																			</div>
 																		</div>
@@ -146,8 +146,8 @@
 																<div class="td">
 																	<div class="textarea-box byte">
 																		<textarea id="inquiryContent"
-																			ng-model="form_data.content" cols="30" rows="10"></textarea>
-																		<div class="byte_check">
+																			ng-model="form_data.content" cols="30" rows="10" data-id="inquiryContent"  data-size=1000></textarea>
+																		<div class="byte_check" id="inquiryContent_length">
 																			<em>0</em> <span>/ 1000자</span>
 																		</div>
 																	</div>

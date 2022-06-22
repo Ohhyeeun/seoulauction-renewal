@@ -2,6 +2,8 @@ function paging(config){
     let paging_div = document.createElement("div");
     // paging class 추가
     paging_div.setAttribute("class", config.className);
+    $("#"+config.id).empty();
+
     // 전체 페이징 카운트
     let all_paging_cnt = parseInt(config.totalCount / config.itemSize);
     // 나머지 여부

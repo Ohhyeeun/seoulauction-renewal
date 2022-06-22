@@ -238,6 +238,7 @@
                         <div class="section-inner full_size">
                             <div class="padding-inner">
 
+                                <!-- [0617]버튼텍스트수정 -->
                                 <article class="auction_head_info-article">
                                     <div class="center-box view">
                                         <h2 class="page_title"><span class="th1">3월 라이브 경매</span></h2>
@@ -275,17 +276,19 @@
                                     <a href="#" title="진행중 Lot 10|김선우">
                                         <div class="article-inner">
                                             <div class="column view">
-                                                <strong class="note_msg">라이브 응찰신청</strong>
+                                                <strong class="note_msg">라이브 경매 준비 중</strong>
                                             </div>
                                             <div class="column">
                                                 <div class="note_etc">
-                                                    <span>정회원만 응찰 신청이 가능합니다. </span>
+                                                    <span>3/22(월) 16시에 시작합니다.</span>
                                                 </div>
                                             </div>
                                             <i class="icon-link_arrow"></i>
                                         </div>
                                     </a>
                                 </article>
+
+                                <!-- //[0617]버튼텍스트수정 -->
 
                                 <!-- "sticky_tit": '라이브 경매 보기',
 							"sticky_etc": '<span>사전 신청한 회원만 응찰 가능합니다.</span> ', -->
@@ -320,10 +323,13 @@
                                     <article class="search_tab-article">
                                         <div class="article-body">
                                             <div class="col_item mb-col1">
-
+                                                <!-- [0617]카운트/LOT셀렉트박스 분리 -->
+                                                <div class="count tb1">
+                                                    <span>ALL <em>200</em></span>
+                                                </div>
                                                 <div class="select-box">
                                                     <div class="trp-dropdown-area h42-line">
-                                                        <button class="js-dropdown-btn"><em>200</em><span>LOT</span><i class="form-select_arrow_md"></i>
+                                                        <button class="js-dropdown-btn" <span>LOT</span><i class="form-select_arrow_md"></i>
                                                         </button>
                                                         <div class="trp-dropdown_list-box" data-trp-focusid="js-user_support">
                                                             <div class="search-box">
@@ -379,13 +385,15 @@
 
                                                     </div>
                                                 </div>
-
+                                                <!-- //[0617]카운트/LOT셀렉트박스 분리 -->
+                                            </div>
+                                            <div class="col_item mb-col2">
+                                                <!-- [0617]검색창위치 변경 -->
                                                 <div class="search-box">
                                                     <input type="search" placeholder="작가/작품명" id="" class="h42">
                                                     <i class="form-search_md"></i>
                                                 </div>
-                                            </div>
-                                            <div class="col_item mb-col2">
+                                                <!-- //[0617]검색창위치 변경 -->
                                                 <div class="select-box">
                                                     <select class="select2Basic42" id="">
                                                         <option value="1">LOT 번호순</option>
@@ -425,41 +433,48 @@
                                                 <article class="item-article">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
-                                                            <div class="img-align">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
                                                                 <img src="/images/pc/thumbnail/auction01.jpg" alt="">
-                                                            </div>
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
                                                         </figure>
                                                     </div>
                                                     <div class="typo-area">
+                                                        <!-- [0617]a태그 -->
                                                         <div class="product_info">
                                                             <div class="num_heart-box">
-                                                                <span class="num">1</span>
+                                                                <a href="#"><span class="num">1</span></a>
                                                                 <a class="heart js-work_heart"><i class="icon-heart_off"></i></a>
                                                             </div>
                                                             <div class="info-box">
-                                                                <div class="title"><span>데미안허스트</span>
+                                                                <div class="title"><a href="#"><span>데미안허스트</span></a>
                                                                     <!-- [0516]삭제	<span class="sub">(1965)</span> -->
                                                                 </div>
-                                                                <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
                                                                 <div class="standard">
-                                                                    <span>spray paint on canvas</span>
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
                                                                     <div class="size_year">
-                                                                        <span>80.9 X 73.4cm</span>
-                                                                        <span>2021</span>
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="price-box">
-                                                                <dl class="price-list">
-                                                                    <dt>추정가</dt>
-                                                                    <dd>KRW 9,900,000,000</dd>
-                                                                    <dd>~ 9,900,000,000</dd>
-                                                                    <dd>USD 6,700 ~ 12,600</dd>
-                                                                </dl>
-                                                                <dl class="price-list">
-                                                                    <dt>낙찰가</dt>
-                                                                    <dd><strong>KRW 9,00,000,000</strong></dd>
-                                                                </dl>
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>추정가</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                        <dd>USD 6,700 ~ 12,600</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>낙찰가</dt>
+                                                                        <dd><strong>KRW 9,00,000,000</strong></dd>
+                                                                    </dl>
+                                                                </a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -481,41 +496,48 @@
                                                 <article class="item-article">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
-                                                            <div class="img-align">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
                                                                 <img src="/images/pc/thumbnail/auction02.jpg" alt="">
-                                                            </div>
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
                                                         </figure>
                                                     </div>
                                                     <div class="typo-area">
+                                                        <!-- [0617]a태그 -->
                                                         <div class="product_info">
                                                             <div class="num_heart-box">
-                                                                <span class="num">2</span>
+                                                                <a href="#"><span class="num">2</span></a>
                                                                 <a class="heart js-work_heart"><i class="icon-heart_off"></i></a>
                                                             </div>
                                                             <div class="info-box">
-                                                                <div class="title"><span>데미안허스트</span>
+                                                                <div class="title"><a href="#"><span>데미안허스트</span></a>
                                                                     <!-- [0516]삭제	<span class="sub">(1965)</span> -->
                                                                 </div>
-                                                                <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
                                                                 <div class="standard">
-                                                                    <span>spray paint on canvas</span>
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
                                                                     <div class="size_year">
-                                                                        <span>80.9 X 73.4cm</span>
-                                                                        <span>2021</span>
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="price-box">
-                                                                <dl class="price-list">
-                                                                    <dt>추정가</dt>
-                                                                    <dd>KRW 9,900,000,000</dd>
-                                                                    <dd>~ 9,900,000,000</dd>
-                                                                    <dd>USD 6,700 ~ 12,600</dd>
-                                                                </dl>
-                                                                <dl class="price-list">
-                                                                    <dt>낙찰가</dt>
-                                                                    <dd><strong>KRW 9,00,000,000</strong></dd>
-                                                                </dl>
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>추정가</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                        <dd>USD 6,700 ~ 12,600</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>낙찰가</dt>
+                                                                        <dd><strong>KRW 9,00,000,000</strong></dd>
+                                                                    </dl>
+                                                                </a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -537,41 +559,48 @@
                                                 <article class="item-article">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
-                                                            <div class="img-align">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
                                                                 <img src="/images/pc/thumbnail/auction03.jpg" alt="">
-                                                            </div>
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
                                                         </figure>
                                                     </div>
                                                     <div class="typo-area">
+                                                        <!-- [0617]a태그 -->
                                                         <div class="product_info">
                                                             <div class="num_heart-box">
-                                                                <span class="num">3</span>
+                                                                <a href="#"><span class="num">3</span></a>
                                                                 <a class="heart js-work_heart"><i class="icon-heart_off"></i></a>
                                                             </div>
                                                             <div class="info-box">
-                                                                <div class="title"><span>데미안허스트</span>
+                                                                <div class="title"><a href="#"><span>데미안허스트</span></a>
                                                                     <!-- [0516]삭제	<span class="sub">(1965)</span> -->
                                                                 </div>
-                                                                <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
                                                                 <div class="standard">
-                                                                    <span>spray paint on canvas</span>
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
                                                                     <div class="size_year">
-                                                                        <span>80.9 X 73.4cm</span>
-                                                                        <span>2021</span>
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="price-box">
-                                                                <dl class="price-list">
-                                                                    <dt>추정가</dt>
-                                                                    <dd>KRW 9,900,000,000</dd>
-                                                                    <dd>~ 9,900,000,000</dd>
-                                                                    <dd>USD 6,700 ~ 12,600</dd>
-                                                                </dl>
-                                                                <dl class="price-list">
-                                                                    <dt>낙찰가</dt>
-                                                                    <dd><strong>KRW 9,00,000,000</strong></dd>
-                                                                </dl>
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>추정가</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                        <dd>USD 6,700 ~ 12,600</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>낙찰가</dt>
+                                                                        <dd><strong>KRW 9,00,000,000</strong></dd>
+                                                                    </dl>
+                                                                </a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -593,41 +622,48 @@
                                                 <article class="item-article">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
-                                                            <div class="img-align">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
                                                                 <img src="/images/pc/thumbnail/auction01.jpg" alt="">
-                                                            </div>
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
                                                         </figure>
                                                     </div>
                                                     <div class="typo-area">
+                                                        <!-- [0617]a태그 -->
                                                         <div class="product_info">
                                                             <div class="num_heart-box">
-                                                                <span class="num">4</span>
+                                                                <a href="#"><span class="num">4</span></a>
                                                                 <a class="heart js-work_heart"><i class="icon-heart_off"></i></a>
                                                             </div>
                                                             <div class="info-box">
-                                                                <div class="title"><span>데미안허스트</span>
+                                                                <div class="title"><a href="#"><span>데미안허스트</span></a>
                                                                     <!-- [0516]삭제	<span class="sub">(1965)</span> -->
                                                                 </div>
-                                                                <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
                                                                 <div class="standard">
-                                                                    <span>spray paint on canvas</span>
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
                                                                     <div class="size_year">
-                                                                        <span>80.9 X 73.4cm</span>
-                                                                        <span>2021</span>
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="price-box">
-                                                                <dl class="price-list">
-                                                                    <dt>추정가</dt>
-                                                                    <dd>KRW 9,900,000,000</dd>
-                                                                    <dd>~ 9,900,000,000</dd>
-                                                                    <dd>USD 6,700 ~ 12,600</dd>
-                                                                </dl>
-                                                                <dl class="price-list">
-                                                                    <dt>낙찰가</dt>
-                                                                    <dd><strong>KRW 9,00,000,000</strong></dd>
-                                                                </dl>
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>추정가</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                        <dd>USD 6,700 ~ 12,600</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>낙찰가</dt>
+                                                                        <dd><strong>KRW 9,00,000,000</strong></dd>
+                                                                    </dl>
+                                                                </a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -649,41 +685,48 @@
                                                 <article class="item-article">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
-                                                            <div class="img-align">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
                                                                 <img src="/images/pc/thumbnail/auction02.jpg" alt="">
-                                                            </div>
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
                                                         </figure>
                                                     </div>
                                                     <div class="typo-area">
+                                                        <!-- [0617]a태그 -->
                                                         <div class="product_info">
                                                             <div class="num_heart-box">
-                                                                <span class="num">5</span>
+                                                                <a href="#"><span class="num">5</span></a>
                                                                 <a class="heart js-work_heart"><i class="icon-heart_off"></i></a>
                                                             </div>
                                                             <div class="info-box">
-                                                                <div class="title"><span>데미안허스트</span>
+                                                                <div class="title"><a href="#"><span>데미안허스트</span></a>
                                                                     <!-- [0516]삭제	<span class="sub">(1965)</span> -->
                                                                 </div>
-                                                                <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
                                                                 <div class="standard">
-                                                                    <span>spray paint on canvas</span>
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
                                                                     <div class="size_year">
-                                                                        <span>80.9 X 73.4cm</span>
-                                                                        <span>2021</span>
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="price-box">
-                                                                <dl class="price-list">
-                                                                    <dt>추정가</dt>
-                                                                    <dd>KRW 9,900,000,000</dd>
-                                                                    <dd>~ 9,900,000,000</dd>
-                                                                    <dd>USD 6,700 ~ 12,600</dd>
-                                                                </dl>
-                                                                <dl class="price-list">
-                                                                    <dt>낙찰가</dt>
-                                                                    <dd><strong>KRW 9,00,000,000</strong></dd>
-                                                                </dl>
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>추정가</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                        <dd>USD 6,700 ~ 12,600</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>낙찰가</dt>
+                                                                        <dd><strong>KRW 9,00,000,000</strong></dd>
+                                                                    </dl>
+                                                                </a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -705,41 +748,48 @@
                                                 <article class="item-article">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
-                                                            <div class="img-align">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
                                                                 <img src="/images/pc/thumbnail/auction03.jpg" alt="">
-                                                            </div>
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
                                                         </figure>
                                                     </div>
                                                     <div class="typo-area">
+                                                        <!-- [0617]a태그 -->
                                                         <div class="product_info">
                                                             <div class="num_heart-box">
-                                                                <span class="num">6</span>
+                                                                <a href="#"><span class="num">6</span></a>
                                                                 <a class="heart js-work_heart"><i class="icon-heart_off"></i></a>
                                                             </div>
                                                             <div class="info-box">
-                                                                <div class="title"><span>데미안허스트</span>
+                                                                <div class="title"><a href="#"><span>데미안허스트</span></a>
                                                                     <!-- [0516]삭제	<span class="sub">(1965)</span> -->
                                                                 </div>
-                                                                <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
                                                                 <div class="standard">
-                                                                    <span>spray paint on canvas</span>
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
                                                                     <div class="size_year">
-                                                                        <span>80.9 X 73.4cm</span>
-                                                                        <span>2021</span>
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="price-box">
-                                                                <dl class="price-list">
-                                                                    <dt>추정가</dt>
-                                                                    <dd>KRW 9,900,000,000</dd>
-                                                                    <dd>~ 9,900,000,000</dd>
-                                                                    <dd>USD 6,700 ~ 12,600</dd>
-                                                                </dl>
-                                                                <dl class="price-list">
-                                                                    <dt>낙찰가</dt>
-                                                                    <dd><strong>KRW 9,00,000,000</strong></dd>
-                                                                </dl>
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>추정가</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                        <dd>USD 6,700 ~ 12,600</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>낙찰가</dt>
+                                                                        <dd><strong>KRW 9,00,000,000</strong></dd>
+                                                                    </dl>
+                                                                </a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -761,41 +811,48 @@
                                                 <article class="item-article">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
-                                                            <div class="img-align">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
                                                                 <img src="/images/pc/thumbnail/auction01.jpg" alt="">
-                                                            </div>
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
                                                         </figure>
                                                     </div>
                                                     <div class="typo-area">
+                                                        <!-- [0617]a태그 -->
                                                         <div class="product_info">
                                                             <div class="num_heart-box">
-                                                                <span class="num">7</span>
+                                                                <a href="#"><span class="num">7</span></a>
                                                                 <a class="heart js-work_heart"><i class="icon-heart_off"></i></a>
                                                             </div>
                                                             <div class="info-box">
-                                                                <div class="title"><span>데미안허스트</span>
+                                                                <div class="title"><a href="#"><span>데미안허스트</span></a>
                                                                     <!-- [0516]삭제	<span class="sub">(1965)</span> -->
                                                                 </div>
-                                                                <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
                                                                 <div class="standard">
-                                                                    <span>spray paint on canvas</span>
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
                                                                     <div class="size_year">
-                                                                        <span>80.9 X 73.4cm</span>
-                                                                        <span>2021</span>
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="price-box">
-                                                                <dl class="price-list">
-                                                                    <dt>추정가</dt>
-                                                                    <dd>KRW 9,900,000,000</dd>
-                                                                    <dd>~ 9,900,000,000</dd>
-                                                                    <dd>USD 6,700 ~ 12,600</dd>
-                                                                </dl>
-                                                                <dl class="price-list">
-                                                                    <dt>낙찰가</dt>
-                                                                    <dd><strong>KRW 9,00,000,000</strong></dd>
-                                                                </dl>
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>추정가</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                        <dd>USD 6,700 ~ 12,600</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>낙찰가</dt>
+                                                                        <dd><strong>KRW 9,00,000,000</strong></dd>
+                                                                    </dl>
+                                                                </a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -817,41 +874,48 @@
                                                 <article class="item-article">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
-                                                            <div class="img-align">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
                                                                 <img src="/images/pc/thumbnail/auction01.jpg" alt="">
-                                                            </div>
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
                                                         </figure>
                                                     </div>
                                                     <div class="typo-area">
+                                                        <!-- [0617]a태그 -->
                                                         <div class="product_info">
                                                             <div class="num_heart-box">
-                                                                <span class="num">8</span>
+                                                                <a href="#"><span class="num">8</span></a>
                                                                 <a class="heart js-work_heart"><i class="icon-heart_off"></i></a>
                                                             </div>
                                                             <div class="info-box">
-                                                                <div class="title"><span>데미안허스트</span>
+                                                                <div class="title"><a href="#"><span>데미안허스트</span></a>
                                                                     <!-- [0516]삭제	<span class="sub">(1965)</span> -->
                                                                 </div>
-                                                                <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
                                                                 <div class="standard">
-                                                                    <span>spray paint on canvas</span>
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
                                                                     <div class="size_year">
-                                                                        <span>80.9 X 73.4cm</span>
-                                                                        <span>2021</span>
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="price-box">
-                                                                <dl class="price-list">
-                                                                    <dt>추정가</dt>
-                                                                    <dd>KRW 9,900,000,000</dd>
-                                                                    <dd>~ 9,900,000,000</dd>
-                                                                    <dd>USD 6,700 ~ 12,600</dd>
-                                                                </dl>
-                                                                <dl class="price-list">
-                                                                    <dt>낙찰가</dt>
-                                                                    <dd><strong>KRW 9,00,000,000</strong></dd>
-                                                                </dl>
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>추정가</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                        <dd>USD 6,700 ~ 12,600</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>낙찰가</dt>
+                                                                        <dd><strong>KRW 9,00,000,000</strong></dd>
+                                                                    </dl>
+                                                                </a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -873,41 +937,48 @@
                                                 <article class="item-article">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
-                                                            <div class="img-align">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
                                                                 <img src="/images/pc/thumbnail/auction03.jpg" alt="">
-                                                            </div>
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
                                                         </figure>
                                                     </div>
                                                     <div class="typo-area">
+                                                        <!-- [0617]a태그 -->
                                                         <div class="product_info">
                                                             <div class="num_heart-box">
-                                                                <span class="num">9</span>
+                                                                <a href="#"><span class="num">9</span></a>
                                                                 <a class="heart js-work_heart"><i class="icon-heart_off"></i></a>
                                                             </div>
                                                             <div class="info-box">
-                                                                <div class="title"><span>데미안허스트</span>
+                                                                <div class="title"><a href="#"><span>데미안허스트</span></a>
                                                                     <!-- [0516]삭제	<span class="sub">(1965)</span> -->
                                                                 </div>
-                                                                <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
                                                                 <div class="standard">
-                                                                    <span>spray paint on canvas</span>
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
                                                                     <div class="size_year">
-                                                                        <span>80.9 X 73.4cm</span>
-                                                                        <span>2021</span>
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="price-box">
-                                                                <dl class="price-list">
-                                                                    <dt>추정가</dt>
-                                                                    <dd>KRW 9,900,000,000</dd>
-                                                                    <dd>~ 9,900,000,000</dd>
-                                                                    <dd>USD 6,700 ~ 12,600</dd>
-                                                                </dl>
-                                                                <dl class="price-list">
-                                                                    <dt>낙찰가</dt>
-                                                                    <dd><s>유찰</s></dd>
-                                                                </dl>
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>추정가</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                        <dd>USD 6,700 ~ 12,600</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>낙찰가</dt>
+                                                                        <dd><s>유찰</s></dd>
+                                                                    </dl>
+                                                                </a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -928,41 +999,48 @@
                                                 <article class="item-article">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
-                                                            <div class="img-align">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
                                                                 <img src="/images/pc/thumbnail/auction03.jpg" alt="">
-                                                            </div>
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
                                                         </figure>
                                                     </div>
                                                     <div class="typo-area">
+                                                        <!-- [0617]a태그 -->
                                                         <div class="product_info">
                                                             <div class="num_heart-box">
-                                                                <span class="num">9</span>
+                                                                <a href="#"><span class="num">9</span></a>
                                                                 <a class="heart js-work_heart"><i class="icon-heart_off"></i></a>
                                                             </div>
                                                             <div class="info-box">
-                                                                <div class="title"><span>데미안허스트</span>
+                                                                <div class="title"><a href="#"><span>데미안허스트</span></a>
                                                                     <!-- [0516]삭제	<span class="sub">(1965)</span> -->
                                                                 </div>
-                                                                <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
                                                                 <div class="standard">
-                                                                    <span>spray paint on canvas</span>
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
                                                                     <div class="size_year">
-                                                                        <span>80.9 X 73.4cm</span>
-                                                                        <span>2021</span>
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="price-box">
-                                                                <dl class="price-list">
-                                                                    <dt>추정가</dt>
-                                                                    <dd>KRW 9,900,000,000</dd>
-                                                                    <dd>~ 9,900,000,000</dd>
-                                                                    <dd>USD 6,700 ~ 12,600</dd>
-                                                                </dl>
-                                                                <dl class="price-list">
-                                                                    <dt>낙찰가</dt>
-                                                                    <dd><s>유찰</s></dd>
-                                                                </dl>
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>추정가</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                        <dd>USD 6,700 ~ 12,600</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>낙찰가</dt>
+                                                                        <dd><s>유찰</s></dd>
+                                                                    </dl>
+                                                                </a>
                                                             </div>
                                                             <!-- 			<div class="bidding-box col_2">
 																<div class="deadline_set"><span>신청마감 2/10(목) 15:00</span></div>

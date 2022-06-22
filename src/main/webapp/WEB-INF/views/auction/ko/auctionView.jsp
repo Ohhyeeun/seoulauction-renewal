@@ -945,9 +945,9 @@
                                                 </div>
                                             </div>
                   </div>`
-                    $("#swiper-wrapper").append(swiper_slide_item);
+                  $("#swiper-wrapper").append(swiper_slide_item);
                 });
-                $("#view_lot_no").html("LOT 1");
+
 
                 /* 스와이퍼 */
                 var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
@@ -957,8 +957,19 @@
                     },
                     onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
                         imagesResizePcMb();
+                    },
+                });
+                $.each($(".swiper-slide"), function(){
+                    let data = $(this).attr("data-swiper-slide-index");
+                    let lot_no = $(this).find(".imageViewer").attr("lot_no");
+                    if (lot_no === Scope().lot_no) {
+                        console.log(data, lot_no, Scope().lot_no);
+                        $("#view_lot_no").attr("sel-data-index", lot_no);
+                        $("#view_lot_no").html("LOT " + lot_no);
                     }
                 });
+
+
 
                 var popup_image_viewer = $(".js-popup_image_viewer").trpLayerFixedPopup("#popup_image_viewer-wrap");
                 $(popup_image_viewer.getBtn).on("click", function ($e) {
@@ -966,7 +977,7 @@
                     popup_image_viewer.open(this); // or false
                     imagesResizePcMb();
                     imageViewer.update();
-                    imageViewer.slideTo(1, 0);
+                    imageViewer.slideTo($("#view_lot_no").attr("sel-data-index"), 0);
                 });
                 // 좌우버튼
                 $('.view_paging-area .page_prev').on('click', function ($e) {
@@ -1117,6 +1128,59 @@
     let con_try_cnt = 0;
     let end_bid_time = 0;
     let is_end_bid = false;
+
+    let timeTickInterval = function(){
+        let bid_tick = document.getElementById("bid_tick");
+        let bid_tick_main = document.getElementById("end_date_time");
+        let ddd = new Date().getTime();
+
+        if (end_bid_time > 0 && end_bid_time >= ddd) {
+
+            let endDate = new Date(end_bid_time);
+            var dateGap = endDate - ddd;
+            var timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
+
+            // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
+            var diffDay  = (Math.floor(dateGap / (1000 * 60 * 60 * 24)) < 10)?0 + (Math.floor(dateGap / (1000 * 60 * 60 * 24))).toString():Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
+            var diffHour = (timeGap.getHours() < 10)?0 + timeGap.getHours().toString():timeGap.getHours();       // 시간
+            var diffMin  = (timeGap.getMinutes() < 10)?0 + timeGap.getMinutes().toString():timeGap.getMinutes();   // 분
+            var diffSec  = (timeGap.getSeconds() < 10)?0 + timeGap.getSeconds().toString():timeGap.getSeconds();   // 초
+
+            if (diffDay == "00") {
+                diffDay = ""
+            } else {
+                diffDay += "일 "
+            }
+            if (diffHour == "00") {
+                diffHour = ""
+            }else {
+                diffHour += "시 "
+            }
+            if (diffMin == "00") {
+                diffMin = ""
+            } else {
+                diffMin += "분 "
+            }
+            if (diffSec == "00") {
+                diffSec = ""
+            } else {
+                diffSec += "초"
+            }
+
+            bid_tick.innerText = diffDay + diffHour + diffMin + diffSec + " 남았습니다.";
+            bid_tick_main.innerText = diffDay + diffHour + diffMin + diffSec + " 남았습니다.";
+        } else if (end_bid_time <= 0) {
+            bid_tick.innerText = "경매 시작 전입니다.";
+            bid_tick_main.innerText = "경매 시작 전입니다.";
+        } else {
+            bid_tick.innerText = "경매가 종료 되었습니다.";
+            bid_tick_main.innerText = "경매가 종료 되었습니다.";
+        }
+    }
+
+    // time tick
+    timeTickInterval();
+    window.setInterval(timeTickInterval, 1000);
 
     let autoBiding = async function (connect_info) {
         let val = $("#reservation_bid").val();
@@ -1354,34 +1418,7 @@
                     }
                 }
             }
-
         } else if (d.msg_type == packet_enum.time_sync) {
-
-            let bid_tick = document.getElementById("bid_tick");
-            let bid_tick_main = document.getElementById("end_date_time");
-            let ddd = new Date(d.message.tick_value);
-
-            if (end_bid_time > 0 && end_bid_time >= d.message.tick_value) {
-
-                let endDate = new Date(end_bid_time);
-                var dateGap = endDate - ddd;
-                var timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
-
-                // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
-                var diffDay = Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
-                var diffHour = timeGap.getHours();       // 시간
-                var diffMin = timeGap.getMinutes();      // 분
-                var diffSec = timeGap.getSeconds();      // 초
-
-                bid_tick.innerText = diffDay + "일 " + diffHour + "시간 " + diffMin + "분 " + diffSec + "초 남았습니다.";
-                bid_tick_main.innerText = diffDay + "일 " + diffHour + "시간 " + diffMin + "분 " + diffSec + "초 남았습니다.";
-            } else if (end_bid_time <= 0) {
-                bid_tick.innerText = "경매 시작 전입니다.";
-                bid_tick_main.innerText = "경매 시작 전입니다.";
-            } else {
-                bid_tick.innerText = "경매가 종료 되었습니다.";
-                bid_tick_main.innerText = "경매가 종료 되었습니다.";
-            }
 
         } else if (d.msg_type == packet_enum.bid_info_init) {
 

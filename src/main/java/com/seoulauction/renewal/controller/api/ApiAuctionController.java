@@ -46,4 +46,9 @@ public class ApiAuctionController {
 
         return ResponseEntity.ok(RestResponse.ok(auctionService.selectSaleInfo(commonMap)));
     }
+
+    @PostMapping(value = "/results")
+    public ResponseEntity<RestResponse> results(@RequestBody CommonMap map){
+        return ResponseEntity.ok(RestResponse.ok(auctionService.selectResultSaleList(map)));
+    }
 }

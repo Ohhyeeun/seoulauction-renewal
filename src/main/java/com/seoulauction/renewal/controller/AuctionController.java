@@ -174,4 +174,9 @@ public class AuctionController {
     public String info(Locale locale) {
         return SAConst.getUrl(SAConst.SERVICE_AUCTION, "info", locale);
     }
+
+    @GetMapping("/results")
+    public String results(Locale locale) {
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionResult" , locale);
+    }
 }
