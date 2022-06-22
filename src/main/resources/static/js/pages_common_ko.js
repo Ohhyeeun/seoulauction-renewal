@@ -112,6 +112,7 @@ function responsiveDevices() {
 /* PC,MB images resize */function imagesResizePcMb() {
     ///document.querySelector(".imageViewer");
     ///console.log("googooowwww: " , _tar[0].naturalWidth, _tar.length);
+
     for (var o = $(".imageViewer"), e = 0; e < o.length; e++) {
         if (!o[e]) return !1;
         var n = o[e].naturalWidth, i = o[e].naturalHeight;
