@@ -12,7 +12,7 @@ app.controller('academyNowListCtl', function($scope, consts, common ) {
  		$scope.currentPage = $page;
  		
  		$page = $scope.currentPage;
- 		$size = 10;
+ 		$size = 8;
  		
  		$api = "/api/service/academies/now?page="+$page+"&size="+$size;
  		
@@ -45,6 +45,13 @@ app.controller('academyNowListCtl', function($scope, consts, common ) {
  		$scope.pageRows = parseInt($scope.reqRowCnt);
  		
 	};
+	
+ 	$scope.moreView = function(){
+	    var showLeng = $("li[name=academyList]:visible").length;
+	    showLeng += 4;
+	    curShowLeng = showLeng;
+	    $("li[name=academyList]:lt(" + showLeng + ")").show();
+	}
 	
 	$scope.getAcademyImg = function(param){
 		if(param == "artauction"){ // 대학생 아카데미

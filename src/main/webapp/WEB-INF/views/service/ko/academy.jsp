@@ -54,7 +54,7 @@
                                     <article class="service-article option-more js-service_more">
                                         <div class="article-body">
                                             <ul class="service-list">
-                                                <li class="mb_show" ng-repeat="academyList in academyList" ng-if = "academyList.TO_DT.substring(0,10) > db_now">
+                                                <li name="academyList" class="mb_show" ng-repeat="academyList in academyList" ng-if = "academyList.TO_DT.substring(0,10) > db_now">
                                                     <div class="li-inner">
                                                         <a href="/service/academyDetail?academyNo={{academyList.ACADEMY_NO}}&academyCd={{academyList.ACADEMY_CD}}">
                                                             <div class="item-area">
@@ -87,7 +87,7 @@
                                         </div>
                                         <div class="article-footer ">
                                             <div class="btn_set-float tac">
-                                                <a class="btn btn_gray_line" href="#" role="button"><span>더보기</span></a>
+                                                <a id="moreButton" ng-click="moreView()" class="btn btn_gray_line" href="#" role="button"><span>더보기</span></a>
                                             </div>
                                         </div>
                                     </article>
@@ -374,6 +374,37 @@
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 	<!-- Swiper 아카데미 리스트 -->
     <script class="js-append-script">
+		window.onload = function(){
+			if ($("body").hasClass("is_mb")) {
+				if($("li[name=academyList]").length <= 4){
+					$("#moreButton").hide();
+				}else{
+					$("li[name=academyList]:gt(3)").hide(); //4개 이상 hide
+				}
+			}
+			
+			if($("li[name=academyList]").length <= 4){
+				$(".js-service_more").removeClass("more_show");
+			}
+		}
+    
+		var curShowLeng = 0;
+	    $(window).on("resize", function() {
+	        var width = window.innerWidth;
+	        
+	        if(width < 1023){ //mobile
+		        if(curShowLeng  > 0){
+		        	var tmp = curShowLeng - 1;
+		        	$("li[name=academyList]:gt(" + tmp + ")").hide();
+		        }else{
+		        	$("li[name=academyList]:gt(3)").hide();
+		        }
+	        }else{ //pc
+		        $(".js-service_more").removeClass("more_show");
+		    	$("li[name=academyList]").show();
+	        }
+	    }).trigger("resize");
+	
         // Swiper 세팅
         var swiper_academy;
         var onceFn = $(".width_check").trpUtilityChangeOnceFn(
