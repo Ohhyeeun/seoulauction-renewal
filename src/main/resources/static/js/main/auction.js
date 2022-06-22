@@ -4,7 +4,7 @@ $(document).ready(function(){
     let auctionData = [];
     let currentLotData = [];
     let curruentTab = 0;
-    let initCount = 10;
+    let initCount = 12;
     let currentSaleNo;
     let locale = document.documentElement.lang;
     init();
@@ -176,7 +176,7 @@ $(document).ready(function(){
             $('#MoreAuction').hide();
             //$(".auctionTab-contents.on").css('height', '100%');
 
-            addLot(curruentTab , currentLotData[curruentTab].slice(initCount , currentLotData[curruentTab].length )  );
+            addLot(curruentTab , currentLotData[curruentTab].slice(initCount , initCount * 2 )  );
             bidstart();
             //auctionDataInit();
         });
