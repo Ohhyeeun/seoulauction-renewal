@@ -35,7 +35,7 @@ public class ApiMypageController {
 	
 	private final LoginService loginService;
 
-	// 정회원 이력
+	/* 정회원 이력 */
 	@RequestMapping(value = "/memberHistories", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> memberHistories(
 			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
@@ -47,6 +47,7 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectCustomerCustpayList(commonMap)));
 	}
 	
+	/* 아카데미 신청 이력 */
 	@RequestMapping(value = "/academies", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<RestResponse> academies(
@@ -78,6 +79,7 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectSaleListByCustNo(commonMap)));
 	}
 	
+	/* 결제내역 리스트 */
 	@RequestMapping(value = "/onlinePaies", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<RestResponse> onlinePaies(
@@ -101,7 +103,8 @@ public class ApiMypageController {
 //		commonMap.put("action_user_no", 115551);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectPayListByCustNo(commonMap)));
 	}
-		
+	
+	/* 1대1 문의 리스트*/
 	@RequestMapping(value = "/inquiries", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> inquiries(
 			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
@@ -113,18 +116,18 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectInquiryList(commonMap)));
 	}
 
-	
+	/* 1대1 문의 상세*/
 	@RequestMapping(value = "/inquiries/{writeNo}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<RestResponse> inquiry(@PathVariable("writeNo") String writeNo, Principal principal, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		CommonMap commonMap = new CommonMap();
-		// user정보 put 공통 함수 호출 필요.
 		commonMap.put("action_user_no", principal.getName());
 		commonMap.put("write_no", writeNo);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectInquiry(commonMap)));
 	}
   
+	/* 1대1 문의 상세 > 카테고리 리스트*/
 	@RequestMapping(value = "/categories", method = RequestMethod.POST)
 	public ResponseEntity<RestResponse> categories(@RequestBody CommonMap commonMap, Principal principal, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
@@ -134,6 +137,7 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok(commonMap));
 	}
 
+	/* 1대1 문의 등록*/
 	@RequestMapping(value = "/inquiry", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> inquiryWirte(MultipartHttpServletRequest request, Principal principal)
@@ -154,6 +158,7 @@ public class ApiMypageController {
 	}
 
 
+	/* 관심정보 리스트*/
 	@RequestMapping(value = "/inteLots", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<RestResponse> inteLots(
@@ -168,6 +173,7 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectInteLotList(commonMap)));
 	}
 	
+	/* 관심정보 삭제*/
 	@RequestMapping(value = "/inteLotDelete", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> inteLotDelete(@RequestBody CommonMap commonMap, Principal principal,
@@ -177,6 +183,7 @@ public class ApiMypageController {
 	}
 
 	
+	/* 라이브경매관리 > 응찰신청 내역*/
 	@RequestMapping(value = "/liveBidReqs", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> liveBidReqs(
 			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
@@ -189,6 +196,7 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectBidReqList(commonMap)));
 	}
 	
+	/* 라이브경매관리 > 응찰신청 내역 > 응찰 팝업*/
 	@RequestMapping(value = "/liveBidReqHistories/{sale_no}/{lot_no}", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> liveBidReqHistories(
 			@PathVariable("sale_no") String sale_no, @PathVariable("lot_no") String lot_no,
@@ -201,6 +209,7 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectLiveBidReqHistoryList(commonMap)));
 	}
 
+	/* 라이브경매관리 > 온라인패들응찰내역*/
 	@RequestMapping(value = "/liveBids", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> liveBids(
 			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
@@ -214,6 +223,7 @@ public class ApiMypageController {
 	}
 	
 
+	/* 라이브경매관리 > 온라인패들응찰내역 > 온라인패들응찰 팝업*/
 	@RequestMapping(value = "/liveBidHistories/{sale_no}/{lot_no}", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> liveBidHistories(
 			@PathVariable("sale_no") String sale_no, @PathVariable("lot_no") String lot_no,
@@ -225,6 +235,8 @@ public class ApiMypageController {
 //		commonMap.put("action_user_no", 113248);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectLiveBidHistoryList(commonMap)));
 	}
+	
+	/* 라이브경매관리 > 온라인패들응찰내역 > 낙찰결과통보서 팝업*/
 	@RequestMapping(value = "/liveBidHammers/{sale_no}", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> liveBidHistories(
 			@PathVariable("sale_no") String sale_no,
@@ -236,6 +248,7 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectLiveBidHammerList(commonMap)));
 	}
 	
+	/* 온라인경매관리 > 응찰내역 */
 	@RequestMapping(value = "/onlineBids", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> onlineBids(
 			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
@@ -248,6 +261,7 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectOnlineBidList(commonMap)));
 	}
 	
+	/* 온라인경매관리 > 응찰내역 > 응찰내역 팝업*/
 	@RequestMapping(value = "/onlineBidHistories/{sale_no}/{lot_no}", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> onlineBidHistories(
 			@PathVariable("sale_no") String sale_no, @PathVariable("lot_no") String lot_no,

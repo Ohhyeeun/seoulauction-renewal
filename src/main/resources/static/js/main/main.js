@@ -576,6 +576,27 @@ function localeOrdinal(n, l) {
 
 }
 
+/* main에서만 사용되는 gnb */
+if (matchMedia("all and (min-width: 1024px)").matches) {
+
+} else {
+    /* 띠배너 beltbanner */
+    $('.header_beltbox.on').show(function () {
+        $('.main-contents').css('margin-top', '100px');
+        $('.m-gnbmenu').click(function(){
+            $('.submenuBg').css({'top':'-43px'});
+        });
+    });
+    $('.beltclose-btn').click(function () {
+        $('.main-contents').css('margin-top', '56px');
+        $('.m-gnbmenu').click(function(){
+            $('.submenuBg').css({'top':'0'});
+        });
+    });
+}
+
+
+
 /* 반응형 resize 추가 */ 
 $(window).resize(function(){
     /* visual */

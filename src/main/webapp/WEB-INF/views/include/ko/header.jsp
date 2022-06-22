@@ -78,7 +78,7 @@ function sessionLogout() {
 
     <div>
         <ul class="header_utilitymenu wrap_padding pc-ver">
-            <li class="utility-tab utility-lang"><a href="javascript:void(0);">ENG</a>
+            <li class="utility-tab utility-lang"><a href="javascript:void(0);">KO</a>
                 <ul class="bubble-box bubble-box01">
                     <li><a href="${pageContext.request.contextPath}/?lang=en">ENG(English)</a></li>
                     <li><a href="${pageContext.request.contextPath}/?lang=ko">KOR(한국어)</a></li>
@@ -165,7 +165,7 @@ function sessionLogout() {
                         <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>
                             <ul class="submenu submenu-part03">
                                 <li><a href="/sell/consignment">위탁안내</a></li>
-                                <li><a href="#">위탁신청</a></li>
+                                <li><a href="/mypage/inquiryForm">위탁신청</a></li>
                             </ul>
                         </li>
                         <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
@@ -193,9 +193,32 @@ function sessionLogout() {
                     </figure>
                 </div>
                 <ul class="mobile-utility m-ver">
-                    <li><a href="#">ENG</a></li>
-                    <li><a href="#" class="gnb_join">회원가입</a><a href="#" class="gnb_member">마이페이지</a></li>
-                    <li><a href="#" class="gnb_login">로그인</a><a class="gnb_logout">로그아웃</a></li>
+                    <li id="mb_common_lang">
+<%--                        <c:if test="${empty cookie.lang.value || cookie.lang.value eq 'ko'}">--%>
+<%--                            <a href="${pageContext.request.contextPath}/?lang=en">ENG</a>--%>
+<%--                        </c:if>--%>
+<%--                        <c:if test="${cookie.lang.value eq 'en'}">--%>
+<%--                            <a href="${pageContext.request.contextPath}/?lang=ko">KO</a>--%>
+<%--                        </c:if>--%>
+                    </li>
+                    <li>
+                        <sec:authorize access="isAnonymous()"> <!-- !login -->
+                        <a href="/join" class="gnb_join">회원가입</a>
+                        </sec:authorize>
+                        <sec:authorize access="isAuthenticated()">
+                        <a href="/mypage/liveBidReqList" class="gnb_member">마이페이지</a>
+                        </sec:authorize>
+                    </li>
+                    <li>
+                        <sec:authorize access="isAnonymous()">
+                            <a href="/login" class="gnb_login">로그인</a>
+                        </sec:authorize>
+                        <sec:authorize access="isAuthenticated()">
+                            <a class="gnb_logout"
+                               onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')"
+                            >로그아웃</a>
+                        </sec:authorize>
+                    </li>
                 </ul>
             </div>
         </section>
