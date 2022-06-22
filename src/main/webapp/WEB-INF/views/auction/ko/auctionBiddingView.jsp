@@ -339,7 +339,7 @@
                                         <div class="video_area">
                                             <div class="view_box">
                                                 <!-- Youtube -->
-                                                <video id="llnw-rts-subscriber" autoplay controls muted></video>
+                                                <video id="llnw-rts-subscriber" width="100%" autoplay controls muted></video>
                                                 <!--a href="#" class="video_wrap">
                                                         <span class="video_thumbnail_wrap">
                                                             <span class="video_thumbnail" style="background-image: url(/images/temp/temp_video_bg.jpg)"></span>
