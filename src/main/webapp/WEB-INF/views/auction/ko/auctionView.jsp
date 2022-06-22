@@ -4,6 +4,16 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <!-- header -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>경매상세 | Seoul Auction</title>
+    <!-- //header -->
+</head>
 <body class="">
 <div class="wrapper">
     <link rel="stylesheet" href="/css/plugin/csslibrary.css">
