@@ -62,7 +62,8 @@
                                             </div>
                                             <div class="column">
                                                 <div class="note_etc">
-                                                    <span id="note_etc">{{paddNoteEtc}}</span><strong ng-if="paddNo > 0">{{paddNo}}</strong>
+                                                    <span id="note_etc">{{paddNoteEtc}}</span>
+<%--                                                    <strong ng-if="paddNo > 0">{{paddNo}}</strong>--%>
                                                 </div>
                                             </div>
                                             <i class="icon-link_arrow"></i>
@@ -433,14 +434,14 @@
 
             $scope.goLiveBid = function(item) {
                 if(sessionStorage.getItem("is_login") === 'false'){
-                    alert("미로그인");
+                    alert('로그인을 진행해주세요.');
                     location.href = "/login";
                     return;
                 }
 
-                const membership_yn = '${isRegular}';
-                if(membership_yn === 'N') {
-                    alert("준회원");
+                let isRegular = ${isRegular};
+                if(!isRegular){
+                    alert('정회원만 서면/전화 응찰 신청이 가능합니다.')
                     location.href = "/payment/member";
                     return;
                 }

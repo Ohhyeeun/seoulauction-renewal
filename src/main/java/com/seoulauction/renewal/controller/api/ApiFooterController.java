@@ -92,8 +92,7 @@ public class ApiFooterController {
     public ResponseEntity<RestResponse> forms(
             @PathVariable("id") int id,
             @RequestPart(value="key", required=false) CommonMap map,
-            @RequestPart(value="file", required=true) MultipartFile file,
-            HttpServletResponse response) {
+            @RequestPart(value="file") MultipartFile file) {
 
         map.put("recruit_id" , id);
         footerService.saveRecruitApply(file , map);

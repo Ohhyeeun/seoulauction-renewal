@@ -56,15 +56,10 @@ public class S3Service {
 
         final long fileSize = uploadFile.getSize();
         String contentType = uploadFile.getContentType();
-
         String currentBucket = isPrivate ? privateBucket : bucket;
-
         String baseUrl = isPrivate ? S3_BASE_PRIVATE_URL : S3_BASE_URL;
-
         String path = s3Uploader.upload(currentBucket , uploadFile , S3_IMAGE_BASE_URL   + "/" + tableName + "/" + rowId);
-
         String cdnUrl = isPrivate ? null : (S3_CDN_BASE_URL + path);
-
         CommonMap paramMap = null;
 
         if(path != null) {

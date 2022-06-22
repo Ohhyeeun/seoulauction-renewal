@@ -210,7 +210,6 @@ public class ApiSaleController {
 
         CommonMap map = new CommonMap();
         map.put("sale_no", saleNo);
-        //map.put("lot_no", lotNo);
 
         // 랏 이미지 정보 가져오기
         List<CommonMap> lotImages = saleService.selectSaleLotImages(map);

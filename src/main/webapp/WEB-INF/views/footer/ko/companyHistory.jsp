@@ -570,7 +570,6 @@
             var id = '#' + $(this).val();
             $('.history-body').removeClass('active');
             $(id).addClass('active');
-            console.log(id);
         }).trigger('change');
     </script>
 

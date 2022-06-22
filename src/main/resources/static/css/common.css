@@ -1697,7 +1697,7 @@ body.dark,
     }
     .submenuBg {
         position: absolute;
-        top: -43px;
+        top: 0px;
         right: -100%;
         left: auto;
         height: 100vh;
