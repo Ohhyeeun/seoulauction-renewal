@@ -130,6 +130,7 @@
              , COLUMN_JSON(L.EXHIBITION_PRICE_BLOB) EXHIBITION_PRICE_JSON
              , DATE_FORMAT(L.TO_DT,'%a') LOT_EXPIRE_DATE_DAY
              , DATE_FORMAT(L.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T
+             , L.ARTIST_NO
         from LOT L
                  left outer join ARTIST AT
         on AT.ARTIST_NO = L.ARTIST_NO

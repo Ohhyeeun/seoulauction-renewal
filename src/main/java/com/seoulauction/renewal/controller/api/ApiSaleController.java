@@ -491,4 +491,15 @@ public class ApiSaleController {
         paramMap.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
         return ResponseEntity.ok(RestResponse.ok(saleService.getCustomerByCustNo(paramMap)));
     }
+
+
+    @RequestMapping(value="/artist_info/{artist_no}", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> artistInfo(HttpServletRequest req, HttpServletResponse res, Locale locale,
+                                                 @PathVariable("artist_no") int artistNo) {
+        CommonMap map = new CommonMap();
+        map.put("artist_no", artistNo);
+
+        CommonMap artistInfoMap = saleService.selectArtistInfo(map);
+        return ResponseEntity.ok(RestResponse.ok(artistInfoMap));
+    }
 }
