@@ -190,12 +190,7 @@
     <!-- [0516]삭제
   <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
 -->
-
-
     <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
-
-
-
 
     <script>
         $('.js-left_mm_2 a').on('click', function(e) {
@@ -226,7 +221,8 @@
         }) */
     </script>
 
-
+    <!-- 팝업 : side popup -->
+	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 
 </body>
 

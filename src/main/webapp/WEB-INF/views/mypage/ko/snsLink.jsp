@@ -132,6 +132,8 @@
 
         </div>
     </div>
+    <!-- 팝업 : side popup -->
+	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 </body>
 <!-- 카카오 -->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>

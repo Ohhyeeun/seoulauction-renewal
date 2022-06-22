@@ -220,6 +220,8 @@
             window.history.back();
         })
     </script>
+    <!-- 팝업 : side popup -->
+	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 </body>
 
 </html>

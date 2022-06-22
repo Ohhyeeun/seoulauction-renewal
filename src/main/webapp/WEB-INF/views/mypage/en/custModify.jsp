@@ -357,6 +357,8 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
 
         </div>
     </div>
+    <!-- 팝업 : side popup -->
+	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 </body>
 <!-- 회원정보수정 비밀번호확인 -->
 <script type="text/javascript" src="/js/mypage/custModify.js"></script>
