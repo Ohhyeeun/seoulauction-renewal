@@ -116,11 +116,11 @@ function responsiveDevices() {
     for (var o = $(".imageViewer"), e = 0; e < o.length; e++) {
         if (!o[e]) return !1;
         var n = o[e].naturalWidth, i = o[e].naturalHeight;
-        $("body").hasClass("is_mb") ? (o[e].width = .55 * n, o[e].height = .55 * i) : (o[e].width = n,
-            o[e].height = i);
+
 
         let h = (parseFloat(parseInt($(o[e]).attr("size1"))) / 250) * 500;
         let w = (parseFloat(parseInt($(o[e]).attr("size2"))) / 250) * 500;
+
 
         /*$("body").hasClass("is_mb") ? (o[e].width = .55 * w, o[e].height = .55 * h) : (o[e].width = w,
         o[e].height = h);*/
