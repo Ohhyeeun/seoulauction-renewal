@@ -180,7 +180,8 @@
     <!-- 팝업 : 라이브경매관리 온라인패들 응찰 이력 -->
 	<jsp:include page="popup/onlineBidHistoryListPopup.jsp" flush="false"/>
 			
-
+	<!-- 팝업 : side popup -->
+	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 </body>
 
 </html>

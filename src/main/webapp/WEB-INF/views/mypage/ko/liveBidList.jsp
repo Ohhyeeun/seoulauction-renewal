@@ -181,7 +181,9 @@
 								    
 	<!-- 오프라인결제 -->
 	<jsp:include page="popup/liveBidSuccessListPopup.jsp" flush="false"/>
-
+	
+	<!-- 팝업 : side popup -->
+	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 
 </body>
 

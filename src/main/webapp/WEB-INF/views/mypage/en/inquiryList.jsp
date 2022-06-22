@@ -127,8 +127,9 @@
 
 
     <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
-
-
+   
+    <!-- 팝업 : side popup -->
+	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 
 </body>
 

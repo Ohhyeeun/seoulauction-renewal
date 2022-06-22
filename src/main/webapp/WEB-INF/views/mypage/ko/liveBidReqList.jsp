@@ -170,6 +170,9 @@
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>	
 	<!-- 팝업 : 라이브경매관리 온라인패들 응찰 이력 -->
 	<jsp:include page="popup/liveBidReqHistoryListPopup.jsp" flush="false"/>
+	<!-- 팝업 : side popup -->
+	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
+	
 </body>
 
 </html>
