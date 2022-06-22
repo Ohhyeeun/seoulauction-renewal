@@ -84,14 +84,14 @@ public class MainService {
                 c.put("lots" , ktMainMapper.selectLotsBySaleNo(lotMap));
         });
 
-        List<CommonMap> test2 = new ArrayList<>();
-        if(!saleList.isEmpty()) {
-            test2.add(saleList.get(0));
-            test2.add(saleList.get(0));
-            test2.add(saleList.get(0));
-        }
+//        List<CommonMap> test2 = new ArrayList<>();
+//        if(!saleList.isEmpty()) {
+//            test2.add(saleList.get(0));
+//            test2.add(saleList.get(0));
+//            test2.add(saleList.get(0));
+//        }
+        resultMap.put("list" , saleList);
         resultMap.put("count" , counts);
-        resultMap.put("list" , test2);
 
         return resultMap;
     }
