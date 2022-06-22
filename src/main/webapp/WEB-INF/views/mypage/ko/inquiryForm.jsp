@@ -290,10 +290,11 @@
                                                                     <input type="button" class="btn btn_light_gray_line" value="파일첨부">
                                                                     <input type="file" multiple="multiple" tabindex="7" class="trp-Filehidden" ng-model="form_data.file" name="file" id="file" onchange="angular.element(this).scope().fileValidCheck()" title="Insert Attachment">
                                                                 </div>
-						                                        <div class="file-box-list" ng-repeat="file in fileNameList" >
-						                                            <p class="label" >
+						                                        <div class="file-box-list"  >
+						                                            <p class="label" ng-repeat="file in fileNameList">
 						                                                <i class="icon_down"></i>
-						                                                <span class="tb1">{{file.filename}}</span>
+						                                                <span class="tb1">{{file.fileName}}</span>
+						                                                <a href="#none" class="btn_del" ng-click="deleteFile(file.fileIndex)"><span class="icon-del"></span></a>
 						                                            </p>
 						                                        </div>
 																	
