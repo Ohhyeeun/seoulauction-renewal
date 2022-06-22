@@ -5,7 +5,7 @@
 	<!-- get_academy_now_list -->
 	<select id="selectAcademyListForNow" resultType="CommonMap">
 		<include refid="get_academy_now_sql"/>
-		    limit	 #{offset}, #{size}
+<!-- 		    limit	 #{offset}, #{size} -->
 	</select>
 	
 	<!-- get_academy_now_count -->
