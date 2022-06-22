@@ -22,6 +22,7 @@
 
 	<select id="selectArtistByNo" parameterType="CommonMap" resultType="CommonMap" >
 		select
+		    ARTIST_NO,
 			COLUMN_JSON(ARTIST_NAME_BLOB) ARTIST_NAME_BLOB,
 		    NATION_CD,
 		    BORN_YEAR,
