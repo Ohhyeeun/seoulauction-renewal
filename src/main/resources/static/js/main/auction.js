@@ -137,10 +137,10 @@ $(document).ready(function(){
             $(this).removeClass('on');
         });
 
-        $('.auction-thumb').on('click', function () {
-            window.open('/auction/live/view/'+currentSaleNo + '/' +$(this).children('button').attr('id').split('id_')[1]);
-        });
-
+        //클릭시
+        // $('.auction-thumb').on('click', function () {
+        //     window.open('/auction/live/view/'+currentSaleNo + '/' +$(this).children('button').attr('id').split('id_')[1]);
+        // });
 
         //auction haert 버튼
         $('.wish_heart').on('click', function () {
