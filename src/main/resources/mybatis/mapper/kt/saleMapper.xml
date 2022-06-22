@@ -208,6 +208,9 @@
                b.LOT_NO      LOT_NO,
                c.FILE_PATH   FILE_PATH,
                c.FILE_NAME   FILE_NAME,
+               ifnull(d.UNIT_CD, 'cm')             UNIT_CD,
+               ifnull(d.SIZE1, '0')                SIZE1,
+               ifnull(d.SIZE2, '0')                SIZE2,
                CONCAT('['
                    , GROUP_CONCAT('{',
                                   '"UNIT_CD":"', ifnull(d.UNIT_CD, 'cm'), '",',
