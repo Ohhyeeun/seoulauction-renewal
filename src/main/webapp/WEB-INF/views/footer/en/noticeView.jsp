@@ -32,35 +32,29 @@
                             </div>
                         </div>
                     </section>
-
-
-
                     <section class="basis-section bbs-section">
                         <div class="section-inner">
                             <div class="content-panel type_panel-notice_view">
                                 <div class="panel-header">
                                     <article class="view-header">
                                         <div class="title-area">
-                                            <div class="title">
+                                            <div id="notice_title" class="title">
                                                 <span>4월 e BID 프리미엄 온라인 경매</span>
                                             </div>
                                         </div>
-                                        <div class="date-area">
+                                        <div id="notice_date" class="date-area">
                                             <span>2022.03.08 ~ 2022.05.10</span>
                                         </div>
                                     </article>
                                     <div class="file-area">
-                                        <div class="file-item">
-                                            <a href="#">
-                                                <i class="icon_down"></i> <span>Attached_filename.jpg</span>
-                                            </a>
+                                        <div id="notice_file_list" class="file-item">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="panel-body">
                                     <article class="view-body">
                                         <div class="area-inner">
-                                            <div class="view_editor-wrap">
+                                            <div id="notice_content" class="view_editor-wrap">
                                                 [Online Auction]<br>
                                                 2022. 4. 6 (水)<br>
                                                 2시 순차마감<br>
@@ -90,7 +84,7 @@
                                     <div class="view-footer">
                                         <div class="button-area">
                                             <div class="btn_set-float tac">
-                                                <a class="btn btn_default btn_lg" href="#" role="button"><span>List</span></a>
+                                                <a class="btn btn_default btn_lg" href="/footer/notice" role="button"><span>List</span></a>
                                             </div>
                                         </div>
                                     </div>
@@ -133,7 +127,43 @@
     <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
     <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+    <script>
+        $(function(){
 
+            init();
+            function init(){
+                axios.get('/api/footer/notices/${id}')
+                    .then(function(response) {
+                        const data = response.data;
+                        let success = data.success;
+                        if(success){
+                            let data = response.data.data;
+
+                            if(!data){
+                                alert('잘못된 경로입니다.');
+                                history.back();
+                            }
+                            $("#notice_content").html(JSON.parse(data.content).en);
+                            $("#notice_title").html(JSON.parse(data.title).en);
+                            $("#notice_date").html(data.dt_date);
+
+                            if(data.images.length !==0){
+                                let images = data.images;
+                                $.each(images , function(idx , el){
+
+                                    let html = `<a href=/fileDownload?fileKey=` + el.path + `&downloadFileName=` + el.name  + `>`
+                                        + `<i class="icon_down"></i> <span>` + el.name + `</span></a>`;
+                                    $("#notice_file_list").html(html);
+                                });
+                            }
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            }
+        });
+    </script>
 
 </body>
 

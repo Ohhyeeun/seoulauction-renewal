@@ -111,7 +111,7 @@
             STATUS = 'A'
             AND IS_OPEN = 'Y'
             <if test="search !=null">
-                AND JSON_UNQUOTE(JSON_EXTRACT( TITLE, "$.ko" )) like #{search} '%'
+                AND JSON_UNQUOTE(JSON_EXTRACT( TITLE, "$.${lang}" )) like #{search} '%'
             </if>
         ORDER BY
             CREATED_AT desc

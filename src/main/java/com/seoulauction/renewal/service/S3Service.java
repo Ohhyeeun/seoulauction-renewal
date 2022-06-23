@@ -132,7 +132,6 @@ public class S3Service {
         map.put("table_name",tableName);
         map.put("row_id",rowId);
         List<CommonMap> resultMap = s3Mapper.selectS3FileData(map);
-        log.info("resultMap : {}" , resultMap);
         return resultMap.stream().map(c->c.getString("cdn_url")).collect(Collectors.toList());
     }
 
