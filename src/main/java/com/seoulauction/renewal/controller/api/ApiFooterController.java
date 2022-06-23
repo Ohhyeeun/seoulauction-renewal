@@ -53,11 +53,13 @@ public class ApiFooterController {
     public ResponseEntity<RestResponse> boardNotices(
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size,
-            @RequestParam(value = "search" , required = false ) String search
+            @RequestParam(value = "search" , required = false ) String search,
+            @RequestParam(value = "lang" , defaultValue = "ko" , required = false) String lang
     ) {
-        CommonMap maps = CommonMap.create(page,size);
-        maps.put("search" , search);
-        return ResponseEntity.ok(RestResponse.ok(footerService.getBoardNoticeList(maps)));
+        CommonMap map = CommonMap.create(page,size);
+        map.put("search" , search);
+        map.put("lang" , lang);
+        return ResponseEntity.ok(RestResponse.ok(footerService.getBoardNoticeList(map)));
     }
 
     @GetMapping(value="/notices/{id}")

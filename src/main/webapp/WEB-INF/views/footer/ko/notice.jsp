@@ -91,7 +91,6 @@
                                 </div>
                                 <div class="panel-footer">
                                     <!-- 고객센터 -->
-
                                     <!-- [0523]클래스명 수정 //-->
                                     <article class="inquiry-article type-customer">
                                         <div class="inquiry-box">
@@ -117,7 +116,6 @@
                                             </div>
                                         </div>
                                     </article>
-
                                 </div>
                             </div>
 
@@ -151,7 +149,6 @@
 
     <script src="/js/common/paging.js" type="text/javascript"></script>
     <script src="/js/footer/notice.js" type="text/javascript"></script>
-
 
 
 </body>

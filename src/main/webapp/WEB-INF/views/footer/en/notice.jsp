@@ -41,12 +41,12 @@
                                 <div class="panel-body">
                                     <div class="bbs-top">
                                         <div class="bbs_count-area">
-                                            Result for <span class="bbs_count-num point">000</span>
+                                            Result for <span id="notice_data_count" class="bbs_count-num point">000</span>
                                         </div>
                                         <div class="bbs_search-area">
                                             <div class="bbs_search-box">
-                                                <input type="text" class="bbs_search-text" placeholder="Enter a search term">
-                                                <button type="submit" class="bbs_search-btn">searc</button>
+                                                <input id="search_text" type="text" class="bbs_search-text" placeholder="Enter a search term">
+                                                <button id="search_btn" type="submit" class="bbs_search-btn">search</button>
                                             </div>
                                         </div>
                                     </div>
@@ -59,140 +59,13 @@
                                                     <th>날짜</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="bbs-division">Auction</td>
-                                                    <!-- [0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-subject"><a href="#" class="tit">4월 e BID 프리미엄 온라인 경매
-                                                            4월 e BID 프리미엄 온라인 경매 4월 e BID 프리미엄 온라인 경매 4월 e BID 프리미엄 온라인 경매 4월 e BID txt123456789</a> <i class="icon_down"></i>
-                                                    </td>
-                                                    <!-- //[0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-date">2022.04.05</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bbs-division">Auction</td>
-                                                    <!-- [0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-subject"><a href="#" class="tit">ZEROBASE: The Edit</a> <i class="icon_down"></i>
-                                                    </td>
-                                                    <!-- //[0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-date">2022.04.05</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bbs-division">Announcement</td>
-                                                    <!-- [0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-subject"><a href="#" class="tit">공지사항 게시글 타이틀을 최대 2줄 까지 표시 3월 e BID 퍼블릭 온라인 경매 Ⅱ
-                                                            공지사항 게시글 타이틀을 최대 2줄 까지 표시 공지사항 게시글 타이틀을 최대 2줄 까지 표시 공지사항 게시글 타이틀을 최대 2줄 까지 표시
-                                                        </a></td>
-                                                    <!-- //[0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-date">2022.04.05</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bbs-division">Auction</td>
-                                                    <!-- [0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-subject"><a href="#" class="tit">2022 Contemporary Art Sale</a></td>
-                                                    <!-- //[0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-date">2022.04.05</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bbs-division">Guide</td>
-                                                    <!-- [0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-subject"><a href="#" class="tit">3월 e BID 퍼블릭 온라인 경매 Ⅰ</a></td>
-                                                    <!-- //[0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-date">2022.04.05</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bbs-division">Auction</td>
-                                                    <!-- [0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-subject"><a href="#" class="tit">2022 Contemporary Art Sale</a></td>
-                                                    <!-- //[0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-date">2022.04.05</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bbs-division">Auction</td>
-                                                    <!-- [0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-subject"><a href="#" class="tit">2022 Contemporary Art Sale</a></td>
-                                                    <!-- //[0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-date">2022.04.05</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bbs-division">Auction</td>
-                                                    <!-- [0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-subject"><a href="#" class="tit">2022 Contemporary Art Sale</a></td>
-                                                    <!-- /[0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-date">2022.04.05</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bbs-division">Auction</td>
-                                                    <!-- [0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-subject"><a href="#" class="tit">2022 Contemporary Art Sale</a></td>
-                                                    <!-- //[0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-date">2022.04.05</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bbs-division">Auction</td>
-                                                    <!-- [0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-subject"><a href="#" class="tit">2022 Contemporary Art Sale</a></td>
-                                                    <!-- //[0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-date">2022.04.05</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bbs-division">Auction</td>
-                                                    <!-- [0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-subject"><a href="#" class="tit">2022 Contemporary Art Sale</a></td>
-                                                    <!-- //[0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-date">2022.04.05</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bbs-division">Auction</td>
-                                                    <!-- [0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-subject"><a href="#" class="tit">2022 Contemporary Art Sale</a></td>
-                                                    <!-- //[0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-date">2022.04.05</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bbs-division">Announcement</td>
-                                                    <!-- [0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-subject"><a href="#" class="tit">2022 Contemporary Art Sale</a></td>
-                                                    <!-- //[0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-date">2022.04.05</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bbs-division">Auction</td>
-                                                    <!-- [0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-subject"><a href="#" class="tit">2022 Contemporary Art Sale</a></td>
-                                                    <!-- //[0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-date">2022.04.05</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bbs-division">Auction</td>
-                                                    <!-- [0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-subject"><a href="#" class="tit">2022 Contemporary Art Sale</a></td>
-                                                    <!-- //[0613]제목에 링크 : span을 a태그로 변경 -->
-                                                    <td class="bbs-date">2022.04.05</td>
-                                                </tr>
+                                            <tbody id="notice_tbody">
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                                 <div class="panel-footer">
-                                    <div class="paging-area">
-                                        <div class="paging">
-                                            <a href="#" class="prev_end icon-page_prevprev">FIRST</a><a href="#" class="prev icon-page_prev">PREV</a>
-                                            <strong class="on">1</strong>
-                                            <a href="#"><em>2</em></a>
-                                            <a href="#"><em>3</em></a>
-                                            <a href="#"><em>4</em></a>
-                                            <a href="#"><em>5</em></a>
-                                            <span class="pc-ver">
-                                                <a href="#"><em>6</em></a>
-                                                <a href="#"><em>7</em></a>
-                                                <a href="#"><em>8</em></a>
-                                                <a href="#"><em>9</em></a>
-                                                <a href="#"><em>10</em></a>
-                                            </span>
-                                            <a href="#" class="next icon-page_next "><em>NEXT</em></a><a href="#" class="next_end icon-page_nextnext">END</a>
-                                        </div>
-                                    </div>
+                                    <div id="notice_paging" class="paging-area"></div>
                                 </div>
                             </div>
                         </div>
@@ -207,11 +80,6 @@
                                 </div>
                                 <div class="panel-footer">
                                     <!-- 고객센터 -->
-
-
-
-
-
                                     <!-- [0523]클래스명 수정 //-->
                                     <article class="inquiry-article type-customer">
                                         <div class="inquiry-box">
@@ -233,14 +101,10 @@
                                                 </div>
                                             </div>
                                             <div class="btn-area">
-                                                <a class="btn btn_gray_line" href="#" role="button"><span>1:1 inquiry</span></a>
+                                                <a class="btn btn_gray_line" href="/mypage/inquiryForm" role="button"><span>1:1 inquiry</span></a>
                                             </div>
                                         </div>
                                     </article>
-
-
-
-
                                 </div>
                             </div>
 
@@ -272,6 +136,8 @@
     <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
 
+    <script src="/js/common/paging.js" type="text/javascript"></script>
+    <script src="/js/footer/notice.js" type="text/javascript"></script>
 
 </body>
 

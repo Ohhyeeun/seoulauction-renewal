@@ -53,7 +53,7 @@
                                 <div class="panel-body">
                                     <div class="bbs-top">
                                         <div class="bbs_count-area">
-                                            Result for <span class="bbs_count-num point">201</span>
+                                            Result for <span id="media_count" class="bbs_count-num point">201</span>
                                         </div>
                                         <div class="bbs_search-area">
                                             <div class="bbs_search-box">
@@ -112,7 +112,7 @@
                                                 </div>
                                             </div>
                                             <div class="btn-area">
-                                                <a class="btn btn_gray_line" href="#" role="button"><span>1:1 inquiry</span></a>
+                                                <a class="btn btn_gray_line" href="/mypage/inquiryForm" role="button"><span>1:1 inquiry</span></a>
                                             </div>
                                         </div>
                                     </article>

@@ -14,7 +14,7 @@ $(document).ready(function(){
     //초기작업.
     function init(){
 
-        let url = '/api/footer/notices?page='+current_page+"&size="+data_size;
+        let url = '/api/footer/notices?page=' + current_page + "&size=" + data_size + '&lang=' + locale;
         if(search_text){
             url +="&search="+search_text;
         }
@@ -37,10 +37,22 @@ $(document).ready(function(){
 
                         let localeTitle = locale === 'ko' ? title.ko : title.en;
 
-                        let noticeType = el.notice_type === 'auction' ? '경매' :
-                                         el.notice_type === 'info' ? '안내' :
-                                         el.notice_type === 'notice' ? '공고' : 'null' ;
+                        let noticeType;
 
+
+                        if(locale === 'ko') {
+
+                            noticeType = el.notice_type === 'auction' ? '경매' :
+                                             el.notice_type === 'info' ? '안내' :
+                                             el.notice_type === 'notice' ? '공고' : 'null';
+
+                        } else {
+
+                            noticeType = el.notice_type === 'auction' ? 'Auction' :
+                                             el.notice_type === 'info' ? 'Guide' :
+                                             el.notice_type === 'notice' ? 'Announcement' : 'null';
+
+                        }
                         let html = `<tr>
                                         <td class="bbs-division">${noticeType}</td>
                                         <td class="bbs-subject">
