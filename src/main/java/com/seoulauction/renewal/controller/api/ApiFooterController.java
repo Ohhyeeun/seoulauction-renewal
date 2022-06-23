@@ -6,14 +6,11 @@ import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.service.FooterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Locale;
 
 @RestController
 @Log4j2

@@ -1,13 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 
 <head>
     <!-- header -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>언론보도 | Seoul Auction</title>
+    <title>Press | Seoul Auction</title>
     <!-- //header -->
 </head>
 
@@ -16,7 +17,7 @@
         <div class="sub-wrap pageclass">
 
             <!-- header -->
-            <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+            <jsp:include page="../../include/en/header.jsp" flush="false"/>
             <!-- //header -->
 
             <!-- container -->
@@ -27,7 +28,7 @@
                     <section class="page_title-section">
                         <div class="section-inner full_size">
                             <div class="center-box">
-                                <h2 class="page_title"><span class="th1">언론보도</span></h2>
+                                <h2 class="page_title"><span class="th1">Press</span></h2>
                             </div>
                         </div>
                     </section>
@@ -40,16 +41,10 @@
                                 <div class="panel-header">
 
                                     <div class="tab-wrap">
-                                        <!-- <div class="tab-area type-left">
-											<ul class="tab-list js-list_tab">
-												<li class="active"><a href="#tab-cont-1"><span>국내</span></a></li>
-												<li><a href="#tab-cont-2"><span>해외</span></a></li>
-											</ul>
-										</div> -->
                                         <div class="tab-area type-left_lg">
                                             <ul class="tab-list js-list_tab_left_lg">
-                                                <li class="active"><a id="media_tab1" href="#tab-cont-1"><span>국내</span></a></li>
-                                                <li><a id="media_tab2" href="#tab-cont-2"><span>해외</span></a></li>
+                                                <li><a id="media_tab1" href="#tab-cont-1"><span>South Korea</span></a></li>
+                                                <li class="active"><a id="media_tab2" href="#tab-cont-2"><span>Overseas</span></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -58,13 +53,12 @@
                                 <div class="panel-body">
                                     <div class="bbs-top">
                                         <div class="bbs_count-area">
-                                            총 <span id="media_count" class="bbs_count-num point">000</span>건
+                                            Result for <span class="bbs_count-num point">201</span>
                                         </div>
                                         <div class="bbs_search-area">
                                             <div class="bbs_search-box">
-                                                <!-- [0516]placeholder삭제// -->
-                                                <input id="search_text" type="text" class="bbs_search-text" placeholder="">
-                                                <button id="search_btn" type="submit" class="bbs_search-btn">검색</button>
+                                                <input id="search_text" type="text" class="bbs_search-text" placeholder="Enter a search term">
+                                                <button id="search_btn" type="submit" class="bbs_search-btn">search</button>
                                             </div>
                                         </div>
                                     </div>
@@ -72,8 +66,8 @@
                                         <table class="table_base data-table bbs-table bbs-table1">
                                             <thead>
                                                 <tr>
-                                                    <th>제목</th>
-                                                    <th>날짜</th>
+                                                    <th>subject</th>
+                                                    <th>date</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="media_tbody"></tbody>
@@ -98,10 +92,6 @@
 
                                 </div>
                                 <div class="panel-footer">
-                                    <!-- 문의하기 -->
-                                    <!-- [0613]텍스트수정 -->
-
-
                                     <article class="inquiry-article ">
                                         <div class="inquiry-box">
                                             <div class="typo-area">
@@ -109,24 +99,23 @@
                                                     <i class="icon-academy_inquiry"></i>
                                                 </div>
                                                 <div class="title-box">
-                                                    <strong>문의하기</strong>
+                                                    <strong>Contact</strong>
                                                 </div>
                                                 <div class="info-guide">
-                                                    <div class="manager-box"> <span>홍보마케팅팀</span> <em>김서영 선임</em> </div>
+                                                    <div class="manager-box"> <span>PR Marketing Team</span> <em>S.Y Kim</em> </div>
                                                     <div class="contact-box">
                                                         <ul>
-                                                            <li><span>T.</span> <em>02-2075-4434</em></li>
+                                                            <li><span>T.</span> <em>+82(0)2-2075-4434</em></li>
                                                             <li><span>E.</span> <a href="mailto:kmj714@seoulauction.com"><em>kmj714@seoulauction.com</em></a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="btn-area">
-                                                <a class="btn btn_gray_line" href="/mypage/inquiryForm" role="button"><span>1:1 문의</span></a>
+                                                <a class="btn btn_gray_line" href="#" role="button"><span>1:1 inquiry</span></a>
                                             </div>
                                         </div>
                                     </article>
-                                    <!-- //[0613]텍스트수정 -->
                                 </div>
                             </div>
 
@@ -138,14 +127,17 @@
             <!-- //container -->
 
             <!-- footer -->
-            <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
+            <jsp:include page="../../include/en/footer.jsp" />
             <!-- //footer -->
+
+            <!-- stykey -->
 
             <div class="scroll_top-box">
                 <div class="box-inner">
                     <a href="#" class="btn-scroll_top js-scroll_top"><i class="icon-scroll_top"></i></a>
                 </div>
             </div>
+            <!-- // stykey -->
 
         </div>
     </div>
@@ -156,5 +148,6 @@
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
     <script src="/js/common/paging.js" type="text/javascript"></script>
     <script src="/js/footer/media.js" type="text/javascript"></script>
+</body>
 
 </html>
