@@ -22,7 +22,7 @@
 		<div class="sub-wrap pageclass">
 			<jsp:include page="../../include/ko/header.jsp" flush="false" />
 			
-			<div id="container footer-bottom footer-bottom30" style="margin-top:60px" ng-controller="joinCtl">
+			<div id="container" ng-controller="joinCtl">
 				<div id="contents" class="contents">
 				    <section class="basis-section last-section">
 				        <div class="section-inner">

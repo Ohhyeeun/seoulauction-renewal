@@ -1,3 +1,4 @@
+app.value('locale', document.documentElement.lang);
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
 app.controller('myPageCtl', function($scope, consts, common, ngDialog) {	
 	$scope.showRegularPayPopup = function(){
@@ -40,7 +41,9 @@ window.addEventListener('load', function () {
 	
 	//div css로 id값 가져와서 넣기
 	var className = document.getElementById('container').classList[0];
+	if(className){
 	document.getElementById(className).classList.add('on');
+	}
 });
 
 	
