@@ -25,7 +25,7 @@ $('#findPassword').on('click', function() {
             });
 		
 		if(inputNull){
-			$('#popup_idsearch3-wrap').attr("style", "display:block");
+			$('.popup_idsearch3-wrap').attr("style", "display:block");
 			return;
 		} else {
 			var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
@@ -35,7 +35,7 @@ $('#findPassword').on('click', function() {
 				} else {
 					$('#inputTitle').text('이메일을 확인해주세요.'); 
 				}
-				$('#popup_idsearch3-wrap').attr("style", "display:block");
+				$('.popup_idsearch3-wrap').attr("style", "display:block");
 				return;
 			}
 			searchValue = $('#custEmail').val();
@@ -57,7 +57,7 @@ $('#findPassword').on('click', function() {
         });
         
         if(inputNull){
-			$('#popup_idsearch3-wrap').attr("style", "display:block");
+			$('.popup_idsearch3-wrap').attr("style", "display:block");
 			return;
 		} else {
 			var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
@@ -67,7 +67,7 @@ $('#findPassword').on('click', function() {
 				} else {
 				$('#inputTitle').text('휴대폰 번호를 확인해주세요.'); 
 				}
-				$('#popup_idsearch3-wrap').attr("style", "display:block");
+				$('.popup_idsearch3-wrap').attr("style", "display:block");
 				return;
 			}
 			searchValue = $('#custPhone').val();
@@ -84,12 +84,12 @@ $('#findPassword').on('click', function() {
 		const result = response.data;
 		let success = result.success;
 		if (!success) {
-			$('#popup_pwsearch3-wrap').attr("style", "display:block");
+			$('.popup_pwsearch3-wrap').attr("style", "display:block");
 		} else if (result.data.SOCIAL_YN == 'Y') {
 			$('#socialType').text(result.data.SOCIAL_TYPE);
-			$('#popup_pwsearch4-wrap').attr("style", "display:block");
+			$('.popup_pwsearch4-wrap').attr("style", "display:block");
 		} else {
-			$('#popup_pwsearch'+popupNumber+'-wrap').attr("style", "display:block");
+			$('.popup_pwsearch'+popupNumber+'-wrap').attr("style", "display:block");
 		}
 	})
 		.catch(function(error) {
@@ -110,7 +110,7 @@ $('#findPassword').on('click', function() {
 
     $("body").on("click", "#popup_idsearch3-wrap .js-closepop, #popup_idsearch3-wrap .popup-dim, #confirm_1", function($e) {
         $e.preventDefault();
-        popup_idsearch3.close();
+        $('.popup_idsearch3-wrap').attr("style", "display:none");
         //popup_motion_close("#popup_idsearch3-wrap");  //  mb 모션 
     });
 })();
@@ -126,7 +126,7 @@ $('#findPassword').on('click', function() {
 
 	$("body").on("click", "#popup_pwsearch1-wrap .js-closepop, #popup_pwsearch1-wrap .popup-dim, #confirm_2", function($e) {
 		$e.preventDefault();
-		popup_pwsearch1.close();
+		$('.popup_pwsearch1-wrap').attr("style", "display:none");
 	});
 })();
 
@@ -141,7 +141,7 @@ $('#findPassword').on('click', function() {
 
 	$("body").on("click", "#popup_pwsearch2-wrap .js-closepop, #popup_pwsearch2-wrap .popup-dim, #confirm_3", function($e) {
 		$e.preventDefault();
-		popup_pwsearch2.close();
+		$('.popup_pwsearch2-wrap').attr("style", "display:none");
 	});
 })();
 
@@ -156,7 +156,7 @@ $('#findPassword').on('click', function() {
 
 	$("body").on("click", "#popup_pwsearch3-wrap .js-closepop, #popup_pwsearch3-wrap .popup-dim, #confirm_4", function($e) {
 		$e.preventDefault();
-		popup_pwsearch3.close();
+		$('.popup_pwsearch3-wrap').attr("style", "display:none");
 	});
 })();
 
@@ -174,7 +174,7 @@ $('#findPassword').on('click', function() {
 
 	$("body").on("click", "#popup_pwsearch4-wrap .js-closepop, #popup_pwsearch4-wrap .popup-dim, #confirm_5", function($e) {
 		$e.preventDefault();
-		popup_pwsearch4.close();
+		$('.popup_pwsearch4-wrap').attr("style", "display:none");
 	});
 })();
 
