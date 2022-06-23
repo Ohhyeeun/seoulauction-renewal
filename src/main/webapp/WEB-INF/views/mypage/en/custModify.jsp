@@ -265,80 +265,6 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
                         </div>
                     </section>
                 </div>
-                
-			    <!-- 작가검색 -->
-			    <div id="writer_search1-wrap" class="trp popupfixed-wrap default-popup ">
-			        <div class="popup-dim"></div>
-			        <div class="popup-align mode-ms mode-mb_full">
-			            <div class="popup-vertical">
-			                <div class="popup-layer">
-			                    <div class="pop-panel">
-			                        <div class="pop-header">
-			                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
-			                            <div class="title-box">
-			                                <span class="txt_title type-big">Author Search</span>
-			                            </div>
-			                        </div>
-			                        <div class="pop-body scroll-type">
-			                            <section class="section">
-			                                <div class="search-group">
-			                                    <input type="text" id="artist_word" class="form-control" value="" placeholder="Enter name">
-			                                    <button onclick="findArtistNewForm()" class="btn btn_black" type="button"><span>Search</span></button>
-			                                </div>
-			                                <article class="articles-box">
-			                                    <div class="table-panel">
-			                                        <div class="table-header">
-			                                            <div class="dataTables_length tb1">
-			                                                <span>Result <em id="artistCnt"></em></span>
-			                                            </div>
-			                                        </div>
-			                                        <div class="table-body">
-			                                            <div class="table_scroll thead_item">
-			                                                <table class="table_base list-table writer_list">
-			                                                    <thead>
-			                                                        <tr>
-			                                                            <th class="radio">Select</th>
-			                                                            <th>Artist</th>
-			                                                            <th>Year of birth/death</th>
-			                                                        </tr>
-			                                                    </thead>
-			                                                </table>
-			                                            </div>
-			                                        </div>
-			                                        <div class="table-body">
-			                                            <div class="table_scroll scroll-type tbody_item writer_btn_list">
-			                                                <table class="table_base list-table writer_list">
-			                                                    <tbody id="artistListBody">
-				                                                    <tr>
-			                                                            <td colspan="3">
-			                                                                <div class="data-empty_mem tb1">
-			                                                                    No results were found for your search.
-			                                                                </div>
-			                                                            </td>
-			                                                        </tr>
-			                                                    </tbody>
-			                                                </table>
-			                                            </div>
-			                                        </div>
-			                                    </div>
-			                                </article>
-			                                <div class="btn-set search-group_btn">
-			                                    <a id="writerClose" class="btn btn_default" href="#" role="button">
-			                                        <span>Cancel</span>
-			                                    </a>
-			                                    <a onclick="setArtists()" class="btn btn_point" href="#" role="button">
-			                                        <span>Registration</span>
-			                                    </a>
-			                                </div>
-			                            </section>
-			                        </div>
-			                    </div>
-			
-			                </div>
-			            </div>
-			        </div>
-			    </div>
-			    
             </div>
             <!-- //container -->
 
@@ -359,6 +285,79 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
     </div>
     <!-- 팝업 : side popup -->
 	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
+	
+	<!-- 작가검색 -->
+	<div id="writer_search1-wrap" class="trp popupfixed-wrap default-popup ">
+	    <div class="popup-dim"></div>
+	    <div class="popup-align mode-ms mode-mb_full">
+	        <div class="popup-vertical">
+	            <div class="popup-layer">
+	                <div class="pop-panel">
+	                    <div class="pop-header">
+	                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+	                        <div class="title-box">
+	                            <span class="txt_title type-big">Author Search</span>
+	                        </div>
+	                    </div>
+	                    <div class="pop-body scroll-type">
+	                        <section class="section">
+	                            <div class="search-group">
+	                                <input type="text" id="artist_word" class="form-control" value="" placeholder="Enter name">
+	                                <button onclick="findArtistNewForm()" class="btn btn_black" type="button"><span>Search</span></button>
+	                            </div>
+	                            <article class="articles-box">
+	                                <div class="table-panel">
+	                                    <div class="table-header">
+	                                        <div class="dataTables_length tb1">
+	                                            <span>Result <em id="artistCnt"></em></span>
+	                                        </div>
+	                                    </div>
+	                                    <div class="table-body">
+	                                        <div class="table_scroll thead_item">
+	                                            <table class="table_base list-table writer_list">
+	                                                <thead>
+	                                                    <tr>
+	                                                        <th class="radio">Select</th>
+	                                                        <th>Artist</th>
+	                                                        <th>Year of birth/death</th>
+	                                                    </tr>
+	                                                </thead>
+	                                            </table>
+	                                        </div>
+	                                    </div>
+	                                    <div class="table-body">
+	                                        <div class="table_scroll scroll-type tbody_item writer_btn_list">
+	                                            <table class="table_base list-table writer_list">
+	                                                <tbody id="artistListBody">
+	                                                 <tr>
+	                                                        <td colspan="3">
+	                                                            <div class="data-empty_mem tb1">
+	                                                                No results were found for your search.
+	                                                            </div>
+	                                                        </td>
+	                                                    </tr>
+	                                                </tbody>
+	                                            </table>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </article>
+	                            <div class="btn-set search-group_btn">
+	                                <a id="writerClose" class="btn btn_default" href="#" role="button">
+	                                    <span>Cancel</span>
+	                                </a>
+	                                <a onclick="setArtists()" class="btn btn_point" href="#" role="button">
+	                                    <span>Registration</span>
+	                                </a>
+	                            </div>
+	                        </section>
+	                    </div>
+	                </div>
+	
+	            </div>
+	        </div>
+	    </div>
+	</div>
 </body>
 <!-- 회원정보수정 비밀번호확인 -->
 <script type="text/javascript" src="/js/mypage/custModify.js"></script>

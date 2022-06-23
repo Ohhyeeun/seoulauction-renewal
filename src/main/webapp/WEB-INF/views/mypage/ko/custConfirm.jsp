@@ -17,6 +17,9 @@
 	var socialType = '${socialType}';
 	var socialEmail = '${socialEmail}';
 </script>
+<head>
+    <title>회원정보수정 | Seoul Auction</title>
+</head>
 <body class="">
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">

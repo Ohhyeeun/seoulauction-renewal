@@ -285,5 +285,10 @@ public class SaleService {
     public Boolean checkCustRequired(CommonMap commonMap) {
         return saleMapper.selectCustCheckRequired(commonMap) != null;
     }
+
+    public CommonMap selectArtistInfo(CommonMap commonMap) {
+        CommonMap resultMap = artistMapper.selectArtistInfo(commonMap);
+        return resultMap;
+    }
 }
 

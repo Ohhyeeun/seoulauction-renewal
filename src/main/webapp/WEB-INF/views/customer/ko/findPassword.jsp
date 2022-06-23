@@ -13,7 +13,7 @@
 	<body>
     <div class="wrapper">
         <div class="sub-wrap pageclass bgpage-wrap">
-		<jsp:include page="../../include/en/header.jsp" flush="false"/>   
+		<jsp:include page="../../include/ko/header.jsp" flush="false"/>   
 		<script>
 		app.value('locale', 'en');
 		</script>
@@ -130,7 +130,6 @@
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 
 	<script type="text/javascript" src="/js/customer/findPassword.js"></script>
@@ -151,7 +150,8 @@
         });
     </script>
 
-    <div id="popup_idsearch3-wrap" class="trp popupfixed-wrap login-popup" style="display: none;">
+	<div class="popup-dim popup_idsearch3-wrap"  style="display: none;"></div>
+    <div id="popup_idsearch3-wrap" class="trp popupfixed-wrap login-popup popup_idsearch3-wrap" style="display: none;">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">
@@ -181,7 +181,8 @@
     </div>
     
  <!-- 비밀번호찾기-휴대폰 번호로 찾기 -->
-    <div id="popup_pwsearch1-wrap" class="trp popupfixed-wrap login-popup">
+    <div class="popup-dim popup_pwsearch1-wrap"  style="display: none;"></div>
+    <div id="popup_pwsearch1-wrap" class="trp popupfixed-wrap login-popup popup_pwsearch1-wrap">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">
@@ -211,7 +212,8 @@
     </div>
 
     <!-- 비밀번호찾기-이메일로 찾기 -->
-    <div id="popup_pwsearch2-wrap" class="trp popupfixed-wrap login-popup">
+    <div class="popup-dim popup_pwsearch2-wrap"  style="display: none;"></div>
+    <div id="popup_pwsearch2-wrap" class="trp popupfixed-wrap login-popup popup_pwsearch2-wrap">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">
@@ -241,7 +243,8 @@
     </div>
 
     <!-- 비밀번호찾기-일치정보가 없을 경우 -->
-    <div id="popup_pwsearch3-wrap" class="trp popupfixed-wrap login-popup">
+    <div class="popup-dim popup_pwsearch3-wrap"  style="display: none;"></div>
+    <div id="popup_pwsearch3-wrap" class="trp popupfixed-wrap login-popup popup_pwsearch3-wrap">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">
@@ -271,7 +274,8 @@
     </div>
 
     <!-- 비밀번호찾기-소셜 회원인 경우-->
-    <div id="popup_pwsearch4-wrap" class="trp popupfixed-wrap login-popup">
+	<div class="popup-dim popup_pwsearch4-wrap"  style="display: none;"></div>
+    <div id="popup_pwsearch4-wrap" class="trp popupfixed-wrap login-popup popup_pwsearch4-wrap">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">

@@ -52,8 +52,8 @@ function sessionLogout() {
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">ENG</a>
                 <ul class="bubble-box bubble-box01">
-                    <li><a href="${pageContext.request.contextPath}/?lang=ko">KOR(한국어)</a></li>
-                    <li><a href="${pageContext.request.contextPath}/?lang=en">ENG(English)</a></li>
+                    <li><a href="${requestScope['javax.servlet.forward.servlet_path']}?lang=ko">KOR(한국어)</a></li>
+                    <li><a href="${requestScope['javax.servlet.forward.servlet_path']}?lang=en">ENG(English)</a></li>
                 </ul>
             </li>
             <sec:authorize access="isAnonymous()"> <!-- !login -->

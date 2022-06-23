@@ -599,8 +599,27 @@ if (matchMedia("all and (min-width: 1024px)").matches) {
 
 
 
-/* 반응형 resize 추가 */ 
+/* 반응형 resize 추가 */
 $(window).resize(function(){
+    /* gnb */
+    if (matchMedia("all and (min-width: 1024px)").matches) {
+
+    } else {
+        /* 띠배너 beltbanner */
+        $('.header_beltbox.on').show(function () {
+            $('.main-contents').css('margin-top', '100px');
+            $('.m-gnbmenu').click(function(){
+                $('.submenuBg').css({'top':'-43px'});
+            });
+        });
+        $('.beltclose-btn').click(function () {
+            $('.main-contents').css('margin-top', '56px');
+            $('.m-gnbmenu').click(function(){
+                $('.submenuBg').css({'top':'0'});
+            });
+        });
+    };
+
     /* visual */
     const visualSwiper = new Swiper('.visual-swiper', {
         autoplay: {

@@ -6,11 +6,12 @@ import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.component.NicePayModule;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
-import com.seoulauction.renewal.exception.SAException;
+import com.seoulauction.renewal.exception.PgNotFoundException;
 import com.seoulauction.renewal.mapper.kt.PaymentMapper;
 import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -195,9 +196,9 @@ public class PaymentService {
             resultMap = paymentMapper.selectPayByPayNoAndCustNo(paramMap);
         }
 
-        //찾은결과가 없다면
+        //찾은결과가 없다면 404 오류 페이지 ㄱ
         if(resultMap == null) {
-            throw new SAException("잘못된 접근 입니다.");
+            throw new PgNotFoundException();
         }
 
         resultMap.putAll(paymentMapper.selectCustByCustNo(paramMap));
@@ -236,21 +237,37 @@ public class PaymentService {
     }
 
     public CommonMap selectAcademyByAcademyNo(CommonMap paramMap) {
-        return paymentMapper.selectAcademyByAcademyNo(paramMap);
+        CommonMap map = paymentMapper.selectAcademyByAcademyNo(paramMap);
+        if(MapUtils.isEmpty(map)) {
+            throw new PgNotFoundException();
+        }
+
+        return map;
     }
 
     public  CommonMap getWorkPayInfo(CommonMap paramMap){
         CommonMap resultMap = new CommonMap();
-        log.info("sale_no :{}", paramMap.get("sale_no"));
-        log.info("lot_no :{}", paramMap.get("lot_no"));
+
+        CommonMap lotMap = auctionService.lot(paramMap);
+
+        //작품정보 없을때 404 ㄱ
+        if(MapUtils.isEmpty(lotMap)) {
+            throw new PgNotFoundException();
+        }
+
         //작품정보
-        resultMap.putAll(auctionService.lot(paramMap));
+        resultMap.putAll(lotMap);
 
         //결제금액정보
         CommonMap bidPriceMap = paymentMapper.selectLotBidPrice(paramMap);
         paramMap.put("bid_price", bidPriceMap.get("BID_PRICE"));
         CommonMap feeMap = paymentMapper.get_lot_fee(paramMap);
         CommonMap saleFeeMap = paymentMapper.get_sale_fee(paramMap);
+
+        if(MapUtils.isEmpty(bidPriceMap) || MapUtils.isEmpty(feeMap) || MapUtils.isEmpty(saleFeeMap)) {
+            throw new PgNotFoundException();
+        }
+
 
         int lot_price = Integer.parseInt(bidPriceMap.get("BID_PRICE").toString());
         int fee_price = 0;

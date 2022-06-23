@@ -10,14 +10,14 @@
 	    <meta charset="UTF-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	    <title>Seoul Auction</title>
+	    <title>회원가입 | Seoul Auction</title>
 	</head>
-	<body>
+	<body ng-controller="joinFormCtl" data-ng-init="init()">
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
 			<jsp:include page="../../include/ko/header.jsp" flush="false" />
 			
-			<div id="container footer-bottom footer-bottom30" style="margin-top:60px" ng-controller="joinFormCtl" data-ng-init="init()">
+			<div id="container footer-bottom footer-bottom30" style="margin-top:60px" >
 				<div id="contents" class="contents">
 		            <section class="basis-section last-section back_gray">
 		                <div class="section-inner">
@@ -502,178 +502,183 @@
 		                </div>
 		            </section>
 		        </div>
-			    <!-- 주소검색 address_search1 -->
-			    <div id="address_search1-wrap" class="trp popupfixed-wrap default-popup ">
-			        <div class="popup-dim"></div>
-			        <div class="popup-align mode-ms mode-mb_full">
-			            <div class="popup-vertical">
-			                <div class="popup-layer">
-			
-			                    <div class="pop-panel">
-			                        <div class="pop-header">
-			                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
-			                            <div class="title-box">
-			                                <span class="txt_title type-big">주소검색</span>
-			                            </div>
-			                        </div>
-			                        <div class="pop-body scroll-type">
-			                            <section class="section" style="display: block;">
-			
-			                                <div class="search-group sm">
-			                                    <input type="text" ng-model="find_word" id="addr_word" class="form-control" ng-keypress="$event.keyCode === 13 && findAddrNewForm();" placeholder="도로명주소 건물번호 검색">
-			                                    <button class="btn btn_black" type="button" ng-click="findAddrNewForm()"><span>검색</span></button>
-			                                </div>
-			
-			                                <article class="articles-box">
-			                                    <div class="table-panel">
-			                                        <div class="table-header">
-			                                            <div class="dataTables_length result_txt">
-			                                                검색 결과
-			                                            </div>
-			                                        </div>
-			                                        <div class="table-body">
-			                                            <div class="table_scroll scroll-type">
-			                                                <table class="table_base list-table add_list">
-			                                                    <thead>
-			                                                        <tr>
-			                                                            <th>우편번호</th>
-			                                                            <th>주소</th>
-			                                                        </tr>
-			                                                    </thead>
-			                                                    <tbody>
-			                                                    	<tr ng-repeat="addr in addressList" ng-click="setAddr(addr);">
-			                                                            <td>{{addr.postcd}}</td>
-			                                                            <td class="tal">{{addr.address}}</td>
-			                                                        </tr>
-			                                                        <tr ng-if="addressList == undefined">
-			                                                            <td colspan="2">
-			                                                                <div class="data-empty_mem tb1">
-			                                                                    검색결과가 없습니다.
-			                                                                </div>
-			                                                            </td>
-			                                                        </tr>
-			                                                    </tbody>
-			                                                </table>
-			                                            </div>
-			                                        </div>
-			                                    </div>
-			                                </article>
-			                            </section>
-			                        </div>
-			                    </div>
-			
-			                </div>
-			            </div>
-			        </div>
-			    </div>
 			    
-			    <!-- 직원검색 staff_search -->
-			    <div id="staff_search1-wrap" class="trp popupfixed-wrap default-popup ">
-			        <div class="popup-dim"></div>
-			        <div class="popup-align mode-ms mode-mb_full">
-			            <div class="popup-vertical">
-			                <div class="popup-layer">
-			                    <div class="pop-panel">
-			                        <div class="pop-header">
-			                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
-			                            <div class="title-box">
-			                                <span class="txt_title type-big">직원검색</span>
-			                            </div>
-			                        </div>
-			                        <div class="pop-body scroll-type">
-			                            <section class="section" style="display: block;">
-			                                <!--[0516]-->
-			                                <div class="search-group">
-			                                    <!--[2022-0503변경]-->
-			                                    <input type="text" ng-model="emp_name" id="emp_name" class="form-control" ng-keypress="$event.keyCode === 13 && findEmpNewForm()" placeholder="이름 입력">
-				                                <button class="btn btn_black" type="button" ng-click="findEmpNewForm()"><span>검색</span></button>
-			                                </div>
-			                                <article class="articles-box">
-			                                    <div class="table-panel">
-			                                        <div class="table-header">
-			                                            <div class="dataTables_length tb1">
-			                                                <span>전체<em>{{empLength}}</em>건</span>
-			                                            </div>
-			                                        </div>
-			                                        <div class="table-body">
-			                                            <div class="table_scroll thead_item">
-			                                                <table class="table_base list-table txt_tdbig">
-			                                                    <thead>
-			                                                        <tr>
-			                                                            <th>소속명</th>
-			                                                            <th>이름</th>
-			                                                        </tr>
-			                                                    </thead>
-			                                                </table>
-			                                            </div>
-			                                        </div>
-			                                        <div class="table-body">
-			                                            <div class="table_scroll scroll-type tbody_item">
-			                                                <table class="table_base list-table txt_tdbig">
-			                                                    <tbody>
-			                                                        <tr ng-repeat="emp in employeeList" ng-click="setEmp(emp);">
-			                                                            <td>{{emp.DEPT_NAME}}</td>
-			                                                            <td>{{emp.EMP_NAME}}</td>
-			                                                        </tr>
-			                                                        <tr ng-if="employeeList == undefined">
-			                                                            <td colspan="2">
-			                                                                <div class="data-empty_mem tb1">
-			                                                                    검색결과가 없습니다.
-			                                                                </div>
-			                                                            </td>
-			                                                        </tr>
-			                                                    </tbody>
-			                                                </table>
-			                                            </div>
-			                                        </div>
-			                                    </div>
-			                                </article>
-			                                <!--//[0516]-->
-			                            </section>
-			                        </div>
-			                    </div>
-			
-			                </div>
-			            </div>
-			        </div>
-			    </div>
-			    
-			    <!-- validation alert -->
-			    <div id="popup_idsearch3-wrap" class="trp popupfixed-wrap login-popup">
-			        <div class="popup-dim"></div>
-			        <div class="popup-align mode-ms mode-mb_center">
-			            <div class="popup-vertical">
-			                <div class="popup-layer">
-			                    <div class="pop-panel">
-			                        <div class="pop-header">
-			                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
-			                            <div class="ico_box">
-			                                <img class="only_ib-pc" src="/images/mobile/login/search_ico_01_pc.png">
-			                                <img class="only_ib-mb" src="/images/mobile/login/search_ico_01.png">
-			                            </div>
-			                            <div class="title-box_tac title_md">
-			                                <span class="title_tac tt4" id="alertMsg">필수 항목명을 입력해 주세요.</span>
-			                            </div>
-			                        </div>
-			                        <div class="pop-body">
-			                            <!--[0523]-->
-			                            <article class="confirm_btn confirm_btn_md">
-			                                <div class="btn_set-float tac">
-			                                    <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
-			                                </div>
-			                            </article>
-			                            <!--//[0523]-->
-			                        </div>
-			                    </div>
-			                </div>
-			            </div>
-			        </div>
-			    </div>
 			    
 		    </div>
     		<jsp:include page="../../include/ko/footer.jsp" flush="false"/>
+    		
+    		
     	</div>
     </div>
+    
+    <!-- 주소검색 address_search1 -->
+	<div id="address_search1-wrap" class="trp popupfixed-wrap default-popup ">
+	    <div class="popup-dim"></div>
+	    <div class="popup-align mode-ms mode-mb_full">
+	        <div class="popup-vertical">
+	            <div class="popup-layer">
+	
+	                <div class="pop-panel">
+	                    <div class="pop-header">
+	                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+	                        <div class="title-box">
+	                            <span class="txt_title type-big">주소검색</span>
+	                        </div>
+	                    </div>
+	                    <div class="pop-body scroll-type">
+	                        <section class="section" style="display: block;">
+	
+	                            <div class="search-group sm">
+	                                <input type="text" ng-model="find_word" id="addr_word" class="form-control" ng-keypress="$event.keyCode === 13 && findAddrNewForm();" placeholder="도로명주소 건물번호 검색">
+	                                <button class="btn btn_black" type="button" ng-click="findAddrNewForm()"><span>검색</span></button>
+	                            </div>
+	
+	                            <article class="articles-box">
+	                                <div class="table-panel">
+	                                    <div class="table-header">
+	                                        <div class="dataTables_length result_txt">
+	                                            검색 결과
+	                                        </div>
+	                                    </div>
+	                                    <div class="table-body">
+	                                        <div class="table_scroll scroll-type">
+	                                            <table class="table_base list-table add_list">
+	                                                <thead>
+	                                                    <tr>
+	                                                        <th>우편번호</th>
+	                                                        <th>주소</th>
+	                                                    </tr>
+	                                                </thead>
+	                                                <tbody>
+	                                                	<tr ng-repeat="addr in addressList" ng-click="setAddr(addr);">
+	                                                        <td>{{addr.postcd}}</td>
+	                                                        <td class="tal">{{addr.address}}</td>
+	                                                    </tr>
+	                                                    <tr ng-if="addressList == undefined">
+	                                                        <td colspan="2">
+	                                                            <div class="data-empty_mem tb1">
+	                                                                검색결과가 없습니다.
+	                                                            </div>
+	                                                        </td>
+	                                                    </tr>
+	                                                </tbody>
+	                                            </table>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </article>
+	                        </section>
+	                    </div>
+	                </div>
+	
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	<!-- 직원검색 staff_search -->
+	<div id="staff_search1-wrap" class="trp popupfixed-wrap default-popup ">
+	    <div class="popup-dim"></div>
+	    <div class="popup-align mode-ms mode-mb_full">
+	        <div class="popup-vertical">
+	            <div class="popup-layer">
+	                <div class="pop-panel">
+	                    <div class="pop-header">
+	                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+	                        <div class="title-box">
+	                            <span class="txt_title type-big">직원검색</span>
+	                        </div>
+	                    </div>
+	                    <div class="pop-body scroll-type">
+	                        <section class="section" style="display: block;">
+	                            <!--[0516]-->
+	                            <div class="search-group">
+	                                <!--[2022-0503변경]-->
+	                                <input type="text" ng-model="emp_name" id="emp_name" class="form-control" ng-keypress="$event.keyCode === 13 && findEmpNewForm()" placeholder="이름 입력">
+	                                <button class="btn btn_black" type="button" ng-click="findEmpNewForm()"><span>검색</span></button>
+	                            </div>
+	                            <article class="articles-box">
+	                                <div class="table-panel">
+	                                    <div class="table-header">
+	                                        <div class="dataTables_length tb1">
+	                                            <span>전체<em>{{empLength}}</em>건</span>
+	                                        </div>
+	                                    </div>
+	                                    <div class="table-body">
+	                                        <div class="table_scroll thead_item">
+	                                            <table class="table_base list-table txt_tdbig">
+	                                                <thead>
+	                                                    <tr>
+	                                                        <th>소속명</th>
+	                                                        <th>이름</th>
+	                                                    </tr>
+	                                                </thead>
+	                                            </table>
+	                                        </div>
+	                                    </div>
+	                                    <div class="table-body">
+	                                        <div class="table_scroll scroll-type tbody_item">
+	                                            <table class="table_base list-table txt_tdbig">
+	                                                <tbody>
+	                                                    <tr ng-repeat="emp in employeeList" ng-click="setEmp(emp);">
+	                                                        <td>{{emp.DEPT_NAME}}</td>
+	                                                        <td>{{emp.EMP_NAME}}</td>
+	                                                    </tr>
+	                                                    <tr ng-if="employeeList == undefined">
+	                                                        <td colspan="2">
+	                                                            <div class="data-empty_mem tb1">
+	                                                                검색결과가 없습니다.
+	                                                            </div>
+	                                                        </td>
+	                                                    </tr>
+	                                                </tbody>
+	                                            </table>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </article>
+	                            <!--//[0516]-->
+	                        </section>
+	                    </div>
+	                </div>
+	
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	<!-- validation alert -->
+	<div id="popup_idsearch3-wrap" class="trp popupfixed-wrap login-popup">
+	    <div class="popup-dim"></div>
+	    <div class="popup-align mode-ms mode-mb_center">
+	        <div class="popup-vertical">
+	            <div class="popup-layer">
+	                <div class="pop-panel">
+	                    <div class="pop-header">
+	                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+	                        <div class="ico_box">
+	                            <img class="only_ib-pc" src="/images/mobile/login/search_ico_01_pc.png">
+	                            <img class="only_ib-mb" src="/images/mobile/login/search_ico_01.png">
+	                        </div>
+	                        <div class="title-box_tac title_md">
+	                            <span class="title_tac tt4" id="alertMsg">필수 항목명을 입력해 주세요.</span>
+	                        </div>
+	                    </div>
+	                    <div class="pop-body">
+	                        <!--[0523]-->
+	                        <article class="confirm_btn confirm_btn_md">
+	                            <div class="btn_set-float tac">
+	                                <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+	                            </div>
+	                        </article>
+	                        <!--//[0523]-->
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
 	</body>
 	<script>
 		app.value('locale', 'ko');
