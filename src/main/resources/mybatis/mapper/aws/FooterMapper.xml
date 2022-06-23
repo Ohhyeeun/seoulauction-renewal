@@ -12,7 +12,7 @@
             AND STATUS = 'A'
             AND FAQ_TYPE = #{faq_type}
             <if test="search !=null">
-                AND JSON_UNQUOTE(JSON_EXTRACT( TITLE, "$.ko" )) like #{search} '%'
+                AND JSON_UNQUOTE(JSON_EXTRACT( TITLE, "$.${lang}" )) like #{search} '%'
             </if>
         ORDER BY
             CREATED_AT desc

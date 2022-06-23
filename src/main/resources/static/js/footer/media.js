@@ -18,9 +18,6 @@ $(document).ready(function(){
         if(search_text){
             url +="&search="+search_text;
         }
-
-        console.log(url);
-
         axios.get(url)
             .then(function(response) {
                 const data = response.data;

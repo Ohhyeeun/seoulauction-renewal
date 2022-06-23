@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
 
 @RestController
 @Log4j2
@@ -25,12 +26,14 @@ public class ApiFooterController {
     @GetMapping(value="/faqs")
     public ResponseEntity<RestResponse> faqs(
             @RequestParam(value = "faq_type" , required = false , defaultValue = "customer")  String faqType,
-            @RequestParam(value = "search" , required = false) String search
+            @RequestParam(value = "search" , required = false) String search,
+            @RequestParam(value = "lang" , defaultValue = "ko" , required = false) String lang
     ) {
 
         //search
         CommonMap map = new CommonMap("faq_type" , faqType);
         map.put("search" , search);
+        map.put("lang" , lang);
 
         return ResponseEntity.ok(RestResponse.ok(footerService.getFaqList(map)));
     }

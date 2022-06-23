@@ -1,6 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 
 <head>
     <!-- header -->
@@ -8,6 +13,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>FAQ | Seoul Auction</title>
+    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
     <!-- //header -->
 </head>
 
@@ -16,11 +22,8 @@
         <div class="sub-wrap pageclass type-pagemain">
 
             <!-- header -->
-            <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+            <jsp:include page="../../include/en/header.jsp" flush="false"/>
             <!-- //header -->
-            <script>
-                app.value('locale', 'ko');
-            </script>
 
             <!-- container -->
             <div id="container">
@@ -34,6 +37,7 @@
                             </div>
                         </div>
                     </section>
+
                     <section class="basis-section last-section">
                         <div class="section-inner">
 
@@ -45,7 +49,7 @@
                                     <div class="search-area">
                                         <div class="search-box">
                                             <div class="input_del">
-                                                <input id="search_text" class="" type="text" placeholder="검색어를 입력하세요." value="">
+                                                <input id="search_text" class="" type="text" placeholder="Enter a search term." value="">
                                                 <button class="btn_del"><i class="form-search-del_lg"></i></button>
                                             </div>
                                             <button id="search_btn" class="btn_search"><i class="form-search_lg"></i></button>
@@ -59,12 +63,12 @@
                                         <div class="tab-wrap">
                                             <div class="tab-area type-sorting">
                                                 <ul class="tab-list js-list_tab">
-                                                    <li class="active"><a href=""><span id="faq_a">회원정보</span></a></li>
-                                                    <li class=""><a href="#"><span id="faq_b">라이브경매</span></a></li>
-                                                    <li class=""><a href="#"><span id="faq_c">온라인경매</span></a></li>
-                                                    <li class=""><a href="#"><span id="faq_d">위탁</span></a></li>
-                                                    <li class=""><a href="#"><span id="faq_e">결제/배송</span></a></li>
-                                                    <li class=""><a href="#"><span id="faq_f">기타</span></a></li>
+                                                    <li class="active"><a href="#"><span id="faq_a">PROFILE</span></a></li>
+                                                    <li class=""><a href="#"><span id="faq_b">LIVE AUCTION</span></a></li>
+                                                    <li class=""><a href="#"><span id="faq_c">ONLINE AUCTION</span></a></li>
+                                                    <li class=""><a href="#"><span id="faq_d">CONSIGNMENT</span></a></li>
+                                                    <li class=""><a href="#"><span id="faq_e">PAYMENT/SHIPPING</span></a></li>
+                                                    <li class=""><a href="#"><span id="faq_f">OTHERS</span></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -77,7 +81,7 @@
                                                     <div class="accordion_name tt4">
                                                         <a href="#" class="">
                                                             <span class="faq">Q.</span>
-                                                            온라인 경매 페이지 자동 새로고침 해결방법?
+                                                            How to enable the automatic refresh function on the online auction page.
 
                                                             <i class="icon-accordion_arrow_down"></i>
                                                         </a>
@@ -86,12 +90,12 @@
                                                 <div class="con-area">
                                                     <span class="faq">A.</span>
                                                     <div class="faq_cont tb1">
-                                                        1. 익스플로러 설정 클릭 (보통 톱니바퀴 모양)<br />
-                                                        2. 인터넷 옵션 클릭<br />
-                                                        3. 일반 -> 검색기록 -> 설정 클릭<br />
-                                                        4. 웹 페이지를 열 때 마다 클릭<br />
-                                                        5. 확인(저장)<br />
-
+                                                        1. Click on “Settings” in Internet Explorer (icon shaped like a sprocket)<br>
+                                                        2. Click on “Internet Options”<br>
+                                                        3. Go to General -> Browsing history -> Settings<br>
+                                                        4. Click “Every time I visit the webpage” under Temporary Internet Files<br>
+                                                        5. OK (Save)<br>
+                                                        6. OK (Save)
                                                         <p class="faq_img">
                                                             <img src="/images/pc/footer/img_faq_pc.png" alt="" class="only-pc" />
                                                             <img src="/images/pc/footer/img_faq_mo.png" alt="" class="only-mb" />
@@ -104,7 +108,7 @@
                                                     <div class="accordion_name tt4">
                                                         <a href="#" class="">
                                                             <span class="faq">Q.</span>
-                                                            위탁은 어떻게 하나요?
+                                                            How do you make a consignment?
 
                                                             <i class="icon-accordion_arrow_down"></i>
                                                         </a>
@@ -114,24 +118,18 @@
                                                 <div class="con-area">
                                                     <span class="faq">A.</span>
                                                     <div class="faq_cont tb1">
-                                                        art@seoulauction.com<br />
-                                                        1. 성함 2. 연락처 3. 작품제목 4. 사이즈 5. 소장경위 6. 작품사진<br />
-                                                        - 전체컷, 싸인 등의 부분컷(중요부분) 을 보내주시면, <br />
-                                                        작품별 스페셜리스트에게 전달되어 답변 드리겠습니다.<br />
-                                                        자세한 내용은 위탁안내 페이지를 참고 해주시기 바랍니다.
-
-                                                        <div class="btn_wrap">
-                                                            <a class="btn btn_gray_line tb2" href="#" role="button"><span>위탁안내 바로가기</span></a>
-                                                        </div>
+                                                        art@seoulauction.com<br>
+                                                        <br>
+                                                        Please send the types of information listed below to art@seoulauction.com. The information you provide will be conveyed to the respective specialist, who will provide you with the relevant details.<br>
+                                                        1. Name 2. Phone number 3. Title of artwork 4. Size of artwork 5. Description of how the artwork came into your possession 6. Photos of artwork (full and partial views, showing the signature, important parts, etc.)<br>
+                                                        Please refer to the consignment guidelines page for further information. <br>
+                                                        Consignment (https://www.seoulauction.com/auctionGuide/page?view=commissionGuide&lang=en)
                                                     </div>
                                                 </div>
                                             </li>
                                         </ul>
-
                                         <!--//faq cont-->
-
                                     </div>
-
                                     <!-- 고객센터 -->
                                     <!-- [0523]클래스명 수정 //-->
                                     <article class="inquiry-article type-customer">
@@ -141,33 +139,35 @@
                                                     <i class="icon-customer"></i>
                                                 </div>
                                                 <div class="title-box">
-                                                    <strong>고객센터</strong>
+                                                    <strong>Service center</strong>
                                                 </div>
                                                 <div class="info-guide">
                                                     <div class="contact-box">
                                                         <ul>
-                                                            <li><span>T.</span> <em>02-395-0330</em></li>
-                                                            <li><span>E.</span> <a href="mailto:sos@seoulauction.com"><em>sos@seoulauction.com</em></a></li>
+                                                            <li><span>T.</span> <em>82+(0)2-395-0330</em></li>
+                                                            <li><span>E.</span> <a href="mailto:info@seoulauction.com"><em>info@seoulauction.com</em></a></li>
                                                         </ul>
                                                     </div>
-                                                    <div class="message-box tb2"> 운영 09:00 ~18:00 (주말, 공휴일 휴무) 운영시간 이후에는 1:1 문의 또는 이메일 문의를 이용해 주세요. </div>
+                                                    <div class="message-box tb2">Operation 09:00 ~ 18:00 KST (Closed on weekends and holidays)<br> After business hours, please use 1:1 inquiry or e-mail inquiry.</div>
                                                 </div>
                                             </div>
                                             <div class="btn-area">
-                                                <a class="btn btn_gray_line" href="/mypage/inquiryForm" role="button"><span>1:1 문의</span></a>
+                                                <a class="btn btn_gray_line" href=/mypage/inquiryForm role="button"><span>1:1 inquiry</span></a>
                                             </div>
                                         </div>
                                     </article>
                                 </div>
                             </div>
+
                         </div>
                     </section>
+
                 </div>
             </div>
             <!-- //container -->
 
             <!-- footer -->
-            <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
+            <jsp:include page="../../include/en/footer.jsp" />
             <!-- //footer -->
 
             <!-- stykey -->

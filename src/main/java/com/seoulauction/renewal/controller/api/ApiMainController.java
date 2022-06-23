@@ -47,7 +47,7 @@ public class ApiMainController {
         map.putPage(page, size);
 
         List<CommonMap> resultMap = mainService.selectNewsletters(map);
-        resultMap.stream().forEach(item -> {
+        resultMap.forEach(item -> {
             List<CommonMap> imageListMap = s3Service.getS3FileDataAll("content_newsletter",  item.get("id"));
             CommonMap newMap = new CommonMap();
             imageListMap.forEach(c-> newMap.put(c.getString("tag")+"_url",c.getString("cdn_url")));
@@ -73,8 +73,6 @@ public class ApiMainController {
     @PostMapping(value="/newsletters")
     public ResponseEntity<RestResponse> insertNewsletter(
             @RequestBody CommonMap map) {
-
-        log.info("map : {}" , map);
 
         mainService.insertNewsletter(map);
 

@@ -76,7 +76,7 @@ function sessionLogout() {
 
     <nav class="header_navbox">
         <div class="header_nav wrap_padding">
-            <a href="#" class="header_logo"><span class="blind-text">logo</span></a>
+            <a href="/" class="header_logo"><span class="blind-text">logo</span></a>
             <ul class="header_gnbmenu pc-ver">
                 <li><a href="#" class="">AUCTION</a></li>
                 <li><a href="#">PRIVATE SALE</a></li>

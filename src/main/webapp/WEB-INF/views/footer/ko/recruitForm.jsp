@@ -238,8 +238,6 @@
                 //     alert('휴대폰 11자리를 입력해주세요.');
                 //     return;
                 // }
-
-
                 if(!current_file){
                     alert('파일을 등록해주세요.');
                     return;

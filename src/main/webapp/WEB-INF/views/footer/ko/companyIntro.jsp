@@ -117,8 +117,6 @@
                     <a href="#" class="btn-scroll_top js-scroll_top"><i class="icon-scroll_top"></i></a>
                 </div>
             </div>
-            <!-- // stykey -->
-
         </div>
     </div>
 
@@ -127,11 +125,6 @@
     <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
     <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-    <!-- [0516]삭제
-  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
--->
-
-    <!-- tab menu -->
     <script>
         // $('.js-maintab_list a').on('click', function(e) {
         //     e.preventDefault();
@@ -158,7 +151,6 @@
             var id = '#' + $(this).val();
             $('.history-body').removeClass('active');
             $(id).addClass('active');
-            console.log(id);
         }).trigger('change');
     </script>
 
