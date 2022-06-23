@@ -396,9 +396,17 @@ $(function() {
     } else if ( lang === 'en'){
         $("#mb_common_lang").append('<a href=' + $(location).attr('pathname')  +'?lang=ko>KO</a>');
     }
-
 });
+//로그인 여부를 체크해서 로그인이 안되어있을경우 로그인 페이지로 보냄.
+function checkLogin(){
 
+    let login_message = getCookie('lang') === 'ko' ? '로그인을 진행해주세요.' : 'Please Login in.';
+
+    if(sessionStorage.getItem("is_login") === 'false'){
+        alert(login_message);
+        location.href= '/login';
+    }
+}
 
 /* top search filter 기능 */
 function searchFilter() {

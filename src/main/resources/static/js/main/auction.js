@@ -45,8 +45,6 @@ $(document).ready(function(){
                         addLot(idx , currentLotData[curruentTab].slice(0 , initCount));
                     });
 
-
-
                     //초기 sale_NO 설정.
                     currentSaleNo = currentLotData[curruentTab][0].SALE_NO;
                     bidstart();
@@ -145,11 +143,7 @@ $(document).ready(function(){
         //auction haert 버튼
         $('.wish_heart').on('click', function () {
 
-            if(sessionStorage.getItem("is_login") === 'false'){
-                alert('로그인을 진행해주세요.');
-                location.href='/login';
-                return;
-            }
+            checkLogin();
 
             let data = {};
 

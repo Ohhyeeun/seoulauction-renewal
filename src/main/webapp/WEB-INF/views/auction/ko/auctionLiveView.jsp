@@ -941,11 +941,7 @@
             console.log(item);
 
             //로그인 했는지 여부.
-            if (sessionStorage.getItem("is_login") === 'false') {
-                alert('로그인을 진행해주세요.');
-                location.href = "/login";
-                return;
-            }
+            checkLogin();
 
             //정회원 여부.
             let isRegular = ${isRegular};

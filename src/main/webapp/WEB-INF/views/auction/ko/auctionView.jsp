@@ -725,36 +725,32 @@
         }
 
         $scope.popSet = function (saleNo, lotNo, userId, custNo) {
-            if ( custNo === 0){
-                if (sessionStorage.getItem("is_login") === 'false') {
-                    location.href = "/login";
-                    return;
-                }
-            }  else {
-                const is_sale_cert = $scope.is_sale_cert || $("#is_sale_cert").val();
-                if (!is_sale_cert) {
-                    popup_offline_payment.open(this); // or false
-                    popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
+            if ( custNo === 0) {
+                checkLogin();
+            }
+            const is_sale_cert = $scope.is_sale_cert || $("#is_sale_cert").val();
+            if (!is_sale_cert) {
+                popup_offline_payment.open(this); // or false
+                popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
 
-                    // 랏번호 삽입
-                    $("#sale_no").val(saleNo);
-                    // 랏번호 삽입
-                    $("#lot_no").val(lotNo);
+                // 랏번호 삽입
+                $("#sale_no").val(saleNo);
+                // 랏번호 삽입
+                $("#lot_no").val(lotNo);
 
-                    $("body").on("click", "#popup_online_confirm-wrap .js-closepop, #popup_online_confirm-wrap .popup-dim", function ($e) {
-                        $e.preventDefault();
-                        popup_offline_payment.close();
-                    });
-                } else {
-                    let popup_biddingPopup1 = $("#bid_btn").trpLayerFixedPopup("#popup_biddingPopup1-wrap");
-                    popup_biddingPopup1.open(this); // or false
-                    popup_fixation("#popup_biddingPopup1-wrap");
+                $("body").on("click", "#popup_online_confirm-wrap .js-closepop, #popup_online_confirm-wrap .popup-dim", function ($e) {
+                    $e.preventDefault();
+                    popup_offline_payment.close();
+                });
+            } else {
+                let popup_biddingPopup1 = $("#bid_btn").trpLayerFixedPopup("#popup_biddingPopup1-wrap");
+                popup_biddingPopup1.open(this); // or false
+                popup_fixation("#popup_biddingPopup1-wrap");
 
-                    $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function ($e) {
-                        $e.preventDefault();
-                        popup_biddingPopup1.close();
-                    });
-                }
+                $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function ($e) {
+                    $e.preventDefault();
+                    popup_biddingPopup1.close();
+                });
             }
         }
 
