@@ -126,7 +126,7 @@
         <!-- //container -->
 
         <!-- footer -->
-        <jsp:include page="../../include/en/footer.jsp" flush="false"/>
+        <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
         <!-- //footer -->
 
         <!-- stykey -->
