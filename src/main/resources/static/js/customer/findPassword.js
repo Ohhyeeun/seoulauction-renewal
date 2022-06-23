@@ -74,6 +74,7 @@ $('#findPassword').on('click', function() {
 			custName = $('#custNameByPhone').val();
 			custId = $('#custIdByPhone').val();
 			popupNumber=1;
+
 		}
 	}
 	
