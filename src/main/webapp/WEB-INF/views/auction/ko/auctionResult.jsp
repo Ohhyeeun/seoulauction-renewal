@@ -109,7 +109,7 @@
                                                             </dl>
                                                         </div>
                                                         <div class="btn-box">
-                                                            <div class="btn_set"><a class="btn btn_default" href="#" role="button" ng-click="goSale(auction.SALE_KIND_CD, auction.SALE_NO);"><span>결과보기</span></a>
+                                                            <div class="btn_set"><a class="btn btn_default" role="button" ng-click="goSale(auction.SALE_KIND_CD, auction.SALE_NO);"><span>결과보기</span></a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -127,7 +127,7 @@
                                         </div>
                                     </div>
                                     <div class="only-mb">
-                                        <button class="btn btn_gray_line" type="button"><span>더보기</span></button>
+                                        <button class="btn btn_gray_line" type="button" ng-click="more();"><span>더보기</span></button>
                                     </div>
                                 </div>
                             </div>
@@ -175,15 +175,20 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
         data['rows'] = parseInt($scope.reqRowCnt);
         data['sale_kind_cd'] = $scope.sale_kind_cd;
         data['find_word'] = $scope.find_word;
-        console.log(data);
         axios.post('/api/auction/results', data).then(function (response) {
             const success = response.data.success;
             if (success) {
-                $scope.auctionList = response.data.data.list;
-                $scope.auctionList.map(item => {
+                $scope.tmpList = response.data.data.list;
+                $scope.tmpList.map(item => {
                     item.TITLE_JSON = JSON.parse(item.TITLE_JSON);
                     item.PREVIEW_JSON = JSON.parse(item.PREVIEW_JSON);
                 });
+
+                if($scope.is_more) {
+                    $scope.auctionList.push.apply($scope.auctionList, $scope.tmpList);
+                } else {
+                    $scope.auctionList = $scope.tmpList;
+                }
 
                 $scope.totalCount = response.data.data.cnt;
                 //paging이 선택된 경우 paging 계산
@@ -195,13 +200,14 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
                     pageSize:10,
                     page:$scope.currentPage,
                     callBackFunc:function(i) {
+                        $scope.is_more = false;
                         $scope.loadSaleList(i, sale_kind_cd);
                     }
                 });
 
-                //if( ($scope.currentPage+1)*$scope.rowPerPages >= $scope.totalCnt ) {
-                    //$("#moreBtn").hide();
-                //}
+                if( $scope.currentPage*$scope.reqRowCnt >= $scope.totalCount ) {
+                    $("#moreBtn").hide();
+                }
                 $scope.$apply();
             }
         }).catch(function (error) {
@@ -219,6 +225,12 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
         } else {
             location.href = "/auction/live/list/"+sale_no;
         }
+    }
+
+    $scope.more = function(){
+        $scope.is_more = true;
+        $scope.currentPage++;
+        $scope.loadSaleList($scope.currentPage, $scope.subPage);
     }
 });
 
