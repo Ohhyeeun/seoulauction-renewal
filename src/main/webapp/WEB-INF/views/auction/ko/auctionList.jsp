@@ -37,7 +37,7 @@
                                         <li><span class="colorB2">경매일</span><span class=""> : {{sale.TO_DT | date:'MM.dd'+'('+getWeek(sale.TO_DT)+')'}}</span></li>
                                     </ul>
                                     <div class="btn_set">
-                                        <a class="btn btn_white " href="#" target="_blank" ng-href="/notices/{{sale.WRITE_NO}}" role="button" ng-if="sale.WRITE_NO > 0"><span>안내사항</span></a>
+                                        <a class="btn btn_white " href="#" target="_blank" ng-href="/footer/notice/{{sale.WRITE_NO}}" role="button" ng-if="sale.WRITE_NO > 0"><span>안내사항</span></a>
                                         <a class="btn btn_white " href="#" target="_blank" ng-href="{{item.content.url}}" role="button" ng-repeat="item in sale.buttonList">
                                             <span ng-bind="{'pdf':'E-BOOK', 'ebook':'E-BOOK', 'vr':'VR보기'}[item.content_type]"></span>
                                         </a>
