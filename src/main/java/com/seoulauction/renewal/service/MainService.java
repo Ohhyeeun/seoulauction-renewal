@@ -1,19 +1,19 @@
 package com.seoulauction.renewal.service;
 
 import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.mapper.aws.MainMapper;
 import com.seoulauction.renewal.mapper.kt.KTMainMapper;
+import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +46,9 @@ public class MainService {
 
     public CommonMap selectPopup() {
         CommonMap map = mainMapper.selectPopup();
-        map.put("image", s3Service.getS3FileDataForOne("main_popup", map.get("id")));
+        if(map !=null) {
+            map.put("image", s3Service.getS3FileDataForOne("main_popup", map.get("id")));
+        }
         return map;
     }
 
@@ -62,6 +64,7 @@ public class MainService {
             throw new SAException("해당 정보로 이미 구독한 정보가 있습니다.");
         }
         mainMapper.insertNewsletter(map);
+        mainMapper.insertNewsletterHistory(map);
     }
 
     //어떤 테이블을 참조할지 모르기때문 우선 더미데이텨 리턴.
@@ -70,17 +73,25 @@ public class MainService {
         CommonMap resultMap = new CommonMap();
 
         CommonMap counts = ktMainMapper.selectIngMenuCount();
-        List<CommonMap> saleList = ktMainMapper.selectIngAuctions();
-        saleList.forEach(c-> c.put("lots" , ktMainMapper.selectLotsBySaleNo(new CommonMap("sale_no" , c.get("SALE_NO")))));
+        List<CommonMap> saleList = selectIngAuctions();
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
 
-        List<CommonMap> test2 = new ArrayList<>();
+        saleList.forEach(c-> {
+                CommonMap lotMap = new CommonMap("sale_no" , c.get("SALE_NO"));
+                if (saUserDetails != null ) {
+                    lotMap.put("cust_no", saUserDetails.getUserNo());
+                }
+                c.put("lots" , ktMainMapper.selectLotsBySaleNo(lotMap));
+        });
 
-        test2.add(saleList.get(0));
-        test2.add(saleList.get(0));
-        test2.add(saleList.get(0));
-
+//        List<CommonMap> test2 = new ArrayList<>();
+//        if(!saleList.isEmpty()) {
+//            test2.add(saleList.get(0));
+//            test2.add(saleList.get(0));
+//            test2.add(saleList.get(0));
+//        }
+        resultMap.put("list" , saleList);
         resultMap.put("count" , counts);
-        resultMap.put("list" , test2);
 
         return resultMap;
     }
@@ -101,6 +112,7 @@ public class MainService {
             returnMap.put("SALE_NO", item.get("SALE_NO"));
             returnMap.put("SALE_KIND", item.get("SALE_KIND_CD").equals("online") || item.get("SALE_KIND_CD").equals("online_zb") ? "ONLINE" : "LIVE" );
             returnMap.put("TITLE_BLOB", item.get("TITLE_BLOB"));
+            returnMap.put("SALE_TH", item.get("SALE_TH") != null ? item.get("SALE_TH") : "");
 
             returnMap.put("D_DAY", item.get("DDAY"));
 
@@ -110,7 +122,10 @@ public class MainService {
 
             CommonMap paramMap = new CommonMap();
             paramMap.put("sale_no", item.get("SALE_NO"));
-            CommonMap saleImg = ktMainMapper.selectSaleImage(paramMap);
+            CommonMap saleImg = new CommonMap();
+            if(ktMainMapper.selectSaleImage(paramMap) != null) {
+                saleImg = ktMainMapper.selectSaleImage(paramMap);
+            }
 
             returnMap.put("FILE_PATH", saleImg.get("FILE_PATH"));
             returnMap.put("FILE_NAME", saleImg.get("FILE_NAME"));
@@ -130,13 +145,18 @@ public class MainService {
             CommonMap returnMap = new CommonMap();
             returnMap.put("SALE_NO", item.get("SALE_NO"));
             returnMap.put("SALE_KIND", item.get("SALE_KIND"));
+            returnMap.put("SHORT_TITLE", "{\"en\": \"en short\", \"ko\":\"ko short\"}");
+            returnMap.put("SALE_TH", item.get("SALE_TH") != null ? item.get("SALE_TH") : "");
             returnMap.put("TITLE_BLOB", item.get("TITLE_BLOB"));
             returnMap.put("FROM_DT", item.get("FROM_DT"));
             returnMap.put("TO_DT", item.get("TO_DT"));
 
             CommonMap paramMap = new CommonMap();
             paramMap.put("sale_no", item.get("SALE_NO"));
-            CommonMap saleImg = ktMainMapper.selectSaleImage(paramMap);
+            CommonMap saleImg = new CommonMap();
+            if(ktMainMapper.selectSaleImage(paramMap) != null) {
+                saleImg = ktMainMapper.selectSaleImage(paramMap);
+            }
 
             returnMap.put("FILE_PATH", saleImg.get("FILE_PATH"));
             returnMap.put("FILE_NAME", saleImg.get("FILE_NAME"));
@@ -162,4 +182,16 @@ public class MainService {
 
         return resultMap;
     }
+
+    public List<CommonMap> selectBigBanners() {
+        List<CommonMap> resultMap = mainMapper.selectBigBanners();
+        resultMap.stream().forEach(item -> {
+            List<CommonMap> imageListMap = s3Service.getS3FileDataAll("main_banner",  item.get("id"));
+            CommonMap map = new CommonMap();
+            imageListMap.forEach(c-> map.put(c.getString("tag")+"_url",c.getString("cdn_url")));
+            item.put("image", map);
+        });
+        return resultMap;
+    }
+
 }

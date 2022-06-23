@@ -1,7 +1,16 @@
 package com.seoulauction.renewal.component;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
+import com.seoulauction.renewal.domain.CommonMap;
+import lombok.extern.log4j.Log4j2;
+import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,21 +23,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.UUID;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-
-import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.seoulauction.renewal.domain.CommonMap;
-
-import lombok.extern.log4j.Log4j2;
-
 @Log4j2
 @Component
 public class FileManager  {
@@ -36,8 +30,6 @@ public class FileManager  {
 	//public static final String DATA_FILE_PATH = "/tmp/DATA/";
 	public static final String THUMB_PATH = "thum/";
 
-	protected final static Logger logger = LoggerFactory.getLogger(FileManager.class);
-	    
     public static String fileTempPath;
     public static String fileRootPath;
 
@@ -84,11 +76,11 @@ public class FileManager  {
 	//isMove SQL에서 isMove false 호출되는 경우는 srcPath를 리턴해주고 종료한다.
 	public static String moveTempFileChk(String srcPath, String srcFile, String kind, boolean isMove){
 		if(isMove){
-			logger.debug("file move : {}/{}", srcPath, srcFile);
+			log.debug("file move : {}/{}", srcPath, srcFile);
 			return moveTempFile(srcPath, srcFile, kind);
 		}
 		else{
-			logger.debug("skip file move : {}/{}", srcPath, srcFile);
+			log.debug("skip file move : {}/{}", srcPath, srcFile);
 			return srcPath;
 		}
 	}

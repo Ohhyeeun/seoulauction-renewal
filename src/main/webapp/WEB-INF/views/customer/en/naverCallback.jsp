@@ -46,6 +46,34 @@
 			var action = request.getParameter("action");
 			console.log('action : ' + action)
 			
+			function socialLogin(data){
+				axios.post('/api/login/social' , data)
+                .then(function(response) {
+                	var result = response.data;
+                	if(result.success){
+                		var expire = new Date();
+    					expire.setDate(expire.getDate() + 30);
+    					document.cookie = 'recentSocialType=NV; path=/; expires=' + expire.toGMTString() + ';';
+	                    opener.location.replace("/");
+                	}else{
+                		if(response.data.data.msg == "Not Certify User"){
+                			opener.alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
+    					}else if(response.data.data.msg == "User not found."){
+    						//미가입 = 회원가입페이지이동
+							opener.document.getElementById("name").value = naverLogin.user.name;
+							opener.document.getElementById("mobile").value = naverLogin.user.mobile;
+							opener.document.getElementById("email").value = naverLogin.user.email;
+							opener.document.getElementById("joinForm").action = '/joinForm?socialType=NV';
+							opener.document.getElementById("joinForm").submit();
+    					}
+                	}
+					window.close();
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+			}
+			
 			window.addEventListener('load', function () {
 				naverLogin.getLoginStatus(function (status) {
 					if (status) {
@@ -60,26 +88,64 @@
 							document.getElementById('social_type').value = "NV";
 							document.getElementById('social_email').value = naverLogin.user.email;
 							
-// 							var form = document.getElementById('loginForm');
-// 							form.action = '/api/login/social';
-// 							form.submit();
 							var form = document.querySelector('#loginForm');
 							var formData = new FormData(form);
 							var data = {};
 							formData.forEach((value, key) => (data[key] = value));
-							axios.post('/api/login/social' , data)
-				                .then(function(response) {
-				                	location.href="/";
-				                })
-				                .catch(function(error){
-				                    console.log(error);
-				                });
-						}
-						if(action.startsWith("join")){
-							document.getElementById('name').value = naverLogin.user.name;
-							document.getElementById('mobile').value = naverLogin.user.mobile;
-							document.getElementById('email').value = naverLogin.user.email;
-							document.getElementById('joinForm').submit();
+							socialLogin(data);
+							
+						}else if(action.startsWith("join")){
+							let data = {};
+						    data['social_type'] = "NV";
+						    data['social_email'] = naverLogin.user.email;
+							axios.post('/api/login/isCustSocialExist' , data)
+							    .then(function(response) {
+							        const result = response.data;
+							        console.log(result)
+							        if(result.data != undefined){
+										if(result.data.STAT_CD == "not_certify"){
+											//기가입 + 미인증 = 안내메세지
+											opener.alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
+											window.close();
+										}else{
+											//기가입 + 상태normal = 로그인처리
+											socialLogin(data);
+										}
+									}else{
+										//미가입 = 회원가입페이지이동
+										opener.document.getElementById("name").value = naverLogin.user.name;
+										opener.document.getElementById("mobile").value = naverLogin.user.mobile;
+										opener.document.getElementById("email").value = naverLogin.user.email;
+										opener.document.getElementById("joinForm").action = '/joinForm?socialType=NV';
+										opener.document.getElementById("joinForm").submit();
+										window.close();
+									}
+							    })
+							    .catch(function(error){
+							        console.log(error);
+							    });
+							
+						}else if(action.startsWith("snsLink")){
+							var data = {};
+							data['social_type'] = "NV";
+							data['social_email'] = naverLogin.user.email;
+							axios.post('/api/mypage/snsLink', data)
+								.then(function(response) {
+									const result = response.data;
+									if(result.success == false){
+										opener.alert("It is a social account that has already been subscribed to or linked to Seoul Auction. Please link it to another account.");
+									}else{
+										opener.location.reload();
+									}
+									window.close();
+								})
+								.catch(function(error) {
+									console.log(error);
+								});
+						}else if(action.startsWith("socialConfirm")){
+							opener.parent.socialConfirm(naverLogin.user.email)
+							window.close();
+							
 						}
 					} else {
 						console.log("callback 처리에 실패하였습니다.");

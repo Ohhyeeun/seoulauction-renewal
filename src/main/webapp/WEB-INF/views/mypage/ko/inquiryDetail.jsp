@@ -42,7 +42,7 @@
                                                     <div class="sub-area tb1">
                                                         <dl>
                                                             <dt><span>문의종류 : </span></dt>
-                                                            <dd><span>{{inquiry.P_CATE_NM}}</span></dd>
+                                                            <dd><span>{{inquiry.P_CATE_NM}}{{inquiry.CATE_NM != '' ? '/'+inquiry.CATE_NM : ''}}</span></dd>
                                                         </dl>
                                                         <dl>
                                                             <dt><span>처리현황 : </span></dt>
@@ -139,11 +139,10 @@
 -->
 
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
-
-
-
+    
+    <!-- 팝업 : side popup -->
+	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 
 </body>
 

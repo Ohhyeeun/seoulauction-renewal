@@ -26,5 +26,24 @@ public interface SaleMapper {
 
     int addCustInteLot(CommonMap paramMap);
 
+    void upsertRecentlyView(CommonMap commonMap);
+
+    List<CommonMap> selectRecentlyView(CommonMap commonMap);
+    /* 낙찰된 경매 관련 */
+    CommonMap selectBidForSuccessBid(CommonMap map);
+    CommonMap selectSuccessBidForOverlab(CommonMap map);
+    void insertSuccessBid(CommonMap map);
+
+    CommonMap selectCustInteLot(CommonMap map);
+
     int delCustInteLot(CommonMap paramMap);
+
+    List<CommonMap> selectSaleList(CommonMap commonMap);
+
+    List<CommonMap> selectLotTagList(CommonMap commonMap);
+
+    CommonMap selectTopBid(CommonMap commonMap);
+    void insertBid(CommonMap commonMap);
+    void insertAutoBid(CommonMap commonMap);
+    CommonMap selectCustCheckRequired(CommonMap commonMap);
 }

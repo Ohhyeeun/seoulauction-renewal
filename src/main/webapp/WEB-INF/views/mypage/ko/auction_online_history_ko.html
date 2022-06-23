@@ -332,12 +332,14 @@
                                                         </ul>
                                                     </div>
                                                 </article>
+                                                <!-- [0526]상품진열디자인 변경 : product-infobox 안에 product-infobox-inner 생성 -->
                                                 <article class="bid-list-wrap">
                                                     <div class="bid-list">
                                                         <dl class="bid-item">
                                                             <dt>
                                                                 <div class="title-area">
-                                                                    <div class="title tt4 line-1">
+                                                                    <!-- [0617]말줄임 2줄까지로 변경(클래스 line-1 삭제) -->
+                                                                    <div class="title tt4">
                                                                         <span>2022 4월 e-BID 온라인 프리미엄 경매 II</span>
                                                                     </div>
                                                                     <div class="desc tb1">
@@ -351,19 +353,26 @@
                                                             </dt>
                                                             <dd>
                                                                 <div class="product-infobox">
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction01.jpg" alt="">
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">3</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">문형태</div>
+                                                                    <div class="product-infobox-inner">
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <!-- [0617]a태그로 변경 -->
+                                                                                <a href="#" class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                                                    <!-- [0613]삭제했던 낙찰버튼 원복, 수정 -->
+                                                                                    <div class="success"><span class="bid_result-icon">낙찰</span></div>
+                                                                                    <!-- //[0613]삭제했던 낙찰버튼 원복, 수정 -->
+                                                                                </a>
+                                                                                <!-- //[0617]a태그로 변경 -->
+                                                                            </figure>
                                                                         </div>
-                                                                        <div class="desc">Speed </div>
+                                                                        <div class="text-area">
+                                                                            <div class="num">3</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">문형태</div>
+                                                                            </div>
+                                                                            <div class="desc">Speed </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="pay-infobox">
@@ -388,21 +397,27 @@
                                                             </dd>
                                                             <dd>
                                                                 <div class="product-infobox">
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction02.jpg" alt="">
-                                                                                <!-- <div class="success"><span class="bid_result-icon">낙찰</span></div> -->
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">24</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">데미안허스트</div>
+                                                                    <div class="product-infobox-inner">
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <!-- [0617]a태그로 변경 -->
+                                                                                <a href="#" class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction02.jpg" alt="">
+                                                                                    <!-- [0613]삭제했던 낙찰버튼 원복, 수정 -->
+                                                                                    <div class="success"><span class="bid_result-icon fail">낙찰취소</span></div>
+                                                                                    <!-- //[0613]삭제했던 낙찰버튼 원복, 수정 -->
+                                                                                </a>
+                                                                                <!-- //[0617]a태그로 변경 -->
+                                                                            </figure>
                                                                         </div>
-                                                                        <div class="desc">
-                                                                            Black Neon BE2016
+                                                                        <div class="text-area">
+                                                                            <div class="num">24</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">데미안허스트</div>
+                                                                            </div>
+                                                                            <div class="desc">
+                                                                                Black Neon BE2016
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -430,8 +445,9 @@
                                                         <dl class="bid-item">
                                                             <dt>
                                                                 <div class="title-area">
-                                                                    <div class="title tt4 line-1">
-                                                                        <span>말줄임없애기로 변경 - 2022 4월 e-BID 온라인 프리미엄 경매 II Draw a Black tiger Step by Step 제목은 최대 1줄. 1줄 이상은 말줄임</span>
+                                                                    <!-- [0617]말줄임 2줄까지로 변경(클래스 line-1 삭제) -->
+                                                                    <div class="title tt4">
+                                                                        <span>말줄임없애기로 변경6 - 원복,2줄로 - 2022 4월 e-BID 온라인 프리미엄 경매 II Draw a Black tiger Step by Step 제목은 최대 2줄. 2줄 이상은 말줄임</span>
                                                                     </div>
                                                                     <div class="desc tb1">
                                                                         <span class="tit">경매일</span>
@@ -444,57 +460,22 @@
                                                             </dt>
                                                             <dd>
                                                                 <div class="product-infobox">
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction01.jpg" alt="">
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">3</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">문형태</div>
+                                                                    <div class="product-infobox-inner">
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <!-- [0617]a태그로 변경 -->
+                                                                                <a href="#" class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                                                </a>
+                                                                                <!-- //[0617]a태그로 변경 -->
+                                                                            </figure>
                                                                         </div>
-                                                                        <div class="desc">Speed </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="pay-infobox">
-                                                                    <div class="pay-area">
-                                                                        <dl class="price">
-                                                                            <dt class="tit">응찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="price succ">
-                                                                            <dt class="tit">낙찰가</dt>
-                                                                            <dd class="txt">KRW 9,900,000,000</dd>
-                                                                        </dl>
-                                                                        <dl class="date">
-                                                                            <dt class="tit">응찰일</dt>
-                                                                            <dd class="txt">2022.04.14 14:43:25</dd>
-                                                                        </dl>
-                                                                    </div>
-                                                                    <div class="btn-area">
-                                                                        <button class="btn btn_default js-popup_auction_live_record" type="button"><span>응찰내역</span></button>
-                                                                    </div>
-                                                                </div>
-                                                            </dd>
-                                                            <dd>
-                                                                <div class="product-infobox">
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction02.jpg" alt="">
+                                                                        <div class="text-area">
+                                                                            <div class="num">3</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">문형태</div>
                                                                             </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">24</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">데미안허스트</div>
-                                                                        </div>
-                                                                        <div class="desc">
-                                                                            Black Neon BE2016
+                                                                            <div class="desc">Speed </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -520,20 +501,67 @@
                                                             </dd>
                                                             <dd>
                                                                 <div class="product-infobox">
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction03.jpg" alt="">
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">8</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">데미안허스트</div>
+                                                                    <div class="product-infobox-inner">
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <!-- [0617]a태그로 변경 -->
+                                                                                <a href="#" class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction02.jpg" alt="">
+                                                                                </a>
+                                                                                <!-- //[0617]a태그로 변경 -->
+                                                                            </figure>
                                                                         </div>
-                                                                        <div class="desc">
-                                                                            Air (From The Series The Elelments)
+                                                                        <div class="text-area">
+                                                                            <div class="num">24</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">데미안허스트</div>
+                                                                            </div>
+                                                                            <div class="desc">
+                                                                                Black Neon BE2016
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pay-infobox">
+                                                                    <div class="pay-area">
+                                                                        <dl class="price">
+                                                                            <dt class="tit">응찰가</dt>
+                                                                            <dd class="txt">KRW 9,900,000,000</dd>
+                                                                        </dl>
+                                                                        <dl class="price succ">
+                                                                            <dt class="tit">낙찰가</dt>
+                                                                            <dd class="txt">KRW 9,900,000,000</dd>
+                                                                        </dl>
+                                                                        <dl class="date">
+                                                                            <dt class="tit">응찰일</dt>
+                                                                            <dd class="txt">2022.04.14 14:43:25</dd>
+                                                                        </dl>
+                                                                    </div>
+                                                                    <div class="btn-area">
+                                                                        <button class="btn btn_default js-popup_auction_live_record" type="button"><span>응찰내역</span></button>
+                                                                    </div>
+                                                                </div>
+                                                            </dd>
+                                                            <dd>
+                                                                <div class="product-infobox">
+                                                                    <div class="product-infobox-inner">
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <!-- [0617]a태그로 변경 -->
+                                                                                <a href="#" class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction03.jpg" alt="">
+                                                                                </a>
+                                                                                <!-- //[0617]a태그로 변경 -->
+                                                                            </figure>
+                                                                        </div>
+                                                                        <div class="text-area">
+                                                                            <div class="num">8</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">데미안허스트</div>
+                                                                            </div>
+                                                                            <div class="desc">
+                                                                                Air (From The Series The Elelments)
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -561,7 +589,8 @@
                                                         <dl class="bid-item">
                                                             <dt>
                                                                 <div class="title-area">
-                                                                    <div class="title tt4 line-1">
+                                                                    <!-- [0617]말줄임 2줄까지로 변경(클래스 line-1 삭제) -->
+                                                                    <div class="title tt4">
                                                                         <span>2022 4월 e-BID 온라인 프리미엄 경매 II</span>
                                                                     </div>
                                                                     <div class="desc tb1">
@@ -575,19 +604,23 @@
                                                             </dt>
                                                             <dd>
                                                                 <div class="product-infobox">
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction01.jpg" alt="">
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">3</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">문형태</div>
+                                                                    <div class="product-infobox-inner">
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <!-- [0617]a태그로 변경 -->
+                                                                                <a href="#" class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                                                </a>
+                                                                                <!-- //[0617]a태그로 변경 -->
+                                                                            </figure>
                                                                         </div>
-                                                                        <div class="desc">Speed </div>
+                                                                        <div class="text-area">
+                                                                            <div class="num">3</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">문형태</div>
+                                                                            </div>
+                                                                            <div class="desc">Speed </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="pay-infobox">
@@ -612,21 +645,25 @@
                                                             </dd>
                                                             <dd>
                                                                 <div class="product-infobox">
-                                                                    <div class="thumb-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction02.jpg" alt="">
-                                                                                <div class="success"><span class="bid_result-icon">낙찰</span></div>
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="text-area">
-                                                                        <div class="num">24</div>
-                                                                        <div class="title">
-                                                                            <div class="titlename">데미안허스트</div>
+                                                                    <div class="product-infobox-inner">
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <!-- [0617]a태그로 변경 -->
+                                                                                <a href="#" class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction02.jpg" alt="">
+                                                                                    <div class="success"><span class="bid_result-icon">낙찰</span></div>
+                                                                                </a>
+                                                                                <!-- //[0617]a태그로 변경 -->
+                                                                            </figure>
                                                                         </div>
-                                                                        <div class="desc">
-                                                                            Black Neon BE2016
+                                                                        <div class="text-area">
+                                                                            <div class="num">24</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">데미안허스트</div>
+                                                                            </div>
+                                                                            <div class="desc">
+                                                                                Black Neon BE2016
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -671,6 +708,7 @@
                                                         </div>
                                                     </div>
                                                 </article>
+                                                <!-- //[0526]상품진열디자인 변경 : product-infobox 안에 product-infobox-inner 생성 -->
                                             </div>
                                         </div>
 

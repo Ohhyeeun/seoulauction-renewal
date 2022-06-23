@@ -10,7 +10,7 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 				$scope.currentPage = $page;
 		 		$page = $scope.currentPage;
 		 		
-		 		$size = 3;
+		 		$size = 5;
 				$api = '/api/mypage/onlinePaies?page=' + $scope.currentPage + "&size=" + $size;
 		       
 		        axios.get($api , null)
@@ -69,6 +69,7 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 		}
 	}
 
+	
 	$scope.groupBy = function(xs, key) {
 		  return xs.reduce(function(rv, x) {
 		    (rv[x[key]] = rv[x[key]] || []).push(x);
@@ -121,6 +122,20 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 		
 		
 		return {"price" : $scope.comma(price + totalFee), "fee" : $scope.comma(totalFee)};
+	}
+	
+	$scope.StringToJson = function(stringData) {	
+		return JSON.parse(stringData);
+	}
+	
+	$scope.bidCountToString = function(bidCount) {	
+		var bidCountToString ;
+		if(parseInt(bidCount) == 1){
+			bidCountToString= 'Single Bid';
+		} else {
+			bidCountToString = 'Bid '+bidCount;
+		}
+		return bidCountToString;
 	}
 		
 	

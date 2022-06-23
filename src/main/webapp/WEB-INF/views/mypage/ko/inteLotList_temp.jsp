@@ -299,7 +299,7 @@
         <button class="darkmode" type="button"></button><span>다크모드로 보기</span>
     </span>
     <!--scroll top-->
-    <a href="#" class="scroll-top">  
+    <a href="javascript:void(0);" class="scroll-top">    
         <span class="topBtn up"></span> 
     </a>  
 </body>

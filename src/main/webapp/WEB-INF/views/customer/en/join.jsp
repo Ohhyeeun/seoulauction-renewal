@@ -12,17 +12,22 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	    <title>Seoul Auction</title>
 	</head>
+	<spring:eval expression="@environment.getProperty('social.service.domain')" var="socialServiceDomain" />
+	<script>
+		var socialServiceDomain = '${socialServiceDomain}'
+		console.log(socialServiceDomain);
+	</script>
 	<body>
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
 			<jsp:include page="../../include/en/header.jsp" flush="false" />
 			
-			<div id="container footer-bottom footer-bottom30" style="margin-top:60px" ng-controller="joinCtl">
+			<div id="container footer-bottom" style="margin-top:60px" ng-controller="joinCtl">
 				<div id="contents" class="contents">
 				    <section class="basis-section last-section">
 				        <div class="section-inner">
 				            <div class="content-panel type_panel-member">
-				                <div class="panel-header">
+				                <div class="panel-header complete_title">
 				                    <div class="title">
 				                        <span class="tt2">Register</span>
 				                    </div>
@@ -33,11 +38,8 @@
 				                    </div>
 				                    <div class="join_guide">
 				                        <dl>
-				                            <dt class="tt4">Sign up</dt>
-				                            <dd class="tb1">
-				                                개인의 자격으로 국내 거주하시는 회원으로 가입합니다.
-				                            </dd>
-				                            <dd>
+				                            <dt class="tt4 sub_title">Sign up</dt>
+				                            <dd class="signup_btn">
 				                                <a class="btn btn_point btn_full" href="#" role="button" ng-click="goJoin('person')"><span>Sign up</span></a>
 				                            </dd>
 				                            <dd>
@@ -67,18 +69,14 @@
 				                            </dd>
 				                        </dl>
 				                    </div>
-				
-				                    <div class="join_guide">
-				                        <dl>
-				                            <dd class="tb1">
-				                                대한민국 국적자이신 경우에는 NEW Account 버튼을 이용해 주세요. <br />
-												Making a new account for Korean people is here.
-				                            </dd>
-				                            <dd>
-				                                <a class="btn btn_point btn_full" href="#" role="button" onClick="location.href='/join?lang=ko'"><span>New Account</span></a>
-				                            </dd>
-				                        </dl>
-				                    </div>
+
+									<div class="join_account">
+										<p class="tb2">대한민국 국적자이신 경우에는 NEW Account 버튼을<br class="only-pc"> 이용해 주세요.</p>
+										<p class="tb2">Making a new account for Korean people is here.</p>
+										<div class="btn-wrap">
+											<a class="btn btn_gray_line btn_sm" href="#" role="button" onClick="location.href='/join?lang=ko'"><span>New Account</span></a>
+										</div>
+									</div>
 				                </div>
 				            </div>
 				        </div>
@@ -90,15 +88,52 @@
 						<input type="hidden" id="sub" name="sub" />
 					</form>
 				</div>
+				
+				<!-- validation alert -->
+			    <div id="popup_idsearch3-wrap" class="trp popupfixed-wrap login-popup">
+			        <div class="popup-dim"></div>
+			        <div class="popup-align mode-ms mode-mb_center">
+			            <div class="popup-vertical">
+			                <div class="popup-layer">
+			                    <div class="pop-panel">
+			                        <div class="pop-header">
+			                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+			                            <div class="ico_box">
+			                                <img class="only_ib-pc" src="/images/mobile/login/search_ico_01_pc.png">
+			                                <img class="only_ib-mb" src="/images/mobile/login/search_ico_01.png">
+			                            </div>
+			                            <div class="title-box_tac title_md">
+			                                <span class="title_tac tt4" id="alertMsg">필수 항목명을 입력해 주세요.</span>
+			                            </div>
+			                        </div>
+			                        <div class="pop-body">
+			                            <!--[0523]-->
+			                            <article class="confirm_btn confirm_btn_md">
+			                                <div class="btn_set-float tac">
+			                                    <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+			                                </div>
+			                            </article>
+			                            <!--//[0523]-->
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			    
 		    </div>
 		    <jsp:include page="../../include/en/footer.jsp" flush="false"/>
+			<!-- stykey -->
+			<div class="scroll_top-box">
+				<div class="box-inner">
+					<a href="#" class="btn-scroll_top js-scroll_top"><i class="icon-scroll_top"></i></a>
+				</div>
+			</div>
+			<!-- // stykey -->
 		</div>
 	</div>
 	</body>
 	
-	<script>
-	var socialExist = '${socialExist}';
-	</script>
 	<!-- 카카오 -->
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>

@@ -10,8 +10,13 @@
 	    <meta charset="UTF-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	    <title>Seoul Auction</title>
+	    <title>회원가입 | Seoul Auction</title>
 	</head>
+	<spring:eval expression="@environment.getProperty('social.service.domain')" var="socialServiceDomain" />
+	<script>
+		var socialServiceDomain = '${socialServiceDomain}'
+		console.log(socialServiceDomain);
+	</script>
 	<body>
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
@@ -90,15 +95,45 @@
 						<input type="hidden" id="sub" name="sub" />
 					</form>
 				</div>
+				
+				<!-- validation alert -->
+			    <div id="popup_idsearch3-wrap" class="trp popupfixed-wrap login-popup">
+			        <div class="popup-dim"></div>
+			        <div class="popup-align mode-ms mode-mb_center">
+			            <div class="popup-vertical">
+			                <div class="popup-layer">
+			                    <div class="pop-panel">
+			                        <div class="pop-header">
+			                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+			                            <div class="ico_box">
+			                                <img class="only_ib-pc" src="/images/mobile/login/search_ico_01_pc.png">
+			                                <img class="only_ib-mb" src="/images/mobile/login/search_ico_01.png">
+			                            </div>
+			                            <div class="title-box_tac title_md">
+			                                <span class="title_tac tt4" id="alertMsg">필수 항목명을 입력해 주세요.</span>
+			                            </div>
+			                        </div>
+			                        <div class="pop-body">
+			                            <!--[0523]-->
+			                            <article class="confirm_btn confirm_btn_md">
+			                                <div class="btn_set-float tac">
+			                                    <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+			                                </div>
+			                            </article>
+			                            <!--//[0523]-->
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			    
 		    </div>
     		<jsp:include page="../../include/ko/footer.jsp" flush="false"/>
     	</div>
     </div>
 	</body>
 	
-	<script>
-	var socialExist = '${socialExist}';
-	</script>
 	<!-- 카카오 -->
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>

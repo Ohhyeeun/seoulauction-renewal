@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,14 +28,20 @@ public class S3Service {
     @Value("${aws.s3.url}")
     String S3_BASE_URL;
 
+    @Value("${aws.s3.private.url}")
+    String S3_BASE_PRIVATE_URL;
+
     @Value("${aws.cdn.url}")
     String S3_CDN_BASE_URL;
 
     @Value("${aws.s3.image.base.url}")
     String S3_IMAGE_BASE_URL;
 
-    @Value("${aws.s3.private.image.base.url}")
-    String S3_PRIVATE_IMAGE_BASE_URL;
+    @Value("${cloud.aws.s3.bucket}")
+    public String bucket;  // S3 버킷 이름
+
+    @Value("${cloud.aws.s3.private.bucket}")
+    public String privateBucket;  // S3 버킷 PRIVATE 버킷.
 
     //S3 업로드 이후 디비에 저장.
     private CommonMap insertS3File(Boolean isPrivate , MultipartFile uploadFile , String tableName , String rowId) throws IOException {
@@ -51,9 +56,10 @@ public class S3Service {
 
         final long fileSize = uploadFile.getSize();
         String contentType = uploadFile.getContentType();
-
-        String path = s3Uploader.upload(uploadFile,(isPrivate ? S3_PRIVATE_IMAGE_BASE_URL : S3_IMAGE_BASE_URL )  + "/" + tableName + "/" + rowId);
-
+        String currentBucket = isPrivate ? privateBucket : bucket;
+        String baseUrl = isPrivate ? S3_BASE_PRIVATE_URL : S3_BASE_URL;
+        String path = s3Uploader.upload(currentBucket , uploadFile , S3_IMAGE_BASE_URL   + "/" + tableName + "/" + rowId);
+        String cdnUrl = isPrivate ? null : (S3_CDN_BASE_URL + path);
         CommonMap paramMap = null;
 
         if(path != null) {
@@ -64,9 +70,13 @@ public class S3Service {
             paramMap.put("path", path);
             paramMap.put("mimetype", contentType);
             paramMap.put("filesize", fileSize);
-            paramMap.put("url", S3_BASE_URL + path);
-            paramMap.put("cdn_url", S3_CDN_BASE_URL + path);
+            paramMap.put("url", baseUrl + path);
+            paramMap.put("cdnUrl", cdnUrl);
+            paramMap.put("bucketName", currentBucket);
 
+            log.info("path : {}", path);
+            log.info("baseUrl : {}", baseUrl);
+            log.info("currentBucket : {}", currentBucket);
             log.info("origName : {}", origName);
             log.info("ext : {}", ext);
             log.info("fileSize : {}", fileSize);
@@ -78,13 +88,18 @@ public class S3Service {
         return paramMap;
     }
 
+    @Transactional("ktTransactionManager")
+    public void insertS3FileData(boolean isPrivate , List<MultipartFile> uploadFileList , String tableName , String rowId) {
+        uploadFileList.forEach(c-> insertS3FileData(isPrivate , c , tableName , rowId));
+    }
+
     /**
      * @param isPrivate - s3 파일 외부 공개 여부.
      * @param uploadFile - s3 업로드 될 파일.
      * @param tableName - s3파일이 필요한 테이블.
      * @param rowId - s3파일이 필요한 테이블의 row Id.
      */
-    @Transactional("ktTransactionManager")
+    @Transactional("awsTransactionManager")
     public void insertS3FileData(boolean isPrivate , MultipartFile uploadFile , String tableName , String rowId) {
 
             //성공적으로 업로드 된경우!! s3file_id 값이 map 에 담김.

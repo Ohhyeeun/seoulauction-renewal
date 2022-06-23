@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
-
+<spring:eval expression="@environment.getProperty('image.root.path')" var="imageRootPath" />
 <body class="">
 	<div class="wrapper" ng-app="myApp">
 		<div class="sub-wrap pageclass">
@@ -59,7 +59,7 @@
                                                             <dt>
                                                                 <div class="title-area">
                                                                     <div class="title tt4 line-1">
-                                                                        <span>{{pl[1][0].SALE_TITLE_KR}}</span>
+                                                                        <span>{{pl[1][0].SALE_TH}}{{pl[1][0].SALE_TH_DSP}} {{pl[1][0].SALE_TITLE_KR}}</span>
                                                                     </div>
                                                                     <div class="desc tb1">
                                                                         <span class="tit">경매일</span>
@@ -69,7 +69,8 @@
                                                             </dt>
                                                             <dd class="item-ea"  ng-repeat="data in pl[1]">
                                                                 <div class="item-ea-tit">
-                                                                    <div class="paystate pending" ng-if="data.PAID_CNT != 1">결제대기중 ({{data.PAY_METHOD_NM}})</div>
+                                                                    <!-- <div class="paystate pending" ng-if="data.PAID_CNT != 1">결제대기중 ({{data.PAY_METHOD_NM}})</div> -->
+                                                                    <div class="paystate pending" ng-if="data.PAID_CNT != 1">결제대기중</div>
                                                                     <div class="paystate complete" ng-if="data.PAID_CNT == 1">결제완료</div>
                                                                     <div class="txt" ng-if="data.PAID_CNT == 1">{{data.payDate}} ({{data.payWeekDate}}) {{data.payTime}} ({{data.PAY_METHOD_NM}})</div>
                                                                 </div>
@@ -79,7 +80,7 @@
                                                                             <div class="thumb-area">
                                                                                 <figure class="img-ratio">
                                                                                     <div class="img-align">
-                                                                                        <img src="/nas_img{{data.LOT_IMG}}" alt="">
+                                                                                        <img src="${imageRootPath}{{data.LOT_IMG}}" alt="">
                                                                                     </div>
                                                                                 </figure>
                                                                             </div>
@@ -90,50 +91,69 @@
                                                                                 </div>
                                                                                 <div class="desc">{{data.LOT_TITLE_KR}}</div>
                                                                                 <div class="sub-box">
-                                                                                    <div class="sub-li">{{data.BID_DT}} ({{data.BIDWEEKDT}})<br class="m-ver"> {{data.BIDTIME}} ({{data.bid_count}}회 응찰)</div>
+                                                                                    <!-- [0613]재질/사이즈로 수정 -->
+                                                                                    <div class="sub-li">{{data.CD_NM}}</div>
                                                                                     <div class="sub-li">
-                                                                                        <div class="tit">응찰가</div>
-                                                                                        <div class="txt">{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</div>
+                                                                                        <span>{{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}} X {{StringToJson(data.LOT_SIZE_JSON)[0].SIZE2}} X {{StringToJson(data.LOT_SIZE_JSON)[0].SIZE3}}</span>
+                                                                                        <span ng-if="StringToJson(data.MAKE_YEAR_JSON).ko">{{StringToJson(data.MAKE_YEAR_JSON).ko}}</span>
                                                                                     </div>
+                                                                                    <!-- //[0613]재질/사이즈로 수정 -->
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="pay-infobox">
                                                                         <div class="pay-area">
+                                                                        	<dl class="price">
+                                                                                <dt class="tit">응찰가</dt>
+                                                                                <dd class="txt">
+                                                                                    <span>{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</span>
+                                                                                    <div class="sub">
+                                                                                        <span>{{data.BID_DT}} <!-- ({{data.BIDWEEKDT}}) --><br class="m-ver"> {{data.BIDTIME}}</span>
+                                                                                       <!--  <span>({{data.bid_count}}회 응찰)</span> -->
+                                                                                    </div>
+                                                                                </dd>
+                                                                            </dl>
                                                                             <dl class="price">
                                                                                 <dt class="tit">낙찰가</dt>
                                                                                 <dd class="txt">{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</dd>
                                                                             </dl>
                                                                             <dl class="price">
                                                                                 <dt class="tit">낙찰 수수료</dt>
-                                                                                <dd class="txt">{{data.CURR_CD}} {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).fee}}</dd>
+                                                                              <!--   <dd class="txt">{{data.CURR_CD}} {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).fee}}</dd> -->
+                                                                                <dd class="txt">{{data.CURR_CD}} {{comma(data.FEE)}}</dd>
                                                                             </dl>
                                                                             <dl class="price succ">
                                                                                 <dt class="tit">구매가</dt>
-                                                                                <dd class="txt">KRW {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price}}</dd>
+                                                                                <!-- <dd class="txt" ng-if="{{data.PAY_PRICE}}">{{data.CURR_CD}} {{data.PAY_PRICE}}</dd> -->
+                                                                                <dd class="txt" ng-if="data.PAID_CNT == 0">{{data.CURR_CD}} {{getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price}}</dd>
+                                                                                <dd class="txt" ng-if="data.PAID_CNT >= 1">{{data.CURR_CD}} {{comma(data.PAY_PRICE)}}</dd>
                                                                             </dl>
                                                                         </div>
-                                                                        <div class="btn-area" ng-if="data.PAID_CNT != 1">
-                                                                            <button class="btn btn_point" type="button"><span>결제하기</span></button>
+                                                                        <div class="btn-area" ng-if="data.PAID_CNT == 0">
+                                                                            <a href="payment/sale/{{data.SALE_NO}}/lot/{{data.LOT_NO}}"><button class="btn btn_point" type="button"><span>결제하기</span></button></a>
                                                                         </div>
-                                                                        <div class="btn-area" ng-if="data.PAID_CNT == 1">
-                                                                            <button class="btn btn_gray_line btn-half" type="button"><span>현금영수증</span></button>
-                                                                            <button class="btn btn_gray btn-half btn-print" type="button" disabled>
+                                                                        <div class="btn-area" ng-if="data.PAID_CNT >= 1">
+                                                                            <button class="btn btn_gray_line" type="button" data-id="{{data.PG_TRANS_ID}}" data-type="0" ng-if="data.PAY_METHOD_ID == 'card' && data.receipt == 'Y'" onclick="receiptPopup(this)"><span>결제영수증</span></button>
+                                                                            <button class="btn btn_gray_line" type="button" data-id="{{data.PG_TRANS_ID}}" data-type="1" ng-if="data.PAY_METHOD_ID == 'vbank' && data.receipt == 'Y'" onclick="receiptPopup(this)"><span>현금영수증</span></button>
+<!--                                                                             <button class="btn btn_gray btn-half btn-print" type="button" disabled>
                                                                                 <span>보증서출력하기</span>
                                                                                 <span>7일 이후 가능</span>
-                                                                            </button>
+                                                                            </button> -->
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </dd>
                                                         </dl>
+                                                        <div class="data-empty" ng-if="totalCnt == 0">
+                                                            <p class="txt_empty">결재/구매 내역이 존재하지 않습니다.</p>
+                                                        </div>
                                                     </div>
                                                     
                                                     
                                                    <div class="wrap_paging" ng-if ="totalCnt != 0">
 														<paging page="currentPage"
-															page-size=3
+															page-size=5
 															total=totalCnt
 															paging-action="loadOnlinePayList(page)"
 															scroll-top="true"
@@ -158,7 +178,6 @@
                                 </div>
                                 <div class="panel-footer"></div>
                             </div>
-
                         </div>
                     </section>
 
@@ -192,7 +211,6 @@
 -->
 
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 
 
@@ -202,6 +220,9 @@
             window.history.back();
         })
     </script>
+    
+    <!-- 팝업 : side popup -->
+	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 </body>
 
 </html>

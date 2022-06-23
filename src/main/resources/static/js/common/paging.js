@@ -1,8 +1,9 @@
 function paging(config){
-
     let paging_div = document.createElement("div");
     // paging class 추가
     paging_div.setAttribute("class", config.className);
+    $("#"+config.id).empty();
+
     // 전체 페이징 카운트
     let all_paging_cnt = parseInt(config.totalCount / config.itemSize);
     // 나머지 여부
@@ -19,11 +20,9 @@ function paging(config){
         if (all_paging_cnt < start_page + config.pageSize) {
             return all_paging_cnt
         } else {
-            return start_page + config.pageSize - 1
+            return start_page + config.pageSize - 1;
         }
     }(all_paging_cnt, is_mod, start_page)
-
-    console.log(config.totalCount % config.itemSize, start_page, paging_end);
 
     let first_arrow = document.createElement("a");
     first_arrow.setAttribute("href", "javascript:void(0);");
@@ -39,7 +38,11 @@ function paging(config){
         let start_arrow = document.createElement("a");
         start_arrow.setAttribute("href", "javascript:void(0);");
         start_arrow.addEventListener("click", function (){
-            config.callBackFunc(start_page - 1);
+            if(config.page == 1) {
+                config.callBackFunc(1);
+            }else{
+                config.callBackFunc(config.page - 1);
+            }
         });
         start_arrow.setAttribute("class", "prev icon-page_prev");
         start_arrow.innerText = "PREV";
@@ -47,27 +50,30 @@ function paging(config){
     }
 
     for (let i = start_page; i <= paging_end; i++) {
-        let pp = document.createElement("strong");
+        let pp = document.createElement("a");
         let et = document.createElement("em");
+        let st = document.createElement("strong");
         pp.setAttribute("href", "javascript:void(0);");
         pp.addEventListener("click", function (){
             config.callBackFunc(i);
         });
-        pp.innerText = i.toString();
-        if  (i == config.page) {
-            pp.setAttribute("class", "on");
-            paging_div.appendChild(pp);
-        }else{
-            paging_div.appendChild(pp);
-            paging_div.appendChild(et);
-        }
+        et.innerText = i.toString();
 
+        if  (i == config.page) {
+            st.setAttribute("class", "on");
+            st.appendChild(et);
+            paging_div.appendChild(st);
+        }else{
+            pp.appendChild(et);
+            paging_div.appendChild(pp);
+        }
     }
+
     if (start_page + config.pageSize - 1 <= paging_end) {
         let next_arrow = document.createElement("a");
         next_arrow.setAttribute("href", "javascript:void(0);");
         next_arrow.addEventListener("click", function (){
-            config.callBackFunc(start_page + config.pageSize);
+            config.callBackFunc(config.page + 1);
         })
         next_arrow.setAttribute("class", "prev_end icon-page_next");
         next_arrow.innerText = "NEXT";
@@ -76,7 +82,7 @@ function paging(config){
     let last_arrow = document.createElement("a");
     last_arrow.setAttribute("href", "javascript:void(0);");
     last_arrow.addEventListener("click", function (){
-        config.callBackFunc(page_end(all_paging_cnt, is_mod, start_page));
+        config.callBackFunc(all_paging_cnt + 1);
     });
     last_arrow.setAttribute("class", "prev_end icon-page_nextnext");
     last_arrow.innerHTML = "END";

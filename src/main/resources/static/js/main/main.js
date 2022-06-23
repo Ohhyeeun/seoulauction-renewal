@@ -48,13 +48,13 @@ function closeResetPassword(modYn){
 				popup_pwsearch6.close();
 				if(modYn == 'Y'){
 					// TODO 차후 비밀번호 변경 페이지 개발시 수정
-					location.href = '/test'
+					location.href = '/mypage/passwordModify'
 				}
 		    }
 		})
 		.catch(function(error){
 		    console.log(error);
-		});
+    });
 }
 $("body").on("click", "#popup_pwsearch6-wrap .js-closepop, #popup_pwsearch6-wrap .popup-dim", function($e) {
     $e.preventDefault();
@@ -84,8 +84,7 @@ function reAlarm(){
 }
 //지금변경하기
 function goModPassword(){
-	// TODO 차후 비밀번호 변경 페이지 개발시 수정
-	location.href = '/test';
+	location.href = '/mypage/passwordModify';
 }
 
 $("body").on("click", "#popup_pwsearch5-wrap .js-closepop, #popup_pwsearch5-wrap .popup-dim", function($e) {
@@ -93,16 +92,6 @@ $("body").on("click", "#popup_pwsearch5-wrap .js-closepop, #popup_pwsearch5-wrap
     popup_pwsearch5.close();
 });
 		
-function logout(loginId){
-	console.log(loginId)
-	//TODO 소셜타입에 따른 SNS로그아웃처리
-	sessionLogout();
-}
-
-// 세션로그아웃
-function sessionLogout() {
-	window.location.href = "/processLogout";
-}
 
 /************* 화면 작업 ***************/
 const locale = document.documentElement.lang;
@@ -112,6 +101,9 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
 $('.main-popupBg').hide();
 
 window.onload = function(){
+
+    //빅배너
+    loadBigBanner();
 
     //상단텍스트공지
     loadTopNotice();
@@ -127,17 +119,124 @@ window.onload = function(){
 
 }
 
+/* visual */
+const visualSwiper = new Swiper('.visual-swiper', {
+    initialSlide : 1,
+    loop: true,
+    autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+    },
+    pagination: {
+        el: '.visual-pagaination',
+        type: 'fraction',
+    },
+    breakpoints: {
+        1023: {
+            pagination: {
+                el: '.visual-pagaination',
+                type: 'bullets',
+                clickable: true,
+            },
+        },
+    },
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+    on: {
+        init: function () {
+            $(".swiper-progressbar").removeClass("animate");
+            $(".swiper-progressbar").removeClass("active");
+            $(".swiper-progressbar").eq(0).addClass("animate");
+            $(".swiper-progressbar").eq(0).addClass("active");
+        },
+        slideChangeTransitionStart: function () {
+            $(".swiper-progressbar").removeClass("animate");
+            $(".swiper-progressbar").removeClass("active");
+            $(".swiper-progressbar").eq(0).addClass("active");
+        },
+        slideChangeTransitionEnd: function () {
+            $(".swiper-progressbar").eq(0).addClass("animate");
+        },
+    },
+});
+
+
+
+function  loadBigBanner (){
+    const slideArray = [];
+    axios.get('/api/main/bigBanners')
+        // await sleep(2000);
+        .then(function(response){
+            const success =  response.data.success;
+            if (success) {
+                const bannerList = response.data.data;
+                // console.log(bannerList);
+                bannerList.map(item => {
+                    // console.log(item)
+                    item.content = JSON.parse(item.content);
+                   if(!(locale == 'en' && item.content.banner_kind == 'academy') ) {
+                        let btnListHtml = "";
+                       item.content.button_list.forEach((button) => {
+                            // console.log(button);
+                            btnListHtml +=  `<a href="${locale === 'en' ? button.url_ko : button.url_en }" target="${button.target}" class="commonbtn visual-commonbtn ${button.className}">${locale === 'en' ? button.text_en : button.text_ko }</a>`;
+                        });
+
+                         const returnDom = `<div class="swiper-slide"> 
+                                                <figure class="visual_img">
+                                                    <img src="${item.image.pc_url}" alt="slide" class="pc-ver">
+                                                    <img src="${item.image.mo_url}" alt="slide" class="m-ver">
+                                                </figure>
+                                                <figurecaption class="visual_caption">
+                                                    <div>
+                                                        <h1 class="slide-tit">${item.content.title[locale]}</h1>
+                                                        <p>
+                                                            ${item.content.sub_title[locale]}
+                                                        </p>
+                                                        <div class="visual_btn">
+                                                            ${btnListHtml}
+                                                        </div>
+                                                    </div>
+                                                </figurecaption>
+                                        </div>`
+                        slideArray.push(returnDom);
+                   }
+
+                });
+
+                visualSwiper.appendSlide(slideArray);
+
+                document.querySelector(".playBtn").addEventListener("click", function(e){
+                    visualSwiper.autoplay.start('fast');
+                    $(this).css({'display': 'none'});
+                    $('.stopBtn').css({'display': 'block'});
+                });
+                document.querySelector(".stopBtn").addEventListener("click", function(e){
+                    visualSwiper.autoplay.stop();
+                    $(this).css({'display': 'none'});
+                    $('.playBtn').css({'display': 'block'});
+                });
+            }
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+}
+
 // 상단텍스트공지
-const topNoticeSwiper = new Swiper(".beltbox-swiper", {
-    direction : "vertical",
-    autoplay : {
-        delay: 2500,
-        disableOnInteraction: false
-    }
+const beltNoticeSwiper = new Swiper(".belt-swiper", {
+    autoplay: {
+        delay: 4000,
+    },
+    allowTouchMove:false, /* 마우스 및 손가락 터치 시 슬라이드 이동 가능여부 */
+    touchMoveStopPropagation: true,   /* touchmove 중지 */
+    direction:'vertical',
+    loop: true,
 });
 
 function loadTopNotice(){
-    const slideArray = [];
+    let resultHtml = "";
 
     axios.get('api/main/topNotice')
     .then(function(response){
@@ -147,44 +246,39 @@ function loadTopNotice(){
             if(!getCookie('top-notice') && data) {
                 data.map(item => {
                     const content = JSON.parse(item.content);
-                    const returnDom = `<div class="swiper-slide header_beltbox on"> <!--class="on" block-->
-                                        <div class="wrap belttxtbox wrap_padding">
-                                            <span class="header_beltTit">
-                                                <a href="${locale === 'en' ? content.en_url : content.ko_url}">
-                                                    <span class="text-over belt_tit"> ${locale === 'en' ? content.en_text : content.ko_text}</span>
-                                                    <!--<span class="beltbanner-triangle"></span>--> 
-                                                </a>
-                                            </span> 
-                                            <span class="beltclose-btn closebtn closebtn-w"></span>
-                                        </div>
-                                   </div>`
-
-                    slideArray.push(returnDom);
+                     resultHtml += `<span class="header_beltTit">
+                                            <a href="${locale === 'en' ? content.en_url : content.ko_url}">
+                                                <span class="text-over belt_tit"> ${locale === 'en' ? content.en_text : content.ko_text}</span>
+                                            </a>
+                                        </span>`;
                 });
+                    // console.log(resultHtml)
+                document.querySelector(".belttxtbox").insertAdjacentHTML('beforeend', resultHtml);
 
-                topNoticeSwiper.appendSlide(slideArray);
 
-                /* 상단 텍스트 동적 생성으로 인한 스타일 변경 및 이벤트 바인딩 */
-                document.querySelector(".beltclose-btn").addEventListener("click", function(e){
-                    $('.header_beltbox').slideUp(400);
-                    closeToday('top-notice');
-                });
-
-                if(matchMedia("all and (min-width: 1024px)").matches) {
-                    document.querySelector(".main-contents").style.marginTop = '180px';
-                    document.querySelector(".beltclose-btn").addEventListener("click", function(e){
-                        document.querySelector(".main-contents").style.marginTop = '120px';
-                    });
-                } else { /* 모바일, 테블릿 */
-                    /* main gnb fixed */
-                    document.querySelector(".main-contents").style.marginTop = '101px';
-                    $('.main-contents').css('margin-top','101px');
-                    document.querySelector(".beltclose-btn").addEventListener("click", function(e){
-                        document.querySelector(".main-contents").style.marginTop = '58px';
-                    });
-                }
-
+                // /* 상단 텍스트 동적 생성으로 인한 스타일 변경 및 이벤트 바인딩 */
+                // document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                //     $('.header_beltbox').slideUp(400);
+                //     closeToday('top-notice');
+                // });
+                //
+                // if(matchMedia("all and (min-width: 1024px)").matches) {
+                //     document.querySelector(".main-contents").style.marginTop = '162px';
+                //     document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                //         document.querySelector(".main-contents").style.marginTop = '100px';
+                //     });
+                // } else { /* 모바일, 테블릿 */
+                //     /* main gnb fixed */
+                //     document.querySelector(".main-contents").style.marginTop = '100px';
+                //     $('.main-contents').css('margin-top','100px');
+                //     document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                //         document.querySelector(".main-contents").style.marginTop = '56px';
+                //     });
+                // }
+            }else{
+                document.querySelector(".header_beltbox").classList.remove("on");
             }
+
         }
     })
     .catch(function(error){
@@ -224,6 +318,8 @@ const upcomingSwiper = new Swiper(".upcoming-swiper", {
     }
 });
 
+
+
 //업커밍 바인딩
 function loadUpcomings() {
     const slideArray = [];
@@ -240,7 +336,7 @@ function loadUpcomings() {
                     const to_dt = moment(item.TO_DT);
                     const open_dt = moment(item.OPEN_DT);
                     const returnDom =  ` <div class="swiper-slide upcomingSlide " style="padding-right: 40px;">
-                                            <a href="#">
+                                            <a href="/auction/scheduled/${item.SALE_NO}">
                                                 <div class="upcoming-caption">
                                                     <span class="auctionKind-box ${ item.SALE_KIND === 'LIVE' ? 'on' : ''}">
                                                         ${item.SALE_KIND} 
@@ -250,11 +346,11 @@ function loadUpcomings() {
                                                             ${ item.D_DAY <= 0 ? "TODAY" : "D-" + item.D_DAY }
                                                         </span>` 
                                                     : ``}
-                                                    <h4 class="text-over">${ titleJSON[locale] }</h4>
+                                                    <h4 class="text-over">${localeOrdinal(item.SALE_TH,locale) + titleJSON[locale] }</h4>
                                                     <div class="upcoming-datebox">
                                                         ${ locale === 'en'?
                                                             `<p class="upcoming-open on"> <!-- today 일때만 오픈일 생성 --> 
-                                                                <span>OPEN</span><span>${ open_dt.format('DD MMMM')}</span>
+                                                                <span>OPEN</span><span\>${ open_dt.format('DD MMMM')}</span>
                                                             </p>
                                                             <p class="upcoming-preview">
                                                                 <span>PREVIEW</span><span>${ from_dt.format('DD MMMM') +" - " +  to_dt.format('DD MMMM')}</span>
@@ -365,7 +461,6 @@ function loadBeltBanner() {
 
 $(function() {
     console.log(window.innerWidth);
-
     /* window.addEventListener('resize', (e) => {
          const width = e.target.innerWidth;
          if (width > 1280) {
@@ -377,57 +472,7 @@ $(function() {
          }
      });
      */
-    /* visual */
-    const visualSwiper = new Swiper('.visual-swiper', {
-        autoplay: {
-            delay: 500000,
-            disableOnInteraction: false,
-        },
-        pagination: {
-            el: '.visual-pagaination',
-            type: 'fraction',
-        },
-        breakpoints: {
-            1023: {
-                pagination: {
-                    el: '.visual-pagaination',
-                    type: 'bullets',
-                    clickable: true,
-                },
-            },
-        },
-        navigation: {
-            nextEl: '.slide-btnright',
-            prevEl: '.slide-btnleft',
-        },
-        on: {
-            init: function () {
-                $(".swiper-progressbar").removeClass("animate");
-                $(".swiper-progressbar").removeClass("active");
-                $(".swiper-progressbar").eq(0).addClass("animate");
-                $(".swiper-progressbar").eq(0).addClass("active");
-            },
-            slideChangeTransitionStart: function () {
-                $(".swiper-progressbar").removeClass("animate");
-                $(".swiper-progressbar").removeClass("active");
-                $(".swiper-progressbar").eq(0).addClass("active");
-            },
-            slideChangeTransitionEnd: function () {
-                $(".swiper-progressbar").eq(0).addClass("animate");
-            },
-        },
-        loop: true,
-    });
-    $('.playBtn').on('click', function () {
-        visualSwiper.autoplay.start('fast');
-        $(this).css({'display': 'none'});
-        $('.stopBtn').css({'display': 'block'});
-    });
-    $('.stopBtn').on('click', function () {
-        visualSwiper.autoplay.stop();
-        $(this).css({'display': 'none'});
-        $('.playBtn').css({'display': 'block'});
-    });
+
 
 
 
@@ -496,16 +541,18 @@ function loadPopup(){
                 const success = response.data.success;
                 if (success) {
                     const data = response.data.data;
-                    $('#main_popup_title').html(data.title);
-                    $('#main_popup_content').html(data.content);
-                    $('#main_popup_img').attr('src', data.image);
+                    if(data) {
+                        $('#main_popup_title').html(data.title);
+                        $('#main_popup_content').html(data.content);
+                        $('#main_popup_img').attr('src', data.image);
 
-                    $('.main-popupBg').show();
+                        $('.main-popupBg').show();
 
-                    $('.main-popup-close, .main-popupBg').click(function () {
-                        $('.main-popupbox').addClass('down');
-                        $('.main-popupBg').fadeOut();
-                    });
+                        $('.main-popup-close, .main-popupBg').click(function () {
+                            $('.main-popupbox').addClass('down');
+                            $('.main-popupBg').fadeOut();
+                        });
+                    }
                 }
             })
             .catch(function (error) {
@@ -514,4 +561,114 @@ function loadPopup(){
     }
 }
 
+//경매 회차 필터
+function localeOrdinal(n, l) {
+    if(!l) l = locale;
+    if (n != "" && typeof n != 'undefined')
+    {
+        if(l == "ko" ) return "제" + n + "회 ";
 
+        var s = ["th","st","nd","rd"],
+            v = n % 100;
+
+        return n+(s[(v-20)%10]||s[v]||s[0]);
+    }else{
+        return "";
+    }
+
+}
+
+/* main에서만 사용되는 gnb */
+if (matchMedia("all and (min-width: 1024px)").matches) {
+
+} else {
+    /* 띠배너 beltbanner */
+    $('.header_beltbox.on').show(function () {
+        $('.main-contents').css('margin-top', '100px');
+        $('.m-gnbmenu').click(function(){
+            $('.submenuBg').css({'top':'-43px'});
+        });
+    });
+    $('.beltclose-btn').click(function () {
+        $('.main-contents').css('margin-top', '56px');
+        $('.m-gnbmenu').click(function(){
+            $('.submenuBg').css({'top':'0'});
+        });
+    });
+}
+
+
+
+/* 반응형 resize 추가 */
+$(window).resize(function(){
+    /* gnb */
+    if (matchMedia("all and (min-width: 1024px)").matches) {
+
+    } else {
+        /* 띠배너 beltbanner */
+        $('.header_beltbox.on').show(function () {
+            $('.main-contents').css('margin-top', '100px');
+            $('.m-gnbmenu').click(function(){
+                $('.submenuBg').css({'top':'-43px'});
+            });
+        });
+        $('.beltclose-btn').click(function () {
+            $('.main-contents').css('margin-top', '56px');
+            $('.m-gnbmenu').click(function(){
+                $('.submenuBg').css({'top':'0'});
+            });
+        });
+    };
+
+    /* visual */
+    const visualSwiper = new Swiper('.visual-swiper', {
+        autoplay: {
+            delay:7000,
+            disableOnInteraction:false,
+        },
+        pagination: {
+            el: '.visual-pagaination',
+            type:'fraction',
+        },
+        breakpoints: {
+            1023:{
+                pagination: {
+                    el: '.visual-pagaination',
+                    type:'bullets',
+                    clickable:true,
+                },
+            },
+        },
+        navigation: {
+            nextEl: '.slide-btnright',
+            prevEl: '.slide-btnleft',
+        },
+        on: {
+            init: function () {
+                $(".swiper-progressbar").removeClass("animate");
+                $(".swiper-progressbar").removeClass("active");
+                $(".swiper-progressbar").eq(0).addClass("animate");
+                $(".swiper-progressbar").eq(0).addClass("active");
+            },
+            slideChangeTransitionStart: function () {
+                $(".swiper-progressbar").removeClass("animate");
+                $(".swiper-progressbar").removeClass("active");
+                $(".swiper-progressbar").eq(0).addClass("active");
+            },
+            slideChangeTransitionEnd: function () {
+                $(".swiper-progressbar").eq(0).addClass("animate");
+            },
+        },
+        loop:true,
+    });
+    $('.playBtn').on('click', function(){
+        visualSwiper.autoplay.start('fast');
+        $(this).css({'display':'none'});
+        $('.stopBtn').css({'display':'block'});
+    });
+    $('.stopBtn').on('click', function(){
+        visualSwiper.autoplay.stop();
+        $(this).css({'display':'none'});
+        $('.playBtn').css({'display':'block'});
+    });
+});

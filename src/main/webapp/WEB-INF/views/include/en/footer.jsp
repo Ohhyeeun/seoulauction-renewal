@@ -24,7 +24,7 @@
             <div class="footer-infomenubox">
                 <ul class="flex_wrap footer-infomenu">
                     <li><a href="#">Terms</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#"><strong>Privacy Policy</strong></a></li>
                     <li><a href="#">Information Mgmt. Rules</a></li>
                 </ul>
                 <div class="Familysite-selectbox">
@@ -52,5 +52,5 @@
 <jsp:include page="../../common/commonJs.jsp" flush="false"/>
 <%--메인이 아닐 경우에만 해당 JS  추가.--%>
 <c:if test="${empty param.main}">
-    <jsp:include page="../../common/commonJSNotMain.jsp" flush="false"/>
+    <script src="/js/pages_common_en.js"></script>
 </c:if>

@@ -6,6 +6,7 @@ import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.service.LoginService;
 import com.seoulauction.renewal.service.MainService;
+import com.seoulauction.renewal.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +14,18 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @Log4j2
 @RequiredArgsConstructor
 @RequestMapping("api/main")
 public class ApiMainController {
+
     private final MainService mainService;
-    
     private final LoginService loginService;
+
+    private final S3Service s3Service;
 
     @RequestMapping(value = "/topNotice", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> topNotice(){
@@ -42,12 +46,15 @@ public class ApiMainController {
         CommonMap map = new CommonMap();
         map.putPage(page, size);
 
-        /*List<CommonMap> commonMaps = mainService.selectNewsletters(map);
-        commonMaps.forEach(m -> {
-            m.get("created_at")
-        });*/
+        List<CommonMap> resultMap = mainService.selectNewsletters(map);
+        resultMap.stream().forEach(item -> {
+            List<CommonMap> imageListMap = s3Service.getS3FileDataAll("content_newsletter",  item.get("id"));
+            CommonMap newMap = new CommonMap();
+            imageListMap.forEach(c-> newMap.put(c.getString("tag")+"_url",c.getString("cdn_url")));
+            item.put("image", newMap);
+        });
 
-        return ResponseEntity.ok(RestResponse.ok(mainService.selectNewsletters(map)));
+        return ResponseEntity.ok(RestResponse.ok(resultMap));
     }
 
     @GetMapping(value="/newsletters/{id}")
@@ -150,4 +157,10 @@ public class ApiMainController {
     	
         return ResponseEntity.ok(RestResponse.ok());
     }
+
+    @RequestMapping(value = "/bigBanners", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> bigBanners(){
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectBigBanners()));
+    }
+
 }

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <!-- header -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>POPUP | Seoul Auction</title>
+    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
+    <link rel="stylesheet" href="/css/common.css" type="text/css" />
+    <link rel="stylesheet" href="/css/pages_common_en.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+    <!-- //header -->
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="sub-wrap pageclass">
+
+            <!-- header -->
+            <header class="header main-header header-border">
+                <!-- class="main-header fixed" -->
+                <div class="header_beltbox on">
+                    <!--class="on" block-->
+                    <div class="wrap belttxtbox wrap_padding">
+                        <span class="header_beltTit">
+                            <a href="#">
+                                <span class="text-over belt_tit">
+                                    Notice of increase in purchase Notice of increase
+                                </span>
+                                <!--<span class="beltbanner-triangle"></span>-->
+                            </a>
+                        </span>
+                        <span class="beltclose-btn closebtn closebtn-w"></span>
+                    </div>
+                </div>
+                <div>
+                    <ul class="header_utilitymenu wrap_padding pc-ver">
+                        <li class="utility-tab utility-lang"><a href="javascript:void(0);">KOR</a>
+                            <ul class="bubble-box bubble-box01">
+                                <li><a href="/index.html">KOR(한국어)</a></li>
+                                <li><a href="/">ENG(English)</a></li>
+                            </ul>
+                        </li>
+                        <li class="utility-join"><a href="#">JOIN</a></li> <!-- !login -->
+                        <li class="utility-tab utility-account"><a href="javascript:void(0);">ACCOUNT</a>
+                            <ul class="bubble-box bubble-box02">
+                                <li><a href="/index_en.html">Live Auction</a></li>
+                                <li><a href="#">Online Auction<i class="utility-icon on"></i></a></li>
+                                <li><a href="#">Favaorites</a></li>
+                                <li><a href="#">Profile</a></li>
+                            </ul>
+                        </li> <!-- login -->
+                        <li class="utility-login"><a href="#">LOGIN</a></li> <!-- !login -->
+                        <li class="utility-logout"><a href="#">LOGOUT</a></li> <!-- login -->
+                    </ul>
+                </div>
+
+                <nav class="header_navbox">
+                    <div class="header_nav wrap_padding">
+                        <a href="/" class="header_logo"><span class="blind-text">logo</span></a>
+                        <ul class="header_gnbmenu pc-ver">
+                            <li><a href="#" class="">AUCTION</a></li>
+                            <li><a href="#">PRIVATE SALE</a></li>
+                            <li><a href="#">SELL</a></li>
+                            <li><a href="#">SERVICE</a></li>
+                        </ul>
+                        <section class="topsearch-box">
+                            <button class="m-top-search m-ver"></button>
+                            <button class="m-gnbmenu m-ver"></button>
+                            <form action="" class="scroll_none">
+                                <fieldset class="topsearch topsearch-en">
+                                    <span class="submenuBg-closeBtn closebtn-b top-search-closeBtn m-ver"></span>
+                                    <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver"><button type="submit" class="topsearch-btn pc-ver"></button>
+                                    <section class="search-bubble-box">
+                                        <div class="recent-search">
+                                            <span class="keyword-search-tit">Recent Keyword<span class="keyword-all-del">All Delete</span></span>
+                                            <!-- 
+															--><span class="recent-keyword"><a href="#">Kim SunWoo</a><span class="keyword-del"></span></span>
+                                            <!-- 
+															--><span class="recent-keyword"><a href="#">Yayoi Kusama</a><span class="keyword-del"></span></span>
+                                            <!--
+															--><span class="recent-keyword"><a href="#">Lee UFan</a><span class="keyword-del"></span></span>
+                                            <!--
+															--><span class="recent-keyword"><a href="#">Kim WhanKi</a><span class="keyword-del"></span></span>
+                                            <!--
+															--><span class="recent-keyword"><a href="#">Park SooKeun </a><span class="keyword-del"></span></span>
+                                            <!--
+															-->
+                                        </div>
+                                        <div class="recommend-search-part">
+                                            <span class="keyword-search-tit">Recommend Keyword</span>
+                                            <!--   
+															--><a href="#" class="recommend-keyword">Lee Bae</a>
+                                            <!--
+															--><a href="#" class="recommend-keyword">Min JoungKi</a>
+                                            <!--
+															--><a href="#" class="recommend-keyword">Chungshin</a>
+                                            <!--
+															--><a href="#" class="recommend-keyword">Park SeoBo</a>
+                                            <!--
+															--><a href="#" class="recommend-keyword">Lim HanSoo</a>
+                                            <!--
+															--><a href="#" class="recommend-keyword">David Hockney</a>
+                                            <!---->
+                                        </div>
+                                    </section>
+                                </fieldset>
+                            </form>
+                        </section>
+                    </div>
+
+                    <section class="gnb_submenuBg scroll_none">
+                        <section class="submenuBg scroll_none">
+                            <div class="wrap">
+                                <span class="submenuBg-closeBtn closebtn closebtn-b m-ver"></span>
+                                <div class="flex_wrap submenuBg-box">
+                                    <div class="Ingbanner-box">
+                                        <a href="#" class="Ingbanner" target="_blank">
+                                            <figure class="border-txt-darkg Ingbanner-img">
+                                                <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
+                                            </figure>
+                                            <div class="Ingbanner-txt text-over">
+                                                <span class="auctionKind-box Ingkind-auction on">LIVE</span>
+                                                <p class="text-over">February Live Auction</p>
+                                                <span class="Ingbanner-arrow"></span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="Ingbanner" target="_blank">
+                                            <figure class="border-txt-darkg Ingbanner-img">
+                                                <img src="/images/pc/thumbnail/gnb_thubnatil_02.jpg" alt="ing_auction02">
+                                            </figure>
+                                            <div class="Ingbanner-txt text-over">
+                                                <span class="auctionKind-box Ingkind-auction">ONLINE</span>
+                                                <p class="text-over">e BID Public Online Auction</p>
+                                                <span class="Ingbanner-arrow"></span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="Ingbanner" target="_blank">
+                                            <figure class="border-txt-darkg Ingbanner-img">
+                                                <img src="/images/pc/thumbnail/gnb_thubnatil_ready.jpg" alt="ing_auction03">
+                                            </figure>
+                                            <div class="Ingbanner-txt text-over">
+                                                <span class="auctionKind-box Ingkind-auction">ONLINE</span>
+                                                <p class="text-over">ZEROBASE</p>
+                                                <span class="Ingbanner-arrow"></span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="Ingbanner" target="_blank">
+                                            <figure class="border-txt-darkg Ingbanner-img">
+                                                <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
+                                            </figure>
+                                            <div class="Ingbanner-txt text-over">
+                                                <span class="auctionKind-box Ingkind-auction on">LIVE</span>
+                                                <p class="text-over">February Live Auction</p>
+                                                <span class="Ingbanner-arrow"></span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="Ingbanner" target="_blank">
+                                            <figure class="border-txt-darkg Ingbanner-img">
+                                                <img src="/images/pc/thumbnail/gnb_thubnatil_02.jpg" alt="ing_auction02">
+                                            </figure>
+                                            <div class="Ingbanner-txt text-over">
+                                                <span class="auctionKind-box Ingkind-auction">ONLINE</span>
+                                                <p class="text-over">e BID Public Online Auction</p>
+                                                <span class="Ingbanner-arrow"></span>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <ul class="subGnbmenu">
+                                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
+                                            <ul class="submenu submenu-part01">
+                                                <li><a href="#">Current</a><span class="currentIng">NOW</span></li>
+                                                <li><a href="#">Upcoming</a><span class="currentIng">NOW</span></li>
+                                                <li><a href="#">Result</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
+                                            <ul class="submenu submenu-part02">
+                                                <li><a href="#">Exhibition</a><span class="currentIng">NOW</span></li>
+                                                <li><a href="#">Private Sale</a></li>
+                                                <li><a href="#">Private Sale Guide</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>
+                                            <ul class="submenu submenu-part03">
+                                                <li><a href="#">Consignment information</a></li>
+                                                <li><a href="#">Consignment application</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
+                                            <ul class="submenu submenu-part04">
+                                                <li><a href="#">Academy</a><span class="currentIng">NOW</span></li>
+                                                <li><a href="#">Art Collateral Loans</a></li>
+                                                <li><a href="#">Art Storage</a></li>
+                                                <li><a href="#">Rental of Space</a></li>
+                                                <li><a href="#">Art Consulting & <br>Corporate Marketing</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="subGnbmenu-tit m-ver">
+                                            <span class="gnbmenu_arrow modebox">Light Mode
+                                                <label for="dark" class="mode-toggle">
+                                                    <input type="checkbox" id="dark" name="dark">
+                                                    <span class="mode-switch"></span>
+                                                </label>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                    <figure class="blacklotbox">
+                                        <a href="https://www.blacklot.com/" target="_blank">
+                                            <img src="/images/pc/thumbnail/gnb_blacklot.jpg" alt="blacklot">
+                                        </a>
+                                    </figure>
+                                </div>
+                                <ul class="mobile-utility m-ver">
+                                    <li><a href="/index.html">KOR</a></li>
+                                    <li><a href="#" class="gnb_join">JOIN</a><a href="#" class="gnb_member">ACCOUNT</a></li>
+                                    <li><a href="#" class="gnb_login">LOGIN</a><span class="gnb_logout">LOGOUT</span></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </nav>
+            </header>
+
+            <!-- //header -->
+
+            <!-- container -->
+            <div id="container">
+                <div id="contents" class="contents ">
+
+                    <!-- page title -->
+
+                    <section class="page_title-section type-dark">
+                        <div class="section-inner full_size ">
+                            <div class="center-box">
+                                <h2 class="page_title"><span class="th1">Art Collateral &amp; Corporate Marketing</span></h2>
+                                <div class="page_desc"><span class="tb1"></span></div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <section class="basis-section last-section pd50">
+                        <div class="title">
+                            <h3>모바일용</h3>
+                        </div>
+                        <div class="section-inner">
+                            <a class="btn btn_default mt10 js-popup_marketing1" href="#" role="button"><span>문화예술</span><i class="icon-page_next"></i></a>
+                            <a class="btn btn_default mt10 js-popup_marketing2" href="#" role="button"><span>기업홍보</span><i class="icon-page_next"></i></a>
+                            <a class="btn btn_default mt10 js-popup_marketing3" href="#" role="button"><span>기획경매</span><i class="icon-page_next"></i></a>
+                            <a class="btn btn_default mt10 js-popup_marketing4" href="#" role="button"><span>기업의 미술품</span><i class="icon-page_next"></i></a>
+                        </div>
+                    </section>
+                    <section class="basis-section last-section pd50">
+                        <div class="title">
+                            <h3>PC용</h3>
+                        </div>
+                        <div class="section-inner">
+                            <a id="popup_marketing1" class="btn btn_default mt10 js-popup_marketing_pc" href="#" role="button"><span>문화예술</span><i class="icon-page_next"></i></a>
+                            <a id="popup_marketing2" class="btn btn_default mt10 js-popup_marketing_pc" href="#" role="button"><span>기업홍보</span><i class="icon-page_next"></i></a>
+                            <a id="popup_marketing3" class="btn btn_default mt10 js-popup_marketing_pc" href="#" role="button"><span>기획경매</span><i class="icon-page_next"></i></a>
+                            <a id="popup_marketing4" class="btn btn_default mt10 js-popup_marketing_pc" href="#" role="button"><span>기업의 미술품</span><i class="icon-page_next"></i></a>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+            <!-- //container -->
+
+            <!-- footer -->
+            <footer class="footer">
+                <div class="innerfooter">
+                    <section class="flex_wrap footer_menubox">
+                        <ul class="footer-gnbmenu">
+                            <li><a href="#">ABOUT US</a></li>
+                            <li><a href="#">PRESS</a></li>
+                            <li><a href="#">CAREERS</a></li>
+                            <li><a href="#">LOCATION</a></li>
+                            <li><a href="#">CUSTOMER CENTER</a></li>
+                        </ul>
+
+                        <ul class="snsbox_icon">
+                            <li><a href="#" class="sns-icon sns-icon01"></a></li>
+                            <li><a href="#" class="sns-icon sns-icon02"></a></li>
+                            <li><a href="#" class="sns-icon sns-icon03"></a></li>
+                            <li><a href="#" class="sns-icon sns-icon04"></a></li>
+                            <li><a href="#" class="sns-icon sns-icon05"></a></li>
+                        </ul>
+                    </section>
+                    <section class="flex_wrap footer_infobox">
+                        <div class="footer-infomenubox">
+                            <ul class="flex_wrap footer-infomenu">
+                                <li><a href="#">Terms</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Information Mgmt. Rules</a></li>
+                            </ul>
+                            <div class="Familysite-selectbox">
+                                <span class="Familysite">Family Site</span>
+                                <ul class="familyselect">
+                                    <li><a href="https://www.auctionblue.com/index" target="_blank">Print Bakery</a></li>
+                                    <li><a href="https://printbakery.com/" target="_blank">Auction Blue</a></li>
+                                    <li><a href="https://sotwo.com/" target="_blank">SOTOW</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <p class="bottom-p-spacing20">
+                            CEO : Lee Ok-Kyung Tax Registration No : 101-81-46818 E-commerce Registration : Jong-Ro No. 01-2173<br>
+                            11, Pyeongchang 31-gil, Jongno-gu, Seoul, Korea T. +82-02-395-0330<br>
+                            ⓒ Seoul Auction Corp.
+                        </p>
+                        <p>
+                            Any unauthorized reproduction, transmission, distribution, and/or crawling/scraping of images, videos, text, and other material or information <br>
+                            (including the website screen) is strictly forbidden by the Copyright Act, the Unfair Competition Prevention and Trade Secret Protection Act, and other relevant law.
+                        </p>
+                    </section>
+                </div>
+            </footer>
+
+            <!-- //footer -->
+
+            <!-- stykey -->
+
+            <div class="scroll_top-box">
+                <div class="box-inner">
+                    <a href="#" class="btn-scroll_top js-scroll_top"><i class="icon-scroll_top"></i></a>
+                </div>
+            </div>
+            <!-- // stykey -->
+
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+    <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
+    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+    <!-- [0516]삭제
+  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
+-->
+
+
+    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
+
+
+
+
+
+
+    <!-- 모바일용 팝업 -->
+    <!-- 문화예술 -->
+    <div id="popup_marketing1-wrap" class="trp popupfixed-wrap default-popup ">
+        <div class="popup-dim"></div>
+        <div class="popup-align mode-xxl mode-mb_fixed">
+            <div class="popup-vertical">
+                <div class="popup-layer">
+
+                    <div class="pop-panel">
+                        <div class="pop-header">
+                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                            <div class="title-box">
+                                <span class="txt_title type-big">VIP Customer Marketing with Arts and Culture</span>
+                            </div>
+                        </div>
+                        <div class="pop-body scroll-type">
+                            <section class="section" style="display: block;">
+                                <article class="group-box">
+                                    <p class="">
+                                        <span class="tb1">
+                                            Seoul Auction, which is a strong proponent of transparency in the art market, has built a brand that is widely trusted both in Korea and overseas. On that basis, Seoul Auction undertakes professional arts/culture marketing for companies in diverse ways. It forges relationships with a wide range of brands, from luxury to financial corporations, and provides extraordinary services for the VIP customers of these companies. Offer your VIP customers an elegant and novel experience in the art-filled spaces of Seoul Auction.
+                                        </span>
+                                    </p>
+                                </article>
+                                <article class="group-box">
+                                    <span class="box-title tt3">Details and Expected benefits</span>
+                                    <ul class="mark_dot-list type-point">
+                                        <li><span class="tb1">Develop company’s long-term strategies and strengthen corporate competitiveness through arts/culture marketing</span></li>
+                                        <li><span class="tb1">Provide the bespoke art contents/services that enhance each company’s objectives to differentiate in branding</span></li>
+                                        <li><span class="tb1">Offer exclusive art experiences and expand channel of communication with the company’s existing customers through arts and culture </li>
+                                        <li><span class="tb1">Improve the brand image which is more elegant and stylish through the partnership with Seoul Auction</li>
+                                    </ul>
+                                </article>
+                            </section>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function() {
+            var popup_marketing1 = $(".js-popup_marketing1").trpLayerFixedPopup("#popup_marketing1-wrap");
+            $(popup_marketing1.getBtn).on("click", function($e) {
+                $e.preventDefault();
+                popup_marketing1.open(this); // or false   
+                popup_fixation("#popup_marketing1-wrap"); // pc 스크롤
+                popup_motion_open("#popup_marketing1-wrap"); // mb 모션 
+            });
+
+            $("body").on("click", "#popup_marketing1-wrap .js-closepop, #popup_marketing1-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                popup_marketing1.close();
+                popup_motion_close("#popup_marketing1-wrap");
+            });
+        })();
+    </script>
+
+
+    <!-- 기업홍보 -->
+    <div id="popup_marketing2-wrap" class="trp popupfixed-wrap default-popup ">
+        <div class="popup-dim"></div>
+        <div class="popup-align mode-xxl mode-mb_fixed">
+            <div class="popup-vertical">
+                <div class="popup-layer">
+
+                    <div class="pop-panel">
+                        <div class="pop-header">
+                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                            <div class="title-box">
+                                <span class="txt_title type-big">Corporate Art Marketing & Promotion</span>
+                            </div>
+                        </div>
+                        <div class="pop-body scroll-type">
+                            <section class="section" style="display: block;">
+                                <article class="group-box">
+                                    <p class="">
+                                        <span class="tb1">
+                                            Seoul Auction has great various promotional channels that can accommodate corporate’s needs. Also, we have innovated creative and effective art collaboration with different brands as brand events, art forums, special auctions/exhibitions utilizing culture and arts. Seoul Auction looks forward to meeting great partners and our intensive consulting enables you to enhance the branding value and objectives.
+                                        </span>
+                                    </p>
+                                </article>
+                                <article class="group-box">
+                                    <span class="box-title tt3">Details and Expected benefits</span>
+                                    <ul class="mark_dot-list type-point">
+                                        <li><span class="tb1">Posting corporate advertisements using Seoul Auction's promotion channels (SNS, website ads, newsletter, publication, etc.)</span></li>
+                                        <li><span class="tb1">Planning tailored art marketing/promotions optimized for corporate characteristics through 1:1 business consulting</span></li>
+                                        <li><span class="tb1">Strategic partnership marketing with Seoul Auction to develop creative promotion and long-term business</span></li>
+                                        <li><span class="tb1">Culture and Art lectures for the employees to enhance creativity and strengthen the capability
+                                            </span></li>
+                                    </ul>
+
+                                </article>
+                            </section>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function() {
+            var popup_marketing2 = $(".js-popup_marketing2").trpLayerFixedPopup("#popup_marketing2-wrap");
+            $(popup_marketing2.getBtn).on("click", function($e) {
+                $e.preventDefault();
+                popup_marketing2.open(this); // or false   
+                popup_fixation("#popup_marketing2-wrap"); // pc 스크롤
+                popup_motion_open("#popup_marketing2-wrap"); // mb 모션 
+            });
+
+            $("body").on("click", "#popup_marketing2-wrap .js-closepop, #popup_marketing2-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                popup_marketing2.close();
+                popup_motion_close("#popup_marketing2-wrap");
+            });
+        })();
+    </script>
+
+
+    <!-- 	기획경매 -->
+    <div id="popup_marketing3-wrap" class="trp popupfixed-wrap default-popup ">
+        <div class="popup-dim"></div>
+        <div class="popup-align mode-xxl mode-mb_fixed">
+            <div class="popup-vertical">
+                <div class="popup-layer">
+
+                    <div class="pop-panel">
+                        <div class="pop-header">
+                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                            <div class="title-box">
+                                <!-- [0516]텍스트수정 // -->
+                                <span class="txt_title type-big">Special Auction</span>
+                            </div>
+                        </div>
+                        <div class="pop-body scroll-type">
+                            <section class="section" style="display: block;">
+                                <article class="group-box">
+                                    <p class="">
+                                        <span class="tb1">
+                                            Based on its extensive expertise and experience, Seoul Auction has designed a variety of fascinating auctions over the years in collaboration with luxury brands. The special auction features a wide range of items (car, wine, jewelry, designer furniture, etc.) and promotes the brand’s exclusive items effectively. By planning a special auction, expect positive synergy by introducing your products to Seoul Auction customers, who have an excellent eye for art and acquire high-priced artworks.
+                                        </span>
+                                    </p>
+                                </article>
+                                <article class="group-box">
+                                    <span class="box-title tt3">Details and Expected benefits</span>
+                                    <ul class="mark_dot-list type-point">
+                                        <li><span class="tb1">Provision of infrastructure (personnel, facilities, etc.) required for an exhibition and/or auction</span></li>
+                                        <li><span class="tb1">Product exposure through exhibition(s) at Seoul Auction and greater recognition of the company in its field</span></li>
+                                        <li><span class="tb1">PR/marketing through advertisements and/or product pages in Seoul Auction’s catalogue</span></li>
+                                        <li><span class="tb1">Generation of optimum auction outcomes and PR effect through consultations with a Seoul Auction expert</span></li>
+                                        <li><span class="tb1">Networking with collectors and art enthusiasts who have an ongoing relationship with Seoul Auction</span></li>
+                                        <li><span class="tb1">Promotion of a brand and/or relevant auctions through Seoul Auction’s promotion channels</span></li>
+                                    </ul>
+
+                                </article>
+                            </section>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function() {
+            var popup_marketing3 = $(".js-popup_marketing3").trpLayerFixedPopup("#popup_marketing3-wrap");
+            $(popup_marketing3.getBtn).on("click", function($e) {
+                $e.preventDefault();
+                popup_marketing3.open(this); // or false   
+                popup_fixation("#popup_marketing3-wrap"); // pc 스크롤
+                popup_motion_open("#popup_marketing3-wrap"); // mb 모션 
+            });
+
+            $("body").on("click", "#popup_marketing3-wrap .js-closepop, #popup_marketing3-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                popup_marketing3.close();
+                popup_motion_close("#popup_marketing3-wrap");
+            });
+        })();
+    </script>
+
+
+    <!-- 기업의 미술 -->
+    <div id="popup_marketing4-wrap" class="trp popupfixed-wrap default-popup ">
+        <div class="popup-dim"></div>
+        <div class="popup-align mode-xxl mode-mb_fixed">
+            <div class="popup-vertical">
+                <div class="popup-layer">
+
+                    <div class="pop-panel">
+                        <div class="pop-header">
+                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                            <div class="title-box">
+                                <span class="txt_title type-big">Corporate Art Service</span>
+                            </div>
+                        </div>
+                        <div class="pop-body scroll-type">
+                            <section class="section" style="display: block;">
+                                <article class="group-box">
+                                    <p class="">
+                                        <span class="tb1">
+                                            Seoul Auction specializes in helping unerring and systematic management of artworks. From the purchase to the maintenance of artworks, our specialists provide professional consultation and discover the inherent value of your collection.
+                                        </span>
+                                    </p>
+                                </article>
+                                <article class="group-box">
+                                    <span class="box-title tt3">Valuation</span>
+                                    <p>
+                                        <span class="tb1">
+                                            From ownership of a single work of art to a large collection, come to Seoul Auction for an honest appraisal of Korean and international artworks.
+                                        </span>
+                                    </p>
+                                </article>
+                                <article class="group-box">
+                                    <span class="box-title tt3">Purchasing</span>
+                                    <p>
+                                        <span class="tb1">
+                                            Consult with a Seoul Auction expert on the entire process of purchasing an artwork, from budget allocation to artwork analysis, determining an appropriate purchase time, and insurance & shipping.
+                                        </span>
+                                    </p>
+                                </article>
+                                <article class="group-box">
+                                    <span class="box-title tt3">Selling</span>
+                                    <p>
+                                        <span class="tb1">
+                                            Seoul Auction helps corporations find the ideal way to sell artworks. Based on comprehensive consideration of the ever-changing conditions of the art market, we assist with determining the prices of artworks and deciding whether to sell via auction, private sale, or some other platforms.
+                                        </span>
+                                    </p>
+                                </article>
+                                <article class="group-box">
+                                    <span class="box-title tt3">Care Service</span>
+                                    <p>
+                                        <span class="tb1">
+                                            Seoul Auction conveniently and safely undertakes every step of the corporate art acquisition process, from proposing/curating artworks that best complement the given corporate space to shipping, installation, inspection of the artwork’s condition, and removal. Comprehensive care service is offered in conjunction with consulting on the management, maintenance, and improvement of the company’s existing art collection.
+                                        </span>
+                                    </p>
+                                </article>
+                            </section>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function() {
+            var popup_marketing4 = $(".js-popup_marketing4").trpLayerFixedPopup("#popup_marketing4-wrap");
+            $(popup_marketing4.getBtn).on("click", function($e) {
+                $e.preventDefault();
+                popup_marketing4.open(this); // or false   
+                popup_fixation("#popup_marketing4-wrap"); // pc 스크롤
+                popup_motion_open("#popup_marketing4-wrap"); // mb 모션 
+            });
+
+            $("body").on("click", "#popup_marketing4-wrap .js-closepop, #popup_marketing4-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                popup_marketing4.close();
+                popup_motion_close("#popup_marketing4-wrap");
+            });
+        })();
+    </script>
+    <!-- / 모바일용 팝업 -->
+
+
+    <!-- PC용 팝업 -->
+    <div id="popup_marketing_pc-wrap" class="trp popupfixed-wrap default-popup popup_marketing_pc">
+        <div class="popup-dim"></div>
+        <div class="popup-align mode-xxl mode-mb_fixed">
+            <div class="popup-vertical">
+                <div class="popup-layer">
+
+                    <div class="pop-panel">
+                        <div class="pop-header">
+                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                            <div class="title-box">
+                                <span class="txt_title type-big">Art Consulting & Corporate Marketing</span>
+                            </div>
+                        </div>
+                        <div class="pop-body">
+                            <section class="section tab-section">
+
+                                <div class="tab-wrap">
+                                    <div class="tab-area type-left_mm double_line">
+                                        <ul class="tab-list js-left_mm">
+                                            <li class="tab-popup_marketing1 active"><a href="#tab-cont-1"><span>VIP Customer Marketing<br> with Arts and Culture</span></a></li>
+                                            <li class="tab-popup_marketing2"><a href="#tab-cont-2"><span>Corporate Art Marketing<br> & Promotion</span></a></li>
+                                            <li class="tab-popup_marketing3"><a href="#tab-cont-3"><span>Special<br> Auction</span></a></li>
+                                            <li class="tab-popup_marketing4"><a href="#tab-cont-3"><span>Corporate<br> Art Service</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </section>
+                            <section class="section tab-con-section">
+                                <!-- 문화예술 -->
+                                <div class="tab-con scroll-type popup_marketing1">
+                                    <article class="group-box">
+                                        <p class="">
+                                            <span class="tb1">
+                                                Seoul Auction, which is a strong proponent of transparency in the art market, has built a brand that is widely trusted both in Korea and overseas. <br class="only-pc" />
+                                                On that basis, Seoul Auction undertakes professional arts/culture marketing for companies in diverse ways. <br class="only-pc" />
+                                                It forges relationships with a wide range of brands, from luxury to financial corporations, and provides extraordinary services for the VIP customers of these companies. <br class="only-pc" />
+                                                Offer your VIP customers an elegant and novel experience in the art-filled spaces of Seoul Auction.
+                                            </span>
+                                        </p>
+                                    </article>
+                                    <article class="group-box">
+                                        <span class="box-title tt3">Details and Expected benefits</span>
+                                        <ul class="mark_dot-list type-point">
+                                            <li><span class="tb1">Develop company’s long-term strategies and strengthen corporate competitiveness through arts/culture marketing</span></li>
+                                            <li><span class="tb1">Provide the bespoke art contents/services that enhance each company’s objectives to differentiate in branding</span></li>
+                                            <li><span class="tb1">Offer exclusive art experiences and expand channel of communication with the company’s existing customers through arts and culture </span></li>
+                                            <li><span class="tb1">Improve the brand image which is more elegant and stylish through the partnership with Seoul Auction</span></li>
+                                        </ul>
+                                    </article>
+                                </div>
+                                <!-- 기업홍보 -->
+                                <div class="tab-con scroll-type popup_marketing2">
+                                    <article class="group-box">
+                                        <p class="">
+                                            <span class="tb1">
+                                                Seoul Auction has great various promotional channels that can accommodate corporate’s needs. <br class="only-pc" />
+                                                Also, we have innovated creative and effective art collaboration with different brands as brand events, art forums, special auctions/exhibitions utilizing culture and arts. <br class="only-pc" />
+                                                Seoul Auction looks forward to meeting great partners and our intensive consulting enables you to enhance the branding value and objectives.<br class="only-pc" />
+                                            </span>
+                                        </p>
+                                    </article>
+                                    <article class="group-box">
+                                        <span class="box-title tt3">Details and Expected benefits</span>
+                                        <ul class="mark_dot-list type-point">
+                                            <li><span class="tb1">Posting corporate advertisements using Seoul Auction's promotion channels (SNS, website ads, newsletter, publication, etc.)</span></li>
+                                            <li><span class="tb1">Planning tailored art marketing/promotions optimized for corporate characteristics through 1:1 business consulting</span></li>
+                                            <li><span class="tb1">Strategic partnership marketing with Seoul Auction to develop creative promotion and long-term business</span></li>
+                                            <li><span class="tb1">Culture and Art lectures for the employees to enhance creativity and strengthen the capability</span></li>
+                                        </ul>
+                                    </article>
+                                </div>
+                                <!-- 기획경매 -->
+                                <div class="tab-con scroll-type popup_marketing3">
+                                    <article class="group-box">
+                                        <p class="">
+                                            <span class="tb1">
+                                                Based on its extensive expertise and experience, Seoul Auction has designed a variety of fascinating auctions over the years in collaboration with luxury brands. <br class="only-pc" />
+                                                The special auction features a wide range of items (car, wine, jewelry, designer furniture, etc.) and promotes the brand’s exclusive items effectively. <br class="only-pc" />
+                                                By planning a special auction, expect positive synergy by introducing your products to Seoul Auction customers, who have an excellent eye for art and acquire high-priced artworks.
+                                            </span>
+                                        </p>
+                                    </article>
+                                    <article class="group-box">
+                                        <span class="box-title tt3">Details and Expected benefits</span>
+                                        <ul class="mark_dot-list type-point">
+                                            <li><span class="tb1">Provision of infrastructure (personnel, facilities, etc.) required for an exhibition and/or auction</span></li>
+                                            <li><span class="tb1">Product exposure through exhibition(s) at Seoul Auction and greater recognition of the company in its field</span></li>
+                                            <li><span class="tb1">PR/marketing through advertisements and/or product pages in Seoul Auction’s catalogue</span></li>
+                                            <li><span class="tb1">Generation of optimum auction outcomes and PR effect through consultations with a Seoul Auction expert</span></li>
+                                            <li><span class="tb1">Networking with collectors and art enthusiasts who have an ongoing relationship with Seoul Auction</span></li>
+                                            <li><span class="tb1">Promotion of a brand and/or relevant auctions through Seoul Auction’s promotion channels</span></li>
+                                        </ul>
+                                    </article>
+                                </div>
+                                <!-- 기업의 미술 -->
+                                <div class="tab-con scroll-type popup_marketing4">
+                                    <article class="group-box">
+                                        <p class="">
+                                            <span class="tb1">
+                                                Seoul Auction specializes in helping unerring and systematic management of artworks. From the purchase to the maintenance of artworks, our specialists provide professional consultation and discover the inherent value of your collection.
+                                            </span>
+                                        </p>
+                                    </article>
+                                    <article class="group-box">
+                                        <span class="box-title tt3">Valuation</span>
+                                        <p>
+                                            <span class="tb1">
+                                                From ownership of a single work of art to a large collection, come to Seoul Auction for an honest appraisal of Korean and international artworks.
+                                            </span>
+                                        </p>
+                                    </article>
+                                    <article class="group-box">
+                                        <span class="box-title tt3">Purchasing</span>
+                                        <p>
+                                            <span class="tb1">
+                                                Consult with a Seoul Auction expert on the entire process of purchasing an artwork, from budget allocation to artwork analysis, determining an appropriate purchase time, and insurance & shipping.
+                                            </span>
+                                        </p>
+                                    </article>
+                                    <article class="group-box">
+                                        <span class="box-title tt3">Selling</span>
+                                        <p>
+                                            <span class="tb1">
+                                                Seoul Auction helps corporations find the ideal way to sell artworks. Based on comprehensive consideration of the ever-changing conditions of the art market, we assist with determining the prices of artworks and deciding whether to sell via auction, private sale, or some other platforms.
+                                            </span>
+                                        </p>
+                                    </article>
+                                    <article class="group-box">
+                                        <span class="box-title tt3">Care Service</span>
+                                        <p>
+                                            <span class="tb1">
+                                                Seoul Auction conveniently and safely undertakes every step of the corporate art acquisition process, from proposing/curating artworks that best complement the given corporate space to shipping, installation, inspection of the artwork’s condition, and removal. Comprehensive care service is offered in conjunction with consulting on the management, maintenance, and improvement of the company’s existing art collection.
+                                            </span>
+                                        </p>
+                                    </article>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function() {
+            var popup_marketing_pc = $(".js-popup_marketing_pc").trpLayerFixedPopup("#popup_marketing_pc-wrap");
+            $(popup_marketing_pc.getBtn).on("click", function($e) {
+                $e.preventDefault();
+                popup_marketing_pc.open(this); // or false   
+                popup_fixation("#popup_marketing_pc-wrap"); // pc 스크롤
+                popup_motion_open("#popup_marketing_pc-wrap"); // mb 모션
+
+                // 순서로 제어
+                /*var tabNum = $(this).index();
+                var conTarWrap = $(".tab-con");
+                var conTarBtn = $(".tab-list li");
+                
+                conTarWrap.hide()
+                conTarWrap.eq(tabNum).show();
+                conTarBtn.removeClass("active");
+                conTarBtn.eq(tabNum).addClass("active"); */
+
+                // 아이디로 제어
+                var trgName = $(this).attr("id");
+                $(".tab-con." + trgName).show().siblings().hide();
+                $(".tab-" + trgName).addClass("active").siblings().removeClass("active");
+
+            });
+
+            $("body").on("click", "#popup_marketing_pc-wrap .js-closepop, #popup_marketing_pc-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                popup_marketing_pc.close();
+                popup_motion_close("#popup_marketing_pc-wrap");
+            });
+
+
+
+            /* 팝업 텝메뉴 */
+            $('.js-left_mm a').on('click', function(e) {
+                e.preventDefault();
+                var tar = $(this).position().left;
+                var scrollX = tar - ($(".js-left_mm").parents(".tab-area").width() / 2) + $(this).width() / 2;
+
+                var tabNum = $(this).parent("li").index();
+                var conTarWrap = $(".tab-con");
+
+                if ($(this).parents('li').hasClass('active')) {
+                    return false;
+                } else {
+                    $(".js-left_mm li").removeClass('active');
+                    $(this).parents('li').addClass('active');
+
+                    $(".js-left_mm").parents(".tab-area").scrollLeft(scrollX);
+
+                    conTarWrap.hide()
+                    conTarWrap.eq(tabNum).show();
+                }
+            });
+        })();
+    </script>
+    <!-- / PC용 팝업 -->
+
+
+</body>
+
+</html>

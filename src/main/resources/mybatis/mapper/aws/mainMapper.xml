@@ -7,10 +7,11 @@
         select *
         from main_banner
         where banner_type = 'top-text'
+            and is_open = 'Y'
             and status = 'A'
             and start_at <= (now() + interval 9 hour)
             and end_at >= (now() + interval 9 hour)
-            order by sort desc
+            order by start_at, updated_at
        limit 3;
     ]]>
     </select>
@@ -45,12 +46,20 @@
         WHERE status = 'A'
             and id = #{id}
     </select>
-    <select id="insertNewsletter" parameterType="CommonMap">
+    <insert id="insertNewsletter" parameterType="CommonMap"
+            useGeneratedKeys="true"
+            keyProperty="newsletter_id" keyColumn="id">
         INSERT INTO newsletter_subscriber
             ( name , email , lang , is_subscribe )
         VALUES
             ( #{name} , #{email} , #{lang} , 'Y' )
-    </select>
+    </insert>
+    <insert id="insertNewsletterHistory" parameterType="CommonMap">
+        INSERT INTO newsletter_subscribe_history
+            ( newsletter_subscriber_id , is_subscribe )
+        VALUES
+            ( #{newsletter_id} , 'Y' )
+    </insert>
 
     <select id="selectNewsletterForOverlapCheck" parameterType="CommonMap" resultType="CommonMap">
         SELECT
@@ -88,6 +97,16 @@
                 sort DESC
             LIMIT
                 1
+        ]]>
+    </select>
+
+    <select id="selectBigBanners" resultType="CommonMap">
+        <![CDATA[
+        select * from main_banner
+        where banner_type = 'main-rolling'
+        and status = 'A'
+        and start_at <= now() and end_at >= now()
+        order by sort;
         ]]>
     </select>
 
