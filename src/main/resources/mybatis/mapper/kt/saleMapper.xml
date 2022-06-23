@@ -421,8 +421,7 @@
             </choose>
         </if>
         <if test="sale_status_end_yn != null or sale_status_ing_yn != null or sale_status_ready_yn != null">
-            AND(
-            <trim prefixOverrides="or">
+            <trim prefix= "AND (" prefixOverrides="or" suffix=")">
                 <if test='sale_status_end_yn == "Y"'>
                     or (DATE_FORMAT(S.TO_DT, '%Y-%m-%d') <![CDATA[<]]> DATE_FORMAT(now(), '%Y-%m-%d'))
                 </if>
@@ -434,7 +433,6 @@
                     or (DATE_FORMAT(S.FROM_DT, '%Y-%m-%d') <![CDATA[>]]> DATE_FORMAT(now(), '%Y-%m-%d'))
                 </if>
             </trim>
-            )
         </if>
         <if test="mate_nm != null">
             and L.MATE_CD in (
