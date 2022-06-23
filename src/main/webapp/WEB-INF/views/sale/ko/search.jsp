@@ -535,13 +535,13 @@
                     $("#search_content").show();
                     $("#search_empty").hide();
                     $("#more_search").hide();
-                    $("#more_search_m").hide();
+                    //$("#more_search_m").hide();
                     $(".paging").empty();
 
                     if($scope.moreBy == "MOREP") {
                         if($scope.totalCount > $scope.pageRows){
                             $("#more_search").show();
-                            $("#more_search_m").show();
+                            //$("#more_search_m").show();
                         }
                     }else if($scope.moreBy == "PAGNG"){
                         //paging이 선택된 경우 paging 계산
