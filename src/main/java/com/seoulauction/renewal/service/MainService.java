@@ -30,7 +30,7 @@ public class MainService {
 
     public List<CommonMap> selectBeltBanners() {
         List<CommonMap> resultMap = mainMapper.selectBeltBanners();
-        resultMap.stream().forEach(item -> {
+        resultMap.forEach(item -> {
             List<CommonMap> imageListMap = s3Service.getS3FileDataAll("main_banner",  item.get("id"));
             CommonMap map = new CommonMap();
             imageListMap.forEach(c-> map.put(c.getString("tag")+"_url",c.getString("cdn_url")));
@@ -194,4 +194,7 @@ public class MainService {
         return resultMap;
     }
 
+    public List<CommonMap> selectBrochures(CommonMap map) {
+        return mainMapper.selectBrochures(map);
+    }
 }

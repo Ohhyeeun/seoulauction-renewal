@@ -31,7 +31,6 @@ public class FooterController {
         request.setAttribute("id", id);
         request.setAttribute("member",  SecurityUtils.getAuthenticationPrincipal());
 
-
         return SAConst.getUrl(SERVICE_FOOTER , "recruitForm" , locale);
     }
     @GetMapping("/incruitEmpty")

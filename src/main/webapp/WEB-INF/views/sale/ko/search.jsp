@@ -4,6 +4,17 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- header -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>search | Seoul Auction</title>
+    <!-- //header -->
+</head>
+
 <body class="" ng-controller="lotListCtl" data-ng-init="init();">
 <div class="wrapper">
     <div class="sub-wrap pageclass type-width_list">
@@ -105,7 +116,7 @@
                         </div>
                     </div>
                 </section>
-                <section class="basis-section last-section auction_list-section">
+                <section class="basis-section last-section auction_list-section" id="search_content">
                     <div class="section-inner">
                         <div class="content-panel type_panel-product_list">
                             <div class="panel-body" id="panel_content">
@@ -113,7 +124,7 @@
                                     <li class="" ng-if="lotList !== null" ng-repeat="item in lotList">
                                         <div class="li-inner">
                                             <article class="item-article">
-                                                <div class="image-area">
+                                                <div class="image-area" ng-click="goDetail(item.SALE_NO, item.LOT_NO, item.SALE_KIND_CD);">
                                                     <figure class="img-ratio">
                                                         <div class="img-align">
                                                             <img src="{{item.IMAGE_URL}}{{item.LOT_IMG_PATH}}/{{item.LOT_IMG_NAME}}"
@@ -189,6 +200,26 @@
                             </div>
                         </div>
 
+                    </div>
+                </section>
+
+
+                <section class="basis-section last-section auction_list-section" id="search_empty">
+                    <div class="section-inner">
+                        <div class="content-panel type_panel-product_list">
+                            <div class="panel-body">
+                                <div class="data-empty type-big">
+                                    <div class="img_empty">
+                                        <img src="/images/mobile/auction/symbol-none_data.png" alt="검색결과가 없습니다." />
+                                    </div>
+                                    <div class="txt_empty">
+                                        <div class="title">검색결과가 없습니다.</div>
+                                        <div class="desc">단어의 철자나 띄어쓰기가 <br class="only-mb" />
+                                            정확한지 확인해주세요</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
@@ -271,8 +302,8 @@
             <div class="title-box">
                 <div class="box-inner">
                     <span>Filter</span>
-                    <button class="btn-filter_refresh">
-                        <i class="icon-filter_refresh" onclick="angular.element(this).scope().initFilter();"></i><span>초기화</span>
+                    <button class="btn-filter_refresh" ng-click="initFilter();">
+                        <i class="icon-filter_refresh"></i><span>초기화</span>
                     </button>
                 </div>
             </div>
@@ -472,7 +503,7 @@
                 let [r1] = await Promise.all([get_search_list(data)]);
                 let cntList;
                 if (r1.data.data.length === 0) {
-                    return
+                    return;
                 }
                 if (r1.data.data.cntList.length > 0 ){
                     cntList = r1.data.data.cntList[0];
@@ -501,14 +532,16 @@
                         $('#onlineCount').append('(' + $scope.onlineCount + ')');
                         $scope.firstChk = 1;
                     }
+                    $("#search_content").show();
+                    $("#search_empty").hide();
                     $("#more_search").hide();
-                    $("#more_search_m").hide();
-
+                    //$("#more_search_m").hide();
                     $(".paging").empty();
+
                     if($scope.moreBy == "MOREP") {
                         if($scope.totalCount > $scope.pageRows){
                             $("#more_search").show();
-                            $("#more_search_m").show();
+                            //$("#more_search_m").show();
                         }
                     }else if($scope.moreBy == "PAGNG"){
                         //paging이 선택된 경우 paging 계산
@@ -525,18 +558,11 @@
                         });
                     }
                 } else {
-                    // 검색결과가 없는 경우
-                    let html = '<ul class="product-list"></ul>'
-                        + '<div class="data-empty type-big" id="panel-empty">'
-                        + '<div class="img_empty">'
-                        + '<img src="/images/mobile/auction/symbol-none_data.png" alt="검색결과가 없습니다." /></div>'
-                        + '<div class="txt_empty">'
-                        + '<div class="title">검색결과가 없습니다.</div>'
-                        + '<div class="desc">단어의 철자나 띄어쓰기가 <br class="only-mb" />정확한지 확인해주세요</div></div></div>';
-
-                    $("#panel_content").empty();
+                    // 검색결과가 없는 경우 html 만드는 방법에서 숨기고 보여주는 방식으로 변경
+                    $("#search_content").hide();
                     $("#panel_footer").hide();
-                    $("#panel_content").append(html);
+                    $("#search_empty").show();
+
                     if($scope.firstChk == 0 && $scope.totalCount == 0) {
                         $('#totalCount').empty();
                         $('#totalCount').append(0);
@@ -563,6 +589,7 @@
         }
 
         $scope.initFilter = function(){
+
             let checked = true;
             $('input:checkbox[name="lotCheckBox"]').each(function(){
                 $(this).attr("checked", false);
@@ -634,6 +661,9 @@
                 axios.post(url, {
                     sale_no: item.SALE_NO, lot_no: item.LOT_NO
                 }).then(function (response) {
+
+                    console.log("response :::: " +  response);
+
                     if (response.data.success) {
                         item.FAVORITE_YN = item.FAVORITE_YN === 'N' ? 'Y' : 'N';
                         $scope.$apply();
@@ -700,10 +730,15 @@
             });
         }
 
+        $scope.goDetail = function (saleNo, lotNo, saleKind) {
 
-
-
+            if(saleKind == 'online' || saleKind == 'online_zb' ){
+                window.location.href = '/auction/online/view/' +  saleNo + '/' + lotNo;
+            }else{
+                window.location.href = '/auction/live/view/' +  saleNo + '/' + lotNo;
+            }
+        }
     });
 </script>
 </body>
-<!--</html>-->
+</html>

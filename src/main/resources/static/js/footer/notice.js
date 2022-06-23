@@ -27,7 +27,6 @@ $(document).ready(function(){
 
                     let data = response.data.data.list;
                     total_count = response.data.data.count;
-                    console.log(data);
 
                     $("#notice_paging").empty();
                     $("#notice_tbody").empty();

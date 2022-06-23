@@ -46,9 +46,10 @@
                                                     class=""> : {{sale.TO_DT | date:'MM.dd'+'('+getWeek(sale.TO_DT)+')'}}</span></li>
                                         </ul>
                                         <div class="btn_set">
-                                            <a class="btn btn_white " href="#" target="_blank" ng-href="/notices/{{sale.WRITE_NO}}" role="button" ng-if="sale.WRITE_NO > 0"><span>안내사항</span></a>
-                                            <a class="btn btn_white " href="#" role="button"><span>E-BOOK</span></a>
-                                            <a class="btn btn_white " href="#" role="button"><span>VR보기</span></a>
+                                            <a class="btn btn_white " href="#" target="_blank" ng-href="/footer/notice/{{sale.WRITE_NO}}" role="button" ng-if="sale.WRITE_NO > 0"><span>안내사항</span></a>
+                                            <a class="btn btn_white " ng-click="goBrochure(item.id, item.content.url)" role="button" ng-repeat="item in sale.buttonList">
+                                                <span ng-bind="{'pdf':'E-BOOK', 'ebook':'E-BOOK', 'vr':'VR보기'}[item.content_type]"></span>
+                                            </a>
                                         </div>
                                     </div>
                                 </article>
@@ -378,11 +379,7 @@
 
             $scope.favorite = function(item) {
 
-                if (sessionStorage.getItem("is_login") === 'false') {
-                    alert('로그인을 진행해주세요.');
-                    location.href = "/login";
-                    return;
-                }
+                checkLogin();
 
 
                 let url = item.FAVORITE_YN ==='N' ? "/api/auction/delCustInteLot" : "/api/auction/addCustInteLot";
@@ -406,11 +403,7 @@
             $scope.moveToBidding = function(item) {
 
                 //로그인 했는지 여부.
-                if (sessionStorage.getItem("is_login") === 'false') {
-                    alert('로그인을 진행해주세요.');
-                    location.href = "/login";
-                    return;
-                }
+                checkLogin();
 
                 //정회원 여부.
                 let isRegular = ${isRegular};
@@ -433,11 +426,7 @@
             }
 
             $scope.goLiveBid = function(item) {
-                if(sessionStorage.getItem("is_login") === 'false'){
-                    alert('로그인을 진행해주세요.');
-                    location.href = "/login";
-                    return;
-                }
+                checkLogin();
 
                 let isRegular = ${isRegular};
                 if(!isRegular){
@@ -488,6 +477,9 @@
                         if (response.data.success) {
                             $scope.sale = response.data.data;
                             $scope.sale.TITLE_JSON = JSON.parse($scope.sale.TITLE_JSON);
+                            $scope.sale.buttonList.map(item => {
+                                item.content = JSON.parse(item.content);
+                            });
 
                             var S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
                             var S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
@@ -1092,6 +1084,11 @@
                 $scope.paddNoteMsg = paddNoteMsg;
                 $scope.paddNoteEtc = paddNoteEtc;
                 $scope.$apply();
+            }
+
+            $scope.goBrochure = function (id, url) {
+                axios.post('/api/auction/brochure/read', {id: id});
+                window.open(url);
             }
         });
 

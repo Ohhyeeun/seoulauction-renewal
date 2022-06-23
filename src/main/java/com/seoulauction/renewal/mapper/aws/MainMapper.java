@@ -25,7 +25,7 @@ public interface MainMapper {
     CommonMap selectNewsletterForOverlapCheck(CommonMap map);
     List<CommonMap> selectBigBanners();
 
+    List<CommonMap> selectBrochures(CommonMap map);
 
-
-
+    void addBrochureReadCount(CommonMap map);
 }
