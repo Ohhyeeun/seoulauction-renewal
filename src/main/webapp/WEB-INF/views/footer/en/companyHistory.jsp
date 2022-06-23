@@ -9,6 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>History | Seoul Auction</title>
+    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
     <!-- //header -->
 </head>
 
@@ -40,8 +41,8 @@
                             <div class="tab-wrap">
                                 <div class="tab-area type-left_lg2">
                                     <ul class="tab-list js-maintab_list">
-                                        <li class=""><a href="#tab-cont-1"><span>About Seoul Auction</span></a></li>
-                                        <li class="active"><a href="#tab-cont-2"><span>History</span></a></li>
+                                        <li class=""><a href="/footer/companyIntro"><span>About Seoul Auction</span></a></li>
+                                        <li class="active"><a href="/footer/companyHistory"><span>History</span></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -497,7 +498,6 @@
             var id = '#' + $(this).val();
             $('.history-body').removeClass('active');
             $(id).addClass('active');
-            console.log(id);
         }).trigger('change');
     </script>
 

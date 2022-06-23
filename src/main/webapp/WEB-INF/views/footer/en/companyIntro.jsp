@@ -44,8 +44,8 @@
                             <div class="tab-wrap">
                                 <div class="tab-area type-left_lg2">
                                     <ul class="tab-list js-maintab_list">
-                                        <li class="active"><a href="#tab-cont-1"><span>About Seoul Auction</span></a></li>
-                                        <li class=""><a href="#tab-cont-2"><span>History</span></a></li>
+                                        <li class="active"><a href="/footer/companyIntro"><span>About Seoul Auction</span></a></li>
+                                        <li class=""><a href="/footer/companyHistory"><span>History</span></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -125,30 +125,29 @@
 
     <!-- tab menu -->
     <script>
-        $('.js-maintab_list a').on('click', function(e) {
-            e.preventDefault();
-            var tar = $(this).position().left;
-            var scrollX = tar - ($(".js-maintab_list").parents(".tab-area").width() / 2) + $(this).width() / 2;
-
-            if ($(this).parents('li').hasClass('active')) return false;
-            var id = $(this).attr('href');
-            if ($(id).length > 0) {
-                $('.tab-cont').removeClass('active');
-                $(id).addClass('active');
-                $(this).parents('li').siblings('li').removeClass('active').end().addClass('active');
-
-                $(".js-maintab_list").parents(".tab-area").scrollLeft(scrollX);
-            }
-
-            return false;
-        });
+        // $('.js-maintab_list a').on('click', function(e) {
+        //     e.preventDefault();
+        //     let tar = $(this).position().left;
+        //     let scrollX = tar - ($(".js-maintab_list").parents(".tab-area").width() / 2) + $(this).width() / 2;
+        //
+        //     if ($(this).parents('li').hasClass('active')) return false;
+        //     let id = $(this).attr('href');
+        //     if ($(id).length > 0) {
+        //         $('.tab-cont').removeClass('active');
+        //         $(id).addClass('active');
+        //         $(this).parents('li').siblings('li').removeClass('active').end().addClass('active');
+        //
+        //         $(".js-maintab_list").parents(".tab-area").scrollLeft(scrollX);
+        //     }
+        //
+        //     return false;
+        // });
 
         $('#history-change').on('change', function() {
 
             var id = '#' + $(this).val();
             $('.history-body').removeClass('active');
             $(id).addClass('active');
-            console.log(id);
         }).trigger('change');
     </script>
 
