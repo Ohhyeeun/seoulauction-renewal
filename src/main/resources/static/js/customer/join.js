@@ -60,7 +60,7 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 	});
 
 	// SNS공통회원가입
-	function submitJoin(socialType, name, email, mobile, sub) {
+	function submitJoin(socialType, name, email, sub) {
 		//기가입체크
 		let data = {};
 	    data['social_type'] = socialType;
@@ -141,7 +141,7 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 				kakaoUser = res.kakao_account;
 
 				console.log(kakaoUser);
-				submitJoin("KA", kakaoUser.profile.nickname, kakaoUser.email, null, null);
+				submitJoin("KA", kakaoUser.profile.nickname, kakaoUser.email, null);
 			},
 			fail: function(error) {
 				alert('카카오 로그인에 실패했습니다. 관리자에게 문의하세요.' + JSON.stringify(error));
@@ -154,7 +154,7 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 		auth2.attachClickHandler(element, {},
 			function(googleUser) {
 				googleProfile = googleUser.getBasicProfile();
-				submitJoin("GL", googleProfile.getName(), googleProfile.getEmail(), null, null, null);
+				submitJoin("GL", googleProfile.getName(), googleProfile.getEmail(), null);
 			}, function(error) {
 				console.log(JSON.stringify(error, undefined, 2));
 			});
@@ -187,7 +187,7 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 		var sub = payload.sub;
 
 		console.log("email : " + email + "sub : " + sub);
-		submitJoin("AP", name, payload.email, null, payload.sub);
+		submitJoin("AP", name, payload.email, payload.sub);
 	});
 
 	//애플로 로그인 실패 시.
