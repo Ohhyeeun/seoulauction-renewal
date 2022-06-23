@@ -32,7 +32,7 @@ public class MypageController {
     private final LoginService loginService;
     
     /*마이페이지메인(모바일 전용)*/
-    @GetMapping("/mypageMain")
+    @GetMapping("/main")
     public String mypageMain(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "include/mypageMain" , locale);
     }
