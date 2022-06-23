@@ -323,7 +323,7 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 				googleProfile = googleUser.getBasicProfile();
 				submitLogin("GL", googleProfile.getEmail(), googleProfile.getName(), googleProfile.getEmail(), null, null, null);
 			}, function(error) {
-				alert(JSON.stringify(error, undefined, 2));
+				console.log(JSON.stringify(error, undefined, 2));
 			});
 	}
 
