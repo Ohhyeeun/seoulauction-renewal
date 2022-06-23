@@ -101,7 +101,7 @@
                                             </div>
 
                                             <div class="view_scale-area">
-                                                <a class="btn btn_default js-popup_image_viewer" href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
+                                                <a class="js-popup_image_viewer" href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a> 
                                             </div>
                                         </article>
 
