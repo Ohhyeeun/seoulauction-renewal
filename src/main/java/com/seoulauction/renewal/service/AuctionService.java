@@ -71,6 +71,10 @@ public class AuctionService {
         return resultMap;
     }
 
+    public void addBrochureReadCount(CommonMap paramMap) {
+        mainMapper.addBrochureReadCount(paramMap);
+    }
+
     public int selectSalePaddNo(CommonMap map) {
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
         if (saUserDetails != null) {

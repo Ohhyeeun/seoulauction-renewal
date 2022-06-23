@@ -26,4 +26,6 @@ public interface MainMapper {
     List<CommonMap> selectBigBanners();
 
     List<CommonMap> selectBrochures(CommonMap map);
+
+    void addBrochureReadCount(CommonMap map);
 }

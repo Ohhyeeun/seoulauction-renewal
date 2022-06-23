@@ -47,7 +47,7 @@
                                         </ul>
                                         <div class="btn_set">
                                             <a class="btn btn_white " href="#" target="_blank" ng-href="/footer/notice/{{sale.WRITE_NO}}" role="button" ng-if="sale.WRITE_NO > 0"><span>안내사항</span></a>
-                                            <a class="btn btn_white " href="#" target="_blank" ng-href="{{item.content.url}}" role="button" ng-repeat="item in sale.buttonList">
+                                            <a class="btn btn_white " ng-click="goBrochure(item.id, item.content.url)" role="button" ng-repeat="item in sale.buttonList">
                                                 <span ng-bind="{'pdf':'E-BOOK', 'ebook':'E-BOOK', 'vr':'VR보기'}[item.content_type]"></span>
                                             </a>
                                         </div>
@@ -1084,6 +1084,11 @@
                 $scope.paddNoteMsg = paddNoteMsg;
                 $scope.paddNoteEtc = paddNoteEtc;
                 $scope.$apply();
+            }
+
+            $scope.goBrochure = function (id, url) {
+                axios.post('/api/auction/brochure/read', {id: id});
+                window.open(url);
             }
         });
 
