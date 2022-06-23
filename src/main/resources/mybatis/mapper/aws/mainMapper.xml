@@ -110,4 +110,13 @@
         ]]>
     </select>
 
+    <select id="selectBrochures" parameterType="CommonMap" resultType="CommonMap">
+        SELECT id, content_type, sale_no, start_at, end_at, read_count, content, sort, file_status, created_at, updated_at
+        FROM content_brochure cb
+        WHERE status = 'A'
+            AND file_status = 'before'
+            AND (now() + interval 9 hour) between start_at and end_at
+            AND sale_no = #{sale_no}
+        ORDER BY sort
+    </select>
 </mapper>

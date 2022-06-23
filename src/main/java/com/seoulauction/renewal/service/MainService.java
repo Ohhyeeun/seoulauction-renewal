@@ -194,4 +194,7 @@ public class MainService {
         return resultMap;
     }
 
+    public List<CommonMap> selectBrochures(CommonMap map) {
+        return mainMapper.selectBrochures(map);
+    }
 }
