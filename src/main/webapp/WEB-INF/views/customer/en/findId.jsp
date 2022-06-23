@@ -128,13 +128,13 @@
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
 
 	<script type="text/javascript" src="/js/customer/findId.js"></script>
     
       <!-- 아이디찾기-아이디 검색 결과 -->
-   <div id="popup_idsearch1-wrap" class="trp popupfixed-wrap login-popup" style="display: none;">
+   <div class="popup-dim popup_idsearch1-wrap"  style="display: none;"></div>
+   <div id="popup_idsearch1-wrap" class="trp popupfixed-wrap login-popup popup_idsearch1-wrap" style="display: none;">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">
@@ -167,7 +167,8 @@
     </div>
 
     <!-- 아이디찾기-일치하는 정보가 없을 경우 -->
-    <div id="popup_idsearch2-wrap" class="trp popupfixed-wrap login-popup" style="display: none;">
+    <div class="popup-dim popup_idsearch2-wrap"  style="display: none;"></div>
+    <div id="popup_idsearch2-wrap" class="trp popupfixed-wrap login-popup popup_idsearch2-wrap" style="display: none;">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">
@@ -201,7 +202,8 @@
 
 
     <!-- 아이디찾기-항목 미입력 -->
-    <div id="popup_idsearch3-wrap" class="trp popupfixed-wrap login-popup" style="display: none;">
+    <div class="popup-dim popup_idsearch3-wrap"  style="display: none;"></div>
+    <div id="popup_idsearch3-wrap" class="trp popupfixed-wrap login-popup popup_idsearch3-wrap" style="display: none;">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">
@@ -231,7 +233,8 @@
     </div>
 
     <!-- 아이디찾기-소셜 회원인 경우-->
-    <div id="popup_idsearch4-wrap" class="trp popupfixed-wrap login-popup" style="display: none;">
+    <div class="popup-dim popup_idsearch4-wrap"  style="display: none;"></div>
+    <div id="popup_idsearch4-wrap" class="trp popupfixed-wrap login-popup popup_idsearch4-wrap" style="display: none;">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">
