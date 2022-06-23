@@ -217,10 +217,10 @@
                                                             </a>
                                                         </div>
                                                     </div>
-<%--                                                    <div class="btn_item only-mb">--%>
-<%--                                                        <a class="btn btn_default btn_lg js-delivery_price js-popup_alert1" href="#"--%>
-<%--                                                           role="button"><span>낙찰수수료</span></a>--%>
-<%--                                                    </div>--%>
+                                                    <div class="btn_item only-mb">
+                                                        <a class="btn btn_default btn_lg js-delivery_price js-popup_alert1" href="#"
+                                                           role="button"><span>낙찰수수료</span></a>
+                                                    </div>
                                                     <div class="btn_item">
 <%--                                                        <a class="btn btn_default btn_lg" href="#" role="button"><span>배송비안내</span></a>--%>
                                                         <a class="btn btn_default btn_lg js-popup_alert3"  role="button"><span>경매 호가표</span></a>
