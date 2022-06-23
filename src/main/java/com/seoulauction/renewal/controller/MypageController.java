@@ -31,6 +31,12 @@ public class MypageController {
     
     private final LoginService loginService;
     
+    /*마이페이지메인(모바일 전용)*/
+    @GetMapping("/mypageMain")
+    public String mypageMain(Locale locale) {
+    	return SAConst.getUrl(SERVICE_MYPAGE , "include/mypageMain" , locale);
+    }
+    
     /*아카데미*/
     @GetMapping("/academyList")
     public String academyList(Locale locale) {

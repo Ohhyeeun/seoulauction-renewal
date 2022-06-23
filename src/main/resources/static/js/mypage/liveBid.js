@@ -1,7 +1,5 @@
-
-app.value('locale', 'ko');
+app.value('locale', document.documentElement.lang);
 app.requires.push.apply(app.requires, ["bw.paging", "ngDialog"]);
-
 app.controller('liveBidListCtl', function($scope, consts, common) {
 
 	var popup_marketing1 = $(".js-popup_auction_live_record").trpLayerFixedPopup("#popup_auction_live_record-wrap");
