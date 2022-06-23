@@ -127,11 +127,11 @@ public class PaymentController {
         paramMap.put("academy_no", id);
 
         CommonMap resultMap = paymentService.selectAcademyByAcademyNo(paramMap); //TODO: 아카데미 조회 조건을 더 강화해야함
-        if(MapUtils.isEmpty(resultMap)) {
-            request.setAttribute("message", "아카데미 정보가 없습니다.");
-            request.setAttribute("returnUrl", "/"); //TODO: 아카데미 목록으로 가야함
-            return "redirect";
-        }
+//        if(MapUtils.isEmpty(resultMap)) {
+//            request.setAttribute("message", "아카데미 정보가 없습니다.");
+//            request.setAttribute("returnUrl", "/"); //TODO: 아카데미 목록으로 가야함
+//            return "redirect";
+//        }
 
         // select cust
 
@@ -219,7 +219,7 @@ public class PaymentController {
     }
 
 
-    @GetMapping("sale/{saleNo}/lot/{lotNo}")
+    @GetMapping("/sale/{saleNo}/lot/{lotNo}")
     public String work(HttpServletRequest request , Locale locale, Principal principal, @PathVariable("saleNo") String saleNo, @PathVariable("lotNo") String lotNo) {
 
         String goodsName = "서울옥션-작품결제"; 					// 결제상품명
@@ -242,6 +242,7 @@ public class PaymentController {
         paramMap.put("lot_no", lotNo);
 
         CommonMap payWorkInfoMap = paymentService.getWorkPayInfo(paramMap);
+
         Integer tmpPrice = 1234;
 
         String ediDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
