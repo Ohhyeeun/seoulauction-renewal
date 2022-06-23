@@ -140,6 +140,11 @@ $(function() {
                 $('.header_gnbmenu>li>a').removeClass('on');
             });
 
+            $('#container').click(function () {
+                $(".submenuBg").stop().slideUp();
+                $('.header_gnbmenu>li>a').removeClass('on');
+            }); 
+
             $('.header_gnbmenu>li>a').removeClass('on');
             $(".submenuBg").stop().slideDown(function () {
                 $(this).css({'top': '61px'});
