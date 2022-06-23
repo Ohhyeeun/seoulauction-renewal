@@ -6,7 +6,7 @@ $(document).ready(function(){
     let page_size = 5;
     let total_count = 0;
     let locale = document.documentElement.lang;
-    let langs = 'KO';
+    let langs = (locale === null || locale === 'ko') ? 'KO' : 'EN';
     let search_text = '';
 
     init();
@@ -81,8 +81,7 @@ $(document).ready(function(){
         } else {
             $(".js-list_tab_left_lg li").removeClass('active');
             $(this).parents('li').addClass('active');
-
-            if($(this).children('span').html() === '국내'){
+            if($(this).attr('id') === 'media_tab1'){
                 langs = 'KO';
             } else {
                 langs = 'EN';
