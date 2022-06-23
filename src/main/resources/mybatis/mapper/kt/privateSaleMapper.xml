@@ -130,6 +130,7 @@
              , COLUMN_JSON(L.EXHIBITION_PRICE_BLOB) EXHIBITION_PRICE_JSON
              , DATE_FORMAT(L.TO_DT,'%a') LOT_EXPIRE_DATE_DAY
              , DATE_FORMAT(L.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T
+             , L.ARTIST_NO
         from LOT L
                  left outer join ARTIST AT
         on AT.ARTIST_NO = L.ARTIST_NO
@@ -342,7 +343,7 @@
                ifnull(SAS.SIZE1, '0')                SIZE1,
                ifnull(SAS.SIZE2, '0')                SIZE2
         from   SALE_AS_IMG IM
-               INNER JOIN SALE_AS_SIZE SAS ON IM.SALE_AS_NO = SAS.SALE_AS_NO
+               LEFT OUTER JOIN SALE_AS_SIZE SAS ON IM.SALE_AS_NO = SAS.SALE_AS_NO
         where  IM.SALE_AS_NO = #{sale_as_no}
         order by IM.DISP_ORD is null, IM.DISP_ORD, IM.IMG_NO
     </select>

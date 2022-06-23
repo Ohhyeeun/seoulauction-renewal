@@ -1,5 +1,5 @@
 
-app.value('locale', 'ko');
+app.value('locale', document.documentElement.lang);
 app.requires.push.apply(app.requires, ["bw.paging", "ngDialog"]);
 
 app.controller('onlinePayListCtl', function($scope, consts, common) {
@@ -69,13 +69,6 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 		}
 	}
 
-	$scope.receiptPopup = function(input) {
-		var status = "toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=420,height=540"; 
-        var url = "https://npg.nicepay.co.kr/issue/IssueLoader.do?TID="+input.pay.PG_TRANS_ID+"&type="+input.type; 
-        //type  값  세팅  ::  매출전표: 0,  현금영수증: 1 
-        
-        window.open(url,"popupIssue",status); 
-	}
 	
 	$scope.groupBy = function(xs, key) {
 		  return xs.reduce(function(rv, x) {
@@ -132,7 +125,6 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 	}
 	
 	$scope.StringToJson = function(stringData) {	
-		console.log(stringData);	
 		return JSON.parse(stringData);
 	}
 	
@@ -143,7 +135,6 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 		} else {
 			bidCountToString = 'Bid '+bidCount;
 		}
-		console.log(bidCountToString);
 		return bidCountToString;
 	}
 		

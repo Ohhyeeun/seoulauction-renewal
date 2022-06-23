@@ -23,6 +23,9 @@
         <!-- header -->
         <jsp:include page="../../include/ko/header.jsp" flush="false"/>
         <!-- //header -->
+        <script>
+            app.value('locale', 'ko');
+        </script>
 
         <!-- container -->
         <div id="container">

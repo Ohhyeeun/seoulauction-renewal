@@ -12,11 +12,11 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	    <title>Seoul Auction</title>
 	</head>
-	<body>
+	<body ng-controller="joinFormCtl" data-ng-init="init()">
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
 			<jsp:include page="../../include/en/header.jsp" flush="false" />
-			<div id="container footer-bottom footer-bottom30" style="margin-top:60px" ng-controller="joinFormCtl" data-ng-init="init()">
+			<div id="container">
 				<div id="contents" class="contents">
 		            <section class="basis-section last-section back_gray">
 		                <div class="section-inner">
@@ -1667,6 +1667,7 @@
 		                </div>
 		            </section>
 		        </div>
+		        
 		    </div>
     		<jsp:include page="../../include/en/footer.jsp" flush="false"/>
 			<!-- stykey -->
@@ -1680,6 +1681,38 @@
 
 		</div>
     </div>
+    
+    <!-- validation alert -->
+	<div id="popup_idsearch3-wrap" class="trp popupfixed-wrap login-popup">
+	    <div class="popup-dim"></div>
+	    <div class="popup-align mode-ms mode-mb_center">
+	        <div class="popup-vertical">
+	            <div class="popup-layer">
+	                <div class="pop-panel">
+	                    <div class="pop-header">
+	                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+	                        <div class="ico_box">
+	                            <img class="only_ib-pc" src="/images/mobile/login/search_ico_01_pc.png">
+	                            <img class="only_ib-mb" src="/images/mobile/login/search_ico_01.png">
+	                        </div>
+	                        <div class="title-box_tac title_md">
+	                            <span class="title_tac tt4" id="alertMsg">필수 항목명을 입력해 주세요.</span>
+	                        </div>
+	                    </div>
+	                    <div class="pop-body">
+	                        <!--[0523]-->
+	                        <article class="confirm_btn confirm_btn_md">
+	                            <div class="btn_set-float tac">
+	                                <a class="btn btn_point" href="#" role="button"><span>확인</span></a>
+	                            </div>
+	                        </article>
+	                        <!--//[0523]-->
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 	</body>
 	<script>
 		app.value('locale', 'en');

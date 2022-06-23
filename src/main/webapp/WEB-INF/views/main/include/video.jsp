@@ -43,7 +43,6 @@
             console.log("loadVideo");
             common.callGetAPI('/api/main/videos', {"media_type" : "video", "size" : 12}, function (data, status) {
                 $scope.videoList = data.data;
-                console.log($scope.videoList);
                 $scope.videoList.map(item => {
                     item.content = JSON.parse(item.content);
                 });

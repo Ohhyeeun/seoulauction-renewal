@@ -4,6 +4,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	    <meta charset="UTF-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	    <title>Favorites | Seoul Auction</title>
+	</head>
 <link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
 <spring:eval expression="@environment.getProperty('image.root.path')" var="imageRootPath" />
 <body class="">
@@ -74,7 +82,36 @@
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in il[1]">
-                                                                <div class="product-infobox">
+                                                             <div class="product-infobox">
+                                                                    <div class="product-infobox-inner">
+                                                                        <button class="btn-heart js-work_heart on" ng-click="inteDel(data.SALE_NO, data.LOT_NO)"><i class="icon-heart_off"></i></button>
+                                                                        <div class="thumb-area">
+                                                                            <figure class="img-ratio">
+                                                                                <div class="img-align">
+                                                                                    <img src="${imageRootPath}{{data.FILE_PATH}}/{{data.FILE_NAME}}" alt="">
+                                                                                </div>
+                                                                            </figure>
+                                                                        </div>
+                                                                        <div class="text-area">
+                                                                            <div class="num">{{data.LOT_NO}}</div>
+                                                                            <div class="title">
+                                                                                <div class="titlename">{{data.TITLE_EN}}</div>
+                                                                            </div>
+                                                                            <div class="desc">{{data.ARTIST_NAME_EN}}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pay-infobox">
+                                                                    <div class="pay-infobox-inner">
+                                                                        <div class="pay-area">
+                                                                            <dl class="price">
+                                                                                <dt class="tit">Estimate</dt>
+                                                                                <dd class="txt"><span>{{data.CURR_CD}} {{comma(data.EXPE_PRICE_FROM_KO)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_KO)}}</span></dd>
+                                                                            </dl>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                               <%--  <div class="product-infobox">
                                                                     <button class="btn-heart js-work_heart on" ng-click="inteDel(data.SALE_NO, data.LOT_NO)"><i class="icon-heart_off"></i></button>
                                                                     <div class="thumb-area">
                                                                         <figure class="img-ratio">
@@ -96,7 +133,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> --%>
                                                             </dd>
                                                         </dl>
                                                         <div class="data-empty" ng-if="inteLotCnt == 0">
@@ -161,12 +198,7 @@
     <!-- [0516]삭제
   <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
 -->
-
-
     <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
-
-
-
 
     <script>
         $('.js-left_mm_2 a').on('click', function(e) {
@@ -197,7 +229,8 @@
         }) */
     </script>
 
-
+    <!-- 팝업 : side popup -->
+	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 
 </body>
 

@@ -1,9 +1,10 @@
-
-app.value('locale', 'ko');
+app.value('locale', document.documentElement.lang);
 app.requires.push.apply(app.requires, ["bw.paging", "ngDialog"]);
-
 app.controller('liveBidListCtl', function($scope, consts, common) {
 
+	var popup_marketing1 = $(".js-popup_auction_live_record").trpLayerFixedPopup("#popup_auction_live_record-wrap");
+	var popup_offline_payment = $(".js-popup_offline_payment").trpLayerFixedPopup("#popup_offline_payment-wrap");
+	
 	$scope.loadLiveBidList = function($page) {
 				$scope.currentPage = $page;
 		 		$page = $scope.currentPage;
@@ -45,6 +46,15 @@ app.controller('liveBidListCtl', function($scope, consts, common) {
 					$scope.liveBidHisList = result["data"]["list"];
 		            console.log($scope.liveBidHisList);
 		            $scope.$apply();
+		            
+		            popup_marketing1.open(this); // or false
+					popup_fixation("#popup_auction_live_record-wrap");
+		            
+		            $("body").on("click", "#popup_auction_live_record-wrap .js-closepop, #popup_auction_live_record-wrap .popup-dim", function($e) {
+			            $e.preventDefault();
+			            popup_marketing1.close();
+			            popup_motion_close("#popup_auction_live_record-wrap");
+			        });
 		            }
 		        })
 		        .catch(function(error){
@@ -73,14 +83,19 @@ app.controller('liveBidListCtl', function($scope, consts, common) {
 					$scope.liveBidHisHammerTotalPayPrice = result["data"]["cnt"]["sum_total_price"];
 		            console.log($scope.liveBidHisHammerList);
 		            $scope.$apply();
+		            
+		            popup_offline_payment.open(this); // or false
+					popup_fixation("#popup_offline_payment-wrap");
+		            
+		            $("body").on("click", "#popup_offline_payment-wrap .js-closepop, #popup_offline_payment-wrap .popup-dim", function($e) {
+		                $e.preventDefault();
+		                popup_offline_payment.close();
+		            });
 		            }
 		        })
 		        .catch(function(error){
 		            console.log(error);
 		        })
-		         .finally(function () {
-			    document.getElementById('popup_offline_payment-wrap').style.display="block";
-			  });
 	}
 	
 	$scope.groupBy = function(xs, key) {

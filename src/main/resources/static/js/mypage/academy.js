@@ -1,12 +1,13 @@
 
-app.value('locale', 'ko');
+app.value('locale', document.documentElement.lang);
 
 //dialog
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"])
 app.requires.push.apply(app.requires, ["bw.paging"]);
 app.controller('academyListCtl', function($scope, consts, common, ngDialog) {
 	
-
+ var popup_marketing1 = $(".js-popup_myacademy_pay").trpLayerFixedPopup("#popup_myacademy_pay-wrap");
+ 
 	$scope.loadAcademyList = function($page) {
 		$scope.currentPage = $page;
  		 	
@@ -44,22 +45,21 @@ app.controller('academyListCtl', function($scope, consts, common, ngDialog) {
 		var dis_aca_pay = 0;
 	
 		$scope.academyPay = comma(input.academy.ACADEMY_PAY);
-		//$scope.academyPayDiscount = comma(dis_aca_pay);
 		$scope.academyPayDiscount = 0;
 		$scope.academyPayTotal = comma(aca_pay_sum - dis_aca_pay);
-		$scope.academyPayMethodCd =input.academy.PAY_METHOD_CD == 'card' ? '신용카드' : '가상계좌';
+		$scope.academyPayMethodCd =input.academy.PAY_METHOD_CD == 'card' ? '신용카드' :$scope.academyPayMethodCd =input.academy.PAY_METHOD_CD == 'vbank' ? '가상계좌' : '계좌이체';
 		
-		document.getElementById('popup_myacademy_pay-wrap').style.display="block";
+		popup_marketing1.open(this); // or false
+		popup_fixation("#popup_auction_live_record-wrap");
+		popup_motion_open("#popup_myacademy_pay-wrap"); // mb 모션 
+		
+		$("body").on("click", "#popup_myacademy_pay-wrap .js-closepop, #popup_myacademy_pay-wrap .popup-dim, .confirmBtn", function($e) {
+            $e.preventDefault();
+            popup_marketing1.close();
+            popup_motion_close("#popup_myacademy_pay-wrap");
+        });
 	}
-	
-	$scope.receiptPopup = function(input) {
-		var status = "toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=420,height=540"; 
-        var url = "https://npg.nicepay.co.kr/issue/IssueLoader.do?TID="+input.pay.PG_TRANS_ID+"&type="+input.type; 
-        //type  값  세팅  ::  매출전표: 0,  현금영수증: 1 
-        
-        window.open(url,"popupIssue",status); 
-	}
-	
+
 });
 
 	

@@ -32,7 +32,10 @@ public class ApiCertificationController {
 
 	@Value("${mobile.msg.auth}")
 	String auth;
-			
+
+	@Value("${is.phone.auth.bypass}")
+	boolean isPhoneAuthBypass;
+
 	//휴대폰 인증
 	@RequestMapping(value = "/sendAuthNum", method = RequestMethod.POST)
 	@ResponseBody
@@ -80,6 +83,7 @@ public class ApiCertificationController {
 	public ResponseEntity<RestResponse> confirmAuthNumCheck(@RequestBody CommonMap commonMap, Principal principal,
 			HttpServletRequest request, HttpServletResponse response) {
 		boolean b = this.confirmAuthNumber(commonMap, request, response);
+		if(isPhoneAuthBypass) b = true;
 		if (b) {
 			return ResponseEntity.ok(RestResponse.ok(commonMap));
 		} else {
@@ -91,8 +95,7 @@ public class ApiCertificationController {
 	@ResponseBody
 	public boolean confirmAuthNumber(@RequestBody Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response) {
-		if (paramMap == null || paramMap.get("auth_num") == null || paramMap.get("auth_num").toString().equals(""))
-			return false;
+		if (paramMap == null || paramMap.get("auth_num") == null || paramMap.get("auth_num").toString().equals("")) return false;
 		BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
 		try {
 			boolean result = encode.matches(paramMap.get("auth_num").toString(),

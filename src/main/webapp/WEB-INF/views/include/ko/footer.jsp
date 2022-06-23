@@ -14,18 +14,18 @@
             </ul>
 
             <ul class="snsbox_icon">
-                <li><a href="#" class="sns-icon sns-icon01"></a></li>
-                <li><a href="#" class="sns-icon sns-icon02"></a></li>
-                <li><a href="#" class="sns-icon sns-icon03"></a></li>
-                <li><a href="#" class="sns-icon sns-icon04"></a></li>
-                <li><a href="#" class="sns-icon sns-icon05"></a></li>
+                <li><a target="_blank" href="https://www.youtube.com/user/SeoulAuction" class="sns-icon sns-icon01"></a></li>
+                <li><a target="_blank" href="https://www.instagram.com/seoulauction" class="sns-icon sns-icon02"></a></li>
+                <li><a target="_blank" href="https://www.facebook.com/seoulauction" class="sns-icon sns-icon03"></a></li>
+                <li><a target="_blank" href="http://blog.naver.com/PostList.nhn?blogId=s_auction" class="sns-icon sns-icon04"></a></li>
+                <li><a target="_blank" href="https://pf.kakao.com/_yxiUyxl" class="sns-icon sns-icon05"></a></li>
             </ul>
         </section>
         <section class="flex_wrap footer_infobox">
             <div class="footer-infomenubox">
                 <ul class="flex_wrap footer-infomenu">
                     <li><a href="/footer/terms">경매약관</a></li>
-                    <li><a href="/footer/privacy">개인정보처리방침</a></li>
+                    <li><a href="/footer/privacy"><strong>개인정보처리방침</strong></a></li>
                     <li><a href="/footer/rules">내부관리규정</a></li>
                 </ul>
 

@@ -18,6 +18,9 @@
             <!-- header -->
             <jsp:include page="../../include/ko/header.jsp" flush="false"/>
             <!-- //header -->
+            <script>
+                app.value('locale', 'ko');
+            </script>
 
             <!-- container -->
             <div id="container">
@@ -31,9 +34,6 @@
                             </div>
                         </div>
                     </section>
-
-
-
                     <section class="basis-section last-section">
                         <div class="section-inner">
 
@@ -59,12 +59,12 @@
                                         <div class="tab-wrap">
                                             <div class="tab-area type-sorting">
                                                 <ul class="tab-list js-list_tab">
-                                                    <li class="active"><a href=""><span>회원정보</span></a></li>
-                                                    <li class=""><a href="#none"><span>라이브경매</span></a></li>
-                                                    <li class=""><a href="#none"><span>온라인경매</span></a></li>
-                                                    <li class=""><a href="#none"><span>위탁</span></a></li>
-                                                    <li class=""><a href="#none"><span>결제/배송</span></a></li>
-                                                    <li class=""><a href="#none"><span>기타</span></a></li>
+                                                    <li class="active"><a href=""><span id="faq_a">회원정보</span></a></li>
+                                                    <li class=""><a href="#"><span id="faq_b">라이브경매</span></a></li>
+                                                    <li class=""><a href="#"><span id="faq_c">온라인경매</span></a></li>
+                                                    <li class=""><a href="#"><span id="faq_d">위탁</span></a></li>
+                                                    <li class=""><a href="#"><span id="faq_e">결제/배송</span></a></li>
+                                                    <li class=""><a href="#"><span id="faq_f">기타</span></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -133,11 +133,6 @@
                                     </div>
 
                                     <!-- 고객센터 -->
-
-
-
-
-
                                     <!-- [0523]클래스명 수정 //-->
                                     <article class="inquiry-article type-customer">
                                         <div class="inquiry-box">
@@ -163,16 +158,10 @@
                                             </div>
                                         </div>
                                     </article>
-
-
-
-
                                 </div>
                             </div>
-
                         </div>
                     </section>
-
                 </div>
             </div>
             <!-- //container -->
@@ -192,21 +181,10 @@
 
         </div>
     </div>
-
     <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
     <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
     <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-
     <script src="/js/footer/faq.js" type="text/javascript"></script>
-    <!-- [0516]삭제
-  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
--->
-
-
-
-
-
 </body>
-
 </html>

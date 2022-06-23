@@ -14,7 +14,7 @@ $(document).ready(function(){
     //초기작업.
     function init(){
 
-        let url = '/api/footer/faqs?faq_type=' + faq_type;
+        let url = '/api/footer/faqs?faq_type=' + faq_type + "&lang=" + locale;
         if(search_text){
             url +="&search="+search_text;
         }
@@ -36,13 +36,14 @@ $(document).ready(function(){
                         let content = JSON.parse(el.content);
 
                         let localeTitle = locale === 'ko' ? title.ko : title.en;
+                        let localeContent = locale === 'ko' ? content.ko : content.en;
 
                         let html = `<li className="trp_acitem">
                                                 <div class="header-area">
                                                     <div class="accordion_name tt4">
                                                         <a href="#" class="">
                                                             <span class="faq">Q.</span>
-                                                            ${title.ko}
+                                                            ${localeTitle}
                                                             <i class="icon-accordion_arrow_down"></i>
                                                         </a>
                                                     </div>
@@ -50,7 +51,7 @@ $(document).ready(function(){
                                                 <div class="con-area">
                                                     <span class="faq">A.</span>
                                                     <div class="faq_cont tb1">
-                                                        ${content.ko}
+                                                        ${localeContent}
                                                     </div>
                                                 </div>
                                             </li>`;
@@ -75,22 +76,22 @@ $(document).ready(function(){
 
                             $(".js-list_tab").parents(".tab-area").scrollLeft(scrollX);
 
-                            let fy = $(this).children('span').html();
+                            let fy = $(this).children('span').attr('id');
 
-                            search_text = null
+                            search_text = null;
                             $("#search_text").val('');
 
-                            if(fy === '회원정보'){
+                            if(fy === 'faq_a'){
                                 faq_type = 'customer';
-                            }else if(fy === '라이브경매'){
+                            }else if(fy === 'faq_b'){
                                 faq_type = 'live_auction';
-                            }else if(fy === '온라인경매'){
+                            }else if(fy === 'faq_c'){
                                 faq_type = 'online_auction';
-                            }else if(fy === '위탁'){
+                            }else if(fy === 'faq_d'){
                                 faq_type = 'consignment';
-                            }else if(fy === '결제/배송'){
+                            }else if(fy === 'faq_e'){
                                 faq_type = 'pay_delivery';
-                            }else if(fy === '기타'){
+                            }else if(fy === 'faq_f'){
                                 faq_type = 'etc';
                             }
                             init();

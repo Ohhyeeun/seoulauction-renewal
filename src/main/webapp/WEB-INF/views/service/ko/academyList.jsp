@@ -6,7 +6,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-
+<!DOCTYPE html>
+<html lang="ko">
 <sec:authorize access="hasRole('ROLE_EMPLOYEE_USER')">
 	<sec:authentication property="details.authorities" var="authorities"></sec:authentication>
 </sec:authorize>
@@ -164,7 +165,8 @@ var authorities = '${authorities}'
                                                             <div class="image-box">
                                                                 <figure class="img-ratio">
                                                                     <div class="img-align">
-                                                                        <img class="" ng-src="/nas_img{{academyList.IMG_VIEW_PATH}}/{{academyList.VIEW_FILE_NAME}}" alt="" />
+<%--                                                                     <img ng-src="<spring:eval expression="@environment.getProperty('image.root.path')" />{{academyList.IMG_VIEW_PATH}}/{{academyList.VIEW_FILE_NAME}}" alt=""> --%>
+																		<img ng-src="/images/pc/service/{{getAcademyImg(academyList.ACADEMY_CD)}}" alt="" />
                                                                     </div>
                                                                     <figcaption class="typo-align">
                                                                         <div class="category_name">

@@ -110,7 +110,8 @@
 				, DATE_FORMAT(S.FROM_DT, '%d %b, %Y %T')  as FROM_DT_EN
 				, DATE_FORMAT(S.TO_DT, '%Y.%m.%d  %T')  as TO_DT
 				, IF(S.SALE_TH_DSP_YN = 'N', '', CONCAT(S.SALE_TH, f_ordinal_number(S.SALE_TH))) SALE_TH, COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
-			   	, COLUMN_GET(S.TITLE_BLOB, 'ko' AS CHAR) SALE_TITLE_KR
+			   	, COLUMN_GET(S.TITLE_BLOB, 'ko' AS CHAR) SALE_TITLE_KR 
+			   	, COLUMN_GET(S.TITLE_BLOB, 'en' AS CHAR) SALE_TITLE_EN 
 			   	, S.CURR_CD
 				, L.LOT_NO, L.ARTIST_NO, L.REAL_CUST_NO, L.PAYMENT_FEE_SET_CD
 				, COLUMN_JSON(L.TITLE_BLOB) LOT_TITLE_JSON
@@ -300,8 +301,7 @@
 							sb3.sale_no = l.SALE_NO
 						and sb3.lot_no = l.LOT_NO
 					join bid b1 on
-							b1.SALE_NO = l.SALE_NO
-						and b1.LOT_NO = l.LOT_NO
+							b1.BID_NO = SB3.BID_NO
 					where 
 							(REAL_CUST_NO = #{action_user_no}
 							or (B1.CUST_NO = #{action_user_no}
@@ -1284,5 +1284,14 @@ SELECT 'INTE_LOT' AS GUBUN
 			cust_no = #{cust_no}
 			and l.TO_DT > now()
 	</select>
-	
+
+	<select id="selectManager" resultType="CommonMap" parameterType="CommonMap">
+		SELECT E.EMP_NAME, E.HP, D.DEPT_NAME, D.DEPT_NAME_EN
+		FROM CUST CU
+				 LEFT OUTER JOIN EMP E ON E.EMP_NO = CU.EMP_NO
+				 LEFT OUTER JOIN DEPT D ON D.DEPT_NO = E.DEPT_NO
+		WHERE CU.STAT_CD = 'normal'
+		  AND CU.CUST_NO =  #{cust_no}
+		  AND CU.JOIN_KIND_CD = 'online'
+	</select>
 </mapper>

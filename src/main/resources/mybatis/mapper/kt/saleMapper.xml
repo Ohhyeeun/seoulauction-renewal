@@ -172,6 +172,7 @@
         , ifnull(LS.UNIT_CD, 'cm')             UNIT_CD
         , ifnull(LS.SIZE1, '0')                SIZE1
         , ifnull(LS.SIZE2, '0')                SIZE2
+        , L.ARTIST_NO ARTIST_NO
         from LOT L
         left outer join (<include refid="com.seoulauction.renewal.mapper.kt.CommonMapper.saleLastBidInfos"/>) BD on
         BD.SALE_NO = L.SALE_NO and BD.LOT_NO	 = L.LOT_NO
@@ -204,15 +205,34 @@
         order by LI.LOT_NO, LI.DISP_ORD
     </select>
     <select id="selectSaleLotImages" resultType="CommonMap" parameterType="commonMap">
-        select b.SALE_NO   SALE_NO,
-               b.LOT_NO    LOT_NO,
-               c.FILE_PATH FILE_PATH,
-               c.FILE_NAME FILE_NAME
+        select b.SALE_NO     SALE_NO,
+               b.LOT_NO      LOT_NO,
+               c.FILE_PATH   FILE_PATH,
+               c.FILE_NAME   FILE_NAME,
+               ifnull(d.UNIT_CD, 'cm')             UNIT_CD,
+               ifnull(d.SIZE1, '0')                SIZE1,
+               ifnull(d.SIZE2, '0')                SIZE2,
+               CONCAT('['
+                   , GROUP_CONCAT('{',
+                                  '"UNIT_CD":"', ifnull(d.UNIT_CD, 'cm'), '",',
+                                  '"SIZE1":', ifnull(d.SIZE1, 0), ',',
+                                  '"SIZE2":', ifnull(d.SIZE2, 0), ',',
+                                  '"SIZE3":', ifnull(d.SIZE3, 0), ',',
+                                  '"CANVAS":', ifnull(d.CANVAS, 0), ',',
+                                  '"DIAMETER_YN":"', ifnull(d.DIAMETER_YN, 'N'), '",',
+                                  '"PREFIX":"', ifnull(d.PREFIX, ''), '",',
+                                  '"SUFFIX":"', ifnull(d.SUFFIX, ''), '",',
+                                  '"MIX_CD":"', ifnull(d.MIX_CD, 'h'), '",',
+                                  '"CANVAS_EXT_YN":"', ifnull(d.CANVAS_EXT_YN, 'N'), '"',
+                                  '}')
+                   , ']') AS LOT_SIZE_JSON
         from lot b
                  inner join lot_img c on b.SALE_NO = c.SALE_NO and b.LOT_NO = c.LOT_NO and c.DISP_ORD = 1
-        where b.SALE_NO = #{sale_no}
+                 left outer join lot_size d ON d.SALE_NO = b.SALE_NO AND d.LOT_NO = b.LOT_NO
+        where b.SALE_NO =  #{sale_no}
           and b.CLOSE_YN = 'N'
-        order by b.LOT_NO asc
+        group by b.SALE_NO, b.LOT_NO, c.FILE_PATH, c.FILE_NAME
+        order by b.LOT_NO asc;
     </select>
 
     <select id="searchListCount" parameterType="CommonMap" resultType="CommonMap">
@@ -348,7 +368,8 @@
         , now() as DB_NOW
         , IFNULL((SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = L.SALE_NO AND LOT_NO = L.LOT_NO), L.DISP_SOLD_PRICE) AS
         LAST_PRICE
-        , IFNULL(IL.DEL_YN, 'Y') AS INTE_LOT_DEL
+        , CASE WHEN IFNULL(IL.LOT_NO, 0) = 0 THEN 'N'
+            ELSE 'Y' END  FAVORITE_YN
         , IFNULL(L.START_PRICE, 0) AS START_PRICE
         ,(select count(B.BID_NO) from BID B where B.SALE_NO = L.SALE_NO and B.LOT_NO = L.LOT_NO) as BID_CNT
         from LOT L join SALE S ON S.SALE_NO = L.SALE_NO AND S.SALE_KIND_CD not in ('exhibit', 'exhibit_sa')
@@ -358,8 +379,9 @@
         and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by
         A.DISP_ORD limit 1)
         left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
-        left outer join CUST_INTE_LOT IL ON L.SALE_NO = IL.SALE_NO AND L.LOT_NO = IL.LOT_NO AND IL.DEL_YN = 'N' AND
-        IL.CUST_NO = #{action_user_no}
+        left outer join cust_inte_lot IL
+        on L.sale_no = IL.sale_no and L.lot_no = IL.lot_no and IL.cust_no = #{cust_no} and
+        IL.del_yn = 'N'
         <if test="list_type == 'SEARCH' and cust_no != null">
             , (select CUST_NO, EMP_GB from CUST where CUST_NO = #{cust_no}) CU
         </if>
@@ -399,8 +421,7 @@
             </choose>
         </if>
         <if test="sale_status_end_yn != null or sale_status_ing_yn != null or sale_status_ready_yn != null">
-            AND(
-            <trim prefixOverrides="or">
+            <trim prefix= "AND (" prefixOverrides="or" suffix=")">
                 <if test='sale_status_end_yn == "Y"'>
                     or (DATE_FORMAT(S.TO_DT, '%Y-%m-%d') <![CDATA[<]]> DATE_FORMAT(now(), '%Y-%m-%d'))
                 </if>
@@ -412,7 +433,6 @@
                     or (DATE_FORMAT(S.FROM_DT, '%Y-%m-%d') <![CDATA[>]]> DATE_FORMAT(now(), '%Y-%m-%d'))
                 </if>
             </trim>
-            )
         </if>
         <if test="mate_nm != null">
             and L.MATE_CD in (

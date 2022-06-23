@@ -49,7 +49,7 @@
                             </div>
                             <div class="btn-area">
                                 <div class="select-box">
-                                    <select class="" id="">
+                                    <select class="" id="" onchange="selectCurrency()">
                                         <option value="1">KRW</option>
                                         <option value="2">USD</option>
                                     </select>
@@ -329,7 +329,228 @@
                                     </article>
                                 </div>
                             </div>
+                            <!-- mobile 버전 -->
+                            <div class="bidding_mo">
+                                <div class="bidding-offline-wrap">
+                                    <article class="bidding-offline-center">
+                                        <div class="notice">
+                                            <i class="icon-notice"></i><span class="txt">공지공지공지</span>
+                                        </div>
+                                        <div class="video_area">
+                                            <div class="view_box">
+                                                <!-- Youtube -->
+                                                <video id="llnw-rts-subscriber" style="width:calc( 100% - 50px );margin:0 25px;" autoplay controls muted></video>
+                                                <!--a href="#" class="video_wrap">
+                                                        <span class="video_thumbnail_wrap">
+                                                            <span class="video_thumbnail" style="background-image: url(/images/temp/temp_video_bg.jpg)"></span>
+                                                            <div class="" id="thevideo"></div>
+                                                            <iframe  src="https://www.youtube-nocookie.com/embed/IwATrgHOefo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                        </span>
+                                                    <span class="ic_video_play"></span>
+                                                </a-->
+                                            </div>
+                                            <div class="view_info">
+                                                <p class="view_count">
+                                                    <i class="icon-viewer"></i><span class="unit">시청자</span> <span
+                                                        class="num" ng-bind="viewers"></span>
+                                                </p>
+                                                <button class="btn btn_gray btn_refresh"><i class="ic_refresh"></i>새로고침</button>
+                                            </div>
+                                        </div>
+                                        <div class="my_lot">
+                                            <div class="my_lot_wrap">
+                                                <div class="my_lot_live">
+                                                    <div class="view-img_wrap">
+                                                        <div class="view-img">
+                                                            <div class="img-box">
+                                                                <div class="box-inner">
+                                                                    <img src="{{curLot.IMAGE_URL}}{{curLot.FILE_PATH}}/{{curLot.FILE_NAME}}" alt="LOT {{curLot.LOT_NO}}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="type1_info_box">
+                                                        <div>
+                                                            <div class="select-box">
+                                                                <select class="js-money_help" id="" onchange="selectCurrency()">
+                                                                    <option value="1">USD</option>
+                                                                    <option value="2">USD2</option>
+                                                                    <option value="3">USD3</option>
+                                                                </select>
+                                                                <i class="form-bidding_select_arrow"></i>
+                                                            </div>
 
+                                                            <div class="num"><span ng-bind="curLot.LOT_NO">2</span> <em class="live_box">LIVE</em> </div>
+                                                            <!-- [0516]년도수정 -->
+                                                            <div class="title"><span ng-bind="curLot.ARTIST_NAME_JSON.ko"></span></div>
+                                                            <!-- // [0516]년도수정  -->
+                                                            <div class="desc"><span ng-bind="curLot.LOT_TITLE_JSON.ko"></span></div>
+                                                            <div class="price"><span>KRW {{curLot.EXPE_PRICE_FROM_JSON.KRW}} ~ {{curLot.EXPE_PRICE_TO_JSON.KRW}}</span></div>
+                                                            <div class="price_other"><span>(USD {{curLot.EXPE_PRICE_FROM_JSON.en}})</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="view-area lot-view">
+                                            <div class="biddingprice_wrap">
+                                                <div class="now_price">
+                                                    <p class="txt">현재가</p>
+                                                    <p class="price_unit1" ng-bind="curLot.bid_cost"></p>
+                                                    <p class="price_unit2"></p>
+                                                </div>
+                                                <div class="bid_price">
+                                                    <button class="btn_bid">
+                                                        <p class="txt">응찰하기</p>
+                                                        <p class="price_unit1" ng-bind="curLot.bid_new_cost"></p>
+                                                        <p class="price_unit2"></p>
+                                                        <!--p class="txt2" ng-bind="curLot.bid_new_cost">로그인</p-->
+                                                    </button>
+                                                </div>
+                                                <!-- 준회원 일 시 -->
+                                                <div class="bid_price view_only" style="display: none;">
+                                                    <button class="btn_bid" disabled>
+                                                        <p class="txt">VIEW ONLY</p>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bidding_situation">
+                                            <div class="alert_wrap">
+                                                <p class="situ_alert" ng-bind="notice.msg"></p>
+                                            </div>
+                                            <div class="mobile_scroll-type">
+                                                <ul class="situation_list">
+                                                    <li class="st_item" ng-repeat="item in bidHist">
+                                                        <p class="txt" ng-bind="item.customer.user_id"></p>
+                                                        <p class="price " ng-bind="item.bid_cost"></p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="my_lot">
+                                            <div class="my_lot_info">
+                                                <div class="lotlist-tabmenu">
+                                                    <div class="btn_item">
+                                                        <a href="javascript:void(0);"
+                                                           ng-class="{'lot-btn_tabmenu':'' === '','on':selectUserTab === 1}"
+                                                           ng-click="userTab(1)"
+                                                           role="button">LOT</a>
+                                                    </div>
+                                                    <div class="btn_item">
+                                                        <a href="javascript:void(0);"
+                                                           ng-class="{'lot-btn_tabmenu':'' === '','on':selectUserTab === 2}"
+                                                           ng-click="userTab(2)"
+                                                           role="button">내 응찰내역</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="my_lot_wrap">
+                                                <div class="my_lot_type1" style="display: none;">
+                                                    <a href="#" class="lot_link"> 현재 LOT 이동 </a>
+                                                    <div class="view-img_wrap">
+                                                        <div class="view-img">
+                                                            <div class="img-box">
+                                                                <div class="box-inner">
+                                                                    <img src="{{userLot.IMAGE_URL}}{{userLot.FILE_PATH}}/{{userLot.FILE_NAME}}"
+                                                                         alt="LOT {{userLot.LOT_NO}}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="type2_info_box">
+                                                        <div>
+                                                            <div class="num"><span ng-bind="userLot.LOT_NO">2</span></div>
+                                                            <!-- [0516]년도수정 -->
+                                                            <div class="title"><span ng-bind="userLot.ARTIST_NAME_JSON.ko"></span></div>
+                                                            <!-- // [0516]년도수정  -->
+                                                            <div class="desc"><span ng-bind="userLot.LOT_TITLE_JSON.ko"></span></div>
+                                                            <div class="standard">
+                                                                <span ng-bind="userLot.CD_NM"></span>
+                                                                <div class="size_year">
+                                                                    <span ng-bind="userLot | size_text_cm"></span>
+                                                                    <span ng-bind="userLot.MAKE_YEAR_JSON.ko" ng-if="userLot.MAKE_YEAR_JSON.ko !== undefined"></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="detail">
+                                                                <a href="#" class="btn btn_gray"
+                                                                   ng-click="goLot(userLot.SALE_NO, userLot.LOT_NO)">상세보기</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 내 응찰내역 -->
+                                                <div class="my_lot_type2"> <!-- 임시주석 클래스 blind_none -->
+                                                    <div class="my_lot_header">
+
+                                                        <table class="table_base my_lot_table">
+                                                            <colgroup>
+                                                                <col width="44px">
+                                                                <col width="">
+                                                                <col width="">
+                                                                <col width="54px">
+                                                            </colgroup>
+                                                            <thead>
+                                                            <tr>
+                                                                <th>LOT</th>
+                                                                <th>최고응찰금액</th>
+                                                                <th>낙찰가</th>
+                                                                <th>현황</th>
+                                                            </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                    <div class="my_lot_body">
+                                                        <div class="mobile_scroll-type">
+                                                            <!-- [0516].scroll-inner 테그추가 -->
+                                                            <div class="scroll-inner">
+                                                                <table class="table_base my_lot_table">
+                                                                    <colgroup>
+                                                                        <col width="44px">
+                                                                        <col width="">
+                                                                        <col width="">
+                                                                        <col width="54px">
+                                                                    </colgroup>
+                                                                    <tbody>
+                                                                    <tr ng-repeat="item in userBids">
+                                                                        <td ng-bind="item.customer.lot_no"></td>
+                                                                        <td ng-bind="item.bid_cost | currency"></td>
+                                                                        <td ng-bind="item.max_bid_cost | currency"></td>
+                                                                        <td><span class="lot-stat" ng-bind="item.is_winner | isWinner"></span></td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <!-- // [0516].scroll-inner 테그추가 -->
+                                                        </div>
+                                                    </div>
+                                                </div> <!--// my_lot_type2 -->
+
+                                                <!-- 준회원 -->
+                                                <div class="my_lot_type3 blind_none"> <!-- 임시주석 클래스 blind_none -->
+                                                    <p class="title">
+                                                        라이브 경매 응찰은 <span>정회원부터 가능</span>합니다.
+                                                    </p>
+                                                    <p class="txt">
+                                                        정회원은 유료로 운영되며 서울옥션이 발행하는 <br>
+                                                        간행물(각종 도록, 전시 안내 등)을 받으실 수 있습니다.
+                                                    </p>
+                                                    <div class="member_price">
+                                                        <!-- [0613]삭제
+                          <p class="p_txt">정회원 연회비 : 라이브 경매 응찰은 사전 신청한 정회원만 가능합니다.</p>
+                          // -->
+                                                        <!-- <a href="#" class="btn btn_member">정회원 결제</a> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                            </div> <!-- //mobile 버전 -->
                         </div>
                         <div class="section-footer">
                             <div class="tac">
@@ -388,6 +609,32 @@
             $('.video_thumbnail').hide();
             $('.ic_video_play').hide();
         })
+
+        /* 통화 전환 시 */
+        function selectCurrency(){
+            const Currency = document.getElementsByName('js-money_help');
+
+            var money_help = $(".js-money_help").trpLayerFixedPopup("#money_help-wrap");
+            $(money_help.getBtn).on("click", function($e) {
+                $e.preventDefault();
+                money_help.open(this); // or false
+                popup_fixation("#money_help-wrap");
+            });
+
+            $("body").on("click", "#money_help-wrap .js-closepop, #money_help-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                money_help.close();
+            });
+
+            $("#checkbox_check").on("change", function($e) {
+                console.log(" $(this).val() >>>", $(this).prop("checked"))
+                if ($(this).prop("checked")) {
+                    $(".js-checkbox_check").prop("disabled", false);
+                } else {
+                    $(".js-checkbox_check").prop("disabled", true);
+                }
+            });
+        }
     </script>
     <script>
         <!-- angular js -->
@@ -469,11 +716,7 @@
                 window.location.href = '/auction/online/view/' + saleNo + '/' + lotNo;
             }
             $scope.favorite = function (item) {
-                if ($scope.custNo === 0) {
-                    alert('로그인을 진행해주세요.');
-                    location.href = "/login";
-                    return;
-                }
+                checkLogin();
                 let url = item.FAVORITE_YN === 'N' ? "/api/auction/delCustInteLot" : "/api/auction/addCustInteLot";
                 try {
                     axios.post(url, {
@@ -642,10 +885,7 @@
             // 1회 응찰
             $scope.bid = function () {
                 console.log('$scope.custNo', $scope.custNo)
-                if ($scope.custNo === 0) {
-                    location.href = "/login";
-                    return;
-                }
+                checkLogin();
                 let url = '';
                 if (window.location.protocol !== "https:") {
                     url = 'http://dev-bid.seoulauction.xyz/bid';
@@ -880,7 +1120,6 @@
                             }
                             // 현재 랏정보 가져옴
                             currentLotInfoFunc($scope.token, saleNo, $scope.curLot.LOT_NO, saleType);
-                            //$scope.$apply();
                         }
                     }
                 } else if (d.msg_type === packet_enum.winner) {

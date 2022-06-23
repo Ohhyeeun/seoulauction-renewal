@@ -73,7 +73,6 @@ public class ApiServiceController {
 			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
 			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size,
 			HttpServletRequest request, HttpServletResponse response) throws IOException {
-		System.out.println("왜안타냐고요");
 		CommonMap commonMap = new CommonMap();
 		commonMap.putPage(page, size);
 		commonMap.put("academy_cd", academyCd);

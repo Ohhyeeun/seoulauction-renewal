@@ -4,7 +4,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-
+<!DOCTYPE html>
+<html lang="ko">
 <link rel="stylesheet" href="/css/plugin/csslibrary.css">
 <sec:authentication property="details.socialYn" var="socialYn"></sec:authentication>
 <sec:authentication property="details.socialType" var="socialType"></sec:authentication>
@@ -23,6 +24,9 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
 	var userNo = '${userNo}';
 	var userKind = '${userKind}';
 </script>
+<head>
+    <title>회원정보수정 | Seoul Auction</title>
+</head>
 <body class="">
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
@@ -316,133 +320,7 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
                     </section>
                 </div>
                 
-                <!-- 주소검색 address_search1 -->
-			    <div id="address_search1-wrap" class="trp popupfixed-wrap default-popup ">
-			        <div class="popup-dim"></div>
-			        <div class="popup-align mode-ms mode-mb_full">
-			            <div class="popup-vertical">
-			                <div class="popup-layer">
-			
-			                    <div class="pop-panel">
-			                        <div class="pop-header">
-			                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
-			                            <div class="title-box">
-			                                <span class="txt_title type-big">주소검색</span>
-			                            </div>
-			                        </div>
-			                        <div class="pop-body scroll-type">
-			                            <section class="section" style="display: block;">
-			
-			                                <div class="search-group sm">
-			                                    <input type="text" id="addr_word" class="form-control" onkeypress="$event.keyCode === 13 && findAddrNewForm();" placeholder="도로명주소 건물번호 검색">
-			                                    <button class="btn btn_black" id="findAddr" type="button" onclick="findAddrNewForm()"><span>검색</span></button>
-			                                </div>
-			
-			                                <article class="articles-box">
-			                                    <div class="table-panel">
-			                                        <div class="table-header">
-			                                            <div class="dataTables_length result_txt">
-			                                                검색 결과
-			                                            </div>
-			                                        </div>
-			                                        <div class="table-body">
-			                                            <div class="table_scroll scroll-type">
-			                                                <table class="table_base list-table add_list">
-			                                                    <thead>
-			                                                        <tr>
-			                                                            <th>우편번호</th>
-			                                                            <th>주소</th>
-			                                                        </tr>
-			                                                    </thead>
-			                                                    <tbody id="addrListBody">
-			                                                    	<tr><td colspan="2"><div class="data-empty_mem tb1">검색결과가 없습니다.</div></td></tr>
-			                                                    </tbody>
-			                                                </table>
-			                                            </div>
-			                                        </div>
-			                                    </div>
-			                                </article>
-			                            </section>
-			                        </div>
-			                    </div>
-			
-			                </div>
-			            </div>
-			        </div>
-			    </div>
-			    
-			    <!-- 작가검색 -->
-			    <div id="writer_search1-wrap" class="trp popupfixed-wrap default-popup ">
-			        <div class="popup-dim"></div>
-			        <div class="popup-align mode-ms mode-mb_full">
-			            <div class="popup-vertical">
-			                <div class="popup-layer">
-			                    <div class="pop-panel">
-			                        <div class="pop-header">
-			                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
-			                            <div class="title-box">
-			                                <span class="txt_title type-big">작가검색</span>
-			                            </div>
-			                        </div>
-			                        <div class="pop-body scroll-type" style="height: 800px;">
-			                            <section class="section" style="display: block; height: 20px;">
-			                                <div class="search-group">
-			                                    <input type="text" id="artist_word" class="form-control" value="" placeholder="이름 입력">
-			                                    <button onclick="findArtistNewForm()" class="btn btn_black" type="button"><span>검색</span></button>
-			                                </div>
-			                                <article class="articles-box">
-			                                    <div class="table-panel">
-			                                        <div class="table-header">
-			                                            <div class="dataTables_length tb1">
-			                                                <span>전체<em id="artistCnt"></em>건</span>
-			                                            </div>
-			                                        </div>
-			                                        <div class="table-body">
-			                                            <div class="table_scroll thead_item">
-			                                                <table class="table_base list-table writer_list">
-			                                                    <thead>
-			                                                        <tr>
-			                                                            <th class="radio">선택</th>
-			                                                            <th>작가명</th>
-			                                                            <th>출생/사망년도</th>
-			                                                        </tr>
-			                                                    </thead>
-			                                                </table>
-			                                            </div>
-			                                        </div>
-			                                        <div class="table-body">
-			                                            <div class="table_scroll scroll-type tbody_item writer_btn_list">
-			                                                <table class="table_base list-table writer_list">
-			                                                    <tbody id="artistListBody">
-				                                                    <tr>
-			                                                            <td colspan="3">
-			                                                                <div class="data-empty_mem tb1">
-			                                                                    검색결과가 없습니다.
-			                                                                </div>
-			                                                            </td>
-			                                                        </tr>
-			                                                    </tbody>
-			                                                </table>
-			                                            </div>
-			                                        </div>
-			                                    </div>
-			                                </article>
-			                                <div class="btn-set search-group_btn">
-			                                    <a id="writerClose" class="btn btn_default" href="#" role="button">
-			                                        <span>취소</span>
-			                                    </a>
-			                                    <a onclick="setArtists()" class="btn btn_point" href="#" role="button">
-			                                        <span>등록</span>
-			                                    </a>
-			                                </div>
-			                            </section>
-			                        </div>
-			                    </div>
-			
-			                </div>
-			            </div>
-			        </div>
-			    </div>
+                
 			    
             </div>
             <!-- //container -->
@@ -462,6 +340,136 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
 
         </div>
     </div>
+    <!-- 팝업 : side popup -->
+	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
+	
+	<!-- 주소검색 address_search1 -->
+	<div id="address_search1-wrap" class="trp popupfixed-wrap default-popup ">
+	    <div class="popup-dim"></div>
+	    <div class="popup-align mode-ms mode-mb_full">
+	        <div class="popup-vertical">
+	            <div class="popup-layer">
+	
+	                <div class="pop-panel">
+	                    <div class="pop-header">
+	                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+	                        <div class="title-box">
+	                            <span class="txt_title type-big">주소검색</span>
+	                        </div>
+	                    </div>
+	                    <div class="pop-body scroll-type">
+	                        <section class="section" style="display: block;">
+	
+	                            <div class="search-group sm">
+	                                <input type="text" id="addr_word" class="form-control" onkeypress="$event.keyCode === 13 && findAddrNewForm();" placeholder="도로명주소 건물번호 검색">
+	                                <button class="btn btn_black" id="findAddr" type="button" onclick="findAddrNewForm()"><span>검색</span></button>
+	                            </div>
+	
+	                            <article class="articles-box">
+	                                <div class="table-panel">
+	                                    <div class="table-header">
+	                                        <div class="dataTables_length result_txt">
+	                                            검색 결과
+	                                        </div>
+	                                    </div>
+	                                    <div class="table-body">
+	                                        <div class="table_scroll scroll-type">
+	                                            <table class="table_base list-table add_list">
+	                                                <thead>
+	                                                    <tr>
+	                                                        <th>우편번호</th>
+	                                                        <th>주소</th>
+	                                                    </tr>
+	                                                </thead>
+	                                                <tbody id="addrListBody">
+	                                                	<tr><td colspan="2"><div class="data-empty_mem tb1">검색결과가 없습니다.</div></td></tr>
+	                                                </tbody>
+	                                            </table>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </article>
+	                        </section>
+	                    </div>
+	                </div>
+	
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	<!-- 작가검색 -->
+	<div id="writer_search1-wrap" class="trp popupfixed-wrap default-popup ">
+	    <div class="popup-dim"></div>
+	    <div class="popup-align mode-ms mode-mb_full">
+	        <div class="popup-vertical">
+	            <div class="popup-layer">
+	                <div class="pop-panel">
+	                    <div class="pop-header">
+	                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+	                        <div class="title-box">
+	                            <span class="txt_title type-big">작가검색</span>
+	                        </div>
+	                    </div>
+	                    <div class="pop-body scroll-type">
+	                        <section class="section">
+	                            <div class="search-group">
+	                                <input type="text" id="artist_word" class="form-control" value="" placeholder="이름 입력">
+	                                <button onclick="findArtistNewForm()" class="btn btn_black" type="button"><span>검색</span></button>
+	                            </div>
+	                            <article class="articles-box">
+	                                <div class="table-panel">
+	                                    <div class="table-header">
+	                                        <div class="dataTables_length tb1">
+	                                            <span>전체<em id="artistCnt"></em>건</span>
+	                                        </div>
+	                                    </div>
+	                                    <div class="table-body">
+	                                        <div class="table_scroll thead_item">
+	                                            <table class="table_base list-table writer_list">
+	                                                <thead>
+	                                                    <tr>
+	                                                        <th class="radio">선택</th>
+	                                                        <th>작가명</th>
+	                                                        <th>출생/사망년도</th>
+	                                                    </tr>
+	                                                </thead>
+	                                            </table>
+	                                        </div>
+	                                    </div>
+	                                    <div class="table-body">
+	                                        <div class="table_scroll scroll-type tbody_item writer_btn_list">
+	                                            <table class="table_base list-table writer_list">
+	                                                <tbody id="artistListBody">
+	                                                    <tr>
+	                                                        <td colspan="3">
+	                                                            <div class="data-empty_mem tb1">
+	                                                                검색결과가 없습니다.
+	                                                            </div>
+	                                                        </td>
+	                                                    </tr>
+	                                                </tbody>
+	                                            </table>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </article>
+	                            <div class="btn-set search-group_btn">
+	                                <a id="writerClose" class="btn btn_default" href="#" role="button">
+	                                    <span>취소</span>
+	                                </a>
+	                                <a onclick="setArtists()" class="btn btn_point" href="#" role="button">
+	                                    <span>등록</span>
+	                                </a>
+	                            </div>
+	                        </section>
+	                    </div>
+	                </div>
+	
+	            </div>
+	        </div>
+	    </div>
+	</div>
 </body>
 <!-- 회원정보수정 비밀번호확인 -->
 <script type="text/javascript" src="/js/mypage/custModify.js"></script>

@@ -12,7 +12,7 @@ app.controller('academyNowListCtl', function($scope, consts, common ) {
  		$scope.currentPage = $page;
  		
  		$page = $scope.currentPage;
- 		$size = 10;
+ 		$size = 8;
  		
  		$api = "/api/service/academies/now?page="+$page+"&size="+$size;
  		
@@ -45,6 +45,13 @@ app.controller('academyNowListCtl', function($scope, consts, common ) {
  		$scope.pageRows = parseInt($scope.reqRowCnt);
  		
 	};
+	
+ 	$scope.moreView = function(){
+	    var showLeng = $("li[name=academyList]:visible").length;
+	    showLeng += 4;
+	    curShowLeng = showLeng;
+	    $("li[name=academyList]:lt(" + showLeng + ")").show();
+	}
 	
 	$scope.getAcademyImg = function(param){
 		if(param == "artauction"){ // 대학생 아카데미
@@ -234,6 +241,22 @@ app.controller('academyListCtl', function($scope, consts, common) {
 		
 		if(readFlag){
 			location.href = "/service/academyDetail?academyNo=" + academy.ACADEMY_NO + "&academyCd=" + academy.ACADEMY_CD
+		}
+	}
+	
+	$scope.getAcademyImg = function(param){
+		if(param == "artauction"){ // 대학생 아카데미
+			return "academy-thum_student.jpg";
+		}else if(param == "artbrunch"){ // CEO
+			return "academy-thum_ceo.jpg";
+		}else if(param == "artculture"){ //아트마켓
+			return "academy-thum_market.jpg";
+		}else if(param == "artisttalk"){ //작가론
+			return "academy-thum_authorism.jpg";
+		}else if(param == "culture"){ // 건축
+			return "academy-thum_architecture.jpg";
+		}else if(param == "lecture"){ // 특강
+			return "academy-thum_lecture.jpg";
 		}
 	}
 	

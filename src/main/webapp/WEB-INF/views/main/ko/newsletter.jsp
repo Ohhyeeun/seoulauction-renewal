@@ -91,6 +91,7 @@ app.controller('newsLetterCtl', function($scope, consts, common, locale) {
 
                         const itemJSON = JSON.parse(el.content);
                         const titleJSON = JSON.parse(el.title);
+
                         let newDom = '';
                         if(el.isnew == 'Y'){
                             newDom = '<i class="new">N</i>';
@@ -100,7 +101,7 @@ app.controller('newsLetterCtl', function($scope, consts, common, locale) {
                             + '<div class="image-area">'
                             +    '<figure class="img-ratio">'
                             +       '<div class="img-align">'
-                            +            '<img src="' + itemJSON[$scope.locale].img_url + '" alt="newsletter. Jan. Vol.55">'
+                            +            '<img src="' + el.image._url + '" alt="newsletter. Jan. Vol.55">'
                             +        '</div>'
                             +    '</figure>'
                             + '</div>'

@@ -225,12 +225,14 @@ function  loadBigBanner (){
 }
 
 // 상단텍스트공지
-const topNoticeSwiper = new Swiper(".beltbox-swiper", {
-    direction : "vertical",
-    autoplay : {
-        delay: 2500,
-        disableOnInteraction: false
-    }
+const beltNoticeSwiper = new Swiper(".belt-swiper", {
+    autoplay: {
+        delay: 4000,
+    },
+    allowTouchMove:false, /* 마우스 및 손가락 터치 시 슬라이드 이동 가능여부 */
+    touchMoveStopPropagation: true,   /* touchmove 중지 */
+    direction:'vertical',
+    loop: true,
 });
 
 function loadTopNotice(){
@@ -539,16 +541,18 @@ function loadPopup(){
                 const success = response.data.success;
                 if (success) {
                     const data = response.data.data;
-                    $('#main_popup_title').html(data.title);
-                    $('#main_popup_content').html(data.content);
-                    $('#main_popup_img').attr('src', data.image);
+                    if(data) {
+                        $('#main_popup_title').html(data.title);
+                        $('#main_popup_content').html(data.content);
+                        $('#main_popup_img').attr('src', data.image);
 
-                    $('.main-popupBg').show();
+                        $('.main-popupBg').show();
 
-                    $('.main-popup-close, .main-popupBg').click(function () {
-                        $('.main-popupbox').addClass('down');
-                        $('.main-popupBg').fadeOut();
-                    });
+                        $('.main-popup-close, .main-popupBg').click(function () {
+                            $('.main-popupbox').addClass('down');
+                            $('.main-popupBg').fadeOut();
+                        });
+                    }
                 }
             })
             .catch(function (error) {
@@ -574,3 +578,97 @@ function localeOrdinal(n, l) {
 
 }
 
+/* main에서만 사용되는 gnb */
+if (matchMedia("all and (min-width: 1024px)").matches) {
+
+} else {
+    /* 띠배너 beltbanner */
+    $('.header_beltbox.on').show(function () {
+        $('.main-contents').css('margin-top', '100px');
+        $('.m-gnbmenu').click(function(){
+            $('.submenuBg').css({'top':'-43px'});
+        });
+    });
+    $('.beltclose-btn').click(function () {
+        $('.main-contents').css('margin-top', '56px');
+        $('.m-gnbmenu').click(function(){
+            $('.submenuBg').css({'top':'0'});
+        });
+    });
+}
+
+
+
+/* 반응형 resize 추가 */
+$(window).resize(function(){
+    /* gnb */
+    if (matchMedia("all and (min-width: 1024px)").matches) {
+
+    } else {
+        /* 띠배너 beltbanner */
+        $('.header_beltbox.on').show(function () {
+            $('.main-contents').css('margin-top', '100px');
+            $('.m-gnbmenu').click(function(){
+                $('.submenuBg').css({'top':'-43px'});
+            });
+        });
+        $('.beltclose-btn').click(function () {
+            $('.main-contents').css('margin-top', '56px');
+            $('.m-gnbmenu').click(function(){
+                $('.submenuBg').css({'top':'0'});
+            });
+        });
+    };
+
+    /* visual */
+    const visualSwiper = new Swiper('.visual-swiper', {
+        autoplay: {
+            delay:7000,
+            disableOnInteraction:false,
+        },
+        pagination: {
+            el: '.visual-pagaination',
+            type:'fraction',
+        },
+        breakpoints: {
+            1023:{
+                pagination: {
+                    el: '.visual-pagaination',
+                    type:'bullets',
+                    clickable:true,
+                },
+            },
+        },
+        navigation: {
+            nextEl: '.slide-btnright',
+            prevEl: '.slide-btnleft',
+        },
+        on: {
+            init: function () {
+                $(".swiper-progressbar").removeClass("animate");
+                $(".swiper-progressbar").removeClass("active");
+                $(".swiper-progressbar").eq(0).addClass("animate");
+                $(".swiper-progressbar").eq(0).addClass("active");
+            },
+            slideChangeTransitionStart: function () {
+                $(".swiper-progressbar").removeClass("animate");
+                $(".swiper-progressbar").removeClass("active");
+                $(".swiper-progressbar").eq(0).addClass("active");
+            },
+            slideChangeTransitionEnd: function () {
+                $(".swiper-progressbar").eq(0).addClass("animate");
+            },
+        },
+        loop:true,
+    });
+    $('.playBtn').on('click', function(){
+        visualSwiper.autoplay.start('fast');
+        $(this).css({'display':'none'});
+        $('.stopBtn').css({'display':'block'});
+    });
+    $('.stopBtn').on('click', function(){
+        visualSwiper.autoplay.stop();
+        $(this).css({'display':'none'});
+        $('.playBtn').css({'display':'block'});
+    });
+});

@@ -144,6 +144,7 @@ public class ApiSaleController {
                 lotInfoMap.put(item, mapper.readValue(String.valueOf(lotInfoMap.get(item)), Map.class));
                 Map<String,Object> m = (Map<String,Object>)lotInfoMap.get(item);
                 if (item.equals("ARTIST_NAME_JSON")) {
+
                     // artist filter DB화 필요
                     List<String> artistFilters = new ArrayList<>();
                     artistFilters.add("김환기");
@@ -209,7 +210,6 @@ public class ApiSaleController {
 
         CommonMap map = new CommonMap();
         map.put("sale_no", saleNo);
-        //map.put("lot_no", lotNo);
 
         // 랏 이미지 정보 가져오기
         List<CommonMap> lotImages = saleService.selectSaleLotImages(map);
@@ -217,14 +217,28 @@ public class ApiSaleController {
         // 필터를 적용한 새로운 랏이미지 정보
         List<CommonMap> lotImagesNew = new ArrayList<>();
 
+
+        String[] listKeys = {"LOT_SIZE_JSON"};
+        ObjectMapper mapper  = new ObjectMapper();
         // 랏 디스플레이 필터
-        for (var item : lotImages) {
-            CommonMap lotImagesNewItem = new CommonMap();
-            for (var k : new ArrayList<>(item.keySet())){
-                lotImagesNewItem.put(k, item.get(k));
+        try{
+            for (var item : lotImages) {
+                CommonMap lotImagesNewItem = new CommonMap();
+                for (var k : new ArrayList<>(item.keySet())){
+                    lotImagesNewItem.put(k, item.get(k));
+                }
+                lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
+                // 리스트 변환
+                for(var item2 : listKeys) {
+                    lotImagesNewItem.put(item2,
+                            mapper.readValue(String.valueOf(lotImagesNewItem.get(item2)), List.class));
+                }
+                lotImagesNew.add(lotImagesNewItem);
             }
-            lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
-            lotImagesNew.add(lotImagesNewItem);
+        } catch (JsonMappingException e) {
+
+        } catch (JsonProcessingException e) {
+
         }
         return ResponseEntity.ok(RestResponse.ok(lotImagesNew));
     }
@@ -476,5 +490,16 @@ public class ApiSaleController {
         CommonMap paramMap = new CommonMap();
         paramMap.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
         return ResponseEntity.ok(RestResponse.ok(saleService.getCustomerByCustNo(paramMap)));
+    }
+
+
+    @RequestMapping(value="/artist_info/{artist_no}", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> artistInfo(HttpServletRequest req, HttpServletResponse res, Locale locale,
+                                                 @PathVariable("artist_no") int artistNo) {
+        CommonMap map = new CommonMap();
+        map.put("artist_no", artistNo);
+
+        CommonMap artistInfoMap = saleService.selectArtistInfo(map);
+        return ResponseEntity.ok(RestResponse.ok(artistInfoMap));
     }
 }

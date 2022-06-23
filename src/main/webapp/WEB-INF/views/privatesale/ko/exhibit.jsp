@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <!-- header -->
     <meta charset="UTF-8">
@@ -18,6 +17,9 @@
         <!-- header -->
         <jsp:include page="../../include/ko/header.jsp" flush="false"/>
         <!-- //header -->
+        <script>
+            app.value('locale', 'ko');
+        </script>
 
         <!-- container -->
         <div id="container">

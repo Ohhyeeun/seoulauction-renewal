@@ -30,7 +30,7 @@ public class MainService {
 
     public List<CommonMap> selectBeltBanners() {
         List<CommonMap> resultMap = mainMapper.selectBeltBanners();
-        resultMap.stream().forEach(item -> {
+        resultMap.forEach(item -> {
             List<CommonMap> imageListMap = s3Service.getS3FileDataAll("main_banner",  item.get("id"));
             CommonMap map = new CommonMap();
             imageListMap.forEach(c-> map.put(c.getString("tag")+"_url",c.getString("cdn_url")));
@@ -46,7 +46,9 @@ public class MainService {
 
     public CommonMap selectPopup() {
         CommonMap map = mainMapper.selectPopup();
-        map.put("image", s3Service.getS3FileDataForOne("main_popup", map.get("id")));
+        if(map !=null) {
+            map.put("image", s3Service.getS3FileDataForOne("main_popup", map.get("id")));
+        }
         return map;
     }
 
@@ -82,14 +84,14 @@ public class MainService {
                 c.put("lots" , ktMainMapper.selectLotsBySaleNo(lotMap));
         });
 
-        List<CommonMap> test2 = new ArrayList<>();
-        if(!saleList.isEmpty()) {
-            test2.add(saleList.get(0));
-            test2.add(saleList.get(0));
-            test2.add(saleList.get(0));
-        }
+//        List<CommonMap> test2 = new ArrayList<>();
+//        if(!saleList.isEmpty()) {
+//            test2.add(saleList.get(0));
+//            test2.add(saleList.get(0));
+//            test2.add(saleList.get(0));
+//        }
+        resultMap.put("list" , saleList);
         resultMap.put("count" , counts);
-        resultMap.put("list" , test2);
 
         return resultMap;
     }
@@ -192,4 +194,7 @@ public class MainService {
         return resultMap;
     }
 
+    public List<CommonMap> selectBrochures(CommonMap map) {
+        return mainMapper.selectBrochures(map);
+    }
 }

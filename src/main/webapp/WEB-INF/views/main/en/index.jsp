@@ -11,7 +11,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Seoul Auction</title>
-    <link rel="stylesheet" href="/css/main.css" type="text/css" />
 </head>
 <body>
 <jsp:include page="../../include/en/header.jsp" flush="false">
@@ -29,24 +28,12 @@
                     <h1 class="main-sectiontit">Auction</h1>
                     <div class="auctiontab-scroll">
                         <div class="auctionTab">
-                            <span id="auctionTab" class="auctionTab-btn on"><span class="text-over">1st ART SHOPPING _ Modern and Contemporary Art Auction</span></span>
-                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">Online Charity Auction for victims of wildfire</span></span>
-                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">The 165th Art Auction</span></span>
-                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">ZERO BASE</span></span>
-                            <span id="auctionTab" class="auctionTab-btn"><span class="text-over">e BID Premium</span></span>
                         </div>
                     </div>
                 </div>
+                <div id="auction_contents">
 
-                <div class="flex_wrap auctionTab-contents on">
                 </div>
-
-                <div class="flex_wrap auctionTab-contents"> <!--12*2 = 24 -->
-                </div>
-
-                <div class="flex_wrap auctionTab-contents"> <!--12*2 = 24 -->
-                </div>
-
                 <div class="commonbtn-box">
                     <button type="button" id="MoreAuction" class="commonbtn">More</button>
                     <a href="#" id="AllAuction"  STYLE="display: none;" class="commonbtn">View All</a>

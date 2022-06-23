@@ -112,37 +112,39 @@
                             </div>
                             <div class="panel-body">
                                 <ul class="product-list">
-                                    <li class="" ng-repeat="item in saleInfo">
+                                    <li class="" ng-repeat="item in saleInfo"> 
                                         <div class="li-inner">
-                                            <article class="item-article" ng-click="goLot(item.SALE_AS_NO)">
-                                                <div class="image-area">
-                                                    <figure class="img-ratio">
-                                                        <div class="img-align">
-                                                            <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
-                                                        </div>
-                                                    </figure>
-                                                </div>
-                                                <div class="typo-area">
-                                                    <div class="product_info">
-                                                        <div class="num_heart-box">
-                                                            <span class="num">{{item.SALE_AS_NO}}</span>
-                                                        </div>
-                                                        <div class="info-box">
-                                                            <div class="title"><span>{{item.ARTIST_NAME_BLOB_KO}}</span>
-                                                                <!-- [0516]삭제	<span class="sub">(1965)</span> -->
+                                            <a href="#">
+                                                <article class="item-article" ng-click="goLot(item.SALE_AS_NO)">
+                                                    <div class="image-area">
+                                                        <figure class="img-ratio">
+                                                            <div class="img-align">
+                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
                                                             </div>
-                                                            <div class="desc"><span>{{item.TITLE_BLOB_KO}}</span></div>
-                                                            <div class="standard">
-                                                                <span>{{item.CD_NM}}</span>
-                                                                <div class="size_year">
-                                                                    <span>{{item.SIZE1}} X {{item.SIZE2}} X {{item.SIZE3}}</span>
-                                                                    <span>{{item.MAKE_YEAR_BLOB}}</span>
+                                                        </figure>
+                                                    </div>
+                                                    <div class="typo-area">
+                                                        <div class="product_info">
+                                                            <div class="num_heart-box">
+                                                                <span class="num">{{item.SALE_AS_NO}}</span>
+                                                            </div>
+                                                            <div class="info-box">
+                                                                <div class="title"><span>{{item.ARTIST_NAME_BLOB_KO}}</span>
+                                                                    <!-- [0516]삭제	<span class="sub">(1965)</span> -->
+                                                                </div>
+                                                                <div class="desc"><span>{{item.TITLE_BLOB_KO}}</span></div>
+                                                                <div class="standard">
+                                                                    <span>{{item.CD_NM}}</span>
+                                                                    <div class="size_year">
+                                                                        <span>{{item.SIZE1}} X {{item.SIZE2}} X {{item.SIZE3}}</span>
+                                                                        <span>{{item.MAKE_YEAR_BLOB}}</span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </article>
+                                                </article>
+                                            </a>
                                         </div>
                                     </li>
 
