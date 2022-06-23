@@ -392,9 +392,9 @@ $(function() {
     //모바일 한글/영문 변환 버튼
     let lang = getCookie('lang');
     if (!lang || lang === 'ko') {
-        $("#mb_common_lang").append('<a href="/?lang=en">ENG</a>');
+        $("#mb_common_lang").append('<a href=' + $(location).attr('pathname')  +'?lang=en>ENG</a>');
     } else if ( lang === 'en'){
-        $("#mb_common_lang").append('<a href="/?lang=ko">KO</a>');
+        $("#mb_common_lang").append('<a href=' + $(location).attr('pathname')  +'?lang=ko>KO</a>');
     }
 
 });

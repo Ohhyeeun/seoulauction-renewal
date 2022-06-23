@@ -265,22 +265,14 @@
 
                                         <div class="info-box">
                                             <div class="title">작가정보</div>
-                                            <div class="desc">
-                                                Artist <br/>
-                                                {{lotInfo.ARTIST_NAME_KO_TXT}} {{lotInfo.ARTIST_NAME_EN_TXT}}
-                                                b.{{lotInfo.BORN_YEAR}}
+                                            <div class="desc" id="artistName">
                                             </div>
-                                            <div class="desc" ng-bind-html="lotInfo.PROFILE_JSON.ko">
+                                            <div class="desc" id="artistProfile">
                                             </div>
-                                            <div class="desc">
-                                                <b>참고자료</b> <br/>
-                                                <u></u>
-                                            </div>
-                                            <div class="desc">
+                                            <div class="desc"  id="artistMedia">
                                                 <div class="vide_img-box">
                                                     <a href="#"><img src="/images/temp/video_img-1.jpg" alt=""/></a>
-                                                    <a href="#"><img src="/images/temp/video_img-2.jpg"
-                                                                     alt=""/></a><br/>
+                                                    <a href="#"><img src="/images/temp/video_img-2.jpg" alt=""/></a><br/>
                                                     <a href="#"><img src="/images/temp/video_img-3.jpg" alt=""/></a>
                                                     <a href="#"><img src="/images/temp/video_img-4.jpg" alt=""/></a>
                                                 </div>
@@ -832,6 +824,9 @@
 
                 $scope.recentlyViews = r6.data.data;
 
+                //artist 번호
+                $scope.artistNo = $scope.lotInfo.ARTIST_NO;
+
                 // popup setting
                 let imgUrl = $scope.lotImages[0].IMAGE_URL +
                     $scope.lotImages[0].FILE_PATH + "/" + $scope.lotImages[0].FILE_NAME;
@@ -937,18 +932,20 @@
                 $.each(sale_images, function (index, el) {
                     let size1 = 0;
                     let size2 = 0;
+                    let unitCd = '';
                     let lot_no = el.LOT_NO;
                     if (el.LOT_SIZE_JSON.length > 0) {
                         size1 = el.LOT_SIZE_JSON[0].SIZE1;
                         size2 = el.LOT_SIZE_JSON[0].SIZE2;
+                        unitCd = el.LOT_SIZE_JSON[0].UNIT_CD;
 
                     }
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
                     let swiper_slide_item = `<div class="swiper-slide">
                                             <div class="img-area">
                                                 <div class="img-box">
-                                                    <div class="size_x"><span>` + size1 + `</span></div>
-                                                    <div class="size_y"><span>` + size2 + `</span></div>
+                                                    <div class="size_x"><span>` + size2 + unitCd + `</span></div>
+                                                    <div class="size_y"><span>` + size1 + unitCd + `</span></div>
                                                     <div class="images">
                                                         <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + lot_no + `" />
                                                     </div>
@@ -957,6 +954,15 @@
                   </div>`
                   $("#swiper-wrapper").append(swiper_slide_item);
                 });
+
+                /* 싸이즈 버튼 */
+                var size_btn_toggle = $(".js-size_btn").trpToggleBtn(
+                    function($this) {
+                        $($this).closest(".viewer-article").addClass("active");
+                    },
+                    function($this) {
+                        $($this).closest(".viewer-article").removeClass("active");
+                    });
 
 
                 /* 스와이퍼 */
@@ -1049,6 +1055,33 @@
                     $e.preventDefault();
                     toggle_sns.toggleAllSet(false);
                 })
+
+                //작가 정보 admin에서 가져오도록 변경
+                axios.get('/api/auction/artist_info/' + $scope.artistNo)
+                    .then(function(response) {
+                        const data = response.data;
+                        let success = data.success;
+
+                        if(success){
+                            let artistData = data.data;
+
+                            $("#artistName").html(JSON.parse(artistData.name).ko + ' ' +  artistData.birth);
+                            $("#artistProfile").html(JSON.parse(artistData.education).ko + '</br>' +
+                                JSON.parse(artistData.exhibition).ko + '</br>' + JSON.parse(artistData.education).ko + '</br>' +
+                                JSON.parse(artistData.profile).ko + '</br>' + artistData.homepage + '</br>' +
+                                JSON.parse(artistData.sns_account).blog + '</br>' + JSON.parse(artistData.sns_account).facebook + '</br>' +
+                                JSON.parse(artistData.sns_account).instagram + '</br>' + JSON.parse(artistData.media).youtube + '</br>' +
+                                JSON.parse(artistData.media).instagram + '</br>'
+                                // 작가 이미지는 admin쪽 개발 이후에 붙이기로
+                            );
+                        } else {
+                            alert(data.data.msg);
+                            history.back();
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
             }
             run();
         }
@@ -1060,7 +1093,6 @@
         var scope = angular.element(document.getElementById("container")).scope();
         return scope;
     }
-
 </script>
 
 <!-- popup tab -->

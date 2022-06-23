@@ -23,7 +23,7 @@ public class SAExceptionHandler {
     private final SlackSender slackSender;
 
     //404 페이지 낫 파운드 , 혹은 잘못된 접근 ( POST 요청인데 Get 으로한경우 등등. )
-    @ExceptionHandler({NoHandlerFoundException.class , HttpRequestMethodNotSupportedException.class  , MissingServletRequestParameterException.class})
+    @ExceptionHandler({PgNotFoundException.class , NoHandlerFoundException.class , HttpRequestMethodNotSupportedException.class  , MissingServletRequestParameterException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String error404(){
         log.info("404");

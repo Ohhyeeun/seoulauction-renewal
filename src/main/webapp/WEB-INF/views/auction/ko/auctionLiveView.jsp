@@ -4,10 +4,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <!-- header -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -136,7 +134,8 @@
                                                 </div>
                                             </div>
                                             <div class="view_scale-area">
-                                                <a href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
+                                                <a class="btn btn_default js-popup_image_viewer" href="#">
+                                                    <i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
                                         </article>
                                     </div>
@@ -266,22 +265,14 @@
 
                                         <div class="info-box">
                                             <div class="title">작가정보</div>
-                                            <div class="desc">
-                                                Artist <br/>
-                                                {{lotInfo.ARTIST_NAME_KO_TXT}} {{lotInfo.ARTIST_NAME_EN_TXT}}
-                                                b.{{lotInfo.BORN_YEAR}}
+                                            <div class="desc" id="artistName">
                                             </div>
-                                            <div class="desc" ng-bind-html="lotInfo.PROFILE_JSON.ko">
+                                            <div class="desc" id="artistProfile">
                                             </div>
-                                            <div class="desc">
-                                                <b>참고자료</b> <br/>
-                                                <u></u>
-                                            </div>
-                                            <div class="desc">
+                                            <div class="desc" id="artistMedia">
                                                 <div class="vide_img-box">
                                                     <a href="#"><img src="/images/temp/video_img-1.jpg" alt=""/></a>
-                                                    <a href="#"><img src="/images/temp/video_img-2.jpg"
-                                                                     alt=""/></a><br/>
+                                                    <a href="#"><img src="/images/temp/video_img-2.jpg" alt=""/></a><br/>
                                                     <a href="#"><img src="/images/temp/video_img-3.jpg" alt=""/></a>
                                                     <a href="#"><img src="/images/temp/video_img-4.jpg" alt=""/></a>
                                                 </div>
@@ -364,6 +355,8 @@
                         </div>
                     </div>
                 </article>
+                <input type="hidden" id="sale_no" value="{{sale_no}}"/>
+                <input type="hidden" id="lot_no" value="{{lot_no}}"/>
             </div>
         </div>
         <!-- //container -->
@@ -660,13 +653,49 @@
     </div>
 </div>
 
+<!-- 이미지 뷰어 -->
+<div id="popup_image_viewer-wrap" class="trp popupfixed-wrap image_viewer-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_view_close js-closepop" href="#" title="닫기">X</a>
+                    </div>
+                    <div class="pop-body">
+                        <article class="viewer-article">
+                            <div class="gallery_view js-image_viewer" style="">
+                                <div class="gallery_center">
+                                    <div id="swiper-wrapper" class="swiper-wrapper">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="size-area">
+                                <button class="size-btn js-size_btn">
+                                    <i class="icon-viewer_size-off"></i>
+                                    <i class="icon-viewer_size-on"></i>
+                                </button>
+                            </div>
+                            <div class="view_paging-area">
+                                <button class="page_prev"><i class="icon-view_paging_left"></i></button>
+                                <span id="view_lot_no"></span>
+                                <button class="page_next"><i class="icon-view_paging_right"></i></button>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
 <!--[if lt IE 9]>
 <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
 <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
 <%--낙찰 수수료 팝업 --%>
@@ -958,6 +987,9 @@
 
                 $scope.recentlyViews = r6.data.data;
 
+                //artist 번호
+                $scope.artistNo = $scope.lotInfo.ARTIST_NO;
+
                 // popup setting
                 let imgUrl = $scope.lotImages[0].IMAGE_URL +
                     $scope.lotImages[0].FILE_PATH + "/" + $scope.lotImages[0].FILE_NAME;
@@ -1034,6 +1066,96 @@
                     view_visual.update();
                 });
 
+                let sale_images = $scope.saleImages;
+
+                $.each(sale_images, function (index, el) {
+                    let size1 = 0;
+                    let size2 = 0;
+                    let unitCd = '';
+                    let lot_no = el.LOT_NO;
+                    if (el.LOT_SIZE_JSON.length > 0) {
+                        size1 = el.LOT_SIZE_JSON[0].SIZE1;
+                        size2 = el.LOT_SIZE_JSON[0].SIZE2;
+                        unitCd = el.LOT_SIZE_JSON[0].UNIT_CD;
+
+                    }
+                    let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
+                    let swiper_slide_item = `<div class="swiper-slide">
+                                            <div class="img-area">
+                                                <div class="img-box">
+                                                    <div class="size_x"><span>` + size2 + unitCd + `</span></div>
+                                                    <div class="size_y"><span>` + size1 + unitCd + `</span></div>
+                                                    <div class="images">
+                                                        <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + lot_no + `" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                  </div>`
+                    $("#swiper-wrapper").append(swiper_slide_item);
+                });
+
+                /* 싸이즈 버튼 */
+                var size_btn_toggle = $(".js-size_btn").trpToggleBtn(
+                    function($this) {
+                        $($this).closest(".viewer-article").addClass("active");
+                    },
+                    function($this) {
+                        $($this).closest(".viewer-article").removeClass("active");
+                    });
+
+                /* 스와이퍼 */
+                var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
+                    loop: true,
+                    onSlideChangeStart: function (swiper) { // 움직임이 끝나면 실행
+                        imagesResizePcMb();
+                    },
+                    onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
+                        imagesResizePcMb();
+                    },
+                });
+
+                $.each($(".swiper-slide"), function(){
+                    let data = $(this).attr("data-swiper-slide-index");
+                    let lot_no = $(this).find(".imageViewer").attr("lot_no");
+                    if (lot_no === Scope().lot_no) {
+                        console.log(data, lot_no, Scope().lot_no);
+                        $("#view_lot_no").attr("sel-data-index", lot_no);
+                        $("#view_lot_no").html("LOT " + lot_no);
+                    }
+                });
+
+                var popup_image_viewer = $(".js-popup_image_viewer").trpLayerFixedPopup("#popup_image_viewer-wrap");
+                $(popup_image_viewer.getBtn).on("click", function ($e) {
+                    $e.preventDefault();
+                    popup_image_viewer.open(this); // or false
+                    imagesResizePcMb();
+                    imageViewer.update();
+                    imageViewer.slideTo($("#view_lot_no").attr("sel-data-index"), 0);
+                });
+                // 좌우버튼
+                $('.view_paging-area .page_prev').on('click', function ($e) {
+                    $e.preventDefault();
+                    imageViewer.slidePrev();
+                    $("#view_lot_no").html("LOT " + $(".swiper-slide-active .imageViewer").attr('lot_no'));
+
+                });
+                $('.view_paging-area .page_next').on('click', function ($e) {
+                    $e.preventDefault();
+                    imageViewer.slideNext();
+                    $("#view_lot_no").html("LOT " + $(".swiper-slide-active .imageViewer").attr('lot_no'));
+
+                });
+
+                /* PC,MB images resize */
+                $(window).on("resize", function () {
+                    imagesResizePcMb();
+                });
+
+                $("body").on("click", "#popup_image_viewer-wrap .js-closepop, #popup_image_viewer-wrap .popup-dim", function ($e) {
+                    $e.preventDefault();
+                    popup_image_viewer.close();
+                });
+
                 // lot
                 $("#search_lot").on("keyup", function () {
                     window.event.preventDefault();
@@ -1069,10 +1191,44 @@
                     $e.preventDefault();
                     toggle_sns.toggleAllSet(false);
                 })
+
+                //작가 정보 admin에서 가져오도록 변경
+                axios.get('/api/auction/artist_info/' + $scope.artistNo)
+                    .then(function(response) {
+                        const data = response.data;
+                        let success = data.success;
+
+                        if(success){
+                            let artistData = data.data;
+
+                            $("#artistName").html(JSON.parse(artistData.name).ko + ' ' +  artistData.birth);
+                            $("#artistProfile").html(JSON.parse(artistData.education).ko + '</br>' +
+                                JSON.parse(artistData.exhibition).ko + '</br>' + JSON.parse(artistData.education).ko + '</br>' +
+                                JSON.parse(artistData.profile).ko + '</br>' + artistData.homepage + '</br>' +
+                                JSON.parse(artistData.sns_account).blog + '</br>' + JSON.parse(artistData.sns_account).facebook + '</br>' +
+                                JSON.parse(artistData.sns_account).instagram + '</br>' + JSON.parse(artistData.media).youtube + '</br>' +
+                                JSON.parse(artistData.media).instagram + '</br>'
+                                // 작가 이미지는 admin쪽 개발 이후에 붙이기로
+                            );
+                        } else {
+                            alert(data.data.msg);
+                            history.back();
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
             }
             run();
         }
     });
+</script>
+
+<script>
+    function Scope() {
+        var scope = angular.element(document.getElementById("container")).scope();
+        return scope;
+    }
 </script>
 
 <!-- popup tab -->

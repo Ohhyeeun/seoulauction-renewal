@@ -85,7 +85,7 @@ $(document).ready(function(){
                                             </p>
                                         </a>
                                     </figcaption>
-                            </figure>`;
+                </figure>`;
             $('.auctionTab-contents').eq(idx).append(html);
         });
 
@@ -136,6 +136,12 @@ $(document).ready(function(){
         $('.auction-thumb').on('mouseleave', function () {
             $(this).removeClass('on');
         });
+
+        //클릭시
+        // $('.auction-thumb').on('click', function () {
+        //     window.open('/auction/live/view/'+currentSaleNo + '/' +$(this).children('button').attr('id').split('id_')[1]);
+        // });
+
         //auction haert 버튼
         $('.wish_heart').on('click', function () {
 

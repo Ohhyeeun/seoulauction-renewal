@@ -11,6 +11,9 @@
 	var socialYn = '${socialYn}';
 	var socialType = '${socialType}';
 </script>
+<head>
+    <title>회원탈퇴 | Seoul Auction</title>
+</head>
 <body class="">
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
