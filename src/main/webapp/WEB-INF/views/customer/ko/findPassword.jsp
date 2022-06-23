@@ -3,20 +3,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<!DOCTYPE html>
 <html lang="ko">
     <head>
 	    <meta charset="UTF-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	    <title>Seoul Auction</title>
+	    <title>비밀번호 찾기 | Seoul Auction</title>
 	</head>
 	<body>
     <div class="wrapper">
         <div class="sub-wrap pageclass bgpage-wrap">
 		<jsp:include page="../../include/ko/header.jsp" flush="false"/>   
-		<script>
-		app.value('locale', 'en');
-		</script>
               <!-- container -->
             <div id="container">
                 <div id="contents" class="contents">
@@ -150,8 +148,7 @@
         });
     </script>
 
-	<div class="popup-dim popup_idsearch3-wrap"  style="display: none;"></div>
-    <div id="popup_idsearch3-wrap" class="trp popupfixed-wrap login-popup popup_idsearch3-wrap" style="display: none;">
+    <div id="popup_idsearch3-wrap" class="trp popupfixed-wrap login-popup">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">
@@ -181,8 +178,7 @@
     </div>
     
  <!-- 비밀번호찾기-휴대폰 번호로 찾기 -->
-    <div class="popup-dim popup_pwsearch1-wrap"  style="display: none;"></div>
-    <div id="popup_pwsearch1-wrap" class="trp popupfixed-wrap login-popup popup_pwsearch1-wrap">
+    <div id="popup_pwsearch1-wrap" class="trp popupfixed-wrap login-popup">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">
@@ -212,8 +208,7 @@
     </div>
 
     <!-- 비밀번호찾기-이메일로 찾기 -->
-    <div class="popup-dim popup_pwsearch2-wrap"  style="display: none;"></div>
-    <div id="popup_pwsearch2-wrap" class="trp popupfixed-wrap login-popup popup_pwsearch2-wrap">
+    <div id="popup_pwsearch2-wrap" class="trp popupfixed-wrap login-popup">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">
@@ -243,8 +238,7 @@
     </div>
 
     <!-- 비밀번호찾기-일치정보가 없을 경우 -->
-    <div class="popup-dim popup_pwsearch3-wrap"  style="display: none;"></div>
-    <div id="popup_pwsearch3-wrap" class="trp popupfixed-wrap login-popup popup_pwsearch3-wrap">
+    <div id="popup_pwsearch3-wrap" class="trp popupfixed-wrap login-popup">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">
@@ -274,8 +268,7 @@
     </div>
 
     <!-- 비밀번호찾기-소셜 회원인 경우-->
-	<div class="popup-dim popup_pwsearch4-wrap"  style="display: none;"></div>
-    <div id="popup_pwsearch4-wrap" class="trp popupfixed-wrap login-popup popup_pwsearch4-wrap">
+    <div id="popup_pwsearch4-wrap" class="trp popupfixed-wrap login-popup">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">

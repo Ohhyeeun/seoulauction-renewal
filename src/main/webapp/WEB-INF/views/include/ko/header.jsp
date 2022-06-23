@@ -206,7 +206,7 @@ function sessionLogout() {
                         <a href="/join" class="gnb_join">회원가입</a>
                         </sec:authorize>
                         <sec:authorize access="isAuthenticated()">
-                        <a href="/mypage/liveBidReqList" class="gnb_member">마이페이지</a>
+                        <a href="/mypage/main" class="gnb_member">마이페이지</a>
                         </sec:authorize>
                     </li>
                     <li>

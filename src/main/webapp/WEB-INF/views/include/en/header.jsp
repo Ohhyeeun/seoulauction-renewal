@@ -182,7 +182,7 @@ function sessionLogout() {
                                 <a href="/join" class="gnb_join">JOIN</a>
                             </sec:authorize>
                             <sec:authorize access="isAuthenticated()">
-                                <a href="/mypage/liveBidReqList" class="gnb_member">ACCOUNT</a>
+                                <a href="/mypage/main" class="gnb_member">ACCOUNT</a>
                             </sec:authorize>
                         </li>
                         <li>
