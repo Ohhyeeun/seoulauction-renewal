@@ -119,4 +119,10 @@
             AND sale_no = #{sale_no}
         ORDER BY sort
     </select>
+
+    <update id="addBrochureReadCount" parameterType="CommonMap">
+        UPDATE content_brochure
+        SET read_count = read_count + 1
+        WHERE id = #{id}
+    </update>
 </mapper>
