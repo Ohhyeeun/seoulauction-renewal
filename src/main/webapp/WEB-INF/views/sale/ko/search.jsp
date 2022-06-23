@@ -354,7 +354,7 @@
                         <div class="accordion-body">
                             <ul class="check-list">
                                 <li>
-                                    <input type="text" placeholder="작품재질 입력" ng-model="search.mate_nm" id="mateNm">
+                                    <input type="text" placeholder="작품재질 입력" ng-model="search.mate_nm" id="mateNm" ng-keypress="$event.keyCode === 13 && filterCheck();">
                                 </li>
                             </ul>
                         </div>
