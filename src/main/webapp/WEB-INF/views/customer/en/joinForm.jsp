@@ -16,7 +16,7 @@
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
 			<jsp:include page="../../include/en/header.jsp" flush="false" />
-			<div id="container footer-bottom footer-bottom30" style="margin-top:60px">
+			<div id="container">
 				<div id="contents" class="contents">
 		            <section class="basis-section last-section back_gray">
 		                <div class="section-inner">
