@@ -156,7 +156,7 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 				googleProfile = googleUser.getBasicProfile();
 				submitJoin("GL", googleProfile.getName(), googleProfile.getEmail(), null, null, null);
 			}, function(error) {
-				alert(JSON.stringify(error, undefined, 2));
+				console.log(JSON.stringify(error, undefined, 2));
 			});
 	}
 
