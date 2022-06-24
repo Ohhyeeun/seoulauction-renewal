@@ -16,7 +16,7 @@
                 <a ng-click="showVideo(video.content_type, video.url)"; class="video-btn">
                     <figure class="video-thumb">
                         <span class="video-thumbHover"></span>
-                        <img src="{{video.image}}" alt="video" class="pc-ver">
+<%--                        <img src="{{video.image}}" alt="video" class="pc-ver">--%>
                         <img src="/images/mobile/thumbnail/VideoBanner_03_300x300.png" alt="video" class="m-ver">
                         <span class="video-icon" ng-class="{'youtube':'video-icon-you', 'instagram':'video-icon-in'}[video.content_type]"></span>
                     </figure>

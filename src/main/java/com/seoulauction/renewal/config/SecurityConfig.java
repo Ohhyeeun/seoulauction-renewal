@@ -52,6 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override public void configure(WebSecurity web) throws Exception {
 		web.httpFirewall(new DefaultHttpFirewall());
 
+		web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+
 		web.ignoring()
 			.antMatchers("/css/**, /js/**, *.ico");
 		web.ignoring()
@@ -76,7 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/api/**").permitAll()
 			.antMatchers("/swagger-ui/**").permitAll()
 			.antMatchers("/swagger-resources/**").permitAll()
-			.antMatchers( "/favicon.ico").permitAll()
+			//.antMatchers( "/favicon2.ico").permitAll()
 			.antMatchers("/customer/**").permitAll()
 			.antMatchers("/mypage/**").authenticated()
 			.antMatchers("/payment/**").authenticated()
