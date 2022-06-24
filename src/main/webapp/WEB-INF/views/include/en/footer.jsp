@@ -9,7 +9,7 @@
                 <li><a href="/footer/media">PRESS</a></li>
                 <li><a href="/footer/location">LOCATION</a></li>
                 <li><a href="/footer/notice">NOTICE</a></li>
-                <li><a href="/footer/faq">CUSTOMER CENTER</a></li>
+                <li><a href="/footer/faq">FAQ</a></li>
             </ul>
 
             <ul class="snsbox_icon">
