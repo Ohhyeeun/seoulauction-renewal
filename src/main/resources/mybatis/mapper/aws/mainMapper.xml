@@ -82,15 +82,14 @@
         LIMIT #{size}
     </select>
     <!--Popup-->
-    <select id="selectPopup" resultType="CommonMap">
+    <select id="selectPopup" parameterType="CommonMap" resultType="CommonMap">
         <![CDATA[
             SELECT
                 *
             FROM
                 main_popup
             WHERE
-                popup_type = 'bottom-right'
-                and status = 'A'
+                status = 'A'
                 and start_at <= (now() + interval 9 hour)
                 and end_at >= (now() + interval 9 hour)
             ORDER BY

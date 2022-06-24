@@ -11,7 +11,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +43,7 @@ public class MainService {
         return mainMapper.selectNewsletters(map);
     }
 
-    public CommonMap selectPopup() {
+    public CommonMap selectMainPopup() {
         CommonMap map = mainMapper.selectPopup();
         if(map !=null) {
             map.put("image", s3Service.getS3FileDataForOne("main_popup", map.get("id")));

@@ -541,17 +541,20 @@ function loadPopup(){
                 const success = response.data.success;
                 if (success) {
                     const data = response.data.data;
+                    console.log(data);
+
                     if(data) {
-                        $('#main_popup_title').html(data.title);
-                        $('#main_popup_content').html(data.content);
-                        $('#main_popup_img').attr('src', data.image);
-
-                        $('.main-popupBg').show();
-
-                        $('.main-popup-close, .main-popupBg').click(function () {
-                            $('.main-popupbox').addClass('down');
-                            $('.main-popupBg').fadeOut();
-                        });
+                        //
+                        // $('#main_popup_title').html(data.title);
+                        // $('#main_popup_content').html(data.content);
+                        // $('#main_popup_img').attr('src', data.image);
+                        //
+                        // $('.main-popupBg').show();
+                        //
+                        // $('.main-popup-close, .main-popupBg').click(function () {
+                        //     $('.main-popupbox').addClass('down');
+                        //     $('.main-popupBg').fadeOut();
+                        // });
                     }
                 }
             })

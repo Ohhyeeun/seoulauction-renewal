@@ -68,7 +68,7 @@ public class ApiMainController {
     /*popup*/
     @GetMapping(value="/popup")
     public ResponseEntity<RestResponse> popup(){
-        return ResponseEntity.ok(RestResponse.ok(mainService.selectPopup()));
+        return ResponseEntity.ok(RestResponse.ok(mainService.selectMainPopup()));
     }
     @PostMapping(value="/newsletters")
     public ResponseEntity<RestResponse> insertNewsletter(
