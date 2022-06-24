@@ -153,6 +153,31 @@
     <span class="topBtn up"></span>
 </a>
 
+<%-- main 레이어 팝업 --%>
+<div class="blackBg main-popupBg on">
+    <div class="main-popupwrap">
+        <div class="main-popupbox">
+            <a href="#">
+                <div class="main-popup-img"> <!-- 이미지 레이어팝업 -->
+                    <img id="main_popup_img" <%--src="/images/pc/main/pop_event.jpg"--%> alt="레이어팝업 이미지">
+                </div>
+                <!-- 텍스트 레이어팝업 -->
+                <div class="main-popup-txt">
+                    <div class="main-popup-caption">
+                        <h2 id="main_popup_title">국내 오프라인 경매 구매수수료율 인상 및 약관 개정 안내</h2>
+                        <p id="main_popup_content">항상 서울옥션을 이용해 주시는 고객 여러분들께<br> 진심으로 감사의 말씀을 드리며,<br>다음과 같이 국내 오프라인 경매 구매수수료율을<br>인상함을 알려드립니다.<br>
+                            항상 서울옥션을 이용해 주시는 고객 여러분들께<br> 진심으로 감사의 말씀을 드리며,<br>다음과 같이 국내 오프라인 경매 구매수수료율을<br>인상함을 알려드립니다.<br>
+                        <p class="main-popup-green">변경 전 -15%(부가세 별도)</p>
+                    </div>
+                </div>
+            </a>
+            <div class="main-popup-close">
+                <span id="main_popup_today_stop_btn">오늘 그만보기</span><span class="main-popup-closebtn closebtn closebtn-w"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- 뉴스레터 팝업 -->
 <jsp:include page="popup/newsletter.jsp" flush="false"/>
 
