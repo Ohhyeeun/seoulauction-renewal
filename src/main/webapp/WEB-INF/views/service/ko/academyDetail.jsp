@@ -7,7 +7,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!-- <link href="/css/angular/sa.common.2.0.css" rel="stylesheet"> -->
-
+<!DOCTYPE html>
+<html lang="ko">
 <sec:authorize access="isAuthenticated()">
 	<sec:authentication property="details.userNo" var="userNo"></sec:authentication>
 </sec:authorize>

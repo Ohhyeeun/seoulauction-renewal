@@ -56,15 +56,10 @@ public class S3Service {
 
         final long fileSize = uploadFile.getSize();
         String contentType = uploadFile.getContentType();
-
         String currentBucket = isPrivate ? privateBucket : bucket;
-
         String baseUrl = isPrivate ? S3_BASE_PRIVATE_URL : S3_BASE_URL;
-
         String path = s3Uploader.upload(currentBucket , uploadFile , S3_IMAGE_BASE_URL   + "/" + tableName + "/" + rowId);
-
         String cdnUrl = isPrivate ? null : (S3_CDN_BASE_URL + path);
-
         CommonMap paramMap = null;
 
         if(path != null) {
@@ -137,7 +132,6 @@ public class S3Service {
         map.put("table_name",tableName);
         map.put("row_id",rowId);
         List<CommonMap> resultMap = s3Mapper.selectS3FileData(map);
-        log.info("resultMap : {}" , resultMap);
         return resultMap.stream().map(c->c.getString("cdn_url")).collect(Collectors.toList());
     }
 

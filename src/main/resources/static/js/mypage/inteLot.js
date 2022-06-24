@@ -1,4 +1,4 @@
-app.value('locale', 'ko');
+app.value('locale', document.documentElement.lang);
 app.requires.push.apply(app.requires, ["bw.paging", "ngDialog"]);
 
 app.controller('InteListCtl', function($scope, common, ngDialog) {

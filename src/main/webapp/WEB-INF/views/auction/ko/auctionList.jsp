@@ -4,6 +4,15 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <!-- header -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>경매상세 | Seoul Auction</title>
+    <!-- //header -->
+</head>
 <body class="">
 <div class="wrapper">
     <div class="sub-wrap pageclass type-width_list">
@@ -28,7 +37,10 @@
                                         <li><span class="colorB2">경매일</span><span class=""> : {{sale.TO_DT | date:'MM.dd'+'('+getWeek(sale.TO_DT)+')'}}</span></li>
                                     </ul>
                                     <div class="btn_set">
-                                        <a class="btn btn_white " href="#" target="_blank" ng-href="/notices/{{sale.WRITE_NO}}" role="button" ng-if="sale.WRITE_NO > 0"><span>안내사항</span></a>
+                                        <a class="btn btn_white " href="#" target="_blank" ng-href="/footer/notice/{{sale.WRITE_NO}}" role="button" ng-if="sale.WRITE_NO > 0"><span>안내사항</span></a>
+                                        <a class="btn btn_white " ng-click="goBrochure(item.id, item.content.url)" role="button" ng-repeat="item in sale.buttonList">
+                                            <span ng-bind="{'pdf':'E-BOOK', 'ebook':'E-BOOK', 'vr':'VR보기'}[item.content_type]"></span>
+                                        </a>
                                     </div>
                                 </div>
                             </article>
@@ -73,10 +85,14 @@
                                 <article class="search_tab-article">
                                     <div class="article-body">
                                         <div class="col_item mb-col1">
+                                            <!-- [0617]카운트/LOT셀렉트박스 분리 -->
+                                            <div class="count tb1">
+                                                <span>ALL <em>{{saleInfoAll.length}}</em></span>
+                                            </div>
                                             <div class="select-box">
                                                 <div class="trp-dropdown-area h42-line">
                                                     <button class="js-dropdown-btn">
-                                                        <em>{{saleInfoAll.length}}</em><span>LOT</span><i
+                                                        <span>LOT</span><i
                                                             class="form-select_arrow_md"></i>
                                                     </button>
                                                     <div class="trp-dropdown_list-box"
@@ -114,6 +130,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="col_item mb-col2">
                                             <!-- 작가/작품서치  -->
                                             <div class="search-box">
                                                 <input type="search" placeholder="작가/작품명" id="search_value"
@@ -121,9 +139,7 @@
                                                        ng-keyup="searchArtist(event=$event)" class="h42">
                                                 <i class="form-search_md" ng-click="searchArtist2()"></i>
                                             </div>
-                                            <!-- 작가/작품서치 -->
-                                        </div>
-                                        <div class="col_item mb-col2">
+                                            <!-- 작가/작품서치 --> 
                                             <div class="select-box">
                                                 <select id="sortType" class="select2Basic42 select2-hidden-accessible"
                                                         ng-init="selectSortType = selectSortType || options[0].value"
@@ -380,8 +396,6 @@
         $scope.itemsize = 20;
         $scope.curpage = 1;
 
-
-
         $scope.modelSortType = [{
             name: "LOT 번호순", value: 1
         }, {
@@ -434,10 +448,7 @@
 
         $scope.favorite = function (item) {
 
-            if (sessionStorage.getItem("is_login") === 'false') {
-                alert('로그인을 진행해주세요.');
-                return;
-            }
+            checkLogin();
 
             let url = item.FAVORITE_YN === 'N' ? "/api/auction/delCustInteLot" : "/api/auction/addCustInteLot";
 
@@ -495,94 +506,104 @@
 
         $scope.popSet = function (saleNo, lotNo, userId, custNo) {
             if (${member.userNo} === 0){
-                if (sessionStorage.getItem("is_login") === 'false') {
-                    //history.push("/login");
-                    location.href = "/login";
-                    return;
-                }
+                checkLogin();
+            }
+            const is_sale_cert = $scope.is_sale_cert || $("#is_sale_cert").val();
+            if (!is_sale_cert) {
+                popup_offline_payment.open(this); // or false
+                popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
+
+                // 랏번호 삽입
+                $("#sale_no").val(saleNo);
+                // 랏번호 삽입
+                $("#lot_no").val(lotNo);
+
+                $("body").on("click", "#popup_online_confirm-wrap .js-closepop, #popup_online_confirm-wrap .popup-dim", function ($e) {
+                    $e.preventDefault();
+                    popup_offline_payment.close();
+                });
             } else {
-                const is_sale_cert = $scope.is_sale_cert || $("#is_sale_cert").val();
-                if (!is_sale_cert) {
-                    popup_offline_payment.open(this); // or false
-                    popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
 
-                    // 랏번호 삽입
-                    $("#sale_no").val(saleNo);
-                    // 랏번호 삽입
-                    $("#lot_no").val(lotNo);
 
-                    $("body").on("click", "#popup_online_confirm-wrap .js-closepop, #popup_online_confirm-wrap .popup-dim", function ($e) {
-                        $e.preventDefault();
-                        popup_offline_payment.close();
-                    });
-                } else {
-                    popup_biddingPopup1.open(this); // or false
-                    popup_fixation("#popup_biddingPopup1-wrap");
-
-                    let init_func_manual = async function (token, saleNo, lotNo, saleType, custNo) {
-                        //console.log(token, saleNo, lotNo, saleType, userId);
-                        let url = '';
-                        if (window.location.protocol !== "https:") {
-                            url = 'http://dev-bid.seoulauction.xyz/init2';
-                        } else {
-                            url = 'https://dev-bid.seoulauction.xyz/init2';
-                        }
-                        let resp = await fetch(url, {
-                            method: "POST", body: JSON.stringify({
-                                token: $scope.token,
-                                sale_no: saleNo,
-                                lot_no: lotNo,
-                                sale_type: saleType,
-                                user_id: '${member.loginId}',
-                                cust_no: custNo,
-                            }),
-                        });
-                        return resp;
+                let init_func_manual = async function (token, saleNo, lotNo, saleType, custNo) {
+                    //console.log(token, saleNo, lotNo, saleType, userId);
+                    let url = '';
+                    if (window.location.protocol !== "https:") {
+                        url = 'http://dev-bid.seoulauction.xyz/init2';
+                    } else {
+                        url = 'https://dev-bid.seoulauction.xyz/init2';
                     }
-
-                    // 메타데이타
-                    let lotInfo = {};
-
-
-
-                    for (let i = 0; i < $scope.saleInfoAll.length; i++) {
-                        if ($scope.saleInfoAll[i].SALE_NO === saleNo && $scope.saleInfoAll[i].LOT_NO === lotNo) {
-                            lotInfo = {
-                                imageUrl: $scope.saleInfoAll[i].IMAGE_URL + $scope.saleInfoAll[i].FILE_PATH + "//" + $scope.saleInfoAll[i].FILE_NAME,
-                                artistName: $scope.saleInfoAll[i].ARTIST_NAME_JSON.ko,
-                                bornYear: $scope.saleInfoAll[i].BORN_YEAR,
-                                lotTitle: $scope.saleInfoAll[i].LOT_TITLE_JSON.ko,
-                                material: $scope.saleInfoAll[i].CD_NM,
-                                lotSize: $scope.saleInfoAll[i].SIZE1 + "X" + $scope.saleInfoAll[i].SIZE2 + "X" + $scope.saleInfoAll[i].SIZE3,
-                                makeYear: $scope.saleInfoAll[i].MAKE_YEAR_JSON.ko,
-                            }
-                            break
-                        }
-                    }
-                    console.log("lotInfo", lotInfo)
-                    // 초기화
-                    $("#bid_lst").html('');
-                    // 랏번호 삽입
-                    $("#sale_no").val(saleNo);
-                    // 랏번호 삽입
-                    $("#lot_no").val(lotNo);
-                    //
-                    $("#pop_lot_no").html("LOT " + lotNo);
-                    $("#pop_img_url").attr("src", lotInfo.imageUrl);
-                    $("#pop_artist_nm").html(lotInfo.artistName);
-                    $("#pop_born_year").html(lotInfo.bornYear);
-                    $("#pop_lot_title").html(lotInfo.lotTitle);
-                    $("#pop_material").html(lotInfo.material);
-                    $("#pop_size").html(lotInfo.lotSize);
-                    $("#pop_make_year").html(lotInfo.makeYear);
-
-                    init_func_manual(token, parseInt(saleNo), parseInt(lotNo), 2, custNo);
-
-                    $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function ($e) {
-                        $e.preventDefault();
-                        popup_biddingPopup1.close();
+                    let resp = await fetch(url, {
+                        method: "POST", body: JSON.stringify({
+                            token: $scope.token,
+                            sale_no: saleNo,
+                            lot_no: lotNo,
+                            sale_type: saleType,
+                            user_id: '${member.loginId}',
+                            cust_no: custNo,
+                        }),
                     });
+                    return resp;
                 }
+
+                // 메타데이타
+                let lotInfo = {};
+
+
+
+                for (let i = 0; i < $scope.saleInfoAll.length; i++) {
+                    if ($scope.saleInfoAll[i].SALE_NO === saleNo && $scope.saleInfoAll[i].LOT_NO === lotNo) {
+                        lotInfo = {
+                            imageUrl: $scope.saleInfoAll[i].IMAGE_URL + $scope.saleInfoAll[i].FILE_PATH + "//" + $scope.saleInfoAll[i].FILE_NAME,
+                            artistName: $scope.saleInfoAll[i].ARTIST_NAME_JSON.ko,
+                            bornYear: $scope.saleInfoAll[i].BORN_YEAR,
+                            lotTitle: $scope.saleInfoAll[i].LOT_TITLE_JSON.ko,
+                            material: $scope.saleInfoAll[i].CD_NM,
+                            lotSize: $scope.saleInfoAll[i].SIZE1 + "X" + $scope.saleInfoAll[i].SIZE2 + "X" + $scope.saleInfoAll[i].SIZE3,
+                            makeYear: $scope.saleInfoAll[i].MAKE_YEAR_JSON.ko,
+                        }
+                        break
+                    }
+                }
+
+                // 초기화
+                $("#pop_img_url").attr("src", "");
+                $("#bid_lst").html("");
+                $("#sale_no").val("");
+                $("#lot_no").val("");
+                $("#pop_lot_no").html("");
+                $("#pop_artist_nm").html("");
+                $("#pop_born_year").html("");
+                $("#pop_lot_title").html("");
+                $("#pop_material").html("");
+                $("#pop_size").html("");
+                $("#pop_make_year").html("");
+
+                // 초기화
+                $("#bid_lst").html('');
+                // 랏번호 삽입
+                $("#sale_no").val(saleNo);
+                // 랏번호 삽입
+                $("#lot_no").val(lotNo);
+                //
+                $("#pop_lot_no").html("LOT " + lotNo);
+                $("#pop_img_url").attr("src", lotInfo.imageUrl);
+                $("#pop_artist_nm").html(lotInfo.artistName);
+                $("#pop_born_year").html(lotInfo.bornYear);
+                $("#pop_lot_title").html(lotInfo.lotTitle);
+                $("#pop_material").html(lotInfo.material);
+                $("#pop_size").html(lotInfo.lotSize);
+                $("#pop_make_year").html(lotInfo.makeYear);
+
+                popup_biddingPopup1.open(this); // or false
+                popup_fixation("#popup_biddingPopup1-wrap");
+
+                init_func_manual(token, parseInt(saleNo), parseInt(lotNo), 2, custNo);
+
+                $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function ($e) {
+                    $e.preventDefault();
+                    popup_biddingPopup1.close();
+                });
             }
         }
 
@@ -689,8 +710,6 @@
 
         let w;
 
-
-
         $scope.timeTickInterval = function(){
             let ddd = new Date();
             // 앵귤러 정보 삽입
@@ -699,13 +718,32 @@
                     let endDate = new Date($scope.searchSaleInfoAll[j].END_DT);
                     let dateGap = endDate - ddd;
                     let timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
-                    // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
-                    let diffDay = Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
-                    let diffHour = timeGap.getHours();       // 시간
-                    let diffMin = timeGap.getMinutes();      // 분
-                    let diffSec = timeGap.getSeconds();      // 초
-                    $scope.searchSaleInfoAll[j].BID_TICK = diffDay + "일 " + diffHour + ":" + diffMin + ":" + diffSec;
 
+                    // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
+                    var diffDay  = (Math.floor(dateGap / (1000 * 60 * 60 * 24)) < 10)?0 + (Math.floor(dateGap / (1000 * 60 * 60 * 24))).toString():Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
+                    var diffHour = (timeGap.getHours() < 10)?0 + timeGap.getHours().toString():timeGap.getHours();       // 시간
+                    var diffMin  = (timeGap.getMinutes() < 10)?0 + timeGap.getMinutes().toString():timeGap.getMinutes();   // 분
+                    var diffSec  = (timeGap.getSeconds() < 10)?0 + timeGap.getSeconds().toString():timeGap.getSeconds();   // 초
+
+                    if (diffDay == "00") {
+                        diffDay = ""
+                    } else {
+                        diffDay += "일"
+                    }
+                    if (diffHour == "00") {
+                        diffHour = ""
+                    }else {
+                        diffHour += ":"
+                    }
+                    if (diffMin == "00") {
+                        diffMin = ""
+                    }else {
+                        diffMin += ":"
+                    }
+                    if (diffSec == "00") {
+                        diffSec = ""
+                    }
+                    $scope.searchSaleInfoAll[j].BID_TICK = diffDay + diffHour + diffMin + diffSec;
                 } else if (end_bid_time <= 0) {
                     $scope.searchSaleInfoAll[j].BID_TICK = "경매시작 전입니다."
                 } else {
@@ -719,11 +757,30 @@
                     let dateGap = endDate - ddd;
                     let timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
                     // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
-                    let diffDay = Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
-                    let diffHour = timeGap.getHours();       // 시간
-                    let diffMin = timeGap.getMinutes();      // 분
-                    let diffSec = timeGap.getSeconds();      // 초
-                    $scope.saleInfoAll[j].BID_TICK = diffDay + "일 " + diffHour + ":" + diffMin + ":" + diffSec;
+                    var diffDay  = (Math.floor(dateGap / (1000 * 60 * 60 * 24)) < 10)?0 + (Math.floor(dateGap / (1000 * 60 * 60 * 24))).toString():Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
+                    var diffHour = (timeGap.getHours() < 10)?0 + timeGap.getHours().toString():timeGap.getHours();       // 시간
+                    var diffMin  = (timeGap.getMinutes() < 10)?0 + timeGap.getMinutes().toString():timeGap.getMinutes();   // 분
+                    var diffSec  = (timeGap.getSeconds() < 10)?0 + timeGap.getSeconds().toString():timeGap.getSeconds();   // 초
+
+                    if (diffDay === "00") {
+                        diffDay = ""
+                    } else {
+                        diffDay += "일 "
+                    }
+                    if (diffHour === "00") {
+                        diffHour = ""
+                    }else {
+                        diffHour += ":"
+                    }
+                    if (diffMin === "00") {
+                        diffMin = ""
+                    }else {
+                        diffMin += ":"
+                    }
+                    if (diffSec === "00") {
+                        diffSec = ""
+                    }
+                    $scope.saleInfoAll[j].BID_TICK = diffDay + diffHour + diffMin + diffSec;
 
                 } else if (end_bid_time <= 0) {
                     $scope.saleInfoAll[j].BID_TICK = "경매시작 전입니다."
@@ -738,11 +795,30 @@
                     let dateGap = endDate - ddd;
                     let timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
                     // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
-                    let diffDay = Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
-                    let diffHour = timeGap.getHours();       // 시간
-                    let diffMin = timeGap.getMinutes();      // 분
-                    let diffSec = timeGap.getSeconds();      //
-                    bid_tick.innerText = diffDay + "일 " + diffHour + "시간 " + diffMin + "분 " + diffSec + "초 남았습니다.";
+                    var diffDay  = (Math.floor(dateGap / (1000 * 60 * 60 * 24)) < 10)?0 + (Math.floor(dateGap / (1000 * 60 * 60 * 24))).toString():Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
+                    var diffHour = (timeGap.getHours() < 10)?0 + timeGap.getHours().toString():timeGap.getHours();       // 시간
+                    var diffMin  = (timeGap.getMinutes() < 10)?0 + timeGap.getMinutes().toString():timeGap.getMinutes();   // 분
+                    var diffSec  = (timeGap.getSeconds() < 10)?0 + timeGap.getSeconds().toString():timeGap.getSeconds();   // 초
+
+                    if (diffDay == "00") {
+                        diffDay = ""
+                    } else {
+                        diffDay += "일"
+                    }
+                    if (diffHour == "00") {
+                        diffHour = ""
+                    }else {
+                        diffHour += ":"
+                    }
+                    if (diffMin == "00") {
+                        diffMin = ""
+                    }else {
+                        diffMin += ":"
+                    }
+                    if (diffSec == "00") {
+                        diffSec = ""
+                    }
+                    $scope.saleInfoAll[j].BID_TICK = diffDay + diffHour + diffMin + diffSec;
                     break
                 }
             }
@@ -1370,6 +1446,9 @@
                     if (response.data.success) {
                         $scope.sale = response.data.data;
                         $scope.sale.TITLE_JSON = JSON.parse($scope.sale.TITLE_JSON);
+                        $scope.sale.buttonList.map(item => {
+                            item.content = JSON.parse(item.content);
+                        });
 
                         var S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
                         var S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
@@ -1401,6 +1480,11 @@
                         $scope.$apply();
                     }
                 });
+        }
+
+        $scope.goBrochure = function (id, url) {
+            axios.post('/api/auction/brochure/read', {id: id});
+            window.open(url);
         }
     });
 </script>

@@ -49,9 +49,9 @@
                                             <article class="item-article">
                                                 <div class="image-area">
                                                     <figure class="img-ratio">
-                                                        <div class="img-align">
+                                                        <a href="javascript:void(0)" class="img-align" ng-click="goUpcomingAuction(auction.SALE_NO);">
                                                             <img ng-src="<spring:eval expression="@environment.getProperty('image.root.path')" />{{auction.SALE_IMG_NAME ? (auction.SALE_IMG_PATH + '/' + auction.SALE_IMG_NAME)  : (auction.LOT_IMG_NAME | imagePath : auction.LOT_IMG_PATH : true)}}" alt="">
-                                                        </div>
+                                                        </a>
                                                     </figure>
                                                 </div>
                                                 <div class="typo-area">
@@ -60,7 +60,8 @@
                                                         <div class="state-box">
                                                             <span class="type-online" ng-if="['online','online_zb'].indexOf(auction.SALE_KIND_CD) > -1">ONLINE</span>
                                                             <span class="type-live" ng-if="['online','online_zb'].indexOf(auction.SALE_KIND_CD) <= -1">LIVE</span>
-                                                            <span class="type-d_day">{{(auction.TO_DT | date:'yyyyMMdd') - (auction.DB_NOW | date:'yyyyMMdd') > 0 ? 'D-'+(auction.TO_DT | date:'yyyyMMdd') - (auction.DB_NOW | date:'yyyyMMdd') : 'TODAY'}}</span>
+                                                            <span class="type-d_day" ng-if="(auction.DB_NOW | calcDate : auction.TO_DT : 'days') > 0">D-{{auction.DB_NOW | calcDate : auction.TO_DT : 'days'}}</span>
+                                                            <span class="type-d_day" ng-if="(auction.DB_NOW | calcDate : auction.TO_DT : 'days') <= 0">TODAY</span>
                                                         </div>
                                                         <div class="title-box"><span>{{auction.TITLE_JSON['ko']}}</span></div>
                                                         <div class="info-box">
@@ -81,7 +82,7 @@
                                                             </dl>
                                                         </div>
                                                         <div class="btn-box">
-                                                            <button class="btn btn_default" ng-click="goScheduledAuction(auction.SALE_NO);"><span>예정경매보기</span></button>
+                                                            <button class="btn btn_default" ng-click="goUpcomingAuction(auction.SALE_NO);"><span>예정경매보기</span></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -116,7 +117,7 @@
     app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
     app.controller('auctionCtl', function($scope, consts, common, locale) {
         $scope.loadAuction = function() {
-            axios.get('/api/auction/scheduled').then(function(response) {
+            axios.get('/api/auction/upcoming').then(function(response) {
                 console.log(response);
                 const success = response.data.success;
                 if (success) {
@@ -132,8 +133,8 @@
             });
         }
 
-        $scope.goScheduledAuction = function(sale_no) {
-            location.href = "/auction/scheduled/"+sale_no;
+        $scope.goUpcomingAuction = function(sale_no) {
+            location.href = "/auction/upcoming/"+sale_no;
         }
     });
 </script>

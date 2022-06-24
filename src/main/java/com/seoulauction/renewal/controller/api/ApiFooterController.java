@@ -6,11 +6,9 @@ import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.service.FooterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,12 +23,14 @@ public class ApiFooterController {
     @GetMapping(value="/faqs")
     public ResponseEntity<RestResponse> faqs(
             @RequestParam(value = "faq_type" , required = false , defaultValue = "customer")  String faqType,
-            @RequestParam(value = "search" , required = false) String search
+            @RequestParam(value = "search" , required = false) String search,
+            @RequestParam(value = "lang" , defaultValue = "ko" , required = false) String lang
     ) {
 
         //search
         CommonMap map = new CommonMap("faq_type" , faqType);
         map.put("search" , search);
+        map.put("lang" , lang);
 
         return ResponseEntity.ok(RestResponse.ok(footerService.getFaqList(map)));
     }
@@ -53,11 +53,13 @@ public class ApiFooterController {
     public ResponseEntity<RestResponse> boardNotices(
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size,
-            @RequestParam(value = "search" , required = false ) String search
+            @RequestParam(value = "search" , required = false ) String search,
+            @RequestParam(value = "lang" , defaultValue = "ko" , required = false) String lang
     ) {
-        CommonMap maps = CommonMap.create(page,size);
-        maps.put("search" , search);
-        return ResponseEntity.ok(RestResponse.ok(footerService.getBoardNoticeList(maps)));
+        CommonMap map = CommonMap.create(page,size);
+        map.put("search" , search);
+        map.put("lang" , lang);
+        return ResponseEntity.ok(RestResponse.ok(footerService.getBoardNoticeList(map)));
     }
 
     @GetMapping(value="/notices/{id}")
@@ -92,8 +94,7 @@ public class ApiFooterController {
     public ResponseEntity<RestResponse> forms(
             @PathVariable("id") int id,
             @RequestPart(value="key", required=false) CommonMap map,
-            @RequestPart(value="file", required=true) MultipartFile file,
-            HttpServletResponse response) {
+            @RequestPart(value="file") MultipartFile file) {
 
         map.put("recruit_id" , id);
         footerService.saveRecruitApply(file , map);

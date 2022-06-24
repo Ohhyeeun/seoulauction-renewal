@@ -18,6 +18,9 @@
             <!-- header -->
             <jsp:include page="../../include/ko/header.jsp" flush="false"/>
             <!-- //header -->
+            <script>
+                app.value('locale', 'ko');
+            </script>
 
             <!-- container -->
             <div id="container">
@@ -88,7 +91,6 @@
                                 </div>
                                 <div class="panel-footer">
                                     <!-- 고객센터 -->
-
                                     <!-- [0523]클래스명 수정 //-->
                                     <article class="inquiry-article type-customer">
                                         <div class="inquiry-box">
@@ -114,7 +116,6 @@
                                             </div>
                                         </div>
                                     </article>
-
                                 </div>
                             </div>
 
@@ -148,7 +149,6 @@
 
     <script src="/js/common/paging.js" type="text/javascript"></script>
     <script src="/js/footer/notice.js" type="text/javascript"></script>
-
 
 
 </body>

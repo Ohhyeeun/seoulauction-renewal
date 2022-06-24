@@ -6,7 +6,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-
+<!DOCTYPE html>
+<html lang="ko">
 <sec:authorize access="hasRole('ROLE_EMPLOYEE_USER')">
 	<sec:authentication property="details.authorities" var="authorities"></sec:authentication>
 </sec:authorize>

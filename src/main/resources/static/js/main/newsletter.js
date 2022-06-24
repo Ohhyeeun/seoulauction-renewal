@@ -12,14 +12,11 @@ $(document).ready(function(){
 
         if(subscript) {
 
-
             //이메일 정규식.
             let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 
             let email = $('#newsEmail').val();
             let name = $('#newsName').val();
-
-
 
             let data = {};
             data['email'] = email;

@@ -174,7 +174,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="article-footer">
+                                        <div class="article-footer" id="content_more">
 
                                             <div class="btn_set_more more_unfold-area">
                                                 <button class="btn btn_default js-more_view" type="button"><span>펼쳐 보기</span> <i class="icon-more_arrow"></i></button>
@@ -198,7 +198,7 @@
                 </section>
 
 
-                <section class="basis-section last-section private_sale_list-section">
+                <section class="basis-section last-section private_sale_list-section" id="exhibit_content">
                     <div class="section-inner">
 
                         <div class="content-panel type_panel-product_list mode-topline">

@@ -77,7 +77,7 @@ public class CommonMap extends HashMap<String, Object>{
 
 	public CommonMap toLowerCaseMap(){
 		CommonMap newMap = new CommonMap();
-		this.keySet().stream().forEach(c-> newMap.put(c.toLowerCase() , this.get(c)));
+		this.keySet().forEach(c-> newMap.put(c.toLowerCase() , this.get(c)));
 		return newMap;
 	}
 

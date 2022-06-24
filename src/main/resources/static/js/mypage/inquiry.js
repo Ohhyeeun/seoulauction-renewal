@@ -13,7 +13,7 @@ var getParameter = function(param){
     return requestParam;
 }
     
-app.value('locale', 'ko');
+app.value('locale', document.documentElement.lang);
 /*문의하기 목록*/
 app.requires.push.apply(app.requires, ["bw.paging"]);
 app.controller('inquiryListCtl', function($scope, consts, common) {
@@ -64,7 +64,6 @@ app.controller("inquiryViewCtl", function($scope, consts, common) {
 		axios.get("/api/mypage/inquiries/"+writeNo, null)
         .then(function(response) {
             const result = response.data;
-
             let success = result.success;
             if(!success){
                 alert(result.data.msg);
@@ -169,17 +168,25 @@ app.service("inquiryService", function($rootScope, common, locale) {
 		        
 		        let fileNameList = [];
 				if(files.length > 10){
-						alert("최대 10개의 파일 업로드 가능합니다. ");		
+						if (locale == "ko") {
+							alert("최대 10개의 파일 업로드 가능합니다. ");		
+						} else {
+							alert("You can upload 10 files");		
+						}
 						document.getElementById("file").files =[];
 						return false;			
 				}
 				
-/*				for(let i =0; i < files.length; i++){	
+				for(let i =0; i < files.length; i++){	
 					let file = files[i];
 					
 					//첨부파일 용량체크				
 					if(file.size > maxSize){
-						alert("파일 사이즈는 최대 10MB입니다.");	
+						if (locale == "ko") {
+							alert("파일 사이즈는 최대 10MB입니다.");	
+						} else {
+							alert("ou can attach files of 10 MB or less.");	
+						}
 						document.getElementById("file").files =[];		
 						return false;				
 					}
@@ -192,19 +199,27 @@ app.service("inquiryService", function($rootScope, common, locale) {
 					
 					//파일 확장자 체크
 					if(extArray.indexOf(fileExt) == -1){
-						alert("확장자(jpg, jpeg, png, gif, pdf, zip, alz)를 확인해주세요.");
+						if (locale == "ko") {
+							alert("확장자(jpg, jpeg, png, gif, pdf, zip, alz)를 확인해주세요.");
+						} else {
+							alert("File type : jpg, jpeg, png, gif, pdf, zip, alz");
+						}
 						document.getElementById("file").files =[];	
 						return false;		
 					}	
 					
-					fileNameList.push({"index" : i, "fileName":filename });		
-				}*/
+					fileNameList.push({"fileIndex" : i, "fileName":filename });		
+				}
 				
-				for(file  of files){	
+				/*for(file  of files){	
 					console.log(file);
 					//첨부파일 용량체크				
 					if(file.size > maxSize){
-						alert("파일 사이즈는 최대 10MB입니다.");	
+						if (locale == "ko") {
+							alert("파일 사이즈는 최대 10MB입니다.");	
+						} else {
+							alert("ou can attach files of 10 MB or less.");	
+						}
 						document.getElementById("file").files =[];		
 						return false;				
 					}
@@ -217,21 +232,45 @@ app.service("inquiryService", function($rootScope, common, locale) {
 					
 					//파일 확장자 체크
 					if(extArray.indexOf(fileExt) == -1){
-						alert("확장자(jpg, jpeg, png, gif, pdf, zip, alz)를 확인해주세요.");
+						if (locale == "ko") {
+							alert("확장자(jpg, jpeg, png, gif, pdf, zip, alz)를 확인해주세요.");
+						} else {
+							alert("File type : jpg, jpeg, png, gif, pdf, zip, alz");
+						}
 						document.getElementById("file").files =[];	
 						return false;		
 					}	
 					
 					fileNameList.push({filename});		
-				}
+				}*/
 				
 				$scope.fileNameList = fileNameList;
 				$scope.$apply();
 			
 		}
 		
+		$scope.deleteFile = function(index){
+			let fileNameList = [];
+		    const dataTransfer = new DataTransfer();
+		    
+		    let files = $('#file')[0].files;	
+		    
+		    let fileArray = Array.from(files);	//변수에 할당된 파일을 배열로 변환(FileList -> Array)
+		    
+		    fileArray.splice(index, 1);	//해당하는 index의 파일을 배열에서 제거
+		    
+		    fileArray.forEach(function(file,index) {
+			dataTransfer.items.add(file); 
+		    fileNameList.push({"fileIndex" : index, "fileName":file.name });		
+		    });
+		    
+		    
+		    $('#file')[0].files = dataTransfer.files;	//제거 처리된 FileList를 돌려줌
+		    
+		    $scope.fileNameList = fileNameList;
+		}
+		
 		$scope.checkValidData = function() {
-			console.log($scope.form_data.cate1);
 			if (!$scope.isValidString($scope.form_data.cate1)) {
 				if (locale == "ko") {
 					alert("카테고리(대분류)를 선택하세요.");

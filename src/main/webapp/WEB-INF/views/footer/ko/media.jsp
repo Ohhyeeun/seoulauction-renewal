@@ -31,9 +31,6 @@
                             </div>
                         </div>
                     </section>
-
-
-
                     <section class="basis-section bbs-section bbs-media-section">
                         <div class="section-inner">
                             <div class="content-panel">
@@ -48,8 +45,8 @@
 										</div> -->
                                         <div class="tab-area type-left_lg">
                                             <ul class="tab-list js-list_tab_left_lg">
-                                                <li class="active"><a href="#tab-cont-1"><span>국내</span></a></li>
-                                                <li><a href="#tab-cont-2"><span>해외</span></a></li>
+                                                <li class="active"><a id="media_tab1" href="#tab-cont-1"><span>국내</span></a></li>
+                                                <li><a id="media_tab2" href="#tab-cont-2"><span>해외</span></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -76,9 +73,7 @@
                                                     <th>날짜</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="media_tbody">
-
-                                            </tbody>
+                                            <tbody id="media_tbody"></tbody>
                                         </table>
                                     </div>
                                 </div>

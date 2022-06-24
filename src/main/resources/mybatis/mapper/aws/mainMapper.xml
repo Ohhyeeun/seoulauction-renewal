@@ -82,15 +82,14 @@
         LIMIT #{size}
     </select>
     <!--Popup-->
-    <select id="selectPopup" resultType="CommonMap">
+    <select id="selectPopup" parameterType="CommonMap" resultType="CommonMap">
         <![CDATA[
             SELECT
                 *
             FROM
                 main_popup
             WHERE
-                popup_type = 'bottom-right'
-                and status = 'A'
+                status = 'A'
                 and start_at <= (now() + interval 9 hour)
                 and end_at >= (now() + interval 9 hour)
             ORDER BY
@@ -110,4 +109,19 @@
         ]]>
     </select>
 
+    <select id="selectBrochures" parameterType="CommonMap" resultType="CommonMap">
+        SELECT id, content_type, sale_no, start_at, end_at, read_count, content, sort, file_status, created_at, updated_at
+        FROM content_brochure cb
+        WHERE status = 'A'
+            AND file_status = 'before'
+            AND (now() + interval 9 hour) between start_at and end_at
+            AND sale_no = #{sale_no}
+        ORDER BY sort
+    </select>
+
+    <update id="addBrochureReadCount" parameterType="CommonMap">
+        UPDATE content_brochure
+        SET read_count = read_count + 1
+        WHERE id = #{id}
+    </update>
 </mapper>

@@ -4,20 +4,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<head>
-    <!-- header -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>마이페이지 | Seoul Auction</title>
-    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
-
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
-    <!-- //header -->
-</head>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	    <meta charset="UTF-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	    <title>1:1 Inquiry | Seoul Auction</title>
+	</head>
 <body class="">
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
@@ -291,7 +285,8 @@
 						                                        <div class="file-box-list" ng-repeat="file in fileNameList" >
 						                                            <p class="label" >
 						                                                <i class="icon_down"></i>
-						                                                <span class="tb1">{{file.filename}}</span>
+						                                                <span class="tb1">{{file.fileName}}</span>
+						                                                <a href="#none" class="btn_del" ng-click="deleteFile(file.fileIndex)"><span class="icon-del"></span></a>
 						                                            </p>
 						                                        </div>
 																	
@@ -454,8 +449,8 @@
 	<script type="text/javascript" src="/js/pages_common_en.js"
 		type="text/javascript"></script>
 
-
-
+    <!-- 팝업 : side popup -->
+	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 
 </body>
 

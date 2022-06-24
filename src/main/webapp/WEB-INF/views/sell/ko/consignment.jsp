@@ -17,6 +17,9 @@
         <!-- header -->
         <jsp:include page="../../include/ko/header.jsp" flush="false"/>
         <!-- //header -->
+        <script>
+            app.value('locale', 'ko');
+        </script>
 
         <!-- container -->
         <div id="container">
@@ -166,7 +169,7 @@
                                                         </p>
                                                         <p class="tb1">
                                                         <div class="btn-box">
-                                                            <a class="btn btn_gray_line btn_sm" href="#" role="button"><span>위탁 신청</span></a>
+                                                            <a class="btn btn_gray_line btn_sm" href="/mypage/inquiryForm" role="button"><span>위탁 신청</span></a>
                                                         </div>
                                                         </p>
 

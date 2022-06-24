@@ -4,6 +4,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	    <meta charset="UTF-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	    <title>Online Paddle Bid History | Seoul Auction</title>
+	</head>
 <link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
 <spring:eval expression="@environment.getProperty('image.root.path')" var="imageRootPath" />
 <body class="" ng-controller="liveBidListCtl" data-ng-init="loadLiveBidList(1);">
@@ -176,13 +184,15 @@
             window.history.back();
         })
     </script>
-		<!-- 팝업 : 라이브경매관리 온라인패들 응찰 이력 -->
+    
+	<!-- 팝업 : 라이브경매관리 온라인패들 응찰 이력 -->
 	<jsp:include page="popup/liveBidHistoryListPopup.jsp" flush="false"/>
 									    
 	<!-- 오프라인결제 -->
 	<jsp:include page="popup/liveBidSuccessListPopup.jsp" flush="false"/>
     
-
+	<!-- 팝업 : side popup -->
+	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 
 </body>
 

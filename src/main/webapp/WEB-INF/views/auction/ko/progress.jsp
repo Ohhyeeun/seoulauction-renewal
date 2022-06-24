@@ -30,7 +30,7 @@
                                     <div class="tab-area type-left">
                                         <ul class="tab-list js-list_tab">
                                             <li class="active"><a href="#"><span>진행경매</span></a></li>
-                                            <li><a href="/auction/scheduled"><span>예정경매</span></a></li>
+                                            <li><a href="/auction/upcoming"><span>예정경매</span></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -49,9 +49,9 @@
                                             <article class="item-article">
                                                 <div class="image-area">
                                                     <figure class="img-ratio">
-                                                        <div class="img-align">
-                                                            <img ng-src="<spring:eval expression="@environment.getProperty('image.root.path')" />{{auction.SALE_IMG_NAME ? (auction.SALE_IMG_PATH + '/' + auction.SALE_IMG_NAME)  : (auction.LOT_IMG_NAME | imagePath : auction.LOT_IMG_PATH : true)}}" alt="">
-                                                        </div>
+                                                        <a href="javascript:void(0);" class="img-align" ng-click="goProgressAuction(auction.SALE_KIND_CD, auction.SALE_NO);">
+                                                            <img ng-src="<spring:eval expression="@environment.getProperty('image.root.path')" />{{auction.SALE_IMG_NAME ? (auction.SALE_IMG_PATH + '/' + auction.SALE_IMG_NAME)  : (auction.LOT_IMG_NAME | imagePath : auction.LOT_IMG_PATH : true)}}" alt="예정경매 이미지">
+                                                        </a>
                                                     </figure>
                                                 </div>
 
@@ -61,7 +61,8 @@
                                                         <div class="state-box">
                                                             <span class="type-online" ng-if="['online','online_zb'].indexOf(auction.SALE_KIND_CD) > -1">ONLINE</span>
                                                             <span class="type-live" ng-if="['online','online_zb'].indexOf(auction.SALE_KIND_CD) <= -1">LIVE</span>
-                                                            <span class="type-d_day">{{(auction.TO_DT | date:'yyyyMMdd') - (auction.DB_NOW | date:'yyyyMMdd') > 0 ? 'D-'+(auction.TO_DT | date:'yyyyMMdd') - (auction.DB_NOW | date:'yyyyMMdd') : 'TODAY'}}</span>
+                                                            <span class="type-d_day" ng-if="(auction.DB_NOW | calcDate : auction.TO_DT : 'days') > 0">D-{{auction.DB_NOW | calcDate : auction.TO_DT : 'days'}}</span>
+                                                            <span class="type-d_day" ng-if="(auction.DB_NOW | calcDate : auction.TO_DT : 'days') <= 0">TODAY</span>
                                                         </div>
                                                         <div class="title-box"><span>{{auction.TITLE_JSON['ko']}}</span></div>
                                                         <div class="info-box">

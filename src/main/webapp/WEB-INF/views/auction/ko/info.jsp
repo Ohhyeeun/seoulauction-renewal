@@ -15,6 +15,9 @@
         <!-- header -->
         <jsp:include page="../../include/ko/header.jsp" flush="false"/>
         <!-- //header -->
+        <script>
+            app.value('locale', 'ko');
+        </script>
 
         <!-- container -->
         <div id="container">
@@ -140,7 +143,7 @@
                                                                             <div class="txt_area">
                                                                                 <p class="tb1">서울옥션 홈페이지 회원가입시 회원 가입 절차에 따라 작성을 완료해 주시기 바랍니다.</p>
                                                                                 <div class="btn_box">
-                                                                                    <a class="btn btn_default">
+                                                                                    <a href="/join" class="btn btn_default">
                                                                                         <span>회원가입</span>
                                                                                     </a>
                                                                                 </div>
@@ -247,6 +250,7 @@
                                                                 </div>
                                                                 <div class="btn_box">
                                                                     <a class="btn btn_gray_line">
+                                                                        <%--TODO 응찰 등록 신청서 파일 다운로드--%>
                                                                         <span>응찰등록신청서</span>
                                                                     </a>
                                                                 </div>
@@ -382,7 +386,7 @@
                                                                                     <span class="tb1">낙찰자는 낙찰을 철회할 수 없습니다. 부득이 철회를 하는 경우에는 낙찰일로부터 7일 이내에 서면으로 철회의사를 통보하고, 위약별로 <em>낙찰가의 30%</em>에 해당하는 금액을 <em>낙찰일로부터 7일 이내에</em> 납부하여야 합니다.</span>
                                                                                 </div>
                                                                                 <div class="btn_box">
-                                                                                    <a class="btn btn_default">
+                                                                                    <a href="/footer/terms" class="btn btn_default">
                                                                                         <span>경매약관</span>
                                                                                     </a>
                                                                                 </div>

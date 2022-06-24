@@ -4,7 +4,7 @@ $(document).ready(function(){
     let auctionData = [];
     let currentLotData = [];
     let curruentTab = 0;
-    let initCount = 10;
+    let initCount = 12;
     let currentSaleNo;
     let locale = document.documentElement.lang;
     init();
@@ -45,8 +45,6 @@ $(document).ready(function(){
                         addLot(idx , currentLotData[curruentTab].slice(0 , initCount));
                     });
 
-
-
                     //초기 sale_NO 설정.
                     currentSaleNo = currentLotData[curruentTab][0].SALE_NO;
                     bidstart();
@@ -85,7 +83,7 @@ $(document).ready(function(){
                                             </p>
                                         </a>
                                     </figcaption>
-                            </figure>`;
+                </figure>`;
             $('.auctionTab-contents').eq(idx).append(html);
         });
 
@@ -136,13 +134,16 @@ $(document).ready(function(){
         $('.auction-thumb').on('mouseleave', function () {
             $(this).removeClass('on');
         });
+
+        //클릭시
+        // $('.auction-thumb').on('click', function () {
+        //     window.open('/auction/live/view/'+currentSaleNo + '/' +$(this).children('button').attr('id').split('id_')[1]);
+        // });
+
         //auction haert 버튼
         $('.wish_heart').on('click', function () {
 
-            if(sessionStorage.getItem("is_login") === 'false'){
-                alert('로그인을 진행해주세요.');
-                return;
-            }
+            checkLogin();
 
             let data = {};
 
@@ -175,7 +176,7 @@ $(document).ready(function(){
             $('#MoreAuction').hide();
             //$(".auctionTab-contents.on").css('height', '100%');
 
-            addLot(curruentTab , currentLotData[curruentTab].slice(initCount , currentLotData[curruentTab].length )  );
+            addLot(curruentTab , currentLotData[curruentTab].slice(initCount , initCount * 2 )  );
             bidstart();
             //auctionDataInit();
         });

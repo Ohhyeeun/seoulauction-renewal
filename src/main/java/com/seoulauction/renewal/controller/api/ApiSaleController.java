@@ -144,6 +144,7 @@ public class ApiSaleController {
                 lotInfoMap.put(item, mapper.readValue(String.valueOf(lotInfoMap.get(item)), Map.class));
                 Map<String,Object> m = (Map<String,Object>)lotInfoMap.get(item);
                 if (item.equals("ARTIST_NAME_JSON")) {
+
                     // artist filter DB화 필요
                     List<String> artistFilters = new ArrayList<>();
                     artistFilters.add("김환기");
@@ -209,7 +210,6 @@ public class ApiSaleController {
 
         CommonMap map = new CommonMap();
         map.put("sale_no", saleNo);
-        //map.put("lot_no", lotNo);
 
         // 랏 이미지 정보 가져오기
         List<CommonMap> lotImages = saleService.selectSaleLotImages(map);
@@ -387,8 +387,8 @@ public class ApiSaleController {
     public ResponseEntity<RestResponse> searchList(
             @RequestBody CommonMap map, Principal principal) throws Exception {
 
-        if(principal != null){
-            map.put("cust_no", principal.getName());
+        if(SecurityUtils.getAuthenticationPrincipal() != null){
+            map.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
         }
         map.put("list_type", "SEARCH");
         map.put("for_count", true);
@@ -490,5 +490,16 @@ public class ApiSaleController {
         CommonMap paramMap = new CommonMap();
         paramMap.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
         return ResponseEntity.ok(RestResponse.ok(saleService.getCustomerByCustNo(paramMap)));
+    }
+
+
+    @RequestMapping(value="/artist_info/{artist_no}", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> artistInfo(HttpServletRequest req, HttpServletResponse res, Locale locale,
+                                                 @PathVariable("artist_no") int artistNo) {
+        CommonMap map = new CommonMap();
+        map.put("artist_no", artistNo);
+
+        CommonMap artistInfoMap = saleService.selectArtistInfo(map);
+        return ResponseEntity.ok(RestResponse.ok(artistInfoMap));
     }
 }

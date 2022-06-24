@@ -336,7 +336,7 @@ function loadUpcomings() {
                     const to_dt = moment(item.TO_DT);
                     const open_dt = moment(item.OPEN_DT);
                     const returnDom =  ` <div class="swiper-slide upcomingSlide " style="padding-right: 40px;">
-                                            <a href="/auction/scheduled/${item.SALE_NO}">
+                                            <a href="/auction/upcoming/${item.SALE_NO}">
                                                 <div class="upcoming-caption">
                                                     <span class="auctionKind-box ${ item.SALE_KIND === 'LIVE' ? 'on' : ''}">
                                                         ${item.SALE_KIND} 
@@ -541,16 +541,33 @@ function loadPopup(){
                 const success = response.data.success;
                 if (success) {
                     const data = response.data.data;
-                    $('#main_popup_title').html(data.title);
-                    $('#main_popup_content').html(data.content);
-                    $('#main_popup_img').attr('src', data.image);
+                    console.log(data);
 
-                    $('.main-popupBg').show();
+                    if(data) {
 
-                    $('.main-popup-close, .main-popupBg').click(function () {
-                        $('.main-popupbox').addClass('down');
-                        $('.main-popupBg').fadeOut();
-                    });
+                        let jsonData = JSON.parse(data.content);
+
+                        let localeTitle = locale === 'ko' ? jsonData.title.ko : jsonData.title.en;
+                        let localeContent = locale === 'ko' ? jsonData.content.ko.content : jsonData.content.en.content;
+
+                        //TODO URL로 뭐해야함...
+
+                        $('.main-popup-img').hide();
+
+                        $('#main_popup_title').html(localeTitle);
+                        $('#main_popup_content').html(localeContent);
+
+                        if(data.image !== "") {
+                            $('#main_popup_img').attr('src', data.image);
+                            $('.main-popup-img').show();
+                        }
+                        $('.main-popupBg').show();
+
+                        $('.main-popup-close, .main-popupBg').click(function () {
+                            $('.main-popupbox').addClass('down');
+                            $('.main-popupBg').fadeOut();
+                        });
+                    }
                 }
             })
             .catch(function (error) {
@@ -576,8 +593,48 @@ function localeOrdinal(n, l) {
 
 }
 
-/* 반응형 resize 추가 */ 
+/* main에서만 사용되는 gnb */
+if (matchMedia("all and (min-width: 1024px)").matches) {
+
+} else {
+    /* 띠배너 beltbanner */
+    $('.header_beltbox.on').show(function () {
+        $('.main-contents').css('margin-top', '100px');
+        $('.m-gnbmenu').click(function(){
+            $('.submenuBg').css({'top':'-43px'});
+        });
+    });
+    $('.beltclose-btn').click(function () {
+        $('.main-contents').css('margin-top', '56px');
+        $('.m-gnbmenu').click(function(){
+            $('.submenuBg').css({'top':'0'});
+        });
+    });
+}
+
+
+
+/* 반응형 resize 추가 */
 $(window).resize(function(){
+    /* gnb */
+    if (matchMedia("all and (min-width: 1024px)").matches) {
+
+    } else {
+        /* 띠배너 beltbanner */
+        $('.header_beltbox.on').show(function () {
+            $('.main-contents').css('margin-top', '100px');
+            $('.m-gnbmenu').click(function(){
+                $('.submenuBg').css({'top':'-43px'});
+            });
+        });
+        $('.beltclose-btn').click(function () {
+            $('.main-contents').css('margin-top', '56px');
+            $('.m-gnbmenu').click(function(){
+                $('.submenuBg').css({'top':'0'});
+            });
+        });
+    };
+
     /* visual */
     const visualSwiper = new Swiper('.visual-swiper', {
         autoplay: {

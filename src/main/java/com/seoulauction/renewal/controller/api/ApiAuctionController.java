@@ -33,10 +33,10 @@ public class ApiAuctionController {
         return ResponseEntity.ok(RestResponse.ok(auctionService.selectProgressSaleList(map)));
     }
 
-    @GetMapping(value = "/scheduled")
-    public ResponseEntity<RestResponse> scheduled(){
+    @GetMapping(value = "/upcoming")
+    public ResponseEntity<RestResponse> upcoming(){
         CommonMap map = new CommonMap();
-        return ResponseEntity.ok(RestResponse.ok(auctionService.selectScheduledSaleList(map)));
+        return ResponseEntity.ok(RestResponse.ok(auctionService.selectUpcomingSaleList(map)));
     }
 
     @GetMapping(value="/sales/{saleNo}")
@@ -45,5 +45,16 @@ public class ApiAuctionController {
         commonMap.put("sale_no", saleNo);
 
         return ResponseEntity.ok(RestResponse.ok(auctionService.selectSaleInfo(commonMap)));
+    }
+
+    @PostMapping(value="/brochure/read")
+    public ResponseEntity<RestResponse> brochureRead(@RequestBody CommonMap map) {
+        auctionService.addBrochureReadCount(map);
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
+    @PostMapping(value = "/results")
+    public ResponseEntity<RestResponse> results(@RequestBody CommonMap map){
+        return ResponseEntity.ok(RestResponse.ok(auctionService.selectResultSaleList(map)));
     }
 }

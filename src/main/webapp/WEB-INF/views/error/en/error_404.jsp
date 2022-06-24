@@ -14,7 +14,7 @@
     <div class="wrapper">
         <div class="sub-wrap pageclass">
             <!-- header -->
-            <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+            <jsp:include page="../../include/en/header.jsp" flush="false"/>
             <!-- //header -->
 
             <!-- container -->
@@ -49,7 +49,7 @@
             <!-- //container -->
 
 			<!-- footer -->
-            <jsp:include page="../../include/ko/footer.jsp" />
+            <jsp:include page="../../include/en/footer.jsp" />
             <!-- //footer -->
 
             <!-- stykey -->
@@ -69,17 +69,6 @@
     <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
     <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-    <!-- [0516]삭제
-  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
--->
-
-
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
-
-
-
-
 </body>
 
 </html>
