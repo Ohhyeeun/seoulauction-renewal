@@ -683,7 +683,7 @@ app.controller('headCtl', function($scope, consts, common, locale, $filter) {
                 let html = '<span class="keyword-search-tit">추천검색</span>';
                 $('.recommend-search-part').append(html);
                 data.map(item => {
-                    let innerHtml = '<a href="/sale/search?searchContent=' + item.name + '" class="recommend-keyword">' + dotSubString(item.name, 10) + '</a>';
+                    let innerHtml = '<a href="/sale/search?searchContent=' + JSON.parse(item.artist_name)[locale] + '" class="recommend-keyword">' + dotSubString(JSON.parse(item.artist_name)[locale], 10) + '</a>';
                     $('.recommend-search-part').append(innerHtml);
                 });
             }

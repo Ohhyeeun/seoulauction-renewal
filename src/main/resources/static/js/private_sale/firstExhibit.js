@@ -47,7 +47,7 @@ app.controller("exhibitCtl", function($scope, consts, common, locale, $filter) {
     $scope.locale = locale;
     $scope.$size = 10;
 
-    $scope.loadExhibitList = function($page){
+    $scope. loadExhibitList = function($page){
 
         $scope.currentPage = $page;
         $page = $scope.currentPage;
@@ -120,6 +120,9 @@ app.controller("exhibitCtl", function($scope, consts, common, locale, $filter) {
 
                         $(".product-list").append(html);
                     });
+                }else{
+                    $("#content_more").hide();
+                    $("#exhibit_content").hide();
                 }
             }else{
                 alert("데이터 로딩 실패");
