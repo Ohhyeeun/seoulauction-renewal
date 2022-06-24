@@ -280,7 +280,7 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				return false;
 			}
 
-			if (($scope.form_data.cate1 == 'sell' || $scope.form_data.cate1 == 'payment' || $scope.form_data.cate1 == 'others' || $scope.form_data.cate1 == 'homepage') && !$scope.isValidString($scope.form_data.cate2) && $scope.form_data.cate2 == "") {
+			if (($scope.form_data.cate1 == 'sell' || $scope.form_data.cate1 == 'payment_shipping' || $scope.form_data.cate1 == 'others' || $scope.form_data.cate1 == 'exhibition') && !$scope.isValidString($scope.form_data.cate2) && $scope.form_data.cate2 == "") {				
 				if (locale == "ko") {
 					alert("카테고리(중분류)를 선택하세요.");
 				} else {
@@ -439,6 +439,7 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				document.getElementById("inquiryContents").value = $scope.form_data.content;
 			}
 
+			
 			
 			if ($scope.checkValidData()) {
 				let form = document.querySelector('#frmInquiry');
