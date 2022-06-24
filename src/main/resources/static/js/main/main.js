@@ -544,17 +544,29 @@ function loadPopup(){
                     console.log(data);
 
                     if(data) {
-                        //
-                        // $('#main_popup_title').html(data.title);
-                        // $('#main_popup_content').html(data.content);
-                        // $('#main_popup_img').attr('src', data.image);
-                        //
-                        // $('.main-popupBg').show();
-                        //
-                        // $('.main-popup-close, .main-popupBg').click(function () {
-                        //     $('.main-popupbox').addClass('down');
-                        //     $('.main-popupBg').fadeOut();
-                        // });
+
+                        let jsonData = JSON.parse(data.content);
+
+                        let localeTitle = locale === 'ko' ? jsonData.title.ko : jsonData.title.en;
+                        let localeContent = locale === 'ko' ? jsonData.content.ko.content : jsonData.content.en.content;
+
+                        //TODO URL로 뭐해야함...
+
+                        $('.main-popup-img').hide();
+
+                        $('#main_popup_title').html(localeTitle);
+                        $('#main_popup_content').html(localeContent);
+
+                        if(data.image !== "") {
+                            $('#main_popup_img').attr('src', data.image);
+                            $('.main-popup-img').show();
+                        }
+                        $('.main-popupBg').show();
+
+                        $('.main-popup-close, .main-popupBg').click(function () {
+                            $('.main-popupbox').addClass('down');
+                            $('.main-popupBg').fadeOut();
+                        });
                     }
                 }
             })
