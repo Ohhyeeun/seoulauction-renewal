@@ -444,6 +444,8 @@ app.service("inquiryService", function($rootScope, common, locale) {
 			if ($scope.checkValidData()) {
 				let form = document.querySelector('#frmInquiry');
 				var formData = new FormData(form);
+				alert([...formData.entries()]);
+				alert([...formData.entries()][20][1].name);
 				
 				axios.post("/api/mypage/inquiry" , formData, {
 				  headers: {
@@ -465,7 +467,7 @@ app.service("inquiryService", function($rootScope, common, locale) {
 		            }
 		        })
 		        .catch(function(error){
-		            console.log(error);
+		            alert(error);
 		        });
 	        /*
 				common.callFileAPI("/api/mypage/inquiry", formData,
