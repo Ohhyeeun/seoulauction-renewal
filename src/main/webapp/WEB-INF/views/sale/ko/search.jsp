@@ -168,6 +168,18 @@
                                                                 <dt>현재가</dt>
                                                                 <dd><strong>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE }} </strong><em>(응찰 {{item.BID_CNT }})</em></dd>
                                                             </dl>
+                                                            <dl class="price-list" ng-if="!custInfo.CUST_NO">
+                                                                <dt>낙찰가</dt>
+                                                                <dd>낙찰가는 로그인 후 확인할 수 있습니다.</dd>
+                                                            </dl>
+                                                            <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && ['online','online_zb'].indexOf(item.SALE_KIND_CD) > -1 && item.END_YN == 'Y' && item.LAST_PRICE > 0">
+                                                                <dt>낙찰가</dt>
+                                                                <dd>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE }}</dd>
+                                                            </dl>
+                                                            <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && ['main','hongkong','plan'].indexOf(item.SALE_KIND_CD) > -1 && item.CLOSE_YN == 'Y' && item.LAST_PRICE > 0">
+                                                                <dt>낙찰가</dt>
+                                                                <dd>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE }}</dd>
+                                                            </dl>
                                                         </div>
                                                         <div class="state-box">
                                                             <div class="state op-ing">
@@ -199,7 +211,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </section>
 
@@ -502,12 +513,15 @@
             let run = async function () {
                 let [r1] = await Promise.all([get_search_list(data)]);
                 let cntList;
+                let custInfo;
                 if (r1.data.data.length === 0) {
                     return;
                 }
                 if (r1.data.data.cntList.length > 0 ){
                     cntList = r1.data.data.cntList[0];
                 }
+
+                $scope.custInfo = r1.data.data.cust_info;
                 $scope.lotList = r1.data.data.list;
                 $scope.totalCount = cntList.CNT;
                 $scope.allCount = cntList.ALL_CNT;

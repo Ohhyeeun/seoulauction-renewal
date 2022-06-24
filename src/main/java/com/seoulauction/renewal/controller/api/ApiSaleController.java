@@ -387,8 +387,8 @@ public class ApiSaleController {
     public ResponseEntity<RestResponse> searchList(
             @RequestBody CommonMap map, Principal principal) throws Exception {
 
-        if(principal != null){
-            map.put("cust_no", principal.getName());
+        if(SecurityUtils.getAuthenticationPrincipal() != null){
+            map.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
         }
         map.put("list_type", "SEARCH");
         map.put("for_count", true);
