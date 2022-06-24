@@ -30,7 +30,7 @@
                                     <div class="tab-area type-left">
                                         <ul class="tab-list js-list_tab">
                                             <li class="active"><a href="#"><span>진행경매</span></a></li>
-                                            <li><a href="/auction/scheduled"><span>예정경매</span></a></li>
+                                            <li><a href="/auction/upcoming"><span>예정경매</span></a></li>
                                         </ul>
                                     </div>
                                 </div>

@@ -151,7 +151,7 @@ function sessionLogout() {
                         <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
                             <ul class="submenu submenu-part01">
                                 <li id="menu_auction"><a href="/auction/progress">진행경매</a></li>
-                                <li id="menu_upcoming"><a href="/auction/scheduled">예정경매</a></li>
+                                <li id="menu_upcoming"><a href="/auction/upcoming">예정경매</a></li>
                                 <li><a href="/auction/results">경매결과</a></li>
                             </ul>
                         </li>

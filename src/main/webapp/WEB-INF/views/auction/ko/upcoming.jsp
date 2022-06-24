@@ -49,7 +49,7 @@
                                             <article class="item-article">
                                                 <div class="image-area">
                                                     <figure class="img-ratio">
-                                                        <a href="javascript:void(0)" class="img-align" ng-click="goScheduledAuction(auction.SALE_NO);">
+                                                        <a href="javascript:void(0)" class="img-align" ng-click="goUpcomingAuction(auction.SALE_NO);">
                                                             <img ng-src="<spring:eval expression="@environment.getProperty('image.root.path')" />{{auction.SALE_IMG_NAME ? (auction.SALE_IMG_PATH + '/' + auction.SALE_IMG_NAME)  : (auction.LOT_IMG_NAME | imagePath : auction.LOT_IMG_PATH : true)}}" alt="">
                                                         </a>
                                                     </figure>
@@ -81,7 +81,7 @@
                                                             </dl>
                                                         </div>
                                                         <div class="btn-box">
-                                                            <button class="btn btn_default" ng-click="goScheduledAuction(auction.SALE_NO);"><span>예정경매보기</span></button>
+                                                            <button class="btn btn_default" ng-click="goUpcomingAuction(auction.SALE_NO);"><span>예정경매보기</span></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -116,7 +116,7 @@
     app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
     app.controller('auctionCtl', function($scope, consts, common, locale) {
         $scope.loadAuction = function() {
-            axios.get('/api/auction/scheduled').then(function(response) {
+            axios.get('/api/auction/upcoming').then(function(response) {
                 console.log(response);
                 const success = response.data.success;
                 if (success) {
@@ -132,8 +132,8 @@
             });
         }
 
-        $scope.goScheduledAuction = function(sale_no) {
-            location.href = "/auction/scheduled/"+sale_no;
+        $scope.goUpcomingAuction = function(sale_no) {
+            location.href = "/auction/upcoming/"+sale_no;
         }
     });
 </script>

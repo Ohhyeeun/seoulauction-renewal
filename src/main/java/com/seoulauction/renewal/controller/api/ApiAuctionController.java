@@ -33,10 +33,10 @@ public class ApiAuctionController {
         return ResponseEntity.ok(RestResponse.ok(auctionService.selectProgressSaleList(map)));
     }
 
-    @GetMapping(value = "/scheduled")
-    public ResponseEntity<RestResponse> scheduled(){
+    @GetMapping(value = "/upcoming")
+    public ResponseEntity<RestResponse> upcoming(){
         CommonMap map = new CommonMap();
-        return ResponseEntity.ok(RestResponse.ok(auctionService.selectScheduledSaleList(map)));
+        return ResponseEntity.ok(RestResponse.ok(auctionService.selectUpcomingSaleList(map)));
     }
 
     @GetMapping(value="/sales/{saleNo}")

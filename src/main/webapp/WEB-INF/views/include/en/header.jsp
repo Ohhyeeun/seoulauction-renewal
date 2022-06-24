@@ -128,7 +128,7 @@ function sessionLogout() {
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
                                 <ul class="submenu submenu-part01">
                                     <li id="menu_auction"><a href="/auction/progress">Current</a></li>
-                                    <li id="menu_upcoming"><a href="/auction/scheduled">Upcoming</a></li>
+                                    <li id="menu_upcoming"><a href="/auction/upcoming">Upcoming</a></li>
                                     <li><a href="#">Result</a></li>
                                 </ul>
                             </li>
