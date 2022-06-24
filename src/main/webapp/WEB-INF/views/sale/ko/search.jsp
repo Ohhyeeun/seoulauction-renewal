@@ -724,6 +724,7 @@
             }
 
             //추천 검색어
+
             axios.get('/api/auction/selectRecommandArtist').then(function(response) {
                 console.log(response);
                 const success = response.data.success;
@@ -734,7 +735,7 @@
                     const data = response.data.data;
                     data.map(item =>{
                         let html = `<button onclick="recommandSearch(` + item.name + `)">` + + `</button>`;
-                        html = '<button onclick="recommandSearch(\''+item.name+'\');">' + item.name + '</button>'
+                        html = '<button onclick="recommandSearch(\''+ JSON.parse(item.artist_name)[locale] +'\');">' + JSON.parse(item.artist_name)[locale]  + '</button>'
                         $('.word-items').append(html);
                     });
                 }
