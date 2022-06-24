@@ -317,7 +317,17 @@ $(function() {
 
     /* 최근검색 키워드 삭제 */
     $('.keyword-del').click(function () {
+        let id = $(this).attr("searchContent");
         $(this).parent('.recent-keyword').hide();
+        var items = getCookie("keywordHistory");
+
+        if(items){
+            var itemArray = items.split(',');
+            let index = itemArray.indexOf(id);
+            itemArray.splice(index, 1)
+            items = itemArray.join(',');
+            setCookie("keywordHistory", items, 1);
+        }
     });
     /* 최근검색 전체삭제 */
     $('.keyword-all-del').click(function () {
@@ -698,7 +708,7 @@ app.controller('headCtl', function($scope, consts, common, locale, $filter) {
         $(".recent-search").empty();
         let keywordsArray = keywords.split(',');
         $.each(keywordsArray , function(idx , el){
-            html += '<span class="recent-keyword"><a href="/sale/search?searchContent='+ el +'">'+ el+'</a><span class="keyword-del"></span></span>';
+            html += '<span class="recent-keyword"><a href="/sale/search?searchContent='+ el +'">'+ el+'</a><span class="keyword-del" searchContent="'+ el +'"></span></span>';
         });
 
     }else{
