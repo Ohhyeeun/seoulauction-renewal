@@ -986,6 +986,8 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		if(inputId.startsWith('fore_')){
 			if($('input[type="file"]')[0].files.length + $('input[type="file"]')[1].files.length < 2){
 				$scope.fileValid = false;
+			}else{
+				$scope.fileValid = true;
 			}
 		}else{
 			$scope.fileValid = true;
