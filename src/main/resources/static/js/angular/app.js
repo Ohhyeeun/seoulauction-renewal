@@ -493,6 +493,13 @@ app.filter('addHours', function() {
     };
 });
 
+app.filter('calcDate', function() {
+	return function(fromDT, toDT, format) {
+		var s = moment(toDT).diff(moment(fromDT), format);
+		return s;
+	};
+});
+
 app.filter('joinWith', function(consts) {
     return function(a, seperator) {
     	if(!seperator) seperator = ", ";
