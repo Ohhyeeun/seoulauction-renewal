@@ -565,7 +565,10 @@ function loadPopup(){
 
                         $('.main-popup-close, .main-popupBg').click(function () {
                             $('.main-popupbox').addClass('down');
-                            $('.main-popupBg').fadeOut();
+                            $('.main-popupBg').fadeOut('1000', function(){
+                                $(this).removeClass('on');
+                                $('body').css('overflow','visible');
+                            });
                         });
                     }
                 }
@@ -610,9 +613,12 @@ if (matchMedia("all and (min-width: 1024px)").matches) {
             $('.submenuBg').css({'top':'0'});
         });
     });
+    if($('.main-popupBg').hasClass('on')){
+         console.log(6549685); /* off */
+         $('body').css({'overflow':'hidden'});
+    }
+    $('main-popupBg').toggleClass('on');
 }
-
-
 
 /* 반응형 resize 추가 */
 $(window).resize(function(){
