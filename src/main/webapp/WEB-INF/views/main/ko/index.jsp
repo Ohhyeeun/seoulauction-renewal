@@ -175,11 +175,14 @@
 <div class="blackBg main-popupBg on">
     <div class="main-popupwrap">
         <div class="main-popupbox">
-            <a href="#">
-                <div class="main-popup-img"> <!-- 이미지 레이어팝업 -->
+            <a href="#" title="메인 팝업 이미지">
+                <div class="main-popup-img"> <!-- 이미지 레이어팝업 on-->
                     <img id="main_popup_img" <%--src="/images/pc/main/pop_event.jpg"--%> alt="레이어팝업 이미지">
                 </div>
-                <!-- 텍스트 레이어팝업 -->
+            </a>
+
+            <!-- 텍스트 레이어팝업 on-->
+            <a href="#" title="메인 팝업 텍스트">
                 <div class="main-popup-txt">
                     <div class="main-popup-caption">
                         <h2 id="main_popup_title">국내 오프라인 경매 구매수수료율 인상 및 약관 개정 안내</h2>

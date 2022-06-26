@@ -1938,6 +1938,7 @@ body.dark,
         background-color: #f2f2f2;
         overflow: hidden;
         overflow-y: auto;
+        z-index: 2;
     }
     .topsearch {
         display: block;
