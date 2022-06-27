@@ -547,20 +547,33 @@ function loadPopup(){
 
                         let jsonData = JSON.parse(data.content);
 
+                        let popupType = data.popup_type;
+
+
                         let localeTitle = locale === 'ko' ? jsonData.title.ko : jsonData.title.en;
                         let localeContent = locale === 'ko' ? jsonData.content.ko.content : jsonData.content.en.content;
-
+                        let localeUrl = locale === 'ko' ? jsonData.content.ko.url : jsonData.content.en.url;
                         //TODO URL로 뭐해야함...
 
-                        $('.main-popup-img').hide();
+                        $('.main-popup-img').hide()
+                        $('.main-popup-txt').hide();
 
-                        $('#main_popup_title').html(localeTitle);
-                        $('#main_popup_content').html(localeContent);
+                        if(popupType === 'image'){
 
-                        if(data.image !== "") {
-                            $('#main_popup_img').attr('src', data.image);
                             $('.main-popup-img').show();
+                            if(data.image !== "") {
+                                $('#main_popup_img').attr('src', data.image);
+                                $('.main-popup-img').show();
+                            }
+
+
+                        } else if (popupType === 'text'){
+                            $('.main-popup-txt').show();
+                            $('#main_popup_title').html(localeTitle);
+                            $('#main_popup_content').html(localeContent);
+
                         }
+
                         $('.main-popupBg').show();
 
                         $('.main-popup-close, .main-popupBg').click(function () {
