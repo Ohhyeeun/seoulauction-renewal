@@ -386,7 +386,7 @@ function loadUpcomings() {
 /* 띠배너 */
 const platFormSwiper = new Swiper('.platform-swiper', {
     autoplay: {
-        delay: 10000000,
+        delay: 5000,
     },
     slidesPerView: 1,
     spaceBetween: 10,
