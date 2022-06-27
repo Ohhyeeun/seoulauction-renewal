@@ -41,12 +41,12 @@ function sessionLogout() {
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
 
     <div class="header_beltbox on"> <!--class="on" block-->
-        <div class="wrap belttxtbox wrap_padding"> <!-- ul -->
-
+        <div class="swiper-container belt-swiper wrap_padding belttxtbox">
+            <div class="swiper-wrapper">
+            </div>
+            <span class="beltclose-btn closebtn closebtn-w"></span>
         </div>
-        <span class="beltclose-btn closebtn closebtn-w"></span>
     </div>
-
 
     <div>
         <ul class="header_utilitymenu wrap_padding pc-ver">
