@@ -1110,6 +1110,6 @@ $(document).ready(function(){
     });
 
     // 안드로이드 저장 막기
-    document.oncontextmenu = function(){return false};
+    // document.oncontextmenu="return false style='-webkit-touch-callout:none'";
 });
 
