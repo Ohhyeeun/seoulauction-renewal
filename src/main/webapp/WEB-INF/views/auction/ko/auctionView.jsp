@@ -158,7 +158,7 @@
                                                                     <div class="txt"><span>카카오톡</span></div>
                                                                 </button>
                                                             </div>
-                                                            <div class="sns-item">
+                                                            <div class="sns-item" ng-click="urlCopy();">
                                                                 <button class="js-share_url">
                                                                     <i class="icon-share_url_copy"></i>
                                                                     <div class="txt"><span>URL 복사</span></div>
@@ -803,6 +803,16 @@
             } catch (error) {
                 console.error(error);
             }
+        }
+
+        $scope.urlCopy = function () {
+            let url = location.href;
+            let $temp = $('<input>');
+            $('body').append($temp);
+            $temp.val(url).select();
+            document.execCommand('copy');
+            $temp.remove();
+            alert('URL이 복사되었습니다.');
         }
 
         // 호출 부

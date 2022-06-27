@@ -157,7 +157,7 @@
                                                                     <div class="txt"><span>카카오톡</span></div>
                                                                 </button>
                                                             </div>
-                                                            <div class="sns-item">
+                                                            <div class="sns-item" ng-click="urlCopy();">
                                                                 <button class="js-share_url">
                                                                     <i class="icon-share_url_copy"></i>
                                                                     <div class="txt"><span>URL 복사</span></div>
@@ -965,6 +965,16 @@
 
             //전부 다 조건을 만족햇을경우.
             location.href = '/auction/live/sale/' + item.SALE_NO + '/lot/' + item.LOT_NO + '/biding';
+        }
+
+        $scope.urlCopy = function () {
+            let url = location.href;
+            let $temp = $('<input>');
+            $('body').append($temp);
+            $temp.val(url).select();
+            document.execCommand('copy');
+            $temp.remove();
+            alert('URL이 복사되었습니다.');
         }
 
         // 호출 부
