@@ -152,7 +152,6 @@ public class LoginController {
 	        }
 		}
 		model.addAttribute("name", request.getParameter("name"));
-		model.addAttribute("mobile", request.getParameter("mobile"));
 		model.addAttribute("email", request.getParameter("email"));
 		model.addAttribute("socialLoginId", socialLoginId);
 		model.addAttribute("socialEmail", socialEmail);

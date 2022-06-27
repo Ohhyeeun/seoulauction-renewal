@@ -267,7 +267,6 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 						//미가입 = 회원가입페이지이동
 						document.getElementById('name').value = name;
 						document.getElementById('email').value = email;
-						document.getElementById('mobile').value = mobile;
 						document.getElementById('sub').value = sub;
 				
 						var form = document.getElementById('joinForm');

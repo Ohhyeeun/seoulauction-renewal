@@ -684,7 +684,6 @@
 		app.value('locale', 'ko');
 		var loginId = '${socialLoginId }';
 		var name = '${name }';
-		var mobile = '${mobile }';
 		var email = '${email }';
 		var socialLoginId = '${socialLoginId }';
 		var socialEmail = '${socialEmail }';
