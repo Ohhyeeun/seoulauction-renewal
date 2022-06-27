@@ -1492,7 +1492,7 @@
                                     dt_ly.setAttribute("class", "product-day");
 
                                     let dt_ly_span1 = document.createElement("em");
-                                    if (bid_info.is_winner && bid_hist_info[i].value.length - 1 == j) {
+                                    if (bid_info.winner_state === 2 && bid_hist_info[i].value.length - 1 == j) {
                                         // type
                                         dt_ly_span1.setAttribute("class", "type-success");
                                         dt_ly_span1.innerText = "낙찰";
@@ -1506,7 +1506,7 @@
                                     let dt_ly_span3 = document.createElement("span");
                                     dt_ly_span3.innerText = ddd.format("hh:mm:ss");
 
-                                    if (bid_info.is_winner) {
+                                    if (bid_info.winner_state === 2) {
                                         dt_ly.appendChild(dt_ly_span1);
                                     }
                                     dt_ly.appendChild(dt_ly_span2);
@@ -1523,7 +1523,7 @@
                     }
                 }
                 // 낙찰이 완료 되었다면
-                if (bid_info.is_winner) {
+                if (bid_info.winner_state === 2) {
                     let bid_tick = document.getElementById("bid_tick");
                     let bid_tick_main = document.getElementById("end_date_time");
                     if (end_bid_time <= 0) {

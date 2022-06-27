@@ -251,7 +251,7 @@
                                                                         <td ng-bind="item.customer.lot_no"></td>
                                                                         <td ng-bind="item.bid_cost | currency"></td>
                                                                         <td ng-bind="item.max_bid_cost | currency"></td>
-                                                                        <td><span class="lot-stat" ng-bind="item.is_winner | isWinner"></span></td>
+                                                                        <td><span class="lot-stat" ng-bind="item.winner_state | winnerText"></span></td>
                                                                     </tr>
                                                                     </tbody>
                                                                 </table>
@@ -520,7 +520,7 @@
                                                                         <td ng-bind="item.customer.lot_no"></td>
                                                                         <td ng-bind="item.bid_cost | currency"></td>
                                                                         <td ng-bind="item.max_bid_cost | currency"></td>
-                                                                        <td><span class="lot-stat" ng-bind="item.is_winner | isWinner"></span></td>
+                                                                        <td><span class="lot-stat" ng-bind="item.winner_state | winnerText"></span></td>
                                                                     </tr>
                                                                     </tbody>
                                                                 </table>
@@ -650,9 +650,18 @@
         })
 
         // 위너 처리
-        app.filter('isWinner', function(){
+        app.filter('winnerText', function(){
             return function(val) {
-                return (val?'낙찰':'')
+                switch (val){
+                    case 0:
+                       return '';
+                    case 1:
+                       return '';
+                    case 2:
+                       return '낙찰';
+                    default:
+                       return '';
+                }
             };
         })
 
@@ -919,7 +928,18 @@
             // bid protocols
             $scope.proc = function (evt, saleNo, lotNo, saleType, userId, custNo) {
                 const packet_enum = {
-                    init: 1, bid_info: 2, time_sync: 3, bid_info_init: 4, end_time_sync: 5, winner: 6, viewers: 7, user_bid_hist: 8, lot_change:9
+                    init: 1,
+                    bid_info: 2,
+                    time_sync: 3,
+                    bid_info_init: 4,
+                    end_time_sync: 5,
+                    winner: 6,
+                    viewers: 7,
+                    user_bid_hist: 8,
+                    lot_change: 9,
+                    lot_start : 10,
+                    bid_change : 11,
+                    bid_delete: 12,
                 }
                 let d = JSON.parse(evt.data);
                 if (d.msg_type === packet_enum.init) {
@@ -1088,7 +1108,7 @@
                                     $scope.saleInfoAll[j].CUR_COST = curCostValue;
 
                                     // 낙찰이 완료 되었다면
-                                    if ($scope.bidsInfoAll[idx].is_winner) {
+                                    if ($scope.bidsInfoAll[idx].winner_state === 2) {
                                         $scope.bidsInfoAll[idx].IS_END_BID = true;
                                     }
                                 }
@@ -1169,6 +1189,112 @@
                             break;
                         }
                     }
+                    $scope.$apply();
+                } else if (d.msg_type === packet_enum.lot_change) {
+                    for (let j = 0; j < $scope.saleInfoAll.length; j++) {
+                        if ($scope.saleInfoAll[j].LOT_NO === d.message.cur_lot_no) {
+                            $scope.curLot = $scope.saleInfoAll[j];
+                            break;
+                        }
+                    }
+                    $scope.$apply();
+                } else if (d.msg_type === packet_enum.lot_start) {
+                    for (let j = 0; j < $scope.saleInfoAll.length; j++) {
+                        if ($scope.saleInfoAll[j].LOT_NO === d.message.customer.lot_no) {
+                            $scope.curLot = $scope.saleInfoAll[j];
+                            break;
+                        }
+                    }
+                } else if (d.msg_type === packet_enum.bid_change) {
+
+                    let bid_hist_info = d.message.bids_hist;
+                    let bid_info = d.message.bids[0];
+
+                    $scope.curLot.bid_new_cost = "KRW " + (((bid_info.bid_cost === 0)
+                        ? bid_info.open_bid_cost
+                        : bid_info.bid_cost) + bid_info.bid_quote).toLocaleString('ko-KR');
+
+                    $scope.curLot.bid_new_cost_num = (((bid_info.bid_cost === 0)
+                        ? bid_info.open_bid_cost
+                        : bid_info.bid_cost) + bid_info.bid_quote)
+
+                    $scope.viewers = d.message.viewers;
+
+                    $scope.curLot.bid_cost = "KRW " + (((bid_info.bid_cost === 0)
+                        ? bid_info.open_bid_cost
+                        : bid_info.bid_cost)).toLocaleString('ko-KR');
+
+                    if (bid_hist_info != null && bid_hist_info.length > 0) {
+                        for (let i = 0; i < bid_hist_info.length; i++) {
+                            if (bid_hist_info[i].value != null) {
+                                // 현재 랏의 새로운 응찰가 세팅
+                                $scope.bidHist = bid_hist_info[i].value;
+                                for (let j = 0; j < $scope.bidHist.length; j++) {
+                                    $scope.bidHist[j].cur_cost = $scope.bidHist[j].bid_cost;
+                                    $scope.bidHist[j].bid_cost = "KRW " + $scope.bidHist[j].bid_cost.toLocaleString('ko-KR');
+                                }
+                                break
+                            }
+                        }
+                    }
+                    let v = $scope.bidHist;
+                    if (v != null) {
+                        // 응찰가 높은 순
+                        v.sort(function (a, b) {
+                            if (a.cur_cost > b.cur_cost) return -1;
+                            if (a.cur_cost === b.cur_cost) return 0;
+                            if (a.cur_cost < b.cur_cost) return 1;
+                        });
+                    } else {
+                        v = [];
+                    }
+                    $scope.bidHist = v;
+                    $scope.$apply();
+
+                } else if (d.msg_type === packet_enum.bid_delete) {
+
+                    let bid_hist_info = d.message.bids_hist;
+                    let bid_info = d.message.bids[0];
+
+                    $scope.curLot.bid_new_cost = "KRW " + (((bid_info.bid_cost === 0)
+                        ? bid_info.open_bid_cost
+                        : bid_info.bid_cost) + bid_info.bid_quote).toLocaleString('ko-KR');
+
+                    $scope.curLot.bid_new_cost_num = (((bid_info.bid_cost === 0)
+                        ? bid_info.open_bid_cost
+                        : bid_info.bid_cost) + bid_info.bid_quote)
+
+                    $scope.viewers = d.message.viewers;
+
+                    $scope.curLot.bid_cost = "KRW " + (((bid_info.bid_cost === 0)
+                        ? bid_info.open_bid_cost
+                        : bid_info.bid_cost)).toLocaleString('ko-KR');
+
+                    if (bid_hist_info != null && bid_hist_info.length > 0) {
+                        for (let i = 0; i < bid_hist_info.length; i++) {
+                            if (bid_hist_info[i].value != null) {
+                                // 현재 랏의 새로운 응찰가 세팅
+                                $scope.bidHist = bid_hist_info[i].value;
+                                for (let j = 0; j < $scope.bidHist.length; j++) {
+                                    $scope.bidHist[j].cur_cost = $scope.bidHist[j].bid_cost;
+                                    $scope.bidHist[j].bid_cost = "KRW " + $scope.bidHist[j].bid_cost.toLocaleString('ko-KR');
+                                }
+                                break
+                            }
+                        }
+                    }
+                    let v = $scope.bidHist;
+                    if (v != null) {
+                        // 응찰가 높은 순
+                        v.sort(function (a, b) {
+                            if (a.cur_cost > b.cur_cost) return -1;
+                            if (a.cur_cost === b.cur_cost) return 0;
+                            if (a.cur_cost < b.cur_cost) return 1;
+                        });
+                    } else {
+                        v = [];
+                    }
+                    $scope.bidHist = v;
                     $scope.$apply();
                 }
             }

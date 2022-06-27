@@ -179,4 +179,20 @@ public class AuctionController {
     public String results(Locale locale) {
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionResult" , locale);
     }
+
+    @GetMapping("/admin/bid/{sale_no}")
+    public String adminBid(Locale locale, Model model, @PathVariable("sale_no") int saleNo) {
+
+        SAUserDetails sa = SecurityUtils.getAuthenticationPrincipal();
+
+        if (sa == null) {
+            sa = new SAUserDetails();
+        }
+
+        model.addAttribute("member" , sa);
+        model.addAttribute("saleNo", saleNo);
+
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "bidLivePopEdit" , locale);
+    }
+
 }

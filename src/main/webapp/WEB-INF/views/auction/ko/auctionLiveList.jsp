@@ -831,7 +831,7 @@
                             $scope.saleInfoAll[j].END_DT =  $scope.bidsInfoAll[idx].end_bid_time;
 
                             // 낙찰이 완료 되었다면
-                            if ($scope.bidsInfoAll[idx].is_winner) {
+                            if ($scope.bidsInfoAll[idx].winner_state === 2) {
                                 if ($scope.bidsInfoAll[idx].end_bid_time <= 0) {
                                     $scope.saleInfoAll[j].BID_TICK = "경매 시작 전입니다.";
                                 } else if ($scope.bidsInfoAll[idx].end_bid_time <= new Date().getTime()) {

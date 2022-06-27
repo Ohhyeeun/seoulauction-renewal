@@ -240,14 +240,14 @@
                                         <div class="paging-area">
                                             <!-- paging -->
                                             <div class="paging">
-                                                <a href="javascript:void(0);" class="prev_end icon-page_prevprev">FIRST</a><a href="javascript:void(0);"
+                                                <a href="javascript:void(0);" class="prev_end icon-page_prevprev"><em>FIRST</em></a>
+                                                <a href="javascript:void(0);" class="next icon-page_next "><em>PREV</em></a>
                                                 <a href="javascript:void(0);" ng-click="pageing(item);"
                                                    ng-repeat="item in pageingdata">
                                                     <strong ng-if="item === curpage" ng-class="{'on':item === curpage}"
                                                             ng-bind="item"></strong>
                                                     <span ng-if="item != curpage" ng-bind="item"></span></a>
                                                 <a href="javascript:void(0);" class="next icon-page_next "><em>NEXT</em></a><a href="#"
-                                                                                                             class="next_end icon-page_nextnext">END</a>
                                             </div>
                                             <!-- paging -->
                                         </div>
@@ -1121,7 +1121,7 @@
                                             dt_ly.setAttribute("class", "product-day");
 
                                             let dt_ly_span1 = document.createElement("em");
-                                            if (bid_info.is_winner && bid_hist_info[i].value.length - 1 == j) {
+                                            if (bid_info.winner_state === 2 && bid_hist_info[i].value.length - 1 == j) {
                                                 // type
                                                 dt_ly_span1.setAttribute("class", "type-success");
                                                 dt_ly_span1.innerText = "낙찰";
@@ -1132,7 +1132,7 @@
                                             // time
                                             let dt_ly_span3 = document.createElement("span");
                                             dt_ly_span3.innerText = ddd.format("hh:mm:ss");
-                                            if (bid_info.is_winner) {
+                                            if (bid_info.winner_state === 2) {
                                                 dt_ly.appendChild(dt_ly_span1);
                                             }
                                             dt_ly.appendChild(dt_ly_span2);
@@ -1176,7 +1176,7 @@
                             }
                         }
                         // 낙찰이 완료 되었다면
-                        if (bid_info.is_winner) {
+                        if (bid_info.winner_state === 2) {
                             let bid_tick = document.getElementById("bid_tick");
                             let bid_tick_main = document.getElementById("end_date_time");
                             if (end_bid_time <= 0) {
@@ -1232,7 +1232,7 @@
 
 
                             // 낙찰이 완료 되었다면
-                            if ($scope.bidsInfoAll[idx].is_winner) {
+                            if ($scope.bidsInfoAll[idx].winner_state === 2) {
                                 if ($scope.bidsInfoAll[idx].end_bid_time <= 0) {
                                     $scope.saleInfoAll[j].BID_TICK = "경매 시작 전입니다.";
                                 } else if ($scope.bidsInfoAll[idx].end_bid_time <= new Date().getTime()) {
