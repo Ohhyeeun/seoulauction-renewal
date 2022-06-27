@@ -44,33 +44,6 @@ function sessionLogout() {
     <div class="header_beltbox on"> <!--class="on" block-->
         <div class="swiper-container belt-swiper wrap_padding belttxtbox">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"> <!-- slide 구간 -->
-                    <span class="header_beltTit">
-                        <a href="/html/footer/board_notice_list_ko.html">
-                            <span class="text-over belt_tit">
-                                구매수수료율 인상 및 약관 개정안내 구매수수료율 0
-                            </span>
-                        </a>
-                    </span>
-                </div>
-                <div class="swiper-slide"> <!-- slide 구간 -->
-                    <span class="header_beltTit">
-                        <a href="/html/footer/board_notice_list_ko.html">
-                            <span class="text-over belt_tit">
-                                국문 텍스트 입니다. 국문 텍스트 입니다. 국문 텍스트 입니다. 국문 텍스트 입니다.
-                            </span>
-                        </a>
-                    </span>
-                </div>
-                <div class="swiper-slide"> <!-- slide 구간 -->
-                    <span class="header_beltTit">
-                        <a href="/html/footer/board_notice_list_ko.html">
-                            <span class="text-over belt_tit">
-                                국문 공지사항 입니다.
-                            </span>
-                        </a>
-                    </span>
-                </div>
             </div>
             <span class="beltclose-btn closebtn closebtn-w"></span>
         </div>

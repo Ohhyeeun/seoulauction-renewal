@@ -236,7 +236,7 @@ const beltNoticeSwiper = new Swiper(".belt-swiper", {
 });
 
 function loadTopNotice(){
-    let resultHtml = "";
+    const slideArray = [];
 
     axios.get('api/main/topNotice')
     .then(function(response){
@@ -246,35 +246,23 @@ function loadTopNotice(){
             if(!getCookie('top-notice') && data) {
                 data.map(item => {
                     const content = JSON.parse(item.content);
-                     resultHtml += `<span class="header_beltTit">
-                                            <a href="${locale === 'en' ? content.en_url : content.ko_url}">
-                                                <span class="text-over belt_tit"> ${locale === 'en' ? content.en_text : content.ko_text}</span>
-                                            </a>
-                                        </span>`;
+                     const returnDom = `<div class="swiper-slide"> <!-- slide 구간 -->
+                                            <span class="header_beltTit">
+                                                <a href="${locale === 'en' ? content.en_url : content.ko_url}">
+                                                    <span class="text-over belt_tit">
+                                                        ${locale === 'en' ? content.en_text : content.ko_text}
+                                                    </span>
+                                                </a>
+                                            </span>
+                                        </div>`;
+                    slideArray.push(returnDom);
                 });
-                    // console.log(resultHtml)
-                document.querySelector(".belttxtbox").insertAdjacentHTML('beforeend', resultHtml);
 
-
-                // /* 상단 텍스트 동적 생성으로 인한 스타일 변경 및 이벤트 바인딩 */
-                // document.querySelector(".beltclose-btn").addEventListener("click", function(e){
-                //     $('.header_beltbox').slideUp(400);
-                //     closeToday('top-notice');
-                // });
-                //
-                // if(matchMedia("all and (min-width: 1024px)").matches) {
-                //     document.querySelector(".main-contents").style.marginTop = '162px';
-                //     document.querySelector(".beltclose-btn").addEventListener("click", function(e){
-                //         document.querySelector(".main-contents").style.marginTop = '100px';
-                //     });
-                // } else { /* 모바일, 테블릿 */
-                //     /* main gnb fixed */
-                //     document.querySelector(".main-contents").style.marginTop = '100px';
-                //     $('.main-contents').css('margin-top','100px');
-                //     document.querySelector(".beltclose-btn").addEventListener("click", function(e){
-                //         document.querySelector(".main-contents").style.marginTop = '56px';
-                //     });
-                // }
+                beltNoticeSwiper.appendSlide(slideArray)
+                document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                    $('.header_beltbox').slideUp(400);
+                    closeToday('top-notice');
+                });
             }else{
                 document.querySelector(".header_beltbox").classList.remove("on");
             }
