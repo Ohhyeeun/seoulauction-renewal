@@ -100,7 +100,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="view_scale-area">
+                                            <div class="view_scale-area" ng-if="lotInfo.VIEW_SCALE_YN == 'Y' && lotInfo.SIZE1 > 160">
                                                 <a class="btn btn_default js-popup_image_viewer" href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
                                         </article>
@@ -409,6 +409,10 @@
                 $scope.saleList = r3.data.data;
 
                 // popup setting
+                console.log("IMAGE_URL ::: " +  $scope.saleImages[0].IMAGE_URL);
+                console.log("FILE_PATH ::: " +  $scope.saleImages[0].FILE_PATH);
+                console.log("FILE_NAME ::: " +  $scope.saleImages[0].FILE_NAME);
+
                 let imgUrl = $scope.saleImages[0].IMAGE_URL +
                     $scope.saleImages[0].FILE_PATH + "/" + $scope.saleImages[0].FILE_NAME;
 
@@ -493,18 +497,23 @@
 
                     }
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
-                    let swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
+
+                    let swiper_slide_item = '';
+                    if(size1 > 160) {
+                        swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
                                                <div class="img-area">
                                                 <div class="img-box">
-                                                    <div class="size_x"><span>` + size2 + unitCd +  `</span></div>
+                                                    <div class="size_x"><span>` + size2 + unitCd + `</span></div>
                                                     <div class="size_y"><span>` + size1 + unitCd + `</span></div>
                                                     <div class="images">
                                                         <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + sale_as_no + `" />
                                                     </div>
                                                 </div>
                                             </div>
-                  </div>`
-                    $("#swiper-wrapper").append(swiper_slide_item);
+                        </div>`
+                        $("#swiper-wrapper").append(swiper_slide_item);
+                    }
+
                 });
 
                 // lot
