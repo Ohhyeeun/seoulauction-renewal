@@ -1101,5 +1101,15 @@ function localeOrdinal(n, l) {
     }else{
         return "";
     }
-
 }
+
+/* 이미지 우클릭 방지 */
+$(document).ready(function(){
+    document.addEventListener("contextmenu", c=> {
+        c.target.matches("img","gif","png") && c.preventDefault();
+    });
+
+    // 안드로이드 저장 막기
+    document.oncontextmenu = function(){return false};
+});
+

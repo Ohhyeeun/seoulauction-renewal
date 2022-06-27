@@ -256,7 +256,20 @@ img {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    -o-user-select: none; 
+    -o-user-select: none;
+
+    pointer-events: none;
+}
+::selection,
+-webkit-::selection,
+-moz-::selection,
+-ms-::selection,
+-o-::selection {
+    color: #00acac;
+    background-color: #f4f4f4;
+}
+img::selection {
+    background-color: #62c3bc;
 }
 /* common padding */
 .footer-bottom10 {
