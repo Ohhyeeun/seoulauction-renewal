@@ -140,7 +140,7 @@
 																		<textarea id="inquiryContent"
 																			ng-model="form_data.content" cols="30" rows="10" data-id="inquiryContent"  data-size=1000></textarea>
 																		<div class="byte_check" id="inquiryContent_length">
-																			<em>0</em> <span>/ 1000자</span>
+																			<em>0</em> <span>/ 1000</span>
 																		</div>
 																	</div>
 																</div>

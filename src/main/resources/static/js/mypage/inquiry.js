@@ -546,10 +546,10 @@ app.service("inquiryService", function($rootScope, common, locale) {
 
 window.addEventListener('load', function () {
 	$('#inquirySubject, #inquiryContent').on('keyup', function() {
-	        $('#'+$(this).attr('data-id')+'_length').html('<em>'+$(this).val().length+'</em> <span>/ '+$(this).attr('data-size')+'자</span>');
+	        $('#'+$(this).attr('data-id')+'_length').html('<em>'+$(this).val().length+'</em> <span>/ '+$(this).attr('data-size')+'</span>');
 	        if($(this).val().length > $(this).attr('data-size')) {
 	            $(this).val($(this).val().substring(0, $(this).attr('data-size')));
-	            $('#'+this.id+'_length').html('<em>'+$(this).val().length+'</em> <span>/ '+$(this).attr('data-size')+'자</span>');
+	            $('#'+this.id+'_length').html('<em>'+$(this).val().length+'</em> <span>/ '+$(this).attr('data-size')+'</span>');
 	        }
 	    });
 });
