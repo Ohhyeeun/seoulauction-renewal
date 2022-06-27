@@ -176,8 +176,6 @@
     <div class="main-popupwrap">
         <div class="main-popupbox">
             <a href="#" title="메인 팝업 이미지">
-                <div class="main-popup-img"> <!-- 이미지 레이어팝업 on-->
-            <a href="">
                 <div class="main-popup-img"> <!-- 이미지 레이어팝업 -->
                     <img id="main_popup_img" <%--src="/images/pc/main/pop_event.jpg"--%> alt="레이어팝업 이미지">
                 </div>
