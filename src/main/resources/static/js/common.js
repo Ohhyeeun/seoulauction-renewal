@@ -337,6 +337,7 @@ $(function() {
     /* 모바일 gnb 서치*/
     $('.m-top-search').click(function () {
         $('.topsearch-box>form').animate({'right': '0', 'transition': 'ease .5s'});
+        $('body').css({'overflow':'hidden'});
         //$('.topsearch-box>form').show();
         $('.topsearch>input').show();
         $('.topsearch-btn').show();
@@ -344,6 +345,7 @@ $(function() {
     });
     $('.top-search-closeBtn').click(function () {
         $('.topsearch-box>form').animate({'right': '-100%', 'transition': 'ease .5s'});
+        $('body').css({'overflow':'visible'});
     });
 
     /*top search placeholder */

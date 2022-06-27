@@ -1107,7 +1107,7 @@
         max-width: 250px;
     }
     .main-popup-img {
-        height: 450px;
+        height: 100%;
     }
     .main-sectiontit {
         font-size: 22px;
@@ -1541,7 +1541,6 @@
     }
     .main-popup-img>img { /* 임시 넣음 모바일 이미지 없음 */
         background-color: #ddd;
-        height: 500px;
         border-radius: 20px 20px 0 0;
     }
     .main-popup-img, .main-popup-txt {

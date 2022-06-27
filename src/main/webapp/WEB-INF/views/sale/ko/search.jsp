@@ -124,11 +124,11 @@
                                     <li class="" ng-if="lotList !== null" ng-repeat="item in lotList">
                                         <div class="li-inner">
                                             <article class="item-article">
-                                                <div class="image-area" ng-click="goDetail(item.SALE_NO, item.LOT_NO, item.SALE_KIND_CD);">
+                                                <div class="image-area" ng-click="goDetail(item.SALE_NO, item.LOT_NO, item.SALE_KIND_CD, item.END_YN);">
                                                     <figure class="img-ratio">
                                                         <div class="img-align">
                                                             <img src="{{item.IMAGE_URL}}{{item.LOT_IMG_PATH}}/{{item.LOT_IMG_NAME}}"
-                                                                 alt="{{item.TITLE_JSON.ko}}">
+                                                                 alt="{{item.TITLE_JSON.ko | trimSameCheck : item.TITLE_JSON[locale]}}">
                                                         </div>
                                                     </figure>
                                                 </div>
@@ -141,7 +141,7 @@
                                                                    ng-click="favorite(item);"></i></button>
                                                         </div>
                                                         <div class="info-box">
-                                                            <div class="title"><span> {{item.ARTIST_NAME_JSON.ko}} </span></div>
+                                                            <div class="title"><span> {{item.ARTIST_NAME_JSON.ko | trimSameCheck : item.TITLE_JSON[locale]}} </span></div>
                                                             <!-- 30자 -->
                                                             <div class="desc"><span ng-bind="item.TITLE_JSON.ko | do_sub_string : item.TITLE_JSON.ko"></span></div>
                                                             <div class="standard">
@@ -155,10 +155,14 @@
                                                             </div>
                                                         </div>
                                                         <div class="price-box">
-                                                            <dl class="price-list">
+                                                            <dl class="price-list" ng-if="lot.EXPE_PRICE_INQ_YN != 'Y'">
                                                                 <dt>추정가</dt>
                                                                 <dd>{{item.CURR_CD}} {{item.EXPE_PRICE_FROM_JSON.KRW | currency:item.EXPE_PRICE_FROM_JSON.KRW }} </dd>
                                                                 <dd>~ {{item.EXPE_PRICE_TO_JSON.KRW | currency:item.EXPE_PRICE_TO_JSON.KRW }}</dd>
+                                                            </dl>
+                                                            <dl class="price-list" ng-if="lot.EXPE_PRICE_INQ_YN == 'Y'">
+                                                                <dt>추정가</dt>
+                                                                <dd>별도문의 </dd>
                                                             </dl>
                                                             <dl class="price-list">
                                                                 <dt>시작가</dt>
@@ -188,7 +192,7 @@
                                                             <div class="other">
                                                                 <div class="d_name" ng-bind="item.SALE_TITLE_JSON.ko"></div>
                                                                 <!--  let saleToDt = $filter('date')(el.SALE_TO_DT, 'yyyy-MM-dd HH:mm:ss');-->
-                                                                <div class="d_day">{{item.SALE_TO_DT | date: "yyyy-MM-dd HH:mm:ss"}} KST</div>
+                                                                <div class="d_day">{{item.SALE_TO_DT | date:'yyyy.MM.dd'+'('+getWeek(item.SALE_TO_DT)+')'}} {{item.SALE_TO_DT | date : 'ah'}} {{item.SALE_KIND_CD == 'hongkong' ? "HKT" : "KST"}}</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -745,12 +749,16 @@
             });
         }
 
-        $scope.goDetail = function (saleNo, lotNo, saleKind) {
+        $scope.goDetail = function (saleNo, lotNo, saleKind, end_yn) {
 
-            if(saleKind == 'online' || saleKind == 'online_zb' ){
-                window.location.href = '/auction/online/view/' +  saleNo + '/' + lotNo;
+            if(end_yn == 'Y'){
+                window.location.href = '/auction/results';
             }else{
-                window.location.href = '/auction/live/view/' +  saleNo + '/' + lotNo;
+                if(saleKind == 'online' || saleKind == 'online_zb' ){
+                    window.location.href = '/auction/online/view/' +  saleNo + '/' + lotNo;
+                }else{
+                    window.location.href = '/auction/live/view/' +  saleNo + '/' + lotNo;
+                }
             }
         }
     });

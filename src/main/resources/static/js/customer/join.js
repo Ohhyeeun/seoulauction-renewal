@@ -86,7 +86,6 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 					//미가입 = 회원가입페이지이동
 					document.getElementById('name').value = name;
 					document.getElementById('email').value = email;
-					document.getElementById('mobile').value = mobile;
 					document.getElementById('sub').value = sub;
 			
 					var form = document.getElementById('joinForm');
@@ -302,7 +301,6 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 			$scope.idValid = true;
 			$scope.form_data.cust_name = name;
 			$scope.nameValid = name != '' && name != undefined ? true : false;
-			$scope.form_data.hp = mobile;
 			$scope.form_data.email = email;
 			$scope.emailValid = email != '' && email != undefined ? true : false;
 			$scope.form_data.social_login_id = socialLoginId;
