@@ -117,7 +117,7 @@
 																				id="inquirySubject" ng-model="form_data.title" 
 																				class="form-control" value="" placeholder="" data-id="inquirySubject" data-size=100>
 																			<div class="byte_check" id="inquirySubject_length">
-																				<em>0</em> <span>/ 100자</span>
+																				<em>0</em> <span>/ 100</span>
 																			</div>
 																		</div>
 																	</div>
@@ -127,7 +127,7 @@
 																				ng-model="form_data.title" cols="30" rows="10"
 																				style="height: 86px" data-id="inquirySubjectMb" data-size=100></textarea>
 																			<div class="byte_check" id="inquirySubjectMb_length">
-																				<em>0</em> <span>/ 100자</span>
+																				<em>0</em> <span>/ 100</span>
 																			</div>
 																		</div>
 																	</div>
