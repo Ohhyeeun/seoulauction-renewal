@@ -3,20 +3,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<!DOCTYPE html>
 <html lang="en">
     <head>
 	    <meta charset="UTF-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	    <title>Seoul Auction</title>
+	    <title>Find ID | Seoul Auction</title>
 	</head>
 	<body>
     <div class="wrapper">
         <div class="sub-wrap pageclass bgpage-wrap">
 		<jsp:include page="../../include/en/header.jsp" flush="false"/>   
-		<script>
-		app.value('locale', 'en');
-		</script>
             <!-- container -->
             <div id="container">
                 <div id="contents" class="contents">
@@ -128,13 +126,13 @@
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
 
 	<script type="text/javascript" src="/js/customer/findId.js"></script>
     
       <!-- 아이디찾기-아이디 검색 결과 -->
-   <div id="popup_idsearch1-wrap" class="trp popupfixed-wrap login-popup" style="display: none;">
+   <div class="popup-dim popup_idsearch1-wrap"  style="display: none;"></div>
+   <div id="popup_idsearch1-wrap" class="trp popupfixed-wrap login-popup popup_idsearch1-wrap" style="display: none;">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">
@@ -167,7 +165,8 @@
     </div>
 
     <!-- 아이디찾기-일치하는 정보가 없을 경우 -->
-    <div id="popup_idsearch2-wrap" class="trp popupfixed-wrap login-popup" style="display: none;">
+    <div class="popup-dim popup_idsearch2-wrap"  style="display: none;"></div>
+    <div id="popup_idsearch2-wrap" class="trp popupfixed-wrap login-popup popup_idsearch2-wrap" style="display: none;">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">
@@ -201,7 +200,8 @@
 
 
     <!-- 아이디찾기-항목 미입력 -->
-    <div id="popup_idsearch3-wrap" class="trp popupfixed-wrap login-popup" style="display: none;">
+    <div class="popup-dim popup_idsearch3-wrap"  style="display: none;"></div>
+    <div id="popup_idsearch3-wrap" class="trp popupfixed-wrap login-popup popup_idsearch3-wrap" style="display: none;">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">
@@ -231,7 +231,8 @@
     </div>
 
     <!-- 아이디찾기-소셜 회원인 경우-->
-    <div id="popup_idsearch4-wrap" class="trp popupfixed-wrap login-popup" style="display: none;">
+    <div class="popup-dim popup_idsearch4-wrap"  style="display: none;"></div>
+    <div id="popup_idsearch4-wrap" class="trp popupfixed-wrap login-popup popup_idsearch4-wrap" style="display: none;">
         <div class="popup-dim"></div>
         <div class="popup-align mode-ms mode-mb_center">
             <div class="popup-vertical">

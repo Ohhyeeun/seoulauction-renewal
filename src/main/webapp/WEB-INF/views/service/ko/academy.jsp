@@ -5,6 +5,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<!DOCTYPE html>
+<html lang="ko">
 <!-- <link href="/css/angular/sa.common.2.0.css" rel="stylesheet"> -->
 <link rel="stylesheet" href="/css/plugin/csslibrary.css">
 
@@ -318,17 +320,17 @@
                                                     <strong>문의하기</strong>
                                                 </div>
                                                 <div class="info-guide">
-                                                    <div class="manager-box"> <span>서울옥션 브랜드 기획팀</span> <em>정은지 선임</em> </div>
+                                                    <div class="manager-box"> <span>브랜드 기획팀</span> <em>음희선 선임</em> </div>
                                                     <div class="contact-box">
                                                         <ul>
-                                                            <li><span>T.</span> <em>02-2075-4442</em></li>
-                                                            <li><span>E.</span> <a href="mailto:jej@seoulauctionl.com"><em>jej@seoulauctionl.com</em></a></li>
+                                                            <li><span>T.</span> <em>02-2075-4466</em></li>
+                                                            <li><span>E.</span> <a href="mailto:ehs@seoulauctionl.com"><em> ehs@seoulauctionl.com</em></a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="btn-area">
-                                                <a class="btn btn_gray_line" href="/mypage/inquiryForm" role="button"><span>1:1 문의</span></a>
+                                                <a class="btn btn_gray_line" href="#" role="button"><span>1:1 문의</span></a>
                                             </div>
                                         </div>
                                     </article>

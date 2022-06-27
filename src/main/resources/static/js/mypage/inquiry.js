@@ -280,7 +280,7 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				return false;
 			}
 
-			if (($scope.form_data.cate1 == 'sell' || $scope.form_data.cate1 == 'payment' || $scope.form_data.cate1 == 'others' || $scope.form_data.cate1 == 'homepage') && !$scope.isValidString($scope.form_data.cate2) && $scope.form_data.cate2 == "") {
+			if (($scope.form_data.cate1 == 'sell' || $scope.form_data.cate1 == 'payment_shipping' || $scope.form_data.cate1 == 'others' || $scope.form_data.cate1 == 'exhibition') && !$scope.isValidString($scope.form_data.cate2) && $scope.form_data.cate2 == "") {				
 				if (locale == "ko") {
 					alert("카테고리(중분류)를 선택하세요.");
 				} else {
@@ -440,6 +440,7 @@ app.service("inquiryService", function($rootScope, common, locale) {
 			}
 
 			
+			
 			if ($scope.checkValidData()) {
 				let form = document.querySelector('#frmInquiry');
 				var formData = new FormData(form);
@@ -464,7 +465,7 @@ app.service("inquiryService", function($rootScope, common, locale) {
 		            }
 		        })
 		        .catch(function(error){
-		            console.log(error);
+		            alert(error);
 		        });
 	        /*
 				common.callFileAPI("/api/mypage/inquiry", formData,
@@ -545,10 +546,10 @@ app.service("inquiryService", function($rootScope, common, locale) {
 
 window.addEventListener('load', function () {
 	$('#inquirySubject, #inquiryContent').on('keyup', function() {
-	        $('#'+$(this).attr('data-id')+'_length').html('<em>'+$(this).val().length+'</em> <span>/ '+$(this).attr('data-size')+'자</span>');
+	        $('#'+$(this).attr('data-id')+'_length').html('<em>'+$(this).val().length+'</em> <span>/ '+$(this).attr('data-size')+'</span>');
 	        if($(this).val().length > $(this).attr('data-size')) {
 	            $(this).val($(this).val().substring(0, $(this).attr('data-size')));
-	            $('#'+this.id+'_length').html('<em>'+$(this).val().length+'</em> <span>/ '+$(this).attr('data-size')+'자</span>');
+	            $('#'+this.id+'_length').html('<em>'+$(this).val().length+'</em> <span>/ '+$(this).attr('data-size')+'</span>');
 	        }
 	    });
 });

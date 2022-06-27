@@ -15,6 +15,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.exception.SAException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -111,8 +113,9 @@ public class MypageService {
     					s3Service.insertS3FileData(false , file,"bbs_write", String.valueOf(map.get("write_no")));
     				}
     			}	
+    			
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new SAException("message : " + e.getMessage() + ", fileList" + request.getFiles("file"));
 		}
         return result;
     }

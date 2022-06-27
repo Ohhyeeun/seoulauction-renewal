@@ -100,8 +100,8 @@
                                                 </div>
                                             </div>
 
-                                            <div class="view_scale-area">
-                                                <a class="btn btn_default js-popup_image_viewer" href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
+                                            <div class="view_scale-area" ng-if="lotInfo.VIEW_SCALE_YN == 'Y' && lotInfo.SIZE1 > 160">
+                                                <a class="js-popup_image_viewer" href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
                                         </article>
 
@@ -132,11 +132,11 @@
                                             </div>
                                             <div class="artist-area">
                                                 <div class="name">
-                                                    <strong ng-bind="saleInfo.ARTIST_NAME_KO">김선우</strong>
+                                                    <strong ng-bind="saleInfo.ARTIST_NAME_KO"></strong>
                                                     <span>b.{{saleInfo.BORN_YEAR}}</span>
                                                 </div>
                                                 <div class="desc">
-                                                    <span ng-bind="saleInfo.TITLE_KO">Flight of 3 Dodos</span>
+                                                    <span ng-bind="saleInfo.TITLE_KO"></span>
                                                 </div>
                                             </div>
                                             <div class="inquirybtn-area">
@@ -186,12 +186,17 @@
 
                                         <div class="info-box">
                                             <div class="title">작가정보</div>
-                                            <div class="desc">
-                                                Artist <br />
-                                                {{saleInfo.ARTIST_NAME_KO}} {{saleInfo.ARTIST_NAME_EN}}
-                                                b.{{saleInfo.BORN_YEAR}}
+                                            <div class="desc" id="artistName">
                                             </div>
-                                            <div class="desc" ng-bind-html="saleInfo.PROFILE_JSON.ko">
+                                            <div class="desc" id="artistProfile">
+                                            </div>
+                                            <div class="desc" id="artistMedia">
+                                                <div class="vide_img-box">
+                                                    <a href="#"><img src="/images/temp/video_img-1.jpg" alt="" /></a>
+                                                    <a href="#"><img src="/images/temp/video_img-2.jpg" alt="" /></a><br />
+                                                    <a href="#"><img src="/images/temp/video_img-3.jpg" alt="" /></a>
+                                                    <a href="#"><img src="/images/temp/video_img-4.jpg" alt="" /></a>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -216,7 +221,7 @@
         <!-- //container -->
 
         <!-- footer -->
-        <jsp:include page="../../include/en/footer.jsp" flush="false"/>
+        <jsp:include page="../../include/ko/footer.jsp" flush="false"/> 
         <!-- //footer -->
 
         <!-- stykey -->
@@ -404,6 +409,10 @@
                 $scope.saleList = r3.data.data;
 
                 // popup setting
+                console.log("IMAGE_URL ::: " +  $scope.saleImages[0].IMAGE_URL);
+                console.log("FILE_PATH ::: " +  $scope.saleImages[0].FILE_PATH);
+                console.log("FILE_NAME ::: " +  $scope.saleImages[0].FILE_NAME);
+
                 let imgUrl = $scope.saleImages[0].IMAGE_URL +
                     $scope.saleImages[0].FILE_PATH + "/" + $scope.saleImages[0].FILE_NAME;
 
@@ -414,6 +423,9 @@
 
                 $("#lot_title").html("LOT " + $scope.saleInfo.SALE_AS_NO);
                 $scope.$apply();
+
+                //artist 번호
+                $scope.artistNo = $scope.saleInfo.ARTIST_NO;
 
                 // 카카오 init
                 Kakao.init('cf2233f55e74d6d0982ab74909c97835');
@@ -485,18 +497,23 @@
 
                     }
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
-                    let swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
+
+                    let swiper_slide_item = '';
+                    if(size1 > 160) {
+                        swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
                                                <div class="img-area">
                                                 <div class="img-box">
-                                                    <div class="size_x"><span>` + size2 + unitCd +  `</span></div>
+                                                    <div class="size_x"><span>` + size2 + unitCd + `</span></div>
                                                     <div class="size_y"><span>` + size1 + unitCd + `</span></div>
                                                     <div class="images">
                                                         <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + sale_as_no + `" />
                                                     </div>
                                                 </div>
                                             </div>
-                  </div>`
-                    $("#swiper-wrapper").append(swiper_slide_item);
+                        </div>`
+                        $("#swiper-wrapper").append(swiper_slide_item);
+                    }
+
                 });
 
                 // lot
@@ -649,6 +666,35 @@
                     $e.preventDefault();
                     popup_images.close();
                 });
+
+                //작가 정보 admin에서 가져오도록 변경
+                axios.get('/api/auction/artist_info/' + $scope.artistNo)
+                    .then(function(response) {
+
+
+                        const data = response.data;
+                        let success = data.success;
+                        console.log(response);
+                        if(success){
+                            let artistData = data.data;
+
+                            $("#artistName").html(JSON.parse(artistData.name).ko + ' ' +  artistData.birth);
+                            $("#artistProfile").html(JSON.parse(artistData.education).ko + '</br>' +
+                                JSON.parse(artistData.exhibition).ko + '</br>' + JSON.parse(artistData.education).ko + '</br>' +
+                                JSON.parse(artistData.profile).ko + '</br>' + artistData.homepage + '</br>' +
+                                JSON.parse(artistData.sns_account).blog + '</br>' + JSON.parse(artistData.sns_account).facebook + '</br>' +
+                                JSON.parse(artistData.sns_account).instagram + '</br>' + JSON.parse(artistData.media).youtube + '</br>' +
+                                JSON.parse(artistData.media).instagram + '</br>'
+                                // 작가 이미지는 admin쪽 개발 이후에 붙이기로
+                            );
+                        } else {
+                            alert(data.data.msg);
+                            history.back();
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
 
             }
             run();

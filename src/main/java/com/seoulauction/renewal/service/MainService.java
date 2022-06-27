@@ -11,7 +11,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +29,7 @@ public class MainService {
 
     public List<CommonMap> selectBeltBanners() {
         List<CommonMap> resultMap = mainMapper.selectBeltBanners();
-        resultMap.stream().forEach(item -> {
+        resultMap.forEach(item -> {
             List<CommonMap> imageListMap = s3Service.getS3FileDataAll("main_banner",  item.get("id"));
             CommonMap map = new CommonMap();
             imageListMap.forEach(c-> map.put(c.getString("tag")+"_url",c.getString("cdn_url")));
@@ -44,7 +43,7 @@ public class MainService {
         return mainMapper.selectNewsletters(map);
     }
 
-    public CommonMap selectPopup() {
+    public CommonMap selectMainPopup() {
         CommonMap map = mainMapper.selectPopup();
         if(map !=null) {
             map.put("image", s3Service.getS3FileDataForOne("main_popup", map.get("id")));
@@ -194,4 +193,7 @@ public class MainService {
         return resultMap;
     }
 
+    public List<CommonMap> selectBrochures(CommonMap map) {
+        return mainMapper.selectBrochures(map);
+    }
 }

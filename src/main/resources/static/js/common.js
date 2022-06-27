@@ -140,6 +140,11 @@ $(function() {
                 $('.header_gnbmenu>li>a').removeClass('on');
             });
 
+            $('#container').click(function () {
+                $(".submenuBg").stop().slideUp();
+                $('.header_gnbmenu>li>a').removeClass('on');
+            }); 
+
             $('.header_gnbmenu>li>a').removeClass('on');
             $(".submenuBg").stop().slideDown(function () {
                 $(this).css({'top': '61px'});
@@ -312,7 +317,17 @@ $(function() {
 
     /* 최근검색 키워드 삭제 */
     $('.keyword-del').click(function () {
+        let id = $(this).attr("searchContent");
         $(this).parent('.recent-keyword').hide();
+        var items = getCookie("keywordHistory");
+
+        if(items){
+            var itemArray = items.split(',');
+            let index = itemArray.indexOf(id);
+            itemArray.splice(index, 1)
+            items = itemArray.join(',');
+            setCookie("keywordHistory", items, 1);
+        }
     });
     /* 최근검색 전체삭제 */
     $('.keyword-all-del').click(function () {
@@ -322,6 +337,7 @@ $(function() {
     /* 모바일 gnb 서치*/
     $('.m-top-search').click(function () {
         $('.topsearch-box>form').animate({'right': '0', 'transition': 'ease .5s'});
+        $('body').css({'overflow':'hidden'});
         //$('.topsearch-box>form').show();
         $('.topsearch>input').show();
         $('.topsearch-btn').show();
@@ -329,6 +345,7 @@ $(function() {
     });
     $('.top-search-closeBtn').click(function () {
         $('.topsearch-box>form').animate({'right': '-100%', 'transition': 'ease .5s'});
+        $('body').css({'overflow':'visible'});
     });
 
     /*top search placeholder */
@@ -392,13 +409,22 @@ $(function() {
     //모바일 한글/영문 변환 버튼
     let lang = getCookie('lang');
     if (!lang || lang === 'ko') {
-        $("#mb_common_lang").append('<a href="/?lang=en">ENG</a>');
+        $("#mb_common_lang").append('<a href=' + $(location).attr('pathname')  +'?lang=en>ENG</a>');
     } else if ( lang === 'en'){
-        $("#mb_common_lang").append('<a href="/?lang=ko">KO</a>');
+        $("#mb_common_lang").append('<a href=' + $(location).attr('pathname')  +'?lang=ko>KO</a>');
+    }
+});
+//로그인 여부를 체크해서 로그인이 안되어있을경우 로그인 페이지로 보냄.
+function checkLogin(){
+
+    if(sessionStorage.getItem("is_login") === 'false'){
+        let login_message = ( getCookie('lang') === "" ||  getCookie('lang') === 'ko' ) ?
+            '로그인을 진행해주세요.' : 'Please Login in.';
+        alert(login_message);
+        location.href= '/login';
     }
 
-});
-
+}
 
 /* top search filter 기능 */
 function searchFilter() {
@@ -669,7 +695,7 @@ app.controller('headCtl', function($scope, consts, common, locale, $filter) {
                 let html = '<span class="keyword-search-tit">추천검색</span>';
                 $('.recommend-search-part').append(html);
                 data.map(item => {
-                    let innerHtml = '<a href="/sale/search?searchContent=' + item.name + '" class="recommend-keyword">' + dotSubString(item.name, 10) + '</a>';
+                    let innerHtml = '<a href="/sale/search?searchContent=' + JSON.parse(item.artist_name)[locale] + '" class="recommend-keyword">' + dotSubString(JSON.parse(item.artist_name)[locale], 10) + '</a>';
                     $('.recommend-search-part').append(innerHtml);
                 });
             }
@@ -684,7 +710,7 @@ app.controller('headCtl', function($scope, consts, common, locale, $filter) {
         $(".recent-search").empty();
         let keywordsArray = keywords.split(',');
         $.each(keywordsArray , function(idx , el){
-            html += '<span class="recent-keyword"><a href="/sale/search?searchContent='+ el +'">'+ el+'</a><span class="keyword-del"></span></span>';
+            html += '<span class="recent-keyword"><a href="/sale/search?searchContent='+ el +'">'+ el+'</a><span class="keyword-del" searchContent="'+ el +'"></span></span>';
         });
 
     }else{
@@ -1075,5 +1101,15 @@ function localeOrdinal(n, l) {
     }else{
         return "";
     }
-
 }
+
+/* 이미지 우클릭 방지 */
+$(document).ready(function(){
+    document.addEventListener("contextmenu", c=> {
+        c.target.matches("img","gif","png") && c.preventDefault();
+    });
+
+    // 안드로이드 저장 막기
+    // document.oncontextmenu="return false style='-webkit-touch-callout:none'";
+});
+

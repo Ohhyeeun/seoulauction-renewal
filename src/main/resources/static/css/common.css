@@ -192,6 +192,17 @@ a {
     color: inherit;
     text-decoration: none;
     display: block;
+
+    /* 이미지 저장 드래그 방지 */
+    -webkit-user-drag: none;
+    -moz-user-drag: none;
+    -ms-user-drag: none;
+    -o-user-drag: none;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
 }
 ul,li,ol {
     list-style: none;
@@ -246,6 +257,19 @@ img {
     -moz-user-select: none;
     -ms-user-select: none;
     -o-user-select: none;
+
+    pointer-events: none;
+}
+::selection,
+-webkit-::selection,
+-moz-::selection,
+-ms-::selection,
+-o-::selection {
+    color: #00acac;
+    background-color: #f4f4f4;
+}
+img::selection {
+    background-color: #62c3bc;
 }
 /* common padding */
 .footer-bottom10 {
@@ -1938,6 +1962,7 @@ body.dark,
         background-color: #f2f2f2;
         overflow: hidden;
         overflow-y: auto;
+        z-index: 2;
     }
     .topsearch {
         display: block;

@@ -60,7 +60,7 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 	});
 
 	// SNS공통회원가입
-	function submitJoin(socialType, name, email, mobile, sub) {
+	function submitJoin(socialType, name, email, sub) {
 		//기가입체크
 		let data = {};
 	    data['social_type'] = socialType;
@@ -86,7 +86,6 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 					//미가입 = 회원가입페이지이동
 					document.getElementById('name').value = name;
 					document.getElementById('email').value = email;
-					document.getElementById('mobile').value = mobile;
 					document.getElementById('sub').value = sub;
 			
 					var form = document.getElementById('joinForm');
@@ -141,7 +140,7 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 				kakaoUser = res.kakao_account;
 
 				console.log(kakaoUser);
-				submitJoin("KA", kakaoUser.profile.nickname, kakaoUser.email, null, null);
+				submitJoin("KA", kakaoUser.profile.nickname, kakaoUser.email, null);
 			},
 			fail: function(error) {
 				alert('카카오 로그인에 실패했습니다. 관리자에게 문의하세요.' + JSON.stringify(error));
@@ -154,9 +153,9 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 		auth2.attachClickHandler(element, {},
 			function(googleUser) {
 				googleProfile = googleUser.getBasicProfile();
-				submitJoin("GL", googleProfile.getName(), googleProfile.getEmail(), null, null, null);
+				submitJoin("GL", googleProfile.getName(), googleProfile.getEmail(), null);
 			}, function(error) {
-				alert(JSON.stringify(error, undefined, 2));
+				console.log(JSON.stringify(error, undefined, 2));
 			});
 	}
 
@@ -187,7 +186,7 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 		var sub = payload.sub;
 
 		console.log("email : " + email + "sub : " + sub);
-		submitJoin("AP", name, payload.email, null, payload.sub);
+		submitJoin("AP", name, payload.email, payload.sub);
 	});
 
 	//애플로 로그인 실패 시.
@@ -302,7 +301,6 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 			$scope.idValid = true;
 			$scope.form_data.cust_name = name;
 			$scope.nameValid = name != '' && name != undefined ? true : false;
-			$scope.form_data.hp = mobile;
 			$scope.form_data.email = email;
 			$scope.emailValid = email != '' && email != undefined ? true : false;
 			$scope.form_data.social_login_id = socialLoginId;
@@ -986,6 +984,8 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		if(inputId.startsWith('fore_')){
 			if($('input[type="file"]')[0].files.length + $('input[type="file"]')[1].files.length < 2){
 				$scope.fileValid = false;
+			}else{
+				$scope.fileValid = true;
 			}
 		}else{
 			$scope.fileValid = true;

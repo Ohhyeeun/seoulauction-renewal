@@ -4,20 +4,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<head>
-    <!-- header -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>마이페이지 | Seoul Auction</title>
-    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
-
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
-    <!-- //header -->
-</head>
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+	    <meta charset="UTF-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	    <title>1:1 Inquiry | Seoul Auction</title>
+	</head>
 <body class="">
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
@@ -123,7 +117,7 @@
 																				id="inquirySubject" ng-model="form_data.title" 
 																				class="form-control" value="" placeholder="" data-id="inquirySubject" data-size=100>
 																			<div class="byte_check" id="inquirySubject_length">
-																				<em>0</em> <span>/ 100자</span>
+																				<em>0</em> <span>/ 100</span>
 																			</div>
 																		</div>
 																	</div>
@@ -133,7 +127,7 @@
 																				ng-model="form_data.title" cols="30" rows="10"
 																				style="height: 86px" data-id="inquirySubjectMb" data-size=100></textarea>
 																			<div class="byte_check" id="inquirySubjectMb_length">
-																				<em>0</em> <span>/ 100자</span>
+																				<em>0</em> <span>/ 100</span>
 																			</div>
 																		</div>
 																	</div>
@@ -298,12 +292,12 @@
 						                                            </p>
 						                                        </div>
 																	
-																	<ul class="dot_list tb2 mt10">
-																		<li>10 MB 이하의 파일 첨부가 가능합니다.</li>
-																		<li>10개의 파일 업로드 가능합니다.</li>
-																		<li>첨부파일 유형: jpg, jpeg, png, gif, pdf, zip, alz</li>
-																		<li><u>위탁문의 시 작품 이미지가 첨부 되어야 정확한 답변이 가능합니다.</u></li>
-																	</ul>
+																<ul class="dot_list tb2 mt10">
+																	<li>10 MB 이하의 파일 첨부가 가능합니다.</li>
+																	<li>10개의 파일 업로드 가능합니다.</li>
+																	<li>첨부파일 유형: jpg, jpeg, png, gif, pdf, zip, alz</li>
+																	<li><u>위탁문의 시 작품 이미지가 첨부 되어야 정확한 답변이 가능합니다.</u></li>
+																</ul>
 																</div>
 															</li>
 														</ul>
@@ -457,8 +451,8 @@
 	<script type="text/javascript" src="/js/pages_common_ko.js"
 		type="text/javascript"></script>
 
-
-
+    <!-- 팝업 : side popup -->
+	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 
 </body>
 

@@ -195,7 +195,7 @@ function attachClickGoogle(element) {
 			googleProfile = googleUser.getBasicProfile();
 			snsLink("GL", googleProfile.getEmail());
 		}, function(error) {
-			alert(JSON.stringify(error, undefined, 2));
+			console.log(JSON.stringify(error, undefined, 2));
 		});
 }
 

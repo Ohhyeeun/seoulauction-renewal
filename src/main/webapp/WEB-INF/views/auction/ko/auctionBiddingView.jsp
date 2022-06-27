@@ -725,11 +725,7 @@
                 window.location.href = '/auction/online/view/' + saleNo + '/' + lotNo;
             }
             $scope.favorite = function (item) {
-                if ($scope.custNo === 0) {
-                    alert('로그인을 진행해주세요.');
-                    location.href = "/login";
-                    return;
-                }
+                checkLogin();
                 let url = item.FAVORITE_YN === 'N' ? "/api/auction/delCustInteLot" : "/api/auction/addCustInteLot";
                 try {
                     axios.post(url, {
@@ -898,10 +894,7 @@
             // 1회 응찰
             $scope.bid = function () {
                 console.log('$scope.custNo', $scope.custNo)
-                if ($scope.custNo === 0) {
-                    location.href = "/login";
-                    return;
-                }
+                checkLogin();
                 let url = '';
                 if (window.location.protocol !== "https:") {
                     url = 'http://dev-bid.seoulauction.xyz/bid';

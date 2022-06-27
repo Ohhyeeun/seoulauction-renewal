@@ -26,12 +26,15 @@ $(document).ready(function(){
 
                     let data = response.data.data.list;
                     total_count = response.data.data.count;
-                    console.log(data);
-
                     $("#recurit_paging").empty();
                     $("#recurit_tbody").empty();
 
-
+                    if(total_count == 0) {
+                        let empty_html = `<div class="data-empty">
+                                             <p class="txt_empty">검색된 채용공고가 없습니다.</p>
+                                         </div>`;
+                        $("#recurit_tbody").append(empty_html);
+                    }
                     //TODO 인클루드 작업.
                     $.each(data , function(idx , el){
 
@@ -57,10 +60,10 @@ $(document).ready(function(){
                                      </div>`;
                         }
                             html +=
-                                    `<a href="/footer/recruit/${el.id}" class="tit">${el.title}</a>
-                                    </td>
-                                    <td class="bbs-date long">${el.start_date} ~ ${el.end_date}</td>
-                                    </tr>`;
+                                `<a href="/footer/recruit/${el.id}" class="tit">${el.title}</a>
+                                </td>
+                                <td class="bbs-date long">${el.start_date} ~ ${el.end_date}</td>
+                                </tr>`;
 
                         $("#recurit_tbody").append(html);
                     });

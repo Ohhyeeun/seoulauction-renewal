@@ -10,6 +10,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.WebAttributes;
+import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,14 +40,26 @@ public class LoginController {
     		,@RequestParam(value = "error", required = false) String error) {
     	
     	// 로그인 이전페이지 기억
-    	String referrer = request.getHeader("Referer");
-    	log.info("referrer : {}",referrer);
+    	String referrer = "";
+    	
+    	// .authenticated() 경로 접근 시 springsecurity에서 session에 저장해준 request로부터 이전페이지GET
+    	DefaultSavedRequest dsr = (DefaultSavedRequest) request.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+    	if(dsr != null) {
+    		referrer = dsr.getRequestURL();
+    		log.info("=========== DefaultSavedRequest referrer : {} ===========", referrer);
+    	}
+    	// .permitAll() 경로 접근 시 request header로부터 이전페이지GET
+    	if(referrer == null || referrer.equals("")) {
+    		referrer = request.getHeader("Referer");
+    		log.info("=========== request.getHeader referrer : {} ===========", referrer);
+    	}
+    	//session에 이전페이지attribute SET
     	if(referrer != null 
-    			&& !referrer.contains("/login") 
-    			&& !referrer.contains("/join") 
-    			&& !referrer.contains("/findId")
-    			&& !referrer.contains("/findPassword")
-    			&& !referrer.contains("/mypage/custLeave")) {
+    		&& !referrer.contains("/login") 
+    		&& !referrer.contains("/join") 
+    		&& !referrer.contains("/findId")
+    		&& !referrer.contains("/findPassword")
+    		&& !referrer.contains("/mypage/custLeave")) {
     		request.getSession().setAttribute("prevPage", referrer);
     	}
 
@@ -139,7 +152,6 @@ public class LoginController {
 	        }
 		}
 		model.addAttribute("name", request.getParameter("name"));
-		model.addAttribute("mobile", request.getParameter("mobile"));
 		model.addAttribute("email", request.getParameter("email"));
 		model.addAttribute("socialLoginId", socialLoginId);
 		model.addAttribute("socialEmail", socialEmail);

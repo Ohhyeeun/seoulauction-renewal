@@ -127,11 +127,11 @@ public class S3Downloader {
             }
             encodedFilename = sb.toString();
         } else if (header.indexOf("Opera") > -1) {
-            encodedFilename = "\"" + new String(displayFileName.getBytes("UTF-8"), "8859_1") + "\"";
+            encodedFilename = new String(displayFileName.getBytes("UTF-8"), "8859_1");
         } else if (header.indexOf("Safari") > -1) {
-            encodedFilename = URLDecoder.decode("\"" + new String(displayFileName.getBytes("UTF-8"), "8859_1") + "\"", "UTF-8");
+            encodedFilename = URLDecoder.decode(new String(displayFileName.getBytes("UTF-8"), "8859_1"), "UTF-8");
         } else {
-            encodedFilename = URLDecoder.decode("\"" + new String(displayFileName.getBytes("UTF-8"), "8859_1") + "\"", "UTF-8");
+            encodedFilename = URLDecoder.decode(new String(displayFileName.getBytes("UTF-8"), "8859_1"), "UTF-8");
         }
         return encodedFilename;
 

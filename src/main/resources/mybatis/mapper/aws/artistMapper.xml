@@ -3,12 +3,21 @@
 <mapper namespace="com.seoulauction.renewal.mapper.aws.ArtistMapper">
 
     <select id="selectRecommandArtist" parameterType="CommonMap" resultType="CommonMap">
-        select a.artist_no, a.name
-        from search_recommend sr, artist a
-        where sr.artist_no = a.artist_no
-          and sr.status = 'A'
-        order by sort asc
+        select sr.artist_no, sr.artist_name
+        from search_recommend sr
+        where sr.status = 'A'
+        order by sr.sort asc
             limit 6;
+    </select>
+
+    <select id="selectArtistInfo" parameterType="CommonMap" resultType="CommonMap">
+        select a.id, a.artist_no, a.country_code, a.name,
+               a.birth, a.death, a.education, a.exhibition,
+               a.profile, a.homepage, a.sns_account, a.media,
+               a.articles, a.is_open
+        from artist a
+        where a.is_open = 'Y' and  a.status = 'A'
+        and a.artist_no = #{artist_no};
     </select>
 
 </mapper>

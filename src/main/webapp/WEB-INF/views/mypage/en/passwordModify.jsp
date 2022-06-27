@@ -106,6 +106,8 @@
 
         </div>
     </div>
+    <!-- 팝업 : side popup -->
+	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 </body>
 <script type="text/javascript" src="/js/mypage/passwordModify.js"></script>
 </html>

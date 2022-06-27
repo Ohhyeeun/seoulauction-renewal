@@ -44,33 +44,6 @@ function sessionLogout() {
     <div class="header_beltbox on"> <!--class="on" block-->
         <div class="swiper-container belt-swiper wrap_padding belttxtbox">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"> <!-- slide 구간 -->
-                    <span class="header_beltTit">
-                        <a href="/html/footer/board_notice_list_ko.html">
-                            <span class="text-over belt_tit">
-                                구매수수료율 인상 및 약관 개정안내 구매수수료율 0
-                            </span>
-                        </a>
-                    </span>
-                </div>
-                <div class="swiper-slide"> <!-- slide 구간 -->
-                    <span class="header_beltTit">
-                        <a href="/html/footer/board_notice_list_ko.html">
-                            <span class="text-over belt_tit">
-                                국문 텍스트 입니다. 국문 텍스트 입니다. 국문 텍스트 입니다. 국문 텍스트 입니다.
-                            </span>
-                        </a>
-                    </span>
-                </div>
-                <div class="swiper-slide"> <!-- slide 구간 -->
-                    <span class="header_beltTit">
-                        <a href="/html/footer/board_notice_list_ko.html">
-                            <span class="text-over belt_tit">
-                                국문 공지사항 입니다.
-                            </span>
-                        </a>
-                    </span>
-                </div>
             </div>
             <span class="beltclose-btn closebtn closebtn-w"></span>
         </div>
@@ -80,8 +53,8 @@ function sessionLogout() {
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">KO</a>
                 <ul class="bubble-box bubble-box01">
-                    <li><a href="${pageContext.request.contextPath}/?lang=en">ENG(English)</a></li>
-                    <li><a href="${pageContext.request.contextPath}/?lang=ko">KOR(한국어)</a></li>
+                    <li><a href="${requestScope['javax.servlet.forward.servlet_path']}?lang=en">ENG(English)</a></li>
+                    <li><a href="${requestScope['javax.servlet.forward.servlet_path']}?lang=ko">KOR(한국어)</a></li>
                 </ul>
             </li>
             <sec:authorize access="isAnonymous()"> <!-- !login -->
@@ -116,7 +89,7 @@ function sessionLogout() {
                 <button class="m-gnbmenu m-ver"></button>
                 <form action="" class="scroll_none" onsubmit="return false; ">
                     <fieldset class="topsearch">
-                        <span class="submenuBg-closeBtn top-search-closeBtn m-ver"></span>
+                        <span class="submenuBg-closeBtn top-search-closeBtn closebtn-b m-ver"></span>
                         <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();" id="topsearchText" ng-keypress="$event.keyCode === 13 && goSearch('topsearchText', true);" autocomplete="off"><button type="button" class="topsearch-btn pc-ver" ng-click="goSearch('topsearchText', true);"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">
@@ -151,7 +124,7 @@ function sessionLogout() {
                         <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
                             <ul class="submenu submenu-part01">
                                 <li id="menu_auction"><a href="/auction/progress">진행경매</a></li>
-                                <li id="menu_upcoming"><a href="/auction/scheduled">예정경매</a></li>
+                                <li id="menu_upcoming"><a href="/auction/upcoming">예정경매</a></li>
                                 <li><a href="/auction/results">경매결과</a></li>
                             </ul>
                         </li>
@@ -206,7 +179,7 @@ function sessionLogout() {
                         <a href="/join" class="gnb_join">회원가입</a>
                         </sec:authorize>
                         <sec:authorize access="isAuthenticated()">
-                        <a href="/mypage/liveBidReqList" class="gnb_member">마이페이지</a>
+                        <a href="/mypage/main" class="gnb_member">마이페이지</a>
                         </sec:authorize>
                     </li>
                     <li>

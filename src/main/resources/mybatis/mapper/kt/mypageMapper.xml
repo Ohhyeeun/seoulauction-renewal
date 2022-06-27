@@ -412,9 +412,9 @@
 	
 	<select id="selectCustomerByCustNo" resultType="Map">
 		select CU.*
-			, (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "정회원" ELSE "준회원" END 
+			, (select CASE WHEN max(CP.VALID_TO_DT) &gt;= NOW() THEN "정회원" ELSE "준회원" END 
 			   from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_NM
-			, (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "Y" ELSE "N" END 
+			, (select CASE WHEN max(CP.VALID_TO_DT) &gt;= NOW() THEN "Y" ELSE "N" END 
 			    from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_YN
 			, (select CONCAT('[', GROUP_CONCAT('"', PW.PUSH_WAY_CD, '"'), ']')  
 				from CUST_PUSH_WAY PW where PW.CUST_NO = CU.CUST_NO) PUSH_WAY_JSON
@@ -465,7 +465,7 @@
 			    CASE WHEN C.P_CD_NM IS NULL THEN C.CD_NM ELSE C.P_CD_NM END AS P_CATE_NM,
 			    C.CD_NM_EN P_CATE_NM_EN,
 			    if(C.P_CD_NM is not null ,(select cd.CD_NM_EN  from code cd where cd.CD_ID = C.P_CD_ID AND cd.grp_id = 'bbs_inquiry_category_en'),'') CATE_NM_EN,
-				case when B.reply_cnt > 0 then 'Y' else 'N' end as REPLY_YN,
+				case when B.reply_cnt &gt; 0 then 'Y' else 'N' end as REPLY_YN,
 				B.LAST_REPLY_DT, 
 				D.EMP_NAME,
 				DATE_FORMAT(A.REG_DT, '%m-%d-%Y') as REG_DT_EN
@@ -507,7 +507,7 @@
 		    CASE WHEN C.P_CD_NM IS NULL THEN C.CD_NM ELSE C.P_CD_NM END AS P_CATE_NM,
 		    C.CD_NM_EN P_CATE_NM_EN,
 		    if(C.P_CD_NM is not null ,(select cd.CD_NM_EN  from code cd where cd.CD_ID = C.P_CD_ID AND cd.grp_id = 'bbs_inquiry_category_en'),'') CATE_NM_EN,
-			case when B.reply_cnt > 0 then 'Y' else 'N' end as REPLY_YN,
+			case when B.reply_cnt &gt; 0 then 'Y' else 'N' end as REPLY_YN,
 			B.LAST_REPLY_DT, 
 			D.EMP_NAME,
 			DATE_FORMAT(B.LAST_REPLY_DT, '%m-%d-%Y') as LAST_REPLY_DT_EN
@@ -557,9 +557,9 @@
 	<!-- (로그인)회원정보 -->
 	<select id="selectInquiryCustomerInfo" resultType="CommonMap">
 		select CU.*
-			, (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "정회원" ELSE "준회원" END 
+			, (select CASE WHEN max(CP.VALID_TO_DT) &gt;= NOW() THEN "정회원" ELSE "준회원" END 
 			   from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_NM
-			, (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "Y" ELSE "N" END 
+			, (select CASE WHEN max(CP.VALID_TO_DT) &gt;= NOW() THEN "Y" ELSE "N" END 
 			    from CUST_PAY CP where CU.cust_no = CP.cust_no) MEMBERSHIP_YN
 			, (select CONCAT('[', GROUP_CONCAT('"', PW.PUSH_WAY_CD, '"'), ']')  
 				from CUST_PUSH_WAY PW where PW.CUST_NO = CU.CUST_NO) PUSH_WAY_JSON
@@ -652,7 +652,7 @@ SELECT 'INTE_LOT' AS GUBUN
 		     , COLUMN_GET(A.ARTIST_NAME_BLOB, 'ko' AS CHAR) AS ARTIST_NAME_KO
 		     , COLUMN_GET(A.ARTIST_NAME_BLOB, 'en' AS CHAR) AS ARTIST_NAME_EN
 		     , COLUMN_GET(A.ARTIST_NAME_BLOB, 'zh' AS CHAR) AS ARTIST_NAME_ZH	
-		     , if(S.TO_DT > NOW(), 'N', 'Y') AS CLOSE_YN
+		     , if(S.TO_DT &gt; NOW(), 'N', 'Y') AS CLOSE_YN
 		     , S.SALE_OUTSIDE_YN 
  		     , LI.FILE_NAME
 		     , LI.FILE_PATH
@@ -726,7 +726,7 @@ SELECT 'INTE_LOT' AS GUBUN
   select *
 		    , (select CASE WHEN MB.BID_PRICE = ABL.LAST_AUTOBID_PRICE and MB.CUST_NO = ABL.CUST_NO THEN '낙찰' 
 		    	ELSE 
-		    		CASE WHEN ABL.BID_CNT > 0 THEN '낮은응찰' ELSE '' END
+		    		CASE WHEN ABL.BID_CNT &gt; 0 THEN '낮은응찰' ELSE '' END
 		    	END 
 				from BID MB 
 				where ABL.SALE_NO = MB.SALE_NO and ABL.LOT_NO = MB.LOT_NO
@@ -765,7 +765,7 @@ SELECT 'INTE_LOT' AS GUBUN
 				 ,IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'en' AS CHAR), '') ARTIST_NAME_EN
 				 , COLUMN_GET(L.TITLE_BLOB, 'ko' AS CHAR) LOT_TITLE_KR
 				 , COLUMN_GET(L.TITLE_BLOB, 'en' AS CHAR) LOT_TITLE_EN
-				 , if(S.TO_DT > NOW(), 'N', 'Y') AS CLOSE_YN
+				 , if(S.TO_DT &gt; NOW(), 'N', 'Y') AS CLOSE_YN
 				from AUTO_BID_REQ AB
 				join (select S1.sale_no,  S1.TITLE_BLOB, S1.FROM_DT, S1.TO_DT, S1.CURR_CD, S1.SALE_TH_DSP_YN, S1.SALE_TH from AUTO_BID_REQ AB1
 					join sale s1 on AB1.SALE_NO = s1.SALE_NO 
@@ -843,7 +843,7 @@ SELECT 'INTE_LOT' AS GUBUN
 				 ,IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'en' AS CHAR), '') ARTIST_NAME_EN
 				 , COLUMN_GET(L.TITLE_BLOB, 'ko' AS CHAR) LOT_TITLE_KR
 				 , COLUMN_GET(L.TITLE_BLOB, 'en' AS CHAR) LOT_TITLE_EN
-				 , if(S.TO_DT > NOW(), 'N', 'Y') AS CLOSE_YN
+				 , if(S.TO_DT &gt; NOW(), 'N', 'Y') AS CLOSE_YN
 				 , DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT 
 				 , DATE_FORMAT(S.FROM_DT, '%d %b, %Y %T')  as FROM_DT_EN 
 				 , S.CURR_CD
@@ -863,8 +863,8 @@ SELECT 'INTE_LOT' AS GUBUN
 			BO.SALE_NO = PAD.SALE_NO
 			and BO.CUST_NO = PAD.CUST_NO
 		join SALE S on BO.SALE_NO = S.sale_no 
-		WHERE BO.BID_KIND_CD = 'online' AND PAD.PADD_NO > 600  AND BO.CUST_NO = #{action_user_no}
-		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO >= 622 AND S.STAT_CD = 'open'
+		WHERE BO.BID_KIND_CD = 'online' AND PAD.PADD_NO &gt; 600  AND BO.CUST_NO = #{action_user_no}
+		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO &gt;= 622 AND S.STAT_CD = 'open'
 		group by bo.sale_no order by pad.sale_no desc 
 		) S ON BIO.SALE_NO = S.SALE_NO 
 		inner join (
@@ -874,19 +874,19 @@ SELECT 'INTE_LOT' AS GUBUN
 			BO.SALE_NO = PAD.SALE_NO
 			and BO.CUST_NO = PAD.CUST_NO
 		join SALE S on BO.SALE_NO = S.sale_no 
-		WHERE BO.BID_KIND_CD = 'online' AND PAD.PADD_NO > 600  AND BO.CUST_NO = #{action_user_no}
-		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO >= 622 AND S.STAT_CD = 'open'
+		WHERE BO.BID_KIND_CD = 'online' AND PAD.PADD_NO &gt; 600  AND BO.CUST_NO = #{action_user_no}
+		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO &gt;= 622 AND S.STAT_CD = 'open'
 		group by bo.sale_no order by pad.sale_no desc limit #{offset}, #{size}
 		) S ON BIO.SALE_NO = S.SALE_NO 
-		WHERE BIO.BID_KIND_CD = 'online' AND BIO.PADDLE > 600  AND BIO.CUST_NO = #{action_user_no}
-		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO >= 622 AND S.STAT_CD = 'open'
+		WHERE BIO.BID_KIND_CD = 'online' AND BIO.PADDLE &gt; 600  AND BIO.CUST_NO = #{action_user_no}
+		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO &gt;= 622 AND S.STAT_CD = 'open'
 		group by BIO.SALE_NO, BIO.LOT_NO
 		order by BIO.SALE_NO desc , BIO.LOT_NO) MBIO on MBIO.sale_no = BIO.sale_no and MBIO.LOT_NO = BIO.LOT_NO and MBIO.BID_NO = BIO.BID_NO
 		LEFT OUTER JOIN LOT L ON BIO.LOT_NO = L.LOT_NO AND BIO.SALE_NO = L.SALE_NO
 		join LOT_IMG LI ON LI.SALE_NO = L.SALE_NO AND LI.LOT_NO = L.LOT_NO AND LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
 		left outer join ARTIST A ON L.ARTIST_NO = A.ARTIST_NO 
-		WHERE BIO.BID_KIND_CD = 'online' AND BIO.PADDLE > 600  AND BIO.CUST_NO = #{action_user_no}
-		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO >= 622 AND S.STAT_CD = 'open'
+		WHERE BIO.BID_KIND_CD = 'online' AND BIO.PADDLE &gt; 600  AND BIO.CUST_NO = #{action_user_no}
+		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO &gt;= 622 AND S.STAT_CD = 'open'
 		ORDER BY BIO.SALE_NO DESC, BIO.LOT_NO ASC, BIO.BID_NO desc;
 	</select>
 
@@ -900,8 +900,8 @@ SELECT 'INTE_LOT' AS GUBUN
 			BO.SALE_NO = PAD.SALE_NO
 			and BO.CUST_NO = PAD.CUST_NO
 		join SALE S on BO.SALE_NO = S.sale_no 
-		WHERE BO.BID_KIND_CD = 'online' AND PAD.PADD_NO > 600  AND BO.CUST_NO = #{action_user_no}
-		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO >= 622 AND S.STAT_CD = 'open'
+		WHERE BO.BID_KIND_CD = 'online' AND PAD.PADD_NO &gt; 600  AND BO.CUST_NO = #{action_user_no}
+		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO &gt;= 622 AND S.STAT_CD = 'open'
 		group by bo.sale_no order by pad.sale_no desc ) S
 	</select>
 
@@ -924,8 +924,8 @@ SELECT 'INTE_LOT' AS GUBUN
 		LEFT OUTER JOIN LOT L ON BIO.LOT_NO = L.LOT_NO AND BIO.SALE_NO = L.SALE_NO
 		join LOT_IMG LI ON LI.SALE_NO = L.SALE_NO AND LI.LOT_NO = L.LOT_NO AND LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
 		left outer join ARTIST A ON L.ARTIST_NO = A.ARTIST_NO 
-		WHERE BIO.BID_KIND_CD = 'online' AND BIO.PADDLE > 600  AND BIO.CUST_NO = #{action_user_no}
-		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO >= 622 AND S.STAT_CD = 'open'
+		WHERE BIO.BID_KIND_CD = 'online' AND BIO.PADDLE &gt; 600  AND BIO.CUST_NO = #{action_user_no}
+		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO &gt;= 622 AND S.STAT_CD = 'open'
 		<if test="sale_no != null and sale_no > 0">
 		and S.SALE_NO = #{sale_no} 
 		</if>
@@ -1023,7 +1023,7 @@ SELECT 'INTE_LOT' AS GUBUN
 			 ,IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'en' AS CHAR), '') ARTIST_NAME_EN
 			 , COLUMN_GET(L.TITLE_BLOB, 'ko' AS CHAR) LOT_TITLE_KR
 			 , COLUMN_GET(L.TITLE_BLOB, 'en' AS CHAR) LOT_TITLE_EN
-			 , if(S.TO_DT > NOW(), 'N', 'Y') AS CLOSE_YN
+			 , if(S.TO_DT &gt; NOW(), 'N', 'Y') AS CLOSE_YN
 			 , L.HAMMER_CANCEL_YN
 	    from LOT L
 		inner join (

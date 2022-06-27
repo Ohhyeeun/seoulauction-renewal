@@ -4,7 +4,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-
+<!DOCTYPE html>
+<html lang="en">
 <sec:authentication property="details.socialYn" var="socialYn"></sec:authentication>
 <sec:authentication property="details.socialType" var="socialType"></sec:authentication>
 <script>
@@ -99,6 +100,8 @@
 
         </div>
     </div>
+    <!-- 팝업 : side popup -->
+	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 </body>
 <!-- 카카오 -->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>

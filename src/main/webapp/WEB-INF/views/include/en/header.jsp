@@ -41,19 +41,19 @@ function sessionLogout() {
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
 
     <div class="header_beltbox on"> <!--class="on" block-->
-        <div class="wrap belttxtbox wrap_padding"> <!-- ul -->
-
+        <div class="swiper-container belt-swiper wrap_padding belttxtbox">
+            <div class="swiper-wrapper">
+            </div>
+            <span class="beltclose-btn closebtn closebtn-w"></span>
         </div>
-        <span class="beltclose-btn closebtn closebtn-w"></span>
     </div>
-
 
     <div>
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">ENG</a>
                 <ul class="bubble-box bubble-box01">
-                    <li><a href="${pageContext.request.contextPath}/?lang=ko">KOR(한국어)</a></li>
-                    <li><a href="${pageContext.request.contextPath}/?lang=en">ENG(English)</a></li>
+                    <li><a href="${requestScope['javax.servlet.forward.servlet_path']}?lang=ko">KOR(한국어)</a></li>
+                    <li><a href="${requestScope['javax.servlet.forward.servlet_path']}?lang=en">ENG(English)</a></li>
                 </ul>
             </li>
             <sec:authorize access="isAnonymous()"> <!-- !login -->
@@ -76,7 +76,7 @@ function sessionLogout() {
 
     <nav class="header_navbox">
         <div class="header_nav wrap_padding">
-            <a href="#" class="header_logo"><span class="blind-text">logo</span></a>
+            <a href="/" class="header_logo"><span class="blind-text">logo</span></a>
             <ul class="header_gnbmenu pc-ver">
                 <li><a href="#" class="">AUCTION</a></li>
                 <li><a href="#">PRIVATE SALE</a></li>
@@ -128,7 +128,7 @@ function sessionLogout() {
                             <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
                                 <ul class="submenu submenu-part01">
                                     <li id="menu_auction"><a href="/auction/progress">Current</a></li>
-                                    <li id="menu_upcoming"><a href="/auction/scheduled">Upcoming</a></li>
+                                    <li id="menu_upcoming"><a href="/auction/upcoming">Upcoming</a></li>
                                     <li><a href="#">Result</a></li>
                                 </ul>
                             </li>
@@ -182,7 +182,7 @@ function sessionLogout() {
                                 <a href="/join" class="gnb_join">JOIN</a>
                             </sec:authorize>
                             <sec:authorize access="isAuthenticated()">
-                                <a href="/mypage/liveBidReqList" class="gnb_member">ACCOUNT</a>
+                                <a href="/mypage/main" class="gnb_member">ACCOUNT</a>
                             </sec:authorize>
                         </li>
                         <li>

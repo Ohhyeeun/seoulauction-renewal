@@ -18,6 +18,9 @@
         <!-- header -->
         <jsp:include page="../../include/ko/header.jsp" flush="false"/>
         <!-- //header -->
+        <script>
+            app.value('locale', 'ko');
+        </script>
 
         <!-- container -->
         <div id="container">
@@ -151,7 +154,7 @@
         <!-- //container -->
 
         <!-- footer -->
-        <jsp:include page="../../include/en/footer.jsp" flush="false"/>
+        <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
         <!-- //footer -->
 
         <!-- stykey -->

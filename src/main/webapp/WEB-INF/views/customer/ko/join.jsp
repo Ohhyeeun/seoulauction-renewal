@@ -10,7 +10,7 @@
 	    <meta charset="UTF-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	    <title>Seoul Auction</title>
+	    <title>회원가입 | Seoul Auction</title>
 	</head>
 	<spring:eval expression="@environment.getProperty('social.service.domain')" var="socialServiceDomain" />
 	<script>
@@ -22,7 +22,7 @@
 		<div class="sub-wrap pageclass">
 			<jsp:include page="../../include/ko/header.jsp" flush="false" />
 			
-			<div id="container footer-bottom footer-bottom30" style="margin-top:60px" ng-controller="joinCtl">
+			<div id="container" ng-controller="joinCtl">
 				<div id="contents" class="contents">
 				    <section class="basis-section last-section">
 				        <div class="section-inner">

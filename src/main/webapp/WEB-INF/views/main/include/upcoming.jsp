@@ -20,6 +20,6 @@
             <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
     </div>
     <div class="commonbtn-box upcomingBtn">
-        <a href="/auction/scheduled" class="commonbtn">전체보기</a>
+        <a href="/auction/upcoming" class="commonbtn">전체보기</a>
     </div>
 </section>

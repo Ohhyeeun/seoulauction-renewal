@@ -236,7 +236,7 @@ const beltNoticeSwiper = new Swiper(".belt-swiper", {
 });
 
 function loadTopNotice(){
-    let resultHtml = "";
+    const slideArray = [];
 
     axios.get('api/main/topNotice')
     .then(function(response){
@@ -246,35 +246,23 @@ function loadTopNotice(){
             if(!getCookie('top-notice') && data) {
                 data.map(item => {
                     const content = JSON.parse(item.content);
-                     resultHtml += `<span class="header_beltTit">
-                                            <a href="${locale === 'en' ? content.en_url : content.ko_url}">
-                                                <span class="text-over belt_tit"> ${locale === 'en' ? content.en_text : content.ko_text}</span>
-                                            </a>
-                                        </span>`;
+                     const returnDom = `<div class="swiper-slide"> <!-- slide 구간 -->
+                                            <span class="header_beltTit">
+                                                <a href="${locale === 'en' ? content.en_url : content.ko_url}">
+                                                    <span class="text-over belt_tit">
+                                                        ${locale === 'en' ? content.en_text : content.ko_text}
+                                                    </span>
+                                                </a>
+                                            </span>
+                                        </div>`;
+                    slideArray.push(returnDom);
                 });
-                    // console.log(resultHtml)
-                document.querySelector(".belttxtbox").insertAdjacentHTML('beforeend', resultHtml);
 
-
-                // /* 상단 텍스트 동적 생성으로 인한 스타일 변경 및 이벤트 바인딩 */
-                // document.querySelector(".beltclose-btn").addEventListener("click", function(e){
-                //     $('.header_beltbox').slideUp(400);
-                //     closeToday('top-notice');
-                // });
-                //
-                // if(matchMedia("all and (min-width: 1024px)").matches) {
-                //     document.querySelector(".main-contents").style.marginTop = '162px';
-                //     document.querySelector(".beltclose-btn").addEventListener("click", function(e){
-                //         document.querySelector(".main-contents").style.marginTop = '100px';
-                //     });
-                // } else { /* 모바일, 테블릿 */
-                //     /* main gnb fixed */
-                //     document.querySelector(".main-contents").style.marginTop = '100px';
-                //     $('.main-contents').css('margin-top','100px');
-                //     document.querySelector(".beltclose-btn").addEventListener("click", function(e){
-                //         document.querySelector(".main-contents").style.marginTop = '56px';
-                //     });
-                // }
+                beltNoticeSwiper.appendSlide(slideArray)
+                document.querySelector(".beltclose-btn").addEventListener("click", function(e){
+                    $('.header_beltbox').slideUp(400);
+                    closeToday('top-notice');
+                });
             }else{
                 document.querySelector(".header_beltbox").classList.remove("on");
             }
@@ -336,7 +324,7 @@ function loadUpcomings() {
                     const to_dt = moment(item.TO_DT);
                     const open_dt = moment(item.OPEN_DT);
                     const returnDom =  ` <div class="swiper-slide upcomingSlide " style="padding-right: 40px;">
-                                            <a href="/auction/scheduled/${item.SALE_NO}">
+                                            <a href="/auction/upcoming/${item.SALE_NO}">
                                                 <div class="upcoming-caption">
                                                     <span class="auctionKind-box ${ item.SALE_KIND === 'LIVE' ? 'on' : ''}">
                                                         ${item.SALE_KIND} 
@@ -398,7 +386,7 @@ function loadUpcomings() {
 /* 띠배너 */
 const platFormSwiper = new Swiper('.platform-swiper', {
     autoplay: {
-        delay: 10000000,
+        delay: 5000,
     },
     slidesPerView: 1,
     spaceBetween: 10,
@@ -541,16 +529,49 @@ function loadPopup(){
                 const success = response.data.success;
                 if (success) {
                     const data = response.data.data;
-                    $('#main_popup_title').html(data.title);
-                    $('#main_popup_content').html(data.content);
-                    $('#main_popup_img').attr('src', data.image);
+                    console.log(data);
 
-                    $('.main-popupBg').show();
+                    if(data) {
 
-                    $('.main-popup-close, .main-popupBg').click(function () {
-                        $('.main-popupbox').addClass('down');
-                        $('.main-popupBg').fadeOut();
-                    });
+                        let jsonData = JSON.parse(data.content);
+
+                        let popupType = data.popup_type;
+
+
+                        let localeTitle = locale === 'ko' ? jsonData.title.ko : jsonData.title.en;
+                        let localeContent = locale === 'ko' ? jsonData.content.ko.content : jsonData.content.en.content;
+                        let localeUrl = locale === 'ko' ? jsonData.content.ko.url : jsonData.content.en.url;
+                        //TODO URL로 뭐해야함...
+
+                        $('.main-popup-img').hide()
+                        $('.main-popup-txt').hide();
+
+                        if(popupType === 'image'){
+
+                            $('.main-popup-img').show();
+                            if(data.image !== "") {
+                                $('#main_popup_img').attr('src', data.image);
+                                $('.main-popup-img').show();
+                            }
+
+
+                        } else if (popupType === 'text'){
+                            $('.main-popup-txt').show();
+                            $('#main_popup_title').html(localeTitle);
+                            $('#main_popup_content').html(localeContent);
+
+                        }
+
+                        $('.main-popupBg').show();
+
+                        $('.main-popup-close, .main-popupBg').click(function () {
+                            $('.main-popupbox').addClass('down');
+                            $('.main-popupBg').fadeOut('1000', function(){
+                                $(this).removeClass('on');
+                                $('body').css('overflow','visible');
+                            });
+                        });
+                    }
                 }
             })
             .catch(function (error) {
@@ -593,12 +614,34 @@ if (matchMedia("all and (min-width: 1024px)").matches) {
             $('.submenuBg').css({'top':'0'});
         });
     });
+    if($('.main-popupBg').hasClass('on')){
+         console.log(6549685); /* off */
+         $('body').css({'overflow':'hidden'});
+    }
+    $('main-popupBg').toggleClass('on');
 }
 
-
-
-/* 반응형 resize 추가 */ 
+/* 반응형 resize 추가 */
 $(window).resize(function(){
+    /* gnb */
+    if (matchMedia("all and (min-width: 1024px)").matches) {
+
+    } else {
+        /* 띠배너 beltbanner */
+        $('.header_beltbox.on').show(function () {
+            $('.main-contents').css('margin-top', '100px');
+            $('.m-gnbmenu').click(function(){
+                $('.submenuBg').css({'top':'-43px'});
+            });
+        });
+        $('.beltclose-btn').click(function () {
+            $('.main-contents').css('margin-top', '56px');
+            $('.m-gnbmenu').click(function(){
+                $('.submenuBg').css({'top':'0'});
+            });
+        });
+    };
+
     /* visual */
     const visualSwiper = new Swiper('.visual-swiper', {
         autoplay: {

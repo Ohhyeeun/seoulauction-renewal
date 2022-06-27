@@ -1,5 +1,5 @@
 
-app.value('locale', 'ko');
+app.value('locale', document.documentElement.lang);
 
 //dialog
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"])

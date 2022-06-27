@@ -37,7 +37,10 @@
                                         <li><span class="colorB2">경매일</span><span class=""> : {{sale.TO_DT | date:'MM.dd'+'('+getWeek(sale.TO_DT)+')'}}</span></li>
                                     </ul>
                                     <div class="btn_set">
-                                        <a class="btn btn_white " href="#" target="_blank" ng-href="/notices/{{sale.WRITE_NO}}" role="button" ng-if="sale.WRITE_NO > 0"><span>안내사항</span></a>
+                                        <a class="btn btn_white " href="#" target="_blank" ng-href="/footer/notice/{{sale.WRITE_NO}}" role="button" ng-if="sale.WRITE_NO > 0"><span>안내사항</span></a>
+                                        <a class="btn btn_white " ng-click="goBrochure(item.id, item.content.url)" role="button" ng-repeat="item in sale.buttonList">
+                                            <span ng-bind="{'pdf':'E-BOOK', 'ebook':'E-BOOK', 'vr':'VR보기'}[item.content_type]"></span>
+                                        </a>
                                     </div>
                                 </div>
                             </article>
@@ -445,10 +448,7 @@
 
         $scope.favorite = function (item) {
 
-            if (sessionStorage.getItem("is_login") === 'false') {
-                alert('로그인을 진행해주세요.');
-                return;
-            }
+            checkLogin();
 
             let url = item.FAVORITE_YN === 'N' ? "/api/auction/delCustInteLot" : "/api/auction/addCustInteLot";
 
@@ -506,109 +506,104 @@
 
         $scope.popSet = function (saleNo, lotNo, userId, custNo) {
             if (${member.userNo} === 0){
-                if (sessionStorage.getItem("is_login") === 'false') {
-                    //history.push("/login");
-                    location.href = "/login";
-                    return;
-                }
+                checkLogin();
+            }
+            const is_sale_cert = $scope.is_sale_cert || $("#is_sale_cert").val();
+            if (!is_sale_cert) {
+                popup_offline_payment.open(this); // or false
+                popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
+
+                // 랏번호 삽입
+                $("#sale_no").val(saleNo);
+                // 랏번호 삽입
+                $("#lot_no").val(lotNo);
+
+                $("body").on("click", "#popup_online_confirm-wrap .js-closepop, #popup_online_confirm-wrap .popup-dim", function ($e) {
+                    $e.preventDefault();
+                    popup_offline_payment.close();
+                });
             } else {
-                const is_sale_cert = $scope.is_sale_cert || $("#is_sale_cert").val();
-                if (!is_sale_cert) {
-                    popup_offline_payment.open(this); // or false
-                    popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
-
-                    // 랏번호 삽입
-                    $("#sale_no").val(saleNo);
-                    // 랏번호 삽입
-                    $("#lot_no").val(lotNo);
-
-                    $("body").on("click", "#popup_online_confirm-wrap .js-closepop, #popup_online_confirm-wrap .popup-dim", function ($e) {
-                        $e.preventDefault();
-                        popup_offline_payment.close();
-                    });
-                } else {
 
 
-                    let init_func_manual = async function (token, saleNo, lotNo, saleType, custNo) {
-                        //console.log(token, saleNo, lotNo, saleType, userId);
-                        let url = '';
-                        if (window.location.protocol !== "https:") {
-                            url = 'http://dev-bid.seoulauction.xyz/init2';
-                        } else {
-                            url = 'https://dev-bid.seoulauction.xyz/init2';
-                        }
-                        let resp = await fetch(url, {
-                            method: "POST", body: JSON.stringify({
-                                token: $scope.token,
-                                sale_no: saleNo,
-                                lot_no: lotNo,
-                                sale_type: saleType,
-                                user_id: '${member.loginId}',
-                                cust_no: custNo,
-                            }),
-                        });
-                        return resp;
+                let init_func_manual = async function (token, saleNo, lotNo, saleType, custNo) {
+                    //console.log(token, saleNo, lotNo, saleType, userId);
+                    let url = '';
+                    if (window.location.protocol !== "https:") {
+                        url = 'http://dev-bid.seoulauction.xyz/init2';
+                    } else {
+                        url = 'https://dev-bid.seoulauction.xyz/init2';
                     }
-
-                    // 메타데이타
-                    let lotInfo = {};
-
-
-
-                    for (let i = 0; i < $scope.saleInfoAll.length; i++) {
-                        if ($scope.saleInfoAll[i].SALE_NO === saleNo && $scope.saleInfoAll[i].LOT_NO === lotNo) {
-                            lotInfo = {
-                                imageUrl: $scope.saleInfoAll[i].IMAGE_URL + $scope.saleInfoAll[i].FILE_PATH + "//" + $scope.saleInfoAll[i].FILE_NAME,
-                                artistName: $scope.saleInfoAll[i].ARTIST_NAME_JSON.ko,
-                                bornYear: $scope.saleInfoAll[i].BORN_YEAR,
-                                lotTitle: $scope.saleInfoAll[i].LOT_TITLE_JSON.ko,
-                                material: $scope.saleInfoAll[i].CD_NM,
-                                lotSize: $scope.saleInfoAll[i].SIZE1 + "X" + $scope.saleInfoAll[i].SIZE2 + "X" + $scope.saleInfoAll[i].SIZE3,
-                                makeYear: $scope.saleInfoAll[i].MAKE_YEAR_JSON.ko,
-                            }
-                            break
-                        }
-                    }
-
-                    // 초기화
-                    $("#pop_img_url").attr("src", "");
-                    $("#bid_lst").html("");
-                    $("#sale_no").val("");
-                    $("#lot_no").val("");
-                    $("#pop_lot_no").html("");
-                    $("#pop_artist_nm").html("");
-                    $("#pop_born_year").html("");
-                    $("#pop_lot_title").html("");
-                    $("#pop_material").html("");
-                    $("#pop_size").html("");
-                    $("#pop_make_year").html("");
-
-                    // 초기화
-                    $("#bid_lst").html('');
-                    // 랏번호 삽입
-                    $("#sale_no").val(saleNo);
-                    // 랏번호 삽입
-                    $("#lot_no").val(lotNo);
-                    //
-                    $("#pop_lot_no").html("LOT " + lotNo);
-                    $("#pop_img_url").attr("src", lotInfo.imageUrl);
-                    $("#pop_artist_nm").html(lotInfo.artistName);
-                    $("#pop_born_year").html(lotInfo.bornYear);
-                    $("#pop_lot_title").html(lotInfo.lotTitle);
-                    $("#pop_material").html(lotInfo.material);
-                    $("#pop_size").html(lotInfo.lotSize);
-                    $("#pop_make_year").html(lotInfo.makeYear);
-
-                    popup_biddingPopup1.open(this); // or false
-                    popup_fixation("#popup_biddingPopup1-wrap");
-
-                    init_func_manual(token, parseInt(saleNo), parseInt(lotNo), 2, custNo);
-
-                    $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function ($e) {
-                        $e.preventDefault();
-                        popup_biddingPopup1.close();
+                    let resp = await fetch(url, {
+                        method: "POST", body: JSON.stringify({
+                            token: $scope.token,
+                            sale_no: saleNo,
+                            lot_no: lotNo,
+                            sale_type: saleType,
+                            user_id: '${member.loginId}',
+                            cust_no: custNo,
+                        }),
                     });
+                    return resp;
                 }
+
+                // 메타데이타
+                let lotInfo = {};
+
+
+
+                for (let i = 0; i < $scope.saleInfoAll.length; i++) {
+                    if ($scope.saleInfoAll[i].SALE_NO === saleNo && $scope.saleInfoAll[i].LOT_NO === lotNo) {
+                        lotInfo = {
+                            imageUrl: $scope.saleInfoAll[i].IMAGE_URL + $scope.saleInfoAll[i].FILE_PATH + "//" + $scope.saleInfoAll[i].FILE_NAME,
+                            artistName: $scope.saleInfoAll[i].ARTIST_NAME_JSON.ko,
+                            bornYear: $scope.saleInfoAll[i].BORN_YEAR,
+                            lotTitle: $scope.saleInfoAll[i].LOT_TITLE_JSON.ko,
+                            material: $scope.saleInfoAll[i].CD_NM,
+                            lotSize: $scope.saleInfoAll[i].SIZE1 + "X" + $scope.saleInfoAll[i].SIZE2 + "X" + $scope.saleInfoAll[i].SIZE3,
+                            makeYear: $scope.saleInfoAll[i].MAKE_YEAR_JSON.ko,
+                        }
+                        break
+                    }
+                }
+
+                // 초기화
+                $("#pop_img_url").attr("src", "");
+                $("#bid_lst").html("");
+                $("#sale_no").val("");
+                $("#lot_no").val("");
+                $("#pop_lot_no").html("");
+                $("#pop_artist_nm").html("");
+                $("#pop_born_year").html("");
+                $("#pop_lot_title").html("");
+                $("#pop_material").html("");
+                $("#pop_size").html("");
+                $("#pop_make_year").html("");
+
+                // 초기화
+                $("#bid_lst").html('');
+                // 랏번호 삽입
+                $("#sale_no").val(saleNo);
+                // 랏번호 삽입
+                $("#lot_no").val(lotNo);
+                //
+                $("#pop_lot_no").html("LOT " + lotNo);
+                $("#pop_img_url").attr("src", lotInfo.imageUrl);
+                $("#pop_artist_nm").html(lotInfo.artistName);
+                $("#pop_born_year").html(lotInfo.bornYear);
+                $("#pop_lot_title").html(lotInfo.lotTitle);
+                $("#pop_material").html(lotInfo.material);
+                $("#pop_size").html(lotInfo.lotSize);
+                $("#pop_make_year").html(lotInfo.makeYear);
+
+                popup_biddingPopup1.open(this); // or false
+                popup_fixation("#popup_biddingPopup1-wrap");
+
+                init_func_manual(token, parseInt(saleNo), parseInt(lotNo), 2, custNo);
+
+                $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function ($e) {
+                    $e.preventDefault();
+                    popup_biddingPopup1.close();
+                });
             }
         }
 
@@ -1451,6 +1446,9 @@
                     if (response.data.success) {
                         $scope.sale = response.data.data;
                         $scope.sale.TITLE_JSON = JSON.parse($scope.sale.TITLE_JSON);
+                        $scope.sale.buttonList.map(item => {
+                            item.content = JSON.parse(item.content);
+                        });
 
                         var S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
                         var S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
@@ -1482,6 +1480,11 @@
                         $scope.$apply();
                     }
                 });
+        }
+
+        $scope.goBrochure = function (id, url) {
+            axios.post('/api/auction/brochure/read', {id: id});
+            window.open(url);
         }
     });
 </script>

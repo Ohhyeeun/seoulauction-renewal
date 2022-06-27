@@ -98,7 +98,7 @@
 		ORDER BY S.SALE_NO
 	</select>
 
-	<select id="selectScheduledSaleList" parameterType="CommonMap" resultType="CommonMap">
+	<select id="selectUpcomingSaleList" parameterType="CommonMap" resultType="CommonMap">
 		select 	S.SALE_NO
 			, IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH, COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
 			, S.FROM_DT

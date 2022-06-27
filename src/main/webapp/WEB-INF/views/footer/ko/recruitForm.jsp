@@ -83,6 +83,15 @@
                                                             <input  type="button" class="btn btn_light_gray_line" value="파일첨부">
                                                             <input id="recruit_file" type="file" class="trp-Filehidden" title="Insert Attachment">
                                                         </div>
+
+                                                        <div class="file-box-list">
+                                                            <p class="label">
+                                                                <i class="icon_down"></i>
+                                                                <span class="tb1">Attached_filename.jpg </span>
+                                                                <a href="#none" class="btn_del"><span class="icon-del"></span></a>
+                                                            </p>
+                                                        </div>
+
                                                         <div id="current_file"></div>
                                                         <div class="mark_list-wrap">
                                                             <ul class="mark_dot-list">
@@ -238,8 +247,6 @@
                 //     alert('휴대폰 11자리를 입력해주세요.');
                 //     return;
                 // }
-
-
                 if(!current_file){
                     alert('파일을 등록해주세요.');
                     return;

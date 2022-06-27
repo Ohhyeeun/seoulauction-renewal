@@ -4,6 +4,17 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- header -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>search | Seoul Auction</title>
+    <!-- //header -->
+</head>
+
 <body class="" ng-controller="lotListCtl" data-ng-init="init();">
 <div class="wrapper">
     <div class="sub-wrap pageclass type-width_list">
@@ -105,7 +116,7 @@
                         </div>
                     </div>
                 </section>
-                <section class="basis-section last-section auction_list-section">
+                <section class="basis-section last-section auction_list-section" id="search_content">
                     <div class="section-inner">
                         <div class="content-panel type_panel-product_list">
                             <div class="panel-body" id="panel_content">
@@ -113,11 +124,11 @@
                                     <li class="" ng-if="lotList !== null" ng-repeat="item in lotList">
                                         <div class="li-inner">
                                             <article class="item-article">
-                                                <div class="image-area">
+                                                <div class="image-area" ng-click="goDetail(item.SALE_NO, item.LOT_NO, item.SALE_KIND_CD, item.END_YN);">
                                                     <figure class="img-ratio">
                                                         <div class="img-align">
                                                             <img src="{{item.IMAGE_URL}}{{item.LOT_IMG_PATH}}/{{item.LOT_IMG_NAME}}"
-                                                                 alt="{{item.TITLE_JSON.ko}}">
+                                                                 alt="{{item.TITLE_JSON.ko | trimSameCheck : item.TITLE_JSON[locale]}}">
                                                         </div>
                                                     </figure>
                                                 </div>
@@ -130,7 +141,7 @@
                                                                    ng-click="favorite(item);"></i></button>
                                                         </div>
                                                         <div class="info-box">
-                                                            <div class="title"><span> {{item.ARTIST_NAME_JSON.ko}} </span></div>
+                                                            <div class="title"><span> {{item.ARTIST_NAME_JSON.ko | trimSameCheck : item.TITLE_JSON[locale]}} </span></div>
                                                             <!-- 30자 -->
                                                             <div class="desc"><span ng-bind="item.TITLE_JSON.ko | do_sub_string : item.TITLE_JSON.ko"></span></div>
                                                             <div class="standard">
@@ -144,10 +155,14 @@
                                                             </div>
                                                         </div>
                                                         <div class="price-box">
-                                                            <dl class="price-list">
+                                                            <dl class="price-list" ng-if="lot.EXPE_PRICE_INQ_YN != 'Y'">
                                                                 <dt>추정가</dt>
                                                                 <dd>{{item.CURR_CD}} {{item.EXPE_PRICE_FROM_JSON.KRW | currency:item.EXPE_PRICE_FROM_JSON.KRW }} </dd>
                                                                 <dd>~ {{item.EXPE_PRICE_TO_JSON.KRW | currency:item.EXPE_PRICE_TO_JSON.KRW }}</dd>
+                                                            </dl>
+                                                            <dl class="price-list" ng-if="lot.EXPE_PRICE_INQ_YN == 'Y'">
+                                                                <dt>추정가</dt>
+                                                                <dd>별도문의 </dd>
                                                             </dl>
                                                             <dl class="price-list">
                                                                 <dt>시작가</dt>
@@ -157,6 +172,18 @@
                                                                 <dt>현재가</dt>
                                                                 <dd><strong>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE }} </strong><em>(응찰 {{item.BID_CNT }})</em></dd>
                                                             </dl>
+                                                            <dl class="price-list" ng-if="!custInfo.CUST_NO">
+                                                                <dt>낙찰가</dt>
+                                                                <dd>낙찰가는 로그인 후 확인할 수 있습니다.</dd>
+                                                            </dl>
+                                                            <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && ['online','online_zb'].indexOf(item.SALE_KIND_CD) > -1 && item.END_YN == 'Y' && item.LAST_PRICE > 0">
+                                                                <dt>낙찰가</dt>
+                                                                <dd>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE }}</dd>
+                                                            </dl>
+                                                            <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && ['main','hongkong','plan'].indexOf(item.SALE_KIND_CD) > -1 && item.CLOSE_YN == 'Y' && item.LAST_PRICE > 0">
+                                                                <dt>낙찰가</dt>
+                                                                <dd>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE }}</dd>
+                                                            </dl>
                                                         </div>
                                                         <div class="state-box">
                                                             <div class="state op-ing">
@@ -165,7 +192,7 @@
                                                             <div class="other">
                                                                 <div class="d_name" ng-bind="item.SALE_TITLE_JSON.ko"></div>
                                                                 <!--  let saleToDt = $filter('date')(el.SALE_TO_DT, 'yyyy-MM-dd HH:mm:ss');-->
-                                                                <div class="d_day">{{item.SALE_TO_DT | date: "yyyy-MM-dd HH:mm:ss"}} KST</div>
+                                                                <div class="d_day">{{item.SALE_TO_DT | date:'yyyy.MM.dd'+'('+getWeek(item.SALE_TO_DT)+')'}} {{item.SALE_TO_DT | date : 'ah'}} {{item.SALE_KIND_CD == 'hongkong' ? "HKT" : "KST"}}</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -188,7 +215,26 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </section>
 
+
+                <section class="basis-section last-section auction_list-section" id="search_empty">
+                    <div class="section-inner">
+                        <div class="content-panel type_panel-product_list">
+                            <div class="panel-body">
+                                <div class="data-empty type-big">
+                                    <div class="img_empty">
+                                        <img src="/images/mobile/auction/symbol-none_data.png" alt="검색결과가 없습니다." />
+                                    </div>
+                                    <div class="txt_empty">
+                                        <div class="title">검색결과가 없습니다.</div>
+                                        <div class="desc">단어의 철자나 띄어쓰기가 <br class="only-mb" />
+                                            정확한지 확인해주세요</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
@@ -271,8 +317,8 @@
             <div class="title-box">
                 <div class="box-inner">
                     <span>Filter</span>
-                    <button class="btn-filter_refresh">
-                        <i class="icon-filter_refresh" onclick="angular.element(this).scope().initFilter();"></i><span>초기화</span>
+                    <button class="btn-filter_refresh" ng-click="initFilter();">
+                        <i class="icon-filter_refresh"></i><span>초기화</span>
                     </button>
                 </div>
             </div>
@@ -323,7 +369,7 @@
                         <div class="accordion-body">
                             <ul class="check-list">
                                 <li>
-                                    <input type="text" placeholder="작품재질 입력" ng-model="search.mate_nm" id="mateNm">
+                                    <input type="text" placeholder="작품재질 입력" ng-model="search.mate_nm" id="mateNm" ng-keypress="$event.keyCode === 13 && filterCheck();">
                                 </li>
                             </ul>
                         </div>
@@ -471,12 +517,15 @@
             let run = async function () {
                 let [r1] = await Promise.all([get_search_list(data)]);
                 let cntList;
+                let custInfo;
                 if (r1.data.data.length === 0) {
-                    return
+                    return;
                 }
                 if (r1.data.data.cntList.length > 0 ){
                     cntList = r1.data.data.cntList[0];
                 }
+
+                $scope.custInfo = r1.data.data.cust_info;
                 $scope.lotList = r1.data.data.list;
                 $scope.totalCount = cntList.CNT;
                 $scope.allCount = cntList.ALL_CNT;
@@ -501,14 +550,16 @@
                         $('#onlineCount').append('(' + $scope.onlineCount + ')');
                         $scope.firstChk = 1;
                     }
+                    $("#search_content").show();
+                    $("#search_empty").hide();
                     $("#more_search").hide();
-                    $("#more_search_m").hide();
-
+                    //$("#more_search_m").hide();
                     $(".paging").empty();
+
                     if($scope.moreBy == "MOREP") {
                         if($scope.totalCount > $scope.pageRows){
                             $("#more_search").show();
-                            $("#more_search_m").show();
+                            //$("#more_search_m").show();
                         }
                     }else if($scope.moreBy == "PAGNG"){
                         //paging이 선택된 경우 paging 계산
@@ -525,18 +576,11 @@
                         });
                     }
                 } else {
-                    // 검색결과가 없는 경우
-                    let html = '<ul class="product-list"></ul>'
-                        + '<div class="data-empty type-big" id="panel-empty">'
-                        + '<div class="img_empty">'
-                        + '<img src="/images/mobile/auction/symbol-none_data.png" alt="검색결과가 없습니다." /></div>'
-                        + '<div class="txt_empty">'
-                        + '<div class="title">검색결과가 없습니다.</div>'
-                        + '<div class="desc">단어의 철자나 띄어쓰기가 <br class="only-mb" />정확한지 확인해주세요</div></div></div>';
-
-                    $("#panel_content").empty();
+                    // 검색결과가 없는 경우 html 만드는 방법에서 숨기고 보여주는 방식으로 변경
+                    $("#search_content").hide();
                     $("#panel_footer").hide();
-                    $("#panel_content").append(html);
+                    $("#search_empty").show();
+
                     if($scope.firstChk == 0 && $scope.totalCount == 0) {
                         $('#totalCount').empty();
                         $('#totalCount').append(0);
@@ -563,6 +607,7 @@
         }
 
         $scope.initFilter = function(){
+
             let checked = true;
             $('input:checkbox[name="lotCheckBox"]').each(function(){
                 $(this).attr("checked", false);
@@ -634,6 +679,9 @@
                 axios.post(url, {
                     sale_no: item.SALE_NO, lot_no: item.LOT_NO
                 }).then(function (response) {
+
+                    console.log("response :::: " +  response);
+
                     if (response.data.success) {
                         item.FAVORITE_YN = item.FAVORITE_YN === 'N' ? 'Y' : 'N';
                         $scope.$apply();
@@ -680,6 +728,7 @@
             }
 
             //추천 검색어
+
             axios.get('/api/auction/selectRecommandArtist').then(function(response) {
                 console.log(response);
                 const success = response.data.success;
@@ -690,7 +739,7 @@
                     const data = response.data.data;
                     data.map(item =>{
                         let html = `<button onclick="recommandSearch(` + item.name + `)">` + + `</button>`;
-                        html = '<button onclick="recommandSearch(\''+item.name+'\');">' + item.name + '</button>'
+                        html = '<button onclick="recommandSearch(\''+ JSON.parse(item.artist_name)[locale] +'\');">' + JSON.parse(item.artist_name)[locale]  + '</button>'
                         $('.word-items').append(html);
                     });
                 }
@@ -700,10 +749,19 @@
             });
         }
 
+        $scope.goDetail = function (saleNo, lotNo, saleKind, end_yn) {
 
-
-
+            if(end_yn == 'Y'){
+                window.location.href = '/auction/results';
+            }else{
+                if(saleKind == 'online' || saleKind == 'online_zb' ){
+                    window.location.href = '/auction/online/view/' +  saleNo + '/' + lotNo;
+                }else{
+                    window.location.href = '/auction/live/view/' +  saleNo + '/' + lotNo;
+                }
+            }
+        }
     });
 </script>
 </body>
-<!--</html>-->
+</html>

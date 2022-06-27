@@ -30,8 +30,6 @@ public class FooterController {
         Locale locale) {
         request.setAttribute("id", id);
         request.setAttribute("member",  SecurityUtils.getAuthenticationPrincipal());
-
-
         return SAConst.getUrl(SERVICE_FOOTER , "recruitForm" , locale);
     }
     @GetMapping("/incruitEmpty")
