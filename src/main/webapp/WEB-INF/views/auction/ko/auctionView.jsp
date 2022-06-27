@@ -132,7 +132,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="view_scale-area">
+                                            <div class="view_scale-area" ng-if="lotInfo.VIEW_SCALE_YN == 'Y' && lotInfo.SIZE1 > 160">
                                                 <a class="js-popup_image_viewer" href="#"><i
                                                         class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
@@ -951,7 +951,10 @@
 
                     }
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
-                    let swiper_slide_item = `<div class="swiper-slide">
+                    let swiper_slide_item = '';
+
+                    if(size1 > 160) {
+                        swiper_slide_item = `<div class="swiper-slide">
                                             <div class="img-area">
                                                 <div class="img-box">
                                                     <div class="size_x"><span>` + size2 + unitCd + `</span></div>
@@ -961,8 +964,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                  </div>`
-                  $("#swiper-wrapper").append(swiper_slide_item);
+                        </div>`
+                        $("#swiper-wrapper").append(swiper_slide_item);
+                    }
                 });
 
                 /* 싸이즈 버튼 */
