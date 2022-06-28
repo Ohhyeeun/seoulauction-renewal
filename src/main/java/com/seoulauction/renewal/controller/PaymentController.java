@@ -118,6 +118,8 @@ public class PaymentController {
         CommonMap resultMap = paymentService.getPaymentForPayResult(payMethod, payId);
         request.setAttribute("resultMap", resultMap);
 
+        log.info("c4 : {}" , resultMap);
+
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "memberResult" , locale);
     }
 

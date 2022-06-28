@@ -150,11 +150,15 @@ public class PaymentService {
         CommonMap reservedMap;
         try {
             reservedMap = new ObjectMapper().readValue(mall_reserved, CommonMap.class);
+
+            log.info("c2 : {}" , reservedMap);
+
             request.setAttribute("uuid", reservedMap.get("uuid"));
             request.setAttribute("pay_kind", reservedMap.get("pay_kind"));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+
 
         //TODO: 로그인한 정보 가져오기
         if(SAConst.PAYMENT_METHOD_VBANK.equals(payMethod)){
@@ -162,6 +166,9 @@ public class PaymentService {
         } else {
             resultMap = insertPay(request);
         }
+
+        log.info("c1 : {}" , resultMap);
+
         //결제 처리가 완료 시 디비 요청.
         return resultMap;
     }
