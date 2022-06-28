@@ -31,15 +31,15 @@
 			Date_format(Now(), '%y-%m-%d'), 'Y', 'N') PASSWD_MOD_NECESSARY_YN <!-- 
 				Y시 180일 경과로 비밀번호변경필요 -->
 		</if>
-		, (CASE WHEN DATEDIFF(CP.valid_to_dt, Now()) <![CDATA[>=]]> 0 THEN "정회원" ELSE "준회원"
+		, (CASE WHEN DATEDIFF(CP.VALID_TO_DT, Now()) <![CDATA[>=]]> 0 THEN "정회원" ELSE "준회원"
 		END) MEMBERSHIP_NM
-		, (CASE WHEN DATEDIFF(CP.valid_to_dt, Now()) <![CDATA[>=]]> 0 THEN "Y" ELSE "N" 
+		, (CASE WHEN DATEDIFF(CP.VALID_TO_DT, Now()) <![CDATA[>=]]> 0 THEN "Y" ELSE "N"
 		END) MEMBERSHIP_YN
 		, (select CONCAT('[', GROUP_CONCAT('"', PW.PUSH_WAY_CD, '"'), ']')
         from CUST_PUSH_WAY PW where PW.CUST_NO = CU.CUST_NO) PUSH_WAY_JSON
         , (select CONCAT('[', GROUP_CONCAT('"', IA.INTE_AREA_CD, '"'), ']')
         from CUST_INTE_AREA IA where IA.CUST_NO = CU.CUST_NO) INTE_AREA_JSON
-        , IF(-11 <![CDATA[<]]> TIMESTAMPDIFF(DAY ,cp.VALID_TO_DT, NOW()) and TIMESTAMPDIFF(DAY ,cp.VALID_TO_DT, NOW()) <![CDATA[<]]> 0 , CONCAT('D',TIMESTAMPDIFF(DAY ,cp.VALID_TO_DT, NOW())) ,  DATE_FORMAT(cp.VALID_TO_DT, '%Y-%m-%d')) VALID_DATE
+        , IF(-11 <![CDATA[<]]> TIMESTAMPDIFF(DAY ,CP.VALID_TO_DT, NOW()) and TIMESTAMPDIFF(DAY ,CP.VALID_TO_DT, NOW()) <![CDATA[<]]> 0 , CONCAT('D',TIMESTAMPDIFF(DAY ,CP.VALID_TO_DT, NOW())) ,  DATE_FORMAT(CP.VALID_TO_DT, '%Y-%m-%d')) VALID_DATE
 		<!-- , CS.* -->
         from CUST CU left outer join (select CP1.* from CUST_PAY CP1 where CP1.CUST_NO = #{cust_no} order by VALID_TO_DT desc limit 1 ) CP on CP.CUST_NO = CU.CUST_NO
 		<!-- left outer join CUST_SOCIAL CS -->
@@ -84,8 +84,8 @@
 
 	<select id="selectCustLoginIdByCustName" resultType="CommonMap">
 		select
-		concat(rpad(substring(login_id, 1, 2), length(login_id)-1, '*'),
-		substring(login_id, length(login_id), 1) ) LOGIN_ID ,
+		concat(rpad(substring(LOGIN_ID, 1, 2), length(LOGIN_ID)-1, '*'),
+		substring(LOGIN_ID, length(LOGIN_ID), 1) ) LOGIN_ID ,
 		c.SOCIAL_YN ,
 		cs.CUST_NO ,
 		case
@@ -97,8 +97,8 @@
 		END as SOCIAL_TYPE
 		from
 		CUST c
-		left outer join cust_social cs on
-		c.CUST_NO = cs.cust_no
+		left outer join CUST_SOCIAL cs on
+		c.CUST_NO = cs.CUST_NO
 		where
 		JOIN_KIND_CD = 'online'
 		and STAT_CD = 'normal'
@@ -118,15 +118,15 @@
 			select substring(UUID(), 1,8) passwd
 		</selectKey>
 		update CUST set
-		passwd =
+		PASSWD =
 		'${@com.seoulauction.renewal.auth.PasswordEncoderAESforSA@saPasswdEncoding(passwd)}'
-		where login_id = #{login_id}
-		and cust_name = #{cust_name}
+		where LOGIN_ID = #{login_id}
+		and CUST_NAME = #{cust_name}
 		<if test="search_type == 'email'">
-			and email = #{search_value}
+			and EMAIL = #{search_value}
 		</if>
 		<if test="search_type == 'phone'">
-			and hp = #{search_value}
+			and HP = #{search_value}
 		</if>
 	</update>
 
@@ -142,7 +142,7 @@
 		   END as SOCIAL_TYPE
 		from CUST c
 		left
-		outer join cust_social cs on c.CUST_NO = cs.cust_no
+		outer join CUST_SOCIAL cs on c.CUST_NO = cs.CUST_NO
 		where JOIN_KIND_CD = 'online' and IFNULL(DEL_YN, 'N') = 'N'
 		and STAT_CD = #{stat_cd}
 		and LOGIN_ID = #{login_id}
@@ -190,20 +190,20 @@
 	
 	<select id="selectEmpByEmpName" resultType="CommonMap">
 		SELECT *,
-		       (SELECT dept_name
-		        FROM   dept
-		        WHERE  dept_no = emp.dept_no) as DEPT_NAME
-		FROM   emp
+		       (SELECT DEPT_NAME
+		        FROM   DEPT
+		        WHERE  DEPT_NO = EMP.DEPT_NO) as DEPT_NAME
+		FROM   EMP
 		WHERE EMP_NAME = #{emp_name}
 		AND STAT_CD = 'normal' 
 	</select>
 	
 	<select id="selectEmpByEmpNameCnt" resultType="int">
 		SELECT Count(*) row_cnt
-		FROM  (SELECT emp_no
-		       FROM   emp
-		       WHERE  emp_name = #{emp_name}
-		       AND stat_cd = 'normal')cnt 
+		FROM  (SELECT EMP_NO
+		       FROM   EMP
+		       WHERE  EMP_NAME = #{emp_name}
+		       AND STAT_CD = 'normal')cnt
 	</select>
 	
 	<select id="selectCode" resultType="CommonMap" parameterType="CommonMap">
@@ -318,18 +318,18 @@
 	
 	<select id="selectCustForCustSocial" resultType="CommonMap">
 		SELECT *
-		FROM   cust
-		       JOIN cust_social
-		         ON cust.cust_no = cust_social.cust_no
+		FROM   CUST
+		       JOIN CUST_SOCIAL
+		         ON CUST.CUST_NO = CUST_SOCIAL.CUST_NO
 		WHERE  1 = 1
 			<if test="social_email != null">
-				AND social_email = #{social_email}
+				AND SOCIAL_EMAIL = #{social_email}
 			</if>
 			<if test="social_login_id != null">
-				AND social_login_id = #{social_login_id}
+				AND SOCIAL_LOGIN_ID = #{social_login_id}
 			</if>
 			<if test="social_type != null">
-		       	AND social_type = #{social_type}
+		       	AND SOCIAL_TYPE = #{social_type}
 			</if>
 	</select>
 	

@@ -15,7 +15,7 @@
         <property name ="LOG_PATH" value = "./logs"/>
     </springProfile>
 
-    <springProfile name = "dev">
+    <springProfile name = "dev , stage">
         <property name ="LOG_PATH" value = "/data1/logs"/>
     </springProfile>
 
