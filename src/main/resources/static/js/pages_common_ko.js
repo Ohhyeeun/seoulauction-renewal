@@ -128,6 +128,8 @@ function responsiveDevices() {
 
         o[e].width = w;
 
+        alert(w);
+        
         //$("body").hasClass("is_mb") ? (o[e].width = w : (o[e].width = w);
     }
  /// console.log("=========imgresize=========", _orgW, _orgH, $("body").hasClass("is_mb"))
