@@ -121,9 +121,9 @@ function responsiveDevices() {
         let h = (parseFloat(parseInt($(o[e]).attr("size1"))) / 250) * 500;
         let w = (parseFloat(parseInt($(o[e]).attr("size2"))) / 250) * 500;
 
-
         /*$("body").hasClass("is_mb") ? (o[e].width = .55 * w, o[e].height = .55 * h) : (o[e].width = w,
         o[e].height = h);*/
+
 
         $("body").hasClass("is_mb") ? (o[e].width = ((parseFloat($(window).width() / 1024) >= 1)?1:parseFloat($(window).width() / 1024)) * w) : (o[e].width = w);
     }
