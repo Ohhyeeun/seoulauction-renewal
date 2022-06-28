@@ -117,7 +117,7 @@
                                         <span>{{auction.TITLE_JSON['ko']}}</span>
                                     </div>
                                     <ul class="info-list">
-                                        <li><em>오픈일</em><span>{{auction.FROM_DT | date : 'MM.dd'}}({{getWeek(auction.FROM_DT)}}) {{auction.FROM_DT | date : 'H:m'}}</span></li>
+                                        <li><em>오픈일</em><span>{{auction.FROM_DT | date : 'MM.dd'}}({{getWeek(auction.FROM_DT)}}) {{auction.FROM_DT | date : 'H:mm'}}</span></li>
                                         <li>
                                             <em>프리뷰</em>
                                             <span ng-repeat="prev in auction.PREVIEW_JSON">
@@ -128,7 +128,7 @@
                                         <li>
                                             <em>경매일</em>
                                             <span>
-                                                {{auction.TO_DT | date : 'MM.dd'}}({{getWeek(auction.TO_DT)}}) {{auction.TO_DT | date : 'H:m'}}
+                                                {{auction.TO_DT | date : 'MM.dd'}}({{getWeek(auction.TO_DT)}}) {{auction.TO_DT | date : 'H:mm'}}
                                                 <ng:template ng-if="['online','online_zb'].indexOf(auction.SALE_KIND_CD) > -1"> 순차마감</ng:template>
                                             </span>
                                         </li>
@@ -137,7 +137,7 @@
                             </div>
                             <div class="panel-footer">
                                 <div class="tac">
-                                    <a class="btn btn_default " href="#" role="button"><span>이전으로 이동</span></a>
+                                    <a class="btn btn_default " href="/auction/upcoming" role="button"><span>목록으로 이동</span></a>
                                 </div>
                             </div>
                         </div>
@@ -177,6 +177,15 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
                 $scope.auction.TITLE_JSON = JSON.parse($scope.auction.TITLE_JSON);
                 $scope.$apply();
 
+                var end = new Date($scope.auction.FROM_DT);
+                var now = new Date();
+                var distance = end - now;
+                if(Math.floor(distance/ (1000 * 60 * 60 * 24)) <= 0) {
+                    $(".type-day").hide();
+                } else {
+                    $(".type-3").hide();
+                }
+
                 CountDownTimer($scope.auction.FROM_DT);
 
                 // 다시 카운트로 바꿈
@@ -188,6 +197,14 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
         catch(function(error){
             console.log(error);
         });
+    }
+
+    $scope.goProgressAuction = function() {
+        if(['online','online_zb'].indexOf($scope.auction.SALE_KIND_CD) > -1) {
+            location.href = "/auction/list/"+$scope.auction.SALE_NO;
+        } else {
+            location.href = "/auction/live/list/"+$scope.auction.SALE_NO;
+        }
     }
 });
 </script>
@@ -450,7 +467,7 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
         numnumSet("ul.hourPlay", 0);
         numnumSet("ul.minutePlay", 0);
         numnumSet("ul.secondPlay", 0);
-        location.href = "/auction/list/${saleNo}";
+        angular.element(this).scope().goProgressAuction();
         return;
     }
 </script>
@@ -469,7 +486,7 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
         var now = new Date();
         var distance = end - now;
         if (distance < 0) {
-            location.href = "/auction/list/${saleNo}";
+            openDdayFn();
             return;
         }
         var days = Math.floor(distance / _day);
@@ -477,7 +494,7 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
         var minutes = Math.floor((distance % _hour) / _minute);
         var seconds = Math.floor((distance % _minute) / _second);
 
-        console.log("DD-DAY까지 " + days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초 남았습니다.");
+        console.log("D-DAY까지 " + days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초 남았습니다.");
 
         dayCountGo("ul.dayPlay", days); // 99 day
         hourCountGo("ul.hourPlay", hours); // 23 시
