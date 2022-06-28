@@ -44,11 +44,11 @@
                                   '"CANVAS_EXT_YN":"', ifnull(e.CANVAS_EXT_YN,'N') , '"',
                                   '}')
                    ,']') AS LOT_SIZE_JSON
-        from sale a
-                 inner join lot b on a.SALE_NO = b.SALE_NO
-                 inner join lot_img c on b.SALE_NO = c.SALE_NO and b.LOT_NO = c.LOT_NO and c.DISP_ORD = 1
-                 inner join artist d on b.ARTIST_NO = d.ARTIST_NO
-                 left outer join lot_size e on b.SALE_NO = e.SALE_NO and b.LOT_NO = e.LOT_NO
+        from SALE a
+                 inner join LOT b on a.SALE_NO = b.SALE_NO
+                 inner join LOT_IMG c on b.SALE_NO = c.SALE_NO and b.LOT_NO = c.LOT_NO and c.DISP_ORD = 1
+                 inner join ARTIST d on b.ARTIST_NO = d.ARTIST_NO
+                 left outer join LOT_SIZE e on b.SALE_NO = e.SALE_NO and b.LOT_NO = e.LOT_NO
                  left outer join CODE f on f.grp_id = 'material' and f.CD_ID = b.MATE_CD
         where
             a.WWW_DISP_YN = 'Y'
