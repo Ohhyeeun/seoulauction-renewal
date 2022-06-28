@@ -125,11 +125,7 @@ function responsiveDevices() {
 
         /*$("body").hasClass("is_mb") ? (o[e].width = .55 * w, o[e].height = .55 * h) : (o[e].width = w,
         o[e].height = h);*/
-
         o[e].width = w;
-
-        alert(w);
-        
         //$("body").hasClass("is_mb") ? (o[e].width = w : (o[e].width = w);
     }
  /// console.log("=========imgresize=========", _orgW, _orgH, $("body").hasClass("is_mb"))

@@ -995,7 +995,7 @@
                     if (lot_no === Scope().lot_no) {
                         console.log(data, lot_no, Scope().lot_no);
                         $("#view_lot_no").attr("sel-data-index", lot_no);
-                        $("#view_lot_no").html($(window).width());
+                        $("#view_lot_no").html("LOT " + lot_no);
                     }
                 });
 
