@@ -145,7 +145,8 @@ function responsiveDevices() {
         /*$("body").hasClass("is_mb") ? (o[e].width = .55 * w, o[e].height = .55 * h) : (o[e].width = w,
         o[e].height = h);*/
 
-        $("body").hasClass("is_mb") ? (o[e].width = .55 * w, o[e].height = .55 * h) : (o[e].width = w);
+
+        $("body").hasClass("is_mb") ? (o[e].width = ((parseFloat($(window).width() / 1024) >= 1)?1:parseFloat($(window).width() / 1024)) * w) : (o[e].width = w);
     }
  /// console.log("=========imgresize=========", _orgW, _orgH, $("body").hasClass("is_mb"))
 }
