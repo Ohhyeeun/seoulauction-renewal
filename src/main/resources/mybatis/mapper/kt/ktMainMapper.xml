@@ -60,7 +60,7 @@
 						when S.SALE_KIND_CD in ('online','online_zb')
 							then (select MAX(L.TO_DT) >= now() from LOT L where L.STAT_CD = 'entry' and L.SALE_NO = S.SALE_NO)
 						when S.SALE_KIND_CD in ('main','hongkong','plan')
-							then (select IF(count(*) > 1, true, false) from LOT L where l.CLOSE_YN = 'N' and L.STAT_CD = 'entry' and L.SALE_NO = S.SALE_NO)
+							then (select IF(count(*) > 1, true, false) from LOT L where L.CLOSE_YN = 'N' and L.STAT_CD = 'entry' and L.SALE_NO = S.SALE_NO)
 						end
 				) as AuctionCount
 			 , COUNT(case when S.STAT_CD = 'upcoming' then 1 end) as UpcomingCount
