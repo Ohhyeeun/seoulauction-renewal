@@ -121,7 +121,8 @@
 				, (select CONCAT(LI.FILE_PATH, "/", LI.FILE_NAME) from LOT_IMG LI 
 					where LI.SALE_NO = L.SALE_NO and LI.LOT_NO = L.LOT_NO limit 1) LOT_IMG
 				, CAST(COLUMN_JSON(A.ARTIST_NAME_BLOB) AS CHAR) ARTIST_NAME_JSON
-				, IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'ko' AS CHAR), '') ARTIST_NAME_KR
+				, IFNULL
+				(COLUMN_GET(A.ARTIST_NAME_BLOB, 'ko' AS CHAR), '') ARTIST_NAME_KR
 				, IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'en' AS CHAR), '') ARTIST_NAME_EN
 				, CONCAT('[', GROUP_CONCAT('{"PRICE_FROM":', ifnull(LF.PRICE_FROM, 0), ', "PRICE_TO":', ifnull(LF.PRICE_TO, 0) , ', "RATE":', ifnull(LF.RATE, 0.0), '}'), ']') LOT_FEE_JSON
 				, B.BID_PRICE
@@ -160,7 +161,7 @@
 					WHEN '7' THEN '토'
 					END AS payWeekDate
 				,DATE_FORMAT(P.PAY_DT, '%T') as payTime
-				,(select count(*) from BID where CUST_NO= #{action_user_no} and SALE_NO=S.sale_no and LOT_NO=L.LOT_NO) as bid_count
+				,(select count(*) from BID where CUST_NO= #{action_user_no} and SALE_NO=S.SALE_NO and LOT_NO=L.LOT_NO) as bid_count
 				, IF(P.PG_TRANS_ID is not null and P.PG_CD='nice', 'Y', 'N' ) receipt
 				, C.CD_NM 
 				, C.CD_NM_EN 
@@ -191,8 +192,8 @@
 			JOIN BID B1 ON
 				B1.BID_NO = SB3.BID_NO
 			WHERE
-				(REAL_CUST_NO =  #{ACTION_USER_NO}
-				OR (B1.CUST_NO =  #{ACTION_USER_NO}
+				(REAL_CUST_NO =  #{action_user_no}
+				OR (B1.CUST_NO =  #{action_user_no}
 					AND REAL_CUST_NO IS NULL))
 				and L.TO_DT &lt;= now()
 			GROUP BY
@@ -222,8 +223,8 @@
 			JOIN BID B1 ON
 				B1.BID_NO = SB3.BID_NO
 			WHERE
-				(REAL_CUST_NO =  #{ACTION_USER_NO}
-				OR (B1.CUST_NO =  #{ACTION_USER_NO}
+				(REAL_CUST_NO =  #{action_user_no}
+				OR (B1.CUST_NO =  #{action_user_no}
 					AND REAL_CUST_NO IS NULL))
 				and L.TO_DT &lt;= now()
 			GROUP BY
@@ -234,7 +235,7 @@
 			GROUP BY SALE_NO
 		ORDER BY
 			SALE_NO DESC
-			LIMIT #{OFFSET}, #{SIZE}
+			LIMIT #{offset}, #{size}
 		) S ON S.SALE_NO = B.SALE_NO
 		LEFT OUTER JOIN LOT L ON L.SALE_NO = B.SALE_NO AND L.LOT_NO = B.LOT_NO AND L.SALE_NO = S.SALE_NO
 		LEFT OUTER JOIN ARTIST A ON
@@ -272,8 +273,7 @@
 			P.SALE_NO = L.SALE_NO
 			AND P.LOT_NO = L.LOT_NO
 		GROUP BY
-			B.SALE_NO,
-			B.LOT_NO
+			B.SALE_NO, B.LOT_NO
 		ORDER BY
 			S.SALE_NO DESC, B.BID_DT DESC
 	</select>
@@ -675,7 +675,7 @@ SELECT 'INTE_LOT' AS GUBUN
 										<when test="sale_kind == 'live'">AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb'</when>
 										<otherwise>AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb' or IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb')</otherwise>
 									</choose>
-								GROUP BY S1.SALE_NO ORDER BY S1.SALE_NO DESC LIMIT #{OFFSET}, #{SIZE}
+								GROUP BY S1.SALE_NO ORDER BY S1.SALE_NO DESC LIMIT #{offset}, #{size}
 								) S ON S.SALE_NO = CL.SALE_NO
 		  						INNER JOIN LOT  L ON CL.SALE_NO = L.SALE_NO AND CL.LOT_NO = L.LOT_NO
 		                      	LEFT OUTER JOIN ARTIST A ON L.ARTIST_NO = A.ARTIST_NO
