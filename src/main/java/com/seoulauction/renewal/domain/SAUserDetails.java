@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AllArgsConstructor;
@@ -26,7 +27,7 @@ public class SAUserDetails implements UserDetails {
 	private String userNm;
 	private String agreeYn;
 	private String ip;
-	private List<GrantedAuthority> authorities;
+	private List<SimpleGrantedAuthority> authorities;
 	private String zipNo;
 	private String addr;
 	private String hp;

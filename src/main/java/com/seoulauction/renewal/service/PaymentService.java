@@ -12,8 +12,19 @@ import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.collections4.MapUtils;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -335,5 +346,38 @@ public class PaymentService {
         return resultMap;
     }
 
+    @SuppressWarnings("unchecked")
+	public void updateAuthorities(){
+		//기존 권한,details
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	List<GrantedAuthority> oldRoles = new ArrayList<GrantedAuthority>();
+    	oldRoles = (List<GrantedAuthority>) authentication.getAuthorities();
+    	SAUserDetails oldDetails = (SAUserDetails) authentication.getDetails();
+    	
+    	List<SimpleGrantedAuthority> newRoles = new ArrayList<SimpleGrantedAuthority>();
+    	newRoles.add(new SimpleGrantedAuthority("ROLE_REGULAR_USER"));
+    	if(oldRoles.indexOf(new SimpleGrantedAuthority("ROLE_EMPLOYEE_USER")) > -1) {
+    		//직원권한 있을시 추가
+    		newRoles.add(new SimpleGrantedAuthority("ROLE_EMPLOYEE_USER"));
+    	}
 
+    	//정회원validDate details에 추가 (ex 2022-06-28 결제시 2023-06-27까지 정회원)
+        Date today = new Date();
+    	SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd");
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(today);
+    	cal.add(Calendar.YEAR,  1);
+    	cal.add(Calendar.DATE,  -1);
+    	String validDate = dtFormat.format(cal.getTime());
+    	log.info("=== validDate: {} ===", validDate);
+    	
+    	UsernamePasswordAuthenticationToken upat = new UsernamePasswordAuthenticationToken(
+										    			SecurityContextHolder.getContext().getAuthentication().getPrincipal(),
+										    			SecurityContextHolder.getContext().getAuthentication().getCredentials(),
+										    			newRoles);
+    	oldDetails.setAuthorities(newRoles);
+    	oldDetails.setValidDate(validDate);
+    	upat.setDetails(oldDetails);
+    	SecurityContextHolder.getContext().setAuthentication(upat);
+	}
 }
