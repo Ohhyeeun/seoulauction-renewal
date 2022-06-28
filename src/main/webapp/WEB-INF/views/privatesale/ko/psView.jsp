@@ -409,9 +409,6 @@
                 $scope.saleList = r3.data.data;
 
                 // popup setting
-                console.log("IMAGE_URL ::: " +  $scope.saleImages[0].IMAGE_URL);
-                console.log("FILE_PATH ::: " +  $scope.saleImages[0].FILE_PATH);
-                console.log("FILE_NAME ::: " +  $scope.saleImages[0].FILE_NAME);
 
                 let imgUrl = $scope.saleImages[0].IMAGE_URL +
                     $scope.saleImages[0].FILE_PATH + "/" + $scope.saleImages[0].FILE_NAME;
