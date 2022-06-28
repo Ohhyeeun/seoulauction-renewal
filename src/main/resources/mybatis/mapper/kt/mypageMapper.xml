@@ -198,6 +198,7 @@
 			group by
 				l.SALE_NO,
 				l.LOT_NO
+			order by b1.BID_DT
 		) B 
 		inner join (
 		select
@@ -274,7 +275,7 @@
 			B.SALE_NO,
 			B.LOT_NO
 		order by
-			S.SALE_NO desc, L.LOT_NO
+			S.SALE_NO desc, B.BID_DT DESC
 	</select>
 		
 	<select id="selectPayTotalCountByCustNo" resultType="int">
@@ -782,7 +783,7 @@ SELECT 'INTE_LOT' AS GUBUN
 				left outer join ARTIST A ON L.ARTIST_NO = A.ARTIST_NO  
 				join CODE CD on CD.GRP_ID='bid_kind' and AB.BID_KIND_CD = CD.CD_ID and  AB.BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place') and AB.CUST_NO = #{action_user_no}
 				inner join (select MAX(REQ_NO) REQ_NO , SALE_NO , LOT_NO from auto_bid_req join CODE CD on CD.GRP_ID='bid_kind' and BID_KIND_CD = CD.CD_ID and  BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place') and CUST_NO = #{action_user_no} group by SALE_NO, LOT_NO ) TAB on TAB.REQ_NO =  AB.REQ_NO
-		) ABL
+		) ABL order by ABL.REQ_DT DESC
 	</select>
 	
 	<select id="selectLiveBidReqHistoryList" resultType="Map">
@@ -887,7 +888,7 @@ SELECT 'INTE_LOT' AS GUBUN
 		left outer join ARTIST A ON L.ARTIST_NO = A.ARTIST_NO 
 		WHERE BIO.BID_KIND_CD = 'online' AND BIO.PADDLE &gt; 600  AND BIO.CUST_NO = #{action_user_no}
 		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO &gt;= 622 AND S.STAT_CD = 'open'
-		ORDER BY BIO.SALE_NO DESC, BIO.LOT_NO ASC, BIO.BID_NO desc;
+		ORDER BY BIO.SALE_NO DESC, BIO.BID_DT DESC
 	</select>
 
 	<select id="selectLiveBidCnt" resultType="int">
@@ -1046,7 +1047,7 @@ SELECT 'INTE_LOT' AS GUBUN
 		) B on L.SALE_NO = B.SALE_NO and L.LOT_NO = B.LOT_NO and B.CUST_NO = #{action_user_no}
 		left outer join ARTIST A on L.ARTIST_NO = A.ARTIST_NO
 		group by L.SALE_NO, L.LOT_NO
-		order by L.SALE_NO desc, L.LOT_NO;
+		order by L.SALE_NO desc, B.BID_DT desc;
 	</select>
 	
 	<select id="selectOnlineBidCnt" resultType="int">
