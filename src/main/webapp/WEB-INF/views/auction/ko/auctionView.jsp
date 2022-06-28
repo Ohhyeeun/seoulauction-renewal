@@ -132,7 +132,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="view_scale-area">
+                                            <div class="view_scale-area" ng-if="lotInfo.VIEW_SCALE_YN == 'Y' && lotInfo.SIZE1 > 160">
                                                 <a class="js-popup_image_viewer" href="#"><i
                                                         class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
@@ -356,7 +356,7 @@
                             </button>
                         </div>
                         <div class="btn-box">
-                            <button>응찰하기</button>
+                            <button id="bid_btn" ng-click="popSet(sale_no, lot_no, user_id, cust_no);">응찰하기</button>
                         </div>
                     </div>
                 </article>
@@ -951,7 +951,10 @@
 
                     }
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
-                    let swiper_slide_item = `<div class="swiper-slide">
+                    let swiper_slide_item = '';
+
+                    if(size1 > 160) {
+                        swiper_slide_item = `<div class="swiper-slide">
                                             <div class="img-area">
                                                 <div class="img-box">
                                                     <div class="size_x"><span>` + size2 + unitCd + `</span></div>
@@ -961,8 +964,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                  </div>`
-                  $("#swiper-wrapper").append(swiper_slide_item);
+                        </div>`
+                        $("#swiper-wrapper").append(swiper_slide_item);
+                    }
                 });
 
                 /* 싸이즈 버튼 */
@@ -1581,7 +1585,7 @@
                                     dt_ly.setAttribute("class", "product-day");
 
                                     let dt_ly_span1 = document.createElement("em");
-                                    if (bid_info.is_winner && bid_hist_info[i].value.length - 1 == j) {
+                                    if (bid_info.winner_state === 2 && bid_hist_info[i].value.length - 1 == j) {
                                         // type
                                         dt_ly_span1.setAttribute("class", "type-success");
                                         dt_ly_span1.innerText = "낙찰";
@@ -1595,7 +1599,7 @@
                                     let dt_ly_span3 = document.createElement("span");
                                     dt_ly_span3.innerText = ddd.format("hh:mm:ss");
 
-                                    if (bid_info.is_winner) {
+                                    if (bid_info.winner_state === 2) {
                                         dt_ly.appendChild(dt_ly_span1);
                                     }
                                     dt_ly.appendChild(dt_ly_span2);
@@ -1612,7 +1616,7 @@
                     }
                 }
                 // 낙찰이 완료 되었다면
-                if (bid_info.is_winner) {
+                if (bid_info.winner_state === 2) {
                     let bid_tick = document.getElementById("bid_tick");
                     let bid_tick_main = document.getElementById("end_date_time");
                     if (end_bid_time <= 0) {
