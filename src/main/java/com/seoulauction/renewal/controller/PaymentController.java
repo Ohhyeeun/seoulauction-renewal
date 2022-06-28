@@ -51,7 +51,7 @@ public class PaymentController {
         String goodsName = "정회원"; 					// 결제상품명
         Integer price = 1234; 						// 결제상품금액
         String moid = "mnoid1234567890"; 			// 상품주문번호
-        String returnURL = nicePayMobileBaseReturnUrl + "/payment/memberResult"; // 결과페이지(절대경로) - 모
+        String returnURL = nicePayMobileBaseReturnUrl + "/payment/memberProcess"; // 결과페이지(절대경로) - 모
 
 
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
@@ -226,7 +226,7 @@ public class PaymentController {
 
         String goodsName = "서울옥션-작품결제"; 					// 결제상품명
         String moid = "mnoid1234567890"; 			// 상품주문번호
-        String returnURL = nicePayMobileBaseReturnUrl + "/payment/workResult"; // 결과페이지(절대경로) - 모바일
+        String returnURL = nicePayMobileBaseReturnUrl + "/payment/workProcess"; // 결과페이지(절대경로) - 모바일
 
         CommonMap paramMap = new CommonMap();
 
