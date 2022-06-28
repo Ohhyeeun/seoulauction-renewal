@@ -100,6 +100,7 @@ public class PaymentController {
     @PostMapping("/memberProcess")
     public String memberProcess(HttpServletRequest request , RedirectAttributes attr) {
 
+        request.setAttribute("pay_kind", SAConst.PAYMENT_KIND_MEMBERSHIP);
         CommonMap resultMap = paymentService.paymentProcess(request);
 
         attr.addAttribute("payId", resultMap.get("pay_no"));
@@ -195,15 +196,9 @@ public class PaymentController {
     public String academyProcess(HttpServletRequest request, Locale locale, RedirectAttributes attr) {
         log.info("academyProcess");
 
-        Enumeration params = request.getParameterNames();
-        log.info("param start----------------------------");
-        while (params.hasMoreElements()){
-            String name = (String)params.nextElement();
-            log.info(name + " : " +request.getParameter(name));
-        }
-        log.info("param end----------------------------");
-
+        request.setAttribute("pay_kind", SAConst.PAYMENT_KIND_ACADEMY);
         CommonMap resultMap = paymentService.paymentProcess(request);
+
         attr.addAttribute("payId", resultMap.get("pay_no"));
         attr.addAttribute("payMethod", resultMap.get("pay_method"));
 
@@ -279,7 +274,9 @@ public class PaymentController {
     public String workProcess(HttpServletRequest request, Locale locale, RedirectAttributes attr) {
         log.info("workProcess");
 
+        request.setAttribute("pay_kind", SAConst.PAYMENT_KIND_WORK);
         CommonMap resultMap = paymentService.paymentProcess(request);
+
         attr.addAttribute("payId", resultMap.get("pay_no"));
         attr.addAttribute("payMethod", resultMap.get("pay_method"));
 

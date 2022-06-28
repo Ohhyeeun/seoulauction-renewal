@@ -156,23 +156,21 @@ public class PaymentService {
 
         String payMethod = request.getParameter("PayMethod");
 
-        String mall_reserved = request.getParameter("MallReserved");
-
-        CommonMap reservedMap;
-        try {
-            reservedMap = new ObjectMapper().readValue(mall_reserved, CommonMap.class);
-
-            log.info("c2 : {}" , reservedMap);
-
-            request.setAttribute("uuid", reservedMap.get("uuid"));
-            request.setAttribute("pay_kind", reservedMap.get("pay_kind"));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-
-        //TODO: 로그인한 정보 가져오기
         if(SAConst.PAYMENT_METHOD_VBANK.equals(payMethod)){
+            String mall_reserved = request.getParameter("MallReserved");
+
+            CommonMap reservedMap;
+            try {
+                reservedMap = new ObjectMapper().readValue(mall_reserved, CommonMap.class);
+
+                log.info("c2 : {}" , reservedMap);
+
+                request.setAttribute("uuid", reservedMap.get("uuid"));
+                request.setAttribute("pay_kind", reservedMap.get("pay_kind"));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+
             resultMap = insertPayWait(request, resultMap);
         } else {
             resultMap = insertPay(request);
