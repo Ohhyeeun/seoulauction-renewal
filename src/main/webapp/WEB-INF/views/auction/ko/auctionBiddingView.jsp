@@ -315,12 +315,12 @@
                                         </figure>
                                         <div class="bidding_situation">
                                             <div class="alert_wrap">
-                                                <p class="situ_alert" ng-bind="notice.msg"></p>
+                                                <p class="situ_alert" ng-bind="notice.ko"></p>
                                             </div>
                                             <div class="mCustomScrollbar">
                                                 <ul class="situation_list">
                                                     <li class="st_item" ng-repeat="item in bidHist">
-                                                        <p class="txt" ng-bind="item.customer.user_id"></p>
+                                                        <p class="txt" ng-bind="item.customer.user_id | floorUserCheck"></p>
                                                         <p class="price " ng-bind="item.bid_cost"></p>
                                                     </li>
                                                 </ul>
@@ -649,6 +649,18 @@
             };
         })
 
+
+        app.filter('floorUserCheck', function(){
+            return function(val) {
+                if (val == undefined || val === "") {
+                    return '현장응찰';
+                }
+                return val;
+            };
+        })
+
+
+
         // 위너 처리
         app.filter('winnerText', function(){
             return function(val) {
@@ -702,9 +714,9 @@
                 let func = async function () {
                     let url = '';
                     if (window.location.protocol !== "https:") {
-                        url = 'http://dev-bid.seoulauction.xyz/user/bid/hist';
+                        url = 'http://localhost:8002/user/bid/hist';
                     } else {
-                        url = 'https://dev-bid.seoulauction.xyz/init2';
+                        url = 'https://localhost:8002/init2';
                     }
                     let resp = await fetch(url, {
                         method: "POST", body: JSON.stringify({
@@ -865,9 +877,9 @@
                 }
 
                 if (window.location.protocol !== "https:") {
-                    w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws");
+                    w = new WebSocket("ws://localhost:8002/ws");
                 } else {
-                    w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws");
+                    w = new WebSocket("wss://localhost:8002/ws");
                 }
                 w.onopen = function () {
                     console.log("open");
@@ -897,9 +909,9 @@
                 checkLogin();
                 let url = '';
                 if (window.location.protocol !== "https:") {
-                    url = 'http://dev-bid.seoulauction.xyz/bid';
+                    url = 'http://localhost:8002/bid';
                 } else {
-                    url = 'https://dev-bid.seoulauction.xyz/bid';
+                    url = 'https://localhost:8002/bid';
                 }
                 fetch(url, {
                     method: "POST", body: JSON.stringify({
@@ -933,6 +945,7 @@
                     lot_start : 10,
                     bid_change : 11,
                     bid_delete: 12,
+                    notice: 13,
                 }
                 let d = JSON.parse(evt.data);
                 if (d.msg_type === packet_enum.init) {
@@ -941,9 +954,9 @@
                     let init_func_manual = async function (req) {
                         let url = '';
                         if (window.location.protocol !== "https:") {
-                            url = 'http://dev-bid.seoulauction.xyz/init';
+                            url = 'http://localhost:8002/init';
                         } else {
-                            url = 'https://dev-bid.seoulauction.xyz/init';
+                            url = 'https://localhost:8002/init';
                         }
                         let response = await fetch(url, {
                             method: "POST", body: JSON.stringify({
@@ -1002,7 +1015,7 @@
 
 
                                 $scope.bidHist = v;
-                                $scope.notice.msg = d.message.notice;
+                                //$scope.notice.msg = d.message.notice;
                                 break
                             }
                         }
@@ -1053,6 +1066,8 @@
                                     break
                                 }
                             }
+                        } else {
+                            $scope.bidHist = [];
                         }
                         let v = $scope.bidHist;
                         if (v != null) {
@@ -1123,9 +1138,9 @@
                             let currentLotInfoFunc = async function (token, saleNo, lotNo, saleType) {
                                 let url = '';
                                 if (window.location.protocol !== "https:") {
-                                    url = 'http://dev-bid.seoulauction.xyz/init2';
+                                    url = 'http://localhost:8002/init2';
                                 } else {
-                                    url = 'https://dev-bid.seoulauction.xyz/init2';
+                                    url = 'https://localhost:8002/init2';
                                 }
                                 let resp = await fetch(url, {
                                     method: "POST", body: JSON.stringify({
@@ -1177,31 +1192,62 @@
                     $scope.$apply();
                 } else if (d.msg_type === packet_enum.lot_change) {
                     for (let j = 0; j < $scope.saleInfoAll.length; j++) {
-                        if ($scope.saleInfoAll[j].LOT_NO === d.message.cur_lot_no) {
+                        if ($scope.saleInfoAll[j].LOT_NO === d.message.lot_no) {
                             $scope.curLot = $scope.saleInfoAll[j];
+                            let currentLotInfoFunc = async function (token, saleNo, lotNo, saleType) {
+                                let url = '';
+                                if (window.location.protocol !== "https:") {
+                                    url = 'http://localhost:8002/init2';
+                                } else {
+                                    url = 'https://localhost:8002/init2';
+                                }
+                                let resp = await fetch(url, {
+                                    method: "POST", body: JSON.stringify({
+                                        token: token,
+                                        sale_no: saleNo,
+                                        lot_no: lotNo,
+                                        sale_type: saleType,
+                                        user_id: '${member.loginId}',
+                                    }),
+                                });
+                                return resp;
+                            }
+                            currentLotInfoFunc($scope.token, $scope.saleNo, d.message.lot_no, 1)
                             break;
                         }
                     }
                     $scope.$apply();
-                } else if (d.msg_type === packet_enum.lot_change) {
-                    for (let j = 0; j < $scope.saleInfoAll.length; j++) {
-                        if ($scope.saleInfoAll[j].LOT_NO === d.message.cur_lot_no) {
-                            $scope.curLot = $scope.saleInfoAll[j];
-                            break;
-                        }
-                    }
-                    $scope.$apply();
-                } else if (d.msg_type === packet_enum.lot_start) {
+                }  else if (d.msg_type === packet_enum.lot_start) {
                     for (let j = 0; j < $scope.saleInfoAll.length; j++) {
                         if ($scope.saleInfoAll[j].LOT_NO === d.message.customer.lot_no) {
                             $scope.curLot = $scope.saleInfoAll[j];
+                            let currentLotInfoFunc = async function (token, saleNo, lotNo, saleType) {
+                                let url = '';
+                                if (window.location.protocol !== "https:") {
+                                    url = 'http://localhost:8002/init2';
+                                } else {
+                                    url = 'https://localhost:8002/init2';
+                                }
+                                let resp = await fetch(url, {
+                                    method: "POST", body: JSON.stringify({
+                                        token: token,
+                                        sale_no: saleNo,
+                                        lot_no: lotNo,
+                                        sale_type: saleType,
+                                        user_id: '${member.loginId}',
+                                    }),
+                                });
+                                return resp;
+                            }
+                            currentLotInfoFunc($scope.token, $scope.saleNo, d.message.customer.lot_no, 1)
+                            $scope.$apply();
                             break;
                         }
                     }
                 } else if (d.msg_type === packet_enum.bid_change) {
 
                     let bid_hist_info = d.message.bids_hist;
-                    let bid_info = d.message.bids[0];
+                    let bid_info = d.message.bid[0];
 
                     $scope.curLot.bid_new_cost = "KRW " + (((bid_info.bid_cost === 0)
                         ? bid_info.open_bid_cost
@@ -1218,17 +1264,14 @@
                         : bid_info.bid_cost)).toLocaleString('ko-KR');
 
                     if (bid_hist_info != null && bid_hist_info.length > 0) {
-                        for (let i = 0; i < bid_hist_info.length; i++) {
-                            if (bid_hist_info[i].value != null) {
-                                // 현재 랏의 새로운 응찰가 세팅
-                                $scope.bidHist = bid_hist_info[i].value;
-                                for (let j = 0; j < $scope.bidHist.length; j++) {
-                                    $scope.bidHist[j].cur_cost = $scope.bidHist[j].bid_cost;
-                                    $scope.bidHist[j].bid_cost = "KRW " + $scope.bidHist[j].bid_cost.toLocaleString('ko-KR');
-                                }
-                                break
-                            }
+                        $scope.bidHist = bid_hist_info;
+                        for (let j = 0; j < $scope.bidHist.length; j++) {
+                            $scope.bidHist[j].cur_cost = $scope.bidHist[j].bid_cost;
+                            $scope.bidHist[j].bid_cost = "KRW " + $scope.bidHist[j].bid_cost.toLocaleString('ko-KR');
                         }
+
+                    } else {
+                        $scope.bidHist = [];
                     }
                     let v = $scope.bidHist;
                     if (v != null) {
@@ -1288,6 +1331,10 @@
                         v = [];
                     }
                     $scope.bidHist = v;
+                    $scope.$apply();
+                } else if (d.msg_type === packet_enum.notice) {
+                    console.log(d.message.msg);
+                    $scope.notice = d.message.msg;
                     $scope.$apply();
                 }
             }

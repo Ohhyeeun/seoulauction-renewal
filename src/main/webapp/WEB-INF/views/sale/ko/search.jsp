@@ -5,36 +5,56 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" ng-app="myApp">
 <head>
-    <!-- header -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>search | Seoul Auction</title>
-    <!-- //header -->
+    <title>서울옥션</title>
+
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/icon/favic/apple-touch-icon-57x57.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/icon/favic/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/icon/favic/apple-touch-icon-114x114.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/icon/favic/apple-touch-icon-120x120.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/images/icon/favic/apple-touch-icon-152x152.png"/>
+    <link rel="icon" type="image/png" href="/images/icon/favic/favicon-32x32.png" sizes="32x32"/>
+    <link rel="icon" type="image/png" href="/images/icon/favic/favicon-16x16.png" sizes="16x16"/>
+    <meta name="application-name" content="SeoulAuction"/>
+
+    <link href="/css/old/common.css" rel="stylesheet">
+    <link href="/css/old/onepcssgrid_live.css" rel="stylesheet">
+    <link href="/css/old/sa.common.2.0.css" rel="stylesheet">
+    <link href="/css/old/bidLivepop.css" rel="stylesheet">
+
+    <script type="text/javascript" src="/js/angular/angular.min.js"></script>
+    <script src="/js/angular/angular-sanitize.js"></script>
+    <script type="text/javascript" src="/js/angular/angular-bind-html-compile.js"></script>
+    <script type="text/javascript" src="/js/angular/app.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+
+    <%--Axios--%>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.js"></script>
+    <script defer src="https://unpkg.com/axios-extensions/dist/axios-extensions.js"></script>
+    <script defer src="/js/common/axios.js" type="text/javascript"></script>
+
+    <!--[if lt IE 9]>
+    <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
+    <script src="/js/plugin/prefixfree.min.js"></script>
+    <script src="/js/plugin/swiper.min.js" type="text/javascript"></script>
+    <%--<script src="https://code.angularjs.org/1.5.8/angular.js"></script>--%>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ko.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/1.3.0/moment-duration-format.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.5.6/js/ngDialog.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+
 </head>
 
-<body class="" ng-controller="lotListCtl" data-ng-init="init();">
+<body class="">
 <div class="wrapper">
     <div class="sub-wrap pageclass type-width_list">
-
-        <!-- header -->
-        <%--<link rel="stylesheet" href="/css/main.css" type="text/css" />--%>
-        <jsp:include page="../../include/ko/header.jsp" flush="false"/>
-        <!-- //header -->
-        <link rel="stylesheet" href="/css/plugin/csslibrary.css">
-        <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-        <script type="text/javascript" src="/js/angular/checklist-model.js"></script>
-        <script type="text/javascript" src="/js/angular/hrzslider.min.js"></script>
-        <link href="/css/jquery.nouislider.css" rel="stylesheet">
-        <script>
-            app.value('locale', 'ko');
-            app.value('is_login', 'false');
-        </script>
-
         <!-- container -->
-        <div id="container">
+        <div id="container" ng-controller="ctl" data-ng-init="load();">
             <div id="contents" class="contents">
                 <section class="basis-section search-section">
                     <div class="section-inner">
