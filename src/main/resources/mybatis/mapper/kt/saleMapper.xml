@@ -323,7 +323,7 @@
         FROM CUST_INTE_LOT
         WHERE CUST_NO = #{action_user_no}
           AND SALE_NO = #{sale_no}
-          AND LOT_NO = #{lot_no};
+          AND LOT_NO = #{lot_no}
     </update>
     <sql id="searchList">
         select L.SALE_NO, L.LOT_NO
@@ -502,7 +502,7 @@
                CASE
                    WHEN IFNULL(E.LOT_NO, 0) = 0 THEN 'N'
                    ELSE 'Y' END                FAVORITE_YN
-        from cust_recently_viewed A
+        from CUST_RECENTLY_VIEWED A
                  inner join lot_img B on A.SALE_NO = B.SALE_NO and A.LOT_NO = B.LOT_NO
                  inner join lot C on A.SALE_NO = C.SALE_NO and A.LOT_NO = C.LOT_NO
                  inner join artist D on C.ARTIST_NO = D.ARTIST_NO
@@ -617,7 +617,7 @@
 
     <select id="selectTopBid" parameterType="CommonMap"  resultType="CommonMap">
         select *
-        from bid
+        from BID
         where SALE_NO = #{sale_no}
           and LOT_NO = #{bid_no}
         order by BID_NO desc limit 1;
@@ -663,7 +663,7 @@
                date_format(a.FROM_DT,'%m.%d(%a)') FROM_DT,
                date_format(a.TO_DT, '%m.%d(%a)') TO_DT,
                a.WWW_DISP_YN DISP_YN
-        from sale a
+        from SALE a
                  inner join lot b on a.SALE_NO = b.SALE_NO
                  inner join lot_img c on b.SALE_NO = c.SALE_NO and b.LOT_NO = c.LOT_NO and c.DISP_ORD = 1
                  inner join artist d on b.ARTIST_NO = d.ARTIST_NO
@@ -678,10 +678,10 @@
         <if test='is_live !=null and is_live.equals("Y")'>
           and a.LIVE_BID_YN = 'Y'
         </if>
-        group by a.SALE_NO, b.LOT_NO;
+        group by a.SALE_NO, b.LOT_NO
     </select>
     <select id="selectLotTagList" parameterType="CommonMap" resultType="CommonMap">
-        select LOT_TAG from lot where SALE_NO = #{sale_no} and LOT_TAG is not null
+        select LOT_TAG from LOT where SALE_NO = #{sale_no} and LOT_TAG is not null
         group by LOT_TAG
     </select>
     <!--생년월일 성별 값 둘다 잇는지 여부-->
