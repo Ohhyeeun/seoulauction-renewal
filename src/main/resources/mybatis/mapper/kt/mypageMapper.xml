@@ -725,14 +725,15 @@ SELECT 'INTE_LOT' AS GUBUN
 	
 	<select id="selectLiveBidReqList" resultType="Map">
   SELECT *
-		    , (SELECT CASE WHEN MB.BID_PRICE = ABL.LAST_AUTOBID_PRICE AND MB.CUST_NO = ABL.CUST_NO THEN '낙찰'
+		    , (
+		        SELECT CASE WHEN MB.BID_PRICE = ABL.LAST_AUTOBID_PRICE AND MB.CUST_NO = ABL.CUST_NO THEN '낙찰'
 		    	ELSE
 		    		CASE WHEN ABL.BID_CNT &gt; 0 THEN '낮은응찰' ELSE '' END
 		    	END
 				FROM BID MB
 				WHERE ABL.SALE_NO = MB.SALE_NO AND ABL.LOT_NO = MB.LOT_NO
 			        ORDER BY BID_PRICE DESC, BID_DT, REG_DT LIMIT 1) SUCCESS_YN
-			 , (SELECT B.BID_PRICE  FROM BID B JOIN SUCCESS_BID SB2 ON B.BID_NO = SB2.BID_NO AND ABL.SALE_NO = SB2.SALE_NO AND ABL.LOT_NO = SB2.LOT_NO  ) SUCCESS_BID_PRICE
+			 , ( SELECT B.BID_PRICE  FROM BID B JOIN SUCCESS_BID SB2 ON B.BID_NO = SB2.BID_NO AND ABL.SALE_NO = SB2.SALE_NO AND ABL.LOT_NO = SB2.LOT_NO  ) SUCCESS_BID_PRICE
 		FROM (
 			SELECT AB.SALE_NO, AB.LOT_NO, AB.REQ_NO
 				, L.EXPE_PRICE_INQ_YN
@@ -782,8 +783,9 @@ SELECT 'INTE_LOT' AS GUBUN
 				JOIN LOT_IMG LI ON LI.SALE_NO = L.SALE_NO AND LI.LOT_NO = L.LOT_NO AND LI.IMG_NO = (SELECT A.IMG_NO FROM LOT_IMG A WHERE A.SALE_NO = L.SALE_NO AND A.LOT_NO = L.LOT_NO ORDER BY A.DISP_ORD LIMIT 1)
 				LEFT OUTER JOIN ARTIST A ON L.ARTIST_NO = A.ARTIST_NO
 				join CODE CD on CD.GRP_ID='bid_kind' and AB.BID_KIND_CD = CD.CD_ID and  AB.BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place') and AB.CUST_NO = #{action_user_no}
-				inner join (select MAX(REQ_NO) REQ_NO , SALE_NO , LOT_NO from auto_bid_req join CODE CD on CD.GRP_ID='bid_kind' and BID_KIND_CD = CD.CD_ID and  BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place') and CUST_NO = #{action_user_no} group by SALE_NO, LOT_NO ) TAB on TAB.REQ_NO =  AB.REQ_NO
-		) ABL order by ABL.REQ_DT DESC
+				inner join (select MAX(REQ_NO) REQ_NO , SALE_NO , LOT_NO from AUTO_BID_REQ join CODE CD on CD.GRP_ID='bid_kind' and BID_KIND_CD = CD.CD_ID and  BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place') and CUST_NO = #{action_user_no} group by SALE_NO, LOT_NO ) TAB on TAB.REQ_NO =  AB.REQ_NO
+			) ABL
+  				order by ABL.REQ_DT DESC
 	</select>
 	
 	<select id="selectLiveBidReqHistoryList" resultType="Map">
