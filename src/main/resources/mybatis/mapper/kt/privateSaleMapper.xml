@@ -44,11 +44,11 @@
                                   '"CANVAS_EXT_YN":"', ifnull(e.CANVAS_EXT_YN,'N') , '"',
                                   '}')
                    ,']') AS LOT_SIZE_JSON
-        from sale a
-                 inner join lot b on a.SALE_NO = b.SALE_NO
-                 inner join lot_img c on b.SALE_NO = c.SALE_NO and b.LOT_NO = c.LOT_NO and c.DISP_ORD = 1
-                 inner join artist d on b.ARTIST_NO = d.ARTIST_NO
-                 left outer join lot_size e on b.SALE_NO = e.SALE_NO and b.LOT_NO = e.LOT_NO
+        from SALE a
+                 inner join LOT b on a.SALE_NO = b.SALE_NO
+                 inner join LOT_IMG c on b.SALE_NO = c.SALE_NO and b.LOT_NO = c.LOT_NO and c.DISP_ORD = 1
+                 inner join ARTIST d on b.ARTIST_NO = d.ARTIST_NO
+                 left outer join LOT_SIZE e on b.SALE_NO = e.SALE_NO and b.LOT_NO = e.LOT_NO
                  left outer join CODE f on f.grp_id = 'material' and f.CD_ID = b.MATE_CD
         where
             a.WWW_DISP_YN = 'Y'
@@ -138,7 +138,7 @@
             left outer join ARTIST AT
             on AT.ARTIST_NO = L.ARTIST_NO
             left outer join CODE CD
-            on CD.grp_id = 'material' and CD.CD_ID = L.MATE_CD
+            on CD.GRP_ID = 'material' and CD.CD_ID = L.MATE_CD
             left outer join (SELECT * FROM CODE WHERE GRP_ID = 'artwork_category') CD_ART on CD_ART.CD_ID = L.CATE_CD
             left outer join LOT_IMG LI
             on LI.SALE_NO = L.SALE_NO and LI.LOT_NO = L.LOT_NO

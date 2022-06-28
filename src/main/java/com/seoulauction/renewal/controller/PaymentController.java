@@ -51,7 +51,7 @@ public class PaymentController {
         String goodsName = "정회원"; 					// 결제상품명
         Integer price = 1234; 						// 결제상품금액
         String moid = "mnoid1234567890"; 			// 상품주문번호
-        String returnURL = nicePayMobileBaseReturnUrl + "/payment/memberResult"; // 결과페이지(절대경로) - 모
+        String returnURL = nicePayMobileBaseReturnUrl + "/payment/memberProcess"; // 결과페이지(절대경로) - 모
 
 
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
@@ -100,6 +100,7 @@ public class PaymentController {
     @PostMapping("/memberProcess")
     public String memberProcess(HttpServletRequest request , RedirectAttributes attr) {
 
+        request.setAttribute("pay_kind", SAConst.PAYMENT_KIND_MEMBERSHIP);
         CommonMap resultMap = paymentService.paymentProcess(request);
 
         attr.addAttribute("payId", resultMap.get("pay_no"));
@@ -117,6 +118,8 @@ public class PaymentController {
 
         CommonMap resultMap = paymentService.getPaymentForPayResult(payMethod, payId);
         request.setAttribute("resultMap", resultMap);
+
+        log.info("c4 : {}" , resultMap);
 
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "memberResult" , locale);
     }
@@ -193,15 +196,9 @@ public class PaymentController {
     public String academyProcess(HttpServletRequest request, Locale locale, RedirectAttributes attr) {
         log.info("academyProcess");
 
-        Enumeration params = request.getParameterNames();
-        log.info("param start----------------------------");
-        while (params.hasMoreElements()){
-            String name = (String)params.nextElement();
-            log.info(name + " : " +request.getParameter(name));
-        }
-        log.info("param end----------------------------");
-
+        request.setAttribute("pay_kind", SAConst.PAYMENT_KIND_ACADEMY);
         CommonMap resultMap = paymentService.paymentProcess(request);
+
         attr.addAttribute("payId", resultMap.get("pay_no"));
         attr.addAttribute("payMethod", resultMap.get("pay_method"));
 
@@ -224,7 +221,7 @@ public class PaymentController {
 
         String goodsName = "서울옥션-작품결제"; 					// 결제상품명
         String moid = "mnoid1234567890"; 			// 상품주문번호
-        String returnURL = nicePayMobileBaseReturnUrl + "/payment/workResult"; // 결과페이지(절대경로) - 모바일
+        String returnURL = nicePayMobileBaseReturnUrl + "/payment/workProcess"; // 결과페이지(절대경로) - 모바일
 
         CommonMap paramMap = new CommonMap();
 
@@ -277,7 +274,9 @@ public class PaymentController {
     public String workProcess(HttpServletRequest request, Locale locale, RedirectAttributes attr) {
         log.info("workProcess");
 
+        request.setAttribute("pay_kind", SAConst.PAYMENT_KIND_WORK);
         CommonMap resultMap = paymentService.paymentProcess(request);
+
         attr.addAttribute("payId", resultMap.get("pay_no"));
         attr.addAttribute("payMethod", resultMap.get("pay_method"));
 

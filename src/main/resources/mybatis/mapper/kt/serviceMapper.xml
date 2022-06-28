@@ -136,7 +136,8 @@
 		      and A.ACADEMY_CD = #{academy_cd} 
 		      </if>
 		      and A.DISP_YN = 'Y' AND A.DEL_YN = 'N'
-		order by A.FROM_DT DESC limit	#{offset}, #{size}
+		order by A.FROM_DT DESC limit
+		        #{offset}, #{size}
 	</select>
 	
 	<!-- get_academy_cnt -->

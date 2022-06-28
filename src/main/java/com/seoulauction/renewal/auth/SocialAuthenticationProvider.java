@@ -65,7 +65,7 @@ public class SocialAuthenticationProvider  implements AuthenticationProvider {
         paramMap.put("remember_me", 'N');
         resultMap = loginMapper.selectCustByCustNo(paramMap);
 
-        List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
+        List<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>();
         //정,준회원 구분
         if(resultMap.get("MEMBERSHIP_YN").equals("Y")) {
         	roles.add(new SimpleGrantedAuthority("ROLE_REGULAR_USER"));
