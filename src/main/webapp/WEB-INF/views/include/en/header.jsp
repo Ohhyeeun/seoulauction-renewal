@@ -61,7 +61,7 @@ function sessionLogout() {
                 <li class="utility-login"><a href="/login">LOGIN</a></li>
             </sec:authorize>
             <sec:authorize access="isAuthenticated()"> <!-- login -->
-                <li class="utility-tab utility-account"><a href="javascript:void(0);">ACCOUNT</a>
+                <li class="utility-tab utility-account"><a href="/mypage/liveBidReqList">ACCOUNT</a>
                     <ul class="bubble-box bubble-box02">
                         <li><a href="/mypage/liveBidReqList">Live Auction Management</a></li>
                         <li id="MyMenuOnlineBadge"><a href="/mypage/onlineBidList">Online Auction Management</a></li>

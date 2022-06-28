@@ -60,8 +60,8 @@
                                                         <div class="state-box">
                                                             <span class="type-online" ng-if="['online','online_zb'].indexOf(auction.SALE_KIND_CD) > -1">ONLINE</span>
                                                             <span class="type-live" ng-if="['online','online_zb'].indexOf(auction.SALE_KIND_CD) <= -1">LIVE</span>
-                                                            <span class="type-d_day" ng-if="(auction.DB_NOW | calcDate : auction.TO_DT : 'days') > 0">D-{{auction.DB_NOW | calcDate : auction.TO_DT : 'days'}}</span>
-                                                            <span class="type-d_day" ng-if="(auction.DB_NOW | calcDate : auction.TO_DT : 'days') <= 0">TODAY</span>
+                                                            <span class="type-d_day" ng-if="(auction.DB_NOW | calcDate : auction.FROM_DT : 'days') > 0">D-{{auction.DB_NOW | calcDate : auction.FROM_DT : 'days'}}</span>
+                                                            <span class="type-d_day" ng-if="(auction.DB_NOW | calcDate : auction.FROM_DT : 'days') <= 0">TODAY</span>
                                                         </div>
                                                         <div class="title-box"><span>{{auction.TITLE_JSON['ko']}}</span></div>
                                                         <div class="info-box">

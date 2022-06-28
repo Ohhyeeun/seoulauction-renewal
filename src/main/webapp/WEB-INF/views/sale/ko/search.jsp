@@ -177,7 +177,7 @@
                                                             </dl>
                                                             <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && item.END_YN != 'Y'">
                                                                 <dt>현재가</dt>
-                                                                <dd><strong>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE }} </strong><em>(응찰 {{item.BID_CNT }})</em></dd>
+                                                                <dd><strong>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE : 0 }} </strong><em>(응찰 {{item.BID_CNT }})</em></dd>
                                                             </dl>
                                                             <dl class="price-list" ng-if="!custInfo.CUST_NO && item.END_YN != 'Y'">
                                                                 <dt>현재가</dt>
@@ -716,6 +716,10 @@
             const request = new Request();
             $scope.search.keyword = request.getParameter("searchContent");
             $scope.search.chk = "all";//검색 조건 (all 통합검색, art 작가명, title 작품명)
+
+            //검색결과 및 더보기 초기 로딩시 안보이게 숨김
+            $("#more_search").hide();
+            $("#search_empty").hide();
 
             addCookie($scope.search.keyword, "keywordHistory");
             $('input:checkbox[name="lotCheckBox"]').attr("checked", true);

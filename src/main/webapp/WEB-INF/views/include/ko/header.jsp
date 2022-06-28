@@ -62,7 +62,7 @@ function sessionLogout() {
                 <li class="utility-login"><a href="/login">로그인</a></li>
             </sec:authorize>
             <sec:authorize access="isAuthenticated()"> <!-- login -->
-                <li class="utility-tab utility-account"><a href="#">마이페이지</a>
+                <li class="utility-tab utility-account"><a href="/mypage/liveBidReqList">마이페이지</a>
                     <ul class="bubble-box bubble-box02">
                         <li><a href="/mypage/liveBidReqList">라이브 경매 관리</a></li>
                         <li id="MyMenuOnlineBadge"><a href="/mypage/onlineBidList">온라인 경매 관리</a></li>
