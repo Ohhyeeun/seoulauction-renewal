@@ -38,8 +38,8 @@
                                                 <label for="checkbox_all1">본인은 서울옥션 경매약관 [약관 바로보기]를
                                                     모두 읽고 이해하였으며 그 적용에 동의합니다.</label>
                                                 <!-- [0523]약관 바로보기 링크 삽입 -->
-                                                <a href="#">[약관 바로보기]</a>
-                                            </div>
+                                                <a href="/footer/terms/#terms_view-offline_term">[약관 바로보기]</a>
+                                            </div> 
                                         </td>
                                     </tr>
                                     <tr>
@@ -57,10 +57,7 @@
                                             <div class="trp checkbox-box">
                                                 <input id="checkbox_all3" class="js_item" type="checkbox" name="">
                                                 <i></i>
-                                                <label for="checkbox_all3">낙찰자는 후 7일 이내(낙찰가 3억원 이상인
-                                                    경우 21일 이내)에 구매수수료를 포함한
-                                                    금액을 입금하여야 합니다. 구매수수료는
-                                                    낙찰금액의 18%(부가세 별도) 입니다.</label>
+                                                <label for="checkbox_all3">낙찰자는 후 7일 이내(낙찰가 3억원 이상인 경우 21일 이내)에 구매수수료를 포함한 금액을 입금하여야 합니다. 구매수수료는 낙찰금액의 18%(부가세 별도)입니다.</label>
                                             </div>
                                         </td>
                                     </tr>
@@ -69,10 +66,7 @@
                                             <div class="trp checkbox-box">
                                                 <input id="checkbox_all4" class="js_item" type="checkbox" name="">
                                                 <i></i>
-                                                <label for="checkbox_all4">낙찰자가 지정된 기일에 낙찰대금을 납부하지
-                                                    않거나, 부득이 낙찰을 철회하는 경우,
-                                                    낙찰가의 30%에 해당하는 금액을 낙찰철회비
-                                                    (위약금)로 납부하여야 합니다.</label>
+                                                <label for="checkbox_all4">낙찰철회시 낙찰가의 30%에 해당하는 낙찰철회비가 부과됩니다.</label>
                                             </div>
                                         </td>
                                     </tr>
