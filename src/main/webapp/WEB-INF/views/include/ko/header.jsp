@@ -23,8 +23,10 @@
     <meta property="og:description" content="미술품 경매를 통해 많은 사람들과 일상 속 예술의 경험과 기쁨을 나누고자 합니다.">
     <meta property="og:image" content="/images/thumbnail/201508122329463497773394954126.jpg"/>
     <meta property="al:web:url" content="https://www.seoulauction.com">
-    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileColor" content="#4dada7">
     <meta name="theme-color" content="#ffffff">
+    <!— Windows 8.1 + IE11 and above —>
+    <meta name="msapplication-config" content="/webapp/browserconfig.xml" />
     <title>Seoul Auction</title>
     <jsp:include page="../../common/commonCss.jsp" flush="false"/>
     <%--메인일경우 main.css 추가. common.css 아래 위치에 존재해야함. --%>
@@ -49,7 +51,7 @@
     <link rel="icon" type="image/png" href="/images/favic/android-chrome-192x192.png" sizes="192x192"/>
     <link rel="icon" type="image/png" href="/images/favic/favicon-16x16.png" sizes="16x16"/>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="/webapp/manifest.json">
     <meta name="application-name" content="SeoulAuction" />
 
     <%--angular 관련은 미리 로딩--%>
