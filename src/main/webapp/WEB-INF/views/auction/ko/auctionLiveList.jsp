@@ -561,10 +561,10 @@
                     $scope.saleInfoAll = r1.data.data;
 
                     //데이터가 없을 시 , 오프라인 경매인데 온라인으로 올 시 등등 접근 불가.
-                    if($scope.saleInfoAll.length === 0){
-                        alert('잘못된 접근 입니다.');
-                        history.back();
-                    }
+                    // if($scope.saleInfoAll.length === 0){
+                    //     alert('잘못된 접근 입니다.');
+                    //     history.back();
+                    // }
 
                     $scope.saleImages = r2.data.data;
                     $scope.lotTags = r3.data.data;

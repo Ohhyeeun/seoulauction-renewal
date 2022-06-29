@@ -20,7 +20,7 @@
         <!-- //header -->
 
         <!-- container -->
-        <div id="container" ng-controller="auctionCtl" data-ng-init="loadAuction()">
+        <div id="container" ng-controller="auctionCtl" data-ng-init="loadAuction()" ng-cloak>
             <div id="contents" class="contents">
                 <section class="basis-section key_visual-section">
                     <div class="section-inner">
