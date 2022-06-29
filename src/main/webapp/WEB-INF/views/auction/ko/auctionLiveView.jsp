@@ -270,12 +270,6 @@
                                             <div class="desc" id="artistProfile">
                                             </div>
                                             <div class="desc" id="artistMedia">
-                                                <div class="vide_img-box">
-                                                    <a href="#"><img src="/images/temp/video_img-1.jpg" alt=""/></a>
-                                                    <a href="#"><img src="/images/temp/video_img-2.jpg" alt=""/></a><br/>
-                                                    <a href="#"><img src="/images/temp/video_img-3.jpg" alt=""/></a>
-                                                    <a href="#"><img src="/images/temp/video_img-4.jpg" alt=""/></a>
-                                                </div>
                                             </div>
                                         </div>
 
@@ -1214,19 +1208,36 @@
 
                         if(success){
                             let artistData = data.data;
+                            if(!artistData){
+                            }
+                            else{
+                                let articlesList = JSON.parse(artistData.articles).articles;
+                                let artistYoutubeImages = JSON.parse(artistData.media).youtube;
+                                let artistImageList = artistData.images;
+                                let title = '';
+                                $.each(articlesList, function (index, el) {
+                                    if(locale == 'ko'){
+                                        title += el.titleKo + '</br>';
+                                    }else{
+                                        title += el.titleEn + '</br>';
+                                    }
+                                });
 
-                            $("#artistName").html(JSON.parse(artistData.name).ko + ' ' +  artistData.birth);
-                            $("#artistProfile").html(JSON.parse(artistData.education).ko + '</br>' +
-                                JSON.parse(artistData.exhibition).ko + '</br>' + JSON.parse(artistData.education).ko + '</br>' +
-                                JSON.parse(artistData.profile).ko + '</br>' + artistData.homepage + '</br>' +
-                                JSON.parse(artistData.sns_account).blog + '</br>' + JSON.parse(artistData.sns_account).facebook + '</br>' +
-                                JSON.parse(artistData.sns_account).instagram + '</br>' + JSON.parse(artistData.media).youtube + '</br>' +
-                                JSON.parse(artistData.media).instagram + '</br>'
-                                // 작가 이미지는 admin쪽 개발 이후에 붙이기로
-                            );
-                        } else {
-                            alert(data.data.msg);
-                            history.back();
+                                $("#artistName").html(JSON.parse(artistData.name).ko + ' ' +  artistData.birth);
+                                $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
+
+                                let html = '<div class="vide_img-box">';
+                                $.each(artistYoutubeImages, function (index, el) {
+                                    $.each(artistImageList, function (s3Index, el) {
+                                        //일단은 youtube만 뿌리기로
+                                        if(artistImageList[s3Index].tag == 'youtube' + index){
+                                            html += '<a href="' + artistYoutubeImages[index] + '"><img src=" '+ artistImageList[s3Index].cdn_url + ' " alt="" /></a>';
+                                        }
+                                    });
+                                });
+                                html += '</div>';
+                                $("#artistMedia").html(html);
+                            }
                         }
                     })
                     .catch(function(error) {
