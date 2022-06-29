@@ -21,7 +21,7 @@
         <div class="sub-wrap pageclass">
 
             <!-- header -->
-            <jsp:include page="../../../include/ko/header.jsp" flush="false" />
+            <jsp:include page="../../../include/en/header.jsp" flush="false" />
 			<script type="text/javascript" src="/js/mypage/mypageSide.js"></script>
             <!-- //header -->
 
@@ -132,7 +132,7 @@
             <!-- //container -->
 
             <!-- footer -->
-           <jsp:include page="../../../include/ko/footer.jsp" flush="false" />
+           <jsp:include page="../../../include/en/footer.jsp" flush="false" />
             <!-- //footer -->
 
             <!-- stykey -->
@@ -154,7 +154,7 @@
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
 
 
-    <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
 
 
 
