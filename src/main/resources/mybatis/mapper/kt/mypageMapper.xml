@@ -714,14 +714,14 @@ SELECT 'INTE_LOT' AS GUBUN
 	<!-- live auto bid -->
 	<select id="selectLiveBidReqCnt" resultType="int">
 	   select COUNT(*) from (
-	   select S1.sale_no,  S1.TITLE_BLOB, S1.FROM_DT, S1.TO_DT, S1.CURR_CD, S1.SALE_TH_DSP_YN, S1.SALE_TH from AUTO_BID_REQ AB1
-					join SALE s1 on AB1.SALE_NO = s1.SALE_NO
-					and s1.DEL_YN ='N'
+	   SELECT S1.SALE_NO,  S1.TITLE_BLOB, S1.FROM_DT, S1.TO_DT, S1.CURR_CD, S1.SALE_TH_DSP_YN, S1.SALE_TH FROM AUTO_BID_REQ AB1
+					JOIN SALE S1 ON AB1.SALE_NO = S1.SALE_NO
+					AND S1.DEL_YN ='N'
 					and AB1.CUST_NO = #{action_user_no}
 					join CODE CD on CD.GRP_ID='bid_kind' and AB1.BID_KIND_CD = CD.CD_ID
 					where AB1.BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place')
 					group by AB1.SALE_NO 
-					order by AB1.SALE_NO DESC) S 
+order by AB1.SALE_NO DESC) S
 	</select>
 	
 	<select id="selectLiveBidReqList" resultType="Map">
