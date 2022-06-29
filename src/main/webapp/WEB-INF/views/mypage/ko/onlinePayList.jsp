@@ -20,7 +20,7 @@
 			<jsp:include page="../../include/ko/header.jsp" flush="false" />
 			<script type="text/javascript" src="/js/mypage/onlinePay.js"></script>
             <!-- container -->
-            <div id="container" class="onlinePay"  ng-controller="onlinePayListCtl" data-ng-init="loadOnlinePayList(1);">
+            <div id="container" class="onlinePay"  ng-controller="onlinePayListCtl" data-ng-init="loadOnlinePayList(1);"  style="opacity: 0" opacity=1>
                 <div id="contents" class="contents">
 
                     <section class="basis-section last-section mypage-section">

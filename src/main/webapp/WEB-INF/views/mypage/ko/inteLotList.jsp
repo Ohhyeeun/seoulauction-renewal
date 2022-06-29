@@ -22,7 +22,7 @@
             <!-- //header -->
 		
             <!-- container -->
-            <div id="container" class="intelot" ng-controller="InteListCtl" data-ng-init="loadInteLotList(1);">
+            <div id="container" class="intelot" ng-controller="InteListCtl" data-ng-init="loadInteLotList(1);"  style="opacity: 0" opacity=1>
                 <div id="contents" class="contents">
 
                     <section class="basis-section last-section mypage-section">
