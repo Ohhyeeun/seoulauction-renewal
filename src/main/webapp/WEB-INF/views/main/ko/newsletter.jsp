@@ -7,10 +7,10 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html>
-    <link rel="stylesheet" href="/css/common.css" type="text/css" />
-    <link rel="stylesheet" href="/css/pages_common_ko.css">
+<%--<!DOCTYPE html>--%>
+<%--<html>--%>
+<%--    <link rel="stylesheet" href="/css/common.css" type="text/css" />--%>
+<%--    <link rel="stylesheet" href="/css/pages_common_ko.css">--%>
 
 <body>
 <div class="wrapper footer-bottom footer-bottom30">
@@ -136,5 +136,5 @@ app.controller('newsLetterCtl', function($scope, consts, common, locale) {
 
 });
 </script>
-</body>
-</html>
+<%--</body>--%>
+<%--</html>--%>

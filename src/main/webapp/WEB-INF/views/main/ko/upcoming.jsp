@@ -6,22 +6,22 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Seoul Auction</title>
-    <link rel="stylesheet" href="/css/common.css" type="text/css" />
-    <link rel="stylesheet" href="/css/main.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/swiper.css" type="text/css">
-</head>
+<%--<html>--%>
+<%--<head>--%>
+<%--    <meta charset="UTF-8">--%>
+<%--    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">--%>
+<%--    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">--%>
+<%--    <title>Seoul Auction</title>--%>
+<%--    <link rel="stylesheet" href="/css/common.css" type="text/css" />--%>
+<%--    <link rel="stylesheet" href="/css/main.css" type="text/css" />--%>
+<%--    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />--%>
+<%--    <link rel="preconnect" href="https://fonts.googleapis.com">--%>
+<%--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--%>
+<%--    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">--%>
+<%--    <link rel="stylesheet" href="/css/swiper.css" type="text/css">--%>
+<%--</head>--%>
 
-<body>
+<%--<body>--%>
 <section class="upcoming">
     <h1 class="main-sectiontit upcoming-tit">
         Upcoming
@@ -242,5 +242,5 @@
     }
 
 </script>
-</body>
-</html>
+<%--</body>--%>
+<%--</html>--%> 
