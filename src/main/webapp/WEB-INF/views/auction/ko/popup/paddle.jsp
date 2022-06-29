@@ -39,7 +39,7 @@
                                                     모두 읽고 이해하였으며 그 적용에 동의합니다.</label>
                                                 <!-- [0523]약관 바로보기 링크 삽입 -->
                                                 <a href="/footer/terms/#terms_view-offline_term">[약관 바로보기]</a>
-                                            </div> 
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr>
