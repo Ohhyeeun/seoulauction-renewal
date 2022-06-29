@@ -1,22 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="ko">
-
-<head>
-    <!-- header -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>위치안내 | Seoul Auction</title>
-    <!-- //header -->
-</head>
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
 <body class="">
     <div class="wrapper">
         <div class="sub-wrap pageclass type-pagemain">
 
             <!-- header -->
-            <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+            <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
             <!-- //header -->
             <script>
                 app.value('locale', 'ko');
@@ -212,14 +202,14 @@
     </div>
 
 
-    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-    <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+<%--    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
+<%--    <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->--%>
+<%--    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
+<%--    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
     <!-- [0516]삭제
-  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
+  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 -->
 
-</body>
+<%--</body>--%>
 
-</html>
+<%--</html>--%>

@@ -4,20 +4,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<!DOCTYPE html>
-<html lang="ko">
-    <head>
-	    <meta charset="UTF-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	    <title>결제/구매내역 | Seoul Auction</title>
-	</head>
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
 <link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
 <spring:eval expression="@environment.getProperty('image.root.path')" var="imageRootPath" />
 <body class="">
 	<div class="wrapper" ng-app="myApp">
 		<div class="sub-wrap pageclass">
-			<jsp:include page="../../include/ko/header.jsp" flush="false" />
+            <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
 			<script type="text/javascript" src="/js/mypage/onlinePay.js"></script>
             <!-- container -->
             <div id="container" class="onlinePay"  ng-controller="onlinePayListCtl" data-ng-init="loadOnlinePayList(1);"  style="opacity: 0" opacity=1>
