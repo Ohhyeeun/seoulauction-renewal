@@ -320,59 +320,59 @@
                 quotes: [
                     {
                         cost: 0,
-                        qoute_cost: 50000,
+                        quote_cost: 50000,
                     },
                     {
                         cost: 1000000,
-                        qoute_cost: 100000,
+                        quote_cost: 100000,
                     },
                     {
                         cost: 2000000,
-                        qoute_cost: 200000,
+                        quote_cost: 200000,
                     },
                     {
                         cost: 4000000,
-                        qoute_cost: 300000,
+                        quote_cost: 300000,
                     },
                     {
                         cost: 10000000,
-                        qoute_cost: 500000,
+                        quote_cost: 500000,
                     },
                     {
                         cost: 20000000,
-                        qoute_cost: 1000000,
+                        quote_cost: 1000000,
                     },
                     {
                         cost: 30000000,
-                        qoute_cost: 2000000,
+                        quote_cost: 2000000,
                     },
                     {
                         cost: 50000000,
-                        qoute_cost: 3000000,
+                        quote_cost: 3000000,
                     },
                     {
                         cost: 100000000,
-                        qoute_cost: 5000000,
+                        quote_cost: 5000000,
                     },
                     {
                         cost: 200000000,
-                        qoute_cost: 10000000,
+                        quote_cost: 10000000,
                     },
                     {
                         cost: 300000000,
-                        qoute_cost: 20000000,
+                        quote_cost: 20000000,
                     },
                     {
                         cost: 500000000,
-                        qoute_cost: 30000000,
+                        quote_cost: 30000000,
                     },
                     {
                         cost: 1000000000,
-                        qoute_cost: 50000000,
+                        quote_cost: 50000000,
                     },
                     {
                         cost: 2000000000,
-                        qoute_cost: 100000000,
+                        quote_cost: 100000000,
                     }]
             }
             console.log(q);
