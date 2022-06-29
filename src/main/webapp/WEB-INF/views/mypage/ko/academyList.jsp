@@ -13,7 +13,7 @@
 	    <title>아카데미신청내역 | Seoul Auction</title>
 	</head>
 <link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
-<body class="" ng-controller="academyListCtl" data-ng-init="loadAcademyList(1)">
+<body class="" ng-controller="academyListCtl" data-ng-init="loadAcademyList(1)" style="opacity: 0" opacity=1>
 	<div class="wrapper" ng-app="myApp">
 		<div class="sub-wrap pageclass">
 			<jsp:include page="../../include/ko/header.jsp" flush="false" />

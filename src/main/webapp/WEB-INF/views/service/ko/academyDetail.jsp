@@ -34,7 +34,7 @@ var userNo = '${userNo}';
         <!-- //header -->
 
         <!-- container -->
-        <div id="container" ng-controller="academyDetailCtl" data-ng-init="loadAcademyDetail(1)">
+        <div id="container" ng-controller="academyDetailCtl" data-ng-init="loadAcademyDetail(1)" ng-cloak>
             <div id="contents" class="contents">
 
                 <!-- page title -->

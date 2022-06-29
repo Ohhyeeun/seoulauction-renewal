@@ -22,7 +22,7 @@
 		<div class="sub-wrap pageclass">
 			<jsp:include page="../../include/en/header.jsp" flush="false" />
 			
-			<div id="container" ng-controller="joinCtl">
+			<div id="container" ng-controller="joinCtl" ng-cloak>
 				<div id="contents" class="contents">
 				    <section class="basis-section last-section">
 				        <div class="section-inner">

@@ -29,7 +29,7 @@
         <!-- //header -->
 
         <!-- container -->
-        <div id="container" ng-controller="academyNowListCtl" data-ng-init="loadAcademyNowList(1)">
+        <div id="container" ng-controller="academyNowListCtl" data-ng-init="loadAcademyNowList(1)" ng-cloak>
             <div id="contents" class="contents">
 
                 <!-- page title -->

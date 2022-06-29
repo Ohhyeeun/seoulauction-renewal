@@ -12,7 +12,18 @@ var getParameter = function(param){
     }
     return requestParam;
 }
-    
+
+app.directive('opacity', opacity);
+function opacity($timeout) {
+    return {
+        link: function (scope, element, attrs) {
+            var value = attrs.opacity;
+            $timeout(function () {
+                element[0].style.opacity = value;
+            },100);
+        }
+    }
+}
 app.value('locale', document.documentElement.lang);
 /*문의하기 목록*/
 app.requires.push.apply(app.requires, ["bw.paging"]);

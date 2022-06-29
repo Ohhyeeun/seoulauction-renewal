@@ -19,7 +19,7 @@
 			<script type="text/javascript" src="/js/mypage/inquiry.js"></script>
 			<!-- container -->
 			<div id="container" class="inquiry" ng-controller="inquiryWriteCtl"
-				data-ng-init="init()">
+				data-ng-init="init()" style="opacity: 0" opacity=1>
 				<div id="contents" class="contents">
 
 					<section class="basis-section last-section mypage-section">
