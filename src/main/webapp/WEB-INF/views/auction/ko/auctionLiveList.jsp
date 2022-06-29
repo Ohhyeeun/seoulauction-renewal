@@ -56,15 +56,14 @@
 
                                 <%--라이브 응찰 신청기간--%>
                                 <article class="proceeding-article" ng-if="sale.LIVE_BID_YN == 'Y'">
-                                    <a href="#" ng-click="goLiveBid()" class="js-terms_required">
+                                    <a ng-click="goLiveBid();" class="js-terms_required">
                                         <div class="article-inner">
                                             <div class="column view">
                                                 <strong class="note_msg" id="note_msg">{{paddNoteMsg}}</strong>
                                             </div>
                                             <div class="column">
                                                 <div class="note_etc">
-                                                    <span id="note_etc">{{paddNoteEtc}}</span>
-<%--                                                    <strong ng-if="paddNo > 0">{{paddNo}}</strong>--%>
+                                                    <span id="note_etc">{{paddNoteEtc}}</span><strong ng-if="paddNo > 0">{{paddNo}}</strong>
                                                 </div>
                                             </div>
                                             <i class="icon-link_arrow"></i>
@@ -425,24 +424,38 @@
                 location.href = '/auction/live/sale/' + item.SALE_NO + '/lot/' + item.LOT_NO + '/biding';
             }
 
-            $scope.goLiveBid = function(item) {
-                checkLogin();
-
-                let isRegular = ${isRegular};
-                if(!isRegular){
-                    alert('정회원만 서면/전화 응찰 신청이 가능합니다.')
-                    location.href = "/payment/member";
+            $scope.goLiveBid = function() {
+                console.log("goLiveBid");
+                if($scope.sale_status == 'ING' && $scope.liveCheckDt >= $scope.liveStartDt) {
+                    // 경매 당일 응찰하기
+                    console.log("1");
+                    window.open("/auction/live/bidder/"+$scope.sale_no, "bidder", "resizable=no, status=no, menubar=no, toolbar=no, location=no, directories=no");
                     return;
-                }
+                } else if($scope.sale_status == 'ING' && $scope.nowTime == $scope.liveEnd && $scope.liveCheckDt < $scope.liveStartDt) {
+                    // 경매 당일 패들번호 출력
+                    console.log("2");
+                    return;
+                } else if($scope.sale_status == 'ING' && $scope.nowTime < $scope.liveEnd) {
+                    // 경매 당일 전 신청하기 자동생성
+                    console.log("3");
+                    if(!checkLogin()) return;
 
-                if($scope.paddNo <= 0) {
-                    terms_required.open(this); // or false
-                    popup_fixation("#terms_required-wrap");
+                    let isRegular = ${isRegular};
+                    if(!isRegular){
+                        alert('정회원만 패들 신청이 가능합니다.');
+                        location.href = "/payment/member";
+                        return;
+                    }
 
-                    $("body").on("click", "#terms_required-wrap .js-closepop, #terms_required-wrap .popup-dim", function($e) {
-                        $e.preventDefault();
-                        terms_required.close();
-                    });
+                    if($scope.paddNo <= 0) {
+                        terms_required.open(this); // or false
+                        popup_fixation("#terms_required-wrap");
+
+                        $("body").on("click", "#terms_required-wrap .js-closepop, #terms_required-wrap .popup-dim", function($e) {
+                            $e.preventDefault();
+                            terms_required.close();
+                        });
+                    }
                 }
             }
 
@@ -452,7 +465,6 @@
                         .then(function (response) {
                             if (response.data.success) {
                                 $scope.paddNo = response.data.data;
-                                $("em#paddle-number").html($scope.paddNo+"번");
                                 $scope.paddleStatus();
                             }
                         });
@@ -1028,7 +1040,6 @@
             }
 
             $scope.paddleStatus = function () {
-                console.log("paddleStatus");
                 let paddNoteMsg = "라이브 응찰 신청";
                 let paddNoteEtc = "정회원만 응찰 신청이 가능합니다.";
 
@@ -1037,22 +1048,22 @@
                 const padd_no = $scope.paddNo;
                 const sale_status = $scope.sale_status;
 
-                const live_start_dt = $filter('date')($scope.liveStartDt, 'M/d');
-                const live_start_dt_date = $scope.getWeek($scope.liveStartDt);
-                const live_start_dt_hour = $filter('date')($scope.liveStartDt, 'H');
-                const live_start_dt_minute = $filter('date')($scope.liveStartDt, 'm');
+                const live_start_dt = $filter('date')($scope.sale.LIVE_BID_DT, 'MM/dd');
+                const live_start_dt_date = $scope.getWeek($scope.sale.LIVE_BID_DT);
+                const live_start_dt_hour = $filter('date')($scope.sale.LIVE_BID_DT, 'HH');
+                const live_start_dt_minute = $filter('date')($scope.sale.LIVE_BID_DT, 'mm');
 
-                console.log("paddleStatus ", is_login, membership_yn, padd_no, sale_status);
                 if(sale_status == 'ING' && $scope.liveCheckDt >= $scope.liveStartDt) {
                     // 경매 당일 응찰하기
                     console.log("1");
                     if (is_login === 'true' && membership_yn === 'true' && padd_no > 0) {
                         paddNoteMsg = "라이브 경매 참가";
-                        paddNoteEtc = "나의 패들번호 : ";
+                        paddNoteEtc = "나의 패들번호 ";
                     } else {
                         paddNoteMsg = "라이브 경매 보기";
                         paddNoteEtc = "사전 신청한 회원만 응찰 가능합니다.";
                     }
+                    $("article.proceeding-article a.js-terms_required").css("cursor", "pointer");
                 } else if(sale_status == 'ING' && $scope.nowTime == $scope.liveEnd && $scope.liveCheckDt < $scope.liveStartDt) {
                     // 경매 당일 패들번호 출력
                     console.log("2");
@@ -1075,9 +1086,11 @@
                         paddNoteEtc = live_start_dt+"("+live_start_dt_date+") "+live_start_dt_hour+"시";
                         if(live_start_dt_minute > 0) paddNoteEtc += " "+live_start_dt_minute+"분";
                         paddNoteEtc += "에 시작합니다.";
+                        $("article.proceeding-article a.js-terms_required").css("cursor", "default");
                     } else {
                         paddNoteMsg = "라이브 응찰 신청";
                         paddNoteEtc = "정회원만 응찰 신청이 가능합니다.";
+                        $("article.proceeding-article a.js-terms_required").css("cursor", "pointer");
                     }
                 }
 
