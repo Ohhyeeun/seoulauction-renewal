@@ -14,7 +14,7 @@
 	</head>
 <link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
 <spring:eval expression="@environment.getProperty('image.root.path')" var="imageRootPath" />
-<body class="" ng-controller="onlineBidListCtl" data-ng-init="loadonlineBidList(1);">
+<body class="" ng-controller="onlineBidListCtl" data-ng-init="loadonlineBidList(1);" ng-cloak>
     <div class="wrapper" ng-app="myApp">
         <div class="sub-wrap pageclass">
 
@@ -63,7 +63,7 @@
                                                                 </div>
                                                                  <div class="btn-area">
                                                                    <button ng-if="onlineBid[1][0].CLOSE_YN != 'Y'"  class="btn btn_point btn-view-ing" type="button"><a href="/auction/list/{{onlineBid[1][0].SALE_NO}}"><span >진행경매보기</span></a></button>
-                                                                   <button ng-if="onlineBid[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray_line btn-view-result" type="button"><a href="/auction/list/{{onlineBid[1][0].SALE_NO}}"><span>경매결과보기</span></a></button>
+                                                                   <button ng-if="onlineBid[1][0].CLOSE_YN == 'Y'"class="btn btn_gray btn-view-end" type="button" disabled><span>경매 종료</span></button>
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in onlineBid[1]">
