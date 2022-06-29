@@ -29,10 +29,10 @@
 		, CD1.CD_ID PAY_METHOD_ID
 		, IF(P.PG_TRANS_ID is not null and P.pg_cd='nice', 'Y', 'N' ) receipt
 		, P.PG_TRANS_ID
-		from CUST CU
-		left outer join CUST_PAY CP on CU.cust_no = CP.cust_no
-		join PAY P ON P.pay_no = CP.pay_no and P.cust_no = CP.cust_no
-		join CODE CD1 on P.PAY_METHOD_CD = CD1.CD_ID and CD1.GRP_ID = 'pay_method'
+		FROM CUST CU
+		LEFT OUTER JOIN CUST_PAY CP ON CU.CUST_NO = CP.CUST_NO
+		JOIN PAY P ON P.PAY_NO = CP.PAY_NO AND P.CUST_NO = CP.CUST_NO
+		JOIN CODE CD1 ON P.PAY_METHOD_CD = CD1.CD_ID AND CD1.GRP_ID = 'pay_method'
 		where CU.JOIN_KIND_CD = 'online'
 		and CU.STAT_CD = 'normal'
 		and CU.CUST_NO = #{action_user_no}
@@ -57,10 +57,10 @@
 				COLUMN_GET(C.TITLE_BLOB,
 				'en' as CHAR) TITLE_EN,
 				C.ACADEMY_NO,
-				(select pay_price from pay p where p.PAY_NO = D.PAY_NO)  as pay_price,
-				(select vat_price from pay p where p.PAY_NO = D.PAY_NO)  as vat_price,
-				(select vat from pay p where p.PAY_NO = D.PAY_NO) as vat,
-				(select PAY_METHOD_CD  from pay p where p.PAY_NO = D.PAY_NO) as PAY_METHOD_CD
+				(select pay_price from PAY P where P.PAY_NO = D.PAY_NO)  as pay_price,
+				(select vat_price from PAY P where P.PAY_NO = D.PAY_NO)  as vat_price,
+				(select vat from PAY P where P.PAY_NO = D.PAY_NO) as vat,
+				(select PAY_METHOD_CD  from PAY P where P.PAY_NO = D.PAY_NO) as PAY_METHOD_CD
 				, CD.CD_ID PAY_METHOD_ID
 				, IF(P.PG_TRANS_ID is not null and P.pg_cd='nice', 'Y', 'N' ) receipt
 				, P.PG_TRANS_ID
@@ -68,9 +68,9 @@
 				CUST A 
 				join ACADEMY_REQ B on A.CUST_NO = B.CUST_NO
 				join ACADEMY C on B.ACADEMY_NO = C.ACADEMY_NO
-				join academy_pay D  on D.ACADEMY_NO = C.ACADEMY_NO and A.CUST_NO = D.CUST_NO
+				join ACADEMY_PAY D  on D.ACADEMY_NO = C.ACADEMY_NO and A.CUST_NO = D.CUST_NO
 				join PAY P ON P.pay_no =  D.pay_no and P.cust_no = D.cust_no
-				left join code CD on P.PAY_METHOD_CD = CD.CD_ID and CD.GRP_ID = 'pay_method'
+				left join CODE CD on P.PAY_METHOD_CD = CD.CD_ID and CD.GRP_ID = 'pay_method'
 			where
 	 		A.CUST_NO = #{action_user_no} AND B.DEL_YN = 'N'
 			order by
@@ -121,7 +121,8 @@
 				, (select CONCAT(LI.FILE_PATH, "/", LI.FILE_NAME) from LOT_IMG LI 
 					where LI.SALE_NO = L.SALE_NO and LI.LOT_NO = L.LOT_NO limit 1) LOT_IMG
 				, CAST(COLUMN_JSON(A.ARTIST_NAME_BLOB) AS CHAR) ARTIST_NAME_JSON
-				, IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'ko' AS CHAR), '') ARTIST_NAME_KR
+				, IFNULL
+				(COLUMN_GET(A.ARTIST_NAME_BLOB, 'ko' AS CHAR), '') ARTIST_NAME_KR
 				, IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'en' AS CHAR), '') ARTIST_NAME_EN
 				, CONCAT('[', GROUP_CONCAT('{"PRICE_FROM":', ifnull(LF.PRICE_FROM, 0), ', "PRICE_TO":', ifnull(LF.PRICE_TO, 0) , ', "RATE":', ifnull(LF.RATE, 0.0), '}'), ']') LOT_FEE_JSON
 				, B.BID_PRICE
@@ -160,7 +161,7 @@
 					WHEN '7' THEN '토'
 					END AS payWeekDate
 				,DATE_FORMAT(P.PAY_DT, '%T') as payTime
-				,(select count(*) from BID where CUST_NO= #{action_user_no} and SALE_NO=S.sale_no and LOT_NO=L.LOT_NO) as bid_count
+				,(select count(*) from BID where CUST_NO= #{action_user_no} and SALE_NO=S.SALE_NO and LOT_NO=L.LOT_NO) as bid_count
 				, IF(P.PG_TRANS_ID is not null and P.PG_CD='nice', 'Y', 'N' ) receipt
 				, C.CD_NM 
 				, C.CD_NM_EN 
@@ -191,8 +192,8 @@
 			JOIN BID B1 ON
 				B1.BID_NO = SB3.BID_NO
 			WHERE
-				(REAL_CUST_NO =  #{ACTION_USER_NO}
-				OR (B1.CUST_NO =  #{ACTION_USER_NO}
+				(REAL_CUST_NO =  #{action_user_no}
+				OR (B1.CUST_NO =  #{action_user_no}
 					AND REAL_CUST_NO IS NULL))
 				and L.TO_DT &lt;= now()
 			GROUP BY
@@ -222,8 +223,8 @@
 			JOIN BID B1 ON
 				B1.BID_NO = SB3.BID_NO
 			WHERE
-				(REAL_CUST_NO =  #{ACTION_USER_NO}
-				OR (B1.CUST_NO =  #{ACTION_USER_NO}
+				(REAL_CUST_NO =  #{action_user_no}
+				OR (B1.CUST_NO =  #{action_user_no}
 					AND REAL_CUST_NO IS NULL))
 				and L.TO_DT &lt;= now()
 			GROUP BY
@@ -234,7 +235,7 @@
 			GROUP BY SALE_NO
 		ORDER BY
 			SALE_NO DESC
-			LIMIT #{OFFSET}, #{SIZE}
+			LIMIT #{offset}, #{size}
 		) S ON S.SALE_NO = B.SALE_NO
 		LEFT OUTER JOIN LOT L ON L.SALE_NO = B.SALE_NO AND L.LOT_NO = B.LOT_NO AND L.SALE_NO = S.SALE_NO
 		LEFT OUTER JOIN ARTIST A ON
@@ -272,8 +273,7 @@
 			P.SALE_NO = L.SALE_NO
 			AND P.LOT_NO = L.LOT_NO
 		GROUP BY
-			B.SALE_NO,
-			B.LOT_NO
+			B.SALE_NO, B.LOT_NO
 		ORDER BY
 			S.SALE_NO DESC, B.BID_DT DESC
 	</select>
@@ -460,17 +460,17 @@
 	
 	<!-- 문의 리스트 -->
 	<sql id="sql_bbs_w_list">
-		select * from (
+		SELECT * FROM (
 		   	SELECT A.*,
 		   	CASE WHEN C.P_CD_NM IS NULL THEN '' ELSE C.CD_NM END AS CATE_NM,
 			    CASE WHEN C.P_CD_NM IS NULL THEN C.CD_NM ELSE C.P_CD_NM END AS P_CATE_NM,
 			    C.CD_NM_EN P_CATE_NM_EN,
-			    if(C.P_CD_NM is not null ,(select cd.CD_NM_EN  from code cd where cd.CD_ID = C.P_CD_ID AND cd.grp_id = 'bbs_inquiry_category_en'),'') CATE_NM_EN,
-				case when B.REPLY_CNT &gt; 0 then 'Y' else 'N' end as REPLY_YN,
-				B.LAST_REPLY_DT, 
+			    IF(C.P_CD_NM IS NOT NULL ,(SELECT CD.CD_NM_EN  FROM CODE CD WHERE CD.CD_ID = C.P_CD_ID AND CD.GRP_ID = 'bbs_inquiry_category_en'),'') CATE_NM_EN,
+				CASE WHEN B.REPLY_CNT &gt; 0 THEN 'Y' ELSE 'N' END AS REPLY_YN,
+				B.LAST_REPLY_DT,
 				D.EMP_NAME,
 				DATE_FORMAT(A.REG_DT, '%m-%d-%Y') as REG_DT_EN
-			from BBS_WRITE A
+			FROM BBS_WRITE A
 			LEFT OUTER JOIN (
 				SELECT BBS_ID, WRITE_NO, COUNT(*) REPLY_CNT, MAX(REG_DT) LAST_REPLY_DT FROM BBS_REPLY GROUP BY BBS_ID, WRITE_NO
 			) B ON A.BBS_ID = B.BBS_ID AND A.WRITE_NO = B.WRITE_NO
@@ -675,7 +675,7 @@ SELECT 'INTE_LOT' AS GUBUN
 										<when test="sale_kind == 'live'">AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb'</when>
 										<otherwise>AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb' or IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb')</otherwise>
 									</choose>
-								GROUP BY S1.SALE_NO ORDER BY S1.SALE_NO DESC LIMIT #{OFFSET}, #{SIZE}
+								GROUP BY S1.SALE_NO ORDER BY S1.SALE_NO DESC LIMIT #{offset}, #{size}
 								) S ON S.SALE_NO = CL.SALE_NO
 		  						INNER JOIN LOT  L ON CL.SALE_NO = L.SALE_NO AND CL.LOT_NO = L.LOT_NO
 		                      	LEFT OUTER JOIN ARTIST A ON L.ARTIST_NO = A.ARTIST_NO
@@ -685,21 +685,22 @@ SELECT 'INTE_LOT' AS GUBUN
 	</select>
 
     <select id="selectCustInteLotCnt" resultType="int">
-		select count(*) from 
-			(select 
-				s1.SALE_NO , s1.SALE_TH, S1.SALE_TH_DSP_YN, S1.TITLE_BLOB, S1.SALE_OUTSIDE_YN
-			from
-				sale s1
-			join cust_inte_lot cil on
-				s1.SALE_NO = cil.SALE_NO
-			where
-				cil.CUST_NO = #{action_user_no}
+		SELECT COUNT(*) FROM
+			(SELECT
+				S1.SALE_NO , S1.SALE_TH, S1.SALE_TH_DSP_YN, S1.TITLE_BLOB, S1.SALE_OUTSIDE_YN
+			FROM
+				SALE S1
+			JOIN CUST_INTE_LOT CIL ON
+				S1.SALE_NO = CIL.SALE_NO
+
+			WHERE
+				CIL.CUST_NO = #{action_user_no}
 				<choose>
 					<when test="sale_kind == 'online'">AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb')</when>
 					<when test="sale_kind == 'live'">AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb'</when>
 					<otherwise>AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb' or IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb')</otherwise>
 				</choose>
-		group by s1.sale_no) as sale;
+		group by S1.SALE_NO) as sale;
 	</select>
 
 	
@@ -714,7 +715,7 @@ SELECT 'INTE_LOT' AS GUBUN
 	<select id="selectLiveBidReqCnt" resultType="int">
 	   select COUNT(*) from (
 	   select S1.sale_no,  S1.TITLE_BLOB, S1.FROM_DT, S1.TO_DT, S1.CURR_CD, S1.SALE_TH_DSP_YN, S1.SALE_TH from AUTO_BID_REQ AB1
-					join sale s1 on AB1.SALE_NO = s1.SALE_NO 
+					join SALE s1 on AB1.SALE_NO = s1.SALE_NO
 					and s1.DEL_YN ='N'
 					and AB1.CUST_NO = #{action_user_no}
 					join CODE CD on CD.GRP_ID='bid_kind' and AB1.BID_KIND_CD = CD.CD_ID
@@ -725,14 +726,15 @@ SELECT 'INTE_LOT' AS GUBUN
 	
 	<select id="selectLiveBidReqList" resultType="Map">
   SELECT *
-		    , (SELECT CASE WHEN MB.BID_PRICE = ABL.LAST_AUTOBID_PRICE AND MB.CUST_NO = ABL.CUST_NO THEN '낙찰'
+		    , (
+		        SELECT CASE WHEN MB.BID_PRICE = ABL.LAST_AUTOBID_PRICE AND MB.CUST_NO = ABL.CUST_NO THEN '낙찰'
 		    	ELSE
 		    		CASE WHEN ABL.BID_CNT &gt; 0 THEN '낮은응찰' ELSE '' END
 		    	END
 				FROM BID MB
 				WHERE ABL.SALE_NO = MB.SALE_NO AND ABL.LOT_NO = MB.LOT_NO
 			        ORDER BY BID_PRICE DESC, BID_DT, REG_DT LIMIT 1) SUCCESS_YN
-			 , (SELECT B.BID_PRICE  FROM BID B JOIN SUCCESS_BID SB2 ON B.BID_NO = SB2.BID_NO AND ABL.SALE_NO = SB2.SALE_NO AND ABL.LOT_NO = SB2.LOT_NO  ) SUCCESS_BID_PRICE
+			 , ( SELECT B.BID_PRICE  FROM BID B JOIN SUCCESS_BID SB2 ON B.BID_NO = SB2.BID_NO AND ABL.SALE_NO = SB2.SALE_NO AND ABL.LOT_NO = SB2.LOT_NO  ) SUCCESS_BID_PRICE
 		FROM (
 			SELECT AB.SALE_NO, AB.LOT_NO, AB.REQ_NO
 				, L.EXPE_PRICE_INQ_YN
@@ -782,8 +784,9 @@ SELECT 'INTE_LOT' AS GUBUN
 				JOIN LOT_IMG LI ON LI.SALE_NO = L.SALE_NO AND LI.LOT_NO = L.LOT_NO AND LI.IMG_NO = (SELECT A.IMG_NO FROM LOT_IMG A WHERE A.SALE_NO = L.SALE_NO AND A.LOT_NO = L.LOT_NO ORDER BY A.DISP_ORD LIMIT 1)
 				LEFT OUTER JOIN ARTIST A ON L.ARTIST_NO = A.ARTIST_NO
 				join CODE CD on CD.GRP_ID='bid_kind' and AB.BID_KIND_CD = CD.CD_ID and  AB.BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place') and AB.CUST_NO = #{action_user_no}
-				inner join (select MAX(REQ_NO) REQ_NO , SALE_NO , LOT_NO from auto_bid_req join CODE CD on CD.GRP_ID='bid_kind' and BID_KIND_CD = CD.CD_ID and  BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place') and CUST_NO = #{action_user_no} group by SALE_NO, LOT_NO ) TAB on TAB.REQ_NO =  AB.REQ_NO
-		) ABL order by ABL.REQ_DT DESC
+				inner join (select MAX(REQ_NO) REQ_NO , SALE_NO , LOT_NO from AUTO_BID_REQ join CODE CD on CD.GRP_ID='bid_kind' and BID_KIND_CD = CD.CD_ID and  BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place') and CUST_NO = #{action_user_no} group by SALE_NO, LOT_NO ) TAB on TAB.REQ_NO =  AB.REQ_NO
+			) ABL
+  				order by ABL.REQ_DT DESC
 	</select>
 	
 	<select id="selectLiveBidReqHistoryList" resultType="Map">

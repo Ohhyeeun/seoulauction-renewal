@@ -44,7 +44,7 @@
 		where
 			GRP_ID = #{grp_id}
 		order by
-			disp_ord
+			DISP_ORD
 	</select>
 
 

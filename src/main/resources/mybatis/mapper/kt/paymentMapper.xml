@@ -170,7 +170,7 @@
 
 	<select id="selectAcademyPayByPayNo" resultType="commonMap" parameterType="commonMap">
 		SELECT CUST_NO, PAY_NO, ACADEMY_NO
-		FROM academy_pay a
+		FROM ACADEMY_PAY a
 		WHERE pay_no = #{pay_no};
 	</select>
 
@@ -180,7 +180,7 @@
 			, FILE_PATH_EN, FILE_ORG_NAME_EN, REG_DT, REG_EMP_NO, MOD_DT, MOD_EMP_NO, DEL_YN, DISP_YN, VIEW_FILE_NAME, VIEW_FILE_ORG_NAME
 			, VIEW_FILE_NAME_EN, VIEW_FILE_ORG_NAME_EN, APPLICATION_FILE_NAME, APPLICATION_FILE_ORG_NAME, APPLICATION_FILE_PATH
 			, ACADEMY_PAY, ACADEMY_PAY1, ACADEMY_PAY2, ACADEMY_PAY3, CLOSE_YN
-		FROM academy a
+		FROM ACADEMY a
 		WHERE academy_no = #{academy_no};
 	</select>
 
