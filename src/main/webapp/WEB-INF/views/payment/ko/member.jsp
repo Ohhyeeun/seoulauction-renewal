@@ -1,22 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
-<html>
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>결제 | Seoul Auction</title>
-    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css" />
-</head>
 <body class="">
 
     <div class="wrapper footer-bottom">
         <div class="sub-wrap pageclass">
-            <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+            <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
             <!-- container -->
             <div id="container">
                 <div id="contents" class="contents">

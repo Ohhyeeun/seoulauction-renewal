@@ -5,21 +5,23 @@
 		<![CDATA[
 		select SALE_NO
 			 , SALE_KIND_CD
-		   --   , DATEDIFF(date(OPEN_DT), now()) as DDAY
 			 , IF(SALE_TH_DSP_YN = 'N', '', SALE_TH) SALE_TH
 			 , COLUMN_JSON(TITLE_BLOB) AS TITLE_BLOB
 			 , WWW_DISP_YN
 			 , FROM_DT
 			 , TO_DT
 			 , STAT_CD
-			--  , OPEN_DT
-		from SALE
+			 , (select min(SP.FROM_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_FROM_DT
+			 , (select max(SP.TO_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_TO_DT
+			 , now() as DB_NOW
+		from SALE S
 		where DEL_YN = 'N'
-		  and STAT_CD in ('upcoming')
-		  and WWW_DISP_YN = 'Y'
-		  and SALE_OUTSIDE_YN = 'N'
-		  and DATE_FORMAT(TO_DT,'%Y-%m-%d') >= current_date
-		-- order by OPEN_DT;
+		  	and WWW_DISP_YN = 'Y'
+			and S.STAT_CD = 'upcoming'
+			and now() < case when S.SALE_KIND_CD in ('online','online_zb') then (select MAX(L.TO_DT) from LOT L where L.SALE_NO = S.SALE_NO GROUP BY L.SALE_NO)
+				when S.SALE_KIND_CD IN ('exhibit', 'exhibit_sa') then S.TO_DT
+				else (select (case when LC.CLOSE_YN = 'Y' THEN LC.TO_DT ELSE DATE_ADD(NOW(), INTERVAL 1 HOUR)  END) from LOT LC where LC.SALE_NO = S.SALE_NO AND LC.LOT_NO = (SELECT MAX(LC1.LOT_NO) FROM LOT LC1 WHERE LC1.SALE_NO = S.SALE_NO AND LC1.STAT_CD <> 'reentry')) end
+		ORDER BY S.SALE_NO
 		]]>
 	</select>
 

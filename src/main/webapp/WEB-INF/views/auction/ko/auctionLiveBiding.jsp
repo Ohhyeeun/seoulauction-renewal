@@ -4,24 +4,14 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<!DOCTYPE html>
-<html lang="ko">
-
-<head>
-    <!-- header -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>작품응찰신청 | Seoul Auction</title>
-    <!-- //header -->
-</head>
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
 <body class="">
     <div class="wrapper">
         <div class="sub-wrap pageclass">
 
             <!-- header -->
-            <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+            <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
             <!-- //header -->
 
             <!-- container -->
@@ -203,7 +193,7 @@
                                                                     <input id="checkbox_all1" class="js_item" type="checkbox" name="">
                                                                     <i></i>
                                                                     <label for="checkbox_all1">본인은 서울옥션 경매 약관을 모두 알고 이해하였으며, 그 적용에 동의합니다. </label>
-                                                                    <a href="#" class="link_target">약관 바로보기</a>
+                                                                    <a href="/footer/terms/#terms_view-offline_term" class="link_target">약관 바로보기</a>
                                                                 </div>
                                                             </li>
                                                             <li class="trp_acitem">
@@ -217,14 +207,14 @@
                                                                 <div class="trp checkbox-box">
                                                                     <input id="checkbox_all3" class="js_item" type="checkbox" name="">
                                                                     <i></i>
-                                                                    <label for="checkbox_all3">낙찰자는 후 7일 이내(낙찰가 3억원 이상인 경우 21일 이내)에 구매수수료를 포함한 금액을 입금하여야 합니다.</label>
+                                                                    <label for="checkbox_all3">낙찰자는 후 7일 이내(낙찰가 3억원 이상인 경우 21일 이내)에 구매수수료를 포함한 금액을 입금하여야 합니다. 구매수수료는 낙찰금액의 18%(부가세 별도)입니다.</label>
                                                                 </div>
                                                             </li>
                                                             <li class="trp_acitem">
                                                                 <div class="trp checkbox-box">
                                                                     <input id="checkbox_all4" class="js_item" type="checkbox" name="">
                                                                     <i></i>
-                                                                    <label for="checkbox_all4">낙찰자가 ①지정된 기일에 낙찰대금을 납부하지 않거나, ②부득이 낙찰을 철회하는 경우, 낙찰가의 30%에 해당하는 금액을 낙찰철회비(위약금)로 납부하여야 합니다.</label>
+                                                                    <label for="checkbox_all4">낙찰철회시 낙찰가의 30%에 해당하는 낙찰철회비가 부과됩니다.</label>
                                                                 </div>
                                                             </li>
                                                         </ul>

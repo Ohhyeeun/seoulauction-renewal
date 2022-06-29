@@ -1,25 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <!-- header -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>경매결과 | Seoul Auction</title>
-    <!-- //header -->
-</head>
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
 <body class="">
 <div class="wrapper">
     <div class="sub-wrap pageclass">
         <!-- header -->
-        <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+        <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <!-- //header -->
 
         <!-- container -->
-        <div id="container" ng-controller="auctionCtl" data-ng-init="init()">
+        <div id="container" ng-controller="auctionCtl" data-ng-init="init()" ng-cloak>
             <div id="contents" class="contents">
 
                 <!-- page title -->
