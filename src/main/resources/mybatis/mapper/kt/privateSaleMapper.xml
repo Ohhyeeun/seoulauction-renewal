@@ -3,62 +3,62 @@
 <mapper namespace="com.seoulauction.renewal.mapper.kt.PrivateSaleMapper">
 
     <select id="selectExhibitSale"  parameterType="CommonMap" resultType="CommonMap">
-        select a.SALE_NO,
-               COLUMN_JSON(a.TITLE_BLOB)           SALE_TITLE_JSON,
-               b.LOT_NO,
-               COLUMN_JSON(b.TITLE_BLOB)           TITLE_JSON,
-               COLUMN_JSON(b.MAKE_YEAR_BLOB)       MAKE_YEAR_JSON,
-               d.ARTIST_NO,
-               d.BORN_YEAR,
-               COLUMN_JSON(d.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON,
-               c.FILE_PATH as LOT_IMG_PATH,
-               c.FILE_NAME as LOT_IMG_NAME,
-               ifnull(e.UNIT_CD, 'cm')             UNIT_CD,
-               ifnull(e.SIZE1, '0')                SIZE1,
-               ifnull(e.SIZE2, '0')                SIZE2,
-               ifnull(e.SIZE3, '0')                SIZE3,
-               ifnull(e.CANVAS, '0')               CANVAS,
-               ifnull(e.DIAMETER_YN, 'N')          DIAMETER_YN,
-               ifnull(e.PREFIX, '')                PREFIX,
-               ifnull(e.SUFFIX, '')                SUFFIX,
-               ifnull(e.MIX_CD, 'h')               MIX_CD,
-               ifnull(e.CANVAS_EXT_YN, 'N')        CANVAS_EXT_YN,
-               f.CD_NM,
-               COLUMN_JSON(b.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON,
-               COLUMN_JSON(b.EXPE_PRICE_TO_BLOB)   EXPE_PRICE_TO_JSON,
-               b.LOT_TAG,
-               date_format(a.FROM_DT,'%m.%d(%a)') FROM_DT,
-               date_format(a.TO_DT, '%m.%d(%a)') TO_DT,
-               f.CD_NM as MATE_NM,
+        select A.SALE_NO,
+               COLUMN_JSON(A.TITLE_BLOB)           SALE_TITLE_JSON,
+               B.LOT_NO,
+               COLUMN_JSON(B.TITLE_BLOB)           TITLE_JSON,
+               COLUMN_JSON(B.MAKE_YEAR_BLOB)       MAKE_YEAR_JSON,
+               D.ARTIST_NO,
+               D.BORN_YEAR,
+               COLUMN_JSON(D.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON,
+               C.FILE_PATH as LOT_IMG_PATH,
+               C.FILE_NAME as LOT_IMG_NAME,
+               ifnull(E.UNIT_CD, 'cm')             UNIT_CD,
+               ifnull(E.SIZE1, '0')                SIZE1,
+               ifnull(E.SIZE2, '0')                SIZE2,
+               ifnull(E.SIZE3, '0')                SIZE3,
+               ifnull(E.CANVAS, '0')               CANVAS,
+               ifnull(E.DIAMETER_YN, 'N')          DIAMETER_YN,
+               ifnull(E.PREFIX, '')                PREFIX,
+               ifnull(E.SUFFIX, '')                SUFFIX,
+               ifnull(E.MIX_CD, 'h')               MIX_CD,
+               ifnull(E.CANVAS_EXT_YN, 'N')        CANVAS_EXT_YN,
+               F.CD_NM,
+               COLUMN_JSON(B.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON,
+               COLUMN_JSON(B.EXPE_PRICE_TO_BLOB)   EXPE_PRICE_TO_JSON,
+               B.LOT_TAG,
+               date_format(A.FROM_DT,'%m.%d(%a)') FROM_DT,
+               date_format(A.TO_DT, '%m.%d(%a)') TO_DT,
+               F.CD_NM as MATE_NM,
                CONCAT('['
                    , GROUP_CONCAT('{',
-                                  '"UNIT_CD":"', ifnull(e.UNIT_CD, 'cm') ,'",',
-                                  '"SIZE1":', ifnull(e.SIZE1,0) ,',',
-                                  '"SIZE2":', ifnull(e.SIZE2,0) ,',',
-                                  '"SIZE3":', ifnull(e.SIZE3,0) ,',',
-                                  '"CANVAS":', ifnull(e.CANVAS,0) ,',',
-                                  '"DIAMETER_YN":"', ifnull(e.DIAMETER_YN,'N') ,'",',
-                                  '"PREFIX":"', ifnull(e.PREFIX,'') ,'",',
-                                  '"SUFFIX":"', ifnull(e.SUFFIX,'') ,'",',
-                                  '"MIX_CD":"', ifnull(e.MIX_CD,'h') ,'",',
-                                  '"CANVAS_EXT_YN":"', ifnull(e.CANVAS_EXT_YN,'N') , '"',
+                                  '"UNIT_CD":"', ifnull(E.UNIT_CD, 'cm') ,'",',
+                                  '"SIZE1":', ifnull(E.SIZE1,0) ,',',
+                                  '"SIZE2":', ifnull(E.SIZE2,0) ,',',
+                                  '"SIZE3":', ifnull(E.SIZE3,0) ,',',
+                                  '"CANVAS":', ifnull(E.CANVAS,0) ,',',
+                                  '"DIAMETER_YN":"', ifnull(E.DIAMETER_YN,'N') ,'",',
+                                  '"PREFIX":"', ifnull(E.PREFIX,'') ,'",',
+                                  '"SUFFIX":"', ifnull(E.SUFFIX,'') ,'",',
+                                  '"MIX_CD":"', ifnull(E.MIX_CD,'h') ,'",',
+                                  '"CANVAS_EXT_YN":"', ifnull(E.CANVAS_EXT_YN,'N') , '"',
                                   '}')
                    ,']') AS LOT_SIZE_JSON
-        from SALE a
-                 inner join LOT b on a.SALE_NO = b.SALE_NO
-                 inner join LOT_IMG c on b.SALE_NO = c.SALE_NO and b.LOT_NO = c.LOT_NO and c.DISP_ORD = 1
-                 inner join ARTIST d on b.ARTIST_NO = d.ARTIST_NO
-                 left outer join LOT_SIZE e on b.SALE_NO = e.SALE_NO and b.LOT_NO = e.LOT_NO
-                 left outer join CODE f on f.grp_id = 'material' and f.CD_ID = b.MATE_CD
+        FROM SALE A
+                 INNER JOIN LOT B ON A.SALE_NO = B.SALE_NO
+                 INNER JOIN LOT_IMG C ON B.SALE_NO = C.SALE_NO AND B.LOT_NO = C.LOT_NO AND C.DISP_ORD = 1
+                 INNER JOIN ARTIST D ON B.ARTIST_NO = D.ARTIST_NO
+                 LEFT OUTER JOIN LOT_SIZE E ON B.SALE_NO = E.SALE_NO AND B.LOT_NO = E.LOT_NO
+                 left outer join CODE F on F.GRP_ID = 'material' and F.CD_ID = b.MATE_CD
         where
-            a.WWW_DISP_YN = 'Y'
-          and a.CLOSE_YN = 'N'
-          and b.CLOSE_YN = 'N'
-          and a.stat_cd = 'open'
-          and a.SALE_KIND_CD in ('exhibit', 'exhibit_sa')
-          and a.FROM_DT &lt;= now() and a.TO_DT &gt;=now()
-        group by a.SALE_NO, b.LOT_NO
-        order by a.TO_DT desc
+              A.WWW_DISP_YN = 'Y'
+          and A.CLOSE_YN = 'N'
+          and B.CLOSE_YN = 'N'
+          and A.stat_cd = 'open'
+          and A.SALE_KIND_CD in ('exhibit', 'exhibit_sa')
+          and A.FROM_DT &lt;= now() and A.TO_DT &gt;=now()
+        group by A.SALE_NO, B.LOT_NO
+        order by A.TO_DT desc
             limit #{offset}, #{size}
     </select>
 

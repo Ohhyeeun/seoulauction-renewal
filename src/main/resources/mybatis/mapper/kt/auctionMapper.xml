@@ -32,7 +32,7 @@
 						, LI.FILE_PATH , LI.FILE_NAME
 		from LOT L
 				 join SALE S on L.SALE_NO = S.SALE_NO
-				 left outer join code CD on CD_ID = L.MATE_CD
+				 left outer join CODE CD on CD_ID = L.MATE_CD
 				 left outer join Artist A on L.ARTIST_NO = A.ARTIST_NO
 				 left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
 				 left outer join LOT_IMG LI on L.SALE_NO = LI.SALE_NO and L.LOT_NO = LI.LOT_NO
