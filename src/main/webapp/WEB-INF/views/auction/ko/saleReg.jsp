@@ -381,9 +381,10 @@
                 method: "POST", body: JSON.stringify({
                     sale_type: salet,
                     sale_no: $scope.saleNo,
-                    lot_orders: lot_orders,
+                    qoutes: q,
                 }),
             });
+            alert("경매등록이 완료되었습니다.");
         }
 
         // 호출 부
