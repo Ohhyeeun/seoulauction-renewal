@@ -12,7 +12,7 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	    <title>Seoul Auction</title>
 	</head>
-	<body ng-controller="joinFormCtl" data-ng-init="init()">
+	<body ng-controller="joinFormCtl" data-ng-init="init()" ng-cloak>
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
 			<jsp:include page="../../include/en/header.jsp" flush="false" />

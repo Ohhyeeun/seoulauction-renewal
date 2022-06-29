@@ -24,7 +24,7 @@
 		<div class="sub-wrap pageclass">
 			<jsp:include page="../../include/ko/header.jsp" flush="false" />
 			
-			    <div id="container" ng-controller="loginCtl" data-ng-init="init();">
+			    <div id="container" ng-controller="loginCtl" data-ng-init="init();" ng-cloak>
 			    	<form name="loginForm" id="loginForm" action="/processLogin" method="post">
 			    	<div id="contents" class="contents">
 			            <section class="basis-section">
