@@ -5,7 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<html lang="ko" ng-app="myApp">
+<html lang="ko">
 
 <head>
     <!-- header -->
@@ -16,7 +16,7 @@
     <!-- //header -->
 </head>
 
-<body class="" ng-controller="ctl" data-ng-init="load();">
+<body class="" ng-controller="ctl" data-ng-init="load();" style="opacity: 0" opacity=1>
 <div class="wrapper">
     <div class="sub-wrap pageclass type-details_view">
         <!-- header -->
@@ -379,6 +379,18 @@
     app.value('is_login', true);
 
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
+
+    app.directive('opacity', opacity);
+    function opacity($timeout) {
+        return {
+            link: function (scope, element, attrs) {
+                var value = attrs.opacity;
+                $timeout(function () {
+                    element[0].style.opacity = value;
+                },500);
+            }
+        }
+    }
 
     app.controller('ctl', function ($scope, consts, common, is_login, locale) {
 
