@@ -161,7 +161,7 @@
 					WHEN '7' THEN '토'
 					END AS payWeekDate
 				,DATE_FORMAT(P.PAY_DT, '%T') as payTime
-				,(select count(*) from BID where CUST_NO= #{action_user_no} and SALE_NO=S.SALE_NO and LOT_NO=L.LOT_NO) as bid_count
+				,(select count(*) from BID where CUST_NO= #{action_user_no} and SALE_NO = S.SALE_NO and LOT_NO = L.LOT_NO) as bid_count
 				, IF(P.PG_TRANS_ID is not null and P.PG_CD='nice', 'Y', 'N' ) receipt
 				, C.CD_NM 
 				, C.CD_NM_EN 
@@ -304,8 +304,8 @@
 					JOIN BID B1 ON
 							B1.BID_NO = SB3.BID_NO
 					WHERE
-							(REAL_CUST_NO = #{ACTION_USER_NO}
-							OR (B1.CUST_NO = #{ACTION_USER_NO}
+							(REAL_CUST_NO = #{action_user_no}
+							OR (B1.CUST_NO = #{action_user_no}
 								AND REAL_CUST_NO IS NULL))
 						AND L.TO_DT &lt;= NOW()
 					GROUP BY
@@ -334,8 +334,8 @@
 			JOIN BID B1 ON
 				B1.BID_NO = SB3.BID_NO
 			WHERE
-				(REAL_CUST_NO =  #{ACTION_USER_NO}
-				OR (B1.CUST_NO =  #{ACTION_USER_NO}
+				(REAL_CUST_NO =  #{action_user_no}
+				OR (B1.CUST_NO =  #{action_user_no}
 					AND REAL_CUST_NO IS NULL))
 				AND L.TO_DT &lt;= NOW()
 			GROUP BY
@@ -364,8 +364,8 @@
 			JOIN BID B1 ON
 				B1.BID_NO = SB3.BID_NO
 			WHERE
-				(REAL_CUST_NO =  #{ACTION_USER_NO}
-				OR (B1.CUST_NO =  #{ACTION_USER_NO}
+				(REAL_CUST_NO =  #{action_user_no}
+				OR (B1.CUST_NO =  #{action_user_no}
 					AND REAL_CUST_NO IS NULL))
 				AND L.TO_DT &lt;= NOW()
 			GROUP BY
@@ -714,9 +714,9 @@ SELECT 'INTE_LOT' AS GUBUN
 	<!-- live auto bid -->
 	<select id="selectLiveBidReqCnt" resultType="int">
 	   select COUNT(*) from (
-	   select S1.sale_no,  S1.TITLE_BLOB, S1.FROM_DT, S1.TO_DT, S1.CURR_CD, S1.SALE_TH_DSP_YN, S1.SALE_TH from AUTO_BID_REQ AB1
-					join SALE s1 on AB1.SALE_NO = s1.SALE_NO
-					and s1.DEL_YN ='N'
+	   select S1.SALE_NO,  S1.TITLE_BLOB, S1.FROM_DT, S1.TO_DT, S1.CURR_CD, S1.SALE_TH_DSP_YN, S1.SALE_TH from AUTO_BID_REQ AB1
+					join SALE S1 on AB1.SALE_NO = S1.SALE_NO
+					and S1.DEL_YN ='N'
 					and AB1.CUST_NO = #{action_user_no}
 					join CODE CD on CD.GRP_ID='bid_kind' and AB1.BID_KIND_CD = CD.CD_ID
 					where AB1.BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place')
@@ -885,7 +885,7 @@ SELECT 'INTE_LOT' AS GUBUN
 		WHERE BIO.BID_KIND_CD = 'online' AND BIO.PADDLE &gt; 600  AND BIO.CUST_NO = #{action_user_no}
 		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO &gt;= 622 AND S.STAT_CD = 'open'
 		group by BIO.SALE_NO, BIO.LOT_NO
-		order by BIO.SALE_NO desc , BIO.LOT_NO) MBIO on MBIO.sale_no = BIO.sale_no and MBIO.LOT_NO = BIO.LOT_NO and MBIO.BID_NO = BIO.BID_NO
+		order by BIO.SALE_NO desc , BIO.LOT_NO) MBIO on MBIO.SALE_NO = BIO.SALE_NO and MBIO.LOT_NO = BIO.LOT_NO and MBIO.BID_NO = BIO.BID_NO
 		LEFT OUTER JOIN LOT L ON BIO.LOT_NO = L.LOT_NO AND BIO.SALE_NO = L.SALE_NO
 		join LOT_IMG LI ON LI.SALE_NO = L.SALE_NO AND LI.LOT_NO = L.LOT_NO AND LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
 		left outer join ARTIST A ON L.ARTIST_NO = A.ARTIST_NO 
