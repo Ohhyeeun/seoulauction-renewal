@@ -426,6 +426,21 @@ function checkLogin(){
 
 }
 
+// 세션로그아웃
+function logout(loginId) {
+	console.log(loginId)
+	location.href = "/processLogout";
+}
+
+// locale변경
+function changeLang(url, param, locale) {
+	param = param.replace("lang=ko", "").replace("lang=en","").replaceAll("&", "");
+	param = param == '' ? '' : "&" + param
+	url += "?lang=" + locale + param;
+	location.href = url;
+}
+
+
 /* top search filter 기능 */
 function searchFilter() {
     if(window.Event.keyCode == 13){
