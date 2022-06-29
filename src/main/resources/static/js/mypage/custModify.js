@@ -9,7 +9,9 @@ $(window).on("load", function() {
 	if(socialYn == 'Y'){
        document.getElementById('snsImg').src = '/images/common/icon-sns_' + snsFullName() + '.png';
 	}
-	
+});
+
+function getCustDetails(){
 	axios.get('/api/mypage/custs/' + userNo)
 		.then(function(response) {
 			const result = response.data;
@@ -133,11 +135,8 @@ $(window).on("load", function() {
 		.catch(function(error) {
 			console.log(error);
 		});
-});
-
+}
 $(document).ready(function() {
-	var data = {};
-	
 	let interestAreaData = {"grp_ids": ["interest_area"]};
 	axios.post('/api/mypage/interestAreas' , interestAreaData)
 	.then(function(response) {
@@ -186,6 +185,8 @@ $(document).ready(function() {
 				$("#nation_cd").append("<option value='" + ele.CD_ID + "|" + ele.CD_VAL3 + "'>" + ele.CD_NM + "</option>");
 //				$("#nation_cd").append("<option value='" + ele.CD_ID + "'>" + ele.CD_NM + "</option>");
 			})
+			
+			getCustDetails();
 	    })
 	    .catch(function(error){
 	        console.log(error);

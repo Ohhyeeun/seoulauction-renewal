@@ -322,7 +322,6 @@ function loadUpcomings() {
                     const titleJSON = JSON.parse(item.TITLE_BLOB);
                     const from_dt = moment(item.FROM_DT);
                     const to_dt = moment(item.TO_DT);
-                    const open_dt = moment(item.OPEN_DT);
                     const returnDom =  ` <div class="swiper-slide upcomingSlide " style="padding-right: 40px;">
                                             <a href="/auction/upcoming/${item.SALE_NO}">
                                                 <div class="upcoming-caption">
@@ -338,20 +337,20 @@ function loadUpcomings() {
                                                     <div class="upcoming-datebox">
                                                         ${ locale === 'en'?
                                                             `<p class="upcoming-open on"> <!-- today 일때만 오픈일 생성 --> 
-                                                                <span>OPEN</span><span\>${ open_dt.format('DD MMMM')}</span>
+                                                                <span>OPEN</span><span>${ from_dt.format('DD MMMM')}</span>
                                                             </p>
                                                             <p class="upcoming-preview">
-                                                                <span>PREVIEW</span><span>${ from_dt.format('DD MMMM') +" - " +  to_dt.format('DD MMMM')}</span>
+                                                                <span>PREVIEW</span><span>${ prev_from_dt.format('DD MMMM') +" - " +  prev_to_dt.format('DD MMMM')}</span>
                                                             </p>
                                                             <p class="upcoming-date">
                                                                 <span>AUCTION</span><span>${ to_dt.format('DD MMMM hh:mm')}</span>
                                                             </p>`
                                                             :
                                                             `<p class="upcoming-open"> 
-                                                                <span>오픈일</span><span>${ open_dt.format('MM/DD(ddd)')}</span>
+                                                                <span>오픈일</span><span>${ from_dt.format('MM/DD(ddd)')}</span>
                                                             </p>
                                                             <p class="upcoming-preview">
-                                                                <span>프리뷰</span><span>${ from_dt.format('MM/DD(ddd)') +" ~ " +  to_dt.format('MM/DD(ddd)')}</span>
+                                                                <span>프리뷰</span><span>${ prev_from_dt.format('MM/DD(ddd)') +" ~ " +  prev_to_dt.format('MM/DD(ddd)')}</span>
                                                             </p>
                                                             <p class="upcoming-date">
                                                                 <span>경매일</span><span>${ to_dt.format('MM/DD(ddd) hh:mm')}</span>

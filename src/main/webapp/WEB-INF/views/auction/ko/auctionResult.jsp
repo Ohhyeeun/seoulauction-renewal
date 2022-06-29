@@ -10,7 +10,7 @@
         <!-- //header -->
 
         <!-- container -->
-        <div id="container" ng-controller="auctionCtl" data-ng-init="init()">
+        <div id="container" ng-controller="auctionCtl" data-ng-init="init()" ng-cloak>
             <div id="contents" class="contents">
 
                 <!-- page title -->

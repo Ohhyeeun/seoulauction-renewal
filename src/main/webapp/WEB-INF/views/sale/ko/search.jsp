@@ -6,8 +6,8 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
-<body class="" ng-controller="ctl" data-ng-init="init();" ng-cloak>
-<div class="wrapper">
+<body class="">
+<div class="wrapper" ng-controller="ctl" data-ng-init="init();" ng-cloak>
     <div class="sub-wrap pageclass type-width_list">
         <!-- header -->
         <%--<link rel="stylesheet" href="/css/main.css" type="text/css" />--%>
@@ -252,6 +252,87 @@
         </div>
         <!-- // stykey -->
 
+        <aside class="filter_fixed-wrap">
+            <div class="popup-dim"></div>
+
+            <div class="fixed-panel" >
+                <div class="panel-header">
+                    <button class="filter_close js-filter_close">
+                        <i class="icon-pop_view_close"></i>
+                    </button>
+                    <div class="title-box">
+                        <div class="box-inner">
+                            <span>Filter</span>
+                            <button class="btn-filter_refresh" ng-click="initFilter();">
+                                <i class="icon-filter_refresh"></i><span>초기화</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body scroll-type">
+
+                    <article class="filter_potion-article">
+                        <ul class="js-toggle_accordion">
+                            <li class="">
+                                <div class="accordion-header">
+                                    <a href="#" class="header-box" data-active="">
+                                        <span>경매일</span>
+                                        <i class="icon-accordion_arrow_thin"></i>
+                                    </a>
+                                </div>
+                                <div class="accordion-body">
+                                    <ul class="check-list">
+                                        <li>
+                                        <span class="trp checkbox-box">
+                                            <input id="checkbox1" type="checkbox" name="lotCheckBox" value="end">
+                                            <i></i>
+                                            <label for="checkbox1">지난 경매</label>
+                                        </span>
+                                        </li>
+                                        <li>
+                                        <span class="trp checkbox-box">
+                                            <input id="checkbox2" type="checkbox" name="lotCheckBox" value="ing">
+                                            <i></i>
+                                            <label for="checkbox2">진행 경매</label>
+                                        </span>
+                                        </li>
+                                        <li>
+                                        <span class="trp checkbox-box">
+                                            <input id="checkbox3" type="checkbox" name="lotCheckBox" value="ready">
+                                            <i></i>
+                                            <label for="checkbox3">예정 경매</label>
+                                        </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="accordion-header">
+                                    <div class="header-box">
+                                        <span>재질</span>
+                                    </div>
+                                </div>
+                                <div class="accordion-body">
+                                    <ul class="check-list">
+                                        <li>
+                                            <input type="text" placeholder="작품재질 입력" ng-model="search.mate_nm" id="mateNm" ng-keypress="$event.keyCode === 13 && filterCheck();">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </article>
+
+                </div>
+                <div class="panel-footer" >
+                    <div class="btn_set">
+                        <div class="btn_item"><a class="btn btn_point btn_lg" href="#" role="button" ng-click="filterCheck();"><span>필터적용</span></a> </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
     </div>
 </div>
 
@@ -302,86 +383,86 @@
     });
 </script>
 
-<aside class="filter_fixed-wrap">
-    <div class="popup-dim"></div>
+<%--<aside class="filter_fixed-wrap">--%>
+<%--    <div class="popup-dim"></div>--%>
 
-    <div class="fixed-panel" >
-        <div class="panel-header">
-            <button class="filter_close js-filter_close">
-                <i class="icon-pop_view_close"></i>
-            </button>
-            <div class="title-box">
-                <div class="box-inner">
-                    <span>Filter</span>
-                    <button class="btn-filter_refresh" ng-click="initFilter();">
-                        <i class="icon-filter_refresh"></i><span>초기화</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="panel-body scroll-type">
+<%--    <div class="fixed-panel" >--%>
+<%--        <div class="panel-header">--%>
+<%--            <button class="filter_close js-filter_close">--%>
+<%--                <i class="icon-pop_view_close"></i>--%>
+<%--            </button>--%>
+<%--            <div class="title-box">--%>
+<%--                <div class="box-inner">--%>
+<%--                    <span>Filter</span>--%>
+<%--                    <button class="btn-filter_refresh" ng-click="initFilter();">--%>
+<%--                        <i class="icon-filter_refresh"></i><span>초기화</span>--%>
+<%--                    </button>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="panel-body scroll-type">--%>
 
-            <article class="filter_potion-article">
-                <ul class="js-toggle_accordion">
-                    <li class="">
-                        <div class="accordion-header">
-                            <a href="#" class="header-box" data-active="">
-                                <span>경매일</span>
-                                <i class="icon-accordion_arrow_thin"></i>
-                            </a>
-                        </div>
-                        <div class="accordion-body">
-                            <ul class="check-list">
-                                <li>
-                                        <span class="trp checkbox-box">
-                                            <input id="checkbox1" type="checkbox" name="lotCheckBox" value="end">
-                                            <i></i>
-                                            <label for="checkbox1">지난 경매</label>
-                                        </span>
-                                </li>
-                                <li>
-                                        <span class="trp checkbox-box">
-                                            <input id="checkbox2" type="checkbox" name="lotCheckBox" value="ing">
-                                            <i></i>
-                                            <label for="checkbox2">진행 경매</label>
-                                        </span>
-                                </li>
-                                <li>
-                                        <span class="trp checkbox-box">
-                                            <input id="checkbox3" type="checkbox" name="lotCheckBox" value="ready">
-                                            <i></i>
-                                            <label for="checkbox3">예정 경매</label>
-                                        </span>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="accordion-header">
-                            <div class="header-box">
-                                <span>재질</span>
-                            </div>
-                        </div>
-                        <div class="accordion-body">
-                            <ul class="check-list">
-                                <li>
-                                    <input type="text" placeholder="작품재질 입력" ng-model="search.mate_nm" id="mateNm" ng-keypress="$event.keyCode === 13 && filterCheck();">
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
+<%--            <article class="filter_potion-article">--%>
+<%--                <ul class="js-toggle_accordion">--%>
+<%--                    <li class="">--%>
+<%--                        <div class="accordion-header">--%>
+<%--                            <a href="#" class="header-box" data-active="">--%>
+<%--                                <span>경매일</span>--%>
+<%--                                <i class="icon-accordion_arrow_thin"></i>--%>
+<%--                            </a>--%>
+<%--                        </div>--%>
+<%--                        <div class="accordion-body">--%>
+<%--                            <ul class="check-list">--%>
+<%--                                <li>--%>
+<%--                                        <span class="trp checkbox-box">--%>
+<%--                                            <input id="checkbox1" type="checkbox" name="lotCheckBox" value="end">--%>
+<%--                                            <i></i>--%>
+<%--                                            <label for="checkbox1">지난 경매</label>--%>
+<%--                                        </span>--%>
+<%--                                </li>--%>
+<%--                                <li>--%>
+<%--                                        <span class="trp checkbox-box">--%>
+<%--                                            <input id="checkbox2" type="checkbox" name="lotCheckBox" value="ing">--%>
+<%--                                            <i></i>--%>
+<%--                                            <label for="checkbox2">진행 경매</label>--%>
+<%--                                        </span>--%>
+<%--                                </li>--%>
+<%--                                <li>--%>
+<%--                                        <span class="trp checkbox-box">--%>
+<%--                                            <input id="checkbox3" type="checkbox" name="lotCheckBox" value="ready">--%>
+<%--                                            <i></i>--%>
+<%--                                            <label for="checkbox3">예정 경매</label>--%>
+<%--                                        </span>--%>
+<%--                                </li>--%>
+<%--                            </ul>--%>
+<%--                        </div>--%>
+<%--                    </li>--%>
+<%--                    <li>--%>
+<%--                        <div class="accordion-header">--%>
+<%--                            <div class="header-box">--%>
+<%--                                <span>재질</span>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                        <div class="accordion-body">--%>
+<%--                            <ul class="check-list">--%>
+<%--                                <li>--%>
+<%--                                    <input type="text" placeholder="작품재질 입력" ng-model="search.mate_nm" id="mateNm" ng-keypress="$event.keyCode === 13 && filterCheck();">--%>
+<%--                                </li>--%>
+<%--                            </ul>--%>
+<%--                        </div>--%>
+<%--                    </li>--%>
+<%--                </ul>--%>
 
-            </article>
+<%--            </article>--%>
 
-        </div>
-        <div class="panel-footer" >
-            <div class="btn_set">
-                <div class="btn_item"><a class="btn btn_point btn_lg" href="#" role="button" ng-click="filterCheck();"><span>필터적용</span></a> </div>
-            </div>
-        </div>
-    </div>
-</aside>
+<%--        </div>--%>
+<%--        <div class="panel-footer" >--%>
+<%--            <div class="btn_set">--%>
+<%--                <div class="btn_item"><a class="btn btn_point btn_lg" href="#" role="button" ng-click="filterCheck();"><span>필터적용</span></a> </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </div>--%>
+<%--</aside>--%>
 <script>
     /* 팝업 열고,닫기 */
     $(".js-filter_btn").on("click", function() {
