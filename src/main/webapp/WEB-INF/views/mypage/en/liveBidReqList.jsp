@@ -14,7 +14,7 @@
 	</head>
 <link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
 <spring:eval expression="@environment.getProperty('image.root.path')" var="imageRootPath" />
-<body class="" ng-controller="liveBidReqListCtl" data-ng-init="loadLiveBidReqList(1);">
+<body class="" ng-controller="liveBidReqListCtl" data-ng-init="loadLiveBidReqList(1);" ng-cloak>
     <div class="wrapper" ng-app="myApp">
         <div class="sub-wrap pageclass">
 

@@ -20,7 +20,7 @@
 			<script type="text/javascript" src="/js/mypage/inquiry.js"></script>
 			<!-- container -->
 			<div id="container" class="inquiry" ng-controller="inquiryListCtl"
-				data-ng-init="loadInquiryList(1);" >
+				data-ng-init="loadInquiryList(1);" style="opacity: 0" opacity=1>
 				<div id="contents" class="contents">
 
 					<section class="basis-section last-section mypage-section">
