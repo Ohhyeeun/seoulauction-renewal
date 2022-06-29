@@ -105,7 +105,8 @@ public class PaymentService {
             resultMap.put("no_vat_price", request.getParameter("no_vat_price"));
             resultMap.put("vat_price", request.getParameter("vat_price"));
             resultMap.put("vat", request.getParameter("vat"));
-            resultMap.put("payer", request.getParameter("BuyerName"));
+            // resultMap.put("payer", request.getParameter("BuyerName")); 모바일일땐 payer 가 없음.
+            resultMap.put("payer", details.getUserNm());
         }
 
         //공통 페이먼트 테이블 필요한 부분 미리 넣기.
