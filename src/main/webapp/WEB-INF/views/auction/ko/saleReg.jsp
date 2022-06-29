@@ -378,12 +378,8 @@
             console.log(q);
 
             fetch(url + "/quote/set", {
-                method: "POST", body: JSON.stringify({
-                    sale_type: salet,
-                    sale_no: $scope.saleNo,
-                    qoutes: q,
-                }),
-            });
+                method: "POST", body: JSON.stringify(q)});
+
             alert("경매등록이 완료되었습니다.");
         }
 
