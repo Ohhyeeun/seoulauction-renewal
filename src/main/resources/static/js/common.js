@@ -422,8 +422,9 @@ function checkLogin(){
             '로그인을 진행해주세요.' : 'Please Login in.';
         alert(login_message);
         location.href= '/login';
+        return false;
     }
-
+    return true;
 }
 
 /* top search filter 기능 */
