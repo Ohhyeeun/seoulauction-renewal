@@ -5,7 +5,7 @@
 	<select id="selectActiveSales" parameterType="CommonMap" resultType="CommonMap" >
 		-- 메뉴 count (진행경매/예정경매/전시/아카데미)
 		select
-			S.sale_no,
+			S.SALE_NO,
 			COLUMN_JSON(S.TITLE_BLOB) SALE_TITLE_JSON
 		from
 		     SALE S
@@ -15,7 +15,7 @@
 		  and S.SALE_OUTSIDE_YN = 'N'
 		  and S.TO_DT <![CDATA[ >= ]]> DATE_SUB(NOW(), INTERVAL ${month} MONTH)
 		order by
-		    S.sale_no desc
+		    S.SALE_NO desc
 		limit
 			#{offset} , #{size}
 	</select>
@@ -44,7 +44,7 @@
 		where
 			GRP_ID = #{grp_id}
 		order by
-			disp_ord
+			DISP_ORD
 	</select>
 
 

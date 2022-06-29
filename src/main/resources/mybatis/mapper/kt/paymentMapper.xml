@@ -112,7 +112,7 @@
 				   , 0) * (RATE / 100) as INTEGER ) as FEE
 		   from    SALE_BASE_FEE
 		   where 	SALE_NO = #{sale_no} and FEE_KIND_CD = 'payment'
-	   ) FEE;
+	   ) FEE
 	</select>
 
 	<select id="get_lot_fee" parameterType="commonMap" resultType="commonMap">
@@ -123,12 +123,12 @@
 					, 0) * (RATE / 100) as INTEGER )) as FEE
 		   from    LOT_FEE, (SELECT IF(CAST(NOW() AS DATETIME) > MAX(TO_DT), 'end', 'ing') AS STAT_CD FROM LOT WHERE SALE_NO = #{sale_no}) LCHK
 		   where 	SALE_NO = #{sale_no} and LOT_NO = #{lot_no} and FEE_KIND_CD = 'payment'
-	   ) FEE;
+	   ) FEE
 	</select>
 
 	<select id="selectLotPayByPayNo" parameterType="commonMap" resultType="commonMap">
 		select * from LOT_PAY
-		where PAY_NO = #{pay_no};
+		where PAY_NO = #{pay_no}
 	</select>
 
 
@@ -136,11 +136,11 @@
 	<!--아카데미 결제 테이블-->
 	<insert id="insertAcademyPay" parameterType="commonMap">
 		INSERT INTO ACADEMY_PAY (ACADEMY_NO, CUST_NO, PAY_NO)
-		VALUES (#{academy_no}, #{cust_no}, #{pay_no});
+		VALUES (#{academy_no}, #{cust_no}, #{pay_no})
 	</insert>
 	<insert id="insertAcademyReq" parameterType="commonMap">
 		INSERT INTO ACADEMY_REQ (ACADEMY_NO, CUST_NO, REG_EMP_NO, PAYER, REG_DT)
-		VALUES (#{academy_no}, #{cust_no}, #{reg_emp_no}, #{payer}, now());
+		VALUES (#{academy_no}, #{cust_no}, #{reg_emp_no}, #{payer}, now())
 	</insert>
 	<!---->
 
@@ -154,38 +154,38 @@
 	</insert>
 
 	<select id="selectPayWaitByUuid" resultType="commonMap" parameterType="commonMap">
-		SELECT pay_wait_no, cust_no, kind_cd, ref_no, ref_no2, pay_method_cd, pg_cd, pg_trans_id, payer, pay_price, stat_cd, reg_dt
-            , no_vat_price, vat_price, vat, uuid, vbank_cd, vbank_nm, vbank_num, vbank_exp_dt, rcpt_type
+		SELECT PAY_WAIT_NO, CUST_NO, KIND_CD, REF_NO, REF_NO2, PAY_METHOD_CD, PG_CD, PG_TRANS_ID, PAYER, PAY_PRICE, STAT_CD, REG_DT
+            , NO_VAT_PRICE, VAT_PRICE, VAT, UUID, VBANK_CD, VBANK_NM, VBANK_NUM, VBANK_EXP_DT, RCPT_TYPE
 		FROM PAY_WAIT
 		WHERE uuid = #{uuid};
 	</select>
 
 	<select id="selectPayWaitByPayNoAndCustNo" resultType="commonMap" parameterType="commonMap">
-		SELECT pay_wait_no, cust_no, kind_cd, ref_no, ref_no2, pay_method_cd, pg_cd, pg_trans_id, payer, pay_price, stat_cd, reg_dt
-			 , no_vat_price, vat_price, vat, uuid, vbank_cd, vbank_nm, vbank_num, vbank_exp_dt, rcpt_type
+		SELECT PAY_WAIT_NO, CUST_NO, KIND_CD, REF_NO, REF_NO2, PAY_METHOD_CD, PG_CD, PG_TRANS_ID, PAYER, PAY_PRICE, STAT_CD, REG_DT
+			 , NO_VAT_PRICE, VAT_PRICE, VAT, UUID, VBANK_CD, VBANK_NM, VBANK_NUM, VBANK_EXP_DT, RCPT_TYPE
 		FROM PAY_WAIT
 		WHERE pay_wait_no = #{pay_no}
 		  AND cust_no = #{cust_no};
 	</select>
 
 	<select id="selectAcademyPayByPayNo" resultType="commonMap" parameterType="commonMap">
-		SELECT cust_no, pay_no, academy_no
-		FROM academy_pay a
+		SELECT CUST_NO, PAY_NO, ACADEMY_NO
+		FROM ACADEMY_PAY a
 		WHERE pay_no = #{pay_no};
 	</select>
 
 	<select id="selectAcademyByAcademyNo" resultType="commonMap" parameterType="commonMap">
-		SELECT academy_no, academy_cd, column_json(title_blob) title_json, column_json(contents_blob) contents_json, from_dt, to_dt, academy_time, academy_time_en, img_path, img_view_path
-			, file_name, file_path, file_org_name, img_path_en, img_view_path_en, file_name_en
-			, file_path_en, file_org_name_en, reg_dt, reg_emp_no, mod_dt, mod_emp_no, del_yn, disp_yn, view_file_name, view_file_org_name
-			, view_file_name_en, view_file_org_name_en, application_file_name, application_file_org_name, application_file_path
-			, academy_pay, academy_pay1, academy_pay2, academy_pay3, close_yn
-		FROM academy a
+		SELECT ACADEMY_NO, ACADEMY_CD, column_json(TITLE_BLOB) title_json, column_json(CONTENTS_BLOB) contents_json, FROM_DT, TO_DT, ACADEMY_TIME, ACADEMY_TIME_EN, IMG_PATH, IMG_VIEW_PATH
+			, FILE_NAME, FILE_PATH, FILE_ORG_NAME, IMG_PATH_EN, IMG_VIEW_PATH_EN, FILE_NAME_EN
+			, FILE_PATH_EN, FILE_ORG_NAME_EN, REG_DT, REG_EMP_NO, MOD_DT, MOD_EMP_NO, DEL_YN, DISP_YN, VIEW_FILE_NAME, VIEW_FILE_ORG_NAME
+			, VIEW_FILE_NAME_EN, VIEW_FILE_ORG_NAME_EN, APPLICATION_FILE_NAME, APPLICATION_FILE_ORG_NAME, APPLICATION_FILE_PATH
+			, ACADEMY_PAY, ACADEMY_PAY1, ACADEMY_PAY2, ACADEMY_PAY3, CLOSE_YN
+		FROM ACADEMY a
 		WHERE academy_no = #{academy_no};
 	</select>
 
 	<select id="selectCustByCustNo" parameterType="CommonMap" resultType="CommonMap">
-		select cust_no, login_id, cust_name, hp, email, addr, addr_dtl
+		select CUST_NO, LOGIN_ID, CUST_NAME, HP, EMAIL, ADDR, ADDR_DTL
 		from CUST
 		where cust_no = #{cust_no};
 	</select>

@@ -8,6 +8,7 @@ import com.seoulauction.renewal.domain.Bid;
 import com.seoulauction.renewal.domain.Bidder;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.service.S3Service;
 import com.seoulauction.renewal.service.SaleService;
 import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,8 @@ import java.util.*;
 public class ApiSaleController {
 
     private final SaleService saleService;
+
+    private final S3Service s3Service;
 
     @Value("${image.root.path}")
     private String IMAGE_URL;
@@ -500,6 +503,9 @@ public class ApiSaleController {
         map.put("artist_no", artistNo);
 
         CommonMap artistInfoMap = saleService.selectArtistInfo(map);
+        if(artistInfoMap != null) {
+            artistInfoMap.put("images", s3Service.getS3FileDataAll("artist",  artistInfoMap.get("id")));
+        }
         return ResponseEntity.ok(RestResponse.ok(artistInfoMap));
     }
 }

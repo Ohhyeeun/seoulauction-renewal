@@ -32,7 +32,7 @@
 						, LI.FILE_PATH , LI.FILE_NAME
 		from LOT L
 				 join SALE S on L.SALE_NO = S.SALE_NO
-				 left outer join code CD on CD_ID = L.MATE_CD
+				 left outer join CODE CD on CD_ID = L.MATE_CD
 				 left outer join Artist A on L.ARTIST_NO = A.ARTIST_NO
 				 left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
 				 left outer join LOT_IMG LI on L.SALE_NO = LI.SALE_NO and L.LOT_NO = LI.LOT_NO
@@ -81,8 +81,8 @@
 			 , S.LIVE_BID_DT
 			 , S.SALE_OUTSIDE_YN
 			 , if(S.SALE_KIND_CD in ('plan', 'main', 'hongkong') and S.TO_DT &lt; current_timestamp - interval 5 year, 'Y', 'N') as IS_OLD_SALE
-			 , (select min(sp.FROM_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_FROM_DT
-			 , (select max(sp.TO_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_TO_DT
+			 , (select min(SP.FROM_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_FROM_DT
+			 , (select max(SP.TO_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_TO_DT
 			 , now() as DB_NOW
 		from SALE S
 			left outer join SALE_IMG SI on SI.SALE_NO = S.SALE_NO

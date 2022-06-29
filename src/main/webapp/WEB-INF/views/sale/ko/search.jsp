@@ -5,20 +5,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" ng-app="myApp">
 <head>
-    <!-- header -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>search | Seoul Auction</title>
-    <!-- //header -->
 </head>
 
-<body class="" ng-controller="lotListCtl" data-ng-init="init();">
+<body class="" ng-controller="ctl" data-ng-init="init();" ng-cloak>
 <div class="wrapper">
     <div class="sub-wrap pageclass type-width_list">
-
         <!-- header -->
         <%--<link rel="stylesheet" href="/css/main.css" type="text/css" />--%>
         <jsp:include page="../../include/ko/header.jsp" flush="false"/>
@@ -32,7 +25,6 @@
             app.value('locale', 'ko');
             app.value('is_login', 'false');
         </script>
-
         <!-- container -->
         <div id="container">
             <div id="contents" class="contents">
@@ -177,7 +169,7 @@
                                                             </dl>
                                                             <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && item.END_YN != 'Y'">
                                                                 <dt>현재가</dt>
-                                                                <dd><strong>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE }} </strong><em>(응찰 {{item.BID_CNT }})</em></dd>
+                                                                <dd><strong>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE : 0 }} </strong><em>(응찰 {{item.BID_CNT }})</em></dd>
                                                             </dl>
                                                             <dl class="price-list" ng-if="!custInfo.CUST_NO && item.END_YN != 'Y'">
                                                                 <dt>현재가</dt>
@@ -446,7 +438,7 @@
     })
 
 
-    app.controller('lotListCtl', function($scope, consts, common, is_login, locale, $filter) {
+    app.controller('ctl', function($scope, consts, common, is_login, locale, $filter) {
         // 현재가 처리
         $scope.is_login = is_login;
         $scope.locale = locale;
@@ -716,6 +708,10 @@
             const request = new Request();
             $scope.search.keyword = request.getParameter("searchContent");
             $scope.search.chk = "all";//검색 조건 (all 통합검색, art 작가명, title 작품명)
+
+            //검색결과 및 더보기 초기 로딩시 안보이게 숨김
+            $("#more_search").hide();
+            $("#search_empty").hide();
 
             addCookie($scope.search.keyword, "keywordHistory");
             $('input:checkbox[name="lotCheckBox"]').attr("checked", true);

@@ -5,21 +5,21 @@
 		<![CDATA[
 		select SALE_NO
 			 , SALE_KIND_CD
-		     , DATEDIFF(date(OPEN_DT), now()) as DDAY
+		   --   , DATEDIFF(date(OPEN_DT), now()) as DDAY
 			 , IF(SALE_TH_DSP_YN = 'N', '', SALE_TH) SALE_TH
 			 , COLUMN_JSON(TITLE_BLOB) AS TITLE_BLOB
 			 , WWW_DISP_YN
 			 , FROM_DT
 			 , TO_DT
 			 , STAT_CD
-			 , OPEN_DT
+			--  , OPEN_DT
 		from SALE
 		where DEL_YN = 'N'
 		  and STAT_CD in ('upcoming')
 		  and WWW_DISP_YN = 'Y'
 		  and SALE_OUTSIDE_YN = 'N'
 		  and DATE_FORMAT(TO_DT,'%Y-%m-%d') >= current_date
-		order by OPEN_DT;
+		-- order by OPEN_DT;
 		]]>
 	</select>
 
@@ -42,7 +42,7 @@
 					  when S.SALE_KIND_CD in ('online','online_zb')
 						  then (select MAX(L.TO_DT) > now() from LOT L where L.STAT_CD = 'entry' and L.SALE_NO = S.SALE_NO)
 					  when S.SALE_KIND_CD in ('main','hongkong','plan')
-						  then (select IF(count(*) > 1, true, false) from LOT L where l.CLOSE_YN = 'N' and L.STAT_CD = 'entry' and L.SALE_NO = S.SALE_NO and s.SALE_OUTSIDE_YN = 'N')
+						  then (select IF(count(*) > 1, true, false) from LOT L where L.CLOSE_YN = 'N' and L.STAT_CD = 'entry' and L.SALE_NO = S.SALE_NO and S.SALE_OUTSIDE_YN = 'N')
 				  end
 				  )
 			  order by S.TO_DT desc
@@ -60,7 +60,7 @@
 						when S.SALE_KIND_CD in ('online','online_zb')
 							then (select MAX(L.TO_DT) >= now() from LOT L where L.STAT_CD = 'entry' and L.SALE_NO = S.SALE_NO)
 						when S.SALE_KIND_CD in ('main','hongkong','plan')
-							then (select IF(count(*) > 1, true, false) from LOT L where l.CLOSE_YN = 'N' and L.STAT_CD = 'entry' and L.SALE_NO = S.SALE_NO)
+							then (select IF(count(*) > 1, true, false) from LOT L where L.CLOSE_YN = 'N' and L.STAT_CD = 'entry' and L.SALE_NO = S.SALE_NO)
 						end
 				) as AuctionCount
 			 , COUNT(case when S.STAT_CD = 'upcoming' then 1 end) as UpcomingCount
@@ -75,7 +75,7 @@
 	</select>
 
 	<select id="selectSaleImage" parameterType="CommonMap" resultType="CommonMap">
-		select * from sale_img
+		select * from SALE_IMG
 		where SALE_NO = #{sale_no}
 		and DISP_ORD = 2
 		limit 1;
@@ -105,9 +105,9 @@
 		   ,IFNULL(IL.DEL_YN,'Y') FAVORITE_YN /*N 이면 좋아요가 있음. Y면 좋아요가 아님.*/
 			</if>
 		from
-			lot L left outer join LOT_IMG LI on L.SALE_NO = LI.SALE_NO and L.LOT_NO = LI.LOT_NO
+			LOT L left outer join LOT_IMG LI on L.SALE_NO = LI.SALE_NO and L.LOT_NO = LI.LOT_NO
 			<if test="cust_no != null">
-			left outer join cust_inte_lot IL on IL.CUST_NO = #{cust_no} and L.SALE_NO = IL.SALE_NO and L.LOT_NO = IL.LOT_NO
+			left outer join CUST_INTE_LOT IL on IL.CUST_NO = #{cust_no} and L.SALE_NO = IL.SALE_NO and L.LOT_NO = IL.LOT_NO
 			</if>
 			and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
 		where

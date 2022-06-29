@@ -180,7 +180,7 @@
         left outer join ARTIST AT
         on AT.ARTIST_NO = L.ARTIST_NO
         left outer join CODE CD
-        on CD.grp_id = 'material' and CD.CD_ID = L.MATE_CD
+        on CD.GRP_ID = 'material' and CD.CD_ID = L.MATE_CD
         left outer join (SELECT * FROM CODE WHERE GRP_ID = 'artwork_category') CD_ART on CD_ART.CD_ID = L.CATE_CD
         left outer join LOT_IMG LI
         on LI.SALE_NO = L.SALE_NO and LI.LOT_NO = L.LOT_NO
@@ -207,34 +207,34 @@
         order by LI.LOT_NO, LI.DISP_ORD
     </select>
     <select id="selectSaleLotImages" resultType="CommonMap" parameterType="commonMap">
-        select b.SALE_NO     SALE_NO,
-               b.LOT_NO      LOT_NO,
-               c.FILE_PATH   FILE_PATH,
-               c.FILE_NAME   FILE_NAME,
-               ifnull(d.UNIT_CD, 'cm')             UNIT_CD,
-               ifnull(d.SIZE1, '0')                SIZE1,
-               ifnull(d.SIZE2, '0')                SIZE2,
+        select B.SALE_NO     SALE_NO,
+               B.LOT_NO      LOT_NO,
+               C.FILE_PATH   FILE_PATH,
+               C.FILE_NAME   FILE_NAME,
+               ifnull(D.UNIT_CD, 'cm')             UNIT_CD,
+               ifnull(D.SIZE1, '0')                SIZE1,
+               ifnull(D.SIZE2, '0')                SIZE2,
                CONCAT('['
                    , GROUP_CONCAT('{',
-                                  '"UNIT_CD":"', ifnull(d.UNIT_CD, 'cm'), '",',
-                                  '"SIZE1":', ifnull(d.SIZE1, 0), ',',
-                                  '"SIZE2":', ifnull(d.SIZE2, 0), ',',
-                                  '"SIZE3":', ifnull(d.SIZE3, 0), ',',
-                                  '"CANVAS":', ifnull(d.CANVAS, 0), ',',
-                                  '"DIAMETER_YN":"', ifnull(d.DIAMETER_YN, 'N'), '",',
-                                  '"PREFIX":"', ifnull(d.PREFIX, ''), '",',
-                                  '"SUFFIX":"', ifnull(d.SUFFIX, ''), '",',
-                                  '"MIX_CD":"', ifnull(d.MIX_CD, 'h'), '",',
-                                  '"CANVAS_EXT_YN":"', ifnull(d.CANVAS_EXT_YN, 'N'), '"',
+                                  '"UNIT_CD":"', ifnull(D.UNIT_CD, 'cm'), '",',
+                                  '"SIZE1":', ifnull(D.SIZE1, 0), ',',
+                                  '"SIZE2":', ifnull(D.SIZE2, 0), ',',
+                                  '"SIZE3":', ifnull(D.SIZE3, 0), ',',
+                                  '"CANVAS":', ifnull(D.CANVAS, 0), ',',
+                                  '"DIAMETER_YN":"', ifnull(D.DIAMETER_YN, 'N'), '",',
+                                  '"PREFIX":"', ifnull(D.PREFIX, ''), '",',
+                                  '"SUFFIX":"', ifnull(D.SUFFIX, ''), '",',
+                                  '"MIX_CD":"', ifnull(D.MIX_CD, 'h'), '",',
+                                  '"CANVAS_EXT_YN":"', ifnull(D.CANVAS_EXT_YN, 'N'), '"',
                                   '}')
                    , ']') AS LOT_SIZE_JSON
-        from lot b
-                 inner join lot_img c on b.SALE_NO = c.SALE_NO and b.LOT_NO = c.LOT_NO and c.DISP_ORD = 1
-                 left outer join lot_size d ON d.SALE_NO = b.SALE_NO AND d.LOT_NO = b.LOT_NO
-        where b.SALE_NO =  #{sale_no}
-          and b.CLOSE_YN = 'N'
-        group by b.SALE_NO, b.LOT_NO, c.FILE_PATH, c.FILE_NAME
-        order by b.LOT_NO asc;
+        from LOT B
+                 INNER JOIN LOT_IMG C ON B.SALE_NO = C.SALE_NO AND B.LOT_NO = C.LOT_NO AND C.DISP_ORD = 1
+                 LEFT OUTER JOIN LOT_SIZE D ON D.SALE_NO = B.SALE_NO AND D.LOT_NO = B.LOT_NO
+        WHERE B.SALE_NO =  #{sale_no}
+          AND B.CLOSE_YN = 'N'
+        GROUP BY B.SALE_NO, B.LOT_NO, C.FILE_PATH, C.FILE_NAME
+        ORDER BY B.LOT_NO ASC;
     </select>
 
     <select id="searchListCount" parameterType="CommonMap" resultType="CommonMap">
@@ -282,8 +282,8 @@
 
     <insert id="searchLog" parameterType="CommonMap">
         <if test="keyword != null and keyword != ''">
-            insert into SEARCH_LOG(cust_no, search_date, search_artist, search_title, search_all, search_material,
-            search_from_dt, search_to_dt)
+            insert into SEARCH_LOG(CUST_NO, SEARCH_DATE, SEARCH_ARTIST, SEARCH_TITLE, SEARCH_ALL, SEARCH_MATERIAL,
+            SEARCH_FROM_DT, SEARCH_TO_DT)
             values(#{action_user_no}, now(),
             <choose>
                 <when test="chk=='art'">#{keyword}</when>
@@ -323,7 +323,7 @@
         FROM CUST_INTE_LOT
         WHERE CUST_NO = #{action_user_no}
           AND SALE_NO = #{sale_no}
-          AND LOT_NO = #{lot_no};
+          AND LOT_NO = #{lot_no}
     </update>
     <sql id="searchList">
         select L.SALE_NO, L.LOT_NO
@@ -368,23 +368,23 @@
         '}')
         ,']') AS LOT_SIZE_JSON
         , L.IMG_DISP_YN
-        , now() as DB_NOW
+        , NOW() AS DB_NOW
         , IFNULL((SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = L.SALE_NO AND LOT_NO = L.LOT_NO), L.DISP_SOLD_PRICE) AS
         LAST_PRICE
         , CASE WHEN IFNULL(IL.LOT_NO, 0) = 0 THEN 'N'
             ELSE 'Y' END  FAVORITE_YN
         , IFNULL(L.START_PRICE, 0) AS START_PRICE
-        ,(select count(B.BID_NO) from BID B where B.SALE_NO = L.SALE_NO and B.LOT_NO = L.LOT_NO) as BID_CNT
+        ,(SELECT COUNT(B.BID_NO) FROM BID B WHERE B.SALE_NO = L.SALE_NO AND B.LOT_NO = L.LOT_NO) AS BID_CNT
         from LOT L join SALE S ON S.SALE_NO = L.SALE_NO AND S.SALE_KIND_CD not in ('exhibit', 'exhibit_sa')
-        left outer join ARTIST AT on AT.ARTIST_NO = L.ARTIST_NO
-        left outer join CODE CD on CD.grp_id = 'material' and CD.CD_ID = L.MATE_CD
-        left outer join LOT_IMG LI on LI.SALE_NO = L.SALE_NO and LI.LOT_NO = L.LOT_NO
-        and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by
-        A.DISP_ORD limit 1)
-        left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
-        left outer join cust_inte_lot IL
-        on L.sale_no = IL.sale_no and L.lot_no = IL.lot_no and IL.cust_no = #{cust_no} and
-        IL.del_yn = 'N'
+        LEFT OUTER JOIN ARTIST AT ON AT.ARTIST_NO = L.ARTIST_NO
+        left outer join CODE CD on CD.GRP_ID = 'material' and CD.CD_ID = L.MATE_CD
+        LEFT OUTER JOIN LOT_IMG LI ON LI.SALE_NO = L.SALE_NO AND LI.LOT_NO = L.LOT_NO
+        AND LI.IMG_NO = (SELECT A.IMG_NO FROM LOT_IMG A WHERE A.SALE_NO = L.SALE_NO AND A.LOT_NO = L.LOT_NO ORDER BY
+        A.DISP_ORD LIMIT 1)
+        LEFT OUTER JOIN LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
+        LEFT OUTER JOIN CUST_INTE_LOT IL
+        ON L.SALE_NO = IL.SALE_NO AND L.LOT_NO = IL.LOT_NO AND IL.CUST_NO = #{cust_no} AND
+        IL.DEL_YN = 'N'
         <if test="list_type == 'SEARCH' and cust_no != null">
             , (select CUST_NO, EMP_GB from CUST where CUST_NO = #{cust_no}) CU
         </if>
@@ -439,13 +439,13 @@
         </if>
         <if test="mate_nm != null">
             and L.MATE_CD in (
-            select CD_ID from CODE CD
-            where CD.grp_id = 'material'
-            and (
-            CD.CD_NM like concat('%', #{mate_nm}, '%')
-            or CD.CD_NM_EN like concat('%', #{mate_nm}, '%')
-            or CD.CD_NM_CN like concat('%', #{mate_nm}, '%')
-            )
+                select CD_ID from CODE CD
+                where CD.GRP_ID = 'material'
+                and (
+                CD.CD_NM like concat('%', #{mate_nm}, '%')
+                or CD.CD_NM_EN like concat('%', #{mate_nm}, '%')
+                or CD.CD_NM_CN like concat('%', #{mate_nm}, '%')
+                )
             )
         </if>
         <if test="keyword != null and keyword != ''">
@@ -488,7 +488,7 @@
     </sql>
 
     <insert id="upsertRecentlyView" parameterType="CommonMap">
-        insert into cust_recently_viewed (SALE_NO, LOT_NO, CUST_NO, VIEW_DT)
+        insert into CUST_RECENTLY_VIEWED (SALE_NO, LOT_NO, CUST_NO, VIEW_DT)
         values (#{sale_no}, #{lot_no}, #{cust_no}, sysdate()) on duplicate key
         update VIEW_DT = sysdate()
     </insert>
@@ -502,13 +502,13 @@
                CASE
                    WHEN IFNULL(E.LOT_NO, 0) = 0 THEN 'N'
                    ELSE 'Y' END                FAVORITE_YN
-        from cust_recently_viewed A
-                 inner join lot_img B on A.SALE_NO = B.SALE_NO and A.LOT_NO = B.LOT_NO
-                 inner join lot C on A.SALE_NO = C.SALE_NO and A.LOT_NO = C.LOT_NO
-                 inner join artist D on C.ARTIST_NO = D.ARTIST_NO
-                 left outer join cust_inte_lot E
-                                 on A.sale_no = E.sale_no and A.lot_no = E.lot_no and A.cust_no = E.cust_no and
-                                    E.del_yn = 'N'
+        from CUST_RECENTLY_VIEWED A
+                 INNER JOIN LOT_IMG B ON A.SALE_NO = B.SALE_NO AND A.LOT_NO = B.LOT_NO
+                 INNER JOIN LOT C ON A.SALE_NO = C.SALE_NO AND A.LOT_NO = C.LOT_NO
+                 INNER JOIN ARTIST D ON C.ARTIST_NO = D.ARTIST_NO
+                 LEFT OUTER JOIN CUST_INTE_LOT E
+                                 ON A.SALE_NO = E.SALE_NO AND A.LOT_NO = E.LOT_NO AND A.CUST_NO = E.CUST_NO AND
+                                    E.DEL_YN = 'N'
         where A.CUST_NO = #{cust_no}
           and A.SALE_NO = #{sale_no}
           and B.DISP_ORD = 1
@@ -617,7 +617,7 @@
 
     <select id="selectTopBid" parameterType="CommonMap"  resultType="CommonMap">
         select *
-        from bid
+        from BID
         where SALE_NO = #{sale_no}
           and LOT_NO = #{bid_no}
         order by BID_NO desc limit 1;
@@ -629,59 +629,59 @@
     </select>
 
     <select id="selectSaleList" parameterType="CommonMap" resultType="CommonMap">
-        select a.SALE_NO,
-               COLUMN_JSON(a.TITLE_BLOB)           SALE_TITLE_JSON,
-               b.LOT_NO,
-               COLUMN_JSON(b.TITLE_BLOB)           LOT_TITLE_JSON,
-               COLUMN_JSON(b.MAKE_YEAR_BLOB)       MAKE_YEAR_JSON,
-               d.ARTIST_NO,
-               d.BORN_YEAR,
-               COLUMN_JSON(d.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON,
-               c.FILE_PATH,
-               c.FILE_NAME,
-               ifnull(e.UNIT_CD, 'cm')             UNIT_CD,
-               ifnull(e.SIZE1, '0')                SIZE1,
-               ifnull(e.SIZE2, '0')                SIZE2,
-               ifnull(e.SIZE3, '0')                SIZE3,
-               ifnull(e.CANVAS, '0')               CANVAS,
-               ifnull(e.DIAMETER_YN, 'N')          DIAMETER_YN,
-               ifnull(e.PREFIX, '')                PREFIX,
-               ifnull(e.SUFFIX, '')                SUFFIX,
-               ifnull(e.MIX_CD, 'h')               MIX_CD,
-               ifnull(e.CANVAS_EXT_YN, 'N')        CANVAS_EXT_YN,
-               f.CD_NM CD_NM,
-               COLUMN_JSON(b.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON,
-               COLUMN_JSON(b.EXPE_PRICE_TO_BLOB)   EXPE_PRICE_TO_JSON,
-               IFNULL(g.DEL_YN,'Y') FAVORITE_YN, /*N 이면 좋아요가 있음. Y면 좋아요가 아님.*/
-               b.LOT_TAG,
-               b.EXPE_PRICE_INQ_YN,
+        SELECT A.SALE_NO,
+               COLUMN_JSON(A.TITLE_BLOB)           SALE_TITLE_JSON,
+               B.LOT_NO,
+               COLUMN_JSON(B.TITLE_BLOB)           LOT_TITLE_JSON,
+               COLUMN_JSON(B.MAKE_YEAR_BLOB)       MAKE_YEAR_JSON,
+               D.ARTIST_NO,
+               D.BORN_YEAR,
+               COLUMN_JSON(D.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON,
+               C.FILE_PATH,
+               C.FILE_NAME,
+               ifnull(E.UNIT_CD, 'cm')             UNIT_CD,
+               ifnull(E.SIZE1, '0')                SIZE1,
+               ifnull(E.SIZE2, '0')                SIZE2,
+               ifnull(E.SIZE3, '0')                SIZE3,
+               ifnull(E.CANVAS, '0')               CANVAS,
+               ifnull(E.DIAMETER_YN, 'N')          DIAMETER_YN,
+               ifnull(E.PREFIX, '')                PREFIX,
+               ifnull(E.SUFFIX, '')                SUFFIX,
+               ifnull(E.MIX_CD, 'h')               MIX_CD,
+               ifnull(E.CANVAS_EXT_YN, 'N')        CANVAS_EXT_YN,
+               F.CD_NM CD_NM,
+               COLUMN_JSON(B.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON,
+               COLUMN_JSON(B.EXPE_PRICE_TO_BLOB)   EXPE_PRICE_TO_JSON,
+               IFNULL(G.DEL_YN,'Y') FAVORITE_YN, /*N 이면 좋아요가 있음. Y면 좋아요가 아님.*/
+               B.LOT_TAG,
+               B.EXPE_PRICE_INQ_YN,
 
-               DATE_FORMAT(b.TO_DT,'%Y-%m-%d') LOT_EXPIRE_DATE,
-               DATE_FORMAT(b.TO_DT,'%a') LOT_EXPIRE_DATE_DAY,
-               DATE_FORMAT(b.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T,
+               DATE_FORMAT(B.TO_DT,'%Y-%m-%d') LOT_EXPIRE_DATE,
+               DATE_FORMAT(B.TO_DT,'%a') LOT_EXPIRE_DATE_DAY,
+               DATE_FORMAT(B.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T,
 
-               date_format(a.FROM_DT,'%m.%d(%a)') FROM_DT,
-               date_format(a.TO_DT, '%m.%d(%a)') TO_DT,
-               a.WWW_DISP_YN DISP_YN
-        from sale a
-                 inner join lot b on a.SALE_NO = b.SALE_NO
-                 inner join lot_img c on b.SALE_NO = c.SALE_NO and b.LOT_NO = c.LOT_NO and c.DISP_ORD = 1
-                 inner join artist d on b.ARTIST_NO = d.ARTIST_NO
-                 left outer join lot_size e on b.SALE_NO = e.SALE_NO and b.LOT_NO = e.LOT_NO
-                 left outer join CODE f on f.grp_id = 'material' and f.CD_ID = b.MATE_CD
-                 left outer join cust_inte_lot g on
-                     g.CUST_NO = #{cust_no} and a.SALE_NO = g.SALE_NO and b.LOT_NO = g.LOT_NO
-        where a.SALE_NO = #{sale_no}
-          and a.WWW_DISP_YN = 'Y'
-          and a.CLOSE_YN = 'N'
-          and b.CLOSE_YN = 'N'
+               date_format(A.FROM_DT,'%m.%d(%a)') FROM_DT,
+               date_format(A.TO_DT, '%m.%d(%a)') TO_DT,
+               A.WWW_DISP_YN DISP_YN
+        from SALE a
+                 INNER JOIN LOT B ON A.SALE_NO = B.SALE_NO
+                 INNER JOIN LOT_IMG C ON B.SALE_NO = C.SALE_NO AND B.LOT_NO = C.LOT_NO AND C.DISP_ORD = 1
+                 INNER JOIN ARTIST D ON B.ARTIST_NO = D.ARTIST_NO
+                 LEFT OUTER JOIN LOT_SIZE E ON B.SALE_NO = E.SALE_NO AND B.LOT_NO = E.LOT_NO
+                 LEFT OUTER JOIN CODE F ON F.GRP_ID = 'material' AND F.CD_ID = B.MATE_CD
+                 LEFT OUTER JOIN CUST_INTE_LOT G ON
+                     G.CUST_NO = #{cust_no} AND A.SALE_NO = G.SALE_NO AND B.LOT_NO = G.LOT_NO
+        WHERE A.SALE_NO = #{sale_no}
+          AND A.WWW_DISP_YN = 'Y'
+          AND A.CLOSE_YN = 'N'
+          AND B.CLOSE_YN = 'N'
         <if test='is_live !=null and is_live.equals("Y")'>
-          and a.LIVE_BID_YN = 'Y'
+          AND A.LIVE_BID_YN = 'Y'
         </if>
-        group by a.SALE_NO, b.LOT_NO;
+        GROUP BY A.SALE_NO, B.LOT_NO
     </select>
     <select id="selectLotTagList" parameterType="CommonMap" resultType="CommonMap">
-        select LOT_TAG from lot where SALE_NO = #{sale_no} and LOT_TAG is not null
+        select LOT_TAG from LOT where SALE_NO = #{sale_no} and LOT_TAG is not null
         group by LOT_TAG
     </select>
     <!--생년월일 성별 값 둘다 잇는지 여부-->
