@@ -31,6 +31,10 @@ public class FrontLogoutSuccessHandler implements LogoutSuccessHandler{
 
         String redirectUrl = (String)request.getHeader("REFERER");
         log.info("redirectUrl : {}",redirectUrl);
+        if(redirectUrl.contains("joinDone")) {
+        	redirectUrl = "/login";
+        	log.info("redirect to login");
+        }
         response.sendRedirect(redirectUrl);
     }
 }

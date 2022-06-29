@@ -114,8 +114,8 @@
 			, S.LIVE_BID_DT
 			, S.SALE_OUTSIDE_YN
 			, if(S.SALE_KIND_CD in ('plan', 'main', 'hongkong') and S.TO_DT &lt; current_timestamp - interval 5 year, 'Y', 'N') as IS_OLD_SALE
-			, (select min(sp.FROM_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_FROM_DT
-			, (select max(sp.TO_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_TO_DT
+			, (select min(SP.FROM_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_FROM_DT
+			, (select max(SP.TO_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_TO_DT
 			, now() as DB_NOW
 		from SALE S
 			left outer join SALE_IMG SI on SI.SALE_NO = S.SALE_NO

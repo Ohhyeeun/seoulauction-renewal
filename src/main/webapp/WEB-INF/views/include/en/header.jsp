@@ -26,15 +26,6 @@
 <sec:authorize access="isAnonymous()">
     sessionStorage.setItem("is_login", "false" );
 </sec:authorize>
-function logout(loginId){
-	console.log(loginId)
-	//TODO 소셜타입에 따른 SNS로그아웃처리
-	sessionLogout();
-}
-// 세션로그아웃
-function sessionLogout() {
-	location.href = "/processLogout";
-}
 </script>
 
 <html lang="en" ng-app="myApp">
@@ -52,8 +43,8 @@ function sessionLogout() {
         <ul class="header_utilitymenu wrap_padding pc-ver">
             <li class="utility-tab utility-lang"><a href="javascript:void(0);">ENG</a>
                 <ul class="bubble-box bubble-box01">
-                    <li><a href="${requestScope['javax.servlet.forward.servlet_path']}?lang=ko">KOR(한국어)</a></li>
-                    <li><a href="${requestScope['javax.servlet.forward.servlet_path']}?lang=en">ENG(English)</a></li>
+                    <li><a onclick="changeLang('${requestScope['javax.servlet.forward.servlet_path']}', '${requestScope['javax.servlet.forward.query_string']}', 'ko')">KOR(한국어)</a></li>
+                    <li><a onclick="changeLang('${requestScope['javax.servlet.forward.servlet_path']}', '${requestScope['javax.servlet.forward.query_string']}', 'en')">ENG(English)</a></li>
                 </ul>
             </li>
             <sec:authorize access="isAnonymous()"> <!-- !login -->

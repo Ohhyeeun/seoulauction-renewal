@@ -17,7 +17,7 @@
 		<div class="sub-wrap pageclass">
 			<jsp:include page="../../include/en/header.jsp" flush="false" />
 			
-			<div id="container" ng-controller="joinDoneCtl" data-ng-init="init();">
+			<div id="container" ng-controller="joinDoneCtl" data-ng-init="init();" ng-cloak>
 				<div id="contents" class="contents">
 					<section class="basis-section last-section back_gray">
 		                <div class="section-inner">

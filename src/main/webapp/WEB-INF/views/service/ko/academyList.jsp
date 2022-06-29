@@ -36,7 +36,7 @@ var authorities = '${authorities}'
         <!-- //header -->
 
         <!-- container -->
-        <div id="container" ng-controller="academyListCtl" data-ng-init="loadAcademyList(1)">
+        <div id="container" ng-controller="academyListCtl" data-ng-init="loadAcademyList(1)" ng-cloak>
             <div id="contents" class="contents">
 
                 <!-- page title -->
