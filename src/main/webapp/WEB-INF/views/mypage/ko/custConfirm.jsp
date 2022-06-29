@@ -4,8 +4,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<!DOCTYPE html>
-<html lang="ko">
+
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
+
 <sec:authentication property="details.socialYn" var="socialYn"></sec:authentication>
 <sec:authentication property="details.socialType" var="socialType"></sec:authentication>
 <sec:authentication property="details.socialEmail" var="socialEmail"></sec:authentication>
@@ -18,13 +19,10 @@
 	var socialType = '${socialType}';
 	var socialEmail = '${socialEmail}';
 </script>
-<head>
-    <title>회원정보수정 | Seoul Auction</title>
-</head>
 <body class="">
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
-			<jsp:include page="../../include/ko/header.jsp" flush="false" />
+			<jsp:include page="../../include/ko/nav.jsp" flush="false"/>
             <!-- container -->
             <div id="container" class="custModify">
                 <div id="contents" class="contents">

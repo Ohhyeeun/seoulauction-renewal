@@ -8,16 +8,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<html>
-<head>
-    <title>뉴스레터 | Seoul Auction</title>
-</head>
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
 <body>
 <div class="wrapper footer-bottom footer-bottom30">
     <div class="sub-wrap pageclass type-pagemain">
 
         <!-- header -->
-        <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+        <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <!-- //header -->
 
         <!-- container -->
