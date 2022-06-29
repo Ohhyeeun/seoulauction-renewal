@@ -154,7 +154,7 @@
 		                                    </div>
 		                                    <div class="form_body">
 		                                        <div class="input-group">
-		                                            <input type="text" maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);" ng-model="form_data.hp" name="hp" id="hp" class="form-control" placeholder="">
+		                                            <input type="text" tabindex="8" maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);" ng-model="form_data.hp" name="hp" id="hp" class="form-control" placeholder="">
 		                                            <button class="btn btn_light_gray_line" type="button" ng-click="authNumRequest()"><span>{{authNumMsg}}</span></button>
 		                                        </div>
 		
