@@ -113,11 +113,8 @@ public class MainService {
             returnMap.put("TITLE_BLOB", item.get("TITLE_BLOB"));
             returnMap.put("SALE_TH", item.get("SALE_TH") != null ? item.get("SALE_TH") : "");
 
-            returnMap.put("D_DAY", item.get("DDAY"));
-
             returnMap.put("FROM_DT", item.get("FROM_DT"));
             returnMap.put("TO_DT", item.get("TO_DT"));
-            returnMap.put("OPEN_DT", item.get("OPEN_DT"));
 
             CommonMap paramMap = new CommonMap();
             paramMap.put("sale_no", item.get("SALE_NO"));
