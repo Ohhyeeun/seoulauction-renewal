@@ -349,7 +349,7 @@
                             </button>
                         </div>
                         <div class="btn-box">
-                            <button>응찰하기</button>
+                            <button ng-click="moveToBidding(lotInfo)">응찰하기</button>
                         </div>
                     </div>
                 </article>
