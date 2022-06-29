@@ -15,7 +15,7 @@
     <!-- //header -->
 </head>
 
-<body class="" ng-controller="ctl" data-ng-init="load();">
+<body class="" ng-controller="ctl" data-ng-init="load();" style="opacity: 0" opacity=1>
 <div class="wrapper">
     <div class="sub-wrap pageclass type-details_view">
         <!-- header -->
@@ -231,7 +231,8 @@
 </div>
 
 
-<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+<script type="text/javascript" src="/js/plugin/jquery.min.js"></
+
 <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
 <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
@@ -333,6 +334,18 @@
     app.value('is_login', true);
 
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
+
+    app.directive('opacity', opacity);
+    function opacity($timeout) {
+        return {
+            link: function (scope, element, attrs) {
+                var value = attrs.opacity;
+                $timeout(function () {
+                    element[0].style.opacity = value;
+                },500);
+            }
+        }
+    }
 
     app.controller('ctl', function ($scope, consts, common, is_login, locale) {
 

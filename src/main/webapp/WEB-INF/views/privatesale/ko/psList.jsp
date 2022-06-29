@@ -16,7 +16,7 @@
 </head>
 
 <body class="">
-<div class="wrapper">
+<div class="wrapper" ng-cloak>
     <div class="sub-wrap pageclass ">
 
         <!-- header -->

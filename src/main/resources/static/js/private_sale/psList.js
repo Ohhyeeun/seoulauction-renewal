@@ -110,6 +110,11 @@ app.controller('ctl', function ($scope, consts, common, is_login, locale) {
     // 호출 부
     $scope.load = function () {
         let run = async function () {
+
+            //초반 영역 안보이게 세팅
+            $("#havePrivateSale").hide();
+            $("#emptyPrivateSale").hide();
+
             let [r1, r2] = await Promise.all([getSaleInfo()]);
 
             $scope.saleInfoAll = r1.data.data;
