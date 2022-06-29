@@ -660,7 +660,11 @@
                DATE_FORMAT(B.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T,
                date_format(A.FROM_DT,'%m.%d(%a)') FROM_DT,
                date_format(A.TO_DT, '%m.%d(%a)') TO_DT,
-               A.WWW_DISP_YN DISP_YN
+               A.FROM_DT FROM_DT_ORG,
+               A.TO_DT TO_DT_ORG,
+               A.WWW_DISP_YN DISP_YN,
+               B.START_PRICE,
+               A.SALE_KIND_CD
         from SALE A
                  INNER JOIN LOT B ON A.SALE_NO = B.SALE_NO
                  INNER JOIN LOT_IMG C ON B.SALE_NO = C.SALE_NO AND B.LOT_NO = C.LOT_NO AND C.DISP_ORD = 1
