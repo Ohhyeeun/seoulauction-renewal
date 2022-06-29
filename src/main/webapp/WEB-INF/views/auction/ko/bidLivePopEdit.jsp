@@ -61,503 +61,6 @@
 
     $(document).ready(function () {
     });
-
-    /*app.controller('liveAuctionCtl', function ($scope, consts, common, $interval) {
-        $scope.cnt_price = 0;
-        $scope.lot_move_init = "NO";
-
-        $scope.init = function () {
-            $scope.loadliveLotInfo();
-            $scope.loadLiveAuction();
-        }
-
-
-        $scope.loadLiveAuction = function () {
-            $d = {
-                "baseParms": {"sale_no": $scope.sale_no, "lot_no": $scope.lot_no, "mid_lot_no": $scope.mid_lot_no},
-                "actionList": [
-                    {"actionID": "liveSaleInfo", "actionType": "select", "tableName": "SALE"},
-                    {"actionID": "offBidList", "actionType": "select", "tableName": "BID_OFF_LIST"}, 						// Live 진행 LOT번호 응찰금액 호출 추가(2018.04.18 YDH)
-                    //{"actionID":"liveLotNaviList", "actionType":"select", "tableName":"LOT_NAVI", "parmsList":[{}]}, 	// navi 최신화. Edit모드에서만 실행할 것
-                ]
-            };
-            common.callActionSet($d, $s);
-        }
-
-        var $s = function (data, status) {
-            $scope.offBidList = data["tables"]["BID_OFF_LIST"]["rows"];	// Live 진행 LOT번호 응찰금액 호출 추가(2018.04.18 YDH)
-            $scope.sale = data["tables"]["SALE"]["rows"][0];
-            $scope.base_currency = $scope.sale.CURR_CD;
-            $scope.sub_currency = ($scope.sale.CURR_CD == "KRW" ? "HKD" : "KRW");
-            $scope.max_lot_no = $scope.sale.MAX_LOT_NO;  	// LOT 번호 MAX 번호
-            $scope.sale_no = $scope.sale.SALE_NO;			// 현재 진행중인 SALE 번호
-            $scope.live_lot_no = $scope.sale.ING_LOT_NO;  		// 현재 진행중인 LOT 번호
-            console.log("####loadLiveAuction####")
-            console.log($scope.lot_no);
-            if ($scope.lot_no == null || $scope.lot_no == "" || $scope.lot_no == 'undefined' || $scope.lot_move_init == "YES") {//alert($scope.lot_no);
-                console.log("####loadLiveAuction---lot_no####")
-                console.log($scope.sale.ING_LOT_NO);
-                $scope.lot_no = $scope.sale.ING_LOT_NO;	//현재  LOT 번호
-                //$("#lotNumber").val($scope.lot_no);
-            }
-            //$scope.lot_navi = data["tables"]["LOT_NAVI"]["rows"];		// Live 진행 LOT번호 5건 호출 추가(2018.04.19 YDH). Edit모드에서만 실행할 것
-        }
-
-        $scope.loadliveLotInfo = function () {
-            $d = {
-                "baseParms": {"sale_no": $scope.sale_no, "lot_no": $scope.lot_no, "mid_lot_no": $scope.mid_lot_no},
-                "actionList": [
-                    {"actionID": "liveLotInfo", "actionType": "select", "tableName": "LOT"},
-                    {
-                        "actionID": "get_customer_by_cust_no",
-                        "actionType": "select",
-                        "tableName": "CUST_INFO",
-                        "parmsList": []
-                    },
-
-                ]
-            };
-
-            common.callActionSet($d, function (data, status) {
-                $scope.custInfo = data["tables"]["CUST_INFO"]["rows"][0];
-                $scope.lot = data["tables"]["LOT"]["rows"][0];
-
-                if ($scope.lot_no == null || $scope.lot_no == "" || $scope.lot_no == 'undefined' || $scope.lot_move_init == "YES") {//alert($scope.lot_no);
-                    $scope.lot_no = $scope.lot.LOT_NO;	//현재  LOT 번호
-                    $("#lotNumber").val($scope.lot_no);
-                }
-
-                // 2018.05.08 호가 설정. Lot 동기화할경우만 반영. 추정가 별도인경우 제외
-                if ($scope.lot.EXPE_PRICE_INQ_YN == 'N') {
-                    $scope.start_price = $scope.commaSetting($scope.lot.START_PRICE);
-                    $scope.bid_price_input_online = $scope.commaSetting($scope.lot.LAST_PRICE + $scope.lot.GROW_PRICE); 	//고객용 응찰금액(최고가+호가) 설정
-                    $scope.bid_price_input_online_KO = $scope.numberToKorean($scope.lot.LAST_PRICE + $scope.lot.GROW_PRICE);//고객용 응찰금액(최고가+호가) 설정
-
-                    //var price_len = $scope.lot.EXPE_PRICE_FROM_JSON[$scope.base_currency].toString().length; //호가 생성 기준
-                    if ($scope.bid_price_input_grow1 == "" || $scope.bid_price_input_grow1 == null || $scope.lot_move_init == "YES") {
-                        //$scope.bid_price_input_grow1 = $scope.commaSetting(1 * Math.pow(10, parseInt(price_len)-2));
-                        $scope.bid_price_input_grow1 = $scope.commaSetting(1 * $scope.growPriceOffline($scope.lot.START_PRICE != null ? $scope.lot.START_PRICE : $scope.lot.EXPE_PRICE_FROM_JSON[$scope.base_currency]));
-                        $("#bidPriceInputGrow1").val($scope.bid_price_input_grow1);
-                    }
-                    if ($scope.bid_price_input_grow2 == "" || $scope.bid_price_input_grow2 == null || $scope.lot_move_init == "YES") {
-                        //$scope.bid_price_input_grow2 = $scope.commaSetting(2 * Math.pow(10, parseInt(price_len)-2));
-                        $scope.bid_price_input_grow2 = $scope.commaSetting(2 * $scope.growPriceOffline($scope.lot.START_PRICE != null ? $scope.lot.START_PRICE : $scope.lot.EXPE_PRICE_FROM_JSON[$scope.base_currency]));
-                        $("#bidPriceInputGrow2").val($scope.bid_price_input_grow2);
-                    }
-                    if ($scope.bid_price_input_grow3 == "" || $scope.bid_price_input_grow3 == null || $scope.lot_move_init == "YES") {
-                        //$scope.bid_price_input_grow3 = $scope.commaSetting(3 * Math.pow(10, parseInt(price_len)-2));
-                        $scope.bid_price_input_grow3 = $scope.commaSetting(3 * $scope.growPriceOffline($scope.lot.START_PRICE != null ? $scope.lot.START_PRICE : $scope.lot.EXPE_PRICE_FROM_JSON[$scope.base_currency]));
-                        $("#bidPriceInputGrow3").val($scope.bid_price_input_grow3);
-                    }
-                    if ($scope.bid_price_input_grow4 == "" || $scope.bid_price_input_grow4 == null || $scope.lot_move_init == "YES") {
-                        //$scope.bid_price_input_grow4 = $scope.commaSetting(5 * Math.pow(10, parseInt(price_len)-2));
-                        $scope.bid_price_input_grow4 = $scope.commaSetting(5 * $scope.growPriceOffline($scope.lot.START_PRICE != null ? $scope.lot.START_PRICE : $scope.lot.EXPE_PRICE_FROM_JSON[$scope.base_currency]));
-                        $("#bidPriceInputGrow4").val($scope.bid_price_input_grow4);
-                    }
-                    if ($scope.bid_price_input_grow5 == "" || $scope.bid_price_input_grow5 == null || $scope.lot_move_init == "YES") {
-                        $scope.bid_price_input_grow5 = $scope.commaSetting($scope.lot.START_PRICE != null ? $scope.lot.START_PRICE : $scope.lot.EXPE_PRICE_FROM_JSON[$scope.base_currency]);
-                        $("#bidPriceInputGrow5").val($scope.bid_price_input_grow5);
-                    }
-                    if ($scope.bid_price_input_grow6 == "" || $scope.bid_price_input_grow6 == null || $scope.lot_move_init == "YES") {
-                        $scope.bid_price_input_grow6 = "";
-                        $("#bidPriceInputGrow6").val($scope.bid_price_input_grow6);
-                    }
-
-                    if ($scope.bidPriceInputStart == "undefined" || $scope.bidPriceInputStart == null || $scope.bidPriceInputStart == "" || $scope.lot_move_init == "YES") {
-                        $scope.bidPriceInputStart = $scope.bid_price_input_grow5;
-                    }
-                    //직원용 현재가 설정. 응찰금액이 없는 경우 시작가 설정. 시작가가 null이면 낮은추정가 설정. 응찰금액이 있는 경우 응찰금액으로 설정	$scope.bidPriceInputStart.replace(/[^\d]+/g,'') < $scope.lot.LAST_PRICE &&
-                    if ($scope.lot.LAST_PRICE != null && $scope.lot.LAST_PRICE != '' && $scope.cnt_price == 0) {
-                        $scope.bidPriceInputStart = $scope.commaSetting($scope.lot.LAST_PRICE);
-                        $("#bidPriceInputStart").val($scope.bidPriceInputStart);
-                    } else {
-                        if (($scope.lot_move_init == "YES" || $scope.lot_move_init == "undefined") && ($scope.cnt_price == 0 || $scope.cnt_price == "undefined")) {
-                            $scope.bidPriceInputStart = $scope.commaSetting($scope.lot.START_PRICE != null ? $scope.lot.START_PRICE : $scope.lot.EXPE_PRICE_FROM_JSON[$scope.base_currency]);
-                            $("#bidPriceInputStart").val($scope.bidPriceInputStart);
-                        }
-                    }
-                }
-            });
-        }
-
-
-        //최초 시작가 기준으로 호가 반영 Function
-        $scope.growPriceOffline = function ($input) {
-            $scope.outGrowPrice;
-            if ($scope.base_currency == 'HKD') {
-                if (parseInt($input) < 10000) {
-                    $scope.outGrowPrice = 100;
-                } else if (parseInt($input) >= 10000 && parseInt($input) < 100000) {
-                    $scope.outGrowPrice = 1000;
-                } else if (parseInt($input) >= 100000 && parseInt($input) < 2000000) {
-                    $scope.outGrowPrice = 10000;
-                } else if (parseInt($input) >= 2000000) {
-                    $scope.outGrowPrice = 100000
-                    ;
-                } else {
-                    $scope.outGrowPrice = 0;
-                }
-            } else {
-                if (parseInt($input) < 20000000) {
-                    $scope.outGrowPrice = 100000;
-                } else if (parseInt($input) >= 20000000 && parseInt($input) < 200000000) {
-                    $scope.outGrowPrice = 1000000;
-                } else if (parseInt($input) >= 200000000 && parseInt($input) < 2000000000) {
-                    $scope.outGrowPrice = 10000000;
-                } else if (parseInt($input) >= 2000000000) {
-                    $scope.outGrowPrice = 100000000;
-                } else {
-                    $scope.outGrowPrice = 0;
-                }
-            }
-
-            return $scope.outGrowPrice;
-        };
-
-        // Live 진행 LOT번호 설정 로직 추가(2018.04.14 YDH)
-        $scope.liveLotSave = function ($input) {
-            $scope.sale_no = $("#saleNumber").val();
-            $scope.lot_no = $("#lotNumber").val();
-            var $d = {
-                "baseParms": {"sale_no": $scope.sale_no, "lot_no": $scope.lot_no},
-                "actionList": [
-                    {"actionID": "modLiveLot", "actionType": "update", "tableName": "LIVE_LOT", "parmsList": [{}]}
-                ]
-            };
-
-            common.callActionSet($d, function (data, status) {
-                $scope.bidPriceInputStart = "";
-                $scope.price_len = "";
-
-                $("#bidPriceInputGrow1").val("");
-                $("#bidPriceInputGrow2").val("");
-                $("#bidPriceInputGrow3").val("");
-                $("#bidPriceInputGrow4").val("");
-                $("#bidPriceInputGrow5").val("");
-                $("#bidPriceInputGrow6").val("");
-
-                $scope.bid_price_input_grow1 = "";
-                $scope.bid_price_input_grow2 = "";
-                $scope.bid_price_input_grow3 = "";
-                $scope.bid_price_input_grow4 = "";
-                $scope.bid_price_input_grow5 = "";
-                $scope.bid_price_input_grow6 = "";
-
-                $scope.bidPriceInputStart = "";
-
-                //$scope.loadliveLotInfo();
-                //$scope.loadLiveAuction();
-                $scope.init();
-            })
-            $scope.cnt = 0; // 네비게이션 실행여부 확인(2018.04.25)
-            $scope.cnt_price = 0; //금액수정 건수
-            $scope.lot_move_init = "YES";	// lot_no 초기화.
-        };
-        //LOT 마감/마감해제 관련 function. lot.LIVE_CLSOE_YN = 'Y'면 고객 응찰 불가처리
-        $scope.liveLotClose = function ($input) {
-            $scope.sale_no = $("#saleNumber").val();
-            $scope.lot_no = $("#lotNumber").val();
-
-            if ($scope.lot.LIVE_CLOSE_YN == 'Y') {
-                $scope.liveLotBidNoticeSave('응찰이 시작되었습니다.', 'Bidding Started');
-            }
-
-            var $d = {
-                "baseParms": {"sale_no": $scope.sale_no, "lot_no": $scope.lot_no},
-                "actionList": [
-                    {"actionID": "closeLiveLot", "actionType": "update", "tableName": "CLOSE_LOT", "parmsList": [{}]}
-                ]
-            };
-
-            common.callActionSet($d, function (data, status) {
-// 				$scope.loadLiveAuction();
-                $scope.init();
-            })
-        };
-
-        $scope.liveLotBidNoticeSave = function ($input, $input_en) {
-            var $d = {
-                "baseParms": {
-                    "sale_no": $scope.sale_no,
-                    "lot_no": $scope.lot_no,
-                    "bid_kind_cd": 'floor',
-                    "bid_notice": $input,
-                    "bid_notice_en": $input_en
-                },
-                "actionList": [
-                    {
-                        "actionID": "addOffBidPrice",
-                        "actionType": "insert",
-                        "tableName": "BID_OFFLINE",
-                        "parmsList": [{}]
-                    }
-                ]
-            };
-            common.callActionSet($d, function (data, status) {
-                //$scope.loadLiveAuction();
-// 				$scope.init();
-            })
-        };
-
-        // Live 진행 LOT번호 응찰금액 로직 추가(2018.04.17 YDH), bid_price는 콤마(,)제거
-        $scope.liveLotBidPriceSave = function ($input) {
-            if ($input == 'online') {
-                $scope.bid_price_input_online = $("#bid_price_input_online").val();
-                $scope.bid_price = $scope.bid_price_input_online.replace(/[^\d]+/g, '');
-            } else {
-                $scope.bidPriceInputStart = $("#bidPriceInputStart").val();
-                $scope.bid_price = $scope.bidPriceInputStart.replace(/[^\d]+/g, '');
-            }
-            ;
-
-            var $d = {
-                "baseParms": {
-                    "sale_no": $scope.sale_no,
-                    "lot_no": $scope.lot_no,
-                    "bid_price": $scope.bid_price,
-                    "bid_kind_cd": $input
-                },
-                "actionList": [
-                    {
-                        "actionID": "addOffBidPrice",
-                        "actionType": "insert",
-                        "tableName": "BID_OFFLINE",
-                        "parmsList": [{}]
-                    }
-                ]
-            };
-            common.callActionSet($d, function (data, status) {
-                $scope.loadLiveAuction();
-                //$scope.init();
-            })
-
-            $scope.cnt_price = $scope.cnt_price + 1; //응찰 건수 기록
-        };
-
-        // Live 하단 네비게이션 리스트
-         $scope.liveLotNaviList = function($input){
-            $scope.sale_no = $("#saleNumber").val();
-            $scope.lot_no = $("#lotNumber").val();
-            var $d = {"baseParms":{"sale_no":$scope.sale_no, "lot_no":$scope.lot_no, "mid_lot_no":$input},
-                        "actionList":[
-                        {"actionID":"liveLotNaviList", "actionType":"select", "tableName":"LOT_NAVI", "parmsList":[{}]}
-                    ]};
-
-            common.callActionSet($d, function(data, status) {
-                $scope.lot_navi = data["tables"]["LOT_NAVI"]["rows"];// Live 진행 LOT번호 5건 호출 추가(2018.04.19 YDH)
-                $scope.mid_lot_navi = data["tables"]["LOT_NAVI"]["rows"][0]; // Live 진행 MID_LOT_NO 호출 추가(2018.04.19 YDH)
-
-                $scope.mid_lot_no = $scope.mid_lot_navi.MID_LOT_NO;
-
-                $scope.loadLiveAuction();
-            })
-        };
-
-        $scope.lotMove = function ($input) {
-            $scope.sale_no = $("#saleNumber").val();
-            $scope.lot_no = $("#lotNumber").val();
-            if ($scope.lot_no == null || $scope.lot_no == 'undefined') {
-                $scope.lot_no = 0;
-            }
-            ;
-
-            if (parseInt($scope.lot_no) + $input > 0 && parseInt($scope.lot_no) + $input < $scope.max_lot_no + 1) {
-                $scope.lot_no = parseInt($scope.lot_no) + $input;
-            }
-
-            $("#lotNumber").val($scope.lot_no)
-
-            $scope.lot_move_init = "NO";	// lot_no 변경되고 있는중.
-        };
-
-        $scope.naviMove = function($input){
-            $scope.cnt = $scope.cnt + 1; //네비게이션 실행한 Count 누적
-
-            if($scope.mid_lot_no == null || $scope.mid_lot_no == 'undefined'){
-                if($scope.live_lot_no < 3){
-                    $scope.live_lot_no = 3;
-                }
-                $scope.mid_lot_no = $scope.live_lot_no;
-            } ;
-
-            $scope.mid_lot_no = $scope.mid_lot_no + $input;
-
-            // lot_no가 3이하일경우 3로 설정, 최대 lot_no Over일 경우 최대lot_no-2로 설정. 기본 5건 보여주기위해서 처리
-            if($scope.mid_lot_no < 3){
-                $scope.mid_lot_no = 3;
-            } else if ($scope.mid_lot_no > $scope.max_lot_no-2){
-                $scope.mid_lot_no = $scope.max_lot_no-2;
-            }
-
-            $scope.liveLotNaviList($scope.mid_lot_no);
-        };
-
-         $scope.naviMoveInit = function($input){
-            $scope.cnt = 0; //네비게이션 실행 Count 초기화
-
-            // lot_no가 3이하일경우 3로 설정, 최대 lot_no Over일 경우 최대lot_no-2로 설정. 기본 5건 보여주기위해서 처리
-            $scope.mid_lot_no = $input;
-
-            if($scope.mid_lot_no < 3){
-                $scope.mid_lot_no = 3;
-            } else if ($scope.mid_lot_no > $scope.max_lot_no-2){
-                $scope.mid_lot_no = $scope.max_lot_no-2;
-            }
-
-            $scope.liveLotNaviList($scope.mid_lot_no);
-        };
-
-        $scope.liveLotBidPriceInputPlus = function ($input) {
-            console.log("##InputPlus###");
-            console.log($input);
-            $scope.inputPrice = 0;
-            //데이터 바인딩 초기화 문제로 재할당함.(YDH)
-            if ($input == 1) {
-                $scope.inputPrice = $("#bidPriceInputGrow1").val();
-            } else if ($input == 2) {
-                $scope.inputPrice = $("#bidPriceInputGrow2").val();
-            } else if ($input == 3) {
-                $scope.inputPrice = $("#bidPriceInputGrow3").val();
-            } else if ($input == 4) {
-                $scope.inputPrice = $("#bidPriceInputGrow4").val();
-            } else if ($input == 5) {
-                $scope.inputPrice = $("#bidPriceInputGrow5").val();
-            } else if ($input == 6) {
-                $scope.inputPrice = $("#bidPriceInputGrow6").val();
-            }
-            console.log($scope.inputPrice);
-
-            if ($scope.bidPriceInputStart == null || $scope.bidPriceInputStart == "") {
-                $scope.current_bid_price = 0;
-            } else {
-                //$scope.current_bid_price = $scope.bidPriceInputStart.replace(/[^\d]+/g,'');
-                $scope.current_bid_price = $("#bidPriceInputStart").val().replace(/[^\d]+/g, '');
-            }
-
-            //var price_grow = parseInt($scope.current_bid_price) + (parseInt($input.replace(/[^\d]+/g,''))*1);
-            var price_grow = parseInt($scope.current_bid_price) + (parseInt($scope.inputPrice.replace(/[^\d]+/g, '')) * 1);
-
-            $scope.bidPriceInputStart = $scope.commaSetting(price_grow);
-            $("#bidPriceInputStart").val($scope.commaSetting(price_grow));
-
-            $scope.cnt_price = $scope.cnt_price + 1; //응찰 건수 기록
-            $scope.lot_move_init = "NO";			 //LOT 동기화 초기여부. 최초 'YES'
-        };
-
-        $scope.liveLotBidPriceInputMinus = function ($input) {
-            console.log("##InputMinus###");
-            console.log($input);
-            $scope.inputPrice = 0;
-            //데이터 바인딩 초기화 문제로 재할당함.(YDH)
-            if ($input == 1) {
-                $scope.inputPrice = $("#bidPriceInputGrow1").val();
-            } else if ($input == 2) {
-                $scope.inputPrice = $("#bidPriceInputGrow2").val();
-            } else if ($input == 3) {
-                $scope.inputPrice = $("#bidPriceInputGrow3").val();
-            } else if ($input == 4) {
-                $scope.inputPrice = $("#bidPriceInputGrow4").val();
-            } else if ($input == 5) {
-                $scope.inputPrice = $("#bidPriceInputGrow5").val();
-            } else if ($input == 6) {
-                $scope.inputPrice = $("#bidPriceInputGrow6").val();
-            }
-            console.log($scope.inputPrice);
-
-            if ($scope.bidPriceInputStart == null) {
-                $scope.current_bid_price = 0;
-            } else {
-                //$scope.current_bid_price = $scope.bidPriceInputStart.replace(/[^\d]+/g,'');
-                $scope.current_bid_price = $("#bidPriceInputStart").val().replace(/[^\d]+/g, '');
-            }
-
-            var price_grow = parseInt($scope.current_bid_price) + (parseInt($scope.inputPrice.replace(/[^\d]+/g, '')) * -1);
-
-            $scope.bidPriceInputStart = $scope.commaSetting(price_grow);
-            $("#bidPriceInputStart").val($scope.commaSetting(price_grow));
-
-            $scope.cnt_price = $scope.cnt_price + 1; //응찰 건수 기록
-            $scope.lot_move_init = "NO";			 //LOT 동기화 초기여부. 최초 'YES'
-        };
-
-        // Lot Refresh : 1초단위, Navi Refresh : 30초단위
-        $interval(function () {
-            $scope.loadLiveAuction();
-        }, 1000);
-         $interval(function(){$scope.naviMove();},30000);  //네비게이션 동기화는 버튼 클릭시만 진행
-
-        $scope.commaSetting = function (inNum) {
-            // 콤마(,)표시			//var inNum = $input;
-            var rgx2 = /(\d+)(\d{3})/;
-            var outNum;
-
-            outNum = inNum.toString();
-
-            while (rgx2.test(outNum)) {
-                outNum = outNum.replace(rgx2, '$1' + ',' + '$2');
-            }
-            return outNum;
-        }
-
-        $scope.numberToKorean = function (number) {
-            var inputNumber = number < 0 ? false : number;
-            var unitWords = ['', '만', '억', '조', '경'];
-            var splitUnit = 10000;
-            var splitCount = unitWords.length;
-            var resultArray = [];
-            var resultString = '';
-
-            for (var i = 0; i < splitCount; i++) {
-                var unitResult = (inputNumber % Math.pow(splitUnit, i + 1)) / Math.pow(splitUnit, i);
-                unitResult = Math.floor(unitResult);
-                if (unitResult > 0) {
-                    resultArray[i] = $scope.commaSetting(unitResult);
-                }
-            }
-
-            for (var i = 0; i < resultArray.length; i++) {
-                if (!resultArray[i]) continue;
-                resultString = String(resultArray[i]) + unitWords[i] + resultString;
-            }
-            $scope.bidPriceInputKO = resultString;
-            return resultString;
-        }
-
-        $scope.bidOffDel = function ($input) {
-            if ($scope.locale == 'ko') {
-                var retVal = confirm("삭제하시겠습니까?");
-            } else {
-                var retVal = confirm("Do you want to delete continue?");
-            }
-
-            if (retVal == true) {
-                var $d = {
-                    "baseParms": {"bid_no": $input},
-                    "actionList": [
-                        {
-                            "actionID": "offBidDel",
-                            "actionType": "delete",
-                            "tableName": "BID_OFFLINE_DEL",
-                            "parmsList": [{}]
-                        }
-                    ]
-                };
-                common.callActionSet($d, function (data, status) {
-                    $scope.del_cnt = data["tables"]["BID_OFFLINE_DEL"]["rows"];
-
-                    if ($scope.del_cnt.length > 0) {
-                        alert("삭제되었습니다.");
-                        $scope.loadLiveAuction();
-                        return true;
-                    } else {
-                        alert("실패하셨습니다.\n다시 시도해주세요.");
-                    }
-                })
-            } else {
-                return false;
-            }
-        }
-    });*/
 </script>
 
 <script>
@@ -583,15 +86,13 @@
         return outNum;
     }
 </script>
-
 <body>
 <div class="pop_wrap">
     <div class="title"><h2>Seoul Auction LIVE</h2></div>
     <div ng-controller="ctl" data-ng-init="load();">
         <!--main -->
         <div class="cont">
-            <div class="cont_title02"><h3 ng-bind="(sale.TITLE_JSON[locale])"></h3></div><!--cont_title02-->
-
+            <div class="cont_title02"><h3>라이브 경매</h3></div><!--cont_title02-->
             <div class="onepcssgrid-1200 clearfix">
                 <div class="onerow"></div><!--clear-->
                 <!-- 작품 정보 표시 영역 -->
@@ -729,7 +230,7 @@
                                     <td>
                                         <span>{{item.customer.user_id | userIdTxt}}</span>
                                     </td>
-                                    <td ng-show="item.BID_KIND_CD != 'online'">
+                                    <td ng-show="item.bid_kind_cd != 'online'">
                                         <button type="button" class="btn_insert" ng-click="deletebid(item.bid_token);">
                                             삭제
                                         </button>
@@ -778,7 +279,7 @@
                                 <label for="bidPriceInputGrow5">
                                     <font style="padding-left:15px; padding-right:5px; display:table-cell; vertical-align:middle;">호가</font>
                                 </label>
-                                <input type="text" ng-model="item.step" id="bidPriceInputGrow5"
+                                <input type="text" ng-model="item.step | currency" id="bidPriceInputGrow5"
                                        name="bidPriceInputGrow5" onkeyup="getNumber(this)"/>
                                 <span class="btn_style01 gray02 bidlive_btn">
                                     <button type="button"
@@ -842,6 +343,13 @@
         };
     })
 
+    // 현재가 처리
+    app.filter('currency', function(){
+        return function(val) {
+            return val.toLocaleString('ko-KR');
+        };
+    })
+
     app.controller('ctl', function ($scope, consts, common, locale, $filter) {
 
         // 로케일
@@ -896,11 +404,11 @@
 
         //랏 이동
         $scope.lotmove = function (step) {
-            $scope.newLot += step;
+            $scope.newLot = parseInt($scope.newLot) + parseInt(step);
             fetch(url + "/lot/move", {
                 method: "POST", body: JSON.stringify({
                         sale_no: $scope.saleNo,
-                        lot_no: $scope.newLot,
+                        lot_no:  $scope.newLot,
                         user_id: $scope.userId,
                         cust_no: $scope.custNo,
                         token: $scope.token,
@@ -911,13 +419,14 @@
         }
 
         // 랏 동기화
-        $scope.lotsync = function (lotNo) {
+        $scope.lotsync = function () {
+            $scope.newLot = parseInt($scope.newLot);
             fetch(url + "/lot/start", {
                 method: "POST", body: JSON.stringify({
                     customer: {
                         sale_no: $scope.saleNo,
                         user_id: $scope.userId,
-                        lot_no: $scope.newLot,
+                        lot_no: parseInt($scope.newLot),
                         cust_no: $scope.custNo,
                         token: $scope.token,
                         sale_type: 1,
@@ -948,6 +457,7 @@
         }
         // 비딩 삭제
         $scope.deletebid = function (bidToken) {
+            console.log(bidToken);
             fetch(url + "/bid/hist/del", {
                 method: "POST", body: JSON.stringify({
                     customer: {
@@ -966,10 +476,10 @@
         }
         // cost 변경
         $scope.biddown = function (cost) {
-            $scope.bid_cost_temp -= cost;
+            $scope.bid_change_cost = (parseInt($scope.bid_change_cost.replace(/,/gi, "")) - parseInt(cost)).toLocaleString("ko-KR");
         }
         $scope.bidup = function (cost) {
-            $scope.bid_cost_temp += cost;
+            $scope.bid_change_cost = (parseInt($scope.bid_change_cost.replace(/,/gi, "")) + parseInt(cost)).toLocaleString("ko-KR");
         }
         // 현재가 조정
         $scope.bidchange = function () {
@@ -1261,6 +771,8 @@
                                 break
                             }
                         }
+                    } else {
+                        $scope.bidHist = [];
                     }
                     let v = $scope.bidHist;
                     if (v != null) {
@@ -1346,7 +858,7 @@
                             return resp;
                         }
 
-                        $scope.newLot = $scope.bidsInfoAll[0].cur_lot_no;
+                        $scope.newLot = parseInt($scope.bidsInfoAll[0].cur_lot_no);
                         // 현재 랏정보 가져옴
                         currentLotInfoFunc($scope.token, saleNo, $scope.bidsInfoAll[0].cur_lot_no, saleType);
                     }
@@ -1388,7 +900,9 @@
                 for (let j = 0; j < $scope.saleInfoAll.length; j++) {
                     if ($scope.saleInfoAll[j].LOT_NO === d.message.lot_no) {
                         $scope.curLot = $scope.saleInfoAll[j];
-                        $scope.newLot = d.message.lot_no;
+                        $scope.newLot = parseInt(d.message.lot_no);
+
+                        console.log("d.message.lot_no", d.message.lot_no)
 
                         let currentLotInfoFunc = async function (token, saleNo, lotNo, saleType) {
                             let url = '';
@@ -1417,6 +931,26 @@
                 for (let j = 0; j < $scope.saleInfoAll.length; j++) {
                     if ($scope.saleInfoAll[j].LOT_NO === d.message.customer.lot_no) {
                         $scope.curLot = $scope.saleInfoAll[j];
+                        let currentLotInfoFunc = async function (token, saleNo, lotNo, saleType) {
+                            let url = '';
+                            if (window.location.protocol !== "https:") {
+                                url = 'http://localhost:8002/init2';
+                            } else {
+                                url = 'https://localhost:8002/init2';
+                            }
+                            let resp = await fetch(url, {
+                                method: "POST", body: JSON.stringify({
+                                    token: token,
+                                    sale_no: saleNo,
+                                    lot_no: lotNo,
+                                    sale_type: saleType,
+                                    user_id: '${member.loginId}',
+                                }),
+                            });
+                            return resp;
+                        }
+                        currentLotInfoFunc($scope.token, $scope.saleNo, $scope.newLot, 1)
+                        $scope.$apply();
                         break;
                     }
                 }
@@ -1446,6 +980,8 @@
                        $scope.bidHist[j].bid_cost = "KRW " + $scope.bidHist[j].bid_cost.toLocaleString('ko-KR');
                     }
 
+                } else {
+                    $scope.bidHist = [];
                 }
                 let v = $scope.bidHist;
                 if (v != null) {
