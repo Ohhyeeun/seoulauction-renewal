@@ -193,7 +193,7 @@
                                                                     <input id="checkbox_all1" class="js_item" type="checkbox" name="">
                                                                     <i></i>
                                                                     <label for="checkbox_all1">본인은 서울옥션 경매 약관을 모두 알고 이해하였으며, 그 적용에 동의합니다. </label>
-                                                                    <a href="#" class="link_target">약관 바로보기</a>
+                                                                    <a href="/footer/terms/#terms_view-offline_term" class="link_target">약관 바로보기</a>
                                                                 </div>
                                                             </li>
                                                             <li class="trp_acitem">

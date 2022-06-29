@@ -38,8 +38,8 @@
                                                 <label for="checkbox_all1">본인은 서울옥션 경매약관 [약관 바로보기]를
                                                     모두 읽고 이해하였으며 그 적용에 동의합니다.</label>
                                                 <!-- [0523]약관 바로보기 링크 삽입 -->
-                                                <a href="#">[약관 바로보기]</a>
-                                            </div>
+                                                <a href="/footer/terms" target="terms">[약관 바로보기]</a>
+                                            </div> 
                                         </td>
                                     </tr>
                                     <tr>
@@ -106,7 +106,7 @@
                                 <div class="body-article">
                                     <div class="paddle-box">
                                         <span>고객님의 패들 넘버는</span>
-                                        <em id="paddle-number">번</em>
+                                        <em>{{paddNo}}번</em>
                                         <span>입니다.</span>
                                     </div>
                                     <div class="gray-box">
