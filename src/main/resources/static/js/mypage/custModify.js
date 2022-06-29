@@ -114,7 +114,7 @@ $(window).on("load", function() {
 				}
 				
 				//해외
-				if(!undefCheck(data.NATION_CD)){
+				if(!undefCheck(data.NATION_CD) && langType != 'ko'){
 					nationList.forEach(function(ele){
 						if(ele.CD_ID == data.NATION_CD){
 							$("#nation_cd").val(ele.CD_ID + "|" + ele.CD_VAL3);
