@@ -429,7 +429,6 @@
                     return;
                 } else if($scope.sale_status == 'ING' && $scope.nowTime < $scope.liveEnd) {
                     // 경매 당일 전 신청하기 자동생성
-                    console.log("3");
                     if(!checkLogin()) return;
 
                     let isRegular = ${isRegular};
