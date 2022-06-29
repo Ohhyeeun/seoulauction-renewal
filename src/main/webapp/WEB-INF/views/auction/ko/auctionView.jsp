@@ -43,7 +43,7 @@
                                                 <div class="select-box">
                                                     <div class="trp-dropdown-area h42-lines">
                                                         <button class="js-dropdown-btn">
-                                                            <span>LOT {{lotInfo.LOT_NO}}</span><i
+                                                            <span ng-bind="'LOT '+lotInfo.LOT_NO"></span><i
                                                                 class="form-select_arrow_md"></i>
                                                         </button>
                                                         <div class="trp-dropdown_list-box"
@@ -68,7 +68,7 @@
                                                                                 </figure>
                                                                             </div>
                                                                             <div class="typo-area">
-                                                                                <span>LOT {{::item.LOT_NO}}</span>
+                                                                                <span ng-bind="'LOT '+item.LOT_NO"></span>
                                                                             </div>
                                                                         </a>
                                                                     </li>
@@ -141,7 +141,7 @@
                                     <div class="col_item">
                                         <article class="product_detail-article js-product_detail-article">
                                             <div class="index-area">
-                                                <div class="index-box"><span ng-bind="lotInfo.LOT_NO">10</span></div>
+                                                <div class="index-box"><span ng-bind="lotInfo.LOT_NO"></span></div>
                                                 <div class="btn-box">
                                                     <a href="#" title="" class="sns_share js-sns_share"><i
                                                             class="icon-view_sns"></i></a>
@@ -171,7 +171,7 @@
                                             <div class="artist-area">
                                                 <div class="name">
                                                     <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT"></strong>
-                                                    <span>b.{{lotInfo.BORN_YEAR}}</span>
+                                                    <span ng-bind="'b.'+lotInfo.BORN_YEAR"></span>
                                                 </div>
                                                 <div class="desc">
                                                     <span class="text-over span_block"
@@ -250,7 +250,7 @@
                                         <div class="info-box">
                                             <div class="title">작품정보</div>
                                             <div class="desc">
-                                                {{lotInfo.MATE_NM_EN}} <br/>
+                                                <span ng-bind="lotInfo.MATE_NM_EN"></span><br/>
                                                 <span ng-repeat="size in lotInfo.LOT_SIZE_JSON">
                                                         <span ng-bind="size | size_text_cm"></span>
                                                     </span><br/>
@@ -301,7 +301,7 @@
                                                                     <div class="typo-area">
                                                                         <div class="product_info">
                                                                             <div class="num_heart-box">
-                                                                                <%--<a href="#">--%><span class="num">{{item.LOT_NO}}</span><%--</a>--%>
+                                                                                <%--<a href="#">--%><span class="num" ng-bind="item.LOT_NO"></span><%--</a>--%>
                                                                                 <a ng-class="{'heart':item.FAVORITE_YN,'js-work_heart':item.FAVORITE_YN,'on':item.FAVORITE_YN==='Y'}"
                                                                                    ng-click="favorite2(item.SALE_NO, item.LOT_NO, $index);"><i
                                                                                         class="icon-heart_off"></i></a>

@@ -21,7 +21,7 @@
         <link rel="stylesheet" href="/css/plugin/csslibrary.css">
         <!-- //header -->
         <!-- container -->
-        <div id="container" ng-controller="ctl" data-ng-init="load();">
+        <div id="container" ng-controller="ctl" data-ng-init="load();" ng-cloak>
             <div id="contents" class="contents">
                 <!-- page title (ing, view) 경매정보   -->
                 <section class="page_title-section list_page-section">
