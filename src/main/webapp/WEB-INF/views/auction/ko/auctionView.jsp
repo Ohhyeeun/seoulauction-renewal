@@ -5,20 +5,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<!DOCTYPE html>
-<html lang="ko">
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
-<head>
-    <!-- header -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>경매상세 | Seoul Auction</title>
-    <!-- //header -->
-</head>
 <body class="">
 <div class="wrapper">
     <link rel="stylesheet" href="/css/plugin/csslibrary.css">
     <div class="sub-wrap pageclass type-details_view">
-        <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+        <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
 
         <!-- container -->
         <div id="container" ng-controller="ctl" data-ng-init="load();">

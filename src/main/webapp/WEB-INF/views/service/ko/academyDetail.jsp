@@ -7,8 +7,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!-- <link href="/css/angular/sa.common.2.0.css" rel="stylesheet"> -->
-<!DOCTYPE html>
-<html lang="ko">
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
 <sec:authorize access="isAuthenticated()">
 	<sec:authentication property="details.userNo" var="userNo"></sec:authentication>
 </sec:authorize>
@@ -16,20 +15,12 @@
 var userNo = '${userNo}';
 </script>
 
-<head>
-    <!-- header -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>아카데미 | Seoul Auction</title>
-    <!-- //header -->
-</head>
 
 <body class="">
 <div class="wrapper">
     <div class="sub-wrap pageclass">
         <!-- header -->
-        <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+        <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <script type="text/javascript" src="/js/service/academy.js"></script>
         <!-- //header -->
 

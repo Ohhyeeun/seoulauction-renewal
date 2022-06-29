@@ -135,7 +135,6 @@
 <script src="/js/plugin/prefixfree.min.js"></script>
 <script src="/js/plugin/swiper.min.js" type="text/javascript"></script>
 
-
 <script>
 
 //숫자를 천단위마다 콤마 해줌.
@@ -218,20 +217,5 @@ $(function(){
 
 });
 
-
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </html>

@@ -4,17 +4,14 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<!DOCTYPE html>
-<html lang="ko" ng-app="myApp">
-<head>
-</head>
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
 <body class="" ng-controller="ctl" data-ng-init="init();" ng-cloak>
 <div class="wrapper">
     <div class="sub-wrap pageclass type-width_list">
         <!-- header -->
         <%--<link rel="stylesheet" href="/css/main.css" type="text/css" />--%>
-        <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+        <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <!-- //header -->
         <link rel="stylesheet" href="/css/plugin/csslibrary.css">
         <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
