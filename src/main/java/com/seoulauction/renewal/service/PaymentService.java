@@ -120,6 +120,8 @@ public class PaymentService {
         switch (request.getAttribute("pay_kind").toString()){
             case SAConst.PAYMENT_KIND_MEMBERSHIP:
                 paymentMapper.insertCustPay(resultMap);
+                //시큐리티에 정회원 ROLE 추가.
+                updateAuthorities();
                 break;
             case SAConst.PAYMENT_KIND_ACADEMY:
                 if(SAConst.PAYMENT_METHOD_VBANK.equals(method)) {
