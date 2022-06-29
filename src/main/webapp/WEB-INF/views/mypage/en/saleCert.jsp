@@ -133,7 +133,7 @@
 							<li> 
 								<input type="checkbox" name="agreeCert_checkbox" id="agex04" class="auctionagree_checkinput" />            
 								<label for="agex04" class="auctionagree_check" style="cursor:pointer;">    
-									<span ng-if="locale=='ko'" class="auctionagree_check_contents">낙찰철회시 낙찰가의 30%에 해당하는 낙찰철회비가 부과됩니다.</span>
+									<span ng-if="locale=='ko'" class="auctionagree_check_contents">낙찰철회시 낙찰가의 30%에 해당하는 낙찰철회비가 부과됩니다.</span> 
 									<span ng-if="locale!='ko'" class="auctionagree_check_contents">When withdrawing the successful bid, a successful bidder must immediately pay a buyer withdrawal fee, corresponding to 30% of the hammer price.</span>
 								</label> 
 							</li>
