@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: sjk
-  Date: 2022/05/03
-  Time: 8:28 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
@@ -79,7 +72,7 @@
         <!-- //container -->
 
         <!-- footer -->
-        <jsp:include page="../../include/en/footer.jsp" flush="false"/> 
+        <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
         <!-- //footer -->
 
         <!-- stykey -->
@@ -97,6 +90,8 @@
 <script>
 app.value('locale', 'ko');
 app.controller('newsLetterCtl', function($scope, consts, common, locale) {
+
+
     $scope.loadNewsletter = function() {
 
         axios.get('/api/main/newsletters/${id}').then(function(response) {
