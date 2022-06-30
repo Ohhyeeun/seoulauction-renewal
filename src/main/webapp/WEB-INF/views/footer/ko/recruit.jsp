@@ -94,9 +94,13 @@
 
         </div>
     </div>
-    <%--angular 관련은 미리 로딩--%>
-<%--    <%@include file="../../common/commonJs.jsp"%>--%>
-<%--    <%@include file="../../common/commonJSNotMain.jsp"%>--%>
+    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+    <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
+    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+    <script src="/js/common/paging.js" type="text/javascript"></script>
+    <script src="/js/footer/recruit.js" type="text/javascript"></script>
+
 </body>
 
 </html>

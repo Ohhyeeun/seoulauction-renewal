@@ -59,26 +59,14 @@
     <link rel="icon" type="image/png" href="/images/favic/favicon-16x16.png" sizes="16x16"/>
     <link rel="apple-touch-icon" sizes="180x180" href="/iamges/favic/apple-touch-icon.png">
 
+    <%--angular 관련은 미리 로딩--%>
+    <%@include file="../../common/angular.jsp"%>
+    <%@include file="../../common/commonJs.jsp"%>
 
-    <script src="/js/angular/angular.min.js"></script>
-    <script src="/js/angular/checklist-model.js"></script>
-    <script src="/js/angular/angular-sanitize.js"></script>
-    <script src="/js/angular/angular-animate.min.js"></script>
-    <script src="/js/angular/angular-bind-html-compile.js"></script>
-    <script src="/js/angular/app.js"></script>
-    <script src="/js/angular/paging.js"></script>
-
-
-<%--    <%@include file="../../common/commonJs.jsp"%>--%>
-<%--    <%@include file="../../common/commonJSNotMain.jsp"%>--%>
-<%--    &lt;%&ndash;angular 관련은 미리 로딩&ndash;%&gt;--%>
-<%--    <%@include file="../../common/angular.jsp"%>--%>
-<%--    <%@include file="../../common/commonJs.jsp"%>--%>
-
-<%--    &lt;%&ndash;메인이 아닐 경우에만 해당 js 추가.&ndash;%&gt;--%>
-<%--    <c:if test="${empty param.main}">--%>
-<%--        <%@include file="../../common/commonJSNotMain.jsp"%>--%>
-<%--    </c:if>--%>
+    <%--메인이 아닐 경우에만 해당 js 추가.--%>
+    <c:if test="${empty param.main}">
+        <%@include file="../../common/commonJSNotMain.jsp"%>
+    </c:if>
     <%-- 로그인 --%>
     <script>
         <sec:authorize access="isAuthenticated()">
