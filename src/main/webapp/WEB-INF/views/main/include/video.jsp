@@ -17,7 +17,7 @@
                     <figure class="video-thumb">
                         <span class="video-thumbHover"></span>
                         <img src="{{video.image}}" alt="video" class="pc-ver">
-                        <img src="/images/mobile/thumbnail/VideoBanner_03_300x300.png" alt="video" class="m-ver">
+                        <img src="{{video.image}}" alt="video" class="m-ver">
                         <span class="video-icon" ng-class="{'youtube':'video-icon-you', 'instagram':'video-icon-in'}[video.content_type]"></span>
                     </figure>
                     <p class="video-thmbtit text-over">
