@@ -189,7 +189,7 @@
                                                                 <dt>낙찰가</dt>
                                                                 <dd>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE }}</dd>
                                                             </dl>
-                                                            <dl class="price-list" ng-if="custInfo.CUST_NO && item.LAST_PRICE == undefined">
+                                                            <dl class="price-list" ng-if="custInfo.CUST_NO && (item.LAST_PRICE == undefined || item.LAST_PRICE == 0)">
                                                                 <dt></dt>
                                                                 <dd></dd>
                                                             </dl>
