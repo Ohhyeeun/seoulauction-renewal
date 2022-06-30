@@ -115,6 +115,8 @@ public class MainService {
 
             returnMap.put("FROM_DT", item.get("FROM_DT"));
             returnMap.put("TO_DT", item.get("TO_DT"));
+            returnMap.put("PREV_FROM_DT", item.get("PREV_FROM_DT"));
+            returnMap.put("PREV_TO_DT", item.get("PREV_TO_DT"));
 
             CommonMap paramMap = new CommonMap();
             paramMap.put("sale_no", item.get("SALE_NO"));

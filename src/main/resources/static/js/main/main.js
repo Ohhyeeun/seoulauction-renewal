@@ -322,6 +322,8 @@ function loadUpcomings() {
                     const titleJSON = JSON.parse(item.TITLE_BLOB);
                     const from_dt = moment(item.FROM_DT);
                     const to_dt = moment(item.TO_DT);
+                    const prev_from_dt = moment(item.PREV_FROM_DT);
+                    const prev_to_dt = moment(item.PREV_TO_DT);
                     const returnDom =  ` <div class="swiper-slide upcomingSlide " style="padding-right: 40px;">
                                             <a href="/auction/upcoming/${item.SALE_NO}">
                                                 <div class="upcoming-caption">
