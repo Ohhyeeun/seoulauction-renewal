@@ -32,12 +32,7 @@ dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
 
     //web
-    implementation ('org.springframework.boot:spring-boot-starter-web'){
-        // 톰캣 제거
-        exclude module: "spring-boot-starter-tomcat"
-    }
-    // 언더토우 추가
-    implementation("org.springframework.boot:spring-boot-starter-undertow")
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'javax.servlet:jstl'
