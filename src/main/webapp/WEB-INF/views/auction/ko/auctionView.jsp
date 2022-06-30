@@ -8,6 +8,11 @@
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
 <body class="">
+<style>
+    .select2-container {
+        z-index: 999;
+    }
+</style>
 <div class="wrapper">
     <link rel="stylesheet" href="/css/plugin/csslibrary.css">
     <div class="sub-wrap pageclass type-details_view">
@@ -1528,28 +1533,31 @@
                     bid_info.open_bid_cost :
                     bid_info.bid_cost;
 
-                let quoute_arr = [];
+                let quote_arr = [];
 
                 if (d.message.quotes != null && d.message.quotes.length > 0) {
-                    let cnt = 0;
+                    let cnt = 1;
                     let viewCnt = 0;
                     while (viewCnt < 70) {
                         if (cnt > d.message.quotes.length - 1) {
-                            quoute_arr.push(cost_tmp)
+                            quote_arr.push(cost_tmp)
                             cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
                             viewCnt++;
                             continue
                         }
+                        // 호가리스트 값이 현재 코스트 보다 컸을때
                         if (d.message.quotes[cnt].cost > cost_tmp) {
-                            quoute_arr.push(cost_tmp)
+                            quote_arr.push(cost_tmp)
                             cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
                             cnt = 0;
                             viewCnt++;
                             continue
                         }
-                        cnt++
+                        ++cnt;
+                        cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost;
                     }
-                    $.each(quoute_arr, function (idx, el) {
+                    $("#reservation_bid").find("option").remove();
+                    $.each(quote_arr, function (idx, el) {
                         $("#reservation_bid").append(`<option value="` + el + `">KRW ` + el.toLocaleString('ko-KR') + `</option>`);
                     });
                 }
