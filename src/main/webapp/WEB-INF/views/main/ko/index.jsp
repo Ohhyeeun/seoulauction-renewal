@@ -166,7 +166,7 @@
 </div>
 
 <%-- main 레이어 팝업 --%>
-<div class="blackBg main-popupBg on">
+<div class="blackBg main-popupBg">
     <div class="main-popupwrap">
         <div class="main-popupbox">
             <a href="#" title="메인 팝업 이미지">

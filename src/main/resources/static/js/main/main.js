@@ -98,7 +98,7 @@ const locale = document.documentElement.lang;
 const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
 
 //팝업은 미리 하이드.
-$('.main-popupBg').hide();
+//$('.main-popupBg').hide();
 
 window.onload = function(){
 
@@ -563,7 +563,7 @@ function loadPopup(){
 
                         }
 
-                        $('.main-popupBg').show();
+                        $('.main-popupBg').addClass('on');
 
                         $('.main-popup-close, .main-popupBg').click(function () {
                             $('.main-popupbox').addClass('down');
