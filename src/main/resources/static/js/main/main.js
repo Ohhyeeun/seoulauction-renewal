@@ -603,17 +603,13 @@ function localeOrdinal(n, l) {
 if (matchMedia("all and (min-width: 1024px)").matches) {
     /* 띠배너 beltbanner */
     if($('.header_beltbox').hasClass('on')) { /* on */
-        console.log(6545345);
-        $('.main-contents').css({'margin-top':'102px'});
-    } else {
         $('.main-contents').css({'margin-top':'162px'});
-        console.log(3423423);
+    } else {
+        $('.main-contents').css({'margin-top':'102px'});
     }
     $('.header_beltbox').hasClass('on');
 } else {
-
-
-    /* 띠배너 beltbanner */
+    /* 띠배너 beltbanner */ 
     if($('.header_beltbox').hasClass('on')) { /* on */
         console.log(898989898);
         $('.main-contents').css({'margin-top':'56px'});
