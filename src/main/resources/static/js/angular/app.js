@@ -111,6 +111,14 @@ app.run(function ($rootScope, consts, locale, common, $filter) {
 		console.log("=====================" + cnt +"========================");
 		console.log("=");
 	}
+
+	$rootScope.dDayCalc = function (fromDT, toDT){
+		fromDT = moment(fromDT).format("YYYY-MM-DD");
+		toDT = moment(toDT).format("YYYY-MM-DD");
+
+		var s = moment(toDT).diff(moment(fromDT), 'days');
+		return s;
+	}
 });
 
 app.factory("common", function ($rootScope, $http) {
@@ -491,13 +499,6 @@ app.filter('addHours', function() {
     	var d = moment(dt).add(v, 'hours')
     	return d.toDate();
     };
-});
-
-app.filter('calcDate', function() {
-	return function(fromDT, toDT, format) {
-		var s = moment(toDT).diff(moment(fromDT), format);
-		return s;
-	};
 });
 
 app.filter('joinWith', function(consts) {
