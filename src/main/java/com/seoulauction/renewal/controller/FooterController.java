@@ -47,9 +47,18 @@ public class FooterController {
     }
 
     @GetMapping("/media")
-    public String boardMediaList(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "media" , locale);}
+    public String boardMediaList(Locale locale) {
+
+        log.info("여기옴!");
+        return SAConst.getUrl(SERVICE_FOOTER , "media" , locale);
+
+    }
     @GetMapping("/notice")
-    public String boardNoticeList(Locale locale) {return SAConst.getUrl(SERVICE_FOOTER , "notice" , locale);}
+    public String boardNoticeList(Locale locale) {
+
+        log.info("여기옴!");
+        return SAConst.getUrl(SERVICE_FOOTER , "notice" , locale);
+    }
     @GetMapping("/notice/{id}")
     public String boardNoticeView(
             @PathVariable("id") int id,
