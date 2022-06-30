@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
-<%--<jsp:include page="../../include/ko/header.jsp" flush="false"/>--%>
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
 <link rel="stylesheet" href="/css/plugin/csslibrary.css">
 <body class="">
     <div class="wrapper">
         <div class="sub-wrap pageclass ">
 
             <!-- header -->
-<%--            <jsp:include page="../../include/ko/nav.jsp" flush="false"/>--%>
+            <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
             <!-- //header -->
             <script>
                 app.value('locale', 'ko');
@@ -533,7 +533,7 @@
             <!-- //container -->
 
             <!-- footer -->
-<%--            <jsp:include page="../../include/ko/footer.jsp" flush="false"/>--%>
+            <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
             <!-- //footer -->
 
             <!-- stykey -->
