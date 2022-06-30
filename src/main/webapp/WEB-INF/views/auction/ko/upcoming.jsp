@@ -51,8 +51,8 @@
                                                         <div class="state-box">
                                                             <span class="type-online" ng-if="['online','online_zb'].indexOf(auction.SALE_KIND_CD) > -1">ONLINE</span>
                                                             <span class="type-live" ng-if="['online','online_zb'].indexOf(auction.SALE_KIND_CD) <= -1">LIVE</span>
-                                                            <span class="type-d_day" ng-if="(auction.DB_NOW | calcDate : auction.FROM_DT : 'days') > 0">D-{{auction.DB_NOW | calcDate : auction.FROM_DT : 'days'}}</span>
-                                                            <span class="type-d_day" ng-if="(auction.DB_NOW | calcDate : auction.FROM_DT : 'days') <= 0">TODAY</span>
+                                                            <span class="type-d_day" ng-if="dDayCalc(auction.DB_NOW, auction.FROM_DT) > 0">D-{{dDayCalc(auction.DB_NOW, auction.FROM_DT)}}</span>
+                                                            <span class="type-d_day" ng-if="dDayCalc(auction.DB_NOW, auction.FROM_DT) <= 0">TODAY</span>
                                                         </div>
                                                         <div class="title-box"><span>{{auction.TITLE_JSON['ko']}}</span></div>
                                                         <div class="info-box">
@@ -109,7 +109,6 @@
     app.controller('auctionCtl', function($scope, consts, common, locale) {
         $scope.loadAuction = function() {
             axios.get('/api/auction/upcoming').then(function(response) {
-                console.log(response);
                 const success = response.data.success;
                 if (success) {
                     $scope.auctionList = response.data.data;
