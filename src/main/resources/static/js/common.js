@@ -20,16 +20,16 @@ $(function() {
 
 
     function loadIngAuctionList() {
-        let returnDom ='';
+
+
         axios.get('api/main/ingAuctions')
             .then(function (response) {
                 const success = response.data.success;
                 if (success) {
                     const ingAuctionList = response.data.data;
-                    if((ingAuctionList.length > 0)){
-                        ingAuctionList.map(item => {
-                            const titleJSON = JSON.parse(item.TITLE_BLOB);
-                             returnDom += `<a href="/auction/list/${item.SALE_NO}" class="Ingbanner" target="_blank">
+                    ingAuctionList.map(item => {
+                        const titleJSON = JSON.parse(item.TITLE_BLOB);
+                        const returnDom = `<a href="/auction/list/${item.SALE_NO}" class="Ingbanner" target="_blank">
                                             <figure class="border-txt-darkg Ingbanner-img">
                                                 <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" 
                                                      onerror="this.src='/images/pc/thumbnail/gnb_thubnatil_ready.jpg'"
@@ -41,21 +41,9 @@ $(function() {
                                                 <span class="Ingbanner-arrow"></span>
                                             </div>
                                         </a>`;
-                            });
-                    }else{
-                         returnDom += `<a href="javascript:void(0);" class="Ingbanner" target="_blank">
-                                            <figure class="border-txt-darkg Ingbanner-img">
-                                            <img src="/images/pc/thumbnail/gnb_thubnatil_ready.jpg" alt="ing_auction03">
-                                            </figure>
-                                        <div class="Ingbanner-txt text-over">
-                                            <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                            <p class="text-over">경매 준비중</p>
-                                            <span class="Ingbanner-arrow"></span>
-                                        </div>
-                                    </a>`
-                    }
 
-                    document.querySelector(".Ingbanner-box").insertAdjacentHTML('beforeend', returnDom);
+                        document.querySelector(".Ingbanner-box").insertAdjacentHTML('beforeend', returnDom);
+                    });
 
                 }
             })
