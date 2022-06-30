@@ -194,7 +194,7 @@
                                                             <div class="standard">
                                                                 <span class="text-over span_block">{{item.CD_NM}}</span>
                                                                 <div class="size_year">
-                                                                    <span>{{item.SIZE1}} X {{item.SIZE2}} X {{item.SIZE3}}</span>
+                                                                    <span ng-bind="item | size_text_cm"></span>
                                                                     <span>{{item.MAKE_YEAR_JSON.ko}}</span>
                                                                 </div>
                                                             </div>
@@ -240,14 +240,15 @@
                                         <div class="paging-area">
                                             <!-- paging -->
                                             <div class="paging">
-                                                <a href="javascript:void(0);" class="prev_end icon-page_prevprev"><em>FIRST</em></a>
-                                                <a href="javascript:void(0);" class="next icon-page_next "><em>PREV</em></a>
+                                                <a href="javascript:void(0);" ng-click="pageing(1);" class="prev_end icon-page_prevprev"><em>FIRST</em></a>
+                                                <a href="javascript:void(0);" ng-click="pageing(pageprev);" ng-show="pageprev > -1" class="next icon-page_prev "><em>PREV</em></a>
                                                 <a href="javascript:void(0);" ng-click="pageing(item);"
                                                    ng-repeat="item in pageingdata">
                                                     <strong ng-if="item === curpage" ng-class="{'on':item === curpage}"
                                                             ng-bind="item"></strong>
                                                     <span ng-if="item != curpage" ng-bind="item"></span></a>
-                                                <a href="javascript:void(0);" class="next icon-page_next "><em>NEXT</em></a><a href="#"
+                                                <a href="javascript:void(0);" ng-click="pageing(pagenext);" ng-show="pagenext > -1" class="next icon-page_next"><em>NEXT</em></a>
+                                                <a href="javascript:void(0);" ng-click="pageing(pagelast);" ng-show="pagelast > -1" class="next icon-page_nextnext"><em>LAST</em></a>
                                             </div>
                                             <!-- paging -->
                                         </div>
@@ -509,6 +510,7 @@
             if(!checkLogin()) return;
 
             const is_sale_cert = $scope.is_sale_cert;
+
             if (!is_sale_cert) {
                 popup_offline_payment.open(this); // or false
                 popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
@@ -629,24 +631,9 @@
                 }
                 $scope.saleInfo = $scope.saleInfoAll.slice(0, $scope.itemsize);
 
-                let p = [];
-                let endVal = 0;
-                let page = 1;
-
-                let etc = ($scope.saleInfoAll.length % $scope.itemsize > 0) ? 1 : 0;
-                let end = parseInt($scope.saleInfoAll.length / $scope.itemsize) + etc;
-
-                if (end < (parseInt(page / $scope.pagesize) + 1) + $scope.pagesize) {
-                    endVal = end;
-                } else {
-                    endVal = $scope.pagesize + (parseInt(page / $scope.pagesize) + 1);
-                }
-
-                for (let i = 1; i <= endVal; i++) {
-                    p.push(i);
-                }
-
-                $scope.pageingdata = p;
+                let pp = $scope.makePageing($scope.saleInfoAll, 1);
+                $scope.pageingdata = pp;
+                $scope.curpage = 1;
 
                 await $scope.setSale($scope.sale_no);
                 //get sale cert
@@ -1524,10 +1511,18 @@
             let etc = (v.length % $scope.itemsize > 0) ? 1 : 0;
             let end = parseInt(v.length / $scope.itemsize) + etc;
 
+
+            $scope.pagefirst = 1;
+            $scope.pageprev = (page < $scope.pagesize)? - 1: ($scope.pagesize * parseInt((page - 1) / $scope.pagesize));
+
             if (end < (parseInt(page / $scope.pagesize) + 1) + $scope.pagesize) {
                 endVal = end;
+                $scope.pagelast = -1;
+                $scope.pagenext = -1;
             } else {
                 endVal = $scope.pagesize + (parseInt(page / $scope.pagesize) + 1);
+                $scope.pagelast = end;
+                $scope.pagenext = endVal + 1;
             }
             for (let i = ($scope.pagesize * parseInt((page - 1) / $scope.pagesize)) + 1; i <= endVal; i++) {
                 p.push(i);
