@@ -133,16 +133,14 @@
                                                                    ng-click="favorite(item);"></i></button>
                                                         </div>
                                                         <div class="info-box">
-                                                            <div class="title"><span> {{item.ARTIST_NAME_JSON.ko | trimSameCheck : item.TITLE_JSON[locale]}} </span></div>
+                                                            <div class="title"><span> {{item.ARTIST_NAME_JSON.ko | trimSameCheck : item.TITLE_JSON[locale]}}</span></div>
                                                             <!-- 30자 -->
-                                                            <div class="desc"><span ng-bind="item.TITLE_JSON.ko | do_sub_string : item.TITLE_JSON.ko"></span></div>
+                                                            <div class="desc"><span ng-bind="item.TITLE_JSON.ko | do_sub_string : item.TITLE_JSON.ko" title="{{item.TITLE_JSON.ko}}"></span></div>
                                                             <div class="standard">
-                                                                <span ng-bind="item.MATE_NM | do_sub_string : item.MATE_NM"></span>
+                                                                <span ng-bind="item.MATE_NM | do_sub_string : item.MATE_NM" title="{{item.MATE_NM}}"></span>
                                                                 <div class="size_year">
-                                                                    <span ng-bind="item.LOT_SIZE_JSON[0] | size_text_cm"></span>
-                                                                    <!--span ng-repeat="size in item.LOT_SIZE_JSON">
-                                                                    </span--><br/>
-                                                                    <span ng-bind="item.MAKE_YEAR_JSON.ko"></span>
+                                                                    <span ng-bind="item.LOT_SIZE_JSON[0] | size_text_cm | do_sub_string_low : item.LOT_SIZE_JSON[0]" title="{{item.LOT_SIZE_JSON[0] | size_text_cm}}"></span>
+                                                                    <span ng-bind="item.MAKE_YEAR_JSON.ko | do_sub_string_low : item.MAKE_YEAR_JSON.ko" title="{{item.MAKE_YEAR_JSON.ko}}"></span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -164,7 +162,7 @@
                                                                 <dt>시작가</dt>
                                                                 <dd>{{item.CURR_CD}} {{item.START_PRICE | currency : item.START_PRICE }} </dd>
                                                             </dl>
-                                                            <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && item.STATUS == '진행'">
+                                                            <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && item.STATUS == '진행' && item.LAST_PRICE > 0">
                                                                 <dt>현재가</dt>
                                                                 <dd><strong>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE : 0 }} </strong><em>(응찰 {{item.BID_CNT }})</em></dd>
                                                             </dl>
@@ -180,13 +178,21 @@
                                                                 <dt>낙찰가</dt>
                                                                 <dd>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE }}</dd>
                                                             </dl>
+                                                            <dl class="price-list" ng-if="custInfo.CUST_NO && item.LAST_PRICE == undefined">
+                                                                <dt></dt>
+                                                                <dd></dd>
+                                                            </dl>
                                                         </div>
                                                         <div class="state-box">
-                                                            <div class="state op-ing">
+
+                                                            <div ng-if="item.STATUS == '완료'" class="state op-end">
+                                                                <div> {{item.STATUS}} </div>
+                                                            </div>
+                                                            <div ng-if="item.STATUS == '진행'" class="state op-ing">
                                                                 <div> {{item.STATUS}} </div>
                                                             </div>
                                                             <div class="other">
-                                                                <div class="d_name" ng-bind="item.SALE_TITLE_JSON.ko | do_sub_string_low : item.SALE_TITLE_JSON.ko"></div>
+                                                                <div class="d_name" ng-bind="item.SALE_TITLE_JSON.ko | do_sub_string_low : item.SALE_TITLE_JSON.ko" title="{{item.SALE_TITLE_JSON.ko}}"></div>
                                                                 <!--  let saleToDt = $filter('date')(el.SALE_TO_DT, 'yyyy-MM-dd HH:mm:ss');-->
                                                                 <div class="d_day">{{item.SALE_TO_DT | date:'yyyy.MM.dd'+'('+getWeek(item.SALE_TO_DT)+')'}} {{item.SALE_TO_DT | date : 'ah'}} {{item.SALE_KIND_CD == 'hongkong' ? "HKT" : "KST"}}</div>
                                                             </div>
@@ -521,8 +527,8 @@
             if (val === undefined) {
                 return val;
             }
-            if(val.length > 20){
-                result = val.substring(0,20)+'...';
+            if(val.length > 15){
+                result = val.substring(0,15)+'...';
             }else{
                 result = val;
             }

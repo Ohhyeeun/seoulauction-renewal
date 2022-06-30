@@ -3,6 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
+<jsp:include page="../../include/en/header.jsp" flush="false"/>
 <spring:eval expression="@environment.getProperty('social.service.domain')" var="socialServiceDomain" />
 <script>
 	var socialServiceDomain = '${socialServiceDomain}'
@@ -12,7 +14,7 @@
 <body class="">
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
-			<jsp:include page="../../include/en/header.jsp" flush="false" />
+			<jsp:include page="../../include/en/nav.jsp" flush="false" />
             <!-- container -->
             <div id="container" class="snsLink">
                 <div id="contents" class="contents">

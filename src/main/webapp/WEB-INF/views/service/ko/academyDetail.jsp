@@ -91,7 +91,7 @@ var userNo = '${userNo}';
 														<div class="btn_item" ng-if="academyView.ACADEMY_COMPLETE == 0 && is_login=='true' && academyView.CLOSE_YN != 'Y' && (academyView.ACADEMY_PAY !=null && academyView.ACADEMY_PAY != 0) && academyView.TO_DT.substring(0,10) > db_now">
                                                             <a ng-href="/payment/academy/{{academyView.ACADEMY_NO}}" class="btn btn_point btn_lg" type="button"><span>수강료 결제하기</span></a>
                                                         </div>
-                                                        <div class="btn_item" ng-if="is_login == 'false' && academyView.CLOSE_YN != 'Y'"  onClick="alert('로그인을 해주시기 바랍니다.\n Please login for use.')">
+                                                        <div class="btn_item" ng-if="is_login == 'false' && academyView.CLOSE_YN != 'Y'"  onClick="checkLogin()">
                                                             <a href="#" class="btn btn_point btn_lg" type="button"><span>수강료 결제하기</span></a>
                                                         </div>
                                                         <div class="btn_item" ng-if="academyView.CLOSE_YN == 'Y'">
