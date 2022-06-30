@@ -317,7 +317,7 @@
                                                 </div>
                                             </div>
                                             <div class="btn-area">
-                                                <a class="btn btn_gray_line" href="#" role="button"><span>1:1 문의</span></a>
+                                                <a class="btn btn_gray_line" href="/mypage/inquiryForm" role="button"><span>1:1 문의</span></a>
                                             </div>
                                         </div>
                                     </article>

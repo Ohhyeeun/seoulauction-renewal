@@ -169,7 +169,7 @@
                                                                     서울옥션 담당자가 확인 후 답변을 드립니다.
                                                                 </li>
                                                                 <li>
-                                                                    답변은 <a href="#none" class="ft_sb colorB2">회원정보 > 1:1문의</a>에서 확인하실 수 있습니다.
+                                                                    답변은 <a href="/mypage/inquiryForm" class="ft_sb colorB2">회원정보 > 1:1문의</a>에서 확인하실 수 있습니다.
                                                                 </li>
                                                             </ul>
                                                         </div>
