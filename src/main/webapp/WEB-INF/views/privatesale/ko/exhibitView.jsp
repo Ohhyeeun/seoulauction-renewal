@@ -463,9 +463,8 @@
 
                 //artist 번호
                 $scope.artistNo = $scope.lotInfo.ARTIST_NO;
-
                 //전시가 처리
-                if($scope.lotInfo.EXHIBITION_PRICE_JSON.length <= 2){
+                if($scope.lotInfo.EXHIBITION_PRICE_JSON == undefined || $scope.lotInfo.EXHIBITION_PRICE_JSON.length <= 2){
                     $(".saleprice-area").hide();
                 }else{
                     $(".saleprice-area").show();
