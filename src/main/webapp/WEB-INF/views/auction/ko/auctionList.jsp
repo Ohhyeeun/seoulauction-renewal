@@ -392,7 +392,12 @@
         $scope.itemsize = 20;
         $scope.curpage = 1;
 
+<<<<<<< HEAD
         $scope.onStateCostTxt = "현재가";
+=======
+        $scope.is_sale_cert = false;
+        $scope.cust_hp = "";
+>>>>>>> feature/SADEV-216-경매-온라인-본인인증
 
         $scope.modelSortType = [{
             name: "LOT 번호순", value: 1
@@ -503,15 +508,14 @@
         }
 
         $scope.popSet = function (saleNo, lotNo, userId, custNo) {
-            if (${member.userNo} === 0){
-                checkLogin();
-            }
-            const is_sale_cert = $scope.is_sale_cert || $("#is_sale_cert").val();
+            if(!checkLogin()) return;
+
+            const is_sale_cert = $scope.is_sale_cert;
             if (!is_sale_cert) {
                 popup_offline_payment.open(this); // or false
                 popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
 
-                // 랏번호 삽입
+                // 경매번호 삽입
                 $("#sale_no").val(saleNo);
                 // 랏번호 삽입
                 $("#lot_no").val(lotNo);
@@ -521,8 +525,6 @@
                     popup_offline_payment.close();
                 });
             } else {
-
-
                 let init_func_manual = async function (token, saleNo, lotNo, saleType, custNo) {
                     //console.log(token, saleNo, lotNo, saleType, userId);
                     let url = '';
@@ -650,16 +652,17 @@
 
                 await $scope.setSale($scope.sale_no);
                 //get sale cert
-                $scope.is_sale_cert = false;
-                $scope.cust_hp = "";
                 if(sessionStorage.getItem("is_login") === 'true'){
                     await axios.get('/api/cert/sales/${saleNo}')
                         .then(function(response) {
                             if (response.data.success) {
                                 if(response.data.data.CNT > 0) {
                                     $scope.is_sale_cert = true;
+                                } else {
+                                    $scope.popSet();
                                 }
                                 $("#cust_hp").val(response.data.data.HP);
+                                $scope.cust_hp = response.data.data.HP;
                             }
                         });
 
