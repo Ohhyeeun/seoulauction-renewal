@@ -392,12 +392,10 @@
         $scope.itemsize = 20;
         $scope.curpage = 1;
 
-<<<<<<< HEAD
         $scope.onStateCostTxt = "현재가";
-=======
+
         $scope.is_sale_cert = false;
         $scope.cust_hp = "";
->>>>>>> feature/SADEV-216-경매-온라인-본인인증
 
         $scope.modelSortType = [{
             name: "LOT 번호순", value: 1
