@@ -27,12 +27,11 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-        registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/static/").setCachePeriod(CASH_PERIOD);
-
         registry.addResourceHandler("/js/**").addResourceLocations("classpath:/static/js/").setCachePeriod(CASH_PERIOD);
         registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/").setCachePeriod(CASH_PERIOD);
         registry.addResourceHandler("/images/**").addResourceLocations("classpath:/static/images/").setCachePeriod(CASH_PERIOD);
         registry.addResourceHandler("/font/**").addResourceLocations("classpath:/static/font/").setCachePeriod(CASH_PERIOD);
+        registry.addResourceHandler("/webapp/**").addResourceLocations("classpath:/static/webapp/").setCachePeriod(CASH_PERIOD);
     }
 
     @Bean

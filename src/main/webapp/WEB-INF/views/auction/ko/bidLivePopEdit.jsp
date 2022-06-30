@@ -397,9 +397,9 @@
 
         let url = '';
         if (window.location.protocol !== "https:") {
-            url = 'http://localhost:8002';
+            url = 'http://dev-bid.seoulauction.xyz';
         } else {
-            url = 'https://localhost:8002';
+            url = 'https://dev-bid.seoulauction.xyz';
         }
 
         //랏 이동
@@ -603,9 +603,9 @@
             }
 
             if (window.location.protocol !== "https:") {
-                w = new WebSocket("ws://localhost:8002/ws");
+                w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws");
             } else {
-                w = new WebSocket("wss://localhost:8002/ws");
+                w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws");
             }
             w.onopen = function () {
                 console.log("open");
@@ -654,9 +654,9 @@
                 let init_func_manual = async function (req) {
                     let url = '';
                     if (window.location.protocol !== "https:") {
-                        url = 'http://localhost:8002/init';
+                        url = 'http://dev-bid.seoulauction.xyz/init';
                     } else {
-                        url = 'https://localhost:8002/init';
+                        url = 'https://dev-bid.seoulauction.xyz/init';
                     }
                     let response = await fetch(url, {
                         method: "POST", body: JSON.stringify({
@@ -842,9 +842,9 @@
                         let currentLotInfoFunc = async function (token, saleNo, lotNo, saleType) {
                             let url = '';
                             if (window.location.protocol !== "https:") {
-                                url = 'http://localhost:8002/init2';
+                                url = 'http://dev-bid.seoulauction.xyz/init2';
                             } else {
-                                url = 'https://localhost:8002/init2';
+                                url = 'https://dev-bid.seoulauction.xyz/init2';
                             }
                             let resp = await fetch(url, {
                                 method: "POST", body: JSON.stringify({
@@ -907,9 +907,9 @@
                         let currentLotInfoFunc = async function (token, saleNo, lotNo, saleType) {
                             let url = '';
                             if (window.location.protocol !== "https:") {
-                                url = 'http://localhost:8002/init2';
+                                url = 'http://dev-bid.seoulauction.xyz/init2';
                             } else {
-                                url = 'https://localhost:8002/init2';
+                                url = 'https://dev-bid.seoulauction.xyz/init2';
                             }
                             let resp = await fetch(url, {
                                 method: "POST", body: JSON.stringify({
@@ -934,9 +934,9 @@
                         let currentLotInfoFunc = async function (token, saleNo, lotNo, saleType) {
                             let url = '';
                             if (window.location.protocol !== "https:") {
-                                url = 'http://localhost:8002/init2';
+                                url = 'http://dev-bid.seoulauction.xyz/init2';
                             } else {
-                                url = 'https://localhost:8002/init2';
+                                url = 'https://dev-bid.seoulauction.xyz/init2';
                             }
                             let resp = await fetch(url, {
                                 method: "POST", body: JSON.stringify({

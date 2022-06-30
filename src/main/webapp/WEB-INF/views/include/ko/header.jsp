@@ -57,7 +57,7 @@
     <link rel="icon" type="image/png" href="/images/favic/favicon-32x32.png" sizes="32x32"/>
     <link rel="icon" type="image/png" href="/images/favic/android-chrome-192x192.png" sizes="192x192"/>
     <link rel="icon" type="image/png" href="/images/favic/favicon-16x16.png" sizes="16x16"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="/iamges/favic/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/iamges/favic/apple-touch-icon.png"> 
 
     <%--angular 관련은 미리 로딩--%>
     <jsp:include page="../../common/angular.jsp" flush="false"/>
