@@ -1,21 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="ko">
-
-<head>
-    <!-- header -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>담보대출 | Seoul Auction</title>
-    <!-- //header -->
-</head>
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
 <body class="">
 <div class="wrapper">
     <div class="sub-wrap pageclass">
         <!-- header -->
-        <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+        <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <!-- //header -->
         <script>
             app.value('locale', 'ko');
@@ -311,7 +301,7 @@
                                             </div>
                                         </div>
                                         <div class="btn-area">
-                                            <a class="btn btn_gray_line" href="#" role="button"><span>1:1 문의</span></a>
+                                            <a class="btn btn_gray_line" href="/mypage/inquiryForm" role="button"><span>1:1 문의</span></a>
                                         </div>
                                     </div>
                                 </article>

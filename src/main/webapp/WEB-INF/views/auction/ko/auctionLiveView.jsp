@@ -4,14 +4,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <!-- header -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>경매상세 | Seoul Auction</title>
-    <!-- //header -->
-</head>
+
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
+
+
 <c:set var="isRegular" value="false" />
 <sec:authorize access="hasAuthority('ROLE_REGULAR_USER')">
     <c:set var="isRegular" value="true" />
@@ -19,7 +15,7 @@
 <body class="">
 <div class="wrapper">
     <div class="sub-wrap pageclass type-details_view">
-        <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+        <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <link rel="stylesheet" href="/css/plugin/csslibrary.css">
         <!-- container -->
         <div id="container" ng-controller="ctl" data-ng-init="load();">
@@ -349,7 +345,7 @@
                             </button>
                         </div>
                         <div class="btn-box">
-                            <button>응찰하기</button>
+                            <button ng-click="moveToBidding(lotInfo)">응찰하기</button>
                         </div>
                     </div>
                 </article>
@@ -1762,5 +1758,4 @@
 
 </script>
 </body>
-
 </html>

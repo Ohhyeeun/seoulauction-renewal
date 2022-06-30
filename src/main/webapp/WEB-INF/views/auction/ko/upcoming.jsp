@@ -1,25 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <!-- header -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>예정경매 | Seoul Auction</title>
-    <!-- //header -->
-</head>
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
 <body class="">
 <div class="wrapper">
     <div class="sub-wrap pageclass">
         <!-- header -->
-        <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+        <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <!-- //header -->
 
         <!-- container -->
-        <div id="container" ng-controller="auctionCtl" data-ng-init="loadAuction()">
+        <div id="container" ng-controller="auctionCtl" data-ng-init="loadAuction()" ng-cloak>
             <div id="contents" class="contents">
                 <section class="basis-section tab-auction_other-section">
                     <div class="section-inner">
@@ -60,8 +51,8 @@
                                                         <div class="state-box">
                                                             <span class="type-online" ng-if="['online','online_zb'].indexOf(auction.SALE_KIND_CD) > -1">ONLINE</span>
                                                             <span class="type-live" ng-if="['online','online_zb'].indexOf(auction.SALE_KIND_CD) <= -1">LIVE</span>
-                                                            <span class="type-d_day" ng-if="(auction.DB_NOW | calcDate : auction.FROM_DT : 'days') > 0">D-{{auction.DB_NOW | calcDate : auction.FROM_DT : 'days'}}</span>
-                                                            <span class="type-d_day" ng-if="(auction.DB_NOW | calcDate : auction.FROM_DT : 'days') <= 0">TODAY</span>
+                                                            <span class="type-d_day" ng-if="dDayCalc(auction.DB_NOW, auction.FROM_DT) > 0">D-{{dDayCalc(auction.DB_NOW, auction.FROM_DT)}}</span>
+                                                            <span class="type-d_day" ng-if="dDayCalc(auction.DB_NOW, auction.FROM_DT) <= 0">TODAY</span>
                                                         </div>
                                                         <div class="title-box"><span>{{auction.TITLE_JSON['ko']}}</span></div>
                                                         <div class="info-box">
@@ -118,7 +109,6 @@
     app.controller('auctionCtl', function($scope, consts, common, locale) {
         $scope.loadAuction = function() {
             axios.get('/api/auction/upcoming').then(function(response) {
-                console.log(response);
                 const success = response.data.success;
                 if (success) {
                     $scope.auctionList = response.data.data;

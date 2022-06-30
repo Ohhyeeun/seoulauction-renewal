@@ -85,13 +85,8 @@
                                         </div>
                                         <div class="btn_set type-pc_mb-column">
                                             <div class="btn_item">
-                                                <div class="select-box ">
+                                                <div class="select-box">
                                                     <select id="reservation_bid" class="select2Basic56_line">
-                                                        <option value="1800000">KRW 1,800,000</option>
-                                                        <option value="1900000">KRW 1,900,000</option>
-                                                        <option value="2000000">KRW 2,000,000</option>
-                                                        <option value="2100000">KRW 2,100,000</option>
-                                                        <option value="2200000">KRW 2,200,000</option>
                                                     </select>
                                                 </div>
                                             </div>

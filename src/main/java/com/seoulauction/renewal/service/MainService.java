@@ -109,15 +109,15 @@ public class MainService {
         resultMapList = resultMapList.stream().map(item -> {
             CommonMap returnMap = new CommonMap();
             returnMap.put("SALE_NO", item.get("SALE_NO"));
+            returnMap.put("D_DAY", item.get("D_DAY"));
             returnMap.put("SALE_KIND", item.get("SALE_KIND_CD").equals("online") || item.get("SALE_KIND_CD").equals("online_zb") ? "ONLINE" : "LIVE" );
             returnMap.put("TITLE_BLOB", item.get("TITLE_BLOB"));
             returnMap.put("SALE_TH", item.get("SALE_TH") != null ? item.get("SALE_TH") : "");
 
-            returnMap.put("D_DAY", item.get("DDAY"));
-
             returnMap.put("FROM_DT", item.get("FROM_DT"));
             returnMap.put("TO_DT", item.get("TO_DT"));
-            returnMap.put("OPEN_DT", item.get("OPEN_DT"));
+            returnMap.put("PREV_FROM_DT", item.get("PREV_FROM_DT"));
+            returnMap.put("PREV_TO_DT", item.get("PREV_TO_DT"));
 
             CommonMap paramMap = new CommonMap();
             paramMap.put("sale_no", item.get("SALE_NO"));
@@ -144,7 +144,7 @@ public class MainService {
             CommonMap returnMap = new CommonMap();
             returnMap.put("SALE_NO", item.get("SALE_NO"));
             returnMap.put("SALE_KIND", item.get("SALE_KIND"));
-            returnMap.put("SHORT_TITLE", "{\"en\": \"en short\", \"ko\":\"ko short\"}");
+            returnMap.put("SHORT_TITLE", item.get("TYNY_TITLE_BLOB"));
             returnMap.put("SALE_TH", item.get("SALE_TH") != null ? item.get("SALE_TH") : "");
             returnMap.put("TITLE_BLOB", item.get("TITLE_BLOB"));
             returnMap.put("FROM_DT", item.get("FROM_DT"));

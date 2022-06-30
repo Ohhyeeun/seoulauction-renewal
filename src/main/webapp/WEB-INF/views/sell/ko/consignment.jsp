@@ -1,21 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="ko">
-
-<head>
-    <!-- header -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Sell | Seoul Auction</title>
-    <!-- //header -->
-</head>
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
 <body class="">
 <div class="wrapper">
     <div class="sub-wrap pageclass">
         <!-- header -->
-        <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+        <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <!-- //header -->
         <script>
             app.value('locale', 'ko');
@@ -179,7 +169,7 @@
                                                                     서울옥션 담당자가 확인 후 답변을 드립니다.
                                                                 </li>
                                                                 <li>
-                                                                    답변은 <a href="#none" class="ft_sb colorB2">회원정보 > 1:1문의</a>에서 확인하실 수 있습니다.
+                                                                    답변은 <a href="/mypage/inquiryForm" class="ft_sb colorB2">회원정보 > 1:1문의</a>에서 확인하실 수 있습니다.
                                                                 </li>
                                                             </ul>
                                                         </div>

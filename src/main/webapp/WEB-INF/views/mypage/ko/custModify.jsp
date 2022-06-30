@@ -4,8 +4,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<!DOCTYPE html>
-<html lang="ko">
+
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
+
 <link rel="stylesheet" href="/css/plugin/csslibrary.css">
 <sec:authentication property="details.socialYn" var="socialYn"></sec:authentication>
 <sec:authentication property="details.socialType" var="socialType"></sec:authentication>
@@ -15,8 +16,7 @@
 <sec:authentication property="details.userNm" var="userNm"></sec:authentication>
 
 <c:set var="now" value="<%=new java.util.Date()%>" />
-<c:set var="thisYear"><fmt:formatDate value="${now}" pattern="yyyy" /></c:set> 
- 
+<c:set var="thisYear"><fmt:formatDate value="${now}" pattern="yyyy" /></c:set>  
 <script>
 console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
 	var socialYn = '${socialYn}';
@@ -24,13 +24,10 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
 	var userNo = '${userNo}';
 	var userKind = '${userKind}';
 </script>
-<head>
-    <title>회원정보수정 | Seoul Auction</title>
-</head>
 <body class="">
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
-			<jsp:include page="../../include/ko/header.jsp" flush="false" />
+            <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
             <!-- container -->
             <div id="container" class="custModify">
                 <div id="contents" class="contents">

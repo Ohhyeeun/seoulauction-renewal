@@ -208,5 +208,47 @@ public class AuctionController {
 
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "bidLivePopEdit_txt" , locale);
     }
+    @GetMapping("/admin/paddle/{sale_no}")
+    public String adminPaddle(Locale locale, Model model, @PathVariable("sale_no") int saleNo) {
 
+        SAUserDetails sa = SecurityUtils.getAuthenticationPrincipal();
+
+        if (sa == null) {
+            sa = new SAUserDetails();
+        }
+
+        model.addAttribute("member" , sa);
+        model.addAttribute("saleNo", saleNo);
+
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "bidLivePopPaddle" , locale);
+    }
+    @GetMapping("/admin/currency/{sale_no}")
+    public String adminCurrency(Locale locale, Model model, @PathVariable("sale_no") int saleNo) {
+
+        SAUserDetails sa = SecurityUtils.getAuthenticationPrincipal();
+
+        if (sa == null) {
+            sa = new SAUserDetails();
+        }
+
+        model.addAttribute("member" , sa);
+        model.addAttribute("saleNo", saleNo);
+
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "bidLivePopCurrency" , locale);
+    }
+
+    @GetMapping("/admin/sale/reg/{sale_no}")
+    public String adminSaleReg(Locale locale, Model model, @PathVariable("sale_no") int saleNo) {
+
+        SAUserDetails sa = SecurityUtils.getAuthenticationPrincipal();
+
+        if (sa == null) {
+            sa = new SAUserDetails();
+        }
+
+        model.addAttribute("member" , sa);
+        model.addAttribute("saleNo", saleNo);
+
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "saleReg" , locale);
+    }
 }

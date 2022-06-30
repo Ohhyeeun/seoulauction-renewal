@@ -253,7 +253,11 @@ function NVUnLink(){
 		.then(function(response) {
 			const result = response.data;
 			if(result.success){
+				if(langType == 'ko'){
 				alert('연결 해제 되었습니다.');
+				}else{
+					alert('Disconnected.');
+				}
 			}
 		})
 		.catch(function(error) {

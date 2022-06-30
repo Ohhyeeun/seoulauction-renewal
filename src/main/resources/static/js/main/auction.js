@@ -29,9 +29,12 @@ $(document).ready(function(){
                     //TODO 인클루드 작업.
                     $.each(auctionData , function(idx , el){
 
-                        let title = JSON.parse(el.SHORT_TITLE);
-                        let name = locale === 'ko' ? title.ko : title.en;
+                        let name = '숏 세일 이름';
 
+                        if(el.SHORT_TITLE){
+                            let title = JSON.parse(el.SHORT_TITLE);
+                            name = locale === 'ko' ? title.ko : title.en;
+                        }
                         //sale html
                         let saleHtml = idx === 0 ? `<span class="auctionTab-btn on"><span class="text-over">${name}</span></span>`
                                                 : `<span class="auctionTab-btn"><span class="text-over">${name}</span></span>`;

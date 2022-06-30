@@ -9,7 +9,9 @@ $(window).on("load", function() {
 	if(socialYn == 'Y'){
        document.getElementById('snsImg').src = '/images/common/icon-sns_' + snsFullName() + '.png';
 	}
-	
+});
+
+function getCustDetails(){
 	axios.get('/api/mypage/custs/' + userNo)
 		.then(function(response) {
 			const result = response.data;
@@ -114,7 +116,7 @@ $(window).on("load", function() {
 				}
 				
 				//해외
-				if(!undefCheck(data.NATION_CD)){
+				if(!undefCheck(data.NATION_CD) && langType != 'ko'){
 					nationList.forEach(function(ele){
 						if(ele.CD_ID == data.NATION_CD){
 							$("#nation_cd").val(ele.CD_ID + "|" + ele.CD_VAL3);
@@ -133,11 +135,8 @@ $(window).on("load", function() {
 		.catch(function(error) {
 			console.log(error);
 		});
-});
-
+}
 $(document).ready(function() {
-	var data = {};
-	
 	let interestAreaData = {"grp_ids": ["interest_area"]};
 	axios.post('/api/mypage/interestAreas' , interestAreaData)
 	.then(function(response) {
@@ -165,6 +164,8 @@ $(document).ready(function() {
 		pushWayList.forEach(function(ele){
 			if (langType == 'ko') {
 				$("#pushWayList").append("<span class='trp checkbox-box'><input type='checkbox' name='push_way' id='pushway_" + ele.CD_ID + "' value='" + ele.CD_ID + "'><i></i><label for='checkbox1'>" + ele.CD_NM + "</label>");
+				
+				getCustDetails();
 			}else{
 				$("#pushWayList").append("<span class='trp checkbox-box'><input type='checkbox' name='push_way' id='pushway_" + ele.CD_ID + "' value='" + ele.CD_ID + "'><i></i><label for='checkbox1'>" + ele.CD_NM_EN + "</label>");
 			}
@@ -186,6 +187,8 @@ $(document).ready(function() {
 				$("#nation_cd").append("<option value='" + ele.CD_ID + "|" + ele.CD_VAL3 + "'>" + ele.CD_NM + "</option>");
 //				$("#nation_cd").append("<option value='" + ele.CD_ID + "'>" + ele.CD_NM + "</option>");
 			})
+			
+			getCustDetails();
 	    })
 	    .catch(function(error){
 	        console.log(error);

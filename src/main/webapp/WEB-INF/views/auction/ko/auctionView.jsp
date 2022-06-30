@@ -5,20 +5,18 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<!DOCTYPE html>
-<html lang="ko">
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
-<head>
-    <!-- header -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>경매상세 | Seoul Auction</title>
-    <!-- //header -->
-</head>
 <body class="">
+<style>
+    .select2-container {
+        z-index: 999;
+    }
+</style>
 <div class="wrapper">
     <link rel="stylesheet" href="/css/plugin/csslibrary.css">
     <div class="sub-wrap pageclass type-details_view">
-        <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+        <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
 
         <!-- container -->
         <div id="container" ng-controller="ctl" data-ng-init="load();">
@@ -645,6 +643,8 @@
         $scope.cust_no =  ${member.userNo};
         $scope.user_id =  '${member.loginId}';
 
+        $scope.is_sale_cert = false;
+        $scope.cust_hp = "";
 
         // 호출 부
         const getSaleInfo = (saleNo) => {
@@ -723,15 +723,14 @@
         }
 
         $scope.popSet = function (saleNo, lotNo, userId, custNo) {
-            if ( custNo === 0) {
-                checkLogin();
-            }
-            const is_sale_cert = $scope.is_sale_cert || $("#is_sale_cert").val();
+            if(!checkLogin()) return;
+
+            const is_sale_cert = $scope.is_sale_cert;
             if (!is_sale_cert) {
                 popup_offline_payment.open(this); // or false
                 popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
 
-                // 랏번호 삽입
+                // 경매번호 삽입
                 $("#sale_no").val(saleNo);
                 // 랏번호 삽입
                 $("#lot_no").val(lotNo);
@@ -846,14 +845,14 @@
                     '${member.loginId}', ${member.userNo});
 
                 //get sale cert
-                $scope.is_sale_cert = false;
-                $scope.cust_hp = "";
                 if (sessionStorage.getItem("is_login") === 'true') {
                     await axios.get('/api/cert/sales/${saleNo}')
                         .then(function (response) {
                             if (response.data.success) {
                                 if (response.data.data.CNT > 0) {
                                     $scope.is_sale_cert = true;
+                                } else {
+                                    $scope.popSet();
                                 }
                                 $("#cust_hp").val(response.data.data.HP);
                                 $scope.cust_hp = response.data.data.HP;
@@ -1535,28 +1534,31 @@
                     bid_info.open_bid_cost :
                     bid_info.bid_cost;
 
-                let quoute_arr = [];
+                let quote_arr = [];
 
                 if (d.message.quotes != null && d.message.quotes.length > 0) {
-                    let cnt = 0;
+                    let cnt = 1;
                     let viewCnt = 0;
                     while (viewCnt < 70) {
                         if (cnt > d.message.quotes.length - 1) {
-                            quoute_arr.push(cost_tmp)
+                            quote_arr.push(cost_tmp)
                             cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
                             viewCnt++;
                             continue
                         }
+                        // 호가리스트 값이 현재 코스트 보다 컸을때
                         if (d.message.quotes[cnt].cost > cost_tmp) {
-                            quoute_arr.push(cost_tmp)
+                            quote_arr.push(cost_tmp)
                             cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
                             cnt = 0;
                             viewCnt++;
                             continue
                         }
-                        cnt++
+                        ++cnt;
+                        cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost;
                     }
-                    $.each(quoute_arr, function (idx, el) {
+                    $("#reservation_bid").find("option").remove();
+                    $.each(quote_arr, function (idx, el) {
                         $("#reservation_bid").append(`<option value="` + el + `">KRW ` + el.toLocaleString('ko-KR') + `</option>`);
                     });
                 }
