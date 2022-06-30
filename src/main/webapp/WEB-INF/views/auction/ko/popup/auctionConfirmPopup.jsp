@@ -23,9 +23,8 @@
                                 </div>
                                 <div class="form_body">
                                     <div class="input-group">
-                                        <input type="text" id="phone" class="form-control" value="" placeholder=""maxLength=13 onkeyup="onlyNumber(this);">
+                                        <input type="text" id="phone" class="form-control" value="" placeholder="" maxLength=13 onkeyup="onlyNumber(this);" onkeypress="phoneNumber(this);">
                                         <input type="hidden" id="cust_hp" value="" />
-                                        <input type="hidden" id="is_sale_cert" value="" />
                                         <button class="btn btn_light_gray_line" type="button" onClick="authNumRequest()"><span id="authNumRequest">인증번호 요청</span></button>
                                     </div>
                                     <p class="error_text tb2 messageArea" id="messageArea1"></p>
@@ -72,7 +71,7 @@
                                                                 <div class="trp checkbox-box">
                                                                     <input id="checkbox_all1" class="js_item" type="checkbox" name="">
                                                                     <i></i>
-                                                                    <label for="checkbox_all1"><em>본인은 서울옥션 경매약관(<span><a href="#">바로가기</a></span>)을 모두 읽고<br class="only-pc"> 이해하였으며, 그 적용에 동의합니다.</em></label>
+                                                                    <label for="checkbox_all1"><em>본인은 서울옥션 경매약관(<span><a href="/footer/terms" target="terms">바로가기</a></span>)을 모두 읽고<br class="only-pc"> 이해하였으며, 그 적용에 동의합니다.</em></label>
                                                                 </div>
                                                             </li>
                                                             <li>
@@ -106,7 +105,7 @@
                             <div class="btn-area">
                                 <div class="btn_set-float tac">
                                     <!-- [0523]a 버튼 href에 # 삽입 -->
-                                    <a class="btn btn_gray_line" href="#" role="button">
+                                    <a class="btn btn_gray_line js-closepop" href="#" role="button">
                                         <span>취소</span>
                                     </a>
                                     <a class="btn btn_point" href="#" role="button" onClick="saleCertSuccess();">

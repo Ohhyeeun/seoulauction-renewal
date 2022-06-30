@@ -268,14 +268,17 @@
 
             let lot_orders = [];
             let salet = 1;
+            let winnerst = 1;
             let bt = 11;
             for (let i = 0; i < $scope.saleInfoAll.length; i++) {
                 if ($scope.saleInfoAll[i].SALE_KIND_CD === "main"){
                     salet = 1;
                     bt = 11;
+                    winnerst = 0;
                 } else {
                     salet = 2;
                     bt = 21;
+                    winnerst = 1;
                 }
                 lot_orders.push(
                     {
@@ -294,7 +297,7 @@
                         is_auto_bid: false,
                         end_bid_time: new Date($scope.saleInfoAll[i].TO_DT_ORG).getTime() + (i * 30 * 1000),
                         open_bid_time: new Date($scope.saleInfoAll[i].FROM_DT_ORG).getTime(),
-                        winner_state: 1,
+                        winner_state: winnerst,
                         secret: "KENNYPARK"
                     }
                 )

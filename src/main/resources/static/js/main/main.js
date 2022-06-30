@@ -338,7 +338,7 @@ function loadUpcomings() {
                                                     <h4 class="text-over">${localeOrdinal(item.SALE_TH,locale) + titleJSON[locale] }</h4>
                                                     <div class="upcoming-datebox">
                                                         ${ locale === 'en'?
-                                                            `<p class="upcoming-open on"> <!-- today 일때만 오픈일 생성 --> 
+                                                            `<p class="upcoming-open on">
                                                                 <span>OPEN</span><span>${ from_dt.format('DD MMMM')}</span>
                                                             </p>
                                                             <p class="upcoming-preview">
@@ -348,7 +348,7 @@ function loadUpcomings() {
                                                                 <span>AUCTION</span><span>${ to_dt.format('DD MMMM hh:mm')}</span>
                                                             </p>`
                                                             :
-                                                            `<p class="upcoming-open"> 
+                                                            `<p class="upcoming-open on"> 
                                                                 <span>오픈일</span><span>${ from_dt.format('MM/DD(ddd)')}</span>
                                                             </p>
                                                             <p class="upcoming-preview">
@@ -360,7 +360,8 @@ function loadUpcomings() {
                                                         }
                                                     </div>
                                                 </div>
-                                                <figure class="upcoming-img on" style="display: flex; width:160px; height:160px; overflow: hidden;">
+                                                ${item.FILE_PATH !== null && item.FILE_NAME !== null ?
+                                                `<figure class="upcoming-img on" style="display: flex; width:160px; height:160px; overflow: hidden;">
                                                     <!--<span class="upcomingImg"></span>-->
 <!--                                                    <img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">-->
 <!--                                                    <img src="https://www.seoulauction.com/nas_img/front/online0688/thum/ea39a8bb-c1b9-427d-a250-62117dcc07f5.jpg" alt="alet">-->
@@ -368,7 +369,7 @@ function loadUpcomings() {
                                                         style="object-fit: cover"
                                                         onerror="this.parentNode.remove ? this.parentNode.remove() : this.parentNode.removeNode();" 
                                                         alt="" >
-                                                </figure>
+                                                </figure>` :``}
                                             </a>
                                         </div>`;
                     slideArray.push(returnDom);
@@ -600,15 +601,36 @@ function localeOrdinal(n, l) {
 
 /* main에서만 사용되는 gnb */
 if (matchMedia("all and (min-width: 1024px)").matches) {
-
-} else {
     /* 띠배너 beltbanner */
-    $('.header_beltbox.on').show(function () {
-        $('.main-contents').css('margin-top', '100px');
+    if($('.header_beltbox').hasClass('on')) { /* on */
+        $('.main-contents').css({'margin-top':'162px'});
+    } else {
+        $('.main-contents').css({'margin-top':'102px'});
+    }
+    $('.header_beltbox').hasClass('on');
+} else {
+    /* 띠배너 beltbanner */ 
+    if($('.header_beltbox').hasClass('on')) { /* on */
+        console.log(898989898);
+        $('.main-contents').css({'margin-top':'56px'});
+        $('.m-gnbmenu').click(function(){
+            $('.submenuBg').css({'top':'0'});
+        });
+    } else {
+        console.log(634636);
+        $('.main-contents').css({'margin-top':'162px'});
         $('.m-gnbmenu').click(function(){
             $('.submenuBg').css({'top':'-43px'});
         });
-    });
+    }
+    $('.header_beltbox').hasClass('on');
+
+    // $('.header_beltbox.on').show(function () {
+    //     $('.main-contents').css('margin-top', '100px');
+    //     $('.m-gnbmenu').click(function(){
+    //         $('.submenuBg').css({'top':'-43px'});
+    //     });
+    // });
     $('.beltclose-btn').click(function () {
         $('.main-contents').css('margin-top', '56px');
         $('.m-gnbmenu').click(function(){

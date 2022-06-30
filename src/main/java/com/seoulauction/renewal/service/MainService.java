@@ -109,6 +109,7 @@ public class MainService {
         resultMapList = resultMapList.stream().map(item -> {
             CommonMap returnMap = new CommonMap();
             returnMap.put("SALE_NO", item.get("SALE_NO"));
+            returnMap.put("D_DAY", item.get("D_DAY"));
             returnMap.put("SALE_KIND", item.get("SALE_KIND_CD").equals("online") || item.get("SALE_KIND_CD").equals("online_zb") ? "ONLINE" : "LIVE" );
             returnMap.put("TITLE_BLOB", item.get("TITLE_BLOB"));
             returnMap.put("SALE_TH", item.get("SALE_TH") != null ? item.get("SALE_TH") : "");

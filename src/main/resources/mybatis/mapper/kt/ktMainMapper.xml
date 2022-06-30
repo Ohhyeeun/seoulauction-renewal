@@ -5,6 +5,7 @@
 		<![CDATA[
 		select SALE_NO
 			 , SALE_KIND_CD
+			 , DATEDIFF(date(FROM_DT), now()) as D_DAY
 			 , IF(SALE_TH_DSP_YN = 'N', '', SALE_TH) SALE_TH
 			 , COLUMN_JSON(TITLE_BLOB) AS TITLE_BLOB
 			 , WWW_DISP_YN
