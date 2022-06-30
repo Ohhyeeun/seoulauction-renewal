@@ -931,7 +931,7 @@
                             $scope.searchSaleInfoAll[i].CUR_COST = curCostValue;
                         }
                     }
-                    $scope.$apply();
+
 
                     if (parseInt($("#sale_no").val()) !== d.message.bid[len - 1].customer.sale_no || parseInt($("#lot_no").val()) !== d.message.bid[len - 1].customer.lot_no) {
                         return
@@ -1006,6 +1006,22 @@
                         }
                     }
                 }
+                if (d.message.times !== null && d.message.times.length > 0){
+                    let matching = new Map();
+                    for (let j = 0; j < d.message.times.length; j++) {
+                        matching.set(d.message.times[j].key, d.message.times[j].value);
+                    }
+                    for (let j = 0; j < $scope.saleInfoAll.length; j++) {
+                        $scope.saleInfoAll[j].END_DT = matching.get($scope.saleInfoAll[j].SALE_NO +
+                            "-" + $scope.saleInfoAll[j].LOT_NO);
+                    }
+                    for (let j = 0; j < $scope.searchSaleInfoAll.length; j++) {
+                        $scope.searchSaleInfoAll[j].END_DT = matching.get($scope.searchSaleInfoAll[j].SALE_NO +
+                            "-" + $scope.searchSaleInfoAll[j].LOT_NO);
+                    }
+                }
+                $scope.$apply();
+
             } else if (d.msg_type === packet_enum.time_sync) {
                 let ddd = new Date(d.message.tick_value);
                 let bid_tick = document.getElementById("bid_tick");

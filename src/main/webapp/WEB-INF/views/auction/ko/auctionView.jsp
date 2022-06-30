@@ -401,7 +401,7 @@
                                             <div class="typo-header">
                                                 <div class="title"><span id="artist_nm"></span><em id="born_year"></em>
                                                 </div>
-                                                <div class="desc"><span id="bidding_title">Air (From The Series The Elements)</span>
+                                                <div class="desc"><span id="bidding_title"></span>
                                                 </div>
                                             </div>
                                             <div class="typo-body">
@@ -840,8 +840,9 @@
 
                 $("#lot_title").html("LOT " + $scope.lotInfo.LOT_NO);
                 // 시작
+                console.log("125540", $scope.cust_no);
                 startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2,
-                    '${member.loginId}', ${member.userNo});
+                    '${member.loginId}', $scope.cust_no);
 
                 //get sale cert
                 $scope.is_sale_cert = false;
@@ -1440,7 +1441,7 @@
                             let li = document.createElement("li");
 
                             let user_id_ly = document.createElement("div");
-                            if (bid_hist_info.cust_no === custNo) {
+                            if (bid_hist_info[i].cust_no === custNo) {
                                 user_id_ly.setAttribute("class", "product-user on_green");
                             } else {
                                 user_id_ly.setAttribute("class", "product-user");
@@ -1487,7 +1488,6 @@
         } else if (d.msg_type == packet_enum.time_sync) {
 
         } else if (d.msg_type == packet_enum.bid_info_init) {
-
 
             if (d.message.bids != null && d.message.bids.length > 0) {
                 let bid_info = d.message.bids[0];
@@ -1575,7 +1575,7 @@
                                     let li = document.createElement("li");
 
                                     let user_id_ly = document.createElement("div");
-                                    if (bid_hist_info[i].value[j].cust_no === custNo) {
+                                    if (bid_hist_info[i].value[j].customer.cust_no === custNo) {
                                         user_id_ly.setAttribute("class", "product-user on_green");
                                     } else {
                                         user_id_ly.setAttribute("class", "product-user");
