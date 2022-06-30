@@ -16,7 +16,7 @@
     <meta name="keywords" content="미술품,경매,작품,미술,근현대,고미술,와인,보석,구매,판매,위탁,경매회사,갤러리,케이옥션,K옥션,seoulauction,auction">
     <meta name="author" content="SeoulAuction">
     <meta name="Copyright" content="SeoulAuction" />
-    <meta name="Claasification" content="회사소개, 미술품소개, 경매, 구매, 위탁" />
+    <meta name="Classification" content="회사소개, 미술품소개, 경매, 구매, 위탁" />
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.seoulauction.com">
     <meta property="og:title" content="SeoulAuction">
@@ -24,7 +24,7 @@
     <meta property="og:image" content="/images/thumbnail/201508122329463497773394954126.jpg"/>
     <meta property="al:web:url" content="https://www.seoulauction.com">
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="msapplication-TileImage" content="/images/favic/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
     <meta name="application-name" content="SeoulAuction" />
     <!— Windows 8.1 + IE11 and above —>
