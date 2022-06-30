@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	}
 
 	authNumRequest = function() {
-		saleNo = document.getElementById('sale_no').value;
+		saleNo = Scope().sale_no;
 		phone = document.getElementById('phone').value;
 
 		var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
@@ -142,7 +142,6 @@ document.addEventListener("DOMContentLoaded", function(){
 					//document.getElementById("popup_online_confirm-wrap").
 					checkHpAuth.check = true;
 
-					$("#is_sale_cert").val("true");
 					//수정필요
 					//$scope.parent.sale_cert.CNT = 1;
 
@@ -178,6 +177,9 @@ document.addEventListener("DOMContentLoaded", function(){
 			.then(function (response) {
 				const data = response.data;
 				if (data.success) {
+					Scope().is_sale_cert = true;
+					Scope().popSet(parseInt(Scope().sale_no), parseInt($("#lot_no").val()), Scope().user_id, parseInt(Scope().cust_no));
+
 					//변경필요.
 					if (!is_same_hp) {
 						if (confirm("고객정보의 핸드폰번호와 일치하지 않습니다.\n인증받은 핸드폰번호로 갱신하시겠습니까?")) {
@@ -199,8 +201,6 @@ document.addEventListener("DOMContentLoaded", function(){
 				console.log(error);
 
 			});
-
-		Scope().popSet(parseInt(Scope().sale_no), parseInt($("#lot_no").val()), Scope().user_id, parseInt(Scope().cust_no));
 	}
 
 	//체크박스

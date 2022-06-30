@@ -643,6 +643,8 @@
         $scope.cust_no =  ${member.userNo};
         $scope.user_id =  '${member.loginId}';
 
+        $scope.is_sale_cert = false;
+        $scope.cust_hp = "";
 
         // 호출 부
         const getSaleInfo = (saleNo) => {
@@ -721,15 +723,14 @@
         }
 
         $scope.popSet = function (saleNo, lotNo, userId, custNo) {
-            if ( custNo === 0) {
-                checkLogin();
-            }
-            const is_sale_cert = $scope.is_sale_cert || $("#is_sale_cert").val();
+            if(!checkLogin()) return;
+
+            const is_sale_cert = $scope.is_sale_cert;
             if (!is_sale_cert) {
                 popup_offline_payment.open(this); // or false
                 popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
 
-                // 랏번호 삽입
+                // 경매번호 삽입
                 $("#sale_no").val(saleNo);
                 // 랏번호 삽입
                 $("#lot_no").val(lotNo);
@@ -844,14 +845,14 @@
                     '${member.loginId}', ${member.userNo});
 
                 //get sale cert
-                $scope.is_sale_cert = false;
-                $scope.cust_hp = "";
                 if (sessionStorage.getItem("is_login") === 'true') {
                     await axios.get('/api/cert/sales/${saleNo}')
                         .then(function (response) {
                             if (response.data.success) {
                                 if (response.data.data.CNT > 0) {
                                     $scope.is_sale_cert = true;
+                                } else {
+                                    $scope.popSet();
                                 }
                                 $("#cust_hp").val(response.data.data.HP);
                                 $scope.cust_hp = response.data.data.HP;
