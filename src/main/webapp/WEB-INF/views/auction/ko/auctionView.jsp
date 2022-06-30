@@ -1371,9 +1371,9 @@
         let url ='';
 
         if (window.location.protocol !== "https:") {
-            url = "https://dev-bid.seoulauction.xyz";
-        } else {
             url = "http://dev-bid.seoulauction.xyz";
+        } else {
+            url = "https://dev-bid.seoulauction.xyz";
         }
 
         if (d.msg_type == packet_enum.init) {
