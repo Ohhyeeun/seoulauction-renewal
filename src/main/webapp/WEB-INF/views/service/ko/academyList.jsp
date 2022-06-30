@@ -21,8 +21,8 @@ var authorities = '${authorities}'
 <div class="wrapper">
     <div class="sub-wrap pageclass">
         <!-- header -->
-        <jsp:include page="../../include/ko/header.jsp" flush="false"/>
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
+        <script type="text/javascript" src="/js/service/academy.js"></script>
         <!-- //header -->
 
         <!-- container -->
