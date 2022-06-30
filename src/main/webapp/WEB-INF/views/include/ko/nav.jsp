@@ -73,17 +73,7 @@
                 <span class="submenuBg-closeBtn closebtn closebtn-b m-ver"></span>
                 <div class="flex_wrap submenuBg-box">
                     <div class="Ingbanner-box">
-                        <%--경매 준비중 추가--%>
-                        <a href="javascript:void(0);" class="Ingbanner" target="_blank">
-                            <figure class="border-txt-darkg Ingbanner-img">
-                                <img src="/images/pc/thumbnail/gnb_thubnatil_ready.jpg" alt="ing_auction03">
-                            </figure>
-                            <div class="Ingbanner-txt text-over">
-                                <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                <p class="text-over">경매 준비중</p>
-                                <span class="Ingbanner-arrow"></span>
-                            </div>
-                        </a>
+
                     </div>
 
                     <ul class="subGnbmenu">
