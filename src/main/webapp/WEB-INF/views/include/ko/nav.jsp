@@ -116,13 +116,13 @@
                                 <li><a href="/service/marketing">아트컨설팅&#38;기업마케팅</a></li>
                             </ul>
                         </li>
-                        <li class="subGnbmenu-tit m-ver">
-                                <span class="gnbmenu_arrow modebox">Light Mode
-                                    <label for="dark" class="mode-toggle">
-                                        <input type="checkbox" id="dark" name="dark">
-                                        <span class="mode-switch"></span>
-                                    </label>
-                                </span>
+                        <li class="subGnbmenu-tit m-ver" ng-if="${requestScope['javax.servlet.forward.servlet_path'] == '/'}">
+                            <span class="gnbmenu_arrow modebox">Light Mode
+                                <label for="dark" class="mode-toggle">
+                                    <input type="checkbox" id="dark" name="dark">
+                                    <span class="mode-switch"></span>
+                                </label>
+                            </span>
                         </li>
                     </ul>
                     <figure class="blacklotbox">

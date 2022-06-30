@@ -97,6 +97,8 @@ $(function() {
 
     /* pc 다크모드 */
     $('.darkmodeBg').click(function () {
+        console.log("theme ", localStorage.getItem('theme'));
+
         $('*').toggleClass('dark');
 
         $('.auctionTab-btn').click(function () {
@@ -112,15 +114,32 @@ $(function() {
         $('.darktxt.dark').text('라이트모드로 보기');
         $('.darktxt-en').text('Dark Mode');
         $('.darktxt-en.dark').text('Ligth Mode');
+
+        const theme = localStorage.getItem('theme');
+        if (theme) {
+            localStorage.removeItem('theme');
+        } else {
+            localStorage.setItem('theme', 'dark');
+        }
+        console.log("theme ", localStorage.getItem('theme'));
     });
 
     /* mobile 다크모드 */
     $('.modebox').click(function () {
+        console.log("theme ", localStorage.getItem('theme'));
         if ($('.mode-toggle>input').is(":checked")) {
             $('*').addClass('dark');
         } else {
             $('*').removeClass('dark');
         }
+
+        const theme = localStorage.getItem('theme');
+        if (theme) {
+            localStorage.removeItem('theme');
+        } else {
+            localStorage.setItem('theme', 'dark');
+        }
+        console.log("theme ", localStorage.getItem('theme'));
     });
 
     /* 띠배너 */
