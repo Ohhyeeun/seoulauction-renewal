@@ -30,12 +30,11 @@ $(function() {
                     ingAuctionList.map(item => {
                         const titleJSON = JSON.parse(item.TITLE_BLOB);
                         const returnDom = `<a href="/auction/list/${item.SALE_NO}" class="Ingbanner" target="_blank">
-                                            ${item.FILE_PATH !== null && item.FILE_NAME !== null ?
-                                            `<figure class="border-txt-darkg Ingbanner-img">
+                                            <figure class="border-txt-darkg Ingbanner-img">
                                                 <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" 
                                                      onerror="this.src='/images/pc/thumbnail/gnb_thubnatil_ready.jpg'"
                                                     alt="ing_auction01">
-                                            </figure>`:``}
+                                            </figure>
                                             <div class="Ingbanner-txt text-over">
                                                 <span class="auctionKind-box Ingkind-auction ${item.SALE_KIND === 'LIVE' ? 'on' : ''}">${item.SALE_KIND}</span>
                                                   <p class="text-over">${localeOrdinal(item.TITLE_TH, locale) + titleJSON[locale]}</p>
