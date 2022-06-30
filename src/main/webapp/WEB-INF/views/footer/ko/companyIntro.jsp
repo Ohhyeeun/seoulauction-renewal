@@ -144,7 +144,10 @@
         }).trigger('change');
     </script>
 
-
+    <%--angular 관련은 미리 로딩--%>
+    <%@include file="../../common/angular.jsp"%>
+    <%@include file="../../common/commonJs.jsp"%>
+    <%@include file="../../common/commonJSNotMain.jsp"%>
 </body>
 
 </html>
