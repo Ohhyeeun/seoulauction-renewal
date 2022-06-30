@@ -72,8 +72,8 @@
             <div class="wrap">
                 <span class="submenuBg-closeBtn closebtn closebtn-b m-ver"></span>
                 <div class="flex_wrap submenuBg-box">
-                    <div class="Ingbanner-box">
-                        <%--경매 준비중 추가--%>
+                    <div class="Ingbanner-box pc-ver1280"> 
+                        <%--경매 준비중 추가 [20220629 삭제로 변경]
                         <a href="javascript:void(0);" class="Ingbanner" target="_blank">
                             <figure class="border-txt-darkg Ingbanner-img">
                                 <img src="/images/pc/thumbnail/gnb_thubnatil_ready.jpg" alt="ing_auction03">
@@ -83,7 +83,7 @@
                                 <p class="text-over">경매 준비중</p>
                                 <span class="Ingbanner-arrow"></span>
                             </div>
-                        </a>
+                        </a> --%>
                     </div>
 
                     <ul class="subGnbmenu">
