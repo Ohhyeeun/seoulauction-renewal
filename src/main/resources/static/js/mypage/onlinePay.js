@@ -80,6 +80,9 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 			window.open('/customer/payPurchaseRequestTest?lot_no=' + lot_no + "&sale_no=" + sale_no, 'popup', 'width=720,height=750,toobar=0,resizable=yes,status=0,scrollbars=0');
 		}
 	}
+	$scope.payInfoPopup = function() {
+		alert('팝업');
+	}
 
 	
 	$scope.groupBy = function(xs, key) {
@@ -133,7 +136,7 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 		subFee = 0.0;
 		
 		
-		return {"price" : $scope.comma(price + totalFee), "fee" : $scope.comma(totalFee)};
+		return {"price" : price + totalFee, "fee" : totalFee};
 	}
 	
 	$scope.StringToJson = function(stringData) {	
@@ -150,5 +153,6 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 		return bidCountToString;
 	}
 		
+	
 	
 });
