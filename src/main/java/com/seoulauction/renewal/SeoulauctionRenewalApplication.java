@@ -2,11 +2,14 @@ package com.seoulauction.renewal;
 
 import javax.servlet.http.HttpSessionListener;
 
+import org.apache.catalina.Context;
+import org.apache.tomcat.util.scan.StandardJarScanner;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 
@@ -39,5 +42,14 @@ public class SeoulauctionRenewalApplication extends SpringBootServletInitializer
     @Bean
     public HttpSessionListener httpSessionListener(){
         return new SessionListener();
+    }
+    @Bean
+    public TomcatServletWebServerFactory tomcatFactory() {
+        return new TomcatServletWebServerFactory() {
+            @Override
+            protected void postProcessContext(Context context) {
+                ((StandardJarScanner) context.getJarScanner()).setScanManifest(false);
+            }
+        };
     }
 }
