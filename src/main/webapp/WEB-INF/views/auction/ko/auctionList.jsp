@@ -210,7 +210,7 @@
                                                                 <dd>{{item.START_COST}}</dd>
                                                             </dl>
                                                             <dl class="price-list">
-                                                                <dt>낙찰가</dt>
+                                                                <dt ng-bind="onStateCostTxt">낙찰가</dt>
                                                                 <dd>
                                                                     <strong>{{item.CUR_COST}}</strong><em>{{item.BID_COUNT}}</em>
                                                                 </dd>
@@ -391,6 +391,8 @@
         $scope.pagesize = 10;
         $scope.itemsize = 20;
         $scope.curpage = 1;
+
+        $scope.onStateCostTxt = "현재가";
 
         $scope.modelSortType = [{
             name: "LOT 번호순", value: 1
@@ -611,6 +613,13 @@
                 $scope.saleImages = r2.data.data;
                 $scope.lotTags = r3.data.data;
 
+                if ($scope.saleInfoAll.length > 0) {
+                    if ($scope.saleInfoAll[0].SALE_KIND_CD !== "online") {
+                        alert('잘못된 접근 입니다.');
+                        window.history.back();
+                        return
+                    }
+                }
 
                 for (let i = 0; i < $scope.saleInfoAll.length; i++) {
                     if ($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW != null) {
@@ -708,7 +717,7 @@
 
         let w;
 
-        $scope.timeTickInterval = function(){
+        /*$scope.timeTickInterval = function(){
             let ddd = new Date();
             // 앵귤러 정보 삽입
             for (let j = 0; j < $scope.searchSaleInfoAll.length; j++) {
@@ -821,7 +830,7 @@
                 }
             }
             //console.log($scope.saleInfoAll.length, ddd.getTime());
-        }
+        }*/
         // bidstart
         $scope.bidstart = function (user_id, custNo) {
             $scope.retry(parseInt($scope.sale_no), 0, 2, user_id, custNo);
@@ -1038,6 +1047,7 @@
                         $scope.searchSaleInfoAll[j].BID_TICK = diffDay + diffHour + diffMin + diffSec;
                         //현재 일이 종료일보다 큰 경우
                     } else if ($scope.searchSaleInfoAll[j].END_DT < d.message.tick_value) {
+                        $scope.onStateCostTxt = "낙찰가";
                         $scope.searchSaleInfoAll[j].BID_TICK = "경매가 종료되었습니다."
                     }
                 }
