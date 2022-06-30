@@ -164,6 +164,8 @@ $(document).ready(function() {
 		pushWayList.forEach(function(ele){
 			if (langType == 'ko') {
 				$("#pushWayList").append("<span class='trp checkbox-box'><input type='checkbox' name='push_way' id='pushway_" + ele.CD_ID + "' value='" + ele.CD_ID + "'><i></i><label for='checkbox1'>" + ele.CD_NM + "</label>");
+				
+				getCustDetails();
 			}else{
 				$("#pushWayList").append("<span class='trp checkbox-box'><input type='checkbox' name='push_way' id='pushway_" + ele.CD_ID + "' value='" + ele.CD_ID + "'><i></i><label for='checkbox1'>" + ele.CD_NM_EN + "</label>");
 			}
