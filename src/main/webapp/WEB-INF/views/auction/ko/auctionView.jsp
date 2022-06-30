@@ -1368,6 +1368,14 @@
         }
         let d = JSON.parse(evt.data);
 
+        let url ='';
+
+        if (window.location.protocol !== "https:") {
+            url = "https://dev-bid.seoulauction.xyz";
+        } else {
+            url = "http://dev-bid.seoulauction.xyz";
+        }
+
         if (d.msg_type == packet_enum.init) {
             // 현재 접속 세일/랏 정보
             connect_info.token = d.message.token
@@ -1377,7 +1385,7 @@
             connect_info.cust_no = custNo;
 
             let init_func_manual = async function (req) {
-                let response = await fetch('http://dev-bid.seoulauction.xyz/init', {
+                let response = await fetch(url + '/init', {
                     method: "POST",
                     body: JSON.stringify({
                         token: req.message.token,
