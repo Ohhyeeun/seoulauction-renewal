@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
-<jsp:include page="../../include/ko/header.jsp" flush="false"/>
-
+<%@include file="../../include/ko/header.jsp"%>
 <body class="">
     <div class="wrapper">
         <div class="sub-wrap pageclass">
 
             <!-- header -->
-            <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
+            <%@include file="../../include/ko/nav.jsp"%>
             <!-- //header -->
 
             <!-- container -->

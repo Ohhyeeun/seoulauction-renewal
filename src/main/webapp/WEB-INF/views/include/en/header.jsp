@@ -5,7 +5,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<jsp:include page="../../common/commonCss.jsp" flush="false"/>
+<%@include file="../../common/commonCss.jsp"%>
+
 <%--메인일경우 main.css 추가. common.css 아래 위치에 존재해야함. --%>
 <c:if test="${not empty param.main}">
     <link rel="stylesheet" href="/css/main.css" type="text/css" />

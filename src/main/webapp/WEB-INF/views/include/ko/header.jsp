@@ -30,7 +30,7 @@
     <!— Windows 8.1 + IE11 and above —>
     <meta name="msapplication-config" content="/webapp/browserconfig.xml" />
     <title>Seoul Auction</title>
-    <jsp:include page="../../common/commonCss.jsp" flush="false"/>
+    <%@include file="../../common/commonCss.jsp"%>
     <%--메인일경우 main.css 추가. common.css 아래 위치에 존재해야함. --%>
     <c:if test="${not empty param.main}">
         <link rel="stylesheet" href="/css/main.css" type="text/css" />
@@ -60,11 +60,12 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/iamges/favic/apple-touch-icon.png">
 
     <%--angular 관련은 미리 로딩--%>
-    <jsp:include page="../../common/angular.jsp" flush="false"/>
-    <jsp:include page="../../common/commonJs.jsp" flush="false"/>
+    <%@include file="../../common/angular.jsp"%>
+    <%@include file="../../common/commonJs.jsp"%>
+
     <%--메인이 아닐 경우에만 해당 js 추가.--%>
     <c:if test="${empty param.main}">
-        <jsp:include page="../../common/commonJSNotMain.jsp" flush="false"/>
+        <%@include file="../../common/commonJSNotMain.jsp"%>
     </c:if>
     <%-- 로그인 --%>
     <script>
