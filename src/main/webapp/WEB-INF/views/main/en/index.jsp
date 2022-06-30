@@ -4,18 +4,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Seoul Auction</title>
-</head>
-<body>
+
 <jsp:include page="../../include/en/header.jsp" flush="false">
     <jsp:param name="main" value="true"/>
 </jsp:include>
+
+<body>
+<jsp:include page="../../include/en/nav.jsp" flush="false"/>
 <section class="main-contents footer-bottom footer-bottom40">
 
     <jsp:include page="../include/bigBanner.jsp" />

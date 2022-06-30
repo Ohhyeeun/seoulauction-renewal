@@ -4,8 +4,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<!DOCTYPE html>
-<html lang="en">
+
+<jsp:include page="../../include/en/header.jsp" flush="false"/>
+
 <sec:authentication property="details.socialYn" var="socialYn"></sec:authentication>
 <sec:authentication property="details.socialType" var="socialType"></sec:authentication>
 <script>
@@ -15,7 +16,7 @@
 <body class="">
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
-			<jsp:include page="../../include/en/header.jsp" flush="false" />
+			<jsp:include page="../../include/en/nav.jsp" flush="false" />
             <!-- container -->
             <div id="container" class="custModify">
                 <div id="contents" class="contents">
