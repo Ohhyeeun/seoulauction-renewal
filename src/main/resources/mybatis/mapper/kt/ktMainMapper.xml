@@ -32,6 +32,7 @@
 				   , IF(S.SALE_KIND_CD in ('online','online_zb'), 'ONLINE', 'LIVE') AS SALE_KIND
 				   , IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH
 				   , COLUMN_JSON(S.TITLE_BLOB) AS TITLE_BLOB
+				   , COLUMN_JSON(S.TYNY_TITLE_BLOB) AS TYNY_TITLE_BLOB
 			       , S.FROM_DT
 				   , S.TO_DT
 			  from SALE S
