@@ -187,7 +187,7 @@
                 </div>
             </a>
             <div class="main-popup-close">
-                <span id="main_popup_today_stop_btn">오늘 그만보기</span><span class="main-popup-closebtn closebtn closebtn-w"></span>
+                <span id="main_popup_today_stop_btn">오늘11 그만보기</span><span class="main-popup-closebtn closebtn closebtn-w"></span>
             </div>
         </div>
     </div>
