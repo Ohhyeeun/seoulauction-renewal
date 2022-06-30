@@ -28,7 +28,7 @@
     <meta name="theme-color" content="#ffffff">
     <meta name="application-name" content="SeoulAuction" />
     <!— Windows 8.1 + IE11 and above —>
-    <meta name="msapplication-config" content="/webapp/browserconfig.xml" />
+    <meta name="msapplication-config" content="/static/webapp/browserconfig.xml" />
     <title>Seoul Auction</title>
     <jsp:include page="../../common/commonCss.jsp" flush="false"/>
     <%--메인일경우 main.css 추가. common.css 아래 위치에 존재해야함. --%>
@@ -40,25 +40,24 @@
         <link rel="stylesheet" href="/css/pages_common_ko.css" type="text/css" />
     </c:if>
 <%--    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/favic/apple-touch-icon-57x57.png" />--%>
-    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/apple-icon-180x180.png">
     <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/static/webapp/manifest.json">
+    <link rel="manifest" href="/static/webapp//manifest.json"> 
     <link rel="icon" type="image/png" href="/images/favic/favicon-32x32.png" sizes="32x32"/>
     <link rel="icon" type="image/png" href="/images/favic/android-chrome-192x192.png" sizes="192x192"/>
     <link rel="icon" type="image/png" href="/images/favic/favicon-16x16.png" sizes="16x16"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="manifest" href="/webapp/manifest.json">
+    <link rel="apple-touch-icon" sizes="180x180" href="/iamges/favic/apple-touch-icon.png">
 
     <%--angular 관련은 미리 로딩--%>
     <jsp:include page="../../common/angular.jsp" flush="false"/>
