@@ -1,22 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <!-- header -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>예정경매 | Seoul Auction</title>
-    <!-- //header -->
-</head>
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
 <body class="">
 <div class="wrapper">
     <div class="sub-wrap pageclass">
         <!-- header -->
-        <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+        <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <!-- //header -->
 
         <!-- container -->
@@ -180,13 +171,13 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
                 var end = new Date($scope.auction.FROM_DT);
                 var now = new Date();
                 var distance = end - now;
-                if(Math.floor(distance/ (1000 * 60 * 60 * 24)) <= 0) {
+
+                if($scope.dDayCalc(now, end) <= 0) {
                     $(".type-day").hide();
                 } else {
                     $(".type-3").hide();
                 }
-
-                CountDownTimer($scope.auction.FROM_DT);
+                CountDownTimer(end);
 
                 // 다시 카운트로 바꿈
                 myInterval = window.setInterval(function(){
@@ -489,12 +480,14 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
             openDdayFn();
             return;
         }
-        var days = Math.floor(distance / _day);
+
+        var fromDT = moment(now).format("YYYY-MM-DD");
+        var toDT = moment(end).format("YYYY-MM-DD");
+
+        var days = moment(toDT).diff(moment(fromDT), 'days');
         var hours = Math.floor((distance % _day) / _hour);
         var minutes = Math.floor((distance % _hour) / _minute);
         var seconds = Math.floor((distance % _minute) / _second);
-
-        console.log("D-DAY까지 " + days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초 남았습니다.");
 
         dayCountGo("ul.dayPlay", days); // 99 day
         hourCountGo("ul.hourPlay", hours); // 23 시
