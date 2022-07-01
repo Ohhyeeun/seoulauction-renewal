@@ -5,7 +5,7 @@
 <%--    <link rel="stylesheet" href="/css/pages_common_ko.css">--%>
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 <body>
-<div class="wrapper footer-bottom footer-bottom30">
+<div class="wrapper">
     <div class="sub-wrap pageclass type-pagemain">
         <!-- header -->
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
@@ -128,5 +128,5 @@ app.controller('newsLetterCtl', function($scope, consts, common, locale) {
 
 });
 </script>
-<%--</body>--%>
-<%--</html>--%>
+</body>
+</html>

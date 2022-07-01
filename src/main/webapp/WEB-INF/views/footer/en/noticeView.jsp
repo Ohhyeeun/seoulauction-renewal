@@ -132,6 +132,7 @@
                                 alert('잘못된 경로입니다.');
                                 history.back();
                             }
+
                             $("#notice_content").html(JSON.parse(data.content).en);
                             $("#notice_title").html(JSON.parse(data.title).en);
                             $("#notice_date").html(data.dt_date);

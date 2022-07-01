@@ -57,7 +57,6 @@ public class PaymentService {
     public CommonMap insertPayWait(HttpServletRequest request, CommonMap resultMap){
         setRefNo(request, resultMap);
 
-        // resultMap.put("cust_no", "108855"); 이미 들어있음.
         resultMap.put("payer", resultMap.get("BuyerName"));
         resultMap.put("pay_price", resultMap.get("Amt"));
         resultMap.put("pg_trans_id", resultMap.get("TID"));
@@ -105,7 +104,6 @@ public class PaymentService {
             resultMap.put("no_vat_price", request.getParameter("no_vat_price"));
             resultMap.put("vat_price", request.getParameter("vat_price"));
             resultMap.put("vat", request.getParameter("vat"));
-            // resultMap.put("payer", request.getParameter("BuyerName")); 모바일일땐 payer 가 없음.
             resultMap.put("payer", details.getUserNm());
         }
 
@@ -165,9 +163,6 @@ public class PaymentService {
             CommonMap reservedMap;
             try {
                 reservedMap = new ObjectMapper().readValue(mall_reserved, CommonMap.class);
-
-                log.info("c2 : {}" , reservedMap);
-
                 request.setAttribute("uuid", reservedMap.get("uuid"));
                 request.setAttribute("pay_kind", reservedMap.get("pay_kind"));
             } catch (JsonProcessingException e) {
@@ -178,8 +173,6 @@ public class PaymentService {
         } else {
             resultMap = insertPay(request);
         }
-
-        log.info("c1 : {}" , resultMap);
 
         //결제 처리가 완료 시 디비 요청.
         return resultMap;
@@ -310,7 +303,7 @@ public class PaymentService {
         int pay_price = (lot_price + fee_price + vat);
 
         resultMap.put("no_vat_price" , lot_price);
-        resultMap.put("vat_price" , fee_price);
+        resultMap.put("vat_price" , fee_price + vat);
         resultMap.put("vat" , vat);
         resultMap.put("pay_price" , pay_price);
 
