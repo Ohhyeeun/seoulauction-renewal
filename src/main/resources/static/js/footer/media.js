@@ -37,13 +37,18 @@ $(document).ready(function(){
                         let html = `<tr>
                                         <td class="bbs-subject">
                                             <span class="bbs-media">${el.corp}</span>
-                                            <a href="${el.url}" class="tit">${el.title}</a>
+                                            <a id="${el.id}_id" href="${el.url}" class="tit media_click_cl">${el.title}</a>
                                         </td>
                                         <td class="bbs-date">${el.dt_date}</td>
-                                    </tr>`
-
+                                    </tr>`;
                         $("#media_tbody").append(html);
                     });
+
+                    $('.media_click_cl').on('click' , function (){
+                        addReadCount($(this).attr('id').split('_')[0] , 'content_press')
+                    });
+
+
                     $("#media_count").html(total_count);
 
                     paging({
