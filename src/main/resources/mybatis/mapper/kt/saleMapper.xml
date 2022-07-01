@@ -678,7 +678,7 @@
           AND A.CLOSE_YN = 'N'
           AND B.CLOSE_YN = 'N'
         <if test='is_live !=null and is_live.equals("Y")'>
-          AND A.LIVE_BID_YN = 'Y'
+          AND A.SALE_KIND_CD IN ('main','plan','hongkong')
         </if>
         GROUP BY A.SALE_NO, B.LOT_NO
     </select>

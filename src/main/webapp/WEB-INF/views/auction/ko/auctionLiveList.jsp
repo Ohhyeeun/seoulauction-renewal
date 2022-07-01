@@ -561,7 +561,6 @@
                     let [r1, r2, r3] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no)]);
 
                     $scope.saleInfoAll = r1.data.data;
-
                     //데이터가 없을 시 , 오프라인 경매인데 온라인으로 올 시 등등 접근 불가.
                     // if($scope.saleInfoAll.length === 0){
                     //     alert('잘못된 접근 입니다.');
