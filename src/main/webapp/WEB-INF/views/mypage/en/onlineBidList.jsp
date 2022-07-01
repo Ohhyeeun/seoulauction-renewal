@@ -4,7 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<jsp:include page="../../include/en/header.jsp" flush="false"/>css/angular/sa.common.2.0.css" rel="stylesheet">
+<jsp:include page="../../include/en/header.jsp" flush="false"/>
+<link href="/css/angular/sa.common.2.0.css" rel="stylesheet">
 <spring:eval expression="@environment.getProperty('image.root.path')" var="imageRootPath" />
 <body class="" ng-controller="onlineBidListCtl" data-ng-init="loadonlineBidList(1);" ng-cloak>
     <div class="wrapper" ng-app="myApp">
@@ -173,7 +174,7 @@
 
     <script>
         $(".js-history_back").click(function() {
-            window.history.back();
+        	window.location.href="/mypage/main";
         })
     </script>
 	
