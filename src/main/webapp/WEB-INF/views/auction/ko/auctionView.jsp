@@ -341,11 +341,65 @@
                 </section>
                 <article class="sticky_bidding-article">
                     <div class="btn_set">
+                        <!-- [0628]클릭 시 액션 추가 -->
                         <div class="btn_lot-box">
-                            <button>
+                            <button class="js-lotbox-btn">
                                 <div class="txt">전체 LOT</div>
                                 <i class="form-select_arrow_view-2x"></i>
                             </button>
+
+                            <div class="trp-dropdown_list-box" data-trp-focusid="js-user_support">
+                                <div class="search-box">
+                                    <input type="search" placeholder="LOT 번호 입력" id="" class="">
+                                    <i class="form-search_md"></i>
+                                </div>
+                                <div class="list-box scroll-type">
+                                    <ul>
+                                        <li>
+                                            <a href="#">
+                                                <div class="image-area">
+                                                    <figure class="img-ratio">
+                                                        <div class="img-align">
+                                                            <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                                <div class="typo-area">
+                                                    <span>LOT 10</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <div class="image-area">
+                                                    <figure class="img-ratio">
+                                                        <div class="img-align">
+                                                            <img src="/images/pc/thumbnail/auction02.jpg" alt="">
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                                <div class="typo-area">
+                                                    <span>LOT1</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li><a href="#">
+                                            <div class="image-area">
+                                                <figure class="img-ratio">
+                                                    <div class="img-align">
+                                                        <img src="/images/pc/thumbnail/auction03.jpg" alt="">
+                                                    </div>
+                                                </figure>
+                                            </div>
+                                            <div class="typo-area">
+                                                <span>LOT2</span>
+                                            </div>
+                                        </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="btn-box">
                             <button id="bid_btn" ng-click="popSet(sale_no, lot_no, user_id, cust_no);">응찰하기</button>
@@ -584,6 +638,14 @@
         view_visual.slideTo($index)
     };
 </script>
+
+<!-- [0628]모바일 LOT 버튼 클릭시 액션 추가 -->
+<script>
+    $(".js-lotbox-btn").click(function() {
+        $(this).parent(".btn_lot-box").toggleClass("on")
+    })
+</script>
+
 <!-- [0516] 셀렉트 드롭다운 -->
 <script>
     let dropdown = $(".js-dropdown-btn").trpDropdown({
@@ -905,19 +967,23 @@
                     paginationClickable: true,
                     spaceBetween: 10,
                     effect: "fade",
-                    simulateTouch: false,
-                    pagination: ".js-view_visual .pagination",
-                    paginationClickable: true,
+                    simulateTouch: true,
+                    pagination: {
+                        el: '.js-view_visual .pagination',
+                        type: 'bullets',
+                    },
                     breakpoints: {
                         1023: {
-                            effect: "slide",
+                            effect: "fade",
                             simulateTouch: true,
                             slidesPerView: 1,
                             spaceBetween: 10
                         }
                     },
-                    onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
-                        view_thumnailActive(swiper.activeIndex)
+                    on: {
+                        slideChange: function() {
+                            view_thumnailActive(view_visual.activeIndex);
+                        }
                     }
                 });
 
