@@ -241,7 +241,7 @@
                                                                     <p class="tb1_1">경매 응찰 후 해당 작품을 낙찰 받으시면 구매 취소가 어려우니 신중히 선택하시기 바랍니다.</p>
                                                                 </div>
                                                                 <div class="btn_box">
-                                                                    <a class="btn btn_gray_line">
+                                                                    <a class="btn btn_gray_line" href="https://www.seoulauction.com/images/form/bidform_20220218.pdf" target="bidform">
                                                                         <%--TODO 응찰 등록 신청서 파일 다운로드--%>
                                                                         <span>응찰등록신청서</span>
                                                                     </a>
@@ -378,7 +378,7 @@
                                                                                     <span class="tb1">낙찰자는 낙찰을 철회할 수 없습니다. 부득이 철회를 하는 경우에는 낙찰일로부터 7일 이내에 서면으로 철회의사를 통보하고, 위약별로 <em>낙찰가의 30%</em>에 해당하는 금액을 <em>낙찰일로부터 7일 이내에</em> 납부하여야 합니다.</span>
                                                                                 </div>
                                                                                 <div class="btn_box">
-                                                                                    <a href="/footer/terms" class="btn btn_default">
+                                                                                    <a href="/footer/terms" class="btn btn_default" target="terms">
                                                                                         <span>경매약관</span>
                                                                                     </a>
                                                                                 </div>
@@ -548,12 +548,12 @@
                                                                             <div class="txt_area">
                                                                                 <div class="btn_set">
                                                                                     <div class="btn_box">
-                                                                                        <a class="btn btn_default">
+                                                                                        <a class="btn btn_default" href="/join">
                                                                                             <span>회원가입</span>
                                                                                         </a>
                                                                                     </div>
                                                                                     <div class="btn_box">
-                                                                                        <a class="btn btn_default">
+                                                                                        <a class="btn btn_default" href="/auction/progress">
                                                                                             <span>현재 진행중인 경매</span>
                                                                                         </a>
                                                                                     </div>
@@ -618,7 +618,7 @@
                                                                         <span class="tb1">온라인 경매 전, 익스플로러를 사용 하시는 경우 설정을 확인해 주시기 바랍니다.</span>
                                                                     </div>
                                                                     <div class="btn_box">
-                                                                        <a class="btn btn_gray_line">
+                                                                        <a class="btn btn_gray_line" href="https://www.seoulauction.com/images/img/online_ie.jpg" target="online_id">
                                                                             <span>온라인 경매 페이지 자동 새로고침 해결 방법</span>
                                                                         </a>
                                                                     </div>

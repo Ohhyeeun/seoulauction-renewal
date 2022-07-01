@@ -196,4 +196,7 @@ public class MainService {
     public List<CommonMap> selectBrochures(CommonMap map) {
         return mainMapper.selectBrochures(map);
     }
+    public void addReadCount(CommonMap map){
+        mainMapper.addReadCount(map);
+    }
 }

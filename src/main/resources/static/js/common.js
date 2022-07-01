@@ -414,9 +414,21 @@ $(function() {
         $("#mb_common_lang").append('<a href=' + $(location).attr('pathname')  +'?lang=ko>KO</a>');
     }
 });
+
+//각 서비스 별 조회수 증가 기능.
+function addReadCount(id , type){
+
+    axios.post('api/main/addReadCount/'+id +'?type=' + type)
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
 //로그인 여부를 체크해서 로그인이 안되어있을경우 로그인 페이지로 보냄.
 function checkLogin(){
-
     if(sessionStorage.getItem("is_login") === 'false'){
         let login_message = ( getCookie('lang') === "" ||  getCookie('lang') === 'ko' ) ?
             '로그인을 진행해주세요.' : 'Please Login in.';

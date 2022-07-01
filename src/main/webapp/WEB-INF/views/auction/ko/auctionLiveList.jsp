@@ -243,14 +243,14 @@
                                             <div class="paging-area">
                                                 <!-- paging -->
                                                 <div class="paging">
-                                                    <a href="javascript:void(0);" class="prev_end icon-page_prevprev">FIRST</a><a href="javascript:void(0);"
-                                                    <a href="javascript:void(0);" ng-click="pageing(item);"
+                                                    <a href="javascript:void(0);" ng-click="pageing(1);" class="prev_end icon-page_prevprev">FIRST</a>
+                                                    <a href="javascript:void(0);" ng-click="pageing(pageprev);" ng-show="pageprev > -1" class="prev icon-page_prev">PREV</a>
+                                                    <a href="javascript:void(0);" ng-click="pageing(item);" ng-class="{'on':item === curpage}"
                                                        ng-repeat="item in pageingdata">
-                                                        <strong ng-if="item === curpage" ng-class="{'on':item === curpage}"
-                                                                ng-bind="item"></strong>
+                                                        <strong ng-if="item === curpage" ng-bind="item"></strong>
                                                         <span ng-if="item != curpage" ng-bind="item"></span></a>
-                                                    <a href="javascript:void(0);" class="next icon-page_next "><em>NEXT</em></a><a href="#"
-                                                                                                                                   class="next_end icon-page_nextnext">END</a>
+                                                    <a href="javascript:void(0);" ng-click="pageing(pagenext);" ng-show="pagenext > -1" class="next icon-page_next">NEXT</a>
+                                                    <a href="javascript:void(0);" ng-click="pageing(pagelast);" ng-show="pagelast > -1" class="next_end icon-page_nextnext">LAST</a>
                                                 </div>
                                                 <!-- paging -->
                                             </div>
@@ -394,7 +394,9 @@
             $scope.moveToBidding = function(item) {
 
                 //로그인 했는지 여부.
-                checkLogin();
+                if(!checkLogin()) {
+                    return;
+                }
 
                 //정회원 여부.
                 let isRegular = ${isRegular};
@@ -1008,21 +1010,27 @@
                 if(!$scope.$$phase) {
                     $scope.$apply();
                 }
-
-                //let token = $scope.token;
-                //$scope.popSet();
             }
             //paging
+            //페이징 리스트 생성
             $scope.makePageing = function (v, page) {
                 let p = [];
                 let endVal = 0;
                 let etc = (v.length % $scope.itemsize > 0) ? 1 : 0;
                 let end = parseInt(v.length / $scope.itemsize) + etc;
 
+
+                $scope.pagefirst = 1;
+                $scope.pageprev = (page < $scope.pagesize)? - 1: ($scope.pagesize * parseInt((page - 1) / $scope.pagesize));
+
                 if (end < (parseInt(page / $scope.pagesize) + 1) + $scope.pagesize) {
                     endVal = end;
+                    $scope.pagelast = -1;
+                    $scope.pagenext = -1;
                 } else {
                     endVal = $scope.pagesize + (parseInt(page / $scope.pagesize) + 1);
+                    $scope.pagelast = end;
+                    $scope.pagenext = endVal + 1;
                 }
                 for (let i = ($scope.pagesize * parseInt((page - 1) / $scope.pagesize)) + 1; i <= endVal; i++) {
                     p.push(i);

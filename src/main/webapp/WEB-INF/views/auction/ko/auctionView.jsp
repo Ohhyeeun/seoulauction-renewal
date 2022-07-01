@@ -341,11 +341,65 @@
                 </section>
                 <article class="sticky_bidding-article">
                     <div class="btn_set">
+                        <!-- [0628]클릭 시 액션 추가 -->
                         <div class="btn_lot-box">
-                            <button>
+                            <button class="js-lotbox-btn">
                                 <div class="txt">전체 LOT</div>
                                 <i class="form-select_arrow_view-2x"></i>
                             </button>
+
+                            <div class="trp-dropdown_list-box" data-trp-focusid="js-user_support">
+                                <div class="search-box">
+                                    <input type="search" placeholder="LOT 번호 입력" id="" class="">
+                                    <i class="form-search_md"></i>
+                                </div>
+                                <div class="list-box scroll-type">
+                                    <ul>
+                                        <li>
+                                            <a href="#">
+                                                <div class="image-area">
+                                                    <figure class="img-ratio">
+                                                        <div class="img-align">
+                                                            <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                                <div class="typo-area">
+                                                    <span>LOT 10</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <div class="image-area">
+                                                    <figure class="img-ratio">
+                                                        <div class="img-align">
+                                                            <img src="/images/pc/thumbnail/auction02.jpg" alt="">
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                                <div class="typo-area">
+                                                    <span>LOT1</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li><a href="#">
+                                            <div class="image-area">
+                                                <figure class="img-ratio">
+                                                    <div class="img-align">
+                                                        <img src="/images/pc/thumbnail/auction03.jpg" alt="">
+                                                    </div>
+                                                </figure>
+                                            </div>
+                                            <div class="typo-area">
+                                                <span>LOT2</span>
+                                            </div>
+                                        </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="btn-box">
                             <button id="bid_btn" ng-click="popSet(sale_no, lot_no, user_id, cust_no);">응찰하기</button>
@@ -466,7 +520,7 @@
                                             </div>
                                             <div class="btn_item"><a class="btn btn_point btn_lg"
                                                                      href="javascript:autoBid();"
-                                                                     role="button"><span>응찰하기</span></a></div>
+                                                                     role="button"><span id="auto_bid_txt">응찰하기</span></a></div>
                                         </div>
                                     </div>
                                 </article>
@@ -584,6 +638,14 @@
         view_visual.slideTo($index)
     };
 </script>
+
+<!-- [0628]모바일 LOT 버튼 클릭시 액션 추가 -->
+<script>
+    $(".js-lotbox-btn").click(function() {
+        $(this).parent(".btn_lot-box").toggleClass("on")
+    })
+</script>
+
 <!-- [0516] 셀렉트 드롭다운 -->
 <script>
     let dropdown = $(".js-dropdown-btn").trpDropdown({
@@ -723,7 +785,13 @@
         }
 
         $scope.popSet = function (saleNo, lotNo, userId, custNo) {
-            if(!checkLogin()) return;
+            if(sessionStorage.getItem("is_login") === 'false'){
+                let login_message = ( getCookie('lang') === "" ||  getCookie('lang') === 'ko' ) ?
+                    '로그인을 진행해주세요.' : 'Please Login in.';
+                alert(login_message);
+                location.href= '/login';
+                return
+            }
 
             const is_sale_cert = $scope.is_sale_cert;
             if (!is_sale_cert) {
@@ -905,19 +973,23 @@
                     paginationClickable: true,
                     spaceBetween: 10,
                     effect: "fade",
-                    simulateTouch: false,
-                    pagination: ".js-view_visual .pagination",
-                    paginationClickable: true,
+                    simulateTouch: true,
+                    pagination: {
+                        el: '.js-view_visual .pagination',
+                        type: 'bullets',
+                    },
                     breakpoints: {
                         1023: {
-                            effect: "slide",
+                            effect: "fade",
                             simulateTouch: true,
                             slidesPerView: 1,
                             spaceBetween: 10
                         }
                     },
-                    onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
-                        view_thumnailActive(swiper.activeIndex)
+                    on: {
+                        slideChange: function() {
+                            view_thumnailActive(view_visual.activeIndex);
+                        }
                     }
                 });
 
@@ -1365,6 +1437,7 @@
             bid_info_init: 4,
             end_time_sync: 5,
             winner: 6,
+            auto_bid_sync :  14,
         }
         let d = JSON.parse(evt.data);
 
@@ -1570,9 +1643,20 @@
                         $("#reservation_bid").append(`<option value="` + el + `">KRW ` + el.toLocaleString('ko-KR') + `</option>`);
                     });
                 }
+                if (d.message.reservation_bid != null) {
+                    if ( d.message.reservation_bid.customer.sale_no > 0 &&
+                        d.message.reservation_bid.customer.lot_no > 0) {
+                        $("#reservation_bid").prop("disabled", true);
+                        $("#auto_bid_txt").text("자동응찰 중지");
+                        $("#reservation_bid").val(d.message.reservation_bid.bid_cost);
+                    } else {
+                        $("#reservation_bid").prop("disabled", false);
+                        $("#auto_bid_txt").text("응찰하기");
+                        $("#reservation_bid option:eq(0)").prop("selected", true);
+                    }
+                }
 
                 let item = '';
-
                 if (d.message.bids_hist != null && d.message.bids_hist.length > 0) {
                     let li = document.createElement("bid_lst");
                     let bid_hist_info = d.message.bids_hist;
@@ -1683,6 +1767,22 @@
 
                 is_end_bid = true;
                 w.close();
+            }
+        } else if (d.msg_type === packet_enum.auto_bid_sync) {
+            if (d.message != null) {
+                if (d.message.reservation_bid != null) {
+                    if ( d.message.reservation_bid.customer.sale_no > 0 &&
+                        d.message.reservation_bid.customer.lot_no > 0) {
+                        $("#reservation_bid").prop("disabled", true);
+                        $("#auto_bid_txt").text("자동응찰 중지");
+                        $("#reservation_bid").val(d.message.reservation_bid.bid_cost);
+                    } else {
+                        $("#reservation_bid").prop("disabled", false);
+                        $("#auto_bid_txt").text("응찰하기");
+                        $("#reservation_bid").val('');
+                        $("#reservation_bid option:eq(0)").prop("selected", true);
+                    }
+                }
             }
         }
     }

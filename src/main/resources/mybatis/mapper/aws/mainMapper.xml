@@ -9,7 +9,7 @@
         where banner_type = 'top-text'
             and is_open = 'Y'
             and status = 'A'
-            and start_at <= (now() + interval 9 hour)
+            and start_at <=  (now() + interval 9 hour)
             and end_at >= (now() + interval 9 hour)
             order by start_at, updated_at
        limit 3;
@@ -19,11 +19,8 @@
     <select id="selectBeltBanners" parameterType="CommonMap" resultType="CommonMap">
     <![CDATA[
         select mb.*
---              , s3.id as s3id, s3.cdn_url
         from main_banner mb
---              join s3file_data s3fd on mb.id = s3fd.row_id and s3fd.group_name = 'main_banner'
---              join s3file s3 on s3fd.s3file_id = s3.id
-        where banner_type = 'middle-rolling'
+        where mb.banner_type = 'middle-rolling'
             and mb.status = 'A'
             and mb.start_at <= now()
             and mb.end_at >= now()
@@ -77,6 +74,7 @@
         SELECT id, media_type, content_type, title, read_count, content, sort, status, created_at, updated_at, url
         FROM content_media cm
         WHERE status = 'A'
+          and is_open = 'Y'
             AND media_type = #{media_type}
         ORDER BY sort
         LIMIT #{size}
@@ -104,7 +102,7 @@
         select * from main_banner
         where banner_type = 'main-rolling'
         and status = 'A'
-        and start_at <= now() and end_at >= now()
+        and start_at <= (now() + interval 9 hour) and end_at >= (now() + interval 9 hour)
         order by sort;
         ]]>
     </select>
@@ -121,6 +119,12 @@
 
     <update id="addBrochureReadCount" parameterType="CommonMap">
         UPDATE content_brochure
+        SET read_count = read_count + 1
+        WHERE id = #{id}
+    </update>
+
+    <update id="addReadCount" parameterType="CommonMap">
+        UPDATE ${table_name}
         SET read_count = read_count + 1
         WHERE id = #{id}
     </update>

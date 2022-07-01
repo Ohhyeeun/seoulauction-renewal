@@ -75,14 +75,16 @@
                                                                     <div class="paystate pending" ng-if="data.PAID_CNT == 0 && ((data.ONLINE_YN == 'N' ) || (data.ONLINE_YN == 'Y' && (!data.VBANK_EXP_DT || data.VBANK_EXP_DT_CLOSE_YN =='Y')))">결제대기중</div>
                                                                     
                                                                     <!-- 온라인 결제대기중(가상계좌) -->
-                                                                    <div class="paystate pending" ng-if="data.ONLINE_YN == 'Y' && data.PAID_CNT == 0 && data.VBANK_EXP_DT && data.VBANK_EXP_DT_CLOSE_YN =='N'">결제대기중 {{data.VBANK_EXP_DT}}까지 입금 요청(가상계좌)</div>
+                                                                    <div class="paystate pending" ng-if="data.ONLINE_YN == 'Y' && data.PAID_CNT == 0 && data.VBANK_EXP_DT && data.VBANK_EXP_DT_CLOSE_YN =='N'">결제대기중 </div>
+                                                                    <div class="txt" ng-if="data.ONLINE_YN == 'Y' && data.PAID_CNT == 0 && data.VBANK_EXP_DT && data.VBANK_EXP_DT_CLOSE_YN =='N'">{{data.VBANK_EXP_DT}}까지 입금 요청(가상계좌)</div>
                                                                     
                                                                     <!-- 라이브/온라인 결제 완료 (합계보다 결제금액이 큰 경우가 있어 '크거나 같은' 조건이 들어감)-->
                                                                     <div class="paystate complete" ng-if="data.PAID_CNT > 0 && getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price <= data.PAY_PRICE ">결제완료</div>
                                                                     <div class="txt" ng-if="data.PAID_CNT > 0 && data.PAY_PRICE >= getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price">{{data.payDate}} ({{data.PAY_METHOD_NM}})</div>
 																	
 																	<!-- 라이브/온라인 부분납부 -->                                                                	
-                                                                	<div class="paystate pending" ng-if="data.PAID_CNT > 0 && getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price > data.PAY_PRICE" >결제진행중 부분납부 금액 {{comma(data.PAY_PRICE)}} / 남은금액 {{comma(getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price - data.PAY_PRICE)}}</div>
+                                                                	<div class="paystate pending" ng-if="data.PAID_CNT > 0 && getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price > data.PAY_PRICE" >결제진행중 </div>
+                                                                	<div class="txt" ng-if="data.PAID_CNT > 0 && getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price > data.PAY_PRICE" >부분납부 금액 {{data.CURR_CD}} {{comma(data.PAY_PRICE)}} / 남은금액 {{comma(getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price - data.PAY_PRICE)}}</div>
                                                                 </div>
                                                                 <div class="item-ea-inner">
                                                                     <div class="product-infobox">
@@ -140,10 +142,10 @@
                                                                         </div>
                                                                         <div class="btn-area" >
                                                                         <!-- 온라인 가상계좌 외 결제대기상태 or 가상계좌 기간이 끝났을 때 -->
-                                                                            <a href="/payment/sale/{{data.SALE_NO}}/lot/{{data.LOT_NO}}"><button class="btn btn_point" type="button" ng-if="data.ONLINE_YN == 'Y' && data.PAID_CNT == 0 && data.VBANK_EXP_DT_CLOSE_YN !='N'"><span>결제하기</span></button></a>
+                                                                            <a href="/payment/sale/{{data.SALE_NO}}/lot/{{data.LOT_NO}}" ng-if="data.ONLINE_YN == 'Y' && data.PAID_CNT == 0 && data.VBANK_EXP_DT_CLOSE_YN !='N'"><button class="btn btn_point" type="button" ><span>결제하기</span></button></a>
                                                                         
                                                                         <!-- 라이브 결제대기상태 or 부분납 상태-->
-                                                                            <a href="#"><button class="btn btn_point" type="button" ng-click="payInfoPopup()" ng-if="(data.ONLINE_YN == 'N' && data.PAID_CNT == 0) || (data.PAID_CNT > 0 && getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price > data.PAY_PRICE) "><span>결제정보</span></button></a>
+                                                                            <button class="btn btn_gray_line" type="button" ng-if="(data.ONLINE_YN == 'N' && data.PAID_CNT == 0) || (data.PAID_CNT > 0 && getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price > data.PAY_PRICE)" ng-click="payInfoPopup()" ><span>결제 안내</span></button></a>
                                                                         
                                                                         <!-- 온라인 부분납 제외 결제완료 일 경우만 영수증 버튼 노출-->
                                                                             <button class="btn btn_gray_line" type="button" data-id="{{data.PG_TRANS_ID}}" data-type="0" ng-if="data.ONLINE_YN == 'Y' && data.PAID_CNT == 1 && getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price == data.PAY_PRICE && data.PAY_METHOD_ID == 'card' && data.receipt == 'Y' && data.PG_TRANS_ID" onclick="receiptPopup(this)"><span>결제영수증</span></button>
@@ -152,7 +154,6 @@
                                                                                 <span>보증서출력하기</span>
                                                                                 <span>7일 이후 가능</span>
                                                                             </button> -->
-                                                                         
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -230,10 +231,13 @@
 
     <script>
         $(".js-history_back").click(function() {
-            window.history.back();
+        	window.location.href="/mypage/main";
         })
     </script>
     
+    <!-- 오프라인결제 -->
+	<jsp:include page="popup/onlinePayInfoPopup.jsp" flush="false"/>
+	
     <!-- 팝업 : side popup -->
 	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 </body>
