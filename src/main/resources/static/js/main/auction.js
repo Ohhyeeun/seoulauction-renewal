@@ -21,7 +21,6 @@ $(document).ready(function(){
         axios.get('/api/main/auctions')
             .then(function(response) {
                 const data = response.data;
-                console.log(data);
                 let success = data.success;
                 if(success){
 
@@ -52,8 +51,6 @@ $(document).ready(function(){
                     //초기 sale_NO 설정.
                     currentSaleNo = currentLotData[curruentTab][0].SALE_NO;
                     bidstart();
-
-                    //dynamicEvent();
                 }
             })
             .catch(function(error) {

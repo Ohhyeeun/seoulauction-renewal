@@ -144,9 +144,9 @@
                             let data = response.data.data;
 
                             if(!data){
-                                alert('잘못된 경로입니다.');
-                                history.back();
+                                location.href='/error/404';
                             }
+
                             $("#recruit_title").html(data.title);
                             $("#recruit_content").html(data.content);
                             $("#recruit_date").html(data.start_date +' ~ ' + data.end_date);
