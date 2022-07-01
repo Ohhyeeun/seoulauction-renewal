@@ -235,4 +235,7 @@
 		  and S.DEL_YN ='N'
 		  and S.WWW_DISP_YN = 'Y'
 	</select>
+	<select id="selectScTrans" parameterType="CommonMap" resultType="CommonMap">
+		SELECT TR_MSG FROM SC_TRAN WHERE REPLACE(TR_PHONE,'-','') = #{tr_phone} ORDER BY TR_NUM DESC LIMIT 1
+	</select>
 </mapper>
