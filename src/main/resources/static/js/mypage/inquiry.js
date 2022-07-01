@@ -156,7 +156,7 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				if ($scope.form_data.cate1 == "sell" || $scope.form_data.cate1 == "chineseart") {
 					
 					console.log(elements[i]);
-					elements[i].style.display = 'block';
+					elements[i].style.display = 'flex';
 				}
 				else {
 					elements[i].style.display = 'none';
