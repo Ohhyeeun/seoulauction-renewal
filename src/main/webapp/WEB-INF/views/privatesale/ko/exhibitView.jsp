@@ -511,19 +511,23 @@
                     paginationClickable: true,
                     spaceBetween: 10,
                     effect: "fade",
-                    simulateTouch: false,
-                    pagination: ".js-view_visual .pagination",
-                    paginationClickable: true,
+                    simulateTouch: true,
+                    pagination: {
+                        el: '.js-view_visual .pagination',
+                        type: 'bullets',
+                    },
                     breakpoints: {
                         1023: {
-                            effect: "slide",
+                            effect: "fade",
                             simulateTouch: true,
                             slidesPerView: 1,
                             spaceBetween: 10
                         }
                     },
-                    onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
-                        view_thumnailActive(swiper.activeIndex)
+                    on: {
+                        slideChange: function() {
+                            view_thumnailActive(view_visual.activeIndex);
+                        }
                     }
                 });
 
