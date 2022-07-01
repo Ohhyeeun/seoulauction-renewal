@@ -23327,6 +23327,8 @@ header.win_header .header-inner .header_logo {
   width: 46.9697%;
   background: url(/images/pc/service/academy-help.jpg) center no-repeat;
   background-size: cover;
+  height:0;
+  padding-bottom: 30%;
 }
 
 .content-panel .service-article_sns .banner .img-area img {
@@ -23405,6 +23407,9 @@ header.win_header .header-inner .header_logo {
   .content-panel .service-article_sns .banner .img-area {
     display: block;
     width: 100%;
+    height: 100%;
+    padding-bottom: 0;
+    background-size: contain; 
   }
 
   .content-panel .service-article_sns .banner .img-area img {

@@ -26,4 +26,6 @@ public interface AuctionMapper {
     int selectResultSaleListCount(CommonMap paramMap);
 
     CommonMap selectSaleInfo(CommonMap commonMap);
+
+    CommonMap selectScTrans(CommonMap map);
 }

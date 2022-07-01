@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
-<jsp:include page="../../include/ko/header.jsp" flush="false"/>
-
+<%@include file="../../include/ko/header.jsp"%>
 
 <body class="">
     <div class="wrapper">
         <div class="sub-wrap pageclass">
 
             <!-- header -->
-            <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
+            <%@include file="../../include/ko/nav.jsp"%>
             <!-- //header -->
 
             <!-- container -->
@@ -128,8 +127,7 @@
                             let data = response.data.data;
 
                             if(!data){
-                                alert('잘못된 경로입니다.');
-                                history.back();
+                                location.href='/error/404';
                             }
                             $("#notice_content").html(JSON.parse(data.content).ko);
                             $("#notice_title").html(JSON.parse(data.title).ko);

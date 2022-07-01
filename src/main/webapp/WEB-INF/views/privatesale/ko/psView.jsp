@@ -100,7 +100,7 @@
                                     <div class="col_item">
                                         <article class="product_detail-article js-product_detail-article">
                                             <div class="index-area">
-                                                <div class="index-box"><span ng-bind="saleInfo.SALE_AS_NO">10</span></div>
+                                                <div class="index-box"><span ng-bind="saleInfo.AS_NO">10</span></div>
                                                 <div class="btn-box">
                                                     <a href="#" title="" class="sns_share js-sns_share"><i class="icon-view_sns"></i></a>
                                                     <div class="sns_layer-area">
