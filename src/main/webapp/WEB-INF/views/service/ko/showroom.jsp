@@ -50,10 +50,10 @@
                                             </div>
                                             <div class="area-footer">
                                                 <div class="btn_wrap btns">
-                                                    <a class="btn btn_gray_line" href="#" role="button"><span>서울옥션 위치 안내</span></a>
+                                                    <a class="btn btn_gray_line" href="/footer/location" role="button"><span>서울옥션 위치 안내</span></a>
                                                     <a class="btn btn_gray_line" href="/service/showroom/vr" role="button" target="vr"><span>전시장 VR 보기</span></a>
                                                     <a class="btn btn_gray_line" href="https://www.seoulauction.com/nas_img/front/homepage/ganam_brochure.pdf" role="button" target="brochure"><span>대관 브로셔</span></a>
-                                                </div>
+                                                </div> 
                                             </div>
                                         </div>
                                     </div>

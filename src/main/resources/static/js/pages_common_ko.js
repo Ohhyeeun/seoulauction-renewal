@@ -128,7 +128,7 @@ function responsiveDevices() {
         o[e].width = w;
         //$("body").hasClass("is_mb") ? (o[e].width = w : (o[e].width = w);
     }
- /// console.log("=========imgresize=========", _orgW, _orgH, $("body").hasClass("is_mb"))
+    /// console.log("=========imgresize=========", _orgW, _orgH, $("body").hasClass("is_mb"))
 }
 
 /* 팝업높이계산 */function popup_fixation(o) {

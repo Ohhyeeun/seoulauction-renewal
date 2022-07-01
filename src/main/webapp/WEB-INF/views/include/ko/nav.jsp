@@ -53,7 +53,7 @@
             <section class="topsearch-box">
                 <button class="m-top-search m-ver"></button>
                 <button class="m-gnbmenu m-ver"></button>
-                <form action="" class="scroll_none" onsubmit="return false; ">
+                <form action="" class="scroll_none">
                     <fieldset class="topsearch">
                         <span class="submenuBg-closeBtn top-search-closeBtn closebtn-b m-ver"></span>
                         <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();" id="topsearchText" ng-keypress="$event.keyCode === 13 && goSearch('topsearchText', true);" autocomplete="off"><button type="button" class="topsearch-btn pc-ver" ng-click="goSearch('topsearchText', true);"></button>
@@ -116,13 +116,13 @@
                                 <li><a href="/service/marketing">아트컨설팅&#38;기업마케팅</a></li>
                             </ul>
                         </li>
-                        <li class="subGnbmenu-tit m-ver">
-                                <span class="gnbmenu_arrow modebox">Light Mode
-                                    <label for="dark" class="mode-toggle">
-                                        <input type="checkbox" id="dark" name="dark">
-                                        <span class="mode-switch"></span>
-                                    </label>
-                                </span>
+                        <li class="subGnbmenu-tit m-ver" ng-if="${requestScope['javax.servlet.forward.servlet_path'] == '/'}">
+                            <span class="gnbmenu_arrow modebox">Light Mode
+                                <label for="dark" class="mode-toggle">
+                                    <input type="checkbox" id="dark" name="dark">
+                                    <span class="mode-switch"></span>
+                                </label>
+                            </span>
                         </li>
                     </ul>
                     <figure class="blacklotbox">

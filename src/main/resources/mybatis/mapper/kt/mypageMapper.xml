@@ -106,6 +106,7 @@
 	<select id="selectPayListByCustNo" resultType="Map">
 		select 
 				S.SALE_NO 
+				, S.ONLINE_YN
 				, DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT
 				, DATE_FORMAT(S.FROM_DT, '%d %b, %Y %T')  as FROM_DT_EN
 				, DATE_FORMAT(S.TO_DT, '%Y.%m.%d  %T')  as TO_DT
@@ -180,6 +181,10 @@
 		        '"CANVAS_EXT_YN":"', ifnull(LS.CANVAS_EXT_YN,'N') , '"',
 		        '}')
 		        ,']') AS LOT_SIZE_JSON
+		        , P.PAY_PRICE_JSON
+		        , P.PAY_COUNT
+		        ,DATE_FORMAT((SELECT VBANK_EXP_DT FROM PAY_WAIT PW WHERE PW.CUST_NO = 82533 AND S.SALE_NO = PW.REF_NO AND L.LOT_NO = PW.REF_NO2 ORDER BY PW.PAY_WAIT_NO DESC LIMIT 1),'%Y.%m.%d') VBANK_EXP_DT
+		        ,IF(TIMESTAMPDIFF(DAY ,(SELECT VBANK_EXP_DT FROM PAY_WAIT PW WHERE PW.CUST_NO = 82533 AND S.SALE_NO = PW.REF_NO AND L.LOT_NO = PW.REF_NO2 ORDER BY PW.PAY_WAIT_NO DESC LIMIT 1), NOW()) &lt; 1, 'N', 'Y' ) as VBANK_EXP_DT_CLOSE_YN
 		FROM
 			(
 			SELECT
@@ -209,7 +214,8 @@
 			S1.TITLE_BLOB,
 			S1.FROM_DT,
 			S1.TO_DT,
-			S1.CURR_CD
+			S1.CURR_CD,
+			IF(S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb' , 'Y', 'N') ONLINE_YN
 		FROM
 			SALE S1
 		JOIN (
@@ -258,7 +264,13 @@
 				C.CD_NM_EN PAY_METHOD_NM_EN,
 				C.CD_ID PAY_METHOD_ID,
 				COUNT(*) PAY_CNT,
-				PAY_DT
+				PAY_DT,
+				CONCAT('['
+		        , GROUP_CONCAT('{',
+		        '"PAY_PRICE":"', ifnull(SP.PAY_PRICE, 0) , '"',
+		        '}')
+		        ,']') AS PAY_PRICE_JSON,
+		         count(*) as PAY_COUNT
 			FROM
 				PAY SP
 			JOIN LOT_PAY LP ON

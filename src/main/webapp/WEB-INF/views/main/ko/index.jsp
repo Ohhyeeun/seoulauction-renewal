@@ -8,7 +8,29 @@
 <jsp:include page="../../include/ko/header.jsp" flush="false">
     <jsp:param name="main" value="true"/>
 </jsp:include>
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    console.log("theme ", localStorage.getItem('theme'));
 
+    $('*').toggleClass(localStorage.getItem('theme'));
+
+    $('.auctionTab-btn').click(function () {
+        const darkIngTab = $(this).index();
+        $('.auctionTab-btn').removeClass('dark');
+        $('.auctionTab-contents').removeClass('dark');
+
+        $(this).addClass('dark');
+        $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
+    });
+
+    $('.darktxt').text('다크모드로 보기');
+    $('.darktxt.dark').text('라이트모드로 보기');
+    $('.darktxt-en').text('Dark Mode');
+    $('.darktxt-en.dark').text('Ligth Mode');
+
+    $('.mode-toggle>input').addClass(localStorage.getItem('theme'));
+});
+</script>
 <body>
 <%--<jsp:include page="../../main/include/topNotice.jsp" />--%>
 <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
@@ -145,8 +167,8 @@
 </section>
 <!-- 다크모드 darkmode -->
 <span class="darkmodeBg pc-ver">
-        <button class="darkmode" type="button"></button><span class="darktxt">다크모드로 보기</span>
-    </span>
+    <button class="darkmode" type="button"></button><span class="darktxt">다크모드로 보기</span>
+</span>
 <!--scroll top-->
 <a href="javascript:void(0);" class="scroll-top">
     <span class="topBtn up"></span>
@@ -187,12 +209,12 @@
                 </div>
             </a>
             <div class="main-popup-close">
-                <span id="main_popup_today_stop_btn">오늘 그만보기</span><span class="main-popup-closebtn closebtn closebtn-w"></span>
+                <span id="main_popup_today_stop_btn">오늘 그만보기</span>
+                <span class="main-popup-closebtn closebtn closebtn-w"></span>
             </div>
         </div>
     </div>
 </div>
-
 <!-- 이중접속 차단 안내 -->
 <div id="popup_concurrent-wrap" class="trp popupfixed-wrap login-popup">
     <div class="popup-dim"></div>
