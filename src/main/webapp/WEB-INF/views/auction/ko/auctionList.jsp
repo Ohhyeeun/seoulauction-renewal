@@ -240,15 +240,14 @@
                                         <div class="paging-area">
                                             <!-- paging -->
                                             <div class="paging">
-                                                <a href="javascript:void(0);" ng-click="pageing(1);" class="prev_end icon-page_prevprev"><em>FIRST</em></a>
-                                                <a href="javascript:void(0);" ng-click="pageing(pageprev);" ng-show="pageprev > -1" class="next icon-page_prev "><em>PREV</em></a>
-                                                <a href="javascript:void(0);" ng-click="pageing(item);"
+                                                <a href="javascript:void(0);" ng-click="pageing(1);" class="prev_end icon-page_prevprev">FIRST</a>
+                                                <a href="javascript:void(0);" ng-click="pageing(pageprev);" ng-show="pageprev > -1" class="prev icon-page_prev">PREV</a>
+                                                <a href="javascript:void(0);" ng-click="pageing(item);" ng-class="{'on':item === curpage}"
                                                    ng-repeat="item in pageingdata">
-                                                    <strong ng-if="item === curpage" ng-class="{'on':item === curpage}"
-                                                            ng-bind="item"></strong>
+                                                    <strong ng-if="item === curpage" ng-bind="item"></strong>
                                                     <span ng-if="item != curpage" ng-bind="item"></span></a>
-                                                <a href="javascript:void(0);" ng-click="pageing(pagenext);" ng-show="pagenext > -1" class="next icon-page_next"><em>NEXT</em></a>
-                                                <a href="javascript:void(0);" ng-click="pageing(pagelast);" ng-show="pagelast > -1" class="next icon-page_nextnext"><em>LAST</em></a>
+                                                <a href="javascript:void(0);" ng-click="pageing(pagenext);" ng-show="pagenext > -1" class="next icon-page_next">NEXT</a>
+                                                <a href="javascript:void(0);" ng-click="pageing(pagelast);" ng-show="pagelast > -1" class="next_end icon-page_nextnext">LAST</a>
                                             </div>
                                             <!-- paging -->
                                         </div>
@@ -875,7 +874,7 @@
         // bid protocols
         $scope.proc = function (evt, saleNo, lotNo, saleType, userId, custNo) {
             const packet_enum = {
-                init: 1, bid_info: 2, time_sync: 3, bid_info_init: 4, end_time_sync: 5, winner: 6,
+                init: 1, bid_info: 2, time_sync: 3, bid_info_init: 4, end_time_sync: 5, winner: 6,auto_bid_sync:14
             }
             let d = JSON.parse(evt.data);
             if (d.msg_type === packet_enum.init) {
@@ -1277,6 +1276,18 @@
                             bid_lst.firstChild.childNodes[2].insertBefore(dt_ly_span1, bid_lst.firstChild.childNodes[2].firstChild);
                         }
                     }
+                    if (d.message.reservation_bid != null) {
+                        if ( d.message.reservation_bid.customer.sale_no > 0 &&
+                            d.message.reservation_bid.customer.lot_no > 0) {
+                            $("#reservation_bid").prop("disabled", true);
+                            $("#auto_bid_txt").text("자동응찰 중지");
+                            $("#reservation_bid").val(d.message.reservation_bid.bid_cost);
+                        } else {
+                            $("#reservation_bid").prop("disabled", false);
+                            $("#auto_bid_txt").text("응찰하기");
+                            $("#reservation_bid option:eq(0)").prop("selected", true);
+                        }
+                    }
                     return
                 }
                 if (d.message.bids != null && d.message.bids.length > 0) {
@@ -1376,6 +1387,22 @@
                     }
                     if (!isCanClose) {
                         w.close();
+                    }
+                }
+            } else if (d.msg_type === packet_enum.auto_bid_sync) {
+                if (d.message != null) {
+                    if (d.message.reservation_bid != null) {
+                        if ( d.message.reservation_bid.customer.sale_no > 0 &&
+                            d.message.reservation_bid.customer.lot_no > 0) {
+                            $("#reservation_bid").prop("disabled", true);
+                            $("#auto_bid_txt").text("자동응찰 중지");
+                            $("#reservation_bid").val(d.message.reservation_bid.bid_cost);
+                        } else {
+                            $("#reservation_bid").prop("disabled", false);
+                            $("#auto_bid_txt").text("응찰하기");
+                            $("#reservation_bid").val('');
+                            $("#reservation_bid option:eq(0)").prop("selected", true);
+                        }
                     }
                 }
             }

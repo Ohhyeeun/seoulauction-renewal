@@ -90,8 +90,8 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="btn_item"><a class="btn btn_point btn_lg" href="javascript:autoBid();"
-                                                                     role="button"><span>응찰하기</span></a></div>
+                                            <div class="btn_item"><a  class="btn btn_point btn_lg" href="javascript:autoBid();"
+                                                                     role="button"><span id="auto_bid_txt">응찰하기</span></a></div>
                                         </div>
                                     </div>
                                 </article>
