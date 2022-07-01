@@ -11,6 +11,9 @@ public interface MainMapper {
     /*Popup*/
     CommonMap selectPopup();
 
+    //테이블 별로 readCount 설정.
+    void addReadCount(CommonMap map);
+
     List<CommonMap> selectTopNotice();
 
     List<CommonMap> selectBeltBanners();

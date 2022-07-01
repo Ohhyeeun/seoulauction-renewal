@@ -122,4 +122,10 @@
         SET read_count = read_count + 1
         WHERE id = #{id}
     </update>
+
+    <update id="addReadCount" parameterType="CommonMap">
+        UPDATE ${table_name}
+        SET read_count = read_count + 1
+        WHERE id = #{id}
+    </update>
 </mapper>
