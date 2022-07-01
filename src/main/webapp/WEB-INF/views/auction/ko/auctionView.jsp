@@ -466,7 +466,7 @@
                                             </div>
                                             <div class="btn_item"><a class="btn btn_point btn_lg"
                                                                      href="javascript:autoBid();"
-                                                                     role="button"><span>응찰하기</span></a></div>
+                                                                     role="button"><span id="auto_bid_txt">응찰하기</span></a></div>
                                         </div>
                                     </div>
                                 </article>
@@ -723,7 +723,13 @@
         }
 
         $scope.popSet = function (saleNo, lotNo, userId, custNo) {
-            if(!checkLogin()) return;
+            if(sessionStorage.getItem("is_login") === 'false'){
+                let login_message = ( getCookie('lang') === "" ||  getCookie('lang') === 'ko' ) ?
+                    '로그인을 진행해주세요.' : 'Please Login in.';
+                alert(login_message);
+                location.href= '/login';
+                return
+            }
 
             const is_sale_cert = $scope.is_sale_cert;
             if (!is_sale_cert) {
@@ -1365,6 +1371,7 @@
             bid_info_init: 4,
             end_time_sync: 5,
             winner: 6,
+            auto_bid_sync :  14,
         }
         let d = JSON.parse(evt.data);
 
@@ -1570,9 +1577,20 @@
                         $("#reservation_bid").append(`<option value="` + el + `">KRW ` + el.toLocaleString('ko-KR') + `</option>`);
                     });
                 }
+                if (d.message.reservation_bid != null) {
+                    if ( d.message.reservation_bid.customer.sale_no > 0 &&
+                        d.message.reservation_bid.customer.lot_no > 0) {
+                        $("#reservation_bid").prop("disabled", true);
+                        $("#auto_bid_txt").text("자동응찰 중지");
+                        $("#reservation_bid").val(d.message.reservation_bid.bid_cost);
+                    } else {
+                        $("#reservation_bid").prop("disabled", false);
+                        $("#auto_bid_txt").text("응찰하기");
+                        $("#reservation_bid option:eq(0)").prop("selected", true);
+                    }
+                }
 
                 let item = '';
-
                 if (d.message.bids_hist != null && d.message.bids_hist.length > 0) {
                     let li = document.createElement("bid_lst");
                     let bid_hist_info = d.message.bids_hist;
@@ -1683,6 +1701,22 @@
 
                 is_end_bid = true;
                 w.close();
+            }
+        } else if (d.msg_type === packet_enum.auto_bid_sync) {
+            if (d.message != null) {
+                if (d.message.reservation_bid != null) {
+                    if ( d.message.reservation_bid.customer.sale_no > 0 &&
+                        d.message.reservation_bid.customer.lot_no > 0) {
+                        $("#reservation_bid").prop("disabled", true);
+                        $("#auto_bid_txt").text("자동응찰 중지");
+                        $("#reservation_bid").val(d.message.reservation_bid.bid_cost);
+                    } else {
+                        $("#reservation_bid").prop("disabled", false);
+                        $("#auto_bid_txt").text("응찰하기");
+                        $("#reservation_bid").val('');
+                        $("#reservation_bid option:eq(0)").prop("selected", true);
+                    }
+                }
             }
         }
     }
