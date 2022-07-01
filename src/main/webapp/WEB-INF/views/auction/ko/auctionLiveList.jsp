@@ -394,7 +394,9 @@
             $scope.moveToBidding = function(item) {
 
                 //로그인 했는지 여부.
-                checkLogin();
+                if(!checkLogin()) {
+                    return;
+                }
 
                 //정회원 여부.
                 let isRegular = ${isRegular};
