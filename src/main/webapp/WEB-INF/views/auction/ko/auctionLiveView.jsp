@@ -766,7 +766,14 @@
         _this.closest(".trp-dropdown-area").find(".js-dropdown-btn em").text($("em", _this).text());
         _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
         dropdown.getClose();
-    });
+    }); 
+</script>
+
+<!-- [0628]모바일 LOT 버튼 클릭시 액션 추가 -->
+<script>
+    $(".js-lotbox-btn").click(function() {
+        $(this).parent(".btn_lot-box").toggleClass("on")
+    })
 </script>
 
 <!-- hold side : positionTar2 : $(".js-page_name-article"), -->
@@ -1042,19 +1049,23 @@
                     paginationClickable: true,
                     spaceBetween: 10,
                     effect: "fade",
-                    simulateTouch: false,
-                    pagination: ".js-view_visual .pagination",
-                    paginationClickable: true,
+                    simulateTouch: true,
+                    pagination: {
+                        el: '.js-view_visual .pagination',
+                        type: 'bullets',
+                    },
                     breakpoints: {
                         1023: {
-                            effect: "slide",
+                            effect: "fade",
                             simulateTouch: true,
                             slidesPerView: 1,
                             spaceBetween: 10
                         }
                     },
-                    onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
-                        view_thumnailActive(swiper.activeIndex)
+                    on: {
+                        slideChange: function() {
+                            view_thumnailActive(view_visual.activeIndex);
+                        }
                     }
                 });
 
