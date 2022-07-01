@@ -52,7 +52,7 @@
                                             </dl>
                                             <dl class="info_number">
                                                 <dt>휴대폰 번호</dt>
-                                                <dd><input type="text"  data-id="휴대폰 번호를" id="custPhone"  maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);" class="textType" placeholder="" style="width:100%"></dd>
+                                                <dd><input type="text"  data-id="휴대폰 번호를" id="custPhone"  maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);" onblur="phoneNumberBlur(this);" class="textType" placeholder="" style="width:100%"></dd>
                                             </dl>
                                         </div>
                                         </form>

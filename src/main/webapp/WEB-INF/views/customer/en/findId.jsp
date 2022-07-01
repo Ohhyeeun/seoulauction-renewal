@@ -61,7 +61,7 @@
                                             </dl>
                                             <dl class="info_number">
                                                 <dt>Mobile</dt>
-                                                <dd><input type="text" data-id="Mobile" class="textType" id="custPhone" placeholder="" maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);"  style="width:100%"></dd>
+                                                <dd><input type="text" data-id="Mobile" class="textType" id="custPhone" placeholder="" maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);"  onblur="phoneNumberBlur(this);" style="width:100%"></dd>
                                             </dl>
                                         </div>
                                         </form>
