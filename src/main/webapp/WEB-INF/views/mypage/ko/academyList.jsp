@@ -167,7 +167,12 @@
     <!-- [0516]삭제
   <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
 -->
-
+	
+	<script>
+        $(".js-history_back").click(function() {
+        	window.location.href="/mypage/main";
+        })
+    </script>
 
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
     <!-- 팝업 : 결제완료 -->

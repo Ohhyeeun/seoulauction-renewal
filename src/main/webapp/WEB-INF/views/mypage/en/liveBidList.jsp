@@ -174,7 +174,7 @@
 
     <script>
         $(".js-history_back").click(function() {
-            window.history.back();
+        	window.location.href="/mypage/main";
         })
     </script>
     

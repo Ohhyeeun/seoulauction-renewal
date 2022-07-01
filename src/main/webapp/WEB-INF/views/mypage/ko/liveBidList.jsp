@@ -171,9 +171,9 @@
 
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
 
-    <script>
+    	<script>
         $(".js-history_back").click(function() {
-            window.history.back();
+        	window.location.href="/mypage/main";
         })
     </script>
 
