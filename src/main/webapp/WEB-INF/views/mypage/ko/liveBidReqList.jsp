@@ -168,6 +168,12 @@
 -->
 
 
+	<script>
+        $(".js-history_back").click(function() {
+        	window.location.href="/mypage/main";
+        })
+    </script>
+    
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>	
 	<!-- 팝업 : 라이브경매관리 온라인패들 응찰 이력 -->
 	<jsp:include page="popup/liveBidReqHistoryListPopup.jsp" flush="false"/>
