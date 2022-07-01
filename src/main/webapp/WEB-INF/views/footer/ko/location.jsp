@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
-<jsp:include page="../../include/ko/header.jsp" flush="false"/>
-
+<%@include file="../../include/ko/header.jsp"%>
 <body class="">
     <div class="wrapper">
         <div class="sub-wrap pageclass type-pagemain">
 
             <!-- header -->
-            <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
+            <%@include file="../../include/ko/nav.jsp"%>
             <!-- //header -->
             <script>
                 app.value('locale', 'ko');
@@ -200,16 +199,6 @@
 
         </div>
     </div>
+</body>
 
-
-<%--    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
-<%--    <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->--%>
-<%--    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
-<%--    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
-    <!-- [0516]삭제
-  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
--->
-
-<%--</body>--%>
-
-<%--</html>--%>
+</html>

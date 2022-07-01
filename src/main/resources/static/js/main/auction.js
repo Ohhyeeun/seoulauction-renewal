@@ -45,14 +45,12 @@ $(document).ready(function(){
                         //lot data
                         currentLotData[idx] = el.lots;
                         // 처음은 0부터 10
-                        addLot(idx , currentLotData[curruentTab].slice(0 , initCount));
+                        addLot(idx , currentLotData[curruentTab].slice(0 , initCount) , el.SALE_KIND);
                     });
 
                     //초기 sale_NO 설정.
                     currentSaleNo = currentLotData[curruentTab][0].SALE_NO;
                     bidstart();
-
-                    dynamicEvent();
                 }
             })
             .catch(function(error) {
@@ -60,7 +58,7 @@ $(document).ready(function(){
             });
     }
 
-    function addLot(idx , data){
+    function addLot(idx , data , kind){
 
         let starting = locale === 'ko' ? '시작가' : 'Starting KRW  ';
 
@@ -92,11 +90,11 @@ $(document).ready(function(){
 
         $(".auctionTab-contents.on").css('height','100%')
 
-        dynamicEvent();
+        dynamicEvent(kind);
     }
 
     //동적 이벤트
-    function dynamicEvent(){
+    function dynamicEvent(kind){
 
         //중복 이벤트 제거!!!
         $('.auctionTab-btn').off('click');
@@ -139,14 +137,27 @@ $(document).ready(function(){
         });
 
         //클릭시
-        // $('.auction-thumb').on('click', function () {
-        //     window.open('/auction/live/view/'+currentSaleNo + '/' +$(this).children('button').attr('id').split('id_')[1]);
-        // });
+        $('.auction-thumb').on('click', function () {
+
+
+            let saleKind = 'online';
+            if(kind){
+                kind = kind.toLowerCase();
+                if(kind.includes('main') || kind.includes('plan') || kind.includes('hongkong')){
+                    saleKind = 'live';
+                }
+            }
+
+            window.open('/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).children('button').attr('id').split('id_')[1]);
+        });
 
         //auction haert 버튼
         $('.wish_heart').on('click', function () {
 
-            checkLogin();
+            if(!checkLogin()){
+                return;
+            }
+
 
             let data = {};
 

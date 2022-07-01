@@ -117,7 +117,7 @@
                                                     <div class="typo-area">
                                                         <div class="product_info">
                                                             <div class="num_heart-box">
-                                                                <span class="num">{{item.SALE_AS_NO}}</span>
+                                                                <span class="num">{{item.AS_NO}}</span>
                                                             </div>
                                                             <div class="info-box">
                                                                 <div class="title"><span>{{item.ARTIST_NAME_BLOB_KO}}</span>

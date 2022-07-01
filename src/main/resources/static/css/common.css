@@ -863,7 +863,7 @@ img::selection {
     width: 100%;
     left: 0px;
     /*padding: 50px 140px 49px 139px; */
-    z-index: 2;
+    z-index: 10;
     height: auto;
     display: none;
 }

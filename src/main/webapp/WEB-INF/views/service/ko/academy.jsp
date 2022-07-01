@@ -287,7 +287,6 @@
                                                 </div>
                                                 <div class="pagination"></div>
                                             </div>
-
                                         </div>
                                     </article>
 
@@ -371,16 +370,16 @@
 					$("li[name=academyList]:gt(3)").hide(); //4개 이상 hide
 				}
 			}
-			
+
 			if($("li[name=academyList]").length <= 4){
 				$(".js-service_more").removeClass("more_show");
 			}
 		}
-    
+
 		var curShowLeng = 0;
 	    $(window).on("resize", function() {
 	        var width = window.innerWidth;
-	        
+
 	        if(width < 1023){ //mobile
 		        if(curShowLeng  > 0){
 		        	var tmp = curShowLeng - 1;
@@ -393,7 +392,7 @@
 		    	$("li[name=academyList]").show();
 	        }
 	    }).trigger("resize");
-	
+
         // Swiper 세팅
         var swiper_academy;
         var onceFn = $(".width_check").trpUtilityChangeOnceFn(

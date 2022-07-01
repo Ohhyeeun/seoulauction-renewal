@@ -6,7 +6,7 @@
         <div class="sub-wrap pageclass type-pagemain">
 
             <!-- header -->
-            <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
+            <%@include file="../../include/ko/nav.jsp"%>
             <!-- //header -->
             <script>
                 app.value('locale', 'ko');

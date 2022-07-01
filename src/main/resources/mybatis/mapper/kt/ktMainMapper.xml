@@ -18,6 +18,7 @@
 		from SALE S
 		where DEL_YN = 'N'
 		  	and WWW_DISP_YN = 'Y'
+		  	and S.SALE_OUTSIDE_YN = 'N'
 			and S.STAT_CD = 'upcoming'
 			and now() < case when S.SALE_KIND_CD in ('online','online_zb') then (select MAX(L.TO_DT) from LOT L where L.SALE_NO = S.SALE_NO GROUP BY L.SALE_NO)
 				when S.SALE_KIND_CD IN ('exhibit', 'exhibit_sa') then S.TO_DT
