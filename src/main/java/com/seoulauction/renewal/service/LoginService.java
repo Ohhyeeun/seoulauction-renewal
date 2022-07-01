@@ -37,12 +37,12 @@ public class LoginService {
     }
 
 
-    public CommonMap selectCustLoginIdByCustName(CommonMap paramMap){
-    	CommonMap resultMap = loginMapper.selectCustLoginIdByCustName(paramMap);
-    	if(MapUtils.isEmpty(resultMap)) {
+    public List<CommonMap> selectCustLoginIdByCustName(CommonMap paramMap){
+    	List<CommonMap> resultList = loginMapper.selectCustLoginIdByCustName(paramMap);
+    	if(resultList.size() < 1) {
 			 throw new SAException("일치하는 회원 정보가 없습니다.");
 		 }
-        return resultMap;
+        return resultList;
     }
 
     public int updatePasswordByLoginId(CommonMap commonMap){
