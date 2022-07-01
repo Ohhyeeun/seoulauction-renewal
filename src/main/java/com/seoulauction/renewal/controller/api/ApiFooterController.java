@@ -26,7 +26,6 @@ public class ApiFooterController {
             @RequestParam(value = "search" , required = false) String search,
             @RequestParam(value = "lang" , defaultValue = "ko" , required = false) String lang
     ) {
-
         //search
         CommonMap map = new CommonMap("faq_type" , faqType);
         map.put("search" , search);

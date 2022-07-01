@@ -215,7 +215,6 @@ window.addEventListener('DOMContentLoaded', () => {
         </div>
     </div>
 </div>
-
 <!-- 이중접속 차단 안내 -->
 <div id="popup_concurrent-wrap" class="trp popupfixed-wrap login-popup">
     <div class="popup-dim"></div>
