@@ -158,7 +158,6 @@ $(document).ready(function(){
                 return;
             }
 
-
             let data = {};
 
             let element = $(this);
@@ -177,6 +176,8 @@ $(document).ready(function(){
                 .catch(function(error){
                     console.log(error);
                 });
+
+            return false;
         });
     }
 
