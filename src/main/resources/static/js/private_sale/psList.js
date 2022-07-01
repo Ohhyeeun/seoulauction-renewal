@@ -230,10 +230,18 @@ app.controller('ctl', function ($scope, consts, common, is_login, locale) {
         let etc = (v.length % $scope.itemsize > 0) ? 1 : 0;
         let end = parseInt(v.length / $scope.itemsize) + etc;
 
+
+        $scope.pagefirst = 1;
+        $scope.pageprev = (page < $scope.pagesize)? - 1: ($scope.pagesize * parseInt((page - 1) / $scope.pagesize));
+
         if (end < (parseInt(page / $scope.pagesize) + 1) + $scope.pagesize) {
             endVal = end;
+            $scope.pagelast = -1;
+            $scope.pagenext = -1;
         } else {
             endVal = $scope.pagesize + (parseInt(page / $scope.pagesize) + 1);
+            $scope.pagelast = end;
+            $scope.pagenext = endVal + 1;
         }
         for (let i = ($scope.pagesize * parseInt((page - 1) / $scope.pagesize)) + 1; i <= endVal; i++) {
             p.push(i);
