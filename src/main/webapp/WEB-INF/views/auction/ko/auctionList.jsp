@@ -507,7 +507,13 @@
         }
 
         $scope.popSet = function (saleNo, lotNo, userId, custNo) {
-            if(!checkLogin()) return;
+            if(sessionStorage.getItem("is_login") === 'false'){
+                let login_message = ( getCookie('lang') === "" ||  getCookie('lang') === 'ko' ) ?
+                    '로그인을 진행해주세요.' : 'Please Login in.';
+                alert(login_message);
+                location.href= '/login';
+                return
+            }
 
             const is_sale_cert = $scope.is_sale_cert;
 

@@ -406,7 +406,6 @@ $(function() {
 });
 //로그인 여부를 체크해서 로그인이 안되어있을경우 로그인 페이지로 보냄.
 function checkLogin(){
-
     if(sessionStorage.getItem("is_login") === 'false'){
         let login_message = ( getCookie('lang') === "" ||  getCookie('lang') === 'ko' ) ?
             '로그인을 진행해주세요.' : 'Please Login in.';
