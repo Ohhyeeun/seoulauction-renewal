@@ -15,6 +15,8 @@ app.value('locale', document.documentElement.lang);
 app.requires.push.apply(app.requires, ["bw.paging", "ngDialog"]);
 
 app.controller('onlinePayListCtl', function($scope, consts, common) {
+	var popup_offline_payment = $(".js-popup_offline_payment").trpLayerFixedPopup("#popup_offline_payment-wrap");
+	
 	$scope.suc_yn = null;
 	$scope.pay_sat_cd = null;
 
@@ -81,7 +83,13 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 		}
 	}
 	$scope.payInfoPopup = function() {
-		alert('팝업');
+		 popup_offline_payment.open(this); // or false
+		 popup_fixation("#popup_offline_payment-wrap");
+        
+         $("body").on("click", "#popup_offline_payment-wrap .js-closepop, #popup_offline_payment-wrap .popup-dim", function($e) {
+            $e.preventDefault();
+            popup_offline_payment.close();
+		 });
 	}
 
 	

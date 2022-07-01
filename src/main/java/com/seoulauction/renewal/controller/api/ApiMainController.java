@@ -161,4 +161,16 @@ public class ApiMainController {
         return ResponseEntity.ok(RestResponse.ok(mainService.selectBigBanners()));
     }
 
+    @PostMapping(value="/addReadCount/{id}")
+    public ResponseEntity<RestResponse> addReadCount(
+            @PathVariable("id") int id,
+            @RequestParam(value = "type" , required = false) String type
+            ) {
+
+        CommonMap map = new CommonMap("table_name", type);
+        map.put("id",id);
+        mainService.addReadCount(map);
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
 }

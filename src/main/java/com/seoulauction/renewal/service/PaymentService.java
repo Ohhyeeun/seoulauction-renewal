@@ -303,7 +303,7 @@ public class PaymentService {
         int pay_price = (lot_price + fee_price + vat);
 
         resultMap.put("no_vat_price" , lot_price);
-        resultMap.put("vat_price" , fee_price);
+        resultMap.put("vat_price" , fee_price + vat);
         resultMap.put("vat" , vat);
         resultMap.put("pay_price" , pay_price);
 

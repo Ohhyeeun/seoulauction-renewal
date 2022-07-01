@@ -441,6 +441,12 @@
 -->
 
 
+	<script>
+        $(".js-history_back").click(function() {
+        	window.location.href="/mypage/inquiryList";
+        })
+    </script>
+	
 	<script type="text/javascript" src="/js/pages_common_ko.js"
 		type="text/javascript"></script>
 

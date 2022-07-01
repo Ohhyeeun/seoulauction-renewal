@@ -3,7 +3,7 @@
 
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 <body>
-<div class="wrapper footer-bottom footer-bottom30">
+<div class="wrapper">
     <div class="sub-wrap pageclass type-pagemain">
 
         <!-- header -->
@@ -138,4 +138,6 @@ app.controller('newsLetterCtl', function($scope, consts, common, locale) {
     }
 });
 </script>
+</html>
+</body>
 </html>

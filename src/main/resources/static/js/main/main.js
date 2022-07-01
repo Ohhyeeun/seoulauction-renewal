@@ -180,7 +180,12 @@ function  loadBigBanner (){
                         let btnListHtml = "";
                        item.content.button_list.forEach((button) => {
                             // console.log(button);
-                            btnListHtml +=  `<a href="${locale === 'en' ? button.url_ko : button.url_en }" target="${button.target}" class="commonbtn visual-commonbtn ${button.className}">${locale === 'en' ? button.text_en : button.text_ko }</a>`;
+                            btnListHtml +=  `<a href="${locale === 'en' ? button.url_ko : button.url_en }" 
+                                                target="${button.target}" 
+                                                onclick="addReadCount(${item.id},'main_banner')"
+                                                class="commonbtn visual-commonbtn ${button.className}">
+                                                    ${locale === 'en' ? button.text_en : button.text_ko }
+                                            </a>`;
                         });
 
                          const returnDom = `<div class="swiper-slide"> 
@@ -248,7 +253,7 @@ function loadTopNotice(){
                     const content = JSON.parse(item.content);
                      const returnDom = `<div class="swiper-slide"> <!-- slide 구간 -->
                                             <span class="header_beltTit">
-                                                <a href="${locale === 'en' ? content.en_url : content.ko_url}">
+                                                <a href="${locale === 'en' ? content.en_url : content.ko_url}"  onclick="addReadCount(${item.id},'main_banner')">
                                                     <span class="text-over belt_tit">
                                                         ${locale === 'en' ? content.en_text : content.ko_text}
                                                     </span>
@@ -420,7 +425,7 @@ function loadBeltBanner() {
                 bannerList.map(item => {
                     const content = JSON.parse(item.content);
                     const returnDom =  `<div class="swiper-slide platform-bg" style="background-color: ${content.backgroundColor} ">
-                                            <a href="${ locale === 'en' ? content.url_en : content.url_ko }" target="_blank"  >
+                                            <a href="${ locale === 'en' ? content.url_en : content.url_ko }" target="_blank"  onclick="addReadCount(${item.id},'main_banner')" >
                                                 <img src="${locale === 'en' ? item.image.pc_en_url : item.image.pc_ko_url }" alt="beltPcBanner" class="beltBannerImg-pc platform-img" >
                                                 <img src="${locale === 'en' ? item.image.mo_en_url : item.image.mo_ko_url }" alt="beltMobileBanner" class="beltBannerImg-mo platform-img" >
                                             </a>
@@ -531,8 +536,6 @@ function loadPopup(){
                 const success = response.data.success;
                 if (success) {
                     const data = response.data.data;
-                    console.log(data);
-
                     if(data) {
 
                         let jsonData = JSON.parse(data.content);
