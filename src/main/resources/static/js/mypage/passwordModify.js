@@ -143,6 +143,10 @@ function modifyPw(){
 
 function cancelPw(){
 	if(confirm("비밀번호 변경을 취소하시겠습니까?")){
-		location.href = "/mypage/liveBidReqList";
+		if ($("body").hasClass("is_mb")) {
+			window.location.href = "/mypage/main";
+		}else{
+			window.location.href = "/mypage/liveBidReqList";
+		}
 	}
 }

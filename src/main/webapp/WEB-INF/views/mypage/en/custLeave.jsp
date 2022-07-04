@@ -118,7 +118,7 @@
 <script type="text/javascript" src="/js/mypage/custLeave.js"></script>
 <script>
     $(".js-history_back").click(function() {
-    	window.location.href="/mypage/main";
+    	window.location.href="/mypage/custModify";
     })
 </script>
 </html>
