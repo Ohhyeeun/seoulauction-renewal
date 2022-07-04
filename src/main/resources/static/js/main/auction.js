@@ -26,6 +26,8 @@ $(document).ready(function(){
 
                     auctionData = data.data.list;
 
+                    console.log(auctionData);
+
                     //TODO 인클루드 작업.
                     $.each(auctionData , function(idx , el){
 
@@ -35,6 +37,7 @@ $(document).ready(function(){
                             let title = JSON.parse(el.SHORT_TITLE);
                             name = locale === 'ko' ? title.ko : title.en;
                         }
+
                         //sale html
                         let saleHtml = idx === 0 ? `<span class="auctionTab-btn on"><span class="text-over">${name}</span></span>`
                                                 : `<span class="auctionTab-btn"><span class="text-over">${name}</span></span>`;
@@ -45,7 +48,7 @@ $(document).ready(function(){
                         //lot data
                         currentLotData[idx] = el.lots;
                         // 처음은 0부터 10
-                        addLot(idx , currentLotData[curruentTab].slice(0 , initCount) , el.SALE_KIND);
+                        addLot(idx , currentLotData[idx].slice(0 , initCount) , el.SALE_KIND);
                     });
 
                     //초기 sale_NO 설정.
