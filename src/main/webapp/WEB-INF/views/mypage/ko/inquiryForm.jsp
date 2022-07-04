@@ -198,19 +198,19 @@
 																	<div class="select-box half">
 																		<select ng-model="sell_data.work_category1"
 																			name="work_category1" id="work_category1"
-																			ng-change="changeSellCate1();" class="select2Basic">
+																			ng-change="changeSellCate1();">
 																			<option value="">선택하세요</option>
 																			<option ng-repeat="cate in sell_categories1"
 																				value="{{cate}}">{{cate}}</option>
 																		</select> <select ng-model="sell_data.work_category2"
 																			style="display: none;" name="work_category2"
-																			id="work_category2" ng-change="changeSellCate2();" class="select2Basic">
+																			id="work_category2" ng-change="changeSellCate2();">
 																			<option value="">선택하세요</option>
 																			<option ng-repeat="cate in sell_categories2"
 																				value="{{cate}}">{{cate}}</option>
 																		</select> <select ng-model="sell_data.work_category3"
 																			style="display: none;" name="work_category3"
-																			id="work_category3" class="select2Basic">
+																			id="work_category3">
 																			<option value="">선택하세요</option>
 																			<option ng-repeat="cate in sell_categories3"
 																				value="{{cate}}">{{cate}}</option>
