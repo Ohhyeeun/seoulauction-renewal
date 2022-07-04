@@ -53,6 +53,7 @@
             if(content_type === 'instagram') {
                 window.open(url, 'instagram', 'width=1150,height=880,toolbar=0,resizable=yes,status=0,scrollbars=0');
             } else if(content_type === 'youtube') {
+                url = "https://youtube.com/embed"+url.slice(url.lastIndexOf("/"));
                 $("#videoLayerPopup div div.video-play").html('<iframe width="560" height="315" src="'+ url +'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
                 $("#videoLayerPopup").show();
             }
