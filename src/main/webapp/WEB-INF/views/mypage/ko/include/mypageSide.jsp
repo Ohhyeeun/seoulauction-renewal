@@ -41,6 +41,12 @@
 				<div class="mem-lv-box">
 					 <div class="mem-lv lv-1">준회원</div>
 				</div>
+				<div class="mem-record-box">
+					<a href="#" class="record-button js-popup_memlv2_record" ng-click="showMemHisPopup(this);">정회원 이력</a> 
+					<a href="#" class="tooltip-button js-popup_tooltip" ng-click="showTooltip();">
+						<div class="txt-icon-tooltip">툴팁</div>
+					</a>
+				</div>
 			</div>
 			<div class="mem-button-wrap">
 			<a href="/payment/member">
