@@ -12,7 +12,6 @@
     <div class="sub-wrap pageclass">
         <!-- header -->
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
-        <script type="text/javascript" src="/js/service/academy.js"></script>
         <!-- //header -->
 
         <!-- container -->
@@ -351,15 +350,15 @@
 
     </div>
 </div>
-    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-    <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+<%--   [if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->--%>
+<%--   <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
     <!-- [0516]삭제
-  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
+  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 -->
+<script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>--%>
 
-
-    <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/service/academy.js"></script>
 	<!-- Swiper 아카데미 리스트 -->
     <script class="js-append-script">
 		window.onload = function(){
@@ -409,7 +408,10 @@
             swiper_academy = new Swiper('.js-swiper_academy .gallery_container', {
                 autoplay: 3000,
                 loop: true,
-                pagination: ".js-swiper_academy .pagination",
+                //pagination 수정
+                pagination: {
+                    el: ".js-swiper_academy .pagination",
+                },
                 paginationClickable: true,
                 breakpoints: {
                     1023: {

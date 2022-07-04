@@ -230,16 +230,13 @@
     </div>
 </div>
 
-
-<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-<!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+<%-- <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]--> --%>
+<%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
+<%--<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
+<%--<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
 <!-- [0516]삭제
 <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 -->
-
-
 
 <!-- tab menu -->
 <script>
@@ -282,7 +279,10 @@
         swiper_academy = new Swiper('.js-swiper_academy .gallery_container', {
             autoplay: 3000,
             loop: true,
-            pagination: ".js-swiper_academy .pagination",
+            // pagination 0628 수정
+            pagination: {
+                el: ".js-swiper_academy .pagination",
+            },
             paginationClickable: true,
             breakpoints: {
                 1023: {
