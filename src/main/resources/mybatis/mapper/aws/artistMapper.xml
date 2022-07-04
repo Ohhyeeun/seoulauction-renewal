@@ -17,7 +17,8 @@
                a.articles, a.is_open
         from artist a
         where a.is_open = 'Y' and  a.status = 'A'
-        and a.artist_no = #{artist_no};
+        and a.artist_no = #{artist_no}
+        limit 1;
     </select>
 
 </mapper>

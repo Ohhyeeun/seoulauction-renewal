@@ -897,6 +897,7 @@
 
                 //artist 번호
                 $scope.artistNo = $scope.lotInfo.ARTIST_NO;
+                console.log("125540", $scope.artistNo);
 
                 // popup setting
                 let imgUrl = $scope.lotImages[0].IMAGE_URL +
@@ -1139,6 +1140,7 @@
                 //작가 정보 admin에서 가져오도록 로직변경
                 axios.get('/api/auction/artist_info/' + $scope.artistNo)
                     .then(function(response) {
+
                         const data = response.data;
                         let success = data.success;
 
@@ -1160,7 +1162,7 @@
                                     }
                                 });
 
-                                $("#artistName").html(JSON.parse(artistData.name).ko + ' ' +  artistData.birth);
+                                $("#artistName").html(JSON.parse(artistData.name).ko + ' ' +  artistData.birth + '~' + artistData.death);
                                 $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
 
                                 let html = '<div class="vide_img-box">';
