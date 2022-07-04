@@ -149,7 +149,7 @@
                                 <a href="/join" class="gnb_join">JOIN</a>
                             </sec:authorize>
                             <sec:authorize access="isAuthenticated()">
-                                <a href="/mypage/main" class="gnb_member">ACCOUNT</a>
+                                <a href="/mypage/main" class="gnb_member">MY PAGE</a>
                             </sec:authorize>
                         </li>
                         <li>
