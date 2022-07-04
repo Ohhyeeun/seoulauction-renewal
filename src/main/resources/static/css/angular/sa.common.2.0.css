@@ -10,7 +10,7 @@
 .icon-page_next::after {
   content: "";
   display: block;
-  background-image: url("http://seoulauction.m4one.co.kr/css/../../images/common/sp_icons.png");
+  background-image: url("/images/common/sp_icons.png");
   background-position: -982px -392px;
   width: 20px;
   height: 20px;
@@ -25,7 +25,7 @@
 .icon-page_nextnext::after {
   content: "";
   display: block;
-  background-image: url("http://seoulauction.m4one.co.kr/css/../../images/common/sp_icons.png");
+  background-image: url("/images/common/sp_icons.png");
   background-position: -982px -422px;
   width: 20px;
   height: 20px;
@@ -40,7 +40,7 @@
 .icon-page_prev::after {
   content: "";
   display: block;
-  background-image: url("http://seoulauction.m4one.co.kr/css/../../images/common/sp_icons.png");
+  background-image: url("/images/common/sp_icons.png");
   background-position: -982px -452px;
   width: 20px;
   height: 20px;
@@ -55,7 +55,7 @@
 .icon-page_prevprev::after {
   content: "";
   display: block;
-  background-image: url("http://seoulauction.m4one.co.kr/css/../../images/common/sp_icons.png");
+  background-image: url("/images/common/sp_icons.png");
   background-position: -982px -482px;
   width: 20px;
   height: 20px;
