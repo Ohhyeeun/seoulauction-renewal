@@ -98,7 +98,11 @@ $('#findId').on('click', function() {
 			$('#socialType').text(result.data.SOCIAL_TYPE);
 			popup_idsearch4.open(this);
 		} else {
-			$('#custId').text(result.data.LOGIN_ID);
+			let loginId = [];
+			for(let i=0; i<result.data.length; i++ ){
+				loginId.push(result.data[i].LOGIN_ID);
+			}
+			$('#custId').text(loginId);
 			popup_idsearch1.open(this);
 		}
 	})

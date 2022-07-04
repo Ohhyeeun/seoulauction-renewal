@@ -7,6 +7,8 @@ app.value('locale', document.documentElement.lang);
 	var popup_pwsearch4 = $(".js-popup_pwsearch4").trpLayerFixedPopup("#popup_pwsearch4-wrap");
 	
 
+
+	
 /*비밀번호 찾기 버튼 클릭 */
 $('#findPassword').on('click', function() {	
 	var searchType = $('input[name="radioSet2"]:checked').val();
@@ -104,6 +106,7 @@ $('#findPassword').on('click', function() {
 
 });
 
+	
 /*미입력*/
 (function() {
     $("body").on("click", "#popup_idsearch3-wrap .js-closepop, #popup_idsearch3-wrap .popup-dim, #confirm_1", function($e) {
@@ -115,15 +118,16 @@ $('#findPassword').on('click', function() {
 
 /* 비밀번호찾기-휴대폰 번호로 찾기 */
 (function() {
-	$("body").on("click", "#popup_pwsearch1-wrap .js-closepop, #popup_pwsearch1-wrap .popup-dim, #confirm_2", function($e) {
+	$("body").on("click", "#popup_pwsearch1-wrap .js-closepop, #popup_pwsearch1-wrap .popup-dim", function($e) {
 		$e.preventDefault();
 		popup_pwsearch1.close();
 	});
+	
 })();
 
 /* 비밀번호찾기-이메일로 찾기 */
 (function() {
-	$("body").on("click", "#popup_pwsearch2-wrap .js-closepop, #popup_pwsearch2-wrap .popup-dim, #confirm_3", function($e) {
+	$("body").on("click", "#popup_pwsearch2-wrap .js-closepop, #popup_pwsearch2-wrap .popup-dim", function($e) {
 		$e.preventDefault();
 		popup_pwsearch2.close();
 	});
@@ -134,8 +138,9 @@ $('#findPassword').on('click', function() {
 	$("body").on("click", "#popup_pwsearch3-wrap .js-closepop, #popup_pwsearch3-wrap .popup-dim, #confirm_4", function($e) {
 		$e.preventDefault();
 		popup_pwsearch3.close();
-	});
+	});	
 })();
+
 
 /* 비밀번호찾기-소셜 회원인 경우 */
 (function() {

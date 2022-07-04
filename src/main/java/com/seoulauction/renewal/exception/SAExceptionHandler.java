@@ -31,7 +31,7 @@ public class SAExceptionHandler {
     @ExceptionHandler({PgNotFoundException.class , NoHandlerFoundException.class , HttpRequestMethodNotSupportedException.class  , MissingServletRequestParameterException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String error404(Locale locale){
-        log.info("404");
+        log.info("404 {}", locale);
         return SAConst.getUrl(SERVICE_ERROR , "error_404" , locale);
     }
 

@@ -54,7 +54,7 @@
                                                             <span class="type-d_day" ng-if="dDayCalc(auction.DB_NOW, auction.FROM_DT) > 0">D-{{dDayCalc(auction.DB_NOW, auction.FROM_DT)}}</span>
                                                             <span class="type-d_day" ng-if="dDayCalc(auction.DB_NOW, auction.FROM_DT) <= 0">TODAY</span>
                                                         </div>
-                                                        <div class="title-box"><span>{{auction.TITLE_JSON['ko']}}</span></div>
+                                                        <div class="title-box"><span>{{auction.SALE_TH | localeOrdinal}} {{auction.TITLE_JSON['ko']}}</span></div>
                                                         <div class="info-box">
                                                             <dl>
                                                                 <dt>오픈일</dt>

@@ -531,15 +531,20 @@ function phoneNumber(obj) {
     }
 
     let mobile_len = obj.value.length;
-
     if (event.keyCode == 8) {
         obj.value = obj.value.slice(0, mobile_len);
         return 0;
     } else if (mobile_len == 3 || mobile_len == 8) {
         obj.value += '-';
     }
-
 }
+
+function phoneNumberBlur(obj) {
+   if(obj.value.length == 11 && obj.value.indexOf('-')== -1){
+		obj.value = obj.value.slice(0,3) + '-' +obj.value.slice(3,7)+ '-' +obj.value.slice(7,11)
+	}
+}
+
 
 function telNumber(obj){
 	if (obj.value != '') {

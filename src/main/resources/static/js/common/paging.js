@@ -4,6 +4,7 @@ function paging(config){
     paging_div.setAttribute("class", config.className);
     $("#"+config.id).empty();
 
+
     // 전체 페이징 카운트
     let all_paging_cnt = parseInt(config.totalCount / config.itemSize);
     // 나머지 여부
@@ -57,13 +58,14 @@ function paging(config){
         pp.addEventListener("click", function (){
             config.callBackFunc(i);
         });
-        et.innerText = i.toString();
 
         if  (i == config.page) {
+            st.innerText = i.toString();
             st.setAttribute("class", "on");
-            st.appendChild(et);
-            paging_div.appendChild(st);
+            pp.appendChild(st);
+            paging_div.appendChild(pp);
         }else{
+            et.innerText = i.toString();
             pp.appendChild(et);
             paging_div.appendChild(pp);
         }

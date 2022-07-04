@@ -142,7 +142,18 @@ function modifyPw(){
 }
 
 function cancelPw(){
-	if(confirm("비밀번호 변경을 취소하시겠습니까?")){
-		location.href = "/mypage/liveBidReqList";
+	var msg = "";
+	if (langType == 'ko') {
+		msg = "비밀번호 변경을 취소하시겠습니까?";
+	} else {
+		msg = "Are you sure you want to cancel the password change?";
+	}
+	
+	if(confirm(msg)){
+		if ($("body").hasClass("is_mb")) {
+			window.location.href = "/mypage/main";
+		}else{
+			window.location.href = "/mypage/liveBidReqList";
+		}
 	}
 }

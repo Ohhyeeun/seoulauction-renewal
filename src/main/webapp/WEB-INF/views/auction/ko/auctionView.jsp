@@ -114,7 +114,7 @@
                                                     <div class="gallery_thumbnail js-view_thumnail">
                                                         <div class="gallery_center">
                                                             <div class="swiper-wrapper">
-                                                                <div ng-repeat="item in lotImages"
+                                                                <div ng-repeat="item in lotImages" <%-- 빈칸 class="slide" 까지 합해서 총 최대 7개 --%>
                                                                      ng-class="{'slide':$index>-1,'images':$index>-1,'active':$index==0}"
                                                                      data-index="$index">
                                                                     <figure class="img-ratio">
@@ -125,6 +125,16 @@
                                                                     </figure>
                                                                     <div class="line"></div>
                                                                 </div>
+
+                                                                <div class="slide" data-index="4"> <%-- 이미지 없을 시 클래스 slide만 남겨놔야 함. --%>
+                                                                    <figure class="img-ratio">
+                                                                        <div class="img-align">
+                                                                            <img src="/images/pc/auction/view_thumbnail_bg.jpg" alt="" />
+                                                                        </div>
+                                                                    </figure>
+                                                                    <div class="line"></div>
+                                                                </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -286,33 +296,37 @@
                                                 <ul id="recently_views" class="product-list">
                                                     <li class="" ng-repeat="item in recentlyViews">
                                                         <div class="li-inner">
-                                                            <a href="#">
+<%--                                                            <a href="#">--%>
                                                                 <article class="item-article">
                                                                     <div class="image-area">
                                                                         <figure class="img-ratio">
-                                                                            <div class="img-align">
+                                                                            <a href="javascript:void(0);" class="img-align">
                                                                                 <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
                                                                                      alt="">
-                                                                            </div>
+                                                                            </a>
                                                                         </figure>
                                                                     </div>
                                                                     <div class="typo-area">
                                                                         <div class="product_info">
                                                                             <div class="num_heart-box">
-                                                                                <%--<a href="#">--%><span class="num" ng-bind="item.LOT_NO"></span><%--</a>--%>
+                                                                                <%--<a href="#">--%><a href="javascript:void(0);" class="num" ng-bind="item.LOT_NO"></a><%--</a>--%>
                                                                                 <a ng-class="{'heart':item.FAVORITE_YN,'js-work_heart':item.FAVORITE_YN,'on':item.FAVORITE_YN==='Y'}"
                                                                                    ng-click="favorite2(item.SALE_NO, item.LOT_NO, $index);"><i
                                                                                         class="icon-heart_off"></i></a>
                                                                             </div>
                                                                             <div class="info-box">
-                                                                                <a href="#">
+<%--                                                                                <a href="#">--%>
                                                                                     <div class="title">
-                                                                                        <span ng-bind="item.ARTIST_NAME_BLOB_JSON.ko"></span>
+                                                                                        <a href="javascript:void(0);">
+                                                                                            <span ng-bind="item.ARTIST_NAME_BLOB_JSON.ko"></span>
+                                                                                        </a>
                                                                                     </div>
                                                                                     <div class="desc">
-                                                                                        <span ng-bind="item.TITLE_BLOB_JSON.ko"></span>
+                                                                                        <a href="javascript:void(0);">
+                                                                                            <span ng-bind="item.TITLE_BLOB_JSON.ko"></span>
+                                                                                        </a>
                                                                                     </div>
-                                                                                </a>
+<%--                                                                                </a>--%>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -327,7 +341,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </article>
-                                                            </a>
+<%--                                                            </a>--%>
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -570,15 +584,14 @@
     </div>
 </div>
 
-
-<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+<%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
 <!--[if lt IE 9]>
-<script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/auction/saleCert.js"></script>
-<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<%-- <script src="/js/plugin/html5shiv.js"></script> --%> <![endif]-->
+<%--<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
+<%--<script type="text/javascript" src="/js/auction/saleCert.js"></script>--%>
+<%--<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
 
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <%--낙찰 수수료 팝업 --%>
 <jsp:include page="popup/bidCommissionPopup.jsp"/>
 
@@ -632,6 +645,14 @@
         $(".js-view_thumnail .slide").removeClass("active");
         $(".js-view_thumnail .slide").eq($index).addClass("active");
     };
+
+    /* 섬네일 클릭 */
+    $(".js-view_thumnail .slide.images").on("click", function() {
+        var _index = $(this).index();
+        console.log(_index);
+        view_thumnailActive(_index);
+        view_visualActive(_index);
+    });
 
     /* 비주얼 활성화 */
     function view_visualActive($index, view_visual) {
@@ -897,6 +918,7 @@
 
                 //artist 번호
                 $scope.artistNo = $scope.lotInfo.ARTIST_NO;
+                console.log("125540", $scope.artistNo);
 
                 // popup setting
                 let imgUrl = $scope.lotImages[0].IMAGE_URL +
@@ -1139,6 +1161,7 @@
                 //작가 정보 admin에서 가져오도록 로직변경
                 axios.get('/api/auction/artist_info/' + $scope.artistNo)
                     .then(function(response) {
+
                         const data = response.data;
                         let success = data.success;
 
@@ -1160,7 +1183,7 @@
                                     }
                                 });
 
-                                $("#artistName").html(JSON.parse(artistData.name).ko + ' ' +  artistData.birth);
+                                $("#artistName").html(JSON.parse(artistData.name).ko + ' ' +  artistData.birth + '~' + artistData.death);
                                 $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
 
                                 let html = '<div class="vide_img-box">';

@@ -55,7 +55,7 @@
 
                                 <article class="print_detail-article">
                                     <div class="image-area">
-                                        <img id="print_img" src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                        <img id="print_img" src="" alt="">
                                     </div>
 
                                     <div class="artist-area">

@@ -52,7 +52,7 @@
                                             </dl>
                                             <dl class="info_number">
                                                 <dt>Mobile</dt>
-                                                <dd><input type="text" data-id="Mobile"  id="custPhone"  maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);" class="textType" placeholder="" style="width:100%"></dd>
+                                                <dd><input type="text" data-id="Mobile"  id="custPhone"  maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);" class="textType" onblur="phoneNumberBlur(this);"  placeholder="" style="width:100%"></dd>
                                             </dl>
                                         </div>
                                         </form>
@@ -107,7 +107,7 @@
         <!-- //container -->
 
         <!-- footer -->
-             <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
+             <jsp:include page="../../include/en/footer.jsp" flush="false"/>
         <!-- //footer -->
 
     </div>
@@ -189,7 +189,7 @@
                     <div class="pop-body">
                         <article class="button-area confirm_btn confirm_btn_md">
                             <div class="btn_set-float tac">
-                                <a class="btn btn_point" href="#" role="button" id="confirm_2" ><span>OK</span></a>
+                                <a class="btn btn_point" href="/login" role="button" id="confirm_2" ><span>OK</span></a>
                             </div>
                         </article>
                     </div>
@@ -219,7 +219,7 @@
                     <div class="pop-body">
                         <article class="button-area confirm_btn confirm_btn_md">
                             <div class="btn_set-float tac">
-                                <a class="btn btn_point" href="#" role="button" id="confirm_3" ><span>OK</span></a>
+                                <a class="btn btn_point" href="/login" role="button" id="confirm_3" ><span>OK</span></a>
                             </div>
                         </article>
                     </div>

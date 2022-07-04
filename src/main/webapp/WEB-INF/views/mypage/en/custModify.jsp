@@ -15,9 +15,6 @@
 <sec:authentication property="details.loginId" var="loginId"></sec:authentication>
 <sec:authentication property="details.userNm" var="userNm"></sec:authentication>
 
-<c:set var="now" value="<%=new java.util.Date()%>" />
-<c:set var="thisYear"><fmt:formatDate value="${now}" pattern="yyyy" /></c:set> 
- 
 <script>
 console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
 	var socialYn = '${socialYn}';
@@ -90,6 +87,8 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
                                                         <div class="form_label">
                                                             <label for="yy" class="label_text">Birth Date</label>
                                                             <i>*</i>
+                                                            <c:set var="now" value="<%=new java.util.Date()%>" />
+															<c:set var="thisYear"><fmt:formatDate value="${now}" pattern="yyyy" /></c:set> 
                                                         </div>
                                                         <div class="form_body select-box_wrap">
                                                             <div class="select-box">
@@ -363,4 +362,9 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
 </body>
 <!-- 회원정보수정 비밀번호확인 -->
 <script type="text/javascript" src="/js/mypage/custModify.js"></script>
+<script>
+    $(".js-history_back").click(function() {
+    	window.location.href="/mypage/custModify";
+    })
+</script>
 </html>

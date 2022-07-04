@@ -496,6 +496,7 @@ function findAddrNewForm(addrType){
             if(!success){
                 alert(result.data.msg);
             } else {
+				$("#addrScroll").scrollTop(0)
 				var addressList = result.data.addresses;
 				if(addressList.length > 0){
 					$("#addrListBody").html('');

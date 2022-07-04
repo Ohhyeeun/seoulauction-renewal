@@ -9,8 +9,7 @@
 <sec:authentication property="Details.validDate" var="validDate"/> 
 
 <!-- 마이페이지 싸이드 메뉴 -->
-<div ng-controller="myPageCtl">
-<aside class="aside-area"  >
+<aside class="aside-area" ng-controller="myPageCtl" >
 	<div class="aside-inner">
 		<div class="mem-infobox-wrap">
 			<div class="mem-name-wrap">
@@ -27,7 +26,7 @@
 			<div class="mem-info-wrap">
 				<div class="mem-lv-box">
 					 <div class="mem-lv lv-2">정회원</div>
-					 
+					 <div class="mem-period">${validDate}</div>
 				</div>
 				<div class="mem-record-box">
 					<a href="#" class="record-button js-popup_memlv2_record" ng-click="showMemHisPopup(this);">정회원 이력</a> 
@@ -36,16 +35,17 @@
 					</a>
 				</div>
 			</div>
-			<div class="mem-button-wrap">
-				<button class="btn btn_point btn_lg" type="button" >
-					<span>${validDate}</span>
-				</button>
-			</div>  
 			</sec:authorize>
 			<sec:authorize access="hasRole('ROLE_ASSOCIATE_USER')"> 
         	<div class="mem-info-wrap">
 				<div class="mem-lv-box">
 					 <div class="mem-lv lv-1">준회원</div>
+				</div>
+				<div class="mem-record-box">
+					<a href="#" class="record-button js-popup_memlv2_record" ng-click="showMemHisPopup(this);">정회원 이력</a> 
+					<a href="#" class="tooltip-button js-popup_tooltip" ng-click="showTooltip();">
+						<div class="txt-icon-tooltip">툴팁</div>
+					</a>
 				</div>
 			</div>
 			<div class="mem-button-wrap">
@@ -90,5 +90,4 @@
 		</div>
 	</div>
 </aside>
-</div>
     

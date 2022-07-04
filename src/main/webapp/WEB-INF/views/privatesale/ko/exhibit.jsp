@@ -8,9 +8,6 @@
         <!-- header -->
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <!-- //header -->
-        <script>
-            app.value('locale', 'ko');
-        </script>
 
         <!-- container -->
         <div id="container">
@@ -111,7 +108,6 @@
                         </div>
                     </div>
                 </section>
-
             </div>
         </div>
         <!-- //container -->
@@ -131,6 +127,10 @@
 
     </div>
 </div>
+
+<script>
+    app.value('locale', 'ko');
+</script>
 
 <script type="text/javascript" src="/js/private_sale/exhibit.js" type="text/javascript"></script>
 <!-- tab menu -->

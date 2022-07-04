@@ -117,4 +117,13 @@
 <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
 <!-- 회원정보수정 비밀번호확인 -->
 <script type="text/javascript" src="/js/mypage/custLeave.js"></script>
+<script>
+    $(".js-history_back").click(function() {
+    	let f = document.createElement('form');
+   	    f.setAttribute('method', 'post');
+   	    f.setAttribute('action', '/mypage/custModify');
+   	    document.body.appendChild(f);
+   	    f.submit();
+    })
+</script>
 </html>
