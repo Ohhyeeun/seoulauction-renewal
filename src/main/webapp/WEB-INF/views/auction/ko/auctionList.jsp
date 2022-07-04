@@ -26,7 +26,7 @@
                         <div class="padding-inner">
                             <article class="auction_head_info-article">
                                 <div class="center-box ing">
-                                    <h2 class="page_title"><span class="th1">{{sale.TITLE_JSON['ko']}}</span>
+                                    <h2 class="page_title"><span class="th1">{{sale.SALE_TH | localeOrdinal}} {{sale.TITLE_JSON['ko']}}</span>
                                     </h2>
                                     <ul class="event_day-list">
                                         <li><span class="colorB2">프리뷰</span><span class=""> : {{sale.PREV_FROM_DT | date:'MM.dd'+'('+getWeek(sale.PREV_FROM_DT)+')'}} - {{sale.PREV_TO_DT| date:'MM.dd'+'('+getWeek(sale.PREV_TO_DT)+')'}}</span>

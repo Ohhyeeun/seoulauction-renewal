@@ -81,7 +81,7 @@
                                                 <div class="typo-area">
                                                     <div class="product_info">
                                                         <div class="title-box">
-                                                            <span class="title">{{auction.TITLE_JSON['ko']}}</span>
+                                                            <span class="title">{{auction.SALE_TH | localeOrdinal}} {{auction.TITLE_JSON['ko']}}</span>
                                                         </div>
                                                         <div class="info-box">
                                                             <!-- [0523] 날짜수정 -->
