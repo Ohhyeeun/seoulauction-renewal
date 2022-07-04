@@ -41,7 +41,7 @@
                                     </div>
                                 </div>
                             </article>
-                            <article class="proceeding-article">
+                            <article class="proceeding-article" ng-show="$scope.showCurrentLot === true">
                                 <a href="#" title="진행중 Lot 10|김선우" ng-click="goLot(sale_no, CUR_LOT_NO);">
                                     <div class="article-inner">
                                         <div class="column ing">
@@ -1064,8 +1064,12 @@
                         var diffSec  = (timeGap.getSeconds() < 10)?0 + timeGap.getSeconds().toString():timeGap.getSeconds();   // 초
 
                         if (diffDay == "00") {
+                            if (j === 0) {
+                                $scope.showCurrentLot = true
+                            }
                             diffDay = ""
                         } else {
+                            $scope.showCurrentLot = false
                             diffDay += "일"
                         }
                         if (diffHour == "00") {
@@ -1231,7 +1235,7 @@
 
                                             let dt_ly_span1 = document.createElement("em");
                                             console.log(bid_info.winner_state, bid_hist_info[i].value.length - 1,  j)
-                                            if (bid_info.winner_state === 2 && bid_hist_info[i].value.length - 1 == j) {
+                                            if (bid_info.winner_state === 2 && bid_hist_info[i].value.length - 1 === j) {
                                                 // type
                                                 dt_ly_span1.setAttribute("class", "type-success");
                                                 dt_ly_span1.innerText = "낙찰";
@@ -1348,7 +1352,6 @@
                             $scope.saleInfoAll[j].BID_COUNT = "(응찰 : " + $scope.bidsInfoAll[idx].bid_count + ")";
                             // 종료일
                             $scope.saleInfoAll[j].END_DT = $scope.bidsInfoAll[idx].end_bid_time;
-
 
                             // 낙찰이 완료 되었다면
                             if ($scope.bidsInfoAll[idx].winner_state === 2) {
