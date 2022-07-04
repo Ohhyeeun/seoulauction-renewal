@@ -141,9 +141,7 @@ $(document).ready(function(){
         });
 
         //클릭시
-        $('.auction-thumb').on('click', function () {
-
-            console.log('asdfasdf');
+        $('.auction-thumb').on('click', function (event) {
 
             let saleKind = 'online';
             if(kind){
@@ -160,7 +158,7 @@ $(document).ready(function(){
         $('.wish_heart').on('click', function () {
 
             if(!checkLogin()){
-                return;
+                return false;
             }
 
             let data = {};
