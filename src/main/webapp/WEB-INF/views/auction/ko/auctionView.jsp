@@ -1567,6 +1567,36 @@
                     }
                 }
             }
+            if (d.message.quotes != null && d.message.quotes.length > 0) {
+                let cnt = 1;
+                let viewCnt = 0;
+
+                let cost_tmp = (bid_info.bid_cost === 0) ?
+                    bid_info.open_bid_cost :
+                    bid_info.bid_cost;
+
+
+
+                while( viewCnt < 70 ) {
+                    if (cnt > d.message.quotes.length - 1) {
+                        quote_arr.push(cost_tmp)
+                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                        viewCnt++;
+                        continue
+                    }
+                    if (d.message.quotes[cnt].cost >= cost_tmp){
+                        quote_arr.push(cost_tmp)
+                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                        viewCnt++;
+                        continue
+                    }
+                    cnt++
+                }
+                $("#reservation_bid").find("option").remove();
+                for(let i = 0; i < quote_arr.length; i++) {
+                    $("#reservation_bid").append(`<option value="` + quote_arr[i] +`">KRW ` + quote_arr[i].toLocaleString("ko-KR") +`</option>`);
+                }
+            }
         } else if (d.msg_type == packet_enum.time_sync) {
 
         } else if (d.msg_type == packet_enum.bid_info_init) {
@@ -1617,26 +1647,26 @@
 
                 let quote_arr = [];
 
+                console.log(d.message.quotes);
+
                 if (d.message.quotes != null && d.message.quotes.length > 0) {
                     let cnt = 1;
                     let viewCnt = 0;
-                    while (viewCnt < 70) {
+                    while( viewCnt < 70 ) {
                         if (cnt > d.message.quotes.length - 1) {
                             quote_arr.push(cost_tmp)
-                            cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
+                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
                             viewCnt++;
                             continue
                         }
-                        // 호가리스트 값이 현재 코스트 보다 컸을때
-                        if (d.message.quotes[cnt].cost > cost_tmp) {
+                        if (d.message.quotes[cnt].cost >= cost_tmp){
                             quote_arr.push(cost_tmp)
-                            cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
-                            cnt = 0;
+                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
                             viewCnt++;
                             continue
                         }
-                        ++cnt;
-                        cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost;
+                        cnt++
+                        //cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
                     }
                     $("#reservation_bid").find("option").remove();
                     $.each(quote_arr, function (idx, el) {
