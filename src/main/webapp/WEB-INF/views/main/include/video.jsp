@@ -64,6 +64,7 @@
             const videoSwiper = new Swiper(".video-swiper", {
                 slidesPerView: 6,
                 spaceBetween: 20,
+                loop: true,
                 loopFillGroupWithBlank: true,
                 navigation: {
                     nextEl: ".videoBtn-right",
