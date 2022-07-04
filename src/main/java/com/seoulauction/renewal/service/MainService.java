@@ -144,7 +144,7 @@ public class MainService {
             CommonMap returnMap = new CommonMap();
             returnMap.put("SALE_NO", item.get("SALE_NO"));
             returnMap.put("SALE_KIND", item.get("SALE_KIND"));
-            returnMap.put("SHORT_TITLE", item.get("TYNY_TITLE_BLOB"));
+            returnMap.put("SHORT_TITLE", item.get("TINY_TITLE_BLOB"));
             returnMap.put("SALE_TH", item.get("SALE_TH") != null ? item.get("SALE_TH") : "");
             returnMap.put("TITLE_BLOB", item.get("TITLE_BLOB"));
             returnMap.put("FROM_DT", item.get("FROM_DT"));
