@@ -12,8 +12,6 @@ function paging(config){
 
     let start_page = parseInt((config.page - 1) / config.pageSize) * config.pageSize + 1;
 
-    console.log("config.page ::: " ,  config.page);
-
     let paging_end = function(all_paging_cnt, is_mod, start_page){
         switch (is_mod) {
             case true:

@@ -119,7 +119,11 @@
 <script type="text/javascript" src="/js/mypage/custLeave.js"></script>
 <script>
     $(".js-history_back").click(function() {
-    	window.location.href="/mypage/main";
+    	let f = document.createElement('form');
+   	    f.setAttribute('method', 'post');
+   	    f.setAttribute('action', '/mypage/custModify');
+   	    document.body.appendChild(f);
+   	    f.submit();
     })
 </script>
 </html>

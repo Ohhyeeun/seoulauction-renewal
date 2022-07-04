@@ -27,15 +27,18 @@ $(document).ready(function(){
 
                     auctionData = data.data.list;
 
+                    console.log(auctionData);
+
                     //TODO 인클루드 작업.
                     $.each(auctionData , function(idx , el){
 
-                        let name = '숏 세일 이름';
+                        let name = '기본 숏 세일 이름';
 
                         if(el.SHORT_TITLE){
                             let title = JSON.parse(el.SHORT_TITLE);
                             name = locale === 'ko' ? title.ko : title.en;
                         }
+
                         //sale html
                         let saleHtml = idx === 0 ? `<span class="auctionTab-btn on"><span class="text-over">${name}</span></span>`
                                                 : `<span class="auctionTab-btn"><span class="text-over">${name}</span></span>`;
@@ -46,7 +49,7 @@ $(document).ready(function(){
                         //lot data
                         currentLotData[idx] = el.lots;
                         // 처음은 0부터 10
-                        addLot(idx , currentLotData[curruentTab].slice(0 , initCount) , el.SALE_KIND);
+                        addLot(idx , currentLotData[idx].slice(0 , initCount) , el.SALE_KIND);
                     });
 
                     //초기 sale_NO 설정.
@@ -102,6 +105,7 @@ $(document).ready(function(){
         $('.auction-thumbbox').off('mouseenter');
         $('.auction-thumb').off('mouseleave');
         $('.wish_heart').off('click');
+        $('.auction-thumb').off('click');
 
         /*auction Tab 버튼*/
         $('.auctionTab-btn').on('click',function () {
@@ -138,8 +142,7 @@ $(document).ready(function(){
         });
 
         //클릭시
-        $('.auction-thumb').on('click', function () {
-
+        $('.auction-thumb').on('click', function (event) {
 
             let saleKind = 'online';
             if(kind){
@@ -156,7 +159,7 @@ $(document).ready(function(){
         $('.wish_heart').on('click', function () {
 
             if(!checkLogin()){
-                return;
+                return false;
             }
 
 

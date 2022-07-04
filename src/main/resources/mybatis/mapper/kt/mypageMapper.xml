@@ -824,8 +824,9 @@ SELECT 'INTE_LOT' AS GUBUN
 				and SB2.SALE_NO =#{sale_no}
 				</if>
 				<if test="lot_no != null and lot_no > 0">
-				and SB2.LOT_NO = #{lot_no})
+				and SB2.LOT_NO = #{lot_no}
 				</if>
+				and B.CUST_NO = #{action_user_no})
 				= AB.BID_PRICE , 'hammer', 'bidding') AS HAMMER_STAT
 				, DATE_FORMAT(AB.REQ_DT, '%Y.%m.%d  %T')  as REQ_DT 
 				, DATE_FORMAT(AB.REQ_DT, '%d %b, %Y %T')  as REQ_DT_EN
@@ -932,8 +933,9 @@ SELECT 'INTE_LOT' AS GUBUN
 				and SB2.SALE_NO = #{sale_no}
 				</if>
 				<if test="lot_no != null and lot_no > 0">
-				and SB2.LOT_NO = #{lot_no})
+				and SB2.LOT_NO = #{lot_no}
 				</if>
+				and B.CUST_NO = #{action_user_no})
 				 , 'hammer', 'bidding' ) AS HAMMER_STAT
 		FROM (SELECT PAD.PADD_NO PADDLE, BO.* FROM BID_OFFLINE BO LEFT OUTER JOIN SALE_PADD PAD ON BO.SALE_NO = PAD.SALE_NO AND BO.CUST_NO = PAD.CUST_NO) BIO
 		JOIN SALE S ON BIO.SALE_NO = S.SALE_NO
@@ -1087,8 +1089,9 @@ SELECT 'INTE_LOT' AS GUBUN
 				and SB2.SALE_NO = #{sale_no}
 				</if>
 				<if test="lot_no != null and lot_no > 0">
-				and SB2.LOT_NO = #{lot_no})
+				and SB2.LOT_NO = #{lot_no}
 				</if>
+				and B.CUST_NO = #{action_user_no})
 				= B.BID_PRICE , 'hammer', 'bidding') AS HAMMER_STAT
 				, ABR.ABORT_YN
 				, S.CURR_CD

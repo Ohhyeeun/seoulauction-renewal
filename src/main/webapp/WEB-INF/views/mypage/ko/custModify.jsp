@@ -15,10 +15,7 @@
 <sec:authentication property="details.loginId" var="loginId"></sec:authentication>
 <sec:authentication property="details.userNm" var="userNm"></sec:authentication>
 
-<c:set var="now" value="<%=new java.util.Date()%>" />
-<c:set var="thisYear"><fmt:formatDate value="${now}" pattern="yyyy" /></c:set>  
 <script>
-console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
 	var socialYn = '${socialYn}';
 	var socialType = '${socialType}';
 	var userNo = '${userNo}';
@@ -96,6 +93,8 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
                                                         <div class="form_label">
                                                             <label for="yy" class="label_text">생년월일</label>
                                                             <i>*</i>
+	                                                        <c:set var="now" value="<%=new java.util.Date()%>" />
+															<c:set var="thisYear"><fmt:formatDate value="${now}" pattern="yyyy" /></c:set>  
                                                         </div>
                                                         <div class="form_body select-box_wrap">
                                                             <div class="select-box">
@@ -316,9 +315,6 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
                         </div>
                     </section>
                 </div>
-                
-                
-			    
             </div>
             <!-- //container -->
 
@@ -358,7 +354,7 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
 	                        <section class="section" style="display: block;">
 	
 	                            <div class="search-group sm">
-	                                <input type="text" id="addr_word" class="form-control" onkeypress="$event.keyCode === 13 && findAddrNewForm();" placeholder="도로명주소 건물번호 검색">
+	                                <input type="text" id="addr_word" class="form-control" onkeypress="event.keyCode === 13 && findAddrNewForm();" placeholder="도로명주소 건물번호 검색">
 	                                <button class="btn btn_black" id="findAddr" type="button" onclick="findAddrNewForm()"><span>검색</span></button>
 	                            </div>
 	
@@ -370,7 +366,7 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
 	                                        </div>
 	                                    </div>
 	                                    <div class="table-body">
-	                                        <div class="table_scroll scroll-type">
+	                                        <div class="table_scroll scroll-type" id="addrScroll">
 	                                            <table class="table_base list-table add_list">
 	                                                <thead>
 	                                                    <tr>
@@ -472,7 +468,7 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
 <script type="text/javascript" src="/js/mypage/custModify.js"></script>
 <script>
     $(".js-history_back").click(function() {
-    	window.location.href="/mypage/main";
+    	window.location.href="/mypage/custModify";
     })
 </script>
 </html>

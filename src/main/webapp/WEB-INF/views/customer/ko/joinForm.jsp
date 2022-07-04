@@ -535,7 +535,7 @@
 										</div>
 									</div>
 									<div class="table-body">
-										<div class="table_scroll scroll-type">
+										<div class="table_scroll scroll-type" id="addrScroll">
 											<table class="table_base list-table add_list">
 												<thead>
 													<tr>
