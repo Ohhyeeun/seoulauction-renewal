@@ -176,7 +176,7 @@
                                                         </a>
                                                     </figure>
                                                 </div>
-                                                <div class="typo-area">
+                                                <div class="typo-area" ng-show="item.DISP_YN === 'Y'">
                                                     <div class="product_info">
                                                         <div class="num_heart-box">
                                                             <span class="num">{{item.LOT_NO}}</span>
@@ -226,6 +226,13 @@
                                                                                     role="button"><span>응찰</span></a>
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                                <div class="area-inner" ng-show="item.DISP_YN !== 'Y'">
+                                                    <i class="icon-cancle_box"></i>
+                                                    <div class="typo">
+                                                        <div class="name"><span ng-bind="'LOT ' + item.LOT_NO"></span></div>
+                                                        <div class="msg"><span>출물이 취소되었습니다.</span></div>
                                                     </div>
                                                 </div>
                                             </article>
