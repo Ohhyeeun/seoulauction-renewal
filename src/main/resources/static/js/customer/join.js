@@ -648,6 +648,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	            if(!success){
 	                alert(result.data.msg);
 	            } else {
+					$("#addrScroll").scrollTop(0)
 					$scope.addressList = result.data.addresses;
 					$scope.$apply();
 	            }
