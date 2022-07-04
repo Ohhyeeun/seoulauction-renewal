@@ -110,4 +110,9 @@
 	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 </body>
 <script type="text/javascript" src="/js/mypage/passwordModify.js"></script>
+<script>
+    $(".js-history_back").click(function() {
+    	window.location.href="/mypage/main";
+    })
+</script>
 </html>

@@ -150,4 +150,9 @@
 <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
 <!-- SNS연동 -->
 <script type="text/javascript" src="/js/mypage/snsLink.js"></script>
+<script>
+    $(".js-history_back").click(function() {
+    	window.location.href="/mypage/main";
+    })
+</script>
 </html>

@@ -363,4 +363,9 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
 </body>
 <!-- 회원정보수정 비밀번호확인 -->
 <script type="text/javascript" src="/js/mypage/custModify.js"></script>
+<script>
+    $(".js-history_back").click(function() {
+    	window.location.href="/mypage/main";
+    })
+</script>
 </html>

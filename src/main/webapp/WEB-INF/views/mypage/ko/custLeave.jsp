@@ -117,4 +117,9 @@
 <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
 <!-- 회원정보수정 비밀번호확인 -->
 <script type="text/javascript" src="/js/mypage/custLeave.js"></script>
+<script>
+    $(".js-history_back").click(function() {
+    	window.location.href="/mypage/main";
+    })
+</script>
 </html>

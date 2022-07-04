@@ -105,7 +105,7 @@
                             <div class="panel-body">
                                 <div class="schedule-article">
                                     <div class="schedule_name">
-                                        <span>{{auction.TITLE_JSON['ko']}}</span>
+                                        <span>{{auction.SALE_TH | localeOrdinal}} {{auction.TITLE_JSON['ko']}}</span>
                                     </div>
                                     <ul class="info-list">
                                         <li><em>오픈일</em><span>{{auction.FROM_DT | date : 'MM.dd'}}({{getWeek(auction.FROM_DT)}}) {{auction.FROM_DT | date : 'H:mm'}}</span></li>
