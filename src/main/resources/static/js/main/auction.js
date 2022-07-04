@@ -52,8 +52,6 @@ $(document).ready(function(){
                     //초기 sale_NO 설정.
                     currentSaleNo = currentLotData[curruentTab][0].SALE_NO;
                     bidstart();
-
-                    //dynamicEvent();
                 }
             })
             .catch(function(error) {
@@ -180,6 +178,8 @@ $(document).ready(function(){
                 .catch(function(error){
                     console.log(error);
                 });
+
+            return false;
         });
     }
 

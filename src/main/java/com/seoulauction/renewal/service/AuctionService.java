@@ -84,4 +84,8 @@ public class AuctionService {
         }
         return auctionMapper.selectSalePaddNo(map);
     }
+
+    public CommonMap selectScTrans(CommonMap map) {
+        return auctionMapper.selectScTrans(map);
+    }
 }

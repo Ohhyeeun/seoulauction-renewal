@@ -57,4 +57,12 @@ public class ApiAuctionController {
     public ResponseEntity<RestResponse> results(@RequestBody CommonMap map){
         return ResponseEntity.ok(RestResponse.ok(auctionService.selectResultSaleList(map)));
     }
+
+    @GetMapping("/sctran/{no}")
+    public ResponseEntity<RestResponse> getScTran(@PathVariable("no") int no){
+        CommonMap map = new CommonMap();
+        map.put("tr_phone", no);
+        CommonMap result = auctionService.selectScTrans(map);
+        return ResponseEntity.ok(RestResponse.ok(result));
+    }
 }

@@ -127,8 +127,7 @@
                             let data = response.data.data;
 
                             if(!data){
-                                alert('잘못된 경로입니다.');
-                                history.back();
+                                location.href='/error/404';
                             }
                             $("#notice_content").html(JSON.parse(data.content).ko);
                             $("#notice_title").html(JSON.parse(data.title).ko);

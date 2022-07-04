@@ -477,8 +477,10 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 			document.getElementById('hpMsg').innerText = "휴대전화번호를 확인해주세요.";
 			$scope.allValidCheck();
 			return;
+		} else if(phone.indexOf('-') == -1){
+			phone = phone.slice(0,3) + '-' +phone.slice(3,7)+ '-' +phone.slice(7,11)
 		}
-						
+		
 		$d = {"to_phone": phone , "cust_kind_cd" : "person"};
 		axios.post('/api/cert/sendAuthNum', $d)
 		.then(function(response) {

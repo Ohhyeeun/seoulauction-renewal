@@ -62,4 +62,6 @@ public class AdminService {
     public List<CommonMap> getCode(CommonMap map){
         return ktAdminMapper.selectCode(map);
     }
+
+
 }

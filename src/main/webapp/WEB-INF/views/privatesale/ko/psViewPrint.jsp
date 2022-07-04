@@ -55,7 +55,7 @@
 
                                 <article class="print_detail-article">
                                     <div class="image-area">
-                                        <img id="print_img" src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                        <img id="print_img" src="" alt="">
                                     </div>
 
                                     <div class="artist-area">
@@ -167,7 +167,7 @@
                             saleData.LOT_EXPIRE_DATE_TIME_T.replace(saleData.LOT_EXPIRE_DATE_DAY , enDayToHanDay(saleData.LOT_EXPIRE_DATE_DAY) )
                         );
 
-                        $("#print_lot_no").html(saleData.SALE_AS_NO);
+                        $("#print_lot_no").html(saleData.AS_NO);
                         $("#print_artist_name").html(saleData.ARTIST_NAME_KO);
                         $("#print_year").html('b.' + saleData.BORN_YEAR);
                         $("#print_title").html(saleData.TITLE_KO);

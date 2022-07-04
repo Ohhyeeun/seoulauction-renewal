@@ -1550,7 +1550,7 @@
 
             if (end < (parseInt(page / $scope.pagesize) + 1) + $scope.pagesize) {
                 endVal = end;
-                $scope.pagelast = -1;
+                $scope.pagelast = endVal;
                 $scope.pagenext = -1;
             } else {
                 endVal = $scope.pagesize + (parseInt(page / $scope.pagesize) + 1);

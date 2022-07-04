@@ -55,7 +55,7 @@
 										<div class="mem-info-wrap">
 											<div class="mem-lv-box">
 												 <div class="mem-lv lv-2">정회원</div>
-												 
+												 <div class="mem-period">${validDate}</div>
 											</div>
 											<div class="mem-record-box">
 												<a href="#" class="record-button js-popup_memlv2_record" ng-click="showMemHisPopup(this);">정회원 이력</a> 
@@ -64,11 +64,6 @@
 												</a>
 											</div>
 										</div>
-										<div class="mem-button-wrap">
-											<button class="btn btn_point btn_lg" type="button" >
-												<span>${validDate}</span>
-											</button>
-										</div>  
 										</sec:authorize>
 										<sec:authorize access="hasRole('ROLE_ASSOCIATE_USER')"> 
 							        	<div class="mem-info-wrap">
