@@ -53,7 +53,7 @@
                                                             <span class="type-online" ng-if="['online','online_zb'].indexOf(auction.SALE_KIND_CD) > -1">ONLINE</span>
                                                             <span class="type-live" ng-if="['online','online_zb'].indexOf(auction.SALE_KIND_CD) <= -1">LIVE</span>
                                                         </div>
-                                                        <div class="title-box"><span>{{auction.TITLE_JSON['ko']}}</span></div>
+                                                        <div class="title-box"><span>{{auction.SALE_TH | localeOrdinal}} {{auction.TITLE_JSON['ko']}}</span></div>
                                                         <div class="info-box">
                                                             <dl>
                                                                 <dt>오픈일</dt>
