@@ -1446,6 +1446,7 @@
         //페이지방식, 더보기방식 변경
         $scope.chgViewType = function () {
             let sst = parseInt($("#viewType option:selected").val())
+            $scope.curpage = 1;
             switch (sst) {
                 case 1:
                     $("#page_layer").removeClass('only-mb');
@@ -1519,7 +1520,6 @@
                     });
                     break;
                 case 6:
-
                     // 응찰수 높은 순
                     v.sort(function (a, b) {
                         if (a.BID_COUNT > b.BID_COUNT) return -1;
@@ -1536,6 +1536,7 @@
                     });
                     break;
             }
+            $scope.curpage = 1;
             $scope.pageing($scope.curpage);
         }
         // 더보기 페이징
