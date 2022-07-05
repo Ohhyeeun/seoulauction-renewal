@@ -246,7 +246,7 @@
                                                         <a href="#" conclick="window.history.back()" title="뒤로가기">
                                                             <i class="icon-page_back"></i>
                                                         </a>
-                                                        <span>Hyo-Sang Seung, Deok-Joo Choi and the vertical landscape</span>
+                                                        <span>Private Sale</span>
                                                     </div>
                                                 </div>
                                                 <div class="col_item">
@@ -314,6 +314,7 @@
                                                 </div>
                                             </div>
                                         </article>
+
                                     </div>
                                 </div>
                                 <div class="panel-body">
@@ -457,7 +458,6 @@
                                             </article>
 
                                         </div>
-
                                         <div class="col_item">
                                             <article class="product_detail-article js-product_detail-article">
                                                 <div class="index-area">
@@ -494,10 +494,9 @@
                                                     </div>
                                                 </div>
 
-
                                                 <div class="saleprice-area">
                                                     <dl>
-                                                        <dt>Exhibitor</dt>
+                                                        <dt>Price</dt>
                                                         <dd>5,000,000</dd>
                                                     </dl>
                                                 </div>
@@ -518,12 +517,11 @@
                                                         <i class="icon-view_inquiry"></i>
                                                         <div class="txt">
                                                             <!-- [0613]안내내용 수정 -->
-                                                            Exhibited works can be purchased through inquiry. If you have any questions, please use the inquiry form.
+                                                            Private sale works can be purchased through inquiry. If you have any questions, please use the inquiry form.
                                                             <!-- //[0613]안내내용 수정 -->
                                                         </div>
                                                     </div>
                                                 </div>
-
 
                                             </article>
                                         </div>
@@ -673,36 +671,28 @@
 
 
 
-
-
     <!-- visual swiper -->
     <script>
-        /* [2022-0628]  */
         var view_visual = new Swiper(".js-view_visual .gallery_center", {
             loop: false,
             paginationClickable: true,
             spaceBetween: 10,
             effect: "fade",
-            simulateTouch: true,
-            pagination: {
-                el: '.js-view_visual .pagination',
-                type: 'bullets',
-            },
+            simulateTouch: false,
+            pagination: ".js-view_visual .pagination",
+            paginationClickable: true,
             breakpoints: {
                 1023: {
-                    effect: "fade",
+                    effect: "slide",
                     simulateTouch: true,
                     slidesPerView: 1,
                     spaceBetween: 10
                 }
             },
-            on: {
-                slideChange: function() {
-                    view_thumnailActive(view_visual.activeIndex);
-                }
+            onSlideChangeEnd: function(swiper) { // 움직임이 끝나면 실행
+                view_thumnailActive(swiper.activeIndex)
             }
         });
-        /* ///[2022-0628]  */
 
         /* 섬네일 클릭 */
         $(".js-view_thumnail .slide.images").on("click", function() {
@@ -741,7 +731,6 @@
             dropdown.getClose();
         });
     </script>
-
 
     <!--  sns 공유 -->
     <script>
@@ -784,6 +773,7 @@
         }
     </script>
     <!-- // [2022-0516] 사용 -->
+
 
 </body>
 
