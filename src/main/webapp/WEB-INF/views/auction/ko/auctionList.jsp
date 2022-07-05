@@ -5,12 +5,12 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+<style>
+    .select2-container {
+        z-index: 999;
+    }
+</style>
 <body class="">
-<%--<style>--%>
-<%--    .select2-container {--%>
-<%--        z-index: 999;--%>
-<%--    }--%>
-<%--</style>--%>
 <div class="wrapper">
     <div class="sub-wrap pageclass type-width_list">
         <!-- header -->
@@ -68,6 +68,9 @@
                                         <ul class="tab-list js-list_tab">
                                             <li ng-class="{active:'전체' === selectLotTag}"><a href="#tab-cont-1"
                                                                                              ng-click="searchLotTags('전체');"><span>전체</span></a>
+                                            <li ng-class="{active: item.CD_ID === selectLotTag}"
+                                                ng-repeat="item in categories"><a href="#tab-cont" ng-click="searchCategory(item.CD_ID);"><span
+                                                    ng-bind="item.CD_NM"></span></a></li>
                                             </li>
                                             <li ng-class="{active: item.LOT_TAG === selectLotTag}"
                                                 ng-repeat="item in lotTags"><a href="#tab-cont"
@@ -185,8 +188,7 @@
                                                             ></i></button>
                                                         </div>
                                                         <div class="info-box">
-                                                            <div class="title"><span>{{item.ARTIST_NAME_JSON.ko}}</span><span
-                                                                    class="sub">({{item.BORN_YEAR}})</span>
+                                                            <div class="title"><span>{{item.ARTIST_NAME_JSON.ko}}</span>
                                                             </div>
                                                             <div class="desc">
                                                                 <span class="text-over span_block">{{item.LOT_TITLE_JSON.ko}}</span>
@@ -195,7 +197,7 @@
                                                                 <span class="text-over span_block">{{item.CD_NM}}</span>
                                                                 <div class="size_year">
                                                                     <span ng-bind="item | size_text_cm"></span>
-                                                                    <span>{{item.MAKE_YEAR_JSON.ko}}</span>
+                                                                    <span ng-bind="item.MAKE_YEAR_JSON.ko" ng-show="item.MAKE_YEAR_JSON.ko !== undefined"></span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -210,9 +212,12 @@
                                                                 <dd>{{item.START_COST}}</dd>
                                                             </dl>
                                                             <dl class="price-list">
-                                                                <dt ng-bind="onStateCostTxt">낙찰가</dt>
-                                                                <dd>
+                                                                <dt ng-bind="item.onStateCostTxt"></dt>
+                                                                <dd ng-if="item.CUR_COST !== ''">
                                                                     <strong>{{item.CUR_COST}}</strong><em>{{item.BID_COUNT}}</em>
+                                                                </dd>
+                                                                <dd ng-if="item.CUR_COST === ''">
+                                                                    <strong></strong><em></em>
                                                                 </dd>
                                                             </dl>
                                                         </div>
@@ -408,7 +413,7 @@
         $scope.itemsize = 20;
         $scope.curpage = 1;
 
-        $scope.onStateCostTxt = "현재가";
+        $scope.onStateCostTxt = "";
 
         $scope.is_sale_cert = false;
         $scope.cust_hp = "";
@@ -510,11 +515,31 @@
             }
         }
 
+        const getCategories = (saleNo) => {
+            try {
+                return axios.get('/api/auction/categories/'+saleNo);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
         $scope.searchLotTags = function (lotTag) {
             $scope.selectLotTag = lotTag;
             let pp = [];
             for (let i = 0; i < $scope.saleInfoAll.length; i++) {
                 if ($scope.saleInfoAll[i].LOT_TAG === lotTag) {
+                    pp.push($scope.saleInfoAll[i]);
+                }
+            }
+            $scope.searchSaleInfoAll = pp;
+            $scope.pageing(1);
+        }
+
+        $scope.searchCategory = function (category) {
+            $scope.selectLotTag = category;
+            let pp = [];
+            for (let i = 0; i < $scope.saleInfoAll.length; i++) {
+                if ($scope.saleInfoAll[i].CATE_CD_ID === category) {
                     pp.push($scope.saleInfoAll[i]);
                 }
             }
@@ -632,10 +657,12 @@
         // 호출 부
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no)]);
+                let [r1, r2, r3, r4] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no), getCategories($scope.sale_no)]);
+
                 $scope.saleInfoAll = r1.data.data;
                 $scope.saleImages = r2.data.data;
                 $scope.lotTags = r3.data.data;
+                $scope.categories = r4.data.data;
 
                 if ($scope.saleInfoAll.length > 0) {
                     if ($scope.saleInfoAll[0].SALE_KIND_CD !== "online") {
@@ -660,19 +687,20 @@
                 await $scope.setSale($scope.sale_no);
                 //get sale cert
                 if(sessionStorage.getItem("is_login") === 'true'){
-                    await axios.get('/api/cert/sales/${saleNo}')
-                        .then(function(response) {
-                            if (response.data.success) {
-                                if(response.data.data.CNT > 0) {
-                                    $scope.is_sale_cert = true;
-                                } else {
-                                    $scope.popSet();
+                    if($scope.sale_status == "ING"){
+                        await axios.get('/api/cert/sales/${saleNo}')
+                            .then(function(response) {
+                                if (response.data.success) {
+                                    if(response.data.data.CNT > 0) {
+                                        $scope.is_sale_cert = true;
+                                    } else {
+                                        $scope.popSet();
+                                    }
+                                    $("#cust_hp").val(response.data.data.HP);
+                                    $scope.cust_hp = response.data.data.HP;
                                 }
-                                $("#cust_hp").val(response.data.data.HP);
-                                $scope.cust_hp = response.data.data.HP;
-                            }
-                        });
-
+                            });
+                    }
                     await axios.get('/api/mypage/manager')
                         .then(function(response) {
                             if (response.data.success && response.data.data != undefined) {
@@ -931,6 +959,11 @@
                             $scope.saleInfoAll[i].START_PRICE = "KRW " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR');
                             $scope.saleInfoAll[i].BID_COUNT = "(응찰 " + d.message.bid[len - 1].bid_count + ")";
                             $scope.saleInfoAll[i].CUR_COST = curCostValue;
+                            if (d.message.bid[len - 1].bid_count > 0) {
+                                $scope.saleInfoAll[i].onStateCostTxt = "현재가"
+                            } else {
+                                $scope.saleInfoAll[i].onStateCostTxt = ""
+                            }
                         }
                     }
                     // 앵귤러 정보 삽입
@@ -939,6 +972,11 @@
                             $scope.searchSaleInfoAll[i].START_PRICE = "KRW " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR');
                             $scope.searchSaleInfoAll[i].BID_COUNT = "(응찰 " + d.message.bid[len - 1].bid_count + ")";
                             $scope.searchSaleInfoAll[i].CUR_COST = curCostValue;
+                            if (d.message.bid[len - 1].bid_count > 0) {
+                                $scope.searchSaleInfoAll[i].onStateCostTxt = "현재가"
+                            } else {
+                                $scope.searchSaleInfoAll[i].onStateCostTxt = ""
+                            }
                         }
                     }
 
@@ -966,6 +1004,11 @@
                         let bid_hist_info = d.message.bid;
                         if (bid_hist_info != null && bid_hist_info.length > 0) {
                             let bid_lst = document.getElementById("bid_lst");
+                            if (d.message.bid[len - 1].customer.cust_no === bid_hist_info[0].customer.cust_no){
+                                document.getElementById("bid_new_cost_val").setAttribute("disabled", true);
+                                document.getElementById("bid_new_cost").innerText = "최고가 응찰 중";
+                                document.getElementById("bid_new_cost_btn").innerText = "";
+                            }
                             for (let i = 0; i < bid_hist_info.length; i++) {
 
                                 let ddd = new Date(bid_hist_info[i].bid_time);
@@ -1015,28 +1058,36 @@
                             }
                         }
                     }
+                    let quote_arr = [];
                     if (d.message.quotes != null && d.message.quotes.length > 0) {
                         let cnt = 1;
                         let viewCnt = 0;
 
-                        let cost_tmp = (bid_info.bid_cost === 0) ?
-                            bid_info.open_bid_cost :
-                            bid_info.bid_cost;
+                        let len = d.message.bid.length;
+                        let cost_tmp = (d.message.bid[len - 1].bid_cost === 0) ?
+                            d.message.bid[len - 1].open_bid_cost :
+                            d.message.bid[len - 1].bid_cost;
+
+                        if (d.message.bid[len - 1].bid_cost === 0) {
+                            quote_arr.push(cost_tmp);
+                            viewCnt++;
+                        }
 
                         while( viewCnt < 70 ) {
                             if (cnt > d.message.quotes.length - 1) {
-                                quote_arr.push(cost_tmp)
                                 cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                quote_arr.push(cost_tmp)
                                 viewCnt++;
                                 continue
                             }
                             if (d.message.quotes[cnt].cost >= cost_tmp){
-                                quote_arr.push(cost_tmp)
                                 cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                quote_arr.push(cost_tmp)
                                 viewCnt++;
                                 continue
                             }
                             cnt++
+                            //cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
                         }
                         $("#reservation_bid").find("option").remove();
                         for(let i = 0; i < quote_arr.length; i++) {
@@ -1087,9 +1138,9 @@
                             diffDay = ""
                         } else {
                             $scope.showCurrentLot = false
-                            diffDay += "일"
+                            diffDay += "일 "
                         }
-                        if (diffHour == "00") {
+                        /*if (diffHour == "00") {
                             diffHour = ""
                         }else {
                             diffHour += ":"
@@ -1101,8 +1152,8 @@
                         }
                         if (diffSec == "00") {
                             diffSec = ""
-                        }
-                        $scope.searchSaleInfoAll[j].BID_TICK = diffDay + diffHour + diffMin + diffSec;
+                        }*/
+                        $scope.searchSaleInfoAll[j].BID_TICK = diffDay + diffHour + ":" + diffMin + ":" + diffSec;
                         //현재 일이 종료일보다 큰 경우
                     } else if ($scope.searchSaleInfoAll[j].END_DT < d.message.tick_value) {
                         $scope.onStateCostTxt = "낙찰가";
@@ -1130,7 +1181,7 @@
                         } else {
                             diffDay += "일"
                         }
-                        if (diffHour == "00") {
+                        /*if (diffHour == "00") {
                             diffHour = ""
                         }else {
                             diffHour += ":"
@@ -1142,8 +1193,8 @@
                         }
                         if (diffSec == "00") {
                             diffSec = ""
-                        }
-                        $scope.saleInfoAll[j].BID_TICK = diffDay + diffHour + diffMin + diffSec;
+                        }*/
+                        $scope.saleInfoAll[j].BID_TICK = diffDay + diffHour + ":" + diffMin + ":" + diffSec;
                     //현재 일이 종료일보다 큰 경우
                     } else if ($scope.saleInfoAll[j].END_DT < d.message.tick_value) {
                         $scope.saleInfoAll[j].BID_TICK = "경매가 종료되었습니다."
@@ -1171,7 +1222,7 @@
                             } else {
                                 diffDay += "일"
                             }
-                            if (diffHour == "00") {
+                            /*if (diffHour == "00") {
                                 diffHour = ""
                             }else {
                                 diffHour += ":"
@@ -1183,8 +1234,8 @@
                             }
                             if (diffSec == "00") {
                                 diffSec = ""
-                            }
-                            bid_tick.innerText = diffDay + diffHour + diffMin + diffSec;
+                            }*/
+                            bid_tick.innerText = diffDay + diffHour + ":" + diffMin + ":" + diffSec;
                         } else if ($scope.saleInfoAll[j].END_DT < d.message.tick_value) {
                             bid_tick.innerText = "경매가 종료되었습니다."
                         }
@@ -1197,6 +1248,7 @@
             } else if (d.msg_type === packet_enum.bid_info_init) {
                 // popup용 이라면
                 if (d.message.is_list_popup) {
+
                     if (d.message.bids != null && d.message.bids.length > 0) {
                         let bid_info = d.message.bids[0];
                         // element
@@ -1205,7 +1257,9 @@
                         let quote_unit = document.getElementById("quote_unit");
                         let bid_new_cost = document.getElementById("bid_new_cost");
 
-                        let curCostValue = (bid_info.bid_cost === 0) ? "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR') : "KRW " + bid_info.bid_cost.toLocaleString('ko-KR');
+                        let curCostValue = (bid_info.bid_cost === 0) ?
+                            "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR') :
+                            "KRW " + bid_info.bid_cost.toLocaleString('ko-KR');
 
                         bid.innerText = curCostValue;
                         bid_cnt.innerText = "(응찰" + bid_info.bid_count + ")"
@@ -1218,11 +1272,19 @@
                         document.getElementById("bid_new_cost_val").setAttribute("value", ((bid_info.bid_cost === 0) ? bid_info.open_bid_cost : bid_info.bid_cost) + bid_info.bid_quote);
 
                         if (d.message.bids_hist != null && d.message.bids_hist.length > 0) {
+
                             let li = document.createElement("bid_lst");
                             let bid_hist_info = d.message.bids_hist;
                             if (bid_hist_info != null && bid_hist_info.length > 0) {
+
                                 for (let i = 0; i < bid_hist_info.length; i++) {
                                     if (bid_hist_info[i].value != null) {
+                                        if (bid_info.customer.cust_no ===
+                                            bid_hist_info[0].value[bid_hist_info[0].value.length - 1].customer.cust_no){
+                                            document.getElementById("bid_new_cost_val").setAttribute("disabled", true);
+                                            document.getElementById("bid_new_cost").innerText = "최고가 응찰 중";
+                                            document.getElementById("bid_new_cost_btn").innerText = "";
+                                        }
                                         for (let j = 0; j < bid_hist_info[i].value.length; j++) {
                                             let ddd = new Date(bid_hist_info[i].value[j].bid_time);
                                             let li = document.createElement("li");
@@ -1287,16 +1349,21 @@
                                 bid_info.open_bid_cost :
                                 bid_info.bid_cost;
 
+                            if (bid_info.bid_cost === 0) {
+                                quote_arr.push(cost_tmp);
+                                viewCnt++;
+                            }
+
                             while( viewCnt < 70 ) {
                                 if (cnt > d.message.quotes.length - 1) {
-                                    quote_arr.push(cost_tmp)
                                     cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                    quote_arr.push(cost_tmp)
                                     viewCnt++;
                                     continue
                                 }
                                 if (d.message.quotes[cnt].cost >= cost_tmp){
-                                    quote_arr.push(cost_tmp)
                                     cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                    quote_arr.push(cost_tmp)
                                     viewCnt++;
                                     continue
                                 }
@@ -1360,7 +1427,9 @@
                     for (let j = 0; j < $scope.saleInfoAll.length; j++) {
                         let idx = matching.get($scope.saleInfoAll[j].SALE_NO + "-" + $scope.saleInfoAll[j].LOT_NO);
                         if (idx !== undefined) {
-                            let curCostValue = ($scope.bidsInfoAll[idx].bid_cost === 0) ? "KRW " + $scope.bidsInfoAll[idx].open_bid_cost.toLocaleString('ko-KR') : "KRW " + $scope.bidsInfoAll[idx].bid_cost.toLocaleString('ko-KR');
+                            let curCostValue = ($scope.bidsInfoAll[idx].bid_cost === 0) ?
+                                "":
+                                "KRW " + $scope.bidsInfoAll[idx].bid_cost.toLocaleString('ko-KR');
                             // 시작일자
                             $scope.saleInfoAll[j].START_COST = "KRW " + $scope.bidsInfoAll[idx].open_bid_cost.toLocaleString('ko-KR');
                             // 현재가
@@ -1369,6 +1438,12 @@
                             $scope.saleInfoAll[j].BID_COUNT = "(응찰 : " + $scope.bidsInfoAll[idx].bid_count + ")";
                             // 종료일
                             $scope.saleInfoAll[j].END_DT = $scope.bidsInfoAll[idx].end_bid_time;
+                            if ($scope.bidsInfoAll[idx].bid_count > 0) {
+                                $scope.saleInfoAll[j].onStateCostTxt = "현재가"
+                            } else {
+                                $scope.saleInfoAll[j].onStateCostTxt = ""
+                            }
+
 
                             // 낙찰이 완료 되었다면
                             if ($scope.bidsInfoAll[idx].winner_state === 2) {
@@ -1621,21 +1696,21 @@
 
                         var S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
                         var S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
-                        var FROM_DT_D = $filter('date')($scope.sale.FROM_DT, 'yyyyMMdd');
-                        var TO_DT_D = $filter('date')($scope.sale.TO_DT, 'yyyyMMdd');
+                        var FROM_DT = $filter('date')($scope.sale.FROM_DT, 'yyyyMMdd');
+                        var TO_DT = $filter('date')($scope.sale.TO_DT, 'yyyyMMdd');
                         var END_DT = $filter('date')($scope.sale.END_DT, 'yyyyMMddHHmm');
                         var LIVE_START_DT = $filter('date')($scope.sale.LIVE_BID_DT, 'yyyyMMddHHmm');
                         // 오프라인 경매인 경우에는 SALE.TO_DT는 YYYY.MM.DD로 체크. 비교 서버시간은 S_DB_NOW_D (YDH. 2016.10.05)
 
                         //라이브 응찰 시간 체크
-                        $scope.liveEnd = TO_DT_D;
-                        $scope.nowTime = S_DB_NOW_D;
+                        $scope.liveEnd = TO_DT;
+                        $scope.nowTime = S_DB_NOW;
                         $scope.liveStartDt = LIVE_START_DT;
                         $scope.liveCheckDt = S_DB_NOW;
 
-                        if (FROM_DT_D > S_DB_NOW_D && TO_DT_D > S_DB_NOW_D) {
+                        if (FROM_DT > S_DB_NOW && END_DT > S_DB_NOW) {
                             $scope.sale_status = "READY";
-                        } else if (FROM_DT_D <= S_DB_NOW_D && $scope.sale.CLOSE_YN != 'Y') {
+                        } else if (FROM_DT <= S_DB_NOW && END_DT >= S_DB_NOW) {
                             $scope.sale_status = "ING";
                         } else {
                             $scope.sale_status = "END";
@@ -1645,7 +1720,6 @@
                                 //history_back();
                             }
                         }
-
                         $scope.$apply();
                     }
                 });

@@ -477,6 +477,14 @@ public class ApiSaleController {
         return ResponseEntity.ok(RestResponse.ok(saleService.selectLotTagList(commonMap)));
     }
 
+    @GetMapping(value = "/categories/{saleNo}")
+    public ResponseEntity<RestResponse> selectCategories(@PathVariable("saleNo") int saleNo){
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+
+        return ResponseEntity.ok(RestResponse.ok(saleService.selectCategories(commonMap)));
+    }
+
     @RequestMapping(value = "/insertbid", method = RequestMethod.POST)
     public ResponseEntity<RestResponse> insertBid(
             @RequestBody CommonMap map

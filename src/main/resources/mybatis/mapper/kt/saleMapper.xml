@@ -665,15 +665,19 @@
                A.TO_DT TO_DT_ORG,
                A.WWW_DISP_YN DISP_YN,
                B.START_PRICE,
-               A.SALE_KIND_CD
+               A.SALE_KIND_CD,
+               H.CD_ID CATE_CD_ID,
+               H.CD_NM CATE_CD_NM,
+               H.CD_NM_EN CATE_CD_NM_EN
         from SALE A
                  INNER JOIN LOT B ON A.SALE_NO = B.SALE_NO
-                 INNER JOIN LOT_IMG C ON B.SALE_NO = C.SALE_NO AND B.LOT_NO = C.LOT_NO AND C.DISP_ORD = 1
-                 INNER JOIN ARTIST D ON B.ARTIST_NO = D.ARTIST_NO
+                 LEFT OUTER JOIN LOT_IMG C ON B.SALE_NO = C.SALE_NO AND B.LOT_NO = C.LOT_NO AND C.DISP_ORD = 1
+                 LEFT OUTER JOIN ARTIST D ON B.ARTIST_NO = D.ARTIST_NO
                  LEFT OUTER JOIN LOT_SIZE E ON B.SALE_NO = E.SALE_NO AND B.LOT_NO = E.LOT_NO
                  LEFT OUTER JOIN CODE F ON F.GRP_ID = 'material' AND F.CD_ID = B.MATE_CD
                  LEFT OUTER JOIN CUST_INTE_LOT G ON
                      G.CUST_NO = #{cust_no} AND A.SALE_NO = G.SALE_NO AND B.LOT_NO = G.LOT_NO
+                 LEFT OUTER JOIN CODE H ON H.GRP_ID = 'artwork_category' AND H.CD_ID = (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = (SELECT IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = B.CATE_CD))
         WHERE A.SALE_NO = #{sale_no}
           AND A.WWW_DISP_YN = 'Y'
           AND A.CLOSE_YN = 'N'
@@ -686,6 +690,15 @@
     <select id="selectLotTagList" parameterType="CommonMap" resultType="CommonMap">
         select LOT_TAG from LOT where SALE_NO = #{sale_no} and LOT_TAG is not null
         group by LOT_TAG
+    </select>
+    <select id="selectCategories" parameterType="CommonMap" resultType="CommonMap">
+        SELECT CD_ID
+             , CD_NM
+             , CD_NM_EN
+        FROM CODE
+        WHERE GRP_ID = 'artwork_category'
+          AND CD_ID IN (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID IN (SELECT IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID IN (SELECT CATE_CD FROM LOT WHERE SALE_NO = #{sale_no})))
+        ORDER BY DISP_ORD
     </select>
     <!--생년월일 성별 값 둘다 잇는지 여부-->
     <select id="selectCustCheckRequired" parameterType="CommonMap" resultType="CommonMap">

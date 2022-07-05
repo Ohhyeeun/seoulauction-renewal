@@ -31,8 +31,8 @@
                                     <div class="re-check">
                                         <div class="form_body">
                                             <div class="input-group">
-                                                <input type="text" id="authNum" class="form-control" value="" placeholder="인증번호 입력" maxlength=6 onkeyup="onlyNumber(this, 'number');">
-                                                <button class="btn btn_light_gray_line" type="button" onClick="authNumConfirm()"><span>인증</span></button>
+                                                <input type="text" id="authNum" class="form-control" value="" placeholder="인증번호 입력" maxlength=6 onkeyup="onlyNumber(this, 'number');" disabled>
+                                                <button class="btn btn_light_gray_line" type="button" onClick="authNumConfirm()" disabled><span>인증</span></button>
                                             </div>
                                             <p class="error_text tb2 messageArea" id="messageArea2"></p>
                                             <p class="error_text tb2 messageArea" id="messageArea3"></p>

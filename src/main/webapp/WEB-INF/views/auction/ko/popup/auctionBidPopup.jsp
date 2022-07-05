@@ -81,7 +81,7 @@
                                             <div class="btn_item"><a class="btn btn_point btn_lg typo-pc_mb-line"
                                                                      id="bid_new_cost_val" href="javascript:bid();"
                                                                      role="button" value=""><span
-                                                    id="bid_new_cost"></span> <span>응찰하기</span></a></div>
+                                                    id="bid_new_cost"></span> <span id="bid_new_cost_btn">응찰하기</span></a></div>
                                         </div>
                                         <div class="btn_set type-pc_mb-column">
                                             <div class="btn_item">

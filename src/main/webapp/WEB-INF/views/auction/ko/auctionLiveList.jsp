@@ -5,6 +5,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+<style>
+    .select2-container {
+        z-index: 999;
+    }
+</style>
 
 <c:set var="isRegular" value="false" />
 <sec:authorize access="hasAuthority('ROLE_REGULAR_USER')">
@@ -78,6 +83,10 @@
                                             <ul class="tab-list js-list_tab">
                                                 <li ng-class="{active:'전체' === selectLotTag}"><a href="#tab-cont-1"
                                                                                                  ng-click="searchLotTags('전체');"><span>전체</span></a>
+                                                </li>
+                                                <li ng-class="{active: item.CD_ID === selectLotTag}"
+                                                    ng-repeat="item in categories"><a href="#tab-cont" ng-click="searchCategory(item.CD_ID);"><span
+                                                        ng-bind="item.CD_NM"></span></a></li>
                                                 </li>
                                                 <li ng-class="{active: item.LOT_TAG === selectLotTag}"
                                                     ng-repeat="item in lotTags"><a href="#tab-cont"
@@ -195,8 +204,10 @@
                                                                 ></i></button>
                                                             </div>
                                                             <div class="info-box">
-                                                                <div class="title"><span>{{item.ARTIST_NAME_JSON.ko}}</span><span
-                                                                        class="sub">({{item.BORN_YEAR}})</span>
+                                                                <div class="title"><span>{{item.ARTIST_NAME_JSON != null ? item.ARTIST_NAME_JSON.ko : 'ㅤ'}}</span>
+
+                                                                    <span ng-if="item.BORN_YEAR !=null && item.BORN_YEAR !==''" class="sub">({{item.BORN_YEAR}})</span>
+                                                                    <span ng-if="item.BORN_YEAR ==null || item.BORN_YEAR ===''" class="sub">ㅤ</span>
                                                                 </div>
                                                                 <div class="desc">
                                                                     <span class="text-over span_block">{{item.LOT_TITLE_JSON.ko}}</span></div>
@@ -204,7 +215,6 @@
                                                                     <span class="text-over span_block">{{item.CD_NM}}</span>
                                                                     <div class="size_year">
                                                                         <span>{{item.SIZE1}} X {{item.SIZE2}} X {{item.SIZE3}}</span>
-                                                                       <%-- <span>{{item.MAKE_YEAR_JSON.ko}}</span>--%>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -499,21 +509,21 @@
 
                             var S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
                             var S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
-                            var FROM_DT_D = $filter('date')($scope.sale.FROM_DT, 'yyyyMMdd');
-                            var TO_DT_D = $filter('date')($scope.sale.TO_DT, 'yyyyMMdd');
+                            var FROM_DT = $filter('date')($scope.sale.FROM_DT, 'yyyyMMdd');
+                            var TO_DT = $filter('date')($scope.sale.TO_DT, 'yyyyMMdd');
                             var END_DT = $filter('date')($scope.sale.END_DT, 'yyyyMMddHHmm');
                             var LIVE_START_DT = $filter('date')($scope.sale.LIVE_BID_DT, 'yyyyMMddHHmm');
                             // 오프라인 경매인 경우에는 SALE.TO_DT는 YYYY.MM.DD로 체크. 비교 서버시간은 S_DB_NOW_D (YDH. 2016.10.05)
 
                             //라이브 응찰 시간 체크
-                            $scope.liveEnd = TO_DT_D;
+                            $scope.liveEnd = TO_DT;
                             $scope.nowTime = S_DB_NOW_D;
                             $scope.liveStartDt = LIVE_START_DT;
                             $scope.liveCheckDt = S_DB_NOW;
 
-                            if (FROM_DT_D > S_DB_NOW_D && TO_DT_D > S_DB_NOW_D) {
+                            if (FROM_DT > S_DB_NOW && TO_DT > S_DB_NOW_D) {
                                 $scope.sale_status = "READY";
-                            } else if (FROM_DT_D <= S_DB_NOW_D && $scope.sale.CLOSE_YN != 'Y') {
+                            } else if (FROM_DT <= S_DB_NOW && $scope.sale.CLOSE_YN != 'Y') {
                                 $scope.sale_status = "ING";
                             } else {
                                 $scope.sale_status = "END";
@@ -554,6 +564,14 @@
                 }
             }
 
+            const getCategories = (saleNo) => {
+                try {
+                    return axios.get('/api/auction/categories/'+saleNo);
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
             $scope.searchLotTags = function (lotTag) {
                 $scope.selectLotTag = lotTag;
                 let pp = [];
@@ -566,10 +584,22 @@
                 $scope.pageing(1);
             }
 
+            $scope.searchCategory = function (category) {
+                $scope.selectLotTag = category;
+                let pp = [];
+                for (let i = 0; i < $scope.saleInfoAll.length; i++) {
+                    if ($scope.saleInfoAll[i].CATE_CD_ID === category) {
+                        pp.push($scope.saleInfoAll[i]);
+                    }
+                }
+                $scope.searchSaleInfoAll = pp;
+                $scope.pageing(1);
+            }
+
             // 호출 부
             $scope.load = function () {
                 let run = async function () {
-                    let [r1, r2, r3] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no)]);
+                    let [r1, r2, r3, r4] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no), getCategories($scope.sale_no)]);
 
                     $scope.saleInfoAll = r1.data.data;
 
@@ -583,7 +613,7 @@
 
                     $scope.saleImages = r2.data.data;
                     $scope.lotTags = r3.data.data;
-
+                    $scope.categories = r4.data.data;
 
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
 
