@@ -8,11 +8,11 @@
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
 <body class="">
-<style>
-    .select2-container {
-        z-index: 999;
-    }
-</style>
+<%--<style>--%>
+<%--    .select2-container {--%>
+<%--        z-index: 999;--%>
+<%--    }--%>
+<%--</style>--%>
 <div class="wrapper">
 <%--    <link rel="stylesheet" href="/css/plugin/csslibrary.css">--%>
     <div class="sub-wrap pageclass type-details_view">

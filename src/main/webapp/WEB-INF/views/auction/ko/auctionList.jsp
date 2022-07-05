@@ -6,16 +6,16 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 <body class="">
-<style>
-    .select2-container {
-        z-index: 999;
-    }
-</style>
+<%--<style>--%>
+<%--    .select2-container {--%>
+<%--        z-index: 999;--%>
+<%--    }--%>
+<%--</style>--%>
 <div class="wrapper">
     <div class="sub-wrap pageclass type-width_list">
         <!-- header -->
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
-        <link rel="stylesheet" href="/css/plugin/csslibrary.css">
+<%--        <link rel="stylesheet" href="/css/plugin/csslibrary.css">--%>
         <!-- //header -->
         <!-- container -->
         <div id="container" ng-controller="ctl" data-ng-init="load();" ng-cloak>
