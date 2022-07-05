@@ -179,7 +179,7 @@
                                                 <article class="item-article">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
-                                                            <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}" target="_blank">
+                                                            <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
                                                                 <div class="img-align">
                                                                         <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"  alt="">
                                                                 </div>
