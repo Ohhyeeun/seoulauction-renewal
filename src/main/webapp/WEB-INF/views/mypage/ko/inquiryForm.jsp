@@ -9,7 +9,6 @@
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
 			<jsp:include page="../../include/ko/nav.jsp" flush="false"/>
-			<script type="text/javascript" src="/js/mypage/inquiry.js"></script>
 			<!-- container -->
 			<div id="container" class="inquiry" ng-controller="inquiryWriteCtl"
 				data-ng-init="init()" style="opacity: 0" opacity=1>
@@ -58,10 +57,9 @@
 																<div class="td">
 																	<div class="col_select">
 																		<div class="select-box half">
-																			<select name="category1" id="category1"
-																				class="" ng-model="form_data.cate1"
-																				ng-change="changeCate1()">
-																				<option value="">선택하세요</option>
+																			<select name="category1" id="category1" ng-model="form_data.cate1"
+																				ng-change="changeCate1()"> <%-- class="select2Basic" 두번째 카테고리 나오지 않아 임시 주석처리 --%>
+																				<option value="">선택하세요</option> 
 																				<option
 																					ng-repeat="code in inqCate | filter:{LEVEL:1}:true"
 																					value="{{code.CD_ID}}">{{code.CD_NM}}/{{code.CD_NM_EN}}</option>
@@ -70,7 +68,7 @@
 																		<div class="select-box half">
 																			<select name="category2" id="category2"
 																				class="" ng-model="form_data.cate2"
-																				ng-if="inqCate2 != undefined && inqCate2.length > 0">
+																				ng-if="inqCate2 != undefined && inqCate2.length > 0"> <%-- class="select2Basic"--%>
 																				<option value="">선택하세요</option>
 																				<option ng-repeat="code in inqCate2"
 																					value="{{code.CD_ID}}">{{code.CD_NM}}/{{code.CD_NM_EN}}</option>
@@ -194,29 +192,39 @@
 																<div class="th">
 																	<label for="" class="">작품구분</label>
 																</div>
+																<!-- [0705]ui 변경-->
 																<div class="td">
-																	<div class="select-box half">
-																		<select ng-model="sell_data.work_category1"
-																			name="work_category1" id="work_category1"
-																			ng-change="changeSellCate1();">
-																			<option value="">선택하세요</option>
-																			<option ng-repeat="cate in sell_categories1"
-																				value="{{cate}}">{{cate}}</option>
-																		</select> <select ng-model="sell_data.work_category2"
-																			style="display: none;" name="work_category2"
-																			id="work_category2" ng-change="changeSellCate2();">
-																			<option value="">선택하세요</option>
-																			<option ng-repeat="cate in sell_categories2"
-																				value="{{cate}}">{{cate}}</option>
-																		</select> <select ng-model="sell_data.work_category3"
-																			style="display: none;" name="work_category3"
-																			id="work_category3">
-																			<option value="">선택하세요</option>
-																			<option ng-repeat="cate in sell_categories3"
-																				value="{{cate}}">{{cate}}</option>
-																		</select>
+																	<div class="col_select">
+																		<div class="select-box third">
+																			<select ng-model="sell_data.work_category1"
+																				name="work_category1" id="work_category1"
+																				ng-change="changeSellCate1();" class="select2Basic">
+																				<option value="">선택하세요</option>
+																				<option ng-repeat="cate in sell_categories1"
+																					value="{{cate}}">{{cate}}</option>
+																			</select>
+																		</div>
+																		<div class="select-box third">
+																			<select ng-model="sell_data.work_category2"
+																				style="display: none;" name="work_category2"
+																				id="work_category2" ng-change="changeSellCate2();" class="select2Basic">
+																				<option value="">선택하세요</option>
+																				<option ng-repeat="cate in sell_categories2"
+																					value="{{cate}}">{{cate}}</option>
+																			</select>
+																		</div>
+																		<div class="select-box third">
+																			<select ng-model="sell_data.work_category3"
+																				style="display: none;" name="work_category3"
+																				id="work_category3" class="select2Basic">
+																				<option value="">선택하세요</option>
+																				<option ng-repeat="cate in sell_categories3"
+																					value="{{cate}}">{{cate}}</option>
+																			</select>
+																		</div>
 																	</div>
 																</div>
+																<!-- //[0705]ui 변경 -->
 															</li>
 															<li class="hide_row" style="display: none">
 																<div class="th">
@@ -430,25 +438,26 @@
 	</div>
 
 
-	<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+<%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
 	<!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
 	<script type="text/javascript" src="/js/plugin/prefixfree.min.js"
 		type="text/javascript"></script>
 	<script type="text/javascript" src="/js/plugin/jquerylibrary.js"
 		type="text/javascript"></script>
+--%>
 	<!-- [0516]삭제
   <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
 -->
 
-
+	<script type="text/javascript" src="/js/mypage/inquiry.js"></script>
 	<script>
         $(".js-history_back").click(function() {
         	window.location.href="/mypage/inquiryList";
         })
     </script>
 	
-	<script type="text/javascript" src="/js/pages_common_ko.js"
-		type="text/javascript"></script>
+<%--	<script type="text/javascript" src="/js/pages_common_ko.js"
+		type="text/javascript"></script> --%>
 
     <!-- 팝업 : side popup -->
 	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
