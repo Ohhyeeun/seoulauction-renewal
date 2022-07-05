@@ -204,8 +204,10 @@
                                                                 ></i></button>
                                                             </div>
                                                             <div class="info-box">
-                                                                <div class="title"><span>{{item.ARTIST_NAME_JSON.ko}}</span><span
-                                                                        class="sub">({{item.BORN_YEAR}})</span>
+                                                                <div class="title"><span>{{item.ARTIST_NAME_JSON != null ? item.ARTIST_NAME_JSON.ko : 'ㅤ'}}</span>
+
+                                                                    <span ng-if="item.BORN_YEAR !=null && item.BORN_YEAR !==''" class="sub">({{item.BORN_YEAR}})</span>
+                                                                    <span ng-if="item.BORN_YEAR ==null || item.BORN_YEAR ===''" class="sub">ㅤ</span>
                                                                 </div>
                                                                 <div class="desc">
                                                                     <span class="text-over span_block">{{item.LOT_TITLE_JSON.ko}}</span></div>
@@ -213,7 +215,6 @@
                                                                     <span class="text-over span_block">{{item.CD_NM}}</span>
                                                                     <div class="size_year">
                                                                         <span>{{item.SIZE1}} X {{item.SIZE2}} X {{item.SIZE3}}</span>
-                                                                       <%-- <span>{{item.MAKE_YEAR_JSON.ko}}</span>--%>
                                                                     </div>
                                                                 </div>
                                                             </div>
