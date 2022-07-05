@@ -105,13 +105,14 @@
 
         </div>
     </div>
+
+    <script type="text/javascript" src="/js/mypage/passwordModify.js"></script>
+    <script>
+        $(".js-history_back").click(function() {
+            window.location.href="/mypage/main";
+        })
+    </script>
     <!-- 팝업 : side popup -->
-	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
+    <jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 </body>
-<script type="text/javascript" src="/js/mypage/passwordModify.js"></script>
-<script>
-    $(".js-history_back").click(function() {
-    	window.location.href="/mypage/main";
-    })
-</script>
 </html>

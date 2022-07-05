@@ -10,7 +10,6 @@
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
             <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
-			<script type="text/javascript" src="/js/mypage/academy.js"></script>
             <!-- container -->
             <div id="container" class="academy" >
                 <div id="contents" class="contents">
@@ -160,21 +159,22 @@
     </div>
 
 
-    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+<%--    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
     <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
     <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+    --%>
     <!-- [0516]삭제
-  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
+  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 -->
-	
+    <script type="text/javascript" src="/js/mypage/academy.js"></script>
 	<script>
         $(".js-history_back").click(function() {
         	window.location.href="/mypage/main";
         })
     </script>
 
-    <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
+<%--    <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>--%>
     <!-- 팝업 : 결제완료 -->
 	<jsp:include page="popup/academyPayPopup.jsp"/>
 	
