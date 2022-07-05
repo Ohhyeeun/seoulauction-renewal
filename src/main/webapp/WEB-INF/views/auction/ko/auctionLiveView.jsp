@@ -115,7 +115,7 @@
                                                             <div class="swiper-wrapper">
                                                                 <div ng-repeat="item in lotImages"
                                                                      ng-class="{'slide':$index>-1,'images':$index>-1,'active':$index==0}"
-                                                                     data-index="$index">
+                                                                     data-index="$index"> <%-- 빈칸 class="slide" 까지 합해서 총 최대 7개 --%>
                                                                     <figure class="img-ratio">
                                                                         <div class="img-align">
                                                                             <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
@@ -124,6 +124,15 @@
                                                                     </figure>
                                                                     <div class="line"></div>
                                                                 </div>
+                                                            </div>
+
+                                                            <div class="slide" data-index="4"> <%-- 이미지 없을 시 클래스 slide만 남겨놔야 함. --%>
+                                                                <figure class="img-ratio">
+                                                                    <div class="img-align">
+                                                                        <img src="/images/pc/auction/view_thumbnail_bg.jpg" alt="" />
+                                                                    </div>
+                                                                </figure>
+                                                                <div class="line"></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -748,6 +757,14 @@
         $(".js-view_thumnail .slide").removeClass("active");
         $(".js-view_thumnail .slide").eq($index).addClass("active");
     };
+
+    /* 섬네일 클릭 */
+    $(".js-view_thumnail .slide.images").on("click", function() {
+        var _index = $(this).index();
+        console.log(_index);
+        view_thumnailActive(_index);
+        view_visualActive(_index);
+    });
 
     /* 비주얼 활성화 */
     function view_visualActive($index, view_visual) {
