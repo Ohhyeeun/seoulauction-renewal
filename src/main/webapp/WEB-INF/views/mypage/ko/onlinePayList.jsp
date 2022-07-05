@@ -59,7 +59,7 @@
                                                         <dl class="bid-item" ng-repeat="pl in payList">
                                                             <dt>
                                                                 <div class="title-area">
-                                                                    <div class="title tt4 line-1">
+                                                                    <div class="title tt4">
                                                                         <span>{{pl[1][0].SALE_TH}}{{pl[1][0].SALE_TH_DSP}} {{pl[1][0].SALE_TITLE_KR}}</span>
                                                                     </div>
                                                                     <div class="desc tb1">
@@ -122,7 +122,7 @@
                                                                                 <dd class="txt">
                                                                                     <span>{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</span>
                                                                                     <div class="sub">
-                                                                                        <span>{{data.BID_DT}} <!-- ({{data.BIDWEEKDT}}) --><br class="m-ver"> {{data.BIDTIME}}</span>
+                                                                                        <span>{{data.BID_DT}} <!-- ({{data.BIDWEEKDT}}) -->{{data.BIDTIME}}</span>
                                                                                        <!--  <span>({{data.bid_count}}회 응찰)</span> -->
                                                                                     </div>
                                                                                 </dd>
