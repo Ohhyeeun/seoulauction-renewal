@@ -564,7 +564,6 @@
 						</section>
 					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>
@@ -682,7 +681,7 @@
 	var socialLoginId = '${socialLoginId }';
 	var socialEmail = '${socialEmail }';
 </script>
-<script src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-<link rel="stylesheet" href="/css/plugin/csslibrary.css" type="text/css">
+<%--<script src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
+<%--<link rel="stylesheet" href="/css/plugin/csslibrary.css" type="text/css">--%>
 <script type="text/javascript" src="/js/customer/join.js"></script>
 </html>
