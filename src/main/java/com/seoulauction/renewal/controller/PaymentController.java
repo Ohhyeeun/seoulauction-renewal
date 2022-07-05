@@ -44,12 +44,13 @@ public class PaymentController {
 
     private final PaymentMapper paymentMapper;
 
+    private Integer DUMMY_PRICE = 500;
 
     @GetMapping("/member")
     public String member(HttpServletRequest request , Locale locale) {
 
         String goodsName = "정회원"; 					// 결제상품명
-        Integer price = 1234; 						// 결제상품금액
+        Integer price = DUMMY_PRICE; 						// 결제상품금액
         String moid = "mnoid1234567890"; 			// 상품주문번호
         String returnURL = nicePayMobileBaseReturnUrl + "/payment/memberProcess"; // 결과페이지(절대경로) - 모
 
@@ -141,7 +142,7 @@ public class PaymentController {
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
 
         String goodsName 		= "서울옥션-아카데미"; 					// 결제상품명
-        int price 			    = 1100;//Integer.parseInt(ObjectUtils.defaultIfNull(resultMap.get("academy_pay"), "0").toString()); 						// 결제상품금액
+        int price 			    = DUMMY_PRICE;//Integer.parseInt(ObjectUtils.defaultIfNull(resultMap.get("academy_pay"), "0").toString()); 						// 결제상품금액
 
         String cust_name 		= saUserDetails.getUserNm(); 						// 구매자명
         String hp 		        = saUserDetails.getHp(); 				// 구매자연락처
@@ -240,7 +241,7 @@ public class PaymentController {
 
         CommonMap payWorkInfoMap = paymentService.getWorkPayInfo(paramMap);
 
-        Integer tmpPrice = 1234;
+        Integer tmpPrice = DUMMY_PRICE;
 
         String ediDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         String signData = Cryptography.encrypt(ediDate + nicePayMerchantId + tmpPrice + nicePaymerchantKey);
