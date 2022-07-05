@@ -1305,7 +1305,7 @@ SELECT 'INTE_LOT' AS GUBUN
 	</select>
 
 	<select id="selectManager" resultType="CommonMap" parameterType="CommonMap">
-		SELECT E.EMP_NAME, E.HP, D.DEPT_NAME, D.DEPT_NAME_EN
+		SELECT E.EMP_NAME, E.HP, E.TEL, D.DEPT_NAME, D.DEPT_NAME_EN
 		FROM CUST CU
 				 LEFT OUTER JOIN EMP E ON E.EMP_NO = CU.EMP_NO
 				 LEFT OUTER JOIN DEPT D ON D.DEPT_NO = E.DEPT_NO
