@@ -1003,6 +1003,11 @@
                         let bid_hist_info = d.message.bid;
                         if (bid_hist_info != null && bid_hist_info.length > 0) {
                             let bid_lst = document.getElementById("bid_lst");
+                            if (d.message.bid[len - 1].customer.cust_no === bid_hist_info[0].customer.cust_no){
+                                document.getElementById("bid_new_cost_val").setAttribute("disabled", true);
+                                document.getElementById("bid_new_cost").innerText = "최고가 응찰 중";
+                                document.getElementById("bid_new_cost_btn").innerText = "";
+                            }
                             for (let i = 0; i < bid_hist_info.length; i++) {
 
                                 let ddd = new Date(bid_hist_info[i].bid_time);
@@ -1052,28 +1057,36 @@
                             }
                         }
                     }
+                    let quote_arr = [];
                     if (d.message.quotes != null && d.message.quotes.length > 0) {
                         let cnt = 1;
                         let viewCnt = 0;
 
-                        let cost_tmp = (bid_info.bid_cost === 0) ?
-                            bid_info.open_bid_cost :
-                            bid_info.bid_cost;
+                        let len = d.message.bid.length;
+                        let cost_tmp = (d.message.bid[len - 1].bid_cost === 0) ?
+                            d.message.bid[len - 1].open_bid_cost :
+                            d.message.bid[len - 1].bid_cost;
+
+                        if (d.message.bid[len - 1].bid_cost === 0) {
+                            quote_arr.push(cost_tmp);
+                            viewCnt++;
+                        }
 
                         while( viewCnt < 70 ) {
                             if (cnt > d.message.quotes.length - 1) {
-                                quote_arr.push(cost_tmp)
                                 cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                quote_arr.push(cost_tmp)
                                 viewCnt++;
                                 continue
                             }
                             if (d.message.quotes[cnt].cost >= cost_tmp){
-                                quote_arr.push(cost_tmp)
                                 cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                quote_arr.push(cost_tmp)
                                 viewCnt++;
                                 continue
                             }
                             cnt++
+                            //cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
                         }
                         $("#reservation_bid").find("option").remove();
                         for(let i = 0; i < quote_arr.length; i++) {
@@ -1334,6 +1347,11 @@
                             let cost_tmp = (bid_info.bid_cost === 0) ?
                                 bid_info.open_bid_cost :
                                 bid_info.bid_cost;
+
+                            if (bid_info.bid_cost === 0) {
+                                quote_arr.push(cost_tmp);
+                                viewCnt++;
+                            }
 
                             while( viewCnt < 70 ) {
                                 if (cnt > d.message.quotes.length - 1) {
