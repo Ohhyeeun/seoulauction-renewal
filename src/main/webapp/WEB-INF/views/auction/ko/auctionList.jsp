@@ -163,7 +163,7 @@
                             <div class="panel-body">
                                 <ul class="product-list">
                                     <!-- 작품 리스트 -->
-                                    <li class="" ng-repeat="item in saleInfo">
+                                    <li ng-class="{cancel: item.STAT_CD === 'reentry'}" ng-repeat="item in saleInfo">
                                         <div class="li-inner">
                                             <article class="item-article">
                                                 <div class="image-area">
@@ -228,13 +228,22 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="area-inner" ng-show="item.DISP_YN !== 'Y'">
-                                                    <i class="icon-cancle_box"></i>
-                                                    <div class="typo">
-                                                        <div class="name"><span ng-bind="'LOT ' + item.LOT_NO"></span></div>
-                                                        <div class="msg"><span>출물이 취소되었습니다.</span></div>
+                                                <div class="product_cancle-area">
+                                                    <div class="area-inner">
+                                                        <i class="icon-cancle_box"></i>
+                                                        <div class="typo">
+                                                            <div class="name"><span>LOT {{item.LOT_NO}}</span></div>
+                                                            <div class="msg"><span>출물이 취소되었습니다.</span></div>
+                                                        </div>
                                                     </div>
                                                 </div>
+<%--                                                <div class="area-inner" ng-show="item.DISP_YN !== 'Y'">--%>
+<%--                                                    <i class="icon-cancle_box"></i>--%>
+<%--                                                    <div class="typo">--%>
+<%--                                                        <div class="name"><span ng-bind="'LOT ' + item.LOT_NO"></span></div>--%>
+<%--                                                        <div class="msg"><span>출물이 취소되었습니다.</span></div>--%>
+<%--                                                    </div>--%>
+<%--                                                </div>--%>
                                             </article>
                                         </div>
                                     </li>

@@ -173,7 +173,8 @@
                                 <div class="panel-body">
 
                                     <ul class="product-list">
-                                        <li class="" ng-repeat="item in saleInfo">
+                                        <li ng-class="{cancel: item.STAT_CD === 'reentry'}"  ng-repeat="item in saleInfo">
+
                                             <div class="li-inner">
                                                 <article class="item-article">
                                                     <div class="image-area">
@@ -228,6 +229,16 @@
                                                                 <div class="deadline_set"><span>신청마감 {{ item.LOT_EXPIRE_DATE_HAN }}</span></div>
                                                                 <div class="btn_set"><a class="btn btn_point" href="" ng-click="moveToBidding(item)"
                                                                                         role="button"><span>서면/전화 응찰 신청</span></a></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="product_cancle-area">
+                                                        <div class="area-inner">
+                                                            <i class="icon-cancle_box"></i>
+                                                            <div class="typo">
+                                                                <div class="name"><span>LOT {{item.LOT_NO}}</span></div>
+                                                                <div class="msg"><span>출물이 취소되었습니다.</span></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -561,6 +572,9 @@
                     let [r1, r2, r3] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no)]);
 
                     $scope.saleInfoAll = r1.data.data;
+
+                    console.log($scope.saleInfoAll);
+
                     //데이터가 없을 시 , 오프라인 경매인데 온라인으로 올 시 등등 접근 불가.
                     // if($scope.saleInfoAll.length === 0){
                     //     alert('잘못된 접근 입니다.');
