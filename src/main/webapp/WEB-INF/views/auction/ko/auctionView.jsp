@@ -179,7 +179,7 @@
                                             <div class="artist-area">
                                                 <div class="name">
                                                     <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT"></strong>
-                                                    <span ng-bind="'b.'+lotInfo.BORN_YEAR"></span>
+                                                    <span></span>
                                                 </div>
                                                 <div class="desc">
                                                     <span class="text-over span_block"
@@ -1292,59 +1292,6 @@
     let end_bid_time = 0;
     let is_end_bid = false;
 
-    let timeTickInterval = function(){
-        let bid_tick = document.getElementById("bid_tick");
-        let bid_tick_main = document.getElementById("end_date_time");
-        let ddd = new Date().getTime();
-
-        if (end_bid_time > 0 && end_bid_time >= ddd) {
-
-            let endDate = new Date(end_bid_time);
-            var dateGap = endDate - ddd;
-            var timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
-
-            // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
-            var diffDay  = (Math.floor(dateGap / (1000 * 60 * 60 * 24)) < 10)?0 + (Math.floor(dateGap / (1000 * 60 * 60 * 24))).toString():Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
-            var diffHour = (timeGap.getHours() < 10)?0 + timeGap.getHours().toString():timeGap.getHours();       // 시간
-            var diffMin  = (timeGap.getMinutes() < 10)?0 + timeGap.getMinutes().toString():timeGap.getMinutes();   // 분
-            var diffSec  = (timeGap.getSeconds() < 10)?0 + timeGap.getSeconds().toString():timeGap.getSeconds();   // 초
-
-            if (diffDay == "00") {
-                diffDay = ""
-            } else {
-                diffDay += "일 "
-            }
-            if (diffHour == "00") {
-                diffHour = ""
-            }else {
-                diffHour += "시 "
-            }
-            if (diffMin == "00") {
-                diffMin = ""
-            } else {
-                diffMin += "분 "
-            }
-            if (diffSec == "00") {
-                diffSec = ""
-            } else {
-                diffSec += "초"
-            }
-
-            bid_tick.innerText = diffDay + diffHour + diffMin + diffSec + " 남았습니다.";
-            bid_tick_main.innerText = diffDay + diffHour + diffMin + diffSec + " 남았습니다.";
-        } else if (end_bid_time <= 0) {
-            bid_tick.innerText = "경매 시작 전입니다.";
-            bid_tick_main.innerText = "경매 시작 전입니다.";
-        } else {
-            bid_tick.innerText = "경매가 종료 되었습니다.";
-            bid_tick_main.innerText = "경매가 종료 되었습니다.";
-        }
-    }
-
-    // time tick
-    timeTickInterval();
-    window.setInterval(timeTickInterval, 1000);
-
     let autoBiding = async function (connect_info) {
         let val = $("#reservation_bid").val();
         let datet = new Date();
@@ -1602,14 +1549,14 @@
 
                 while( viewCnt < 70 ) {
                     if (cnt > d.message.quotes.length - 1) {
-                        quote_arr.push(cost_tmp)
                         cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                        quote_arr.push(cost_tmp)
                         viewCnt++;
                         continue
                     }
                     if (d.message.quotes[cnt].cost >= cost_tmp){
-                        quote_arr.push(cost_tmp)
                         cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                        quote_arr.push(cost_tmp)
                         viewCnt++;
                         continue
                     }
@@ -1620,7 +1567,52 @@
                     $("#reservation_bid").append(`<option value="` + quote_arr[i] +`">KRW ` + quote_arr[i].toLocaleString("ko-KR") +`</option>`);
                 }
             }
-        } else if (d.msg_type == packet_enum.time_sync) {
+        } else if (d.msg_type === packet_enum.time_sync) {
+            let bid_tick = document.getElementById("bid_tick");
+            let bid_tick_main = document.getElementById("end_date_time");
+            let ddd = new Date().getTime();
+
+            if (end_bid_time > 0 && end_bid_time >= ddd) {
+
+                let endDate = new Date(end_bid_time);
+                var dateGap = endDate - ddd;
+                var timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
+
+                // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
+                var diffDay  = (Math.floor(dateGap / (1000 * 60 * 60 * 24)) < 10)?0 + (Math.floor(dateGap / (1000 * 60 * 60 * 24))).toString():Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
+                var diffHour = (timeGap.getHours() < 10)?0 + timeGap.getHours().toString():timeGap.getHours();       // 시간
+                var diffMin  = (timeGap.getMinutes() < 10)?0 + timeGap.getMinutes().toString():timeGap.getMinutes();   // 분
+                var diffSec  = (timeGap.getSeconds() < 10)?0 + timeGap.getSeconds().toString():timeGap.getSeconds();   // 초
+
+                if (diffDay == "00") {
+                    diffDay = ""
+                } else {
+                    diffDay += "일 "
+                }
+                /*if (diffHour == "00") {
+                    diffHour = ""
+                }else {
+                    diffHour += "시 "
+                }
+                if (diffMin == "00") {
+                    diffMin = ""
+                } else {
+                    diffMin += "분 "
+                }
+                if (diffSec == "00") {
+                    diffSec = ""
+                } else {
+                    diffSec += "초"
+                }*/
+                bid_tick.innerText = diffDay + diffHour + ":" + diffMin  + ":" +  diffSec + " 남았습니다.";
+                bid_tick_main.innerText = diffDay + diffHour + ":" + diffMin + ":" + diffSec + " 남았습니다.";
+            } else if (end_bid_time <= 0) {
+                bid_tick.innerText = "경매 시작 전입니다.";
+                bid_tick_main.innerText = "경매 시작 전입니다.";
+            } else {
+                bid_tick.innerText = "경매가 종료 되었습니다.";
+                bid_tick_main.innerText = "경매가 종료 되었습니다.";
+            }
 
         } else if (d.msg_type == packet_enum.bid_info_init) {
 
