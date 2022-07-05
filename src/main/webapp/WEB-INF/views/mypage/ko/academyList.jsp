@@ -77,7 +77,7 @@
                                                                     <td>{{art.REG_DT | date:'yyyy-MM-dd'}}</td>
                                                                 </tr>
                                                             <tbody  ng-if="academyCnt == 0">
-                                                                <tr ><td colspan="4">내역이 존재하지 않습니다.</td></tr>
+                                                                <tr ><td colspan="4" class="tac">내역이 존재하지 않습니다.</td></tr>
                                                             </tbody>
                                                             </tbody>
                                                         </table>

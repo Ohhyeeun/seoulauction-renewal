@@ -8,13 +8,13 @@
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
 <body class="">
-<style>
-    .select2-container {
-        z-index: 999;
-    }
-</style>
+<%--<style>--%>
+<%--    .select2-container {--%>
+<%--        z-index: 999;--%>
+<%--    }--%>
+<%--</style>--%>
 <div class="wrapper">
-    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
+<%--    <link rel="stylesheet" href="/css/plugin/csslibrary.css">--%>
     <div class="sub-wrap pageclass type-details_view">
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
 
@@ -114,9 +114,9 @@
                                                     <div class="gallery_thumbnail js-view_thumnail">
                                                         <div class="gallery_center">
                                                             <div class="swiper-wrapper">
-                                                                <div ng-repeat="item in lotImages" <%-- 빈칸 class="slide" 까지 합해서 총 최대 7개 --%>
+                                                                <div ng-repeat="item in lotImages"
                                                                      ng-class="{'slide':$index>-1,'images':$index>-1,'active':$index==0}"
-                                                                     data-index="$index">
+                                                                     data-index="$index"> <%-- 빈칸 class="slide" 까지 합해서 총 최대 7개 --%>
                                                                     <figure class="img-ratio">
                                                                         <div class="img-align">
                                                                             <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
@@ -953,7 +953,7 @@
                     await axios.get('/api/mypage/manager')
                         .then(function (response) {
                             if (response.data.success && response.data.data != undefined) {
-                                $("em#manager").html(response.data.data.EMP_NAME + " " + response.data.data.HP);
+                                $("em#manager").html(response.data.data.EMP_NAME + " " + response.data.data.TEL);
                             }
                         });
                 }
