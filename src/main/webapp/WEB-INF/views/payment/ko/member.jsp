@@ -3,6 +3,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
+<c:set var="isRegular" value="false" />
+<sec:authorize access="hasAuthority('ROLE_REGULAR_USER')">
+    <c:set var="isRegular" value="true" />
+</sec:authorize>
 <body class="">
 
     <div class="wrapper footer-bottom">
@@ -175,5 +179,14 @@
     <%--<script src="/js/pages_common_ko.js" type="text/javascript"></script>--%>
     <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 </body>
+
+<script>
+    let isRegular = ${isRegular};
+    if(isRegular){
+        alert('이미 정회원 입니다.');
+        history.back();
+    }
+</script>
+
 
 </html>
