@@ -124,7 +124,9 @@
                                                         <div class="price">
                                                             <span id="price_to_han"></span>
                                                         </div>
-
+                                                        <div class="unit">
+                                                            <span>(호가단위:100,000 KRW)</span> 
+                                                        </div>
                                                     </div>
                                                 </div>
 
