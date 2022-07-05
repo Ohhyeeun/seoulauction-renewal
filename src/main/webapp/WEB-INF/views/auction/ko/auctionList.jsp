@@ -212,7 +212,7 @@
                                                                 <dd>{{item.START_COST}}</dd>
                                                             </dl>
                                                             <dl class="price-list">
-                                                                <dt ng-bind="onStateCostTxt"></dt>
+                                                                <dt ng-bind="item.onStateCostTxt"></dt>
                                                                 <dd ng-if="item.CUR_COST !== ''">
                                                                     <strong>{{item.CUR_COST}}</strong><em>{{item.BID_COUNT}}</em>
                                                                 </dd>
