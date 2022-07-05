@@ -5,6 +5,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+<style>
+    .select2-container {
+        z-index: 999;
+    }
+</style>
 
 <c:set var="isRegular" value="false" />
 <sec:authorize access="hasAuthority('ROLE_REGULAR_USER')">

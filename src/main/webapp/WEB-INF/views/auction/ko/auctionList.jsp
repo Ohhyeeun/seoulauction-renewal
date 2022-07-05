@@ -5,12 +5,12 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+<style>
+    .select2-container {
+        z-index: 999;
+    }
+</style>
 <body class="">
-<%--<style>--%>
-<%--    .select2-container {--%>
-<%--        z-index: 999;--%>
-<%--    }--%>
-<%--</style>--%>
 <div class="wrapper">
     <div class="sub-wrap pageclass type-width_list">
         <!-- header -->
