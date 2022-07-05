@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<script type="text/javascript" src="/js/mypage/mypageSide.js"></script>
+
 <sec:authentication property="details.socialYn" var="socialYn"/> 
 <sec:authentication property="Details.userNm" var="userName"/>
 <sec:authentication property="Details.validDate" var="validDate"/> 
@@ -138,12 +138,13 @@
                             </section>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script type="text/javascript" src="/js/mypage/mypageSide.js"></script>
 <script>
 (function() {
     var popup_marketing1 = $(".js-popup_memlv2_record").trpLayerFixedPopup("#popup_memlv2_record-wrap");
