@@ -16,7 +16,7 @@
 <div class="wrapper">
     <div class="sub-wrap pageclass type-details_view">
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
-        <link rel="stylesheet" href="/css/plugin/csslibrary.css">
+<%--        <link rel="stylesheet" href="/css/plugin/csslibrary.css">--%>
         <!-- container -->
         <div id="container" ng-controller="ctl" data-ng-init="load();">
             <div id="contents" class="contents">
@@ -694,11 +694,12 @@
 </div>
 
 
-<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+<%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
 <!--[if lt IE 9]>
 <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+--%>
+<%--<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
+<%--<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
 <%--낙찰 수수료 팝업 --%>
