@@ -6,16 +6,16 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 <body class="">
-<style>
-    .select2-container {
-        z-index: 999;
-    }
-</style>
+<%--<style>--%>
+<%--    .select2-container {--%>
+<%--        z-index: 999;--%>
+<%--    }--%>
+<%--</style>--%>
 <div class="wrapper">
     <div class="sub-wrap pageclass type-width_list">
         <!-- header -->
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
-        <link rel="stylesheet" href="/css/plugin/csslibrary.css">
+<%--        <link rel="stylesheet" href="/css/plugin/csslibrary.css">--%>
         <!-- //header -->
         <!-- container -->
         <div id="container" ng-controller="ctl" data-ng-init="load();" ng-cloak>
@@ -41,7 +41,7 @@
                                     </div>
                                 </div>
                             </article>
-                            <article class="proceeding-article">
+                            <article class="proceeding-article" ng-show="$scope.showCurrentLot === true">
                                 <a href="#" title="진행중 Lot 10|김선우" ng-click="goLot(sale_no, CUR_LOT_NO);">
                                     <div class="article-inner">
                                         <div class="column ing">
@@ -163,12 +163,12 @@
                             <div class="panel-body">
                                 <ul class="product-list">
                                     <!-- 작품 리스트 -->
-                                    <li class="" ng-repeat="item in saleInfo">
+                                    <li ng-class="{cancel: item.STAT_CD === 'reentry'}" ng-repeat="item in saleInfo">
                                         <div class="li-inner">
                                             <article class="item-article">
                                                 <div class="image-area">
                                                     <figure class="img-ratio">
-                                                        <a href="/auction/online/view/{{item.SALE_NO}}/{{item.LOT_NO}}" target="_blank">
+                                                        <a href="/auction/online/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
                                                             <div class="img-align">
                                                                 <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
                                                                      alt="">
@@ -176,7 +176,7 @@
                                                         </a>
                                                     </figure>
                                                 </div>
-                                                <div class="typo-area">
+                                                <div class="typo-area" ng-show="item.DISP_YN === 'Y'">
                                                     <div class="product_info">
                                                         <div class="num_heart-box">
                                                             <span class="num">{{item.LOT_NO}}</span>
@@ -228,6 +228,22 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="product_cancle-area">
+                                                    <div class="area-inner">
+                                                        <i class="icon-cancle_box"></i>
+                                                        <div class="typo">
+                                                            <div class="name"><span>LOT {{item.LOT_NO}}</span></div>
+                                                            <div class="msg"><span>출물이 취소되었습니다.</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+<%--                                                <div class="area-inner" ng-show="item.DISP_YN !== 'Y'">--%>
+<%--                                                    <i class="icon-cancle_box"></i>--%>
+<%--                                                    <div class="typo">--%>
+<%--                                                        <div class="name"><span ng-bind="'LOT ' + item.LOT_NO"></span></div>--%>
+<%--                                                        <div class="msg"><span>출물이 취소되었습니다.</span></div>--%>
+<%--                                                    </div>--%>
+<%--                                                </div>--%>
                                             </article>
                                         </div>
                                     </li>
@@ -444,7 +460,8 @@
         }
 
         $scope.goLot = function (saleNo, lotNo) {
-            window.location.href = '/auction/online/view/' + saleNo + '/' + lotNo;
+            console.log('asdfasdfasdf');
+            window.location.href ='/auction/online/view/' + saleNo + '/' + lotNo;
         }
 
         $scope.favorite = function (item) {
@@ -659,7 +676,7 @@
                     await axios.get('/api/mypage/manager')
                         .then(function(response) {
                             if (response.data.success && response.data.data != undefined) {
-                                $("em#manager").html(response.data.data.EMP_NAME + " " + response.data.data.HP);
+                                $("em#manager").html(response.data.data.EMP_NAME + " " + response.data.data.TEL);
                             }
                         });
                 }
@@ -998,6 +1015,34 @@
                             }
                         }
                     }
+                    if (d.message.quotes != null && d.message.quotes.length > 0) {
+                        let cnt = 1;
+                        let viewCnt = 0;
+
+                        let cost_tmp = (bid_info.bid_cost === 0) ?
+                            bid_info.open_bid_cost :
+                            bid_info.bid_cost;
+
+                        while( viewCnt < 70 ) {
+                            if (cnt > d.message.quotes.length - 1) {
+                                quote_arr.push(cost_tmp)
+                                cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                viewCnt++;
+                                continue
+                            }
+                            if (d.message.quotes[cnt].cost >= cost_tmp){
+                                quote_arr.push(cost_tmp)
+                                cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                viewCnt++;
+                                continue
+                            }
+                            cnt++
+                        }
+                        $("#reservation_bid").find("option").remove();
+                        for(let i = 0; i < quote_arr.length; i++) {
+                            $("#reservation_bid").append(`<option value="` + quote_arr[i] +`">KRW ` + quote_arr[i].toLocaleString("ko-KR") +`</option>`);
+                        }
+                    }
                 }
                 if (d.message.times !== null && d.message.times.length > 0){
                     let matching = new Map();
@@ -1036,8 +1081,12 @@
                         var diffSec  = (timeGap.getSeconds() < 10)?0 + timeGap.getSeconds().toString():timeGap.getSeconds();   // 초
 
                         if (diffDay == "00") {
+                            if (j === 0) {
+                                $scope.showCurrentLot = true
+                            }
                             diffDay = ""
                         } else {
+                            $scope.showCurrentLot = false
                             diffDay += "일"
                         }
                         if (diffHour == "00") {
@@ -1203,7 +1252,7 @@
 
                                             let dt_ly_span1 = document.createElement("em");
                                             console.log(bid_info.winner_state, bid_hist_info[i].value.length - 1,  j)
-                                            if (bid_info.winner_state === 2 && bid_hist_info[i].value.length - 1 == j) {
+                                            if (bid_info.winner_state === 2 && bid_hist_info[i].value.length - 1 === j) {
                                                 // type
                                                 dt_ly_span1.setAttribute("class", "type-success");
                                                 dt_ly_span1.innerText = "낙찰";
@@ -1241,25 +1290,22 @@
                             while( viewCnt < 70 ) {
                                 if (cnt > d.message.quotes.length - 1) {
                                     quote_arr.push(cost_tmp)
-                                    cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
+                                    cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
                                     viewCnt++;
                                     continue
                                 }
-                                if (d.message.quotes[cnt].cost > cost_tmp){
+                                if (d.message.quotes[cnt].cost >= cost_tmp){
                                     quote_arr.push(cost_tmp)
-                                    cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
-                                    cnt = 0;
+                                    cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
                                     viewCnt++;
                                     continue
                                 }
                                 cnt++
-                                cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
                             }
                             $("#reservation_bid").find("option").remove();
                             for(let i = 0; i < quote_arr.length; i++) {
                                 $("#reservation_bid").append(`<option value="` + quote_arr[i] +`">KRW ` + quote_arr[i].toLocaleString("ko-KR") +`</option>`);
                             }
-                            //$("#reservation_bid").select2();
                         }
                         // 낙찰이 완료 되었다면
                         if (bid_info.winner_state === 2) {
@@ -1323,7 +1369,6 @@
                             $scope.saleInfoAll[j].BID_COUNT = "(응찰 : " + $scope.bidsInfoAll[idx].bid_count + ")";
                             // 종료일
                             $scope.saleInfoAll[j].END_DT = $scope.bidsInfoAll[idx].end_bid_time;
-
 
                             // 낙찰이 완료 되었다면
                             if ($scope.bidsInfoAll[idx].winner_state === 2) {
@@ -1411,6 +1456,7 @@
         //페이지방식, 더보기방식 변경
         $scope.chgViewType = function () {
             let sst = parseInt($("#viewType option:selected").val())
+            $scope.curpage = 1;
             switch (sst) {
                 case 1:
                     $("#page_layer").removeClass('only-mb');
@@ -1484,7 +1530,6 @@
                     });
                     break;
                 case 6:
-
                     // 응찰수 높은 순
                     v.sort(function (a, b) {
                         if (a.BID_COUNT > b.BID_COUNT) return -1;
@@ -1501,6 +1546,7 @@
                     });
                     break;
             }
+            $scope.curpage = 1;
             $scope.pageing($scope.curpage);
         }
         // 더보기 페이징

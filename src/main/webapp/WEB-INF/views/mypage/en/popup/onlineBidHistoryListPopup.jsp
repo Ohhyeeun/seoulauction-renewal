@@ -37,7 +37,6 @@
                                 <div class="table-wrap">
                                     <table class="table_base data-table auction-bid-history">
                                         <tbody>
-                                        
                                             <tr ng-repeat="onlineBidhis in onlineBidHisList">
                                                 <td>{{onlineBidhis.CURR_CD}} {{comma(onlineBidhis.BID_PRICE)}}</td>
                                                 <td>{{onlineBidhis.BID_DT_EN}}</td>

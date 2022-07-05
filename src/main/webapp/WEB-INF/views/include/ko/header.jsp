@@ -37,6 +37,8 @@
     </c:if>
     <%--메인이 아닐 경우에만 해당 css 추가.--%>
     <c:if test="${empty param.main}">
+<%--        <link rel="stylesheet" href="/css/pages_common_ko.css" type="text/css" />--%>
+        <%@include file="../../common/commonCssNotMain.jsp"%>
         <link rel="stylesheet" href="/css/pages_common_ko.css" type="text/css" />
     </c:if>
 <%--    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/favic/apple-touch-icon-57x57.png" />--%>
@@ -66,6 +68,7 @@
     <%--메인이 아닐 경우에만 해당 js 추가.--%>
     <c:if test="${empty param.main}">
         <%@include file="../../common/commonJSNotMain.jsp"%>
+        <script src="/js/pages_common_ko.js" type="text/javascript"></script>
     </c:if>
     <%-- 로그인 --%>
     <script>

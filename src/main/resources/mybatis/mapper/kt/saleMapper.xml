@@ -654,6 +654,7 @@
                COLUMN_JSON(B.EXPE_PRICE_TO_BLOB)   EXPE_PRICE_TO_JSON,
                IFNULL(G.DEL_YN,'Y') FAVORITE_YN, /*N 이면 좋아요가 있음. Y면 좋아요가 아님.*/
                B.LOT_TAG,
+               B.STAT_CD,
                B.EXPE_PRICE_INQ_YN,
                DATE_FORMAT(B.TO_DT,'%Y-%m-%d') LOT_EXPIRE_DATE,
                DATE_FORMAT(B.TO_DT,'%a') LOT_EXPIRE_DATE_DAY,

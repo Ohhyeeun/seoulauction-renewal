@@ -13,7 +13,6 @@
 
             <!-- header -->
             <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
-            <script type="text/javascript" src="/js/mypage/liveBid.js"></script>
             <!-- //header -->
 
               <!-- container -->
@@ -161,20 +160,20 @@
     </div>
 
 
-    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+<%--    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
     <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
     <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
     <!-- [0516]삭제
-  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
--->
-
+    <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
+--%>
 
-    	<script>
+    <script type="text/javascript" src="/js/mypage/liveBid.js"></script>
+    <script>
         $(".js-history_back").click(function() {
-        	window.location.href="/mypage/main";
-        })
+            window.location.href="/mypage/main";
+        });
     </script>
 
 	<!-- 팝업 : 라이브경매관리 온라인패들 응찰 이력 -->

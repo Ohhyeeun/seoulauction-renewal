@@ -8,13 +8,13 @@
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
 <body class="">
-<style>
-    .select2-container {
-        z-index: 999;
-    }
-</style>
+<%--<style>--%>
+<%--    .select2-container {--%>
+<%--        z-index: 999;--%>
+<%--    }--%>
+<%--</style>--%>
 <div class="wrapper">
-    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
+<%--    <link rel="stylesheet" href="/css/plugin/csslibrary.css">--%>
     <div class="sub-wrap pageclass type-details_view">
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
 
@@ -116,7 +116,7 @@
                                                             <div class="swiper-wrapper">
                                                                 <div ng-repeat="item in lotImages"
                                                                      ng-class="{'slide':$index>-1,'images':$index>-1,'active':$index==0}"
-                                                                     data-index="$index">
+                                                                     data-index="$index"> <%-- 빈칸 class="slide" 까지 합해서 총 최대 7개 --%>
                                                                     <figure class="img-ratio">
                                                                         <div class="img-align">
                                                                             <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
@@ -125,6 +125,16 @@
                                                                     </figure>
                                                                     <div class="line"></div>
                                                                 </div>
+
+                                                                <div class="slide" data-index="4"> <%-- 이미지 없을 시 클래스 slide만 남겨놔야 함. --%>
+                                                                    <figure class="img-ratio">
+                                                                        <div class="img-align">
+                                                                            <img src="/images/pc/auction/view_thumbnail_bg.jpg" alt="" />
+                                                                        </div>
+                                                                    </figure>
+                                                                    <div class="line"></div>
+                                                                </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -286,33 +296,37 @@
                                                 <ul id="recently_views" class="product-list">
                                                     <li class="" ng-repeat="item in recentlyViews">
                                                         <div class="li-inner">
-                                                            <a href="#">
+<%--                                                            <a href="#">--%>
                                                                 <article class="item-article">
                                                                     <div class="image-area">
                                                                         <figure class="img-ratio">
-                                                                            <div class="img-align">
+                                                                            <a href="javascript:void(0);" class="img-align">
                                                                                 <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
                                                                                      alt="">
-                                                                            </div>
+                                                                            </a>
                                                                         </figure>
                                                                     </div>
                                                                     <div class="typo-area">
                                                                         <div class="product_info">
                                                                             <div class="num_heart-box">
-                                                                                <%--<a href="#">--%><span class="num" ng-bind="item.LOT_NO"></span><%--</a>--%>
+                                                                                <%--<a href="#">--%><a href="javascript:void(0);" class="num" ng-bind="item.LOT_NO"></a><%--</a>--%>
                                                                                 <a ng-class="{'heart':item.FAVORITE_YN,'js-work_heart':item.FAVORITE_YN,'on':item.FAVORITE_YN==='Y'}"
                                                                                    ng-click="favorite2(item.SALE_NO, item.LOT_NO, $index);"><i
                                                                                         class="icon-heart_off"></i></a>
                                                                             </div>
                                                                             <div class="info-box">
-                                                                                <a href="#">
+<%--                                                                                <a href="#">--%>
                                                                                     <div class="title">
-                                                                                        <span ng-bind="item.ARTIST_NAME_BLOB_JSON.ko"></span>
+                                                                                        <a href="javascript:void(0);">
+                                                                                            <span ng-bind="item.ARTIST_NAME_BLOB_JSON.ko"></span>
+                                                                                        </a>
                                                                                     </div>
                                                                                     <div class="desc">
-                                                                                        <span ng-bind="item.TITLE_BLOB_JSON.ko"></span>
+                                                                                        <a href="javascript:void(0);">
+                                                                                            <span ng-bind="item.TITLE_BLOB_JSON.ko"></span>
+                                                                                        </a>
                                                                                     </div>
-                                                                                </a>
+<%--                                                                                </a>--%>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -327,7 +341,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </article>
-                                                            </a>
+<%--                                                            </a>--%>
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -570,15 +584,14 @@
     </div>
 </div>
 
-
-<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+<%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
 <!--[if lt IE 9]>
-<script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/auction/saleCert.js"></script>
-<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<%-- <script src="/js/plugin/html5shiv.js"></script> --%> <![endif]-->
+<%--<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
+<%--<script type="text/javascript" src="/js/auction/saleCert.js"></script>--%>
+<%--<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
 
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <%--낙찰 수수료 팝업 --%>
 <jsp:include page="popup/bidCommissionPopup.jsp"/>
 
@@ -632,6 +645,14 @@
         $(".js-view_thumnail .slide").removeClass("active");
         $(".js-view_thumnail .slide").eq($index).addClass("active");
     };
+
+    /* 섬네일 클릭 */
+    $(".js-view_thumnail .slide.images").on("click", function() {
+        var _index = $(this).index();
+        console.log(_index);
+        view_thumnailActive(_index);
+        view_visualActive(_index);
+    });
 
     /* 비주얼 활성화 */
     function view_visualActive($index, view_visual) {
@@ -932,7 +953,7 @@
                     await axios.get('/api/mypage/manager')
                         .then(function (response) {
                             if (response.data.success && response.data.data != undefined) {
-                                $("em#manager").html(response.data.data.EMP_NAME + " " + response.data.data.HP);
+                                $("em#manager").html(response.data.data.EMP_NAME + " " + response.data.data.TEL);
                             }
                         });
                 }
@@ -1569,6 +1590,36 @@
                     }
                 }
             }
+            if (d.message.quotes != null && d.message.quotes.length > 0) {
+                let cnt = 1;
+                let viewCnt = 0;
+
+                let cost_tmp = (bid_info.bid_cost === 0) ?
+                    bid_info.open_bid_cost :
+                    bid_info.bid_cost;
+
+
+
+                while( viewCnt < 70 ) {
+                    if (cnt > d.message.quotes.length - 1) {
+                        quote_arr.push(cost_tmp)
+                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                        viewCnt++;
+                        continue
+                    }
+                    if (d.message.quotes[cnt].cost >= cost_tmp){
+                        quote_arr.push(cost_tmp)
+                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                        viewCnt++;
+                        continue
+                    }
+                    cnt++
+                }
+                $("#reservation_bid").find("option").remove();
+                for(let i = 0; i < quote_arr.length; i++) {
+                    $("#reservation_bid").append(`<option value="` + quote_arr[i] +`">KRW ` + quote_arr[i].toLocaleString("ko-KR") +`</option>`);
+                }
+            }
         } else if (d.msg_type == packet_enum.time_sync) {
 
         } else if (d.msg_type == packet_enum.bid_info_init) {
@@ -1619,26 +1670,26 @@
 
                 let quote_arr = [];
 
+                console.log(d.message.quotes);
+
                 if (d.message.quotes != null && d.message.quotes.length > 0) {
                     let cnt = 1;
                     let viewCnt = 0;
-                    while (viewCnt < 70) {
+                    while( viewCnt < 70 ) {
                         if (cnt > d.message.quotes.length - 1) {
                             quote_arr.push(cost_tmp)
-                            cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
+                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
                             viewCnt++;
                             continue
                         }
-                        // 호가리스트 값이 현재 코스트 보다 컸을때
-                        if (d.message.quotes[cnt].cost > cost_tmp) {
+                        if (d.message.quotes[cnt].cost >= cost_tmp){
                             quote_arr.push(cost_tmp)
-                            cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost
-                            cnt = 0;
+                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
                             viewCnt++;
                             continue
                         }
-                        ++cnt;
-                        cost_tmp = cost_tmp + d.message.quotes[cnt - 1].quote_cost;
+                        cnt++
+                        //cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
                     }
                     $("#reservation_bid").find("option").remove();
                     $.each(quote_arr, function (idx, el) {
