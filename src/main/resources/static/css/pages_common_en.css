@@ -27288,7 +27288,7 @@ header.win_header .header-inner .header_logo {
 }
 
 .content-panel .bid-list-wrap .bid-list .bid-item > dd .product-infobox {
-  width: 100%;
+  width: calc(100% - 330px);
 }
 
 .content-panel .bid-list-wrap .bid-list .bid-item > dd .product-infobox .product-infobox-inner::after {
@@ -27365,10 +27365,20 @@ header.win_header .header-inner .header_logo {
 
 .content-panel .bid-list-wrap .bid-list .bid-item > dd .text-area .title {
   color: #333333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 
 .content-panel .bid-list-wrap .bid-list .bid-item > dd .text-area .desc {
   margin-top: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 
 .content-panel .bid-list-wrap .bid-list .bid-item > dd .text-area .num {
@@ -27382,6 +27392,11 @@ header.win_header .header-inner .header_logo {
 .content-panel .bid-list-wrap .bid-list .bid-item > dd .text-area .titlename {
   font-weight: 700;
   font-size: 22px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: inline-block;
+  width: 100%;
 }
 
 .content-panel .bid-list-wrap .bid-list .bid-item > dd .text-area .year, .content-panel .bid-list-wrap .bid-list .bid-item > dd .text-area .sub {
@@ -27452,6 +27467,7 @@ header.win_header .header-inner .header_logo {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-width: 330px;
 }
 
 .content-panel .bid-list-wrap .bid-list .bid-item > dd .pay-infobox .pay-area {
@@ -27467,7 +27483,6 @@ header.win_header .header-inner .header_logo {
 
 .content-panel .bid-list-wrap .bid-list .bid-item > dd .pay-infobox .pay-area dl dt {
   font-weight: 600;
-  white-space: nowrap;
 }
 
 .content-panel .bid-list-wrap .bid-list .bid-item > dd .pay-infobox .pay-area dl dd {
@@ -27507,15 +27522,10 @@ header.win_header .header-inner .header_logo {
   width: 280px;
   display: flex;
   justify-content: space-between;
-  flex-direction: column;
 }
 
-.content-panel .bid-list-wrap .bid-list .bid-item > dd .pay-infobox .pay-area + .btn-area .btn {
-  height: 48px;
-}
-
-.content-panel .bid-list-wrap .bid-list .bid-item > dd .pay-infobox .pay-area + .btn-area .btn-half + .btn-half {
-  margin-top: 10px;
+.content-panel .bid-list-wrap .bid-list .bid-item > dd .pay-infobox .pay-area + .btn-area .btn-half {
+  width: 135px;
 }
 
 .content-panel .bid-list-wrap .bid-list .bid-item > dd .pay-infobox .pay-area + .btn-area .btn-print span {
@@ -27566,6 +27576,10 @@ header.win_header .header-inner .header_logo {
     padding: 30px 0;
   }
 
+  .content-panel .bid-list-wrap .bid-list .bid-item > dd .product-infobox {
+    width: 100%;
+  }
+
   .content-panel .bid-list-wrap .bid-list .bid-item > dd .product-infobox-inner {
     display: flex;
   }
@@ -27581,7 +27595,6 @@ header.win_header .header-inner .header_logo {
     flex-direction: column;
     justify-content: center;
     float: none;
-    width: auto;
   }
 
   .content-panel .bid-list-wrap .bid-list .bid-item > dd .text-area .num .m-ver {
@@ -27664,6 +27677,10 @@ header.win_header .header-inner .header_logo {
     padding: 20px 0;
   }
 
+  .content-panel .bid-list-wrap .bid-list .bid-item > dd .product-infobox {
+    width: 100%;
+  }
+
   .content-panel .bid-list-wrap .bid-list .bid-item > dd .product-infobox-inner {
     display: flex;
   }
@@ -27683,7 +27700,6 @@ header.win_header .header-inner .header_logo {
     padding: 0 0 0 25px;
     min-height: 130px;
     float: none;
-    width: auto;
   }
 
   .content-panel .bid-list-wrap .bid-list .bid-item > dd .text-area > div {
@@ -27733,6 +27749,8 @@ header.win_header .header-inner .header_logo {
   }
 
   .content-panel .bid-list-wrap .bid-list .bid-item > dd .pay-infobox {
+    width: 100%;
+    min-width: auto;
     border-left: 0;
     border-top: 1px solid #dedede;
   }
@@ -27766,7 +27784,7 @@ header.win_header .header-inner .header_logo {
   }
 
   .content-panel .bid-list-wrap .bid-list .bid-item > dd .pay-infobox .pay-area + .btn-area .btn-half {
-    width: 100%;
+    width: calc(50% - 5px);
   }
 
   .content-panel .bid-list-wrap .bid-list-wrap .button-area {
@@ -28196,6 +28214,15 @@ header.win_header .header-inner .header_logo {
   padding-top: 30px;
 }
 
+.content-panel.type_panel-mypage_academy .academy-list-wrap .data-empty {
+  border-top: 1px solid #999;
+  border-bottom: 1px solid #ccc;
+  padding: 300px 0;
+  font-size: 18px;
+  color: #555555;
+  margin-top: 15px;
+}
+
 .content-panel.type_panel-mypage_academy .academy-list {
   table-layout: auto;
 }
@@ -28350,6 +28377,13 @@ header.win_header .header-inner .header_logo {
   width: 160px;
 }
 
+.content-panel.type_panel-mypage_inquiry .inquiry-list-wrap .data-empty {
+  border-bottom: 1px solid #ccc;
+  padding: 300px 0;
+  font-size: 18px;
+  color: #555555;
+}
+
 .content-panel.type_panel-mypage_inquiry .inquiry-list > li {
   border-bottom: 1px solid #ccc;
   padding: 30px 20px;
@@ -28369,13 +28403,13 @@ header.win_header .header-inner .header_logo {
   -webkit-box-orient: vertical;
 }
 
-.content-panel.type_panel-mypage_inquiry .inquiry-list > li .bbs-subject span {
+.content-panel.type_panel-mypage_inquiry .inquiry-list > li .bbs-subject span, .content-panel.type_panel-mypage_inquiry .inquiry-list > li .bbs-subject a {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  word-break: keep-all;
+  word-break: break-all;
 }
 
 .content-panel.type_panel-mypage_inquiry .inquiry-list > li .bbs-subbox {
@@ -28419,6 +28453,11 @@ header.win_header .header-inner .header_logo {
 
   .content-panel.type_panel-mypage_inquiry .inquiry-list-wrap .button-area {
     margin-top: 30px;
+  }
+
+  .content-panel.type_panel-mypage_inquiry .inquiry-list-wrap .data-empty {
+    padding: 65px 0;
+    font-size: 14px;
   }
 
   .content-panel.type_panel-mypage_inquiry .inquiry-list > li {
@@ -28466,6 +28505,7 @@ header.win_header .header-inner .header_logo {
 
 .content-panel.type_panel-mypage_inquiry .view-header .title-area .title {
   color: #333333;
+  word-break: break-all;
 }
 
 .content-panel.type_panel-mypage_inquiry .view-header .sub-area {
@@ -28502,6 +28542,7 @@ header.win_header .header-inner .header_logo {
 
 .content-panel.type_panel-mypage_inquiry .view-body.inquiry-view-wrap dl dd .con-area {
   padding: 10px 0;
+  word-break: break-all;
 }
 
 .content-panel.type_panel-mypage_inquiry .view-body.inquiry-view-wrap dl dd .file-area {
@@ -28931,6 +28972,10 @@ header.win_header .header-inner .header_logo {
   text-decoration: underline;
 }
 
+.content-panel.type_panel-mypage_memberModify .contents-wrap .dropOut_text a {
+  display: inline-block;
+}
+
 .content-panel.type_panel-mypage_memberModify .contents-wrap .btn_area {
   text-align: center;
 }
@@ -29089,6 +29134,10 @@ header.win_header .header-inner .header_logo {
   .content-panel.type_panel-mypage_memberModify .contents-wrap .dropOut_text {
     font-size: 14px;
     padding: 15px 0 20px 0px;
+  }
+
+  .content-panel.type_panel-mypage_memberModify .contents-wrap .dropOut_text a {
+    display: inline-block;
   }
 }
 

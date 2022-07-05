@@ -11,6 +11,7 @@ import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -44,12 +45,13 @@ public class PaymentController {
 
     private final PaymentMapper paymentMapper;
 
+    private Integer DUMMY_PRICE = 500;
 
     @GetMapping("/member")
     public String member(HttpServletRequest request , Locale locale) {
 
         String goodsName = "정회원"; 					// 결제상품명
-        Integer price = 1234; 						// 결제상품금액
+        Integer price = DUMMY_PRICE; 						// 결제상품금액
         String moid = "mnoid1234567890"; 			// 상품주문번호
         String returnURL = nicePayMobileBaseReturnUrl + "/payment/memberProcess"; // 결과페이지(절대경로) - 모
 
@@ -119,8 +121,6 @@ public class PaymentController {
         CommonMap resultMap = paymentService.getPaymentForPayResult(payMethod, payId);
         request.setAttribute("resultMap", resultMap);
 
-        log.info("c4 : {}" , resultMap);
-
         return SAConst.getUrl(SAConst.SERVICE_PAYMENT , "memberResult" , locale);
     }
 
@@ -141,7 +141,7 @@ public class PaymentController {
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
 
         String goodsName 		= "서울옥션-아카데미"; 					// 결제상품명
-        int price 			    = 1100;//Integer.parseInt(ObjectUtils.defaultIfNull(resultMap.get("academy_pay"), "0").toString()); 						// 결제상품금액
+        int price 			    = Integer.parseInt(ObjectUtils.defaultIfNull(resultMap.get("academy_pay"), "0").toString()); 						// 결제상품금액
 
         String cust_name 		= saUserDetails.getUserNm(); 						// 구매자명
         String hp 		        = saUserDetails.getHp(); 				// 구매자연락처
@@ -240,10 +240,8 @@ public class PaymentController {
 
         CommonMap payWorkInfoMap = paymentService.getWorkPayInfo(paramMap);
 
-        Integer tmpPrice = 1234;
-
         String ediDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String signData = Cryptography.encrypt(ediDate + nicePayMerchantId + tmpPrice + nicePaymerchantKey);
+        String signData = Cryptography.encrypt(ediDate + nicePayMerchantId + payWorkInfoMap.get("no_vat_price") + nicePaymerchantKey);
 
         request.setAttribute("lotInfo" , payWorkInfoMap);
 
@@ -252,7 +250,7 @@ public class PaymentController {
         request.setAttribute("hp", saUserDetails.getHp());
         request.setAttribute("email", saUserDetails.getEmail());
         request.setAttribute("goodsName" , goodsName);
-        request.setAttribute("price", tmpPrice);
+        request.setAttribute("price", payWorkInfoMap.get("no_vat_price"));
         request.setAttribute("no_vat_price", payWorkInfoMap.get("no_vat_price"));
         request.setAttribute("vat_price", payWorkInfoMap.get("vat_price"));
         request.setAttribute("vat", payWorkInfoMap.get("vat"));

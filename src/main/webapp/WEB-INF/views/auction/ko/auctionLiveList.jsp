@@ -5,6 +5,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+<style>
+    .select2-container {
+        z-index: 999;
+    }
+</style>
 
 <c:set var="isRegular" value="false" />
 <sec:authorize access="hasAuthority('ROLE_REGULAR_USER')">
@@ -78,6 +83,10 @@
                                             <ul class="tab-list js-list_tab">
                                                 <li ng-class="{active:'전체' === selectLotTag}"><a href="#tab-cont-1"
                                                                                                  ng-click="searchLotTags('전체');"><span>전체</span></a>
+                                                </li>
+                                                <li ng-class="{active: item.CD_ID === selectLotTag}"
+                                                    ng-repeat="item in categories"><a href="#tab-cont" ng-click="searchCategory(item.CD_ID);"><span
+                                                        ng-bind="item.CD_NM"></span></a></li>
                                                 </li>
                                                 <li ng-class="{active: item.LOT_TAG === selectLotTag}"
                                                     ng-repeat="item in lotTags"><a href="#tab-cont"
@@ -179,7 +188,7 @@
                                                 <article class="item-article">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
-                                                            <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}" target="_blank">
+                                                            <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
                                                                 <div class="img-align">
                                                                         <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"  alt="">
                                                                 </div>
@@ -554,6 +563,14 @@
                 }
             }
 
+            const getCategories = (saleNo) => {
+                try {
+                    return axios.get('/api/auction/categories/'+saleNo);
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
             $scope.searchLotTags = function (lotTag) {
                 $scope.selectLotTag = lotTag;
                 let pp = [];
@@ -566,10 +583,22 @@
                 $scope.pageing(1);
             }
 
+            $scope.searchCategory = function (category) {
+                $scope.selectLotTag = category;
+                let pp = [];
+                for (let i = 0; i < $scope.saleInfoAll.length; i++) {
+                    if ($scope.saleInfoAll[i].CATE_CD_ID === category) {
+                        pp.push($scope.saleInfoAll[i]);
+                    }
+                }
+                $scope.searchSaleInfoAll = pp;
+                $scope.pageing(1);
+            }
+
             // 호출 부
             $scope.load = function () {
                 let run = async function () {
-                    let [r1, r2, r3] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no)]);
+                    let [r1, r2, r3, r4] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no), getCategories($scope.sale_no)]);
 
                     $scope.saleInfoAll = r1.data.data;
 
@@ -583,7 +612,7 @@
 
                     $scope.saleImages = r2.data.data;
                     $scope.lotTags = r3.data.data;
-
+                    $scope.categories = r4.data.data;
 
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
 
