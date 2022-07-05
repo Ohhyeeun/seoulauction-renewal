@@ -508,21 +508,21 @@
 
                             var S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
                             var S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
-                            var FROM_DT_D = $filter('date')($scope.sale.FROM_DT, 'yyyyMMdd');
-                            var TO_DT_D = $filter('date')($scope.sale.TO_DT, 'yyyyMMdd');
+                            var FROM_DT = $filter('date')($scope.sale.FROM_DT, 'yyyyMMdd');
+                            var TO_DT = $filter('date')($scope.sale.TO_DT, 'yyyyMMdd');
                             var END_DT = $filter('date')($scope.sale.END_DT, 'yyyyMMddHHmm');
                             var LIVE_START_DT = $filter('date')($scope.sale.LIVE_BID_DT, 'yyyyMMddHHmm');
                             // 오프라인 경매인 경우에는 SALE.TO_DT는 YYYY.MM.DD로 체크. 비교 서버시간은 S_DB_NOW_D (YDH. 2016.10.05)
 
                             //라이브 응찰 시간 체크
-                            $scope.liveEnd = TO_DT_D;
+                            $scope.liveEnd = TO_DT;
                             $scope.nowTime = S_DB_NOW_D;
                             $scope.liveStartDt = LIVE_START_DT;
                             $scope.liveCheckDt = S_DB_NOW;
 
-                            if (FROM_DT_D > S_DB_NOW_D && TO_DT_D > S_DB_NOW_D) {
+                            if (FROM_DT > S_DB_NOW && TO_DT > S_DB_NOW_D) {
                                 $scope.sale_status = "READY";
-                            } else if (FROM_DT_D <= S_DB_NOW_D && $scope.sale.CLOSE_YN != 'Y') {
+                            } else if (FROM_DT <= S_DB_NOW && $scope.sale.CLOSE_YN != 'Y') {
                                 $scope.sale_status = "ING";
                             } else {
                                 $scope.sale_status = "END";
