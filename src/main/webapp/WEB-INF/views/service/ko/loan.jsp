@@ -294,7 +294,7 @@
                                                 <div class="manager-box"> <span>미술품경매사업부</span> <em>이지희 이사</em> </div>
                                                 <div class="contact-box">
                                                     <ul>
-                                                        <li><span>T.</span> <em>02-2075-4499</em></li>
+                                                        <li><span>T.</span> <a href="tel:02-2075-4499"><em>02-2075-4499</em></a></li>
                                                         <li><span>E.</span> <a href="mailto:jlee@seoulauctionl.com"><em>jlee@seoulauctionl.com</em></a></li>
                                                     </ul>
                                                 </div>

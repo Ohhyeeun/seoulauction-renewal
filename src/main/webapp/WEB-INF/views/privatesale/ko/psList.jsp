@@ -199,7 +199,7 @@
                                                 <div class="manager-box"> <span>서울옥션 브랜드 기획팀</span> <em>정은지 선임</em> </div>
                                                 <div class="contact-box">
                                                     <ul>
-                                                        <li><span>T.</span> <em>02-2075-4442</em></li>
+                                                        <li><span>T.</span> <a href="tel:02-2075-4422"><em>02-2075-4442</em></a></li>
                                                         <li><span>E.</span> <a href="mailto:jej@seoulauctionl.com"><em>jej@seoulauctionl.com</em></a></li>
                                                     </ul>
                                                 </div>
