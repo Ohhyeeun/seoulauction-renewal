@@ -440,8 +440,8 @@
 															<br>
 															Seoul Auction Co. Ltd.,<br>
 															11, Pyeongchang 31-gil, Jongno-gu, Seoul, Korea<br>
-															Tel <a href="tel:02-395-0330">+82 (0)2 395 0330</a><br>
-															Fax <a href="tel:02-395-0338">+82 (0)2 395 0338</a><br>
+															Tel <a href="tel:82-2-395-0330">+82 (0)2 395 0330</a><br>
+															Fax <a href="tel:82-2-395-0338">+82 (0)2 395 0338</a><br>
 															E: <a href="mailto:info@seoulauction.com">info@seoulauction.com</a><br>
 															<br>
 															Notices to Consignors, Bidders and Buyers shall be provided to the address specified in the relate registration form or through the electronic communications network (e-mail, text message, SNS, etc.) to the following address. The relevant person shall notify Seoul Auction, in writing, in case of any changes to the address or contact information. If the relevant person is negligent in providing the notice and Seoul Auction’s notice, etc. is not delivered, he/she shall not raise any objections when the delivery is deemed to have been made on the date the notice from Seoul Auction typically would have arrived.<br>
