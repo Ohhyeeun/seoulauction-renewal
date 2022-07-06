@@ -28,7 +28,7 @@
 			<div class="mem-info-wrap" ng-if="userRole=='1'">
 				<div class="mem-lv-box">
 					 <div class="mem-lv lv-2">Subscription Member</div>
-					 <div class="mem-period">${validDate}</div>
+					 <div class="mem-period">{{validDate}}</div>
 				</div>
 				<div class="mem-record-box">
 					<a href="#" class="record-button js-popup_memlv2_record" ng-click="showMemHisPopup(this);">Membership History</a> 

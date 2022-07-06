@@ -63,9 +63,12 @@
                                                                     <div class="product-infobox-inner">
                                                                         <div class="thumb-area">
                                                                             <figure class="img-ratio">
-                                                                                <a href="#" class="img-align"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
+                                                                                <a href="/auction/live/view/{{data.SALE_NO}}/{{data.LOT_NO}}" class="img-align" ng-if="liveBidReq[1][0].CLOSE_YN != 'Y'" > <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
                                                                                      <img src="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}" alt="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}">
-                                                                                </a>
+                                                                                </a >
+                                                                                <a class="img-align" ng-if="liveBidReq[1][0].CLOSE_YN == 'Y'" > <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
+                                                                                     <img src="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}" alt="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}">
+                                                                                </a >
                                                                             </figure>
                                                                         </div>
                                                                         <div class="text-area">

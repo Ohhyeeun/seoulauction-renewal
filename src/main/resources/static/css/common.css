@@ -1034,6 +1034,10 @@ img::selection {
     position: absolute;
     bottom: 0;
 }
+.footerBg  {
+    position: relative;
+    top:0;
+}
 .innerfooter {
     padding: 37px 60px 140px;
     max-width: 1920px;
@@ -1129,9 +1133,13 @@ img::selection {
     color: #a9a9a9;
     margin-bottom: 30px;
 }
+.footer_tel{
+    display: inline-block;
+}
 .Familysite-selectbox {
-    position: relative;
-    top: 0;
+    position: absolute;
+    top: calc(50% - 102px);
+    right: 50px;
     z-index: 1;
     cursor: pointer;
 }
@@ -2165,7 +2173,7 @@ body.dark,
     .footer-infomenu {
         margin-bottom: 25px;
         font-size: 12px;
-        margin-bottom: 25px;
+        margin-bottom: 100px;
         justify-content: center;
     }
     .footer-infomenu>li:before {
@@ -2182,6 +2190,15 @@ body.dark,
         z-index: 1;
         right: 25px;
         bottom 25px;
+    }
+    .Familysite-selectbox {
+        /*top: calc(50% - 20px);*/
+        top: 240px; 
+        width: calc(100% - 50px); 
+        right: 25px;
+    }
+    .Familysite-selectbox:lang(en) {
+        top: 260px;
     }
     /* 1023 다크모드 */
     .topsearch>input.dark {
