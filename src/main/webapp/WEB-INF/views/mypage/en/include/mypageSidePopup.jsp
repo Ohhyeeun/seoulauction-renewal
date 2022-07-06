@@ -142,7 +142,7 @@
                                     <article class="group-box">
                                         <span class="box-title tt5">Question regarding to Subscription Membership</span>
                                         <ul class="mark_dot-list">
-                                            <li><span class="tb1">(Phone) +82-2-2075-4422</span></li>
+                                            <li><span class="tb1">(Phone) <a href="tel:82-2-2075-4422">+82-2-2075-4422</a></span></li>
                                             <li><span class="tb1">(Email) <a href="mailto:info@seoulauction.com">info@seoulauction.com</a></span></li>
                                         </ul>
                                     </article>

@@ -53,13 +53,13 @@
 										</c:if>
 										<c:if test="${error == 'Stop User' || sessionScope.STOP_USER == 'true'}">
 											<p>! This is a restricted ID.<br>
-												If you wish to use the service, please contact the customer center. (<a href="tel:02-395-0330">02-395-0330</a> / <br class="only-pc">
+												If you wish to use the service, please contact the customer center. (<a href="tel:82-2-395-0330">+82-2-395-0330</a> / <br class="only-pc">
 												<a href="mailto:info@seoulauction.com">info@seoulauction.com</a>>.</p>
 										</c:if>
 										<c:if test="${error == 'Not Certify User' || sessionScope.NOT_CERTIFY_USER == 'true'}">
 											<p>This ID has not been verified by e-mail after registering as a member.<br>
 											Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication.<br>
-												If you do not receive a verification email, please contact the customer center (<a href="tel:02-395-0330">02-395-0330</a> / <a href="mailto:info@seoulauction.com">info@seoulauction.com</a>).<br>
+												If you do not receive a verification email, please contact the customer center (<a href="tel:82-2-395-0330">+82-2-395-0330</a> / <a href="mailto:info@seoulauction.com">info@seoulauction.com</a>).<br>
 											</p>
 										</c:if>
 									</div>

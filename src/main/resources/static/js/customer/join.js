@@ -663,6 +663,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		$scope.form_data.zipno = addr.postcd;
 		$scope.form_data.addr = addr.address;
 		address_search1.close();
+		$(".popup-dim.address_search1-wrap").hide();
 		common.setFocus("addr_dtl");
 		$scope.addr_msg = "상세주소를 입력해주세요.";
 	};
