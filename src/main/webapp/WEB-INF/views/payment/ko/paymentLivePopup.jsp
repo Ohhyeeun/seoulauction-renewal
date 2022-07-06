@@ -59,7 +59,7 @@
 
                             <p class="bottom-p-spacing20">
                                 ㈜서울옥션 · 대표이사 : 이옥경   사업자등록번호 : 101-81-46818   통신판매업신고 : 종로 제01-2173호<br>
-                                주소 : 서울특별시 종로구 평창31길 11 (평창동 465-10)  고객센터 : 02-395-0330<br>
+                                주소 : 서울특별시 종로구 평창31길 11 (평창동 465-10)  고객센터 : <a href="tel:02-395-0330">02-395-0330</a><br>
                                 ⓒ Seoul Auction Corp.
                             </p>
                             <p>
@@ -353,11 +353,11 @@
                                             </div>
                                             <div class="text-notice">
                                                 <i class="icon-inquiry"></i>
-                                                <span class="tb2">입금 후 전화 확인 바랍니다 &nbsp; (02-395-0330)</span>
+                                                <span class="tb2">입금 후 전화 확인 바랍니다 &nbsp; (<a href="tel:02-395-0330">02-395-0330</a>)</span>
                                             </div>
                                         </div>
                                         <p class="contact_us">
-                                            <span>문의 02-395-0330 / 메일</span> <a href="mailto:sos@seoulauction.com">sos@seoulauction.com</a>
+                                            <span>문의 <a href="tel:02-395-0330">02-395-0330</a> / 메일</span> <a href="mailto:sos@seoulauction.com">sos@seoulauction.com</a>
                                         </p>
                                         <ul class="mark_dot-list">
                                             <li class="">계좌입금 시 입금 메모란에 실제 낙찰자의 이름을 명시해 주십시오. 입금자와 낙찰자의 이름이 일치하지 않을 경우,

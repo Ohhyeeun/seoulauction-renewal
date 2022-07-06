@@ -143,7 +143,7 @@
                                         <span class="box-title tt5">Question regarding to Subscription Membership</span>
                                         <ul class="mark_dot-list">
                                             <li><span class="tb1">(Phone) +82-2-2075-4422</span></li>
-                                            <li><span class="tb1">(Email) info@seoulauction.com</span></li>
+                                            <li><span class="tb1">(Email) <a href="mailto:info@seoulauction.com">info@seoulauction.com</a></span></li>
                                         </ul>
                                     </article>
                                     <!-- //[0613]텍스트(문단)추가 -->
@@ -157,36 +157,3 @@
         </div>
     </div>
 </div>
-<script>
-(function() {
-    var popup_marketing1 = $(".js-popup_memlv2_record").trpLayerFixedPopup("#popup_memlv2_record-wrap");
-    $(popup_marketing1.getBtn).on("click", function($e) {
-        $e.preventDefault();
-        popup_marketing1.open(this); // or false   
-        popup_fixation("#popup_memlv2_record-wrap"); // pc 스크롤
-        popup_motion_open("#popup_memlv2_record-wrap"); // mb 모션 
-    });
-
-    $("body").on("click", "#popup_memlv2_record-wrap .js-closepop, #popup_memlv2_record-wrap .popup-dim", function($e) {
-        $e.preventDefault();
-        popup_marketing1.close();
-        popup_motion_close("#popup_memlv2_record-wrap");
-    });
-})();
-
-(function() {
-var popup_tooltip = $(".js-popup_tooltip").trpLayerFixedPopup("#popup_tooltip-wrap");
-$(popup_tooltip.getBtn).on("click", function($e) {
-    $e.preventDefault();
-    popup_tooltip.open(this); // or false   
-    popup_fixation("#popup_tooltip-wrap"); // pc 스크롤
-    popup_motion_open("#popup_tooltip-wrap"); // mb 모션 
-});
-
-$("body").on("click", "#popup_tooltip-wrap .js-closepop, #popup_tooltip-wrap .popup-dim", function($e) {
-    $e.preventDefault();
-    popup_tooltip.close();
-    popup_motion_close("#popup_tooltip-wrap");
-});
-})();
-</script>

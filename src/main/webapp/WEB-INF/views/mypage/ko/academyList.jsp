@@ -46,8 +46,8 @@
                                                         <i class="icon-tel_g"></i>
                                                         <ul>
                                                             <li><span>문의 : </span>
-                                                                <span> 02-2075-4422</span><span>, </span>
-                                                                <span> 02-545-0330</span>
+                                                                <span> <a href="tel:02-2075-4422">02-2075-4422</a></span><span>, </span>
+                                                                <span> <a href="tel:02-545-0330">02-545-0330</a></span>
                                                                 <span> (강남센터)</span>
                                                             </li>
                                                         </ul>

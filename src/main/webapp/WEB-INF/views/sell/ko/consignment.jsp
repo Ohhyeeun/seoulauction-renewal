@@ -200,7 +200,7 @@
                                                                     </div>
                                                                     <dl class="tb1">
                                                                         <dt>위탁문의 이메일</dt>
-                                                                        <dd><a href="mailto:art@seoulauction.com" target="_blank">art@seoulauction.com</a></dd>
+                                                                        <dd><a href="mailto:art@seoulauction.com">art@seoulauction.com</a></dd>
                                                                     </dl>
                                                                 </div>
                                                             </li>
@@ -211,7 +211,7 @@
                                                                     </div>
                                                                     <dl class="tb1">
                                                                         <dt>대표전화</dt>
-                                                                        <dd>02-395-0330 미술품 경매팀</dd>
+                                                                        <dd><a href="tel:02-395-0330">02-395-0330</a> 미술품 경매팀</dd>
                                                                     </dl>
                                                                 </div>
                                                             </li>
@@ -223,8 +223,8 @@
                                                                     <dl class="tb1">
                                                                         <dt>미술품경매사업부 경매1팀 정태희 팀장</dt>
                                                                         <dd>
-                                                                            02-2075-4480
-                                                                            <a href="mailtp:jth2319@seoulauction.com" target="_blank">jth2319@seoulauction.com</a>
+                                                                            <a href="tel:02-2075-4480">02-2075-4480</a>
+                                                                            <a href="mailto:jth2319@seoulauction.com">jth2319@seoulauction.com</a>
                                                                         </dd>
                                                                     </dl>
                                                                 </div>

@@ -187,7 +187,7 @@
                                                                                             <i class="icon-inquiry only-pc"></i>
                                                                                             <span class="tb1">문의</span>
                                                                                         </dt>
-                                                                                        <dd class="tb1">전화 02-395-0330</dd>
+                                                                                        <dd class="tb1">전화 <a href="tel:02-395-0330">02-395-0330</a></dd>
                                                                                         <dd class="tb1"><span>메일</span><a href="mailto:sos@seoulauction.com"> sos@seoulauction.com</a></dd>
                                                                                     </dl>
                                                                                 </div>
@@ -412,7 +412,7 @@
                                                                                             </div>
                                                                                             <ul>
                                                                                                 <li><em>입금 계좌번호 : 우리은행 1005-902-012409 (주)서울옥션</em> (입금 후 전화 확인 바랍니다)</li>
-                                                                                                <li><em>문의</em> : 전화 02-395-0330, 메일 <a href="mailto:sos@seoulauction.com">sos@seoulauction.com</a></li>
+                                                                                                <li><em>문의</em> : 전화 <a href="tel:02-395-0330">02-395-0330</a>, 메일 <a href="mailto:sos@seoulauction.com">sos@seoulauction.com</a></li>
                                                                                             </ul>
                                                                                             <p>계좌입금 시 입금 메모란에 실제 낙찰자의 이름을 명시해 주십시오. 입금자와 낙찰자의 이름이 일치하지 않을 경우, 입금확인이 어려울 수 있으며, 이에 대한 불이익은 서울옥션에서 책임지지 않습니다.</p>
                                                                                         </div>
@@ -828,7 +828,7 @@
                                                                                             <ul>
                                                                                                 <li><em>온라인 경매 : 우리은행 1005-200-281649 (주)서울옥션</em> (입금 후 전화 확인 바랍니다)</li>
                                                                                                 <li><em>제로베이스 경매 : 우리은행 1005-403-971518 (주)서울옥션</em> (입금 후 전화 확인 바랍니다)</li>
-                                                                                                <li><em>문의</em> : 전화 02-395-0330, 메일 <a href="mailto:sos@seoulauction.com">sos@seoulauction.com</a></li>
+                                                                                                <li><em>문의</em> : 전화 <a href="tel:02-395-0330">02-395-0330</a>, 메일 <a href="mailto:sos@seoulauction.com">sos@seoulauction.com</a></li>
                                                                                             </ul>
                                                                                             <p>계좌입금 시 입금 메모란에 실제 낙찰자의 이름을 명시해 주십시오. 입금자와 낙찰자의 이름이 일치하지 않을 경우, 입금확인이 어려울 수 있으며, 이에 대한 불이익은 서울옥션에서 책임지지 않습니다.</p>
                                                                                         </div>
@@ -901,7 +901,7 @@
                                                                             <li>수도권 외 지역은 월 2회 운송사 지정 일정(주말 포함)에 맞춰 일괄 무료 배송 진행</li>
                                                                             <li>상기 일정 외 개별 운송 진행 및 도서 산간(제주 포함)지역, 해외 운송의 경우 운송비 고객 부담</li>
                                                                             <li>특수 설치 및 추가 운송 인력 소요 작품의 경우 고객 비용 부담</li>
-                                                                            <li>배송 문의: 02-2075-4404</li>
+                                                                            <li>배송 문의: <a href="tel:02-2075-4404">02-2075-4404</a></li>
                                                                         </ul>
                                                                         <div class="bottom_txt">
                                                                             <p class="tb1_1">※ 단, 경매에 따라 무료배송 진행이 아닌, 유료배송으로 진행 될 수도 있습니다.</p>

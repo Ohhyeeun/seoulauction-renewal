@@ -82,89 +82,89 @@
             </section>
         </div>
 
-        <section class="gnb_submenuBg scroll_none">
-            <section class="submenuBg scroll_none">
-                <div class="wrap">
-                    <span class="submenuBg-closeBtn closebtn closebtn-b m-ver"></span>
-                    <div class="flex_wrap submenuBg-box">
-                        <div class="Ingbanner-box">
+        <section class="gnb_submenuBg scroll_none"></section> <%-- background bim --%>   
+        <section class="submenuBg scroll_none">
+            <div class="wrap">
+                <span class="submenuBg-closeBtn closebtn closebtn-b m-ver"></span>
+                <div class="flex_wrap submenuBg-box">
+                    <div class="Ingbanner-box">
 
-                        </div>
-
-                        <ul class="subGnbmenu">
-                            <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
-                                <ul class="submenu submenu-part01">
-                                    <li id="menu_auction"><a href="/auction/progress">Current</a></li>
-                                    <li id="menu_upcoming"><a href="/auction/upcoming">Upcoming</a></li>
-                                    <li><a href="#">Result</a></li>
-                                </ul>
-                            </li>
-                            <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
-                                <ul class="submenu submenu-part02">
-                                    <li id="menu_exhibition"><a href="/privatesale/exhibit">Exhibition</a></li>
-                                    <li><a href="/privatesale/psList">Private Sale</a></li>
-                                    <li><a href="/privatesale/psGuide">Private Sale Guide</a></li>
-                                </ul>
-                            </li>
-                            <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>
-                                <ul class="submenu submenu-part03">
-                                    <li><a href="/sell/consignment">Consignment information</a></li>
-                                    <li><a href="/mypage/inquiryForm">Consignment application</a></li>
-                                </ul>
-                            </li>
-                            <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
-                                <ul class="submenu submenu-part04">
-                                    <li><a href="/service/loan">Art Collateral Loans</a></li>
-                                    <li><a href="/service/storage">Art Storage</a></li>
-                                    <li><a href="/service/showroom">Rental of Space</a></li>
-                                    <li><a href="/service/marketing">Art Consulting & <br>Corporate Marketing</a></li>
-                                </ul>
-                            </li>
-                            <li class="subGnbmenu-tit m-ver">
-                                    <span class="gnbmenu_arrow modebox">Light Mode
-                                        <label for="dark" class="mode-toggle">
-                                            <input type="checkbox" id="dark" name="dark">
-                                            <span class="mode-switch"></span>
-                                        </label>
-                                    </span>
-                            </li>
-                        </ul>
-                        <figure class="blacklotbox">
-                            <a href="https://www.blacklot.com/" target="_blank">
-                                <img src="/images/pc/thumbnail/gnb_blacklot.jpg" alt="blacklot">
-                            </a>
-                        </figure>
                     </div>
-                    <ul class="mobile-utility m-ver">
-                        <li id="mb_common_lang">
-                            <%--                            <c:if test="${empty cookie.lang.value || cookie.lang.value eq 'ko'}">--%>
-                            <%--                                <a href="${pageContext.request.contextPath}/?lang=en">ENG</a>--%>
-                            <%--                            </c:if>--%>
-                            <%--                            <c:if test="${cookie.lang.value eq 'en'}">--%>
-                            <%--                                <a href="${pageContext.request.contextPath}/?lang=ko">KO</a>--%>
-                            <%--                            </c:if>--%>
+
+                    <ul class="subGnbmenu">
+                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
+                            <ul class="submenu submenu-part01">
+                                <li id="menu_auction"><a href="/auction/progress">Current</a></li>
+                                <li id="menu_upcoming"><a href="/auction/upcoming">Upcoming</a></li>
+                                <li><a href="#">Result</a></li>
+                                <li><a href="/auction/info">Auction Guide</a></li>
+                            </ul>
                         </li>
-                        <li>
-                            <sec:authorize access="isAnonymous()"> <!-- !login -->
-                                <a href="/join" class="gnb_join">JOIN</a>
-                            </sec:authorize>
-                            <sec:authorize access="isAuthenticated()">
-                                <a href="/mypage/main" class="gnb_member">MY PAGE</a>
-                            </sec:authorize>
+                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
+                            <ul class="submenu submenu-part02">
+                                <li id="menu_exhibition"><a href="/privatesale/exhibit">Exhibition</a></li>
+                                <li><a href="/privatesale/psList">Private Sale</a></li>
+                                <li><a href="/privatesale/psGuide">Private Sale Guide</a></li>
+                            </ul>
                         </li>
-                        <li>
-                            <sec:authorize access="isAnonymous()">
-                                <a href="/login" class="gnb_login">LOGIN</a>
-                            </sec:authorize>
-                            <sec:authorize access="isAuthenticated()">
-                                <a class="gnb_logout"
-                                   onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')"
-                                >LOGOUT</a>
-                            </sec:authorize>
+                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>
+                            <ul class="submenu submenu-part03">
+                                <li><a href="/sell/consignment">Consignment information</a></li>
+                                <li><a href="/mypage/inquiryForm">Consignment application</a></li>
+                            </ul>
+                        </li>
+                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
+                            <ul class="submenu submenu-part04">
+                                <li><a href="/service/loan">Art Collateral Loans</a></li>
+                                <li><a href="/service/storage">Art Storage</a></li>
+                                <li><a href="/service/showroom">Rental of Space</a></li>
+                                <li><a href="/service/marketing">Art Consulting & <br>Corporate Marketing</a></li>
+                            </ul>
+                        </li>
+                        <li class="subGnbmenu-tit m-ver">
+                                <span class="gnbmenu_arrow modebox">Light Mode
+                                    <label for="dark" class="mode-toggle">
+                                        <input type="checkbox" id="dark" name="dark">
+                                        <span class="mode-switch"></span>
+                                    </label>
+                                </span>
                         </li>
                     </ul>
+                    <figure class="blacklotbox">
+                        <a href="https://www.blacklot.com/" target="_blank">
+                            <img src="/images/pc/thumbnail/gnb_blacklot.jpg" alt="blacklot">
+                        </a>
+                    </figure>
                 </div>
-            </section>
+                <ul class="mobile-utility m-ver">
+                    <li id="mb_common_lang">
+                        <%--                            <c:if test="${empty cookie.lang.value || cookie.lang.value eq 'ko'}">--%>
+                        <%--                                <a href="${pageContext.request.contextPath}/?lang=en">ENG</a>--%>
+                        <%--                            </c:if>--%>
+                        <%--                            <c:if test="${cookie.lang.value eq 'en'}">--%>
+                        <%--                                <a href="${pageContext.request.contextPath}/?lang=ko">KO</a>--%>
+                        <%--                            </c:if>--%>
+                    </li>
+                    <li>
+                        <sec:authorize access="isAnonymous()"> <!-- !login -->
+                            <a href="/join" class="gnb_join">JOIN</a>
+                        </sec:authorize>
+                        <sec:authorize access="isAuthenticated()">
+                            <a href="/mypage/main" class="gnb_member">MY PAGE</a>
+                        </sec:authorize>
+                    </li>
+                    <li>
+                        <sec:authorize access="isAnonymous()">
+                            <a href="/login" class="gnb_login">LOGIN</a>
+                        </sec:authorize>
+                        <sec:authorize access="isAuthenticated()">
+                            <a class="gnb_logout"
+                               onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')"
+                            >LOGOUT</a>
+                        </sec:authorize>
+                    </li>
+                </ul>
+            </div>
         </section>
     </nav>
 </header>

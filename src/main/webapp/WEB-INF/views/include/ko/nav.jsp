@@ -92,6 +92,7 @@
                                 <li id="menu_auction"><a href="/auction/progress">진행경매</a></li>
                                 <li id="menu_upcoming"><a href="/auction/upcoming">예정경매</a></li>
                                 <li><a href="/auction/results">경매결과</a></li>
+                                <li><a href="/auction/info ">경매안내</a></li>
                             </ul>
                         </li>
                         <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>

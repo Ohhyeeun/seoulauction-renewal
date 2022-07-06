@@ -36,6 +36,14 @@ public class ApiMypageController {
 	private final LoginService loginService;
 
 	/* 정회원 이력 */
+	@RequestMapping(value = "/member", method = RequestMethod.GET)
+	public ResponseEntity<RestResponse> member(
+			Principal principal, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		CommonMap commonMap = new CommonMap();
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectCustomerInfo(commonMap)));
+	}
+	
 	@RequestMapping(value = "/memberHistories", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> memberHistories(
 			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,

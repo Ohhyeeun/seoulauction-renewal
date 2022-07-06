@@ -767,7 +767,7 @@
                                                                                                 <li><em>(Zero Base Auction) Account :1005-403-971518</em></li>
                                                                                                 <li>Account Name : SEOUL AUCTION</li>
                                                                                                 <li>Swift code : HVBKKRSEXXX</li>
-                                                                                                <li><em>Inquiries</em> : (Phone) +82 (0)2-2075-4422 (Email) <a href="mainto: info@seoulauction.com">info@seoulauction.com</a></li>
+                                                                                                <li><em>Inquiries</em> : (Phone) +82 (0)2-2075-4422 (Email) <a href="mailto:info@seoulauction.com">info@seoulauction.com</a></li>
                                                                                                 <li>Business hours: (KST) 9:00-18:00</li>
                                                                                             </ul>
                                                                                             <p>When making an account transfer, please write the name of the successful bidder in the deposit memo section. If the name of the account holder and name of the bidder are not the same, the deposit confirmation may be delayed. Seoul Auction assumes no responsibility for any inconvenience that may arise from a discrepancy between the name of the account holder and the name of the bidder.</p>
