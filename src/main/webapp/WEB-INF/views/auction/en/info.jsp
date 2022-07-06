@@ -138,7 +138,7 @@
                                                                                     <div class="txt_area">
                                                                                         <p class="tb1">When registering as a member of the Seoul Auction website, please complete the form according to the membership registration procedure.</p>
                                                                                         <div class="btn_box">
-                                                                                            <a class="btn btn_default">
+                                                                                            <a class="btn btn_default" href="/join">
                                                                                                 <span>Sign Up</span>
                                                                                             </a>
                                                                                         </div>
@@ -146,7 +146,7 @@
                                                                                     <div class="txt_area">
                                                                                         <p class="tb1">If you already registered Associate member, you are able to pay yearly membership fee at Customer Type Career after log in. You would have a qualification of the Full Member.</p>
                                                                                         <div class="btn_box">
-                                                                                            <a class="btn btn_default">
+                                                                                            <a class="btn btn_default" href="/mypage/liveBidReqList">
                                                                                                 <span>My Seoul Auction – Customer Type</span>
                                                                                             </a>
                                                                                         </div>
@@ -228,7 +228,7 @@
                                                                                 <p class="tb1_1">It is unchangeable or cannot cancel after the bidding so please carefully when you submit the bid.</p>
                                                                             </div>
                                                                             <div class="btn_box">
-                                                                                <a class="btn btn_gray_line">
+                                                                                <a class="btn btn_gray_line" href="https://www.seoulauction.com/nas_img/front/homepage/202009_Absentee_Telephone BIDDING FORM.pdf" target="bidform">
                                                                                     <span>Absentee(Telephone/Written) Bidding Form</span>
                                                                                 </a>
                                                                             </div>
@@ -342,7 +342,7 @@
                                                                                     <dd class="tb1">When you inevitably need to withdraw the objects, the bidder should notify the intention of withdrawal with a document within 7 days from the day of successful bid.</dd>
                                                                                     <dd>
                                                                                         <div class="btn_box">
-                                                                                            <a class="btn btn_default">
+                                                                                            <a class="btn btn_default" href="/footer/terms" target="terms">
                                                                                                 <span>Terms</span>
                                                                                             </a>
                                                                                         </div>
@@ -392,6 +392,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
                                         </article>
                                     </div>
                                     <div class="tab-cont" id="tab-cont-2">
@@ -491,13 +492,14 @@
                                                                                 <div class="txt_area">
                                                                                     <div class="btn_set">
                                                                                         <div class="btn_box">
-                                                                                            <a class="btn btn_default">
+                                                                                            <a class="btn btn_default" href="/join">
                                                                                                 <span>Register</span>
                                                                                             </a>
                                                                                         </div>
 
                                                                                     </div>
                                                                                 </div>
+                                                                            </div>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
@@ -549,7 +551,7 @@
                                                                             <span class="tb1">If you use Internet Explorer, please verify your settings before the online auction begins.</span>
                                                                         </div>
                                                                         <div class="btn_box">
-                                                                            <a class="btn btn_gray_line">
+                                                                            <a class="btn btn_gray_line" href="https://www.seoulauction.com/images/img/online_ie_en.jpg" target="ie">
                                                                                 <span>How to enable the automatic refresh on the online auction page</span>
                                                                             </a>
                                                                         </div>

@@ -21,7 +21,7 @@
                         <span class="video-icon" ng-class="{'youtube':'video-icon-you', 'instagram':'video-icon-in'}[video.content_type]"></span>
                     </figure>
                     <p class="video-thmbtit text-over">
-                        {{video.content['ko'].media_title}}
+                        {{video.content['en'].media_title}}
                     </p>
                 </a>
             </div>

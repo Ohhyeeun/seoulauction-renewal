@@ -53,7 +53,7 @@
                         <h2 class="main-sectiontit sale-tit">Buy</h2>
                         <p>From membership registration to bidding,
                             anyone can easily participate in the auction.</p>
-                        <a href="#">Auction Guide</a>
+                        <a href="/auction/info">Auction Guide</a>
                     </figcaption>
                 </figure>
                 <figure class="sale-box">
@@ -62,7 +62,7 @@
                     <figcaption class="sale-boxinfo">
                         <h2 class="main-sectiontit sale-tit">Sell</h2>
                         <p>We look forward to your valuable work. Contact Seoul Auction.</p>
-                        <a href="#">Consignment information</a>
+                        <a href="/sell/consignment">Consignment information</a>
                     </figcaption>
                 </figure>
             </section>

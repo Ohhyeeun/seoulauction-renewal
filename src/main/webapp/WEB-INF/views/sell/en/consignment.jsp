@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<jsp:include page="../../include/ko/header.jsp" flush="false"/>
+<jsp:include page="../../include/en/header.jsp" flush="false"/>
 
 <body class="">
 <div class="wrapper">
     <div class="sub-wrap pageclass">
+
         <!-- header -->
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <!-- //header -->
@@ -16,7 +17,7 @@
                     <div class="section-inner full_size ">
                         <div class="center-box">
                             <h2 class="page_title"><span class="th1">How To Sell</span></h2>
-                            <div class="page_desc"><span class="tb1">위탁안내</span></div>
+                            <div class="page_desc"><span class="tb1"></span></div>
                         </div>
                     </div>
                 </section>
@@ -25,7 +26,6 @@
                     <div class="section-inner">
                         <div class="content-panel type_panel-consignment">
                             <div class="panel-body">
-
                                 <article class="consignment-area">
                                     <div class="article-body">
                                         <ul class="consignment_info">
@@ -34,10 +34,10 @@
                                                     <p class="img"><img src="/images/pc/thumbnail/SellBanner_01.jpg" alt="" /></p>
                                                     <dl>
                                                         <dt class="tt4">
-                                                            <span>글로벌</span>과 호흡하는 플랫폼
+                                                            <span>A global</span> communication platform
                                                         </dt>
                                                         <dd class="tb1">
-                                                            1998년 설립한 국내 최초이자 최대의 미술품 경매 회사 서울옥션은 국내 최고의 시장 점유율을 보유하고 있으며, 서울 평창동 본사와 강남 사옥, 부산 등지에 전시장을 갖추고 있습니다. 국내는 물론 홍콩에 상설 전시장 에스에이플러스(SA+)를 오픈해 언제든 자유롭게 글로벌 컬렉터들이 찾는 플랫폼으로 진화하고 있습니다.
+                                                            Founded in 1998 as Korea’s first and largest art auction house, Seoul Auction holds the largest share of the art market in Korea. Its headquarters is located in Pyeongchang-dong, Seoul, and it has exhibition spaces in Gangnam and Busan. It also has a permanent exhibition space (SA+) in Hong Kong. Seoul Auction is evolving into a platform that is accessible to collectors worldwide.
                                                         </dd>
                                                     </dl>
                                                 </div>
@@ -47,10 +47,10 @@
                                                     <p class="img"><img src="/images/pc/thumbnail/SellBanner_02.jpg" alt="" /></p>
                                                     <dl>
                                                         <dt class="tt4">
-                                                            <span>20년 노하우</span>의 집약체
+                                                            The culmination of <span>20 years of experience</span>
                                                         </dt>
                                                         <dd class="tb1">
-                                                            서울옥션은 20년동안 경매를 이어오며 미술품 가치의 새로운 기준을 제시했습니다. 각 분야별 스페셜리스트들이 당신의 작품을 세심하게 평가해 아트마켓에서 최상의 가치를 인정받을 수 있도록 도와드리겠습니다. 여러분에게도 다양한 도시와 공간에서 많은 고객들에게 작품을 선보일 수 있는 기회가 열려 있습니다.
+                                                            While hosting auctions over the last 20 years, Seoul Auction has created new standards for art appreciation. Specialists in a wide range of fields help us meticulously assess your artwork at the highest possible value in the art market. We also offer opportunities to feature artworks in diverse cities and spaces.
                                                         </dd>
                                                     </dl>
                                                 </div>
@@ -60,10 +60,10 @@
                                                     <p class="img"><img src="/images/pc/thumbnail/SellBanner_03.jpg" alt="" /></p>
                                                     <dl>
                                                         <dt class="tt4">
-                                                            기록을 <span>뛰어넘는 순간</span>
+                                                            <span>Record-breaking moments</span>
                                                         </dt>
                                                         <dd class="tb1">
-                                                            서울옥션은 수많은 경매를 통해 국내 및 해외 작가의 다양한 신기록을 보유하고 있습니다. 한국작가 중 최고가격을 보유한 김환기는 물론 이중섭, 박수근의 신기록 모두 서울옥션에서 탄생했습니다. 백자, 대호, 민화, 서화 등 다양한 한국 고미술품도 서울옥션에서 뛰어난 가치를 인정받았습니다.
+                                                            Seoul Auction has set multiple records (for both Korean and foreign artists) through countless auctions. The current (as of March 2019) price records for several Korean artists, including Kim WhanKi, Lee JungSeob, and Park SooKeun, were all set with Seoul Auction. Diverse works of ancient Korean art (moon jars, minhwa, seohwa, etc.) have also been recognized at Seoul Auction for their outstanding value.
                                                         </dd>
                                                     </dl>
                                                 </div>
@@ -74,19 +74,17 @@
 
                                 <article class="consignment-area">
                                     <div class="article-header">
-                                        <div class="title"><span class="tt2">위탁절차</span></div>
+                                        <div class="title"><span class="tt2">Consignment</span></div>
                                     </div>
                                     <div class="article-body">
                                         <div class="cont-sub">
                                             <div class="sell_item-title">
                                                 <div class="step">STEP 01</div>
-                                                <div class="title">신청접수</div>
+                                                <div class="title">Reception of Commission Application</div>
                                             </div>
 
                                             <div class="info_txt tb1">
-                                                한국 근현대 및 고미술 그리고 해외미술에 이르기까지 파트별 스페셜리스트들은 위탁 및 출품 과정을 고객의 관점에서 성심성의껏 진행하고 있습니다. <br class="only-pc" />
-                                                분기별 1회이상 진행하는 메이져경매를 비롯하여 온라인경매, 기획경매 등 다양한 경매를 통해 고객님의 소중한 작품을 모시고자 합니다. <br class="only-pc" />
-                                                원하시는 작품을 출품하기 위해서는 위탁 신청을 진행해주셔야 합니다.
+                                                Seoul Auction's professionals in diverse categories of art, including Korean Contemporary and modern art, antiques as well as other high quality artworks from around the world put their utmost effort to each and every procedure of auctions we hold from our clients' point of view. We will do best to take care your precious works through major Off-line Auction, which is operated more than single time at every season, Online Auction and Special Auction.
                                             </div>
 
                                             <div class="sell_item-area">
@@ -96,7 +94,7 @@
                                                             <img src="/images/mobile/sell/icon-sell_sendemail.png" alt="이메일접수">
                                                         </div>
                                                         <div class="title ft_b">
-                                                            <b class="tt4">이메일 접수</b>
+                                                            <b class="tt4">EMAIL</b>
                                                         </div>
                                                     </div>
                                                     <div class="item-body">
@@ -105,34 +103,33 @@
                                                                 <i class="icon-sell_mail"></i>
                                                             </div>
                                                             <b class="ft_m">
-                                                                <a href="mailto:art@seoulauction.com" target="_blank" class="colorB2">art@seoulauction.com</a> (미술품 경매팀)
+                                                                <a href="mailto:art@seoulauction.com" target="_blank" class="colorB2">art@seoulauction.com</a> (art work Auction Team)
                                                             </b>
                                                         </div>
                                                         <dl class="tb1">
                                                             <!-- [0516]굵기변경 //-->
-                                                            <dt class="colorB2 ft_sb ">메일제목</dt>
+                                                            <dt class="colorB2 ft_sb ">Mail Title</dt>
                                                             <dd class="">
-                                                                작품위탁_고객님 성함 (ex: 작품위탁_홍길동)
+                                                                Consignment_Your Name
                                                             </dd>
                                                             <!-- [0516]굵기변경 //-->
-                                                            <dt class="colorB2 ft_sb ">메일내용</dt>
+                                                            <dt class="colorB2 ft_sb ">Mail Content</dt>
                                                             <dd class="">
                                                                 <ul>
-                                                                    <li>1. 고객님 성함</li>
-                                                                    <li>2. 연락처</li>
-                                                                    <li>3. 작가 이름</li>
-                                                                    <li>4. 작품 제목</li>
-                                                                    <li>5. 사이즈 / 재질 / 제작년도</li>
-                                                                    <li>6. 소장경위</li>
-                                                                    <li>7. 작품사진 - 전체컷, 싸인 등의 부분컷(중요부분)</li>
+                                                                    <li>1. Name</li>
+                                                                    <li>2. Contact Number</li>
+                                                                    <li>3. Artist Name</li>
+                                                                    <li>4. Title of Item</li>
+                                                                    <li>5. Size / Medium / Year</li>
+                                                                    <li>6. Process of Possession</li>
+                                                                    <li>7. Photos (Entire appearance, signature, or any importance part)</li>
                                                                 </ul>
                                                             </dd>
                                                         </dl>
                                                         <div class="refer">
                                                             <ul class="dot_list tb2">
                                                                 <li>
-                                                                    보내주신 이메일로 위탁관련 대한 답변을 드립니다.
-                                                                    위탁을 요청하시는 <span class="ft_sb colorB2">고객님 본인의 성함을 이메일 제목</span>에 적어주세요.
+                                                                    We will reply by your inquiry of consignment email. Please write your name on email title who want to consign the items.
                                                                 </li>
                                                             </ul>
                                                         </div>
@@ -145,26 +142,26 @@
                                                             <img src="/images/mobile/sell/icon-sell_website.png" alt="홈페이지 접수">
                                                         </div>
                                                         <div class="title">
-                                                            <b class="tt4">홈페이지 접수</b>
+                                                            <b class="tt4">Homepage Reception</b>
                                                         </div>
                                                     </div>
                                                     <div class="item-body">
                                                         <p class="tb1">
-                                                            <strong>로그인 후 1대1문의</strong>를 통해 작품 위탁신청이 가능합니다.
+                                                            <strong>Work commission application is possible through 1:1 inquiry after Log-In.</strong>
                                                         </p>
                                                         <p class="tb1">
                                                         <div class="btn-box">
-                                                            <a class="btn btn_gray_line btn_sm" href="/mypage/inquiryForm" role="button"><span>위탁 신청</span></a>
+                                                            <a class="btn btn_gray_line btn_sm" href="/mypage/inquiryForm" role="button"><span>1:1 Inquiry</span></a>
                                                         </div>
                                                         </p>
 
                                                         <div class="refer">
                                                             <ul class="dot_list tb2">
                                                                 <li>
-                                                                    서울옥션 담당자가 확인 후 답변을 드립니다.
+                                                                    SeoulAuction Staffer will give you an answer after confirmation.
                                                                 </li>
                                                                 <li>
-                                                                    답변은 <a href="/mypage/inquiryForm" class="ft_sb colorB2">회원정보 > 1:1문의</a>에서 확인하실 수 있습니다.
+                                                                    You can confirm the answer in <a href="/mypage/inquiryForm" class="ft_sb colorB2">Member information > 1:1 Inquiry</a>
                                                                 </li>
                                                             </ul>
                                                         </div>
@@ -177,11 +174,11 @@
                                         <div class="cont-sub">
                                             <div class="sell_item-title">
                                                 <div class="step">STEP 02</div>
-                                                <div class="title">심의</div>
+                                                <div class="title">Deliberation</div>
                                             </div>
 
                                             <div class="info_txt tb1">
-                                                접수된 작품은 각 파트별 스페셜리스트를 통해 서면심의가 진행되며 접수일로부터 7일정도에 보내주신 이메일 또는 1대1문의로 결과를 통보하게 됩니다.
+                                                The applied objects operates deliberation of documents through the specialist and you will get the result of notification by 1:1 or email within the date of reception to 7 days.
                                             </div>
 
                                             <div class="sell_item-area">
@@ -194,8 +191,8 @@
                                                                         <i class="icon-sell_email"></i>
                                                                     </div>
                                                                     <dl class="tb1">
-                                                                        <dt>위탁문의 이메일</dt>
-                                                                        <dd><a href="mailto:art@seoulauction.com">art@seoulauction.com</a></dd>
+                                                                        <dt>Commission inquiry email</dt>
+                                                                        <dd><a href="mailto:info@seoulauction.com">info@seoulauction.com</a></dd>
                                                                     </dl>
                                                                 </div>
                                                             </li>
@@ -205,25 +202,28 @@
                                                                         <i class="icon-sell_phone"></i>
                                                                     </div>
                                                                     <dl class="tb1">
-                                                                        <dt>대표전화</dt>
-                                                                        <dd><a href="tel:02-395-0330">02-395-0330</a> 미술품 경매팀</dd>
-                                                                    </dl>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="li-inner">
-                                                                    <div class="icon-box">
-                                                                        <i class="icon-sell_member"></i>
-                                                                    </div>
-                                                                    <dl class="tb1">
-                                                                        <dt>미술품경매사업부 경매1팀 정태희 팀장</dt>
-                                                                        <dd>
-                                                                            <a href="tel:02-2075-4480">02-2075-4480</a>
-                                                                            <a href="mailto:jth2319@seoulauction.com">jth2319@seoulauction.com</a>
+                                                                        <dt>HEAD OFFICE. SEOUL</dt>
+                                                                        <dd><a href="tel:82-2-2075-4422">+82(0)2-2075-4422 (English)</a> <br><a href="tel:82-2-2075-4391">+82(0)2-2075-4391 (中國語)</a>
                                                                         </dd>
                                                                     </dl>
                                                                 </div>
                                                             </li>
+                                                            <!-- 2단으로
+                            <li>
+                              <div class="li-inner">
+                                <div class="icon-box">
+                                  <i class="icon-sell_member"></i>
+                                </div>
+                                <dl class="tb1">
+                                  <dt>미술품경매사업부 경매1팀 정태희 팀장</dt>
+                                  <dd>
+                                    02-2075-4480
+                                    <a href="mailtp:jth2319@seoulauction.com" target="_blank">jth2319@seoulauction.com</a>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </li>
+                            //-->
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -233,9 +233,8 @@
                                         <div class="cont-sub">
                                             <div class="sell_item-title">
                                                 <div class="step">STEP 03</div>
-                                                <div class="title">감정 및 계약</div>
+                                                <div class="title">Arrange for a Valuation and Contract of Consignment</div>
                                             </div>
-
                                             <div class="sell_item-area">
                                                 <div class="sell-box">
                                                     <div class="item-inner">
@@ -246,7 +245,7 @@
                                                                 </div>
                                                                 <dl class="">
                                                                     <dt>01</dt>
-                                                                    <dd>서면 심의를 마친 작품에 대해<br /> 담당자와 상의
+                                                                    <dd>Consult with staff about <br>the work after <br />the deliberation of documents.
                                                                     </dd>
                                                                 </dl>
                                                             </li>
@@ -256,7 +255,7 @@
                                                                 </div>
                                                                 <dl class="">
                                                                     <dt>02</dt>
-                                                                    <dd>실물을 서울옥션에 입고<br />(위탁자가 운송)
+                                                                    <dd>Bring the real works <br>to Seoul Auction<br />(A consignor need transport)
                                                                     </dd>
                                                                 </dl>
                                                             </li>
@@ -266,7 +265,7 @@
                                                                 </div>
                                                                 <dl class="">
                                                                     <dt>03</dt>
-                                                                    <dd>실물 감정절차</dd>
+                                                                    <dd>Arrange for a valuation</dd>
                                                                 </dl>
                                                             </li>
                                                             <li>
@@ -275,7 +274,7 @@
                                                                 </div>
                                                                 <dl class="">
                                                                     <dt>04</dt>
-                                                                    <dd>위탁자와 함께 출품가(내정가)를<br /> 결정하며 위탁계약서를 작성</dd>
+                                                                    <dd>Determine the reserve price <br>with consignor and contract the document of consignment.</dd>
                                                                 </dl>
                                                             </li>
                                                         </ul>
@@ -287,25 +286,27 @@
                                         <div class="cont-sub">
                                             <div class="sell_item-title">
                                                 <div class="step">STEP 04</div>
-                                                <div class="title">대금 지급</div>
+                                                <div class="title">Payment of Commission fee after Winning Bid</div>
                                             </div>
                                             <div class="info_txt tb1">
-                                                경매를 통해 출품작이 낙찰되면 출품 담당자를 통해 위탁자와 낙찰자 동시에 낙찰통보서를 발송하게 됩니다. 낙찰자를 통해 낙찰 대금이 완납되면 작품은 낙찰자에게 인도되며 위탁대금을 지급하게 됩니다. 낙찰된 작품에는 소정의 위탁수수료가 부과됩니다.
+                                                When the art works/objects get the winning bid through the auction, a letter of notification will dispatch to the consignor and the successful bidder at the same time by our team. When the purchase price completely paid by the winning bidder, the work will deliver to the winning bidder and pay the price of consignment. A bit of price of consignment will impose from the work of successful bid.
                                             </div>
 
                                             <div class="sell_item-area">
                                                 <div class="sell-box">
                                                     <div class="item-inner">
+
                                                         <div class="onebox_step">
                                                             <div class="icon-box">
                                                                 <img src="/images/mobile/sell/icon-sell_charge.png" alt="위탁 수수료">
                                                             </div>
                                                             <dl class="colorB2">
-                                                                <dt class="tt4">위탁 수수료</dt>
+                                                                <dt class="tt4">Commission Fee</dt>
                                                                 <dd class="">
-                                                                    <span class="colorD tb1">낙찰가의 10%(부가가치세 별도)를 적용합니다. </span>
+                                                                    <span class="colorD tb1">Apply 10%(VAT excluded)of winning price.</span>
                                                                     <span class="notice tb2">
-                                                                            (양도세 부과: 2013년도부터 양도가액 6,000만원 이상인 것을 대상으로 하며, 단, 양도일 현재 생존해 있는 국내 작가의 작품은 제외됩니다. 자세한 사항은 서울옥션 약관(제 9조)을 참조해주시기 바랍니다.)
+                                                                            (Impose transfer tax: It targets the item whose transfer tax is over 60 million won from 2013. but it does not apply to the works made by living artists.
+                                                                            Please read the detail information at Terms and Conditions (Article 10) ).
                                                                         </span>
                                                                 </dd>
                                                             </dl>
@@ -325,7 +326,7 @@
         <!-- //container -->
 
         <!-- footer -->
-        <jsp:include page="../../include/ko/footer.jsp" />
+        <jsp:include page="../../include/en/footer.jsp" />
         <!-- //footer -->
 
         <!-- stykey -->
@@ -337,7 +338,6 @@
         <!-- // stykey -->
     </div>
 </div>
-
 </body>
 
 </html>
