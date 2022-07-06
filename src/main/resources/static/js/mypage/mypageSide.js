@@ -10,6 +10,52 @@ app.controller('myPageCtl', function($scope, consts, common, ngDialog) {
 	window.open('/customer/TermCheckPop?locale='+$scope.locale,'popup','width=720,height=750,toobar=0,resizable=yes,status=0,scrollbars=0,left=500,top=100');
 //	window.open('/customer/payRegularRequest','popup','width=720,height=750,toobar=0,resizable=yes,status=0,scrollbars=0');
 	}
+	
+	$scope.loadMemberInfo = function(){
+	 axios.get('/api/mypage/member' , null)
+        .then(function(response) {
+            const result = response.data;
+            let success = result.success;
+            if(!success){
+                alert(result.data.msg);
+            } else {
+            	console.log(result.data);
+            	$scope.userRole = result.data.USER_ROLE;
+            	$scope.validDate = result.data.VALID_DATE;
+            	$scope.$apply();        		
+            } 
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+	}
+	
+	var popup_marketing1 = $(".js-popup_memlv2_record").trpLayerFixedPopup("#popup_memlv2_record-wrap");
+    var popup_tooltip = $(".js-popup_tooltip").trpLayerFixedPopup("#popup_tooltip-wrap");
+    
+		$scope.showMemHisPopup = function(){
+        popup_marketing1.open(this); // or false   
+        popup_fixation("#popup_memlv2_record-wrap"); // pc 스크롤
+        popup_motion_open("#popup_memlv2_record-wrap"); // mb 모션 
+        
+        $("body").on("click", "#popup_memlv2_record-wrap .js-closepop, #popup_memlv2_record-wrap .popup-dim", function($e) {
+        $e.preventDefault();
+        popup_marketing1.close();
+        popup_motion_close("#popup_memlv2_record-wrap");
+   		 });
+	}
+	
+	$scope.showTooltip = function(){
+	   	popup_tooltip.open(this); // or false   
+	    popup_fixation("#popup_tooltip-wrap"); // pc 스크롤
+	    popup_motion_open("#popup_tooltip-wrap"); // mb 모션 
+        
+		$("body").on("click", "#popup_tooltip-wrap .js-closepop, #popup_tooltip-wrap .popup-dim", function($e) {
+		    $e.preventDefault();
+		    popup_tooltip.close();
+		    popup_motion_close("#popup_tooltip-wrap");
+		});
+	}
 });
 
 app.controller('myPageCtlPopup', function($scope, consts, common, ngDialog) {
@@ -17,7 +63,6 @@ app.controller('myPageCtlPopup', function($scope, consts, common, ngDialog) {
 	 axios.get('/api/mypage/memberHistories' , null)
         .then(function(response) {
             const result = response.data;
-
             let success = result.success;
             if(!success){
                 alert(result.data.msg);

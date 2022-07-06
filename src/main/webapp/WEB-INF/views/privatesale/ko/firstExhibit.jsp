@@ -9,15 +9,7 @@
         <!-- header -->
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <!-- //header -->
-        <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-        <script type="text/javascript" src="/js/angular/checklist-model.js"></script>
-        <script type="text/javascript" src="/js/angular/rzslider.min.js"></script>
-        <script type="text/javascript" src="/js/private_sale/firstExhibit.js" type="text/javascript"></script>
-
-        <script type="text/javascript">
-            app.value('locale', 'ko');
-        </script>
-
+<%--        <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
         <!-- container -->
         <div id="container">
             <div id="contents" class="contents">
@@ -237,6 +229,14 @@
 <!-- [0516]삭제
 <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 -->
+
+<script type="text/javascript" src="/js/angular/checklist-model.js"></script>
+<script type="text/javascript" src="/js/angular/rzslider.min.js"></script>
+<script type="text/javascript" src="/js/private_sale/firstExhibit.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    app.value('locale', 'ko');
+</script>
 
 <!-- tab menu -->
 <script>

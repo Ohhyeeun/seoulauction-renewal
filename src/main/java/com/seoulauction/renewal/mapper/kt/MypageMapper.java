@@ -11,6 +11,8 @@ public interface MypageMapper {
 	
 	List<CommonMap> selectCustomerCustpayList(CommonMap commonMap);
 	
+	CommonMap selectCustomerInfo(CommonMap commonMap);
+	
     List<CommonMap> selectAcademyList(CommonMap commonMap);
     
     int selectAcademyCnt(CommonMap commonMap);

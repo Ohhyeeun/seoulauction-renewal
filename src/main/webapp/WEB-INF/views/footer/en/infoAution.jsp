@@ -175,7 +175,7 @@
                                                                                                 <i class="icon-inquiry only-pc"></i>
                                                                                                 <span class="tb1">Question regarding to Full Membership</span>
                                                                                             </dt>
-                                                                                            <dd class="tb1">Tell +82-2-2075-4422</dd>
+                                                                                            <dd class="tb1">Tell <a href="tel:82-2-2075-4422">+82-2-2075-4422</a></dd>
                                                                                             <dd class="tb1"><span>E-mail</span> <a href="mailto:info@seoulauction.com"> info@seoulauction.com</a></dd>
                                                                                         </dl>
                                                                                     </div>
@@ -382,7 +382,7 @@
                                                                                 <li>After payment is confirmed, delivery is possible.
                                                                                     <p>You can pick it up directly at Head Office.</p>
                                                                                 </li>
-                                                                                <li><em>Inquiry</em> : +82(0)2-2075-4422 (English), +82(0)2-2075-4391 (中國語)(Head Office)<br>
+                                                                                <li><em>Inquiry</em> : <a href="tel:82-2-2075-4422">+82(0)2-2075-4422</a> (English), <a href="tel:82-2-2075-4391">+82(0)2-2075-4391</a> (中國語)(Head Office)<br>
                                                                                     Operation time : Mon~Fri 9:00-17:00 (lunch time 12:00-1:00)</li>
                                                                             </ol>
                                                                         </div>
@@ -767,7 +767,7 @@
                                                                                                 <li><em>(Zero Base Auction) Account :1005-403-971518</em></li>
                                                                                                 <li>Account Name : SEOUL AUCTION</li>
                                                                                                 <li>Swift code : HVBKKRSEXXX</li>
-                                                                                                <li><em>Inquiries</em> : (Phone) +82 (0)2-2075-4422 (Email) <a href="mainto: info@seoulauction.com">info@seoulauction.com</a></li>
+                                                                                                <li><em>Inquiries</em> : (Phone) <a href="tel:82-2-2075-4422">+82 (0)2-2075-4422</a> (Email) <a href="mailto:info@seoulauction.com">info@seoulauction.com</a></li>
                                                                                                 <li>Business hours: (KST) 9:00-18:00</li>
                                                                                             </ul>
                                                                                             <p>When making an account transfer, please write the name of the successful bidder in the deposit memo section. If the name of the account holder and name of the bidder are not the same, the deposit confirmation may be delayed. Seoul Auction assumes no responsibility for any inconvenience that may arise from a discrepancy between the name of the account holder and the name of the bidder.</p>
@@ -844,7 +844,7 @@
                                                                             <li>Additional fee is charged for individual shipping, mountainous, remotes areas, Jeju Island and overseas.</li>
                                                                             <li>Additional fee is paid to the on-site employee who does the installation and artworks that require additional personnel for installation.<br>
                                                                                 (Quotation will be provided in advance)</li>
-                                                                            <li>Inquiry: +82 (0)2-2075-4404</li>
+                                                                            <li>Inquiry: <a href="tel:82-2-2075-4404">+82 (0)2-2075-4404</a></li>
                                                                             <li>Overseas: Estimated on request</li>
                                                                         </ul>
                                                                     </div>

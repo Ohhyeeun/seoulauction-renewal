@@ -101,7 +101,7 @@
                                                     <div class="manager-box"> <span>홍보마케팅팀</span> <em>김서영 선임</em> </div>
                                                     <div class="contact-box">
                                                         <ul>
-                                                            <li><span>T.</span> <em>02-2075-4434</em></li>
+                                                            <li><span>T.</span> <a href="tel:02-2075-4434"><em>02-2075-4434</em></a></li>
                                                             <li><span>E.</span> <a href="mailto:kmj714@seoulauction.com"><em>kmj714@seoulauction.com</em></a></li>
                                                         </ul>
                                                     </div>

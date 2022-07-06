@@ -63,9 +63,9 @@
                                                                     <div class="product-infobox-inner">
                                                                         <div class="thumb-area">
                                                                             <figure class="img-ratio">
-                                                                                <div class="img-align">
+                                                                                <a href="#" class="img-align"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
                                                                                      <img src="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}" alt="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}">
-                                                                                </div>
+                                                                                </a>
                                                                             </figure>
                                                                         </div>
                                                                         <div class="text-area">

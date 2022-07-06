@@ -55,13 +55,13 @@
 										</c:if>
 										<c:if test="${error == 'Stop User' || sessionScope.STOP_USER == 'true'}">
 											<p>! 이용제한 아이디 입니다.<br>
-											서비스 이용을 원하시면 고객센터(02-395-0330 / <br class="only-pc">
-											sos@seoulauction.com)로 연락바랍니다.</p>
+												서비스 이용을 원하시면 고객센터(<a href="tel:02-395-0330">02-395-0330</a> / <br class="only-pc">
+												<a href="mailto:sos@seoulauction.com">sos@seoulauction.com</a>)로 연락바랍니다.</p>
 										</c:if>
 										<c:if test="${error == 'Not Certify User' || sessionScope.NOT_CERTIFY_USER == 'true'}">
 											<p>회원가입 후 이메일 인증이 되지 않은 아이디 입니다.<br>
 											가입 시 입력한 이메일 주소로 전송된 메일을 확인하시고 인증을 진행해 주세요.<br>
-											인증 메일이 오지 않았다면 고객센터(02-395-0330 / info@seoulauction.com)로 연락바랍니다<br>
+												인증 메일이 오지 않았다면 고객센터(<a href="tel:02-395-0330">02-395-0330</a> / <a href="mailto:info@seoulauction.com">info@seoulauction.com</a>)로 연락바랍니다<br>
 											</p>
 										</c:if>
 									</div>

@@ -39,7 +39,7 @@
 
             <p class="bottom-p-spacing20">
                 CEO : Lee Ok-Kyung   Tax Registration No : 101-81-46818   E-commerce Registration : Jong-Ro No. 01-2173<br>
-                11, Pyeongchang 31-gil, Jongno-gu, Seoul, Korea   T. +82-02-395-0330<br>
+                11, Pyeongchang 31-gil, Jongno-gu, Seoul, Korea   T. <a href="tel:82-02-395-0330">+82-02-395-0330</a><br>
                 ⓒ Seoul Auction Corp.
             </p>
             <p>
