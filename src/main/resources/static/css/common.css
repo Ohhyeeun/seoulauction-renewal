@@ -669,12 +669,12 @@ img::selection {
     -ms-transition: ease .2s;
 }
 .bubble-box,
-.search-bubble-box {
+.search-bubble-box { 
     width: 142px;
     border: 1px solid #b0b0b0;
     padding: 10px 0;
     position: absolute;
-    z-index: 3;
+    z-index: 11;
     top: 41px;
     left: -114%;
     background: #fff;
