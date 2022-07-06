@@ -26,7 +26,7 @@
                         <div class="padding-inner">
                             <article class="auction_head_info-article">
                                 <div class="center-box ing">
-                                    <h2 class="page_title"><span class="th1">{{sale.SALE_TH | localeOrdinal}} {{sale.TITLE_JSON['ko']}}</span>
+                                    <h2 class="page_title"><span class="th1">{{sale.SALE_TH | localeOrdinal}} {{sale.TITLE_JSON.ko}}</span>
                                     </h2>
                                     <ul class="event_day-list">
                                         <li><span class="colorB2">프리뷰</span><span class=""> : {{sale.PREV_FROM_DT | date:'MM.dd'+'('+getWeek(sale.PREV_FROM_DT)+')'}} - {{sale.PREV_TO_DT| date:'MM.dd'+'('+getWeek(sale.PREV_TO_DT)+')'}}</span>
@@ -179,7 +179,7 @@
                                                         </a>
                                                     </figure>
                                                 </div>
-                                                <div class="typo-area" ng-show="item.DISP_YN === 'Y'">
+                                                <div class="typo-area">
                                                     <div class="product_info">
                                                         <div class="num_heart-box">
                                                             <span class="num">{{item.LOT_NO}}</span>
@@ -222,23 +222,23 @@
                                                             </dl>
                                                         </div>
                                                         <div class="bidding-box">
-                                                            <div class="deadline_set"><span>{{item.BID_TICK}}</span>
+                                                            <div class="deadline_set"><span ng-bind="item.BID_TICK"></span>
                                                             </div>
                                                             <div class="btn_set"><a name="open_popup"
                                                                                     class="btn btn_point"
                                                                                     href="javascript:void(0);"
                                                                                     ng-click="popSet(item.SALE_NO,item.LOT_NO, user_id, cust_no);"
-                                                                                    role="button"><span>응찰</span></a>
+                                                                                    role="button"><span  ng-bind="item.BID_TICK_BTN">응찰</span></a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="product_cancle-area">
+                                                <div class="product_cancle-area" >
                                                     <div class="area-inner">
                                                         <i class="icon-cancle_box"></i>
                                                         <div class="typo">
                                                             <div class="name"><span>LOT {{item.LOT_NO}}</span></div>
-                                                            <div class="msg"><span>출물이 취소되었습니다.</span></div>
+                                                            <div class="msg"><span>출품이 취소되었습니다.</span></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -413,7 +413,7 @@
         $scope.itemsize = 20;
         $scope.curpage = 1;
 
-        $scope.onStateCostTxt = "";
+
 
         $scope.is_sale_cert = false;
         $scope.cust_hp = "";
@@ -435,7 +435,7 @@
         }];
 
         $scope.modelViewType = [{
-            name: "페이징 방식", value: 1
+            name: "페이지 방식", value: 1
         }, {
             name: "더보기 방식", value: 2
         }];
@@ -556,7 +556,9 @@
                 return
             }
 
-            const is_sale_cert = $scope.is_sale_cert;
+            let is_sale_cert = $scope.is_sale_cert;
+
+            is_sale_cert = true;
 
             if (!is_sale_cert) {
                 popup_offline_payment.open(this); // or false
@@ -957,7 +959,7 @@
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
                         if (parseInt($scope.saleInfoAll[i].SALE_NO) === d.message.bid[len - 1].customer.sale_no && parseInt($scope.saleInfoAll[i].LOT_NO) === d.message.bid[len - 1].customer.lot_no) {
                             $scope.saleInfoAll[i].START_PRICE = "KRW " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR');
-                            $scope.saleInfoAll[i].BID_COUNT = "(응찰 " + d.message.bid[len - 1].bid_count + ")";
+                            $scope.saleInfoAll[i].BID_COUNT = "(응찰" + d.message.bid[len - 1].bid_count + ")";
                             $scope.saleInfoAll[i].CUR_COST = curCostValue;
                             if (d.message.bid[len - 1].bid_count > 0) {
                                 $scope.saleInfoAll[i].onStateCostTxt = "현재가"
@@ -970,7 +972,7 @@
                     for (let i = 0; i < $scope.searchSaleInfoAll.length; i++) {
                         if (parseInt($scope.searchSaleInfoAll[i].SALE_NO) === d.message.bid[len - 1].customer.sale_no && parseInt($scope.searchSaleInfoAll[i].LOT_NO) === d.message.bid[len - 1].customer.lot_no) {
                             $scope.searchSaleInfoAll[i].START_PRICE = "KRW " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR');
-                            $scope.searchSaleInfoAll[i].BID_COUNT = "(응찰 " + d.message.bid[len - 1].bid_count + ")";
+                            $scope.searchSaleInfoAll[i].BID_COUNT = "(응찰" + d.message.bid[len - 1].bid_count + ")";
                             $scope.searchSaleInfoAll[i].CUR_COST = curCostValue;
                             if (d.message.bid[len - 1].bid_count > 0) {
                                 $scope.searchSaleInfoAll[i].onStateCostTxt = "현재가"
@@ -991,7 +993,7 @@
                     let bid_new_cost = document.getElementById("bid_new_cost");
 
                     bid.innerText = curCostValue
-                    bid_cnt.innerText = "(응찰 " + d.message.bid[len - 1].bid_count + ")"
+                    bid_cnt.innerText = "(응찰" + d.message.bid[len - 1].bid_count + ")"
 
                     end_bid_time = d.message.bid[len - 1].end_bid_time;
                     quote_unit.innerText = "KRW " + d.message.bid[len - 1].bid_quote.toLocaleString('ko-KR');
@@ -1156,10 +1158,14 @@
                             diffSec = ""
                         }*/
                         $scope.searchSaleInfoAll[j].BID_TICK = diffDay + diffHour + ":" + diffMin + ":" + diffSec;
+                        $scope.searchSaleInfoAll[j].BID_TICK_BTN = "응찰하기"
                         //현재 일이 종료일보다 큰 경우
                     } else if ($scope.searchSaleInfoAll[j].END_DT < d.message.tick_value) {
-                        $scope.onStateCostTxt = "낙찰가";
+                        if ($scope.searchSaleInfoAll[j].bid_count > 0){
+                            $scope.searchSaleInfoAll[j].onStateCostTxt = "낙찰가";
+                        }
                         $scope.searchSaleInfoAll[j].BID_TICK = "경매가 종료되었습니다."
+                        $scope.searchSaleInfoAll[j].BID_TICK_BTN = "경매결과 보기"
                     }
                 }
                 for (let j = 0; j < $scope.saleInfoAll.length; j++) {
@@ -1197,9 +1203,14 @@
                             diffSec = ""
                         }*/
                         $scope.saleInfoAll[j].BID_TICK = diffDay + diffHour + ":" + diffMin + ":" + diffSec;
+                        $scope.saleInfoAll[j].BID_TICK_BTN = "응찰하기"
                     //현재 일이 종료일보다 큰 경우
                     } else if ($scope.saleInfoAll[j].END_DT < d.message.tick_value) {
+                        if ($scope.saleInfoAll[j].bid_count > 0){
+                            $scope.saleInfoAll[j].onStateCostTxt = "낙찰가";
+                        }
                         $scope.saleInfoAll[j].BID_TICK = "경매가 종료되었습니다."
+                        $scope.saleInfoAll[j].BID_TICK_BTN = "경매결과 보기"
                     }
                 }
 
@@ -1316,7 +1327,6 @@
                                             dt_ly.setAttribute("class", "product-day");
 
                                             let dt_ly_span1 = document.createElement("em");
-                                            console.log(bid_info.winner_state, bid_hist_info[i].value.length - 1,  j)
                                             if (bid_info.winner_state === 2 && bid_hist_info[i].value.length - 1 === j) {
                                                 // type
                                                 dt_ly_span1.setAttribute("class", "type-success");
@@ -1384,12 +1394,13 @@
                                 bid_tick.innerText = "경매 시작 전입니다.";
                             } else if (end_bid_time < new Date().getTime()) {
                                 bid_tick.innerText = "경매가 종료 되었습니다.";
+                                document.getElementById("bid_new_cost").innerText = "경매가 종료되었습니다.";
                             }
-                            let bid_lst = document.getElementById("bid_lst");
+                            /*let bid_lst = document.getElementById("bid_lst");
                             let dt_ly_span1 = document.createElement("em");
                             dt_ly_span1.setAttribute("class", "type-success");
                             dt_ly_span1.innerText = "낙찰";
-                            bid_lst.firstChild.childNodes[2].insertBefore(dt_ly_span1, bid_lst.firstChild.childNodes[2].firstChild);
+                            bid_lst.firstChild.childNodes[2].insertBefore(dt_ly_span1, bid_lst.firstChild.childNodes[2].firstChild);*/
                         }
                     }
                     if (d.message.reservation_bid != null) {
@@ -1438,7 +1449,7 @@
                             // 현재가
                             $scope.saleInfoAll[j].CUR_COST = curCostValue;
                             // 응찰 수
-                            $scope.saleInfoAll[j].BID_COUNT = "(응찰 : " + $scope.bidsInfoAll[idx].bid_count + ")";
+                            $scope.saleInfoAll[j].BID_COUNT = "(응찰" + $scope.bidsInfoAll[idx].bid_count + ")";
                             // 종료일
                             $scope.saleInfoAll[j].END_DT = $scope.bidsInfoAll[idx].end_bid_time;
                             if ($scope.bidsInfoAll[idx].bid_count > 0) {
@@ -1454,6 +1465,12 @@
                                     $scope.saleInfoAll[j].BID_TICK = "경매 시작 전입니다.";
                                 } else if ($scope.bidsInfoAll[idx].end_bid_time <= new Date().getTime()) {
                                     $scope.saleInfoAll[j].BID_TICK = "경매가 종료 되었습니다.";
+                                    $scope.saleInfoAll[j].BID_TICK_BTN = "경매결과 보기";
+                                }
+                                if ($scope.bidsInfoAll[idx].bid_count > 0) {
+                                    $scope.saleInfoAll[j].onStateCostTxt = "낙찰가"
+                                } else {
+                                    $scope.saleInfoAll[j].onStateCostTxt = ""
                                 }
                                 $scope.bidsInfoAll[idx].IS_END_BID = true;
                             }
@@ -1491,6 +1508,7 @@
                     for (let j = 0; j < $scope.saleInfoAll.length; j++) {
                         if ($scope.saleInfoAll[j].SALE_NO === d.message.sale_no && $scope.saleInfoAll[j].LOT_NO === d.message.lot_no) {
                             $scope.saleInfoAll[j].BID_TICK = "경매가 종료 되었습니다.";
+                            $scope.saleInfoAll[j].BID_TICK_BTN = "경매결과 보기";
                             // 현재 랏정보
                             $scope.CUR_LOT_NO = d.message.cur_lot_no;
                             for (let j = 0; j < $scope.saleInfoAll.length; j++) {
@@ -1584,9 +1602,9 @@
 
                     // lot 추정가 낮은 순
                     v.sort(function (a, b) {
-                        if (a.EXPE_PRICE_TO_JSON.KRW > b.EXPE_PRICE_TO_JSON.KRW) return 1;
-                        if (a.EXPE_PRICE_TO_JSON.KRW === b.EXPE_PRICE_TO_JSON.KRW) return 0;
-                        if (a.EXPE_PRICE_TO_JSON.KRW < b.EXPE_PRICE_TO_JSON.KRW) return -1;
+                        if (a.EXPE_PRICE_FROM_JSON.KRW > b.EXPE_PRICE_FROM_JSON.KRW) return 1;
+                        if (a.EXPE_PRICE_FROM_JSON.KRW === b.EXPE_PRICE_FROM_JSON.KRW) return 0;
+                        if (a.EXPE_PRICE_FROM_JSON.KRW < b.EXPE_PRICE_FROM_JSON.KRW) return -1;
                     });
                     break;
                 case 4:

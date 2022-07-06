@@ -30,10 +30,10 @@
                                         <div class="row-box">
                                             <div class="col_item">
                                                 <div class="page_title">
-                                                    <a href="#" onclick="window.history.back()" title="뒤로가기">
+                                                    <a href="/auction/list/{{saleInfo.SALE_NO}}" title="뒤로가기">
                                                         <i class="icon-page_back"></i>
                                                     </a>
-                                                    <span ng-bind="saleInfo.SALE_TITLE_KO"></span>
+                                                    <span ng-bind="sale | title"></span>
                                                 </div>
                                             </div>
                                             <div class="col_item">
@@ -182,7 +182,7 @@
                                             <div class="artist-area">
                                                 <div class="name">
                                                     <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT"></strong>
-                                                    <span></span>
+                                                    <span ng-bind="'b.' + lotInfo.BORN_YEAR">b.1990</span>
                                                 </div>
                                                 <div class="desc">
                                                     <span class="text-over span_block"
@@ -199,8 +199,8 @@
                                                     <dd id="start_cost"><!--WEB SOCKET--></dd>
                                                 </dl>
                                                 <dl class="price-list">
-                                                    <dt>현재가</dt>
-                                                    <dd><strong id="cur_cost"><!--WEB SOCKET--></strong><em
+                                                    <dt id="cur_cost_text2">현재가</dt>
+                                                    <dd><strong id="cur_cost" ng-bind=""><!--WEB SOCKET--></strong><em
                                                             id="bid_cnt">(응찰 <!--WEB SOCKET-->)</em></dd>
                                                 </dl>
                                                 <dl class="price-list">
@@ -226,7 +226,7 @@
                                                             <a class="btn btn_black btn_2 btn_lg js-popup_alert1"
                                                                role="button">
                                                                 <em>현재가 기준</em>
-                                                                <strong>1,584,000</strong>
+                                                                <strong id="cost_add_vat"></strong>
                                                             </a>
                                                         </div>
                                                     </div>
@@ -501,7 +501,7 @@
                                     </div>
                                     <div class="product-list-area">
                                         <div class="list-header">
-                                            <div class="price-name"><span>현재가</span></div>
+                                            <div class="price-name"><span id="cur_cost_text">현재가</span></div>
                                             <div class="price-amount"><em id="bid_cost_val"></em> <span
                                                     id="bid_cost_cnt"></span></div>
                                         </div>
@@ -725,6 +725,20 @@
 
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
 
+    // 현재가 처리
+    app.filter('title', function(locale){
+        return function(val, l) {
+            if(!l) l = locale;
+            if (val != "")
+            {
+                if(l == "ko" ) return "제" + val.SALE_TH + "회" + " " + val.TITLE_JSON.ko;
+                var s = ["th","st","nd","rd"],
+                    v = val.SALE_TH % 100;
+                return val.SALE_TH+(s[(v-20)%10]||s[v]||s[0]) + " " + val.TITLE_JSON.ko;
+            }
+        };
+    })
+
     app.controller('ctl', function ($scope, consts, common, is_login, locale, $filter) {
 
         $scope.is_login = is_login;
@@ -736,6 +750,8 @@
 
         $scope.is_sale_cert = false;
         $scope.cust_hp = "";
+
+        $scope.onStateCostTxt = "";
 
         // 호출 부
         const getSaleInfo = (saleNo) => {
@@ -813,6 +829,14 @@
             }
         }
 
+        const setSale = (saleNo) => {
+            try {
+                return axios.get('/api/auction/sales/' + saleNo);
+            } catch (error) {
+                    console.error(error);
+            }
+        }
+
         $scope.popSet = function (saleNo, lotNo, userId, custNo) {
             if (sessionStorage.getItem("is_login") === 'false') {
                 let login_message = (getCookie('lang') === "" || getCookie('lang') === 'ko') ?
@@ -822,7 +846,10 @@
                 return
             }
 
-            const is_sale_cert = $scope.is_sale_cert;
+            let is_sale_cert = $scope.is_sale_cert;
+
+            is_sale_cert = true;
+
             if (!is_sale_cert) {
                 popup_offline_payment.open(this); // or false
                 popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
@@ -905,66 +932,59 @@
             alert('URL이 복사되었습니다.');
         }
 
-        $scope.setSale = async function (saleNo) {
-            await axios.get('/api/auction/sales/' + saleNo)
-                .then(function (response) {
-                    if (response.data.success) {
-                        $scope.sale = response.data.data;
-                        $scope.sale.TITLE_JSON = JSON.parse($scope.sale.TITLE_JSON);
-                        $scope.sale.buttonList.map(item => {
-                            item.content = JSON.parse(item.content);
-                        });
-
-                        var S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
-                        var S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
-                        var FROM_DT = $filter('date')($scope.sale.FROM_DT, 'yyyyMMdd');
-                        var TO_DT = $filter('date')($scope.sale.TO_DT, 'yyyyMMdd');
-                        var END_DT = $filter('date')($scope.sale.END_DT, 'yyyyMMddHHmm');
-                        var LIVE_START_DT = $filter('date')($scope.sale.LIVE_BID_DT, 'yyyyMMddHHmm');
-                        // 오프라인 경매인 경우에는 SALE.TO_DT는 YYYY.MM.DD로 체크. 비교 서버시간은 S_DB_NOW_D (YDH. 2016.10.05)
-
-                        //라이브 응찰 시간 체크
-                        $scope.liveEnd = TO_DT;
-                        $scope.nowTime = S_DB_NOW;
-                        $scope.liveStartDt = LIVE_START_DT;
-                        $scope.liveCheckDt = S_DB_NOW;
-
-                        if (FROM_DT > S_DB_NOW && END_DT > S_DB_NOW) {
-                            $scope.sale_status = "READY";
-                        } else if (FROM_DT <= S_DB_NOW && END_DT >= S_DB_NOW) {
-                            $scope.sale_status = "ING";
-                        } else {
-                            $scope.sale_status = "END";
-
-                            if (sessionStorage.getItem("is_login") === 'false') {
-                                alert("권한이 없거나 허용되지 않은 접근입니다.");
-                                //history_back();
-                            }
-                        }
-                        $scope.$apply();
-                    }
-                });
-        }
-
         // 호출 부
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3, r4, _, r6] = await Promise.all([getSaleInfo($scope.sale_no),
+                let [r1, r2, r3, r4, _, r6, r7] = await Promise.all([getSaleInfo($scope.sale_no),
                     getLotInfo($scope.sale_no, $scope.lot_no),
                     getLotImages($scope.sale_no, $scope.lot_no),
                     getSaleImages($scope.sale_no, $scope.lot_no),
                     insertRecentlyView($scope.sale_no, $scope.lot_no),
-                    getRecentlyView($scope.sale_no, $scope.lot_no)]);
+                    getRecentlyView($scope.sale_no, $scope.lot_no),
+                    setSale($scope.sale_no)]);
 
                 $scope.saleInfo = r1.data.data;
                 $scope.lotInfo = r2.data.data;
                 $scope.lotImages = r3.data.data;
                 $scope.saleImages = r4.data.data;
+
                 $scope.estimatedRange = $scope.lotInfo.BASE_EXPE_FROM_PRICE + ' ~ '
                     + $scope.lotInfo.BASE_EXPE_TO_PRICE;
 
                 $scope.recentlyViews = r6.data.data;
 
+                $scope.sale = r7.data.data;
+
+                $scope.sale.TITLE_JSON = JSON.parse($scope.sale.TITLE_JSON);
+                $scope.sale.buttonList.map(item => {
+                    item.content = JSON.parse(item.content);
+                });
+
+                let S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
+                let S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
+                let FROM_DT = $filter('date')($scope.sale.FROM_DT, 'yyyyMMdd');
+                let TO_DT = $filter('date')($scope.sale.TO_DT, 'yyyyMMdd');
+                let END_DT = $filter('date')($scope.sale.END_DT, 'yyyyMMddHHmm');
+                let LIVE_START_DT = $filter('date')($scope.sale.LIVE_BID_DT, 'yyyyMMddHHmm');
+
+                //라이브 응찰 시간 체크
+                $scope.liveEnd = TO_DT;
+                $scope.nowTime = S_DB_NOW;
+                $scope.liveStartDt = LIVE_START_DT;
+                $scope.liveCheckDt = S_DB_NOW;
+
+                if (FROM_DT > S_DB_NOW && END_DT > S_DB_NOW) {
+                    $scope.sale_status = "READY";
+                } else if (FROM_DT <= S_DB_NOW && END_DT >= S_DB_NOW) {
+                    $scope.sale_status = "ING";
+                } else {
+                    $scope.sale_status = "END";
+
+                    if (sessionStorage.getItem("is_login") === 'false') {
+                        alert("권한이 없거나 허용되지 않은 접근입니다.");
+                        //history_back();
+                    }
+                }
                 //artist 번호
                 $scope.artistNo = $scope.lotInfo.ARTIST_NO;
                 console.log("125540", $scope.artistNo);
@@ -984,7 +1004,7 @@
                 startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2,
                     '${member.loginId}', $scope.cust_no);
 
-                await $scope.setSale($scope.sale_no);
+                //await $scope.setSale($scope.sale_no);
                 //get sale cert
                 if (sessionStorage.getItem("is_login") === 'true') {
                     if($scope.sale_status == "ING"){
@@ -1514,12 +1534,18 @@
                     "KRW " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR') :
                     "KRW " + d.message.bid[len - 1].bid_cost.toLocaleString('ko-KR');
 
+                let cost_add_vat = (d.message.bid[len - 1].bid_cost === 0)?  d.message.bid[len - 1].open_bid_cost :
+                    d.message.bid[len - 1].bid_cost * 1.198;
+
+                document.getElementById("cost_add_vat").innerText = cost_add_vat.toLocaleString('ko-KR');
+
                 start_cost.innerText = "KRW " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR');
                 bid_cnt2.innerText = "(응찰" + d.message.bid[len - 1].bid_count + ")"
                 cur_cost.innerText = curCostValue;
                 //end_date_time2.innerText = new Date(d.message.bid[len - 1].end_bid_time).format('MM/dd(E) hh:mm');
 
                 bid.innerText = curCostValue
+
                 bid_cnt.innerText = "(응찰" + d.message.bid[len - 1].bid_count + ")"
 
                 end_bid_time = d.message.bid[len - 1].end_bid_time;
@@ -1667,8 +1693,8 @@
                 } else {
                     diffSec += "초"
                 }*/
-                bid_tick.innerText = diffDay + diffHour + ":" + diffMin + ":" + diffSec + " 남았습니다.";
-                bid_tick_main.innerText = diffDay + diffHour + ":" + diffMin + ":" + diffSec + " 남았습니다.";
+                bid_tick.innerText = diffDay + diffHour + ":" + diffMin + ":" + diffSec;
+                bid_tick_main.innerText = diffDay + diffHour + ":" + diffMin + ":" + diffSec;
             } else if (end_bid_time <= 0) {
                 bid_tick.innerText = "경매 시작 전입니다.";
                 bid_tick_main.innerText = "경매 시작 전입니다.";
@@ -1678,6 +1704,9 @@
             }
 
         } else if (d.msg_type == packet_enum.bid_info_init) {
+
+            document.getElementById("cur_cost_text").innerText = "현재가";
+            document.getElementById("cur_cost_text2").innerText = "현재가";
 
             if (d.message.bids != null && d.message.bids.length > 0) {
                 let bid_info = d.message.bids[0];
@@ -1697,6 +1726,12 @@
                 let curCostValue = (bid_info.bid_cost === 0) ?
                     "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR') :
                     "KRW " + bid_info.bid_cost.toLocaleString('ko-KR');
+
+
+                let cost_add_vat = (bid_info.bid_cost === 0)?  bid_info.open_bid_cost :
+                    bid_info.bid_cost * 1.198;
+
+                document.getElementById("cost_add_vat").innerText = cost_add_vat.toLocaleString('ko-KR');
 
                 start_cost.innerText = "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR');
                 bid_cnt2.innerText = "(응찰" + bid_info.bid_count + ")"
@@ -1811,6 +1846,8 @@
                                         // type
                                         dt_ly_span1.setAttribute("class", "type-success");
                                         dt_ly_span1.innerText = "낙찰";
+                                        document.getElementById("cur_cost_text").innerText = "낙찰가";
+                                        document.getElementById("cur_cost_text2").innerText = "낙찰가";
                                     }
 
                                     // date
@@ -1836,6 +1873,9 @@
                             }
                         }
                     }
+                } else {
+                    document.getElementById("cur_cost_text").innerText = "";
+                    document.getElementById("cur_cost_text2").innerText = "";
                 }
                 // 낙찰이 완료 되었다면
                 if (bid_info.winner_state === 2) {
@@ -1849,12 +1889,12 @@
                         bid_tick_main.innerText = "경매가 종료 되었습니다.";
                     }
 
-                    let bid_lst = document.getElementById("bid_lst");
+                    /*let bid_lst = document.getElementById("bid_lst");
                     let dt_ly_span1 = document.createElement("em");
                     dt_ly_span1.setAttribute("class", "type-success");
                     dt_ly_span1.innerText = "낙찰";
                     bid_lst.firstChild.childNodes[2].insertBefore(dt_ly_span1, bid_lst.firstChild.childNodes[2].firstChild);
-
+                    */
                     is_end_bid = true;
                     w.close();
                 }
@@ -1876,7 +1916,8 @@
                     let dt_ly_span1 = document.createElement("em");
                     dt_ly_span1.setAttribute("class", "type-success");
                     dt_ly_span1.innerText = "낙찰";
-
+                    document.getElementById("cur_cost_text").innerText = "낙찰가";
+                    document.getElementById("cur_cost_text2").innerText = "낙찰가";
 
                     bid_lst.firstChild.childNodes[2].insertBefore(dt_ly_span1, bid_lst.firstChild.childNodes[2].firstChild);
                 }

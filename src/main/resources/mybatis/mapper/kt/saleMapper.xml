@@ -13,6 +13,7 @@
     </select>
     <select id="selectSaleInfo" resultType="CommonMap" parameterType="commonMap">
         select S.SALE_NO
+        , S.SALE_TH
         , S.SALE_KIND_CD
         , IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH
         , IF(S.SALE_TH_DSP_YN = 'N', '', f_ordinal_number(S.SALE_TH)) SALE_TH_DSP
@@ -207,7 +208,7 @@
         order by LI.LOT_NO, LI.DISP_ORD
     </select>
     <select id="selectSaleLotImages" resultType="CommonMap" parameterType="commonMap">
-        select B.SALE_NO     SALE_NO,
+        SELECT B.SALE_NO     SALE_NO,
                B.LOT_NO      LOT_NO,
                C.FILE_PATH   FILE_PATH,
                C.FILE_NAME   FILE_NAME,
@@ -228,11 +229,12 @@
                                   '"CANVAS_EXT_YN":"', ifnull(D.CANVAS_EXT_YN, 'N'), '"',
                                   '}')
                    , ']') AS LOT_SIZE_JSON
-        from LOT B
-                 INNER JOIN LOT_IMG C ON B.SALE_NO = C.SALE_NO AND B.LOT_NO = C.LOT_NO AND C.DISP_ORD = 1
-                 LEFT OUTER JOIN LOT_SIZE D ON D.SALE_NO = B.SALE_NO AND D.LOT_NO = B.LOT_NO
+        FROM SALE A
+        INNER JOIN LOT B ON A.SALE_NO = B.SALE_NO
+        INNER JOIN LOT_IMG C ON B.SALE_NO = C.SALE_NO AND B.LOT_NO = C.LOT_NO AND C.DISP_ORD = 1
+        LEFT OUTER JOIN LOT_SIZE D ON D.SALE_NO = B.SALE_NO AND D.LOT_NO = B.LOT_NO
         WHERE B.SALE_NO =  #{sale_no}
-          AND B.CLOSE_YN = 'N'
+          AND B.CLOSE_YN = 'N' AND B.STAT_CD = 'entry'
         GROUP BY B.SALE_NO, B.LOT_NO, C.FILE_PATH, C.FILE_NAME
         ORDER BY B.LOT_NO ASC;
     </select>
@@ -630,6 +632,7 @@
 
     <select id="selectSaleList" parameterType="CommonMap" resultType="CommonMap">
         SELECT A.SALE_NO,
+               A.SALE_TH,
                COLUMN_JSON(A.TITLE_BLOB)           SALE_TITLE_JSON,
                B.LOT_NO,
                COLUMN_JSON(B.TITLE_BLOB)           LOT_TITLE_JSON,
