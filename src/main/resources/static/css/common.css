@@ -2197,6 +2197,9 @@ body.dark,
         width: calc(100% - 50px); 
         right: 25px;
     }
+    .Familysite-selectbox:lang(en) {
+        top: 260px;
+    }
     /* 1023 다크모드 */
     .topsearch>input.dark {
         background-color: transparent;

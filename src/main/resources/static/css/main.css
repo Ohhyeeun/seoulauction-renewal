@@ -348,7 +348,7 @@
     margin-bottom: 40px;
 }
 .auction-thumbbox {
-    background-color: #ededed;
+    background-color: #f6f6f6;
     display: flex;
     justify-content: center;
     margin-right:1.25em;
@@ -738,7 +738,7 @@
     flex-basis: 1330px;
     -ms-flex-basis: 1330px;
     padding: 50px 70px 56px 69px;
-    background-color: #ededed;
+    background-color: #f6f6f6;
     margin-right: 20px;
     flex-grow: 2;
 }
