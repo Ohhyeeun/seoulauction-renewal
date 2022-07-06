@@ -46,14 +46,14 @@
                                                         <i class="icon-tel_g"></i>
                                                         <ul>
                                                             <li><span>문의 : </span>
-                                                                <span> 02-2075-4422</span><span>, </span>
-                                                                <span> 02-545-0330</span>
+                                                                <span> <a href="tel:02-2075-4422">02-2075-4422</a></span><span>, </span>
+                                                                <span> <a href="tel:02-545-0330">02-545-0330</a></span>
                                                                 <span> (강남센터)</span>
                                                             </li>
                                                         </ul>
                                                     </div>
                                                 </article>
-                                                <article class="academy-list-wrap">
+                                                <article class="academy-list-wrap"  ng-if="academyCnt != 0">
                                                     <div class="table-wrap pc-ver">
                                                         <table class="table_base data-table academy-list">
                                                             <thead>
@@ -75,9 +75,6 @@
                                                                     <td ng-if="art.CANCEL_YN == 'Y'"><a class="pay">결제취소</a></td>
                                                                     <td>{{art.REG_DT | date:'yyyy-MM-dd'}}</td>
                                                                 </tr>
-                                                            <tbody  ng-if="academyCnt == 0">
-                                                                <tr ><td colspan="4" class="tac">내역이 존재하지 않습니다.</td></tr>
-                                                            </tbody>
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -127,6 +124,11 @@
 														    text-last-class="icon-page_nextnext next_end page_btn sp_btn btn_next">
 														</paging>				
 													</div>
+                                                </article>
+                                                <article class="academy-list-wrap" ng-if="academyCnt == 0">
+                                                    <div class="data-empty">
+                                                        <p class="txt_empty">신청 내역이 존재하지 않습니다.</p>
+                                                    </div>
                                                 </article>
                                             </div>
                                         </div>

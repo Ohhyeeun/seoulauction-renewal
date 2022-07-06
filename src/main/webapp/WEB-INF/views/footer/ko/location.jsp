@@ -50,10 +50,10 @@
                                                                         <b>지번 주소</b> 서울특별시 종로구 평창동 98번지
                                                                     </li>
                                                                     <li class="tb1">
-                                                                        <b>Tel</b> 02-395-0330
+                                                                        <b>Tel</b> <a href="tel:02-395-0330">02-395-0330</a>
                                                                     </li>
                                                                     <li class="tb1">
-                                                                        <b>Fax</b> 02-395-0338
+                                                                        <b>Fax</b> <a href="tel:02-395-0338">02-395-0338</a>
                                                                     </li>
                                                                 </ul>
                                                             </dd>
@@ -123,7 +123,7 @@
                                                                         <b>Fax</b> +852-2537-2810
                                                                     </li>
                                                                     <li class="tb1">
-                                                                        <b>E-mail</b> info@seoulauction.com.hk
+                                                                        <b>E-mail</b> <a href="mailto:info@seoulauction.com.hk">info@seoulauction.com.hk</a>
                                                                     </li>
                                                                 </ul>
                                                             </dd>

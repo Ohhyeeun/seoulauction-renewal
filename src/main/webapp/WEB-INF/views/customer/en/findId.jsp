@@ -32,12 +32,12 @@
                                         <span class="trp radio-box">
                                             <input id="radio2-1" type="radio" name="radioSet2" value="email" checked>
                                             <i></i>
-                                            <label for="radio2-2">Email</label>
+                                            <label for="radio2-1">Email</label>
                                         </span>
                                         <span class="trp radio-box">
                                            <input id="radio2-2" type="radio" name="radioSet2" value="phone" >
                                             <i></i>
-                                            <label for="radio2-1">Mobile</label>
+                                            <label for="radio2-2">Mobile</label>
                                         </span>
                                     </div>
                                     <div class="js-menuType-body">
@@ -142,7 +142,7 @@
                             <ul class="tb2 mark_dot-list">
                                 <li>For privacy protection, some IDs are marked with *.</li>
                                 <li>If your ID is not verified, please check your name and e-mail entered during registration and check again.</li>
-                                <li>If you cannot find your ID, please email info@seoulauction.com.</li>
+                                <li>If you cannot find your ID, please email <a href="mailto:info@seoulauction.com">info@seoulauction.com</a>.</li>
                             </ul>
                         </div>
                         <article class="button-area confirm_btn">

@@ -106,7 +106,7 @@
                                                 <div class="con-area">
                                                     <span class="faq">A.</span>
                                                     <div class="faq_cont tb1">
-                                                        art@seoulauction.com<br>
+                                                        <a href="mailto:art@seoulauction.com">art@seoulauction.com</a><br>
                                                         <br>
                                                         Please send the types of information listed below to art@seoulauction.com. The information you provide will be conveyed to the respective specialist, who will provide you with the relevant details.<br>
                                                         1. Name 2. Phone number 3. Title of artwork 4. Size of artwork 5. Description of how the artwork came into your possession 6. Photos of artwork (full and partial views, showing the signature, important parts, etc.)<br>
@@ -132,7 +132,7 @@
                                                 <div class="info-guide">
                                                     <div class="contact-box">
                                                         <ul>
-                                                            <li><span>T.</span> <em>82+(0)2-395-0330</em></li>
+                                                            <li><span>T.</span> <a href="tel:82-2-395-0330"><em>82+(0)2-395-0330</em></a></li>
                                                             <li><span>E.</span> <a href="mailto:info@seoulauction.com"><em>info@seoulauction.com</em></a></li>
                                                         </ul>
                                                     </div>

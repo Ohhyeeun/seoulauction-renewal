@@ -11,8 +11,7 @@
 <sec:authentication property="Details.validDate" var="validDate"/> 
 
 <!-- 마이페이지 싸이드 메뉴 -->
-
-<aside class="aside-area"  ng-controller="myPageCtl">
+<aside class="aside-area"  ng-controller="myPageCtl" ng-init="loadMemberInfo()">
 	<div class="aside-inner">
 		<div class="mem-infobox-wrap">
 			<div class="mem-name-wrap">
@@ -25,11 +24,11 @@
 			</span><span class="tt4"></span>
 			</div>
 			
-			<sec:authorize access="hasRole('ROLE_REGULAR_USER')">
-			<div class="mem-info-wrap">
+			
+			<div class="mem-info-wrap" ng-if="userRole=='1'">
 				<div class="mem-lv-box">
 					 <div class="mem-lv lv-2">Subscription Member</div>
-					 <div class="mem-period">${validDate}</div>
+					 <div class="mem-period">{{validDate}}</div>
 				</div>
 				<div class="mem-record-box">
 					<a href="#" class="record-button js-popup_memlv2_record" ng-click="showMemHisPopup(this);">Membership History</a> 
@@ -38,9 +37,8 @@
 					</a>
 				</div>
 			</div>
-			</sec:authorize>
-			<sec:authorize access="hasRole('ROLE_ASSOCIATE_USER')"> 
-        	<div class="mem-info-wrap">
+
+        	<div class="mem-info-wrap" ng-if="userRole=='0'">
 				<div class="mem-lv-box">
 					 <div class="mem-lv lv-1">Associate Member</div>
 				</div>
@@ -51,14 +49,13 @@
 					</a>
 				</div>
 			</div>
-			<div class="mem-button-wrap">
-			<a href="/payment/member">
+			<div class="mem-button-wrap" ng-if="userRole=='0'">
+			<a href="#">
 				<button class="btn btn_point btn_lg" type="button" >
 					<span>SeoulAuction Membership</span>
 				</button>
 			</a>
 			</div>     
-        </sec:authorize>  
 		</div>
         
                        

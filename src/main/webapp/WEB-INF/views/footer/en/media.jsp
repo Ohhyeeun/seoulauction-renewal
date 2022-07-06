@@ -94,7 +94,7 @@
                                                     <div class="manager-box"> <span>PR Marketing Team</span> <em>S.Y Kim</em> </div>
                                                     <div class="contact-box">
                                                         <ul>
-                                                            <li><span>T.</span> <em>+82(0)2-2075-4434</em></li>
+                                                            <li><span>T.</span> <a href="tel:82-2-2075-4434"><em>+82(0)2-2075-4434</em></a></li>
                                                             <li><span>E.</span> <a href="mailto:kmj714@seoulauction.com"><em>kmj714@seoulauction.com</em></a></li>
                                                         </ul>
                                                     </div>

@@ -138,7 +138,7 @@
                                                                                     <div class="txt_area">
                                                                                         <p class="tb1">When registering as a member of the Seoul Auction website, please complete the form according to the membership registration procedure.</p>
                                                                                         <div class="btn_box">
-                                                                                            <a class="btn btn_default">
+                                                                                            <a class="btn btn_default" href="/join">
                                                                                                 <span>Sign Up</span>
                                                                                             </a>
                                                                                         </div>
@@ -146,7 +146,7 @@
                                                                                     <div class="txt_area">
                                                                                         <p class="tb1">If you already registered Associate member, you are able to pay yearly membership fee at Customer Type Career after log in. You would have a qualification of the Full Member.</p>
                                                                                         <div class="btn_box">
-                                                                                            <a class="btn btn_default">
+                                                                                            <a class="btn btn_default" href="/mypage/liveBidReqList">
                                                                                                 <span>My Seoul Auction – Customer Type</span>
                                                                                             </a>
                                                                                         </div>
@@ -175,7 +175,7 @@
                                                                                                 <i class="icon-inquiry only-pc"></i>
                                                                                                 <span class="tb1">Question regarding to Full Membership</span>
                                                                                             </dt>
-                                                                                            <dd class="tb1">Tell +82-2-2075-4422</dd>
+                                                                                            <dd class="tb1">Tell <a href="tel:82-2-2075-4422">+82-2-2075-4422</a></dd>
                                                                                             <dd class="tb1"><span>E-mail</span> <a href="mailto:info@seoulauction.com"> info@seoulauction.com</a></dd>
                                                                                         </dl>
                                                                                     </div>
@@ -228,7 +228,7 @@
                                                                                 <p class="tb1_1">It is unchangeable or cannot cancel after the bidding so please carefully when you submit the bid.</p>
                                                                             </div>
                                                                             <div class="btn_box">
-                                                                                <a class="btn btn_gray_line">
+                                                                                <a class="btn btn_gray_line" href="https://www.seoulauction.com/nas_img/front/homepage/202009_Absentee_Telephone BIDDING FORM.pdf" target="bidform">
                                                                                     <span>Absentee(Telephone/Written) Bidding Form</span>
                                                                                 </a>
                                                                             </div>
@@ -342,7 +342,7 @@
                                                                                     <dd class="tb1">When you inevitably need to withdraw the objects, the bidder should notify the intention of withdrawal with a document within 7 days from the day of successful bid.</dd>
                                                                                     <dd>
                                                                                         <div class="btn_box">
-                                                                                            <a class="btn btn_default">
+                                                                                            <a class="btn btn_default" href="/footer/terms" target="terms">
                                                                                                 <span>Terms</span>
                                                                                             </a>
                                                                                         </div>
@@ -382,7 +382,7 @@
                                                                                 <li>After payment is confirmed, delivery is possible.
                                                                                     <p>You can pick it up directly at Head Office.</p>
                                                                                 </li>
-                                                                                <li><em>Inquiry</em> : +82(0)2-2075-4422 (English), +82(0)2-2075-4391 (中國語)(Head Office)<br>
+                                                                                <li><em>Inquiry</em> : <a href="tel:82-2-2075-4422">+82(0)2-2075-4422</a> (English), <a href="tel:82-2-2075-4391">+82(0)2-2075-4391</a> (中國語)(Head Office)<br>
                                                                                     Operation time : Mon~Fri 9:00-17:00 (lunch time 12:00-1:00)</li>
                                                                             </ol>
                                                                         </div>
@@ -392,6 +392,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
                                         </article>
                                     </div>
                                     <div class="tab-cont" id="tab-cont-2">
@@ -491,13 +492,14 @@
                                                                                 <div class="txt_area">
                                                                                     <div class="btn_set">
                                                                                         <div class="btn_box">
-                                                                                            <a class="btn btn_default">
+                                                                                            <a class="btn btn_default" href="/join">
                                                                                                 <span>Register</span>
                                                                                             </a>
                                                                                         </div>
 
                                                                                     </div>
                                                                                 </div>
+                                                                            </div>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
@@ -549,7 +551,7 @@
                                                                             <span class="tb1">If you use Internet Explorer, please verify your settings before the online auction begins.</span>
                                                                         </div>
                                                                         <div class="btn_box">
-                                                                            <a class="btn btn_gray_line">
+                                                                            <a class="btn btn_gray_line" href="https://www.seoulauction.com/images/img/online_ie_en.jpg" target="ie">
                                                                                 <span>How to enable the automatic refresh on the online auction page</span>
                                                                             </a>
                                                                         </div>
@@ -767,7 +769,7 @@
                                                                                                 <li><em>(Zero Base Auction) Account :1005-403-971518</em></li>
                                                                                                 <li>Account Name : SEOUL AUCTION</li>
                                                                                                 <li>Swift code : HVBKKRSEXXX</li>
-                                                                                                <li><em>Inquiries</em> : (Phone) +82 (0)2-2075-4422 (Email) <a href="mainto: info@seoulauction.com">info@seoulauction.com</a></li>
+                                                                                                <li><em>Inquiries</em> : (Phone) <a href="tel:82-2-2075-4422">+82 (0)2-2075-4422</a> (Email) <a href="mailto:info@seoulauction.com">info@seoulauction.com</a></li>
                                                                                                 <li>Business hours: (KST) 9:00-18:00</li>
                                                                                             </ul>
                                                                                             <p>When making an account transfer, please write the name of the successful bidder in the deposit memo section. If the name of the account holder and name of the bidder are not the same, the deposit confirmation may be delayed. Seoul Auction assumes no responsibility for any inconvenience that may arise from a discrepancy between the name of the account holder and the name of the bidder.</p>
@@ -844,7 +846,7 @@
                                                                             <li>Additional fee is charged for individual shipping, mountainous, remotes areas, Jeju Island and overseas.</li>
                                                                             <li>Additional fee is paid to the on-site employee who does the installation and artworks that require additional personnel for installation.<br>
                                                                                 (Quotation will be provided in advance)</li>
-                                                                            <li>Inquiry: +82 (0)2-2075-4404</li>
+                                                                            <li>Inquiry: <a href="tel:82-2-2075-4404">+82 (0)2-2075-4404</a></li>
                                                                             <li>Overseas: Estimated on request</li>
                                                                         </ul>
                                                                     </div>

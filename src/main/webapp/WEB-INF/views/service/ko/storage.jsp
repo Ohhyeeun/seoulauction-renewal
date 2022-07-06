@@ -540,7 +540,7 @@
                                                 <div class="manager-box"> <span>서울옥션 보관고팀</span> <em>김경순 팀장</em> </div>
                                                 <div class="contact-box">
                                                     <ul>
-                                                        <li><span>T.</span> <em>010-4703-0481</em></li>
+                                                        <li><span>T.</span> <a href="tel:010-4703-0481"><em>010-4703-0481</em></a></li>
                                                         <li><span>E.</span> <a href="mailto:kks@seoulauction.com"><em>kks@seoulauction.com</em></a></li>
                                                     </ul>
                                                 </div>

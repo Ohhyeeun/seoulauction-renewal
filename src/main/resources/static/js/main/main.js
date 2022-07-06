@@ -123,6 +123,7 @@ window.onload = function(){
 const visualSwiper = new Swiper('.visual-swiper', {
     initialSlide : 1,
     loop: true,
+    watchOverflow:true, // 슬라이드 1개 일때 버튼 숨김 여부 설정
     autoplay: {
         delay: 5000,
         disableOnInteraction: false,
@@ -391,7 +392,8 @@ function loadUpcomings() {
 
 
 /* 띠배너 */
-const platFormSwiper = new Swiper('.platform-swiper', {
+const platFormSwiper = new Swiper('.platform-swiper', { 
+    watchOverflow:true, // 슬라이드가 1개 일 때 pager, button 숨김 여부 설정
     autoplay: {
         delay: 5000,
     },
@@ -651,6 +653,7 @@ $(window).resize(function(){
 
     /* visual */
     const visualSwiper = new Swiper('.visual-swiper', {
+        watchOverflow:true, //슬라이드가 1개 일 때 pager, button 숨김 여부 설정
         autoplay: {
             delay:7000,
             disableOnInteraction:false,

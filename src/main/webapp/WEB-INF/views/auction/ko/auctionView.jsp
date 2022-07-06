@@ -243,7 +243,7 @@
                                             <div class="other-area">
                                                 <div class="inquiry-box">
                                                     <i class="icon-view_inquiry"></i>
-                                                    <span>작품문의 02-395-0330</span>
+                                                    <span>작품문의 <a href="tel:02-395-0330">02-395-0330</a></span>
                                                 </div>
                                                 <div class="print-box">
                                                     <a href="/auction/view/print/{{lotInfo.SALE_NO}}/{{lotInfo.LOT_NO}}"

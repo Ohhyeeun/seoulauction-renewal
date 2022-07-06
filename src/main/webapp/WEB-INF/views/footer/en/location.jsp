@@ -46,14 +46,14 @@
                                                                         <b>Road name</b> 24, Pyeongchang 30-gil, Jongno-gu, Seoul, Korea
                                                                     </li>
                                                                     <li class="tb1">
-                                                                        <b>Tel</b> +82(0)2-2075-4422 (English)<br>
-                                                                        +82(0)2-2075-4391 (中國語)
+                                                                        <b>Tel</b> <a href="tel:82-2-2075-4422">+82(0)2-2075-4422</a> (English)<br>
+                                                                        <a href="tel:82-2-2075-4391">+82(0)2-2075-4391</a> (中國語)
                                                                     </li>
                                                                     <li class="tb1">
-                                                                        <b>Fax</b> +82(0)2-395-0338
+                                                                        <b>Fax</b> <a href="tel:82-2-395-0338">+82(0)2-395-0338</a>
                                                                     </li>
                                                                     <li class="tb1">
-                                                                        <b>E-mail</b> info@seoulauction.com
+                                                                        <b>E-mail</b> <a href="mailto:info@seoulauction.com">info@seoulauction.com</a>
                                                                     </li>
                                                                 </ul>
                                                             </dd>
@@ -77,12 +77,12 @@
                                                                         <b>Road name</b> 864, Eonju-ro, Gangnam-gu, Seoul, Republic of Korea
                                                                     </li>
                                                                     <li class="tb1">
-                                                                        <b>Tel</b> +82(0)2-545-0330<br>
-                                                                        +82(0)2-2075-4422 (English)<br>
-                                                                        +82(0)2-2075-4391 (中國語)
+                                                                        <b>Tel</b> <a href="tel:82-2-545-0330">+82(0)2-545-0330</a><br>
+                                                                        <a href="tel:82-2-2075-4422">+82(0)2-2075-4422</a> (English)<br>
+                                                                        <a href="tel:82-2-2075-4391">+82(0)2-2075-4391</a> (中國語)
                                                                     </li>
                                                                     <li class="tb1">
-                                                                        <b>E-mail</b> info@seoulauction.com
+                                                                        <b>E-mail</b> <a href="mailto:info@seoulauction.com">info@seoulauction.com</a>
                                                                     </li>
                                                                 </ul>
                                                             </dd>

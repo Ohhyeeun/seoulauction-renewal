@@ -200,8 +200,8 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 var address_search1 = $(".js-address_search1").trpLayerFixedPopup("#address_search1-wrap");
 $("body").on("click", "#address_search1-wrap .js-closepop, #address_search1-wrap .popup-dim", function($e) {
 	$e.preventDefault();
-	address_search1.close();
-	$(".popup-dim.address_search1-wrap").hide();
+	address_search1.close(); /* 닫기 처리 안돼 아래 클래스 추가하여 hide 함.*/
+	$(".popup-dim.address_search1-wrap").hide(); 
 });
 
 var staff_search1 = $(".js-staff_search1").trpLayerFixedPopup("#staff_search1-wrap");
@@ -663,6 +663,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		$scope.form_data.zipno = addr.postcd;
 		$scope.form_data.addr = addr.address;
 		address_search1.close();
+		$(".popup-dim.address_search1-wrap").hide();
 		common.setFocus("addr_dtl");
 		$scope.addr_msg = "상세주소를 입력해주세요.";
 	};
