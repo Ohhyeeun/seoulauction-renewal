@@ -506,7 +506,7 @@
 </div>
 
 <!-- 주소검색 address_search1 -->
-<div id="address_search1-wrap" class="trp popupfixed-wrap default-popup ">
+<div id="address_search1-wrap" class="trp popupfixed-wrap default-popup "> 
 	<div class="popup-dim"></div>
 	<div class="popup-align mode-ms mode-mb_full">
 		<div class="popup-vertical">
@@ -534,8 +534,9 @@
 											검색 결과
 										</div>
 									</div>
+									<!--[0613]테이블구조변경-->
 									<div class="table-body">
-										<div class="table_scroll scroll-type" id="addrScroll">
+										<div class="table_scroll thead_item" id="addrScroll">
 											<table class="table_base list-table add_list">
 												<thead>
 													<tr>
@@ -543,6 +544,12 @@
 														<th>주소</th>
 													</tr>
 												</thead>
+											</table>
+										</div>
+									</div>
+									<div class="table-body">
+										<div class="table_scroll scroll-type tbody_item add_item">
+											<table class="table_base list-table add_list">
 												<tbody>
 													<tr ng-repeat="addr in addressList" ng-click="setAddr(addr);">
 														<td>{{addr.postcd}}</td>
@@ -559,6 +566,7 @@
 											</table>
 										</div>
 									</div>
+									<!--//[0613]테이블구조변경-->
 								</div>
 							</article>
 						</section>
@@ -682,6 +690,6 @@
 	var socialEmail = '${socialEmail }';
 </script>
 <%--<script src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
-<%--<link rel="stylesheet" href="/css/plugin/csslibrary.css" type="text/css">--%>
+<%--<link rel="stylesheet" href="/css/plugin/csslibrary.css" type="text/css"> --%>
 <script type="text/javascript" src="/js/customer/join.js"></script>
 </html>

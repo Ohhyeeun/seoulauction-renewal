@@ -197,13 +197,11 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 
 });
 
-var address_search1 = $(".js-address_search1").trpLayerFixedPopup("#address_search1-wrap")
-// $("body").on("click", "#address_search1-wrap .js-closepop, #address_search1-wrap .popup-dim", function($e) {
-//     $e.preventDefault();
-//     address_search1.close();
+var address_search1 = $(".js-address_search1").trpLayerFixedPopup("#address_search1-wrap");
 $("body").on("click", "#address_search1-wrap .js-closepop, #address_search1-wrap .popup-dim", function($e) {
 	$e.preventDefault();
 	address_search1.close();
+	$(".popup-dim.address_search1-wrap").hide();
 });
 
 var staff_search1 = $(".js-staff_search1").trpLayerFixedPopup("#staff_search1-wrap");

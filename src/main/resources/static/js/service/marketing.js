@@ -16,7 +16,11 @@ function swiper_setting() {
     swiper_academy = new Swiper('.js-swiper_academy .gallery_container', {
         autoplay: 3000,
         loop: true,
-        pagination: ".js-swiper_academy .pagination",
+        /* [0705]수정
+                pagination: ".js-swiper_academy .pagination", */
+        pagination: {
+            el: ".js-swiper_academy .pagination"
+        },
         paginationClickable: true,
         breakpoints: {
             1023: {

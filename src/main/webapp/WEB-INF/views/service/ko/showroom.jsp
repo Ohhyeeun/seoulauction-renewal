@@ -7,9 +7,6 @@
         <!-- header -->
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <!-- //header -->
-        <script>
-            app.value('locale', 'ko');
-        </script>
 
         <!-- container -->
         <div id="container">
@@ -178,8 +175,11 @@
     </div>
 </div>
 
+<script>
+    app.value('locale', 'ko');
+</script>
 
-<script type="text/javascript" src="/js/plugin/jquerylibrary.js"></script>
+<%--<script type="text/javascript" src="/js/plugin/jquerylibrary.js"></script> --%>
 <script src="/js/service/marketing.js" type="text/javascript" class="js-append-script"></script>
 
 </body>

@@ -21,13 +21,11 @@ document.addEventListener("DOMContentLoaded", function(){
 	authNumRequest = function() {
 		saleNo = Scope().sale_no;
 		phone = document.getElementById('phone').value;
-
 		var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 		if (phone == null || phone == '') {
 			messageArea1.innerText = "휴대폰 번호를 입력해주세요";
 			return;
-		}
-		else if (regPhone.test(phone) === false) {
+		} else if (regPhone.test(phone) === false) {
 			messageArea1.innerText = "휴대전화번호를 확인해주세요.";
 			return;
 		}
@@ -53,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function(){
 				let success = data.success;
 
 				if (success) {
-					console.log(data["data"].AUTH_EXISTS);
 					if (data["data"].AUTH_EXISTS) {
 							messageArea1.innerText = "이미 등록된 휴대폰 번호 입니다.\n" + "다른 번호를 입력해 주세요.";
 							//This number is already authorized.\n" + "Please log-in again with the first authenticated ID and start bidding.
@@ -63,12 +60,13 @@ document.addEventListener("DOMContentLoaded", function(){
 						var auth_num_send_status = data["data"].SEND_STATUS;
 
 						auth_end_time = moment(new Date()).add(120, 'seconds');
-
 						if (auth_num_send_status) {
 							timer_duration = setInterval(setAuthDuration, 1000);
 							console.log("======> set timer");
 						}
+
 						document.getElementById('authNumRequest').innerText = "인증번호 재요청";
+						$("#popup_online_confirm-wrap .re-check .input-group input,button").attr("disabled", false);
 
 						//성공 후 안내메세지 초기화
 						messageArea1.innerText = "";
@@ -83,13 +81,12 @@ document.addEventListener("DOMContentLoaded", function(){
 
 	setAuthDuration = function() {
 		console.log('setAuthDuration 5');
-		var f = 'm:s';
+		var f = 'mm:ss';
 		var s = moment(auth_end_time).diff(moment(new Date()), 'seconds');
 		console.log(s);
 		if (s > 0) {
 			messageArea3.innerText = "남은시간 : " + moment.duration(s, "seconds").format(f);
-		}
-		else if (s == 0) {
+		} else if (s == 0) {
 			//$scope.duraionEnd();
 			form_data.can_auth = false;
 			checkHpAuth.message = "0";

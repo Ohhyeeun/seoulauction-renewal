@@ -7,20 +7,13 @@
 
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
-<link rel="stylesheet" href="/css/plugin/csslibrary.css">
+<%--<link rel="stylesheet" href="/css/plugin/csslibrary.css">--%>
 <sec:authentication property="details.socialYn" var="socialYn"></sec:authentication>
 <sec:authentication property="details.socialType" var="socialType"></sec:authentication>
 <sec:authentication property="details.userNo" var="userNo"></sec:authentication>
 <sec:authentication property="details.userKind" var="userKind"></sec:authentication>
 <sec:authentication property="details.loginId" var="loginId"></sec:authentication>
 <sec:authentication property="details.userNm" var="userNm"></sec:authentication>
-
-<script>
-	var socialYn = '${socialYn}';
-	var socialType = '${socialType}';
-	var userNo = '${userNo}';
-	var userKind = '${userKind}';
-</script>
 <body class="">
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
@@ -463,12 +456,18 @@
 	        </div>
 	    </div>
 	</div>
+    <script>
+        var socialYn = '${socialYn}';
+        var socialType = '${socialType}';
+        var userNo = '${userNo}';
+        var userKind = '${userKind}';
+    </script>
+    <!-- 회원정보수정 비밀번호확인 -->
+    <script type="text/javascript" src="/js/mypage/custModify.js"></script>
+    <script>
+        $(".js-history_back").click(function() {
+            window.location.href="/mypage/custModify";
+        })
+    </script>
 </body>
-<!-- 회원정보수정 비밀번호확인 -->
-<script type="text/javascript" src="/js/mypage/custModify.js"></script>
-<script>
-    $(".js-history_back").click(function() {
-    	window.location.href="/mypage/custModify";
-    })
-</script>
 </html>

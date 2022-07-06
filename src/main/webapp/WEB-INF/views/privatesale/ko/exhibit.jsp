@@ -87,7 +87,7 @@
                                                 <div class="manager-box"> <span>서울옥션 전시마케팅</span> <em>윤가람 선임</em> </div>
                                                 <div class="contact-box">
                                                     <ul>
-                                                        <li><span>T.</span> <em>02-2075-4422</em></li>
+                                                        <li><span>T.</span> <a href="tel:02-2075-4422"><em>02-2075-4422</em></a></li>
                                                         <li><span>E.</span> <a href="mailto:kyoon@seoulauctionl.com"><em>kyoon@seoulauctionl.com</em></a></li>
                                                     </ul>
                                                 </div>

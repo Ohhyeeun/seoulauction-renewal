@@ -11,7 +11,6 @@
 	<div class="wrapper" ng-app="myApp">
 		<div class="sub-wrap pageclass">
             <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
-			<script type="text/javascript" src="/js/mypage/inteLot.js"></script>
             <!-- //header -->
 		
             <!-- container -->
@@ -80,9 +79,9 @@
                                                                         <button class="btn-heart js-work_heart on" ng-click="inteDel(data.SALE_NO, data.LOT_NO)"><i class="icon-heart_off"></i></button>
                                                                         <div class="thumb-area">
                                                                             <figure class="img-ratio">
-                                                                                <div class="img-align">
+                                                                                <a href="#" class="img-align"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
                                                                                     <img src="${imageRootPath}{{data.FILE_PATH}}/{{data.FILE_NAME}}" alt="">
-                                                                                </div>
+                                                                                </a>
                                                                             </figure>
                                                                         </div>
                                                                         <div class="text-area">
@@ -161,16 +160,16 @@
     </div>
 
 
-    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+    <%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
     <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
     <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
     <!-- [0516]삭제
   <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
 -->
+    <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>--%>
 
-    <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
-
+    <script type="text/javascript" src="/js/mypage/inteLot.js"></script>
     <script>
         $('.js-left_mm_2 a').on('click', function(e) {
             e.preventDefault();

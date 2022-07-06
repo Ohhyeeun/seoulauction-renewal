@@ -687,19 +687,20 @@
                 await $scope.setSale($scope.sale_no);
                 //get sale cert
                 if(sessionStorage.getItem("is_login") === 'true'){
-                    await axios.get('/api/cert/sales/${saleNo}')
-                        .then(function(response) {
-                            if (response.data.success) {
-                                if(response.data.data.CNT > 0) {
-                                    $scope.is_sale_cert = true;
-                                } else {
-                                    $scope.popSet();
+                    if($scope.sale_status == "ING"){
+                        await axios.get('/api/cert/sales/${saleNo}')
+                            .then(function(response) {
+                                if (response.data.success) {
+                                    if(response.data.data.CNT > 0) {
+                                        $scope.is_sale_cert = true;
+                                    } else {
+                                        $scope.popSet();
+                                    }
+                                    $("#cust_hp").val(response.data.data.HP);
+                                    $scope.cust_hp = response.data.data.HP;
                                 }
-                                $("#cust_hp").val(response.data.data.HP);
-                                $scope.cust_hp = response.data.data.HP;
-                            }
-                        });
-
+                            });
+                    }
                     await axios.get('/api/mypage/manager')
                         .then(function(response) {
                             if (response.data.success && response.data.data != undefined) {
@@ -1698,21 +1699,21 @@
 
                         var S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
                         var S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
-                        var FROM_DT_D = $filter('date')($scope.sale.FROM_DT, 'yyyyMMdd');
-                        var TO_DT_D = $filter('date')($scope.sale.TO_DT, 'yyyyMMdd');
+                        var FROM_DT = $filter('date')($scope.sale.FROM_DT, 'yyyyMMdd');
+                        var TO_DT = $filter('date')($scope.sale.TO_DT, 'yyyyMMdd');
                         var END_DT = $filter('date')($scope.sale.END_DT, 'yyyyMMddHHmm');
                         var LIVE_START_DT = $filter('date')($scope.sale.LIVE_BID_DT, 'yyyyMMddHHmm');
                         // 오프라인 경매인 경우에는 SALE.TO_DT는 YYYY.MM.DD로 체크. 비교 서버시간은 S_DB_NOW_D (YDH. 2016.10.05)
 
                         //라이브 응찰 시간 체크
-                        $scope.liveEnd = TO_DT_D;
-                        $scope.nowTime = S_DB_NOW_D;
+                        $scope.liveEnd = TO_DT;
+                        $scope.nowTime = S_DB_NOW;
                         $scope.liveStartDt = LIVE_START_DT;
                         $scope.liveCheckDt = S_DB_NOW;
 
-                        if (FROM_DT_D > S_DB_NOW_D && TO_DT_D > S_DB_NOW_D) {
+                        if (FROM_DT > S_DB_NOW && END_DT > S_DB_NOW) {
                             $scope.sale_status = "READY";
-                        } else if (FROM_DT_D <= S_DB_NOW_D && $scope.sale.CLOSE_YN != 'Y') {
+                        } else if (FROM_DT <= S_DB_NOW && END_DT >= S_DB_NOW) {
                             $scope.sale_status = "ING";
                         } else {
                             $scope.sale_status = "END";
@@ -1722,7 +1723,6 @@
                                 //history_back();
                             }
                         }
-
                         $scope.$apply();
                     }
                 });

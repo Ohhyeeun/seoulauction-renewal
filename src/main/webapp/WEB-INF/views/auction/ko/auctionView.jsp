@@ -597,9 +597,8 @@
 <!--[if lt IE 9]>
 <%-- <script src="/js/plugin/html5shiv.js"></script> --%> <![endif]-->
 <%--<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
-<%--<script type="text/javascript" src="/js/auction/saleCert.js"></script>--%>
 <%--<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
-
+<script type="text/javascript" src="/js/auction/saleCert.js"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <%--낙찰 수수료 팝업 --%>
 <jsp:include page="popup/bidCommissionPopup.jsp"/>
@@ -726,7 +725,7 @@
 
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
 
-    app.controller('ctl', function ($scope, consts, common, is_login, locale) {
+    app.controller('ctl', function ($scope, consts, common, is_login, locale, $filter) {
 
         $scope.is_login = is_login;
         $scope.locale = locale;
@@ -906,6 +905,47 @@
             alert('URL이 복사되었습니다.');
         }
 
+        $scope.setSale = async function (saleNo) {
+            await axios.get('/api/auction/sales/' + saleNo)
+                .then(function (response) {
+                    if (response.data.success) {
+                        $scope.sale = response.data.data;
+                        $scope.sale.TITLE_JSON = JSON.parse($scope.sale.TITLE_JSON);
+                        $scope.sale.buttonList.map(item => {
+                            item.content = JSON.parse(item.content);
+                        });
+
+                        var S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
+                        var S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
+                        var FROM_DT = $filter('date')($scope.sale.FROM_DT, 'yyyyMMdd');
+                        var TO_DT = $filter('date')($scope.sale.TO_DT, 'yyyyMMdd');
+                        var END_DT = $filter('date')($scope.sale.END_DT, 'yyyyMMddHHmm');
+                        var LIVE_START_DT = $filter('date')($scope.sale.LIVE_BID_DT, 'yyyyMMddHHmm');
+                        // 오프라인 경매인 경우에는 SALE.TO_DT는 YYYY.MM.DD로 체크. 비교 서버시간은 S_DB_NOW_D (YDH. 2016.10.05)
+
+                        //라이브 응찰 시간 체크
+                        $scope.liveEnd = TO_DT;
+                        $scope.nowTime = S_DB_NOW;
+                        $scope.liveStartDt = LIVE_START_DT;
+                        $scope.liveCheckDt = S_DB_NOW;
+
+                        if (FROM_DT > S_DB_NOW && END_DT > S_DB_NOW) {
+                            $scope.sale_status = "READY";
+                        } else if (FROM_DT <= S_DB_NOW && END_DT >= S_DB_NOW) {
+                            $scope.sale_status = "ING";
+                        } else {
+                            $scope.sale_status = "END";
+
+                            if (sessionStorage.getItem("is_login") === 'false') {
+                                alert("권한이 없거나 허용되지 않은 접근입니다.");
+                                //history_back();
+                            }
+                        }
+                        $scope.$apply();
+                    }
+                });
+        }
+
         // 호출 부
         $scope.load = function () {
             let run = async function () {
@@ -944,9 +984,11 @@
                 startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2,
                     '${member.loginId}', $scope.cust_no);
 
+                await $scope.setSale($scope.sale_no);
                 //get sale cert
                 if (sessionStorage.getItem("is_login") === 'true') {
-                    await axios.get('/api/cert/sales/${saleNo}')
+                    if($scope.sale_status == "ING"){
+                        await axios.get('/api/cert/sales/${saleNo}')
                         .then(function (response) {
                             if (response.data.success) {
                                 if (response.data.data.CNT > 0) {
@@ -958,6 +1000,7 @@
                                 $scope.cust_hp = response.data.data.HP;
                             }
                         });
+                    }
 
                     await axios.get('/api/mypage/manager')
                         .then(function (response) {
