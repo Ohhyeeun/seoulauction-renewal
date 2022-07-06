@@ -65,9 +65,6 @@
 															</div>
 														</li>
 													</ul>
-													 <div class="data-empty" ng-if="inquiryCnt == 0">
-                                                            <p class="txt_empty">내역이 존재하지 않습니다.</p>
-                                                     </div>
 													 <div class="wrap_paging"  ng-if="inquiryCnt != 0">
 														<paging page="currentPage"
 															page-size=10
@@ -87,6 +84,11 @@
 														</paging>				
 													</div>
 												</article>
+												<article class="inquiry-list-wrap" ng-if="inquiryCnt == 0">
+                                                    <div class="data-empty">
+                                                        <p class="txt_empty">1:1문의 내역이 존재하지 않습니다.</p>
+                                                    </div>
+                                                </article>
 											</div>
 										</div>
 
