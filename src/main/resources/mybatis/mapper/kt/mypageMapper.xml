@@ -41,15 +41,15 @@
 	
 	<!--정회원 -->
 	<select id="selectCustomerInfo" resultType="CommonMap">
-		select CASE WHEN CP.VALID_TO_DT &gt;= NOW() THEN '1' ELSE '0' END USER_ROLE <!-- 정회원 1, 준회원 0 -->
+		select C.CUST_NAME , CASE WHEN CP.VALID_TO_DT &gt;= NOW() THEN '1' ELSE '0' END USER_ROLE <!-- 정회원 1, 준회원 0 -->
 				,IF(1 &lt; DATEDIFF(DATE_ADD(CP.VALID_TO_DT, INTERVAL 1 DAY), NOW())
 				AND DATEDIFF(DATE_ADD(CP.VALID_TO_DT, INTERVAL 1 DAY), NOW()) &lt; 11,
 				CONCAT('D-', DATEDIFF(DATE_ADD(CP.VALID_TO_DT, INTERVAL 1 DAY), NOW())) ,
 				IF(1 = DATEDIFF(DATE_ADD(CP.VALID_TO_DT, INTERVAL 1 DAY), NOW()) AND 1 = TIMESTAMPDIFF(DAY ,NOW(),DATE_ADD(CP.VALID_TO_DT, INTERVAL 1 DAY)),'D-1' ,'')) VALID_DATE
 		from
-			cust_pay cp
+			CUST C LEFT OUTER JOIN CUST_PAY CP ON C.CUST_NO = CP.CUST_NO
 		where
-			CUST_NO = #{action_user_no}
+			C.CUST_NO = #{action_user_no}
 	</select>
 	
 	<!-- 아카데미 list -->

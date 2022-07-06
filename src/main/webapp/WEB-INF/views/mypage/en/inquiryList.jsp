@@ -83,6 +83,11 @@
 														</paging>				
 													</div>
 												</article>
+												<article class="inquiry-list-wrap" ng-if="inquiryCnt == 0">
+                                                    <div class="data-empty">
+                                                        <p class="txt_empty">1:1 inquiry history does not exist.</p>
+                                                    </div>
+                                                </article>
 											</div>
 										</div>
 
