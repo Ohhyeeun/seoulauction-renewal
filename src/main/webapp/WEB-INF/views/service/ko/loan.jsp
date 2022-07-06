@@ -267,7 +267,7 @@
                                             <li>대표이사 : 이옥경 </li>
                                             <li>등록번호: 2011-서울종로-00069(대부업)</li>
                                             <li>소재지 : 서울시 종로구 평창 30길 24 (평창동)</li>
-                                            <li>전화번호: 02-395-0330</li>
+                                            <li>전화번호: <a href="tel:02-395-0330">02-395-0330</a></li>
                                         </ul>
                                         <div class="btn-box">
                                             <a class="btn btn_gray_line btn_sm" href="https://www.fss.or.kr/s1332/search/search0601.jsp" target="_blank" role="button"><span>등록대부업체 통합조회 서비스</span></a>

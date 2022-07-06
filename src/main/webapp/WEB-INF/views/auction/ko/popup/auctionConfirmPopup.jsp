@@ -97,7 +97,7 @@
                                     </ul>
                                 </div>
                                 <div class="text-area">
-                                    <p class="tb2">응찰 관련 문의가 있으신 경우, 귀하의 담당자<br class="only-mb">(<em id="manager">고객관리자 02-395-0330</em>)에게 <br class="only-pc">연락주시기 바랍니다.
+                                    <p class="tb2">응찰 관련 문의가 있으신 경우, 귀하의 담당자<br class="only-mb">(<em id="manager">고객관리자 <a href="tel:02-395-0330">02-395-0330</a></em>)에게 <br class="only-pc">연락주시기 바랍니다.
                                     </p>
                                 </div>
                             </div>

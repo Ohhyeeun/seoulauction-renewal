@@ -106,7 +106,7 @@
                                                 <div class="con-area">
                                                     <span class="faq">A.</span>
                                                     <div class="faq_cont tb1">
-                                                        art@seoulauction.com<br>
+                                                        <a href="mailto:art@seoulauction.com">art@seoulauction.com</a><br>
                                                         <br>
                                                         Please send the types of information listed below to art@seoulauction.com. The information you provide will be conveyed to the respective specialist, who will provide you with the relevant details.<br>
                                                         1. Name 2. Phone number 3. Title of artwork 4. Size of artwork 5. Description of how the artwork came into your possession 6. Photos of artwork (full and partial views, showing the signature, important parts, etc.)<br>
