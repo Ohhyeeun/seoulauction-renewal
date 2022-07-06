@@ -998,18 +998,20 @@
                     bid_new_cost.innerText = "KRW " + (((d.message.bid[len - 1].bid_cost === 0) ? d.message.bid[len - 1].open_bid_cost : d.message.bid[len - 1].bid_cost) + d.message.bid[len - 1].bid_quote).toLocaleString('ko-KR');
 
                     document.getElementById("bid_new_cost_val").setAttribute("value", ((d.message.bid[len - 1].bid_cost === 0) ? d.message.bid[len - 1].open_bid_cost : d.message.bid[len - 1].bid_cost) + d.message.bid[len - 1].bid_quote);
+                    document.getElementById("bid_new_cost_btn").innerText = "응찰하기";
 
                     if (d.message.bid != null && d.message.bid.length > 0) {
+                        if (d.message.bid[len - 1].customer.cust_no === $scope.cust_no){
+                            document.getElementById("bid_new_cost_val").setAttribute("disabled", true);
+                            document.getElementById("bid_new_cost").innerText = "최고가 응찰 중";
+                            document.getElementById("bid_new_cost_btn").innerText = "";
+                        }
+
                         let bid_hist_info = d.message.bid;
                         if (bid_hist_info != null && bid_hist_info.length > 0) {
                             let bid_lst = document.getElementById("bid_lst");
-                            if (d.message.bid[len - 1].customer.cust_no === bid_hist_info[0].customer.cust_no){
-                                document.getElementById("bid_new_cost_val").setAttribute("disabled", true);
-                                document.getElementById("bid_new_cost").innerText = "최고가 응찰 중";
-                                document.getElementById("bid_new_cost_btn").innerText = "";
-                            }
-                            for (let i = 0; i < bid_hist_info.length; i++) {
 
+                            for (let i = 0; i < bid_hist_info.length; i++) {
                                 let ddd = new Date(bid_hist_info[i].bid_time);
                                 let li = document.createElement("li");
 
@@ -1269,21 +1271,22 @@
                         bid_new_cost.innerText = "KRW " + (((bid_info.bid_cost === 0) ? bid_info.open_bid_cost : bid_info.bid_cost) + bid_info.bid_quote).toLocaleString('ko-KR');
 
                         document.getElementById("bid_new_cost_val").setAttribute("value", ((bid_info.bid_cost === 0) ? bid_info.open_bid_cost : bid_info.bid_cost) + bid_info.bid_quote);
+                        document.getElementById("bid_new_cost_btn").innerText = "응찰하기";
+
+                        if (bid_info.customer.cust_no === $scope.cust_no){
+                            document.getElementById("bid_new_cost_val").setAttribute("disabled", true);
+                            document.getElementById("bid_new_cost").innerText = "최고가 응찰 중";
+                            document.getElementById("bid_new_cost_btn").innerText = "";
+                        }
 
                         if (d.message.bids_hist != null && d.message.bids_hist.length > 0) {
-
                             let li = document.createElement("bid_lst");
                             let bid_hist_info = d.message.bids_hist;
                             if (bid_hist_info != null && bid_hist_info.length > 0) {
 
                                 for (let i = 0; i < bid_hist_info.length; i++) {
                                     if (bid_hist_info[i].value != null) {
-                                        if (bid_info.customer.cust_no ===
-                                            bid_hist_info[0].value[bid_hist_info[0].value.length - 1].customer.cust_no){
-                                            document.getElementById("bid_new_cost_val").setAttribute("disabled", true);
-                                            document.getElementById("bid_new_cost").innerText = "최고가 응찰 중";
-                                            document.getElementById("bid_new_cost_btn").innerText = "";
-                                        }
+
                                         for (let j = 0; j < bid_hist_info[i].value.length; j++) {
                                             let ddd = new Date(bid_hist_info[i].value[j].bid_time);
                                             let li = document.createElement("li");

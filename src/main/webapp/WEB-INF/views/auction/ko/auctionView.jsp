@@ -1490,14 +1490,16 @@
                     d.message.bid[len - 1].open_bid_cost :
                     d.message.bid[len - 1].bid_cost) + d.message.bid[len - 1].bid_quote);
 
+                document.getElementById("bid_new_cost_btn").innerText = "응찰하기";
                 if (d.message.bid != null && d.message.bid.length > 0) {
                     let bid_hist_info = d.message.bid;
+                    if (d.message.bid[len - 1].customer.cust_no === custNo) {
+                        document.getElementById("bid_new_cost_val").setAttribute("disabled", true);
+                        document.getElementById("bid_new_cost").innerText = "최고가 응찰 중";
+                        document.getElementById("bid_new_cost_btn").innerText = "";
+                    }
                     if (bid_hist_info != null && bid_hist_info.length > 0) {
-                        if (d.message.bid[len - 1].customer.cust_no === bid_hist_info[0].customer.cust_no) {
-                            document.getElementById("bid_new_cost_val").setAttribute("disabled", true);
-                            document.getElementById("bid_new_cost").innerText = "최고가 응찰 중";
-                            document.getElementById("bid_new_cost_btn").innerText = "";
-                        }
+
                         let bid_lst = document.getElementById("bid_lst");
                         for (let i = 0; i < bid_hist_info.length; i++) {
 
@@ -1505,7 +1507,7 @@
                             let li = document.createElement("li");
 
                             let user_id_ly = document.createElement("div");
-                            if (bid_hist_info[i].cust_no === custNo) {
+                            if (bid_hist_info[i].customer.cust_no === custNo) {
                                 user_id_ly.setAttribute("class", "product-user on_green");
                             } else {
                                 user_id_ly.setAttribute("class", "product-user");
@@ -1673,6 +1675,7 @@
                     bid_info.open_bid_cost :
                     bid_info.bid_cost) + bid_info.bid_quote);
 
+                document.getElementById("bid_new_cost_btn").innerText = "응찰하기";
 
                 let cost_tmp = (bid_info.bid_cost === 0) ?
                     bid_info.open_bid_cost :
@@ -1721,15 +1724,16 @@
                 }
 
                 let item = '';
+                if (bid_info.customer.cust_no === custNo) {
+                    document.getElementById("bid_new_cost_val").setAttribute("disabled", true);
+                    document.getElementById("bid_new_cost").innerText = "최고가 응찰 중";
+                    document.getElementById("bid_new_cost_btn").innerText = "";
+                }
+
                 if (d.message.bids_hist != null && d.message.bids_hist.length > 0) {
                     let li = document.createElement("bid_lst");
                     let bid_hist_info = d.message.bids_hist;
                     if (bid_hist_info != null && bid_hist_info.length > 0) {
-                        if (bid_hist_info[0].value != null && bid_info.customer.cust_no === d.message.bids_hist[0].value[0].customer.cust_no) {
-                            document.getElementById("bid_new_cost_val").setAttribute("disabled", true);
-                            document.getElementById("bid_new_cost").innerText = "최고가 응찰 중";
-                            document.getElementById("bid_new_cost_btn").innerText = "";
-                        }
                         for (let i = 0; i < bid_hist_info.length; i++) {
                             if (bid_hist_info[i].value != null) {
                                 for (let j = 0; j < bid_hist_info[i].value.length; j++) {
