@@ -101,6 +101,13 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 	}
 
+	$scope.goLotDetail= function(saleKind, saleNo, lotNo) {
+		if(saleKind !='online' && saleKind !='online_zb'){
+			window.location.href="/auction/live/view/"+saleNo+"/"+lotNo
+		} else {
+			window.location.href="/auction/online/view/"+saleNo+"/"+lotNo
+		}
+	}
 
 });
 
