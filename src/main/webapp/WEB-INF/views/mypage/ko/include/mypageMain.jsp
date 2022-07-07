@@ -15,7 +15,7 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	    <title>마이페이지 | Seoul Auction</title>
 	</head>
-<body class="" ng-controller="myPageCtl" ng-init="loadMemberInfo()">
+<body class="" ng-controller="myPageCtl" ng-init="loadMemberInfo()" ng-cloak>
     <div class="wrapper">
         <div class="sub-wrap pageclass">
 
@@ -75,7 +75,7 @@
 											</div>
 										</div>
 										
-										<div class="mem-button-wrap">
+										<div class="mem-button-wrap" ng-if="userRole=='0'">
 										<a href="/payment/member">
 											<button class="btn btn_point btn_lg" type="button" >
 												<span>정회원 신청하기</span>

@@ -146,7 +146,6 @@ var search_kind = "";
 										document.getElementById("email").value = naverLogin.user.email;
 										document.getElementById("joinForm").action = '/joinForm?socialType=NV';
 										document.getElementById("joinForm").submit();
-										window.close();
 									}else{
 										opener.document.getElementById("name").value = naverLogin.user.name;
 										opener.document.getElementById("mobile").value = naverLogin.user.mobile;
@@ -193,6 +192,10 @@ var search_kind = "";
 					}else if(action.startsWith("socialConfirm")){
 						var userEmail = request.getParameter("userEmail");
 						userEmail = userEmail.substring(0, userEmail.indexOf("#"));
+						alert("opener : " + opener);
+						alert("userEmail : " + userEmail);
+						alert("langType : " + langType);
+						alert("naverLogin.user.email : " + naverLogin.user.email)
 						if(opener == null){
 							//앱에서 opener null로 인식
 							if(naverLogin.user.email === userEmail){
@@ -201,11 +204,7 @@ var search_kind = "";
 								}else{
 									alert("Connected.");
 								}
-								let f = document.createElement('form');
-							    f.setAttribute('method', 'post');
-							    f.setAttribute('action', '/mypage/custModify');
-							    document.body.appendChild(f);
-							    f.submit();
+								document.getElementById("confirmForm").submit();
 							}else{
 								alert("가입한 계정과 다른 소셜계정으로 로그인하셨습니다.");
 								var width = window.innerWidth;
@@ -237,5 +236,8 @@ var search_kind = "";
 <form id="loginForm" method="post">
 	<input type="hidden" name="social_type" id="social_type"/>
 	<input type="hidden" name="social_email" id="social_email"/>
+</form>
+
+<form id="confirmForm" action="/mypage/custModify" method="post">
 </form>
 </html>

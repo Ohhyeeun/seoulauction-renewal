@@ -1,28 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<jsp:include page="../../include/ko/header.jsp" flush="false"/>
+<jsp:include page="../../include/en/header.jsp" flush="false"/>
 
 <body class="">
 <div class="wrapper">
     <div class="sub-wrap pageclass">
         <!-- header -->
-        <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
+        <jsp:include page="../../include/en/nav.jsp" flush="false"/>
         <!-- //header -->
 
         <!-- container -->
         <div id="container">
             <div id="contents" class="contents">
-
                 <!-- page title -->
-
                 <section class="page_title-section type-dark">
                     <div class="section-inner full_size ">
                         <div class="center-box">
                             <h2 class="page_title"><span class="th1">Art Collateral Loans</span></h2>
-                            <div class="page_desc"><span class="tb1">담보대출</span></div>
+                            <div class="page_desc"><span class="tb1"></span></div>
                         </div>
                     </div>
                 </section>
-
 
                 <!-- 담보대출 -->
                 <section class="basis-section last-section">
@@ -30,14 +27,15 @@
 
                         <div class="content-panel type_panel-loan">
                             <div class="panel-header">
-                                <p>서울옥션에서는 미술품 및 골동품을 담보로 대출을 시행하고 있습니다. 소장가 여러분의 많은 관심 바랍니다.</p>
+                                <p>Seoul Auction provides loans using art and antiques as collateral. We hope for your interest in the collectors.</p>
                             </div>
                             <div class="panel-body">
                                 <!-- [0516]레이아웃변경 -->
                                 <article class="loan-step-area">
                                     <div class="help-box">
                                         <i class="icon-inquiry"></i>
-                                        <span>이메일 제목에 담보, 대출 단어가 들어가면 스팸 메일이 되어 확인이 어렵습니다. </span>
+                                        <span>
+                                                If the subject of the e-mail contains the word collateral or loan, it becomes a spam e-mail and is difficult to check.</span>
                                     </div>
 
                                     <div class="loan-step loan-step-other">
@@ -48,11 +46,11 @@
                                                 </div>
                                                 <div class="title ft_b">
                                                     <span>STEP 01</span>
-                                                    <b class="tt3">이메일 접수</b>
+                                                    <b class="tt3">Send Email</b>
                                                 </div>
                                             </div>
                                             <div class="item-body tb1">
-                                                <p>이미지와 작품 정보를 <br class="only-mb" /> 이메일로 보내기</p>
+                                                <p>Send images and artwork information by email</p>
                                             </div>
                                         </div>
                                         <div class="item-area">
@@ -62,11 +60,11 @@
                                                 </div>
                                                 <div class="title ft_b">
                                                     <span>STEP 02</span>
-                                                    <b class="tt3">담당자 회신</b>
+                                                    <b class="tt3">Specialist’s Reply</b>
                                                 </div>
                                             </div>
                                             <div class="item-body tb1">
-                                                <p>담보 대출 가능여부 판단 후<br class="only-mb" />담당자 회신</p>
+                                                <p>The specialist in charge appraises the artwork and replies with the availability of lending.</p>
                                             </div>
                                         </div>
                                         <div class="item-area">
@@ -76,11 +74,11 @@
                                                 </div>
                                                 <div class="title ft_b">
                                                     <span>STEP 03</span>
-                                                    <b class="tt3">작품 평가</b>
+                                                    <b class="tt3">Artwork Valuation</b>
                                                 </div>
                                             </div>
                                             <div class="item-body">
-                                                <p>작품 실물 입고 후<br class="only-mb" />진위 및 가격 평가</p>
+                                                <p>Receive the original artwork and appraises the authenticity and price.</p>
                                             </div>
                                         </div>
                                         <div class="item-area">
@@ -90,11 +88,11 @@
                                                 </div>
                                                 <div class="title ft_b">
                                                     <span>STEP 04</span>
-                                                    <b class="tt3">확정 여부 회신</b>
+                                                    <b class="tt3">Notify Confirmation</b>
                                                 </div>
                                             </div>
                                             <div class="item-body">
-                                                <p>담보 대출<br class="only-mb" />확정 여부 회신</p>
+                                                <p>Confirm the availability of collateral loans.</p>
                                             </div>
                                         </div>
                                         <div class="item-area">
@@ -104,11 +102,11 @@
                                                 </div>
                                                 <div class="title ft_b">
                                                     <span>STEP 05</span>
-                                                    <b class="tt3">방문 서류 접수</b>
+                                                    <b class="tt3">Visit and Submit</b>
                                                 </div>
                                             </div>
                                             <div class="item-body">
-                                                <p>개인 고객, 법인 고객별<br class="only-mb" />구비서류 준비 후, 방문 접수</p>
+                                                <p>Fill out the paperwork and visit Seoul Auction to submit the form.</p>
                                             </div>
                                         </div>
                                         <div class="item-area">
@@ -118,11 +116,11 @@
                                                 </div>
                                                 <div class="title ft_b">
                                                     <span>STEP 06</span>
-                                                    <b class="tt3">대출금 입금 및 안내</b>
+                                                    <b class="tt3">Guide for Deposit</b>
                                                 </div>
                                             </div>
                                             <div class="item-body">
-                                                <p>서류 심의 후, 일주일내로<br class="only-mb" />대출금 입금 및 안내</p>
+                                                <p>After deliberation of the paperwork, the loan is paid within a week.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -133,151 +131,126 @@
                                     <div class="loan-document">
                                         <div class="item-area item-area-seq-1">
                                             <div class="item-header">
-                                                <div class="tt3">개인 고객 준비 서류 안내</div>
+                                                <div class="tt3">Preparation of documents for personal customer</div>
                                             </div>
                                             <div class="item-body">
                                                 <ul class="dot tb1">
-                                                    <li>개인 인감 도장 </li>
-                                                    <li>개인 인감 증명서 1부 (3개월 이내) </li>
-                                                    <li>신분증 사본 1부 </li>
-                                                    <li>입금통장 사본 1부 </li>
-                                                    <li>소득금액 증명원 1부 (국세청) </li>
-                                                    <li>완납 증명서 1부 (국세청) </li>
-                                                    <li>지방세 납세 증명서 1부 (동사무소)</li>
+                                                    <li>Personal legal seal (stamp)</li>
+                                                    <li>Certification of personal legal (within to 3 months)</li>
+                                                    <li>Photocopy of identification </li>
+                                                    <li>Photocopy of money passbook</li>
+                                                    <li>Certification of amount of income (National Tax Service)</li>
+                                                    <li>Certification of full payment (National Tax Service)</li>
+                                                    <li>Certification of council taxes (district office)</li>
                                                 </ul>
                                                 <div class="refer tb2">
-                                                    <p>국세 체납이 있을 경우 접수 불가합니다.</p>
-                                                    <p>위 서류 중 하나라도 없으면 대출이 불허되오니 참고 바랍니다.</p>
+                                                    <p>Any default of national taxes is unavailable to apply.</p>
+                                                    <p> Disapproval loan if at least one document is not exist.</p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="item-area only-pc">
                                             <div class="item-header">
-                                                <div class="tt3">담보 종류 안내</div>
+                                                <div class="tt3">Type of collateral</div>
                                             </div>
                                             <div class="item-body">
-                                                <p class="tb1">경매가 가능한 미술작품</p>
-                                                <p class="tb2">예) 근현대미술품, 고미술품 (중국도자기는 제외됩니다.)</p>
+                                                <p class="tb1">artwork available for auction</p>
+                                                <p class="tb2">(Example) Modern and contemporary Art, antiques (Except for Chinese ceramics)</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="loan-document">
                                         <div class="item-area">
                                             <div class="item-header">
-                                                <div class="tt3">법인고객 준비 서류 안내</div>
+                                                <div class="tt3">Preparation of documents for business corporation</div>
                                             </div>
                                             <div class="item-body">
                                                 <ul class="dot tb1">
-                                                    <li>사업자등록증 사본</li>
-                                                    <li>법인 인감 증명서 1부 (3개월 이내) </li>
-                                                    <li>법인인감 및 대표이사 인감 법인 등기부등본 (3개월 이내) </li>
-                                                    <li>대표이사 개인인감증명서 (3개월 이내)</li>
-                                                    <li>신분증 사본 (대표자) </li>
-                                                    <li>이사회의사록 사본</li>
-                                                    <li>입금통장 사본 </li>
-                                                    <li>최근 1년 감사 보고서 </li>
-                                                    <li>최근 1년 부과세 과세표준증명원 </li>
-                                                    <li>세목별 과세 증명서 및 납세증명서</li>
+                                                    <li>Certified photocopy of registration/license</li>
+                                                    <li>Certification of corporate of legal seal (within to 3 months)</li>
+                                                    <li>Corporate of legal seal</li>
+                                                    <li>Certified copy of corporate of the register (within 3 months)</li>
+                                                    <li>Certified copy of personal of the register (within 3 months)</li>
+                                                    <li>Photocopy of identification (president CEO)</li>
+                                                    <li>Photocopy of conference of directors</li>
+                                                    <li>Photocopy of money passbook</li>
+                                                    <li>A statement of audit (past year)</li>
+                                                    <li>Imposing tax of assessments of statement (past year)</li>
+                                                    <li>Certification of detailed imposing tax and payment of tax</li>
                                                 </ul>
                                                 <div class="refer tb2">
-                                                    <p>대리인 방문시 : 1. 대리인 신분증, 2. 인감도장 날인된 위임장</p>
-                                                    <p>위 서류 중 하나라도 없으면 대출이 불허되오니 참고 바랍니다.</p>
+                                                    <p>If a person representing the president CEO : 1. Identification of your representative, 2. Legal seal of letter of attorney</p>
+                                                    <p>Disapproval loan if at least one document is not exist. </p>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="item-area only-mb">
-                                            <div class="item-header">
-                                                <div class="tt3">담보 종류 안내</div>
-                                            </div>
-                                            <div class="item-body">
-                                                <p class="tb1">경매가 가능한 미술작품</p>
-                                                <p class="tb2 colorS">예) 근현대미술품, 고미술품 (중국도자기는 제외됩니다.)</p>
                                             </div>
                                         </div>
                                     </div>
                                 </article>
+
                                 <article class="loan-condition-area">
                                     <div class="table-panel">
                                         <div class="p-header">
-                                            <div class="title ft_b"><span class="tt3">미술품 담보 대출 조건 안내</span></div>
+                                            <div class="title ft_b"><span class="tt3">Condition of Loan</span></div>
                                         </div>
                                         <div class="p-body">
                                             <table class="table_base data-table name-condition">
                                                 <thead>
                                                 <tr>
-                                                    <th>구분</th>
-                                                    <th>일반담보대출</th>
+                                                    <th>Sort</th>
+                                                    <th>Default</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 <tr>
                                                     <td>
-                                                        <span>이자율</span>
+                                                        <span>Interest Rate</span>
                                                     </td>
                                                     <td>
-                                                        <span>12% / 연</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <span>연체이자율</span>
-                                                    </td>
-                                                    <td>
-                                                        <span>15% / 연</span>
+                                                        <span>12% per year</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <span>기본대출기간</span>
+                                                        <span>Overdue interest rate</span>
                                                     </td>
                                                     <td>
-                                                        <span>3개월</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <span>이자정수</span>
-                                                    </td>
-                                                    <td>
-                                                        <span>원칙 : 선칙</span>
+                                                        <span>15% per year</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <span>대출한도</span>
+                                                        <span>Regular Loan Period</span>
                                                     </td>
                                                     <td>
-                                                        <span>작품평가액의 50%</span>
+                                                        <span>3 month</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span>Change interest</span>
+                                                    </td>
+                                                    <td>
+                                                        <span>Principle : Payment in advance</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span>Loan limit</span>
+                                                    </td>
+                                                    <td>
+                                                        <span>50% of appraisal amount</span>
                                                     </td>
                                                 </tr>
                                                 </tbody>
                                             </table>
                                             <div class="refer tb2">
-                                                <p>상기조건은 개별건에 따라서 변경 가능합니다.</p>
+                                                <p>Conditions above are adjustable depending on each case.</p>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="loan-company">
-                                        <ul class="dot tb1">
-                                            <li>대부업체명 : ㈜ 서울옥션</li>
-                                            <li>대표이사 : 이옥경 </li>
-                                            <li>등록번호: 2011-서울종로-00069(대부업)</li>
-                                            <li>소재지 : 서울시 종로구 평창 30길 24 (평창동)</li>
-                                            <li>전화번호: <a href="tel:02-395-0330">02-395-0330</a></li>
-                                        </ul>
-                                        <div class="btn-box">
-                                            <a class="btn btn_gray_line btn_sm" href="https://www.fss.or.kr/s1332/search/search0601.jsp" target="_blank" role="button"><span>등록대부업체 통합조회 서비스</span></a>
-                                        </div>
-                                        <div class="description">
-                                            <p>대부이자율 12%/연 연체이자율 15%/연 조기 상환 수수료 2% 조기상황조건 및 기타비용 없음.</p>
-                                            <p>중개수수료를 요구하거나 받는 것은 불법입니다. 과도한 빚은 당신에게 큰 불행을 안겨줄 수 있습니다. 대출 시 귀하의 신용등급이 하락할 수 있습니다.</p>
-                                        </div>
-                                    </div>
                                 </article>
+
                                 <!-- 문의하기 -->
-
-
                                 <article class="inquiry-article ">
                                     <div class="inquiry-box">
                                         <div class="typo-area">
@@ -285,20 +258,20 @@
                                                 <i class="icon-academy_inquiry"></i>
                                             </div>
                                             <div class="title-box">
-                                                <strong>문의하기</strong>
+                                                <strong>Contact</strong>
                                             </div>
                                             <div class="info-guide">
-                                                <div class="manager-box"> <span>미술품경매사업부</span> <em>이지희 이사</em> </div>
+                                                <div class="manager-box"> <em>Lee J.H</em> </div>
                                                 <div class="contact-box">
                                                     <ul>
-                                                        <li><span>T.</span> <a href="tel:02-2075-4499"><em>02-2075-4499</em></a></li>
+                                                        <li><span>T.</span> <a href="tel:82-2-2075-4499"><em>+82 (0)2-2075-4499</em></a></li>
                                                         <li><span>E.</span> <a href="mailto:jlee@seoulauctionl.com"><em>jlee@seoulauctionl.com</em></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="btn-area">
-                                            <a class="btn btn_gray_line" href="/mypage/inquiryForm" role="button"><span>1:1 문의</span></a>
+                                            <a class="btn btn_gray_line" href="/mypage/inquiryForm" role="button"><span>1:1 Inquiry</span></a>
                                         </div>
                                     </div>
                                 </article>
@@ -306,14 +279,12 @@
                         </div>
                     </div>
                 </section>
-
-
             </div>
         </div>
         <!-- //container -->
 
         <!-- footer -->
-        <jsp:include page="../../include/ko/footer.jsp" />
+        <jsp:include page="../../include/en/footer.jsp" />
         <!-- //footer -->
 
         <!-- stykey -->
@@ -323,9 +294,7 @@
             </div>
         </div>
         <!-- // stykey -->
-
     </div>
 </div>
 </body>
-
 </html>

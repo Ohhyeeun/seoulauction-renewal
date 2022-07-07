@@ -1090,10 +1090,10 @@
                 const padd_no = $scope.paddNo;
                 const sale_status = $scope.sale_status;
 
-                const live_start_dt = $filter('date')($scope.sale.LIVE_BID_DT, 'MM/dd');
-                const live_start_dt_date = $scope.getWeek($scope.sale.LIVE_BID_DT);
-                const live_start_dt_hour = $filter('date')($scope.sale.LIVE_BID_DT, 'HH');
-                const live_start_dt_minute = $filter('date')($scope.sale.LIVE_BID_DT, 'mm');
+                const live_start_dt = $filter('date')($scope.sale.TO_DT, 'MM/dd');
+                const live_start_dt_date = $scope.getWeek($scope.sale.TO_DT);
+                const live_start_dt_hour = $filter('date')($scope.sale.TO_DT, 'HH');
+                const live_start_dt_minute = $filter('date')($scope.sale.TO_DT, 'mm');
 
                 if(sale_status == 'ING' && $scope.liveCheckDt >= $scope.liveStartDt) {
                     // 경매 당일 응찰하기

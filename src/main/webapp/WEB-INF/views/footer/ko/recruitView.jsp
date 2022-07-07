@@ -147,9 +147,11 @@
                                 location.href='/error/404';
                             }
 
+                            let endDate =  data.end_date !== undefined ? ' ~ ' + data.end_date : '';
+
                             $("#recruit_title").html(data.title);
                             $("#recruit_content").html(data.content);
-                            $("#recruit_date").html(data.start_date +' ~ ' + data.end_date);
+                            $("#recruit_date").html(data.start_date + endDate);
 
                             //입사 지원서 없을 경우 하이드!
                             //$("#recruit_file_down").hide();
