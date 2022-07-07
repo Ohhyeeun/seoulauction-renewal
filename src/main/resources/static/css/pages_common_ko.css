@@ -32439,7 +32439,7 @@ header.win_header .header-inner .header_logo {
 }
 
 .trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box .images img {
- /* width: 100%; */;
+  width: 100%; ;
 }
 
 .trp.popupfixed-wrap.images-popup .viewer-article .img-area .size_x, .trp.popupfixed-wrap.images-popup .viewer-article .img-area .size_y {
