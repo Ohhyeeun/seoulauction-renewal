@@ -279,6 +279,12 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 	// 네이버 로그인
 	$scope.naverButtonClick = function() {
 		var loginButton = document.getElementById("naverIdLogin").firstChild;
+		console.log("LOGIN naverLogin")
+		console.log(naverLogin)
+		console.log("***LOGIN loginButton log")
+		console.log(loginButton)
+		console.log("LOGIN loginButton dir")
+		console.dir(loginButton)
 		loginButton.click();
 	}
 			

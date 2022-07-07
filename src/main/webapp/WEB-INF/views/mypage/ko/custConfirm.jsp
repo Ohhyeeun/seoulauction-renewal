@@ -77,6 +77,7 @@
 		                                            </article>
 		                                            <article class="inquiry-write-wrap">
 		                                            	<div id="naverIdLogin"></div>
+		                                            	<div id="testNaver" onclick="naverButtonClick()">testtesttest</a>
 		                                            	<div id="googleIdLogin" style="display:none"></div>
 		                                            	<div id="appleid-signin" style="display:none" data-type="sign in"></div>
 		                                            </article>

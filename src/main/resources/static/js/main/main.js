@@ -189,6 +189,8 @@ function  loadBigBanner (){
                                             </a>`;
                         });
 
+                       const titleTextColor = item.content.title_color ==='B'? '#000000' : '#FFFFFF';
+
                          const returnDom = `<div class="swiper-slide"> 
                                                 <figure class="visual_img">
                                                     <img src="${item.image.pc_url}" alt="slide" class="pc-ver">
@@ -196,8 +198,8 @@ function  loadBigBanner (){
                                                 </figure>
                                                 <figurecaption class="visual_caption">
                                                     <div>
-                                                        <h1 class="slide-tit">${item.content.title[locale]}</h1>
-                                                        <p>
+                                                        <h1 class="slide-tit" style="color:${titleTextColor}">${item.content.title[locale]}</h1>
+                                                        <p style="color:${titleTextColor}">
                                                             ${item.content.sub_title[locale]}
                                                         </p>
                                                         <div class="visual_btn">

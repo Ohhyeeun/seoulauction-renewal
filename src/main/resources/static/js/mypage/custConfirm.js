@@ -58,16 +58,21 @@ $(document).ready(function(){
 });
 
 $(window).on("load", function() {
-	
+		// 네이버 로그인
 	if(socialYn == 'Y'){
 		if(socialType === "NV"){
-			setInterval(function() {
-				var loginButton = document.getElementById("naverIdLogin").firstChild;
-				console.log(naverLogin)
-				console.log(loginButton)
-				console.dir(loginButton)
-				loginButton.click();
-			}, 3000);
+			$("#testNaver").trigger("click");
+			
+//			setInterval(function() {
+//				var loginButton = document.getElementById("naverIdLogin").firstChild;
+//				console.log("naverLogin")
+//				console.log(naverLogin)
+//				console.log("loginButton log")
+//				console.log(loginButton)
+//				console.log("loginButton dir")
+//				console.dir(loginButton)
+//				loginButton.click();
+//			}, 3000);
 //			console.log($("#naverIdLogin_loginButton").length)
 //			var loginButton2 = $("#naverIdLogin_loginButton")[0];
 //			console.log(loginButton2)
@@ -82,6 +87,17 @@ $(window).on("load", function() {
 	}
 });
 
+function naverButtonClick() {
+	var loginButton = document.getElementById("naverIdLogin").firstChild;
+	console.log("LOGIN naverLogin")
+	console.log(naverLogin)
+	console.log("***LOGIN loginButton log")
+	console.log(loginButton)
+	console.log("LOGIN loginButton dir")
+	console.dir(loginButton)
+	loginButton.click();
+}
+	
 function goPost(){
     let f = document.createElement('form');
     f.setAttribute('method', 'post');

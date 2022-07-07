@@ -487,6 +487,11 @@
         $scope.searchSaleInfoAll = [];
         $scope.selectLotTag = "전체";
 
+        $scope.searchInit = function (event) {
+            $scope.searchValue = '';
+            $scope.searchArtist2();
+        }
+
         $scope.searchArtist = function (event) {
             if (event.keyCode === 13 || $scope.searchValue.length <= 0) {
                 $scope.searchArtist2();
