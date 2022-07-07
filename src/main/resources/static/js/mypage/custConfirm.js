@@ -61,9 +61,17 @@ $(window).on("load", function() {
 	
 	if(socialYn == 'Y'){
 		if(socialType === "NV"){
-			var loginButton = document.getElementById("naverIdLogin").firstChild;
-			console.dir(loginButton.outerHTML)
-			loginButton.click();
+			setInterval(function() {
+				var loginButton = document.getElementById("naverIdLogin").firstChild;
+				console.log(naverLogin)
+				console.log(loginButton)
+				console.dir(loginButton)
+				loginButton.click();
+			}, 3000);
+//			console.log($("#naverIdLogin_loginButton").length)
+//			var loginButton2 = $("#naverIdLogin_loginButton")[0];
+//			console.log(loginButton2)
+//			$(loginButton2).trigger("click")
 		}else if(socialType === "KA"){
 			location.href='https://kauth.kakao.com/oauth/authorize?client_id=adbdfe931311a01731a0161175701a42&redirect_uri=' + socialServiceDomain + '/kakaoRedirect/custConfirm&response_type=code'
 		}else if(socialType === "GL"){
