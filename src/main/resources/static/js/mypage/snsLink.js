@@ -88,9 +88,11 @@ function snsUnLink(socialType) {
 				
 				eval(socialType + "LinkYn = false");
 				console.log(socialType + "LinkYn : " + eval(socialType + "LinkYn"));
-				
-				//소셜 연동해제
-				eval(socialType + "UnLink();");
+				if(langType == 'ko'){
+					alert('연결 해제 되었습니다.');
+				}else{
+					alert('Disconnected.');
+				}
 			}else{
 				alert(result.data.msg)
 			}
@@ -99,11 +101,6 @@ function snsUnLink(socialType) {
 			console.log(error);
 		});
 }
-
-// 카카오 init
-Kakao.init('cf2233f55e74d6d0982ab74909c97835');
-// SDK 초기화 여부 판단
-console.log(Kakao.isInitialized() ? "카카오init성공" : "카카오init실패");
 
 // 구글초기화
 var googleInit = function() {
@@ -148,33 +145,8 @@ function loginWithKakao() {
 		//연동해제
 		snsUnLink("KA");
 	}else{
-		//연동
-		Kakao.Auth.login({
-			success: function(authObj) {
-				Kakao.Auth.setAccessToken(authObj.access_token); // access-token 저장
-				getKakaoUser();
-			},
-			fail: function(err) {
-				console.log(err);
-			}
-		});
+		location.href='https://kauth.kakao.com/oauth/authorize?client_id=adbdfe931311a01731a0161175701a42&redirect_uri=' + socialServiceDomain + '/kakaoRedirect/snsLink&response_type=code'
 	}
-}
-
-// 카카오사용자정보로 DB조회하여 로그인진행
-function getKakaoUser() {
-	Kakao.API.request({
-		url: '/v2/user/me',
-		success: function(res) {
-			kakaoUser = res.kakao_account;
-
-			console.log(kakaoUser);
-			snsLink("KA", kakaoUser.email);
-		},
-		fail: function(error) {
-			alert('카카오 로그인에 실패했습니다. 관리자에게 문의하세요.' + JSON.stringify(error));
-		}
-	});
 }
 
 // 네이버 로그인
@@ -244,62 +216,3 @@ document.addEventListener('AppleIDSignInOnFailure', (error) => {
 	console.log("AppleIDSignInOnFailure")
 	console.log(error)
 });
-
-//네이버 연동해제
-function NVUnLink(){
-	var data = { "token": naverLogin.accessToken.accessToken, "client_id": "5qXZytacX_Uy60o0StGT", "client_secret": "N573KogeM1" };
-	
-	axios.post('/api/mypage/naversignOut', data)
-		.then(function(response) {
-			const result = response.data;
-			if(result.success){
-				if(langType == 'ko'){
-				alert('연결 해제 되었습니다.');
-				}else{
-					alert('Disconnected.');
-				}
-			}
-		})
-		.catch(function(error) {
-			console.log(error);
-		});
-}
-
-//카카오톡 연동해제
-function KAUnLink(){
-	Kakao.API.request({
-		url: '/v1/user/unlink',
-		success: function(response) {
-			if(langType == 'ko'){
-				alert('연결 해제 되었습니다.');
-			}else{
-				alert('Disconnected.');
-			}
-		},
-		fail: function(error) {
-			console.log(error);
-		},
-	});
-}
-
-//구글 연동해제
-function GLUnLink(){
-	var auth2 = gapi.auth2.getAuthInstance();
-	auth2.disconnect().then(function() {
-		if(langType == 'ko'){
-			alert('연결 해제 되었습니다.');
-		}else{
-			alert('Disconnected.');
-		}
-	});
-}
-
-//애플 연동해제
-function APUnLink(){
-	//애플 연동해제 api 미지원
-	if(langType == 'ko'){
-		alert('연결 해제 되었습니다.');
-	}else{
-		alert('Disconnected.');
-	}
-}

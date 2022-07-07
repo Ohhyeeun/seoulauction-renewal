@@ -47,7 +47,7 @@
 															<div id="naverIdLogin" style="display:none"></div>
 														</li>
 														<li>
-															<i ng-click="joinWithKakao()" class="icon-sns_kakao"></i>
+															<i onclick="window.open('https://kauth.kakao.com/oauth/authorize?client_id=adbdfe931311a01731a0161175701a42&redirect_uri=${socialServiceDomain}/kakaoRedirect/login&response_type=code')" class="icon-sns_kakao"></i>
 														</li>
 														<li>
 															<i id="googleIdJoin" class="icon-sns_google"></i>
@@ -127,10 +127,8 @@
 </div>
 </body>
 	
-	<!-- 카카오 -->
-	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 	<!-- 네이버 -->
+	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2-nopolyfill.js" charset="utf-8"></script>
 	<!--  구글 -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
