@@ -534,7 +534,7 @@
                                         </div>
                                         <div class="btn_set type-pc_mb-column">
                                             <div class="btn_item">
-                                                <div class="select-box ">
+                                                <div id="reservation_bid_layer" class="select-box ">
                                                     <!-- disabled 옵션 -->
                                                     <select class="select2Basic56_line" id="reservation_bid">
                                                     </select>
