@@ -13,7 +13,6 @@
     </select>
     <select id="selectSaleInfo" resultType="CommonMap" parameterType="commonMap">
         select S.SALE_NO
-        , S.SALE_TH
         , S.SALE_KIND_CD
         , IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH
         , IF(S.SALE_TH_DSP_YN = 'N', '', f_ordinal_number(S.SALE_TH)) SALE_TH_DSP
