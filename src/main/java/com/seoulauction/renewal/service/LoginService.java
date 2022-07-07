@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -249,7 +250,7 @@ public class LoginService {
 			//담당자 전번도 없을때는 고객센터로 ㄱ
 		} else {
 			String tel = empCustMap.getString("TEL");
-			if(tel ==null){
+			if(StringUtils.isEmpty(tel)){
 				empCustMap.put("CUST_NAME" , "고객센터");
 				empCustMap.put("TEL" , "02-395-0330");
 			}
