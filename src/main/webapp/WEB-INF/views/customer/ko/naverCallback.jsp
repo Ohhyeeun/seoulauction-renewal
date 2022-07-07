@@ -17,6 +17,7 @@ var search_kind = "";
 <!-- 		callback 처리중입니다. 이 페이지에서는 callback을 처리하고 바로 main으로 redirect하기때문에 이 메시지가 보이면 안됩니다. -->
 
 	<script>
+		var langType = document.documentElement.lang;
 		var naverLogin = new naver.LoginWithNaverId({
 			clientId: "5qXZytacX_Uy60o0StGT",
 			isPopup: false,
