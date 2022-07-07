@@ -1,25 +1,11 @@
 app.value('locale', 'ko');
 var langType = document.documentElement.lang;
 
-$(window).on("load", function() {
-	console.log("socialYn : " + socialYn);
+$(document).ready(function(){
+    console.log("socialYn : " + socialYn);
 	console.log("socialType : " + socialType);
 	
 	if(socialYn == 'Y'){
-		// 구글초기화
-		var googleInit = function() {
-			gapi.load('auth2', function() {
-				auth2 = gapi.auth2.init({
-					client_id: '5285017753-1tkl3r19jc3e7hesflsm0jj9uhgm7f4j.apps.googleusercontent.com',
-					cookiepolicy: 'single_host_origin',
-					plugin_name: 'SA-Renewal'
-				});
-				attachClickGoogle(document.getElementById('googleIdLogin'));
-			});
-		};
-		// 구글 init
-		googleInit();
-		
 		// 네이버초기화
 		naverLogin = new naver.LoginWithNaverId({
 			clientId: "5qXZytacX_Uy60o0StGT",
@@ -34,6 +20,20 @@ $(window).on("load", function() {
 		console.log(socialServiceDomain + "/social/naver/callback?action=socialConfirm&userEmail=" + socialEmail);
 		// 네이버 init
 		naverLogin.init();
+		
+		// 구글초기화
+		var googleInit = function() {
+			gapi.load('auth2', function() {
+				auth2 = gapi.auth2.init({
+					client_id: '5285017753-1tkl3r19jc3e7hesflsm0jj9uhgm7f4j.apps.googleusercontent.com',
+					cookiepolicy: 'single_host_origin',
+					plugin_name: 'SA-Renewal'
+				});
+				attachClickGoogle(document.getElementById('googleIdLogin'));
+			});
+		};
+		// 구글 init
+		googleInit();
 		
 		// 애플 init
 		AppleID.auth.init({
@@ -55,10 +55,14 @@ $(window).on("load", function() {
 				});
 		}
 	}
+});
 
+$(window).on("load", function() {
+	
 	if(socialYn == 'Y'){
 		if(socialType === "NV"){
 			var loginButton = document.getElementById("naverIdLogin").firstChild;
+			console.dir(loginButton.outerHTML)
 			loginButton.click();
 		}else if(socialType === "KA"){
 			location.href='https://kauth.kakao.com/oauth/authorize?client_id=adbdfe931311a01731a0161175701a42&redirect_uri=' + socialServiceDomain + '/kakaoRedirect/custConfirm&response_type=code'
