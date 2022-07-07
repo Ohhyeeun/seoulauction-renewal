@@ -54,11 +54,18 @@ var search_kind = "";
 					var expire = new Date();
 					expire.setDate(expire.getDate() + 30);
 					document.cookie = 'recentSocialType=NV; path=/; expires=' + expire.toGMTString() + ';';
-					opener.location.replace("/");
+					
+					console.log("로그인성공")
+					console.log(opener);
+// 					opener.location.replace("/");
 				}else{
 					if(response.data.data.msg == "Not Certify User"){
+						console.log("로그인성공")
+						console.log(opener);
 						opener.alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
 					}else if(response.data.data.msg == "User not found."){
+						console.log("미가입")
+						console.log(opener);
 						//미가입 = 회원가입페이지이동
 						opener.document.getElementById("name").value = naverLogin.user.name;
 						opener.document.getElementById("mobile").value = naverLogin.user.mobile;
@@ -67,7 +74,7 @@ var search_kind = "";
 						opener.document.getElementById("joinForm").submit();
 					}
 				}
-				window.close();
+// 				window.close();
 			})
 			.catch(function(error){
 				console.log(error);
