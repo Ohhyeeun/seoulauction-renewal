@@ -5,7 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <script type="text/javascript">
 var search_kind = "";
 </script>
@@ -17,6 +17,7 @@ var search_kind = "";
 <!-- 		callback 처리중입니다. 이 페이지에서는 callback을 처리하고 바로 main으로 redirect하기때문에 이 메시지가 보이면 안됩니다. -->
 
 	<script>
+		var langType = document.documentElement.lang;
 		var naverLogin = new naver.LoginWithNaverId({
 			clientId: "5qXZytacX_Uy60o0StGT",
 			isPopup: false,
@@ -145,7 +146,6 @@ var search_kind = "";
 										document.getElementById("email").value = naverLogin.user.email;
 										document.getElementById("joinForm").action = '/joinForm?socialType=NV';
 										document.getElementById("joinForm").submit();
-										window.close();
 									}else{
 										opener.document.getElementById("name").value = naverLogin.user.name;
 										opener.document.getElementById("mobile").value = naverLogin.user.mobile;
@@ -170,7 +170,8 @@ var search_kind = "";
 								if(result.success == false){
 									if(opener == null){
 										//앱에서 opener null로 인식
-										alert(result.data.msg)
+										alert(result.data.msg);
+										location.href = "/mypage/snsLink";
 									}else{
 										opener.alert(result.data.msg)
 										window.close();
@@ -178,7 +179,7 @@ var search_kind = "";
 								}else{
 									if(opener == null){
 										//앱에서 opener null로 인식
-										location.reload();
+										location.href = "/mypage/snsLink";
 									}else{
 										opener.location.reload();
 										window.close();
@@ -189,9 +190,30 @@ var search_kind = "";
 								console.log(error);
 							});
 					}else if(action.startsWith("socialConfirm")){
+						var userEmail = request.getParameter("userEmail");
+						userEmail = userEmail.substring(0, userEmail.indexOf("#"));
+						alert("opener : " + opener);
+						alert("userEmail : " + userEmail);
+						alert("langType : " + langType);
+						alert("naverLogin.user.email : " + naverLogin.user.email)
 						if(opener == null){
 							//앱에서 opener null로 인식
-							socialConfirm(naverLogin.user.email)
+							if(naverLogin.user.email === userEmail){
+								if(langType == 'ko'){
+									alert("연결 되었습니다.");
+								}else{
+									alert("Connected.");
+								}
+								document.getElementById("confirmForm").submit();
+							}else{
+								alert("가입한 계정과 다른 소셜계정으로 로그인하셨습니다.");
+								var width = window.innerWidth;
+								if(width < 1023){ //mobile
+									location.href = "/mypage/main";
+						        }else{ //pc
+						        	location.href = "/mypage/liveBidReqList";
+						        }
+							}
 						}else{
 							opener.parent.socialConfirm(naverLogin.user.email)
 							window.close();
@@ -214,5 +236,8 @@ var search_kind = "";
 <form id="loginForm" method="post">
 	<input type="hidden" name="social_type" id="social_type"/>
 	<input type="hidden" name="social_email" id="social_email"/>
+</form>
+
+<form id="confirmForm" action="/mypage/custModify" method="post">
 </form>
 </html>

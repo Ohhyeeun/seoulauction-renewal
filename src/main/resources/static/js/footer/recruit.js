@@ -59,11 +59,14 @@ $(document).ready(function(){
                             html +=   `<div class="mem-icon icon-recruiting">채용시 마감</div>
                                      </div>`;
                         }
-                            html +=
-                                `<a href="/footer/recruit/${el.id}" class="tit">${el.title}</a>
-                                </td>
-                                <td class="bbs-date long">${el.start_date} ~ ${el.end_date}</td>
-                                </tr>`;
+
+                        let endDate = el.end_date !== undefined ? ' ~ ' + el.end_date : '';
+
+                        html +=
+                            `<a href="/footer/recruit/${el.id}" class="tit">${el.title}</a>
+                            </td>
+                            <td class="bbs-date long">${el.start_date} ${endDate} </td>
+                            </tr>`;
 
                         $("#recurit_tbody").append(html);
                     });

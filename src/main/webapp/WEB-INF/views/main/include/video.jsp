@@ -83,8 +83,6 @@
                     1023: {
                         slidesPerView: 'auto',
                         spaceBetween: 20,
-                        loopedSlides: 1,
-                        loop: false,
                         loopFillGroupWithBlank: false,
                     },
                 }

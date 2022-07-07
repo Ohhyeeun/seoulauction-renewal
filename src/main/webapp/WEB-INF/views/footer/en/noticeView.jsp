@@ -108,7 +108,7 @@
                             let data = response.data.data;
 
                             if(!data){
-                                alert('잘못된 경로입니다.');
+                                alert('Wrong Path.');
                                 history.back();
                             }
 
@@ -116,13 +116,15 @@
                             $("#notice_title").html(JSON.parse(data.title).en);
                             $("#notice_date").html(data.dt_date);
 
-                            if(data.images.length !==0){
+                            if(data.images.length !==0) {
                                 let images = data.images;
                                 $.each(images , function(idx , el){
 
                                     let html = `<a href=/fileDownload?fileKey=` + el.path + `&downloadFileName=` + el.name  + `>`
                                         + `<i class="icon_down"></i> <span>` + el.name + `</span></a>`;
-                                    $("#notice_file_list").html(html);
+                                    $("#notice_file_list").append(html);
+
+
                                 });
                             }
                         }
