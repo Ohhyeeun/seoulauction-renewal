@@ -238,4 +238,25 @@ public class LoginService {
 
 		return socialLoginId;
 	}
+	public CommonMap getCustByEmpNo(int custNo){
+
+		CommonMap empCustMap = loginMapper.selectCustForEmpNo(new CommonMap("cust_no" , custNo));
+
+		if(empCustMap == null){
+			empCustMap = new CommonMap();
+			empCustMap.put("CUST_NAME" , "고객센터");
+			empCustMap.put("TEL" , "02-395-0330");
+			//담당자 전번도 없을때는 고객센터로 ㄱ
+		} else {
+			String tel = empCustMap.getString("TEL");
+			if(tel ==null){
+				empCustMap.put("CUST_NAME" , "고객센터");
+				empCustMap.put("TEL" , "02-395-0330");
+			}
+		}
+
+		return empCustMap;
+
+
+	}
 }

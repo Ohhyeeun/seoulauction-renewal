@@ -3,6 +3,7 @@ package com.seoulauction.renewal.controller;
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.service.LoginService;
 import com.seoulauction.renewal.service.SaleService;
 import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,8 @@ import java.util.Locale;
 public class AuctionController {
 
     private final SaleService saleService;
+    private final LoginService loginService;
+
     
     @GetMapping("/online/view/{sale_no}/{lot_no}")
     public String view(Locale locale, Model model
@@ -145,6 +148,10 @@ public class AuctionController {
                              @PathVariable("sale_no") int saleNo,
                              @PathVariable("lot_no") int lotNo) {
 
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+
+        //고객 담당자 저나번호 따기.
+        model.addAttribute("emp" , loginService.getCustByEmpNo(saUserDetails.getUserNo()));
         model.addAttribute("member" , SecurityUtils.getAuthenticationPrincipal());
         model.addAttribute("saleNo", saleNo);
         model.addAttribute("lotNo", lotNo);
