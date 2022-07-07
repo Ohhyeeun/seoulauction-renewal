@@ -599,6 +599,8 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		var address_search1 = $(".js-address_search1").trpLayerFixedPopup("#address_search1-wrap")
         address_search1.open(this); // or false   
         popup_fixation("#address_search1-wrap");
+        $scope.addressList = undefined;
+        $scope.find_word = "";
 	}
 	
 	//주소검색
@@ -654,6 +656,9 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	$scope.employeeSearch = function(){
         staff_search1.open(this); // or false   
         popup_fixation("#staff_search1-wrap");
+        $scope.employeeList = [];
+        $scope.empLength = 0;
+		$scope.emp_name = "";
 	}
 	
 	//직원검색
