@@ -433,15 +433,15 @@
                                                             <div class="navi-info tb1">
                                                                 <div class="key">지번 주소</div>
                                                                 <div class="value">
-                                                                    <p>서울특별시 종로구 평창31길 11</p>
-                                                                    <p>서울특별시 종로구 평창30길 24</p>
+                                                                    <p>서울특별시 종로구 평창동 465-10</p>
+                                                                    <p>서울특별시 종로구 평창동 98번지</p>
                                                                 </div>
                                                             </div>
                                                             <div class="navi-info tb1">
                                                                 <div class="key">도로명 주소</div>
                                                                 <div class="value">
-                                                                    <p>서울특별시 종로구 평창동 465-10</p>
-                                                                    <p>서울특별시 종로구 평창동 98번지</p>
+                                                                    <p>서울특별시 종로구 평창31길 11</p>
+                                                                    <p>서울특별시 종로구 평창30길 24</p>
                                                                 </div>
                                                             </div>
                                                         </div>

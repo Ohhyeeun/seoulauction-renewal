@@ -185,7 +185,7 @@ public class PaymentService {
             resultMap.putAll(paymentMapper.selectAcademyByAcademyNo(resultMap));
         } else if(SAConst.PAYMENT_METHOD_CARD.equals(payMethod)){
             CommonMap map = paymentMapper.selectAcademyPayByPayNo(resultMap);
-            resultMap.put("academy_no", map.get("academy_no"));
+            resultMap.put("academy_no", map.get("ACADEMY_NO"));
             resultMap.putAll(paymentMapper.selectAcademyByAcademyNo(resultMap));
         }
 
