@@ -753,7 +753,18 @@ app.controller('headCtl', function($scope, consts, common, locale, $filter) {
     $(".recent-search").append(html);
 
 
-    $scope.goSearch =  function(elementId, bIsKorean){
+    $scope.goSearch =  function(elementId, bIsKorean, $event){
+
+        $event.preventDefault();
+
+        if(window.Event.keyCode == 13){
+            $('.topsearch-btn').trigger("click");
+            $('.search-bubble-box').removeClass('on');
+        } else if($('.topsearch-text').val().length == 0) {
+            $('.search-bubble-box').removeClass('on');
+        } else {
+            $('.search-bubble-box').addClass('on');
+        };
 
         var sSearchContent = $("#" + elementId).val();
         if(sSearchContent) {
@@ -762,6 +773,7 @@ app.controller('headCtl', function($scope, consts, common, locale, $filter) {
         else {
             alert(bIsKorean ? "검색어를 입력해주세요." : "Please write search keyword.");
         }
+        return false;
     }
 
 });
