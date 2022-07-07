@@ -66,7 +66,9 @@
                                                             </thead>
                                                             <tbody ng-repeat="art in academyList">
                                                                 <tr>
-                                                                    <td class="bbs-subject">{{art.TITLE_KO}}</td>
+                                                                	
+                                                                    <td ng-if="art.CANCEL_YN != 'Y'" class="bbs-subject" ><a href="#" ng-click="academyPayHis({'parent':this, 'academy':art});">{{art.TITLE_KO}}</a></td>
+                                                                    <td ng-if="art.CANCEL_YN == 'Y'" class="bbs-subject" >{{art.TITLE_KO}}</td>
                                                                     <td ng-bind="art.pay_price | number : 0"></td>
                                                                     <td ng-if="art.CANCEL_YN != 'Y'"><a class="pay complete" href="#" ng-click="academyPayHis({'parent':this, 'academy':art});" class="ng-scope" >결제완료</a>
                                                                     <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="0" ng-if="art.PAY_METHOD_ID == 'card' && art.receipt == 'Y'" onclick="receiptPopup(this)"><span>결제영수증</span></button>
