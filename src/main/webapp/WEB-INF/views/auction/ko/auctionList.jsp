@@ -160,6 +160,27 @@
                         </div>
                     </div>
                 </section>
+                <section ng-show="isEmpty" class="basis-section auction_result_list-section last-section">
+                    <div class="section-inner">
+                        <div class="content-panel type_panel-product_result_list">
+                            <div class="panel-body">
+                                <div class="data-empty type-big">
+                                    <div class="img_empty">
+                                        <img src="/images/mobile/auction/symbol-none_data.png" alt="검색결과가 없습니다." />
+                                    </div>
+                                    <div class="txt_empty">
+                                        <div class="title">검색결과가 없습니다.</div>
+                                        <div class="desc">단어의 철자나 띄어쓰기가 <br class="only-mb" />
+                                            정확한지 확인해주세요</div>
+                                    </div>
+                                    <div class="empty_btn">
+                                        <button class="btn btn_gray_line" type="button" ng-click="searchAll();"><span>전체결과보기</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
                 <section class="basis-section last-section auction_list-section">
                     <div class="section-inner">
                         <div class="content-panel type_panel-product_list">
@@ -391,6 +412,31 @@
 */
 </script>
 <script>
+    function size_text_cm(src){
+        if (src === null || src === undefined ) {
+            return;
+        }
+
+        var returnValue = "";
+        var cmSize = ""
+
+        for (let i =0 ;i < src.length; i++) {
+            if (src[i].UNIT_CD === "cm") {
+                cmSize = src[i].SIZE1 != 0 ? src[i].SIZE1.toFixed(1) : "";
+                cmSize += src[i].SIZE2 != 0 ? "☓" + src[i].SIZE2.toFixed(1) : "";
+                cmSize += src[i].SIZE3 != 0 ? "☓" + src[i].SIZE3.toFixed(1) +
+                    "(" + (src[i].MIX_CD == "depth" ? "d" : "h")  + ")": "";
+                cmSize += cmSize != "" ? src[i].UNIT_CD : "";
+                cmSize += cmSize != "" &&  src[i].CANVAS != 0 ? " (" + (src[i].CANVAS_EXT_YN == "Y" ? "변형" : "") + src[i].CANVAS + ")" : "";
+
+                returnValue = src[i].PREFIX;
+                returnValue += (src[i].DIAMETER_YN == "Y" ? "Φ " : "") + cmSize;
+                returnValue += (src[i].SUFFIX ? " (" + src[i].SUFFIX + ") " : "");
+                return returnValue;
+            }
+        }
+        return "";
+    }
     //약관체크
     $(".js_all-1").trpCheckBoxAllsImg(".js_all", ".js_item");
 
@@ -452,12 +498,23 @@
             }
         }
 
+        $scope.searchAll = function () {
+            $scope.searchValue = "";
+            $scope.searchArtist2();
+        }
+
         $scope.searchArtist2 = function () {
             let pp = [];
+
             for (let i = 0; i < $scope.saleInfoAll.length; i++) {
                 if ($scope.saleInfoAll[i].ARTIST_NAME_JSON.ko.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1 || $scope.saleInfoAll[i].LOT_TITLE_JSON.ko.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1) {
                     pp.push($scope.saleInfoAll[i]);
                 }
+            }
+            if (pp.length <= 0) {
+                $scope.isEmpty = true;
+            } else {
+                $scope.isEmpty = false;
             }
             $scope.searchSaleInfoAll = pp;
             $scope.pageing(1);
@@ -608,7 +665,7 @@
                             bornYear: $scope.saleInfoAll[i].BORN_YEAR,
                             lotTitle: $scope.saleInfoAll[i].LOT_TITLE_JSON.ko,
                             material: $scope.saleInfoAll[i].CD_NM,
-                            lotSize: $scope.saleInfoAll[i].SIZE1 + "X" + $scope.saleInfoAll[i].SIZE2 + "X" + $scope.saleInfoAll[i].SIZE3,
+                            lotSize: $scope.saleInfoAll[i].LOT_SIZE_JSON,
                             makeYear: $scope.saleInfoAll[i].MAKE_YEAR_JSON.ko,
                         }
                         break
@@ -641,7 +698,7 @@
                 $("#pop_born_year").html(lotInfo.bornYear);
                 $("#pop_lot_title").html(lotInfo.lotTitle);
                 $("#pop_material").html(lotInfo.material);
-                $("#pop_size").html(lotInfo.lotSize);
+                $("#pop_size").html(size_text_cm(lotInfo.lotSize));
                 $("#pop_make_year").html(lotInfo.makeYear);
 
                 popup_biddingPopup1.open(this); // or false
@@ -952,6 +1009,8 @@
 
             } else if (d.msg_type === packet_enum.bid_info) {
                 if (d.message.bid != null && d.message.bid.length > 0) {
+                    // 비딩 정보를 받으면 현재가로 변경
+                    document.getElementById("bid_cost_text").innerText = "현재가";
 
                     let len = d.message.bid.length;
                     let curCostValue = (d.message.bid[len - 1].bid_cost === 0) ? "KRW " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR') : "KRW " + d.message.bid[len - 1].bid_cost.toLocaleString('ko-KR');
@@ -1352,6 +1411,9 @@
                                     }
                                 }
                             }
+                        } else {
+                           document.getElementById("bid_cost_text").innerText = "시작가";
+                           document.getElementById("bid_cost_cnt").innerText = "";
                         }
                         let quote_arr = [];
                         if (d.message.quotes != null && d.message.quotes.length > 0) {

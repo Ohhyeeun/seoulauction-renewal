@@ -53,7 +53,7 @@
                                     </div>
                                     <div class="product-list-area">
                                         <div class="list-header">
-                                            <div class="price-name"><span>현재가</span></div>
+                                            <div class="price-name"><span id="bid_cost_text">현재가</span></div>
                                             <div class="price-amount"><em id="bid_cost_val"></em> <span
                                                     id="bid_cost_cnt"></span></div>
                                         </div>

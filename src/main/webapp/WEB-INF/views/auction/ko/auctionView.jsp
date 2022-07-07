@@ -198,10 +198,10 @@
                                                     <dt>시작가</dt>
                                                     <dd id="start_cost"><!--WEB SOCKET--></dd>
                                                 </dl>
-                                                <dl class="price-list">
-                                                    <dt id="cur_cost_text2">현재가</dt>
+                                                <dl id="cur_cost_layer" class="price-list">
+                                                    <dt id="cur_cost_text2"></dt>
                                                     <dd><strong id="cur_cost" ng-bind=""><!--WEB SOCKET--></strong><em
-                                                            id="bid_cnt">(응찰 <!--WEB SOCKET-->)</em></dd>
+                                                            id="bid_cnt"></em></dd>
                                                 </dl>
                                                 <dl class="price-list">
                                                     <dt>마감일</dt>
@@ -276,7 +276,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="info-box">
+                                        <div class="info-box" id="artist_layer">
                                             <div class="title">작가정보</div>
                                             <div class="desc" id="artistName">
                                             </div>
@@ -480,9 +480,9 @@
                                                 </div>
                                             </div>
                                             <div class="typo-body">
-                                                <span>spray paint on canvas</span>
+                                                <span id="lot_mt_nm"></span>
                                                 <ul>
-                                                    <li>80.9 X73.4cm</li>
+                                                    <li id="lot_size"></li>
                                                     <li>2021</li>
                                                 </ul>
                                             </div>
@@ -726,15 +726,14 @@
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
 
     // 현재가 처리
-    app.filter('title', function(locale){
-        return function(val, l) {
-            if(!l) l = locale;
-            if (val != "")
-            {
-                if(l == "ko" ) return "제" + val.SALE_TH + "회" + " " + val.TITLE_JSON.ko;
-                var s = ["th","st","nd","rd"],
+    app.filter('title', function (locale) {
+        return function (val, l) {
+            if (!l) l = locale;
+            if (val != "") {
+                if (l == "ko") return "제" + val.SALE_TH + "회" + " " + val.TITLE_JSON.ko;
+                var s = ["th", "st", "nd", "rd"],
                     v = val.SALE_TH % 100;
-                return val.SALE_TH+(s[(v-20)%10]||s[v]||s[0]) + " " + val.TITLE_JSON.ko;
+                return val.SALE_TH + (s[(v - 20) % 10] || s[v] || s[0]) + " " + val.TITLE_JSON.ko;
             }
         };
     })
@@ -833,7 +832,7 @@
             try {
                 return axios.get('/api/auction/sales/' + saleNo);
             } catch (error) {
-                    console.error(error);
+                console.error(error);
             }
         }
 
@@ -999,7 +998,9 @@
                 $("#born_year").html("(" + $scope.lotInfo.BORN_YEAR + ")");
 
                 $("#lot_title").html("LOT " + $scope.lotInfo.LOT_NO);
-                // 시작
+                $("#lot_size").html(size_text_cm($scope.lotInfo.LOT_SIZE_JSON));
+                $("#lot_mt_nm").html($scope.lotInfo.MATE_NM);
+
                 console.log("125540", $scope.cust_no);
                 startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2,
                     '${member.loginId}', $scope.cust_no);
@@ -1007,19 +1008,19 @@
                 //await $scope.setSale($scope.sale_no);
                 //get sale cert
                 if (sessionStorage.getItem("is_login") === 'true') {
-                    if($scope.sale_status == "ING"){
+                    if ($scope.sale_status == "ING") {
                         await axios.get('/api/cert/sales/${saleNo}')
-                        .then(function (response) {
-                            if (response.data.success) {
-                                if (response.data.data.CNT > 0) {
-                                    $scope.is_sale_cert = true;
-                                } else {
-                                    $scope.popSet();
+                            .then(function (response) {
+                                if (response.data.success) {
+                                    if (response.data.data.CNT > 0) {
+                                        $scope.is_sale_cert = true;
+                                    } else {
+                                        $scope.popSet();
+                                    }
+                                    $("#cust_hp").val(response.data.data.HP);
+                                    $scope.cust_hp = response.data.data.HP;
                                 }
-                                $("#cust_hp").val(response.data.data.HP);
-                                $scope.cust_hp = response.data.data.HP;
-                            }
-                        });
+                            });
                     }
 
                     await axios.get('/api/mypage/manager')
@@ -1113,8 +1114,8 @@
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
                     let swiper_slide_item = '';
 
-                    if (size1 > 160) {
-                        swiper_slide_item = `<div class="swiper-slide">
+                    //if (size1 > 160) {
+                    swiper_slide_item = `<div class="swiper-slide">
                                             <div class="img-area">
                                                 <div class="img-box">
                                                     <div class="size_x"><span>` + size2 + unitCd + `</span></div>
@@ -1125,8 +1126,8 @@
                                                 </div>
                                             </div>
                         </div>`
-                        $("#swiper-wrapper").append(swiper_slide_item);
-                    }
+                    $("#swiper-wrapper").append(swiper_slide_item);
+                    //}
                 });
 
                 /* 싸이즈 버튼 */
@@ -1239,6 +1240,7 @@
                         if (success) {
                             let artistData = data.data;
                             if (!artistData) {
+                               $("#artist_layer").css("display","none");
                             } else {
                                 let articlesList = JSON.parse(artistData.articles).articles;
                                 let artistYoutubeImages = JSON.parse(artistData.media).youtube;
@@ -1252,6 +1254,8 @@
                                         title += el.titleEn + '</br>';
                                     }
                                 });
+
+
 
                                 $("#artistName").html(JSON.parse(artistData.name).ko + ' ' + artistData.birth + '~' + artistData.death);
                                 $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
@@ -1283,6 +1287,31 @@
     function Scope() {
         var scope = angular.element(document.getElementById("container")).scope();
         return scope;
+    }
+    function size_text_cm(src){
+        if (src === null || src === undefined ) {
+            return;
+        }
+
+        var returnValue = "";
+        var cmSize = ""
+
+        for (let i =0 ;i < src.length; i++) {
+            if (src[i].UNIT_CD === "cm") {
+                cmSize = src[i].SIZE1 != 0 ? src[i].SIZE1.toFixed(1) : "";
+                cmSize += src[i].SIZE2 != 0 ? "☓" + src[i].SIZE2.toFixed(1) : "";
+                cmSize += src[i].SIZE3 != 0 ? "☓" + src[i].SIZE3.toFixed(1) +
+                    "(" + (src[i].MIX_CD == "depth" ? "d" : "h")  + ")": "";
+                cmSize += cmSize != "" ? src[i].UNIT_CD : "";
+                cmSize += cmSize != "" &&  src[i].CANVAS != 0 ? " (" + (src[i].CANVAS_EXT_YN == "Y" ? "변형" : "") + src[i].CANVAS + ")" : "";
+
+                returnValue = src[i].PREFIX;
+                returnValue += (src[i].DIAMETER_YN == "Y" ? "Φ " : "") + cmSize;
+                returnValue += (src[i].SUFFIX ? " (" + src[i].SUFFIX + ") " : "");
+                return returnValue;
+            }
+        }
+        return "";
     }
 </script>
 
@@ -1514,7 +1543,7 @@
             init_func_manual(d);
 
         } else if (d.msg_type == packet_enum.bid_info) {
-
+            $("#cur_cost_layer").css("display", "");
             if (d.message.bid != null && d.message.bid.length > 0) {
                 // popup layer Values
                 let bid = document.getElementById("bid_cost_val");
@@ -1534,7 +1563,7 @@
                     "KRW " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR') :
                     "KRW " + d.message.bid[len - 1].bid_cost.toLocaleString('ko-KR');
 
-                let cost_add_vat = (d.message.bid[len - 1].bid_cost === 0)?  d.message.bid[len - 1].open_bid_cost :
+                let cost_add_vat = (d.message.bid[len - 1].bid_cost === 0) ? d.message.bid[len - 1].open_bid_cost :
                     d.message.bid[len - 1].bid_cost * 1.198;
 
                 document.getElementById("cost_add_vat").innerText = cost_add_vat.toLocaleString('ko-KR');
@@ -1728,7 +1757,7 @@
                     "KRW " + bid_info.bid_cost.toLocaleString('ko-KR');
 
 
-                let cost_add_vat = (bid_info.bid_cost === 0)?  bid_info.open_bid_cost :
+                let cost_add_vat = (bid_info.bid_cost === 0) ? bid_info.open_bid_cost :
                     bid_info.bid_cost * 1.198;
 
                 document.getElementById("cost_add_vat").innerText = cost_add_vat.toLocaleString('ko-KR');
@@ -1741,7 +1770,6 @@
                 bid.innerText = curCostValue;
                 bid_cnt.innerText = "(응찰" + bid_info.bid_count + ")"
                 end_bid_time = bid_info.end_bid_time;
-
 
                 quote_unit.innerText = "KRW " + bid_info.bid_quote.toLocaleString('ko-KR');
 
@@ -1874,8 +1902,12 @@
                         }
                     }
                 } else {
-                    document.getElementById("cur_cost_text").innerText = "";
+                    $("#cur_cost_layer").css("display", "none");
+                    document.getElementById("cur_cost_text").innerText = "시작가";
                     document.getElementById("cur_cost_text2").innerText = "";
+                    document.getElementById("cur_cost").innerText = "";
+                    document.getElementById("bid_cost_cnt").innerText = "";
+                    document.getElementById("bid_cnt").innerText = "";
                 }
                 // 낙찰이 완료 되었다면
                 if (bid_info.winner_state === 2) {

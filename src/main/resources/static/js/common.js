@@ -754,7 +754,6 @@ app.controller('headCtl', function($scope, consts, common, locale, $filter) {
 
 
     $scope.goSearch =  function(elementId, bIsKorean){
-
         var sSearchContent = $("#" + elementId).val();
         if(sSearchContent) {
             location.href = bIsKorean ? "/sale/search?searchContent=" + sSearchContent : "/eng/sale/search?searchContent=" + sSearchContent;
@@ -763,7 +762,6 @@ app.controller('headCtl', function($scope, consts, common, locale, $filter) {
             alert(bIsKorean ? "검색어를 입력해주세요." : "Please write search keyword.");
         }
     }
-
 });
 
 //pc, mobile 구분
