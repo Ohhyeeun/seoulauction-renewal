@@ -73,7 +73,7 @@
                                                                  	<button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="1" ng-if="art.PAY_METHOD_ID == 'vbank' && art.receipt == 'Y'" onclick="receiptPopup(this)"><span>현금영수증</span></button>
                                                                     </td>
                                                                     <td ng-if="art.CANCEL_YN == 'Y'"><a class="pay">결제취소</a></td>
-                                                                    <td>{{art.REG_DT | date:'yyyy-MM-dd'}}</td>
+                                                                    <td>{{art.REG_DT}}</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -96,7 +96,7 @@
                                                                          <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="0" ng-if="art.PAY_METHOD_ID == 'card' && art.receipt == 'Y'" onclick="receiptPopup(this)"><span>결제영수증</span></button>
                                                                  		 <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="1" ng-if="art.PAY_METHOD_ID == 'vbank' && art.receipt == 'Y'" onclick="receiptPopup(this)"><span>현금영수증</span></button>
                                                                         </dd>
-                                                                        <dd ng-if="art.CANCEL_YN == 'Y'"><span class="pay">결제취	소</span></dd>
+                                                                        <dd ng-if="art.CANCEL_YN == 'Y'"><span class="pay">결제취소</span></dd>
                                                                     </dl>
                                                                     <dl>
                                                                         <dt>결제일시</dt>

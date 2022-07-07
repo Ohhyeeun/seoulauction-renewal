@@ -21,7 +21,7 @@
     <meta property="og:url" content="https://www.seoulauction.com">
     <meta property="og:title" content="SeoulAuction">
     <meta property="og:description" content="미술품 경매를 통해 많은 사람들과 일상 속 예술의 경험과 기쁨을 나누고자 합니다.">
-    <meta property="og:image" content="/images/thumbnail/201508122329463497773394954126.jpg"/>
+    <meta property="og:image" content="/images/pc/thumbnail/201508122329463497773394954126.jpg"/>
     <meta property="al:web:url" content="https://www.seoulauction.com">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/images/favic/ms-icon-144x144.png">

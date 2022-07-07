@@ -30,20 +30,19 @@
                                 </div>
 
                                 <div class="panel-body">
-
                                     <ul class="form_table_pay">
                                         <li>
                                             <div class="table_box">
                                                 <div class="guide">
                                                     <div class="product-box">
-                                                        <p class="img"><img src="https://www.seoulauction.com/nas_img/${resultMap.img_path}/${resultMap.file_name}" alt="" /></p>
+                                                        <p class="img"><img src="https://www.seoulauction.com/nas_img/${resultMap.IMG_PATH}/${resultMap.FILE_NAME}" alt="" /></p>
                                                         <dl class="product_info">
                                                             <dt class="tt4">
-                                                                ${ct:getJSONString(resultMap.title_json, 'ko')}
+                                                                ${ct:getJSONString(resultMap.TITLE_JSON, 'ko')}
                                                             </dt>
                                                             <dd class="tb2">
-                                                                ${resultMap.from_dt} ~ ${resultMap.to_dt}<br />
-                                                                ${resultMap.academy_time}
+                                                                ${resultMap.FROM_DT} ~ ${resultMap.TO_DT}<br />
+                                                                ${resultMap.ACADEMY_TIME}
                                                             </dd>
                                                         </dl>
                                                     </div>

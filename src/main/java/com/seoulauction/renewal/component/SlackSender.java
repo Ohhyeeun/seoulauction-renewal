@@ -24,6 +24,9 @@ public class SlackSender {
     @Value("${slack.channel.error.monitoring}")
     String channel;
 
+    @Value("${spring.profiles.active}")
+    String active;
+
     final Integer CAPACITY = 10;
 
     final Integer SLACK_MESSAGE_DELAY = 2 * 1000;
@@ -48,8 +51,8 @@ public class SlackSender {
         try {
             if(slackBlockingQueue.size() < CAPACITY) {
 
-                String msg = StringUtils.isNotEmpty(message) && message.length() > MESSAGE_MAX_SIZE
-                        ? message.substring(0 , MESSAGE_MAX_SIZE) + "...." : message;
+                String msg = "[ " + active.toUpperCase() + " ] " + ( StringUtils.isNotEmpty(message) && message.length() > MESSAGE_MAX_SIZE
+                        ? message.substring(0 , MESSAGE_MAX_SIZE) + "...." : message );
 
                 slackBlockingQueue.put(msg);
             }

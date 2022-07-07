@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<jsp:include page="../../include/ko/header.jsp" flush="false"/>
+<jsp:include page="../../include/en/header.jsp" flush="false"/>
 
 <body class="">
 <div class="wrapper">

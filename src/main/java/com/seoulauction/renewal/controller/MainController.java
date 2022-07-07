@@ -2,6 +2,7 @@ package com.seoulauction.renewal.controller;
 
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.component.SlackSender;
+import com.seoulauction.renewal.exception.SAException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ public class MainController {
     @GetMapping({"/"})
     public String index(HttpServletRequest request , Locale locale) {
         request.setAttribute("main", true); // 메인 페이지 일경우에만 !
+
         return SAConst.getUrl(SERVICE_MAIN , "index" , locale);
     }
     @GetMapping("/guide" )

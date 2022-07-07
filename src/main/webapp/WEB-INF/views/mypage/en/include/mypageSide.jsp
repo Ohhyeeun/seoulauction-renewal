@@ -25,6 +25,7 @@
 			</div>
 			
 			
+			
 			<div class="mem-info-wrap" ng-if="userRole=='1'">
 				<div class="mem-lv-box">
 					 <div class="mem-lv lv-2">Subscription Member</div>

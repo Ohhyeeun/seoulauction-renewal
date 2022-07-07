@@ -47,7 +47,8 @@
 				CONCAT('D-', DATEDIFF(DATE_ADD(CP.VALID_TO_DT, INTERVAL 1 DAY), NOW())) ,
 				IF(1 = DATEDIFF(DATE_ADD(CP.VALID_TO_DT, INTERVAL 1 DAY), NOW()) AND 1 = TIMESTAMPDIFF(DAY ,NOW(),DATE_ADD(CP.VALID_TO_DT, INTERVAL 1 DAY)),'D-1' ,'')) VALID_DATE
 		from
-			CUST C LEFT OUTER JOIN CUST_PAY CP ON C.CUST_NO = CP.CUST_NO
+				CUST C
+				LEFT OUTER JOIN (SELECT CP.* FROM CUST_PAY CP WHERE CP.CUST_NO = #{action_user_no} ORDER BY VALID_TO_DT DESC LIMIT 1 ) CP ON CP.CUST_NO = C.CUST_NO
 		where
 			C.CUST_NO = #{action_user_no}
 	</select>
@@ -58,7 +59,6 @@
 				A.CUST_NAME ,
 				A.EMAIL ,
 				A.HP,
-				B.REG_DT ,
 				B.CANCEL_YN ,
 				C.ACADEMY_PAY,
 				C.ACADEMY_PAY1,
@@ -77,6 +77,7 @@
 				, CD.CD_ID PAY_METHOD_ID
 				, IF(P.PG_TRANS_ID is not null and P.pg_cd='nice', 'Y', 'N' ) receipt
 				, P.PG_TRANS_ID
+				, DATE_FORMAT(B.REG_DT, '%Y.%m.%d') REG_DT
 			from
 				CUST A 
 				join ACADEMY_REQ B on A.CUST_NO = B.CUST_NO
