@@ -49,7 +49,7 @@
 															<div id="naverIdLogin" style="display:none"></div>
 														</li>
 														<li>
-															<i onclick="window.open('https://kauth.kakao.com/oauth/authorize?client_id=adbdfe931311a01731a0161175701a42&redirect_uri=${socialServiceDomain}/kakaoRedirect/login&response_type=code')" class="icon-sns_kakao"></i>
+															<i onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=adbdfe931311a01731a0161175701a42&redirect_uri=${socialServiceDomain}/kakaoRedirect/login&response_type=code'" class="icon-sns_kakao"></i>
 														</li>
 														<li>
 															<i id="googleIdJoin" class="icon-sns_google"></i>
