@@ -175,13 +175,42 @@
                         </div>
                     </section>
 
-                    <section class="basis-section last-section auction_list-section">
+
+                    <section ng-show="saleInfo.length <= 0" class="basis-section auction_result_list-section last-section">
+                        <div class="section-inner">
+                            <div class="content-panel type_panel-product_result_list">
+                                <div class="panel-body">
+
+                                    <div class="data-empty type-big">
+                                        <div class="img_empty">
+                                            <img src="/images/mobile/auction/symbol-none_data.png" alt="검색결과가 없습니다." />
+                                        </div>
+                                        <div class="txt_empty">
+                                            <div class="title">검색결과가 없습니다.</div>
+                                            <div class="desc">단어의 철자나 띄어쓰기가 <br class="only-mb" />
+                                                정확한지 확인해주세요</div>
+                                        </div>
+
+                                        <div class="empty_btn">
+                                            <button class="btn btn_gray_line" ng-click="searchInit()" type="button"><span>전체결과보기</span></button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+
+                    <section ng-show="saleInfo.length > 0" class="basis-section last-section auction_list-section">
                         <div class="section-inner">
 
                             <div class="content-panel type_panel-product_list">
                                 <div class="panel-body">
 
                                     <ul class="product-list">
+<%--                                        <li ng-show="{cancel: item.STAT_CD === 'reentry'}"  ng-repeat="item in saleInfo">--%>
                                         <li ng-class="{cancel: item.STAT_CD === 'reentry'}"  ng-repeat="item in saleInfo">
 
                                             <div class="li-inner">
@@ -206,15 +235,17 @@
                                                             <div class="info-box">
                                                                 <div class="title"><span>{{item.ARTIST_NAME_JSON != null ? item.ARTIST_NAME_JSON.ko : 'ㅤ'}}</span>
 
-                                                                    <span ng-if="item.BORN_YEAR !=null && item.BORN_YEAR !==''" class="sub">({{item.BORN_YEAR}})</span>
-                                                                    <span ng-if="item.BORN_YEAR ==null || item.BORN_YEAR ===''" class="sub">ㅤ</span>
+<%--                                                                    <span ng-if="item.BORN_YEAR !=null && item.BORN_YEAR !==''" class="sub">({{item.BORN_YEAR}})</span>--%>
+<%--                                                                    <span ng-if="item.BORN_YEAR ==null || item.BORN_YEAR ===''" class="sub">ㅤ</span>--%>
+
                                                                 </div>
                                                                 <div class="desc">
                                                                     <span class="text-over span_block">{{item.LOT_TITLE_JSON.ko}}</span></div>
                                                                 <div class="standard">
                                                                     <span class="text-over span_block">{{item.CD_NM}}</span>
                                                                     <div class="size_year">
-                                                                        <span>{{item.SIZE1}} X {{item.SIZE2}} X {{item.SIZE3}}</span>
+                                                                        <span ng-bind="item | size_text_cm"></span>
+                                                                        <span ng-bind="item.MAKE_YEAR_JSON.ko" ng-show="item.MAKE_YEAR_JSON.ko !== undefined"></span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -366,6 +397,11 @@
             $scope.searchSaleInfoAll = [];
             $scope.selectLotTag = "전체";
 
+            $scope.searchInit = function (event) {
+                $scope.searchValue = '';
+                $scope.searchArtist2();
+            }
+
             $scope.searchArtist = function (event) {
                 if (event.keyCode === 13 || $scope.searchValue.length <= 0) {
                     $scope.searchArtist2();
@@ -375,9 +411,13 @@
             $scope.searchArtist2 = function () {
                 let pp = [];
                 for (let i = 0; i < $scope.saleInfoAll.length; i++) {
-                    if ($scope.saleInfoAll[i].ARTIST_NAME_JSON.ko.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1 ||
-                        $scope.saleInfoAll[i].LOT_TITLE_JSON.ko.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1) {
-                        pp.push($scope.saleInfoAll[i]);
+
+                    if($scope.saleInfoAll[i].ARTIST_NAME_JSON !=null && $scope.saleInfoAll[i].LOT_TITLE_JSON) {
+
+                        if ($scope.saleInfoAll[i].ARTIST_NAME_JSON.ko.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1 ||
+                            $scope.saleInfoAll[i].LOT_TITLE_JSON.ko.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1) {
+                            pp.push($scope.saleInfoAll[i]);
+                        }
                     }
                 }
                 $scope.searchSaleInfoAll = pp;

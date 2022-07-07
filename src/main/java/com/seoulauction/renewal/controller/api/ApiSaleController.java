@@ -448,6 +448,8 @@ public class ApiSaleController {
         String[] mapKeys = {"SALE_TITLE_JSON", "LOT_TITLE_JSON",
                 "MAKE_YEAR_JSON", "ARTIST_NAME_JSON", "EXPE_PRICE_FROM_JSON", "EXPE_PRICE_TO_JSON"};
 
+        String[] listKeys = {"LOT_SIZE_JSON"};
+
         // 맵 형태 거름
         ObjectMapper mapper  = new ObjectMapper();
         try{
@@ -456,6 +458,10 @@ public class ApiSaleController {
                 for (var item : mapKeys) {
                     lotImages.get(i).put(item, mapper.readValue(String.valueOf(lotImages.get(i).get(item)),
                             Map.class));
+                }
+                for(var item2 : listKeys) {
+                    lotImages.get(i).put(item2,
+                            mapper.readValue(String.valueOf(lotImages.get(i).get(item2)), List.class));
                 }
                 lotImages.get(i).put("IMAGE_URL", IMAGE_URL);
             }
