@@ -63,7 +63,7 @@ public class ApiMypageController {
 			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size,
 			Principal principal, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		CommonMap commonMap = new CommonMap("cust_no", principal.getName());
+		CommonMap commonMap = new CommonMap("action_user_no", principal.getName());
 		commonMap.putPage(page, size);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectAcademyList(commonMap)));
 	}
