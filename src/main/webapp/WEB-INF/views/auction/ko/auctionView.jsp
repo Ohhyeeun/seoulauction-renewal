@@ -6,12 +6,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
-<style>
-    .select2-container {
-        z-index: 999;
-    }
-</style>
-
 <body class="">
 <div class="wrapper">
     <%--    <link rel="stylesheet" href="/css/plugin/csslibrary.css">--%>
@@ -292,7 +286,7 @@
                             </div>
                             <div class="panel-footer">
                                 <article class="product_recent_work-article">
-                                    <div class="article-header">
+                                    <div class="article-header" ng-show="recentlyViews.length > 0">
                                         <div class="title"><span>이 경매의 최근 본 작품</span></div>
                                     </div>
                                     <div class="article-body">
@@ -586,6 +580,84 @@
                                 <button class="page_next"><i class="icon-view_paging_right"></i></button>
                             </div>
                         </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 응찰하기 -->
+<div id="bidding_go-wrap" class="trp popupfixed-wrap auction_info-popup  ">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-ms mode-mb_center">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                    </div>
+                    <div class="pop-body scroll-type">
+                        <section class="section" style="display: block;">
+                            <article class="auction_info-article">
+                                <div class="img">
+                                    <img class="only_ib-pc" src="/images/pc/auction/symbol-none_data.png" alt="안내" />
+                                    <img class="only_ib-mb" src="/images/pc/auction/symbol-none_data.png" alt="안내" />
+                                </div>
+                                <div class="title"><span>Seoul Auction 안내</span></div>
+                                <div class="gray-box">
+                                    <ul class="mark_dot-list">
+                                        <li>자동응찰 중지하기 전까지의 응찰 낙찰 내역은 모두 기록되며 유효합니다.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="query"><span>응찰 하시겠습니까?</span></div>
+                                <div class="btn_set">
+                                    <a id="auto_on_cancel" class="btn btn_default" href="#" role="button"><span>취소</span></a>
+                                    <a id="auto_on_ok" class="btn btn_point" href="#" role="button"><span>응찰하기</span></a>
+                                </div>
+                            </article>
+                        </section>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 응찰중지 -->
+<div id="bidding_stop-wrap" class="trp popupfixed-wrap auction_info-popup  ">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-ms mode-mb_center">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                    </div>
+                    <div class="pop-body scroll-type">
+                        <section class="section" style="display: block;">
+                            <article class="auction_info-article">
+                                <div class="img">
+                                    <img class="only_ib-pc" src="/images/pc/auction/symbol-none_data.png" alt="안내" />
+                                    <img class="only_ib-mb" src="/images/pc/auction/symbol-none_data.png" alt="안내" />
+                                </div>
+                                <div class="title"><span>Seoul Auction 안내</span></div>
+                                <div class="gray-box">
+                                    <ul class="mark_dot-list">
+                                        <li>자동응찰 중지는 자동 응찰 취소가 아닙니다.</li>
+                                        <li>비딩이 올라간 상태에서 정지됩니다.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="query"><span>자동 응찰을 중지 하시겠습니까?</span></div>
+                                <div class="btn_set">
+                                    <a id="auto_off_cancel" class="btn btn_default" href="#" role="button"><span>취소</span></a>
+                                    <a id="auto_off_ok" class="btn btn_point" href="#" role="button"><span>자동응찰 중지</span></a>
+                                </div>
+                            </article>
+                        </section>
                     </div>
                 </div>
             </div>
@@ -1457,7 +1529,40 @@
 
     // 자동응찰
     function autoBid() {
-        autoBiding(connect_info);
+        if ($("#reservation_bid").prop("disabled")) {
+            var bidding_stop = $("#auto_bid_btn").trpLayerFixedPopup("#bidding_stop-wrap");
+            bidding_stop.open(this); // or false
+            popup_fixation("#bidding_stop-wrap");
+
+            $("#bidding_stop-wrap .js-closepop, #bidding_stop-wrap .popup-dim, #auto_off_cancel, #auto_off_ok").bind("click", function($e) {
+                $e.preventDefault();
+                if ($(this).attr("id") === "auto_off_ok") {
+                    autoBiding(connect_info);
+                    bidding_stop.close();
+                    $("#bidding_stop-wrap .js-closepop, #bidding_stop-wrap .popup-dim, #auto_off_cancel, #auto_off_ok").unbind("click");
+                    return
+                }
+                $("#bidding_stop-wrap .js-closepop, #bidding_stop-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").unbind("click");
+                bidding_stop.close();
+            });
+        } else {
+            var bidding_go = $("#auto_bid_btn").trpLayerFixedPopup("#bidding_go-wrap");
+            bidding_go.open(this); // or false
+            popup_fixation("#bidding_go-wrap");
+
+            $("#bidding_go-wrap .js-closepop, #bidding_go-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").bind("click", function($e) {
+                $e.preventDefault();
+                if ($(this).attr("id") === "auto_on_ok") {
+                    autoBiding(connect_info);
+                    bidding_go.close();
+                    $("#bidding_go-wrap .js-closepop, #bidding_go-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").unbind("click");
+                    return
+                }
+                $("#bidding_go-wrap .js-closepop, #bidding_go-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").unbind("click");
+                bidding_go.close();
+            });
+        }
+
     }
 
     function retry(saleNo, lotNo, saleType, userId, custNo) {

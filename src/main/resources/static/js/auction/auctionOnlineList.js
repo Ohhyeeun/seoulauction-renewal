@@ -106,5 +106,37 @@ function bid() {
 
 // 자동응찰
 function autoBid() {
-    autoBiding();
+    if ($("#reservation_bid").prop("disabled")) {
+        var bidding_stop = $("#auto_bid_btn").trpLayerFixedPopup("#bidding_stop-wrap");
+        bidding_stop.open(this); // or false
+        popup_fixation("#bidding_stop-wrap");
+
+        $("#bidding_stop-wrap .js-closepop, #bidding_stop-wrap .popup-dim, #auto_off_cancel, #auto_off_ok").bind("click", function($e) {
+            $e.preventDefault();
+            if ($(this).attr("id") === "auto_off_ok") {
+                autoBiding();
+                bidding_stop.close();
+                $("#bidding_stop-wrap .js-closepop, #bidding_stop-wrap .popup-dim, #auto_off_cancel, #auto_off_ok").unbind("click");
+                return
+            }
+            $("#bidding_stop-wrap .js-closepop, #bidding_stop-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").unbind("click");
+            bidding_stop.close();
+        });
+    } else {
+        var bidding_go = $("#auto_bid_btn").trpLayerFixedPopup("#bidding_go-wrap");
+        bidding_go.open(this); // or false
+        popup_fixation("#bidding_go-wrap");
+
+        $("#bidding_go-wrap .js-closepop, #bidding_go-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").bind("click", function($e) {
+            $e.preventDefault();
+            if ($(this).attr("id") === "auto_on_ok") {
+                autoBiding();
+                bidding_go.close();
+                $("#bidding_go-wrap .js-closepop, #bidding_go-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").unbind("click");
+                return
+            }
+            $("#bidding_go-wrap .js-closepop, #bidding_go-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").unbind("click");
+            bidding_go.close();
+        });
+    }
 }
