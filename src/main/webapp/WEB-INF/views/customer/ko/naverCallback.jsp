@@ -5,7 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <script type="text/javascript">
 var search_kind = "";
 </script>
@@ -170,7 +170,8 @@ var search_kind = "";
 								if(result.success == false){
 									if(opener == null){
 										//앱에서 opener null로 인식
-										alert(result.data.msg)
+										alert(result.data.msg);
+										location.href = "/mypage/snsLink";
 									}else{
 										opener.alert(result.data.msg)
 										window.close();
@@ -178,7 +179,7 @@ var search_kind = "";
 								}else{
 									if(opener == null){
 										//앱에서 opener null로 인식
-										location.reload();
+										location.href = "/mypage/snsLink";
 									}else{
 										opener.location.reload();
 										window.close();
@@ -189,9 +190,30 @@ var search_kind = "";
 								console.log(error);
 							});
 					}else if(action.startsWith("socialConfirm")){
+						var userEmail = request.getParameter("userEmail");
+						userEmail = userEmail.substring(0, userEmail.indexOf("#"));
 						if(opener == null){
 							//앱에서 opener null로 인식
-							socialConfirm(naverLogin.user.email)
+							if(naverLogin.user.email === userEmail){
+								if(langType == 'ko'){
+									alert("연결 되었습니다.");
+								}else{
+									alert("Connected.");
+								}
+								let f = document.createElement('form');
+							    f.setAttribute('method', 'post');
+							    f.setAttribute('action', '/mypage/custModify');
+							    document.body.appendChild(f);
+							    f.submit();
+							}else{
+								alert("가입한 계정과 다른 소셜계정으로 로그인하셨습니다.");
+								var width = window.innerWidth;
+								if(width < 1023){ //mobile
+									location.href = "/mypage/main";
+						        }else{ //pc
+						        	location.href = "/mypage/liveBidReqList";
+						        }
+							}
 						}else{
 							opener.parent.socialConfirm(naverLogin.user.email)
 							window.close();

@@ -122,7 +122,7 @@ if(socialYn == 'Y'){
 	// 네이버초기화
 	naverLogin = new naver.LoginWithNaverId({
 		clientId: "5qXZytacX_Uy60o0StGT",
-		callbackUrl: socialServiceDomain + "/social/naver/callback?action=socialConfirm",
+		callbackUrl: socialServiceDomain + "/social/naver/callback?action=socialConfirm&userEmail=" + socialEmail,
 		isPopup: true,
 		loginButton: {
 			color: "green",
