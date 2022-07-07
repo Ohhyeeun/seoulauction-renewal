@@ -76,7 +76,7 @@
 		                                                </p>
 		                                            </article>
 		                                            <article class="inquiry-write-wrap">
-		                                            	<div id="naverIdLogin" style="display:none"></div>
+		                                            	<div id="naverIdLogin"></div>
 		                                            	<div id="googleIdLogin" style="display:none"></div>
 		                                            	<div id="appleid-signin" style="display:none" data-type="sign in"></div>
 		                                            </article>

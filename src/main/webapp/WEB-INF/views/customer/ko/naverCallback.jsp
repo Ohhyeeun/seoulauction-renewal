@@ -192,9 +192,10 @@ var search_kind = "";
 					}else if(action.startsWith("socialConfirm")){
 						var userEmail = request.getParameter("userEmail");
 						userEmail = userEmail.substring(0, userEmail.indexOf("#"));
-						console.log("opener : " + opener);
-						console.log("userEmail : " + userEmail);
-						console.log("langType : " + langType);
+						alert("opener : " + opener);
+						alert("userEmail : " + userEmail);
+						alert("langType : " + langType);
+						alert("naverLogin.user.email : " + naverLogin.user.email)
 						if(opener == null){
 							//앱에서 opener null로 인식
 							if(naverLogin.user.email === userEmail){
