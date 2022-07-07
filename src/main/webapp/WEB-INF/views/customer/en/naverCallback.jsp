@@ -17,6 +17,7 @@ var search_kind = "";
 <!-- 		callback 처리중입니다. 이 페이지에서는 callback을 처리하고 바로 main으로 redirect하기때문에 이 메시지가 보이면 안됩니다. -->
 
 	<script>
+		var langType = document.documentElement.lang;
 		var naverLogin = new naver.LoginWithNaverId({
 			clientId: "5qXZytacX_Uy60o0StGT",
 			isPopup: false,
@@ -54,20 +55,40 @@ var search_kind = "";
 					var expire = new Date();
 					expire.setDate(expire.getDate() + 30);
 					document.cookie = 'recentSocialType=NV; path=/; expires=' + expire.toGMTString() + ';';
-					opener.location.replace("/");
+					
+					if(opener == null){
+						//앱에서 opener null로 인식
+						location.replace("/");
+					}else{
+						opener.location.replace("/");
+						window.close();
+					}
 				}else{
 					if(response.data.data.msg == "Not Certify User"){
-						opener.alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
+						if(opener == null){
+							//앱에서 opener null로 인식
+							alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
+						}else{
+							opener.alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
+							window.close();
+						}
 					}else if(response.data.data.msg == "User not found."){
 						//미가입 = 회원가입페이지이동
-						opener.document.getElementById("name").value = naverLogin.user.name;
-						opener.document.getElementById("mobile").value = naverLogin.user.mobile;
-						opener.document.getElementById("email").value = naverLogin.user.email;
-						opener.document.getElementById("joinForm").action = '/joinForm?socialType=NV';
-						opener.document.getElementById("joinForm").submit();
+						if(opener == null){
+							//앱에서 opener null로 인식
+							document.getElementById("name").value = naverLogin.user.name;
+							document.getElementById("email").value = naverLogin.user.email;
+							document.getElementById("joinForm").action = '/joinForm?socialType=NV';
+							document.getElementById("joinForm").submit();	
+						}else{
+							opener.document.getElementById("name").value = naverLogin.user.name;
+							opener.document.getElementById("email").value = naverLogin.user.email;
+							opener.document.getElementById("joinForm").action = '/joinForm?socialType=NV';
+							opener.document.getElementById("joinForm").submit();
+							window.close();
+						}
 					}
 				}
-				window.close();
 			})
 			.catch(function(error){
 				console.log(error);
@@ -105,20 +126,35 @@ var search_kind = "";
 								if(result.data != undefined){
 									if(result.data.STAT_CD == "not_certify"){
 										//기가입 + 미인증 = 안내메세지
-										opener.alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
-										window.close();
+										if(opener == null){
+											//앱에서 opener null로 인식
+											alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
+										}else{
+											opener.alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
+											window.close();
+										}
 									}else{
 										//기가입 + 상태normal = 로그인처리
 										socialLogin(data);
 									}
 								}else{
 									//미가입 = 회원가입페이지이동
-									opener.document.getElementById("name").value = naverLogin.user.name;
-									opener.document.getElementById("mobile").value = naverLogin.user.mobile;
-									opener.document.getElementById("email").value = naverLogin.user.email;
-									opener.document.getElementById("joinForm").action = '/joinForm?socialType=NV';
-									opener.document.getElementById("joinForm").submit();
-									window.close();
+									if(opener == null){
+										//앱에서 opener null로 인식
+										document.getElementById("name").value = naverLogin.user.name;
+										document.getElementById("mobile").value = naverLogin.user.mobile;
+										document.getElementById("email").value = naverLogin.user.email;
+										document.getElementById("joinForm").action = '/joinForm?socialType=NV';
+										document.getElementById("joinForm").submit();
+										window.close();
+									}else{
+										opener.document.getElementById("name").value = naverLogin.user.name;
+										opener.document.getElementById("mobile").value = naverLogin.user.mobile;
+										opener.document.getElementById("email").value = naverLogin.user.email;
+										opener.document.getElementById("joinForm").action = '/joinForm?socialType=NV';
+										opener.document.getElementById("joinForm").submit();
+										window.close();
+									}
 								}
 							})
 							.catch(function(error){
@@ -133,18 +169,56 @@ var search_kind = "";
 							.then(function(response) {
 								const result = response.data;
 								if(result.success == false){
-									opener.alert("It is a social account that has already been subscribed to or linked to Seoul Auction. Please link it to another account.");
+									if(opener == null){
+										//앱에서 opener null로 인식
+										alert(result.data.msg);
+										location.href = "/mypage/snsLink";
+									}else{
+										opener.alert(result.data.msg)
+										window.close();
+									}
 								}else{
-									opener.location.reload();
+									if(opener == null){
+										//앱에서 opener null로 인식
+										location.href = "/mypage/snsLink";
+									}else{
+										opener.location.reload();
+										window.close();
+									}
 								}
-								window.close();
 							})
 							.catch(function(error) {
 								console.log(error);
 							});
 					}else if(action.startsWith("socialConfirm")){
-						opener.parent.socialConfirm(naverLogin.user.email)
-						window.close();
+						var userEmail = request.getParameter("userEmail");
+						userEmail = userEmail.substring(0, userEmail.indexOf("#"));
+						if(opener == null){
+							//앱에서 opener null로 인식
+							if(naverLogin.user.email === userEmail){
+								if(langType == 'ko'){
+									alert("연결 되었습니다.");
+								}else{
+									alert("Connected.");
+								}
+								let f = document.createElement('form');
+							    f.setAttribute('method', 'post');
+							    f.setAttribute('action', '/mypage/custModify');
+							    document.body.appendChild(f);
+							    f.submit();
+							}else{
+								alert("가입한 계정과 다른 소셜계정으로 로그인하셨습니다.");
+								var width = window.innerWidth;
+								if(width < 1023){ //mobile
+									location.href = "/mypage/main";
+						        }else{ //pc
+						        	location.href = "/mypage/liveBidReqList";
+						        }
+							}
+						}else{
+							opener.parent.socialConfirm(naverLogin.user.email)
+							window.close();
+						}
 
 					}
 				} else {
