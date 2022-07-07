@@ -186,15 +186,15 @@
                                                     <dt>추정가</dt>
                                                     <dd ng-bind="estimatedRange"></dd>
                                                 </dl>
-                                                <dl class="price-list">
-                                                    <dt>시작가</dt>
-                                                    <dd id="start_cost"><!--WEB SOCKET--></dd>
-                                                </dl>
-                                                <dl class="price-list">
-                                                    <dt>현재가</dt>
-                                                    <dd><strong id="cur_cost"><!--WEB SOCKET--></strong><em
-                                                            id="bid_cnt">(응찰 <!--WEB SOCKET-->)</em></dd>
-                                                </dl>
+<%--                                                <dl class="price-list">--%>
+<%--                                                    <dt>시작가</dt>--%>
+<%--                                                    <dd id="start_cost"><!--WEB SOCKET--></dd>--%>
+<%--                                                </dl>--%>
+<%--                                                <dl class="price-list">--%>
+<%--                                                    <dt>현재가</dt>--%>
+<%--                                                    <dd><strong id="cur_cost"><!--WEB SOCKET--></strong><em--%>
+<%--                                                            id="bid_cnt">(응찰 <!--WEB SOCKET-->)</em></dd>--%>
+<%--                                                </dl>--%>
                                                 <dl class="price-list">
                                                     <dt>마감일</dt>
                                                     <dd><b id="end_date_time"><!--WEB SOCKET--></b></dd>
@@ -211,16 +211,16 @@
                                                 <div class="btn_set cols_2">
                                                     <div class="btn_item hover_change only-pc">
                                                         <div class="op_default">
-                                                            <a class="btn btn_default btn_lg" href="#"
+                                                            <a class="btn btn_default btn_lg js-popup_alert1" href="#"
                                                                role="button"><span>낙찰수수료</span></a>
                                                         </div>
-                                                        <div class="op_hover">
-                                                            <a class="btn btn_black btn_2 btn_lg js-popup_alert1"
-                                                               role="button">
-                                                                <em>현재가 기준</em>
-                                                                <strong>1,584,000</strong>
-                                                            </a>
-                                                        </div>
+<%--                                                        <div class="op_hover">--%>
+<%--                                                            <a class="btn btn_black btn_2 btn_lg js-popup_alert1"--%>
+<%--                                                               role="button">--%>
+<%--                                                                <em>현재가 기준</em>--%>
+<%--                                                                <strong>1,584,000</strong>--%>
+<%--                                                            </a>--%>
+<%--                                                        </div>--%>
                                                     </div>
                                                     <div class="btn_item only-mb">
                                                         <a class="btn btn_default btn_lg js-delivery_price js-popup_alert1" href="#"
