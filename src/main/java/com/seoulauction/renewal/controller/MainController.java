@@ -25,9 +25,6 @@ public class MainController {
     public String index(HttpServletRequest request , Locale locale) {
         request.setAttribute("main", true); // 메인 페이지 일경우에만 !
 
-        if(1==1) {
-            throw new NullPointerException("에러 테스트");
-        }
         return SAConst.getUrl(SERVICE_MAIN , "index" , locale);
     }
     @GetMapping("/guide" )
