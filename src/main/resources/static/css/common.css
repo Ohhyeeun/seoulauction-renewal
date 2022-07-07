@@ -2242,3 +2242,7 @@ body.dark,
         max-width: 300px;
     }
 }
+/*박경훈 추가*/
+.select2-container--open {
+    z-index: 50;
+}
