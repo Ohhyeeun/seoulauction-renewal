@@ -85,7 +85,7 @@
                                         </div>
                                         <div class="btn_set type-pc_mb-column">
                                             <div class="btn_item">
-                                                <div class="select-box">
+                                                <div id="reservation_bid_layer" class="select-box">
                                                     <select id="reservation_bid" class="select2Basic56_line">
                                                     </select>
                                                 </div>

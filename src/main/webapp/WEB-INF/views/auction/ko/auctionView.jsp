@@ -1672,8 +1672,8 @@
                         viewCnt++;
                         continue
                     }
-                    if (d.message.quotes[cnt].cost >= cost_tmp) {
-                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                    if (d.message.quotes[cnt].cost > cost_tmp) {
+                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt].quote_cost)
                         quote_arr.push(cost_tmp)
                         viewCnt++;
                         continue
