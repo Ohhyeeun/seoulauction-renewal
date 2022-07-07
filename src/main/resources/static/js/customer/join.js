@@ -1,8 +1,6 @@
 app.value('locale', 'ko');
 app.value('is_login', 'false');
 	
-// 카카오
-var kakaoUser;
 // 구글
 var googleUser = {};
 var googleProfile;
@@ -16,10 +14,6 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 	$scope.goJoin = function(type){
 		location.href = '/joinForm?type=' + type				
 	}
-	// 카카오 init
-	Kakao.init('cf2233f55e74d6d0982ab74909c97835');
-	// SDK 초기화 여부 판단
-	console.log(Kakao.isInitialized() ? "카카오init성공" : "카카오init실패");
 
 	var googleInit = function() {
 		gapi.load('auth2', function() {
@@ -116,36 +110,6 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 			.catch(function(error) {
 				console.log(error);
 			});
-	}
-	
-	// 카카오 로그인 / 카카오 회원가입
-	$scope.joinWithKakao = function() {
-		Kakao.Auth.login({
-			success: function(authObj) {
-				Kakao.Auth.setAccessToken(authObj.access_token); // access-token 저장
-				$scope.getKakaoUser();
-			},
-			fail: function(err) {
-				console.log(err);
-			}
-		});
-
-	}
-
-	// 카카오사용자정보로 DB조회하여 로그인진행
-	$scope.getKakaoUser = function() {
-		Kakao.API.request({
-			url: '/v2/user/me',
-			success: function(res) {
-				kakaoUser = res.kakao_account;
-
-				console.log(kakaoUser);
-				submitJoin("KA", kakaoUser.profile.nickname, kakaoUser.email, null);
-			},
-			fail: function(error) {
-				alert('카카오 로그인에 실패했습니다. 관리자에게 문의하세요.' + JSON.stringify(error));
-			}
-		});
 	}
 
 	// 구글회원가입
@@ -635,6 +599,8 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		var address_search1 = $(".js-address_search1").trpLayerFixedPopup("#address_search1-wrap")
         address_search1.open(this); // or false   
         popup_fixation("#address_search1-wrap");
+        $scope.addressList = undefined;
+        $scope.find_word = "";
 	}
 	
 	//주소검색
@@ -690,6 +656,9 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	$scope.employeeSearch = function(){
         staff_search1.open(this); // or false   
         popup_fixation("#staff_search1-wrap");
+        $scope.employeeList = [];
+        $scope.empLength = 0;
+		$scope.emp_name = "";
 	}
 	
 	//직원검색

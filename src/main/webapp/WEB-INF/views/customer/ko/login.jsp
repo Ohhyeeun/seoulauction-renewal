@@ -8,7 +8,6 @@
 <spring:eval expression="@environment.getProperty('social.service.domain')" var="socialServiceDomain" />
 <script>
 	var socialServiceDomain = '${socialServiceDomain}'
-	console.log(socialServiceDomain);
 	var loginFailCntYn = '${sessionScope.LOGIN_FAIL_CNT_YN}' == 'true' ? 'Y' : 'N';
 </script>
 <body>
@@ -106,7 +105,7 @@
 												</li>
 												<div id="naverIdLogin" style="display:none"></div>
 												<li>
-													<a ng-click="loginWithKakao()" href="#"><i class="icon-sns_kakao"></i></a>
+													<a href="https://kauth.kakao.com/oauth/authorize?client_id=adbdfe931311a01731a0161175701a42&redirect_uri=${socialServiceDomain}/kakaoRedirect/login&response_type=code"><i class="icon-sns_kakao"></i></a>
 													<div id="recentSocialTypeKA" class="sns_latest_wrap" style="display:none">
 														<img class="only-mb" src="/images/mobile/login/latest_login.png">
 													</div>
@@ -149,10 +148,8 @@
 </div>
 </body>
 
-<!-- 카카오 -->
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 <!-- 네이버 -->
+<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2-nopolyfill.js" charset="utf-8"></script>
 <!--  구글 -->
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">

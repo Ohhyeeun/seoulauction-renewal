@@ -7,7 +7,7 @@ $(window).on("load", function() {
 			var loginButton = document.getElementById("naverIdLogin").firstChild;
 			loginButton.click();
 		}else if(socialType === "KA"){
-			loginWithKakao();
+			location.href='https://kauth.kakao.com/oauth/authorize?client_id=adbdfe931311a01731a0161175701a42&redirect_uri=' + socialServiceDomain + '/kakaoRedirect/custConfirm&response_type=code'
 		}else if(socialType === "GL"){
 			$("#googleIdLogin").trigger("click");
 		}else if(socialType === "AP"){
@@ -93,13 +93,18 @@ function socialConfirm(snsEmail) {
 			alert("Connected.");
 		}
 		goPost();
+	}else{
+		alert("가입한 계정과 다른 소셜계정으로 로그인하셨습니다.");
+		var width = window.innerWidth;
+		if(width < 1023){ //mobile
+			location.href = "/mypage/main";
+        }else{ //pc
+        	location.href = "/mypage/liveBidReqList";
+        }
 	}	
 }
 
 if(socialYn == 'Y'){
-	// 카카오 init
-	Kakao.init('cf2233f55e74d6d0982ab74909c97835');
-	
 	// 구글초기화
 	var googleInit = function() {
 		gapi.load('auth2', function() {
@@ -147,33 +152,6 @@ if(socialYn == 'Y'){
 				console.log(JSON.stringify(error, undefined, 2));
 			});
 	}
-}
-
-// 카카오 로그인
-function loginWithKakao() {
-	Kakao.Auth.login({
-		success: function(authObj) {
-			Kakao.Auth.setAccessToken(authObj.access_token); // access-token 저장
-			getKakaoUser();
-		},
-		fail: function(err) {
-			console.log(err);
-		}
-	});
-}
-
-// 카카오사용자정보로 DB조회하여 로그인진행
-function getKakaoUser() {
-	Kakao.API.request({
-		url: '/v2/user/me',
-		success: function(res) {
-			kakaoUser = res.kakao_account;
-			socialConfirm(kakaoUser.email);
-		},
-		fail: function(error) {
-			alert('카카오 로그인에 실패했습니다. 관리자에게 문의하세요.' + JSON.stringify(error));
-		}
-	});
 }
 
 //애플로 로그인 성공 시.

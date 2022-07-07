@@ -199,6 +199,7 @@
 		FROM   EMP
 		WHERE EMP_NAME = #{emp_name}
 		AND STAT_CD = 'normal' 
+		AND SALES_USER_YN = 'Y'
 	</select>
 	
 	<select id="selectEmpByEmpNameCnt" resultType="int">
@@ -206,7 +207,8 @@
 		FROM  (SELECT EMP_NO
 		       FROM   EMP
 		       WHERE  EMP_NAME = #{emp_name}
-		       AND STAT_CD = 'normal')cnt
+		       AND STAT_CD = 'normal'
+		       AND SALES_USER_YN = 'Y')cnt
 	</select>
 	
 	<select id="selectCode" resultType="CommonMap" parameterType="CommonMap">
