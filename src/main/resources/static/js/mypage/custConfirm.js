@@ -63,8 +63,11 @@ $(window).on("load", function() {
 		if(socialType === "NV"){
 			setInterval(function() {
 				var loginButton = document.getElementById("naverIdLogin").firstChild;
+				console.log("naverLogin")
 				console.log(naverLogin)
+				console.log("loginButton log")
 				console.log(loginButton)
+				console.log("loginButton dir")
 				console.dir(loginButton)
 				loginButton.click();
 			}, 3000);
