@@ -16,7 +16,7 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	    <title>mypage | Seoul Auction</title>
 	</head>
-<body class="" ng-controller="myPageCtl" >
+<body class="" ng-controller="myPageCtl"  ng-init="loadMemberInfo()">
     <div class="wrapper">
         <div class="sub-wrap pageclass">
 
@@ -52,8 +52,7 @@
 													</span><span class="tt4"></span>
 													</div>
 													
-													<sec:authorize access="hasRole('ROLE_REGULAR_USER')">
-													<div class="mem-info-wrap">
+													<div class="mem-info-wrap" ng-if="userRole=='1'">
 														<div class="mem-lv-box">
 															 <div class="mem-lv lv-2">Subscription Member</div>
 															 <div class="mem-period">${validDate}</div>
@@ -66,21 +65,24 @@
 															</a>
 														</div>
 													</div>
-													</sec:authorize>
-													<sec:authorize access="hasRole('ROLE_ASSOCIATE_USER')"> 
-										        	<div class="mem-info-wrap">
+										        	<div class="mem-info-wrap" ng-if="userRole=='0'">
 														<div class="mem-lv-box">
 															 <div class="mem-lv lv-1">Associate Member</div>
 														</div>
+														<div class="mem-record-box">
+															<a href="#" class="record-button js-popup_memlv2_record" ng-click="showMemHisPopup(this);">Membership History</a> 
+															<a href="#" class="tooltip-button js-popup_tooltip" ng-click="showTooltip();">
+																<div class="txt-icon-tooltip">tooltip</div>
+															</a>
+														</div>
 													</div>
-													<div class="mem-button-wrap">
+													<div class="mem-button-wrap" ng-if="userRole=='0'">
 													<a href="/payment/member">
 														<button class="btn btn_point btn_lg" type="button" >
 															<span>SeoulAuction Membership</span>
 														</button>
 													</a>
 													</div>     
-										        </sec:authorize>  
 												</div>
 										        
 										                       
