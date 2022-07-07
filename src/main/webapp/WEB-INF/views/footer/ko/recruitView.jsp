@@ -158,12 +158,27 @@
                                 let images = data.images;
 
                                 $("#recruit_file_down").show();
+
+
                                 $("#recruit_file_down").attr('href' , '/fileDownload?fileKey=' + images.path + '&downloadFileName=' + images.name);
 
-                                //입사 지원서 파일 다운 작업.
-                                // // let html = `<a href=/fileDownload?fileKey=` + images.path + `&downloadFileName=` + images.name  + `>`
-                                // //     + `<i class="icon_down"></i> <span>` + images.name + `</span></a>`;
-                                // $("#notice_file_list").html(html);
+                                if(images.length !== 0){
+
+                                    $.each(images , function(idx , el){
+
+                                        //입사 지원서 파일 다운 작업.
+                                        if ( el.tag === 'applyForm' ){
+
+                                            $("#recruit_file_down").attr('href' , '/fileDownload?fileKey=' + el.path + '&downloadFileName=' + el.name);
+                                        } else {
+                                            //그 외 그냥 이미지 ㅇㅇ;
+                                            let img = '<img src="' + el.cdn_url + '" />'
+                                            $("#recruit_content").append(img);
+                                        }
+
+                                    });
+
+                                }
                             }
                         }
                     })
