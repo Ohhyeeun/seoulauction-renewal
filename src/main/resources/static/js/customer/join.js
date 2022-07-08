@@ -1022,6 +1022,9 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 							
 	//가입버튼 클릭시 미입력 필수사항 focus처리 + 약관 validation
 	$scope.join = function() {
+		if($scope.isSocial()){
+			 $scope.idValid = true;
+		}
 		if($('#joinButton').hasClass('disabled') || !$scope.idValid){
 			$('input').removeClass('input_error');
 //			console.log($scope.idValid ? '아이디통과' : '아이디실패');	console.log($scope.passwdValid ? '비번통과' : '비번실패'); 
@@ -1041,7 +1044,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 						else if(!$scope.authNumValid) $("#hp").addClass('input_error');
 						else if(!$scope.emailValid) $("#email").addClass('input_error');
 						else if(!$scope.addrValid) $("#addr_dtl").addClass('input_error');
-					}else{ 
+					}else{
 						//내국개인회원 필수 필드 : 아이디/비밀번호/이름/휴대폰번호/이메일/주소
 						if(!$scope.idValid) $("#login_id").addClass('input_error');
 						else if(!$scope.passwdValid) $("#passwd").addClass('input_error'); 
