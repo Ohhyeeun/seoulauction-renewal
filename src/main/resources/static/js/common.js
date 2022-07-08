@@ -67,7 +67,7 @@ $(function() {
                         document.querySelector('#menu_upcoming').insertAdjacentHTML('beforeend', badgeHtml);
                     if (menuCount.ExhibitionCount > 0)
                         document.querySelector('#menu_exhibit').insertAdjacentHTML('beforeend', badgeHtml);
-                    if (menuCount.AcademyCount > 0)
+                    if (locale === 'ko' && menuCount.AcademyCount > 0)
                         document.querySelector('#menu_academy').insertAdjacentHTML('beforeend', badgeHtml);
                 }
             })
@@ -713,12 +713,10 @@ jQuery.fn.trpBgDim = function($opacity,$bgColor){
 
 app.requires.push.apply(app.requires, ["ngDialog", "checklist-model"]);
 app.controller('headCtl', function($scope, consts, common, locale, $filter) {
-
+    console.log("recommend-search-part")
     $scope.recommandSearch =  function(){
-
         //추천 검색어
         axios.get('/api/auction/selectRecommandArtist').then(function (response) {
-            console.log(response);
             const success = response.data.success;
 
             $('.recommend-search-part').empty();
