@@ -7,7 +7,7 @@
 
 <header class="header main-header header-border"> <!-- class="main-header fixed" --> 
 
-    <div class="header_beltbox on"> <!--class="on" block-->
+    <div class="header_beltbox"> <!--class="on" block-->
         <div class="swiper-container belt-swiper wrap_padding belttxtbox">
             <div class="swiper-wrapper">
             </div>
@@ -73,17 +73,6 @@
                 <span class="submenuBg-closeBtn closebtn closebtn-b m-ver"></span>
                 <div class="flex_wrap submenuBg-box">
                     <div class="Ingbanner-box pc-ver1280"> 
-                        <%--경매 준비중 추가 [20220629 삭제로 변경]
-                        <a href="javascript:void(0);" class="Ingbanner" target="_blank">
-                            <figure class="border-txt-darkg Ingbanner-img">
-                                <img src="/images/pc/thumbnail/gnb_thubnatil_ready.jpg" alt="ing_auction03">
-                            </figure>
-                            <div class="Ingbanner-txt text-over">
-                                <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                <p class="text-over">경매 준비중</p>
-                                <span class="Ingbanner-arrow"></span>
-                            </div>
-                        </a> --%>
                     </div>
 
                     <ul class="subGnbmenu">

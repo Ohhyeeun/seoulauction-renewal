@@ -63,7 +63,8 @@
                                                                     </div>
                                                                     <div class="desc tb1">
                                                                         <span class="tit">경매일</span>
-                                                                        <span>{{pl[1][0].FROM_DT}} 순차마감</span>
+                                                                        <span ng-if="pl[1][0].ONLINE_YN == 'Y'">{{pl[1][0].TO_DT}} 순차마감</span>
+                                                                        <span ng-if="pl[1][0].ONLINE_YN == 'N'">{{pl[1][0].TO_DT}}</span>
                                                                     </div>
                                                                 </div>
                                                             </dt>
@@ -81,6 +82,8 @@
                                                                     <div class="paystate complete" ng-if="data.PAID_CNT > 0 && getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price <= data.PAY_PRICE ">결제완료</div>
                                                                     <!-- 온라인 결제 완료일 경우-->
                                                                     <div class="txt" ng-if="data.ONLINE_YN == 'Y' && data.PAID_CNT > 0 && data.PAY_PRICE >= getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price">{{data.payDate}} ({{data.PAY_METHOD_NM}})</div>
+                                                                    <!-- 라이브 결제 완료일 경우-->
+                                                                    <div class="txt" ng-if="data.ONLINE_YN == 'N' && data.PAID_CNT > 0 && data.PAY_PRICE >= getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price">{{data.payDate}}</div>
 																	
 																	<!-- 라이브/온라인 부분납부 -->                                                                	
                                                                 	<div class="paystate pending" ng-if="data.PAID_CNT > 0 && getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price > data.PAY_PRICE" >결제진행중 </div>
@@ -106,7 +109,7 @@
                                                                                     <!-- [0613]재질/사이즈로 수정 -->
                                                                                     <div class="sub-li">{{data.CD_NM}}</div>
                                                                                     <div class="sub-li">
-                                                                                        <span>{{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}} X {{StringToJson(data.LOT_SIZE_JSON)[0].SIZE2}} X {{StringToJson(data.LOT_SIZE_JSON)[0].SIZE3}}</span>
+                                                                                        <span>{{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}} X {{StringToJson(data.LOT_SIZE_JSON)[0].SIZE2}}cm</span>
                                                                                         <span ng-if="StringToJson(data.MAKE_YEAR_JSON).ko">{{StringToJson(data.MAKE_YEAR_JSON).ko}}</span>
                                                                                     </div>
                                                                                     <!-- //[0613]재질/사이즈로 수정 -->

@@ -85,8 +85,7 @@
                                                 <div class="viewer-area">
                                                     <div class="gallery_visual js-view_visual">
                                                         <div class="gallery_center">
-                                                            <div class="swiper-wrapper">
-                                                                <!--  -->
+                                                            <div class="swiper-wrapper js-popup_images">
                                                                 <div ng-repeat="item in lotImages"
                                                                      ng-class="{'swiper-slide':$index>-1,'swiper-slide-active':$index == 0}"
                                                                      data-index="$index">
@@ -365,51 +364,25 @@
 
                             <div class="trp-dropdown_list-box" data-trp-focusid="js-user_support">
                                 <div class="search-box">
-                                    <input type="search" placeholder="LOT 번호 입력" id="" class="">
+                                    <input id="search_lot_mb" type="search" placeholder="LOT 번호 입력" id="" class="">
                                     <i class="form-search_md"></i>
                                 </div>
                                 <div class="list-box scroll-type">
-                                    <ul>
-                                        <li>
-                                            <a href="#">
+                                    <ul id="sale_lot_list_mb">
+                                        <li ng-repeat="item in saleImages"
+                                             data-index="{{item.LOT_NO}}">
+                                            <a href="javascript:void(0);" ng-click="goLot(item.SALE_NO,item.LOT_NO)">
                                                 <div class="image-area">
                                                     <figure class="img-ratio">
                                                         <div class="img-align">
-                                                            <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                            <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
                                                         </div>
                                                     </figure>
                                                 </div>
                                                 <div class="typo-area">
-                                                    <span>LOT 10</span>
+                                                    <span ng-bind="'LOT ' + item.LOT_NO"></span>
                                                 </div>
                                             </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="image-area">
-                                                    <figure class="img-ratio">
-                                                        <div class="img-align">
-                                                            <img src="/images/pc/thumbnail/auction02.jpg" alt="">
-                                                        </div>
-                                                    </figure>
-                                                </div>
-                                                <div class="typo-area">
-                                                    <span>LOT1</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li><a href="#">
-                                            <div class="image-area">
-                                                <figure class="img-ratio">
-                                                    <div class="img-align">
-                                                        <img src="/images/pc/thumbnail/auction03.jpg" alt="">
-                                                    </div>
-                                                </figure>
-                                            </div>
-                                            <div class="typo-area">
-                                                <span>LOT2</span>
-                                            </div>
-                                        </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -592,132 +565,180 @@
         </div>
     </div>
 </div>
-<<<<<<< HEAD
+<!-- [0516] 이미지 뷰어 팝업 -->
+<div id="popup_images-wrap" class="trp popupfixed-wrap images-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                    </div>
+                    <div class="pop-body">
+                        <article class="viewer-article js-zoom_inout">
+                            <div class="gallery_view js-imagesSwiper" style="">
+                                <div class="gallery_center">
+                                    <div id="swiper-wrapper_popup"  class="swiper-wrapper">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        <div class="page_prev"><i class="icon-img_swiper_prev"></i></div>
+                        <div class="page_next"><i class="icon-img_swiper_next"></i></div>
+                    </div>
+                    <div class="pop-footer">
+                        <div class="pagination js-imagesSwiper_pagination"></div>
+                        <article class="thumbnail-article">
+                            <ul id="thumbnail_image" class="thumbnail-list js-thumbnail-list">
+                            </ul>
+                        </article>
+                        <!-- [0516]이동 -->
+                        <div class="zoom-box">
+                            <div class="btnitem">
+                                <button class="zoomout js-zoomout"><i class="icon-zoom_out"></i></button>
+                            </div>
+                            <div class="btnitem">
+                                <button class="zoomin js-zoomin"><i class="icon-zoom_in"></i></button>
+                            </div>
+                        </div>
+                        <!-- //[0516]이동 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+>>>>>>> 7367dde8d20e931b049c669991f4c2c59a3918bd
 <!-- 응찰하기 -->
 <div id="bidding_go-wrap" class="trp popupfixed-wrap auction_info-popup  ">
     <div class="popup-dim"></div>
     <div class="popup-align mode-ms mode-mb_center">
         <div class="popup-vertical">
             <div class="popup-layer">
-
-                <!-- [0516] 이미지 뷰어 팝업 -->
-                <div id="popup_images-wrap" class="trp popupfixed-wrap images-popup">
-                    <div class="popup-dim"></div>
-                    <div class="popup-align">
-                        <div class="popup-vertical">
-                            <div class="popup-layer">
-                                <div class="pop-panel">
-                                    <div class="pop-header">
-                                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
-                                    </div>
-                                    <div class="pop-body scroll-type">
-                                        <section class="section" style="display: block;">
-                                            <article class="auction_info-article">
-                                                <div class="img">
-                                                    <img class="only_ib-pc"
-                                                         src="/images/pc/auction/symbol-none_data.png" alt="안내"/>
-                                                    <img class="only_ib-mb"
-                                                         src="/images/pc/auction/symbol-none_data.png" alt="안내"/>
-                                                </div>
-                                                <div class="title"><span>Seoul Auction 안내</span></div>
-                                                <div class="gray-box">
-                                                    <ul class="mark_dot-list">
-                                                        <li>자동응찰 중지하기 전까지의 응찰 낙찰 내역은 모두 기록되며 유효합니다.</li>
-                                                    </ul>
-                                                </div>
-
-                                                <div class="query"><span>응찰 하시겠습니까?</span></div>
-                                                <div class="btn_set">
-                                                    <a id="auto_on_cancel" class="btn btn_default" href="#"
-                                                       role="button"><span>취소</span></a>
-                                                    <a id="auto_on_ok" class="btn btn_point" href="#"
-                                                       role="button"><span>응찰하기</span></a>
-                                                </div>
-                                            </article>
-                                        </section>
-                                    </div>
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                    </div>
+                    <div class="pop-body scroll-type">
+                        <section class="section" style="display: block;">
+                            <article class="auction_info-article">
+                                <div class="img">
+                                    <img class="only_ib-pc"
+                                         src="/images/pc/auction/symbol-none_data.png" alt="안내"/>
+                                    <img class="only_ib-mb"
+                                         src="/images/pc/auction/symbol-none_data.png" alt="안내"/>
+                                </div>
+                                <div class="title"><span>Seoul Auction 안내</span></div>
+                                <div class="gray-box">
+                                    <ul class="mark_dot-list">
+                                        <li>자동응찰 중지하기 전까지의 응찰 낙찰 내역은 모두 기록되며 유효합니다.</li>
+                                    </ul>
                                 </div>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- 응찰중지 -->
-                <div id="bidding_stop-wrap" class="trp popupfixed-wrap auction_info-popup  ">
-                    <div class="popup-dim"></div>
-                    <div class="popup-align mode-ms mode-mb_center">
-                        <div class="popup-vertical">
-                            <div class="popup-layer">
-
-                                <div class="pop-panel">
-                                    <div class="pop-header">
-                                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
-                                    </div>
-                                    <div class="pop-body scroll-type">
-                                        <section class="section" style="display: block;">
-                                            <article class="auction_info-article">
-                                                <div class="img">
-                                                    <img class="only_ib-pc"
-                                                         src="/images/pc/auction/symbol-none_data.png" alt="안내"/>
-                                                    <img class="only_ib-mb"
-                                                         src="/images/pc/auction/symbol-none_data.png" alt="안내"/>
-                                                </div>
-                                                <div class="title"><span>Seoul Auction 안내</span></div>
-                                                <div class="gray-box">
-                                                    <ul class="mark_dot-list">
-                                                        <li>자동응찰 중지는 자동 응찰 취소가 아닙니다.</li>
-                                                        <li>비딩이 올라간 상태에서 정지됩니다.</li>
-                                                    </ul>
-                                                </div>
-
-                                                <div class="query"><span>자동 응찰을 중지 하시겠습니까?</span></div>
-                                                <div class="btn_set">
-                                                    <a id="auto_off_cancel" class="btn btn_default" href="#"
-                                                       role="button"><span>취소</span></a>
-                                                    <a id="auto_off_ok" class="btn btn_point" href="#"
-                                                       role="button"><span>자동응찰 중지</span></a>
-                                                </div>
-                                            </article>
-                                        </section>
-                                    </div>
+                                <div class="query"><span>응찰 하시겠습니까?</span></div>
+                                <div class="btn_set">
+                                    <a id="auto_on_cancel" class="btn btn_default" href="#"
+                                       role="button"><span>취소</span></a>
+                                    <a id="auto_on_ok" class="btn btn_point" href="#"
+                                       role="button"><span>응찰하기</span></a>
                                 </div>
-                            </div>
-                        </div>
+                            </article>
+                        </section>
                     </div>
-                </div>
-                <div class="pop-body">
-                    <article class="viewer-article js-zoom_inout">
-                        <div class="gallery_view js-imagesSwiper" style="">
-                            <div class="gallery_center">
-                                <div id="swiper-wrapper_popup" class="swiper-wrapper">
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                    <div class="page_prev"><i class="icon-img_swiper_prev"></i></div>
-                    <div class="page_next"><i class="icon-img_swiper_next"></i></div>
-                </div>
-                <div class="pop-footer">
-                    <div class="pagination js-imagesSwiper_pagination"></div>
-                    <article class="thumbnail-article">
-                        <ul id="thumbnail_image" class="thumbnail-list js-thumbnail-list">
-                        </ul>
-                    </article>
-                    <!-- [0516]이동 -->
-                    <div class="zoom-box">
-                        <div class="btnitem">
-                            <button class="zoomout js-zoomout"><i class="icon-zoom_out"></i></button>
-                        </div>
-                        <div class="btnitem">
-                            <button class="zoomin js-zoomin"><i class="icon-zoom_in"></i></button>
-                        </div>
-                    </div>
-                    <!-- //[0516]이동 -->
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!-- 응찰중지 -->
+<div id="bidding_stop-wrap" class="trp popupfixed-wrap auction_info-popup  ">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-ms mode-mb_center">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                    </div>
+                    <div class="pop-body scroll-type">
+                        <section class="section" style="display: block;">
+                            <article class="auction_info-article">
+                                <div class="img">
+                                    <img class="only_ib-pc"
+                                         src="/images/pc/auction/symbol-none_data.png" alt="안내"/>
+                                    <img class="only_ib-mb"
+                                         src="/images/pc/auction/symbol-none_data.png" alt="안내"/>
+                                </div>
+                                <div class="title"><span>Seoul Auction 안내</span></div>
+                                <div class="gray-box">
+                                    <ul class="mark_dot-list">
+                                        <li>자동응찰 중지는 자동 응찰 취소가 아닙니다.</li>
+                                        <li>비딩이 올라간 상태에서 정지됩니다.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="query"><span>자동 응찰을 중지 하시겠습니까?</span></div>
+                                <div class="btn_set">
+                                    <a id="auto_off_cancel" class="btn btn_default" href="#"
+                                       role="button"><span>취소</span></a>
+                                    <a id="auto_off_ok" class="btn btn_point" href="#"
+                                       role="button"><span>자동응찰 중지</span></a>
+                                </div>
+                            </article>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="popup_images-wrap" class="trp popupfixed-wrap images-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                    </div>
+                    <div class="pop-body">
+                        <article class="viewer-article js-zoom_inout">
+                            <div class="gallery_view js-imagesSwiper" style="">
+                                <div class="gallery_center">
+                                    <div id="swiper-wrapper_popup"  class="swiper-wrapper">
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        <div class="page_prev"><i class="icon-img_swiper_prev"></i></div>
+                        <div class="page_next"><i class="icon-img_swiper_next"></i></div>
+                    </div>
+                    <div class="pop-footer">
+                        <div class="pagination js-imagesSwiper_pagination"></div>
+                        <article class="thumbnail-article">
+                            <ul id="thumbnail_image" class="thumbnail-list js-thumbnail-list">
+                            </ul>
+                        </article>
+                        <!-- [0516]이동 -->
+                        <div class="zoom-box">
+                            <div class="btnitem">
+                                <button class="zoomout js-zoomout"><i class="icon-zoom_out"></i></button>
+                            </div>
+                            <div class="btnitem">
+                                <button class="zoomin js-zoomin"><i class="icon-zoom_in"></i></button>
+                            </div>
+                        </div>
+                        <!-- //[0516]이동 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
 <!--[if lt IE 9]>
 <%-- <script src="/js/plugin/html5shiv.js"></script> --%> <![endif]-->
@@ -1239,7 +1260,6 @@
                     }
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
                     let swiper_slide_item = '';
-
                     //if (size1 > 160) {
                     swiper_slide_item = <div class="swiper-slide">
                         <div class="img-area">
@@ -1254,7 +1274,6 @@
                         </div>
                     </div>
                     $("#swiper-wrapper").append(swiper_slide_item);
-                    //}
                 });
 
                 console.log(lot_images);
@@ -1353,27 +1372,32 @@
                     imagesResizePcMb();
                 });
 
-
-                $("body").on("click", "#popup_image_viewer-wrap .js-closepop, #popup_image_viewer-wrap
-                    .popup - dim
-                ", function ($e) {
-                $e.preventDefault();
-                popup_image_viewer.close();
-            }
-        )
-            ;
+                $("body").on("click", "#popup_image_viewer-wrap .js-closepop, #popup_image_viewer-wrap .popup-dim", function($e) {
+                    $e.preventDefault();
+                    popup_image_viewer.close();
+                });
 
             // lot
-            $("#search_lot").on("keyup", function () {
+            $("#search_lot, #search_lot_mb").on("keyup", function () {
                 window.event.preventDefault();
-                let v = $("#search_lot").val();
+                let v = $(this).val();
                 if (v.length == 0) {
                     $("#sale_lot_list li").each(function (i, item) {
+                        $(item).css("display", "");
+                    })
+                    $("#sale_lot_list_mb li").each(function (i, item) {
                         $(item).css("display", "");
                     })
                     return
                 } else {
                     $("#sale_lot_list li").each(function (i, item) {
+                        if ($(item).attr('data-index').toString() != v) {
+                            $(item).css("display", "none");
+                        } else {
+                            $(item).css("display", "");
+                        }
+                    })
+                    $("#sale_lot_list_mb li").each(function (i, item) {
                         if ($(item).attr('data-index').toString() != v) {
                             $(item).css("display", "none");
                         } else {

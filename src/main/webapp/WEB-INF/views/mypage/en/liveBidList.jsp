@@ -52,7 +52,7 @@
                                                                     <div class="sub">
                                                                         <div class="desc tb1">
                                                                             <span class="tit">Auction Date</span>
-                                                                            <span>{{liveBid[1][0].FROM_DT_EN}} </span>
+                                                                            <span>{{liveBid[1][0].TO_DT_EN}} </span>
                                                                         </div>
                                                                         <div class="desc tb1">
                                                                             <span class="tit">My Paddle No.</span>

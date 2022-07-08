@@ -120,10 +120,9 @@ window.onload = function(){
 }
 
 /* visual */
-const visualSwiper = new Swiper('.visual-swiper', {
+const visualSwiper = new Swiper('.visual-swiper', { 
     initialSlide : 1,
     loop: true,
-    watchOverflow:true, // 슬라이드 1개 일때 버튼 숨김 여부 설정
     autoplay: {
         delay: 5000,
         disableOnInteraction: false,
@@ -175,9 +174,9 @@ function  loadBigBanner (){
                 const bannerList = response.data.data;
                 // console.log(bannerList);
                 bannerList.map(item => {
-                    // console.log(item)
+                    console.log(item)
                     item.content = JSON.parse(item.content);
-                   if(!(locale == 'en' && item.content.banner_kind == 'academy') ) {
+                   if(!(locale === 'en' && item.content.banner_kind === 'academy') ) {
                         let btnListHtml = "";
                        item.content.button_list.forEach((button) => {
                             // console.log(button);
@@ -252,6 +251,7 @@ function loadTopNotice(){
         if (success) {
             const data = response.data.data;
             if(!getCookie('top-notice') && data) {
+                document.querySelector(".header_beltbox").classList.add("on");
                 data.map(item => {
                     const content = JSON.parse(item.content);
                      const returnDom = `<div class="swiper-slide"> <!-- slide 구간 -->
@@ -271,8 +271,19 @@ function loadTopNotice(){
                     $('.header_beltbox').slideUp(400);
                     closeToday('top-notice');
                 });
+
+                if(matchMedia("all and (min-width: 1024px)").matches) {//pc
+                    $('.main-contents').css({'margin-top': '162px'});
+                } else {//mo
+                    $('.main-contents').css({'margin-top': '100px'});
+                }
+
             }else{
-                document.querySelector(".header_beltbox").classList.remove("on");
+                if(matchMedia("all and (min-width: 1024px)").matches) {//pc
+                    $('.main-contents').css({'margin-top':'102px'});
+                } else {//mo
+                    $('.main-contents').css({'margin-top': '56px'});
+                }
             }
 
         }
@@ -394,8 +405,7 @@ function loadUpcomings() {
 
 
 /* 띠배너 */
-const platFormSwiper = new Swiper('.platform-swiper', { 
-    watchOverflow:true, // 슬라이드가 1개 일 때 pager, button 숨김 여부 설정
+const platFormSwiper = new Swiper('.platform-swiper', {
     autoplay: {
         delay: 5000,
     },
@@ -546,7 +556,6 @@ function loadPopup(){
 
                         let popupType = data.popup_type;
 
-
                         let localeTitle = locale === 'ko' ? jsonData.title.ko : jsonData.title.en;
                         let localeContent = locale === 'ko' ? jsonData.content.ko.content : jsonData.content.en.content;
                         let localeUrl = locale === 'ko' ? jsonData.content.ko.url : jsonData.content.en.url;
@@ -655,7 +664,6 @@ $(window).resize(function(){
 
     /* visual */
     const visualSwiper = new Swiper('.visual-swiper', {
-        watchOverflow:true, //슬라이드가 1개 일 때 pager, button 숨김 여부 설정
         autoplay: {
             delay:7000,
             disableOnInteraction:false,

@@ -148,7 +148,6 @@
     <div class="popup-align mode-ms mode-mb_center">
         <div class="popup-vertical">
             <div class="popup-layer">
-
                 <div class="pop-panel">
                     <div class="pop-header">
                         <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>

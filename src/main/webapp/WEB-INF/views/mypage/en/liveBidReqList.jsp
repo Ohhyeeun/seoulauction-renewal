@@ -51,7 +51,7 @@
                                                                     </div>
                                                                     <div class="desc tb1">
                                                                         <span class="tit">Auction Date</span>
-                                                                        <span>{{liveBidReq[1][0].FROM_DT_EN}} </span>
+                                                                        <span>{{liveBidReq[1][0].TO_DT_EN}} </span>
                                                                     </div>
                                                                 </div>
                                                                  <div class="btn-area">
