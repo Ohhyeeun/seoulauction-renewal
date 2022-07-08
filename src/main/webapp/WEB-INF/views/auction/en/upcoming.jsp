@@ -54,8 +54,8 @@
                                                         <div class="state-box">
                                                             <span class="type-online" ng-if="['online','online_zb'].indexOf(auction.SALE_KIND_CD) > -1">ONLINE</span>
                                                             <span class="type-live" ng-if="['online','online_zb'].indexOf(auction.SALE_KIND_CD) <= -1">LIVE</span>
-                                                            <span class="type-d_day" ng-if="dDayCalc(auction.DB_NOW, auction.FROM_DT) > 0">D-{{dDayCalc(auction.DB_NOW, auction.FROM_DT)}}</span>
-                                                            <span class="type-d_day" ng-if="dDayCalc(auction.DB_NOW, auction.FROM_DT) <= 0">TODAY</span>
+                                                            <span class="type-d_day" ng-if="auction.d_day > 0 && auction.d_day <= 7">D-{{auction.d_day}}</span>
+                                                            <span class="type-d_day" ng-if="auction.d_day <= 0">TODAY</span>
                                                         </div>
                                                         <div class="title-box"><span>{{auction.SALE_TH | localeOrdinal}} {{auction.TITLE_JSON['en']}}</span></div>
                                                         <div class="info-box">
@@ -118,6 +118,7 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
                 $scope.auctionList = response.data.data;
                 $scope.auctionList.map(item => {
                     item.TITLE_JSON = JSON.parse(item.TITLE_JSON);
+                    item.d_day = $scope.dDayCalc(item.DB_NOW, item.FROM_DT);
                 });
                 $scope.$apply();
             }

@@ -228,7 +228,7 @@
                                                                 <span>
                                                                     응찰 관련 문의가 있으신 경우,
 
-                                                                    귀하의 담당자(<em>${emp.CUST_NAME} ${emp.TEL}</em> )
+                                                                    귀하의 담당자(<em>${emp.CUST_NAME} ${emp.TEL}</em>)
 
                                                                     에게 연락주시기 바랍니다.
                                                                 </span>

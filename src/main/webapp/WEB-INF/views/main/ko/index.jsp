@@ -145,7 +145,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         <fieldset class="newsletter-checkbox">
                             <input type="checkbox" id="subscript_check" class="common_checkbox" value='subscript_check' name='subscript_check'>
                             <label for="subscript_check">
-                                <span class="terms-checktxt">개인정보 수집 및 이용에 동의 합니다.</span>
+                                <span id="news_sub_label" class="terms-checktxt">개인정보 수집 및 이용에 동의 합니다.</span>
                             </label>
                         </fieldset>
                     </form>
