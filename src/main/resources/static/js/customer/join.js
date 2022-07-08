@@ -1024,11 +1024,12 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	$scope.join = function() {
 		if($('#joinButton').hasClass('disabled') || !$scope.idValid){
 			$('input').removeClass('input_error');
-//			console.log($scope.idValid ? '아이디통과' : '아이디실패');	console.log($scope.passwdValid ? '비번통과' : '비번실패'); console.log($scope.nameValid ? '이름통과' : '이름실패'); 
-//			console.log($scope.compNoValid ? '사업자등록번호통과' : '사업자등록번호실패'); console.log($scope.authNumValid ? '핸드폰통과' : '핸드폰실패'); console.log($scope.telValid ? '전화번호통과' : '전화번호실패'); 
-//			console.log($scope.emailValid ? '이메일통과' : '이메일실패');  console.log($scope.compManNameValid ? '업무담당자통과' : '업무담당자실패');
-//			console.log($scope.addrValid ? '주소통과' : '주소실패'); console.log($scope.fileValid ? '파일통과' : '파일실패');  
+//			console.log($scope.idValid ? '아이디통과' : '아이디실패');	console.log($scope.passwdValid ? '비번통과' : '비번실패'); 
+//			console.log($scope.compNoValid ? '사업자등록번호통과' : '사업자등록번호실패'); console.log($scope.telValid ? '전화번호통과' : '전화번호실패'); 
+//			console.log($scope.compManNameVal ? '업무담당자통과' : '업무담당자실패'); console.log($scope.fileValid? '파일통과' : '파일실패');
 //			console.log($scope.bidValid ? '응찰여부통과' : '응찰여부실패'); console.log($scope.countryValid ? '국가통과' : '국가실패'); console.log($scope.addrValidEn ? '외국주소통과' : '외국주소실패');
+			console.log($scope.nameValid ? '이름통과' : '이름실패'); console.log($scope.authNumValid ? '핸드폰통과' : '핸드폰실패'); 
+			console.log($scope.emailValid ? '이메일통과' : '이메일실패'); console.log($scope.addrValid ? '주소통과' : '주소실패');   
 			if($scope.isPerson()){
 				if($scope.langType == 'ko'){
 					$("#alertMsg").html("필수항목을 모두 입력해 주세요.");
