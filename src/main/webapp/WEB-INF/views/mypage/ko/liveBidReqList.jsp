@@ -50,7 +50,7 @@
                                                                     </div>
                                                                     <div class="desc tb1">
                                                                         <span class="tit">경매일</span>
-                                                                        <span>{{liveBidReq[1][0].FROM_DT}} 순차마감</span>
+                                                                        <span>{{liveBidReq[1][0].TO_DT}}</span>
                                                                     </div>
                                                                 </div>
                                                                  <div class="btn-area">

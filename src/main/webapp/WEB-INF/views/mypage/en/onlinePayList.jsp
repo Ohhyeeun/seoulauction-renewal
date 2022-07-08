@@ -64,7 +64,8 @@
                                                                     </div>
                                                                     <div class="desc tb1">
                                                                         <span class="tit">Auction Date</span>
-                                                                        <span>{{pl[1][0].FROM_DT_EN}}</span>
+                                                                        <span ng-if="pl[1][0].ONLINE_YN == 'Y'">{{pl[1][0].TO_DT_EN}} Sequential Closing</span>
+                                                                        <span ng-if="pl[1][0].ONLINE_YN == 'N'">{{pl[1][0].TO_DT_EN}}</span>
                                                                     </div>
                                                                 </div>
                                                             </dt>
@@ -108,7 +109,7 @@
                                                                                 <!-- [0613]재질/사이즈로 수정 -->
                                                                                     <div class="sub-li">{{data.CD_NM}}</div>
                                                                                     <div class="sub-li">
-                                                                                        <span>{{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}} X {{StringToJson(data.LOT_SIZE_JSON)[0].SIZE2}} X {{StringToJson(data.LOT_SIZE_JSON)[0].SIZE3}}</span>
+                                                                                        <span>{{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}} X {{StringToJson(data.LOT_SIZE_JSON)[0].SIZE2}}cm</span>
                                                                                         <span ng-if="StringToJson(data.MAKE_YEAR_JSON).ko">{{StringToJson(data.MAKE_YEAR_JSON).ko}}</span>
                                                                                     </div>
                                                                                     <!-- //[0613]재질/사이즈로 수정 -->
