@@ -844,8 +844,9 @@
                 $scope.lotImages = r3.data.data;
                 $scope.saleImages = r4.data.data;
 
-                $scope.estimatedRange = $scope.lotInfo.BASE_EXPE_FROM_PRICE + ' ~ '
-                    + $scope.lotInfo.BASE_EXPE_TO_PRICE;
+                console.log($scope.lotInfo);
+
+                $scope.estimatedRange = $scope.lotInfo.EXPE_PRICE_INQ_YN ==='Y' ? '별도 문의' : $scope.lotInfo.BASE_EXPE_FROM_PRICE + ' ~ ' + $scope.lotInfo.BASE_EXPE_TO_PRICE;
 
                 $scope.recentlyViews = r6.data.data;
 
