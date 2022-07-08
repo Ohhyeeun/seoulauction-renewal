@@ -1406,7 +1406,7 @@ body.dark,
 }
 /* selec container */
 .select2-container--open {
-    z-index: 40;
+    z-index: 40 !important;
 } 
 
 /* pc */
