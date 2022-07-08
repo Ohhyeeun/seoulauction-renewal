@@ -30,12 +30,14 @@ public class AppService {
     }
 
     public CommonMap selectLoginToken(CommonMap paramMap) {
-        List<CommonMap> resultList = appMapper.selectToken(paramMap); //로그인 정보로 토큰 조회
+        List<CommonMap> resultList = appMapper.selectLoginToken(paramMap); //로그인 정보로 토큰 조회
         CommonMap map = new CommonMap();
         if(resultList.size() < 1) {
-            String tokenVal = "tokenValue"; //JWT Token을 생성하는 로직 구현
+            //JWT Token을 생성하는 로직 구현
+            String tokenVal = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.dyt0CoTl4WoVjAHI9Q_CwSKhl6d_9rhM3NrXuJttkao";
             paramMap.put("token", tokenVal); //토큰 값
-            paramMap.put("expiredAt", "2022-07-05"); //토큰 만료기간
+            //토큰 만료기간은 일단 토큰 생성 시간으로부터 1년으로 잡아서 진행
+//            paramMap.put("expired_dt", "2022-07-05"); //토큰 만료기간
             appMapper.insertLoginToken(paramMap);
 
             map.put("id", paramMap.get("cust_no")); //고객번호

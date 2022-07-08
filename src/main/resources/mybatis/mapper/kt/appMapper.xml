@@ -15,13 +15,37 @@
 
 	</update>
 
-	<select id="selectToken" parameterType="CommonMap"
+	<select id="selectLoginToken" parameterType="CommonMap"
 			resultType="CommonMap">
-
+		SELECT
+		    TOKEN_NO
+		     , CUST_NO
+		     , TOKEN
+		     , EXPIRED_DT
+		     , LOGIN_DT
+		     , REG_DT
+		FROM CUST_LOGIN_TOKEN
+		WHERE CUST_NO = #{cust_no}
 	</select>
 
 	<insert id="insertLoginToken">
-
+		insert into
+			CUST_LOGIN_TOKEN
+		(
+			CUST_NO,
+			TOKEN,
+			EXPIRED_DT,
+			LOGIN_DT,
+			REG_DT
+		)
+		values
+		(
+			#{cust_no},
+			#{token},
+			DATE_ADD(now(), INTERVAL 1 YEAR),
+			now(),
+			now()
+		)
 	</insert>
 
 	<delete id="deleteLoginToken" parameterType="CommonMap">

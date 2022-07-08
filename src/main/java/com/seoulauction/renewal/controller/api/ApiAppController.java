@@ -30,13 +30,13 @@ public class ApiAppController {
 
     @PostMapping(value="/loginToken")
     public ResponseEntity<RestResponse> loginToken(@RequestBody CommonMap paramMap) {
-        //requestBody내 json 데이터 : device_id(앱 기기 ID), cust no, 로그인타입(social/regular)
+        //requestBody내 json 데이터 : cust no
         return ResponseEntity.ok(RestResponse.ok(appService.selectLoginToken(paramMap)));
     }
 
     @PostMapping(value="/deleteLoginToken")
     public ResponseEntity<RestResponse> deleteLoginToken(@RequestBody CommonMap paramMap) {
-        //requestBody내 json 데이터 : device_id(앱 기기 ID), cust no, 로그인타입(social/regular)
+        //requestBody내 json 데이터 : cust no
         return ResponseEntity.ok(RestResponse.ok(appService.deleteLoginToken(paramMap)));
     }
 

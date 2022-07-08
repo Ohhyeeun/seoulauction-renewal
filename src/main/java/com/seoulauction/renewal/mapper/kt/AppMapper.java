@@ -14,7 +14,7 @@ public interface AppMapper {
 
     void updateAppInfo(CommonMap map);
 
-    List<CommonMap> selectToken(CommonMap paramMap);
+    List<CommonMap> selectLoginToken(CommonMap paramMap);
 
     void insertLoginToken(CommonMap map);
 
