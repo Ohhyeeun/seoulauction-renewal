@@ -674,7 +674,7 @@ img::selection {
     border: 1px solid #b0b0b0;
     padding: 10px 0;
     position: absolute;
-    z-index: 11;
+    z-index: 26;
     top: 41px;
     left: -114%;
     background: #fff;
