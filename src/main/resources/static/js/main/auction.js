@@ -64,13 +64,31 @@ $(document).ready(function(){
 
     function addLot(idx , data , kind){
 
-        let starting = locale === 'ko' ? '시작가' : 'Starting KRW  ';
+        let starting = locale === 'ko' ? '추정가' : 'Starting KRW  ';
+
+        if (kind === "ONLINE") {
+            starting = locale === 'ko' ? "시작가" : 'Starting KRW  ';
+        }
 
         $.each(data , function(lotIdx , el){
             let imgPath = 'https://www.seoulauction.com/nas_img' + el.FILE_PATH + '/' + el.FILE_NAME;
             let lotTitle = JSON.parse(el.EXPE_PRICE_TITLE);
             let lotName = locale === 'ko' ? lotTitle.ko : lotTitle.en;
-            let price = numberWithCommas(el.START_PRICE);
+            let priceToJson =  JSON.parse(el.EXPE_PRICE_TO_JSON);
+            let priceFromJson =  JSON.parse(el.EXPE_PRICE_FROM_JSON);
+            let price = "";
+            if (kind === "ONLINE") {
+                if (locale === 'ko') {
+                    price = numberWithCommas(el.START_PRICE);
+                }
+            } else {
+                if (locale === 'ko') {
+                    price = numberWithCommas(priceFromJson.KRW) + '~' + numberWithCommas(priceToJson.KRW);
+                } else {
+                    price = numberWithCommas(priceFromJson.USD) + '~' + numberWithCommas(priceToJson.USD);
+                }
+            }
+
             let saleNo = el.SALE_NO;
             let lotNo = el.LOT_NO;
             let like = el.FAVORITE_YN === 'N' ? 'on' : '';
@@ -293,6 +311,8 @@ $(document).ready(function(){
         } else if (d.msg_type === packet_enum.bid_info) {
             if (d.message.bid != null && d.message.bid.length > 0) {
                 let len = d.message.bid.length;
+
+
                 let curCostValue = (d.message.bid[len - 1].bid_cost === 0) ?
                     "현재가 " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR') :
                     "현재가 " + d.message.bid[len - 1].bid_cost.toLocaleString('ko-KR');
@@ -320,10 +340,26 @@ $(document).ready(function(){
                 $(".auctionTab-contents figure").each(function (idx, el) {
                     let mapIndex = matching.get($(el).attr("sale-no") + "-" + $(el).attr("lot-no"));
                     if (mapIndex !== undefined) {
-                        let curCostValue = (d.message.bids[mapIndex].bid_cost === 0) ? "현재가 " +
-                            d.message.bids[mapIndex].open_bid_cost.toLocaleString('ko-KR') :
-                            "현재가 " + d.message.bids[mapIndex].bid_cost.toLocaleString('ko-KR');
-                        $(el).find(".auction-thumb-txt span:eq(1)").html(curCostValue)
+                        let auction_txt = "";
+                        let curCostValue = "";
+                        if (d.message.bids[mapIndex].customer.sale_type === 1){
+                            if (d.message.bids[mapIndex].bid_count > 0) {
+                                auction_txt = "현재가 ";
+                                curCostValue = auction_txt +
+                                    d.message.bids[mapIndex].bid_cost.toLocaleString('ko-KR');
+                                $(el).find(".auction-thumb-txt span:eq(1)").html(curCostValue)
+                            }
+                        } else {
+                            if (d.message.bids[mapIndex].bid_count === 0) {
+                                auction_txt = "시작가 ";
+                            } else {
+                                auction_txt = "현재가 ";
+                            }
+                            curCostValue = (d.message.bids[mapIndex].bid_cost === 0) ? auction_txt +
+                                d.message.bids[mapIndex].open_bid_cost.toLocaleString('ko-KR') :
+                                auction_txt + d.message.bids[mapIndex].bid_cost.toLocaleString('ko-KR');
+                            $(el).find(".auction-thumb-txt span:eq(1)").html(curCostValue)
+                        }
                     }
                 });
                 let isCanClose = true;
