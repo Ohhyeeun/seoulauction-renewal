@@ -10,7 +10,7 @@
 	<div class="newsletter-termsbox">
 		<div class="newsletter-terms">
 			<div class="closebtn closebtn-b newsAgree-close"></div>
-			<span class="newsAgree-checktxt">개인정보 수집 및 이용에 동의</span>
+			<span class="newsAgree-checktxt">개인정보 수집 및 이용 동의</span>
 
 			<p class="newsAgree-txt">
 				뉴스레터 발송을 위한 최소한의 개인정보를 수집하고 이용합니다. 수집된
