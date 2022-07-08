@@ -81,6 +81,8 @@
                                                                     <div class="paystate complete" ng-if="data.PAID_CNT > 0 && getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price <= data.PAY_PRICE ">결제완료</div>
                                                                     <!-- 온라인 결제 완료일 경우-->
                                                                     <div class="txt" ng-if="data.ONLINE_YN == 'Y' && data.PAID_CNT > 0 && data.PAY_PRICE >= getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price">{{data.payDate}} ({{data.PAY_METHOD_NM}})</div>
+                                                                    <!-- 라이브 결제 완료일 경우-->
+                                                                    <div class="txt" ng-if="data.ONLINE_YN == 'N' && data.PAID_CNT > 0 && data.PAY_PRICE >= getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price">{{data.payDate}}</div>
 																	
 																	<!-- 라이브/온라인 부분납부 -->                                                                	
                                                                 	<div class="paystate pending" ng-if="data.PAID_CNT > 0 && getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price > data.PAY_PRICE" >결제진행중 </div>
