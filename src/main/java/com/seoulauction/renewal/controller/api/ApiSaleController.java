@@ -166,7 +166,7 @@ public class ApiSaleController {
 
                     DecimalFormat formatter = new DecimalFormat("###,###");
 
-                    String cvf = formatter.format((int)m.get(currCd));
+                    String cvf = formatter.format((int)(m.get(currCd) == null?0:m.get(currCd)));
                     String svf = formatter.format((int)(m.get(subCurrCd) == null?0:m.get(subCurrCd)));
                     String uvf = formatter.format((int)(m.get("USD") == null?0:m.get("USD")));
 
