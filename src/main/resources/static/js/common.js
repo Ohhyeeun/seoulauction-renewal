@@ -311,7 +311,12 @@ $(function() {
             $('.bubble-box01').addClass('hide');
             $('.bubble-box02').addClass('hide');
             $('.search-bubble-box').removeClass('on');
-        }
+            $('.main-contents, #contents').click(function(){
+                $('.search-bubble-box').removeClass('on');
+                $('.bubble-box01').eq(utilityMenu).removeClass('hide');
+                $('.bubble-box02').eq(utilityMenu).removeClass('hide');
+            });
+        };
         $('.search-bubble-box').toggleClass('on');
     });
 
@@ -989,6 +994,14 @@ $(window).resize(function(){
         $('.gnb_submenuBg').removeClass('on'); 
         $('.submenuBg').removeClass('on');
 
+        /* top search right 위치 */
+        $('.topsearch-box>form').animate({'right': '0'});
+        $('.main-contents, #contents').click(function(){
+            console.log(45353454);
+            $('.search-bubble-box').removeClass('on');
+            $('.bubble-box01').eq(utilityMenu).removeClass('hide');
+            $('.bubble-box02').eq(utilityMenu).removeClass('hide');
+        });
 
         /* 오프라인 라이브응찰 화면(pc) */
         $('.bidding_pc').show();
@@ -1090,10 +1103,13 @@ $(window).resize(function(){
             });
         });
 
+        /* top search box */
+        $('.topsearch-box>form').animate({'right': '-100%'});
+
         /* 오프라인 라이브응찰 화면(mobile) */
         $('.bidding_pc').hide();
         $('.bidding_mo').show();
-    };
+    }; 
 
     /*top search place holder*/
     const windowWidth1279 = window.matchMedia('screen and (min-width:1279px)');
