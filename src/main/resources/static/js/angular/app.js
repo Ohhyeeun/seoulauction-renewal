@@ -411,7 +411,7 @@ app.filter('localeValue', function(locale) {
 app.filter('localeOrdinal', function(locale) {
     return function(n, l) {
     	if(!l) l = locale;
-    	if (n != "") 
+    	if (n != "" && typeof n != 'undefined')
     	{
     		if(l == "ko" ) return "제" + n + "회";
         	

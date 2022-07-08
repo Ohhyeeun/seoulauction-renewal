@@ -96,12 +96,11 @@
 											<!-- [0516]링크추가 -->
 											<ul>
 												<li>
-													<a ng-click="naverButtonClick()" href="#"><i class="icon-sns_naver"></i></a>
+													<a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=5qXZytacX_Uy60o0StGT&state=NAVER_LOGIN&redirect_uri=${socialServiceDomain}/naverCallback?type=login"><i class="icon-sns_naver"></i></a>
 													<div id="recentSocialTypeNV" class="sns_latest_wrap" style="display:none">
 														<img class="only-mb" src="/images/mobile/login/latest_login.png">
 													</div>
 												</li>
-												<div id="naverIdLogin" style="display:none"></div>
 												<li>
 													<a href="https://kauth.kakao.com/oauth/authorize?client_id=adbdfe931311a01731a0161175701a42&redirect_uri=${socialServiceDomain}/kakaoRedirect/login&response_type=code"><i class="icon-sns_kakao"></i></a>
 													<div id="recentSocialTypeKA" class="sns_latest_wrap" style="display:none">
@@ -146,9 +145,6 @@
 </div>
 </body>
 
-<!-- 네이버 -->
-<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
-<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2-nopolyfill.js" charset="utf-8"></script>
 <!--  구글 -->
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
 <script src="https://apis.google.com/js/api:client.js"></script>

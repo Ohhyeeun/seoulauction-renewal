@@ -7,7 +7,7 @@
 
 <header class="header main-header header-border"> <!-- class="main-header fixed" -->
 
-    <div class="header_beltbox on"> <!--class="on" block-->
+    <div class="header_beltbox"> <!--class="on" block-->
         <div class="swiper-container belt-swiper wrap_padding belttxtbox">
             <div class="swiper-wrapper">
             </div>

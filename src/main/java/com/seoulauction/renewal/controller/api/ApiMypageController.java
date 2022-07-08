@@ -372,27 +372,6 @@ public class ApiMypageController {
 	    }
 	}
 
-	//네이버 연동해제
-	@RequestMapping(value="/naversignOut", method=RequestMethod.POST, headers = {"content-type=application/json"})
-	@ResponseBody
-	public ResponseEntity<RestResponse> naversignOut(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
-		log.info("naversignOut");
-		log.info(paramMap.toString());
-		String apiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id="+paramMap.get("client_id")+
-		 		"&client_secret="+paramMap.get("client_secret")+"&access_token="+paramMap.get("token")+"&service_provider=NAVER";
-		log.info("apiUrl===== {}", apiUrl);
-		
-		String res = "";
-		try {
-			res = mypageService.requestToServer(apiUrl);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return ResponseEntity.ok(RestResponse.ok(res));
-	}
-	
 	//회원정보조회
 	@RequestMapping(value = "/custs/{custNo}", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> cust(@PathVariable("custNo") String custNo, 

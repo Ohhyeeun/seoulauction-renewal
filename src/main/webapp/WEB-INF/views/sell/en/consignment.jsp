@@ -6,7 +6,7 @@
     <div class="sub-wrap pageclass">
 
         <!-- header -->
-        <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
+        <jsp:include page="../../include/en/nav.jsp" flush="false"/>
         <!-- //header -->
 
         <!-- container -->

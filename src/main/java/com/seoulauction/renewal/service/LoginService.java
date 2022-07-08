@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -162,7 +163,7 @@ public class LoginService {
             } else {
                 br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
             }
-			System.out.println("responseCode : " + responseCode);
+			log.info("responseCode : {}", responseCode);
 
 			// 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
 			String line = "";
@@ -203,7 +204,7 @@ public class LoginService {
             } else {
                 br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
             }
-			System.out.println("responseCode : " + responseCode);
+			log.info("responseCode : {}", responseCode);
 
 			String line = "";
 			String result = "";
@@ -211,7 +212,7 @@ public class LoginService {
 			while ((line = br.readLine()) != null) {
 				result += line;
 			}
-			System.out.println("response body : " + result);
+			log.info("response body : {}", result);
 
 			JsonParser parser = new JsonParser();
 			element = parser.parse(result);
@@ -249,7 +250,7 @@ public class LoginService {
 			//담당자 전번도 없을때는 고객센터로 ㄱ
 		} else {
 			String tel = empCustMap.getString("TEL");
-			if(tel ==null){
+			if(StringUtils.isEmpty(tel)){
 				empCustMap.put("CUST_NAME" , "고객센터");
 				empCustMap.put("TEL" , "02-395-0330");
 			}

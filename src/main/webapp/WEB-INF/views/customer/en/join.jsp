@@ -43,8 +43,7 @@
 												<div class="sns_icon_wrap">
 													<ul>
 														<li>
-															<i ng-click="naverJoin()" class="icon-sns_naver"></i>
-															<div id="naverIdLogin" style="display:none"></div>
+															<i onclick="location.href='https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=5qXZytacX_Uy60o0StGT&state=NAVER_LOGIN&redirect_uri=${socialServiceDomain}/naverCallback?type=login'" class="icon-sns_naver"></i>
 														</li>
 														<li>
 															<i onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=adbdfe931311a01731a0161175701a42&redirect_uri=${socialServiceDomain}/kakaoRedirect/login&response_type=code'" class="icon-sns_kakao"></i>
@@ -127,9 +126,6 @@
 </div>
 </body>
 	
-	<!-- 네이버 -->
-	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
-	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2-nopolyfill.js" charset="utf-8"></script>
 	<!--  구글 -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
 	<script src="https://apis.google.com/js/api:client.js"></script>

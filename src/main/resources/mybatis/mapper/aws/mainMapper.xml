@@ -9,8 +9,8 @@
         where banner_type = 'top-text'
             and is_open = 'Y'
             and status = 'A'
-            and start_at <=  (now() + interval 9 hour)
-            and end_at >= (now() + interval 9 hour)
+            and start_at + interval 9 hour <=  (now() + interval 9 hour)
+            and end_at + interval 9 hour  >= (now() + interval 9 hour)
             order by start_at, updated_at
        limit 3;
     ]]>
@@ -22,8 +22,8 @@
         from main_banner mb
         where mb.banner_type = 'middle-rolling'
             and mb.status = 'A'
-            and mb.start_at <= now()
-            and mb.end_at >= now()
+            and mb.start_at + interval 9 hour <= now() + interval 9 hour
+            and mb.end_at + interval 9 hour >= now() + interval 9 hour
         order by mb.sort desc;
     ]]>
     </select>
@@ -88,8 +88,8 @@
                 main_popup
             WHERE
                 status = 'A'
-                and start_at <= (now() + interval 9 hour)
-                and end_at >= (now() + interval 9 hour)
+                and start_at + interval 9 hour <= (now() + interval 9 hour)
+                and end_at + interval 9 hour >= (now() + interval 9 hour)
             ORDER BY
                 sort DESC
             LIMIT
@@ -102,7 +102,7 @@
         select * from main_banner
         where banner_type = 'main-rolling'
         and status = 'A'
-        and start_at <= (now() + interval 9 hour) and end_at >= (now() + interval 9 hour)
+        and start_at + interval 9 hour <= (now() + interval 9 hour) and end_at + interval 9 hour >= (now() + interval 9 hour)
         order by sort;
         ]]>
     </select>

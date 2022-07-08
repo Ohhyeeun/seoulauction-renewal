@@ -175,9 +175,9 @@ function  loadBigBanner (){
                 const bannerList = response.data.data;
                 // console.log(bannerList);
                 bannerList.map(item => {
-                    // console.log(item)
+                    console.log(item)
                     item.content = JSON.parse(item.content);
-                   if(!(locale == 'en' && item.content.banner_kind == 'academy') ) {
+                   if(!(locale === 'en' && item.content.banner_kind === 'academy') ) {
                         let btnListHtml = "";
                        item.content.button_list.forEach((button) => {
                             // console.log(button);
@@ -252,6 +252,7 @@ function loadTopNotice(){
         if (success) {
             const data = response.data.data;
             if(!getCookie('top-notice') && data) {
+                document.querySelector(".header_beltbox").classList.add("on");
                 data.map(item => {
                     const content = JSON.parse(item.content);
                      const returnDom = `<div class="swiper-slide"> <!-- slide 구간 -->
@@ -271,8 +272,19 @@ function loadTopNotice(){
                     $('.header_beltbox').slideUp(400);
                     closeToday('top-notice');
                 });
+
+                if(matchMedia("all and (min-width: 1024px)").matches) {//pc
+                    $('.main-contents').css({'margin-top': '162px'});
+                } else {//mo
+                    $('.main-contents').css({'margin-top': '100px'});
+                }
+
             }else{
-                document.querySelector(".header_beltbox").classList.remove("on");
+                if(matchMedia("all and (min-width: 1024px)").matches) {//pc
+                    $('.main-contents').css({'margin-top':'102px'});
+                } else {//mo
+                    $('.main-contents').css({'margin-top': '56px'});
+                }
             }
 
         }
