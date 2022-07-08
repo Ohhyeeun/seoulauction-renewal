@@ -26,9 +26,6 @@ $(document).ready(function(){
                 if(success){
 
                     auctionData = data.data.list;
-
-                    console.log(auctionData);
-
                     //TODO 인클루드 작업.
                     $.each(auctionData , function(idx , el){
 
@@ -106,7 +103,7 @@ $(document).ready(function(){
         $('.auction-thumb').off('mouseleave');
         $('.wish_heart').off('click');
         $('.auction-thumb').off('click');
-
+        $('.auction-thumbbox').off('click');
         /*auction Tab 버튼*/
         $('.auctionTab-btn').on('click',function () {
 
@@ -133,16 +130,74 @@ $(document).ready(function(){
 
         });
 
-        $('.auction-thumbbox').on('mouseenter', function () {
-            $('.auction-thumbbox>.auction-thumb').removeClass('on');
-            $(this).children('.auction-thumb').addClass('on');
+        //모바일이 아닐때만 .
+        if (matchMedia("all and (min-width: 1024px)").matches) {
+
+            $('.auction-thumbbox').on('mouseenter', function () {
+                $('.auction-thumbbox>.auction-thumb').removeClass('on');
+                $(this).children('.auction-thumb').addClass('on');
+
+            });
+            $('.auction-thumb').on('mouseleave', function () {
+                $(this).removeClass('on');
+            });
+        } else {
+            //모바일일땐 클릭이벤트로
+            $('.auction-thumbbox').on('click', function (event) {
+
+                let saleKind = 'online';
+                if(kind){
+                    kind = kind.toLowerCase();
+                    if(kind.includes('main') || kind.includes('plan') || kind.includes('hongkong')){
+                        saleKind = 'live';
+                    }
+                }
+
+                window.open('/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).attr('lot-no'));
+            });
+        }
+
+
+        /* 반응형 resize 추가 */
+        $(window).resize(function(){
+
+            $('.auction-thumbbox').off('mouseenter');
+            $('.auction-thumb').off('mouseleave');
+            $('.auction-thumbbox').off('click');
+
+            //모바일이 아닐때만 .
+            if (matchMedia("all and (min-width: 1024px)").matches) {
+
+                $('.auction-thumbbox').on('mouseenter', function () {
+                    $('.auction-thumbbox>.auction-thumb').removeClass('on');
+                    $(this).children('.auction-thumb').addClass('on');
+
+                });
+                $('.auction-thumb').on('mouseleave', function () {
+                    $(this).removeClass('on');
+                });
+            } else {
+                //모바일일땐 클릭이벤트로
+                $('.auction-thumbbox').on('click', function (event) {
+
+                    let saleKind = 'online';
+                    if(kind){
+                        kind = kind.toLowerCase();
+                        if(kind.includes('main') || kind.includes('plan') || kind.includes('hongkong')){
+                            saleKind = 'live';
+                        }
+                    }
+
+                    window.open('/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).attr('lot-no'));
+                });
+            }
         });
-        $('.auction-thumb').on('mouseleave', function () {
-            $(this).removeClass('on');
-        });
+
 
         //클릭시
         $('.auction-thumb').on('click', function (event) {
+
+            console.log('asdfasdfasdf');
 
             let saleKind = 'online';
             if(kind){
@@ -161,7 +216,6 @@ $(document).ready(function(){
             if(!checkLogin()){
                 return false;
             }
-
 
             let data = {};
 
