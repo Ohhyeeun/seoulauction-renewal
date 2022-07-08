@@ -349,9 +349,12 @@
             <!-- // stykey -->
         </div>
     </div>
+</div>
     <script type="text/javascript" src="/js/auction/saleCert.js"></script>
+
     <jsp:include page="popup/auctionBidPopup.jsp" flush="false"/>
     <jsp:include page="popup/auctionConfirmPopup.jsp" flush="false"/>
+
     <!-- 하트 토글 -->
     <script>
         document.cookie = "crossCookie=bar; SameSite=None; Secure";

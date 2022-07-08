@@ -546,6 +546,10 @@
     margin: 0 auto;
     text-align: center;
 }
+.platform-swiper {
+    height: 0;
+    padding-bottom: 11.25em;
+}
 .swiper-button-prev.platformBtn-left,
 .swiper-button-next.platformBtn-right {
     width: 100px;
@@ -1237,6 +1241,9 @@
         flex-basis: auto;
         height: 100%;
     }
+    .platform-swiper {
+        padding-bottom: calc(45% - 64px);
+    }
     .upcoming-slidebox {
         overflow: inherit;
     }
@@ -1299,6 +1306,9 @@
     }
     .auction-tit>h1 {
         padding: 0;
+    }
+    .platform-swiper {
+        padding-bottom: 13.75em;
     }
     .video-thmbtit {
         font-size: 15px;
@@ -1608,6 +1618,9 @@
     .upcoming-preview:lang(en),
     .upcoming-datebox:lang(en) {
         line-height: 1;
+    }
+    .platform-swiper {
+        padding-bottom: 35.25%;
     }
     .swiper-pagination.platform-pagination {
         margin-top: 15px;

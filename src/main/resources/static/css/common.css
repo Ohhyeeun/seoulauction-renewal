@@ -329,7 +329,7 @@ img::selection {
     width: 100%;
     position: fixed;
     top: 0;
-    z-index: 2;
+    z-index: 25;
     left:  50%;
     transform: translate(-50%, 0);
     -webkit-transform: translate(-50%, 0);
@@ -863,7 +863,7 @@ img::selection {
     width: 100%;
     left: 0px;
     /*padding: 50px 140px 49px 139px; */
-    z-index: 10;
+    z-index: 25;
     height: auto;
     display: none;
 }
@@ -1404,6 +1404,11 @@ body.dark,
     background-color: #444;
     color: #fff;
 }
+/* selec container */
+.select2-container--open {
+    z-index: 40 !important;
+} 
+
 /* pc */
 @media all and (max-width: 1919px) {
     .scroll-top {
@@ -1736,7 +1741,7 @@ body.dark,
         max-width: 570px;
         padding: 0;
         overflow-y: auto;
-        z-index: 30;
+        z-index: 25;
     }
     .gnb_blackBg {
         display: none;
