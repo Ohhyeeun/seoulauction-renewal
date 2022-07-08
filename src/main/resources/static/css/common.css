@@ -1406,10 +1406,12 @@ body.dark,
 }
 /* selec container */
 .select2-container--open {
-    z-index: 40 !important;
-} 
-
-/* pc */
+    z-index: 24 !important;
+}
+.sub-wrap .main-header {
+    z-index: 30 !important;
+}
+/* pc */ 
 @media all and (max-width: 1919px) {
     .scroll-top {
         right: 50px;
