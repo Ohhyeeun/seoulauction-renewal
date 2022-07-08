@@ -42,7 +42,7 @@
     </div>
 
     <nav class="header_navbox">
-        <div class="header_nav wrap_padding">
+        <div class="header_nav wrap_padding" ng-controller="headCtl">
             <a href="/" class="header_logo"><span class="blind-text">logo</span></a>
             <ul class="header_gnbmenu pc-ver">
                 <li><a href="#" class="">AUCTION</a></li>
@@ -56,25 +56,11 @@
                 <form action="" class="scroll_none">
                     <fieldset class="topsearch topsearch-en">
                         <span class="submenuBg-closeBtn closebtn-b top-search-closeBtn m-ver"></span>
-                        <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver"><button type="submit" class="topsearch-btn pc-ver"></button>
+                        <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();" id="topsearchText" ng-keypress="$event.keyCode === 13 && goSearch('topsearchText', true, $event);" autocomplete="off"><button type="button" class="topsearch-btn pc-ver" ng-click="goSearch('topsearchText', true, $event);"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">
-                                <span class="keyword-search-tit">Recent Keyword<span class="keyword-all-del">All Delete</span></span><!--
-                                    --><span class="recent-keyword"><a href="#">Kim SunWoo</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">Yayoi Kusama</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">Lee UFan</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">Kim WhanKi</a><span class="keyword-del"></span></span><!--
-                                    --><span class="recent-keyword"><a href="#">Park SooKeun </a><span class="keyword-del"></span></span><!--
-                                    -->
                             </div>
                             <div class="recommend-search-part">
-                                <span class="keyword-search-tit">Recommend Keyword</span><!--
-                                    --><a href="#" class="recommend-keyword">Lee Bae</a><!--
-                                    --><a href="#" class="recommend-keyword">Min JoungKi</a><!--
-                                    --><a href="#" class="recommend-keyword">Chungshin</a><!--
-                                    --><a href="#" class="recommend-keyword">Park SeoBo</a><!--
-                                    --><a href="#" class="recommend-keyword">Lim HanSoo</a><!--
-                                    --><a href="#" class="recommend-keyword">David Hockney</a><!---->
                             </div>
                         </section>
                     </fieldset>
@@ -88,7 +74,6 @@
                 <span class="submenuBg-closeBtn closebtn closebtn-b m-ver"></span>
                 <div class="flex_wrap submenuBg-box">
                     <div class="Ingbanner-box">
-
                     </div>
 
                     <ul class="subGnbmenu">
@@ -96,13 +81,13 @@
                             <ul class="submenu submenu-part01">
                                 <li id="menu_auction"><a href="/auction/progress">Current</a></li>
                                 <li id="menu_upcoming"><a href="/auction/upcoming">Upcoming</a></li>
-                                <li><a href="#">Result</a></li>
+                                <li><a href="/auction/results">Result</a></li>
                                 <li><a href="/auction/info">Auction Guide</a></li>
                             </ul>
                         </li>
                         <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
                             <ul class="submenu submenu-part02">
-                                <li id="menu_exhibition"><a href="/privatesale/exhibit">Exhibition</a></li>
+                                <li id="menu_exhibit"><a href="/privatesale/exhibit">Exhibition</a></li>
                                 <li><a href="/privatesale/psList">Private Sale</a></li>
                                 <li><a href="/privatesale/psGuide">Private Sale Guide</a></li>
                             </ul>
@@ -118,10 +103,10 @@
                                 <li><a href="/service/loan">Art Collateral Loans</a></li>
                                 <li><a href="/service/storage">Art Storage</a></li>
                                 <li><a href="/service/showroom">Rental of Space</a></li>
-                                <li><a href="/service/marketing">Art Consulting & <br>Corporate Marketing</a></li>
+                                <li><a href="/service/marketing">Art Consulting &#38; <br>Corporate Marketing</a></li>
                             </ul>
                         </li>
-                        <li class="subGnbmenu-tit m-ver">
+                        <li class="subGnbmenu-tit m-ver" ng-if="${requestScope['javax.servlet.forward.servlet_path'] == '/'}"  >
                                 <span class="gnbmenu_arrow modebox">Light Mode
                                     <label for="dark" class="mode-toggle">
                                         <input type="checkbox" id="dark" name="dark">
