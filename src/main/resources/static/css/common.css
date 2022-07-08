@@ -1736,7 +1736,7 @@ body.dark,
         max-width: 570px;
         padding: 0;
         overflow-y: auto;
-        z-index: 10;
+        z-index: 30;
     }
     .gnb_blackBg {
         display: none;

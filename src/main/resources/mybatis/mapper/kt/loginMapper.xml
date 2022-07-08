@@ -350,6 +350,26 @@
 			now()
 		);
 	</insert>
+
+<!--	로그인 한 유저의 고객담당자 번호 찾기.-->
+	<select id="selectCustForEmpNo" parameterType="CommonMap" resultType="CommonMap">
+		SELECT
+		    CUST_NAME,
+			TEL
+		FROM
+		    CUST
+		WHERE
+			CUST_NO =
+				(
+				SELECT
+					EMP_NO
+				FROM
+					 CUST
+				WHERE
+					CUST_NO = #{cust_no}
+				)
+
+	</select>
 	
 	
 </mapper>

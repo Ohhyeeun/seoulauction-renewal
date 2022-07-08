@@ -6,12 +6,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
-<style>
-    .select2-container {
-        z-index: 999;
-    }
-</style>
-
 <body class="">
 <div class="wrapper">
     <%--    <link rel="stylesheet" href="/css/plugin/csslibrary.css">--%>
@@ -100,7 +94,7 @@
                                                                         <figure class="img-ratio">
                                                                             <div class="img-align">
                                                                                 <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                                     alt="">
+                                                                                     alt=""/>
                                                                             </div>
                                                                         </figure>
                                                                     </div>
@@ -143,7 +137,7 @@
                                                 </div>
                                             </div>
                                             <div class="view_scale-area"
-                                                 ng-if="lotInfo.VIEW_SCALE_YN == 'Y' && lotInfo.SIZE1 > 160">
+                                                 ng-if="lotInfo.VIEW_SCALE_YN == 'Y'">
                                                 <a class="js-popup_image_viewer" href="#"><i
                                                         class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
@@ -292,7 +286,7 @@
                             </div>
                             <div class="panel-footer">
                                 <article class="product_recent_work-article">
-                                    <div class="article-header">
+                                    <div class="article-header" ng-show="recentlyViews.length > 0">
                                         <div class="title"><span>이 경매의 최근 본 작품</span></div>
                                     </div>
                                     <div class="article-body">
@@ -431,6 +425,12 @@
                 <input type="hidden" id="lot_no" value="{{lot_no}}"/>
             </div>
         </div>
+        <script>
+            $(function () {
+
+            });
+        </script>
+        <!-- //[0516] 이미지 팝업 -->
         <!-- //container -->
 
         <!-- footer -->
@@ -592,7 +592,132 @@
         </div>
     </div>
 </div>
+<<<<<<< HEAD
+<!-- 응찰하기 -->
+<div id="bidding_go-wrap" class="trp popupfixed-wrap auction_info-popup  ">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-ms mode-mb_center">
+        <div class="popup-vertical">
+            <div class="popup-layer">
 
+                <!-- [0516] 이미지 뷰어 팝업 -->
+                <div id="popup_images-wrap" class="trp popupfixed-wrap images-popup">
+                    <div class="popup-dim"></div>
+                    <div class="popup-align">
+                        <div class="popup-vertical">
+                            <div class="popup-layer">
+                                <div class="pop-panel">
+                                    <div class="pop-header">
+                                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                                    </div>
+                                    <div class="pop-body scroll-type">
+                                        <section class="section" style="display: block;">
+                                            <article class="auction_info-article">
+                                                <div class="img">
+                                                    <img class="only_ib-pc"
+                                                         src="/images/pc/auction/symbol-none_data.png" alt="안내"/>
+                                                    <img class="only_ib-mb"
+                                                         src="/images/pc/auction/symbol-none_data.png" alt="안내"/>
+                                                </div>
+                                                <div class="title"><span>Seoul Auction 안내</span></div>
+                                                <div class="gray-box">
+                                                    <ul class="mark_dot-list">
+                                                        <li>자동응찰 중지하기 전까지의 응찰 낙찰 내역은 모두 기록되며 유효합니다.</li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="query"><span>응찰 하시겠습니까?</span></div>
+                                                <div class="btn_set">
+                                                    <a id="auto_on_cancel" class="btn btn_default" href="#"
+                                                       role="button"><span>취소</span></a>
+                                                    <a id="auto_on_ok" class="btn btn_point" href="#"
+                                                       role="button"><span>응찰하기</span></a>
+                                                </div>
+                                            </article>
+                                        </section>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 응찰중지 -->
+                <div id="bidding_stop-wrap" class="trp popupfixed-wrap auction_info-popup  ">
+                    <div class="popup-dim"></div>
+                    <div class="popup-align mode-ms mode-mb_center">
+                        <div class="popup-vertical">
+                            <div class="popup-layer">
+
+                                <div class="pop-panel">
+                                    <div class="pop-header">
+                                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                                    </div>
+                                    <div class="pop-body scroll-type">
+                                        <section class="section" style="display: block;">
+                                            <article class="auction_info-article">
+                                                <div class="img">
+                                                    <img class="only_ib-pc"
+                                                         src="/images/pc/auction/symbol-none_data.png" alt="안내"/>
+                                                    <img class="only_ib-mb"
+                                                         src="/images/pc/auction/symbol-none_data.png" alt="안내"/>
+                                                </div>
+                                                <div class="title"><span>Seoul Auction 안내</span></div>
+                                                <div class="gray-box">
+                                                    <ul class="mark_dot-list">
+                                                        <li>자동응찰 중지는 자동 응찰 취소가 아닙니다.</li>
+                                                        <li>비딩이 올라간 상태에서 정지됩니다.</li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="query"><span>자동 응찰을 중지 하시겠습니까?</span></div>
+                                                <div class="btn_set">
+                                                    <a id="auto_off_cancel" class="btn btn_default" href="#"
+                                                       role="button"><span>취소</span></a>
+                                                    <a id="auto_off_ok" class="btn btn_point" href="#"
+                                                       role="button"><span>자동응찰 중지</span></a>
+                                                </div>
+                                            </article>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pop-body">
+                    <article class="viewer-article js-zoom_inout">
+                        <div class="gallery_view js-imagesSwiper" style="">
+                            <div class="gallery_center">
+                                <div id="swiper-wrapper_popup" class="swiper-wrapper">
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <div class="page_prev"><i class="icon-img_swiper_prev"></i></div>
+                    <div class="page_next"><i class="icon-img_swiper_next"></i></div>
+                </div>
+                <div class="pop-footer">
+                    <div class="pagination js-imagesSwiper_pagination"></div>
+                    <article class="thumbnail-article">
+                        <ul id="thumbnail_image" class="thumbnail-list js-thumbnail-list">
+                        </ul>
+                    </article>
+                    <!-- [0516]이동 -->
+                    <div class="zoom-box">
+                        <div class="btnitem">
+                            <button class="zoomout js-zoomout"><i class="icon-zoom_out"></i></button>
+                        </div>
+                        <div class="btnitem">
+                            <button class="zoomin js-zoomin"><i class="icon-zoom_in"></i></button>
+                        </div>
+                    </div>
+                    <!-- //[0516]이동 -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
 <!--[if lt IE 9]>
 <%-- <script src="/js/plugin/html5shiv.js"></script> --%> <![endif]-->
@@ -1099,6 +1224,7 @@
                 });
 
                 let sale_images = $scope.saleImages;
+                let lot_images = $scope.lotImages;
 
                 $.each(sale_images, function (index, el) {
                     let size1 = 0;
@@ -1115,19 +1241,57 @@
                     let swiper_slide_item = '';
 
                     //if (size1 > 160) {
-                    swiper_slide_item = `<div class="swiper-slide">
+                    swiper_slide_item = <div class="swiper-slide">
+                        <div class="img-area">
+                            <div class="img-box">
+                                <div class="size_x"><span>` + size2 + unitCd + `</span></div>
+                                <div class="size_y"><span>` + size1 + unitCd + `</span></div>
+                                <div class="images">
+                                    <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `"
+                                         size2="` + size2 + `" lot_no="` + lot_no + `"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    $("#swiper-wrapper").append(swiper_slide_item);
+                    //}
+                });
+
+                console.log(lot_images);
+
+                $.each(lot_images, function (index, el) {
+
+                    let popup_lot_no = el.LOT_NO;
+                    let popup_img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
+                    let popup_swiper_slide_item = '';
+                    let popup_swiper_mini_slide_item = '';
+
+                    //if (size1 > 160) {
+                    popup_swiper_slide_item = `<div class="swiper-slide">
                                             <div class="img-area">
                                                 <div class="img-box">
-                                                    <div class="size_x"><span>` + size2 + unitCd + `</span></div>
-                                                    <div class="size_y"><span>` + size1 + unitCd + `</span></div>
                                                     <div class="images">
-                                                        <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + lot_no + `" />
+                                                        <img class="imageViewer" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
                                                     </div>
                                                 </div>
                                             </div>
                         </div>`
-                    $("#swiper-wrapper").append(swiper_slide_item);
-                    //}
+                    $("#swiper-wrapper_popup").append(popup_swiper_slide_item);
+
+
+                    popup_swiper_mini_slide_item = `<li class="active">
+                                            <a href="#">
+                                                <div class="imgs-item">
+                                                    <figure class="img-ratio">
+                                                        <div class="img-align">
+                                                            <img src="` + popup_img_url + `" alt="" />
+                                                        </div>
+                                                    </figure>
+                                                    <div class="line"></div>
+                                                    </div>
+                                                </a>
+                                            </li>`
+                    $("#thumbnail_image").append(popup_swiper_mini_slide_item);
                 });
 
                 /* 싸이즈 버튼 */
@@ -1161,7 +1325,8 @@
                 });
 
 
-                var popup_image_viewer = $(".js-popup_image_viewer").trpLayerFixedPopup("#popup_image_viewer-wrap");
+                var popup_image_viewer =
+                    $(".js-popup_image_viewer").trpLayerFixedPopup("#popup_image_viewer-wrap");
                 $(popup_image_viewer.getBtn).on("click", function ($e) {
                     $e.preventDefault();
                     popup_image_viewer.open(this); // or false
@@ -1189,98 +1354,225 @@
                 });
 
 
-                $("body").on("click", "#popup_image_viewer-wrap .js-closepop, #popup_image_viewer-wrap .popup-dim", function ($e) {
-                    $e.preventDefault();
-                    popup_image_viewer.close();
-                });
+                $("body").on("click", "#popup_image_viewer-wrap .js-closepop, #popup_image_viewer-wrap
+                    .popup - dim
+                ", function ($e) {
+                $e.preventDefault();
+                popup_image_viewer.close();
+            }
+        )
+            ;
 
-                // lot
-                $("#search_lot").on("keyup", function () {
-                    window.event.preventDefault();
-                    let v = $("#search_lot").val();
-                    if (v.length == 0) {
-                        $("#sale_lot_list li").each(function (i, item) {
+            // lot
+            $("#search_lot").on("keyup", function () {
+                window.event.preventDefault();
+                let v = $("#search_lot").val();
+                if (v.length == 0) {
+                    $("#sale_lot_list li").each(function (i, item) {
+                        $(item).css("display", "");
+                    })
+                    return
+                } else {
+                    $("#sale_lot_list li").each(function (i, item) {
+                        if ($(item).attr('data-index').toString() != v) {
+                            $(item).css("display", "none");
+                        } else {
                             $(item).css("display", "");
-                        })
-                        return
-                    } else {
-                        $("#sale_lot_list li").each(function (i, item) {
-                            if ($(item).attr('data-index').toString() != v) {
-                                $(item).css("display", "none");
-                            } else {
-                                $(item).css("display", "");
-                            }
-                        })
-                    }
-                })
-
-                // sns
-                let toggle_sns = $(".js-sns_share").trpToggleBtn(
-                    function ($this) {
-                        $($this).addClass("on");
-                        $($this).closest(".btn-box").find(".sns_layer-area").fadeIn("fast");
-                    },
-                    function ($this) {
-                        $($this).removeClass("on");
-                        $($this).closest(".btn-box").find(".sns_layer-area").fadeOut("fast");
-                    });
-
-                $(".js-share_kakao, .js-share_url").on("click", function ($e) {
-                    $e.preventDefault();
-                    toggle_sns.toggleAllSet(false);
-                })
-
-                //작가 정보 admin에서 가져오도록 로직변경
-                axios.get('/api/auction/artist_info/' + $scope.artistNo)
-                    .then(function (response) {
-
-                        const data = response.data;
-                        let success = data.success;
-
-                        if (success) {
-                            let artistData = data.data;
-                            if (!artistData) {
-                               $("#artist_layer").css("display","none");
-                            } else {
-                                let articlesList = JSON.parse(artistData.articles).articles;
-                                let artistYoutubeImages = JSON.parse(artistData.media).youtube;
-                                let artistImageList = artistData.images;
-
-                                let title = '';
-                                $.each(articlesList, function (index, el) {
-                                    if (locale == 'ko') {
-                                        title += el.titleKo + '</br>';
-                                    } else {
-                                        title += el.titleEn + '</br>';
-                                    }
-                                });
-
-
-
-                                $("#artistName").html(JSON.parse(artistData.name).ko + ' ' + artistData.birth + '~' + artistData.death);
-                                $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
-
-                                let html = '<div class="vide_img-box">';
-                                $.each(artistYoutubeImages, function (index, el) {
-                                    $.each(artistImageList, function (s3Index, el) {
-                                        //일단은 youtube만 뿌리기로
-                                        if (artistImageList[s3Index].tag == 'youtube' + index) {
-                                            html += '<a href="' + artistYoutubeImages[index] + '"><img src=" ' + artistImageList[s3Index].cdn_url + ' " alt="" /></a>';
-                                        }
-                                    });
-                                });
-                                html += '</div>';
-                                $("#artistMedia").html(html);
-                            }
                         }
                     })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                }
+            })
+
+            // sns
+            let toggle_sns = $(".js-sns_share").trpToggleBtn(
+                function ($this) {
+                    $($this).addClass("on");
+                    $($this).closest(".btn-box").find(".sns_layer-area").fadeIn("fast");
+                },
+                function ($this) {
+                    $($this).removeClass("on");
+                    $($this).closest(".btn-box").find(".sns_layer-area").fadeOut("fast");
+                });
+
+            $(".js-share_kakao, .js-share_url").on("click", function ($e) {
+                $e.preventDefault();
+                toggle_sns.toggleAllSet(false);
+            })
+
+            //작가 정보 admin에서 가져오도록 로직변경
+            axios.get('/api/auction/artist_info/' + $scope.artistNo)
+                .then(function (response) {
+
+                    const data = response.data;
+                    let success = data.success;
+
+                    if (success) {
+                        let artistData = data.data;
+                        if (!artistData) {
+                            $("#artist_layer").css("display", "none");
+                        } else {
+                            let articlesList = JSON.parse(artistData.articles).articles;
+                            let artistYoutubeImages = JSON.parse(artistData.media).youtube;
+                            let artistImageList = artistData.images;
+
+                            let title = '';
+                            $.each(articlesList, function (index, el) {
+                                if (locale == 'ko') {
+                                    title += el.titleKo + '</br>';
+                                } else {
+                                    title += el.titleEn + '</br>';
+                                }
+                            });
+
+
+                            $("#artistName").html(JSON.parse(artistData.name).ko + ' ' + artistData.birth + '~' + artistData.death);
+                            $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
+
+                            let html = '<div class="vide_img-box">';
+                            $.each(artistYoutubeImages, function (index, el) {
+                                $.each(artistImageList, function (s3Index, el) {
+                                    //일단은 youtube만 뿌리기로
+                                    if (artistImageList[s3Index].tag == 'youtube' + index) {
+                                        html += '<a href="' + artistYoutubeImages[index] + '"><img src=" ' + artistImageList[s3Index].cdn_url + ' " alt="" /></a>';
+                                    }
+                                });
+                            });
+                            html += '</div>';
+                            $("#artistMedia").html(html);
+                        }
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+
+            var popup_images = $(".js-popup_images").trpLayerFixedPopup("#popup_images-wrap");
+            $(".js-popup_images").on("click", function ($e) {
+                $e.preventDefault();
+                popup_images.open(this); // or false
+                imagesResizePcMb();
+                imagesSwiper.update();
+                imagesSwiper.slideTo(1, 0);
+            });
+            $("body").on("click", "#popup_images-wrap .js-closepop, #popup_images-wrap .popup-dim",
+                function ($e) {
+                    $e.preventDefault();
+                    popup_images.close();
+                });
+            // popup_images.open(false); // or false
+            // imagesResizePcMb();
+
+
+            /* === zoom === panzoom.reset()*/
+            var zoom_range = document.querySelector('.js-zoom_inout');
+            var panzoom = "";
+
+            function panzoom_set() {
+                console.log("=====================>panzoom_set");
+
+                panzoom = Panzoom(zoom_range, {
+                    /* disablePan: true, */
+                    maxScale: 4, // (Default: 4)
+                    minScale: 1 // (Default: 0.125)
+                });
+                $(".js-zoomin").on("click", function () {
+                    panzoom.zoomIn();
+                });
+                $(".js-zoomout").on("click", function () {
+                    panzoom.zoomOut();
+                });
+                panzoom.zoom(1, {
+                    animate: true
+                })
             }
-            run();
+
+            function panzoom_reset() {
+                console.log("-------------------------->panzoom_reset");
+                panzoom.reset();
+                panzoom.destroy();
+                panzoom = "";
+                $(".js-zoomin").off("click");
+                $(".js-zoomout").off("click");
+            }
+
+            if ($("body").hasClass("is_pc")) {
+                panzoom_set();
+            }
+
+            /* === 스와이퍼 === */
+            console.log("스와이퍼 set");
+            var imagesSwiper = new Swiper('.js-imagesSwiper .gallery_center', {
+                loop: true,
+                simulateTouch: false,
+                pagination: ".js-imagesSwiper_pagination",
+                paginationClickable: true,
+                breakpoints: {
+                    1023: {
+                        effect: "slide",
+                        simulateTouch: true,
+                        slidesPerView: 1,
+                        spaceBetween: 10
+                    }
+                },
+                onSlideChangeStart: function (swiper) { // 움직임이 시작하면 실행
+                    imagesResizePcMb();
+                    if ($("body").hasClass("is_pc")) {
+                        panzoom.reset(); // zoom reset
+                    }
+                },
+                onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
+                    imagesResizePcMb();
+                    thumbnailActive(swiper.realIndex);
+                    console.log(">>> ", swiper.realIndex)
+                }
+            })
+            // 좌우버튼
+            $('.images-popup .page_prev').on('click', function ($e) {
+                $e.preventDefault();
+                imagesSwiper.slidePrev();
+            })
+            $('.images-popup .page_next').on('click', function ($e) {
+                $e.preventDefault();
+                console.log("next")
+                imagesSwiper.slideNext();
+            })
+
+            /* 섭네일 클릭 */
+            $(".js-thumbnail-list a").on("click", function ($e) {
+                $e.preventDefault();
+                var _index = $(this).closest("li").index();
+                imagesSwiper.slideTo(_index + 1);
+                thumbnailActive(_index);
+            })
+
+            function thumbnailActive($index) {
+                $(".js-thumbnail-list li").removeClass("active")
+                $(".js-thumbnail-list li").eq($index).addClass("active");
+            }
+
+
+            /* PC,MB images resize */
+            $(window).on("resize", function () {
+                imagesResizePcMb();
+                if ($("body").hasClass("is_mb")) {
+                    if (panzoom != "") {
+                        panzoom_reset();
+                    }
+                } else {
+                    /* pc */
+                    if (panzoom == "") {
+                        panzoom_set();
+                    }
+                }
+            });
+
+
         }
-    });
+        run();
+    }
+    })
+    ;
 </script>
 
 <script>
@@ -1288,22 +1580,23 @@
         var scope = angular.element(document.getElementById("container")).scope();
         return scope;
     }
-    function size_text_cm(src){
-        if (src === null || src === undefined ) {
+
+    function size_text_cm(src) {
+        if (src === null || src === undefined) {
             return;
         }
 
         var returnValue = "";
         var cmSize = ""
 
-        for (let i =0 ;i < src.length; i++) {
+        for (let i = 0; i < src.length; i++) {
             if (src[i].UNIT_CD === "cm") {
                 cmSize = src[i].SIZE1 != 0 ? src[i].SIZE1.toFixed(1) : "";
                 cmSize += src[i].SIZE2 != 0 ? "☓" + src[i].SIZE2.toFixed(1) : "";
                 cmSize += src[i].SIZE3 != 0 ? "☓" + src[i].SIZE3.toFixed(1) +
-                    "(" + (src[i].MIX_CD == "depth" ? "d" : "h")  + ")": "";
+                    "(" + (src[i].MIX_CD == "depth" ? "d" : "h") + ")" : "";
                 cmSize += cmSize != "" ? src[i].UNIT_CD : "";
-                cmSize += cmSize != "" &&  src[i].CANVAS != 0 ? " (" + (src[i].CANVAS_EXT_YN == "Y" ? "변형" : "") + src[i].CANVAS + ")" : "";
+                cmSize += cmSize != "" && src[i].CANVAS != 0 ? " (" + (src[i].CANVAS_EXT_YN == "Y" ? "변형" : "") + src[i].CANVAS + ")" : "";
 
                 returnValue = src[i].PREFIX;
                 returnValue += (src[i].DIAMETER_YN == "Y" ? "Φ " : "") + cmSize;
@@ -1457,7 +1750,40 @@
 
     // 자동응찰
     function autoBid() {
-        autoBiding(connect_info);
+        if ($("#reservation_bid").prop("disabled")) {
+            var bidding_stop = $("#auto_bid_btn").trpLayerFixedPopup("#bidding_stop-wrap");
+            bidding_stop.open(this); // or false
+            popup_fixation("#bidding_stop-wrap");
+
+            $("#bidding_stop-wrap .js-closepop, #bidding_stop-wrap .popup-dim, #auto_off_cancel, #auto_off_ok").bind("click", function ($e) {
+                $e.preventDefault();
+                if ($(this).attr("id") === "auto_off_ok") {
+                    autoBiding(connect_info);
+                    bidding_stop.close();
+                    $("#bidding_stop-wrap .js-closepop, #bidding_stop-wrap .popup-dim, #auto_off_cancel, #auto_off_ok").unbind("click");
+                    return
+                }
+                $("#bidding_stop-wrap .js-closepop, #bidding_stop-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").unbind("click");
+                bidding_stop.close();
+            });
+        } else {
+            var bidding_go = $("#auto_bid_btn").trpLayerFixedPopup("#bidding_go-wrap");
+            bidding_go.open(this); // or false
+            popup_fixation("#bidding_go-wrap");
+
+            $("#bidding_go-wrap .js-closepop, #bidding_go-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").bind("click", function ($e) {
+                $e.preventDefault();
+                if ($(this).attr("id") === "auto_on_ok") {
+                    autoBiding(connect_info);
+                    bidding_go.close();
+                    $("#bidding_go-wrap .js-closepop, #bidding_go-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").unbind("click");
+                    return
+                }
+                $("#bidding_go-wrap .js-closepop, #bidding_go-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").unbind("click");
+                bidding_go.close();
+            });
+        }
+
     }
 
     function retry(saleNo, lotNo, saleType, userId, custNo) {
@@ -1672,8 +1998,14 @@
                         viewCnt++;
                         continue
                     }
-                    if (d.message.quotes[cnt].cost > cost_tmp) {
+                    if (d.message.quotes[cnt].cost === cost_tmp) {
                         cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt].quote_cost)
+                        quote_arr.push(cost_tmp)
+                        viewCnt++;
+                        continue
+                    }
+                    if (d.message.quotes[cnt].cost > cost_tmp) {
+                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
                         quote_arr.push(cost_tmp)
                         viewCnt++;
                         continue
@@ -1802,7 +2134,13 @@
                             viewCnt++;
                             continue
                         }
-                        if (d.message.quotes[cnt].cost >= cost_tmp) {
+                        if (d.message.quotes[cnt].cost === cost_tmp) {
+                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt].quote_cost)
+                            quote_arr.push(cost_tmp)
+                            viewCnt++;
+                            continue
+                        }
+                        if (d.message.quotes[cnt].cost > cost_tmp) {
                             cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
                             quote_arr.push(cost_tmp)
                             viewCnt++;

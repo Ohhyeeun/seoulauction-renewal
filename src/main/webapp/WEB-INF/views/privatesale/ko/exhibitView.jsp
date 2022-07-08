@@ -121,7 +121,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="view_scale-area" ng-if="lotInfo.VIEW_SCALE_YN == 'Y' && lotInfo.SIZE1 > 160">
+                                            <div class="view_scale-area" ng-if="lotInfo.VIEW_SCALE_YN == 'Y'">
                                                 <a class="btn btn_default js-popup_image_viewer" href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
                                         </article>
@@ -560,7 +560,7 @@
 
                     let swiper_slide_item = '';
 
-                    if(size1 > 160){
+                    //if(size1 > 160){
                         swiper_slide_item = `<div class="swiper-slide">
                                             <div class="img-area">
                                                 <div class="img-box">
@@ -573,7 +573,7 @@
                                             </div>
                         </div>`
                         $("#swiper-wrapper").append(swiper_slide_item);
-                    }
+                    //}
                 });
 
                 // lot

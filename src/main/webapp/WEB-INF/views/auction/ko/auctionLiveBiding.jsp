@@ -224,12 +224,17 @@
                                                     <div class="help-box">
                                                         <i class="icon-inquiry_g"></i>
                                                         <ul>
-                                                            <li><span>응찰 관련 문의가 있으신 경우, 귀하의 담당자(
-                                                                    <em>홍길동 02-1234-5678</em>
-                                                                    )에게 연락주시기 바랍니다.</span></li>
+                                                            <li>
+                                                                <span>
+                                                                    응찰 관련 문의가 있으신 경우,
+
+                                                                    귀하의 담당자(<em>${emp.CUST_NAME} ${emp.TEL}</em> )
+
+                                                                    에게 연락주시기 바랍니다.
+                                                                </span>
+                                                            </li>
                                                         </ul>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </li>

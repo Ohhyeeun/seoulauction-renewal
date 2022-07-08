@@ -5,13 +5,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
-<style>
-    .select2-container {
-        z-index: 999;
-    }
-</style>
+<%--<style>--%>
+<%--    .select2-container {--%>
+<%--        z-index: 999;--%>
+<%--    }--%>
+<%--</style>--%>
 <body class="">
-<div class="wrapper">
+<div class="wrapper"> 
     <div class="sub-wrap pageclass type-width_list">
         <!-- header -->
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
@@ -1145,7 +1145,13 @@
                                 viewCnt++;
                                 continue
                             }
-                            if (d.message.quotes[cnt].cost >= cost_tmp){
+                            if (d.message.quotes[cnt].cost === cost_tmp) {
+                                cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt].quote_cost)
+                                quote_arr.push(cost_tmp)
+                                viewCnt++;
+                                continue
+                            }
+                            if (d.message.quotes[cnt].cost > cost_tmp){
                                 cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
                                 quote_arr.push(cost_tmp)
                                 viewCnt++;
@@ -1158,6 +1164,7 @@
                         for(let i = 0; i < quote_arr.length; i++) {
                             $("#reservation_bid").append(`<option value="` + quote_arr[i] +`">KRW ` + quote_arr[i].toLocaleString("ko-KR") +`</option>`);
                         }
+
                     }
                 }
                 if (d.message.times !== null && d.message.times.length > 0){
@@ -1341,9 +1348,9 @@
 
                         quote_unit.innerText = "KRW " + bid_info.bid_quote.toLocaleString('ko-KR');
 
-                        bid_new_cost.innerText = "KRW " + (((bid_info.bid_cost === 0) ? bid_info.open_bid_cost : bid_info.bid_cost) + bid_info.bid_quote).toLocaleString('ko-KR');
+                        bid_new_cost.innerText = "KRW " + ((bid_info.bid_cost === 0 && bid_info.open_bid_cost > 0) ? bid_info.open_bid_cost : bid_info.bid_cost + bid_info.bid_quote).toLocaleString('ko-KR');
 
-                        document.getElementById("bid_new_cost_val").setAttribute("value", ((bid_info.bid_cost === 0) ? bid_info.open_bid_cost : bid_info.bid_cost) + bid_info.bid_quote);
+                        document.getElementById("bid_new_cost_val").setAttribute("value", ((bid_info.bid_cost === 0 && bid_info.open_bid_cost > 0) ? bid_info.open_bid_cost : bid_info.bid_cost + bid_info.bid_quote));
                         document.getElementById("bid_new_cost_btn").innerText = "응찰하기";
 
                         if (bid_info.customer.cust_no === $scope.cust_no){
@@ -1438,7 +1445,13 @@
                                     viewCnt++;
                                     continue
                                 }
-                                if (d.message.quotes[cnt].cost >= cost_tmp){
+                                if (d.message.quotes[cnt].cost === cost_tmp) {
+                                    cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt].quote_cost)
+                                    quote_arr.push(cost_tmp)
+                                    viewCnt++;
+                                    continue
+                                }
+                                if (d.message.quotes[cnt].cost > cost_tmp){
                                     cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
                                     quote_arr.push(cost_tmp)
                                     viewCnt++;
