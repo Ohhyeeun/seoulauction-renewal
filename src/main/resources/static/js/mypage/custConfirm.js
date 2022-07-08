@@ -6,21 +6,6 @@ $(document).ready(function(){
 	console.log("socialType : " + socialType);
 	
 	if(socialYn == 'Y'){
-		// 네이버초기화
-		naverLogin = new naver.LoginWithNaverId({
-			clientId: "5qXZytacX_Uy60o0StGT",
-			callbackUrl: socialServiceDomain + "/social/naver/callback?action=socialConfirm&userEmail=" + socialEmail,
-			isPopup: true,
-			loginButton: {
-				color: "green",
-				type: 3,
-				height: 60
-			}
-		});
-		console.log(socialServiceDomain + "/social/naver/callback?action=socialConfirm&userEmail=" + socialEmail);
-		// 네이버 init
-		naverLogin.init();
-		
 		// 구글초기화
 		var googleInit = function() {
 			gapi.load('auth2', function() {
@@ -58,25 +43,9 @@ $(document).ready(function(){
 });
 
 $(window).on("load", function() {
-		// 네이버 로그인
 	if(socialYn == 'Y'){
 		if(socialType === "NV"){
-			$("#testNaver").trigger("click");
-			
-//			setInterval(function() {
-//				var loginButton = document.getElementById("naverIdLogin").firstChild;
-//				console.log("naverLogin")
-//				console.log(naverLogin)
-//				console.log("loginButton log")
-//				console.log(loginButton)
-//				console.log("loginButton dir")
-//				console.dir(loginButton)
-//				loginButton.click();
-//			}, 3000);
-//			console.log($("#naverIdLogin_loginButton").length)
-//			var loginButton2 = $("#naverIdLogin_loginButton")[0];
-//			console.log(loginButton2)
-//			$(loginButton2).trigger("click")
+			location.href='https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=5qXZytacX_Uy60o0StGT&state=NAVER_LOGIN&redirect_uri=' + socialServiceDomain + '/naverCallback?type=custConfirm'
 		}else if(socialType === "KA"){
 			location.href='https://kauth.kakao.com/oauth/authorize?client_id=adbdfe931311a01731a0161175701a42&redirect_uri=' + socialServiceDomain + '/kakaoRedirect/custConfirm&response_type=code'
 		}else if(socialType === "GL"){
@@ -87,17 +56,6 @@ $(window).on("load", function() {
 	}
 });
 
-function naverButtonClick() {
-	var loginButton = document.getElementById("naverIdLogin").firstChild;
-	console.log("LOGIN naverLogin")
-	console.log(naverLogin)
-	console.log("***LOGIN loginButton log")
-	console.log(loginButton)
-	console.log("LOGIN loginButton dir")
-	console.dir(loginButton)
-	loginButton.click();
-}
-	
 function goPost(){
     let f = document.createElement('form');
     f.setAttribute('method', 'post');

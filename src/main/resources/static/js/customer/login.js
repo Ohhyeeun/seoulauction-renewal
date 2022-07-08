@@ -215,20 +215,6 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 	// 구글 init
 	googleInit();
 
-	// 네이버초기화
-	naverLogin = new naver.LoginWithNaverId({
-		clientId: "5qXZytacX_Uy60o0StGT",
-		callbackUrl: socialServiceDomain + "/social/naver/callback?action=login",
-		isPopup: true,
-		loginButton: {
-			color: "green",
-			type: 3,
-			height: 60
-		}
-	});
-	// 네이버 init
-	naverLogin.init();
-
 	// 애플 init
 	AppleID.auth.init({
 		clientId: 'com.seoulauction.renewal-web',
@@ -276,18 +262,6 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 			});
 	}
 
-	// 네이버 로그인
-	$scope.naverButtonClick = function() {
-		var loginButton = document.getElementById("naverIdLogin").firstChild;
-		console.log("LOGIN naverLogin")
-		console.log(naverLogin)
-		console.log("***LOGIN loginButton log")
-		console.log(loginButton)
-		console.log("LOGIN loginButton dir")
-		console.dir(loginButton)
-		loginButton.click();
-	}
-			
 	// 구글로그인
 	$scope.loginWithGoogle = function(element) {
 		auth2.attachClickHandler(element, {},

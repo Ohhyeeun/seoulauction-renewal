@@ -105,14 +105,6 @@
     <!-- 팝업 : side popup -->
 	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 </body>
-<!-- 네이버 -->
-<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
-<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2-nopolyfill.js" charset="utf-8"></script>
-<!--  구글 -->
-<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-<script src="https://apis.google.com/js/api:client.js"></script>
-<!-- 애플 -->
-<script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
 <!-- 회원정보수정 비밀번호확인 -->
 <script type="text/javascript" src="/js/mypage/custLeave.js"></script>
 <script>

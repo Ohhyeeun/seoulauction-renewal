@@ -170,12 +170,6 @@ public class LoginController {
         return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "joinForm" , locale);
     }
     
-    @GetMapping("/social/naver/callback")
-	public String socialNaverCallback(Locale locale, HttpServletRequest request, HttpServletResponse response) {
-	    log.debug("===== naverCallback =====");
-	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "naverCallback" , locale);
-    }
-    
     @GetMapping("/joinDone")
     public String joinDone(Locale locale) {
     	log.debug("===== joinDone =====");
@@ -200,7 +194,6 @@ public class LoginController {
     
   	@RequestMapping(value="/kakaoRedirect/{type}", method=RequestMethod.GET)
   	public String kakaoRedirect(Model model, HttpServletRequest request, HttpServletResponse response
-  			,RedirectAttributes redirect
   			,@RequestParam (value="code", required = false)String code
   			,@PathVariable("type") String type) throws Exception {
 
@@ -238,5 +231,47 @@ public class LoginController {
   	    model.addAttribute("email", email);
   	    model.addAttribute("type", type);
   	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "kakaoCallback" , new Locale(Locale.KOREA.getLanguage()));
+  	}
+  	
+  	@RequestMapping(value="/naverCallback", method=RequestMethod.GET)
+  	public String naverCallback(Model model, HttpServletRequest request, HttpServletResponse response
+  			,@RequestParam (value="type", required = false) String type
+  			,@RequestParam (value="state", required = false) String state
+  			,@RequestParam (value="code", required = false) String code) throws Exception {
+
+  	    log.info("===========naverCallback : type : {} ===========", type);
+  	    log.info(code);
+  	    
+  	    StringBuilder sb = new StringBuilder();
+		sb.append("grant_type=authorization_code");
+		sb.append("&client_id=5qXZytacX_Uy60o0StGT");
+		sb.append("&client_secret=N573KogeM1");
+		sb.append("&code=" + code);
+		sb.append("&state=" + state);
+		
+		//토큰발급
+		JsonElement tokenJson = loginService.postRestful(sb, "https://nid.naver.com/oauth2.0/token");
+		String accessToken = tokenJson.getAsJsonObject().get("access_token").getAsString();
+		String refreshToken = tokenJson.getAsJsonObject().get("refresh_token").getAsString();
+		log.info("access_token : {}", accessToken);
+		log.info("refresh_token : {}", refreshToken);
+		
+		//사용자정보조회
+		JsonElement userJson = loginService.getRestful(accessToken, "https://openapi.naver.com/v1/nid/me");
+		JsonObject properties = userJson.getAsJsonObject().get("response").getAsJsonObject();
+		String name = properties.getAsJsonObject().get("name").getAsString();
+		String email = properties.getAsJsonObject().get("email").getAsString();
+		log.info("name : {}", name);
+		log.info("email : {}", email);
+		
+  	    if(type.equals("login")) {
+  			model.addAttribute("name", name);
+  	    }else if(type.equals("custConfirm")) {
+  	    	log.info("SecurityUtils.getAuthenticationPrincipal().getSocialEmail() : " ,SecurityUtils.getAuthenticationPrincipal().getSocialEmail());
+  	    	model.addAttribute("custSocialEmail", SecurityUtils.getAuthenticationPrincipal().getSocialEmail());
+  	    }
+  	    model.addAttribute("email", email);
+  	    model.addAttribute("type", type);
+  	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "naverCallback" , new Locale(Locale.KOREA.getLanguage()));
   	}
 }

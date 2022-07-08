@@ -22,10 +22,6 @@ $(document).ready(function() {
 					eval(type + "LinkYn = true");
 					console.log(type + "LinkYn : " + eval(type + "LinkYn"));
 				}
-				
-				if(NVLinkYn){
-					naverLogin.getLoginStatus();
-				}
 			}
 		})
 		.catch(function(error) {
@@ -116,20 +112,6 @@ var googleInit = function() {
 // 구글 init
 googleInit();
 
-// 네이버초기화
-naverLogin = new naver.LoginWithNaverId({
-	clientId: "5qXZytacX_Uy60o0StGT",
-	callbackUrl: socialServiceDomain + "/social/naver/callback?action=snsLink",
-	isPopup: true,
-	loginButton: {
-		color: "green",
-		type: 3,
-		height: 60
-	}
-});
-// 네이버 init
-naverLogin.init();
-
 // 애플 init
 AppleID.auth.init({
 	clientId: 'com.seoulauction.renewal-web',
@@ -155,8 +137,7 @@ function naverButtonClick() {
 		//연동해제
 		snsUnLink("NV");
 	} else{
-		var loginButton = document.getElementById("naverIdLogin").firstChild;
-		loginButton.click();
+		location.href='https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=5qXZytacX_Uy60o0StGT&state=NAVER_LOGIN&redirect_uri=' + socialServiceDomain + '/naverCallback?type=snsLink'
 	}
 }
 		

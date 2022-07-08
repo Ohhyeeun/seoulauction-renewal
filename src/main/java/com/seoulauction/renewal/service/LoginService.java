@@ -163,7 +163,7 @@ public class LoginService {
             } else {
                 br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
             }
-			System.out.println("responseCode : " + responseCode);
+			log.info("responseCode : {}", responseCode);
 
 			// 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
 			String line = "";
@@ -204,7 +204,7 @@ public class LoginService {
             } else {
                 br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
             }
-			System.out.println("responseCode : " + responseCode);
+			log.info("responseCode : {}", responseCode);
 
 			String line = "";
 			String result = "";
@@ -212,7 +212,7 @@ public class LoginService {
 			while ((line = br.readLine()) != null) {
 				result += line;
 			}
-			System.out.println("response body : " + result);
+			log.info("response body : {}", result);
 
 			JsonParser parser = new JsonParser();
 			element = parser.parse(result);

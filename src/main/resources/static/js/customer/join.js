@@ -4,8 +4,6 @@ app.value('is_login', 'false');
 // 구글
 var googleUser = {};
 var googleProfile;
-// 네이버
-var naverLogin;
 
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
 app.controller('joinCtl', function($scope, consts, common, ngDialog) {
@@ -28,21 +26,6 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 
 	// 구글 init
 	googleInit();
-
-	// 네이버초기화
-	naverLogin = new naver.LoginWithNaverId({
-		clientId: "5qXZytacX_Uy60o0StGT",
-		callbackUrl: socialServiceDomain + "/social/naver/callback?action=join",
-		isPopup: true,
-		loginButton: {
-			color: "green",
-			type: 3,
-			height: 60
-		}
-	});
-
-	// 네이버 init
-	naverLogin.init();
 
 	// 애플 init
 	AppleID.auth.init({
@@ -123,13 +106,7 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 			});
 	}
 
-	// 네이버회원가입
-	$scope.naverJoin = function() {
-		var loginButton = document.getElementById("naverIdLogin").firstChild;
-		loginButton.click();
-	};
-
-	// 네이버 로그인
+	// 애플 로그인
 	$scope.joinWithApple = function() {
 		var loginButton = document.getElementById("appleid-signin").firstChild;
 		loginButton.click();
