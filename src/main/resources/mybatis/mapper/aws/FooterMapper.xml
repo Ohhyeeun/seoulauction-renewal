@@ -52,6 +52,7 @@
     <select id="selectRecruits" parameterType="CommonMap" resultType="CommonMap">
         SELECT
             *,
+            IF(end_at <![CDATA[ < ]]> now() , 'Y' , 'N') AS is_over                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ,
             date_format(start_at, '%Y.%m.%d') start_date,
             date_format(end_at, '%Y.%m.%d') end_date
         FROM
