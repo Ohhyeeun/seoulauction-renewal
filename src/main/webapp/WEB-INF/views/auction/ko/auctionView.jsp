@@ -82,10 +82,10 @@
                                     <div class="col_item">
                                         <article class="product_view-article">
                                             <div class="view_row">
-                                                <div class="viewer-area js-view_visual">
-                                                    <div class="gallery_visual">
+                                                <div class="viewer-area">
+                                                    <div class="gallery_visual js-view_visual">
                                                         <div class="gallery_center">
-                                                            <div class="swiper-wrapper js-popup_images">
+                                                            <div class="swiper-wrapper">
                                                                 <!--  -->
                                                                 <div ng-repeat="item in lotImages"
                                                                      ng-class="{'swiper-slide':$index>-1,'swiper-slide-active':$index == 0}"
@@ -425,6 +425,11 @@
                 <input type="hidden" id="lot_no" value="{{lot_no}}"/>
             </div>
         </div>
+        <script>
+            $(function () {
+
+            });
+        </script>
         <!-- //[0516] 이미지 팝업 -->
         <!-- //container -->
 
@@ -587,50 +592,7 @@
         </div>
     </div>
 </div>
-<!-- [0516] 이미지 뷰어 팝업 -->
-<div id="popup_images-wrap" class="trp popupfixed-wrap images-popup">
-    <div class="popup-dim"></div>
-    <div class="popup-align">
-        <div class="popup-vertical">
-            <div class="popup-layer">
-                <div class="pop-panel">
-                    <div class="pop-header">
-                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
-                    </div>
-                    <div class="pop-body">
-                        <article class="viewer-article js-zoom_inout">
-                            <div class="gallery_view js-imagesSwiper" style="">
-                                <div class="gallery_center">
-                                    <div id="swiper-wrapper_popup"  class="swiper-wrapper">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                        <div class="page_prev"><i class="icon-img_swiper_prev"></i></div>
-                        <div class="page_next"><i class="icon-img_swiper_next"></i></div>
-                    </div>
-                    <div class="pop-footer">
-                        <div class="pagination js-imagesSwiper_pagination"></div>
-                        <article class="thumbnail-article">
-                            <ul id="thumbnail_image" class="thumbnail-list js-thumbnail-list">
-                            </ul>
-                        </article>
-                        <!-- [0516]이동 -->
-                        <div class="zoom-box">
-                            <div class="btnitem">
-                                <button class="zoomout js-zoomout"><i class="icon-zoom_out"></i></button>
-                            </div>
-                            <div class="btnitem">
-                                <button class="zoomin js-zoomin"><i class="icon-zoom_in"></i></button>
-                            </div>
-                        </div>
-                        <!-- //[0516]이동 -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<<<<<<< HEAD
 <!-- 응찰하기 -->
 <div id="bidding_go-wrap" class="trp popupfixed-wrap auction_info-popup  ">
     <div class="popup-dim"></div>
@@ -1279,7 +1241,7 @@
                     let swiper_slide_item = '';
 
                     //if (size1 > 160) {
-                    swiper_slide_item =  `<div class="swiper-slide">
+                    swiper_slide_item = <div class="swiper-slide">
                         <div class="img-area">
                             <div class="img-box">
                                 <div class="size_x"><span>` + size2 + unitCd + `</span></div>
@@ -1290,7 +1252,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>`
+                    </div>
                     $("#swiper-wrapper").append(swiper_slide_item);
                     //}
                 });
@@ -1392,10 +1354,14 @@
                 });
 
 
-                $("body").on("click", "#popup_image_viewer-wrap .js-closepop, #popup_image_viewer-wrap .popup-dim", function($e) {
-                    $e.preventDefault();
-                    popup_image_viewer.close();
-                });
+                $("body").on("click", "#popup_image_viewer-wrap .js-closepop, #popup_image_viewer-wrap
+                    .popup - dim
+                ", function ($e) {
+                $e.preventDefault();
+                popup_image_viewer.close();
+            }
+        )
+            ;
 
             // lot
             $("#search_lot").on("keyup", function () {

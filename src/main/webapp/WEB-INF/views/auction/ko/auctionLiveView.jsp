@@ -4,9 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
-
 
 <c:set var="isRegular" value="false" />
 <sec:authorize access="hasAuthority('ROLE_REGULAR_USER')">
@@ -90,7 +88,7 @@
                                                 <div class="viewer-area">
                                                     <div class="gallery_visual js-view_visual">
                                                         <div class="gallery_center">
-                                                            <div class="swiper-wrapper">
+                                                            <div class="swiper-wrapper js-popup_images">
                                                                 <!--  -->
                                                                 <div ng-repeat="item in lotImages"
                                                                      ng-class="{'swiper-slide':$index>-1,'swiper-slide-active':$index == 0}"
@@ -527,8 +525,51 @@
         </div>
     </div>
 </div>
+<!-- [0516] 이미지 뷰어 팝업 -->
+<div id="popup_images-wrap" class="trp popupfixed-wrap images-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                    </div>
+                    <div class="pop-body">
+                        <article class="viewer-article js-zoom_inout">
+                            <div class="gallery_view js-imagesSwiper" style="">
+                                <div class="gallery_center">
+                                    <div id="swiper-wrapper_popup"  class="swiper-wrapper">
 
-
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        <div class="page_prev"><i class="icon-img_swiper_prev"></i></div>
+                        <div class="page_next"><i class="icon-img_swiper_next"></i></div>
+                    </div>
+                    <div class="pop-footer">
+                        <div class="pagination js-imagesSwiper_pagination"></div>
+                        <article class="thumbnail-article">
+                            <ul id="thumbnail_image" class="thumbnail-list js-thumbnail-list">
+                            </ul>
+                        </article>
+                        <!-- [0516]이동 -->
+                        <div class="zoom-box">
+                            <div class="btnitem">
+                                <button class="zoomout js-zoomout"><i class="icon-zoom_out"></i></button>
+                            </div>
+                            <div class="btnitem">
+                                <button class="zoomin js-zoomin"><i class="icon-zoom_in"></i></button>
+                            </div>
+                        </div>
+                        <!-- //[0516]이동 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
 <!--[if lt IE 9]>
 <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
@@ -934,6 +975,7 @@
                 });
 
                 let sale_images = $scope.saleImages;
+                let lot_images = $scope.lotImages;
 
                 $.each(sale_images, function (index, el) {
                     let size1 = 0;
@@ -963,6 +1005,41 @@
                         </div>`
                         $("#swiper-wrapper").append(swiper_slide_item);
                     //}
+                });
+
+                $.each(lot_images, function (index, el) {
+
+                    let popup_lot_no = el.LOT_NO;
+                    let popup_img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
+                    let popup_swiper_slide_item = '';
+                    let popup_swiper_mini_slide_item = '';
+
+                    //if (size1 > 160) {
+                    popup_swiper_slide_item = `<div class="swiper-slide">
+                                            <div class="img-area">
+                                                <div class="img-box">
+                                                    <div class="images">
+                                                        <img class="imageViewer" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                        </div>`
+                    $("#swiper-wrapper_popup").append(popup_swiper_slide_item);
+
+
+                    popup_swiper_mini_slide_item = `<li class="active">
+                                            <a href="#">
+                                                <div class="imgs-item">
+                                                    <figure class="img-ratio">
+                                                        <div class="img-align">
+                                                            <img src="` + popup_img_url + `" alt="" />
+                                                        </div>
+                                                    </figure>
+                                                    <div class="line"></div>
+                                                    </div>
+                                                </a>
+                                            </li>`
+                    $("#thumbnail_image").append(popup_swiper_mini_slide_item);
                 });
 
                 /* 싸이즈 버튼 */
@@ -1106,6 +1183,125 @@
                     .catch(function(error) {
                         console.log(error);
                     });
+
+                var popup_images = $(".js-popup_images").trpLayerFixedPopup("#popup_images-wrap");
+                $(".js-popup_images").on("click", function($e) {
+                    $e.preventDefault();
+                    popup_images.open(this); // or false
+                    imagesResizePcMb();
+                    imagesSwiper.update();
+                    imagesSwiper.slideTo(1, 0);
+                });
+                $("body").on("click", "#popup_images-wrap .js-closepop, #popup_images-wrap .popup-dim", function($e) {
+                    $e.preventDefault();
+                    popup_images.close();
+                });
+                // popup_images.open(false);     // or false
+                // imagesResizePcMb();
+
+
+
+                /* === zoom ===  panzoom.reset()*/
+                var zoom_range = document.querySelector('.js-zoom_inout');
+                var panzoom = "";
+
+                function panzoom_set() {
+                    console.log("=====================>panzoom_set");
+
+                    panzoom = Panzoom(zoom_range, {
+                        /* disablePan: true, */
+                        maxScale: 4, // (Default: 4)
+                        minScale: 1 // (Default: 0.125)
+                    });
+                    $(".js-zoomin").on("click", function() {
+                        panzoom.zoomIn();
+                    });
+                    $(".js-zoomout").on("click", function() {
+                        panzoom.zoomOut();
+                    });
+                    panzoom.zoom(1, {
+                        animate: true
+                    })
+                }
+
+                function panzoom_reset() {
+                    console.log("-------------------------->panzoom_reset");
+                    panzoom.reset();
+                    panzoom.destroy();
+                    panzoom = "";
+                    $(".js-zoomin").off("click");
+                    $(".js-zoomout").off("click");
+                }
+                if ($("body").hasClass("is_pc")) {
+                    panzoom_set();
+                }
+
+                /* === 스와이퍼 === */
+                console.log("스와이퍼 set");
+                var imagesSwiper = new Swiper('.js-imagesSwiper .gallery_center', {
+                    loop: true,
+                    simulateTouch: false,
+                    pagination: ".js-imagesSwiper_pagination",
+                    paginationClickable: true,
+                    breakpoints: {
+                        1023: {
+                            effect: "slide",
+                            simulateTouch: true,
+                            slidesPerView: 1,
+                            spaceBetween: 10
+                        }
+                    },
+                    onSlideChangeStart: function(swiper) { // 움직임이 시작하면 실행
+                        imagesResizePcMb();
+                        if ($("body").hasClass("is_pc")) {
+                            panzoom.reset(); // zoom reset
+                        }
+                    },
+                    onSlideChangeEnd: function(swiper) { // 움직임이 끝나면 실행
+                        imagesResizePcMb();
+                        thumbnailActive(swiper.realIndex);
+                        console.log(">>> ", swiper.realIndex)
+                    }
+                })
+                // 좌우버튼
+                $('.images-popup .page_prev').on('click', function($e) {
+                    $e.preventDefault();
+                    imagesSwiper.slidePrev();
+                })
+                $('.images-popup .page_next').on('click', function($e) {
+                    $e.preventDefault();
+                    console.log("next")
+                    imagesSwiper.slideNext();
+                })
+
+                /* 섭네일 클릭 */
+                $(".js-thumbnail-list a").on("click", function($e) {
+                    $e.preventDefault();
+                    var _index = $(this).closest("li").index();
+                    imagesSwiper.slideTo(_index + 1);
+                    thumbnailActive(_index);
+                })
+
+                function thumbnailActive($index) {
+                    $(".js-thumbnail-list li").removeClass("active")
+                    $(".js-thumbnail-list li").eq($index).addClass("active");
+                }
+
+
+                /* PC,MB images resize */
+                $(window).on("resize", function() {
+                    imagesResizePcMb();
+                    if ($("body").hasClass("is_mb")) {
+                        if (panzoom != "") {
+                            panzoom_reset();
+                        }
+                    } else {
+                        /* pc */
+                        if (panzoom == "") {
+                            panzoom_set();
+                        }
+                    }
+                });
             }
             run();
         }

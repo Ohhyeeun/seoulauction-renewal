@@ -50,7 +50,7 @@
                                                 <div class="viewer-area">
                                                     <div class="gallery_visual js-view_visual">
                                                         <div class="gallery_center">
-                                                            <div class="swiper-wrapper">
+                                                            <div class="swiper-wrapper js-popup_images">
 
                                                                 <div ng-repeat="item in saleImages"
                                                                      ng-class="{'swiper-slide':$index>-1,'swiper-slide-active':$index == 0}"
@@ -266,6 +266,51 @@
     </div>
 </div>
 
+<!-- [0516] 이미지 뷰어 팝업 -->
+<div id="popup_images-wrap" class="trp popupfixed-wrap images-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                    </div>
+                    <div class="pop-body">
+                        <article class="viewer-article js-zoom_inout">
+                            <div class="gallery_view js-imagesSwiper" style="">
+                                <div class="gallery_center">
+                                    <div id="swiper-wrapper_popup"  class="swiper-wrapper">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        <div class="page_prev"><i class="icon-img_swiper_prev"></i></div>
+                        <div class="page_next"><i class="icon-img_swiper_next"></i></div>
+                    </div>
+                    <div class="pop-footer">
+                        <div class="pagination js-imagesSwiper_pagination"></div>
+                        <article class="thumbnail-article">
+                            <ul id="thumbnail_image" class="thumbnail-list js-thumbnail-list">
+                            </ul>
+                        </article>
+                        <!-- [0516]이동 -->
+                        <div class="zoom-box">
+                            <div class="btnitem">
+                                <button class="zoomout js-zoomout"><i class="icon-zoom_out"></i></button>
+                            </div>
+                            <div class="btnitem">
+                                <button class="zoomin js-zoomin"><i class="icon-zoom_in"></i></button>
+                            </div>
+                        </div>
+                        <!-- //[0516]이동 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- [0516] 셀렉트 드롭다운 -->
 <script>
     var dropdown = $(".js-dropdown-btn").trpDropdown({
@@ -481,6 +526,7 @@
                 });
 
                 let sale_list = $scope.saleList;
+                let sale_images = $scope.saleImages;
 
                 $.each(sale_list, function (index, el) {
 
@@ -513,6 +559,103 @@
                         $("#swiper-wrapper").append(swiper_slide_item);
                     //}
 
+                });
+
+                $.each(sale_images, function (index, el) {
+
+                    let popup_lot_no = el.SALE_AS_NO;
+                    let popup_img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
+                    let popup_swiper_slide_item = '';
+                    let popup_swiper_mini_slide_item = '';
+
+                    //if (size1 > 160) {
+                    popup_swiper_slide_item = `<div class="swiper-slide">
+                                            <div class="img-area">
+                                                <div class="img-box">
+                                                    <div class="images">
+                                                        <img class="imageViewer" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                        </div>`
+                    $("#swiper-wrapper_popup").append(popup_swiper_slide_item);
+
+
+                    popup_swiper_mini_slide_item = `<li class="active">
+                                            <a href="#">
+                                                <div class="imgs-item">
+                                                    <figure class="img-ratio">
+                                                        <div class="img-align">
+                                                            <img src="` + popup_img_url + `" alt="" />
+                                                        </div>
+                                                    </figure>
+                                                    <div class="line"></div>
+                                                    </div>
+                                                </a>
+                                            </li>`
+                    $("#thumbnail_image").append(popup_swiper_mini_slide_item);
+                });
+
+                /* 싸이즈 버튼 */
+                var size_btn_toggle = $(".js-size_btn").trpToggleBtn(
+                    function($this) {
+                        $($this).closest(".viewer-article").addClass("active");
+                    },
+                    function($this) {
+                        $($this).closest(".viewer-article").removeClass("active");
+                    });
+
+                /* 스와이퍼 */
+                var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
+                    loop: true,
+                    onSlideChangeStart: function (swiper) { // 움직임이 끝나면 실행
+                        imagesResizePcMb();
+                    },
+                    onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
+                        imagesResizePcMb();
+                    },
+                });
+
+                $.each($(".swiper-slide"), function(){
+                    let data = $(this).attr("data-swiper-slide-index");
+                    let lot_no = $(this).find(".imageViewer").attr("lot_no");
+                    if (lot_no === Scope().lot_no) {
+                        console.log(data, lot_no, Scope().lot_no);
+                        $("#view_lot_no").attr("sel-data-index", lot_no);
+                        $("#view_lot_no").html("LOT " + lot_no);
+                    }
+                });
+
+                var popup_image_viewer = $(".js-popup_image_viewer").trpLayerFixedPopup("#popup_image_viewer-wrap");
+                $(popup_image_viewer.getBtn).on("click", function ($e) {
+                    $e.preventDefault();
+                    popup_image_viewer.open(this); // or false
+                    imagesResizePcMb();
+                    imageViewer.update();
+                    imageViewer.slideTo($("#view_lot_no").attr("sel-data-index"), 0);
+                });
+                // 좌우버튼
+                $('.view_paging-area .page_prev').on('click', function ($e) {
+                    $e.preventDefault();
+                    imageViewer.slidePrev();
+                    $("#view_lot_no").html("LOT " + $(".swiper-slide-active .imageViewer").attr('lot_no'));
+
+                });
+                $('.view_paging-area .page_next').on('click', function ($e) {
+                    $e.preventDefault();
+                    imageViewer.slideNext();
+                    $("#view_lot_no").html("LOT " + $(".swiper-slide-active .imageViewer").attr('lot_no'));
+
+                });
+
+                /* PC,MB images resize */
+                $(window).on("resize", function () {
+                    imagesResizePcMb();
+                });
+
+                $("body").on("click", "#popup_image_viewer-wrap .js-closepop, #popup_image_viewer-wrap .popup-dim", function ($e) {
+                    $e.preventDefault();
+                    popup_image_viewer.close();
                 });
 
                 // lot
@@ -551,19 +694,18 @@
                     toggle_sns.toggleAllSet(false);
                 })
 
-                var popup_image_viewer = $(".js-popup_image_viewer").trpLayerFixedPopup("#popup_image_viewer-wrap");
-                $(popup_image_viewer.getBtn).on("click", function($e) {
+                var popup_images = $(".js-popup_images").trpLayerFixedPopup("#popup_images-wrap");
+                $(".js-popup_images").on("click", function($e) {
                     $e.preventDefault();
-                    popup_image_viewer.open(this); // or false
+                    popup_images.open(this); // or false
                     imagesResizePcMb();
-                    imageViewer.update();
-                    imageViewer.slideTo($("#view_lot_no").attr("sel-data-index"), 0);
-
+                    imagesSwiper.update();
+                    //imagesSwiper.slideTo(1, 0);
+                    imagesSwiper.slideTo($("#view_lot_no").attr("sel-data-index"), 0);
                 });
-
-                $("body").on("click", "#popup_image_viewer-wrap .js-closepop, #popup_image_viewer-wrap .popup-dim", function($e) {
+                $("body").on("click", "#popup_images-wrap .js-closepop, #popup_images-wrap .popup-dim", function($e) {
                     $e.preventDefault();
-                    popup_image_viewer.close();
+                    popup_images.close();
                 });
 
                 /* 싸이즈 버튼 */
@@ -575,37 +717,6 @@
                         $($this).closest(".viewer-article").removeClass("active");
                     });
 
-                /* 스와이퍼 */
-                var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
-                    loop: true,
-                    onSlideChangeStart: function(swiper) { // 움직임이 끝나면 실행
-                        imagesResizePcMb();
-                    },
-                    onSlideChangeEnd: function(swiper) { // 움직임이 끝나면 실행
-                        imagesResizePcMb();
-                    }
-                })
-
-                $.each($(".swiper-slide"), function(){
-                    let data = $(this).attr("data-swiper-slide-index");
-                    let lot_no = $(this).find(".imageViewer").attr("lot_no");
-                    if (lot_no === Scope().saleAsNo) {
-                        $("#view_lot_no").attr("sel-data-index", parseInt(data) + 1);
-                        $("#view_lot_no").html("LOT " + lot_no);
-                    }
-                });
-
-                // 좌우버튼
-                $('.view_paging-area .page_prev').on('click', function($e) {
-                    $e.preventDefault();
-                    imageViewer.slidePrev();
-                    $("#view_lot_no").html("LOT " + $(".swiper-slide-active .imageViewer").attr('lot_no'));
-                })
-                $('.view_paging-area .page_next').on('click', function($e) {
-                    $e.preventDefault();
-                    imageViewer.slideNext();
-                    $("#view_lot_no").html("LOT " + $(".swiper-slide-active .imageViewer").attr('lot_no'));
-                })
 
                 /* PC,MB images resize */
                 $(window).on("resize", function() {
@@ -652,19 +763,6 @@
                     imagesSwiper.slideNext();
                 })
 
-                var popup_images = $(".js-popup_images").trpLayerFixedPopup("#popup_images-wrap");
-                $(popup_images.getBtn).on("click", function($e) {
-                    $e.preventDefault();
-                    popup_images.open(this); // or false
-                    imagesResizePcMb();
-                    imagesSwiper.update();
-                    imagesSwiper.slideTo(1, 0);
-                });
-
-                $("body").on("click", "#popup_images-wrap .js-closepop, #popup_images-wrap .popup-dim", function($e) {
-                    $e.preventDefault();
-                    popup_images.close();
-                });
 
                 //작가 정보 admin에서 가져오도록 변경
                 axios.get('/api/auction/artist_info/' + $scope.artistNo)
@@ -710,6 +808,70 @@
                     .catch(function(error) {
                         console.log(error);
                     });
+
+                /* === zoom ===  panzoom.reset()*/
+                var zoom_range = document.querySelector('.js-zoom_inout');
+                var panzoom = "";
+
+                function panzoom_set() {
+                    console.log("=====================>panzoom_set");
+
+                    panzoom = Panzoom(zoom_range, {
+                        /* disablePan: true, */
+                        maxScale: 4, // (Default: 4)
+                        minScale: 1 // (Default: 0.125)
+                    });
+                    $(".js-zoomin").on("click", function() {
+                        panzoom.zoomIn();
+                    });
+                    $(".js-zoomout").on("click", function() {
+                        panzoom.zoomOut();
+                    });
+                    panzoom.zoom(1, {
+                        animate: true
+                    })
+                }
+
+                function panzoom_reset() {
+                    console.log("-------------------------->panzoom_reset");
+                    panzoom.reset();
+                    panzoom.destroy();
+                    panzoom = "";
+                    $(".js-zoomin").off("click");
+                    $(".js-zoomout").off("click");
+                }
+                if ($("body").hasClass("is_pc")) {
+                    panzoom_set();
+                }
+
+                /* 섭네일 클릭 */
+                $(".js-thumbnail-list a").on("click", function($e) {
+                    $e.preventDefault();
+                    var _index = $(this).closest("li").index();
+                    imagesSwiper.slideTo(_index + 1);
+                    thumbnailActive(_index);
+                })
+
+                function thumbnailActive($index) {
+                    $(".js-thumbnail-list li").removeClass("active")
+                    $(".js-thumbnail-list li").eq($index).addClass("active");
+                }
+
+
+                /* PC,MB images resize */
+                $(window).on("resize", function() {
+                    imagesResizePcMb();
+                    if ($("body").hasClass("is_mb")) {
+                        if (panzoom != "") {
+                            panzoom_reset();
+                        }
+                    } else {
+                        /* pc */
+                        if (panzoom == "") {
+                            panzoom_set();
+                        }
+                    }
+                });
             }
             run();
         }
@@ -767,36 +929,6 @@
         if ($("body").hasClass("is_pc")) {
             panzoom_set();
         }
-
-        /* 섭네일 클릭 */
-        $(".js-thumbnail-list a").on("click", function($e) {
-            $e.preventDefault();
-            var _index = $(this).closest("li").index();
-            imagesSwiper.slideTo(_index + 1);
-            thumbnailActive(_index);
-        })
-
-        function thumbnailActive($index) {
-            $(".js-thumbnail-list li").removeClass("active")
-            $(".js-thumbnail-list li").eq($index).addClass("active");
-        }
-
-
-        /* PC,MB images resize */
-        $(window).on("resize", function() {
-            imagesResizePcMb();
-            if ($("body").hasClass("is_mb")) {
-                if (panzoom != "") {
-                    panzoom_reset();
-                }
-            } else {
-                /* pc */
-                if (panzoom == "") {
-                    panzoom_set();
-                }
-            }
-        });
-
 
 
     });
