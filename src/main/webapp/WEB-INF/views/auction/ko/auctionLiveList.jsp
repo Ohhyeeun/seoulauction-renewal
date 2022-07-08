@@ -5,6 +5,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+<%--<style>--%>
+<%--    .select2-container {--%>
+<%--        z-index: 999;--%>
+<%--    }--%>
+<%--</style>--%> 
 
 <c:set var="isRegular" value="false" />
 <sec:authorize access="hasAuthority('ROLE_REGULAR_USER')">
@@ -78,6 +83,10 @@
                                             <ul class="tab-list js-list_tab">
                                                 <li ng-class="{active:'전체' === selectLotTag}"><a href="#tab-cont-1"
                                                                                                  ng-click="searchLotTags('전체');"><span>전체</span></a>
+                                                </li>
+                                                <li ng-class="{active: item.CD_ID === selectLotTag}"
+                                                    ng-repeat="item in categories"><a href="#tab-cont" ng-click="searchCategory(item.CD_ID);"><span
+                                                        ng-bind="item.CD_NM"></span></a></li>
                                                 </li>
                                                 <li ng-class="{active: item.LOT_TAG === selectLotTag}"
                                                     ng-repeat="item in lotTags"><a href="#tab-cont"
@@ -166,19 +175,49 @@
                         </div>
                     </section>
 
-                    <section class="basis-section last-section auction_list-section">
+
+                    <section ng-show="saleInfo.length <= 0" class="basis-section auction_result_list-section last-section">
+                        <div class="section-inner">
+                            <div class="content-panel type_panel-product_result_list">
+                                <div class="panel-body">
+
+                                    <div class="data-empty type-big">
+                                        <div class="img_empty">
+                                            <img src="/images/mobile/auction/symbol-none_data.png" alt="검색결과가 없습니다." />
+                                        </div>
+                                        <div class="txt_empty">
+                                            <div class="title">검색결과가 없습니다.</div>
+                                            <div class="desc">단어의 철자나 띄어쓰기가 <br class="only-mb" />
+                                                정확한지 확인해주세요</div>
+                                        </div>
+
+                                        <div class="empty_btn">
+                                            <button class="btn btn_gray_line" ng-click="searchInit()" type="button"><span>전체결과보기</span></button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+
+                    <section ng-show="saleInfo.length > 0" class="basis-section last-section auction_list-section">
                         <div class="section-inner">
 
                             <div class="content-panel type_panel-product_list">
                                 <div class="panel-body">
 
                                     <ul class="product-list">
-                                        <li class="" ng-repeat="item in saleInfo">
+<%--                                        <li ng-show="{cancel: item.STAT_CD === 'reentry'}"  ng-repeat="item in saleInfo">--%>
+                                        <li ng-class="{cancel: item.STAT_CD === 'reentry'}"  ng-repeat="item in saleInfo">
+
                                             <div class="li-inner">
                                                 <article class="item-article">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
-                                                            <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}" target="_blank">
+                                                            <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
                                                                 <div class="img-align">
                                                                         <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"  alt="">
                                                                 </div>
@@ -194,16 +233,19 @@
                                                                 ></i></button>
                                                             </div>
                                                             <div class="info-box">
-                                                                <div class="title"><span>{{item.ARTIST_NAME_JSON.ko}}</span><span
-                                                                        class="sub">({{item.BORN_YEAR}})</span>
+                                                                <div class="title"><span>{{item.ARTIST_NAME_JSON != null ? item.ARTIST_NAME_JSON.ko : 'ㅤ'}}</span>
+
+<%--                                                                    <span ng-if="item.BORN_YEAR !=null && item.BORN_YEAR !==''" class="sub">({{item.BORN_YEAR}})</span>--%>
+<%--                                                                    <span ng-if="item.BORN_YEAR ==null || item.BORN_YEAR ===''" class="sub">ㅤ</span>--%>
+
                                                                 </div>
                                                                 <div class="desc">
                                                                     <span class="text-over span_block">{{item.LOT_TITLE_JSON.ko}}</span></div>
                                                                 <div class="standard">
                                                                     <span class="text-over span_block">{{item.CD_NM}}</span>
                                                                     <div class="size_year">
-                                                                        <span>{{item.SIZE1}} X {{item.SIZE2}} X {{item.SIZE3}}</span>
-                                                                       <%-- <span>{{item.MAKE_YEAR_JSON.ko}}</span>--%>
+                                                                        <span ng-bind="item | size_text_cm"></span>
+                                                                        <span ng-bind="item.MAKE_YEAR_JSON.ko" ng-show="item.MAKE_YEAR_JSON.ko !== undefined"></span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -228,6 +270,16 @@
                                                                 <div class="deadline_set"><span>신청마감 {{ item.LOT_EXPIRE_DATE_HAN }}</span></div>
                                                                 <div class="btn_set"><a class="btn btn_point" href="" ng-click="moveToBidding(item)"
                                                                                         role="button"><span>서면/전화 응찰 신청</span></a></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="product_cancle-area">
+                                                        <div class="area-inner">
+                                                            <i class="icon-cancle_box"></i>
+                                                            <div class="typo">
+                                                                <div class="name"><span>LOT {{item.LOT_NO}}</span></div>
+                                                                <div class="msg"><span>출물이 취소되었습니다.</span></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -345,6 +397,11 @@
             $scope.searchSaleInfoAll = [];
             $scope.selectLotTag = "전체";
 
+            $scope.searchInit = function (event) {
+                $scope.searchValue = '';
+                $scope.searchArtist2();
+            }
+
             $scope.searchArtist = function (event) {
                 if (event.keyCode === 13 || $scope.searchValue.length <= 0) {
                     $scope.searchArtist2();
@@ -354,9 +411,13 @@
             $scope.searchArtist2 = function () {
                 let pp = [];
                 for (let i = 0; i < $scope.saleInfoAll.length; i++) {
-                    if ($scope.saleInfoAll[i].ARTIST_NAME_JSON.ko.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1 ||
-                        $scope.saleInfoAll[i].LOT_TITLE_JSON.ko.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1) {
-                        pp.push($scope.saleInfoAll[i]);
+
+                    if($scope.saleInfoAll[i].ARTIST_NAME_JSON !=null && $scope.saleInfoAll[i].LOT_TITLE_JSON) {
+
+                        if ($scope.saleInfoAll[i].ARTIST_NAME_JSON.ko.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1 ||
+                            $scope.saleInfoAll[i].LOT_TITLE_JSON.ko.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1) {
+                            pp.push($scope.saleInfoAll[i]);
+                        }
                     }
                 }
                 $scope.searchSaleInfoAll = pp;
@@ -488,21 +549,21 @@
 
                             var S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
                             var S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
-                            var FROM_DT_D = $filter('date')($scope.sale.FROM_DT, 'yyyyMMdd');
-                            var TO_DT_D = $filter('date')($scope.sale.TO_DT, 'yyyyMMdd');
+                            var FROM_DT = $filter('date')($scope.sale.FROM_DT, 'yyyyMMdd');
+                            var TO_DT = $filter('date')($scope.sale.TO_DT, 'yyyyMMdd');
                             var END_DT = $filter('date')($scope.sale.END_DT, 'yyyyMMddHHmm');
                             var LIVE_START_DT = $filter('date')($scope.sale.LIVE_BID_DT, 'yyyyMMddHHmm');
                             // 오프라인 경매인 경우에는 SALE.TO_DT는 YYYY.MM.DD로 체크. 비교 서버시간은 S_DB_NOW_D (YDH. 2016.10.05)
 
                             //라이브 응찰 시간 체크
-                            $scope.liveEnd = TO_DT_D;
+                            $scope.liveEnd = TO_DT;
                             $scope.nowTime = S_DB_NOW_D;
                             $scope.liveStartDt = LIVE_START_DT;
                             $scope.liveCheckDt = S_DB_NOW;
 
-                            if (FROM_DT_D > S_DB_NOW_D && TO_DT_D > S_DB_NOW_D) {
+                            if (FROM_DT > S_DB_NOW && TO_DT > S_DB_NOW_D) {
                                 $scope.sale_status = "READY";
-                            } else if (FROM_DT_D <= S_DB_NOW_D && $scope.sale.CLOSE_YN != 'Y') {
+                            } else if (FROM_DT <= S_DB_NOW && $scope.sale.CLOSE_YN != 'Y') {
                                 $scope.sale_status = "ING";
                             } else {
                                 $scope.sale_status = "END";
@@ -543,6 +604,14 @@
                 }
             }
 
+            const getCategories = (saleNo) => {
+                try {
+                    return axios.get('/api/auction/categories/'+saleNo);
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
             $scope.searchLotTags = function (lotTag) {
                 $scope.selectLotTag = lotTag;
                 let pp = [];
@@ -555,12 +624,27 @@
                 $scope.pageing(1);
             }
 
+            $scope.searchCategory = function (category) {
+                $scope.selectLotTag = category;
+                let pp = [];
+                for (let i = 0; i < $scope.saleInfoAll.length; i++) {
+                    if ($scope.saleInfoAll[i].CATE_CD_ID === category) {
+                        pp.push($scope.saleInfoAll[i]);
+                    }
+                }
+                $scope.searchSaleInfoAll = pp;
+                $scope.pageing(1);
+            }
+
             // 호출 부
             $scope.load = function () {
                 let run = async function () {
-                    let [r1, r2, r3] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no)]);
+                    let [r1, r2, r3, r4] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no), getCategories($scope.sale_no)]);
 
                     $scope.saleInfoAll = r1.data.data;
+
+                    console.log($scope.saleInfoAll);
+
                     //데이터가 없을 시 , 오프라인 경매인데 온라인으로 올 시 등등 접근 불가.
                     // if($scope.saleInfoAll.length === 0){
                     //     alert('잘못된 접근 입니다.');
@@ -569,7 +653,7 @@
 
                     $scope.saleImages = r2.data.data;
                     $scope.lotTags = r3.data.data;
-
+                    $scope.categories = r4.data.data;
 
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
 
@@ -1046,10 +1130,10 @@
                 const padd_no = $scope.paddNo;
                 const sale_status = $scope.sale_status;
 
-                const live_start_dt = $filter('date')($scope.sale.LIVE_BID_DT, 'MM/dd');
-                const live_start_dt_date = $scope.getWeek($scope.sale.LIVE_BID_DT);
-                const live_start_dt_hour = $filter('date')($scope.sale.LIVE_BID_DT, 'HH');
-                const live_start_dt_minute = $filter('date')($scope.sale.LIVE_BID_DT, 'mm');
+                const live_start_dt = $filter('date')($scope.sale.TO_DT, 'MM/dd');
+                const live_start_dt_date = $scope.getWeek($scope.sale.TO_DT);
+                const live_start_dt_hour = $filter('date')($scope.sale.TO_DT, 'HH');
+                const live_start_dt_minute = $filter('date')($scope.sale.TO_DT, 'mm');
 
                 if(sale_status == 'ING' && $scope.liveCheckDt >= $scope.liveStartDt) {
                     // 경매 당일 응찰하기

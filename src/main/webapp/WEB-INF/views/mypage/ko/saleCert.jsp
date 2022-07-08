@@ -78,7 +78,7 @@
 
                         <p class="bottom-p-spacing20">
                             ㈜서울옥션 · 대표이사 : 이옥경 사업자등록번호 : 101-81-46818 통신판매업신고 : 종로 제01-2173호<br>
-                            주소 : 서울특별시 종로구 평창31길 11 (평창동 465-10) 고객센터 : 02-395-0330<br>
+                            주소 : 서울특별시 종로구 평창31길 11 (평창동 465-10) 고객센터 : <a href="tel:02-395-0330">02-395-0330</a><br>
                             ⓒ Seoul Auction Corp.
                         </p>
                         <p>
@@ -162,37 +162,41 @@
                                             <li class="trp_acitem">
                                                 <div class="header-area">
                                                     <div class="accordion_name">
-                                                        <div class="trp checkbox-box">
-                                                            <input id="checkbox_01" class="" type="checkbox" name="">
-                                                            <i></i>
-                                                            <label for="checkbox_01"><span class="required">[필수]</span> 온라인 응찰 안내</label>
+<%--                                                        <div class="trp checkbox-box">--%>
+<%--                                                            <input id="checkbox_01" class="" type="checkbox" name="">--%>
+<%--                                                            <i></i>--%>
+<%--                                                            <label for="checkbox_01"><span class="required">[필수]</span> 온라인 응찰 안내</label>--%>
+<%--                                                        </div>--%>
+                                                        <div>
+                                                            <label>온라인 응찰 안내</label>
                                                         </div>
+                                                        <a href="#" class="acc_btn">
+                                                            <i class="icon-accordion_arrow_down"></i>
+                                                        </a>
                                                     </div>
-                                                    <a href="#" class="acc_btn">
-                                                        <i class="icon-accordion_arrow_down"></i>
-                                                    </a>
                                                 </div>
                                                 <div class="con-area">
-                                                    <div class="con-header">
-                                                        <div class="policy_cont">
-                                                            <div class="trp checkbox-box">
-                                                                <input id="checkbox_01" class="" type="checkbox" name="">
-                                                                <i></i>
-                                                                <label for="checkbox_01 tb1">확인 하였습니다.</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+<%--                                                    <div class="con-header">--%>
+<%--                                                        <div class="policy_cont">--%>
+<%--                                                            <div class="trp checkbox-box">--%>
+<%--                                                                <input id="checkbox_01" class="" type="checkbox" name="">--%>
+<%--                                                                <i></i>--%>
+<%--                                                                <label for="checkbox_01 tb1">확인 하였습니다.</label>--%>
+<%--                                                            </div>--%>
+<%--                                                        </div>--%>
+<%--                                                    </div>--%>
                                                     <div class="con-body">
                                                         <div class="text-area scroll-type">
-                                                            <ul>
+                                                            <ul class="mark_dot-list">
                                                                 <li>낙찰 시, 낙찰금의 18%(부가세별도)의 구매수수료가 발생합니다.</li>
-                                                                <li class="point_item">응찰 및 낙찰은 취소가 불가능합니다. 낙찰 철회 시 낙찰가의 30%에 해당하는 낙찰철회비가 부과되오니 신중히 응찰 바랍니다.</li>
+                                                                <li><em>응찰 및 낙찰은 취소가 불가능합니다.</em></li>
+                                                                <li><em>낙찰 철회 시 낙찰가의 30%에 해당하는 낙찰철회비가 부과되오니 신중히 응찰 바랍니다.</em></li>
                                                                 <li>응찰은 작품 컨디션 확인 후 진행 되는 것을 전제로 하며, 작품 컨디션에 액자 상태는 포함되지 않습니다.</li>
                                                                 <li>마감시간 30초 내에 응찰이 있을 경우, 자동으로 30초 연장됩니다.</li>
                                                                 <li>접속자의 컴퓨터, 인터넷 환경에 따라 반영 속도 차이가 있을 수 있으니 비딩 시 유의해 주시기 바랍니다.</li>
-                                                                <li class="point_item">[1회 응찰] 또는 [자동 응찰] 버튼을 누르시면 ‘확인안내 없이’ 바로 응찰이 되어 취소가 가능합니다.</li>
-                                                                <li class="point_item">남은 시간 1초 미만 시 응찰은 서버 반영 전 종료 될 수 있으니, 주의가 필요합니다.</li>
-                                                                <li>[자동 응찰 중지하기]는 자동 응찰 ‘취소가 아닙니다’, 응찰자가 자동응찰을 중지하는 경우 중지 전까지의 응찰 및 낙찰은 유효합니다. 또한 자동응찰의 중지는 서버에 반영이 되는 시점에 효력이 발생하므로, <em>응찰자가 중지버튼을 클릭한 시점보다 더 높은 금액에 중지되고 이 금액에 낙찰 될 수 있습니다.</em></li>
+                                                                <li><em>[1회 응찰] 또는 [자동 응찰] 버튼을 누르시면 ‘확인안내 없이’ 바로 응찰이 되어 취소가 가능합니다.</em></li>
+                                                                <li><em>남은 시간 1초 미만 시 응찰은 서버 반영 전 종료 될 수 있으니, 주의가 필요합니다.</em></li>
+                                                                <li>[자동 응찰 중지하기]는 자동 응찰 ‘취소가 아닙니다’, 응찰자가 자동응찰을 중지하는 경우 중지 전까지의 응찰 및 낙찰은 유효합니다. 또한 자동응찰의 중지는 서버에 반영이 되는 시점에 효력이 발생하므로,<br class="only-pc"> <em>응찰자가 중지버튼을 클릭한 시점보다 더 높은 금액에 중지되고 이 금액에 낙찰 될 수 있습니다.</em></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -202,9 +206,12 @@
                                                 <div class="header-area">
                                                     <div class="accordion_name">
                                                         <div class="trp checkbox-box">
-                                                            <input id="checkbox_02" class="js_item" type="checkbox" name="">
+<%--                                                            <input id="checkbox_02" class="js_item" type="checkbox" name="">--%>
+<%--                                                            <i></i>--%>
+<%--                                                            <label for="checkbox_02"><span class="required">[필수]</span> 약관 동의 안내</label>--%>
+                                                            <input id="checkbox_all" class="js_all" type="checkbox" name="">
                                                             <i></i>
-                                                            <label for="checkbox_02"><span class="required">[필수]</span> 약관 동의 안내</label>
+                                                            <label for="checkbox_all tb1">약관에 모두 동의합니다.</label>
                                                         </div>
                                                     </div>
                                                     <a href="#" class="acc_btn">
@@ -212,23 +219,55 @@
                                                     </a>
                                                 </div>
                                                 <div class="con-area">
-                                                    <div class="con-header">
-                                                        <div class="policy_cont">
-                                                            <div class="trp checkbox-box">
-                                                                <input id="checkbox_all" class="js_all" type="checkbox" name="">
-                                                                <i></i>
-                                                                <label for="checkbox_all tb1">모두 동의합니다.</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+<%--                                                    <div class="con-header">--%>
+<%--                                                        <div class="policy_cont">--%>
+<%--                                                            <div class="trp checkbox-box">--%>
+<%--                                                                <input id="checkbox_all" class="js_all" type="checkbox" name="">--%>
+<%--                                                                <i></i>--%>
+<%--                                                                <label for="checkbox_all tb1">모두 동의합니다.</label>--%>
+<%--                                                            </div>--%>
+<%--                                                        </div>--%>
+<%--                                                    </div>--%>
                                                     <div class="con-body">
-                                                        <div class="text-area scroll-type check_item">
+<%--                                                        <div class="text-area scroll-type check_item">--%>
+<%--                                                            <ul class="">--%>
+<%--                                                                <li>--%>
+<%--                                                                    <div class="trp checkbox-box">--%>
+<%--                                                                        <input id="checkbox_all1" class="js_item" type="checkbox" name="">--%>
+<%--                                                                        <i></i>--%>
+<%--                                                                        <label for="checkbox_all1">본인은 서울옥션 경매약관(바로가기)을 모두 읽고 이해하였으며, 그 적용에 동의합니다.</label>--%>
+<%--                                                                    </div>--%>
+<%--                                                                </li>--%>
+<%--                                                                <li>--%>
+<%--                                                                    <div class="trp checkbox-box">--%>
+<%--                                                                        <input id="checkbox_all2" class="js_item" type="checkbox" name="">--%>
+<%--                                                                        <i></i>--%>
+<%--                                                                        <label for="checkbox_all2">응찰은 작품 실물 및 컨디션을 확인하였음을 전제로 합니다.</label>--%>
+<%--                                                                    </div>--%>
+<%--                                                                </li>--%>
+<%--                                                                <li>--%>
+<%--                                                                    <div class="trp checkbox-box">--%>
+<%--                                                                        <input id="checkbox_all3" class="js_item" type="checkbox" name="">--%>
+<%--                                                                        <i></i>--%>
+<%--                                                                        <label for="checkbox_all3">낙찰자는 후 7일 이내(낙찰가 3억원 이상인 경우 21일 이내)에 구매수수료를 포함한 금액을 입금하여야 합니다. 구매수수료는 낙찰금액의 18%(부가세 별도)입니다.</label>--%>
+<%--                                                                    </div>--%>
+<%--                                                                </li>--%>
+<%--                                                                <li>--%>
+<%--                                                                    <div class="trp checkbox-box">--%>
+<%--                                                                        <input id="checkbox_all4" class="js_item" type="checkbox" name="">--%>
+<%--                                                                        <i></i>--%>
+<%--                                                                        <label for="checkbox_all4">낙찰철회시 낙찰가의 30%에 해당하는 낙찰철회비가 부과됩니다.</label>--%>
+<%--                                                                    </div>--%>
+<%--                                                                </li>--%>
+<%--                                                            </ul>--%>
+<%--                                                        </div>--%>
+                                                        <div class="text-area  check_item ">
                                                             <ul class="">
                                                                 <li>
                                                                     <div class="trp checkbox-box">
                                                                         <input id="checkbox_all1" class="js_item" type="checkbox" name="">
                                                                         <i></i>
-                                                                        <label for="checkbox_all1">본인은 서울옥션 경매약관(바로가기)을 모두 읽고 이해하였으며, 그 적용에 동의합니다.</label>
+                                                                        <label for="checkbox_all1">본인은 서울옥션 경매약관(<span><a href="#">바로가기</a></span>)을 모두 읽고<br class="only-pc"> 이해하였으며, 그 적용에 동의합니다.</label>
                                                                     </div>
                                                                 </li>
                                                                 <li>
@@ -249,9 +288,10 @@
                                                                     <div class="trp checkbox-box">
                                                                         <input id="checkbox_all4" class="js_item" type="checkbox" name="">
                                                                         <i></i>
-                                                                        <label for="checkbox_all4">낙찰철회시 낙찰가의 30%에 해당하는 낙찰철회비가 부과됩니다.</label>
+                                                                        <label for="checkbox_all4"><em>낙찰철회시 낙찰가의 30%에 해당하는 낙찰철회비가 부과됩니다.</em></label>
                                                                     </div>
                                                                 </li>
+
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -259,6 +299,7 @@
                                             </li>
                                         </ul>
                                     </div>
+
                                     <div class="text-area">
                                         <p class="tb2">응찰 관련 문의가 있으신 경우, 귀하의 담당자(<em>홍길동 02-2075-4411</em>)에게 <br class="only-pc">연락주시기 바랍니다.
                                         </p>
@@ -317,10 +358,9 @@
         })
 
         //약관아코디언
-        $(".js-accordion_policy").trpAccordionMenu(".acc_btn", ".con-area", "on");
+        $(".js-accordion_policy").trpAccordionMenu(".acc_btn", ".con-area", "on").setBtn(0);;
         //약관체크
         $(".js_all-1").trpCheckBoxAllsImg(".js_all", ".js_item");
-
         //     if($("#license_check").is(":checked")){
         //   $('.license_input').prop("type", "password");
         // }else{

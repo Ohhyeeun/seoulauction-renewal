@@ -7,9 +7,6 @@
         <!-- header -->
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <!-- //header -->
-        <script>
-            app.value('locale', 'ko');
-        </script>
 
         <!-- container -->
         <div id="container">
@@ -267,7 +264,7 @@
                                             <li>대표이사 : 이옥경 </li>
                                             <li>등록번호: 2011-서울종로-00069(대부업)</li>
                                             <li>소재지 : 서울시 종로구 평창 30길 24 (평창동)</li>
-                                            <li>전화번호: 02-395-0330</li>
+                                            <li>전화번호: <a href="tel:02-395-0330">02-395-0330</a></li>
                                         </ul>
                                         <div class="btn-box">
                                             <a class="btn btn_gray_line btn_sm" href="https://www.fss.or.kr/s1332/search/search0601.jsp" target="_blank" role="button"><span>등록대부업체 통합조회 서비스</span></a>
@@ -294,7 +291,7 @@
                                                 <div class="manager-box"> <span>미술품경매사업부</span> <em>이지희 이사</em> </div>
                                                 <div class="contact-box">
                                                     <ul>
-                                                        <li><span>T.</span> <em>02-2075-4499</em></li>
+                                                        <li><span>T.</span> <a href="tel:02-2075-4499"><em>02-2075-4499</em></a></li>
                                                         <li><span>E.</span> <a href="mailto:jlee@seoulauctionl.com"><em>jlee@seoulauctionl.com</em></a></li>
                                                     </ul>
                                                 </div>

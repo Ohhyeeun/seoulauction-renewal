@@ -36,6 +36,14 @@ public class ApiMypageController {
 	private final LoginService loginService;
 
 	/* 정회원 이력 */
+	@RequestMapping(value = "/member", method = RequestMethod.GET)
+	public ResponseEntity<RestResponse> member(
+			Principal principal, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		CommonMap commonMap = new CommonMap();
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.selectCustomerInfo(commonMap)));
+	}
+	
 	@RequestMapping(value = "/memberHistories", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> memberHistories(
 			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
@@ -55,7 +63,7 @@ public class ApiMypageController {
 			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int size,
 			Principal principal, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		CommonMap commonMap = new CommonMap("cust_no", principal.getName());
+		CommonMap commonMap = new CommonMap("action_user_no", principal.getName());
 		commonMap.putPage(page, size);
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectAcademyList(commonMap)));
 	}
@@ -364,27 +372,6 @@ public class ApiMypageController {
 	    }
 	}
 
-	//네이버 연동해제
-	@RequestMapping(value="/naversignOut", method=RequestMethod.POST, headers = {"content-type=application/json"})
-	@ResponseBody
-	public ResponseEntity<RestResponse> naversignOut(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
-		log.info("naversignOut");
-		log.info(paramMap.toString());
-		String apiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id="+paramMap.get("client_id")+
-		 		"&client_secret="+paramMap.get("client_secret")+"&access_token="+paramMap.get("token")+"&service_provider=NAVER";
-		log.info("apiUrl===== {}", apiUrl);
-		
-		String res = "";
-		try {
-			res = mypageService.requestToServer(apiUrl);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return ResponseEntity.ok(RestResponse.ok(res));
-	}
-	
 	//회원정보조회
 	@RequestMapping(value = "/custs/{custNo}", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> cust(@PathVariable("custNo") String custNo, 

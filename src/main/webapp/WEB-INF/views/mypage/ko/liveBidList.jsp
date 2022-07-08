@@ -13,7 +13,6 @@
 
             <!-- header -->
             <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
-            <script type="text/javascript" src="/js/mypage/liveBid.js"></script>
             <!-- //header -->
 
               <!-- container -->
@@ -69,11 +68,16 @@
                                                                     <div class="product-infobox-inner">
                                                                         <div class="thumb-area">
                                                                             <figure class="img-ratio">
-                                                                                <div class="img-align">
+                                                                                <a href="/auction/live/view/{{data.SALE_NO}}/{{data.LOT_NO}}" class="img-align" ng-if="liveBid[1][0].CLOSE_YN != 'Y'" > <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
                                                                                     <img src="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}" alt="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}">
                                                                                      <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'N' && data.BID_PRICE == data.success_bid_price"><span class="bid_result-icon">낙찰</span></div>
                                                                                      <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'Y'"><span class="bid_result-icon">낙찰취소</span></div>
-                                                                                </div>
+                                                                                </a>
+                                                                                <a  class="img-align" ng-if="liveBid[1][0].CLOSE_YN == 'Y'"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
+                                                                                    <img src="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}" alt="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}">
+                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'N' && data.BID_PRICE == data.success_bid_price"><span class="bid_result-icon">낙찰</span></div>
+                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'Y'"><span class="bid_result-icon">낙찰취소</span></div>
+                                                                                </a>
                                                                             </figure>
                                                                         </div>
                                                                         <div class="text-area">
@@ -161,20 +165,20 @@
     </div>
 
 
-    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+<%--    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
     <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
     <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
     <!-- [0516]삭제
-  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
--->
-
+    <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
+--%>
 
-    	<script>
+    <script type="text/javascript" src="/js/mypage/liveBid.js"></script>
+    <script>
         $(".js-history_back").click(function() {
-        	window.location.href="/mypage/main";
-        })
+            window.location.href="/mypage/main";
+        });
     </script>
 
 	<!-- 팝업 : 라이브경매관리 온라인패들 응찰 이력 -->

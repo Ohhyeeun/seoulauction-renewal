@@ -7,9 +7,6 @@
         <!-- header -->
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <!-- //header -->
-        <script>
-            app.value('locale', 'ko');
-        </script>
 
         <!-- container -->
         <div id="container">
@@ -50,7 +47,7 @@
                                             </div>
                                             <div class="area-footer">
                                                 <div class="btn_wrap btns">
-                                                    <a class="btn btn_gray_line" href="/footer/location" role="button"><span>서울옥션 위치 안내</span></a>
+                                                    <a class="btn btn_gray_line" href="/footer/location" role="button" target="location"><span>서울옥션 위치 안내</span></a>
                                                     <a class="btn btn_gray_line" href="/service/showroom/vr" role="button" target="vr"><span>전시장 VR 보기</span></a>
                                                     <a class="btn btn_gray_line" href="https://www.seoulauction.com/nas_img/front/homepage/ganam_brochure.pdf" role="button" target="brochure"><span>대관 브로셔</span></a>
                                                 </div> 
@@ -135,7 +132,7 @@
                                                 <div class="manager-box"> <span>서울옥션 브랜드기획팀</span> <em>이지석 팀장</em> </div>
                                                 <div class="contact-box">
                                                     <ul>
-                                                        <li><span>T.</span> <em>02-2075-4442</em></li>
+                                                        <li><span>T.</span> <a href="tel:02-2075-4442"><em>02-2075-4442</em></a></li>
                                                         <li><span>E.</span> <a href="mailto:a7885@seoulauction.com"><em>a7885@seoulauction.com</em></a></li>
                                                     </ul>
                                                 </div>
@@ -178,8 +175,11 @@
     </div>
 </div>
 
+<script>
+    app.value('locale', 'ko');
+</script>
 
-<script type="text/javascript" src="/js/plugin/jquerylibrary.js"></script>
+<%--<script type="text/javascript" src="/js/plugin/jquerylibrary.js"></script> --%>
 <script src="/js/service/marketing.js" type="text/javascript" class="js-append-script"></script>
 
 </body>

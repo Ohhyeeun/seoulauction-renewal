@@ -10,7 +10,7 @@
 	<div class="wrapper" ng-app="myApp">
 		<div class="sub-wrap pageclass">
 			<jsp:include page="../../include/ko/nav.jsp" flush="false"/>
-			<script type="text/javascript" src="/js/mypage/inquiry.js"></script>
+
 			<!-- container -->
 			<div id="container" class="inquiry" ng-controller="inquiryListCtl"
 				data-ng-init="loadInquiryList(1);" style="opacity: 0" opacity=1>
@@ -65,9 +65,6 @@
 															</div>
 														</li>
 													</ul>
-													 <div class="data-empty" ng-if="inquiryCnt == 0">
-                                                            <p class="txt_empty">내역이 존재하지 않습니다.</p>
-                                                     </div>
 													 <div class="wrap_paging"  ng-if="inquiryCnt != 0">
 														<paging page="currentPage"
 															page-size=10
@@ -87,6 +84,11 @@
 														</paging>				
 													</div>
 												</article>
+												<article class="inquiry-list-wrap" ng-if="inquiryCnt == 0">
+                                                    <div class="data-empty">
+                                                        <p class="txt_empty">1:1문의 내역이 존재하지 않습니다.</p>
+                                                    </div>
+                                                </article>
 											</div>
 										</div>
 
@@ -120,7 +122,7 @@
 	</div>
 
 
-	<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+<%--	<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
 	<!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
 	<script type="text/javascript" src="/js/plugin/prefixfree.min.js"
 		type="text/javascript"></script>
@@ -129,16 +131,17 @@
 	<!-- [0516]삭제
   <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
 -->
+--%>
 
-
+	<script type="text/javascript" src="/js/mypage/inquiry.js"></script>
 	<script>
         $(".js-history_back").click(function() {
         	window.location.href="/mypage/main";
         })
     </script>
 	
-	<script type="text/javascript" src="/js/pages_common_ko.js"
-		type="text/javascript"></script>
+<%--	<script type="text/javascript" src="/js/pages_common_ko.js"--%>
+<%--		type="text/javascript"></script>--%>
     
     <!-- 팝업 : side popup -->
 	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>

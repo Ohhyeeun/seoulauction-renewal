@@ -203,7 +203,9 @@ public class SaleService {
     public List<CommonMap> selectLotTagList(CommonMap commonMap) {
         return saleMapper.selectLotTagList(commonMap);
     }
-
+    public List<CommonMap> selectCategories(CommonMap commonMap) {
+        return saleMapper.selectCategories(commonMap);
+    }
     public CommonMap selectTopBid(CommonMap commonMap) {
         return saleMapper.selectTopBid(commonMap);
     }

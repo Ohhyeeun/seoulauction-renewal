@@ -1,13 +1,53 @@
 app.value('locale', 'ko');
 var langType = document.documentElement.lang;
 
+$(document).ready(function(){
+    console.log("socialYn : " + socialYn);
+	console.log("socialType : " + socialType);
+	
+	if(socialYn == 'Y'){
+		// 구글초기화
+		var googleInit = function() {
+			gapi.load('auth2', function() {
+				auth2 = gapi.auth2.init({
+					client_id: '5285017753-1tkl3r19jc3e7hesflsm0jj9uhgm7f4j.apps.googleusercontent.com',
+					cookiepolicy: 'single_host_origin',
+					plugin_name: 'SA-Renewal'
+				});
+				attachClickGoogle(document.getElementById('googleIdLogin'));
+			});
+		};
+		// 구글 init
+		googleInit();
+		
+		// 애플 init
+		AppleID.auth.init({
+			clientId: 'com.seoulauction.renewal-web',
+			scope: 'name email',
+			redirectURI: socialServiceDomain + '/api/login/auth/apple',
+			state: 'SARenewal',
+			usePopup: true
+		});
+		
+		// 구글클릭 동작
+		function attachClickGoogle(element) {
+			auth2.attachClickHandler(element, {},
+				function(googleUser) {
+					googleProfile = googleUser.getBasicProfile();
+					socialConfirm(googleProfile.getEmail());
+				}, function(error) {
+					console.log(JSON.stringify(error, undefined, 2));
+				});
+		}
+	}
+});
+
 $(window).on("load", function() {
 	if(socialYn == 'Y'){
 		if(socialType === "NV"){
-			var loginButton = document.getElementById("naverIdLogin").firstChild;
-			loginButton.click();
+			location.href='https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=5qXZytacX_Uy60o0StGT&state=NAVER_LOGIN&redirect_uri=' + socialServiceDomain + '/naverCallback?type=custConfirm'
 		}else if(socialType === "KA"){
-			loginWithKakao();
+			location.href='https://kauth.kakao.com/oauth/authorize?client_id=adbdfe931311a01731a0161175701a42&redirect_uri=' + socialServiceDomain + '/kakaoRedirect/custConfirm&response_type=code'
 		}else if(socialType === "GL"){
 			$("#googleIdLogin").trigger("click");
 		}else if(socialType === "AP"){
@@ -93,88 +133,17 @@ function socialConfirm(snsEmail) {
 			alert("Connected.");
 		}
 		goPost();
+	}else{
+		alert("가입한 계정과 다른 소셜계정으로 로그인하셨습니다.");
+		var width = window.innerWidth;
+		if(width < 1023){ //mobile
+			location.href = "/mypage/main";
+        }else{ //pc
+        	location.href = "/mypage/liveBidReqList";
+        }
 	}	
 }
 
-if(socialYn == 'Y'){
-	// 카카오 init
-	Kakao.init('cf2233f55e74d6d0982ab74909c97835');
-	
-	// 구글초기화
-	var googleInit = function() {
-		gapi.load('auth2', function() {
-			auth2 = gapi.auth2.init({
-				client_id: '5285017753-1tkl3r19jc3e7hesflsm0jj9uhgm7f4j.apps.googleusercontent.com',
-				cookiepolicy: 'single_host_origin',
-				plugin_name: 'SA-Renewal'
-			});
-			attachClickGoogle(document.getElementById('googleIdLogin'));
-		});
-	};
-	// 구글 init
-	googleInit();
-	
-	// 네이버초기화
-	naverLogin = new naver.LoginWithNaverId({
-		clientId: "5qXZytacX_Uy60o0StGT",
-		callbackUrl: socialServiceDomain + "/social/naver/callback?action=socialConfirm",
-		isPopup: true,
-		loginButton: {
-			color: "green",
-			type: 3,
-			height: 60
-		}
-	});
-	// 네이버 init
-	naverLogin.init();
-	
-	// 애플 init
-	AppleID.auth.init({
-		clientId: 'com.seoulauction.renewal-web',
-		scope: 'name email',
-		redirectURI: socialServiceDomain + '/api/login/auth/apple',
-		state: 'SARenewal',
-		usePopup: true
-	});
-	
-	// 구글클릭 동작
-	function attachClickGoogle(element) {
-		auth2.attachClickHandler(element, {},
-			function(googleUser) {
-				googleProfile = googleUser.getBasicProfile();
-				socialConfirm(googleProfile.getEmail());
-			}, function(error) {
-				console.log(JSON.stringify(error, undefined, 2));
-			});
-	}
-}
-
-// 카카오 로그인
-function loginWithKakao() {
-	Kakao.Auth.login({
-		success: function(authObj) {
-			Kakao.Auth.setAccessToken(authObj.access_token); // access-token 저장
-			getKakaoUser();
-		},
-		fail: function(err) {
-			console.log(err);
-		}
-	});
-}
-
-// 카카오사용자정보로 DB조회하여 로그인진행
-function getKakaoUser() {
-	Kakao.API.request({
-		url: '/v2/user/me',
-		success: function(res) {
-			kakaoUser = res.kakao_account;
-			socialConfirm(kakaoUser.email);
-		},
-		fail: function(error) {
-			alert('카카오 로그인에 실패했습니다. 관리자에게 문의하세요.' + JSON.stringify(error));
-		}
-	});
-}
 
 //애플로 로그인 성공 시.
 document.addEventListener('AppleIDSignInOnSuccess', (data) => {

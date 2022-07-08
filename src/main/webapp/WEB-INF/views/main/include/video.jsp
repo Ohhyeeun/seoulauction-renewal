@@ -21,7 +21,7 @@
                         <span class="video-icon" ng-class="{'youtube':'video-icon-you', 'instagram':'video-icon-in'}[video.content_type]"></span>
                     </figure>
                     <p class="video-thmbtit text-over">
-                        {{video.content['ko'].media_title}}
+                        {{video.content['en'].media_title}}
                     </p>
                 </a>
             </div>
@@ -53,6 +53,7 @@
             if(content_type === 'instagram') {
                 window.open(url, 'instagram', 'width=1150,height=880,toolbar=0,resizable=yes,status=0,scrollbars=0');
             } else if(content_type === 'youtube') {
+                url = "https://youtube.com/embed"+url.slice(url.lastIndexOf("/"));
                 $("#videoLayerPopup div div.video-play").html('<iframe width="560" height="315" src="'+ url +'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
                 $("#videoLayerPopup").show();
             }
@@ -64,6 +65,7 @@
             const videoSwiper = new Swiper(".video-swiper", {
                 slidesPerView: 6,
                 spaceBetween: 20,
+                loop: true,
                 loopFillGroupWithBlank: true,
                 navigation: {
                     nextEl: ".videoBtn-right",
@@ -81,8 +83,6 @@
                     1023: {
                         slidesPerView: 'auto',
                         spaceBetween: 20,
-                        loopedSlides: 1,
-                        loop: false,
                         loopFillGroupWithBlank: false,
                     },
                 }

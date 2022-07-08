@@ -21,7 +21,7 @@
     <meta property="og:url" content="https://www.seoulauction.com">
     <meta property="og:title" content="SeoulAuction">
     <meta property="og:description" content="미술품 경매를 통해 많은 사람들과 일상 속 예술의 경험과 기쁨을 나누고자 합니다.">
-    <meta property="og:image" content="/images/thumbnail/201508122329463497773394954126.jpg"/>
+    <meta property="og:image" content="/images/pc/thumbnail/201508122329463497773394954126.jpg"/> 
     <meta property="al:web:url" content="https://www.seoulauction.com">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/images/favic/ms-icon-144x144.png">
@@ -38,6 +38,7 @@
 
     <%--메인이 아닐 경우에만 해당 css 추가.--%>
     <c:if test="${empty param.main}">
+        <%@include file="../../common/commonCssNotMain.jsp"%>
         <link rel="stylesheet" href="/css/pages_common_en.css" type="text/css" />
     </c:if>
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/favic/apple-icon-57x57.png">
@@ -63,7 +64,8 @@
     <jsp:include page="../../common/commonJs.jsp" flush="false"/>
     <%--메인이 아닐 경우에만 해당 js 추가.--%>
     <c:if test="${empty param.main}">
-        <jsp:include page="../../common/commonJSNotMain.jsp" flush="false"/>
+        <%@include file="../../common/commonJSNotMain.jsp"%>
+        <script src="/js/pages_common_en.js" type="text/javascript"></script>
     </c:if>
     <%-- 로그인 --%>
     <script>

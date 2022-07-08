@@ -41,6 +41,10 @@ public class MypageService {
 	
 	private final KTMainMapper ktMainMapper;
 	
+    public CommonMap selectCustomerInfo(CommonMap commonMap){ 
+        return mypageMapper.selectCustomerInfo(commonMap);
+    }
+
 	public List<CommonMap> selectCustomerCustpayList(CommonMap commonMap){
         return mypageMapper.selectCustomerCustpayList(commonMap);
     }

@@ -200,10 +200,6 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 
 
 	/*********** 소셜 로그인 ************/
-	// 카카오 init
-	Kakao.init('cf2233f55e74d6d0982ab74909c97835');
-	// SDK 초기화 여부 판단
-	console.log(Kakao.isInitialized() ? "카카오init성공" : "카카오init실패");
 
 	// 구글초기화
 	var googleInit = function() {
@@ -218,20 +214,6 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 	};
 	// 구글 init
 	googleInit();
-
-	// 네이버초기화
-	naverLogin = new naver.LoginWithNaverId({
-		clientId: "5qXZytacX_Uy60o0StGT",
-		callbackUrl: socialServiceDomain + "/social/naver/callback?action=login",
-		isPopup: true,
-		loginButton: {
-			color: "green",
-			type: 3,
-			height: 60
-		}
-	});
-	// 네이버 init
-	naverLogin.init();
 
 	// 애플 init
 	AppleID.auth.init({
@@ -280,41 +262,6 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 			});
 	}
 
-	// 카카오 로그인
-	$scope.loginWithKakao = function() {
-		Kakao.Auth.login({
-			success: function(authObj) {
-				Kakao.Auth.setAccessToken(authObj.access_token); // access-token 저장
-				$scope.getKakaoUser();
-			},
-			fail: function(err) {
-				console.log(err);
-			}
-		});
-	}
-
-	// 카카오사용자정보로 DB조회하여 로그인진행
-	$scope.getKakaoUser = function() {
-		Kakao.API.request({
-			url: '/v2/user/me',
-			success: function(res) {
-				kakaoUser = res.kakao_account;
-
-				console.log(kakaoUser);
-				submitLogin("KA", kakaoUser.email, kakaoUser.profile.nickname, kakaoUser.email, null);
-			},
-			fail: function(error) {
-				alert('카카오 로그인에 실패했습니다. 관리자에게 문의하세요.' + JSON.stringify(error));
-			}
-		});
-	}
-
-	// 네이버 로그인
-	$scope.naverButtonClick = function() {
-		var loginButton = document.getElementById("naverIdLogin").firstChild;
-		loginButton.click();
-	}
-			
 	// 구글로그인
 	$scope.loginWithGoogle = function(element) {
 		auth2.attachClickHandler(element, {},

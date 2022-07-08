@@ -433,15 +433,15 @@
                                                             <div class="navi-info tb1">
                                                                 <div class="key">지번 주소</div>
                                                                 <div class="value">
-                                                                    <p>서울특별시 종로구 평창31길 11</p>
-                                                                    <p>서울특별시 종로구 평창30길 24</p>
+                                                                    <p>서울특별시 종로구 평창동 465-10</p>
+                                                                    <p>서울특별시 종로구 평창동 98번지</p>
                                                                 </div>
                                                             </div>
                                                             <div class="navi-info tb1">
                                                                 <div class="key">도로명 주소</div>
                                                                 <div class="value">
-                                                                    <p>서울특별시 종로구 평창동 465-10</p>
-                                                                    <p>서울특별시 종로구 평창동 98번지</p>
+                                                                    <p>서울특별시 종로구 평창31길 11</p>
+                                                                    <p>서울특별시 종로구 평창30길 24</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -540,7 +540,7 @@
                                                 <div class="manager-box"> <span>서울옥션 보관고팀</span> <em>김경순 팀장</em> </div>
                                                 <div class="contact-box">
                                                     <ul>
-                                                        <li><span>T.</span> <em>010-4703-0481</em></li>
+                                                        <li><span>T.</span> <a href="tel:010-4703-0481"><em>010-4703-0481</em></a></li>
                                                         <li><span>E.</span> <a href="mailto:kks@seoulauction.com"><em>kks@seoulauction.com</em></a></li>
                                                     </ul>
                                                 </div>

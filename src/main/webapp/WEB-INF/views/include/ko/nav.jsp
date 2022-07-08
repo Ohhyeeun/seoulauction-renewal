@@ -7,7 +7,7 @@
 
 <header class="header main-header header-border"> <!-- class="main-header fixed" --> 
 
-    <div class="header_beltbox on"> <!--class="on" block-->
+    <div class="header_beltbox"> <!--class="on" block-->
         <div class="swiper-container belt-swiper wrap_padding belttxtbox">
             <div class="swiper-wrapper">
             </div>
@@ -56,7 +56,7 @@
                 <form action="" class="scroll_none">
                     <fieldset class="topsearch">
                         <span class="submenuBg-closeBtn top-search-closeBtn closebtn-b m-ver"></span>
-                        <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();" id="topsearchText" ng-keypress="$event.keyCode === 13 && goSearch('topsearchText', true);" autocomplete="off"><button type="button" class="topsearch-btn pc-ver" ng-click="goSearch('topsearchText', true);"></button>
+                        <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();" id="topsearchText" ng-keypress="$event.keyCode === 13 && goSearch('topsearchText', true, $event);" autocomplete="off"><button type="button" class="topsearch-btn pc-ver" ng-click="goSearch('topsearchText', true, $event);"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">
                             </div>
@@ -73,17 +73,6 @@
                 <span class="submenuBg-closeBtn closebtn closebtn-b m-ver"></span>
                 <div class="flex_wrap submenuBg-box">
                     <div class="Ingbanner-box pc-ver1280"> 
-                        <%--경매 준비중 추가 [20220629 삭제로 변경]
-                        <a href="javascript:void(0);" class="Ingbanner" target="_blank">
-                            <figure class="border-txt-darkg Ingbanner-img">
-                                <img src="/images/pc/thumbnail/gnb_thubnatil_ready.jpg" alt="ing_auction03">
-                            </figure>
-                            <div class="Ingbanner-txt text-over">
-                                <span class="auctionKind-box Ingkind-auction">ONLINE</span>
-                                <p class="text-over">경매 준비중</p>
-                                <span class="Ingbanner-arrow"></span>
-                            </div>
-                        </a> --%>
                     </div>
 
                     <ul class="subGnbmenu">
@@ -92,6 +81,7 @@
                                 <li id="menu_auction"><a href="/auction/progress">진행경매</a></li>
                                 <li id="menu_upcoming"><a href="/auction/upcoming">예정경매</a></li>
                                 <li><a href="/auction/results">경매결과</a></li>
+                                <li><a href="/auction/info ">경매안내</a></li>
                             </ul>
                         </li>
                         <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>

@@ -39,10 +39,10 @@
         from CUST_PUSH_WAY PW where PW.CUST_NO = CU.CUST_NO) PUSH_WAY_JSON
         , (select CONCAT('[', GROUP_CONCAT('"', IA.INTE_AREA_CD, '"'), ']')
         from CUST_INTE_AREA IA where IA.CUST_NO = CU.CUST_NO) INTE_AREA_JSON
-        , IF (-11 <![CDATA[<]]> TIMESTAMPDIFF(DAY ,DATE_FORMAT(CP.VALID_TO_DT,'%Y-%m-%d') , DATE_FORMAT(NOW(),'%Y-%m-%d'))
-		AND TIMESTAMPDIFF(DAY ,DATE_FORMAT(CP.VALID_TO_DT,'%Y-%m-%d') , DATE_FORMAT(NOW(),'%Y-%m-%d')) <![CDATA[<]]> 0 ,
-		CONCAT('D', TIMESTAMPDIFF(DAY ,DATE_FORMAT(CP.VALID_TO_DT,'%Y-%m-%d') , DATE_FORMAT(NOW(),'%Y-%m-%d'))),
-		'') VALID_DATE
+        , IF(1 <![CDATA[<]]> DATEDIFF(DATE_ADD(CP.VALID_TO_DT, INTERVAL 1 DAY), NOW())
+			AND DATEDIFF(DATE_ADD(CP.VALID_TO_DT, INTERVAL 1 DAY), NOW()) <![CDATA[<]]> 11,
+			CONCAT('D-', DATEDIFF(DATE_ADD(CP.VALID_TO_DT, INTERVAL 1 DAY), NOW())) ,
+			IF(1 = DATEDIFF(DATE_ADD(CP.VALID_TO_DT, INTERVAL 1 DAY), NOW()) AND 1 = TIMESTAMPDIFF(DAY ,NOW(),DATE_ADD(CP.VALID_TO_DT, INTERVAL 1 DAY)),'D-1' ,'')) VALID_DATE
 		<!-- , CS.* -->
         from CUST CU left outer join (select CP1.* from CUST_PAY CP1 where CP1.CUST_NO = #{cust_no} order by VALID_TO_DT desc limit 1 ) CP on CP.CUST_NO = CU.CUST_NO
 		<!-- left outer join CUST_SOCIAL CS -->
@@ -199,6 +199,7 @@
 		FROM   EMP
 		WHERE EMP_NAME = #{emp_name}
 		AND STAT_CD = 'normal' 
+		AND SALES_USER_YN = 'Y'
 	</select>
 	
 	<select id="selectEmpByEmpNameCnt" resultType="int">
@@ -206,7 +207,8 @@
 		FROM  (SELECT EMP_NO
 		       FROM   EMP
 		       WHERE  EMP_NAME = #{emp_name}
-		       AND STAT_CD = 'normal')cnt
+		       AND STAT_CD = 'normal'
+		       AND SALES_USER_YN = 'Y')cnt
 	</select>
 	
 	<select id="selectCode" resultType="CommonMap" parameterType="CommonMap">
@@ -348,6 +350,26 @@
 			now()
 		);
 	</insert>
+
+<!--	로그인 한 유저의 고객담당자 번호 찾기.-->
+	<select id="selectCustForEmpNo" parameterType="CommonMap" resultType="CommonMap">
+		SELECT
+		    CUST_NAME,
+			TEL
+		FROM
+		    CUST
+		WHERE
+			CUST_NO =
+				(
+				SELECT
+					EMP_NO
+				FROM
+					 CUST
+				WHERE
+					CUST_NO = #{cust_no}
+				)
+
+	</select>
 	
 	
 </mapper>

@@ -1,13 +1,9 @@
 app.value('locale', 'ko');
 app.value('is_login', 'false');
 	
-// 카카오
-var kakaoUser;
 // 구글
 var googleUser = {};
 var googleProfile;
-// 네이버
-var naverLogin;
 
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
 app.controller('joinCtl', function($scope, consts, common, ngDialog) {
@@ -16,10 +12,6 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 	$scope.goJoin = function(type){
 		location.href = '/joinForm?type=' + type				
 	}
-	// 카카오 init
-	Kakao.init('cf2233f55e74d6d0982ab74909c97835');
-	// SDK 초기화 여부 판단
-	console.log(Kakao.isInitialized() ? "카카오init성공" : "카카오init실패");
 
 	var googleInit = function() {
 		gapi.load('auth2', function() {
@@ -34,21 +26,6 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 
 	// 구글 init
 	googleInit();
-
-	// 네이버초기화
-	naverLogin = new naver.LoginWithNaverId({
-		clientId: "5qXZytacX_Uy60o0StGT",
-		callbackUrl: socialServiceDomain + "/social/naver/callback?action=join",
-		isPopup: true,
-		loginButton: {
-			color: "green",
-			type: 3,
-			height: 60
-		}
-	});
-
-	// 네이버 init
-	naverLogin.init();
 
 	// 애플 init
 	AppleID.auth.init({
@@ -117,36 +94,6 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 				console.log(error);
 			});
 	}
-	
-	// 카카오 로그인 / 카카오 회원가입
-	$scope.joinWithKakao = function() {
-		Kakao.Auth.login({
-			success: function(authObj) {
-				Kakao.Auth.setAccessToken(authObj.access_token); // access-token 저장
-				$scope.getKakaoUser();
-			},
-			fail: function(err) {
-				console.log(err);
-			}
-		});
-
-	}
-
-	// 카카오사용자정보로 DB조회하여 로그인진행
-	$scope.getKakaoUser = function() {
-		Kakao.API.request({
-			url: '/v2/user/me',
-			success: function(res) {
-				kakaoUser = res.kakao_account;
-
-				console.log(kakaoUser);
-				submitJoin("KA", kakaoUser.profile.nickname, kakaoUser.email, null);
-			},
-			fail: function(error) {
-				alert('카카오 로그인에 실패했습니다. 관리자에게 문의하세요.' + JSON.stringify(error));
-			}
-		});
-	}
 
 	// 구글회원가입
 	$scope.joinWithGoogle = function(element) {
@@ -159,13 +106,7 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 			});
 	}
 
-	// 네이버회원가입
-	$scope.naverJoin = function() {
-		var loginButton = document.getElementById("naverIdLogin").firstChild;
-		loginButton.click();
-	};
-
-	// 네이버 로그인
+	// 애플 로그인
 	$scope.joinWithApple = function() {
 		var loginButton = document.getElementById("appleid-signin").firstChild;
 		loginButton.click();
@@ -197,10 +138,11 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 
 });
 
-var address_search1 = $(".js-address_search1").trpLayerFixedPopup("#address_search1-wrap")
+var address_search1 = $(".js-address_search1").trpLayerFixedPopup("#address_search1-wrap");
 $("body").on("click", "#address_search1-wrap .js-closepop, #address_search1-wrap .popup-dim", function($e) {
-    $e.preventDefault();
-    address_search1.close();
+	$e.preventDefault();
+	address_search1.close(); /* 닫기 처리 안돼 아래 클래스 추가하여 hide 함.*/
+	$(".popup-dim.address_search1-wrap").hide(); 
 });
 
 var staff_search1 = $(".js-staff_search1").trpLayerFixedPopup("#staff_search1-wrap");
@@ -634,6 +576,8 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		var address_search1 = $(".js-address_search1").trpLayerFixedPopup("#address_search1-wrap")
         address_search1.open(this); // or false   
         popup_fixation("#address_search1-wrap");
+        $scope.addressList = undefined;
+        $scope.find_word = "";
 	}
 	
 	//주소검색
@@ -648,6 +592,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	            if(!success){
 	                alert(result.data.msg);
 	            } else {
+					$("#addrScroll").scrollTop(0)
 					$scope.addressList = result.data.addresses;
 					$scope.$apply();
 	            }
@@ -661,6 +606,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		$scope.form_data.zipno = addr.postcd;
 		$scope.form_data.addr = addr.address;
 		address_search1.close();
+		$(".popup-dim.address_search1-wrap").hide();
 		common.setFocus("addr_dtl");
 		$scope.addr_msg = "상세주소를 입력해주세요.";
 	};
@@ -687,6 +633,9 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	$scope.employeeSearch = function(){
         staff_search1.open(this); // or false   
         popup_fixation("#staff_search1-wrap");
+        $scope.employeeList = [];
+        $scope.empLength = 0;
+		$scope.emp_name = "";
 	}
 	
 	//직원검색
@@ -1073,13 +1022,17 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 							
 	//가입버튼 클릭시 미입력 필수사항 focus처리 + 약관 validation
 	$scope.join = function() {
+		if($scope.isSocial()){
+			 $scope.idValid = true;
+		}
 		if($('#joinButton').hasClass('disabled') || !$scope.idValid){
 			$('input').removeClass('input_error');
-//			console.log($scope.idValid ? '아이디통과' : '아이디실패');	console.log($scope.passwdValid ? '비번통과' : '비번실패'); console.log($scope.nameValid ? '이름통과' : '이름실패'); 
-//			console.log($scope.compNoValid ? '사업자등록번호통과' : '사업자등록번호실패'); console.log($scope.authNumValid ? '핸드폰통과' : '핸드폰실패'); console.log($scope.telValid ? '전화번호통과' : '전화번호실패'); 
-//			console.log($scope.emailValid ? '이메일통과' : '이메일실패');  console.log($scope.compManNameValid ? '업무담당자통과' : '업무담당자실패');
-//			console.log($scope.addrValid ? '주소통과' : '주소실패'); console.log($scope.fileValid ? '파일통과' : '파일실패');  
+//			console.log($scope.idValid ? '아이디통과' : '아이디실패');	console.log($scope.passwdValid ? '비번통과' : '비번실패'); 
+//			console.log($scope.compNoValid ? '사업자등록번호통과' : '사업자등록번호실패'); console.log($scope.telValid ? '전화번호통과' : '전화번호실패'); 
+//			console.log($scope.compManNameVal ? '업무담당자통과' : '업무담당자실패'); console.log($scope.fileValid? '파일통과' : '파일실패');
 //			console.log($scope.bidValid ? '응찰여부통과' : '응찰여부실패'); console.log($scope.countryValid ? '국가통과' : '국가실패'); console.log($scope.addrValidEn ? '외국주소통과' : '외국주소실패');
+			console.log($scope.nameValid ? '이름통과' : '이름실패'); console.log($scope.authNumValid ? '핸드폰통과' : '핸드폰실패'); 
+			console.log($scope.emailValid ? '이메일통과' : '이메일실패'); console.log($scope.addrValid ? '주소통과' : '주소실패');   
 			if($scope.isPerson()){
 				if($scope.langType == 'ko'){
 					$("#alertMsg").html("필수항목을 모두 입력해 주세요.");
@@ -1091,7 +1044,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 						else if(!$scope.authNumValid) $("#hp").addClass('input_error');
 						else if(!$scope.emailValid) $("#email").addClass('input_error');
 						else if(!$scope.addrValid) $("#addr_dtl").addClass('input_error');
-					}else{ 
+					}else{
 						//내국개인회원 필수 필드 : 아이디/비밀번호/이름/휴대폰번호/이메일/주소
 						if(!$scope.idValid) $("#login_id").addClass('input_error');
 						else if(!$scope.passwdValid) $("#passwd").addClass('input_error'); 

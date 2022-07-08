@@ -44,27 +44,6 @@
                                     <article class="view-body">
                                         <div class="area-inner">
                                             <div id="notice_content" class="view_editor-wrap">
-                                                [Online Auction]<br>
-                                                2022. 4. 6 (水)<br>
-                                                2시 순차마감<br>
-                                                www.seoulauction.com<br>
-                                                <br>
-                                                [Opening on Online]<br>
-                                                2022. 3. 31 (木) - 4. 6 (水)<br>
-                                                <br>
-                                                [Exhibition Preview]<br>
-                                                2022. 4. 1 (金) - 4. 5 (火)<br>
-                                                10am - 7pm<br>
-                                                서울옥션 강남센터 B1<br>
-                                                (강남구 언주로 864)<br>
-                                                <br>
-                                                <br>
-                                                [Notice]<br>
-                                                * lithograph 는 Offset lithograph 의 의미를 포함합니다.<br>
-                                                * 구매수수료: 18%(부가세 별도)입니다. 구매수수료에 한하여 세금계산서 발행이 가능합니다.<br>
-                                                * 응찰은 작품 컨디션 확인 후 진행 되는 것을 전제로 하며, 작품 컨디션에 액자 상태는 포함되지 않습니다.<br>
-                                                * 작품의 크기 및 운송지역(도서산간, 제주, 해외 등)에 따라 추가 운송비가 발생할 수 있습니다.<br>
-                                                * 낙찰자가①지정된 기일에 낙찰대금을 납부하지 않거나, ②부득이 낙찰을 철회하는 경우, 낙찰가의 30%에 해당하는 금액을 낙찰철회비(위약금)로 납부하여야 합니다.<br>
                                             </div>
                                         </div>
                                     </article>
@@ -129,7 +108,7 @@
                             let data = response.data.data;
 
                             if(!data){
-                                alert('잘못된 경로입니다.');
+                                alert('Wrong Path.');
                                 history.back();
                             }
 
@@ -137,13 +116,15 @@
                             $("#notice_title").html(JSON.parse(data.title).en);
                             $("#notice_date").html(data.dt_date);
 
-                            if(data.images.length !==0){
+                            if(data.images.length !==0) {
                                 let images = data.images;
                                 $.each(images , function(idx , el){
 
                                     let html = `<a href=/fileDownload?fileKey=` + el.path + `&downloadFileName=` + el.name  + `>`
                                         + `<i class="icon_down"></i> <span>` + el.name + `</span></a>`;
-                                    $("#notice_file_list").html(html);
+                                    $("#notice_file_list").append(html);
+
+
                                 });
                             }
                         }

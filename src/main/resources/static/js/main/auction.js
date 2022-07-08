@@ -21,6 +21,7 @@ $(document).ready(function(){
         axios.get('/api/main/auctions')
             .then(function(response) {
                 const data = response.data;
+                console.log(data);
                 let success = data.success;
                 if(success){
 
@@ -141,9 +142,7 @@ $(document).ready(function(){
         });
 
         //클릭시
-        $('.auction-thumb').on('click', function () {
-
-            console.log('asdfasdf');
+        $('.auction-thumb').on('click', function (event) {
 
             let saleKind = 'online';
             if(kind){
@@ -160,8 +159,9 @@ $(document).ready(function(){
         $('.wish_heart').on('click', function () {
 
             if(!checkLogin()){
-                return;
+                return false;
             }
+
 
             let data = {};
 

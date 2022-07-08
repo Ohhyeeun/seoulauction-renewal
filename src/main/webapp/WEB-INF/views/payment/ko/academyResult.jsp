@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ct" uri="/WEB-INF/tlds/taglibs.tld"%>
+
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
 <body class="">
@@ -60,11 +62,11 @@
                                                         <p class="img"><img src="/images/temp/temp_img5.jpg" alt="" /></p>
                                                         <dl class="product_info">
                                                             <dt class="tt4">
-                                                                NFT Art & Metaverse in BUSAN
+                                                                ${ct:getJSONString(resultMap.TITLE_JSON, 'ko')}
                                                             </dt>
                                                             <dd class="tb2">
-                                                                2022-03-30 ~ 2022-04-20<br />
-                                                                매주 수요일, 7:00-8:30pm (워크숍 제외)
+                                                                ${resultMap.FROM_DT} ~ ${resultMap.TO_DT}<br />
+                                                                ${resultMap.ACADEMY_TIME}
                                                             </dd>
                                                         </dl>
                                                     </div>
@@ -119,8 +121,8 @@
                                 <div class="panel-footer">
                                     <article class="button-area">
                                         <div class="btn_set tac btn_double">
-                                            <a class="btn btn_default btn_lg" href="#" role="button"><span>홈으로 이동</span></a>
-                                            <a class="btn btn_black btn_lg" href="#" role="button"><span>마이페이지로 이동</span></a>
+                                            <a class="btn btn_default btn_lg" href="/" role="button"><span>홈으로 이동</span></a>
+                                            <a class="btn btn_black btn_lg" href="/mypage/liveBidReqList" role="button"><span>마이페이지로 이동</span></a>
                                         </div>
                                     </article>
                                 </div>

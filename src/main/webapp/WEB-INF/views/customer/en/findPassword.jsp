@@ -31,12 +31,12 @@
                                         <span class="trp radio-box">
                                            <input id="radio2-1" type="radio" name="radioSet2" value="email" checked>
                                             <i></i>
-                                            <label for="radio2-2">Email</label>
+                                            <label for="radio2-1">Email</label>
                                         </span>
                                         <span class="trp radio-box">
                                             <input id="radio2-2" type="radio" name="radioSet2" value="phone" >
                                             <i></i>
-                                            <label for="radio2-1">Mobile</label>
+                                            <label for="radio2-2">Mobile</label>
                                         </span>
                                     </div>
                                     <div class="js-menuType-body">

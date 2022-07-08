@@ -11,7 +11,6 @@
 	<div class="wrapper" ng-app="myApp">
 		<div class="sub-wrap pageclass">
             <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
-			<script type="text/javascript" src="/js/mypage/onlinePay.js"></script>
             <!-- container -->
             <div id="container" class="onlinePay"  ng-controller="onlinePayListCtl" data-ng-init="loadOnlinePayList(1);"  style="opacity: 0" opacity=1>
                 <div id="contents" class="contents">
@@ -59,7 +58,7 @@
                                                         <dl class="bid-item" ng-repeat="pl in payList">
                                                             <dt>
                                                                 <div class="title-area">
-                                                                    <div class="title tt4 line-1">
+                                                                    <div class="title tt4">
                                                                         <span>{{pl[1][0].SALE_TH}}{{pl[1][0].SALE_TH_DSP}} {{pl[1][0].SALE_TITLE_KR}}</span>
                                                                     </div>
                                                                     <div class="desc tb1">
@@ -122,7 +121,7 @@
                                                                                 <dd class="txt">
                                                                                     <span>{{data.CURR_CD}} {{comma(data.BID_PRICE)}}</span>
                                                                                     <div class="sub">
-                                                                                        <span>{{data.BID_DT}} <!-- ({{data.BIDWEEKDT}}) --><br class="m-ver"> {{data.BIDTIME}}</span>
+                                                                                        <span>{{data.BID_DT}} <!-- ({{data.BIDWEEKDT}}) -->{{data.BIDTIME}}</span>
                                                                                        <!--  <span>({{data.bid_count}}회 응찰)</span> -->
                                                                                     </div>
                                                                                 </dd>
@@ -217,19 +216,18 @@
     </div>
 
 
-    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+<%--    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
     <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
     <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+    --%>
     <!-- [0516]삭제
   <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
 -->
+<%--    <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>--%>
 
 
-    <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
-
-
-
+    <script type="text/javascript" src="/js/mypage/onlinePay.js"></script> 
     <script>
         $(".js-history_back").click(function() {
         	window.location.href="/mypage/main";

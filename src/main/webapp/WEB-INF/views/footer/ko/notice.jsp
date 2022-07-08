@@ -93,7 +93,7 @@
                                                 <div class="info-guide">
                                                     <div class="contact-box">
                                                         <ul>
-                                                            <li><span>T.</span> <em>02-395-0330</em></li>
+                                                            <li><span>T.</span> <a href="tel:02-395-0330"><em>02-395-0330</em></a></li>
                                                             <li><span>E.</span> <a href="mailto:sos@seoulauction.com"><em>sos@seoulauction.com</em></a></li>
                                                         </ul>
                                                     </div>

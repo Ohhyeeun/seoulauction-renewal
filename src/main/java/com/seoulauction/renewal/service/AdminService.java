@@ -26,6 +26,7 @@ public class AdminService {
         return ktAdminMapper.selectActiveSales(map).stream().map(c->{
             Map maps = null;
             CommonMap resultMap = new CommonMap();
+
             try {
                 maps = mapper.readValue(String.valueOf(c.get("SALE_TITLE_JSON")) , Map.class);
             } catch (JsonProcessingException e) {
@@ -33,7 +34,7 @@ public class AdminService {
             }
             resultMap.put("kr_title" , maps.get("ko"));
             resultMap.put("en_title" , maps.get("en"));
-            resultMap.put("sale_no",c.get("sale_no"));
+            resultMap.put("sale_no",c.get("SALE_NO"));
             return resultMap;
         }).collect(Collectors.toList());
     }

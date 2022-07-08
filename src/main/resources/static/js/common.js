@@ -67,7 +67,7 @@ $(function() {
                         document.querySelector('#menu_upcoming').insertAdjacentHTML('beforeend', badgeHtml);
                     if (menuCount.ExhibitionCount > 0)
                         document.querySelector('#menu_exhibit').insertAdjacentHTML('beforeend', badgeHtml);
-                    if (menuCount.AcademyCount > 0)
+                    if (locale === 'ko' && menuCount.AcademyCount > 0)
                         document.querySelector('#menu_academy').insertAdjacentHTML('beforeend', badgeHtml);
                 }
             })
@@ -380,24 +380,24 @@ $(function() {
 
     /* footer family site */
     $('.Familysite-selectbox').click(function () {
-        let familyH = $(this).index();
-        $('.innerfooter').removeClass('on');
-        $(this).removeClass('on');
-        $('.innerfooter').eq(familyH).addClass('on');
-        $('.Familysite').eq(familyH).addClass('on');
+        // let familyH = $(this).index();
+        // $('.innerfooter').removeClass('on');
+        // $(this).removeClass('on');
+        // $('.innerfooter').eq(familyH).addClass('on');
+        // $('.Familysite').eq(familyH).addClass('on');
 
         if ($('.familyselect').hasClass('on')) { /* familyselet 탭 닫기 */
-            $('.familyselect').addClass('on');
+            // $('.familyselect').addClass('on');
             $('.Familysite').removeClass('on'); /* 화살표 */
+            console.log(23434);
         } else {
-            $('.innerfooter').click(function () {
+            $('.innerfooter').click(function(){
                 $('.familyselect').removeClass('on');
-                $('.familyselect').click(false);
-                $('.Familysite-selectbox').click(false);
+                $('.Familysite').removeClass('on'); /* 화살표 */
             });
-            $('.familyselect').removeClass('on'); /* familyselet 탭 오픈 */
-        }
-        ;
+            console.log(64854395894385);
+            $('.Familysite').addClass('on'); /* 화살표 */
+        };
         $('.familyselect').toggleClass('on');
     });
 
@@ -713,12 +713,10 @@ jQuery.fn.trpBgDim = function($opacity,$bgColor){
 
 app.requires.push.apply(app.requires, ["ngDialog", "checklist-model"]);
 app.controller('headCtl', function($scope, consts, common, locale, $filter) {
-
+    console.log("recommend-search-part")
     $scope.recommandSearch =  function(){
-
         //추천 검색어
         axios.get('/api/auction/selectRecommandArtist').then(function (response) {
-            console.log(response);
             const success = response.data.success;
 
             $('.recommend-search-part').empty();
@@ -753,17 +751,25 @@ app.controller('headCtl', function($scope, consts, common, locale, $filter) {
     $(".recent-search").append(html);
 
 
-    $scope.goSearch =  function(elementId, bIsKorean){
-
-        var sSearchContent = $("#" + elementId).val();
-        if(sSearchContent) {
-            location.href = bIsKorean ? "/sale/search?searchContent=" + sSearchContent : "/eng/sale/search?searchContent=" + sSearchContent;
+    $scope.goSearch =  function(elementId, bIsKorean, $event){
+        $event.preventDefault();
+        if($event.keyCode == 13){
+            $('.topsearch-btn').trigger("click");
+            $('.search-bubble-box').removeClass('on');
+            var sSearchContent = $("#" + elementId).val();
+            if(sSearchContent) {
+                location.href = bIsKorean ? "/sale/search?searchContent=" + sSearchContent : "/eng/sale/search?searchContent=" + sSearchContent;
+            }
+            else {
+                alert(bIsKorean ? "검색어를 입력해주세요." : "Please write search keyword.");
+            }
+        } else if($('.topsearch-text').val().length == 0) {
+            $('.search-bubble-box').removeClass('on');
+        } else {
+            $('.search-bubble-box').addClass('on');
         }
-        else {
-            alert(bIsKorean ? "검색어를 입력해주세요." : "Please write search keyword.");
-        }
+        return false;
     }
-
 });
 
 //pc, mobile 구분

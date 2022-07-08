@@ -9,15 +9,7 @@
         <!-- header -->
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <!-- //header -->
-        <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-        <script type="text/javascript" src="/js/angular/checklist-model.js"></script>
-        <script type="text/javascript" src="/js/angular/rzslider.min.js"></script>
-        <script type="text/javascript" src="/js/private_sale/firstExhibit.js" type="text/javascript"></script>
-
-        <script type="text/javascript">
-            app.value('locale', 'ko');
-        </script>
-
+<%--        <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
         <!-- container -->
         <div id="container">
             <div id="contents" class="contents">
@@ -230,16 +222,21 @@
     </div>
 </div>
 
-
-<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-<!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+<%-- <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]--> --%>
+<%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
+<%--<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
+<%--<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
 <!-- [0516]삭제
 <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 -->
 
+<script type="text/javascript" src="/js/angular/checklist-model.js"></script>
+<script type="text/javascript" src="/js/angular/rzslider.min.js"></script>
+<script type="text/javascript" src="/js/private_sale/firstExhibit.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+    app.value('locale', 'ko');
+</script>
 
 <!-- tab menu -->
 <script>
@@ -282,7 +279,10 @@
         swiper_academy = new Swiper('.js-swiper_academy .gallery_container', {
             autoplay: 3000,
             loop: true,
-            pagination: ".js-swiper_academy .pagination",
+            // pagination 0628 수정
+            pagination: {
+                el: ".js-swiper_academy .pagination",
+            },
             paginationClickable: true,
             breakpoints: {
                 1023: {

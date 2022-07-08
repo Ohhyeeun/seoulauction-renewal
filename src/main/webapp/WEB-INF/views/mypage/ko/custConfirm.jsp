@@ -76,7 +76,6 @@
 		                                                </p>
 		                                            </article>
 		                                            <article class="inquiry-write-wrap">
-		                                            	<div id="naverIdLogin" style="display:none"></div>
 		                                            	<div id="googleIdLogin" style="display:none"></div>
 		                                            	<div id="appleid-signin" style="display:none" data-type="sign in"></div>
 		                                            </article>
@@ -118,11 +117,6 @@
 	<!-- 팝업 : side popup -->
 	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 </body>
-<!-- 카카오 -->
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
-<!-- 네이버 -->
-<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2-nopolyfill.js" charset="utf-8"></script>
 <!--  구글 -->
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
 <script src="https://apis.google.com/js/api:client.js"></script>

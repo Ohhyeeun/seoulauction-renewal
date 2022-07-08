@@ -341,7 +341,7 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				if (locale == "ko") {
 					alert("작품명을 넣어주세요");
 				} else {
-					alert("Please put the image of the work.");
+					alert("Please put the Artwork of the artwork.");
 				}
 				return false;
 			}
@@ -350,7 +350,7 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				if (locale == "ko") {
 					alert("작가명을 넣어주세요");
 				} else {
-					alert("Please put the image of the work.");
+					alert("Please put the Author of the artwork.");
 				}
 				return false;
 			}
@@ -368,7 +368,7 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				if (locale == "ko") {
 					alert("소장 경위를 입력해주세요.");
 				} else {
-					alert("Please enter the reason of ownership.");
+					alert("Please enter the Inspector of ownership.");
 				}
 				return false;
 			}

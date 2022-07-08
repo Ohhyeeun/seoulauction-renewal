@@ -9,7 +9,7 @@
 <sec:authentication property="Details.validDate" var="validDate"/> 
 
 <!-- 마이페이지 싸이드 메뉴 -->
-<aside class="aside-area" ng-controller="myPageCtl" >
+<aside class="aside-area" ng-controller="myPageCtl" ng-init="loadMemberInfo()"  ng-cloak>
 	<div class="aside-inner">
 		<div class="mem-infobox-wrap">
 			<div class="mem-name-wrap">
@@ -22,40 +22,38 @@
 			</span><span class="tt4">님</span>
 			</div>
 			
-			<sec:authorize access="hasRole('ROLE_REGULAR_USER')">
-			<div class="mem-info-wrap">
+			
+			<div class="mem-info-wrap" ng-if="userRole=='1'">
 				<div class="mem-lv-box">
 					 <div class="mem-lv lv-2">정회원</div>
-					 <div class="mem-period">${validDate}</div>
+					 <div class="mem-period">{{validDate}}</div>
 				</div>
 				<div class="mem-record-box">
-					<a href="#" class="record-button js-popup_memlv2_record" ng-click="showMemHisPopup(this);">정회원 이력</a> 
+					<a href="#" class="record-button js-popup_memlv2_record" ng-click="showMemHisPopup();">정회원 이력</a> 
 					<a href="#" class="tooltip-button js-popup_tooltip" ng-click="showTooltip();">
 						<div class="txt-icon-tooltip">툴팁</div>
 					</a>
 				</div>
 			</div>
-			</sec:authorize>
-			<sec:authorize access="hasRole('ROLE_ASSOCIATE_USER')"> 
-        	<div class="mem-info-wrap">
+
+        	<div class="mem-info-wrap" ng-if="userRole=='0'">
 				<div class="mem-lv-box">
 					 <div class="mem-lv lv-1">준회원</div>
 				</div>
 				<div class="mem-record-box">
-					<a href="#" class="record-button js-popup_memlv2_record" ng-click="showMemHisPopup(this);">정회원 이력</a> 
+					<a href="#" class="record-button js-popup_memlv2_record" ng-click="showMemHisPopup();">정회원 이력</a> 
 					<a href="#" class="tooltip-button js-popup_tooltip" ng-click="showTooltip();">
 						<div class="txt-icon-tooltip">툴팁</div>
 					</a>
 				</div>
 			</div>
-			<div class="mem-button-wrap">
+			<div class="mem-button-wrap" ng-if="userRole=='0'">
 			<a href="/payment/member">
 				<button class="btn btn_point btn_lg" type="button" >
 					<span>정회원 신청하기</span>
 				</button>
 			</a>
 			</div>     
-        </sec:authorize>  
 		</div>
     
 		<div class="mypage-lnb-wrap">

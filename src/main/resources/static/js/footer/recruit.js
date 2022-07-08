@@ -25,6 +25,7 @@ $(document).ready(function(){
                 if(success){
 
                     let data = response.data.data.list;
+                    console.log(data);
                     total_count = response.data.data.count;
                     $("#recurit_paging").empty();
                     $("#recurit_tbody").empty();
@@ -35,6 +36,7 @@ $(document).ready(function(){
                                          </div>`;
                         $("#recurit_tbody").append(empty_html);
                     }
+
                     //TODO 인클루드 작업.
                     $.each(data , function(idx , el){
 
@@ -47,23 +49,31 @@ $(document).ready(function(){
                             html +=  `<div class="mem-icon icon-new">신입</div>`;
                         }else if ( el.recruit_type === 'experience'){
                             html +=  `<div class="mem-icon icon-senior">경력</div>`;
+                        }else if ( el.recruit_type === 'all'){
+                            html +=  `<div class="mem-icon icon-new">신입</div>`;
+                            html +=  `<div class="mem-icon icon-senior">경력</div>`;
                         }
 
                         if ( el.period_type === 'period'){
-                            html +=   `<div class="mem-icon icon-recruiting">진행중</div>
-                                     </div>`;
+                            html +=   `<div class="mem-icon icon-recruiting">진행중</div></div>`;
+
+                            let endDate = el.end_date !== undefined ? ' ~ ' + el.end_date : '';
+                            html += `<a id="re_${el.is_over}" class="re_detail_btn" href="/footer/recruit/${el.id}"  class="tit">${el.title}</a></td>`;
+                            html += `<td class="bbs-date long">${el.start_date} ${endDate} </td></tr>`;
+
                         } else if ( el.period_type === 'current'){
-                            html +=   `<div class="mem-icon icon-recruiting">상시</div>
-                                     </div>`;
+
+                            html +=  `</div><a href="/footer/recruit/${el.id}" class="tit">${el.title}</a></td>`;
+
+                            html += `<td class="bbs-date long">상시 모집</td></tr>`;
+
                         }  else if ( el.period_type === 'immediate'){
-                            html +=   `<div class="mem-icon icon-recruiting">채용시 마감</div>
-                                     </div>`;
+
+                            html +=  `</div><a href="/footer/recruit/${el.id}" class="tit">${el.title}</a></td>`;
+
+                            html += `<td class="bbs-date long">상시 모집</td></tr>`;
                         }
-                            html +=
-                                `<a href="/footer/recruit/${el.id}" class="tit">${el.title}</a>
-                                </td>
-                                <td class="bbs-date long">${el.start_date} ~ ${el.end_date}</td>
-                                </tr>`;
+
 
                         $("#recurit_tbody").append(html);
                     });
@@ -82,12 +92,27 @@ $(document).ready(function(){
                             init();
                         }
                     });
+
+                    $('.re_detail_btn').on('click',function (){
+
+                        console.log($(this).attr('id'));
+
+                        let is_over = $(this).attr('id').split('_')[1];
+
+                        if(is_over ==='Y'){
+                            alert('이미 지난 채용 공고 입니다.');
+                            return false;
+                        }
+                    });
+
+
                 }
             })
             .catch(function(error) {
                 console.log(error);
         });
     }
+
 
     $("#search_btn").on('click',function (){
         search_text = $("#search_text").val();

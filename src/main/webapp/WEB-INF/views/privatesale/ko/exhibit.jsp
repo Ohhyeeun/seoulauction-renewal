@@ -8,9 +8,6 @@
         <!-- header -->
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <!-- //header -->
-        <script>
-            app.value('locale', 'ko');
-        </script>
 
         <!-- container -->
         <div id="container">
@@ -90,7 +87,7 @@
                                                 <div class="manager-box"> <span>서울옥션 전시마케팅</span> <em>윤가람 선임</em> </div>
                                                 <div class="contact-box">
                                                     <ul>
-                                                        <li><span>T.</span> <em>02-2075-4422</em></li>
+                                                        <li><span>T.</span> <a href="tel:02-2075-4422"><em>02-2075-4422</em></a></li>
                                                         <li><span>E.</span> <a href="mailto:kyoon@seoulauctionl.com"><em>kyoon@seoulauctionl.com</em></a></li>
                                                     </ul>
                                                 </div>
@@ -111,7 +108,6 @@
                         </div>
                     </div>
                 </section>
-
             </div>
         </div>
         <!-- //container -->
@@ -131,6 +127,10 @@
 
     </div>
 </div>
+
+<script>
+    app.value('locale', 'ko');
+</script>
 
 <script type="text/javascript" src="/js/private_sale/exhibit.js" type="text/javascript"></script>
 <!-- tab menu -->

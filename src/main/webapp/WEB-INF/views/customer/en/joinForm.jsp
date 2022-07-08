@@ -154,7 +154,7 @@
 											<ul class="mark_dot-list">
 												<li class="tb2">To be able to participate in online auctions, you must check “Yes” under “Bidding Registration” when applying for membership.</li>
 												<li class="tb2">The bidding button will become available for use one or two business days after selecting “Yes.”</li>
-												<li class="tb2">If the bidding button does not become available, please send an email inquiry to info@seoulauction.com.</li>
+												<li class="tb2">If the bidding button does not become available, please send an email inquiry to <a href="mailto:info@seoulauction.com">info@seoulauction.com</a>.</li>
 												<li class="tb2">If you register for membership near the closing time of an auction and make an email or phone inquiry related to bidding, Seoul Auction will provide all necessary assistance.</li>
 											</ul>
 										</div>
@@ -440,9 +440,9 @@
 															<br>
 															Seoul Auction Co. Ltd.,<br>
 															11, Pyeongchang 31-gil, Jongno-gu, Seoul, Korea<br>
-															Tel +82 (0)2 395 0330<br>
-															Fax +82 (0)2 395 0338<br>
-															E: info@seoulauction.com<br>
+															Tel <a href="tel:82-2-395-0330">+82 (0)2 395 0330</a><br>
+															Fax <a href="tel:82-2-395-0338">+82 (0)2 395 0338</a><br>
+															E: <a href="mailto:info@seoulauction.com">info@seoulauction.com</a><br>
 															<br>
 															Notices to Consignors, Bidders and Buyers shall be provided to the address specified in the relate registration form or through the electronic communications network (e-mail, text message, SNS, etc.) to the following address. The relevant person shall notify Seoul Auction, in writing, in case of any changes to the address or contact information. If the relevant person is negligent in providing the notice and Seoul Auction’s notice, etc. is not delivered, he/she shall not raise any objections when the delivery is deemed to have been made on the date the notice from Seoul Auction typically would have arrived.<br>
 															<br>
