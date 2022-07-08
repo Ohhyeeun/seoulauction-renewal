@@ -47,4 +47,6 @@ public interface LoginMapper {
 
     CommonMap selectCustForCustSocial(CommonMap paramMap);
 
+    CommonMap selectCustForEmpNo(CommonMap map);
+
 }

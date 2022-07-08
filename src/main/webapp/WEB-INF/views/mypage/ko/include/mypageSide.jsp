@@ -9,7 +9,7 @@
 <sec:authentication property="Details.validDate" var="validDate"/> 
 
 <!-- 마이페이지 싸이드 메뉴 -->
-<aside class="aside-area" ng-controller="myPageCtl" ng-init="loadMemberInfo()">
+<aside class="aside-area" ng-controller="myPageCtl" ng-init="loadMemberInfo()"  ng-cloak>
 	<div class="aside-inner">
 		<div class="mem-infobox-wrap">
 			<div class="mem-name-wrap">

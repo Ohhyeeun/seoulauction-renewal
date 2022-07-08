@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="ct" uri="/WEB-INF/tlds/taglibs.tld"%>
 
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
@@ -9,16 +8,12 @@
         <!-- header -->
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <!-- //header -->
-        <script>
-            app.value('locale', 'ko');
-        </script>
 
         <!-- container -->
         <div id="container">
             <div id="contents" class="contents">
 
                 <!-- page title -->
-
                 <section class="page_title-section type-dark">
                     <div class="section-inner full_size ">
                         <div class="center-box">
@@ -28,11 +23,9 @@
                     </div>
                 </section>
 
-
                 <!-- 진행 중인 아카데미 -->
                 <section class="basis-section">
                     <div class="section-inner">
-
                         <div class="content-panel type_panel-marketing">
                             <div class="panel-header">
                                 <div class="title"><span class="tt2">미술품과 함께하는 기업의 새로운 도약 서울옥션과 함께 하십시오.</span></div>
@@ -56,7 +49,7 @@
                                                     </div>
                                                     <div class="area-footer">
                                                         <div class="btn_wrap">
-                                                            <a id="popup_marketing1" class="btn btn_gray_line" role="button"><span>자세히 보기</span></a>
+                                                            <a class="btn btn_gray_line js-popup_marketing1" href="#" role="button"><span>자세히 보기</span></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -76,7 +69,7 @@
                                                     </div>
                                                     <div class="area-footer">
                                                         <div class="btn_wrap">
-                                                            <a id="popup_marketing2" class="btn btn_gray_line" role="button"><span>자세히 보기</span></a>
+                                                            <a class="btn btn_gray_line js-popup_marketing2" href="#" role="button"><span>자세히 보기</span></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -96,14 +89,13 @@
                                                     </div>
                                                     <div class="area-footer">
                                                         <div class="btn_wrap">
-                                                            <a id="popup_marketing3" class="btn btn_gray_line" role="button"><span>자세히 보기</span></a>
+                                                            <a class="btn btn_gray_line js-popup_marketing3" href="#" role="button"><span>자세히 보기</span></a>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </li>
                                         <li>
-
                                             <div class="banner">
                                                 <div class="img-area">
                                                     <img src="/images/pc/service/marketing_list-4.jpg" alt="서울옥션 아카데미와 함게 하십시요." />
@@ -117,7 +109,7 @@
                                                     </div>
                                                     <div class="area-footer">
                                                         <div class="btn_wrap">
-                                                            <a id="popup_marketing4" class="btn btn_gray_line" role="button"><span>자세히 보기</span></a>
+                                                            <a class="btn btn_gray_line js-popup_marketing4" href="#" role="button"><span>자세히 보기</span></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -136,7 +128,30 @@
                         <div class="content-panel type_panel-marketing">
                             <div class="panel-body">
                                 <!-- 문의하기 -->
-                                <jsp:include page="include/marketing_inquiry.jsp" />
+                                <article class="inquiry-article ">
+                                    <div class="inquiry-box">
+                                        <div class="typo-area">
+                                            <div class="icon-box">
+                                                <i class="icon-academy_inquiry"></i>
+                                            </div>
+                                            <div class="title-box">
+                                                <strong>문의하기</strong>
+                                            </div>
+                                            <div class="info-guide">
+                                                <div class="manager-box"> <span>서울옥션 홍보마케팅팀</span> <em>김현희 팀장</em> </div>
+                                                <div class="contact-box">
+                                                    <ul>
+                                                        <li><span>T.</span> <a href="tel:02-2075-4435"><em>02-2075-4435</em></a></li>
+                                                        <li><span>E.</span> <a href="mailto:hyunhee@seoulauction.com"><em>hyunhee@seoulauction.com</em></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="btn-area">
+                                            <a class="btn btn_gray_line" href="/mypage/inquiryForm" role="button"><span>1:1 문의</span></a>
+                                        </div>
+                                    </div>
+                                </article>
                                 <!-- //문의하기 -->
                             </div>
                         </div>
@@ -163,6 +178,6 @@
 
 <jsp:include page="include/marketing_layerPopup.jsp" />
 
-<script src="/js/service/marketing.js?ver=1.0" type="text/javascript"></script>
+<script src="/js/service/marketing.js" type="text/javascript"></script>
 </body>
 </html>

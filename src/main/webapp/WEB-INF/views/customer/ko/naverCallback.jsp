@@ -3,165 +3,126 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
 <!DOCTYPE html>
-<html lang="en">
-<script type="text/javascript">
-var search_kind = "";
-</script>
-<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+<html lang="ko">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.js"></script>
 <script defer src="https://unpkg.com/axios-extensions/dist/axios-extensions.js"></script>
 <script defer src="/js/common/axios.js" type="text/javascript"></script>
 <body>
 <!-- 		callback 처리중입니다. 이 페이지에서는 callback을 처리하고 바로 main으로 redirect하기때문에 이 메시지가 보이면 안됩니다. -->
 
-	<script>
-		var naverLogin = new naver.LoginWithNaverId({
-			clientId: "5qXZytacX_Uy60o0StGT",
-			isPopup: false,
-			callbackHandle: true
-		});
-
-		naverLogin.init();
-
-		function Request(){
-			this.getParameter = function(param){
-				var requestParam ="";
-				var url = unescape(location.href);
-				var paramArr = (url.substring(url.indexOf("?")+1,url.length)).split("&");
-
-				for(var i = 0 ; i < paramArr.length ; i++){
-				   var temp = paramArr[i].split("=");
-				   if(temp[0].toUpperCase() == param.toUpperCase()){
-					 requestParam = paramArr[i].split("=")[1];
-					 break;
-				   }
+<script>
+	var langType = document.documentElement.lang;
+	var type = "${type}";
+	var custSocialEmail = "${custSocialEmail}";
+	console.log(type);
+	
+	window.onload = function() {
+		if(type=="snsLink"){
+			snsLink("NV", "${email}");
+		}else if(type=="login"){
+			submitJoin("NV", "${name}", "${email}");
+		}else if(type=="custConfirm"){
+			if(custSocialEmail === "${email}"){
+				if(langType == 'ko'){
+					alert("연결 되었습니다.");
+				}else{
+					alert("Connected.");
 				}
-				return requestParam;
+				let f = document.createElement('form');
+			    f.setAttribute('method', 'post');
+			    f.setAttribute('action', '/mypage/custModify');
+			    document.body.appendChild(f);
+			    f.submit();
+			}else{
+				alert("가입한 계정과 다른 소셜계정으로 로그인하셨습니다.");
+				var width = window.innerWidth;
+				if(width < 1023){ //mobile
+					location.href = "/mypage/main";
+		        }else{ //pc
+		        	location.href = "/mypage/liveBidReqList";
+		        }
 			}
 		}
+	};
+	
+	// 회원가입
+	function submitJoin(socialType, name, email) {
+		//기가입체크
+		let data = {};
+	    data['social_type'] = socialType;
+	    data['social_email'] = email;
 
-		var request = new Request();
-		var action = request.getParameter("action");
-		console.log('action : ' + action)
-
-		function socialLogin(data){
-			axios.post('/api/login/social' , data)
+	    axios.post('/api/login/isCustSocialExist' , data)
+		    .then(function(response) {
+		        const result = response.data;
+		        console.log(result)
+		        if(result.data != undefined){
+					if(result.data.STAT_CD == "not_certify"){
+						//기가입 + 미인증 = 안내메세지
+						$("#alertMsg").html("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
+						popup_alert.open(this); // or false
+//						alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
+					}else{
+						//기가입 + 상태normal = 로그인처리
+						socialLogin(data);
+					}
+				}else{
+					//미가입 = 회원가입페이지이동
+					var form = document.getElementById('joinForm');
+					form.submit();
+				}
+		    })
+		    .catch(function(error){
+		        console.log(error);
+		    });
+	}
+	
+	// 로그인
+	function socialLogin(data) {
+		axios.post('/api/login/social', data)
 			.then(function(response) {
-				var result = response.data;
-				if(result.success){
+				console.log(response)
+				if(response.data.success == true){
 					var expire = new Date();
 					expire.setDate(expire.getDate() + 30);
-					document.cookie = 'recentSocialType=NV; path=/; expires=' + expire.toGMTString() + ';';
-					opener.location.replace("/");
+					document.cookie = 'recentSocialType=' + "NV" + '; path=/; expires=' + expire.toGMTString() + ';';
+					location.href = "/";
 				}else{
 					if(response.data.data.msg == "Not Certify User"){
-						opener.alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
-					}else if(response.data.data.msg == "User not found."){
-						//미가입 = 회원가입페이지이동
-						opener.document.getElementById("name").value = naverLogin.user.name;
-						opener.document.getElementById("mobile").value = naverLogin.user.mobile;
-						opener.document.getElementById("email").value = naverLogin.user.email;
-						opener.document.getElementById("joinForm").action = '/joinForm?socialType=NV';
-						opener.document.getElementById("joinForm").submit();
+						alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
 					}
 				}
-				window.close();
 			})
-			.catch(function(error){
+			.catch(function(error) {
 				console.log(error);
 			});
-		}
-
-		window.addEventListener('load', function () {
-			naverLogin.getLoginStatus(function (status) {
-				if (status) {
-					console.log(naverLogin);
-					var email = naverLogin.user.getEmail();
-					if(email == undefined || email == null) {
-						alert("이메일은 필수정보입니다. 정보제공을 동의해주세요.");
-						naverLogin.reprompt();
-						return;
-					}
-					if(action.startsWith("login")){
-						document.getElementById('social_type').value = "NV";
-						document.getElementById('social_email').value = naverLogin.user.email;
-
-						var form = document.querySelector('#loginForm');
-						var formData = new FormData(form);
-						var data = {};
-						formData.forEach((value, key) => (data[key] = value));
-						socialLogin(data);
-
-					}else if(action.startsWith("join")){
-						let data = {};
-						data['social_type'] = "NV";
-						data['social_email'] = naverLogin.user.email;
-						axios.post('/api/login/isCustSocialExist' , data)
-							.then(function(response) {
-								const result = response.data;
-								console.log(result)
-								if(result.data != undefined){
-									if(result.data.STAT_CD == "not_certify"){
-										//기가입 + 미인증 = 안내메세지
-										opener.alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
-										window.close();
-									}else{
-										//기가입 + 상태normal = 로그인처리
-										socialLogin(data);
-									}
-								}else{
-									//미가입 = 회원가입페이지이동
-									opener.document.getElementById("name").value = naverLogin.user.name;
-									opener.document.getElementById("mobile").value = naverLogin.user.mobile;
-									opener.document.getElementById("email").value = naverLogin.user.email;
-									opener.document.getElementById("joinForm").action = '/joinForm?socialType=NV';
-									opener.document.getElementById("joinForm").submit();
-									window.close();
-								}
-							})
-							.catch(function(error){
-								console.log(error);
-							});
-
-					}else if(action.startsWith("snsLink")){
-						var data = {};
-						data['social_type'] = "NV";
-						data['social_email'] = naverLogin.user.email;
-						axios.post('/api/mypage/snsLink', data)
-							.then(function(response) {
-								const result = response.data;
-								if(result.success == false){
-									opener.alert(result.data.msg)
-								}else{
-									opener.location.reload();
-								}
-								window.close();
-							})
-							.catch(function(error) {
-								console.log(error);
-							});
-					}else if(action.startsWith("socialConfirm")){
-						opener.parent.socialConfirm(naverLogin.user.email)
-						window.close();
-
-					}
-				} else {
-					console.log("callback 처리에 실패하였습니다.");
+	}
+	
+	// SNS연동
+	function snsLink(socialType, socialEmail) {
+		var data = {};
+		data['social_type'] = socialType;
+		data['social_email'] = socialEmail;
+		axios.post('/api/mypage/snsLink', data)
+			.then(function(response) {
+				const result = response.data;
+				console.log(result);
+				if(result.success){
+					location.href = "/mypage/snsLink"
+				}else{
+					alert(result.data.msg)
+					location.href = "/mypage/snsLink";
 				}
+			})
+			.catch(function(error) {
+				console.log(error);
 			});
-		});
-	</script>
+	}
+</script>
 </body>
 <form id="joinForm" action="/joinForm?socialType=NV" method="post">
-	<input type="hidden" id="name" name="name" />
-	<input type="hidden" id="email" name="email" />
-	<input type="hidden" id="mobile" name="mobile" />
-</form>
-
-<form id="loginForm" method="post">
-	<input type="hidden" name="social_type" id="social_type"/>
-	<input type="hidden" name="social_email" id="social_email"/>
+	<input type="hidden" id="name" name="name" value="${name }"/>
+	<input type="hidden" id="email" name="email" value="${email }"/>
 </form>
 </html>

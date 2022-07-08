@@ -7,9 +7,6 @@
         <!-- header -->
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <!-- //header -->
-        <script>
-            app.value('locale', 'ko');
-        </script>
 
         <!-- container -->
         <div id="container">
@@ -80,8 +77,6 @@
                                         <div class="title"><span class="tt2">위탁절차</span></div>
                                     </div>
                                     <div class="article-body">
-
-
                                         <div class="cont-sub">
                                             <div class="sell_item-title">
                                                 <div class="step">STEP 01</div>

@@ -5,8 +5,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
-
 <spring:eval expression="@environment.getProperty('social.service.domain')" var="socialServiceDomain" />
+<script>
+	var socialServiceDomain = '${socialServiceDomain}'
+</script>
 
 <body class="">
 	<div class="wrapper">
@@ -61,7 +63,6 @@
                                                             </div>
                                                             <div class="btn-wrap">
                                                                 <button class="btn btn_point btn_sm" id="NVButton" type="button" onclick="naverButtonClick()"><span>연동하기</span></button>
-                                                                <div id="naverIdLogin" style="display:none"></div>
                                                             </div>
                                                         </li>
                                                         <li>
@@ -136,15 +137,8 @@
 
     <script>
         var socialServiceDomain = '${socialServiceDomain}'
-        console.log(socialServiceDomain);
-        console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
     </script>
 
-    <!-- 카카오 -->
-    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-    <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
-    <!-- 네이버 -->
-    <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2-nopolyfill.js" charset="utf-8"></script>
     <!--  구글 -->
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
     <script src="https://apis.google.com/js/api:client.js"></script>

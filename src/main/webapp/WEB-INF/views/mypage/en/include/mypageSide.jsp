@@ -11,7 +11,7 @@
 <sec:authentication property="Details.validDate" var="validDate"/> 
 
 <!-- 마이페이지 싸이드 메뉴 -->
-<aside class="aside-area"  ng-controller="myPageCtl" ng-init="loadMemberInfo()">
+<aside class="aside-area"  ng-controller="myPageCtl" ng-init="loadMemberInfo()" ng-cloak>
 	<div class="aside-inner">
 		<div class="mem-infobox-wrap">
 			<div class="mem-name-wrap">
@@ -25,10 +25,11 @@
 			</div>
 			
 			
+			
 			<div class="mem-info-wrap" ng-if="userRole=='1'">
 				<div class="mem-lv-box">
 					 <div class="mem-lv lv-2">Subscription Member</div>
-					 <div class="mem-period">${validDate}</div>
+					 <div class="mem-period">{{validDate}}</div>
 				</div>
 				<div class="mem-record-box">
 					<a href="#" class="record-button js-popup_memlv2_record" ng-click="showMemHisPopup(this);">Membership History</a> 

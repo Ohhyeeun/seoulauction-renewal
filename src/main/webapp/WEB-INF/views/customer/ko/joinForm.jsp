@@ -215,7 +215,7 @@
 										<div class="form_body">
 											<div class="input-group">
 												<input type="text" tabindex="13" ng-click="employeeSearch()" name="emp_no" id="emp_no" class="form-control" placeholder="" readonly>
-												<button ng-hide="emp_name_txt != '' && emp_name_txt != undefined" class="btn btn_light_gray_line" ng-click="employeeSearch()" type="button"><span>직원 검색</span></button>
+												<button class="btn btn_light_gray_line" ng-click="employeeSearch()" type="button"><span>직원 검색</span></button>
 											</div>
 											<!-- [0516]UI변경 -->
 											<div class="label_list_box" ng-show="emp_name_txt != '' && emp_name_txt != undefined">
@@ -625,7 +625,7 @@
 														<td>{{emp.DEPT_NAME}}</td>
 														<td>{{emp.EMP_NAME}}</td>
 													</tr>
-													<tr ng-if="employeeList == undefined">
+													<tr ng-if="empLength == 0">
 														<td colspan="2">
 															<div class="data-empty_mem tb1">
 																검색결과가 없습니다.

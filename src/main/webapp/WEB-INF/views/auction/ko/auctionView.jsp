@@ -6,12 +6,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
-<style>
-    .select2-container {
-        z-index: 999;
-    }
-</style>
-
 <body class="">
 <div class="wrapper">
     <%--    <link rel="stylesheet" href="/css/plugin/csslibrary.css">--%>
@@ -30,10 +24,10 @@
                                         <div class="row-box">
                                             <div class="col_item">
                                                 <div class="page_title">
-                                                    <a href="#" onclick="window.history.back()" title="뒤로가기">
+                                                    <a href="/auction/list/{{saleInfo.SALE_NO}}" title="뒤로가기">
                                                         <i class="icon-page_back"></i>
                                                     </a>
-                                                    <span ng-bind="saleInfo.SALE_TITLE_KO"></span>
+                                                    <span ng-bind="sale | title"></span>
                                                 </div>
                                             </div>
                                             <div class="col_item">
@@ -88,11 +82,10 @@
                                     <div class="col_item">
                                         <article class="product_view-article">
                                             <div class="view_row">
-                                                <div class="viewer-area">
-                                                    <div class="gallery_visual js-view_visual">
+                                                <div class="viewer-area js-view_visual">
+                                                    <div class="gallery_visual">
                                                         <div class="gallery_center">
-                                                            <div class="swiper-wrapper">
-                                                                <!--  -->
+                                                            <div class="swiper-wrapper js-popup_images">
                                                                 <div ng-repeat="item in lotImages"
                                                                      ng-class="{'swiper-slide':$index>-1,'swiper-slide-active':$index == 0}"
                                                                      data-index="$index">
@@ -100,7 +93,7 @@
                                                                         <figure class="img-ratio">
                                                                             <div class="img-align">
                                                                                 <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                                     alt="">
+                                                                                     alt=""/>
                                                                             </div>
                                                                         </figure>
                                                                     </div>
@@ -143,7 +136,7 @@
                                                 </div>
                                             </div>
                                             <div class="view_scale-area"
-                                                 ng-if="lotInfo.VIEW_SCALE_YN == 'Y' && lotInfo.SIZE1 > 160">
+                                                 ng-if="lotInfo.VIEW_SCALE_YN == 'Y'">
                                                 <a class="js-popup_image_viewer" href="#"><i
                                                         class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
@@ -182,7 +175,7 @@
                                             <div class="artist-area">
                                                 <div class="name">
                                                     <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT"></strong>
-                                                    <span></span>
+                                                    <span ng-bind="'b.' + lotInfo.BORN_YEAR">b.1990</span>
                                                 </div>
                                                 <div class="desc">
                                                     <span class="text-over span_block"
@@ -198,10 +191,10 @@
                                                     <dt>시작가</dt>
                                                     <dd id="start_cost"><!--WEB SOCKET--></dd>
                                                 </dl>
-                                                <dl class="price-list">
-                                                    <dt>현재가</dt>
-                                                    <dd><strong id="cur_cost"><!--WEB SOCKET--></strong><em
-                                                            id="bid_cnt">(응찰 <!--WEB SOCKET-->)</em></dd>
+                                                <dl id="cur_cost_layer" class="price-list">
+                                                    <dt id="cur_cost_text2"></dt>
+                                                    <dd><strong id="cur_cost" ng-bind=""><!--WEB SOCKET--></strong><em
+                                                            id="bid_cnt"></em></dd>
                                                 </dl>
                                                 <dl class="price-list">
                                                     <dt>마감일</dt>
@@ -226,7 +219,7 @@
                                                             <a class="btn btn_black btn_2 btn_lg js-popup_alert1"
                                                                role="button">
                                                                 <em>현재가 기준</em>
-                                                                <strong>1,584,000</strong>
+                                                                <strong id="cost_add_vat"></strong>
                                                             </a>
                                                         </div>
                                                     </div>
@@ -276,7 +269,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="info-box">
+                                        <div class="info-box" id="artist_layer">
                                             <div class="title">작가정보</div>
                                             <div class="desc" id="artistName">
                                             </div>
@@ -292,7 +285,7 @@
                             </div>
                             <div class="panel-footer">
                                 <article class="product_recent_work-article">
-                                    <div class="article-header">
+                                    <div class="article-header" ng-show="recentlyViews.length > 0">
                                         <div class="title"><span>이 경매의 최근 본 작품</span></div>
                                     </div>
                                     <div class="article-body">
@@ -371,51 +364,25 @@
 
                             <div class="trp-dropdown_list-box" data-trp-focusid="js-user_support">
                                 <div class="search-box">
-                                    <input type="search" placeholder="LOT 번호 입력" id="" class="">
+                                    <input id="search_lot_mb" type="search" placeholder="LOT 번호 입력" id="" class="">
                                     <i class="form-search_md"></i>
                                 </div>
                                 <div class="list-box scroll-type">
-                                    <ul>
-                                        <li>
-                                            <a href="#">
+                                    <ul id="sale_lot_list_mb">
+                                        <li ng-repeat="item in saleImages"
+                                             data-index="{{item.LOT_NO}}">
+                                            <a href="javascript:void(0);" ng-click="goLot(item.SALE_NO,item.LOT_NO)">
                                                 <div class="image-area">
                                                     <figure class="img-ratio">
                                                         <div class="img-align">
-                                                            <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                            <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
                                                         </div>
                                                     </figure>
                                                 </div>
                                                 <div class="typo-area">
-                                                    <span>LOT 10</span>
+                                                    <span ng-bind="'LOT ' + item.LOT_NO"></span>
                                                 </div>
                                             </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="image-area">
-                                                    <figure class="img-ratio">
-                                                        <div class="img-align">
-                                                            <img src="/images/pc/thumbnail/auction02.jpg" alt="">
-                                                        </div>
-                                                    </figure>
-                                                </div>
-                                                <div class="typo-area">
-                                                    <span>LOT1</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li><a href="#">
-                                            <div class="image-area">
-                                                <figure class="img-ratio">
-                                                    <div class="img-align">
-                                                        <img src="/images/pc/thumbnail/auction03.jpg" alt="">
-                                                    </div>
-                                                </figure>
-                                            </div>
-                                            <div class="typo-area">
-                                                <span>LOT2</span>
-                                            </div>
-                                        </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -431,6 +398,7 @@
                 <input type="hidden" id="lot_no" value="{{lot_no}}"/>
             </div>
         </div>
+        <!-- //[0516] 이미지 팝업 -->
         <!-- //container -->
 
         <!-- footer -->
@@ -480,9 +448,9 @@
                                                 </div>
                                             </div>
                                             <div class="typo-body">
-                                                <span>spray paint on canvas</span>
+                                                <span id="lot_mt_nm"></span>
                                                 <ul>
-                                                    <li>80.9 X73.4cm</li>
+                                                    <li id="lot_size"></li>
                                                     <li>2021</li>
                                                 </ul>
                                             </div>
@@ -501,7 +469,7 @@
                                     </div>
                                     <div class="product-list-area">
                                         <div class="list-header">
-                                            <div class="price-name"><span>현재가</span></div>
+                                            <div class="price-name"><span id="cur_cost_text">현재가</span></div>
                                             <div class="price-amount"><em id="bid_cost_val"></em> <span
                                                     id="bid_cost_cnt"></span></div>
                                         </div>
@@ -534,7 +502,7 @@
                                         </div>
                                         <div class="btn_set type-pc_mb-column">
                                             <div class="btn_item">
-                                                <div class="select-box ">
+                                                <div id="reservation_bid_layer" class="select-box ">
                                                     <!-- disabled 옵션 -->
                                                     <select class="select2Basic56_line" id="reservation_bid">
                                                     </select>
@@ -586,6 +554,178 @@
                                 <button class="page_next"><i class="icon-view_paging_right"></i></button>
                             </div>
                         </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [0516] 이미지 뷰어 팝업 -->
+<div id="popup_images-wrap" class="trp popupfixed-wrap images-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                    </div>
+                    <div class="pop-body">
+                        <article class="viewer-article js-zoom_inout">
+                            <div class="gallery_view js-imagesSwiper" style="">
+                                <div class="gallery_center">
+                                    <div id="swiper-wrapper_popup"  class="swiper-wrapper">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        <div class="page_prev"><i class="icon-img_swiper_prev"></i></div>
+                        <div class="page_next"><i class="icon-img_swiper_next"></i></div>
+                    </div>
+                    <div class="pop-footer">
+                        <div class="pagination js-imagesSwiper_pagination"></div>
+                        <article class="thumbnail-article">
+                            <ul id="thumbnail_image" class="thumbnail-list js-thumbnail-list">
+                            </ul>
+                        </article>
+                        <!-- [0516]이동 -->
+                        <div class="zoom-box">
+                            <div class="btnitem">
+                                <button class="zoomout js-zoomout"><i class="icon-zoom_out"></i></button>
+                            </div>
+                            <div class="btnitem">
+                                <button class="zoomin js-zoomin"><i class="icon-zoom_in"></i></button>
+                            </div>
+                        </div>
+                        <!-- //[0516]이동 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 응찰하기 -->
+<div id="bidding_go-wrap" class="trp popupfixed-wrap auction_info-popup  ">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-ms mode-mb_center">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                    </div>
+                    <div class="pop-body scroll-type">
+                        <section class="section" style="display: block;">
+                            <article class="auction_info-article">
+                                <div class="img">
+                                    <img class="only_ib-pc"
+                                         src="/images/pc/auction/symbol-none_data.png" alt="안내"/>
+                                    <img class="only_ib-mb"
+                                         src="/images/pc/auction/symbol-none_data.png" alt="안내"/>
+                                </div>
+                                <div class="title"><span>Seoul Auction 안내</span></div>
+                                <div class="gray-box">
+                                    <ul class="mark_dot-list">
+                                        <li>자동응찰 중지하기 전까지의 응찰 낙찰 내역은 모두 기록되며 유효합니다.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="query"><span>응찰 하시겠습니까?</span></div>
+                                <div class="btn_set">
+                                    <a id="auto_on_cancel" class="btn btn_default" href="#"
+                                       role="button"><span>취소</span></a>
+                                    <a id="auto_on_ok" class="btn btn_point" href="#"
+                                       role="button"><span>응찰하기</span></a>
+                                </div>
+                            </article>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 응찰중지 -->
+<div id="bidding_stop-wrap" class="trp popupfixed-wrap auction_info-popup  ">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-ms mode-mb_center">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                    </div>
+                    <div class="pop-body scroll-type">
+                        <section class="section" style="display: block;">
+                            <article class="auction_info-article">
+                                <div class="img">
+                                    <img class="only_ib-pc"
+                                         src="/images/pc/auction/symbol-none_data.png" alt="안내"/>
+                                    <img class="only_ib-mb"
+                                         src="/images/pc/auction/symbol-none_data.png" alt="안내"/>
+                                </div>
+                                <div class="title"><span>Seoul Auction 안내</span></div>
+                                <div class="gray-box">
+                                    <ul class="mark_dot-list">
+                                        <li>자동응찰 중지는 자동 응찰 취소가 아닙니다.</li>
+                                        <li>비딩이 올라간 상태에서 정지됩니다.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="query"><span>자동 응찰을 중지 하시겠습니까?</span></div>
+                                <div class="btn_set">
+                                    <a id="auto_off_cancel" class="btn btn_default" href="#"
+                                       role="button"><span>취소</span></a>
+                                    <a id="auto_off_ok" class="btn btn_point" href="#"
+                                       role="button"><span>자동응찰 중지</span></a>
+                                </div>
+                            </article>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="popup_images-wrap" class="trp popupfixed-wrap images-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                    </div>
+                    <div class="pop-body">
+                        <article class="viewer-article js-zoom_inout">
+                            <div class="gallery_view js-imagesSwiper" style="">
+                                <div class="gallery_center">
+                                    <div id="swiper-wrapper_popup"  class="swiper-wrapper">
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        <div class="page_prev"><i class="icon-img_swiper_prev"></i></div>
+                        <div class="page_next"><i class="icon-img_swiper_next"></i></div>
+                    </div>
+                    <div class="pop-footer">
+                        <div class="pagination js-imagesSwiper_pagination"></div>
+                        <article class="thumbnail-article">
+                            <ul id="thumbnail_image" class="thumbnail-list js-thumbnail-list">
+                            </ul>
+                        </article>
+                        <!-- [0516]이동 -->
+                        <div class="zoom-box">
+                            <div class="btnitem">
+                                <button class="zoomout js-zoomout"><i class="icon-zoom_out"></i></button>
+                            </div>
+                            <div class="btnitem">
+                                <button class="zoomin js-zoomin"><i class="icon-zoom_in"></i></button>
+                            </div>
+                        </div>
+                        <!-- //[0516]이동 -->
                     </div>
                 </div>
             </div>
@@ -725,6 +865,19 @@
 
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
 
+    // 현재가 처리
+    app.filter('title', function (locale) {
+        return function (val, l) {
+            if (!l) l = locale;
+            if (val != "") {
+                if (l == "ko") return "제" + val.SALE_TH + "회" + " " + val.TITLE_JSON.ko;
+                var s = ["th", "st", "nd", "rd"],
+                    v = val.SALE_TH % 100;
+                return val.SALE_TH + (s[(v - 20) % 10] || s[v] || s[0]) + " " + val.TITLE_JSON.ko;
+            }
+        };
+    })
+
     app.controller('ctl', function ($scope, consts, common, is_login, locale, $filter) {
 
         $scope.is_login = is_login;
@@ -736,6 +889,8 @@
 
         $scope.is_sale_cert = false;
         $scope.cust_hp = "";
+
+        $scope.onStateCostTxt = "";
 
         // 호출 부
         const getSaleInfo = (saleNo) => {
@@ -813,6 +968,14 @@
             }
         }
 
+        const setSale = (saleNo) => {
+            try {
+                return axios.get('/api/auction/sales/' + saleNo);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
         $scope.popSet = function (saleNo, lotNo, userId, custNo) {
             if (sessionStorage.getItem("is_login") === 'false') {
                 let login_message = (getCookie('lang') === "" || getCookie('lang') === 'ko') ?
@@ -822,7 +985,10 @@
                 return
             }
 
-            const is_sale_cert = $scope.is_sale_cert;
+            let is_sale_cert = $scope.is_sale_cert;
+
+            is_sale_cert = true;
+
             if (!is_sale_cert) {
                 popup_offline_payment.open(this); // or false
                 popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
@@ -905,66 +1071,59 @@
             alert('URL이 복사되었습니다.');
         }
 
-        $scope.setSale = async function (saleNo) {
-            await axios.get('/api/auction/sales/' + saleNo)
-                .then(function (response) {
-                    if (response.data.success) {
-                        $scope.sale = response.data.data;
-                        $scope.sale.TITLE_JSON = JSON.parse($scope.sale.TITLE_JSON);
-                        $scope.sale.buttonList.map(item => {
-                            item.content = JSON.parse(item.content);
-                        });
-
-                        var S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
-                        var S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
-                        var FROM_DT = $filter('date')($scope.sale.FROM_DT, 'yyyyMMdd');
-                        var TO_DT = $filter('date')($scope.sale.TO_DT, 'yyyyMMdd');
-                        var END_DT = $filter('date')($scope.sale.END_DT, 'yyyyMMddHHmm');
-                        var LIVE_START_DT = $filter('date')($scope.sale.LIVE_BID_DT, 'yyyyMMddHHmm');
-                        // 오프라인 경매인 경우에는 SALE.TO_DT는 YYYY.MM.DD로 체크. 비교 서버시간은 S_DB_NOW_D (YDH. 2016.10.05)
-
-                        //라이브 응찰 시간 체크
-                        $scope.liveEnd = TO_DT;
-                        $scope.nowTime = S_DB_NOW;
-                        $scope.liveStartDt = LIVE_START_DT;
-                        $scope.liveCheckDt = S_DB_NOW;
-
-                        if (FROM_DT > S_DB_NOW && END_DT > S_DB_NOW) {
-                            $scope.sale_status = "READY";
-                        } else if (FROM_DT <= S_DB_NOW && END_DT >= S_DB_NOW) {
-                            $scope.sale_status = "ING";
-                        } else {
-                            $scope.sale_status = "END";
-
-                            if (sessionStorage.getItem("is_login") === 'false') {
-                                alert("권한이 없거나 허용되지 않은 접근입니다.");
-                                //history_back();
-                            }
-                        }
-                        $scope.$apply();
-                    }
-                });
-        }
-
         // 호출 부
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3, r4, _, r6] = await Promise.all([getSaleInfo($scope.sale_no),
+                let [r1, r2, r3, r4, _, r6, r7] = await Promise.all([getSaleInfo($scope.sale_no),
                     getLotInfo($scope.sale_no, $scope.lot_no),
                     getLotImages($scope.sale_no, $scope.lot_no),
                     getSaleImages($scope.sale_no, $scope.lot_no),
                     insertRecentlyView($scope.sale_no, $scope.lot_no),
-                    getRecentlyView($scope.sale_no, $scope.lot_no)]);
+                    getRecentlyView($scope.sale_no, $scope.lot_no),
+                    setSale($scope.sale_no)]);
 
                 $scope.saleInfo = r1.data.data;
                 $scope.lotInfo = r2.data.data;
                 $scope.lotImages = r3.data.data;
                 $scope.saleImages = r4.data.data;
+
                 $scope.estimatedRange = $scope.lotInfo.BASE_EXPE_FROM_PRICE + ' ~ '
                     + $scope.lotInfo.BASE_EXPE_TO_PRICE;
 
                 $scope.recentlyViews = r6.data.data;
 
+                $scope.sale = r7.data.data;
+
+                $scope.sale.TITLE_JSON = JSON.parse($scope.sale.TITLE_JSON);
+                $scope.sale.buttonList.map(item => {
+                    item.content = JSON.parse(item.content);
+                });
+
+                let S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
+                let S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
+                let FROM_DT = $filter('date')($scope.sale.FROM_DT, 'yyyyMMdd');
+                let TO_DT = $filter('date')($scope.sale.TO_DT, 'yyyyMMdd');
+                let END_DT = $filter('date')($scope.sale.END_DT, 'yyyyMMddHHmm');
+                let LIVE_START_DT = $filter('date')($scope.sale.LIVE_BID_DT, 'yyyyMMddHHmm');
+
+                //라이브 응찰 시간 체크
+                $scope.liveEnd = TO_DT;
+                $scope.nowTime = S_DB_NOW;
+                $scope.liveStartDt = LIVE_START_DT;
+                $scope.liveCheckDt = S_DB_NOW;
+
+                if (FROM_DT > S_DB_NOW && END_DT > S_DB_NOW) {
+                    $scope.sale_status = "READY";
+                } else if (FROM_DT <= S_DB_NOW && END_DT >= S_DB_NOW) {
+                    $scope.sale_status = "ING";
+                } else {
+                    $scope.sale_status = "END";
+
+                    if (sessionStorage.getItem("is_login") === 'false') {
+                        alert("권한이 없거나 허용되지 않은 접근입니다.");
+                        //history_back();
+                    }
+                }
                 //artist 번호
                 $scope.artistNo = $scope.lotInfo.ARTIST_NO;
                 console.log("125540", $scope.artistNo);
@@ -979,27 +1138,29 @@
                 $("#born_year").html("(" + $scope.lotInfo.BORN_YEAR + ")");
 
                 $("#lot_title").html("LOT " + $scope.lotInfo.LOT_NO);
-                // 시작
+                $("#lot_size").html(size_text_cm($scope.lotInfo.LOT_SIZE_JSON));
+                $("#lot_mt_nm").html($scope.lotInfo.MATE_NM);
+
                 console.log("125540", $scope.cust_no);
                 startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2,
                     '${member.loginId}', $scope.cust_no);
 
-                await $scope.setSale($scope.sale_no);
+                //await $scope.setSale($scope.sale_no);
                 //get sale cert
                 if (sessionStorage.getItem("is_login") === 'true') {
-                    if($scope.sale_status == "ING"){
+                    if ($scope.sale_status == "ING") {
                         await axios.get('/api/cert/sales/${saleNo}')
-                        .then(function (response) {
-                            if (response.data.success) {
-                                if (response.data.data.CNT > 0) {
-                                    $scope.is_sale_cert = true;
-                                } else {
-                                    $scope.popSet();
+                            .then(function (response) {
+                                if (response.data.success) {
+                                    if (response.data.data.CNT > 0) {
+                                        $scope.is_sale_cert = true;
+                                    } else {
+                                        $scope.popSet();
+                                    }
+                                    $("#cust_hp").val(response.data.data.HP);
+                                    $scope.cust_hp = response.data.data.HP;
                                 }
-                                $("#cust_hp").val(response.data.data.HP);
-                                $scope.cust_hp = response.data.data.HP;
-                            }
-                        });
+                            });
                     }
 
                     await axios.get('/api/mypage/manager')
@@ -1078,6 +1239,7 @@
                 });
 
                 let sale_images = $scope.saleImages;
+                let lot_images = $scope.lotImages;
 
                 $.each(sale_images, function (index, el) {
                     let size1 = 0;
@@ -1092,21 +1254,57 @@
                     }
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
                     let swiper_slide_item = '';
+                    //if (size1 > 160) {
+                    swiper_slide_item =  `<div class="swiper-slide">
+                        <div class="img-area">
+                            <div class="img-box">
+                                <div class="size_x"><span>` + size2 + unitCd + `</span></div>
+                                <div class="size_y"><span>` + size1 + unitCd + `</span></div>
+                                <div class="images">
+                                    <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `"
+                                         size2="` + size2 + `" lot_no="` + lot_no + `"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+                    $("#swiper-wrapper").append(swiper_slide_item);
+                });
 
-                    if (size1 > 160) {
-                        swiper_slide_item = `<div class="swiper-slide">
+                console.log(lot_images);
+
+                $.each(lot_images, function (index, el) {
+
+                    let popup_lot_no = el.LOT_NO;
+                    let popup_img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
+                    let popup_swiper_slide_item = '';
+                    let popup_swiper_mini_slide_item = '';
+
+                    //if (size1 > 160) {
+                    popup_swiper_slide_item = `<div class="swiper-slide">
                                             <div class="img-area">
                                                 <div class="img-box">
-                                                    <div class="size_x"><span>` + size2 + unitCd + `</span></div>
-                                                    <div class="size_y"><span>` + size1 + unitCd + `</span></div>
                                                     <div class="images">
-                                                        <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + lot_no + `" />
+                                                        <img class="imageViewer" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
                                                     </div>
                                                 </div>
                                             </div>
                         </div>`
-                        $("#swiper-wrapper").append(swiper_slide_item);
-                    }
+                    $("#swiper-wrapper_popup").append(popup_swiper_slide_item);
+
+
+                    popup_swiper_mini_slide_item = `<li class="active">
+                                            <a href="#">
+                                                <div class="imgs-item">
+                                                    <figure class="img-ratio">
+                                                        <div class="img-align">
+                                                            <img src="` + popup_img_url + `" alt="" />
+                                                        </div>
+                                                    </figure>
+                                                    <div class="line"></div>
+                                                    </div>
+                                                </a>
+                                            </li>`
+                    $("#thumbnail_image").append(popup_swiper_mini_slide_item);
                 });
 
                 /* 싸이즈 버튼 */
@@ -1140,7 +1338,8 @@
                 });
 
 
-                var popup_image_viewer = $(".js-popup_image_viewer").trpLayerFixedPopup("#popup_image_viewer-wrap");
+                var popup_image_viewer =
+                    $(".js-popup_image_viewer").trpLayerFixedPopup("#popup_image_viewer-wrap");
                 $(popup_image_viewer.getBtn).on("click", function ($e) {
                     $e.preventDefault();
                     popup_image_viewer.open(this); // or false
@@ -1167,102 +1366,263 @@
                     imagesResizePcMb();
                 });
 
-
-                $("body").on("click", "#popup_image_viewer-wrap .js-closepop, #popup_image_viewer-wrap .popup-dim", function ($e) {
+                $("body").on("click", "#popup_image_viewer-wrap .js-closepop, #popup_image_viewer-wrap .popup-dim", function($e) {
                     $e.preventDefault();
                     popup_image_viewer.close();
                 });
 
-                // lot
-                $("#search_lot").on("keyup", function () {
-                    window.event.preventDefault();
-                    let v = $("#search_lot").val();
-                    if (v.length == 0) {
-                        $("#sale_lot_list li").each(function (i, item) {
+            // lot
+            $("#search_lot, #search_lot_mb").on("keyup", function () {
+                window.event.preventDefault();
+                let v = $(this).val();
+                if (v.length == 0) {
+                    $("#sale_lot_list li").each(function (i, item) {
+                        $(item).css("display", "");
+                    })
+                    $("#sale_lot_list_mb li").each(function (i, item) {
+                        $(item).css("display", "");
+                    })
+                    return
+                } else {
+                    $("#sale_lot_list li").each(function (i, item) {
+                        if ($(item).attr('data-index').toString() != v) {
+                            $(item).css("display", "none");
+                        } else {
                             $(item).css("display", "");
-                        })
-                        return
-                    } else {
-                        $("#sale_lot_list li").each(function (i, item) {
-                            if ($(item).attr('data-index').toString() != v) {
-                                $(item).css("display", "none");
-                            } else {
-                                $(item).css("display", "");
-                            }
-                        })
-                    }
-                })
-
-                // sns
-                let toggle_sns = $(".js-sns_share").trpToggleBtn(
-                    function ($this) {
-                        $($this).addClass("on");
-                        $($this).closest(".btn-box").find(".sns_layer-area").fadeIn("fast");
-                    },
-                    function ($this) {
-                        $($this).removeClass("on");
-                        $($this).closest(".btn-box").find(".sns_layer-area").fadeOut("fast");
-                    });
-
-                $(".js-share_kakao, .js-share_url").on("click", function ($e) {
-                    $e.preventDefault();
-                    toggle_sns.toggleAllSet(false);
-                })
-
-                //작가 정보 admin에서 가져오도록 로직변경
-                axios.get('/api/auction/artist_info/' + $scope.artistNo)
-                    .then(function (response) {
-
-                        const data = response.data;
-                        let success = data.success;
-
-                        if (success) {
-                            let artistData = data.data;
-                            if (!artistData) {
-                            } else {
-                                let articlesList = JSON.parse(artistData.articles).articles;
-                                let artistYoutubeImages = JSON.parse(artistData.media).youtube;
-                                let artistImageList = artistData.images;
-
-                                let title = '';
-                                $.each(articlesList, function (index, el) {
-                                    if (locale == 'ko') {
-                                        title += el.titleKo + '</br>';
-                                    } else {
-                                        title += el.titleEn + '</br>';
-                                    }
-                                });
-
-                                $("#artistName").html(JSON.parse(artistData.name).ko + ' ' + artistData.birth + '~' + artistData.death);
-                                $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
-
-                                let html = '<div class="vide_img-box">';
-                                $.each(artistYoutubeImages, function (index, el) {
-                                    $.each(artistImageList, function (s3Index, el) {
-                                        //일단은 youtube만 뿌리기로
-                                        if (artistImageList[s3Index].tag == 'youtube' + index) {
-                                            html += '<a href="' + artistYoutubeImages[index] + '"><img src=" ' + artistImageList[s3Index].cdn_url + ' " alt="" /></a>';
-                                        }
-                                    });
-                                });
-                                html += '</div>';
-                                $("#artistMedia").html(html);
-                            }
                         }
                     })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                    $("#sale_lot_list_mb li").each(function (i, item) {
+                        if ($(item).attr('data-index').toString() != v) {
+                            $(item).css("display", "none");
+                        } else {
+                            $(item).css("display", "");
+                        }
+                    })
+                }
+            })
+
+            // sns
+            let toggle_sns = $(".js-sns_share").trpToggleBtn(
+                function ($this) {
+                    $($this).addClass("on");
+                    $($this).closest(".btn-box").find(".sns_layer-area").fadeIn("fast");
+                },
+                function ($this) {
+                    $($this).removeClass("on");
+                    $($this).closest(".btn-box").find(".sns_layer-area").fadeOut("fast");
+                });
+
+            $(".js-share_kakao, .js-share_url").on("click", function ($e) {
+                $e.preventDefault();
+                toggle_sns.toggleAllSet(false);
+            })
+
+            //작가 정보 admin에서 가져오도록 로직변경
+            axios.get('/api/auction/artist_info/' + $scope.artistNo)
+                .then(function (response) {
+
+                    const data = response.data;
+                    let success = data.success;
+
+                    if (success) {
+                        let artistData = data.data;
+                        if (!artistData) {
+                            $("#artist_layer").css("display", "none");
+                        } else {
+                            let articlesList = JSON.parse(artistData.articles).articles;
+                            let artistYoutubeImages = JSON.parse(artistData.media).youtube;
+                            let artistImageList = artistData.images;
+
+                            let title = '';
+                            $.each(articlesList, function (index, el) {
+                                if (locale == 'ko') {
+                                    title += el.titleKo + '</br>';
+                                } else {
+                                    title += el.titleEn + '</br>';
+                                }
+                            });
+
+
+                            $("#artistName").html(JSON.parse(artistData.name).ko + ' ' + artistData.birth + '~' + artistData.death);
+                            $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
+
+                            let html = '<div class="vide_img-box">';
+                            $.each(artistYoutubeImages, function (index, el) {
+                                $.each(artistImageList, function (s3Index, el) {
+                                    //일단은 youtube만 뿌리기로
+                                    if (artistImageList[s3Index].tag == 'youtube' + index) {
+                                        html += '<a href="' + artistYoutubeImages[index] + '"><img src=" ' + artistImageList[s3Index].cdn_url + ' " alt="" /></a>';
+                                    }
+                                });
+                            });
+                            html += '</div>';
+                            $("#artistMedia").html(html);
+                        }
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+
+            var popup_images = $(".js-popup_images").trpLayerFixedPopup("#popup_images-wrap");
+            $(".js-popup_images").on("click", function ($e) {
+                $e.preventDefault();
+                popup_images.open(this); // or false
+                imagesResizePcMb();
+                imagesSwiper.update();
+                imagesSwiper.slideTo(1, 0);
+            });
+            $("body").on("click", "#popup_images-wrap .js-closepop, #popup_images-wrap .popup-dim",
+                function ($e) {
+                    $e.preventDefault();
+                    popup_images.close();
+                });
+            // popup_images.open(false); // or false
+            // imagesResizePcMb();
+
+
+            /* === zoom === panzoom.reset()*/
+            var zoom_range = document.querySelector('.js-zoom_inout');
+            var panzoom = "";
+
+            function panzoom_set() {
+                console.log("=====================>panzoom_set");
+
+                panzoom = Panzoom(zoom_range, {
+                    /* disablePan: true, */
+                    maxScale: 4, // (Default: 4)
+                    minScale: 1 // (Default: 0.125)
+                });
+                $(".js-zoomin").on("click", function () {
+                    panzoom.zoomIn();
+                });
+                $(".js-zoomout").on("click", function () {
+                    panzoom.zoomOut();
+                });
+                panzoom.zoom(1, {
+                    animate: true
+                })
             }
-            run();
+
+            function panzoom_reset() {
+                console.log("-------------------------->panzoom_reset");
+                panzoom.reset();
+                panzoom.destroy();
+                panzoom = "";
+                $(".js-zoomin").off("click");
+                $(".js-zoomout").off("click");
+            }
+
+            if ($("body").hasClass("is_pc")) {
+                panzoom_set();
+            }
+
+            /* === 스와이퍼 === */
+            console.log("스와이퍼 set");
+            var imagesSwiper = new Swiper('.js-imagesSwiper .gallery_center', {
+                loop: true,
+                simulateTouch: false,
+                pagination: ".js-imagesSwiper_pagination",
+                paginationClickable: true,
+                breakpoints: {
+                    1023: {
+                        effect: "slide",
+                        simulateTouch: true,
+                        slidesPerView: 1,
+                        spaceBetween: 10
+                    }
+                },
+                onSlideChangeStart: function (swiper) { // 움직임이 시작하면 실행
+                    imagesResizePcMb();
+                    if ($("body").hasClass("is_pc")) {
+                        panzoom.reset(); // zoom reset
+                    }
+                },
+                onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
+                    imagesResizePcMb();
+                    thumbnailActive(swiper.realIndex);
+                    console.log(">>> ", swiper.realIndex)
+                }
+            })
+            // 좌우버튼
+            $('.images-popup .page_prev').on('click', function ($e) {
+                $e.preventDefault();
+                imagesSwiper.slidePrev();
+            })
+            $('.images-popup .page_next').on('click', function ($e) {
+                $e.preventDefault();
+                console.log("next")
+                imagesSwiper.slideNext();
+            })
+
+            /* 섭네일 클릭 */
+            $(".js-thumbnail-list a").on("click", function ($e) {
+                $e.preventDefault();
+                var _index = $(this).closest("li").index();
+                imagesSwiper.slideTo(_index + 1);
+                thumbnailActive(_index);
+            })
+
+            function thumbnailActive($index) {
+                $(".js-thumbnail-list li").removeClass("active")
+                $(".js-thumbnail-list li").eq($index).addClass("active");
+            }
+
+
+            /* PC,MB images resize */
+            $(window).on("resize", function () {
+                imagesResizePcMb();
+                if ($("body").hasClass("is_mb")) {
+                    if (panzoom != "") {
+                        panzoom_reset();
+                    }
+                } else {
+                    /* pc */
+                    if (panzoom == "") {
+                        panzoom_set();
+                    }
+                }
+            });
+
+
         }
-    });
+        run();
+    }
+    })
+    ;
 </script>
 
 <script>
     function Scope() {
         var scope = angular.element(document.getElementById("container")).scope();
         return scope;
+    }
+
+    function size_text_cm(src) {
+        if (src === null || src === undefined) {
+            return;
+        }
+
+        var returnValue = "";
+        var cmSize = ""
+
+        for (let i = 0; i < src.length; i++) {
+            if (src[i].UNIT_CD === "cm") {
+                cmSize = src[i].SIZE1 != 0 ? src[i].SIZE1.toFixed(1) : "";
+                cmSize += src[i].SIZE2 != 0 ? "☓" + src[i].SIZE2.toFixed(1) : "";
+                cmSize += src[i].SIZE3 != 0 ? "☓" + src[i].SIZE3.toFixed(1) +
+                    "(" + (src[i].MIX_CD == "depth" ? "d" : "h") + ")" : "";
+                cmSize += cmSize != "" ? src[i].UNIT_CD : "";
+                cmSize += cmSize != "" && src[i].CANVAS != 0 ? " (" + (src[i].CANVAS_EXT_YN == "Y" ? "변형" : "") + src[i].CANVAS + ")" : "";
+
+                returnValue = src[i].PREFIX;
+                returnValue += (src[i].DIAMETER_YN == "Y" ? "Φ " : "") + cmSize;
+                returnValue += (src[i].SUFFIX ? " (" + src[i].SUFFIX + ") " : "");
+                return returnValue;
+            }
+        }
+        return "";
     }
 </script>
 
@@ -1408,7 +1768,40 @@
 
     // 자동응찰
     function autoBid() {
-        autoBiding(connect_info);
+        if ($("#reservation_bid").prop("disabled")) {
+            var bidding_stop = $("#auto_bid_btn").trpLayerFixedPopup("#bidding_stop-wrap");
+            bidding_stop.open(this); // or false
+            popup_fixation("#bidding_stop-wrap");
+
+            $("#bidding_stop-wrap .js-closepop, #bidding_stop-wrap .popup-dim, #auto_off_cancel, #auto_off_ok").bind("click", function ($e) {
+                $e.preventDefault();
+                if ($(this).attr("id") === "auto_off_ok") {
+                    autoBiding(connect_info);
+                    bidding_stop.close();
+                    $("#bidding_stop-wrap .js-closepop, #bidding_stop-wrap .popup-dim, #auto_off_cancel, #auto_off_ok").unbind("click");
+                    return
+                }
+                $("#bidding_stop-wrap .js-closepop, #bidding_stop-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").unbind("click");
+                bidding_stop.close();
+            });
+        } else {
+            var bidding_go = $("#auto_bid_btn").trpLayerFixedPopup("#bidding_go-wrap");
+            bidding_go.open(this); // or false
+            popup_fixation("#bidding_go-wrap");
+
+            $("#bidding_go-wrap .js-closepop, #bidding_go-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").bind("click", function ($e) {
+                $e.preventDefault();
+                if ($(this).attr("id") === "auto_on_ok") {
+                    autoBiding(connect_info);
+                    bidding_go.close();
+                    $("#bidding_go-wrap .js-closepop, #bidding_go-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").unbind("click");
+                    return
+                }
+                $("#bidding_go-wrap .js-closepop, #bidding_go-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").unbind("click");
+                bidding_go.close();
+            });
+        }
+
     }
 
     function retry(saleNo, lotNo, saleType, userId, custNo) {
@@ -1494,7 +1887,7 @@
             init_func_manual(d);
 
         } else if (d.msg_type == packet_enum.bid_info) {
-
+            $("#cur_cost_layer").css("display", "");
             if (d.message.bid != null && d.message.bid.length > 0) {
                 // popup layer Values
                 let bid = document.getElementById("bid_cost_val");
@@ -1514,12 +1907,18 @@
                     "KRW " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR') :
                     "KRW " + d.message.bid[len - 1].bid_cost.toLocaleString('ko-KR');
 
+                let cost_add_vat = (d.message.bid[len - 1].bid_cost === 0) ? d.message.bid[len - 1].open_bid_cost :
+                    d.message.bid[len - 1].bid_cost * 1.198;
+
+                document.getElementById("cost_add_vat").innerText = cost_add_vat.toLocaleString('ko-KR');
+
                 start_cost.innerText = "KRW " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR');
                 bid_cnt2.innerText = "(응찰" + d.message.bid[len - 1].bid_count + ")"
                 cur_cost.innerText = curCostValue;
                 //end_date_time2.innerText = new Date(d.message.bid[len - 1].end_bid_time).format('MM/dd(E) hh:mm');
 
                 bid.innerText = curCostValue
+
                 bid_cnt.innerText = "(응찰" + d.message.bid[len - 1].bid_count + ")"
 
                 end_bid_time = d.message.bid[len - 1].end_bid_time;
@@ -1617,7 +2016,13 @@
                         viewCnt++;
                         continue
                     }
-                    if (d.message.quotes[cnt].cost >= cost_tmp) {
+                    if (d.message.quotes[cnt].cost === cost_tmp) {
+                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt].quote_cost)
+                        quote_arr.push(cost_tmp)
+                        viewCnt++;
+                        continue
+                    }
+                    if (d.message.quotes[cnt].cost > cost_tmp) {
                         cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
                         quote_arr.push(cost_tmp)
                         viewCnt++;
@@ -1667,8 +2072,8 @@
                 } else {
                     diffSec += "초"
                 }*/
-                bid_tick.innerText = diffDay + diffHour + ":" + diffMin + ":" + diffSec + " 남았습니다.";
-                bid_tick_main.innerText = diffDay + diffHour + ":" + diffMin + ":" + diffSec + " 남았습니다.";
+                bid_tick.innerText = diffDay + diffHour + ":" + diffMin + ":" + diffSec;
+                bid_tick_main.innerText = diffDay + diffHour + ":" + diffMin + ":" + diffSec;
             } else if (end_bid_time <= 0) {
                 bid_tick.innerText = "경매 시작 전입니다.";
                 bid_tick_main.innerText = "경매 시작 전입니다.";
@@ -1678,6 +2083,9 @@
             }
 
         } else if (d.msg_type == packet_enum.bid_info_init) {
+
+            document.getElementById("cur_cost_text").innerText = "현재가";
+            document.getElementById("cur_cost_text2").innerText = "현재가";
 
             if (d.message.bids != null && d.message.bids.length > 0) {
                 let bid_info = d.message.bids[0];
@@ -1698,6 +2106,12 @@
                     "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR') :
                     "KRW " + bid_info.bid_cost.toLocaleString('ko-KR');
 
+
+                let cost_add_vat = (bid_info.bid_cost === 0) ? bid_info.open_bid_cost :
+                    bid_info.bid_cost * 1.198;
+
+                document.getElementById("cost_add_vat").innerText = cost_add_vat.toLocaleString('ko-KR');
+
                 start_cost.innerText = "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR');
                 bid_cnt2.innerText = "(응찰" + bid_info.bid_count + ")"
                 cur_cost.innerText = curCostValue;
@@ -1706,7 +2120,6 @@
                 bid.innerText = curCostValue;
                 bid_cnt.innerText = "(응찰" + bid_info.bid_count + ")"
                 end_bid_time = bid_info.end_bid_time;
-
 
                 quote_unit.innerText = "KRW " + bid_info.bid_quote.toLocaleString('ko-KR');
 
@@ -1739,7 +2152,13 @@
                             viewCnt++;
                             continue
                         }
-                        if (d.message.quotes[cnt].cost >= cost_tmp) {
+                        if (d.message.quotes[cnt].cost === cost_tmp) {
+                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt].quote_cost)
+                            quote_arr.push(cost_tmp)
+                            viewCnt++;
+                            continue
+                        }
+                        if (d.message.quotes[cnt].cost > cost_tmp) {
                             cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
                             quote_arr.push(cost_tmp)
                             viewCnt++;
@@ -1811,6 +2230,8 @@
                                         // type
                                         dt_ly_span1.setAttribute("class", "type-success");
                                         dt_ly_span1.innerText = "낙찰";
+                                        document.getElementById("cur_cost_text").innerText = "낙찰가";
+                                        document.getElementById("cur_cost_text2").innerText = "낙찰가";
                                     }
 
                                     // date
@@ -1836,6 +2257,13 @@
                             }
                         }
                     }
+                } else {
+                    $("#cur_cost_layer").css("display", "none");
+                    document.getElementById("cur_cost_text").innerText = "시작가";
+                    document.getElementById("cur_cost_text2").innerText = "";
+                    document.getElementById("cur_cost").innerText = "";
+                    document.getElementById("bid_cost_cnt").innerText = "";
+                    document.getElementById("bid_cnt").innerText = "";
                 }
                 // 낙찰이 완료 되었다면
                 if (bid_info.winner_state === 2) {
@@ -1849,12 +2277,12 @@
                         bid_tick_main.innerText = "경매가 종료 되었습니다.";
                     }
 
-                    let bid_lst = document.getElementById("bid_lst");
+                    /*let bid_lst = document.getElementById("bid_lst");
                     let dt_ly_span1 = document.createElement("em");
                     dt_ly_span1.setAttribute("class", "type-success");
                     dt_ly_span1.innerText = "낙찰";
                     bid_lst.firstChild.childNodes[2].insertBefore(dt_ly_span1, bid_lst.firstChild.childNodes[2].firstChild);
-
+                    */
                     is_end_bid = true;
                     w.close();
                 }
@@ -1876,7 +2304,8 @@
                     let dt_ly_span1 = document.createElement("em");
                     dt_ly_span1.setAttribute("class", "type-success");
                     dt_ly_span1.innerText = "낙찰";
-
+                    document.getElementById("cur_cost_text").innerText = "낙찰가";
+                    document.getElementById("cur_cost_text2").innerText = "낙찰가";
 
                     bid_lst.firstChild.childNodes[2].insertBefore(dt_ly_span1, bid_lst.firstChild.childNodes[2].firstChild);
                 }

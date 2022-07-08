@@ -80,7 +80,7 @@
                                                 <ul class="filter-list js-filter_del-list">
                                                     <li id="endLot"><span>지난경매</span><button><i class="icon-filter_del"></i></button></li>
                                                     <li id="ingLot"><span>진행경매</span><button><i class="icon-filter_del"></i></button></li>
-                                                    <li id="readyLot"><span>예정경매</span><button><i class="icon-filter_del"></i></button></li>
+<%--                                                    <li id="readyLot"><span>예정경매</span><button><i class="icon-filter_del"></i></button></li>--%>
                                                 </ul>
                                             </div>
                                         </div>
@@ -302,13 +302,13 @@
                                             <label for="checkbox2">진행 경매</label>
                                         </span>
                                         </li>
-                                        <li>
-                                        <span class="trp checkbox-box">
-                                            <input id="checkbox3" type="checkbox" name="lotCheckBox" value="ready">
-                                            <i></i>
-                                            <label for="checkbox3">예정 경매</label>
-                                        </span>
-                                        </li>
+<%--                                        <li>--%>
+<%--                                        <span class="trp checkbox-box">--%>
+<%--                                            <input id="checkbox3" type="checkbox" name="lotCheckBox" value="ready">--%>
+<%--                                            <i></i>--%>
+<%--                                            <label for="checkbox3">예정 경매</label>--%>
+<%--                                        </span>--%>
+<%--                                        </li>--%>
                                     </ul>
                                 </div>
                             </li>
@@ -734,10 +734,10 @@
                     $scope.sale_status_ing_yn = 'Y';
                     $('#ingLot').show();
                 }
-                if(checkBoxChecked == true && checkBoxId == 'ready'){
-                    $scope.sale_status_ready_yn = 'Y';
-                    $('#readyLot').show();
-                }
+                // if(checkBoxChecked == true && checkBoxId == 'ready'){
+                //     $scope.sale_status_ready_yn = 'Y';
+                //     $('#readyLot').show();
+                // }
 
                 if(checkBoxChecked == false && checkBoxId == 'end'){
                     $scope.sale_status_end_yn = 'N';
@@ -747,10 +747,10 @@
                     $scope.sale_status_ing_yn = 'N';
                     $('#ingLot').hide();
                 }
-                if(checkBoxChecked == false && checkBoxId == 'ready'){
-                    $scope.sale_status_ready_yn = 'N';
-                    $('#readyLot').hide();
-                }
+                // if(checkBoxChecked == false && checkBoxId == 'ready'){
+                //     $scope.sale_status_ready_yn = 'N';
+                //     $('#readyLot').hide();
+                // }
             });
 
             $scope.search.mate_nm = $('#mateNm').val();

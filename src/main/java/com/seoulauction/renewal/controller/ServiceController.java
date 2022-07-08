@@ -42,26 +42,6 @@ public class ServiceController {
     public String marketing(Locale locale) {
         return SAConst.getUrl(SERVICE_SERVICE , "marketing" , locale);
     }
-
-    @GetMapping("/marketing/vip")
-    public String marketing_vip(Locale locale) {
-        return SAConst.getUrl(SERVICE_SERVICE , "marketing_vip" , locale);
-    }
-
-    @GetMapping("/marketing/art")
-    public String marketing_art(Locale locale) {
-        return SAConst.getUrl(SERVICE_SERVICE , "marketing_art" , locale);
-    }
-
-    @GetMapping("/marketing/plan")
-    public String marketing_plan(Locale locale) {
-        return SAConst.getUrl(SERVICE_SERVICE , "marketing_plan" , locale);
-    }
-
-    @GetMapping("/marketing/consulting")
-    public String marketing_consulting(Locale locale) {
-        return SAConst.getUrl(SERVICE_SERVICE , "marketing_consulting" , locale);
-    }
     
     @GetMapping("/academy")
     public String academy(Locale locale) {

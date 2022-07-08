@@ -7,7 +7,6 @@
 <spring:eval expression="@environment.getProperty('social.service.domain')" var="socialServiceDomain" />
 <script>
 	var socialServiceDomain = '${socialServiceDomain}'
-	console.log(socialServiceDomain);
 	var loginFailCntYn = '${sessionScope.LOGIN_FAIL_CNT_YN}' == 'true' ? 'Y' : 'N';
 </script>
 <body>
@@ -53,13 +52,13 @@
 										</c:if>
 										<c:if test="${error == 'Stop User' || sessionScope.STOP_USER == 'true'}">
 											<p>! This is a restricted ID.<br>
-												If you wish to use the service, please contact the customer center. (<a href="tel:02-395-0330">02-395-0330</a> / <br class="only-pc">
+												If you wish to use the service, please contact the customer center. (<a href="tel:82-2-395-0330">+82-2-395-0330</a> / <br class="only-pc">
 												<a href="mailto:info@seoulauction.com">info@seoulauction.com</a>>.</p>
 										</c:if>
 										<c:if test="${error == 'Not Certify User' || sessionScope.NOT_CERTIFY_USER == 'true'}">
 											<p>This ID has not been verified by e-mail after registering as a member.<br>
 											Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication.<br>
-												If you do not receive a verification email, please contact the customer center (<a href="tel:02-395-0330">02-395-0330</a> / <a href="mailto:info@seoulauction.com">info@seoulauction.com</a>).<br>
+												If you do not receive a verification email, please contact the customer center (<a href="tel:82-2-395-0330">+82-2-395-0330</a> / <a href="mailto:info@seoulauction.com">info@seoulauction.com</a>).<br>
 											</p>
 										</c:if>
 									</div>
@@ -97,14 +96,13 @@
 											<!-- [0516]링크추가 -->
 											<ul>
 												<li>
-													<a ng-click="naverButtonClick()" href="#"><i class="icon-sns_naver"></i></a>
+													<a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=5qXZytacX_Uy60o0StGT&state=NAVER_LOGIN&redirect_uri=${socialServiceDomain}/naverCallback?type=login"><i class="icon-sns_naver"></i></a>
 													<div id="recentSocialTypeNV" class="sns_latest_wrap" style="display:none">
 														<img class="only-mb" src="/images/mobile/login/latest_login.png">
 													</div>
 												</li>
-												<div id="naverIdLogin" style="display:none"></div>
 												<li>
-													<a ng-click="loginWithKakao()" href="#"><i class="icon-sns_kakao"></i></a>
+													<a href="https://kauth.kakao.com/oauth/authorize?client_id=adbdfe931311a01731a0161175701a42&redirect_uri=${socialServiceDomain}/kakaoRedirect/login&response_type=code"><i class="icon-sns_kakao"></i></a>
 													<div id="recentSocialTypeKA" class="sns_latest_wrap" style="display:none">
 														<img class="only-mb" src="/images/mobile/login/latest_login.png">
 													</div>
@@ -147,11 +145,6 @@
 </div>
 </body>
 
-<!-- 카카오 -->
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
-<!-- 네이버 -->
-<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2-nopolyfill.js" charset="utf-8"></script>
 <!--  구글 -->
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
 <script src="https://apis.google.com/js/api:client.js"></script>

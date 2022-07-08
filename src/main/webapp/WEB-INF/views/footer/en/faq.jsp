@@ -132,7 +132,7 @@
                                                 <div class="info-guide">
                                                     <div class="contact-box">
                                                         <ul>
-                                                            <li><span>T.</span> <em>82+(0)2-395-0330</em></li>
+                                                            <li><span>T.</span> <a href="tel:82-2-395-0330"><em>82+(0)2-395-0330</em></a></li>
                                                             <li><span>E.</span> <a href="mailto:info@seoulauction.com"><em>info@seoulauction.com</em></a></li>
                                                         </ul>
                                                     </div>

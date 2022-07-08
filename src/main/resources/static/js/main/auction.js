@@ -21,6 +21,7 @@ $(document).ready(function(){
         axios.get('/api/main/auctions')
             .then(function(response) {
                 const data = response.data;
+                console.log(data);
                 let success = data.success;
                 if(success){
 
@@ -160,6 +161,7 @@ $(document).ready(function(){
             if(!checkLogin()){
                 return false;
             }
+
 
             let data = {};
 

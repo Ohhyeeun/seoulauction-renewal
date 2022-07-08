@@ -141,7 +141,7 @@ public class PaymentController {
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
 
         String goodsName 		= "서울옥션-아카데미"; 					// 결제상품명
-        int price 			    = Integer.parseInt(ObjectUtils.defaultIfNull(resultMap.get("academy_pay"), "0").toString()); 						// 결제상품금액
+        int price 			    = Integer.parseInt(ObjectUtils.defaultIfNull(resultMap.get("ACADEMY_PAY"), "0").toString()); 						// 결제상품금액
 
         String cust_name 		= saUserDetails.getUserNm(); 						// 구매자명
         String hp 		        = saUserDetails.getHp(); 				// 구매자연락처

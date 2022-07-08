@@ -1,0 +1,10 @@
+diff a/src/main/webapp/WEB-INF/views/auction/ko/popup/auctionBidPopup.jsp b/src/main/webapp/WEB-INF/views/auction/ko/popup/auctionBidPopup.jsp	(rejected hunks)
+@@ -85,7 +85,7 @@
+                                         </div>
+                                         <div class="btn_set type-pc_mb-column">
+                                             <div class="btn_item">
+-                                                <div class="select-box">
++                                                <div id="reservation_bid_layer" class="select-box">
+                                                     <select id="reservation_bid" class="select2Basic56_line">
+                                                     </select>
+                                                 </div>
