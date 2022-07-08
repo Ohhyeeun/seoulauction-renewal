@@ -147,7 +147,8 @@
 				, S.ONLINE_YN
 				, DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT
 				, DATE_FORMAT(S.FROM_DT, '%d %b, %Y %T')  as FROM_DT_EN
-				, DATE_FORMAT(S.TO_DT, '%Y.%m.%d  %T')  as TO_DT
+				, DATE_FORMAT(S.TO_DT, '%Y.%m.%d  %H:%i')  as TO_DT
+				, DATE_FORMAT(S.TO_DT, '%d %b, %Y %H:%i')  as TO_DT_EN
 				, IF(S.SALE_TH_DSP_YN = 'N', '', CONCAT(S.SALE_TH, f_ordinal_number(S.SALE_TH))) SALE_TH, COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
 			   	, COLUMN_GET(S.TITLE_BLOB, 'ko' AS CHAR) SALE_TITLE_KR 
 			   	, COLUMN_GET(S.TITLE_BLOB, 'en' AS CHAR) SALE_TITLE_EN 
@@ -791,7 +792,8 @@ SELECT 'INTE_LOT' AS GUBUN
 			    , COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
 			    , DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT
 			    , DATE_FORMAT(S.FROM_DT, '%d %b, %Y %T') as FROM_DT_EN
-			    , DATE_FORMAT(S.TO_DT, '%Y.%m.%d  %T')  as TO_DT
+			    , DATE_FORMAT(S.TO_DT, '%Y.%m.%d  %H:%i')  as TO_DT
+			    , DATE_FORMAT(S.TO_DT, '%d %b, %Y %H:%i')  as TO_DT_EN
 			    , S.CURR_CD
 			    , IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH
 		  		, IF(S.SALE_TH_DSP_YN = 'N', '', f_ordinal_number(S.SALE_TH)) SALE_TH_DSP
@@ -900,7 +902,9 @@ SELECT 'INTE_LOT' AS GUBUN
 				 , COLUMN_GET(L.TITLE_BLOB, 'en' AS CHAR) LOT_TITLE_EN
 				 , if(S.TO_DT &gt; NOW(), 'N', 'Y') AS CLOSE_YN
 				 , DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT 
+				 , DATE_FORMAT(S.TO_DT, '%Y.%m.%d  %H:%i')  as TO_DT 
 				 , DATE_FORMAT(S.FROM_DT, '%d %b, %Y %T')  as FROM_DT_EN 
+				 , DATE_FORMAT(S.TO_DT, '%d %b, %Y %H:%i')  as TO_DT_EN
 				 , S.CURR_CD
 				 , LI.FILE_PATH as LOT_IMG_PATH
 			     , LI.FILE_NAME as LOT_IMG_NAME
@@ -1054,7 +1058,8 @@ SELECT 'INTE_LOT' AS GUBUN
 		select S.SALE_NO, IF(S.SALE_TH_DSP_YN = 'N', '', CONCAT(S.SALE_TH, f_ordinal_number(S.SALE_TH))) SALE_TH, COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
 			, DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT 
 			, DATE_FORMAT(S.FROM_DT, '%d %b, %Y %T')  as FROM_DT_EN 
-			, DATE_FORMAT(S.TO_DT, '%Y.%m.%d  %T')  as TO_DT 
+			, DATE_FORMAT(S.TO_DT, '%Y.%m.%d  %H:%i')  as TO_DT 
+			, DATE_FORMAT(S.TO_DT, '%d %b, %Y %H:%i')  as TO_DT_EN 
 			, S.CURR_CD
 			, L.LOT_NO, L.ARTIST_NO, L.STAT_CD
 			, COLUMN_JSON(L.TITLE_BLOB) LOT_TITLE_JSON
