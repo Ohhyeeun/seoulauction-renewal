@@ -1261,7 +1261,7 @@
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
                     let swiper_slide_item = '';
                     //if (size1 > 160) {
-                    swiper_slide_item = <div class="swiper-slide">
+                    swiper_slide_item = `<div class="swiper-slide">
                         <div class="img-area">
                             <div class="img-box">
                                 <div class="size_x"><span>` + size2 + unitCd + `</span></div>
@@ -1272,7 +1272,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>`;
                     $("#swiper-wrapper").append(swiper_slide_item);
                 });
 
