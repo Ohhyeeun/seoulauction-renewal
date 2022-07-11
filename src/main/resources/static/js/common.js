@@ -5,8 +5,6 @@ $(function() {
         setTimeout(resolve, ms)
     });
 
-    console.log(window.innerWidth);
-
     //진행중 경매리스트
     loadIngAuctionList();
 
@@ -97,7 +95,6 @@ $(function() {
 
     /* pc 다크모드 */
     $('.darkmodeBg').click(function () {
-        console.log("theme ", localStorage.getItem('theme'));
 
         $('*').toggleClass('dark');
 
@@ -121,12 +118,10 @@ $(function() {
         } else {
             localStorage.setItem('theme', 'dark');
         }
-        console.log("theme ", localStorage.getItem('theme'));
     });
 
     /* mobile 다크모드 */
     $('.modebox').click(function () {
-        console.log("theme ", localStorage.getItem('theme'));
         if ($('.mode-toggle>input').is(":checked")) {
             $('*').addClass('dark');
         } else {
@@ -139,7 +134,6 @@ $(function() {
         } else {
             localStorage.setItem('theme', 'dark');
         }
-        console.log("theme ", localStorage.getItem('theme'));
     });
 
     /* 띠배너 */
@@ -394,13 +388,11 @@ $(function() {
         if ($('.familyselect').hasClass('on')) { /* familyselet 탭 닫기 */
             // $('.familyselect').addClass('on');
             $('.Familysite').removeClass('on'); /* 화살표 */
-            console.log(23434);
         } else {
             $('.innerfooter').click(function(){
                 $('.familyselect').removeClass('on');
                 $('.Familysite').removeClass('on'); /* 화살표 */
             });
-            console.log(64854395894385);
             $('.Familysite').addClass('on'); /* 화살표 */
         };
         $('.familyselect').toggleClass('on');
@@ -596,7 +588,7 @@ jQuery.fn.trpLayerFixedPopup = function( $tarPopup ){
  
 
     // 팝업 열기
-    function popupOpen($this){           console.log(">>>  : " + $this);
+    function popupOpen($this){
       if( $this ){_self = $this; }else{ _selfOff = false; }
       if(_tarPopup == ""){ _tarPopup =  $(_self).attr('href'); } // 타겟값이 없다면 a태그로 인식해서 href적용
 
@@ -718,7 +710,7 @@ jQuery.fn.trpBgDim = function($opacity,$bgColor){
 
 app.requires.push.apply(app.requires, ["ngDialog", "checklist-model"]);
 app.controller('headCtl', function($scope, consts, common, locale, $filter) {
-    console.log("recommend-search-part")
+    // console.log("recommend-search-part")
     $scope.recommandSearch =  function(){
         //추천 검색어
         axios.get('/api/auction/selectRecommandArtist').then(function (response) {
@@ -997,7 +989,6 @@ $(window).resize(function(){
         /* top search right 위치 */
         $('.topsearch-box>form').animate({'right': '0'});
         $('.main-contents, #contents').click(function(){
-            console.log(45353454);
             $('.search-bubble-box').removeClass('on');
             $('.bubble-box01').eq(utilityMenu).removeClass('hide');
             $('.bubble-box02').eq(utilityMenu).removeClass('hide');

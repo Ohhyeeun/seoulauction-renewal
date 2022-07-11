@@ -21,7 +21,6 @@ $(document).ready(function(){
         axios.get('/api/main/auctions')
             .then(function(response) {
                 const data = response.data;
-                console.log(data);
                 let success = data.success;
                 if(success){
 
@@ -215,8 +214,6 @@ $(document).ready(function(){
         //클릭시
         $('.auction-thumb').on('click', function (event) {
 
-            console.log('asdfasdfasdf');
-
             let saleKind = 'online';
             if(kind){
                 kind = kind.toLowerCase();
@@ -312,11 +309,11 @@ $(document).ready(function(){
             w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws");
         }
         w.onopen = function () {
-            console.log("open");
+            // console.log("open");
         }
         w.onerror = function () {
             w.close();
-            console.log('error');
+            // console.log('error');
         }
         w.onclose = function () {
             if (w.readyState === w.CLOSED) {
