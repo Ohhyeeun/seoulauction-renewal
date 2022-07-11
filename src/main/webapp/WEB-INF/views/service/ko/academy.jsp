@@ -82,10 +82,10 @@
                                     <article class="service-article_sns">
                                         <div class="banner">
                                             <div class="img-area">
-                                                <img src="/images/pc/service/academy-help.jpg" alt="서울옥션 아카데미와 함게 하십시요." />
+                                                <img src="/images/pc/service/academy-help.jpg" alt="서울옥션 아카데미와 함게 하십시오." />
                                             </div>
                                             <div class="typo-area">
-                                                <div class="area-header"><em>서울옥션</em> <span>아카데미와 함께 하십시요.</span></div>
+                                                <div class="area-header"><em>서울옥션</em> <span>아카데미와 함께 하십시오.</span></div>
                                                 <div class="area-body">
                                                     <span>서울옥션 아카데미는 미술 뿐 만 아니라 문화, 인문학, 예술, 음악, 라이프, 생활까지
                                                         다양한 분야의 최고의 강사진들을 모시고 진행하고 있습니다. 신선하고 심도 있는
@@ -256,28 +256,28 @@
 
 
                                                         <div class="swiper-slide">
-                                                            <img class="only-pc" src="/images/pc/service/academy_list-1.jpg" alt="">
-                                                            <img class="only-mb" src="/images/mobile/service/academy_list-1.jpg" alt="">
+                                                            <img class="only-pc" src="/images/pc/service/aca_banner01.jpg" alt="">
+                                                            <img class="only-mb" src="/images/mobile/service/aca_banner01.jpg" alt="">
                                                         </div>
 
                                                         <div class="swiper-slide">
-                                                            <img class="only-pc" src="/images/pc/service/academy_list-2.jpg" alt="">
-                                                            <img class="only-mb" src="/images/mobile/service/academy_list-2.jpg" alt="">
+                                                            <img class="only-pc" src="/images/pc/service/aca_banner02.jpg" alt="">
+                                                            <img class="only-mb" src="/images/mobile/service/aca_banner02.jpg" alt="">
                                                         </div>
 
                                                         <div class="swiper-slide">
-                                                            <img class="only-pc" src="/images/pc/service/academy_list-3.jpg" alt="">
-                                                            <img class="only-mb" src="/images/mobile/service/academy_list-3.jpg" alt="">
+                                                            <img class="only-pc" src="/images/pc/service/aca_banner03.jpg" alt="">
+                                                            <img class="only-mb" src="/images/mobile/service/aca_banner03.jpg" alt="">
                                                         </div>
 
                                                         <div class="swiper-slide">
-                                                            <img class="only-pc" src="/images/pc/service/academy_list-4.jpg" alt="">
-                                                            <img class="only-mb" src="/images/mobile/service/academy_list-4.jpg" alt="">
+                                                            <img class="only-pc" src="/images/pc/service/aca_banner04.jpg" alt="">
+                                                            <img class="only-mb" src="/images/mobile/service/aca_banner04.jpg" alt="">
                                                         </div>
 
                                                         <div class="swiper-slide">
-                                                            <img class="only-pc" src="/images/pc/service/academy_list-5.jpg" alt="">
-                                                            <img class="only-mb" src="/images/mobile/service/academy_list-5.jpg" alt="">
+                                                            <img class="only-pc" src="/images/pc/service/aca_banner05.jpg" alt="">
+                                                            <img class="only-mb" src="/images/mobile/service/aca_banner05.jpg" alt="">
                                                         </div>
 
                                                     </div>
@@ -288,8 +288,6 @@
                                             </div>
                                         </div>
                                     </article>
-
-
 
 
                                     <!-- 문의하기 -->
@@ -420,7 +418,7 @@
                         centeredSlides: true, // 중앙
                         slidesPerView: "auto", // 아이템 크기
                         spaceBetween: 10
-                    }
+                    },
                 },
                 onSlideChangeEnd: function(swiper) { // 움직임이 끝나면 실행
                 }
@@ -432,8 +430,7 @@
             $('.js-swiper_academy .btn-next').on('click', function(e) {
                 e.preventDefault();
                 swiper_academy.slideNext();
-            })
-
+            });
         }
 
         $(window).on("resize", function() {
