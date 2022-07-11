@@ -63,10 +63,22 @@ app.controller('ctl', function ($scope, consts, common, is_login, locale) {
     $scope.itemsize = 20;
     $scope.curpage = 1;
 
+    let pagingName = '';
+    let moreName = '';
+
+    if(locale === 'ko') {
+        pagingName = '페이징 방식';
+        moreName = '더보기 방식';
+    }
+    else{
+        pagingName = 'PAGE';
+        moreName = 'MORE';
+    }
+
     $scope.modelViewType = [{
-        name: "페이징 방식", value: 1
+        name: pagingName, value: 1
     }, {
-        name: "더보기 방식", value: 2
+        name: moreName, value: 2
     }];
 
     $scope.selectSortType = 1;
@@ -84,8 +96,14 @@ app.controller('ctl', function ($scope, consts, common, is_login, locale) {
     $scope.searchArtist2 = function () {
         let pp = [];
         for (let i = 0; i < $scope.saleInfoAll.length; i++) {
-            if ($scope.saleInfoAll[i].ARTIST_NAME_BLOB_KO.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1 || $scope.saleInfoAll[i].TITLE_BLOB_KO.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1) {
-                pp.push($scope.saleInfoAll[i]);
+            if(locale == 'ko'){
+                if ($scope.saleInfoAll[i].ARTIST_NAME_BLOB_KO.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1 || $scope.saleInfoAll[i].TITLE_BLOB_KO.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1) {
+                    pp.push($scope.saleInfoAll[i]);
+                }
+            }else{
+                if ($scope.saleInfoAll[i].ARTIST_NAME_BLOB_EN.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1 || $scope.saleInfoAll[i].TITLE_BLOB_EN.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1) {
+                    pp.push($scope.saleInfoAll[i]);
+                }
             }
         }
         $scope.searchSaleInfoAll = pp;
