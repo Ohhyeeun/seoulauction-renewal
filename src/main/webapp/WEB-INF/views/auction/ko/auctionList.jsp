@@ -1088,49 +1088,51 @@
                                 }
                             }
                         }
-                        let quote_arr = [];
-                        if (d.message.quotes != null && d.message.quotes.length > 0) {
-                            let cnt = 1;
-                            let viewCnt = 0;
+                        if ($("#reservation_bid").prop("disabled") === false){
+                            let quote_arr = [];
+                            if (d.message.quotes != null && d.message.quotes.length > 0) {
+                                let cnt = 1;
+                                let viewCnt = 0;
 
-                            let len = d.message.bid.length;
-                            let cost_tmp = (d.message.bid[len - 1].bid_cost === 0) ?
-                                d.message.bid[len - 1].open_bid_cost :
-                                d.message.bid[len - 1].bid_cost;
+                                let len = d.message.bid.length;
+                                let cost_tmp = (d.message.bid[len - 1].bid_cost === 0) ?
+                                    d.message.bid[len - 1].open_bid_cost :
+                                    d.message.bid[len - 1].bid_cost;
 
-                            if (d.message.bid[len - 1].bid_cost === 0) {
-                                quote_arr.push(cost_tmp);
-                                viewCnt++;
-                            }
-
-                            while (viewCnt < 70) {
-                                if (cnt > d.message.quotes.length - 1) {
-                                    cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
-                                    quote_arr.push(cost_tmp)
+                                if (d.message.bid[len - 1].bid_cost === 0) {
+                                    quote_arr.push(cost_tmp);
                                     viewCnt++;
-                                    continue
                                 }
-                                if (d.message.quotes[cnt].cost === cost_tmp) {
-                                    cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt].quote_cost)
-                                    quote_arr.push(cost_tmp)
-                                    viewCnt++;
-                                    continue
-                                }
-                                if (d.message.quotes[cnt].cost > cost_tmp) {
-                                    cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
-                                    quote_arr.push(cost_tmp)
-                                    viewCnt++;
-                                    continue
-                                }
-                                cnt++
-                                //cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
-                            }
-                            $("#reservation_bid").find("option").remove();
-                            for (let i = 0; i < quote_arr.length; i++) {
-                                $("#reservation_bid").append(`<option value="` + quote_arr[i] + `">KRW ` + quote_arr[i].toLocaleString("ko-KR") + `</option>`);
-                            }
 
+                                while (viewCnt < 70) {
+                                    if (cnt > d.message.quotes.length - 1) {
+                                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                        quote_arr.push(cost_tmp)
+                                        viewCnt++;
+                                        continue
+                                    }
+                                    if (d.message.quotes[cnt].cost === cost_tmp) {
+                                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt].quote_cost)
+                                        quote_arr.push(cost_tmp)
+                                        viewCnt++;
+                                        continue
+                                    }
+                                    if (d.message.quotes[cnt].cost > cost_tmp) {
+                                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                        quote_arr.push(cost_tmp)
+                                        viewCnt++;
+                                        continue
+                                    }
+                                    cnt++
+                                    //cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                }
+                                $("#reservation_bid").find("option").remove();
+                                for (let i = 0; i < quote_arr.length; i++) {
+                                    $("#reservation_bid").append(`<option value="` + quote_arr[i] + `">KRW ` + quote_arr[i].toLocaleString("ko-KR") + `</option>`);
+                                }
+                            }
                         }
+
                     }
                     if (d.message.times !== null && d.message.times.length > 0) {
                         let matching = new Map();
@@ -1583,7 +1585,46 @@
                             } else {
                                 $("#reservation_bid").prop("disabled", false);
                                 $("#auto_bid_txt").text("응찰하기");
-                                $("#reservation_bid").val('');
+                                let quote_arr = [];
+                                if (d.message.quotes.quotes != null && d.message.quotes.quotes.length > 0) {
+                                    let cnt = 1;
+                                    let viewCnt = 0;
+
+                                    let cost_tmp = (d.message.bid.bid_cost === 0) ?
+                                        d.message.bid.open_bid_cost :
+                                        d.message.bid.bid_cost;
+
+                                    if (d.message.bid.bid_cost === 0) {
+                                        quote_arr.push(cost_tmp);
+                                        viewCnt++;
+                                    }
+
+                                    while (viewCnt < 70) {
+                                        if (cnt > d.message.quotes.quotes.length - 1) {
+                                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                            quote_arr.push(cost_tmp)
+                                            viewCnt++;
+                                            continue
+                                        }
+                                        if (d.message.quotes.quotes[cnt].cost === cost_tmp) {
+                                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes.quotes[cnt].quote_cost)
+                                            quote_arr.push(cost_tmp)
+                                            viewCnt++;
+                                            continue
+                                        }
+                                        if (d.message.quotes.quotes[cnt].cost > cost_tmp) {
+                                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes.quotes[cnt - 1].quote_cost)
+                                            quote_arr.push(cost_tmp)
+                                            viewCnt++;
+                                            continue
+                                        }
+                                        cnt++
+                                    }
+                                    $("#reservation_bid").find("option").remove();
+                                    for (let i = 0; i < quote_arr.length; i++) {
+                                        $("#reservation_bid").append(`<option value="` + quote_arr[i] + `">KRW ` + quote_arr[i].toLocaleString("ko-KR") + `</option>`);
+                                    }
+                                }
                                 $("#reservation_bid option:eq(0)").prop("selected", true);
                             }
                         }
