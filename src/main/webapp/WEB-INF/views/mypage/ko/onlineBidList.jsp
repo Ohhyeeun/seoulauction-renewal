@@ -65,12 +65,12 @@
                                                                             <figure class="img-ratio">
                                                                                 <a href="/auction/online/view/{{data.SALE_NO}}/{{data.LOT_NO}}" class="img-align" ng-if="onlineBid[1][0].CLOSE_YN != 'Y'"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
                                                                                      <img src="${imageRootPath}{{data.LOT_IMG}}" alt="${imageRootPath}{{data.LOT_IMG}}">
-                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'N' && bidGroup(data.BID_JSON)[0].BID_PRICE == data.success_bid_price"><span class="bid_result-icon">낙찰</span></div>
+                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'N' && bidGroup(data.BID_JSON)[0].BID_PRICE == data.success_bid_price && bidGroup(data.BID_JSON)[0].BID_NO == data.success_bid_no"><span class="bid_result-icon">낙찰</span></div>
                                                                                      <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'Y'"><span class="bid_result-icon">낙찰취소</span></div>
                                                                                 </a>
                                                                                 <a class="img-align" ng-if="onlineBid[1][0].CLOSE_YN == 'Y'"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
                                                                                      <img src="${imageRootPath}{{data.LOT_IMG}}" alt="${imageRootPath}{{data.LOT_IMG}}">
-                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'N' && bidGroup(data.BID_JSON)[0].BID_PRICE == data.success_bid_price"><span class="bid_result-icon">낙찰</span></div>
+                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'N' && bidGroup(data.BID_JSON)[0].BID_PRICE == data.success_bid_price && bidGroup(data.BID_JSON)[0].BID_NO == data.success_bid_no"><span class="bid_result-icon">낙찰</span></div>
                                                                                      <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'Y'"><span class="bid_result-icon">낙찰취소</span></div>
                                                                                 </a>
                                                                             </figure>
