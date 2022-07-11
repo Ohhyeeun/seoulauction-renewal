@@ -72,8 +72,8 @@ window.addEventListener('DOMContentLoaded', () => {
         <section class="container">
             <section class="flex_wrap sale-contents">
                 <figure class="sale-box">
-                    <img src="/images/pc/banner/buy.jpg" alt="buy img" class="pc-ver">
-                    <img src="/images/mobile/banner/buy.jpg" alt="buy img" class="m-ver">
+                    <img src="/images/pc/banner/PC_buy.png" alt="buy img" class="pc-ver">
+                    <img src="/images/mobile/banner/M_buy.png" alt="buy img" class="m-ver">
                     <figcaption class="sale-boxinfo">
                         <h2 class="main-sectiontit sale-tit">Buy</h2>
                         <p>회원가입부터 응찰까지<br>
