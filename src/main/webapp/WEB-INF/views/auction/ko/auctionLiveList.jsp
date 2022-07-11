@@ -21,7 +21,7 @@
 
             <!-- header -->
             <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
-            <link rel="stylesheet" href="/css/plugin/csslibrary.css">
+<%--            <link rel="stylesheet" href="/css/plugin/csslibrary.css">--%>
             <!-- //header -->
 
             <!-- container -->
@@ -317,12 +317,9 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </section>
-
                 </div>
-                <jsp:include page="popup/paddle.jsp" />
             </div>
             <!-- //container -->
 
@@ -338,10 +335,12 @@
                 </div>
             </div>
             <!-- // stykey -->
-
         </div>
     </div>
-    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+    <%-- 패들번호 부여 및 약관동의 팝업 --%>
+    <jsp:include page="popup/paddle.jsp" />
+
+<%--    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
     <script type="text/javascript" src="/js/auction/auctionLiveList.js" type="text/javascript"></script>
     <script>
         Date.prototype.format = function (f) {

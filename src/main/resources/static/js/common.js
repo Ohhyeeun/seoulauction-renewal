@@ -983,7 +983,7 @@ $(window).resize(function(){
         });
 
         /* 모바일 메뉴 open 된 채로 resize 될 때 gnb 닫힘 */
-        $('.gnb_submenuBg').removeClass('on'); 
+        $('.gnb_submenuBg').removeClass('on');
         $('.submenuBg').removeClass('on');
 
         /* top search right 위치 */
@@ -1088,14 +1088,15 @@ $(window).resize(function(){
         $('.submenuBg-closeBtn').click(function(){
             $('body').css({'overflow':'visible'});
             $('.gnbmenu_arrow').removeClass('on');
-            $('.submenuBg').animate({'right':'-100%','transition':'ease .2s'}, function(){
+            $('.submenuBg').animate({'right':'-100%','transition':'none'}, function(){
                 $(this).removeClass('on');
                 $('.gnb_submenuBg').removeClass('on');
             });
+            $('.gnb_submenuBg').animate({'right': '-100%','transition':'.2s'});
         });
 
         /* top search box */
-        $('.topsearch-box>form').animate({'right': '-100%'});
+        $('.topsearch-box>form').animate({'right': '-100%', 'transition':'none'});
 
         /* 오프라인 라이브응찰 화면(mobile) */
         $('.bidding_pc').hide();
