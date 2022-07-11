@@ -38,9 +38,7 @@
 <script>
     app.value('locale', 'ko');
     app.controller('videoCtl', function($scope, consts, common, locale) {
-        console.log("videoCtl");
         $scope.loadVideo = function() {
-            console.log("loadVideo");
             common.callGetAPI('/api/main/videos', {"media_type" : "video", "size" : 12}, function (data, status) {
                 $scope.videoList = data.data;
                 $scope.videoList.map(item => {
@@ -60,7 +58,6 @@
         }
 
         $scope.$on('ngRepeatFinished', function () {
-            console.log("ngRepeatFinished");
             /* video */
             const videoSwiper = new Swiper(".video-swiper", {
                 slidesPerView: 6,

@@ -10,7 +10,7 @@
 </jsp:include>
 <script>
 window.addEventListener('DOMContentLoaded', () => {
-    console.log("theme ", localStorage.getItem('theme'));
+    // console.log("theme ", localStorage.getItem('theme'));
 
     $('*').toggleClass(localStorage.getItem('theme'));
 

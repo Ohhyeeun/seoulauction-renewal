@@ -51,7 +51,7 @@
                                                                     <div class="sub">
                                                                         <div class="desc tb1">
                                                                             <span class="tit">경매일</span>
-                                                                            <span>{{liveBid[1][0].FROM_DT}} 순차마감</span>
+                                                                            <span>{{liveBid[1][0].TO_DT}}</span>
                                                                         </div>
                                                                         <div class="desc tb1">
                                                                             <span class="tit">패들번호</span>

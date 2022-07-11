@@ -4,8 +4,6 @@ app.value('is_login', 'false');
 // 구글
 var googleUser = {};
 var googleProfile;
-// 네이버
-var naverLogin;
 
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
 app.controller('joinCtl', function($scope, consts, common, ngDialog) {
@@ -28,21 +26,6 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 
 	// 구글 init
 	googleInit();
-
-	// 네이버초기화
-	naverLogin = new naver.LoginWithNaverId({
-		clientId: "5qXZytacX_Uy60o0StGT",
-		callbackUrl: socialServiceDomain + "/social/naver/callback?action=join",
-		isPopup: true,
-		loginButton: {
-			color: "green",
-			type: 3,
-			height: 60
-		}
-	});
-
-	// 네이버 init
-	naverLogin.init();
 
 	// 애플 init
 	AppleID.auth.init({
@@ -123,13 +106,7 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 			});
 	}
 
-	// 네이버회원가입
-	$scope.naverJoin = function() {
-		var loginButton = document.getElementById("naverIdLogin").firstChild;
-		loginButton.click();
-	};
-
-	// 네이버 로그인
+	// 애플 로그인
 	$scope.joinWithApple = function() {
 		var loginButton = document.getElementById("appleid-signin").firstChild;
 		loginButton.click();
@@ -1045,13 +1022,17 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 							
 	//가입버튼 클릭시 미입력 필수사항 focus처리 + 약관 validation
 	$scope.join = function() {
+		if($scope.isSocial()){
+			 $scope.idValid = true;
+		}
 		if($('#joinButton').hasClass('disabled') || !$scope.idValid){
 			$('input').removeClass('input_error');
-//			console.log($scope.idValid ? '아이디통과' : '아이디실패');	console.log($scope.passwdValid ? '비번통과' : '비번실패'); console.log($scope.nameValid ? '이름통과' : '이름실패'); 
-//			console.log($scope.compNoValid ? '사업자등록번호통과' : '사업자등록번호실패'); console.log($scope.authNumValid ? '핸드폰통과' : '핸드폰실패'); console.log($scope.telValid ? '전화번호통과' : '전화번호실패'); 
-//			console.log($scope.emailValid ? '이메일통과' : '이메일실패');  console.log($scope.compManNameValid ? '업무담당자통과' : '업무담당자실패');
-//			console.log($scope.addrValid ? '주소통과' : '주소실패'); console.log($scope.fileValid ? '파일통과' : '파일실패');  
+//			console.log($scope.idValid ? '아이디통과' : '아이디실패');	console.log($scope.passwdValid ? '비번통과' : '비번실패'); 
+//			console.log($scope.compNoValid ? '사업자등록번호통과' : '사업자등록번호실패'); console.log($scope.telValid ? '전화번호통과' : '전화번호실패'); 
+//			console.log($scope.compManNameVal ? '업무담당자통과' : '업무담당자실패'); console.log($scope.fileValid? '파일통과' : '파일실패');
 //			console.log($scope.bidValid ? '응찰여부통과' : '응찰여부실패'); console.log($scope.countryValid ? '국가통과' : '국가실패'); console.log($scope.addrValidEn ? '외국주소통과' : '외국주소실패');
+			console.log($scope.nameValid ? '이름통과' : '이름실패'); console.log($scope.authNumValid ? '핸드폰통과' : '핸드폰실패'); 
+			console.log($scope.emailValid ? '이메일통과' : '이메일실패'); console.log($scope.addrValid ? '주소통과' : '주소실패');   
 			if($scope.isPerson()){
 				if($scope.langType == 'ko'){
 					$("#alertMsg").html("필수항목을 모두 입력해 주세요.");
@@ -1063,7 +1044,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 						else if(!$scope.authNumValid) $("#hp").addClass('input_error');
 						else if(!$scope.emailValid) $("#email").addClass('input_error');
 						else if(!$scope.addrValid) $("#addr_dtl").addClass('input_error');
-					}else{ 
+					}else{
 						//내국개인회원 필수 필드 : 아이디/비밀번호/이름/휴대폰번호/이메일/주소
 						if(!$scope.idValid) $("#login_id").addClass('input_error');
 						else if(!$scope.passwdValid) $("#passwd").addClass('input_error'); 

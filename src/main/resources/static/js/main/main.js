@@ -62,7 +62,6 @@ $("body").on("click", "#popup_pwsearch6-wrap .js-closepop, #popup_pwsearch6-wrap
 });
 
 //비밀번호변경180일 팝업
-console.log(modPassword)
 if(modPassword == 'true'){
 	var popup_pwsearch5 = $(".js-popup_pwsearch5").trpLayerFixedPopup("#popup_pwsearch5-wrap");
     popup_pwsearch5.open(this); // or false 
@@ -120,10 +119,9 @@ window.onload = function(){
 }
 
 /* visual */
-const visualSwiper = new Swiper('.visual-swiper', {
+const visualSwiper = new Swiper('.visual-swiper', { 
     initialSlide : 1,
     loop: true,
-    watchOverflow:true, // 슬라이드 1개 일때 버튼 숨김 여부 설정
     autoplay: {
         delay: 5000,
         disableOnInteraction: false,
@@ -177,7 +175,7 @@ function  loadBigBanner (){
                 bannerList.map(item => {
                     // console.log(item)
                     item.content = JSON.parse(item.content);
-                   if(!(locale == 'en' && item.content.banner_kind == 'academy') ) {
+                   if(!(locale === 'en' && item.content.banner_kind === 'academy') ) {
                         let btnListHtml = "";
                        item.content.button_list.forEach((button) => {
                             // console.log(button);
@@ -251,9 +249,10 @@ function loadTopNotice(){
         const success =  response.data.success;
         if (success) {
             const data = response.data.data;
-            if(!getCookie('top-notice') && data) {
+            if(!getCookie('top-notice') && data.length > 0) {
+                document.querySelector(".header_beltbox").classList.add("on");
                 data.map(item => {
-                    const content = JSON.parse(item.content);
+                     content = JSON.parse(item.content);
                      const returnDom = `<div class="swiper-slide"> <!-- slide 구간 -->
                                             <span class="header_beltTit">
                                                 <a href="${locale === 'en' ? content.en_url : content.ko_url}"  onclick="addReadCount(${item.id},'main_banner')">
@@ -271,8 +270,19 @@ function loadTopNotice(){
                     $('.header_beltbox').slideUp(400);
                     closeToday('top-notice');
                 });
+
+                if(matchMedia("all and (min-width: 1024px)").matches) {//pc
+                    $('.main-contents').css({'margin-top': '162px'});
+                } else {//mo
+                    $('.main-contents').css({'margin-top': '100px'});
+                }
+
             }else{
-                document.querySelector(".header_beltbox").classList.remove("on");
+                if(matchMedia("all and (min-width: 1024px)").matches) {//pc
+                    $('.main-contents').css({'margin-top':'102px'});
+                } else {//mo
+                    $('.main-contents').css({'margin-top': '56px'});
+                }
             }
 
         }
@@ -394,8 +404,7 @@ function loadUpcomings() {
 
 
 /* 띠배너 */
-const platFormSwiper = new Swiper('.platform-swiper', { 
-    watchOverflow:true, // 슬라이드가 1개 일 때 pager, button 숨김 여부 설정
+const platFormSwiper = new Swiper('.platform-swiper', {
     autoplay: {
         delay: 5000,
     },
@@ -459,7 +468,7 @@ function loadBeltBanner() {
 
 
 $(function() {
-    console.log(window.innerWidth);
+    // console.log(window.innerWidth);
     /* window.addEventListener('resize', (e) => {
          const width = e.target.innerWidth;
          if (width > 1280) {
@@ -546,7 +555,6 @@ function loadPopup(){
 
                         let popupType = data.popup_type;
 
-
                         let localeTitle = locale === 'ko' ? jsonData.title.ko : jsonData.title.en;
                         let localeContent = locale === 'ko' ? jsonData.content.ko.content : jsonData.content.en.content;
                         let localeUrl = locale === 'ko' ? jsonData.content.ko.url : jsonData.content.en.url;
@@ -626,7 +634,6 @@ if (matchMedia("all and (min-width: 1024px)").matches) {
     });
 
     if($('.main-popupBg').hasClass('on')){
-         console.log(6549685); /* off */
          $('body').css({'overflow':'hidden'});
     }
     $('main-popupBg').toggleClass('on');
@@ -655,7 +662,6 @@ $(window).resize(function(){
 
     /* visual */
     const visualSwiper = new Swiper('.visual-swiper', {
-        watchOverflow:true, //슬라이드가 1개 일 때 pager, button 숨김 여부 설정
         autoplay: {
             delay:7000,
             disableOnInteraction:false,
