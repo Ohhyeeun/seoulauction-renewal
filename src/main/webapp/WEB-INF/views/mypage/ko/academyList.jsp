@@ -9,9 +9,9 @@
 <body class="" ng-controller="academyListCtl" data-ng-init="loadAcademyList(1)" style="opacity: 0" opacity=1>
 	<div class="wrapper">
 		<div class="sub-wrap pageclass">
-            <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
+            <jsp:include page="../../include/ko/nav.jsp" flush="false"/> 
             <!-- container -->
-            <div id="container" class="academy" >
+            <div id="container" class="academy">
                 <div id="contents" class="contents">
 
                     <section class="basis-section last-section mypage-section">
@@ -23,7 +23,6 @@
 
                                         <!-- 마이페이지 싸이드 메뉴 -->
                                         <jsp:include page="include/mypageSide.jsp" flush="false" />
-                                        
 
                                         <div class="content-area">
                                             <div class="subtitle-wrap">
@@ -55,7 +54,7 @@
                                                 </article>
                                                 <article class="academy-list-wrap"  ng-if="academyCnt != 0">
                                                     <div class="table-wrap pc-ver">
-                                                        <table class="table_base data-table academy-list">
+                                                        <table class="table_base data-table academy-list pc-ver">
                                                             <thead>
                                                                 <tr>
                                                                     <th>강의명</th>
@@ -66,15 +65,14 @@
                                                             </thead>
                                                             <tbody ng-repeat="art in academyList">
                                                                 <tr>
-                                                                	
                                                                     <td ng-if="art.CANCEL_YN != 'Y'" class="bbs-subject" ><a href="#" ng-click="academyPayHis({'parent':this, 'academy':art});">{{art.TITLE_KO}}</a></td>
                                                                     <td ng-if="art.CANCEL_YN == 'Y'" class="bbs-subject" >{{art.TITLE_KO}}</td>
                                                                     <td ng-bind="art.pay_price | number : 0"></td>
                                                                     <td ng-if="art.CANCEL_YN != 'Y'"><a class="pay complete" href="#" ng-click="academyPayHis({'parent':this, 'academy':art});" class="ng-scope" >결제완료</a>
-                                                                    <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="0" ng-if="art.PAY_METHOD_ID == 'card' && art.receipt == 'Y'" onclick="receiptPopup(this)"><span>결제영수증</span></button>
-                                                                 	<button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="1" ng-if="art.PAY_METHOD_ID == 'vbank' && art.receipt == 'Y'" onclick="receiptPopup(this)"><span>현금영수증</span></button>
+                                                                        <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="0" ng-if="art.PAY_METHOD_ID == 'card' && art.receipt == 'Y'" onclick="receiptPopup(this)"><span>결제영수증</span></button>
+                                                                        <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="1" ng-if="art.PAY_METHOD_ID == 'vbank' && art.receipt == 'Y'" onclick="receiptPopup(this)"><span>현금영수증</span></button>
                                                                     </td>
-                                                                    <td ng-if="art.CANCEL_YN == 'Y'"><a class="pay">결제취소</a></td>
+                                                                    <td ng-if="art.CANCEL_YN == 'Y'"><a class="pay cancel">결제취소</a></td>
                                                                     <td>{{art.REG_DT}}</td>
                                                                 </tr>
                                                             </tbody>
@@ -98,7 +96,7 @@
                                                                          <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="0" ng-if="art.PAY_METHOD_ID == 'card' && art.receipt == 'Y'" onclick="receiptPopup(this)"><span>결제영수증</span></button>
                                                                  		 <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="1" ng-if="art.PAY_METHOD_ID == 'vbank' && art.receipt == 'Y'" onclick="receiptPopup(this)"><span>현금영수증</span></button>
                                                                         </dd>
-                                                                        <dd ng-if="art.CANCEL_YN == 'Y'"><span class="pay">결제취소</span></dd>
+                                                                        <dd ng-if="art.CANCEL_YN == 'Y'"><span class="pay cancel">결제취소</span></dd>
                                                                     </dl>
                                                                     <dl>
                                                                         <dt>결제일시</dt>
@@ -107,25 +105,27 @@
                                                                 </div>
                                                             </li>
                                                         </ul>
-                                                    </div>                                                   
-                                                    <div class="wrap_paging" ng-if="academyCnt != 0">
-														<paging page="currentPage"
-															page-size=10
-															total="academyCnt"
-															paging-action="loadAcademyList(page)"
-															scroll-top="true"
-															hide-if-empty="true"
-															show-prev-next="true"
-															show-first-last="true"
-															ul-class="page_ul"
-															active-class="page_active"
-														    disabled-class="page_disable"
-														    text-next-class="icon-page_next next page_btn sp_btn btn_next02"
-														    text-prev-class="icon-page_prev prev page_btn sp_btn btn_prev02"
-														    text-first-class="icon-page_prevprev prev_end page_btn sp_btn btn_prev "
-														    text-last-class="icon-page_nextnext next_end page_btn sp_btn btn_next">
-														</paging>				
-													</div>
+                                                    </div>
+                                                    <div class="paging-area">
+                                                        <div class="paging" ng-if="academyCnt != 0">
+                                                            <paging page="currentPage"
+                                                                page-size=10
+                                                                total="academyCnt"
+                                                                paging-action="loadAcademyList(page)"
+                                                                scroll-top="true"
+                                                                hide-if-empty="true"
+                                                                show-prev-next="true"
+                                                                show-first-last="true"
+                                                                ul-class="page_ul"
+                                                                active-class="page_active"
+                                                                disabled-class="page_disable"
+                                                                text-next-class="icon-page_next next page_btn sp_btn btn_next02"
+                                                                text-prev-class="icon-page_prev prev page_btn sp_btn btn_prev02"
+                                                                text-first-class="icon-page_prevprev prev_end page_btn sp_btn btn_prev "
+                                                                text-last-class="icon-page_nextnext next_end page_btn sp_btn btn_next">
+                                                            </paging>
+                                                        </div> <%-- //paging --%>
+                                                    </div> <%-- //paging-area --%>
                                                 </article>
                                                 <article class="academy-list-wrap" ng-if="academyCnt == 0">
                                                     <div class="data-empty">
@@ -134,7 +134,9 @@
                                                 </article>
                                             </div>
                                         </div>
-                                    </div>
+
+
+                                    </div> <%-- // mypage-container --%>
                                 </div>
                                 <div class="panel-footer"></div>
                             </div>
@@ -149,17 +151,14 @@
             <!-- footer -->
             <jsp:include page="../../include/ko/footer.jsp" flush="false" />
             <!-- //footer -->
-
-            <!-- stykey -->
-
-            <div class="scroll_top-box">
-                <div class="box-inner">
-                    <a href="#" class="btn-scroll_top js-scroll_top"><i class="icon-scroll_top"></i></a>
-                </div>
-            </div>
-            <!-- // stykey -->
-
         </div>
+        <!-- stykey -->
+        <div class="scroll_top-box">
+            <div class="box-inner">
+                <a href="#" class="btn-scroll_top js-scroll_top"><i class="icon-scroll_top"></i></a>
+            </div>
+        </div>
+        <!-- // stykey -->
     </div>
 
 

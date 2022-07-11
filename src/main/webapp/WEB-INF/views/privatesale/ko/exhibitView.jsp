@@ -505,7 +505,7 @@
                 $scope.lotImages = r3.data.data;
                 $scope.saleImages = r4.data.data;
 
-                $scope.activeIndex = 1;
+                $scope.activeIndex = 0;
 
                 //artist 번호
                 $scope.artistNo = $scope.lotInfo.ARTIST_NO;
@@ -613,7 +613,7 @@
                                                     <div class="size_x"><span>` + size2 + unitCd +  `</span></div>
                                                     <div class="size_y"><span>` + size1 + unitCd + `</span></div>
                                                     <div class="images">
-                                                        <img class="imageViewer"  src="` + img_url + `" alt="" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + lot_no + `" />
+                                                        <img class="imageViewer"  src="` + img_url + `" alt="" index="` + index + `" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + lot_no + `" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -634,7 +634,7 @@
                                             <div class="img-area">
                                                 <div class="img-box">
                                                     <div class="images">
-                                                        <img class="imageViewerpopup" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
+                                                        <img class="imageViewerpopup" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -865,7 +865,7 @@
                     }
                     //imagesResizePcMb();
                     imagesSwiper.update();
-                    imagesSwiper.slideTo(1, 0);
+                    imagesSwiper.slideTo($scope.activeIndex +1, 0);
                 });
                 $("body").on("click", "#popup_images-wrap .js-closepop, #popup_images-wrap .popup-dim", function($e) {
                     $e.preventDefault();

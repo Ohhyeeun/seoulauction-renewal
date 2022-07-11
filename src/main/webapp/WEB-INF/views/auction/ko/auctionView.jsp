@@ -610,7 +610,6 @@
         </div>
     </div>
 </div>
->>>>>>> 7367dde8d20e931b049c669991f4c2c59a3918bd
 <!-- 응찰하기 -->
 <div id="bidding_go-wrap" class="trp popupfixed-wrap auction_info-popup  ">
     <div class="popup-dim"></div>
@@ -1091,6 +1090,8 @@
                 $scope.artistNo = $scope.lotInfo.ARTIST_NO;
                 console.log("125540", $scope.artistNo);
 
+                $scope.activeIndex = 0;
+
                 // popup setting
                 let imgUrl = $scope.lotImages[0].IMAGE_URL +
                     $scope.lotImages[0].FILE_PATH + "/" + $scope.lotImages[0].FILE_NAME;
@@ -1186,6 +1187,7 @@
                     },
                     on: {
                         slideChange: function () {
+                            $scope.activeIndex = view_visual.activeIndex;
                             view_thumnailActive(view_visual.activeIndex);
                         }
                     }
@@ -1441,7 +1443,7 @@
                 }
                 //imagesResizePcMb();
                 imagesSwiper.update();
-                imagesSwiper.slideTo(1, 0);
+                imagesSwiper.slideTo($scope.activeIndex +1, 0);
             });
             $("body").on("click", "#popup_images-wrap .js-closepop, #popup_images-wrap .popup-dim",
                 function ($e) {

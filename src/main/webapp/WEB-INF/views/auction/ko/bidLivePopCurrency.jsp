@@ -10,27 +10,49 @@
 <!DOCTYPE html>
 <html lang="ko" ng-app="myApp">
 <head>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="naver-site-verification" content="e43736eddfc3d46038024a9d2132da077391aadf"/>
     <meta charset="UTF-8">
-    <title>서울옥션 환율 계산기</title>
-    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/icon/favic/apple-touch-icon-57x57.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/icon/favic/apple-touch-icon-72x72.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/icon/favic/apple-touch-icon-114x114.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/icon/favic/apple-touch-icon-120x120.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/images/icon/favic/apple-touch-icon-152x152.png" />
-    <link rel="icon" type="image/png" href="/images/icon/favic/favicon-32x32.png" sizes="32x32"/>
-    <link rel="icon" type="image/png" href="/images/icon/favic/favicon-16x16.png" sizes="16x16"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="미술품 경매를 통해 많은 사람들과 일상 속 예술의 경험과 기쁨을 나누고자 합니다.">
+    <meta name="keywords" content="미술품,경매,작품,미술,근현대,고미술,와인,보석,구매,판매,위탁,경매회사,갤러리,케이옥션,K옥션,seoulauction,auction">
+    <meta name="author" content="SeoulAuction">
+    <meta name="Copyright" content="SeoulAuction" />
+    <meta name="Classification" content="회사소개, 미술품소개, 경매, 구매, 위탁" />
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.seoulauction.com">
+    <meta property="og:title" content="SeoulAuction">
+    <meta property="og:description" content="미술품 경매를 통해 많은 사람들과 일상 속 예술의 경험과 기쁨을 나누고자 합니다.">
+    <meta property="og:image" content="/images/pc/thumbnail/201508122329463497773394954126.jpg"/>
+    <meta property="al:web:url" content="https://www.seoulauction.com">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/images/favic/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
     <meta name="application-name" content="SeoulAuction" />
+    <!— Windows 8.1 + IE11 and above —>
+    <meta name="msapplication-config" content="/webapp/browserconfig.xml" />
+    <title>Seoul Auction</title>
 
-    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/icon/favic/apple-touch-icon-57x57.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/icon/favic/apple-touch-icon-72x72.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/icon/favic/apple-touch-icon-114x114.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/icon/favic/apple-touch-icon-120x120.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/images/icon/favic/apple-touch-icon-152x152.png" />
-    <link rel="icon" type="image/png" href="/images/icon/favic/favicon-32x32.png" sizes="32x32"/>
-    <link rel="icon" type="image/png" href="/images/icon/favic/favicon-16x16.png" sizes="16x16"/>
-    <meta name="application-name" content="SeoulAuction" />
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/favic/apple-icon-57x57.png">
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/images/favic/apple-icon-60x60.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/favic/apple-icon-72x72.png">
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/images/favic/apple-icon-76x76.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/favic/apple-icon-114x114.png">
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/favic/apple-icon-120x120.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/favic/apple-icon-144x144.png">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/images/favic/apple-icon-152x152.png">
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/images/favic/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/images/favic/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favic/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favic/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favic/favicon-16x16.png">
+    <link rel="manifest" href="/webapp/manifest.json">
+    <link rel="icon" type="image/png" href="/images/favic/favicon-32x32.png" sizes="32x32"/>
+    <link rel="icon" type="image/png" href="/images/favic/android-icon-192x192.png" sizes="192x192"/>
+    <link rel="icon" type="image/png" href="/images/favic/favicon-16x16.png" sizes="16x16"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/iamges/favic/apple-touch-icon.png">
+
 
     <link href="<c:url value="/css/old/common.css?ver=20211104" />" rel="stylesheet">
     <link href="<c:url value="/css/old/sa.common.2.0.css?ver=20210901" />" rel="stylesheet">
