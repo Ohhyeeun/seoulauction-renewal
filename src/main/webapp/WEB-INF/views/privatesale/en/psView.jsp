@@ -4,13 +4,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<jsp:include page="../../include/ko/header.jsp" flush="false"/>
+<jsp:include page="../../include/en/header.jsp" flush="false"/>
 
 <body class="" ng-controller="ctl" data-ng-init="load();" style="opacity: 0" opacity=1>
 <div class="wrapper">
     <div class="sub-wrap pageclass type-details_view">
         <!-- header -->
-        <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
+        <jsp:include page="../../include/en/nav.jsp" flush="false"/>
         <!-- //header -->
         <!-- container -->
         <div id="container">
@@ -27,14 +27,13 @@
                                                     <a href="#" onclick="goPrivateSale();" title="뒤로가기">
                                                         <i class="icon-page_back"></i>
                                                     </a>
-                                                    <span ng-bind="saleInfo.SALE_AS_TITLE_KO">목록</span>
+                                                    <span ng-bind="saleInfo.SALE_AS_TITLE_EN">Private Sale</span>
                                                 </div>
                                             </div>
                                             <div class="col_item">
                                                 <!-- [0516]select 변경 -->
 
                                                 <!-- // [0516]select 변경 -->
-
                                             </div>
                                         </div>
                                     </article>
@@ -108,13 +107,13 @@
                                                             <div class="sns-item">
                                                                 <button id="kakao-share" class="js-share_kakao">
                                                                     <i class="icon-share_sns_kakao"></i>
-                                                                    <div class="txt"><span>카카오톡</span></div>
+                                                                    <div class="txt"><span>kakaotalk</span></div>
                                                                 </button>
                                                             </div>
                                                             <div class="sns-item" ng-click="urlCopy();">
                                                                 <button class="js-share_url">
                                                                     <i class="icon-share_url_copy"></i>
-                                                                    <div class="txt"><span>URL 복사</span></div>
+                                                                    <div class="txt"><span>URL copy</span></div>
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -123,17 +122,18 @@
                                             </div>
                                             <div class="artist-area">
                                                 <div class="name">
-                                                    <strong ng-bind="saleInfo.ARTIST_NAME_KO"></strong>
+                                                    <strong ng-bind="saleInfo.ARTIST_NAME_EN">Kim SunWoo</strong>
                                                     <span>b.{{saleInfo.BORN_YEAR}}</span>
                                                 </div>
                                                 <div class="desc">
-                                                    <span ng-bind="saleInfo.TITLE_KO"></span>
+                                                    <span ng-bind="saleInfo.TITLE_EN"></span>
                                                 </div>
                                             </div>
+
                                             <div class="inquirybtn-area">
                                                 <div class="btnset">
                                                     <div class="btn-box">
-                                                        <button class="btn btn_black btn_lg" type="button" ng-click="goInquery();"><span>1:1 문의하기</span></button>
+                                                        <button class="btn btn_black btn_lg" type="button" ng-click="goInquery();"><span>1:1 Inquiry</span></button>
                                                     </div>
                                                     <div class="btn-box">
                                                         <button class="print-btn" ng-click="print(saleInfo.SALE_AS_NO);">
@@ -146,12 +146,13 @@
                                                 <div class="inquiryinfo-box">
                                                     <i class="icon-view_inquiry"></i>
                                                     <div class="txt">
-                                                        프라이빗 세일 작품은 문의하기를 통해서 구매가 가능
-                                                        합니다. 작품에 관해 궁금한 부분이나 문의하실 사항이
-                                                        있으시다면, 문의하기를 이용해주시기 바랍니다.
+                                                        <!-- [0613]안내내용 수정 -->
+                                                        Private sale works can be purchased through inquiry. If you have any questions, please use the inquiry form.
+                                                        <!-- //[0613]안내내용 수정 -->
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </article>
                                     </div>
                                 </div>
@@ -160,23 +161,24 @@
                                     <div class="view_editor-warp">
 
                                         <div class="info-box">
-                                            <div class="title">작품정보</div>
+                                            <div class="title">Work information</div>
                                             <div class="desc">
-                                                {{saleInfo.MATE_NM}} <br />
-                                                <span ng-bind="saleInfo | size_text_cm"></span>
-                                                | <span>{{saleInfo.MAKE_YEAR_KO}}</span> <br />
-                                                <span bind-html-compile="saleInfo.SIGN_INFO_KO"> <br />
+                                                {{saleInfo.MATE_NM_EN}} <br />
+                                                <span ng-bind="saleInfo | size_text"></span>
+                                                | <span>{{saleInfo.MAKE_YEAR_EN}}</span> <br />
+                                                <span bind-html-compile="saleInfo.SIGN_INFO_EN"> <br />
                                             </div>
                                         </div>
 
                                         <div class="info-box">
                                             <div class="title">Condition Report</div>
                                             <div class="desc">
+                                                There is a small scratch in the lower left, a foreign object in the upper right
                                             </div>
                                         </div>
 
                                         <div class="info-box">
-                                            <div class="title">작가정보</div>
+                                            <div class="title">Author information</div>
                                             <div class="desc" id="artistName">
                                             </div>
                                             <div class="desc" id="artistProfile">
@@ -192,7 +194,7 @@
                             <div class="panel-footer">
 
                                 <div class="btn_set_more">
-                                    <button class="btn btn_gray_line" type="button" onclick="goPrivateSale();"><span>목록</span></button>
+                                    <button class="btn btn_gray_line" type="button" onclick="goPrivateSale();"><span>LIST</span></button>
                                 </div>
 
                             </div>
@@ -206,7 +208,7 @@
         <!-- //container -->
 
         <!-- footer -->
-        <jsp:include page="../../include/ko/footer.jsp" flush="false"/> 
+        <jsp:include page="../../include/en/footer.jsp" flush="false"/>
         <!-- //footer -->
 
         <!-- stykey -->
@@ -222,7 +224,7 @@
 </div>
 
 
-<script type="text/javascript" src="/js/plugin/jquery.min.js"></
+<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
 <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
 <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
@@ -310,6 +312,7 @@
         </div>
     </div>
 </div>
+
 <!-- [0516] 셀렉트 드롭다운 -->
 <script>
     var dropdown = $(".js-dropdown-btn").trpDropdown({
@@ -365,7 +368,7 @@
 
 <!-- angular js -->
 <script>
-    app.value('locale', 'ko');
+    app.value('locale', 'en');
     app.value('is_login', true);
 
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
@@ -457,9 +460,9 @@
                 let imgUrl = $scope.saleImages[0].IMAGE_URL +
                     $scope.saleImages[0].FILE_PATH + "/" + $scope.saleImages[0].FILE_NAME;
 
-                $("#bidding_title").html($scope.saleInfo.TITLE_KO);
+                $("#bidding_title").html($scope.saleInfo.TITLE_EN);
                 $("#img_url").attr("src", imgUrl);
-                $("#artist_nm").html($scope.saleInfo.ARTIST_NAME_KO);
+                $("#artist_nm").html($scope.saleInfo.ARTIST_NAME_EN);
                 $("#born_year").html("(" + $scope.saleInfo.BORN_YEAR + ")");
 
                 $("#lot_title").html("LOT " + $scope.saleInfo.SALE_AS_NO);
@@ -475,8 +478,8 @@
                     container: "#kakao-share",
                     objectType: "feed",
                     content: {
-                        title: $scope.saleInfo.SALE_AS_TITLE_KO,
-                        description: $scope.saleInfo.TITLE_KO,
+                        title: $scope.saleInfo.SALE_AS_TITLE_EN,
+                        description: $scope.saleInfo.TITLE_EN,
                         imageUrl:imgUrl,
                         link: {
                             mobileWebUrl: window.location.href,
@@ -547,7 +550,7 @@
 
                     let swiper_slide_item = '';
                     //if(size1 > 160) {
-                        swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
+                    swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
                                                <div class="img-area">
                                                 <div class="img-box">
                                                     <div class="size_x"><span>` + size2 + unitCd + `</span></div>
@@ -558,7 +561,7 @@
                                                 </div>
                                             </div>
                         </div>`
-                        $("#swiper-wrapper").append(swiper_slide_item);
+                    $("#swiper-wrapper").append(swiper_slide_item);
                     //}
 
                 });
@@ -797,8 +800,8 @@
                                     }
                                 });
 
-                                $("#artistName").html(JSON.parse(artistData.name).ko + ' ' +  artistData.birth + '~' + artistData.death);
-                                $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
+                                $("#artistName").html(JSON.parse(artistData.name).en + ' ' +  artistData.birth + '~' + artistData.death);
+                                $("#artistProfile").html(JSON.parse(artistData.profile).en + '</br>' + title);
 
                                 let html = '<div class="vide_img-box">';
                                 $.each(artistYoutubeImages, function (index, el) {
@@ -942,6 +945,7 @@
 
     });
 </script>
+
 
 </body>
 

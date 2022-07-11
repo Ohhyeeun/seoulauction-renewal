@@ -46,7 +46,6 @@
                                     <div id="print_sale_title" class="title"></div>
                                     <div class="data">
                                         <span id="print_sale_to_date"></span>
-                                        <span></span>
                                     </div>
                                 </div>
                             </div>
@@ -68,27 +67,24 @@
                                                 <span id="print_title" ></span>
                                             </div>
                                         </div>
-                                        <!--
+
                                         <div class="price-area">
                                             <dl id="print_expe_price" class="price-list">
-                                                <dt>추정가 : </dt>
-                                                <dd>KRW 9,900,000,000</dd>
                                             </dl>
                                         </div>
-                                        -->
                                     </div>
                                 </article>
 
                                 <article class="print_view-article  page-break">
                                     <div class="view_editor-warp">
                                         <div class="info-box">
-                                            <div class="title">DETAILS</div>
+                                            <div class="title"></div>
                                             <div id="price_lot_desc" class="desc">
                                             </div>
                                         </div>
 
                                         <div class="info-box">
-                                            <div class="title">Condition Report</div>
+                                            <div class="title"></div>
                                             <div id="cond_rpt" class="desc">
                                             </div>
                                         </div>
@@ -159,37 +155,36 @@
         function init(){
 
 
-            axios.get('/api/privatesale/lot_info/${saleNo}/${lotNo}')
+            axios.get('/api/privatesale/saleAsInfo/${saleAsNo}')
                 .then(function(response) {
                     const data = response.data;
                     let success = data.success;
                     if(success){
-                        let lotData = data.data;
+                        let saleData = data.data;
 
-                        $("#print_sale_title").html(JSON.parse(lotData.SALE_TITLE_JSON).en);
+                        $("#print_sale_title").html(saleData.TITLE_EN);
                         $("#print_sale_to_date").html('Closing Time : ' +
-                            lotData.LOT_EXPIRE_DATE_TIME_T.replace(lotData.LOT_EXPIRE_DATE_DAY , lotData.LOT_EXPIRE_DATE_DAY )
+                            saleData.LOT_EXPIRE_DATE_TIME_T.replace(saleData.LOT_EXPIRE_DATE_DAY , enDayToHanDay(saleData.LOT_EXPIRE_DATE_DAY) )
                         );
 
-                        $("#print_img").attr('src' ,
-                            'https://www.seoulauction.com/nas_img' + lotData.LOT_IMG_PATH + '/' + lotData.LOT_IMG_NAME );
-                        $("#print_lot_no").html(lotData.LOT_NO);
-                        $("#print_artist_name").html(lotData.ARTIST_NAME_EN_TXT);
-                        $("#print_year").html('b.' + lotData.BORN_YEAR);
-                        $("#print_title").html(lotData.TITLE_EN_TXT);
+                        $("#print_lot_no").html(saleData.AS_NO);
+                        $("#print_artist_name").html(saleData.ARTIST_NAME_EN);
+                        $("#print_year").html('b.' + saleData.BORN_YEAR);
+                        $("#print_title").html(saleData.TITLE_EN);
+                        //TODO 오프라인인경우 USD 달러 나와야함.
 
                         $("#price_lot_desc").html(
-                            lotData.MATE_NM_EN + '<br/>'
+                            saleData.MATE_NM_EN + '<br/>'
                             + '<span>'
-                            + lotData.LOT_SIZE_JSON[0].SIZE1 + 'X'
-                            + lotData.LOT_SIZE_JSON[0].SIZE2 + 'X'
-                            + lotData.LOT_SIZE_JSON[0].SIZE3 + 'cm'
+                            + saleData.SIZE1 + 'X'
+                            + saleData.SIZE2 + 'X'
+                            + saleData.SIZE3 + 'cm'
                             + '</span><br/>'
                             + '<span>'
-                            + lotData.SIGN_INFO_JSON.en
+                            + saleData.SIGN_INFO_EN
                         );
 
-                        $("#cond_rpt").html(lotData.COND_RPT_JSON.en);
+                        $("#cond_rpt").html(saleData.COND_RPT_EN);
                     } else {
                         alert(data.data.msg);
                         history.back();
@@ -199,8 +194,30 @@
                     console.log(error);
                 });
 
-        }
+            axios.get('/api/privatesale/saleImages/${saleAsNo}')
+                .then(function(response) {
 
+                    const data = response.data;
+                    let success = data.success;
+                    console.log("data :::: " +  data);
+
+                    if(success){
+                        let saleImages = data.data;
+                        let imgUrl = saleImages[0].IMAGE_URL +
+                            saleImages[0].FILE_PATH + "/" + saleImages[0].FILE_NAME;
+
+                        $("#print_img").attr('src' , imgUrl);
+                    }
+                    else {
+                        alert(data.data.msg);
+                        history.back();
+                    }
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+
+        }
 
     });
 
