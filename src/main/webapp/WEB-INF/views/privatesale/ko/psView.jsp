@@ -573,7 +573,7 @@
                                             <div class="img-area">
                                                 <div class="img-box">
                                                     <div class="images">
-                                                        <img class="imageViewer" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
+                                                        <img class="imageViewerpopup" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -698,10 +698,17 @@
                 $(".js-popup_images").on("click", function($e) {
                     $e.preventDefault();
                     popup_images.open(this); // or false
-                    imagesResizePcMb();
+                    for (var o = $(".imageViewerpopup"), e = 0; e < o.length; e++) {
+                        if (!o[e]) return !1;
+                        var windowW = screen.availWidth;
+                        var windowH = screen.availHeight;
+                        o[e].width = windowW;
+                        o[e].height = windowH;
+                    }
+                    //imagesResizePcMb();
                     imagesSwiper.update();
-                    //imagesSwiper.slideTo(1, 0);
-                    imagesSwiper.slideTo($("#view_lot_no").attr("sel-data-index"), 0);
+                    imagesSwiper.slideTo(1, 0);
+                    //imagesSwiper.slideTo($("#view_lot_no").attr("sel-data-index"), 0);
                 });
                 $("body").on("click", "#popup_images-wrap .js-closepop, #popup_images-wrap .popup-dim", function($e) {
                     $e.preventDefault();

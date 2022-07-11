@@ -695,49 +695,6 @@
         </div>
     </div>
 </div>
-<div id="popup_images-wrap" class="trp popupfixed-wrap images-popup">
-    <div class="popup-dim"></div>
-    <div class="popup-align">
-        <div class="popup-vertical">
-            <div class="popup-layer">
-                <div class="pop-panel">
-                    <div class="pop-header">
-                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
-                    </div>
-                    <div class="pop-body">
-                        <article class="viewer-article js-zoom_inout">
-                            <div class="gallery_view js-imagesSwiper" style="">
-                                <div class="gallery_center">
-                                    <div id="swiper-wrapper_popup"  class="swiper-wrapper">
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                        <div class="page_prev"><i class="icon-img_swiper_prev"></i></div>
-                        <div class="page_next"><i class="icon-img_swiper_next"></i></div>
-                    </div>
-                    <div class="pop-footer">
-                        <div class="pagination js-imagesSwiper_pagination"></div>
-                        <article class="thumbnail-article">
-                            <ul id="thumbnail_image" class="thumbnail-list js-thumbnail-list">
-                            </ul>
-                        </article>
-                        <!-- [0516]이동 -->
-                        <div class="zoom-box">
-                            <div class="btnitem">
-                                <button class="zoomout js-zoomout"><i class="icon-zoom_out"></i></button>
-                            </div>
-                            <div class="btnitem">
-                                <button class="zoomin js-zoomin"><i class="icon-zoom_in"></i></button>
-                            </div>
-                        </div>
-                        <!-- //[0516]이동 -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
 <!--[if lt IE 9]>
@@ -1290,7 +1247,7 @@
                                             <div class="img-area">
                                                 <div class="img-box">
                                                     <div class="images">
-                                                        <img class="imageViewer" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
+                                                        <img class="imageViewerpopup" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -1475,7 +1432,14 @@
             $(".js-popup_images").on("click", function ($e) {
                 $e.preventDefault();
                 popup_images.open(this); // or false
-                imagesResizePcMb();
+                for (var o = $(".imageViewerpopup"), e = 0; e < o.length; e++) {
+                    if (!o[e]) return !1;
+                    var windowW = screen.availWidth;
+                    var windowH = screen.availHeight;
+                    o[e].width = windowW;
+                    o[e].height = windowH;
+                }
+                //imagesResizePcMb();
                 imagesSwiper.update();
                 imagesSwiper.slideTo(1, 0);
             });
