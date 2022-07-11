@@ -174,6 +174,7 @@
         , ifnull(LS.SIZE2, '0')                SIZE2
         , L.ARTIST_NO ARTIST_NO
         , if(CD_ART.CD_ID in('traditional_painting', 'local_painting', 'foreign_painting'), 'Y', 'N') AS VIEW_SCALE_YN
+        , DATE_FORMAT(L.TO_DT,'%Y-%m-%d') LOT_EXPIRE_DATE
         from LOT L
         left outer join (<include refid="com.seoulauction.renewal.mapper.kt.CommonMapper.saleLastBidInfos"/>) BD on
         BD.SALE_NO = L.SALE_NO and BD.LOT_NO	 = L.LOT_NO

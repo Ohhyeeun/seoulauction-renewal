@@ -1106,8 +1106,7 @@
                 $("#lot_mt_nm").html($scope.lotInfo.MATE_NM);
 
                 console.log("125540", $scope.cust_no);
-                startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2,
-                    '${member.loginId}', $scope.cust_no);
+                startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2, '${member.loginId}', $scope.cust_no);
 
                 //await $scope.setSale($scope.sale_no);
                 //get sale cert
@@ -1843,7 +1842,7 @@
             url = "https://dev-bid.seoulauction.xyz";
         }
 
-        if (d.msg_type == packet_enum.init) {
+        if (d.msg_type === packet_enum.init) {
             // 현재 접속 세일/랏 정보
             connect_info.token = d.message.token
             connect_info.sale_no = saleNo;
@@ -1867,7 +1866,7 @@
             }
             init_func_manual(d);
 
-        } else if (d.msg_type == packet_enum.bid_info) {
+        } else if (d.msg_type === packet_enum.bid_info) {
             $("#cur_cost_layer").css("display", "");
             if (d.message.bid != null && d.message.bid.length > 0) {
                 // popup layer Values
@@ -1953,6 +1952,14 @@
                             let dt_ly = document.createElement("div");
                             dt_ly.setAttribute("class", "product-day");
 
+                            let dt_ly_span11;
+                            if (bid_hist_info[i].is_auto_bid) {
+                                // type
+                                dt_ly_span11 = document.createElement("em");
+                                dt_ly_span11.setAttribute("class", "type-auto");
+                                dt_ly_span11.innerText = "자동";
+                            }
+
                             // date
                             let dt_ly_span2 = document.createElement("span");
                             dt_ly_span2.innerText = ddd.format("yyyy-MM-dd");
@@ -1961,6 +1968,10 @@
                             let dt_ly_span3 = document.createElement("span");
                             dt_ly_span3.innerText = ddd.format("hh:mm:ss");
 
+                            if (bid_hist_info[i].is_auto_bid) {
+                                // type
+                                dt_ly.appendChild(dt_ly_span11);
+                            }
                             // dt_ly.appendChild(dt_ly_span1);
                             dt_ly.appendChild(dt_ly_span2);
                             dt_ly.appendChild(dt_ly_span3);
@@ -2067,7 +2078,7 @@
                 bid_tick_main.innerText = "경매가 종료 되었습니다.";
             }
 
-        } else if (d.msg_type == packet_enum.bid_info_init) {
+        } else if (d.msg_type === packet_enum.bid_info_init) {
 
             document.getElementById("cur_cost_text").innerText = "현재가";
             document.getElementById("cur_cost_text2").innerText = "현재가";
@@ -2218,6 +2229,13 @@
                                         document.getElementById("cur_cost_text").innerText = "낙찰가";
                                         document.getElementById("cur_cost_text2").innerText = "낙찰가";
                                     }
+                                    let dt_ly_span11;
+                                    if (bid_hist_info[i].value[j].is_auto_bid) {
+                                        // type
+                                        dt_ly_span11 = document.createElement("em");
+                                        dt_ly_span11.setAttribute("class", "type-auto");
+                                        dt_ly_span11.innerText = "자동";
+                                    }
 
                                     // date
                                     let dt_ly_span2 = document.createElement("span");
@@ -2230,6 +2248,11 @@
                                     if (bid_info.winner_state === 2) {
                                         dt_ly.appendChild(dt_ly_span1);
                                     }
+                                    if (bid_hist_info[i].value[j].is_auto_bid) {
+                                        // type
+                                        dt_ly.appendChild(dt_ly_span11);
+                                    }
+
                                     dt_ly.appendChild(dt_ly_span2);
                                     dt_ly.appendChild(dt_ly_span3);
 

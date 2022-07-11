@@ -1068,6 +1068,14 @@
                                     let dt_ly = document.createElement("div");
                                     dt_ly.setAttribute("class", "product-day");
 
+                                    let dt_ly_span11;
+                                    if (bid_hist_info[i].is_auto_bid) {
+                                        // type
+                                        dt_ly_span11 = document.createElement("em");
+                                        dt_ly_span11.setAttribute("class", "type-auto");
+                                        dt_ly_span11.innerText = "자동";
+                                    }
+
                                     // date
                                     let dt_ly_span2 = document.createElement("span");
                                     dt_ly_span2.innerText = ddd.format("yyyy-MM-dd");
@@ -1076,6 +1084,9 @@
                                     let dt_ly_span3 = document.createElement("span");
                                     dt_ly_span3.innerText = ddd.format("hh:mm:ss");
 
+                                    if (bid_hist_info[i].is_auto_bid) {
+                                        dt_ly.appendChild(dt_ly_span11);
+                                    }
                                     // dt_ly.appendChild(dt_ly_span1);
                                     dt_ly.appendChild(dt_ly_span2);
                                     dt_ly.appendChild(dt_ly_span3);
@@ -1361,11 +1372,19 @@
                                                 let dt_ly = document.createElement("div");
                                                 dt_ly.setAttribute("class", "product-day");
 
-                                                let dt_ly_span1 = document.createElement("em");
+                                                let dt_ly_span1;
                                                 if (bid_info.winner_state === 2 && bid_hist_info[i].value.length - 1 === j) {
                                                     // type
+                                                    dt_ly_span1 = document.createElement("em");
                                                     dt_ly_span1.setAttribute("class", "type-success");
                                                     dt_ly_span1.innerText = "낙찰";
+                                                }
+                                                let dt_ly_span11;
+                                                if (bid_hist_info[i].value[j].is_auto_bid) {
+                                                    // type
+                                                    dt_ly_span11 = document.createElement("em");
+                                                    dt_ly_span11.setAttribute("class", "type-auto");
+                                                    dt_ly_span11.innerText = "자동";
                                                 }
                                                 // date
                                                 let dt_ly_span2 = document.createElement("span");
@@ -1376,6 +1395,9 @@
 
                                                 if (bid_info.winner_state === 2) {
                                                     dt_ly.appendChild(dt_ly_span1);
+                                                }
+                                                if (bid_hist_info[i].value[j].is_auto_bid) {
+                                                    dt_ly.appendChild(dt_ly_span11);
                                                 }
                                                 dt_ly.appendChild(dt_ly_span2);
                                                 dt_ly.appendChild(dt_ly_span3);
