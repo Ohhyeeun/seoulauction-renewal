@@ -1659,8 +1659,32 @@
             // 정렬방식 설정
             $scope.rerange = function () {
                 let sst = parseInt($("#sortType").val())
-                let v = $scope.saleInfoAll;
-                if ($scope.searchSaleInfoAll != null && $scope.searchSaleInfoAll.length > 0) {
+                let parsing = function(val){
+                    if (val.toString() === "") {
+                        return 0;
+                    }
+                    return parseInt(val.toString().replace(/\)/gi, '').replace(/\(/gi, '').replace(/응찰/gi, '').replace(/KRW/gi, '').replace(/,/gi, '').replace(/USD/gi, ''));
+                }
+                let v;
+                for (let i = 0 ; i < $scope.saleInfoAll.length;i++ ){
+                    if ($scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW === undefined) {
+                        $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW = 0;
+                    }
+                    if ($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW === undefined) {
+                        $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = 0;
+                    }
+                }
+                v = $scope.saleInfoAll;
+
+                for (let i = 0 ; i < $scope.searchSaleInfoAll.length; i++){
+                    if ($scope.searchSaleInfoAll[i].EXPE_PRICE_TO_JSON.KRW === undefined) {
+                        $scope.searchSaleInfoAll[i].EXPE_PRICE_TO_JSON.KRW = 0;
+                    }
+                    if ($scope.searchSaleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW === undefined) {
+                        $scope.searchSaleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = 0;
+                    }
+                }
+                if ($scope.searchSaleInfoAll.length > 0) {
                     v = $scope.searchSaleInfoAll;
                 }
                 switch (sst) {
@@ -1673,55 +1697,52 @@
                         });
                         break;
                     case 2:
-
                         // lot 추정가 높은 순
                         v.sort(function (a, b) {
-                            if (a.EXPE_PRICE_TO_JSON.KRW > b.EXPE_PRICE_TO_JSON.KRW) return -1;
-                            if (a.EXPE_PRICE_TO_JSON.KRW === b.EXPE_PRICE_TO_JSON.KRW) return 0;
-                            if (a.EXPE_PRICE_TO_JSON.KRW < b.EXPE_PRICE_TO_JSON.KRW) return 1;
+                            if (parseInt(a.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,"")) > parseInt(b.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,""))) return -1;
+                            if (parseInt(a.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,"")) === parseInt(b.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,""))) return 0;
+                            if (parseInt(a.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,"")) < parseInt(b.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,""))) return 1;
                         });
                         break;
                     case 3:
 
                         // lot 추정가 낮은 순
                         v.sort(function (a, b) {
-                            if (a.EXPE_PRICE_FROM_JSON.KRW > b.EXPE_PRICE_FROM_JSON.KRW) return 1;
-                            if (a.EXPE_PRICE_FROM_JSON.KRW === b.EXPE_PRICE_FROM_JSON.KRW) return 0;
-                            if (a.EXPE_PRICE_FROM_JSON.KRW < b.EXPE_PRICE_FROM_JSON.KRW) return -1;
+                            if (parseInt(a.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,"")) > parseInt(b.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,""))) return 1;
+                            if (parseInt(a.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,"")) === parseInt(b.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,""))) return 0;
+                            if (parseInt(a.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,"")) < parseInt(b.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,""))) return -1;
                         });
                         break;
                     case 4:
-
-                        // 응찰가 높은 순
+         // 응찰가 높은 순
                         v.sort(function (a, b) {
-                            if (a.CUR_COST > b.CUR_COST) return -1;
-                            if (a.CUR_COST === b.CUR_COST) return 0;
-                            if (a.CUR_COST < b.CUR_COST) return 1;
+                            if (parsing(a.CUR_COST) > parsing(b.CUR_COST)) return -1;
+                            if (parsing(a.CUR_COST) === parsing(b.CUR_COST)) return 0;
+                            if (parsing(a.CUR_COST) < parsing(b.CUR_COST)) return 1;
                         });
                         break;
                     case 5:
-
                         // 응찰가 낮은 순
                         v.sort(function (a, b) {
-                            if (a.CUR_COST > b.CUR_COST) return 1;
-                            if (a.CUR_COST === b.CUR_COST) return 0;
-                            if (a.CUR_COST < b.CUR_COST) return -1;
+                            if (parsing(a.CUR_COST) > parsing(b.CUR_COST)) return 1;
+                            if (parsing(a.CUR_COST) === parsing(b.CUR_COST)) return 0;
+                            if (parsing(a.CUR_COST) < parsing(b.CUR_COST)) return -1;
                         });
                         break;
                     case 6:
                         // 응찰수 높은 순
                         v.sort(function (a, b) {
-                            if (a.BID_COUNT > b.BID_COUNT) return -1;
-                            if (a.BID_COUNT === b.BID_COUNT) return 0;
-                            if (a.BID_COUNT < b.BID_COUNT) return 1;
+                            if (parsing(a.BID_COUNT) > parsing(b.BID_COUNT)) return -1;
+                            if (parsing(a.BID_COUNT) === parsing(b.BID_COUNT)) return 0;
+                            if (parsing(a.BID_COUNT) < parsing(b.BID_COUNT)) return 1;
                         });
                         break;
                     case 7:
                         // 응찰수 낮은 순
                         v.sort(function (a, b) {
-                            if (a.BID_COUNT > b.BID_COUNT) return 1;
-                            if (a.BID_COUNT === b.BID_COUNT) return 0;
-                            if (a.BID_COUNT < b.BID_COUNT) return -1;
+                            if (parsing(a.BID_COUNT) > parsing(b.BID_COUNT)) return 1;
+                            if (parsing(a.BID_COUNT) === parsing(b.BID_COUNT)) return 0;
+                            if (parsing(a.BID_COUNT) < parsing(b.BID_COUNT)) return -1;
                         });
                         break;
                 }
