@@ -610,7 +610,6 @@
         </div>
     </div>
 </div>
->>>>>>> 7367dde8d20e931b049c669991f4c2c59a3918bd
 <!-- 응찰하기 -->
 <div id="bidding_go-wrap" class="trp popupfixed-wrap auction_info-popup  ">
     <div class="popup-dim"></div>
