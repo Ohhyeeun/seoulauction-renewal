@@ -1003,9 +1003,9 @@
                     case 3:
                         // lot 추정가 낮은 순
                         v.sort(function (a, b) {
-                            if (a.EXPE_PRICE_TO_JSON.KRW > b.EXPE_PRICE_TO_JSON.KRW) return 1;
-                            if (a.EXPE_PRICE_TO_JSON.KRW === b.EXPE_PRICE_TO_JSON.KRW) return 0;
-                            if (a.EXPE_PRICE_TO_JSON.KRW < b.EXPE_PRICE_TO_JSON.KRW) return -1;
+                            if (a.EXPE_PRICE_FROM_JSON.KRW > b.EXPE_PRICE_FROM_JSON.KRW) return 1;
+                            if (a.EXPE_PRICE_FROM_JSON.KRW === b.EXPE_PRICE_FROM_JSON.KRW) return 0;
+                            if (a.EXPE_PRICE_FROM_JSON.KRW < b.EXPE_PRICE_FROM_JSON.KRW) return -1;
                         });
                         break;
                 }
