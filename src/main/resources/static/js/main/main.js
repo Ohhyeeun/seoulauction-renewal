@@ -62,7 +62,6 @@ $("body").on("click", "#popup_pwsearch6-wrap .js-closepop, #popup_pwsearch6-wrap
 });
 
 //비밀번호변경180일 팝업
-console.log(modPassword)
 if(modPassword == 'true'){
 	var popup_pwsearch5 = $(".js-popup_pwsearch5").trpLayerFixedPopup("#popup_pwsearch5-wrap");
     popup_pwsearch5.open(this); // or false 
@@ -174,7 +173,7 @@ function  loadBigBanner (){
                 const bannerList = response.data.data;
                 // console.log(bannerList);
                 bannerList.map(item => {
-                    console.log(item)
+                    // console.log(item)
                     item.content = JSON.parse(item.content);
                    if(!(locale === 'en' && item.content.banner_kind === 'academy') ) {
                         let btnListHtml = "";
@@ -250,10 +249,10 @@ function loadTopNotice(){
         const success =  response.data.success;
         if (success) {
             const data = response.data.data;
-            if(!getCookie('top-notice') && data) {
+            if(!getCookie('top-notice') && data.length > 0) {
                 document.querySelector(".header_beltbox").classList.add("on");
                 data.map(item => {
-                    const content = JSON.parse(item.content);
+                     content = JSON.parse(item.content);
                      const returnDom = `<div class="swiper-slide"> <!-- slide 구간 -->
                                             <span class="header_beltTit">
                                                 <a href="${locale === 'en' ? content.en_url : content.ko_url}"  onclick="addReadCount(${item.id},'main_banner')">
@@ -469,7 +468,7 @@ function loadBeltBanner() {
 
 
 $(function() {
-    console.log(window.innerWidth);
+    // console.log(window.innerWidth);
     /* window.addEventListener('resize', (e) => {
          const width = e.target.innerWidth;
          if (width > 1280) {
@@ -556,7 +555,6 @@ function loadPopup(){
 
                         let popupType = data.popup_type;
 
-
                         let localeTitle = locale === 'ko' ? jsonData.title.ko : jsonData.title.en;
                         let localeContent = locale === 'ko' ? jsonData.content.ko.content : jsonData.content.en.content;
                         let localeUrl = locale === 'ko' ? jsonData.content.ko.url : jsonData.content.en.url;
@@ -636,7 +634,6 @@ if (matchMedia("all and (min-width: 1024px)").matches) {
     });
 
     if($('.main-popupBg').hasClass('on')){
-         console.log(6549685); /* off */
          $('body').css({'overflow':'hidden'});
     }
     $('main-popupBg').toggleClass('on');

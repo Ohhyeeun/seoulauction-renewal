@@ -21,14 +21,10 @@ $(document).ready(function(){
         axios.get('/api/main/auctions')
             .then(function(response) {
                 const data = response.data;
-                console.log(data);
                 let success = data.success;
                 if(success){
 
                     auctionData = data.data.list;
-
-                    console.log(auctionData);
-
                     //TODO 인클루드 작업.
                     $.each(auctionData , function(idx , el){
 
@@ -64,13 +60,31 @@ $(document).ready(function(){
 
     function addLot(idx , data , kind){
 
-        let starting = locale === 'ko' ? '시작가' : 'Starting KRW  ';
+        let starting = locale === 'ko' ? '추정가' : 'Starting KRW  ';
+
+        if (kind === "ONLINE") {
+            starting = locale === 'ko' ? "시작가" : 'Starting KRW  ';
+        }
 
         $.each(data , function(lotIdx , el){
             let imgPath = 'https://www.seoulauction.com/nas_img' + el.FILE_PATH + '/' + el.FILE_NAME;
             let lotTitle = JSON.parse(el.EXPE_PRICE_TITLE);
             let lotName = locale === 'ko' ? lotTitle.ko : lotTitle.en;
-            let price = numberWithCommas(el.START_PRICE);
+            let priceToJson =  JSON.parse(el.EXPE_PRICE_TO_JSON);
+            let priceFromJson =  JSON.parse(el.EXPE_PRICE_FROM_JSON);
+            let price = "";
+            if (kind === "ONLINE") {
+                if (locale === 'ko') {
+                    price = numberWithCommas(el.START_PRICE);
+                }
+            } else {
+                if (locale === 'ko') {
+                    price = numberWithCommas(priceFromJson.KRW) + '~' + numberWithCommas(priceToJson.KRW);
+                } else {
+                    price = numberWithCommas(priceFromJson.USD) + '~' + numberWithCommas(priceToJson.USD);
+                }
+            }
+
             let saleNo = el.SALE_NO;
             let lotNo = el.LOT_NO;
             let like = el.FAVORITE_YN === 'N' ? 'on' : '';
@@ -106,7 +120,7 @@ $(document).ready(function(){
         $('.auction-thumb').off('mouseleave');
         $('.wish_heart').off('click');
         $('.auction-thumb').off('click');
-
+        $('.auction-thumbbox').off('click');
         /*auction Tab 버튼*/
         $('.auctionTab-btn').on('click',function () {
 
@@ -133,13 +147,69 @@ $(document).ready(function(){
 
         });
 
-        $('.auction-thumbbox').on('mouseenter', function () {
-            $('.auction-thumbbox>.auction-thumb').removeClass('on');
-            $(this).children('.auction-thumb').addClass('on');
+        //모바일이 아닐때만 .
+        if (matchMedia("all and (min-width: 1024px)").matches) {
+
+            $('.auction-thumbbox').on('mouseenter', function () {
+                $('.auction-thumbbox>.auction-thumb').removeClass('on');
+                $(this).children('.auction-thumb').addClass('on');
+
+            });
+            $('.auction-thumb').on('mouseleave', function () {
+                $(this).removeClass('on');
+            });
+        } else {
+            //모바일일땐 클릭이벤트로
+            $('.auction-thumbbox').on('click', function (event) {
+
+                let saleKind = 'online';
+                if(kind){
+                    kind = kind.toLowerCase();
+                    if(kind.includes('main') || kind.includes('plan') || kind.includes('hongkong')){
+                        saleKind = 'live';
+                    }
+                }
+
+                window.open('/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).attr('lot-no'));
+            });
+        }
+
+
+        /* 반응형 resize 추가 */
+        $(window).resize(function(){
+
+            $('.auction-thumbbox').off('mouseenter');
+            $('.auction-thumb').off('mouseleave');
+            $('.auction-thumbbox').off('click');
+
+            //모바일이 아닐때만 .
+            if (matchMedia("all and (min-width: 1024px)").matches) {
+
+                $('.auction-thumbbox').on('mouseenter', function () {
+                    $('.auction-thumbbox>.auction-thumb').removeClass('on');
+                    $(this).children('.auction-thumb').addClass('on');
+
+                });
+                $('.auction-thumb').on('mouseleave', function () {
+                    $(this).removeClass('on');
+                });
+            } else {
+                //모바일일땐 클릭이벤트로
+                $('.auction-thumbbox').on('click', function (event) {
+
+                    let saleKind = 'online';
+                    if(kind){
+                        kind = kind.toLowerCase();
+                        if(kind.includes('main') || kind.includes('plan') || kind.includes('hongkong')){
+                            saleKind = 'live';
+                        }
+                    }
+
+                    window.open('/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).attr('lot-no'));
+                });
+            }
         });
-        $('.auction-thumb').on('mouseleave', function () {
-            $(this).removeClass('on');
-        });
+
 
         //클릭시
         $('.auction-thumb').on('click', function (event) {
@@ -161,7 +231,6 @@ $(document).ready(function(){
             if(!checkLogin()){
                 return false;
             }
-
 
             let data = {};
 
@@ -240,11 +309,11 @@ $(document).ready(function(){
             w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws");
         }
         w.onopen = function () {
-            console.log("open");
+            // console.log("open");
         }
         w.onerror = function () {
             w.close();
-            console.log('error');
+            // console.log('error');
         }
         w.onclose = function () {
             if (w.readyState === w.CLOSED) {
@@ -293,6 +362,8 @@ $(document).ready(function(){
         } else if (d.msg_type === packet_enum.bid_info) {
             if (d.message.bid != null && d.message.bid.length > 0) {
                 let len = d.message.bid.length;
+
+
                 let curCostValue = (d.message.bid[len - 1].bid_cost === 0) ?
                     "현재가 " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR') :
                     "현재가 " + d.message.bid[len - 1].bid_cost.toLocaleString('ko-KR');
@@ -320,10 +391,26 @@ $(document).ready(function(){
                 $(".auctionTab-contents figure").each(function (idx, el) {
                     let mapIndex = matching.get($(el).attr("sale-no") + "-" + $(el).attr("lot-no"));
                     if (mapIndex !== undefined) {
-                        let curCostValue = (d.message.bids[mapIndex].bid_cost === 0) ? "현재가 " +
-                            d.message.bids[mapIndex].open_bid_cost.toLocaleString('ko-KR') :
-                            "현재가 " + d.message.bids[mapIndex].bid_cost.toLocaleString('ko-KR');
-                        $(el).find(".auction-thumb-txt span:eq(1)").html(curCostValue)
+                        let auction_txt = "";
+                        let curCostValue = "";
+                        if (d.message.bids[mapIndex].customer.sale_type === 1){
+                            if (d.message.bids[mapIndex].bid_count > 0) {
+                                auction_txt = "현재가 ";
+                                curCostValue = auction_txt +
+                                    d.message.bids[mapIndex].bid_cost.toLocaleString('ko-KR');
+                                $(el).find(".auction-thumb-txt span:eq(1)").html(curCostValue)
+                            }
+                        } else {
+                            if (d.message.bids[mapIndex].bid_count === 0) {
+                                auction_txt = "시작가 ";
+                            } else {
+                                auction_txt = "현재가 ";
+                            }
+                            curCostValue = (d.message.bids[mapIndex].bid_cost === 0) ? auction_txt +
+                                d.message.bids[mapIndex].open_bid_cost.toLocaleString('ko-KR') :
+                                auction_txt + d.message.bids[mapIndex].bid_cost.toLocaleString('ko-KR');
+                            $(el).find(".auction-thumb-txt span:eq(1)").html(curCostValue)
+                        }
                     }
                 });
                 let isCanClose = true;

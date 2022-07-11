@@ -107,6 +107,50 @@ function bid() {
 // 자동응찰
 function autoBid() {
     if ($("#reservation_bid").prop("disabled")) {
+        let c = confirm("자동응찰 중지는 자동 응찰 취소가 아닙니다\n비딩이 올라간 상태에서 정지됩니다.\n\n자동 응찰을 중지 하시겠습니까??", "자동응찰중지", "취소");
+        if (c) {
+            autoBiding();
+        }
+        /*var bidding_stop = $("#auto_bid_btn").trpLayerFixedPopup("#bidding_stop-wrap");
+        bidding_stop.open(this); // or false
+        popup_fixation("#bidding_stop-wrap");
+
+        $("#bidding_stop-wrap .js-closepop, #bidding_stop-wrap .popup-dim, #auto_off_cancel, #auto_off_ok").bind("click", function ($e) {
+            $e.preventDefault();
+            if ($(this).attr("id") === "auto_off_ok") {
+
+                bidding_stop.close();
+                $("#bidding_stop-wrap .js-closepop, #bidding_stop-wrap .popup-dim, #auto_off_cancel, #auto_off_ok").unbind("click");
+                return
+            }
+            $("#bidding_stop-wrap .js-closepop, #bidding_stop-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").unbind("click");
+            bidding_stop.close();
+        });*/
+
+
+    } else {
+        let  c = confirm("자동응찰 중지하기 전까지의\n 응찰 낙찰 내역은 모두 기록되며 유효합니다.\n\n응찰하시겠습니까?", "응찰하기", "취소");
+        if (c) {
+            autoBiding();
+        }
+        /*var bidding_go = $("#auto_bid_btn").trpLayerFixedPopup("#bidding_go-wrap");
+        bidding_go.open(this); // or false
+        popup_fixation("#bidding_go-wrap");
+
+        $("#bidding_go-wrap .js-closepop, #bidding_go-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").bind("click", function ($e) {
+            $e.preventDefault();
+            if ($(this).attr("id") === "auto_on_ok") {
+                autoBiding(connect_info);
+                bidding_go.close();
+                $("#bidding_go-wrap .js-closepop, #bidding_go-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").unbind("click");
+                return
+            }
+            $("#bidding_go-wrap .js-closepop, #bidding_go-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").unbind("click");
+            bidding_go.close();
+        });*/
+    }
+    /*
+    if ($("#reservation_bid").prop("disabled")) {
         var bidding_stop = $("#auto_bid_btn").trpLayerFixedPopup("#bidding_stop-wrap");
         bidding_stop.open(this); // or false
         popup_fixation("#bidding_stop-wrap");
@@ -138,5 +182,5 @@ function autoBid() {
             $("#bidding_go-wrap .js-closepop, #bidding_go-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").unbind("click");
             bidding_go.close();
         });
-    }
+    }*/
 }

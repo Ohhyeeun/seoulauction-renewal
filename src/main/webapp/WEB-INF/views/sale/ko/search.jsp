@@ -176,7 +176,7 @@
                                                             </dl>
                                                             <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && item.STATUS == '완료' && item.LAST_PRICE > 0">
                                                                 <dt>낙찰가</dt>
-                                                                <dd>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE }}</dd>
+                                                                <dd><strong>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE }}</strong></dd>
                                                             </dl>
                                                             <dl class="price-list" ng-if="custInfo.CUST_NO && (item.LAST_PRICE == undefined || item.LAST_PRICE == 0)">
                                                                 <dt></dt>
@@ -194,7 +194,7 @@
                                                             <div class="other">
                                                                 <div class="d_name" ng-bind="item.SALE_TITLE_JSON.ko | do_sub_string_low : item.SALE_TITLE_JSON.ko" title="{{item.SALE_TITLE_JSON.ko}}"></div>
                                                                 <!--  let saleToDt = $filter('date')(el.SALE_TO_DT, 'yyyy-MM-dd HH:mm:ss');-->
-                                                                <div class="d_day">{{item.SALE_TO_DT | date:'yyyy.MM.dd'+'('+getWeek(item.SALE_TO_DT)+')'}} {{item.SALE_TO_DT | date : 'ah'}} {{item.SALE_KIND_CD == 'hongkong' ? "HKT" : "KST"}}</div>
+                                                                <div class="d_day">{{item.SALE_TO_DT | date:'yyyy.MM.dd'+'('+getWeek(item.SALE_TO_DT)+')'}} {{item.SALE_TO_DT | date : 'HH:mm'}} {{item.SALE_KIND_CD == 'hongkong' ? "HKT" : "KST"}}</div>
                                                             </div>
                                                         </div>
                                                     </div>

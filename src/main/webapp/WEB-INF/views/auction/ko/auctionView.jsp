@@ -82,8 +82,8 @@
                                     <div class="col_item">
                                         <article class="product_view-article">
                                             <div class="view_row">
-                                                <div class="viewer-area js-view_visual">
-                                                    <div class="gallery_visual">
+                                                <div class="viewer-area">
+                                                    <div class="gallery_visual js-view_visual">
                                                         <div class="gallery_center">
                                                             <div class="swiper-wrapper js-popup_images">
                                                                 <div ng-repeat="item in lotImages"
@@ -398,6 +398,11 @@
                 <input type="hidden" id="lot_no" value="{{lot_no}}"/>
             </div>
         </div>
+        <script>
+            $(function () {
+
+            });
+        </script>
         <!-- //[0516] 이미지 팝업 -->
         <!-- //container -->
 
@@ -683,49 +688,6 @@
                                 </div>
                             </article>
                         </section>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="popup_images-wrap" class="trp popupfixed-wrap images-popup">
-    <div class="popup-dim"></div>
-    <div class="popup-align">
-        <div class="popup-vertical">
-            <div class="popup-layer">
-                <div class="pop-panel">
-                    <div class="pop-header">
-                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
-                    </div>
-                    <div class="pop-body">
-                        <article class="viewer-article js-zoom_inout">
-                            <div class="gallery_view js-imagesSwiper" style="">
-                                <div class="gallery_center">
-                                    <div id="swiper-wrapper_popup"  class="swiper-wrapper">
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                        <div class="page_prev"><i class="icon-img_swiper_prev"></i></div>
-                        <div class="page_next"><i class="icon-img_swiper_next"></i></div>
-                    </div>
-                    <div class="pop-footer">
-                        <div class="pagination js-imagesSwiper_pagination"></div>
-                        <article class="thumbnail-article">
-                            <ul id="thumbnail_image" class="thumbnail-list js-thumbnail-list">
-                            </ul>
-                        </article>
-                        <!-- [0516]이동 -->
-                        <div class="zoom-box">
-                            <div class="btnitem">
-                                <button class="zoomout js-zoomout"><i class="icon-zoom_out"></i></button>
-                            </div>
-                            <div class="btnitem">
-                                <button class="zoomin js-zoomin"><i class="icon-zoom_in"></i></button>
-                            </div>
-                        </div>
-                        <!-- //[0516]이동 -->
                     </div>
                 </div>
             </div>
@@ -1128,6 +1090,8 @@
                 $scope.artistNo = $scope.lotInfo.ARTIST_NO;
                 console.log("125540", $scope.artistNo);
 
+                $scope.activeIndex = 0;
+
                 // popup setting
                 let imgUrl = $scope.lotImages[0].IMAGE_URL +
                     $scope.lotImages[0].FILE_PATH + "/" + $scope.lotImages[0].FILE_NAME;
@@ -1223,6 +1187,7 @@
                     },
                     on: {
                         slideChange: function () {
+                            $scope.activeIndex = view_visual.activeIndex;
                             view_thumnailActive(view_visual.activeIndex);
                         }
                     }
@@ -1255,7 +1220,7 @@
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
                     let swiper_slide_item = '';
                     //if (size1 > 160) {
-                    swiper_slide_item =  `<div class="swiper-slide">
+                    swiper_slide_item = `<div class="swiper-slide">
                         <div class="img-area">
                             <div class="img-box">
                                 <div class="size_x"><span>` + size2 + unitCd + `</span></div>
@@ -1266,7 +1231,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>`
+                    </div>`;
                     $("#swiper-wrapper").append(swiper_slide_item);
                 });
 
@@ -1284,7 +1249,7 @@
                                             <div class="img-area">
                                                 <div class="img-box">
                                                     <div class="images">
-                                                        <img class="imageViewer" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
+                                                        <img class="imageViewerpopup" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -1469,9 +1434,16 @@
             $(".js-popup_images").on("click", function ($e) {
                 $e.preventDefault();
                 popup_images.open(this); // or false
-                imagesResizePcMb();
+                for (var o = $(".imageViewerpopup"), e = 0; e < o.length; e++) {
+                    if (!o[e]) return !1;
+                    var windowW = screen.availWidth;
+                    var windowH = screen.availHeight;
+                    o[e].width = windowW;
+                    o[e].height = windowH;
+                }
+                //imagesResizePcMb();
                 imagesSwiper.update();
-                imagesSwiper.slideTo(1, 0);
+                imagesSwiper.slideTo($scope.activeIndex +1, 0);
             });
             $("body").on("click", "#popup_images-wrap .js-closepop, #popup_images-wrap .popup-dim",
                 function ($e) {
@@ -1769,23 +1741,33 @@
     // 자동응찰
     function autoBid() {
         if ($("#reservation_bid").prop("disabled")) {
-            var bidding_stop = $("#auto_bid_btn").trpLayerFixedPopup("#bidding_stop-wrap");
+            let c = confirm("자동응찰 중지는 자동 응찰 취소가 아닙니다\n비딩이 올라간 상태에서 정지됩니다.\n\n자동 응찰을 중지 하시겠습니까??", "자동응찰중지", "취소");
+            if (c) {
+                autoBiding(connect_info);
+            }
+            /*var bidding_stop = $("#auto_bid_btn").trpLayerFixedPopup("#bidding_stop-wrap");
             bidding_stop.open(this); // or false
             popup_fixation("#bidding_stop-wrap");
 
             $("#bidding_stop-wrap .js-closepop, #bidding_stop-wrap .popup-dim, #auto_off_cancel, #auto_off_ok").bind("click", function ($e) {
                 $e.preventDefault();
                 if ($(this).attr("id") === "auto_off_ok") {
-                    autoBiding(connect_info);
+
                     bidding_stop.close();
                     $("#bidding_stop-wrap .js-closepop, #bidding_stop-wrap .popup-dim, #auto_off_cancel, #auto_off_ok").unbind("click");
                     return
                 }
                 $("#bidding_stop-wrap .js-closepop, #bidding_stop-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").unbind("click");
                 bidding_stop.close();
-            });
+            });*/
+
+
         } else {
-            var bidding_go = $("#auto_bid_btn").trpLayerFixedPopup("#bidding_go-wrap");
+            let  c = confirm("자동응찰 중지하기 전까지의\n 응찰 낙찰 내역은 모두 기록되며 유효합니다.\n\n응찰하시겠습니까?", "응찰하기", "취소");
+            if (c) {
+                autoBiding(connect_info);
+            }
+            /*var bidding_go = $("#auto_bid_btn").trpLayerFixedPopup("#bidding_go-wrap");
             bidding_go.open(this); // or false
             popup_fixation("#bidding_go-wrap");
 
@@ -1799,9 +1781,8 @@
                 }
                 $("#bidding_go-wrap .js-closepop, #bidding_go-wrap .popup-dim, #auto_on_cancel, #auto_on_ok").unbind("click");
                 bidding_go.close();
-            });
+            });*/
         }
-
     }
 
     function retry(saleNo, lotNo, saleType, userId, custNo) {
@@ -1993,48 +1974,52 @@
                     }
                 }
             }
+
             let quote_arr = [];
-            if (d.message.quotes != null && d.message.quotes.length > 0) {
-                let cnt = 1;
-                let viewCnt = 0;
+            if ($("#reservation_bid").prop("disabled") === false){
+                if (d.message.quotes != null && d.message.quotes.length > 0) {
+                    let cnt = 1;
+                    let viewCnt = 0;
 
-                let len = d.message.bid.length;
+                    let len = d.message.bid.length;
 
-                let cost_tmp = (d.message.bid[len - 1].bid_cost === 0) ?
-                    d.message.bid[len - 1].open_bid_cost :
-                    d.message.bid[len - 1].bid_cost;
+                    let cost_tmp = (d.message.bid[len - 1].bid_cost === 0) ?
+                        d.message.bid[len - 1].open_bid_cost :
+                        d.message.bid[len - 1].bid_cost;
 
-                if (d.message.bid[len - 1].bid_cost === 0) {
-                    quote_arr.push(cost_tmp);
-                    viewCnt++;
-                }
-
-                while (viewCnt < 70) {
-                    if (cnt > d.message.quotes.length - 1) {
-                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
-                        quote_arr.push(cost_tmp)
+                    if (d.message.bid[len - 1].bid_cost === 0) {
+                        quote_arr.push(cost_tmp);
                         viewCnt++;
-                        continue
                     }
-                    if (d.message.quotes[cnt].cost === cost_tmp) {
-                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt].quote_cost)
-                        quote_arr.push(cost_tmp)
-                        viewCnt++;
-                        continue
+
+                    while (viewCnt < 70) {
+                        if (cnt > d.message.quotes.length - 1) {
+                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                            quote_arr.push(cost_tmp)
+                            viewCnt++;
+                            continue
+                        }
+                        if (d.message.quotes[cnt].cost === cost_tmp) {
+                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt].quote_cost)
+                            quote_arr.push(cost_tmp)
+                            viewCnt++;
+                            continue
+                        }
+                        if (d.message.quotes[cnt].cost > cost_tmp) {
+                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                            quote_arr.push(cost_tmp)
+                            viewCnt++;
+                            continue
+                        }
+                        cnt++
                     }
-                    if (d.message.quotes[cnt].cost > cost_tmp) {
-                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
-                        quote_arr.push(cost_tmp)
-                        viewCnt++;
-                        continue
+                    $("#reservation_bid").find("option").remove();
+                    for (let i = 0; i < quote_arr.length; i++) {
+                        $("#reservation_bid").append(`<option value="` + quote_arr[i] + `">KRW ` + quote_arr[i].toLocaleString("ko-KR") + `</option>`);
                     }
-                    cnt++
-                }
-                $("#reservation_bid").find("option").remove();
-                for (let i = 0; i < quote_arr.length; i++) {
-                    $("#reservation_bid").append(`<option value="` + quote_arr[i] + `">KRW ` + quote_arr[i].toLocaleString("ko-KR") + `</option>`);
                 }
             }
+
         } else if (d.msg_type === packet_enum.time_sync) {
             let bid_tick = document.getElementById("bid_tick");
             let bid_tick_main = document.getElementById("end_date_time");
@@ -2318,15 +2303,56 @@
                 if (d.message.reservation_bid != null) {
                     if (d.message.reservation_bid.customer.sale_no > 0 &&
                         d.message.reservation_bid.customer.lot_no > 0) {
+                        $("#reservation_bid").val(d.message.reservation_bid.bid_cost);
                         $("#reservation_bid").prop("disabled", true);
                         $("#auto_bid_txt").text("자동응찰 중지");
-                        $("#reservation_bid").val(d.message.reservation_bid.bid_cost);
                     } else {
                         $("#reservation_bid").prop("disabled", false);
                         $("#auto_bid_txt").text("응찰하기");
-                        $("#reservation_bid").val('');
+                        let quote_arr = [];
+                        if (d.message.quotes.quotes != null && d.message.quotes.quotes.length > 0) {
+                            let cnt = 1;
+                            let viewCnt = 0;
+
+                            let cost_tmp = (d.message.bid.bid_cost === 0) ?
+                                d.message.bid.open_bid_cost :
+                                d.message.bid.bid_cost;
+
+                            if (d.message.bid.bid_cost === 0) {
+                                quote_arr.push(cost_tmp);
+                                viewCnt++;
+                            }
+
+                            while (viewCnt < 70) {
+                                if (cnt > d.message.quotes.quotes.length - 1) {
+                                    cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                    quote_arr.push(cost_tmp)
+                                    viewCnt++;
+                                    continue
+                                }
+                                if (d.message.quotes.quotes[cnt].cost === cost_tmp) {
+                                    cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes.quotes[cnt].quote_cost)
+                                    quote_arr.push(cost_tmp)
+                                    viewCnt++;
+                                    continue
+                                }
+                                if (d.message.quotes.quotes[cnt].cost > cost_tmp) {
+                                    cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes.quotes[cnt - 1].quote_cost)
+                                    quote_arr.push(cost_tmp)
+                                    viewCnt++;
+                                    continue
+                                }
+                                cnt++
+                            }
+                            $("#reservation_bid").find("option").remove();
+                            for (let i = 0; i < quote_arr.length; i++) {
+                                $("#reservation_bid").append(`<option value="` + quote_arr[i] + `">KRW ` + quote_arr[i].toLocaleString("ko-KR") + `</option>`);
+                            }
+                        }
                         $("#reservation_bid option:eq(0)").prop("selected", true);
                     }
+
+
                 }
             }
         }
