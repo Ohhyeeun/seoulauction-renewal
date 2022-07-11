@@ -97,7 +97,7 @@
                                         <div class="col_item mb-col1">
                                             <!-- [0617]카운트/LOT셀렉트박스 분리 -->
                                             <div class="count tb1">
-                                                <span>ALL <em>{{saleInfoAll.length}}</em></span>
+                                                <span>ALL <em ng-bind="lotLength"></em></span>
                                             </div>
                                             <div class="select-box">
                                                 <div class="trp-dropdown-area h42-line">
@@ -183,14 +183,15 @@
                                     <div class="img_empty">
                                         <img src="/images/mobile/auction/symbol-none_data.png" alt="검색결과가 없습니다."/>
                                     </div>
-                                    <div class="title">검색결과가 없습니다.</div>
-                                    <div class="desc">단어의 철자나 띄어쓰기가 <br class="only-mb"/>
-                                        정확한지 확인해주세요
+                                    <div class="txt_empty">
+                                        <div class="title">검색결과가 없습니다.</div>
+                                        <div class="desc">단어의 철자나 띄어쓰기가 <br class="only-mb">
+                                            정확한지 확인해주세요</div>
                                     </div>
-                                </div>
-                                <div class="empty_btn">
-                                    <button class="btn btn_gray_line" type="button" ng-click="searchAll();">
-                                        <span>전체결과보기</span></button>
+                                    <div class="empty_btn">
+                                        <button class="btn btn_gray_line" type="button" ng-click="searchAll();">
+                                            <span>전체결과보기</span></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -548,6 +549,7 @@
                 } else {
                     $scope.isEmpty = false;
                 }
+                $scope.lotLength = pp.length;
                 $scope.searchSaleInfoAll = pp;
                 $scope.pageing(1);
 
@@ -614,26 +616,76 @@
 
             $scope.searchLotTags = function (lotTag) {
                 $scope.selectLotTag = lotTag;
+
+                console.log("검색", $scope.selectLotTag, $scope.searchValue );
+
                 let pp = [];
-                for (let i = 0; i < $scope.saleInfoAll.length; i++) {
-                    if ($scope.saleInfoAll[i].LOT_TAG === lotTag) {
-                        pp.push($scope.saleInfoAll[i]);
+                if (lotTag === '전체') {
+                    if ($scope.searchValue.length > 0) {
+                        for (let i = 0; i < $scope.saleInfoAll.length; i++) {
+                            if ($scope.saleInfoAll[i].ARTIST_NAME_JSON.ko.indexOf($scope.searchValue) >= 0) {
+                                pp.push($scope.saleInfoAll[i]);
+                            }
+                        }
+                    } else {
+                        for (let i = 0; i < $scope.saleInfoAll.length; i++) {
+                                pp.push($scope.saleInfoAll[i]);
+                        }
+                    }
+                } else {
+                    if ($scope.searchValue.length > 0) {
+                        for (let i = 0; i < $scope.saleInfoAll.length; i++) {
+                            if ($scope.saleInfoAll[i].LOT_TAG === lotTag &&
+                                $scope.saleInfoAll[i].ARTIST_NAME_JSON.ko.indexOf($scope.searchValue) >= 0) {
+                                pp.push($scope.saleInfoAll[i]);
+                            }
+                        }
+                    } else {
+                        for (let i = 0; i < $scope.saleInfoAll.length; i++) {
+                            if ($scope.saleInfoAll[i].LOT_TAG === lotTag){
+                                pp.push($scope.saleInfoAll[i]);
+                            }
+                        }
                     }
                 }
+                if (pp.length > 0) {
+                    $scope.isEmpty = false;
+                } else {
+                    $scope.isEmpty = true;
+                }
+                $scope.lotLength = pp.length;
                 $scope.searchSaleInfoAll = pp;
                 $scope.pageing(1);
+
             }
 
             $scope.searchCategory = function (category) {
                 $scope.selectLotTag = category;
                 let pp = [];
-                for (let i = 0; i < $scope.saleInfoAll.length; i++) {
-                    if ($scope.saleInfoAll[i].CATE_CD_ID === category) {
-                        pp.push($scope.saleInfoAll[i]);
+                if ($scope.searchValue.length > 0) {
+                    for (let i = 0; i < $scope.saleInfoAll.length; i++) {
+                        if ($scope.saleInfoAll[i].CATE_CD_ID === category &&
+                            $scope.saleInfoAll[i].ARTIST_NAME_JSON.ko.indexOf($scope.searchValue) >= 0) {
+                            pp.push($scope.saleInfoAll[i]);
+                        }
+                    }
+                } else {
+                    for (let i = 0; i < $scope.saleInfoAll.length; i++) {
+                        if ($scope.saleInfoAll[i].CATE_CD_ID === category){
+                            pp.push($scope.saleInfoAll[i]);
+                        }
                     }
                 }
+
+                if (pp.length > 0) {
+                    $scope.isEmpty = false;
+                } else {
+                    $scope.isEmpty = true;
+                }
+                $scope.lotLength = pp.length;
                 $scope.searchSaleInfoAll = pp;
                 $scope.pageing(1);
+
             }
 
             $scope.popSet = function (saleNo, lotNo, userId, custNo) {
@@ -770,6 +822,7 @@
                     let pp = $scope.makePageing($scope.saleInfoAll, 1);
                     $scope.pageingdata = pp;
                     $scope.curpage = 1;
+                    $scope.lotLength = $scope.saleInfoAll.length;
 
                     await $scope.setSale($scope.sale_no);
                     //get sale cert
@@ -842,120 +895,6 @@
 
             let w;
 
-            /*$scope.timeTickInterval = function(){
-                let ddd = new Date();
-                // 앵귤러 정보 삽입
-                for (let j = 0; j < $scope.searchSaleInfoAll.length; j++) {
-                    if ($scope.searchSaleInfoAll[j].END_DT > 0 && $scope.searchSaleInfoAll[j].END_DT >= ddd.getTime()) {
-                        let endDate = new Date($scope.searchSaleInfoAll[j].END_DT);
-                        let dateGap = endDate - ddd;
-                        let timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
-
-                        // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
-                        var diffDay  = (Math.floor(dateGap / (1000 * 60 * 60 * 24)) < 10)?0 + (Math.floor(dateGap / (1000 * 60 * 60 * 24))).toString():Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
-                        var diffHour = (timeGap.getHours() < 10)?0 + timeGap.getHours().toString():timeGap.getHours();       // 시간
-                        var diffMin  = (timeGap.getMinutes() < 10)?0 + timeGap.getMinutes().toString():timeGap.getMinutes();   // 분
-                        var diffSec  = (timeGap.getSeconds() < 10)?0 + timeGap.getSeconds().toString():timeGap.getSeconds();   // 초
-
-                        if (diffDay == "00") {
-                            diffDay = ""
-                        } else {
-                            diffDay += "일"
-                        }
-                        if (diffHour == "00") {
-                            diffHour = ""
-                        }else {
-                            diffHour += ":"
-                        }
-                        if (diffMin == "00") {
-                            diffMin = ""
-                        }else {
-                            diffMin += ":"
-                        }
-                        if (diffSec == "00") {
-                            diffSec = ""
-                        }
-                        $scope.searchSaleInfoAll[j].BID_TICK = diffDay + diffHour + diffMin + diffSec;
-                    } else if (end_bid_time <= 0) {
-                        $scope.searchSaleInfoAll[j].BID_TICK = "경매시작 전입니다."
-                    } else {
-                        $scope.searchSaleInfoAll[j].BID_TICK = "경매가 종료되었습니다."
-                    }
-                }
-                // 앵귤러 정보 삽입
-                for (let j = 0; j < $scope.saleInfoAll.length; j++) {
-                    if ($scope.saleInfoAll[j].END_DT > 0 && $scope.saleInfoAll[j].END_DT >= ddd.getTime()) {
-                        let endDate = new Date($scope.saleInfoAll[j].END_DT);
-                        let dateGap = endDate - ddd;
-                        let timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
-                        // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
-                        var diffDay  = (Math.floor(dateGap / (1000 * 60 * 60 * 24)) < 10)?0 + (Math.floor(dateGap / (1000 * 60 * 60 * 24))).toString():Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
-                        var diffHour = (timeGap.getHours() < 10)?0 + timeGap.getHours().toString():timeGap.getHours();       // 시간
-                        var diffMin  = (timeGap.getMinutes() < 10)?0 + timeGap.getMinutes().toString():timeGap.getMinutes();   // 분
-                        var diffSec  = (timeGap.getSeconds() < 10)?0 + timeGap.getSeconds().toString():timeGap.getSeconds();   // 초
-
-                        if (diffDay === "00") {
-                            diffDay = ""
-                        } else {
-                            diffDay += "일 "
-                        }
-                        if (diffHour === "00") {
-                            diffHour = ""
-                        }else {
-                            diffHour += ":"
-                        }
-                        if (diffMin === "00") {
-                            diffMin = ""
-                        }else {
-                            diffMin += ":"
-                        }
-                        if (diffSec === "00") {
-                            diffSec = ""
-                        }
-                        $scope.saleInfoAll[j].BID_TICK = diffDay + diffHour + diffMin + diffSec;
-
-                    } else if (end_bid_time <= 0) {
-                        $scope.saleInfoAll[j].BID_TICK = "경매시작 전입니다."
-                    } else {
-                        $scope.saleInfoAll[j].BID_TICK = "경매가 종료되었습니다."
-                    }
-                }
-
-                for (let j = 0; j < $scope.saleInfoAll.length; j++) {
-                    if (parseInt($("#sale_no").val()) === $scope.saleInfoAll[j].SALE_NO && parseInt($("#lot_no").val()) === $scope.saleInfoAll[j].LOT_NO) {
-                        let endDate = new Date($scope.saleInfoAll[j].END_DT);
-                        let dateGap = endDate - ddd;
-                        let timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
-                        // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
-                        var diffDay  = (Math.floor(dateGap / (1000 * 60 * 60 * 24)) < 10)?0 + (Math.floor(dateGap / (1000 * 60 * 60 * 24))).toString():Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
-                        var diffHour = (timeGap.getHours() < 10)?0 + timeGap.getHours().toString():timeGap.getHours();       // 시간
-                        var diffMin  = (timeGap.getMinutes() < 10)?0 + timeGap.getMinutes().toString():timeGap.getMinutes();   // 분
-                        var diffSec  = (timeGap.getSeconds() < 10)?0 + timeGap.getSeconds().toString():timeGap.getSeconds();   // 초
-
-                        if (diffDay == "00") {
-                            diffDay = ""
-                        } else {
-                            diffDay += "일"
-                        }
-                        if (diffHour == "00") {
-                            diffHour = ""
-                        }else {
-                            diffHour += ":"
-                        }
-                        if (diffMin == "00") {
-                            diffMin = ""
-                        }else {
-                            diffMin += ":"
-                        }
-                        if (diffSec == "00") {
-                            diffSec = ""
-                        }
-                        $scope.saleInfoAll[j].BID_TICK = diffDay + diffHour + diffMin + diffSec;
-                        break
-                    }
-                }
-                //console.log($scope.saleInfoAll.length, ddd.getTime());
-            }*/
             // bidstart
             $scope.bidstart = function (user_id, custNo) {
                 $scope.retry(parseInt($scope.sale_no), 0, 2, user_id, custNo);
@@ -1149,49 +1088,51 @@
                                 }
                             }
                         }
-                        let quote_arr = [];
-                        if (d.message.quotes != null && d.message.quotes.length > 0) {
-                            let cnt = 1;
-                            let viewCnt = 0;
+                        if ($("#reservation_bid").prop("disabled") === false){
+                            let quote_arr = [];
+                            if (d.message.quotes != null && d.message.quotes.length > 0) {
+                                let cnt = 1;
+                                let viewCnt = 0;
 
-                            let len = d.message.bid.length;
-                            let cost_tmp = (d.message.bid[len - 1].bid_cost === 0) ?
-                                d.message.bid[len - 1].open_bid_cost :
-                                d.message.bid[len - 1].bid_cost;
+                                let len = d.message.bid.length;
+                                let cost_tmp = (d.message.bid[len - 1].bid_cost === 0) ?
+                                    d.message.bid[len - 1].open_bid_cost :
+                                    d.message.bid[len - 1].bid_cost;
 
-                            if (d.message.bid[len - 1].bid_cost === 0) {
-                                quote_arr.push(cost_tmp);
-                                viewCnt++;
-                            }
-
-                            while (viewCnt < 70) {
-                                if (cnt > d.message.quotes.length - 1) {
-                                    cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
-                                    quote_arr.push(cost_tmp)
+                                if (d.message.bid[len - 1].bid_cost === 0) {
+                                    quote_arr.push(cost_tmp);
                                     viewCnt++;
-                                    continue
                                 }
-                                if (d.message.quotes[cnt].cost === cost_tmp) {
-                                    cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt].quote_cost)
-                                    quote_arr.push(cost_tmp)
-                                    viewCnt++;
-                                    continue
-                                }
-                                if (d.message.quotes[cnt].cost > cost_tmp) {
-                                    cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
-                                    quote_arr.push(cost_tmp)
-                                    viewCnt++;
-                                    continue
-                                }
-                                cnt++
-                                //cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
-                            }
-                            $("#reservation_bid").find("option").remove();
-                            for (let i = 0; i < quote_arr.length; i++) {
-                                $("#reservation_bid").append(`<option value="` + quote_arr[i] + `">KRW ` + quote_arr[i].toLocaleString("ko-KR") + `</option>`);
-                            }
 
+                                while (viewCnt < 70) {
+                                    if (cnt > d.message.quotes.length - 1) {
+                                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                        quote_arr.push(cost_tmp)
+                                        viewCnt++;
+                                        continue
+                                    }
+                                    if (d.message.quotes[cnt].cost === cost_tmp) {
+                                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt].quote_cost)
+                                        quote_arr.push(cost_tmp)
+                                        viewCnt++;
+                                        continue
+                                    }
+                                    if (d.message.quotes[cnt].cost > cost_tmp) {
+                                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                        quote_arr.push(cost_tmp)
+                                        viewCnt++;
+                                        continue
+                                    }
+                                    cnt++
+                                    //cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                }
+                                $("#reservation_bid").find("option").remove();
+                                for (let i = 0; i < quote_arr.length; i++) {
+                                    $("#reservation_bid").append(`<option value="` + quote_arr[i] + `">KRW ` + quote_arr[i].toLocaleString("ko-KR") + `</option>`);
+                                }
+                            }
                         }
+
                     }
                     if (d.message.times !== null && d.message.times.length > 0) {
                         let matching = new Map();
@@ -1644,7 +1585,46 @@
                             } else {
                                 $("#reservation_bid").prop("disabled", false);
                                 $("#auto_bid_txt").text("응찰하기");
-                                $("#reservation_bid").val('');
+                                let quote_arr = [];
+                                if (d.message.quotes.quotes != null && d.message.quotes.quotes.length > 0) {
+                                    let cnt = 1;
+                                    let viewCnt = 0;
+
+                                    let cost_tmp = (d.message.bid.bid_cost === 0) ?
+                                        d.message.bid.open_bid_cost :
+                                        d.message.bid.bid_cost;
+
+                                    if (d.message.bid.bid_cost === 0) {
+                                        quote_arr.push(cost_tmp);
+                                        viewCnt++;
+                                    }
+
+                                    while (viewCnt < 70) {
+                                        if (cnt > d.message.quotes.quotes.length - 1) {
+                                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                            quote_arr.push(cost_tmp)
+                                            viewCnt++;
+                                            continue
+                                        }
+                                        if (d.message.quotes.quotes[cnt].cost === cost_tmp) {
+                                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes.quotes[cnt].quote_cost)
+                                            quote_arr.push(cost_tmp)
+                                            viewCnt++;
+                                            continue
+                                        }
+                                        if (d.message.quotes.quotes[cnt].cost > cost_tmp) {
+                                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes.quotes[cnt - 1].quote_cost)
+                                            quote_arr.push(cost_tmp)
+                                            viewCnt++;
+                                            continue
+                                        }
+                                        cnt++
+                                    }
+                                    $("#reservation_bid").find("option").remove();
+                                    for (let i = 0; i < quote_arr.length; i++) {
+                                        $("#reservation_bid").append(`<option value="` + quote_arr[i] + `">KRW ` + quote_arr[i].toLocaleString("ko-KR") + `</option>`);
+                                    }
+                                }
                                 $("#reservation_bid option:eq(0)").prop("selected", true);
                             }
                         }
