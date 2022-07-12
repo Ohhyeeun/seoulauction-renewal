@@ -60,9 +60,9 @@
                                 <div class="tab-wrap">
                                     <div class="tab-area type-left">
                                         <ul class="tab-list js-list_tab">
-                                            <li class="active"><a href="" ng-click="loadSubPage('all');" ><span>All</span> <em>(30)</em></a></li>
-                                            <li><a href="#tab-cont-2" ng-click="loadSubPage('live');" ><span>Live</span> <em>(20)</em></a></li>
-                                            <li><a href="#tab-cont-3" ng-click="loadSubPage('online');" ><span>Online</span> <em>(10)</em></a></li>
+                                            <li class="active"><a href="" ng-click="loadSubPage('all');" ><span>All</span> <em id="allCount"></em></a></li>
+                                            <li><a href="#tab-cont-2" ng-click="loadSubPage('live');" ><span>Live</span> <em id="liveCount"></em></a></li>
+                                            <li><a href="#tab-cont-3" ng-click="loadSubPage('online');" ><span>Online</span> <em id="onlineCount"></em></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -211,11 +211,11 @@
                                 <div class="set-pc_mb">
                                     <div class="only-pc">
                                         <div id="paging_search" class="paging-area">
-                                            <button class="btn btn_gray_line" id="more_search" type="button" ng-click="moreSearch();"><span>더보기</span></button>
+                                            <button class="btn btn_gray_line" id="more_search" type="button" ng-click="moreSearch();"><span ng-if="locale=='ko'">더보기</span><span ng-if="locale!='ko'">MORE</span></button>
                                         </div>
                                     </div>
                                     <div class="only-mb">
-                                        <button class="btn btn_gray_line" id="more_search_m" type="button" ng-click="moreSearch();"><span>더보기</span></button>
+                                        <button class="btn btn_gray_line" id="more_search_m" type="button" ng-click="moreSearch();"><span ng-if="locale=='ko'">더보기</span><span ng-if="locale!='ko'">MORE</span></button>
                                     </div>
                                 </div>
                             </div>
@@ -566,8 +566,8 @@
             sortValue2 = 'LOT Number Order';
             sortValue3 = 'Lowest estimate';
             sortValue4 = 'Highest estimate';
-            moreValue1 = '더보기 방식';
-            moreValue2 = '페이징 방식';
+            moreValue1 = 'Page';
+            moreValue2 = 'More';
         }
 
         $scope.modelSortType = [{

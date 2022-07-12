@@ -72,12 +72,12 @@
                                                                                 <a href="/auction/live/view/{{data.SALE_NO}}/{{data.LOT_NO}}" class="img-align" ng-if="liveBid[1][0].CLOSE_YN != 'Y'" >
                                                                                     <img src="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}" alt="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}">
                                                                                      <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'N' && data.HAMMER_STAT == 'hammer'"><span class="bid_result-icon">Hammer</span></div>
-                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'Y'"><span class="bid_result-icon">Cancel</span></div>
+                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'Y'"><span class="bid_result-icon fail">Cancel</span></div>
                                                                                 </a>
                                                                                  <a class="img-align" ng-if="liveBid[1][0].CLOSE_YN == 'Y'" >
                                                                                     <img src="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}" alt="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}">
                                                                                      <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'N' && data.HAMMER_STAT == 'hammer'"><span class="bid_result-icon">Hammer</span></div>
-                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'Y'"><span class="bid_result-icon">Cancel</span></div>
+                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'Y'"><span class="bid_result-icon fail">Cancel</span></div>
                                                                                 </a>
                                                                             </figure>
                                                                         </div>

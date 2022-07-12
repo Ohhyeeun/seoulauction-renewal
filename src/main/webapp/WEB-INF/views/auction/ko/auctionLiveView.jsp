@@ -38,7 +38,7 @@
                                                 <div class="select-box">
                                                     <div class="trp-dropdown-area h42-lines">
                                                         <button class="js-dropdown-btn">
-                                                            <span>LOT {{lotInfo.LOT_NO}}</span><i
+                                                            <span ng-bind="'LOT ' + lotInfo.LOT_NO"></span><i
                                                                 class="form-select_arrow_md"></i>
                                                         </button>
                                                         <div class="trp-dropdown_list-box"
@@ -63,7 +63,7 @@
                                                                                 </figure>
                                                                             </div>
                                                                             <div class="typo-area">
-                                                                                <span>LOT {{::item.LOT_NO}}</span>
+                                                                                <span ng-bind="'LOT ' + item.LOT_NO"></span>
                                                                             </div>
                                                                         </a>
                                                                     </li>
@@ -147,7 +147,7 @@
                                     <div class="col_item">
                                         <article class="product_detail-article js-product_detail-article">
                                             <div class="index-area">
-                                                <div class="index-box"><span ng-bind="lotInfo.LOT_NO">10</span></div>
+                                                <div class="index-box"><span ng-bind="lotInfo.LOT_NO"></span></div>
                                                 <div class="btn-box">
                                                     <a href="#" title="" class="sns_share js-sns_share"><i
                                                             class="icon-view_sns"></i></a>
@@ -177,7 +177,7 @@
                                             <div class="artist-area">
                                                 <div class="name">
                                                     <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT"></strong>
-                                                    <span>b.{{lotInfo.BORN_YEAR}}</span>
+                                                    <span ng-bind="'b.' + lotInfo.BORN_YEAR"></span>
                                                 </div>
                                                 <div class="desc">
                                                     <span class="text-over span_block"
@@ -257,10 +257,10 @@
                                         <div class="info-box">
                                             <div class="title">작품정보</div>
                                             <div class="desc">
-                                                {{lotInfo.MATE_NM_EN}} <br/>
+                                                <span ng-bind="lotInfo.MATE_NM_EN"></span> <br/>
                                                 <span ng-repeat="size in lotInfo.LOT_SIZE_JSON">
-                                                        <span>{{::size.SIZE1}}X{{::size.SIZE2}}X{{::size.SIZE3}}cm</span>
-                                                    </span><br/>
+                                                        <span ng-bind="size | size_text_cm"></span>
+                                                </span><br/>
                                                 <span bind-html-compile="lotInfo.SIGN_INFO_JSON.ko"></span>
                                             </div>
                                         </div>
@@ -308,7 +308,7 @@
                                                                     <div class="typo-area">
                                                                         <div class="product_info">
                                                                             <div class="num_heart-box">
-                                                                                <span class="num">{{item.LOT_NO}}</span>
+                                                                                <span class="num" ng-bind="item.LOT_NO"></span>
                                                                                 <a ng-class="{'heart':item.FAVORITE_YN,'js-work_heart':item.FAVORITE_YN,'on':item.FAVORITE_YN==='Y'}"
                                                                                    ng-click="favorite2(item.SALE_NO, item.LOT_NO, $index);"><i
                                                                                         class="icon-heart_off"></i></a>
@@ -329,7 +329,7 @@
                                                                         <div class="area-inner">
                                                                             <i class="icon-cancle_box"></i>
                                                                             <div class="typo">
-                                                                                <div class="name"><span>LOT 5</span>
+                                                                                <div class="name"><span ng-bind="'LOT ' + item.LOT_NO"></span>
                                                                                 </div>
                                                                                 <div class="msg">
                                                                                     <span>출물이 취소되었습니다.</span>
@@ -1353,6 +1353,32 @@
         var scope = angular.element(document.getElementById("container")).scope();
         return scope;
     }
+
+    /*function size_text_cm(src) {
+        if (src === null || src === undefined) {
+            return;
+        }
+
+        var returnValue = "";
+        var cmSize = ""
+
+        for (let i = 0; i < src.length; i++) {
+            if (src[i].UNIT_CD === "cm") {
+                cmSize = src[i].SIZE1 != 0 ? src[i].SIZE1.toFixed(1) : "";
+                cmSize += src[i].SIZE2 != 0 ? "☓" + src[i].SIZE2.toFixed(1) : "";
+                cmSize += src[i].SIZE3 != 0 ? "☓" + src[i].SIZE3.toFixed(1) +
+                    "(" + (src[i].MIX_CD == "depth" ? "d" : "h") + ")" : "";
+                cmSize += cmSize != "" ? src[i].UNIT_CD : "";
+                cmSize += cmSize != "" && src[i].CANVAS != 0 ? " (" + (src[i].CANVAS_EXT_YN == "Y" ? "변형" : "") + src[i].CANVAS + ")" : "";
+
+                returnValue = src[i].PREFIX;
+                returnValue += (src[i].DIAMETER_YN == "Y" ? "Φ " : "") + cmSize;
+                returnValue += (src[i].SUFFIX ? " (" + src[i].SUFFIX + ") " : "");
+                return returnValue;
+            }
+        }
+        return "";
+    }*/
 </script>
 
 <!-- popup tab -->
@@ -1510,9 +1536,13 @@
             return
         }
         if (window.location.protocol !== "https:") {
-            w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws");
+            w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws?sale_no=" +
+                saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
+                "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
         } else {
-            w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws");
+            w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws?sale_no=" +
+                saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
+                "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
         }
         w.onopen = function () {
             console.log("open");
@@ -1557,22 +1587,6 @@
             connect_info.lot_no = lotNo;
             connect_info.user_id = userId;
             connect_info.cust_no = custNo;
-
-            let init_func_manual = async function (req) {
-                let response = await fetch('http://ec2-3-34-229-127.ap-northeast-2.compute.amazonaws.com:8002/init', {
-                    method: "POST",
-                    body: JSON.stringify({
-                        token: req.message.token,
-                        sale_no: saleNo,
-                        lot_no: lotNo,
-                        sale_type: saleType,
-                        user_id: userId,
-                    }),
-                });
-                return response;
-            }
-            init_func_manual(d);
-
         } else if (d.msg_type === packet_enum.bid_info) {
 
             if (d.message.bid != null && d.message.bid.length > 0) {

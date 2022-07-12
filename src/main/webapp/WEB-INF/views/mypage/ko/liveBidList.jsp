@@ -71,12 +71,12 @@
                                                                                 <a href="/auction/live/view/{{data.SALE_NO}}/{{data.LOT_NO}}" class="img-align" ng-if="liveBid[1][0].CLOSE_YN != 'Y'" > <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
                                                                                     <img src="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}" alt="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}">
                                                                                      <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'N' && data.HAMMER_STAT == 'hammer'"><span class="bid_result-icon">낙찰</span></div>
-                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'Y'"><span class="bid_result-icon">낙찰취소</span></div>
+                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'Y'"><span class="bid_result-icon fail">낙찰취소</span></div>
                                                                                 </a>
                                                                                 <a  class="img-align" ng-if="liveBid[1][0].CLOSE_YN == 'Y'"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
                                                                                     <img src="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}" alt="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}">
                                                                                      <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'N' && data.HAMMER_STAT == 'hammer'"><span class="bid_result-icon">낙찰</span></div>
-                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'Y'"><span class="bid_result-icon">낙찰취소</span></div>
+                                                                                     <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'Y'"><span class="bid_result-icon fail">낙찰취소</span></div>
                                                                                 </a>
                                                                             </figure>
                                                                         </div>
