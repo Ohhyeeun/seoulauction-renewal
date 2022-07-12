@@ -1303,7 +1303,8 @@ body.dark,
 .newsAgree-checktxt.dark,
 .newsAgree-comfirm.dark,
 .btn-bg-w.dark,
-.upcoming-wrap.dark {
+.upcoming-wrap.dark,
+.slide_white.dark {
     color: #333;
 }
 .newsAgree-txt.dark {
