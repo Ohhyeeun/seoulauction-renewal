@@ -22,5 +22,4 @@ public interface AppMapper {
 
     int deleteLoginToken(CommonMap paramMap);
 
-    List<CommonMap> selectLoginByToken(CommonMap paramMap);
 }

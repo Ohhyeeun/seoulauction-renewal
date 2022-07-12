@@ -2,11 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seoulauction.renewal.mapper.kt.AppMapper">
 
-	<select id="selectCustByLoginId" parameterType="CommonMap"
-			resultType="CommonMap">
-
-	</select>
-
 	<insert id="insertAppInfo">
 
 	</insert>
@@ -25,7 +20,15 @@
 		     , LOGIN_DT
 		     , REG_DT
 		FROM CUST_LOGIN_TOKEN
-		WHERE CUST_NO = #{cust_no}
+		WHERE 1=1
+		<if test="cust_no != null and cust_no != ''">
+		  AND CUST_NO = #{cust_no}
+		</if>
+		<if test="cust_no == null or cust_no == ''">
+			<if test="token != null and token != ''">
+		  AND TOKEN = #{token}
+			</if>
+		</if>
 	</select>
 
 	<insert id="insertLoginToken">
@@ -48,13 +51,18 @@
 		)
 	</insert>
 
+	<update id="updateLoginToken" parameterType="CommonMap">
+		update CUST_LOGIN_TOKEN
+		set
+			EXPIRED_DT = DATE_ADD(now(), INTERVAL 1 YEAR)
+			LOGIN_DT = now()
+		where CUST_NO = #{cust_no}
+	</update>
+
 	<delete id="deleteLoginToken" parameterType="CommonMap">
-
+		DELETE
+		FROM CUST_LOGIN_TOKEN
+		WHERE CUST_NO = #{cust_no}
 	</delete>
-
-	<select id="selectLoginByToken" parameterType="CommonMap"
-			resultType="CommonMap">
-
-	</select>
 
 </mapper>

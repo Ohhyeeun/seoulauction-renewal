@@ -36,21 +36,21 @@ public class AppService {
             //JWT Token을 생성하는 로직 구현
             String tokenVal = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.dyt0CoTl4WoVjAHI9Q_CwSKhl6d_9rhM3NrXuJttkao";
             paramMap.put("token", tokenVal); //토큰 값
-            //토큰 만료기간은 일단 토큰 생성 시간으로부터 1년으로 잡아서 진행
-//            paramMap.put("expired_dt", "2022-07-05"); //토큰 만료기간
+            //토큰 만료기간은 토큰 생성 시간으로부터 1년
             appMapper.insertLoginToken(paramMap);
 
-            map.put("id", paramMap.get("cust_no")); //고객번호
+            resultList = appMapper.selectLoginToken(paramMap);
+
+            map.put("id", resultList.get(0).get("cust_no")); //고객번호
             map.put("token", tokenVal); //토큰 값
-            map.put("expiredAt", "2022-07-05"); //토큰 만료기간
+            map.put("expiredAt", resultList.get(0).get("expired_dt")); //토큰 만료기간
         }
         else {
-            paramMap.put("expiredAt", "2022-12-31"); //갱신된 토큰 만료기간
             appMapper.updateLoginToken(paramMap); //로그인시간, 토큰 만료기간 update
 
-            map.put("id", paramMap.get("cust_no")); //고객번호
-            map.put("token", paramMap.get("token")); //토큰 값
-            map.put("expiredAt", paramMap.get("expiredAt")); //토큰 만료기간
+            map.put("id", resultList.get(0).get("cust_no")); //고객번호
+            map.put("token", resultList.get(0).get("token")); //토큰 값
+            map.put("expiredAt", resultList.get(0).get("expired_dt")); //토큰 만료기간
         }
 
         return map;
@@ -65,6 +65,13 @@ public class AppService {
     }
 
     public List<CommonMap> selectLoginByToken(CommonMap paramMap) {
-        return appMapper.selectLoginByToken(paramMap); //토큰 값으로 조회
+        List<CommonMap> resultList = appMapper.selectLoginToken(paramMap); //토큰 값으로 조회
+        if(resultList.size() > 0) {
+            paramMap.put("cust_no", resultList.get(0).get("cust_no")); //토큰 값
+            appMapper.updateLoginToken(paramMap); //로그인시간, 토큰 만료기간 update
+            return resultList;
+        } else {
+            throw new SAException("토큰 정보를 찾을 수 없습니다");
+        }
     }
 }
