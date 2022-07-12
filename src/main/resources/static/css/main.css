@@ -3,16 +3,16 @@
 /* main common */
 .slide_white {
     background-color:#ffffff;
-    color:#303236;
+    color:#111111;
     border:0px;
 }
 .slide_black {
-    background-color:#303236;
+    background-color:#111111;
     color:#ffffff;
     border:0px;
 }
 .slide_green {
-    background-color: #21a099;
+    background-color: #4dada7;
     color: #ffffff;
     border:0px;
 }
@@ -21,8 +21,8 @@
     color: #ffffff;
 }
 .slide_black_border {
-    border: 1px solid #303236;
-    color: #303236;
+    border: 1px solid #111111;
+    color: #111111;
 }
 
 .main-sectiontit {
