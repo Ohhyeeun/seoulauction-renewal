@@ -1417,16 +1417,18 @@ body.dark,
     color: #ccc;
 }
 .keyword-del.dark {
-    background-image: url("/images/pc/icon/ic_close_gray_24.svg");
-    fill: #ccc;
+    background-image: url("/images/pc/icon/x-btn-lightgray.svg");
 }
 .swiper-button-prev.platformBtn-left.dark {
     background-image: url("/images/pc/icon/ic_chevron_left_white_48.svg");
 }
 .swiper-button-next.platformBtn-right.dark {
     background-image: url("/images/pc/icon/ic_chevron_right_white_48.svg");
+    fill: none;
 }
-
+.auction-thumbbox.dark {
+    background-color: #ebebeb;
+} 
 
 
 
