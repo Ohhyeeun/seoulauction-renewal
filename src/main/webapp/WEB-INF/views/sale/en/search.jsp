@@ -60,9 +60,9 @@
                                 <div class="tab-wrap">
                                     <div class="tab-area type-left">
                                         <ul class="tab-list js-list_tab">
-                                            <li class="active"><a href="" ng-click="loadSubPage('all');" ><span>All</span> <em>(30)</em></a></li>
-                                            <li><a href="#tab-cont-2" ng-click="loadSubPage('live');" ><span>Live</span> <em>(20)</em></a></li>
-                                            <li><a href="#tab-cont-3" ng-click="loadSubPage('online');" ><span>Online</span> <em>(10)</em></a></li>
+                                            <li class="active"><a href="" ng-click="loadSubPage('all');" ><span>All</span> <em id="allCount"></em></a></li>
+                                            <li><a href="#tab-cont-2" ng-click="loadSubPage('live');" ><span>Live</span> <em id="liveCount"></em></a></li>
+                                            <li><a href="#tab-cont-3" ng-click="loadSubPage('online');" ><span>Online</span> <em id="onlineCount"></em></a></li>
                                         </ul>
                                     </div>
                                 </div>
