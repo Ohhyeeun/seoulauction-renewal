@@ -732,7 +732,7 @@ SELECT 'INTE_LOT' AS GUBUN
 		                      	LEFT OUTER JOIN ARTIST A ON L.ARTIST_NO = A.ARTIST_NO
 		                      	LEFT OUTER JOIN LOT_IMG LI ON CL.SALE_NO = LI.SALE_NO AND CL.LOT_NO = LI.LOT_NO AND LI.IMG_NO = (SELECT T.IMG_NO FROM LOT_IMG T WHERE T.SALE_NO = L.SALE_NO AND T.LOT_NO = L.LOT_NO ORDER BY T.DISP_ORD LIMIT 1)
 							   WHERE CL.CUST_NO =  #{action_user_no}
-							     ORDER BY CL.SALE_NO DESC, CL.LOT_NO ASC;
+							     ORDER BY CL.SALE_NO DESC, CL.REG_DT DESC;
 	</select>
 
     <select id="selectCustInteLotCnt" resultType="int">
@@ -996,7 +996,7 @@ SELECT 'INTE_LOT' AS GUBUN
 		<if test="lot_no != null and lot_no > 0">
 		and L.LOT_NO = #{lot_no}
 		</if>
-		ORDER BY BIO.SALE_NO DESC, BIO.LOT_NO ASC, BIO.BID_NO desc;
+		ORDER BY BIO.SALE_NO DESC, BIO.LOT_NO ASC, BIO.BID_DT DESC, BIO.BID_PRICE DESC;
 	</select>
 
 	<select id="selectLiveBidHammerList" resultType="Map">
@@ -1159,7 +1159,7 @@ SELECT 'INTE_LOT' AS GUBUN
 		<if test="lot_no != null and lot_no > 0">
 		and L.LOT_NO = #{lot_no}
 		</if>	
-		order by B.BID_NO desc;
+		order by B.BID_DT DESC, B.BID_DT DESC, B.BID_PRICE DESC
 	</select>
 	
 	<select id="selectCustForChkPassword" resultType="CommonMap">
