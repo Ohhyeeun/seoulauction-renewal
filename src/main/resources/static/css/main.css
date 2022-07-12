@@ -545,6 +545,7 @@
     display: block;
     margin: 0 auto;
     text-align: center;
+    background-color: #fff;
 }
 .platform-swiper {
     height: 0;

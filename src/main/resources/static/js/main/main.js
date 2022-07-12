@@ -119,9 +119,9 @@ window.onload = function(){
 }
 
 /* visual */
-const visualSwiper = new Swiper('.visual-swiper', { 
+const visualSwiper = new Swiper('.visual-swiper', {
     initialSlide : 1,
-    speed: 4500,
+    speed: 3000,
     loop: true,
     autoplay: {
         delay: 5000,
@@ -406,7 +406,7 @@ function loadUpcomings() {
 
 /* 띠배너 */
 const platFormSwiper = new Swiper('.platform-swiper', {
-    speed : 4000,
+    effect: 'fade',
     autoplay: {
         delay: 5000,
     },
@@ -424,6 +424,14 @@ const platFormSwiper = new Swiper('.platform-swiper', {
         prevEl: '.platformBtn-left',
     },
     loop: true,
+    breakpoints : {
+        1023: {
+            effect: 'fade',
+            autoplay: {
+                delay: 5000,
+            },
+        },
+    },
 });
 
 
@@ -442,8 +450,8 @@ function loadBeltBanner() {
                     const returnDom =  `<div class="swiper-slide platform-bg" style="background-color: ${content.backgroundColor} ">
                                             <a href="${ locale === 'en' ? content.url_en : content.url_ko }" target="_blank"  onclick="addReadCount(${item.id},'main_banner')" >
                                                 <img src="${locale === 'en' ? item.image.pc_en_url : item.image.pc_ko_url }" alt="beltPcBanner" class="beltBannerImg-pc platform-img" >
-                                                <img src="${locale === 'en' ? item.image.mo_en_url : item.image.mo_ko_url }" alt="beltMobileBanner" class="beltBannerImg-mo platform-img" >
-                                            </a>
+                                                <img src="${locale === 'en' ? item.image.mo_en_url : item.image.mo_ko_url }" alt="beltMobileBanner" className="beltBannerImg-mo platform-img"> 
+                                            </a> 
                                         </div>`;
 
                     slideArray.push(returnDom);
@@ -462,11 +470,11 @@ function loadBeltBanner() {
 
             }
         })
+
         .catch(function(error){
             console.log(error);
         });
 }
-
 
 
 $(function() {
@@ -664,7 +672,7 @@ $(window).resize(function(){
 
     /* visual */
     const visualSwiper = new Swiper('.visual-swiper', {
-        speed : 4500,
+        speed : 3000,
         autoplay: {
             delay:5000,
             disableOnInteraction:false,
