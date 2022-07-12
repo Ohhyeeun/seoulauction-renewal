@@ -885,7 +885,7 @@
                         "&user_id=" + $scope.user_id + "&paddle=0&sale_type=1&bid_type=11");
                 } else {
                     w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws?sale_no=" +
-                        $scope.sale_no + "&lot_no=" + $scope.lot_no + "&cust_no=" + $scope.cust_no +
+                        $scope.sale_no + "&lot_no=0&cust_no=" + $scope.cust_no +
                         "&user_id=" + $scope.user_id + "&paddle=0&sale_type=1&bid_type=11");
                 }
                 w.onopen = function () {
