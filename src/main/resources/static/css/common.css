@@ -452,19 +452,16 @@ img::selection {
 .closebtn-w {
     background-image: url(/images/pc/icon/ic_close_white_24.svg);
 }
-.btn-bg-w,
-.slide_white {
+.btn-bg-w{
     background-color: #fff;
     color: #111;
 }
-.btn-bg-b,
-.slide_black {
+.btn-bg-b{
     border: none;
     background-color: #111;
     color: #fff;
 }
-.btn-bg-g,
-.slide_green { /*주조색 */
+.btn-bg-g { /*주조색 */
     border-color: #4dada7;
     background-color: #4dada7;
     color: #fff;
@@ -477,13 +474,12 @@ img::selection {
     border: 1px solid #fff;
     color: #fff;
 }
-.btn-border-b,
-.slide_white_border {
+.btn-border-b
+{
     border: 1px solid #111;
     color: #111;
 }
-.btn-border-3,
-.slide_black_border {
+.btn-border-3{
     border: 1px solid #333;
     color: #111;
 }

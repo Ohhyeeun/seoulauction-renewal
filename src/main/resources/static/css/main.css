@@ -1,6 +1,30 @@
 @charset "UTF-8";
 
 /* main common */
+.slide_white {
+    background-color:#ffffff;
+    color:#303236;
+    border:0px;
+}
+.slide_black {
+    background-color:#303236;
+    color:#ffffff;
+    border:0px;
+}
+.slide_green {
+    background-color: #21a099;
+    color: #ffffff;
+    border:0px;
+}
+.slide_white_border {
+    border: 1px solid #ffffff;
+    color: #ffffff;
+}
+.slide_black_border {
+    border: 1px solid #303236;
+    color: #303236;
+}
+
 .main-sectiontit {
     font-size: 42px;
     font-family: 'Libre Baskerville', serif;
