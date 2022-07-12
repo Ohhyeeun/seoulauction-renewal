@@ -1,6 +1,9 @@
 app.value('locale', 'ko');
 app.value('is_login', 'false');
 	
+var userAgent = window.navigator.userAgent
+alert("agent : " + userAgent);
+
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
 app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 	$scope.form_data = {};
