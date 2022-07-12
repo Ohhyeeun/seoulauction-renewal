@@ -8,6 +8,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.Principal;
+import java.util.Base64;
+import java.util.Base64.Decoder;
 import java.util.Locale;
 import java.util.Map;
 
@@ -30,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -146,7 +149,7 @@ public class LoginController {
 
     @GetMapping("/joinForm")
     public String joinForm(Locale locale) {
-    	log.debug("===== joinForm =====");
+    	log.info("===== joinForm =====");
     	
         return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "joinForm" , locale);
     }
@@ -154,11 +157,12 @@ public class LoginController {
     @PostMapping("/joinForm")
     public String joinFormPost(Locale locale, Model model, @RequestParam(value = "socialType") String socialType
     		, HttpServletRequest request, HttpServletResponse response) {
-    	log.debug("===== joinFormPost =====");
+    	log.info("===== joinFormPost =====");
 	    
 		String socialEmail = request.getParameter("email");
 		if(socialType.equals("AP")) {
 			socialEmail = request.getParameter("sub");
+			log.info("AP sub : {}", socialEmail);
 		}
 		
 		String socialLoginId = loginService.checkDuplSocialLoginId(socialType);
@@ -273,5 +277,64 @@ public class LoginController {
   	    model.addAttribute("email", email);
   	    model.addAttribute("type", type);
   	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "naverCallback" , new Locale(Locale.KOREA.getLanguage()));
+  	}
+  	
+  	@RequestMapping(value="/appleReturn/{type}", method=RequestMethod.POST)
+  	public String naverCallback(Model model, HttpServletRequest request, HttpServletResponse response
+  			,@PathVariable("type") String type
+  			,@RequestParam (value="code", required = false) String code) {
+
+  	    log.info("===========appleReturn : type : {} ===========", type);
+  	    log.info(code);
+  	    
+		try {
+			StringBuilder sb = new StringBuilder();
+			sb.append("grant_type=authorization_code");
+			sb.append("&client_id=com.seoulauction.renewal-web");
+			
+			String teamId = "2LXTMAYUA5";
+			String clientId = "com.seoulauction.renewal-web";
+			String keyId = "72UURP4N8Z";
+			String keyPath = "AuthKey_72UURP4N8Z.p8";
+			String authUrl = "https://appleid.apple.com";
+			String clientSecret = loginService.createClientSecret(teamId, clientId, keyId, keyPath, authUrl);
+			log.info("========= clientSecret : {}===========", clientSecret);
+			sb.append("&client_secret=" + clientSecret);
+			sb.append("&code=" + code);
+			
+			//토큰발급
+			JsonElement tokenJson = loginService.postRestful(sb, "https://appleid.apple.com/auth/token");
+			String accessToken = tokenJson.getAsJsonObject().get("access_token").getAsString();
+			String refreshToken = tokenJson.getAsJsonObject().get("refresh_token").getAsString();
+			String idToken = tokenJson.getAsJsonObject().get("id_token").getAsString();
+			log.info("access_token : {}", accessToken);
+			log.info("refresh_token : {}", refreshToken);
+			log.info("idToken : {}", idToken);
+			
+			//사용자정보조회
+			Decoder decoder = Base64.getDecoder(); 
+			String[] splitJwt = idToken.split("\\.");
+			String header = new String(decoder.decode(splitJwt[0].getBytes()));
+			String payload = new String(decoder.decode(splitJwt[1].getBytes()));
+		    ObjectMapper mapper = new ObjectMapper();
+		    CommonMap returnMap = mapper.readValue(payload, CommonMap.class);
+		    log.info("returnMap : {}", returnMap.toString());
+		    String email = returnMap.getString("email");
+		    String sub = returnMap.getString("sub");
+			log.info("email : {}", email);
+			log.info("sub : {}", sub);
+			
+			if(type.equals("custConfirm")) {
+				log.info("SecurityUtils.getAuthenticationPrincipal().getSocialEmail() : {}" ,SecurityUtils.getAuthenticationPrincipal().getSocialEmail());
+				model.addAttribute("custSocialEmail", SecurityUtils.getAuthenticationPrincipal().getSocialEmail());
+			}
+			model.addAttribute("email", email);
+			model.addAttribute("sub", sub);
+			model.addAttribute("type", type);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+  	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "appleReturn" , new Locale(Locale.KOREA.getLanguage()));
   	}
 }

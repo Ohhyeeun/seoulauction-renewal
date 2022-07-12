@@ -1,29 +1,43 @@
 package com.seoulauction.renewal.service;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.seoulauction.renewal.controller.LoginController;
-import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.exception.SAException;
-import com.seoulauction.renewal.mapper.kt.LoginMapper;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpServletRequest;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.PrivateKey;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
+import org.bouncycastle.openssl.PEMParser;
+import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Service;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.exception.SAException;
+import com.seoulauction.renewal.mapper.kt.LoginMapper;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Service
 @Log4j2
@@ -260,4 +274,40 @@ public class LoginService {
 
 
 	}
-}
+	
+	public String createClientSecret(String teamId, String clientId, String keyId, String keyPath, String authUrl) throws IOException {
+//		teamId 2LXTMAYUA5
+//		clientId com.seoulauction.renewal-web
+//		keyId 72UURP4N8Z
+//		keyPath AuthKey_72UURP4N8Z.p8
+//		authUrl https://appleid.apple.com
+	    Date expirationDate = Date.from(LocalDateTime.now().plusDays(30).atZone(ZoneId.systemDefault()).toInstant());
+	    return Jwts.builder()
+	               .setHeaderParam("kid", keyId)
+	               .setHeaderParam("alg", "ES256")
+	               .setIssuer(teamId)
+	               .setIssuedAt(new Date(System.currentTimeMillis()))
+	               .setExpiration(expirationDate)
+	               .setAudience(authUrl)
+	               .setSubject(clientId)
+	               .signWith(SignatureAlgorithm.ES256, getPrivateKey(keyPath))
+	               .compact();
+	}
+	
+	private PrivateKey getPrivateKey(String keyPath) throws IOException {
+	    ClassPathResource resource = new ClassPathResource(keyPath);
+	    InputStream is = resource.getInputStream();
+	    File file = File.createTempFile("TEMPFILE_P8", new Date().getTime() + ".p8");
+	    try(OutputStream outputStream = new FileOutputStream(file)){
+	        IOUtils.copy(is, outputStream);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    final PEMParser pemParser = new PEMParser(new FileReader(file));
+	    final JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
+	    final PrivateKeyInfo object = (PrivateKeyInfo) pemParser.readObject();
+	    final PrivateKey pKey = converter.getPrivateKey(object);
+	    pemParser.close();
+	    return pKey;
+	}
+}	
