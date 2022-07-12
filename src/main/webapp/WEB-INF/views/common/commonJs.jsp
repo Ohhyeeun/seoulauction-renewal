@@ -18,3 +18,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.5.6/js/ngDialog.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
 <script src="/js/common.js" type="text/javascript"></script>
+<script src="/js/native.js" type="text/javascript"></script>
