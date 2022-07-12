@@ -260,9 +260,9 @@
                                                                             <dd>&nbsp;</dd>
                                                                         </div>
                                                                         <div ng-switch-when="N">
-                                                                            <dd>KRW {{item.EXPE_PRICE_FROM_JSON.KRW}}</dd>
-                                                                            <dd>~ {{item.EXPE_PRICE_TO_JSON.KRW}}</dd>
-                                                                            <dd>USD {{item.EXPE_PRICE_FROM_JSON.USD | currency}} ~ {{item.EXPE_PRICE_TO_JSON.USD | currency}}</dd>
+                                                                            <dd>KRW {{item.EXPE_PRICE_FROM_JSON.KRW}} </dd>
+                                                                            <dd> ~ {{item.EXPE_PRICE_TO_JSON.KRW}}</dd>
+                                                                            <dd>USD {{item.EXPE_PRICE_FROM_JSON.USD}} ~ {{item.EXPE_PRICE_TO_JSON.USD}}</dd>
                                                                         </div>
                                                                     </div>
 
@@ -770,7 +770,15 @@
                         if($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW !=null) {
                             $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW.toLocaleString('ko-KR');
                             $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW.toLocaleString('ko-KR');
+
+                            $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = numberWithCommas($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW);
+                            $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW = numberWithCommas($scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW);
+                            $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.USD = numberWithCommas($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.USD);
+                            $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.USD = numberWithCommas($scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.USD);
+
                         }
+
+
                     }
                     $scope.saleInfo = $scope.saleInfoAll.slice(0, $scope.itemsize);
 
