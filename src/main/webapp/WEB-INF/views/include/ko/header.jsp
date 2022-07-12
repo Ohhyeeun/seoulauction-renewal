@@ -41,25 +41,24 @@
         <%@include file="../../common/commonCssNotMain.jsp"%>
         <link rel="stylesheet" href="/css/pages_common_ko.css" type="text/css" />
     </c:if>
-<%--    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/favic/apple-touch-icon-57x57.png" />--%>
-<%--    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/favic/apple-icon-57x57.png">--%>
-<%--    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/images/favic/apple-icon-60x60.png">--%>
-<%--    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/favic/apple-icon-72x72.png">--%>
-<%--    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/images/favic/apple-icon-76x76.png">--%>
-<%--    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/favic/apple-icon-114x114.png">--%>
-<%--    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/favic/apple-icon-120x120.png">--%>
-<%--    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/favic/apple-icon-144x144.png">--%>
-<%--    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/images/favic/apple-icon-152x152.png">--%>
-<%--    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/images/favic/apple-icon-180x180.png">--%>
-<%--    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/iamges/favic/apple-touch-icon.png">--%>
-
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/favic/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/favic/apple-icon-57x57.png">
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/images/favic/apple-icon-60x60.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/favic/apple-icon-72x72.png">
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/images/favic/apple-icon-76x76.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/favic/apple-icon-114x114.png">
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/favic/apple-icon-120x120.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/favic/apple-icon-144x144.png">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/images/favic/apple-icon-152x152.png">
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/images/favic/apple-icon-180x180.png">
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/iamges/favic/apple-touch-icon.png">
     <link rel="icon" type="image/svg+xml" href="/images/favic/favicon.svg">
-    <link rel="icon" type="image/png" href="/images/favic/favicon.png"> 
-<%--    <link rel="mask-icon">--%>
-<%--    <link rel="manifest" href="/webapp/manifest.json">--%>
-<%--    <link rel="icon" type="image/png" href="/images/favic/favicon-32x32.png" sizes="32x32"/>--%>
-<%--    <link rel="icon" type="image/png" href="/images/favic/android-icon-192x192.png" sizes="192x192"/>--%>
-<%--    <link rel="icon" type="image/png" href="/images/favic/favicon-16x16.png" sizes="16x16"/>--%>
+    <link rel="icon" type="image/png" href="/images/favic/favicon.png">
+    <link rel="mask-icon" href="/images/favic/sa-full-icon.svg">
+    <link rel="manifest" href="/webapp/manifest.json">
+    <link rel="icon" type="image/png" href="/images/favic/android-icon-192x192.png" sizes="192x192"/>
+    <%--    <link rel="icon" type="image/png" href="/images/favic/favicon-32x32.png" sizes="32x32"/>--%>
+    <%--    <link rel="icon" type="image/png" href="/images/favic/favicon-16x16.png" sizes="16x16"/>--%>
 
 
     <%--angular 관련은 미리 로딩--%>
