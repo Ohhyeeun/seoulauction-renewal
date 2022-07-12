@@ -153,3 +153,68 @@
         </section>
     </nav>
 </header>
+
+<script>
+    app.requires.push.apply(app.requires, ["ngDialog", "checklist-model"]);
+    app.controller('headCtl', function($scope, consts, common, locale, $filter) {
+        // console.log("recommend-search-part")
+        $scope.recommandSearch =  function(){
+            //추천 검색어
+            axios.get('/api/auction/selectRecommandArtist').then(function (response) {
+                const success = response.data.success;
+
+                $('.recommend-search-part').empty();
+
+                if (success) {
+                    const data = response.data.data;
+                    let html = '<span class="keyword-search-tit">추천검색</span>';
+
+                    $('.recommend-search-part').append(html);
+                    data.map(item => {
+                        let innerHtml = '<a href="/sale/search?searchContent=' + JSON.parse(item.artist_name)[locale] + '" class="recommend-keyword">' + dotSubString(JSON.parse(item.artist_name)[locale], 10) + '</a>';
+                        $('.recommend-search-part').append(innerHtml);
+                    });
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+        // 최근 검색어
+        let keywords = getCookie("keywordHistory");
+        let html = '<span class="keyword-search-tit">최근검색<span class="keyword-all-del">전체삭제</span></span>';
+
+        if(keywords){
+            $(".recent-search").empty();
+            let keywordsArray = keywords.split(',');
+            $.each(keywordsArray , function(idx , el){
+                html += '<span class="recent-keyword"><a href="/sale/search?searchContent='+ el +'">'+ el+'</a><span class="keyword-del" searchContent="'+ el +'"></span></span>';
+            });
+
+        }else{
+            html += '<span class="recent-keyword">표시할내용없음</span>';
+        }
+
+        $(".recent-search").append(html);
+
+
+        $scope.goSearch =  function(elementId, bIsKorean, $event){
+            $event.preventDefault();
+            if($event.keyCode == 13){
+                $('.topsearch-btn').trigger("click");
+                $('.search-bubble-box').removeClass('on');
+                var sSearchContent = $("#" + elementId).val();
+                if(sSearchContent) {
+                    location.href = bIsKorean ? "/sale/search?searchContent=" + sSearchContent : "/eng/sale/search?searchContent=" + sSearchContent;
+                }
+                else {
+                    alert(bIsKorean ? "검색어를 입력해주세요." : "Please write search keyword.");
+                }
+            } else if($('.topsearch-text').val().length == 0) {
+                $('.search-bubble-box').removeClass('on');
+            } else {
+                $('.search-bubble-box').addClass('on');
+            }
+            return false;
+        }
+    });
+</script>
