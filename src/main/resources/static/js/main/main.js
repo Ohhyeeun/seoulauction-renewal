@@ -275,6 +275,7 @@ function loadTopNotice(){
                 if(matchMedia("all and (min-width: 1024px)").matches) {//pc
                     $('.main-contents').css({'margin-top': '162px'});
                 } else {//mo
+                    $('.submenuBg').css({'top':'-40px'});
                     $('.main-contents').css({'margin-top': '100px'});
                 }
 
@@ -282,8 +283,10 @@ function loadTopNotice(){
                 if(matchMedia("all and (min-width: 1024px)").matches) {//pc
                     $('.main-contents').css({'margin-top':'102px'});
                 } else {//mo
+                    $('.submenuBg').css({'top':'0px'});
                     $('.main-contents').css({'margin-top': '56px'});
                 }
+
             }
 
         }
