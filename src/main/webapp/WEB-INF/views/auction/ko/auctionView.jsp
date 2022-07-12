@@ -1793,10 +1793,15 @@
             con_try_cnt = 0
             return
         }
+
         if (window.location.protocol !== "https:") {
-            w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws");
+            w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws?sale_no=" +
+                saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
+                "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
         } else {
-            w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws");
+            w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws?sale_no=" +
+                saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
+                "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
         }
         w.onopen = function () {
             console.log("open");
@@ -1849,22 +1854,6 @@
             connect_info.lot_no = lotNo;
             connect_info.user_id = userId;
             connect_info.cust_no = custNo;
-
-            let init_func_manual = async function (req) {
-                let response = await fetch(url + '/init', {
-                    method: "POST",
-                    body: JSON.stringify({
-                        token: req.message.token,
-                        sale_no: saleNo,
-                        lot_no: lotNo,
-                        sale_type: saleType,
-                        user_id: userId,
-                        cust_no: custNo,
-                    }),
-                });
-                return response;
-            }
-            init_func_manual(d);
 
         } else if (d.msg_type === packet_enum.bid_info) {
             $("#cur_cost_layer").css("display", "");
