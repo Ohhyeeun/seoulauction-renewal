@@ -24,6 +24,9 @@
     border: 1px solid #111111;
     color: #111111;
 }
+.auction-tit>h1.main-sectiontit-auction {
+    margin-right: 30px;
+}
 /*.main-sectiontit {*/
 /*    font-size: 42px;*/
 /*    font-family: 'Libre Baskerville', serif;*/
@@ -1139,6 +1142,7 @@
 @media all and (max-width: 1023px) {
     .auction-tit>h1.main-sectiontit-auction {
         margin-bottom: 25px;
+        margin-right: 0;
     }
     .auctionTab-btn>span {
         max-width: 250px;
