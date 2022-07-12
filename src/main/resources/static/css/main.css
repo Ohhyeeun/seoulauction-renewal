@@ -105,7 +105,7 @@
     transform: -webkit-translate(0, -50%);
     transform: -ms-translate(0, -50%);
     /*background: url(/images/pc/icon/main_banner_arrow.png) no-repeat 0 0;*/
-    background: url(/images/pc/icon/ic_chevron_left_white_48.svg) no-repeat center center;
+    background: url("/images/pc/icon/ic_chevron_left_white_48.svg") no-repeat center center;
     z-index: 1; 
 }
 .swiper-button-prev.slide-btnleft:hover,
@@ -125,7 +125,7 @@
 .swiper-button-next.slide-btnright {
     right: 50px;
     left: auto;
-    background-image: url(/images/pc/icon/ic_chevron_right_white_48.svg);
+    background-image: url("/images/pc/icon/ic_chevron_right_white_48.svg");
     background-position: center center;
 }
 .swiper-button-next.slide-btnleft.black {
@@ -219,7 +219,7 @@
     padding-bottom: 49px;
 }
 .visual_stop {
-    background: url(/images/pc/icon/play.png) no-repeat 0 0 / 8px 10px;
+    background: url("/images/pc/icon/play.png") no-repeat 0 0 / 8px 10px;
 }
 .visual_btn>a,
 .newsletter-btnbox>a.common,
@@ -269,10 +269,10 @@
 .stopBtn {
     width: 29px;
     height: 29px;
-    background: url(/images/pc/icon/ic_main_banner_control_play_black_24.svg) no-repeat center center;
+    background: url("/images/pc/icon/ic_main_banner_control_play_black_24.svg") no-repeat center center;
 }
 .stopBtn {
-    background-image: url(/images/pc/icon/ic_main_banner_control_pause_black_24.svg);
+    background-image: url("/images/pc/icon/ic_main_banner_control_pause_black_24.svg");
 }
 .playBtn {
     display: none;
@@ -390,11 +390,11 @@
     right: 30px;
     width: 22px;
     height: 20px;
-    background: url(/images/pc/icon/heart.png) no-repeat center center;
+    background: url("/images/pc/icon/heart.png") no-repeat center center;
     z-index: 1;
 }
 .wish_heart.on {
-    background: url(/images/pc/icon/heart_full.png);
+    background: url("/images/pc/icon/heart_full.png");
 }
 .auction-thumb {
     position: absolute;
@@ -555,7 +555,7 @@
 .swiper-button-next.platformBtn-right {
     width: 100px;
     height: 100%;
-    background: url(/images/pc/icon/banner_arrow_left.png) no-repeat 40px center;
+    background: url("/images/pc/icon/banner_arrow_left.png") no-repeat 40px center;  
     z-index: 5;
     margin-top: 0;
     top: 0;
@@ -567,7 +567,7 @@
 .swiper-button-next.platformBtn-right {
     left: auto;
     right: 0;
-    background-image: url(/images/pc/icon/banner_arrow_right.png);
+    background-image: url("/images/pc/icon/banner_arrow_right.png");
 }
 .swiper-pagination.platform-pagination {
     position: static;
@@ -624,11 +624,11 @@
 }
 .video-icon-you,
 .video-icon-in {
-    background:url(/images/pc/icon/video_youtube.png) no-repeat center center;
+    background:url("/images/pc/icon/video_youtube.png") no-repeat center center;
     background-size: contain;
 }
 .video-icon-in {
-    background-image: url(/images/pc/icon/video_instar.png);
+    background-image: url("/images/pc/icon/video_instar.png");
 }
 .swiper-button-prev.videoBtn-left,
 .swiper-button-next.videoBtn-right {
@@ -646,7 +646,7 @@
 .swiper-button-next.videoBtn-right>span {
     width: 11px;
     height: 21px;
-    background:url(/images/pc/icon/video_arrow_left.png) no-repeat 0 0;
+    background:url("/images/pc/icon/video_arrow_left.png") no-repeat 0 0;
     position: absolute;
     top: 15px;
     left: 19px;
@@ -657,7 +657,7 @@
     right: 0;
 }
 .swiper-button-next.videoBtn-right>span {
-    background-image: url(/images/pc/icon/video_arrow_left-07.png);
+    background-image: url("/images/pc/icon/video_arrow_left-07.png");
     left: auto;
     right: 19px;
 }
@@ -1507,14 +1507,14 @@
         position: absolute;
         width: 20px;
         height: 20px;
-        background: url(/images/mobile/icon/check01.png) no-repeat -1px -21px;
+        background: url("/images/mobile/icon/check01.png") no-repeat -1px -21px;
         background-size: 23px auto;
     }
     #subscript_check[type="checkbox"]:checked+label:before,
     #newsAgree[type="checkbox"]:checked+label:before {
         width: 20px;
         height: 20px;
-        background: url(/images/mobile/icon/check01.png) no-repeat -1px -1px;
+        background: url("/images/mobile/icon/check01.png") no-repeat -1px -1px;
         background-size: 23px auto;
     }
     .terms-checktxt {

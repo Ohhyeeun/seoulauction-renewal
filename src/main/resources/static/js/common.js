@@ -720,7 +720,7 @@ app.controller('headCtl', function($scope, consts, common, locale, $filter) {
 
             if (success) {
                 const data = response.data.data;
-                let html = '<span class="keyword-search-tit">추천검색</span>';
+                let html = '<span class="keyword-search-tit">추천 검색어</span>';
                 $('.recommend-search-part').append(html);
                 data.map(item => {
                     let innerHtml = '<a href="/sale/search?searchContent=' + JSON.parse(item.artist_name)[locale] + '" class="recommend-keyword">' + dotSubString(JSON.parse(item.artist_name)[locale], 10) + '</a>';
@@ -733,7 +733,7 @@ app.controller('headCtl', function($scope, consts, common, locale, $filter) {
     }
     // 최근 검색어
     let keywords = getCookie("keywordHistory");
-    let html = '<span class="keyword-search-tit">최근검색<span class="keyword-all-del">전체삭제</span></span>';
+    let html = '<span class="keyword-search-tit">최근 검색어<span class="keyword-all-del">전체삭제</span></span>';
     if(keywords){
         $(".recent-search").empty();
         let keywordsArray = keywords.split(',');
@@ -1161,3 +1161,13 @@ $(document).ready(function(){
     // document.oncontextmenu="return false style='-webkit-touch-callout:none'";
 });
 
+// evaluateJavascript("nativeToggleMenu(true)")
+function nativeToggleMenu(state) {
+    if (state) {
+        document.querySelector('.gnb_submenuBg.scroll_none')?.classList.add('on');
+        document.querySelector('.submenuBg')?.classList.add('on');
+    } else {
+        document.querySelector('.gnb_submenuBg.scroll_none')?.classList.remove('on');
+        document.querySelector('.submenuBg')?.classList.remove('on');
+    }
+}
