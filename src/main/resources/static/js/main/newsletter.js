@@ -45,7 +45,7 @@ $(document).ready(function(){
         }
 
         if(!subscript){
-            alert("개인 정보 수집에 동의해주세요.")
+            alert("개인정보 수집 및 이용에 동의해주세요.")
             return;
         }
 
@@ -62,6 +62,7 @@ $(document).ready(function(){
                     $('#newsEmail').val('');
                     $('#newsName').val('');
                     $('#subscript_check').prop('checked',false);
+                    subscript = false;
                 }
             })
             .catch(function(error){

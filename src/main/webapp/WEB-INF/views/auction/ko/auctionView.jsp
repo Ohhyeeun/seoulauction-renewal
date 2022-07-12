@@ -1204,6 +1204,7 @@
 
                 let sale_images = $scope.saleImages;
                 let lot_images = $scope.lotImages;
+                let firstCheck = 0;
 
                 $.each(sale_images, function (index, el) {
                     let size1 = 0;
@@ -1218,12 +1219,16 @@
                     }
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
                     let swiper_slide_item = '';
+                    if (firstCheck == 0) {
+                        $scope.chk = parseInt(lot_no) - index -1;
+                    }
+                    firstCheck++;
                     //if (size1 > 160) {
                     swiper_slide_item = `<div class="swiper-slide">
                         <div class="img-area">
                             <div class="img-box">
-                                <div class="size_x"><span>` + size2 + unitCd + `</span></div>
-                                <div class="size_y"><span>` + size1 + unitCd + `</span></div>
+                                <div class="size_x"><span>` + size1 + unitCd + `</span></div>
+                                <div class="size_y"><span>` + size2 + unitCd + `</span></div>
                                 <div class="images">
                                     <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `"
                                          size2="` + size2 + `" lot_no="` + lot_no + `"/>
@@ -1309,7 +1314,7 @@
                     popup_image_viewer.open(this); // or false
                     imagesResizePcMb();
                     imageViewer.update();
-                    imageViewer.slideTo($("#view_lot_no").attr("sel-data-index"), 0);
+                    imageViewer.slideTo(parseInt($("#view_lot_no").attr("sel-data-index")) - $scope.chk, 0);
                 });
                 // 좌우버튼
                 $('.view_paging-area .page_prev').on('click', function ($e) {

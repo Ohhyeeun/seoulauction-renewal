@@ -76,19 +76,19 @@
                                                                 <button class="btn btn_point btn_sm" id="KAButton" type="button" onclick="loginWithKakao()"><span>Connect</span></button>
                                                             </div>
                                                         </li>
-                                                        <li>
-                                                            <div class="sns-wrap">
-                                                                <div class="sns-logo"><i class="icon-sns_google_type1"></i></div>
-                                                                <div class="sns-txt">
-                                                                    <div class="tit tt4">GOOGLE</div>
-                                                                    <div class="disc tb2" id="GLRegDt"></div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="btn-wrap">
-                                                                <button class="btn btn_point btn_sm" id="GLButton" type="button" onclick="loginWithGoogle()"><span>Connect</span></button>
-                                                                <div id="googleIdLogin" style="display:none"></div>
-                                                            </div>
-                                                        </li>
+<!--                                                         <li> -->
+<!--                                                             <div class="sns-wrap"> -->
+<!--                                                                 <div class="sns-logo"><i class="icon-sns_google_type1"></i></div> -->
+<!--                                                                 <div class="sns-txt"> -->
+<!--                                                                     <div class="tit tt4">GOOGLE</div> -->
+<!--                                                                     <div class="disc tb2" id="GLRegDt"></div> -->
+<!--                                                                 </div> -->
+<!--                                                             </div> -->
+<!--                                                             <div class="btn-wrap"> -->
+<!--                                                                 <button class="btn btn_point btn_sm" id="GLButton" type="button" onclick="loginWithGoogle()"><span>Connect</span></button> -->
+<!--                                                                 <div id="googleIdLogin" style="display:none"></div> -->
+<!--                                                             </div> -->
+<!--                                                         </li> -->
                                                         <li class="on">
                                                             <div class="sns-wrap">
                                                                 <div class="sns-logo"><i class="icon-sns_apple_type1"></i></div>
@@ -99,7 +99,7 @@
                                                             </div>
                                                             <div class="btn-wrap">
                                                                 <button class="btn btn_point btn_sm" id="APButton" type="button" onclick="loginWithApple()"><span>Connect</span></button>
-                                                                <div id="appleid-signin" style="display:none" data-type="sign in"></div>
+<!--                                                                 <div id="appleid-signin" style="display:none" data-type="sign in"></div> -->
                                                             </div>
                                                         </li>
                                                     </ul>
@@ -135,11 +135,11 @@
 	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 </body>
 
-<!--  구글 -->
-<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-<script src="https://apis.google.com/js/api:client.js"></script>
-<!-- 애플 -->
-<script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+<!-- <!--  구글 --> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css"> -->
+<!-- <script src="https://apis.google.com/js/api:client.js"></script> -->
+<!-- <!-- 애플 --> -->
+<!-- <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script> -->
 <!-- SNS연동 -->
 <script type="text/javascript" src="/js/mypage/snsLink.js"></script>
 <script>

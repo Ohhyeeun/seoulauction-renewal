@@ -187,17 +187,14 @@
                                             <div class="price-area">
                                                 <dl class="price-list">
                                                     <dt>추정가</dt>
-                                                    <dd ng-bind="estimatedRange"></dd>
+                                                    <div ng-show="lotInfo.EXPE_PRICE_INQ_YN === 'N'">
+                                                        <dd>KRW {{lotInfo.EXPE_PRICE_FROM_JSON.KRW}} ~ {{lotInfo.EXPE_PRICE_TO_JSON.KRW}}</dd>
+                                                        <dd>USD {{lotInfo.EXPE_PRICE_FROM_JSON.USD}} ~ {{lotInfo.EXPE_PRICE_TO_JSON.USD}}</dd>
+                                                    </div>
+                                                    <div ng-show="lotInfo.EXPE_PRICE_INQ_YN === 'Y'">
+                                                        <dd>별도 문의</dd>
+                                                    </div>
                                                 </dl>
-                                                <%--                                                <dl class="price-list">--%>
-                                                <%--                                                    <dt>시작가</dt>--%>
-                                                <%--                                                    <dd id="start_cost"><!--WEB SOCKET--></dd>--%>
-                                                <%--                                                </dl>--%>
-                                                <%--                                                <dl class="price-list">--%>
-                                                <%--                                                    <dt>현재가</dt>--%>
-                                                <%--                                                    <dd><strong id="cur_cost"><!--WEB SOCKET--></strong><em--%>
-                                                <%--                                                            id="bid_cnt">(응찰 <!--WEB SOCKET-->)</em></dd>--%>
-                                                <%--                                                </dl>--%>
                                                 <dl class="price-list">
                                                     <dt>마감일</dt>
                                                     <dd><b id="end_date_time" ng-bind="lotInfo.LOT_EXPIRE_DATE | date_format"><!--WEB SOCKET--></b></dd>
@@ -913,9 +910,10 @@
                 $scope.lotImages = r3.data.data;
                 $scope.saleImages = r4.data.data;
 
-                console.log($scope.lotInfo);
-
-                $scope.estimatedRange = $scope.lotInfo.EXPE_PRICE_INQ_YN === 'Y' ? '별도 문의' : $scope.lotInfo.BASE_EXPE_FROM_PRICE + ' ~ ' + $scope.lotInfo.BASE_EXPE_TO_PRICE;
+                $scope.lotInfo.EXPE_PRICE_FROM_JSON.KRW = numberWithCommas($scope.lotInfo.EXPE_PRICE_FROM_JSON.KRW);
+                $scope.lotInfo.EXPE_PRICE_TO_JSON.KRW = numberWithCommas($scope.lotInfo.EXPE_PRICE_TO_JSON.KRW);
+                $scope.lotInfo.EXPE_PRICE_FROM_JSON.USD = numberWithCommas($scope.lotInfo.EXPE_PRICE_FROM_JSON.USD);
+                $scope.lotInfo.EXPE_PRICE_TO_JSON.USD = numberWithCommas($scope.lotInfo.EXPE_PRICE_TO_JSON.USD);
 
                 $scope.recentlyViews = r6.data.data;
 
@@ -1007,6 +1005,7 @@
 
                 let sale_images = $scope.saleImages;
                 let lot_images = $scope.lotImages;
+                let firstCheck = 0;
 
                 $.each(sale_images, function (index, el) {
                     let size1 = 0;
@@ -1021,13 +1020,17 @@
                     }
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
                     let swiper_slide_item = '';
+                    if (firstCheck == 0) {
+                        $scope.chk = parseInt(lot_no) - index -1;
+                    }
+                    firstCheck++;
 
                     //if(size1 > 160) {
                     swiper_slide_item = `<div class="swiper-slide">
                                             <div class="img-area">
                                                 <div class="img-box">
-                                                    <div class="size_x"><span>` + size2 + unitCd + `</span></div>
-                                                    <div class="size_y"><span>` + size1 + unitCd + `</span></div>
+                                                    <div class="size_x"><span>` + size1 + unitCd + `</span></div>
+                                                    <div class="size_y"><span>` + size2 + unitCd + `</span></div>
                                                     <div class="images">
                                                         <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + lot_no + `" />
                                                     </div>
@@ -1109,7 +1112,7 @@
                     popup_image_viewer.open(this); // or false
                     imagesResizePcMb();
                     imageViewer.update();
-                    imageViewer.slideTo($("#view_lot_no").attr("sel-data-index"), 0);
+                    imageViewer.slideTo(parseInt($("#view_lot_no").attr("sel-data-index")) - $scope.chk, 0);
                 });
                 // 좌우버튼
                 $('.view_paging-area .page_prev').on('click', function ($e) {
