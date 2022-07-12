@@ -275,6 +275,7 @@ function loadTopNotice(){
                 if(matchMedia("all and (min-width: 1024px)").matches) {//pc
                     $('.main-contents').css({'margin-top': '162px'});
                 } else {//mo
+                    $('.submenuBg').css({'top':'-40px'});
                     $('.main-contents').css({'margin-top': '100px'});
                 }
 
@@ -282,8 +283,10 @@ function loadTopNotice(){
                 if(matchMedia("all and (min-width: 1024px)").matches) {//pc
                     $('.main-contents').css({'margin-top':'102px'});
                 } else {//mo
+                    $('.submenuBg').css({'top':'0px'});
                     $('.main-contents').css({'margin-top': '56px'});
                 }
+
             }
 
         }
@@ -296,15 +299,18 @@ function loadTopNotice(){
 /*upcoming*/
 $('.upcoming-img>img').show(function () {
     const img_on = $(window).innerWidth();
-    //$('.swiper-slide.upcomingSlide').css('padding-right','40px');
+     $('.swiper-slide.upcomingSlide').css('padding-right','40px');
+     console.log(643636);
     if (img_on >= 1280) {
+        console.log(32343);
         $('.swiper-slide.upcomingSlide').css('padding-right', '40px');
     } else {
-        $('.swiper-slide.upcomingSlide').css('padding-right', '20px');
+        console.log(77456);
+        $('.swiper-slide.upcomingSlide').css('padding-right', '10px');
     }
     /* 영문버전 */
-    if (img_on <= 1919) {
-        $('.swiper-slide:lang(en).upcomingSlide').css('padding-right', '20px');
+    if (img_on <= 1280) {
+        $('.swiper-slide.upcomingSlide:lang(en).upcomingSlide').css('padding-right', '20px');
     }
 
     $(this).parent('.upcoming-img').addClass('on').css('display', 'flex');
@@ -319,7 +325,7 @@ const upcomingSwiper = new Swiper(".upcoming-swiper", {
         },
         1023: {
             slidesPerView: 'auto',
-            spaceBetween: 0,
+            spaceBetween: 10,
             loopedSlides: 1,
         },
     }
@@ -343,7 +349,7 @@ function loadUpcomings() {
                     const to_dt = moment(item.TO_DT);
                     const prev_from_dt = moment(item.PREV_FROM_DT);
                     const prev_to_dt = moment(item.PREV_TO_DT);
-                    const returnDom =  ` <div class="swiper-slide upcomingSlide " style="padding-right: 40px;">
+                    const returnDom =  ` <div class="swiper-slide upcomingSlide "> 
                                             <a href="/auction/upcoming/${item.SALE_NO}">
                                                 <div class="upcoming-caption">
                                                     <span class="auctionKind-box ${ item.SALE_KIND === 'LIVE' ? 'on' : ''}">
@@ -426,6 +432,8 @@ const platFormSwiper = new Swiper('.platform-swiper', {
     loop: true,
     breakpoints : {
         1023: {
+            CenteredSlidesBounds:true,
+            centeredSlides:true,
             effect: 'fade',
             autoplay: {
                 delay: 5000,
@@ -721,5 +729,36 @@ $(window).resize(function(){
         visualSwiper.autoplay.stop();
         $(this).css({'display':'none'});
         $('.playBtn').css({'display':'block'});
+    });
+
+    const platFormSwiper = new Swiper('.platform-swiper', {
+        effect: 'fade',
+        autoplay: {
+            delay: 5000,
+        },
+        slidesPerView: 1,
+        spaceBetween: 10,
+        keyboard: {
+            enabled: true,
+        },
+        pagination: {
+            el: '.platform-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.platformBtn-right',
+            prevEl: '.platformBtn-left',
+        },
+        loop: true,
+        breakpoints : {
+            1023: {
+                CenteredSlidesBounds:true,
+                centeredSlides:true,
+                effect: 'fade',
+                autoplay: {
+                    delay: 5000,
+                },
+            },
+        },
     });
 });

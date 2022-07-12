@@ -46,19 +46,25 @@ $(document).ready(function(){
 
                         //신입 / 경력 확인.
                         if ( el.recruit_type === 'fresh'){
+
                             html +=  `<div class="mem-icon icon-new">신입</div>`;
                         }else if ( el.recruit_type === 'experience'){
-                            html +=  `<div class="mem-icon icon-senior">경력</div>`;
+                            html += `<div class="mem-icon icon-senior">경력</div>`;
                         }else if ( el.recruit_type === 'all'){
-                            html +=  `<div class="mem-icon icon-new">신입</div>`;
-                            html +=  `<div class="mem-icon icon-senior">경력</div>`;
+                            html += `<div class="mem-icon icon-new">신입</div>`;
+                            html += `<div class="mem-icon icon-senior">경력</div>`;
                         }
 
+                        console.log(el);
 
-                        console.log(el.period_type);
+                        //날짜가 안지낫을 경우 OR 상시모집 이거나 진행중 마감 인경우.
+                        if(el.is_over === 'N' || ( el.period_type === 'current' || el.period_type === 'immediate')  ){
+                            html += `<div class="mem-icon icon-recruiting">진행중</div>`;
+                        }
+
+                        html +='</div>';
 
                         if ( el.period_type === 'period'){
-                            html +=   `<div class="mem-icon icon-recruiting">진행중</div></div>`;
 
                             let endDate = el.end_date !== undefined ? ' ~ ' + el.end_date : '';
                             html += `<a id="re_${el.is_over}" class="re_detail_btn" href="/footer/recruit/${el.id}"  class="tit">${el.title}</a></td>`;
@@ -66,13 +72,13 @@ $(document).ready(function(){
 
                         } else if ( el.period_type === 'current'){
 
-                            html +=  `</div><a href="/footer/recruit/${el.id}" class="tit">${el.title}</a></td>`;
+                            html +=  `<a href="/footer/recruit/${el.id}" class="tit">${el.title}</a></td>`;
 
                             html += `<td class="bbs-date long">상시 모집</td></tr>`;
 
                         }  else if ( el.period_type === 'immediate'){
 
-                            html +=  `</div><a href="/footer/recruit/${el.id}" class="tit">${el.title}</a></td>`;
+                            html +=  `<a href="/footer/recruit/${el.id}" class="tit">${el.title}</a></td>`;
 
                             html += `<td class="bbs-date long">채용 시 마감</td></tr>`;
                         }
