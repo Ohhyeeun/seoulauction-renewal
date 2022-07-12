@@ -20,7 +20,7 @@
         <section class="container wrap_padding">
             <section class="auction-contents">
                 <div class="auction-tit">
-                    <h1 class="main-sectiontit">Auction</h1>
+                    <h1 class="main-sectiontit main-sectiontit-auction">Auction</h1> 
                     <div class="auctiontab-scroll">
                         <div class="auctionTab">
                         </div>

@@ -1721,9 +1721,9 @@ body.dark,
     }
     .header_logo {
         background-image: url("/images/mobile/logo/SA_logo_black.svg");
-        flex-basis: 125px;
-        width: 125px;
-        height: 40px;
+        flex-basis: 140px;
+        width: 140px;
+        height: 55px;
         margin-top: 0;
     }
     .header_nav {
@@ -1734,16 +1734,16 @@ body.dark,
         align-items: center;
     }
     .m-top-search {
-        margin-right: 14px;
-        width: 19px;
-        height: 19px;
+        margin-right: 15px;
+        width: 24px;
+        height: 24px;
         background: url("/images/mobile/icon/ic_search_black_24.svg") no-repeat center center;
         background-size: contain;
     }
     .m-gnbmenu {
-        width: 17px;
-        height: 17px;
-        background: url("/images/mobile/icon/ic_hamburger_menu_light_black_20.svg") no-repeat center 1px;
+        width: 22.5px;
+        height: 22.5px;
+        background: url("/images/mobile/icon/ic_hamburger_menu_light_black_20.svg") no-repeat center center;
         background-size: contain;
     }
     .search-bubble-box {
@@ -1803,7 +1803,7 @@ body.dark,
         min-height: auto;
         padding: 0 10px;
         padding-top: 4px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
     .d-day.on  {
         padding-top: 5px;
@@ -1930,7 +1930,7 @@ body.dark,
         border-left: 0;
     }
     .main-sectiontit {
-        font-size: 27px;
+        font-size: 1.625em; /* 26px */
     }
     .modebox {
         border-top: 1px solid #dedede;
@@ -2000,6 +2000,7 @@ body.dark,
     }
     .topsearch-box {
         flex-basis: 100%;
+        align-items: center;
     }
     .topsearch-box>form {
         flex-basis: inherit;
@@ -2031,16 +2032,6 @@ body.dark,
         -ms-border-radius: inherit;
         background-color: transparent;
         border-bottom: 3px solid #333;
-    }
-    .m-top-search {
-        margin-right: 14px;
-        width: 19px;
-        height: 19px;
-    }
-    .m-gnbmenu {
-        width: 17px;
-        height: 17px;
-        background-position: center 1px;
     }
     .top-search-closeBtn {
         margin-top: 0;
