@@ -120,10 +120,11 @@ window.onload = function(){
 
 /* visual */
 const visualSwiper = new Swiper('.visual-swiper', {
+    effect:'fade',
     initialSlide : 1,
-    speed: 3000,
     loop: true,
     autoplay: {
+        // speed: 3000,
         delay: 5000,
         disableOnInteraction: false,
     },
@@ -680,8 +681,9 @@ $(window).resize(function(){
 
     /* visual */
     const visualSwiper = new Swiper('.visual-swiper', {
-        speed : 3000,
+        effect: 'fade',
         autoplay: {
+            // speed : 2000,
             delay:5000,
             disableOnInteraction:false,
         },
@@ -728,7 +730,7 @@ $(window).resize(function(){
     $('.stopBtn').on('click', function(){
         visualSwiper.autoplay.stop();
         $(this).css({'display':'none'});
-        $('.playBtn').css({'display':'block'});
+        $('.playBtn').css({'display':'block'}); 
     });
 
     const platFormSwiper = new Swiper('.platform-swiper', {

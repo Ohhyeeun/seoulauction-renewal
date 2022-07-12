@@ -24,14 +24,16 @@
     border: 1px solid #111111;
     color: #111111;
 }
-
-.main-sectiontit {
-    font-size: 42px;
-    font-family: 'Libre Baskerville', serif;
-    font-weight: 700;
-    color: #111111;
+.auction-tit>h1.main-sectiontit-auction {
     margin-right: 30px;
 }
+/*.main-sectiontit {*/
+/*    font-size: 42px;*/
+/*    font-family: 'Libre Baskerville', serif;*/
+/*    font-weight: 700;*/
+/*    color: #111111;*/
+/*    margin-right: 30px;*/
+/*}*/
 
 /* visual */
 .swiper-pagination-current {
@@ -1138,6 +1140,10 @@
 }
 /* mobile */
 @media all and (max-width: 1023px) {
+    .auction-tit>h1.main-sectiontit-auction {
+        margin-bottom: 25px;
+        margin-right: 0;
+    }
     .auctionTab-btn>span {
         max-width: 250px;
     }
@@ -1155,9 +1161,6 @@
     }
     .main-popup-img {
         height: 100%;
-    }
-    .main-sectiontit {
-        font-size: 22px;
     }
     .visual_img>img {
         height: 690px;
@@ -1490,6 +1493,9 @@
         margin: 0;
         margin-bottom: 40px;
     }
+    .article-box:last-child {
+        margin-bottom: 0;
+    }
     .newsletter-btnbox {
         justify-content: center;
     }
@@ -1631,7 +1637,7 @@
         height: 100%;
     }
     .auction-tit{
-        padding-bottom: 25px;
+        padding-bottom: 0;
     }
     .auctionTab-btn {
         font-size: 14px;
@@ -1739,10 +1745,10 @@
     }
 }
 @media all and (max-width: 559px) {
-    .upcoming-preview,
-    .upcoming-datebox {
-        line-height: 1.5;
-    }
+    /*.upcoming-preview,*/
+    /*.upcoming-datebox {*/
+    /*    line-height: 1.5;*/
+    /*}*/
     .upcoming-img,
     .upcoming-img:lang(en) {
         flex-basis: calc(70% - 10px);

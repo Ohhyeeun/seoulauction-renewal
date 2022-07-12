@@ -195,6 +195,19 @@ $(function() {
         //     $('.main-contents').css('margin-top','162px');
         // });
 
+        /* 다크모드 버튼 */ 
+        $('.darkmodeBg').hover(function () {
+            console.log(23432432);
+            $('.darkmode').toggleClass('active');
+        }, function () {
+            $('.darkmode').toggleClass('active');
+        });
+        $('.darkmodeBg.dark').hover(function () {
+            $('.darkmode.dark').toggleClass('active');
+        }, function () {
+            $('.darkmode.dark').toggleClass('active');
+        });
+
     } else { /* 테블릿 */
 
         $('.header_gnbmenu>li>a').mouseenter(false);
@@ -359,16 +372,6 @@ $(function() {
         if (windowWidth1279.matches) {
             $('.topsearch>input').attr('placeholder', '작가 또는 작품명 검색');
             $('.topsearch-en>input').attr('placeholder', 'Search by artist or work name');
-            $('.darkmodeBg').hover(function () {
-                $('.darkmode').toggleClass('active');
-            }, function () {
-                $('.darkmode').toggleClass('active');
-            });
-            $('.darkmodeBg.dark').hover(function () {
-                $('.darkmode.dark').toggleClass('active');
-            }, function () {
-                $('.darkmode.dark').toggleClass('active');
-            });
         } else if (windowWidth1024.matches) {
             $('.topsearch>input').attr('placeholder', '검색');
             $('.topsearch-en>input').attr('placeholder', 'Search');

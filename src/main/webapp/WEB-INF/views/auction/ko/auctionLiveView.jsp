@@ -30,7 +30,7 @@
                                                     <a href="#" onclick="window.history.back()" title="뒤로가기">
                                                         <i class="icon-page_back"></i>
                                                     </a>
-                                                    <span ng-bind="saleInfo.SALE_TITLE_KO"></span>
+<%--                                                    <span ng-bind="saleInfo.SALE_TITLE_KO"></span>--%>
                                                 </div>
                                             </div>
                                             <div class="col_item">
@@ -914,6 +914,9 @@
                 $scope.lotInfo.EXPE_PRICE_TO_JSON.KRW = numberWithCommas($scope.lotInfo.EXPE_PRICE_TO_JSON.KRW);
                 $scope.lotInfo.EXPE_PRICE_FROM_JSON.USD = numberWithCommas($scope.lotInfo.EXPE_PRICE_FROM_JSON.USD);
                 $scope.lotInfo.EXPE_PRICE_TO_JSON.USD = numberWithCommas($scope.lotInfo.EXPE_PRICE_TO_JSON.USD);
+
+
+                console.log($scope.lotInfo);
 
                 $scope.recentlyViews = r6.data.data;
 

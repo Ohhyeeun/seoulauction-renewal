@@ -1215,14 +1215,14 @@ img::selection {
 /* 다크모드*/
 body.dark::-webkit-scrollbar-thumb,
 .auctiontab-scroll.dark::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.1);
+    background-color: #2b2b2b;
     -webkit-border-radius: 10px;
     -ms-border-radius: 10px;
     -ms-overflow-style: none;
 }
 body.dark::-webkit-scrollbar-track
 .auctiontab-scroll.dark::-webkit-scrollbar-track {
-    background-color: rgba(0,0,0,0.1);
+    background-color: #222;
     -ms-overflow-style: none;
 }
 body.dark,
@@ -1256,7 +1256,9 @@ body.dark,
 .auctionTab-btn.dark:hover,
 .keyword-search-tit.dark,
 .recommend-search-part.dark>span,
-.newsletter-form>input.dark {
+.newsletter-form>input.dark,
+.upcoming-datebox.dark,
+.upcoming-caption>h4.dark {
     color: #fff;
 }
 /* common color #dbdbdb */
@@ -1297,21 +1299,18 @@ body.dark,
     color: #111;
 }
 /* common color #333 */
-.upcoming-caption>h4.dark,
 .gnb_logout.dark,
 .newsletter-btnbox>button.commonbtn.dark,
 .newsAgree-checktxt.dark,
 .newsAgree-comfirm.dark,
 .btn-bg-w.dark,
-.upcoming-wrap.dark {
+.upcoming-wrap.dark,
+.slide_white.dark {
     color: #333;
 }
 .newsAgree-txt.dark {
     background-color: #f6f6f6;
     color: #333;
-}
-.upcoming-datebox.dark {
-    color: #555;
 }
 .swiper-progressbar .visual-progressbar.dark:after,
 .auctionTab-btn.on.dark::after,
@@ -1417,23 +1416,19 @@ body.dark,
     color: #ccc;
 }
 .keyword-del.dark {
-    background-image: url("/images/pc/icon/ic_close_gray_24.svg");
-    fill: #ccc;
+    background-image: url("/images/pc/icon/x-btn-lightgray.svg");
 }
 .swiper-button-prev.platformBtn-left.dark {
     background-image: url("/images/pc/icon/ic_chevron_left_white_48.svg");
 }
 .swiper-button-next.platformBtn-right.dark {
     background-image: url("/images/pc/icon/ic_chevron_right_white_48.svg");
+    fill: none;
 }
-
-
-
-
-
-
-
-
+.auction-thumbbox.dark,
+.swiper-slide.upcomingSlide.dark {
+    background-color: #2d2d2d;
+}
 
 
 /* 외주 css selec container */
@@ -1535,6 +1530,9 @@ body.dark,
     .header_nav,
     .swiper-btn-wrap{
 
+    }
+    .Ingbanner-box {
+        display: none;
     }
     .belttxtbox {
         min-width: 100%;
@@ -1718,9 +1716,9 @@ body.dark,
     }
     .header_logo {
         background-image: url("/images/mobile/logo/SA_logo_black.svg");
-        flex-basis: 125px;
-        width: 125px;
-        height: 40px;
+        flex-basis: 140px;
+        width: 140px;
+        height: 55px;
         margin-top: 0;
     }
     .header_nav {
@@ -1731,16 +1729,16 @@ body.dark,
         align-items: center;
     }
     .m-top-search {
-        margin-right: 14px;
-        width: 19px;
-        height: 19px;
+        margin-right: 15px;
+        width: 24px;
+        height: 24px;
         background: url("/images/mobile/icon/ic_search_black_24.svg") no-repeat center center;
         background-size: contain;
     }
     .m-gnbmenu {
-        width: 17px;
-        height: 17px;
-        background: url("/images/mobile/icon/ic_hamburger_menu_light_black_20.svg") no-repeat center 1px;
+        width: 22.5px;
+        height: 22.5px;
+        background: url("/images/mobile/icon/ic_hamburger_menu_light_black_20.svg") no-repeat center center;
         background-size: contain;
     }
     .search-bubble-box {
@@ -1800,7 +1798,7 @@ body.dark,
         min-height: auto;
         padding: 0 10px;
         padding-top: 4px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
     .d-day.on  {
         padding-top: 5px;
@@ -1927,7 +1925,7 @@ body.dark,
         border-left: 0;
     }
     .main-sectiontit {
-        font-size: 27px;
+        font-size: 1.625em; /* 26px */
     }
     .modebox {
         border-top: 1px solid #dedede;
@@ -1997,6 +1995,7 @@ body.dark,
     }
     .topsearch-box {
         flex-basis: 100%;
+        align-items: center;
     }
     .topsearch-box>form {
         flex-basis: inherit;
@@ -2028,16 +2027,6 @@ body.dark,
         -ms-border-radius: inherit;
         background-color: transparent;
         border-bottom: 3px solid #333;
-    }
-    .m-top-search {
-        margin-right: 14px;
-        width: 19px;
-        height: 19px;
-    }
-    .m-gnbmenu {
-        width: 17px;
-        height: 17px;
-        background-position: center 1px;
     }
     .top-search-closeBtn {
         margin-top: 0;

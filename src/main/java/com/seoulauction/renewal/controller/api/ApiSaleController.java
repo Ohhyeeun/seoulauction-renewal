@@ -136,7 +136,8 @@ public class ApiSaleController {
         String subCurrCd = String.valueOf(baseCurrency.get(currCd));
 
         String[] mapKeys = {"ARTIST_NAME_JSON", "EXPE_PRICE_TO_JSON","EXPE_PRICE_FROM_JSON",
-                "SIGN_INFO_JSON", "COND_RPT_JSON", "PROFILE_JSON"};
+                "SIGN_INFO_JSON", "COND_RPT_JSON", "PROFILE_JSON" ,"LITE_INFO_JSON" , "EXHI_INFO_JSON" ,
+                "PROV_INFO_JSON" , "ETC_INFO_JSON" , "CMMT_JSON" };
         String[] listKeys = {"LOT_SIZE_JSON"};
 
         // 맵 형태 거름
