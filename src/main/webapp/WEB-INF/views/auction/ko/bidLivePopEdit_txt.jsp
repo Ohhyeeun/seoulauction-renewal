@@ -1116,9 +1116,13 @@
             }
 
             if (window.location.protocol !== "https:") {
-                w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws");
+                w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws?sale_no=" +
+                    saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
+                    "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
             } else {
-                w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws");
+                w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws?sale_no=" +
+                    saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
+                    "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
             }
             w.onopen = function () {
                 console.log("open");
@@ -1165,26 +1169,6 @@
             if (d.msg_type === packet_enum.init) {
                 // 현재 토큰정보
                 $scope.token = d.message.token;
-                let init_func_manual = async function (req) {
-                    let url = '';
-                    if (window.location.protocol !== "https:") {
-                        url = 'http://dev-bid.seoulauction.xyz/init';
-                    } else {
-                        url = 'https://dev-bid.seoulauction.xyz/init';
-                    }
-                    let response = await fetch(url, {
-                        method: "POST", body: JSON.stringify({
-                            token: req.message.token,
-                            sale_no: saleNo,
-                            lot_no: 0,
-                            sale_type: saleType,
-                            user_id: userId,
-                            cust_no: custNo,
-                        }),
-                    });
-                    return response;
-                }
-                init_func_manual(d);
             } else if (d.msg_type === packet_enum.bid_info) {
                 if (d.message.bid != null && d.message.bid.length > 0) {
                     let len = d.message.bid.length;

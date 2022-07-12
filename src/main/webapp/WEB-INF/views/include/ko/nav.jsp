@@ -51,7 +51,7 @@
                 <li><a href="#">SERVICE</a></li>
             </ul>
             <section class="topsearch-box">
-                <button class="m-top-search m-ver"></button>
+                <button class="m-top-search m-ver" ng-click="recommandSearch();"></button>
                 <button class="m-gnbmenu m-ver"></button>
                 <form action="" class="scroll_none">
                     <fieldset class="topsearch">

@@ -42,7 +42,7 @@
     </div>
 
     <nav class="header_navbox">
-        <div class="header_nav wrap_padding" ng-controller="headCtl">
+        <div class="header_nav wrap_padding" ng-controller="headCtl" >
             <a href="/" class="header_logo"><span class="blind-text">logo</span></a>
             <ul class="header_gnbmenu pc-ver">
                 <li><a href="#" class="">AUCTION</a></li>
@@ -51,7 +51,7 @@
                 <li><a href="#">SERVICE</a></li>
             </ul>
             <section class="topsearch-box">
-                <button class="m-top-search m-ver"></button>
+                <button class="m-top-search m-ver" ng-click="recommandSearch();"></button>
                 <button class="m-gnbmenu m-ver"></button>
                 <form action="" class="scroll_none">
                     <fieldset class="topsearch topsearch-en">

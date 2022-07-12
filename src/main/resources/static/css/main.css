@@ -575,6 +575,10 @@
     height: 0;
     padding-bottom: 11.25em;
 }
+.platform-bg > a {
+    margin: 0 auto;
+    text-align: center;
+}
 .swiper-button-prev.platformBtn-left,
 .swiper-button-next.platformBtn-right {
     width: 100px;
@@ -1277,6 +1281,7 @@
     .swiper-slide.upcomingSlide {
         flex-basis: auto;
         height: 100%;
+        padding: 20px;
     }
     .platform-swiper {
         padding-bottom: calc(45% - 64px);
@@ -1287,6 +1292,9 @@
     .upcoming-wrap {
         margin-bottom: 49px;
     }
+    /*.swiper-container.upcoming-swiper {*/
+    /*    width: calc(70% - 13.33333px);   */
+    /*}*/
     .upcomingSlide {
         flex-basis: 620px;
         height: 361px;
