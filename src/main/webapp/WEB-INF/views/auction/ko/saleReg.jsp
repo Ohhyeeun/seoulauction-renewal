@@ -317,69 +317,115 @@
                 }),
             });
 
-            let q = {
-                sale_type: 1,
-                sale_no: $scope.saleNo,
-                quotes: [
-                    {
-                        cost: 0,
-                        quote_cost: 50000,
-                    },
-                    {
-                        cost: 1000000,
-                        quote_cost: 100000,
-                    },
-                    {
-                        cost: 2000000,
-                        quote_cost: 200000,
-                    },
-                    {
-                        cost: 4000000,
-                        quote_cost: 300000,
-                    },
-                    {
-                        cost: 10000000,
-                        quote_cost: 500000,
-                    },
-                    {
-                        cost: 20000000,
-                        quote_cost: 1000000,
-                    },
-                    {
-                        cost: 30000000,
-                        quote_cost: 2000000,
-                    },
-                    {
-                        cost: 50000000,
-                        quote_cost: 3000000,
-                    },
-                    {
-                        cost: 100000000,
-                        quote_cost: 5000000,
-                    },
-                    {
-                        cost: 200000000,
-                        quote_cost: 10000000,
-                    },
-                    {
-                        cost: 300000000,
-                        quote_cost: 20000000,
-                    },
-                    {
-                        cost: 500000000,
-                        quote_cost: 30000000,
-                    },
-                    {
-                        cost: 1000000000,
-                        quote_cost: 50000000,
-                    },
-                    {
-                        cost: 2000000000,
-                        quote_cost: 100000000,
-                    }]
+            let q;
+            if ($scope.saleInfoAll[0].SALE_KIND_CD === "main"
+                || $scope.saleInfoAll[0].SALE_KIND_CD === "hongkong"
+                || $scope.saleInfoAll[0].SALE_KIND_CD === "plan"){
+                q = {
+                    sale_type: 1,
+                    sale_no: $scope.saleNo,
+                    quotes: [
+                        {
+                            cost: 0,
+                            quote_cost: 50000,
+                        },
+                        {
+                            cost: 1000000,
+                            quote_cost: 100000,
+                        },
+                        {
+                            cost: 2000000,
+                            quote_cost: 200000,
+                        },
+                        {
+                            cost: 4000000,
+                            quote_cost: 300000,
+                        },
+                        {
+                            cost: 10000000,
+                            quote_cost: 500000,
+                        },
+                        {
+                            cost: 20000000,
+                            quote_cost: 1000000,
+                        },
+                        {
+                            cost: 30000000,
+                            quote_cost: 2000000,
+                        },
+                        {
+                            cost: 50000000,
+                            quote_cost: 3000000,
+                        },
+                        {
+                            cost: 100000000,
+                            quote_cost: 5000000,
+                        },
+                        {
+                            cost: 200000000,
+                            quote_cost: 10000000,
+                        },
+                        {
+                            cost: 300000000,
+                            quote_cost: 20000000,
+                        },
+                        {
+                            cost: 500000000,
+                            quote_cost: 30000000,
+                        },
+                        {
+                            cost: 1000000000,
+                            quote_cost: 50000000,
+                        },
+                        {
+                            cost: 2000000000,
+                            quote_cost: 100000000,
+                        }]
+                }
+            } else {
+                q = {
+                    sale_type: 2,
+                    sale_no: $scope.saleNo,
+                    quotes: [
+                        {
+                            cost: 0,
+                            quote_cost: 50000,
+                        },
+                        {
+                            cost: 1000000,
+                            quote_cost: 100000,
+                        },
+                        {
+                            cost: 3000000,
+                            quote_cost: 200000,
+                        },
+                        {
+                            cost: 5000000,
+                            quote_cost: 300000,
+                        },
+                        {
+                            cost: 10000000,
+                            quote_cost: 500000,
+                        },
+                        {
+                            cost: 30000000,
+                            quote_cost: 1000000,
+                        },
+                        {
+                            cost: 50000000,
+                            quote_cost: 2000000,
+                        },
+                        {
+                            cost: 100000000,
+                            quote_cost: 3000000,
+                        },
+                        {
+                            cost: 200000000,
+                            quote_cost: 5000000,
+                        }]
+                }
             }
             console.log(q);
-
             fetch(url + "/quote/set", {
                 method: "POST", body: JSON.stringify(q)});
 

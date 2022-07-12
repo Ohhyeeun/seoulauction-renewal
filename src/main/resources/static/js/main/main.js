@@ -121,6 +121,7 @@ window.onload = function(){
 /* visual */
 const visualSwiper = new Swiper('.visual-swiper', { 
     initialSlide : 1,
+    speed: 4500,
     loop: true,
     autoplay: {
         delay: 5000,
@@ -405,6 +406,7 @@ function loadUpcomings() {
 
 /* 띠배너 */
 const platFormSwiper = new Swiper('.platform-swiper', {
+    speed : 4000,
     autoplay: {
         delay: 5000,
     },
@@ -662,8 +664,9 @@ $(window).resize(function(){
 
     /* visual */
     const visualSwiper = new Swiper('.visual-swiper', {
+        speed : 4500,
         autoplay: {
-            delay:7000,
+            delay:5000,
             disableOnInteraction:false,
         },
         pagination: {

@@ -171,6 +171,8 @@ $(function(){
                 if(success){
                     let lotData = data.data;
 
+                    console.log(lotData);
+
                     $("#print_sale_title").html(JSON.parse(lotData.SALE_TITLE_JSON).ko);
                     $("#print_sale_to_date").html('마감일 : ' +
                         lotData.LOT_EXPIRE_DATE_TIME_T.replace(lotData.LOT_EXPIRE_DATE_DAY , enDayToHanDay(lotData.LOT_EXPIRE_DATE_DAY) )
@@ -182,15 +184,20 @@ $(function(){
                     $("#print_artist_name").html(lotData.ARTIST_NAME_KO_TXT);
                     $("#print_year").html('b.' + lotData.BORN_YEAR);
                     $("#print_title").html(lotData.TITLE_KO_TXT);
-                    $("#print_expe_price").html(
-                        '<dd>'
-                         + 'KRW '
-                         +         numberWithCommas(lotData.EXPE_PRICE_FROM_JSON.KRW)
-                         + ' ~ ' + numberWithCommas(lotData.EXPE_PRICE_TO_JSON.KRW)
-                         + '</dd>'
-                    );
-                    //TODO 오프라인인경우 USD 달러 나와야함.
 
+                    if(lotData.EXPE_PRICE_INQ_YN === 'N') {
+                        $("#print_expe_price").html(
+                            '<dd>'
+                            + 'KRW '
+                            + numberWithCommas(lotData.EXPE_PRICE_FROM_JSON.KRW)
+                            + ' ~ ' + numberWithCommas(lotData.EXPE_PRICE_TO_JSON.KRW)
+                            + '</dd>'
+                        );
+                    } else {
+                        $("#print_expe_price").html('<dd> 추정가 별도 문의 </dd>');
+                    }
+
+                    //TODO 오프라인인경우 USD 달러 나와야함.
                     $("#price_lot_desc").html(
                         lotData.MATE_NM_EN + '<br/>'
                         + '<span>'

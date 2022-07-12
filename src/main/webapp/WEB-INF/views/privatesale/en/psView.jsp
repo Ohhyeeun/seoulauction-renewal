@@ -4,13 +4,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<jsp:include page="../../include/ko/header.jsp" flush="false"/>
+<jsp:include page="../../include/en/header.jsp" flush="false"/>
 
 <body class="" ng-controller="ctl" data-ng-init="load();" style="opacity: 0" opacity=1>
 <div class="wrapper">
     <div class="sub-wrap pageclass type-details_view">
         <!-- header -->
-        <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
+        <jsp:include page="../../include/en/nav.jsp" flush="false"/>
         <!-- //header -->
         <!-- container -->
         <div id="container">
@@ -24,48 +24,16 @@
                                         <div class="row-box">
                                             <div class="col_item">
                                                 <div class="page_title">
-                                                    <a href="#" ng-click="goExhibit();" title="뒤로가기">
+                                                    <a href="#" onclick="goPrivateSale();" title="뒤로가기">
                                                         <i class="icon-page_back"></i>
                                                     </a>
-                                                    <span ng-bind="saleInfo.SALE_TITLE_KO"></span>
+                                                    <span ng-bind="saleInfo.SALE_AS_TITLE_EN">Private Sale</span>
                                                 </div>
                                             </div>
                                             <div class="col_item">
                                                 <!-- [0516]select 변경 -->
-                                                <div class="select-box">
-                                                    <div class="trp-dropdown-area h42-lines">
-                                                        <button class="js-dropdown-btn">
-                                                            <span>LOT {{lotInfo.LOT_NO}}</span><i class="form-select_arrow_md"></i>
-                                                        </button>
-                                                        <div class="trp-dropdown_list-box" data-trp-focusid="js-user_support">
-                                                            <div class="search-box">
-                                                                <input type="search" placeholder="LOT 번호 입력" id="search_lot" class="">
-                                                                <i class="form-search_md"></i>
-                                                            </div>
-                                                            <div class="list-box scroll-type">
-                                                                <ul id="sale_lot_list">
-                                                                    <li ng-repeat="item in saleImages" data-index="{{item.LOT_NO}}">
-                                                                        <a href="#" ng-click="goLot(item.SALE_NO, item.LOT_NO)">
-                                                                            <div class="image-area">
-                                                                                <figure class="img-ratio">
-                                                                                    <div class="img-align">
-                                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
-                                                                                    </div>
-                                                                                </figure>
-                                                                            </div>
-                                                                            <div class="typo-area">
-                                                                                <span>LOT {{::item.LOT_NO}}</span>
-                                                                            </div>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
 
-                                                    </div>
-                                                </div>
                                                 <!-- // [0516]select 변경 -->
-
                                             </div>
                                         </div>
                                     </article>
@@ -83,7 +51,7 @@
                                                         <div class="gallery_center">
                                                             <div class="swiper-wrapper js-popup_images">
 
-                                                                <div ng-repeat="item in lotImages"
+                                                                <div ng-repeat="item in saleImages"
                                                                      ng-class="{'swiper-slide':$index>-1,'swiper-slide-active':$index == 0}"
                                                                      data-index="$index">
 
@@ -106,7 +74,7 @@
                                                     <div class="gallery_thumbnail js-view_thumnail">
                                                         <div class="gallery_center">
                                                             <div class="swiper-wrapper">
-                                                                <div ng-repeat="item in lotImages"
+                                                                <div ng-repeat="item in saleImages"
                                                                      ng-class="{'slide':$index>-1,'images':$index>-1,'active':$index==0}"
                                                                      data-index="$index">
                                                                     <figure class="img-ratio">
@@ -121,32 +89,31 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="view_scale-area" ng-if="lotInfo.VIEW_SCALE_YN == 'Y'">
-                                                <a class="btn btn_default js-popup_image_viewer" href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
+                                                <a class="js-popup_image_viewer" href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
                                         </article>
 
                                     </div>
-
                                     <div class="col_item">
                                         <article class="product_detail-article js-product_detail-article">
                                             <div class="index-area">
-                                                <div class="index-box"><span ng-bind="lotInfo.LOT_NO">10</span></div>
+                                                <div class="index-box"><span ng-bind="saleInfo.AS_NO">10</span></div>
                                                 <div class="btn-box">
-                                                    <a href="#" title="" class="sns_share js-sns_share" id>
-                                                        <i class="icon-view_sns"></i></a>
+                                                    <a href="#" title="" class="sns_share js-sns_share"><i class="icon-view_sns"></i></a>
                                                     <div class="sns_layer-area">
                                                         <div class="sns-layer">
                                                             <div class="sns-item">
                                                                 <button id="kakao-share" class="js-share_kakao">
                                                                     <i class="icon-share_sns_kakao"></i>
-                                                                    <div class="txt"><span>카카오톡</span></div>
+                                                                    <div class="txt"><span>kakaotalk</span></div>
                                                                 </button>
                                                             </div>
                                                             <div class="sns-item" ng-click="urlCopy();">
                                                                 <button class="js-share_url">
                                                                     <i class="icon-share_url_copy"></i>
-                                                                    <div class="txt"><span>URL 복사</span></div>
+                                                                    <div class="txt"><span>URL copy</span></div>
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -155,28 +122,21 @@
                                             </div>
                                             <div class="artist-area">
                                                 <div class="name">
-                                                    <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT">김선우</strong>
-                                                    <span>b.{{lotInfo.BORN_YEAR}}</span>
+                                                    <strong ng-bind="saleInfo.ARTIST_NAME_EN">Kim SunWoo</strong>
+                                                    <span>b.{{saleInfo.BORN_YEAR}}</span>
                                                 </div>
                                                 <div class="desc">
-                                                    <span ng-bind="lotInfo.TITLE_KO_TXT">Flight of 3 Dodos</span>
+                                                    <span ng-bind="saleInfo.TITLE_EN"></span>
                                                 </div>
                                             </div>
 
-
-                                            <div class="saleprice-area">
-                                                <dl>
-                                                    <dt>전시가</dt>
-                                                    <dd id="exhibitPrice"></dd>
-                                                </dl>
-                                            </div>
                                             <div class="inquirybtn-area">
                                                 <div class="btnset">
                                                     <div class="btn-box">
-                                                        <button class="btn btn_black btn_lg" type="button" ng-click="goInquery();"><span>1:1 문의하기</span></button>
+                                                        <button class="btn btn_black btn_lg" type="button" ng-click="goInquery();"><span>1:1 Inquiry</span></button>
                                                     </div>
                                                     <div class="btn-box">
-                                                        <button class="print-btn" ng-click="print(lotInfo.SALE_NO, lotInfo.LOT_NO);">
+                                                        <button class="print-btn" ng-click="print(saleInfo.SALE_AS_NO);">
                                                             <i class="icon-view_print"></i>
                                                         </button>
                                                     </div>
@@ -186,13 +146,12 @@
                                                 <div class="inquiryinfo-box">
                                                     <i class="icon-view_inquiry"></i>
                                                     <div class="txt">
-                                                        프라이빗 세일 작품은 문의하기를 통해서 구매가 가능
-                                                        합니다. 작품에 관해 궁금한 부분이나 문의하실 사항이
-                                                        있으시다면, 문의하기를 이용해주시기 바랍니다.
+                                                        <!-- [0613]안내내용 수정 -->
+                                                        Private sale works can be purchased through inquiry. If you have any questions, please use the inquiry form.
+                                                        <!-- //[0613]안내내용 수정 -->
                                                     </div>
                                                 </div>
                                             </div>
-
 
                                         </article>
                                     </div>
@@ -200,25 +159,26 @@
 
                                 <article class="product_detail_view-article">
                                     <div class="view_editor-warp">
+
                                         <div class="info-box">
-                                            <div class="title">작품정보</div>
+                                            <div class="title">Work information</div>
                                             <div class="desc">
-                                                {{lotInfo.MATE_NM_EN}} <br />
-                                                <span ng-repeat="size in lotInfo.LOT_SIZE_JSON">
-                                                        <span ng-bind="size | size_text_cm"></span>
-                                                    </span> <br />
-                                                <span bind-html-compile="lotInfo.SIGN_INFO_JSON.ko"> <br />
+                                                {{saleInfo.MATE_NM_EN}} <br />
+                                                <span ng-bind="saleInfo | size_text"></span>
+                                                | <span>{{saleInfo.MAKE_YEAR_EN}}</span> <br />
+                                                <span bind-html-compile="saleInfo.SIGN_INFO_EN"> <br />
                                             </div>
                                         </div>
 
                                         <div class="info-box">
                                             <div class="title">Condition Report</div>
-                                            <div class="desc" ng-bind="lotInfo.COND_RPT_JSON.ko">
+                                            <div class="desc">
+                                                There is a small scratch in the lower left, a foreign object in the upper right
                                             </div>
                                         </div>
 
                                         <div class="info-box">
-                                            <div class="title">작가정보</div>
+                                            <div class="title">Author information</div>
                                             <div class="desc" id="artistName">
                                             </div>
                                             <div class="desc" id="artistProfile">
@@ -234,7 +194,7 @@
                             <div class="panel-footer">
 
                                 <div class="btn_set_more">
-                                    <button class="btn btn_gray_line" type="button" ng-click="goExhibit();"><span>목록</span></button>
+                                    <button class="btn btn_gray_line" type="button" onclick="goPrivateSale();"><span>LIST</span></button>
                                 </div>
 
                             </div>
@@ -248,7 +208,7 @@
         <!-- //container -->
 
         <!-- footer -->
-        <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
+        <jsp:include page="../../include/en/footer.jsp" flush="false"/>
         <!-- //footer -->
 
         <!-- stykey -->
@@ -270,9 +230,8 @@
 <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
-
 <!-- 이미지 뷰어 -->
-<<div id="popup_image_viewer-wrap" class="trp popupfixed-wrap image_viewer-popup">
+<div id="popup_image_viewer-wrap" class="trp popupfixed-wrap image_viewer-popup">
     <div class="popup-dim"></div>
     <div class="popup-align">
         <div class="popup-vertical">
@@ -369,10 +328,8 @@
     });
 </script>
 
-
 <!--  sns 공유 -->
 
-<!-- hold side : positionTar2 : $(".js-page_name-article"), -->
 <!-- [2022-0516] 사용 -->
 <script>
     var _hold_info = $(".js-product_detail-article").trpScrollSyncTopView({
@@ -408,9 +365,10 @@
     };
 </script>
 
+
 <!-- angular js -->
 <script>
-    app.value('locale', 'ko');
+    app.value('locale', 'en');
     app.value('is_login', true);
 
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
@@ -431,55 +389,47 @@
 
         $scope.is_login = is_login;
         $scope.locale = locale;
-        $scope.sale_no = "${saleNo}";
-        $scope.lot_no = "${lotNo}";
+        $scope.saleAsNo = "${saleAsNo}";
 
         // 호출 부
-        const getSaleInfo = (saleNo) => {
+        const getPrivateSaleInfo = (saleAsNo) => {
             try {
-                return axios.get('/api/auction/sale_info/${saleNo}');
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        const getLotInfo = (saleNo, lotNo) => {
-            try {
-                return axios.get('/api/privatesale/lot_info/${saleNo}/${lotNo}');
+                return axios.get('/api/privatesale/saleAsInfo/${saleAsNo}');
             } catch (error) {
                 console.error(error);
             }
         };
 
-        const getLotImages = (saleNo, lotNo) => {
+        const getPrivateSaleImages = (saleAsNo) => {
             try {
-                return axios.get('/api/auction/lot_images/${saleNo}/${lotNo}');
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        const getSaleImages = (saleNo, lotNo) => {
-            try {
-                return axios.get('/api/auction/sale_images/${saleNo}');
+                return axios.get('/api/privatesale/saleImages/${saleAsNo}');
             } catch (error) {
                 console.error(error);
             }
         }
 
-        $scope.goLot = function (saleNo, lotNo) {
-            window.location.href = '/privatesale/exhibitView/' + saleNo + '/' + lotNo;
+        const getSaleList = ( ) => {
+            try {
+                return axios.get('/api/privatesale/list');
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        $scope.goLot = function (saleAsNo) {
+            window.location.href = '/privatesale/psView/' + saleAsNo;
         }
 
         $scope.goInquery = function () {
             window.location.href = '/mypage/inquiryList';
         }
 
-        $scope.goExhibit = function () {
-            window.location.href = '/privatesale/exhibit/first';
+        $scope.goPrivateSaleList = function () {
+            window.location.href = '/privatesale/psList';
         }
 
-        $scope.print = function (saleNo, lotNo) {
-            window.location.href = '/privatesale/exhibitView/print/' + saleNo + '/' + lotNo;
+        $scope.print = function (saleAsNo) {
+            window.location.href = '/privatesale/psView/print/' + saleAsNo;
         }
 
         $scope.urlCopy = function () {
@@ -495,39 +445,31 @@
         // 호출 부
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3, r4] = await Promise.all([getSaleInfo($scope.sale_no),
-                    getLotInfo($scope.sale_no, $scope.lot_no),
-                    getLotImages($scope.sale_no, $scope.lot_no),
-                    getSaleImages($scope.sale_no, $scope.lot_no)]);
+                let [r1, r2, r3] = await Promise.all([getPrivateSaleInfo($scope.saleAsNo),
+                    getPrivateSaleImages($scope.saleAsNo),
+                    getSaleList()]);
 
                 $scope.saleInfo = r1.data.data;
-                $scope.lotInfo = r2.data.data;
-                $scope.lotImages = r3.data.data;
-                $scope.saleImages = r4.data.data;
+                $scope.saleImages = r2.data.data;
+                $scope.saleList = r3.data.data;
 
                 $scope.activeIndex = 0;
 
-                //artist 번호
-                $scope.artistNo = $scope.lotInfo.ARTIST_NO;
-                //전시가 처리
-                if($scope.lotInfo.EXHIBITION_PRICE_JSON == undefined || $scope.lotInfo.EXHIBITION_PRICE_JSON.length <= 2){
-                    $(".saleprice-area").hide();
-                }else{
-                    $(".saleprice-area").show();
-                    $("#exhibitPrice").html($scope.lotInfo.EXHIBITION_PRICE_JSON);
-                }
-
                 // popup setting
-                let imgUrl = $scope.lotImages[0].IMAGE_URL +
-                    $scope.lotImages[0].FILE_PATH + "/" + $scope.lotImages[0].FILE_NAME;
 
-                $("#bidding_title").html($scope.lotInfo.TITLE_KO_TXT);
+                let imgUrl = $scope.saleImages[0].IMAGE_URL +
+                    $scope.saleImages[0].FILE_PATH + "/" + $scope.saleImages[0].FILE_NAME;
+
+                $("#bidding_title").html($scope.saleInfo.TITLE_EN);
                 $("#img_url").attr("src", imgUrl);
-                $("#artist_nm").html($scope.lotInfo.ARTIST_NAME_KO_TXT);
-                $("#born_year").html("(" + $scope.lotInfo.BORN_YEAR + ")");
+                $("#artist_nm").html($scope.saleInfo.ARTIST_NAME_EN);
+                $("#born_year").html("(" + $scope.saleInfo.BORN_YEAR + ")");
 
-                $("#lot_title").html("LOT " + $scope.lotInfo.LOT_NO);
+                $("#lot_title").html("LOT " + $scope.saleInfo.SALE_AS_NO);
                 $scope.$apply();
+
+                //artist 번호
+                $scope.artistNo = $scope.saleInfo.ARTIST_NO;
 
                 // 카카오 init
                 Kakao.init('cf2233f55e74d6d0982ab74909c97835');
@@ -536,8 +478,8 @@
                     container: "#kakao-share",
                     objectType: "feed",
                     content: {
-                        title: $scope.saleInfo.SALE_TITLE_KO,
-                        description: $scope.lotInfo.TITLE_KO_TXT,
+                        title: $scope.saleInfo.SALE_AS_TITLE_EN,
+                        description: $scope.saleInfo.TITLE_EN,
                         imageUrl:imgUrl,
                         link: {
                             mobileWebUrl: window.location.href,
@@ -588,48 +530,50 @@
                     view_visual.update();
                 });
 
+                let sale_list = $scope.saleList;
                 let sale_images = $scope.saleImages;
-                let lot_images = $scope.lotImages;
                 let firstCheck = 0;
 
-                $.each(sale_images, function (index, el) {
+                $.each(sale_list, function (index, el) {
 
                     let size1 = 0;
                     let size2 = 0;
                     let unitCd = '';
-                    let lot_no = el.LOT_NO;
+                    let sale_as_no = el.SALE_AS_NO;
+
                     if (el.LOT_SIZE_JSON.length > 0) {
-                        size1 = el.LOT_SIZE_JSON[0].SIZE1;
-                        size2 = el.LOT_SIZE_JSON[0].SIZE2;
-                        unitCd = el.LOT_SIZE_JSON[0].UNIT_CD;
+                        size1 = el.SIZE1;
+                        size2 = el.SIZE2;
+                        unitCd = el.UNIT_CD;
 
                     }
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
+
                     let swiper_slide_item = '';
                     if (firstCheck == 0) {
                         $scope.chk = parseInt(lot_no) - index -1;
                     }
                     firstCheck++;
-
-                    //if(size1 > 160){
-                        swiper_slide_item = `<div class="swiper-slide">
-                                            <div class="img-area">
+                    //if(size1 > 160) {
+                    swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
+                                               <div class="img-area">
                                                 <div class="img-box">
-                                                    <div class="size_x"><span>` + size2 + unitCd +  `</span></div>
-                                                    <div class="size_y"><span>` + size1 + unitCd + `</span></div>
+                                                    <div class="size_x"><span>` + size1 + unitCd + `</span></div>
+                                                    <div class="size_y"><span>` + size2 + unitCd + `</span></div>
                                                     <div class="images">
-                                                        <img class="imageViewer"  src="` + img_url + `" alt="" index="` + index + `" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + lot_no + `" />
+                                                        <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + sale_as_no + `" />
                                                     </div>
                                                 </div>
                                             </div>
                         </div>`
-                        $("#swiper-wrapper").append(swiper_slide_item);
+                    $("#swiper-wrapper").append(swiper_slide_item);
                     //}
+
                 });
 
-                $.each(lot_images, function (index, el) {
+                $.each(sale_images, function (index, el) {
 
-                    let popup_lot_no = el.LOT_NO;
+                    let popup_lot_no = el.SALE_AS_NO;
                     let popup_img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
                     let popup_swiper_slide_item = '';
                     let popup_swiper_mini_slide_item = '';
@@ -639,7 +583,7 @@
                                             <div class="img-area">
                                                 <div class="img-box">
                                                     <div class="images">
-                                                        <img class="imageViewerpopup" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `"/>
+                                                        <img class="imageViewerpopup" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -652,7 +596,7 @@
                                                 <div class="imgs-item">
                                                     <figure class="img-ratio">
                                                         <div class="img-align">
-                                                            <img src="` + popup_img_url + `"  alt="" />
+                                                            <img src="` + popup_img_url + `" alt="" />
                                                         </div>
                                                     </figure>
                                                     <div class="line"></div>
@@ -661,6 +605,15 @@
                                             </li>`
                     $("#thumbnail_image").append(popup_swiper_mini_slide_item);
                 });
+
+                /* 싸이즈 버튼 */
+                var size_btn_toggle = $(".js-size_btn").trpToggleBtn(
+                    function($this) {
+                        $($this).closest(".viewer-article").addClass("active");
+                    },
+                    function($this) {
+                        $($this).closest(".viewer-article").removeClass("active");
+                    });
 
                 /* 스와이퍼 */
                 var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
@@ -751,19 +704,25 @@
                     toggle_sns.toggleAllSet(false);
                 })
 
-                var popup_image_viewer = $(".js-popup_image_viewer").trpLayerFixedPopup("#popup_image_viewer-wrap");
-                $(popup_image_viewer.getBtn).on("click", function($e) {
+                var popup_images = $(".js-popup_images").trpLayerFixedPopup("#popup_images-wrap");
+                $(".js-popup_images").on("click", function($e) {
                     $e.preventDefault();
-                    popup_image_viewer.open(this); // or false
-                    imagesResizePcMb();
-                    imageViewer.update();
-                    imageViewer.slideTo($("#view_lot_no").attr("sel-data-index"), 0);
-
+                    popup_images.open(this); // or false
+                    for (var o = $(".imageViewerpopup"), e = 0; e < o.length; e++) {
+                        if (!o[e]) return !1;
+                        var windowW = screen.availWidth;
+                        var windowH = screen.availHeight;
+                        o[e].width = windowW;
+                        o[e].height = windowH;
+                    }
+                    //imagesResizePcMb();
+                    imagesSwiper.update();
+                    imagesSwiper.slideTo($scope.activeIndex +1, 0);
+                    //imagesSwiper.slideTo($("#view_lot_no").attr("sel-data-index"), 0);
                 });
-
-                $("body").on("click", "#popup_image_viewer-wrap .js-closepop, #popup_image_viewer-wrap .popup-dim", function($e) {
+                $("body").on("click", "#popup_images-wrap .js-closepop, #popup_images-wrap .popup-dim", function($e) {
                     $e.preventDefault();
-                    popup_image_viewer.close();
+                    popup_images.close();
                 });
 
                 /* 싸이즈 버튼 */
@@ -774,6 +733,12 @@
                     function($this) {
                         $($this).closest(".viewer-article").removeClass("active");
                     });
+
+
+                /* PC,MB images resize */
+                $(window).on("resize", function() {
+                    imagesResizePcMb();
+                });
 
                 /* === 스와이퍼 === */
                 console.log("스와이퍼 set");
@@ -799,18 +764,22 @@
                     onSlideChangeEnd: function(swiper) { // 움직임이 끝나면 실행
                         imagesResizePcMb();
                         thumbnailActive(swiper.realIndex);
+                        console.log(">>> ", swiper.realIndex)
                     }
                 })
+
                 // 좌우버튼
                 $('.images-popup .page_prev').on('click', function($e) {
                     $e.preventDefault();
                     imagesSwiper.slidePrev();
                 })
+
                 $('.images-popup .page_next').on('click', function($e) {
                     $e.preventDefault();
                     console.log("next")
                     imagesSwiper.slideNext();
                 })
+
 
                 //작가 정보 admin에서 가져오도록 변경
                 axios.get('/api/auction/artist_info/' + $scope.artistNo)
@@ -836,8 +805,8 @@
                                     }
                                 });
 
-                                $("#artistName").html(JSON.parse(artistData.name).ko + ' ' +  artistData.birth + '~' + artistData.death);
-                                $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
+                                $("#artistName").html(JSON.parse(artistData.name).en + ' ' +  artistData.birth + '~' + artistData.death);
+                                $("#artistProfile").html(JSON.parse(artistData.profile).en + '</br>' + title);
 
                                 let html = '<div class="vide_img-box">';
                                 $.each(artistYoutubeImages, function (index, el) {
@@ -856,26 +825,6 @@
                     .catch(function(error) {
                         console.log(error);
                     });
-
-                var popup_images = $(".js-popup_images").trpLayerFixedPopup("#popup_images-wrap");
-                $(".js-popup_images").on("click", function($e) {
-                    $e.preventDefault();
-                    popup_images.open(this); // or false
-                    for (var o = $(".imageViewerpopup"), e = 0; e < o.length; e++) {
-                        if (!o[e]) return !1;
-                        var windowW = screen.availWidth;
-                        var windowH = screen.availHeight;
-                        o[e].width = windowW;
-                        o[e].height = windowH;
-                    }
-                    //imagesResizePcMb();
-                    imagesSwiper.update();
-                    imagesSwiper.slideTo($scope.activeIndex +1, 0);
-                });
-                $("body").on("click", "#popup_images-wrap .js-closepop, #popup_images-wrap .popup-dim", function($e) {
-                    $e.preventDefault();
-                    popup_images.close();
-                });
 
                 /* === zoom ===  panzoom.reset()*/
                 var zoom_range = document.querySelector('.js-zoom_inout');
@@ -940,21 +889,69 @@
                         }
                     }
                 });
-
             }
             run();
         }
     });
-</script>
-<!-- // [2022-0516] 사용 -->
 
+    function goPrivateSale(){
+        window.location.href = '/privatesale/psList';
+    }
+</script>
+
+<!-- // [2022-0516] 사용 -->
 <script>
+
     function Scope() {
         var scope = angular.element(document.getElementById("container")).scope();
         return scope;
     }
 
 </script>
+<script>
+
+    $(function() {
+
+        /* === zoom ===  panzoom.reset()*/
+        var zoom_range = document.querySelector('.js-zoom_inout');
+        var panzoom = "";
+
+        function panzoom_set() {
+            console.log("=====================>panzoom_set");
+
+            panzoom = Panzoom(zoom_range, {
+                /* disablePan: true, */
+                maxScale: 4, // (Default: 4)
+                minScale: 1 // (Default: 0.125)
+            });
+            $(".js-zoomin").on("click", function() {
+                panzoom.zoomIn();
+            });
+            $(".js-zoomout").on("click", function() {
+                panzoom.zoomOut();
+            });
+            panzoom.zoom(1, {
+                animate: true
+            })
+        }
+
+        function panzoom_reset() {
+            console.log("-------------------------->panzoom_reset");
+            panzoom.reset();
+            panzoom.destroy();
+            panzoom = "";
+            $(".js-zoomin").off("click");
+            $(".js-zoomout").off("click");
+        }
+        if ($("body").hasClass("is_pc")) {
+            panzoom_set();
+        }
+
+
+    });
+</script>
+
+
 </body>
 
 </html>
