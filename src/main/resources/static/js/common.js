@@ -1161,3 +1161,13 @@ $(document).ready(function(){
     // document.oncontextmenu="return false style='-webkit-touch-callout:none'";
 });
 
+// evaluateJavascript("nativeToggleMenu(true)")
+function nativeToggleMenu(state) {
+    if (state) {
+        document.querySelector('.gnb_submenuBg.scroll_none')?.classList.add('on');
+        document.querySelector('.submenuBg')?.classList.add('on');
+    } else {
+        document.querySelector('.gnb_submenuBg.scroll_none')?.classList.remove('on');
+        document.querySelector('.submenuBg')?.classList.remove('on');
+    }
+}
