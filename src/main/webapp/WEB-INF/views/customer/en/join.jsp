@@ -43,17 +43,26 @@
 												<div class="sns_icon_wrap">
 													<ul>
 														<li>
-															<i onclick="location.href='https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=5qXZytacX_Uy60o0StGT&state=NAVER_LOGIN&redirect_uri=${socialServiceDomain}/naverCallback?type=login'" class="icon-sns_naver"></i>
+															<a href="javascript:void(0);">
+																<i onclick="location.href='https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=5qXZytacX_Uy60o0StGT&state=NAVER_LOGIN&redirect_uri=${socialServiceDomain}/naverCallback?type=login'" class="icon-sns_naver"></i>
+															</a>
 														</li>
 														<li>
-															<i onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=adbdfe931311a01731a0161175701a42&redirect_uri=${socialServiceDomain}/kakaoRedirect/login&response_type=code'" class="icon-sns_kakao"></i>
+															<a href="javascript:void(0);">
+																<i onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=adbdfe931311a01731a0161175701a42&redirect_uri=${socialServiceDomain}/kakaoRedirect/login&response_type=code'" class="icon-sns_kakao"></i>
+															</a>
 														</li>
+<!-- 														<li> -->
+<!-- 															<a href="javascript:void(0);"> -->
+<!--	 															<i id="googleIdJoin" class="icon-sns_google"></i> -->
+<!-- 															</a> -->
+<!-- 														</li> -->
 														<li>
-															<i id="googleIdJoin" class="icon-sns_google"></i>
-														</li>
-														<li>
-															<i ng-click="joinWithApple()" class="icon-sns_apple"></i>
-															<div id="appleid-signin" data-type="sign in"  style="display:none"></div>
+															<a href="javascript:void(0);">
+																<i onclick="location.href='https://appleid.apple.com/auth/authorize?client_id=com.seoulauction.renewal-web&redirect_uri=${socialServiceDomain}/appleReturn/login&response_type=code%20id_token&scope=name%20email&response_mode=form_post'" class="icon-sns_apple"></i>
+<!-- 																<i ng-click="joinWithApple()" class="icon-sns_apple"></i> -->
+<!-- 																<div id="appleid-signin" data-type="sign in"  style="display:none"></div> -->
+															</a>
 														</li>
 													</ul>
 												</div>
@@ -127,9 +136,9 @@
 </body>
 	
 	<!--  구글 -->
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-	<script src="https://apis.google.com/js/api:client.js"></script>
+<!-- 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css"> -->
+<!-- 	<script src="https://apis.google.com/js/api:client.js"></script> -->
 	<!-- 애플 -->
-	<script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+<!-- 	<script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script> -->
 	<script type="text/javascript" src="/js/customer/join.js"></script>
 </html>
