@@ -55,6 +55,10 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favic/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/images/favic/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favic/favicon-16x16.png">
+    <link rel="icon" href="sa-full-icon.svg">
+    <link rel="icon" href="sa-short-icon.svg">
+    <link rel="icon" href="sa-short-icon.svg" color="#ffffff">
+    <link rel="mask-icon">
     <link rel="manifest" href="/webapp/manifest.json">
     <link rel="icon" type="image/png" href="/images/favic/favicon-32x32.png" sizes="32x32"/>
     <link rel="icon" type="image/png" href="/images/favic/android-icon-192x192.png" sizes="192x192"/>

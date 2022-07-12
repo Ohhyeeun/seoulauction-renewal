@@ -76,8 +76,8 @@
 		                                                </p>
 		                                            </article>
 		                                            <article class="inquiry-write-wrap">
-		                                            	<div id="googleIdLogin" style="display:none"></div>
-		                                            	<div id="appleid-signin" style="display:none" data-type="sign in"></div>
+<!-- 		                                            	<div id="googleIdLogin" style="display:none"></div> -->
+<!-- 		                                            	<div id="appleid-signin" style="display:none" data-type="sign in"></div> -->
 		                                            </article>
 	                                            </c:if>
                                                 <article class="button-area">
@@ -117,11 +117,11 @@
     <!-- 팝업 : side popup -->
 	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>
 </body>
-<!--  구글 -->
-<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-<script src="https://apis.google.com/js/api:client.js"></script>
-<!-- 애플 -->
-<script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+<!-- <!--  구글 --> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css"> -->
+<!-- <script src="https://apis.google.com/js/api:client.js"></script> -->
+<!-- <!-- 애플 --> -->
+<!-- <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script> -->
 <!-- 회원정보수정 비밀번호확인 -->
 <script type="text/javascript" src="/js/mypage/custConfirm.js"></script>
 <script>
