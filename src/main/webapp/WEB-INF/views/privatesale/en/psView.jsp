@@ -551,7 +551,7 @@
 
                     let swiper_slide_item = '';
                     if (firstCheck == 0) {
-                        $scope.chk = parseInt(lot_no) - index -1;
+                        $scope.chk = parseInt(sale_as_no) - index -1;
                     }
                     firstCheck++;
                     //if(size1 > 160) {
