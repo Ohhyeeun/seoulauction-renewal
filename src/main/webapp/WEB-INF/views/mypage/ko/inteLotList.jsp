@@ -101,7 +101,7 @@
                                                                         <div class="pay-area">
                                                                             <dl class="price">
                                                                                 <dt class="tit">추정가</dt>
-                                                                                <dd class="txt"><span>{{data.CURR_CD}} {{comma(data.EXPE_PRICE_FROM_KO)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_KO)}}</span></dd>
+                                                                                <dd class="txt"><span>{{data.CURR_CD}} {{comma(data.EXPE_PRICE_FROM_KO || 0)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_KO || 0)}}</span></dd>
                                                                             </dl>
                                                                         </div>
                                                                     </div>

@@ -127,35 +127,36 @@ function responsiveDevices() {
 /* PC,MB images resize */function imagesResizePcMb() {
     ///document.querySelector(".imageViewer");
     ///console.log("googooowwww: " , _tar[0].naturalWidth, _tar.length);
+
     for (var o = $(".imageViewer"), e = 0; e < o.length; e++) {
         if (!o[e]) return !1;
-        /*  
-    [2022-0701] 고객사요청
-    var _orgW = _tar[i].naturalWidth;
-    var _orgH = _tar[i].naturalHeight; 
-    if($("body").hasClass("is_mb")){
-        _tar[i].width  = _orgW * .55;
-        _tar[i].height = _orgH * .55;
-      }else{
-        _tar[i].width  = _orgW;
-        _tar[i].height = _orgH;
-      } 
-    */        var n = 1 <= parseFloat($(window).width() / 1024) ? 1 : parseFloat($(window).width() / 1024), n = parseFloat(parseInt($(o[e]).attr("size2"))) / 250 * 500 * n;
-        o[e].width = n;
+        var n = o[e].naturalWidth, i = o[e].naturalHeight;
+
+
+        let z = ((parseFloat($(window).width() / 1024) >= 1)?1:parseFloat($(window).width() / 1024));
+
+        let h = (parseFloat(parseInt($(o[e]).attr("size1"))) / 250) * 500 * z;
+        let w = (parseFloat(parseInt($(o[e]).attr("size2"))) / 250) * 500 * z;
+
+        /*$("body").hasClass("is_mb") ? (o[e].width = .55 * w, o[e].height = .55 * h) : (o[e].width = w,
+        o[e].height = h);*/
+        o[e].width = w;
+        //$("body").hasClass("is_mb") ? (o[e].width = w : (o[e].width = w);
     }
- /// console.log("=========imgresize=========", _orgW, _orgH, $("body").hasClass("is_mb"))
+    /// console.log("=========imgresize=========", _orgW, _orgH, $("body").hasClass("is_mb"))
+
 }
 
 /* 팝업높이계산 */function popup_fixation(o) {
-    var e = o, n = $(".pop-body>.section", e).outerHeight() + 166, t = $(window).height();
-    function i() {
-        t = $(window).height(), 
+    var e = o, n = $(".pop-body>.section", e).outerHeight() + 166, i = $(window).height();
+    function t() {
+        i = $(window).height(), 
         /* 모바일일때 && mode-mb_full 경우 사용안함 */
-        (!$("body").hasClass("is_mb") || !$(".popup-align", e).hasClass("mode-mb_full")) && t <= n ? $(".popup-align", e).addClass("footer_fixed") : $(".popup-align", e).removeClass("footer_fixed");
+        (!$("body").hasClass("is_mb") || !$(".popup-align", e).hasClass("mode-mb_full")) && i <= n ? $(".popup-align", e).addClass("footer_fixed") : $(".popup-align", e).removeClass("footer_fixed");
     }
     $(window).on("resize", function() {
-        i();
-    }), i();
+        t();
+    }), t();
 }
 
 /* 모바일 모션 팝업 */function popup_motion_open(o) {
@@ -178,7 +179,7 @@ onclick="javascript:window_close();"
 */
 /* ========== 바디 높이 조절 ========== */function gnb_footer_resize(o, e) {
     /*  $('.main-contents') */
-    var n = $("header.header").innerHeight(), t = $("footer.footer").innerHeight();
+    var n = $("header.header").innerHeight(), i = $("footer.footer").innerHeight();
     o ? ($("#contents").css({
         "padding-top": o,
         "padding-bottom": e
@@ -186,9 +187,9 @@ onclick="javascript:window_close();"
         "margin-top": -e
     })) : ($("#contents").css({
         "padding-top": n,
-        "padding-bottom": t
+        "padding-bottom": i
     }), $("footer.footer").css({
-        "margin-top": -t
+        "margin-top": -i
     }));
 }
 

@@ -223,7 +223,6 @@
 
 
 <script type="text/javascript" src="/js/plugin/jquery.min.js"></
-
 <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
 <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
@@ -530,6 +529,7 @@
 
                 let sale_list = $scope.saleList;
                 let sale_images = $scope.saleImages;
+                let firstCheck = 0;
 
                 $.each(sale_list, function (index, el) {
 
@@ -547,12 +547,16 @@
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
 
                     let swiper_slide_item = '';
+                    if (firstCheck == 0) {
+                        $scope.chk = parseInt(sale_as_no) - index -1;
+                    }
+                    firstCheck++;
                     //if(size1 > 160) {
                         swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
                                                <div class="img-area">
                                                 <div class="img-box">
-                                                    <div class="size_x"><span>` + size2 + unitCd + `</span></div>
-                                                    <div class="size_y"><span>` + size1 + unitCd + `</span></div>
+                                                    <div class="size_x"><span>` + size1 + unitCd + `</span></div>
+                                                    <div class="size_y"><span>` + size2 + unitCd + `</span></div>
                                                     <div class="images">
                                                         <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + sale_as_no + `" />
                                                     </div>
@@ -635,7 +639,7 @@
                     popup_image_viewer.open(this); // or false
                     imagesResizePcMb();
                     imageViewer.update();
-                    imageViewer.slideTo($("#view_lot_no").attr("sel-data-index"), 0);
+                    imageViewer.slideTo(parseInt($("#view_lot_no").attr("sel-data-index")) - $scope.chk, 0);
                 });
                 // 좌우버튼
                 $('.view_paging-area .page_prev').on('click', function ($e) {

@@ -16513,7 +16513,7 @@ header.win_header .header-inner .header_logo {
   }
 
   .content-panel.type_panel-product_view .product_detail-article .artist-area .name strong {
-    font-size: 17px;
+    font-size: 27px;
     line-height: 25px;
   }
 
@@ -17145,6 +17145,7 @@ header.win_header .header-inner .header_logo {
   width: 20%;
   padding: 0 10px;
   padding-bottom: 33px;
+  flex-shrink: 1;
 }
 
 .content-panel.type_panel-product_view .product_recent_work-article .product-list li .li-inner {
@@ -17172,6 +17173,7 @@ header.win_header .header-inner .header_logo {
 
   .content-panel.type_panel-product_view .product_recent_work-article .product-list li {
     width: 220px;
+    min-width: 220px;
     padding: 0 5px;
     padding-bottom: 17px;
  /* &.last-item { display: block;  padding: 0 10px; } */;
@@ -17652,7 +17654,7 @@ header.win_header .header-inner .header_logo {
 }
 
 .content-panel .auction-list .item-article .image-area .img-align {
-  background-color: #ededed;
+  background-color: #f6f6f6;
 }
 
 @media all and (max-width: 1023px) {
@@ -27955,6 +27957,10 @@ header.win_header .header-inner .header_logo {
   padding-top: 30px;
 }
 
+.content-panel.type_panel-mypage_academy .academy-list-wrap .table-wrap {
+  display: block;
+}
+
 .content-panel.type_panel-mypage_academy .academy-list-wrap .data-empty {
   border-top: 1px solid #999;
   border-bottom: 1px solid #ccc;
@@ -32439,7 +32445,7 @@ header.win_header .header-inner .header_logo {
 }
 
 .trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box .images img {
-  width: 100%; ;
+ /* width: 100%; */;
 }
 
 .trp.popupfixed-wrap.images-popup .viewer-article .img-area .size_x, .trp.popupfixed-wrap.images-popup .viewer-article .img-area .size_y {

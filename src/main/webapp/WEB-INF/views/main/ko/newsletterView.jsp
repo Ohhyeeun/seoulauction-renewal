@@ -86,7 +86,6 @@
 
     </div>
 </div>
-</body>
 <script>
 app.value('locale', 'ko');
 app.controller('newsLetterCtl', function($scope, consts, common, locale) {
@@ -138,6 +137,5 @@ app.controller('newsLetterCtl', function($scope, consts, common, locale) {
     }
 });
 </script>
-</html>
 </body>
 </html>

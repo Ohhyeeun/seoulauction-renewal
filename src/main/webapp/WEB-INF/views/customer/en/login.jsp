@@ -107,19 +107,20 @@
 														<img class="only-mb" src="/images/mobile/login/latest_login.png">
 													</div>
 												</li>
+<!-- 												<li> -->
+<!-- 													<a id="googleIdLogin" href="#"><i class="icon-sns_google"></i></a> -->
+<!-- 													<div id="recentSocialTypeGL" class="sns_latest_wrap" style="display:none"> -->
+<!-- 														<img class="only-mb" src="/images/mobile/login/latest_login.png"> -->
+<!-- 													</div> -->
+<!-- 												</li> -->
 												<li>
-													<a id="googleIdLogin" href="#"><i class="icon-sns_google"></i></a>
-													<div id="recentSocialTypeGL" class="sns_latest_wrap" style="display:none">
-														<img class="only-mb" src="/images/mobile/login/latest_login.png">
-													</div>
-												</li>
-												<li>
-													<a ng-click="loginWithApple()" href="#"><i class="icon-sns_apple"></i></a>
+													<a href="https://appleid.apple.com/auth/authorize?client_id=com.seoulauction.renewal-web&redirect_uri=${socialServiceDomain}/appleReturn/login&response_type=code%20id_token&scope=name%20email&response_mode=form_post"><i class="icon-sns_apple"></i></a>
+<!-- 	 												<a ng-click="loginWithApple()" href="#"><i class="icon-sns_apple"></i></a> -->
 													<div id="recentSocialTypeAP" class="sns_latest_wrap" style="display:none">
 														<img class="only-mb" src="/images/mobile/login/latest_login.png">
 													</div>
 												</li>
-												<div id="appleid-signin" style="display:none" data-type="sign in"></div>
+<!-- 												<div id="appleid-signin" style="display:none" data-type="sign in"></div> -->
 											</ul>
 											<!-- // [0516]링크추가 -->
 
@@ -145,11 +146,11 @@
 </div>
 </body>
 
-<!--  구글 -->
-<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-<script src="https://apis.google.com/js/api:client.js"></script>
-<!-- 애플 -->
-<script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+<!-- <!--  구글 --> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css"> -->
+<!-- <script src="https://apis.google.com/js/api:client.js"></script> -->
+<!-- <!-- 애플 --> -->
+<!-- <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script> -->
 <!-- 로그인 -->
 <script type="text/javascript" src="/js/customer/login.js"></script>
 </html>

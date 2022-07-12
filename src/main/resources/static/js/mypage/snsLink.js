@@ -30,40 +30,40 @@ $(document).ready(function() {
 	
 });
 
-// SNS연동
-function snsLink(socialType, socialEmail) {
-	var data = {};
-	data['social_type'] = socialType;
-	data['social_email'] = socialEmail;
-	axios.post('/api/mypage/snsLink', data)
-		.then(function(response) {
-			console.log(response);
-			const result = response.data;
-			if(result.success == true){
-				const data = result.data;
-				if(langType == 'ko'){
-					$("#" + data.social_type + "RegDt").html(data.reg_dt + " 연동");
-					$("#" + data.social_type + "Button > span").html('연동해제');
-				}else{
-					$("#" + data.social_type + "RegDt").html(data.reg_dt);
-					$("#" + data.social_type + "Button > span").html('Activated');
-				}
-				$("#" + data.social_type + "Button").removeClass('btn_point');
-				$("#" + data.social_type + "Button").addClass('btn_gray_line');
-				eval(data.social_type + "LinkYn = true");
-				console.log(data.social_type + "LinkYn : " + eval(data.social_type + "LinkYn"));
-			}else{
-				if(langType == 'ko'){
-					alert(result.data.msg)
-				}else{
-					alert("It is a social account that has already been subscribed to or linked to Seoul Auction. Please link it to another account.");
-				}
-			}
-		})
-		.catch(function(error) {
-			console.log(error);
-		});
-}
+//// SNS연동
+//function snsLink(socialType, socialEmail) {
+//	var data = {};
+//	data['social_type'] = socialType;
+//	data['social_email'] = socialEmail;
+//	axios.post('/api/mypage/snsLink', data)
+//		.then(function(response) {
+//			console.log(response);
+//			const result = response.data;
+//			if(result.success == true){
+//				const data = result.data;
+//				if(langType == 'ko'){
+//					$("#" + data.social_type + "RegDt").html(data.reg_dt + " 연동");
+//					$("#" + data.social_type + "Button > span").html('연동해제');
+//				}else{
+//					$("#" + data.social_type + "RegDt").html(data.reg_dt);
+//					$("#" + data.social_type + "Button > span").html('Activated');
+//				}
+//				$("#" + data.social_type + "Button").removeClass('btn_point');
+//				$("#" + data.social_type + "Button").addClass('btn_gray_line');
+//				eval(data.social_type + "LinkYn = true");
+//				console.log(data.social_type + "LinkYn : " + eval(data.social_type + "LinkYn"));
+//			}else{
+//				if(langType == 'ko'){
+//					alert(result.data.msg)
+//				}else{
+//					alert("It is a social account that has already been subscribed to or linked to Seoul Auction. Please link it to another account.");
+//				}
+//			}
+//		})
+//		.catch(function(error) {
+//			console.log(error);
+//		});
+//}
 
 // SNS연동해제
 function snsUnLink(socialType) {
@@ -98,28 +98,28 @@ function snsUnLink(socialType) {
 		});
 }
 
-// 구글초기화
-var googleInit = function() {
-	gapi.load('auth2', function() {
-		auth2 = gapi.auth2.init({
-			client_id: '5285017753-1tkl3r19jc3e7hesflsm0jj9uhgm7f4j.apps.googleusercontent.com',
-			cookiepolicy: 'single_host_origin',
-			plugin_name: 'SA-Renewal'
-		});
-		attachClickGoogle(document.getElementById('googleIdLogin'));
-	});
-};
-// 구글 init
-googleInit();
-
-// 애플 init
-AppleID.auth.init({
-	clientId: 'com.seoulauction.renewal-web',
-	scope: 'name email',
-	redirectURI: socialServiceDomain + '/api/login/auth/apple',
-	state: 'SARenewal',
-	usePopup: true
-});
+//// 구글초기화
+//var googleInit = function() {
+//	gapi.load('auth2', function() {
+//		auth2 = gapi.auth2.init({
+//			client_id: '5285017753-1tkl3r19jc3e7hesflsm0jj9uhgm7f4j.apps.googleusercontent.com',
+//			cookiepolicy: 'single_host_origin',
+//			plugin_name: 'SA-Renewal'
+//		});
+//		attachClickGoogle(document.getElementById('googleIdLogin'));
+//	});
+//};
+//// 구글 init
+//googleInit();
+//
+//// 애플 init
+//AppleID.auth.init({
+//	clientId: 'com.seoulauction.renewal-web',
+//	scope: 'name email',
+//	redirectURI: socialServiceDomain + '/api/login/auth/apple',
+//	state: 'SARenewal',
+//	usePopup: true
+//});
 
 // 카카오 로그인
 function loginWithKakao() {
@@ -141,27 +141,27 @@ function naverButtonClick() {
 	}
 }
 		
-// 구글클릭 동작
-function attachClickGoogle(element) {
-	auth2.attachClickHandler(element, {},
-		function(googleUser) {
-			googleProfile = googleUser.getBasicProfile();
-			snsLink("GL", googleProfile.getEmail());
-		}, function(error) {
-			console.log(JSON.stringify(error, undefined, 2));
-		});
-}
+//// 구글클릭 동작
+//function attachClickGoogle(element) {
+//	auth2.attachClickHandler(element, {},
+//		function(googleUser) {
+//			googleProfile = googleUser.getBasicProfile();
+//			snsLink("GL", googleProfile.getEmail());
+//		}, function(error) {
+//			console.log(JSON.stringify(error, undefined, 2));
+//		});
+//}
 
-// 구글로그인
-function loginWithGoogle() {
-	if(GLLinkYn){
-		//연동해제
-		snsUnLink("GL");		
-	} else{
-		//연동
-		$("#googleIdLogin").trigger("click");
-	}
-}
+//// 구글로그인
+//function loginWithGoogle() {
+//	if(GLLinkYn){
+//		//연동해제
+//		snsUnLink("GL");		
+//	} else{
+//		//연동
+//		$("#googleIdLogin").trigger("click");
+//	}
+//}
 
 // 애플 로그인
 function loginWithApple() {
@@ -170,30 +170,31 @@ function loginWithApple() {
 		snsUnLink("AP");		
 	} else{
 		//연동
-		$("#appleid-signin").trigger("click");
+//		$("#appleid-signin").trigger("click");
+		location.href='https://appleid.apple.com/auth/authorize?client_id=com.seoulauction.renewal-web&redirect_uri=' + socialServiceDomain + '/appleReturn/snsLink&response_type=code%20id_token&scope=name%20email&response_mode=form_post'
 	}
 }
 
-//애플로 로그인 성공 시.
-document.addEventListener('AppleIDSignInOnSuccess', (data) => {
-	var name = '';
-	if (data.detail.user != undefined) {
-		var user = data.detail.user;
-		name = user.name.lastName + user.name.firstName;
-		console.log(name);
-	}
-	var token = data.detail.authorization.id_token;
-	var payload = JSON.parse(atob(token.split(".")[1]))
-	console.log(payload)
-	var email = payload.email;
-	var sub = payload.sub;
-
-	console.log("email : " + email + "sub : " + sub);
-	snsLink("AP", payload.sub);
-});
-
-//애플로 로그인 실패 시.
-document.addEventListener('AppleIDSignInOnFailure', (error) => {
-	console.log("AppleIDSignInOnFailure")
-	console.log(error)
-});
+////애플로 로그인 성공 시.
+//document.addEventListener('AppleIDSignInOnSuccess', (data) => {
+//	var name = '';
+//	if (data.detail.user != undefined) {
+//		var user = data.detail.user;
+//		name = user.name.lastName + user.name.firstName;
+//		console.log(name);
+//	}
+//	var token = data.detail.authorization.id_token;
+//	var payload = JSON.parse(atob(token.split(".")[1]))
+//	console.log(payload)
+//	var email = payload.email;
+//	var sub = payload.sub;
+//
+//	console.log("email : " + email + "sub : " + sub);
+//	snsLink("AP", payload.sub);
+//});
+//
+////애플로 로그인 실패 시.
+//document.addEventListener('AppleIDSignInOnFailure', (error) => {
+//	console.log("AppleIDSignInOnFailure")
+//	console.log(error)
+//});

@@ -13,128 +13,128 @@ app.controller('joinCtl', function($scope, consts, common, ngDialog) {
 		location.href = '/joinForm?type=' + type				
 	}
 
-	var googleInit = function() {
-		gapi.load('auth2', function() {
-			auth2 = gapi.auth2.init({
-				client_id: '5285017753-1tkl3r19jc3e7hesflsm0jj9uhgm7f4j.apps.googleusercontent.com',
-				cookiepolicy: 'single_host_origin',
-				plugin_name: 'SA-Renewal'
-			});
-			$scope.joinWithGoogle(document.getElementById('googleIdJoin'));
-		});
-	};
-
-	// 구글 init
-	googleInit();
-
-	// 애플 init
-	AppleID.auth.init({
-		clientId: 'com.seoulauction.renewal-web',
-		scope: 'name email',
-		redirectURI: socialServiceDomain + '/api/login/auth/apple',
-		state: 'SARenewal',
-		usePopup: true
-	});
-
-	// SNS공통회원가입
-	function submitJoin(socialType, name, email, sub) {
-		//기가입체크
-		let data = {};
-	    data['social_type'] = socialType;
-	    data['social_email'] = email;
-	    if(socialType == "AP"){
-			data['social_email'] = sub;
-		}
-		axios.post('/api/login/isCustSocialExist' , data)
-		    .then(function(response) {
-		        const result = response.data;
-		        console.log(result)
-		        if(result.data != undefined){
-					if(result.data.STAT_CD == "not_certify"){
-						//기가입 + 미인증 = 안내메세지
-						$("#alertMsg").html("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
-						popup_alert.open(this); // or false
-//						alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
-					}else{
-						//기가입 + 상태normal = 로그인처리
-						socialLogin(data);
-					}
-				}else{
-					//미가입 = 회원가입페이지이동
-					document.getElementById('name').value = name;
-					document.getElementById('email').value = email;
-					document.getElementById('sub').value = sub;
-			
-					var form = document.getElementById('joinForm');
-					form.action = '/joinForm?socialType=' + socialType;
-					form.submit();
-				}
-		    })
-		    .catch(function(error){
-		        console.log(error);
-		    });
-	}
-	
-	function socialLogin(data){
-		axios.post('/api/login/social', data)
-			.then(function(response) {
-				console.log(response)
-				if(response.data.success == true){
-					var expire = new Date();
-					expire.setDate(expire.getDate() + 30);
-					document.cookie = 'recentSocialType=' + data.social_type + '; path=/; expires=' + expire.toGMTString() + ';';
-					location.href = "/";
-				}else{
-					$("#alertMsg").html("로그인에 실패하였습니다.");
-					popup_alert.open(this); // or false
-//					alert("로그인에 실패하였습니다.")
-				}
-			})
-			.catch(function(error) {
-				console.log(error);
-			});
-	}
-
-	// 구글회원가입
-	$scope.joinWithGoogle = function(element) {
-		auth2.attachClickHandler(element, {},
-			function(googleUser) {
-				googleProfile = googleUser.getBasicProfile();
-				submitJoin("GL", googleProfile.getName(), googleProfile.getEmail(), null);
-			}, function(error) {
-				console.log(JSON.stringify(error, undefined, 2));
-			});
-	}
-
-	// 애플 로그인
-	$scope.joinWithApple = function() {
-		var loginButton = document.getElementById("appleid-signin").firstChild;
-		loginButton.click();
-	}
-
-	//애플로 로그인 성공 시.
-	document.addEventListener('AppleIDSignInOnSuccess', (data) => {
-		var name = '';
-		if (data.detail.user != undefined) {
-			var user = data.detail.user;
-			name = user.name.lastName + user.name.firstName;
-			console.log(name);
-		}
-		var token = data.detail.authorization.id_token;
-		var payload = JSON.parse(atob(token.split(".")[1]))
-		console.log(payload)
-		var email = payload.email;
-		var sub = payload.sub;
-
-		console.log("email : " + email + "sub : " + sub);
-		submitJoin("AP", name, payload.email, payload.sub);
-	});
-
-	//애플로 로그인 실패 시.
-	document.addEventListener('AppleIDSignInOnFailure', (error) => {
-		console.log("AppleIDSignInOnFailure")
-		console.log(error)
-	});
+//	var googleInit = function() {
+//		gapi.load('auth2', function() {
+//			auth2 = gapi.auth2.init({
+//				client_id: '5285017753-1tkl3r19jc3e7hesflsm0jj9uhgm7f4j.apps.googleusercontent.com',
+//				cookiepolicy: 'single_host_origin',
+//				plugin_name: 'SA-Renewal'
+//			});
+//			$scope.joinWithGoogle(document.getElementById('googleIdJoin'));
+//		});
+//	};
+//
+//	// 구글 init
+//	googleInit();
+//
+//	// 애플 init
+//	AppleID.auth.init({
+//		clientId: 'com.seoulauction.renewal-web',
+//		scope: 'name email',
+//		redirectURI: socialServiceDomain + '/api/login/auth/apple',
+//		state: 'SARenewal',
+//		usePopup: true
+//	});
+//
+//	// SNS공통회원가입
+//	function submitJoin(socialType, name, email, sub) {
+//		//기가입체크
+//		let data = {};
+//	    data['social_type'] = socialType;
+//	    data['social_email'] = email;
+//	    if(socialType == "AP"){
+//			data['social_email'] = sub;
+//		}
+//		axios.post('/api/login/isCustSocialExist' , data)
+//		    .then(function(response) {
+//		        const result = response.data;
+//		        console.log(result)
+//		        if(result.data != undefined){
+//					if(result.data.STAT_CD == "not_certify"){
+//						//기가입 + 미인증 = 안내메세지
+//						$("#alertMsg").html("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
+//						popup_alert.open(this); // or false
+////						alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");
+//					}else{
+//						//기가입 + 상태normal = 로그인처리
+//						socialLogin(data);
+//					}
+//				}else{
+//					//미가입 = 회원가입페이지이동
+//					document.getElementById('name').value = name;
+//					document.getElementById('email').value = email;
+//					document.getElementById('sub').value = sub;
+//			
+//					var form = document.getElementById('joinForm');
+//					form.action = '/joinForm?socialType=' + socialType;
+//					form.submit();
+//				}
+//		    })
+//		    .catch(function(error){
+//		        console.log(error);
+//		    });
+//	}
+//	
+//	function socialLogin(data){
+//		axios.post('/api/login/social', data)
+//			.then(function(response) {
+//				console.log(response)
+//				if(response.data.success == true){
+//					var expire = new Date();
+//					expire.setDate(expire.getDate() + 30);
+//					document.cookie = 'recentSocialType=' + data.social_type + '; path=/; expires=' + expire.toGMTString() + ';';
+//					location.href = "/";
+//				}else{
+//					$("#alertMsg").html("로그인에 실패하였습니다.");
+//					popup_alert.open(this); // or false
+////					alert("로그인에 실패하였습니다.")
+//				}
+//			})
+//			.catch(function(error) {
+//				console.log(error);
+//			});
+//	}
+//
+//	// 구글회원가입
+//	$scope.joinWithGoogle = function(element) {
+//		auth2.attachClickHandler(element, {},
+//			function(googleUser) {
+//				googleProfile = googleUser.getBasicProfile();
+//				submitJoin("GL", googleProfile.getName(), googleProfile.getEmail(), null);
+//			}, function(error) {
+//				console.log(JSON.stringify(error, undefined, 2));
+//			});
+//	}
+//
+//	// 애플 로그인
+//	$scope.joinWithApple = function() {
+//		var loginButton = document.getElementById("appleid-signin").firstChild;
+//		loginButton.click();
+//	}
+//
+//	//애플로 로그인 성공 시.
+//	document.addEventListener('AppleIDSignInOnSuccess', (data) => {
+//		var name = '';
+//		if (data.detail.user != undefined) {
+//			var user = data.detail.user;
+//			name = user.name.lastName + user.name.firstName;
+//			console.log(name);
+//		}
+//		var token = data.detail.authorization.id_token;
+//		var payload = JSON.parse(atob(token.split(".")[1]))
+//		console.log(payload)
+//		var email = payload.email;
+//		var sub = payload.sub;
+//
+//		console.log("email : " + email + "sub : " + sub);
+//		submitJoin("AP", name, payload.email, payload.sub);
+//	});
+//
+//	//애플로 로그인 실패 시.
+//	document.addEventListener('AppleIDSignInOnFailure', (error) => {
+//		console.log("AppleIDSignInOnFailure")
+//		console.log(error)
+//	});
 
 });
 

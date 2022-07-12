@@ -72,8 +72,8 @@ window.addEventListener('DOMContentLoaded', () => {
         <section class="container">
             <section class="flex_wrap sale-contents">
                 <figure class="sale-box">
-                    <img src="/images/pc/banner/buy.jpg" alt="buy img" class="pc-ver">
-                    <img src="/images/mobile/banner/buy.jpg" alt="buy img" class="m-ver">
+                    <img src="/images/pc/banner/PC_buy.png" alt="buy img" class="pc-ver">
+                    <img src="/images/mobile/banner/M_buy.png" alt="buy img" class="m-ver">
                     <figcaption class="sale-boxinfo">
                         <h2 class="main-sectiontit sale-tit">Buy</h2>
                         <p>회원가입부터 응찰까지<br>
@@ -145,7 +145,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         <fieldset class="newsletter-checkbox">
                             <input type="checkbox" id="subscript_check" class="common_checkbox" value='subscript_check' name='subscript_check'>
                             <label for="subscript_check">
-                                <span id="news_sub_label" class="terms-checktxt">개인정보 수집 및 이용에 동의 합니다.</span>
+                                <span id="news_sub_label" class="terms-checktxt">개인정보 수집 및 이용에 동의해주세요.</span>
                             </label>
                         </fieldset>
                     </form>

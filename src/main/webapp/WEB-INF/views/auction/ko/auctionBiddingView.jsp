@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                             <div class="btn-area">
-                                <div class="select-box">
+                                <div class="select-box pc-ver">
                                     <select class="" id="" onchange="selectCurrency()">
                                         <option value="1">KRW</option>
                                         <option value="2">USD</option>

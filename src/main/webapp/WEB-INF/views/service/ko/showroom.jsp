@@ -79,28 +79,83 @@
 
 
                                                     <div class="swiper-slide">
-                                                        <img class="only-pc" src="/images/pc/service/showroom_list-1.jpg" alt="">
-                                                        <img class="only-mb" src="/images/mobile/service/showroom_list-1.jpg" alt="">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner01.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner01.jpg" alt="">
                                                     </div>
 
                                                     <div class="swiper-slide">
-                                                        <img class="only-pc" src="/images/pc/service/showroom_list-1.jpg" alt="">
-                                                        <img class="only-mb" src="/images/mobile/service/showroom_list-1.jpg" alt="">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner02.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner02.jpg" alt="">
                                                     </div>
 
                                                     <div class="swiper-slide">
-                                                        <img class="only-pc" src="/images/pc/service/showroom_list-1.jpg" alt="">
-                                                        <img class="only-mb" src="/images/mobile/service/showroom_list-1.jpg" alt="">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner03.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner03.jpg" alt="">
                                                     </div>
 
                                                     <div class="swiper-slide">
-                                                        <img class="only-pc" src="/images/pc/service/showroom_list-1.jpg" alt="">
-                                                        <img class="only-mb" src="/images/mobile/service/showroom_list-1.jpg" alt="">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner04.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner04.jpg" alt="">
                                                     </div>
 
                                                     <div class="swiper-slide">
-                                                        <img class="only-pc" src="/images/pc/service/showroom_list-1.jpg" alt="">
-                                                        <img class="only-mb" src="/images/mobile/service/showroom_list-1.jpg" alt="">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner05.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner05.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner06.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner06.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner07.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner07.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner08.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner08.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner09.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner09.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner10.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner10.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner11.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner11.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner12.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner12.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner13.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner13.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner14.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner14.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner15.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner15.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner16.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner16.jpg" alt="">
                                                     </div>
 
                                                 </div>
@@ -181,6 +236,60 @@
 
 <%--<script type="text/javascript" src="/js/plugin/jquerylibrary.js"></script> --%>
 <script src="/js/service/marketing.js" type="text/javascript" class="js-append-script"></script>
+
+<!-- Swiper  -->
+<script class="js-append-script">
+    // Swiper 세팅
+    var swiper_academy;
+    var onceFn = $(".width_check").trpUtilityChangeOnceFn(
+        function($name) {
+            swiper_setting()
+        }
+    );
+
+    function swiper_setting() {
+        if (swiper_academy) {
+            swiper_academy.destroy()
+        };
+
+        swiper_academy = new Swiper('.js-swiper_academy .gallery_container', {
+            autoplay: 3000,
+            loop: true,
+            /* [0705]수정
+            pagination: ".js-swiper_academy .pagination", */
+            pagination: {
+                el: ".js-swiper_academy .pagination"
+            },
+            paginationClickable: true,
+            breakpoints: {
+                1023: {
+                    grabCursor: true,
+                    initialSlide: 0,
+                    centeredSlides: true,
+                    slidesPerView: "auto",
+                    spaceBetween: 10
+                }
+            },
+            onSlideChangeEnd: function(swiper) { // 움직임이 끝나면 실행
+            }
+        });
+        $('.js-swiper_academy .btn-prev').on('click', function(e) {
+            e.preventDefault();
+            swiper_academy.slidePrev();
+        })
+        $('.js-swiper_academy .btn-next').on('click', function(e) {
+            e.preventDefault();
+            swiper_academy.slideNext();
+        })
+
+    }
+
+    $(window).on("resize", function() {
+        var _device = $("body").attr("data-device")
+        onceFn.setChange(_device);
+    });
+    swiper_setting();
+</script>
 
 </body>
 

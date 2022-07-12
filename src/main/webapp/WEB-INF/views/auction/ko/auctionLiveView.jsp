@@ -6,15 +6,15 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
-<c:set var="isRegular" value="false" />
+<c:set var="isRegular" value="false"/>
 <sec:authorize access="hasAuthority('ROLE_REGULAR_USER')">
-    <c:set var="isRegular" value="true" />
+    <c:set var="isRegular" value="true"/>
 </sec:authorize>
 <body class="">
 <div class="wrapper">
     <div class="sub-wrap pageclass type-details_view">
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
-<%--        <link rel="stylesheet" href="/css/plugin/csslibrary.css">--%>
+        <%--        <link rel="stylesheet" href="/css/plugin/csslibrary.css">--%>
         <!-- container -->
         <div id="container" ng-controller="ctl" data-ng-init="load();">
             <div id="contents" class="contents">
@@ -124,10 +124,12 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="slide" data-index="4"> <%-- 이미지 없을 시 클래스 slide만 남겨놔야 함. --%>
+                                                            <div class="slide"
+                                                                 data-index="4"> <%-- 이미지 없을 시 클래스 slide만 남겨놔야 함. --%>
                                                                 <figure class="img-ratio">
                                                                     <div class="img-align">
-                                                                        <img src="/images/pc/auction/view_thumbnail_bg.jpg" alt="" />
+                                                                        <img src="/images/pc/auction/view_thumbnail_bg.jpg"
+                                                                             alt=""/>
                                                                     </div>
                                                                 </figure>
                                                                 <div class="line"></div>
@@ -149,7 +151,9 @@
                                                 <div class="btn-box">
                                                     <a href="#" title="" class="sns_share js-sns_share"><i
                                                             class="icon-view_sns"></i></a>
-                                                    <a id="heart" title="" ng-class="{'work_heart':lotInfo.FAVORITE_YN,'js-work_heart':lotInfo.FAVORITE_YN,'on':lotInfo.FAVORITE_YN==='Y'}" ng-click="favorite(lotInfo.SALE_NO, lotInfo.LOT_NO);"><i
+                                                    <a id="heart" title=""
+                                                       ng-class="{'work_heart':lotInfo.FAVORITE_YN,'js-work_heart':lotInfo.FAVORITE_YN,'on':lotInfo.FAVORITE_YN==='Y'}"
+                                                       ng-click="favorite(lotInfo.SALE_NO, lotInfo.LOT_NO);"><i
                                                             class="icon-view_heart_off"></i></a>
 
                                                     <div class="sns_layer-area">
@@ -176,31 +180,29 @@
                                                     <span>b.{{lotInfo.BORN_YEAR}}</span>
                                                 </div>
                                                 <div class="desc">
-                                                    <span class="text-over span_block" ng-bind="lotInfo.TITLE_KO_TXT"></span>
+                                                    <span class="text-over span_block"
+                                                          ng-bind="lotInfo.TITLE_KO_TXT"></span>
                                                 </div>
                                             </div>
                                             <div class="price-area">
                                                 <dl class="price-list">
                                                     <dt>추정가</dt>
-                                                    <dd ng-bind="estimatedRange"></dd>
+                                                    <div ng-show="lotInfo.EXPE_PRICE_INQ_YN === 'N'">
+                                                        <dd>KRW {{lotInfo.EXPE_PRICE_FROM_JSON.KRW}} ~ {{lotInfo.EXPE_PRICE_TO_JSON.KRW}}</dd>
+                                                        <dd>USD {{lotInfo.EXPE_PRICE_FROM_JSON.USD}} ~ {{lotInfo.EXPE_PRICE_TO_JSON.USD}}</dd>
+                                                    </div>
+                                                    <div ng-show="lotInfo.EXPE_PRICE_INQ_YN === 'Y'">
+                                                        <dd>별도 문의</dd>
+                                                    </div>
                                                 </dl>
-<%--                                                <dl class="price-list">--%>
-<%--                                                    <dt>시작가</dt>--%>
-<%--                                                    <dd id="start_cost"><!--WEB SOCKET--></dd>--%>
-<%--                                                </dl>--%>
-<%--                                                <dl class="price-list">--%>
-<%--                                                    <dt>현재가</dt>--%>
-<%--                                                    <dd><strong id="cur_cost"><!--WEB SOCKET--></strong><em--%>
-<%--                                                            id="bid_cnt">(응찰 <!--WEB SOCKET-->)</em></dd>--%>
-<%--                                                </dl>--%>
                                                 <dl class="price-list">
                                                     <dt>마감일</dt>
-                                                    <dd><b id="end_date_time"><!--WEB SOCKET--></b></dd>
+                                                    <dd><b id="end_date_time" ng-bind="lotInfo.LOT_EXPIRE_DATE | date_format"><!--WEB SOCKET--></b></dd>
                                                 </dl>
                                             </div>
                                             <div class="button-area">
                                                 <div class="btn_set only-pc">
-                                                    <div class="btn_item">
+                                                    <div class="btn_item" id="show_btn" style="display:none;">
                                                         <a class="btn btn_point btn_lg" href="#" role="button"
                                                            ng-click="moveToBidding(lotInfo)"
                                                         ><span>서면/전화 응찰 신청</span></a>
@@ -212,21 +214,22 @@
                                                             <a class="btn btn_default btn_lg js-popup_alert1" href="#"
                                                                role="button"><span>낙찰수수료</span></a>
                                                         </div>
-<%--                                                        <div class="op_hover">--%>
-<%--                                                            <a class="btn btn_black btn_2 btn_lg js-popup_alert1"--%>
-<%--                                                               role="button">--%>
-<%--                                                                <em>현재가 기준</em>--%>
-<%--                                                                <strong>1,584,000</strong>--%>
-<%--                                                            </a>--%>
-<%--                                                        </div>--%>
+                                                        <%--                                                        <div class="op_hover">--%>
+                                                        <%--                                                            <a class="btn btn_black btn_2 btn_lg js-popup_alert1"--%>
+                                                        <%--                                                               role="button">--%>
+                                                        <%--                                                                <em>현재가 기준</em>--%>
+                                                        <%--                                                                <strong>1,584,000</strong>--%>
+                                                        <%--                                                            </a>--%>
+                                                        <%--                                                        </div>--%>
                                                     </div>
                                                     <div class="btn_item only-mb">
-                                                        <a class="btn btn_default btn_lg js-delivery_price js-popup_alert1" href="#"
-                                                           role="button"><span>낙찰수수료</span></a> 
+                                                        <a class="btn btn_default btn_lg js-delivery_price js-popup_alert1"
+                                                           href="#"
+                                                           role="button"><span>낙찰수수료</span></a>
                                                     </div>
                                                     <div class="btn_item">
-<%--                                                        <a class="btn btn_default btn_lg" href="#" role="button"><span>배송비안내</span></a> --%>
-                                                        <a class="btn btn_default btn_lg js-popup_alert3"  role="button"><span>경매 호가표</span></a>
+                                                        <%--                                                        <a class="btn btn_default btn_lg" href="#" role="button"><span>배송비안내</span></a> --%>
+                                                        <a class="btn btn_default btn_lg js-popup_alert3" role="button"><span>경매 호가표</span></a>
 
                                                     </div>
                                                 </div>
@@ -238,7 +241,8 @@
                                                 </div>
                                                 <div class="print-box">
                                                     <button class="print-btn">
-                                                        <a href="/auction/view/print/{{lotInfo.SALE_NO}}/{{lotInfo.LOT_NO}}" target="_blank">
+                                                        <a href="/auction/view/print/{{lotInfo.SALE_NO}}/{{lotInfo.LOT_NO}}"
+                                                           target="_blank">
                                                             <i class="icon-view_print"></i>
                                                         </a>
                                                     </button>
@@ -305,7 +309,8 @@
                                                                         <div class="product_info">
                                                                             <div class="num_heart-box">
                                                                                 <span class="num">{{item.LOT_NO}}</span>
-                                                                                <a ng-class="{'heart':item.FAVORITE_YN,'js-work_heart':item.FAVORITE_YN,'on':item.FAVORITE_YN==='Y'}" ng-click="favorite2(item.SALE_NO, item.LOT_NO, $index);"><i
+                                                                                <a ng-class="{'heart':item.FAVORITE_YN,'js-work_heart':item.FAVORITE_YN,'on':item.FAVORITE_YN==='Y'}"
+                                                                                   ng-click="favorite2(item.SALE_NO, item.LOT_NO, $index);"><i
                                                                                         class="icon-heart_off"></i></a>
                                                                             </div>
                                                                             <div class="info-box">
@@ -316,7 +321,7 @@
                                                                                     <div class="desc">
                                                                                         <span ng-bind="item.TITLE_BLOB_JSON.ko"></span>
                                                                                     </div>
-                                                                                </a> 
+                                                                                </a>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -324,8 +329,10 @@
                                                                         <div class="area-inner">
                                                                             <i class="icon-cancle_box"></i>
                                                                             <div class="typo">
-                                                                                <div class="name"><span>LOT 5</span></div>
-                                                                                <div class="msg"><span>출물이 취소되었습니다.</span>
+                                                                                <div class="name"><span>LOT 5</span>
+                                                                                </div>
+                                                                                <div class="msg">
+                                                                                    <span>출물이 취소되었습니다.</span>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -358,6 +365,7 @@
                 </article>
                 <input type="hidden" id="sale_no" value="{{sale_no}}"/>
                 <input type="hidden" id="lot_no" value="{{lot_no}}"/>
+                <input type="hidden" id="lot_expr_date" value="{{lotInfo.LOT_EXPIRE_DATE}}"/>
             </div>
         </div>
         <!-- //container -->
@@ -474,7 +482,8 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="btn_item"><a class="btn btn_point btn_lg" href="javascript:autoBid();"
+                                            <div class="btn_item"><a class="btn btn_point btn_lg"
+                                                                     href="javascript:autoBid();"
                                                                      role="button"><span>응찰하기</span></a></div>
                                         </div>
                                     </div>
@@ -539,7 +548,7 @@
                         <article class="viewer-article js-zoom_inout">
                             <div class="gallery_view js-imagesSwiper" style="">
                                 <div class="gallery_center">
-                                    <div id="swiper-wrapper_popup"  class="swiper-wrapper">
+                                    <div id="swiper-wrapper_popup" class="swiper-wrapper">
 
                                     </div>
                                 </div>
@@ -579,56 +588,57 @@
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
 <%--낙찰 수수료 팝업 --%>
-<jsp:include page="popup/bidCommissionPopup.jsp" />
+<jsp:include page="popup/bidCommissionPopup.jsp"/>
 
 <%--경매 호가 팝업 --%>
-<jsp:include page="popup/growBiddingPopup.jsp" />
+<jsp:include page="popup/growBiddingPopup.jsp"/>
 <%--경매 호가 스크립트 --%>
 <script>
     let dataArray = [];
 
     //라이브 경매 호가
-    dataArray.push({'up' : null , 'down' : '100만' ,'price' : 50000});
-    dataArray.push({'up' : '100만' , 'down' : '200만' ,'price' : 100000});
-    dataArray.push({'up' : '200만' , 'down' : '400만' ,'price' : 200000});
-    dataArray.push({'up' : '400만' , 'down' : '1000만' ,'price' : 300000});
-    dataArray.push({'up' : '1,000만' , 'down' : '2,000만' ,'price' : 500000});
-    dataArray.push({'up' : '2,000만' , 'down' : '3,000만' ,'price' : 1000000});
-    dataArray.push({'up' : '3,000만' , 'down' : '5,000만' ,'price' : 2000000});
-    dataArray.push({'up' : '5,000만' , 'down' : '1억' ,'price' : 3000000});
-    dataArray.push({'up' : '1억' , 'down' : '2억' ,'price' : 5000000});
-    dataArray.push({'up' : '2억' , 'down' : '3억' ,'price' : 10000000});
-    dataArray.push({'up' : '3억' , 'down' : '5억' ,'price' : 20000000});
-    dataArray.push({'up' : '5억' , 'down' : '10억' ,'price' : 30000000});
-    dataArray.push({'up' : '10억' , 'down' : '20억' ,'price' : 50000000});
-    dataArray.push({'up' : '20억' , 'down' : null ,'price' : 100000000});
+    dataArray.push({'up': null, 'down': '100만', 'price': 50000});
+    dataArray.push({'up': '100만', 'down': '200만', 'price': 100000});
+    dataArray.push({'up': '200만', 'down': '400만', 'price': 200000});
+    dataArray.push({'up': '400만', 'down': '1000만', 'price': 300000});
+    dataArray.push({'up': '1,000만', 'down': '2,000만', 'price': 500000});
+    dataArray.push({'up': '2,000만', 'down': '3,000만', 'price': 1000000});
+    dataArray.push({'up': '3,000만', 'down': '5,000만', 'price': 2000000});
+    dataArray.push({'up': '5,000만', 'down': '1억', 'price': 3000000});
+    dataArray.push({'up': '1억', 'down': '2억', 'price': 5000000});
+    dataArray.push({'up': '2억', 'down': '3억', 'price': 10000000});
+    dataArray.push({'up': '3억', 'down': '5억', 'price': 20000000});
+    dataArray.push({'up': '5억', 'down': '10억', 'price': 30000000});
+    dataArray.push({'up': '10억', 'down': '20억', 'price': 50000000});
+    dataArray.push({'up': '20억', 'down': null, 'price': 100000000});
 
-    $.each(dataArray , function (idx , item){
-    let text = (item.up != null ? item.up +' 이상' : '')  + ' ~ ' + (item.down != null ? item.down +' 미만' : '');
-    let html = '<tr><td><span>' + text + '</span>'
-        +'</td><td>'
-        +'<span>'+ numberWithCommas(item.price) +'</span>'
-        +'</td></tr>';
-    $("#grow_off_tbody").append(html);
+    $.each(dataArray, function (idx, item) {
+        let text = (item.up != null ? item.up + ' 이상' : '') + ' ~ ' + (item.down != null ? item.down + ' 미만' : '');
+        let html = '<tr><td><span>' + text + '</span>'
+            + '</td><td>'
+            + '<span>' + numberWithCommas(item.price) + '</span>'
+            + '</td></tr>';
+        $("#grow_off_tbody").append(html);
     });
 
     var popup_alert3 = $(".js-popup_alert3").trpLayerFixedPopup("#popup_alert3-wrap");
-    $(popup_alert3.getBtn).on("click", function($e) {
-    $e.preventDefault();
-    popup_alert3.open(this); // or false
-    popup_fixation("#popup_alert3-wrap"); // pc 스크롤
-    popup_motion_open("#popup_alert3-wrap"); // mb 모션
+    $(popup_alert3.getBtn).on("click", function ($e) {
+        $e.preventDefault();
+        popup_alert3.open(this); // or false
+        popup_fixation("#popup_alert3-wrap"); // pc 스크롤
+        popup_motion_open("#popup_alert3-wrap"); // mb 모션
     });
 
-    $("body").on("click", "#popup_alert3-wrap .js-closepop, #popup_alert3-wrap .popup-dim", function($e) {
-    $e.preventDefault();
-    popup_alert3.close();
-    popup_motion_close("#popup_alert3-wrap");
+    $("body").on("click", "#popup_alert3-wrap .js-closepop, #popup_alert3-wrap .popup-dim", function ($e) {
+        $e.preventDefault();
+        popup_alert3.close();
+        popup_motion_close("#popup_alert3-wrap");
     });
 </script>
 <!-- swiper function-->
 <script>
     document.cookie = "crossCookie=bar; SameSite=None; Secure";
+
     /* 섬네일 활성화 */
     function view_thumnailActive($index) {
         $(".js-view_thumnail .slide").removeClass("active");
@@ -636,7 +646,7 @@
     };
 
     /* 섬네일 클릭 */
-    $(".js-view_thumnail .slide.images").on("click", function() {
+    $(".js-view_thumnail .slide.images").on("click", function () {
         var _index = $(this).index();
         console.log(_index);
         view_thumnailActive(_index);
@@ -660,12 +670,12 @@
         _this.closest(".trp-dropdown-area").find(".js-dropdown-btn em").text($("em", _this).text());
         _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
         dropdown.getClose();
-    }); 
+    });
 </script>
 
 <!-- [0628]모바일 LOT 버튼 클릭시 액션 추가 -->
 <script>
-    $(".js-lotbox-btn").click(function() {
+    $(".js-lotbox-btn").click(function () {
         $(this).parent(".btn_lot-box").toggleClass("on")
     })
 </script>
@@ -694,10 +704,25 @@
 
 <!-- angular js -->
 <script>
+    function Scope() {
+        var scope = angular.element(document.getElementById("container")).scope();
+        return scope;
+    }
+
     app.value('locale', 'ko');
     app.value('is_login', true);
 
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
+
+    // 현재가 처리
+    app.filter('date_format', function(){
+        return function(val) {
+            if (val === undefined) {
+                return '';
+            }
+            return (val === '')?'':new Date(val).format('MM/dd(E) 00:00');
+        };
+    })
 
     app.controller('ctl', function ($scope, consts, common, is_login, locale) {
 
@@ -764,7 +789,7 @@
             }
         }
 
-        const insertRecentlyView =  (saleNo, lotNo) => {
+        const insertRecentlyView = (saleNo, lotNo) => {
             try {
                 return axios.post('/api/auction/insertRecentlyView', {
                     sale_no: saleNo,
@@ -788,7 +813,7 @@
             window.location.href = '/auction/live/view/' + saleNo + '/' + lotNo;
         }
 
-        $scope.favorite = function(saleNo, lotNo) {
+        $scope.favorite = function (saleNo, lotNo) {
             let url = "";
             if ($scope.lotInfo.FAVORITE_YN === 'Y') {
                 url = "/api/auction/delCustInteLot";
@@ -809,7 +834,7 @@
             }
         }
 
-        $scope.favorite2 = function(saleNo, lotNo, index) {
+        $scope.favorite2 = function (saleNo, lotNo, index) {
             console.log("index", index);
             let url = "";
             if ($scope.recentlyViews[index].FAVORITE_YN === 'Y') {
@@ -831,26 +856,26 @@
             }
         }
 
-        $scope.moveToBidding = function(item) {
+        $scope.moveToBidding = function (item) {
 
             console.log(item);
 
             //로그인 했는지 여부.
-            if(!checkLogin()){
+            if (!checkLogin()) {
                 return;
             }
 
             //정회원 여부.
             let isRegular = ${isRegular};
-            if(!isRegular){
+            if (!isRegular) {
                 alert('정회원만 서면/전화 응찰 신청이 가능합니다.')
                 return;
             }
 
             //필수값 있는지 여부. ( 생년월일 , 성별 )
             let isCustRequired = ${isCustRequired};
-            if(!isCustRequired){
-                if(confirm('서면/전화 응찰 신청에 필요한 필수회원정보가 있습니다.\n회원정보를 수정하시겠습니까?')){
+            if (!isCustRequired) {
+                if (confirm('서면/전화 응찰 신청에 필요한 필수회원정보가 있습니다.\n회원정보를 수정하시겠습니까?')) {
                     location.href = '/mypage/custModify';
                 }
                 return;
@@ -885,9 +910,10 @@
                 $scope.lotImages = r3.data.data;
                 $scope.saleImages = r4.data.data;
 
-                console.log($scope.lotInfo);
-
-                $scope.estimatedRange = $scope.lotInfo.EXPE_PRICE_INQ_YN ==='Y' ? '별도 문의' : $scope.lotInfo.BASE_EXPE_FROM_PRICE + ' ~ ' + $scope.lotInfo.BASE_EXPE_TO_PRICE;
+                $scope.lotInfo.EXPE_PRICE_FROM_JSON.KRW = numberWithCommas($scope.lotInfo.EXPE_PRICE_FROM_JSON.KRW);
+                $scope.lotInfo.EXPE_PRICE_TO_JSON.KRW = numberWithCommas($scope.lotInfo.EXPE_PRICE_TO_JSON.KRW);
+                $scope.lotInfo.EXPE_PRICE_FROM_JSON.USD = numberWithCommas($scope.lotInfo.EXPE_PRICE_FROM_JSON.USD);
+                $scope.lotInfo.EXPE_PRICE_TO_JSON.USD = numberWithCommas($scope.lotInfo.EXPE_PRICE_TO_JSON.USD);
 
                 $scope.recentlyViews = r6.data.data;
 
@@ -920,7 +946,7 @@
                     content: {
                         title: $scope.saleInfo.SALE_TITLE_KO,
                         description: $scope.lotInfo.TITLE_KO_TXT,
-                        imageUrl:imgUrl,
+                        imageUrl: imgUrl,
                         link: {
                             mobileWebUrl: window.location.href,
                             webUrl: window.location.href,
@@ -960,7 +986,7 @@
                         }
                     },
                     on: {
-                        slideChange: function() {
+                        slideChange: function () {
                             $scope.activeIndex = view_visual.activeIndex;
                             view_thumnailActive(view_visual.activeIndex);
                         }
@@ -979,6 +1005,7 @@
 
                 let sale_images = $scope.saleImages;
                 let lot_images = $scope.lotImages;
+                let firstCheck = 0;
 
                 $.each(sale_images, function (index, el) {
                     let size1 = 0;
@@ -993,20 +1020,24 @@
                     }
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
                     let swiper_slide_item = '';
+                    if (firstCheck == 0) {
+                        $scope.chk = parseInt(lot_no) - index -1;
+                    }
+                    firstCheck++;
 
                     //if(size1 > 160) {
-                        swiper_slide_item = `<div class="swiper-slide">
+                    swiper_slide_item = `<div class="swiper-slide">
                                             <div class="img-area">
                                                 <div class="img-box">
-                                                    <div class="size_x"><span>` + size2 + unitCd + `</span></div>
-                                                    <div class="size_y"><span>` + size1 + unitCd + `</span></div>
+                                                    <div class="size_x"><span>` + size1 + unitCd + `</span></div>
+                                                    <div class="size_y"><span>` + size2 + unitCd + `</span></div>
                                                     <div class="images">
                                                         <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + lot_no + `" />
                                                     </div>
                                                 </div>
                                             </div>
                         </div>`
-                        $("#swiper-wrapper").append(swiper_slide_item);
+                    $("#swiper-wrapper").append(swiper_slide_item);
                     //}
                 });
 
@@ -1047,10 +1078,10 @@
 
                 /* 싸이즈 버튼 */
                 var size_btn_toggle = $(".js-size_btn").trpToggleBtn(
-                    function($this) {
+                    function ($this) {
                         $($this).closest(".viewer-article").addClass("active");
                     },
-                    function($this) {
+                    function ($this) {
                         $($this).closest(".viewer-article").removeClass("active");
                     });
 
@@ -1065,7 +1096,7 @@
                     },
                 });
 
-                $.each($(".swiper-slide"), function(){
+                $.each($(".swiper-slide"), function () {
                     let data = $(this).attr("data-swiper-slide-index");
                     let lot_no = $(this).find(".imageViewer").attr("lot_no");
                     if (lot_no === Scope().lot_no) {
@@ -1081,7 +1112,7 @@
                     popup_image_viewer.open(this); // or false
                     imagesResizePcMb();
                     imageViewer.update();
-                    imageViewer.slideTo($("#view_lot_no").attr("sel-data-index"), 0);
+                    imageViewer.slideTo(parseInt($("#view_lot_no").attr("sel-data-index")) - $scope.chk, 0);
                 });
                 // 좌우버튼
                 $('.view_paging-area .page_prev').on('click', function ($e) {
@@ -1145,36 +1176,35 @@
 
                 //작가 정보 admin에서 가져오도록 변경
                 axios.get('/api/auction/artist_info/' + $scope.artistNo)
-                    .then(function(response) {
+                    .then(function (response) {
                         const data = response.data;
                         let success = data.success;
 
-                        if(success){
+                        if (success) {
                             let artistData = data.data;
-                            if(!artistData){
-                            }
-                            else{
+                            if (!artistData) {
+                            } else {
                                 let articlesList = JSON.parse(artistData.articles).articles;
                                 let artistYoutubeImages = JSON.parse(artistData.media).youtube;
                                 let artistImageList = artistData.images;
                                 let title = '';
                                 $.each(articlesList, function (index, el) {
-                                    if(locale == 'ko'){
+                                    if (locale == 'ko') {
                                         title += el.titleKo + '</br>';
-                                    }else{
+                                    } else {
                                         title += el.titleEn + '</br>';
                                     }
                                 });
 
-                                $("#artistName").html(JSON.parse(artistData.name).ko + ' ' +  artistData.birth + '~' + artistData.death);
+                                $("#artistName").html(JSON.parse(artistData.name).ko + ' ' + artistData.birth + '~' + artistData.death);
                                 $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
 
                                 let html = '<div class="vide_img-box">';
                                 $.each(artistYoutubeImages, function (index, el) {
                                     $.each(artistImageList, function (s3Index, el) {
                                         //일단은 youtube만 뿌리기로
-                                        if(artistImageList[s3Index].tag == 'youtube' + index){
-                                            html += '<a href="' + artistYoutubeImages[index] + '"><img src=" '+ artistImageList[s3Index].cdn_url + ' " alt="" /></a>';
+                                        if (artistImageList[s3Index].tag == 'youtube' + index) {
+                                            html += '<a href="' + artistYoutubeImages[index] + '"><img src=" ' + artistImageList[s3Index].cdn_url + ' " alt="" /></a>';
                                         }
                                     });
                                 });
@@ -1183,12 +1213,12 @@
                             }
                         }
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                         console.log(error);
                     });
 
                 var popup_images = $(".js-popup_images").trpLayerFixedPopup("#popup_images-wrap");
-                $(".js-popup_images").on("click", function($e) {
+                $(".js-popup_images").on("click", function ($e) {
                     $e.preventDefault();
                     popup_images.open(this); // or false
                     for (var o = $(".imageViewerpopup"), e = 0; e < o.length; e++) {
@@ -1200,15 +1230,14 @@
                     }
                     //imagesResizePcMb();
                     imagesSwiper.update();
-                    imagesSwiper.slideTo($scope.activeIndex +1, 0);
+                    imagesSwiper.slideTo($scope.activeIndex + 1, 0);
                 });
-                $("body").on("click", "#popup_images-wrap .js-closepop, #popup_images-wrap .popup-dim", function($e) {
+                $("body").on("click", "#popup_images-wrap .js-closepop, #popup_images-wrap .popup-dim", function ($e) {
                     $e.preventDefault();
                     popup_images.close();
                 });
                 // popup_images.open(false);     // or false
                 // imagesResizePcMb();
-
 
 
                 /* === zoom ===  panzoom.reset()*/
@@ -1223,10 +1252,10 @@
                         maxScale: 4, // (Default: 4)
                         minScale: 1 // (Default: 0.125)
                     });
-                    $(".js-zoomin").on("click", function() {
+                    $(".js-zoomin").on("click", function () {
                         panzoom.zoomIn();
                     });
-                    $(".js-zoomout").on("click", function() {
+                    $(".js-zoomout").on("click", function () {
                         panzoom.zoomOut();
                     });
                     panzoom.zoom(1, {
@@ -1242,6 +1271,7 @@
                     $(".js-zoomin").off("click");
                     $(".js-zoomout").off("click");
                 }
+
                 if ($("body").hasClass("is_pc")) {
                     panzoom_set();
                 }
@@ -1261,31 +1291,31 @@
                             spaceBetween: 10
                         }
                     },
-                    onSlideChangeStart: function(swiper) { // 움직임이 시작하면 실행
+                    onSlideChangeStart: function (swiper) { // 움직임이 시작하면 실행
                         imagesResizePcMb();
                         if ($("body").hasClass("is_pc")) {
                             panzoom.reset(); // zoom reset
                         }
                     },
-                    onSlideChangeEnd: function(swiper) { // 움직임이 끝나면 실행
+                    onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
                         imagesResizePcMb();
                         thumbnailActive(swiper.realIndex);
                         console.log(">>> ", swiper.realIndex)
                     }
                 })
                 // 좌우버튼
-                $('.images-popup .page_prev').on('click', function($e) {
+                $('.images-popup .page_prev').on('click', function ($e) {
                     $e.preventDefault();
                     imagesSwiper.slidePrev();
                 })
-                $('.images-popup .page_next').on('click', function($e) {
+                $('.images-popup .page_next').on('click', function ($e) {
                     $e.preventDefault();
                     console.log("next")
                     imagesSwiper.slideNext();
                 })
 
                 /* 섭네일 클릭 */
-                $(".js-thumbnail-list a").on("click", function($e) {
+                $(".js-thumbnail-list a").on("click", function ($e) {
                     $e.preventDefault();
                     var _index = $(this).closest("li").index();
                     imagesSwiper.slideTo(_index + 1);
@@ -1299,7 +1329,7 @@
 
 
                 /* PC,MB images resize */
-                $(window).on("resize", function() {
+                $(window).on("resize", function () {
                     imagesResizePcMb();
                     if ($("body").hasClass("is_mb")) {
                         if (panzoom != "") {
@@ -1401,7 +1431,7 @@
     let end_bid_time = 0;
     let is_end_bid = false;
 
-    let autoBiding = async function(connect_info){
+    let autoBiding = async function (connect_info) {
         let val = $("#reservation_bid").val();
         let datet = new Date();
         let url = '';
@@ -1412,19 +1442,19 @@
         }
 
         let response = await fetch(url, {
-            method:"POST",
+            method: "POST",
             body: JSON.stringify({
-                customer : {
+                customer: {
                     sale_no: connect_info.sale_no,
                     lot_no: connect_info.lot_no,
                     cust_no: connect_info.cust_no,
                     paddle: 0,
                     user_id: connect_info.user_id,
-                    token:  connect_info.token,
+                    token: connect_info.token,
                     sale_type: 2,
                     bid_type: 22,
                 },
-                bid_cost:   parseInt(val),
+                bid_cost: parseInt(val),
             }),
         });
         let vv = response.json();
@@ -1519,7 +1549,7 @@
         }
         let d = JSON.parse(evt.data);
 
-        if (d.msg_type == packet_enum.init) {
+        if (d.msg_type === packet_enum.init) {
 
             // 현재 접속 세일/랏 정보
             connect_info.token = d.message.token
@@ -1543,7 +1573,7 @@
             }
             init_func_manual(d);
 
-        } else if (d.msg_type == packet_enum.bid_info) {
+        } else if (d.msg_type === packet_enum.bid_info) {
 
             if (d.message.bid != null && d.message.bid.length > 0) {
                 // popup layer Values
@@ -1593,7 +1623,7 @@
                             let li = document.createElement("li");
 
                             let user_id_ly = document.createElement("div");
-                            if (bid_hist_info.user_id === "KYUNGHOON" ){
+                            if (bid_hist_info.user_id === "KYUNGHOON") {
                                 user_id_ly.setAttribute("class", "product-user on_green");
                             } else {
                                 user_id_ly.setAttribute("class", "product-user");
@@ -1638,34 +1668,35 @@
                 }
             }
 
-        } else if (d.msg_type == packet_enum.time_sync) {
-
-            let bid_tick = document.getElementById("bid_tick");
-            let bid_tick_main = document.getElementById("end_date_time");
-            let ddd = new Date(d.message.tick_value);
-
-            if (end_bid_time > 0 && end_bid_time >= d.message.tick_value) {
-
-                let endDate = new Date(end_bid_time);
-                var dateGap = endDate - ddd;
-                var timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
-
-                // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
-                var diffDay = Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
-                var diffHour = timeGap.getHours();       // 시간
-                var diffMin = timeGap.getMinutes();      // 분
-                var diffSec = timeGap.getSeconds();      // 초
-
-                bid_tick.innerText = diffDay + "일 " + diffHour + "시간 " + diffMin + "분 " + diffSec + "초 남았습니다.";
-                bid_tick_main.innerText = diffDay + "일 " + diffHour + "시간 " + diffMin + "분 " + diffSec + "초 남았습니다.";
-            } else if (end_bid_time <= 0) {
-                bid_tick.innerText = "경매 시작 전입니다.";
-                bid_tick_main.innerText = "경매 시작 전입니다.";
-            } else {
-                bid_tick.innerText = "경매가 종료 되었습니다.";
-                bid_tick_main.innerText = "경매가 종료 되었습니다.";
+        } else if (d.msg_type === packet_enum.time_sync) {
+            let expr_date = new Date($("#lot_expr_date").val()).format('yyyy-MM-dd 00:00:00');
+            if (expr_date >= (new Date(d.message.tick_value).format('yyyy-MM-dd HH:mm:ss'))) {
+                $("#show_btn").css("display", "");
             }
 
+            /*
+                        if (end_bid_time > 0 && end_bid_time >= d.message.tick_value) {
+
+                            let endDate = new Date(end_bid_time);
+                            var dateGap = endDate - ddd;
+                            var timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
+
+                            // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
+                            var diffDay = Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
+                            var diffHour = timeGap.getHours();       // 시간
+                            var diffMin = timeGap.getMinutes();      // 분
+                            var diffSec = timeGap.getSeconds();      // 초
+
+                            bid_tick.innerText = diffDay + "일 " + diffHour + "시간 " + diffMin + "분 " + diffSec + "초 남았습니다.";
+                            bid_tick_main.innerText = diffDay + "일 " + diffHour + "시간 " + diffMin + "분 " + diffSec + "초 남았습니다.";
+                        } else if (end_bid_time <= 0) {
+                            bid_tick.innerText = "경매 시작 전입니다.";
+                            bid_tick_main.innerText = "경매 시작 전입니다.";
+                        } else {
+                            bid_tick.innerText = "경매가 종료 되었습니다.";
+                            bid_tick_main.innerText = "경매가 종료 되었습니다.";
+                        }
+            */
         } else if (d.msg_type == packet_enum.bid_info_init) {
             if (d.message.bids != null && d.message.bids.length > 0) {
                 let bid_info = d.message.bids[0];
@@ -1677,18 +1708,18 @@
                 let bid_new_cost = document.getElementById("bid_new_cost");
 
 
-                let start_cost = document.getElementById("start_cost");
-                let bid_cnt2 = document.getElementById("bid_cnt");
-                let cur_cost = document.getElementById("cur_cost");
+                //let start_cost = document.getElementById("start_cost");
+                //let bid_cnt2 = document.getElementById("bid_cnt");
+                //let cur_cost = document.getElementById("cur_cost");
                 //let end_date_time2 = document.getElementById("end_date_time");
 
                 let curCostValue = (bid_info.bid_cost === 0) ?
                     "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR') :
                     "KRW " + bid_info.bid_cost.toLocaleString('ko-KR');
 
-                start_cost.innerText = "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR');
-                bid_cnt2.innerText = "(응찰" + bid_info.bid_count + ")"
-                cur_cost.innerText = curCostValue;
+                //start_cost.innerText = "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR');
+                //bid_cnt2.innerText = "(응찰" + bid_info.bid_count + ")"
+                //cur_cost.innerText = curCostValue;
                 //end_date_time2.innerText = new Date(bid_info.end_bid_time).format('MM/dd(E) hh:mm');
 
                 bid.innerText = curCostValue;
@@ -1821,6 +1852,7 @@
             }
         }
     }
+
     function startBidProcess(saleNo, lotNo, saleType, userId, custNo) {
         /*this.saleNo = saleNo;
         this.lotNo = lotNo;
