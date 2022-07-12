@@ -590,6 +590,7 @@
 
                 let sale_images = $scope.saleImages;
                 let lot_images = $scope.lotImages;
+                let firstCheck = 0;
 
                 $.each(sale_images, function (index, el) {
 
@@ -605,6 +606,10 @@
                     }
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
                     let swiper_slide_item = '';
+                    if (firstCheck == 0) {
+                        $scope.chk = parseInt(lot_no) - index -1;
+                    }
+                    firstCheck++;
 
                     //if(size1 > 160){
                         swiper_slide_item = `<div class="swiper-slide">
@@ -684,7 +689,7 @@
                     popup_image_viewer.open(this); // or false
                     imagesResizePcMb();
                     imageViewer.update();
-                    imageViewer.slideTo($("#view_lot_no").attr("sel-data-index"), 0);
+                    imageViewer.slideTo(parseInt($("#view_lot_no").attr("sel-data-index")) - $scope.chk, 0);
                 });
                 // 좌우버튼
                 $('.view_paging-area .page_prev').on('click', function ($e) {

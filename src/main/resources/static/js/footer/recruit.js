@@ -54,6 +54,9 @@ $(document).ready(function(){
                             html +=  `<div class="mem-icon icon-senior">경력</div>`;
                         }
 
+
+                        console.log(el.period_type);
+
                         if ( el.period_type === 'period'){
                             html +=   `<div class="mem-icon icon-recruiting">진행중</div></div>`;
 
@@ -71,7 +74,7 @@ $(document).ready(function(){
 
                             html +=  `</div><a href="/footer/recruit/${el.id}" class="tit">${el.title}</a></td>`;
 
-                            html += `<td class="bbs-date long">상시 모집</td></tr>`;
+                            html += `<td class="bbs-date long">채용 시 마감</td></tr>`;
                         }
 
 

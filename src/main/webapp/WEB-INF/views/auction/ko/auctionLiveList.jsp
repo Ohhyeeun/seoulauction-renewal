@@ -977,11 +977,29 @@
             }
             $scope.rerange = function () {
                 let sst = parseInt($("#sortType").val())
+                let v;
 
-                let v = $scope.saleInfoAll;
-                if ($scope.searchSaleInfoAll != null && $scope.searchSaleInfoAll.length > 0) {
-                    v = $scope.searchSaleInfoAll;
+                for (let i = 0 ; i < $scope.saleInfoAll.length;i++ ){
+                    if ($scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW === undefined) {
+                        console.log("$scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW ", $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW );
+                        $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW = 0;
+                        console.log("$scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW ", $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW );
+                    }
+                    if ($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW === undefined) {
+                        $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = 0;
+                    }
                 }
+                v = $scope.saleInfoAll;
+
+                for (let i = 0 ; i < $scope.searchSaleInfoAll.length; i++){
+                    if ($scope.searchSaleInfoAll[i].EXPE_PRICE_TO_JSON.KRW === undefined) {
+                        $scope.searchSaleInfoAll[i].EXPE_PRICE_TO_JSON.KRW = 0;
+                    }
+                    if ($scope.searchSaleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW === undefined) {
+                        $scope.searchSaleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = 0;
+                    }
+                }
+                console.log("$scope.searchSaleInfoAll.length", $scope.searchSaleInfoAll.length);
                 switch (sst) {
                     case 1:
                         // lot 번호 순
@@ -994,20 +1012,26 @@
                     case 2:
                         // lot 추정가 높은 순
                         v.sort(function (a, b) {
-                            if (a.EXPE_PRICE_TO_JSON.KRW > b.EXPE_PRICE_TO_JSON.KRW) return -1;
-                            if (a.EXPE_PRICE_TO_JSON.KRW === b.EXPE_PRICE_TO_JSON.KRW) return 0;
-                            if (a.EXPE_PRICE_TO_JSON.KRW < b.EXPE_PRICE_TO_JSON.KRW) return 1;
+                            if (parseInt(a.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,"")) > parseInt(b.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,""))) {
+                                return -1;
+                            }
+                            if (parseInt(a.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,"")) === parseInt(b.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,""))) return 0;
+                            if (parseInt(a.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,"")) < parseInt(b.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,""))) return 1;
                         });
                         break;
                     case 3:
                         // lot 추정가 낮은 순
                         v.sort(function (a, b) {
-                            if (a.EXPE_PRICE_FROM_JSON.KRW > b.EXPE_PRICE_FROM_JSON.KRW) return 1;
-                            if (a.EXPE_PRICE_FROM_JSON.KRW === b.EXPE_PRICE_FROM_JSON.KRW) return 0;
-                            if (a.EXPE_PRICE_FROM_JSON.KRW < b.EXPE_PRICE_FROM_JSON.KRW) return -1;
+                            if (parseInt(a.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,"")) > parseInt(b.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,""))) return 1;
+                            if (parseInt(a.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,"")) === parseInt(b.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,""))) return 0;
+                            if (parseInt(a.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,"")) < parseInt(b.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,""))) return -1;
                         });
                         break;
                 }
+
+                console.log(v);
+
+                $scope.curpage = 1;
                 $scope.pageing($scope.curpage);
             }
             $scope.addpage = function (page) {

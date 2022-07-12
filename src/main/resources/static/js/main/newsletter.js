@@ -62,6 +62,7 @@ $(document).ready(function(){
                     $('#newsEmail').val('');
                     $('#newsName').val('');
                     $('#subscript_check').prop('checked',false);
+                    subscript = false;
                 }
             })
             .catch(function(error){

@@ -1068,6 +1068,14 @@
                                     let dt_ly = document.createElement("div");
                                     dt_ly.setAttribute("class", "product-day");
 
+                                    let dt_ly_span11;
+                                    if (bid_hist_info[i].is_auto_bid) {
+                                        // type
+                                        dt_ly_span11 = document.createElement("em");
+                                        dt_ly_span11.setAttribute("class", "type-auto");
+                                        dt_ly_span11.innerText = "자동";
+                                    }
+
                                     // date
                                     let dt_ly_span2 = document.createElement("span");
                                     dt_ly_span2.innerText = ddd.format("yyyy-MM-dd");
@@ -1076,6 +1084,9 @@
                                     let dt_ly_span3 = document.createElement("span");
                                     dt_ly_span3.innerText = ddd.format("hh:mm:ss");
 
+                                    if (bid_hist_info[i].is_auto_bid) {
+                                        dt_ly.appendChild(dt_ly_span11);
+                                    }
                                     // dt_ly.appendChild(dt_ly_span1);
                                     dt_ly.appendChild(dt_ly_span2);
                                     dt_ly.appendChild(dt_ly_span3);
@@ -1361,11 +1372,19 @@
                                                 let dt_ly = document.createElement("div");
                                                 dt_ly.setAttribute("class", "product-day");
 
-                                                let dt_ly_span1 = document.createElement("em");
+                                                let dt_ly_span1;
                                                 if (bid_info.winner_state === 2 && bid_hist_info[i].value.length - 1 === j) {
                                                     // type
+                                                    dt_ly_span1 = document.createElement("em");
                                                     dt_ly_span1.setAttribute("class", "type-success");
                                                     dt_ly_span1.innerText = "낙찰";
+                                                }
+                                                let dt_ly_span11;
+                                                if (bid_hist_info[i].value[j].is_auto_bid) {
+                                                    // type
+                                                    dt_ly_span11 = document.createElement("em");
+                                                    dt_ly_span11.setAttribute("class", "type-auto");
+                                                    dt_ly_span11.innerText = "자동";
                                                 }
                                                 // date
                                                 let dt_ly_span2 = document.createElement("span");
@@ -1376,6 +1395,9 @@
 
                                                 if (bid_info.winner_state === 2) {
                                                     dt_ly.appendChild(dt_ly_span1);
+                                                }
+                                                if (bid_hist_info[i].value[j].is_auto_bid) {
+                                                    dt_ly.appendChild(dt_ly_span11);
                                                 }
                                                 dt_ly.appendChild(dt_ly_span2);
                                                 dt_ly.appendChild(dt_ly_span3);
@@ -1659,8 +1681,32 @@
             // 정렬방식 설정
             $scope.rerange = function () {
                 let sst = parseInt($("#sortType").val())
-                let v = $scope.saleInfoAll;
-                if ($scope.searchSaleInfoAll != null && $scope.searchSaleInfoAll.length > 0) {
+                let parsing = function(val){
+                    if (val.toString() === "") {
+                        return 0;
+                    }
+                    return parseInt(val.toString().replace(/\)/gi, '').replace(/\(/gi, '').replace(/응찰/gi, '').replace(/KRW/gi, '').replace(/,/gi, '').replace(/USD/gi, ''));
+                }
+                let v;
+                for (let i = 0 ; i < $scope.saleInfoAll.length;i++ ){
+                    if ($scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW === undefined) {
+                        $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW = 0;
+                    }
+                    if ($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW === undefined) {
+                        $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = 0;
+                    }
+                }
+                v = $scope.saleInfoAll;
+
+                for (let i = 0 ; i < $scope.searchSaleInfoAll.length; i++){
+                    if ($scope.searchSaleInfoAll[i].EXPE_PRICE_TO_JSON.KRW === undefined) {
+                        $scope.searchSaleInfoAll[i].EXPE_PRICE_TO_JSON.KRW = 0;
+                    }
+                    if ($scope.searchSaleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW === undefined) {
+                        $scope.searchSaleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = 0;
+                    }
+                }
+                if ($scope.searchSaleInfoAll.length > 0) {
                     v = $scope.searchSaleInfoAll;
                 }
                 switch (sst) {
@@ -1673,55 +1719,52 @@
                         });
                         break;
                     case 2:
-
                         // lot 추정가 높은 순
                         v.sort(function (a, b) {
-                            if (a.EXPE_PRICE_TO_JSON.KRW > b.EXPE_PRICE_TO_JSON.KRW) return -1;
-                            if (a.EXPE_PRICE_TO_JSON.KRW === b.EXPE_PRICE_TO_JSON.KRW) return 0;
-                            if (a.EXPE_PRICE_TO_JSON.KRW < b.EXPE_PRICE_TO_JSON.KRW) return 1;
+                            if (parseInt(a.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,"")) > parseInt(b.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,""))) return -1;
+                            if (parseInt(a.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,"")) === parseInt(b.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,""))) return 0;
+                            if (parseInt(a.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,"")) < parseInt(b.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,""))) return 1;
                         });
                         break;
                     case 3:
 
                         // lot 추정가 낮은 순
                         v.sort(function (a, b) {
-                            if (a.EXPE_PRICE_FROM_JSON.KRW > b.EXPE_PRICE_FROM_JSON.KRW) return 1;
-                            if (a.EXPE_PRICE_FROM_JSON.KRW === b.EXPE_PRICE_FROM_JSON.KRW) return 0;
-                            if (a.EXPE_PRICE_FROM_JSON.KRW < b.EXPE_PRICE_FROM_JSON.KRW) return -1;
+                            if (parseInt(a.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,"")) > parseInt(b.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,""))) return 1;
+                            if (parseInt(a.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,"")) === parseInt(b.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,""))) return 0;
+                            if (parseInt(a.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,"")) < parseInt(b.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,""))) return -1;
                         });
                         break;
                     case 4:
-
-                        // 응찰가 높은 순
+         // 응찰가 높은 순
                         v.sort(function (a, b) {
-                            if (a.CUR_COST > b.CUR_COST) return -1;
-                            if (a.CUR_COST === b.CUR_COST) return 0;
-                            if (a.CUR_COST < b.CUR_COST) return 1;
+                            if (parsing(a.CUR_COST) > parsing(b.CUR_COST)) return -1;
+                            if (parsing(a.CUR_COST) === parsing(b.CUR_COST)) return 0;
+                            if (parsing(a.CUR_COST) < parsing(b.CUR_COST)) return 1;
                         });
                         break;
                     case 5:
-
                         // 응찰가 낮은 순
                         v.sort(function (a, b) {
-                            if (a.CUR_COST > b.CUR_COST) return 1;
-                            if (a.CUR_COST === b.CUR_COST) return 0;
-                            if (a.CUR_COST < b.CUR_COST) return -1;
+                            if (parsing(a.CUR_COST) > parsing(b.CUR_COST)) return 1;
+                            if (parsing(a.CUR_COST) === parsing(b.CUR_COST)) return 0;
+                            if (parsing(a.CUR_COST) < parsing(b.CUR_COST)) return -1;
                         });
                         break;
                     case 6:
                         // 응찰수 높은 순
                         v.sort(function (a, b) {
-                            if (a.BID_COUNT > b.BID_COUNT) return -1;
-                            if (a.BID_COUNT === b.BID_COUNT) return 0;
-                            if (a.BID_COUNT < b.BID_COUNT) return 1;
+                            if (parsing(a.BID_COUNT) > parsing(b.BID_COUNT)) return -1;
+                            if (parsing(a.BID_COUNT) === parsing(b.BID_COUNT)) return 0;
+                            if (parsing(a.BID_COUNT) < parsing(b.BID_COUNT)) return 1;
                         });
                         break;
                     case 7:
                         // 응찰수 낮은 순
                         v.sort(function (a, b) {
-                            if (a.BID_COUNT > b.BID_COUNT) return 1;
-                            if (a.BID_COUNT === b.BID_COUNT) return 0;
-                            if (a.BID_COUNT < b.BID_COUNT) return -1;
+                            if (parsing(a.BID_COUNT) > parsing(b.BID_COUNT)) return 1;
+                            if (parsing(a.BID_COUNT) === parsing(b.BID_COUNT)) return 0;
+                            if (parsing(a.BID_COUNT) < parsing(b.BID_COUNT)) return -1;
                         });
                         break;
                 }
