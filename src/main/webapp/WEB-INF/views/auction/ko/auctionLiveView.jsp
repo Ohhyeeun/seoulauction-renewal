@@ -187,17 +187,14 @@
                                             <div class="price-area">
                                                 <dl class="price-list">
                                                     <dt>추정가</dt>
-                                                    <dd ng-bind="estimatedRange"></dd>
+                                                    <div ng-show="lotInfo.EXPE_PRICE_INQ_YN === 'N'">
+                                                        <dd>KRW {{lotInfo.EXPE_PRICE_FROM_JSON.KRW}} ~ {{lotInfo.EXPE_PRICE_TO_JSON.KRW}}</dd>
+                                                        <dd>USD {{lotInfo.EXPE_PRICE_FROM_JSON.USD}} ~ {{lotInfo.EXPE_PRICE_TO_JSON.USD}}</dd>
+                                                    </div>
+                                                    <div ng-show="lotInfo.EXPE_PRICE_INQ_YN === 'Y'">
+                                                        <dd>별도 문의</dd>
+                                                    </div>
                                                 </dl>
-                                                <%--                                                <dl class="price-list">--%>
-                                                <%--                                                    <dt>시작가</dt>--%>
-                                                <%--                                                    <dd id="start_cost"><!--WEB SOCKET--></dd>--%>
-                                                <%--                                                </dl>--%>
-                                                <%--                                                <dl class="price-list">--%>
-                                                <%--                                                    <dt>현재가</dt>--%>
-                                                <%--                                                    <dd><strong id="cur_cost"><!--WEB SOCKET--></strong><em--%>
-                                                <%--                                                            id="bid_cnt">(응찰 <!--WEB SOCKET-->)</em></dd>--%>
-                                                <%--                                                </dl>--%>
                                                 <dl class="price-list">
                                                     <dt>마감일</dt>
                                                     <dd><b id="end_date_time" ng-bind="lotInfo.LOT_EXPIRE_DATE | date_format"><!--WEB SOCKET--></b></dd>
@@ -913,7 +910,10 @@
                 $scope.lotImages = r3.data.data;
                 $scope.saleImages = r4.data.data;
 
-                $scope.estimatedRange = $scope.lotInfo.EXPE_PRICE_INQ_YN === 'Y' ? '별도 문의' : $scope.lotInfo.BASE_EXPE_FROM_PRICE + ' ~ ' + $scope.lotInfo.BASE_EXPE_TO_PRICE;
+                $scope.lotInfo.EXPE_PRICE_FROM_JSON.KRW = numberWithCommas($scope.lotInfo.EXPE_PRICE_FROM_JSON.KRW);
+                $scope.lotInfo.EXPE_PRICE_TO_JSON.KRW = numberWithCommas($scope.lotInfo.EXPE_PRICE_TO_JSON.KRW);
+                $scope.lotInfo.EXPE_PRICE_FROM_JSON.USD = numberWithCommas($scope.lotInfo.EXPE_PRICE_FROM_JSON.USD);
+                $scope.lotInfo.EXPE_PRICE_TO_JSON.USD = numberWithCommas($scope.lotInfo.EXPE_PRICE_TO_JSON.USD);
 
                 $scope.recentlyViews = r6.data.data;
 
