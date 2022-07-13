@@ -1448,9 +1448,17 @@ body.dark,
 .select2-container--open {
     z-index: 24 !important;
 }
-.sub-wrap .main-header {
+.sub-wrap .main-header { /* 기준 */
     z-index: 30 !important;
 }
+/* aucton 페이지 전체 lot dim */
+.allview_fixed-wrap .popup-dim {
+    z-index: 30 !important;
+}
+.allview_fixed-wrap .fixed-panel {
+    z-index: 31 !important;
+}
+
 /* pc */ 
 @media all and (max-width: 1919px) {
     .scroll-top {
