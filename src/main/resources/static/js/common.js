@@ -1046,6 +1046,20 @@ $(document).ready(function(){
 
     // 안드로이드 저장 막기
     // document.oncontextmenu="return false style='-webkit-touch-callout:none'";
+
+    // 테스트
+    function webviewToggleMenu(state) {
+        const bgElement = document.querySelector('.gnb_submenuBg');
+        const menugElement = document.querySelector('.submenuBg');
+    
+        if (bgElement.classList.contains('on') && menugElement.classList.contains('on')) {
+          window.alert(document.querySelector('.submenuBg-closeBtn').innerHTML);
+          // document.querySelector('.submenuBg-closeBtn').click();
+        } else {
+          window.alert(document.querySelector('.m-gnbmenu').innerHTML);
+          // document.querySelector('.m-gnbmenu').click();
+        }
+      }
 });
 
 // evaluateJavascript("nativeToggleMenu(true)")
