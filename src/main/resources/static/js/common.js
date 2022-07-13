@@ -277,6 +277,7 @@ $(function() {
                 });
             });
         });
+        $('.submenuBg-closeBtn').off('click');
         $('.submenuBg-closeBtn').click(function () {
             $('body').css({'overflow': 'visible'});
             $('.gnbmenu_arrow').removeClass('on');
@@ -1055,6 +1056,7 @@ $(window).resize(function(){
             $(this).hasClass('main-header');
         });
 
+        $('.submenuBg-closeBtn').off('click');
         /* 닫기 버튼 */
         $('.submenuBg-closeBtn').click(function(){
             $('body').css({'overflow':'visible'});
