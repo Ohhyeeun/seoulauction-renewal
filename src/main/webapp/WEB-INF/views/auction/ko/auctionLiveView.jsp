@@ -986,8 +986,12 @@
                 $scope.activeIndex = 0;
 
                 // popup setting
-                let imgUrl = $scope.lotImages[0].IMAGE_URL +
-                    $scope.lotImages[0].FILE_PATH + "/" + $scope.lotImages[0].FILE_NAME;
+
+                let imgUrl;
+                if($scope.lotImages[0]) {
+                    imgUrl = $scope.lotImages[0].IMAGE_URL +
+                        $scope.lotImages[0].FILE_PATH + "/" + $scope.lotImages[0].FILE_NAME;
+                }
 
                 $("#bidding_title").html($scope.lotInfo.TITLE_KO_TXT);
                 $("#img_url").attr("src", imgUrl);
