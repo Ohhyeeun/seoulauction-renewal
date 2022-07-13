@@ -200,7 +200,7 @@
     opacity: 1;
 }
 .swiper-progressbar.animate .visual-progressbar:after {
-    transition: width linear;
+    transition: width linear; 
     transition-delay: unset;
     width: 100%;
     transition-duration: 5s;
@@ -224,7 +224,7 @@
     height: 450px;
 }
 .visual_img>img{
-    object-fit: cover;
+    /*object-fit: cover;*/
     height: 100%;
     width: 100%;
 }
