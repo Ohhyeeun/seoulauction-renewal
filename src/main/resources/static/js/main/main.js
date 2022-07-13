@@ -571,9 +571,9 @@ function loadPopup(){
                     if(data) {
 
                         let jsonData = JSON.parse(data.content);
-
                         let popupType = data.popup_type;
 
+                        //모바일 일때
                         let localeTitle = locale === 'ko' ? jsonData.title.ko : jsonData.title.en;
                         let localeContent = locale === 'ko' ? jsonData.content.ko.content : jsonData.content.en.content;
                         let localeUrl = locale === 'ko' ? jsonData.content.ko.url : jsonData.content.en.url;
@@ -584,12 +584,38 @@ function loadPopup(){
 
                         if(popupType === 'image'){
 
-                            $('.main-popup-img').show();
-                            if(data.image !== "") {
-                                $('#main_popup_img').attr('src', data.image);
-                                $('.main-popup-img').show();
+                            let imgUrl;
+
+                            ///////////// 이미지 선택 //////////////////
+                            //모바일이 아닐때만 .
+                            if (matchMedia("all and (min-width: 1024px)").matches) {
+
+                                $.each(data.image , function(lotIdx , el){
+
+                                    if(locale === 'ko' && el.tag === 'pcKo'){
+                                        imgUrl = el.cdn_url;
+                                    } else if (locale === 'en' && el.tag === 'pcEn'){
+                                        imgUrl = el.cdn_url;
+                                    }
+                                });
+                            //모바일일때만.
+                            } else {
+
+                                $.each(data.image , function(lotIdx , el){
+
+                                    if(locale === 'ko' && el.tag === 'moKo'){
+                                        imgUrl = el.cdn_url;
+                                    } else if (locale === 'en' && el.tag === 'moEn'){
+                                        imgUrl = el.cdn_url;
+                                    }
+                                });
                             }
 
+                            $('.main-popup-img').show();
+                            if(data.image !== "") {
+                                $('#main_popup_img').attr('src', imgUrl);
+                                $('.main-popup-img').show();
+                            }
 
                         } else if (popupType === 'text'){
                             $('.main-popup-txt').show();
