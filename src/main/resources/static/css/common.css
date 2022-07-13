@@ -1940,7 +1940,7 @@ body.dark,
         border-left: 0;
     }
     .main-sectiontit {
-        font-size: 1.625em; /* 26px */
+        font-size: 2em; /* 32px */
     }
     .modebox {
         border-top: 1px solid #dedede;
@@ -2216,8 +2216,8 @@ body.dark,
     .footer-infomenu {
         margin-bottom: 25px;
         font-size: 12px;
-        margin-bottom: 100px;
-        justify-content: center;
+        margin-bottom: 110px;
+        justify-content: center; 
     }
     .footer-infomenu>li:before {
         margin: 0 15px;

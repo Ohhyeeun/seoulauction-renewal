@@ -1429,7 +1429,7 @@
         padding: 30px 24.5px 29.5px 25px;
     }
     .sale-box>figcaption>h2 {
-        font-size: 21px;
+        font-size: 1.5625em;
         margin-bottom: 16px;
     }
     .sale-box>figcaption>p {
@@ -1460,7 +1460,7 @@
     }
     .familySite-tit,
     .newsLetter-tit {
-        font-size: 21px;
+        font-size: 25px;
     }
     .familysite-box,
     .newsletter-box {
@@ -1686,8 +1686,12 @@
     }
     .video,
     .article-contents {
-        margin-bottom: 60px;
+        margin-bottom: 3.75em;
     }
+    .video:lang(en),
+    .article-contents:lang(en) {
+        margin-bottom: 10em;
+    } 
     .swiper-slide.video-slide {
         max-width: calc(100% / 2 - 35px);
     }
