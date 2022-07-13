@@ -969,6 +969,9 @@
     width: 450px;
     height: 372px;
 }
+.main-popup-img {
+    background-color: #fff;
+}
 .main-popup-txt {
     background-color: #fff;
     padding: 40px 30px;
@@ -1010,6 +1013,8 @@
 }
 .main-popup-img>img {
     display: block;
+    margin: 0 auto;
+    text-align: center
 }
 /* on 일때 보임 */
 .upcoming-open.on,

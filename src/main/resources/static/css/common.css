@@ -1427,17 +1427,23 @@ body.dark,
 .keyword-del.dark {
     background-image: url("/images/pc/icon/x-btn-lightgray.svg");
 }
+.swiper-button-prev.platformBtn-left.dark,
+.swiper-button-next.platformBtn-right.dark {
+    background-size: 33px auto;
+}
 .swiper-button-prev.platformBtn-left.dark {
     background-image: url("/images/pc/icon/ic_chevron_left_white_48.svg");
+    left: 0;
 }
 .swiper-button-next.platformBtn-right.dark {
     background-image: url("/images/pc/icon/ic_chevron_right_white_48.svg");
     fill: none;
+    right: -10px;
 }
 .auction-thumbbox.dark,
 .swiper-slide.upcomingSlide.dark {
     background-color: #2d2d2d;
-}
+}  
 
 
 /* 외주 css selec container */
