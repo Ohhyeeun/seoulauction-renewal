@@ -8,10 +8,13 @@ window.addEventListener('load', () => {
    * evaluateJavascript("webviewToggleMenu(true)")
    */
   function webviewToggleMenu(state) {
-    if (state) {
-      document.querySelector('.m-gnbmenu').click();
-    } else {
+    const bgElement = document.querySelector('.gnb_submenuBg');
+    const menugElement = document.querySelector('.submenuBg');
+
+    if (bgElement.classList.contains('on') && menugElement.classList.contains('on')) {
       document.querySelector('.submenuBg-closeBtn').click();
+    } else {
+      document.querySelector('.m-gnbmenu').click();
     }
   }
 
