@@ -1047,8 +1047,8 @@ $(document).ready(function(){
     // 안드로이드 저장 막기
     // document.oncontextmenu="return false style='-webkit-touch-callout:none'";
 
-    // 테스트
-    function webviewToggleMenu(state) {
+    // evaluateJavascript("nativeToggleMenu(true)")
+    function nativeToggleMenu(state) {
         const bgElement = document.querySelector('.gnb_submenuBg');
         const menugElement = document.querySelector('.submenuBg');
     
@@ -1059,19 +1059,9 @@ $(document).ready(function(){
           window.alert(document.querySelector('.m-gnbmenu').innerHTML);
           // document.querySelector('.m-gnbmenu').click();
         }
-      }
+    }
 });
 
-// evaluateJavascript("nativeToggleMenu(true)")
-function nativeToggleMenu(state) {
-    if (state) {
-        document.querySelector('.gnb_submenuBg.scroll_none')?.classList.add('on');
-        document.querySelector('.submenuBg')?.classList.add('on');
-    } else {
-        document.querySelector('.gnb_submenuBg.scroll_none')?.classList.remove('on');
-        document.querySelector('.submenuBg')?.classList.remove('on');
-    }
-}
 //오브젝트 or 배열 비었는지 확인
 function isNotObjectEmpty(param) {
     return Object.keys(param).length !== 0 && param.constructor === Object;
