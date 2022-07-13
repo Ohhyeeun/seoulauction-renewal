@@ -330,6 +330,9 @@
                         </div>
                     </section>
                 </div>
+
+                <%-- 패들번호 부여 및 약관동의 팝업(위치 변경 금지) --%>
+                <jsp:include page="popup/paddle.jsp" />
             </div>
             <!-- //container -->
 
@@ -347,8 +350,7 @@
             <!-- // stykey -->
         </div>
     </div>
-    <%-- 패들번호 부여 및 약관동의 팝업 --%>
-    <jsp:include page="popup/paddle.jsp" />
+
 
 <%--    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
     <script type="text/javascript" src="/js/auction/auctionLiveList.js" type="text/javascript"></script>
@@ -539,7 +541,6 @@
             }
 
             $scope.goLiveBid = function() {
-                console.log("goLiveBid");
                 if($scope.sale_status == 'ING' && $scope.liveCheckDt >= $scope.liveStartDt) {
                     // 경매 당일 응찰하기
                     console.log("1");
