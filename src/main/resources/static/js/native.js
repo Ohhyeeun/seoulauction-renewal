@@ -12,9 +12,11 @@ window.addEventListener('load', () => {
     const menugElement = document.querySelector('.submenuBg');
 
     if (bgElement.classList.contains('on') && menugElement.classList.contains('on')) {
-      document.querySelector('.submenuBg-closeBtn').click();
+      window.alert(document.querySelector('.submenuBg-closeBtn').innerHTML);
+      // document.querySelector('.submenuBg-closeBtn').click();
     } else {
-      document.querySelector('.m-gnbmenu').click();
+      window.alert(document.querySelector('.m-gnbmenu').innerHTML);
+      // document.querySelector('.m-gnbmenu').click();
     }
   }
 
