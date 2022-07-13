@@ -161,36 +161,26 @@ $('.modebox').click(function () {
     }
 });
 
-/* 새로고침 다크모드 */
+/* 다크모드 새로고침 시 */
 window.addEventListener('DOMContentLoaded', () => {
     // console.log("theme ", localStorage.getItem('theme'));
 
     $('*').toggleClass(localStorage.getItem('theme'));
 
-    console.log(6345534);
+    $('.auctionTab-btn').click(function () {
+        const darkIngTab = $(this).index();
+        $('.auctionTab-btn').removeClass('dark');
+        $('.auctionTab-contents').removeClass('dark');
 
-    // $('.auctionTab-btn').click(function () {
-    //     const darkIngTab = $(this).index();
-    //     $('.auctionTab-btn').removeClass('dark');
-    //     $('.auctionTab-contents').removeClass('dark');
-    //
-    //     $(this).addClass('dark');
-    //     $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
-    // });
-    //
-    // $('.darktxt').text('다크모드로 보기');
-    // $('.darktxt.dark').text('라이트모드로 보기');
-    // $('.darktxt-en').text('Dark Mode');
-    // $('.darktxt-en.dark').text('Light Mode');
+        $(this).addClass('dark');
+        $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
+    });
 
-    const theme = localStorage.getItem('theme');
-    if (theme) {
-        localStorage.removeItem('theme');
-        console.log(324434);
-    } else {
-        localStorage.setItem('theme', 'dark');
-        console.log(86767);
-    }
+    $('.darktxt').text('다크모드로 보기');
+    $('.darktxt.dark').text('라이트모드로 보기');
+    $('.darktxt-en').text('Dark Mode');
+    $('.darktxt-en.dark').text('Ligth Mode');
+
     $('.mode-toggle>input').addClass(localStorage.getItem('theme'));
 });
 
@@ -851,4 +841,71 @@ $(window).resize(function(){
             },
         },
     });
+
+    /* pc 다크모드 */ 
+    $('.darkmodeBg').click(function (){
+
+        $('*').toggleClass('dark');
+
+        $('.auctionTab-btn').click(function () {
+            const darkIngTab = $(this).index();
+            $('.auctionTab-btn').removeClass('dark');
+            $('.auctionTab-contents').removeClass('dark');
+
+            $(this).addClass('dark');
+            $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
+        });
+
+        $('.darktxt').text('다크모드로 보기');
+        $('.darktxt.dark').text('라이트모드로 보기');
+        $('.darktxt-en').text('Dark Mode');
+        $('.darktxt-en.dark').text('Light Mode');
+
+        const theme = localStorage.getItem('theme');
+        if (theme) {
+            localStorage.removeItem('theme');
+        } else {
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+
+    /* mobile 다크모드 */
+    $('.modebox').click(function () {
+        if ($('.mode-toggle>input').is(":checked")) {
+            $('*').addClass('dark');
+        } else {
+            $('*').removeClass('dark');
+        }
+
+        const theme = localStorage.getItem('theme');
+        if (theme) {
+            localStorage.removeItem('theme');
+        } else {
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+
+    /* 다크모드 새로고침 시 */
+    window.addEventListener('DOMContentLoaded', () => {
+        // console.log("theme ", localStorage.getItem('theme'));
+
+        $('*').toggleClass(localStorage.getItem('theme'));
+
+        $('.auctionTab-btn').click(function () {
+            const darkIngTab = $(this).index();
+            $('.auctionTab-btn').removeClass('dark');
+            $('.auctionTab-contents').removeClass('dark');
+
+            $(this).addClass('dark');
+            $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
+        });
+
+        $('.darktxt').text('다크모드로 보기');
+        $('.darktxt.dark').text('라이트모드로 보기');
+        $('.darktxt-en').text('Dark Mode');
+        $('.darktxt-en.dark').text('Ligth Mode');
+
+        $('.mode-toggle>input').addClass(localStorage.getItem('theme'));
+    });
+
 });
