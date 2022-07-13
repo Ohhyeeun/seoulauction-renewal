@@ -1198,23 +1198,23 @@ $(document).ready(function(){
 
     // 안드로이드 저장 막기
     // document.oncontextmenu="return false style='-webkit-touch-callout:none'";
-
-    // evaluateJavascript("nativeToggleMenu(true)")
-    function nativeToggleMenu(state) {
-        const bgElement = document.querySelector('.gnb_submenuBg');
-        const menugElement = document.querySelector('.submenuBg');
-    
-        if (bgElement.classList.contains('on') && menugElement.classList.contains('on')) {
-          window.alert(document.querySelector('.submenuBg-closeBtn').innerHTML);
-          // document.querySelector('.submenuBg-closeBtn').click();
-        } else {
-          window.alert(document.querySelector('.m-gnbmenu').innerHTML);
-          // document.querySelector('.m-gnbmenu').click();
-        }
-    }
 });
 
 //오브젝트 or 배열 비었는지 확인
 function isNotObjectEmpty(param) {
     return Object.keys(param).length !== 0 && param.constructor === Object;
+}
+
+// evaluateJavascript("nativeToggleMenu(true)")
+function nativeToggleMenu(state) {
+    const bgElement = document.querySelector('.gnb_submenuBg');
+    const menugElement = document.querySelector('.submenuBg');
+
+    if (bgElement.classList.contains('on') && menugElement.classList.contains('on')) {
+      window.alert(document.querySelector('.submenuBg-closeBtn').innerHTML);
+      // document.querySelector('.submenuBg-closeBtn').click();
+    } else {
+      window.alert(document.querySelector('.m-gnbmenu').innerHTML);
+      // document.querySelector('.m-gnbmenu').click();
+    }
 }
