@@ -523,6 +523,17 @@ public class ApiSaleController {
         }
         return ResponseEntity.ok(RestResponse.ok(artistInfoMap));
     }
+    @RequestMapping(value="/sale/maxbid/{sale_no}/{lot_no}", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> maxBid(HttpServletRequest req, HttpServletResponse res, Locale locale,
+                                                   @PathVariable("sale_no") int saleNo,
+                                                   @PathVariable("lot_no") int lotNo) {
+        CommonMap map = new CommonMap();
+        map.put("sale_no", saleNo);
+        map.put("lot_no", lotNo);
 
+        CommonMap result = saleService.selectMaxBid(map);
+
+        return ResponseEntity.ok(RestResponse.ok(result));
+    }
 
 }

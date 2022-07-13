@@ -1070,6 +1070,7 @@
                     bid_change : 11,
                     bid_delete: 12,
                     notice: 13,
+                    office_winner:15,
                 }
                 let d = JSON.parse(evt.data);
                 if (d.msg_type === packet_enum.init) {
@@ -1269,7 +1270,7 @@
                         for (let j = 0; j < $scope.saleInfoAll.length; j++) {
                             if ($scope.saleInfoAll[j].SALE_NO === d.message.customer.sale_no && $scope.saleInfoAll[j].LOT_NO === d.message.customer.lot_no) {
                                 // 낙찰가
-                                $scope.saleInfoAll[j].CUR_COST = "낙찰가 KRW " + d.message.max_bid_cost.toLocaleString('ko-KR');
+                                // $scope.saleInfoAll[j].CUR_COST = "낙찰가 KRW " + d.message.max_bid_cost.toLocaleString('ko-KR');
                                 // 현재 랏정보
                                 $scope.CUR_LOT_NO = d.message.cur_lot_no;
                                 // 종료 여부
@@ -1445,6 +1446,17 @@
                 } else if (d.msg_type === packet_enum.notice) {
                     console.log(d.message.msg);
                     $scope.notice = d.message.msg;
+                    $scope.$apply();
+                } else if (d.msg_type === packet_enum.office_winner) {
+                    if (d.message != null) {
+                        for (let j = 0; j < $scope.saleInfoAll.length; j++) {
+                            if ($scope.saleInfoAll[j].SALE_NO === d.message.customer.sale_no && $scope.saleInfoAll[j].LOT_NO === d.message.customer.lot_no) {
+                                // 낙찰가
+                                $scope.saleInfoAll[j].CUR_COST = "낙찰가 KRW " + d.message.max_bid_cost.toLocaleString('ko-KR');
+                                break
+                            }
+                        }
+                    }
                     $scope.$apply();
                 }
             }
