@@ -94,6 +94,90 @@ $(function() {
             });
     }
 
+
+    /* pc 다크모드 */
+    $('.darkmodeBg').click(function () {
+
+        $('*').toggleClass('dark');
+
+        $('.auctionTab-btn').click(function () {
+            const darkIngTab = $(this).index();
+            $('.auctionTab-btn').removeClass('dark');
+            $('.auctionTab-contents').removeClass('dark');
+
+            $(this).addClass('dark');
+            $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
+        });
+
+        $('.darktxt').text('다크모드로 보기');
+        $('.darktxt.dark').text('라이트모드로 보기');
+        $('.darktxt-en').text('Dark Mode');
+        $('.darktxt-en.dark').text('Light Mode');
+
+        const theme = localStorage.getItem('theme');
+        if (theme) {
+            localStorage.removeItem('theme');
+        } else {
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+
+    /* mobile 다크모드 */
+    $('.modebox').click(function () {
+        console.log(53455345);
+        if ($('.mode-toggle>input').is(":checked")) {
+            console.log(3424);
+            $('*').addClass('dark');
+        } else {
+            console.log(75467454);
+            $('*').removeClass('dark');
+        }
+
+        const theme = localStorage.getItem('theme');
+        if (theme) {
+            localStorage.removeItem('theme');
+        } else {
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+
+    /* 다크모드 새로고침 시 */
+    window.addEventListener('DOMContentLoaded', () => {
+        // console.log("theme ", localStorage.getItem('theme'));
+
+        $('*').toggleClass(localStorage.getItem('theme'));
+
+        $('.auctionTab-btn').click(function () {
+            const darkIngTab = $(this).index();
+            $('.auctionTab-btn').removeClass('dark');
+            $('.auctionTab-contents').removeClass('dark');
+
+            $(this).addClass('dark');
+            $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
+        });
+
+        $('.darktxt').text('다크모드로 보기');
+        $('.darktxt.dark').text('라이트모드로 보기');
+        $('.darktxt-en').text('Dark Mode');
+        $('.darktxt-en.dark').text('Ligth Mode');
+
+        $('.mode-toggle>input').addClass(localStorage.getItem('theme'));
+    });
+
+    /* 다크모드 버튼 hover */
+    $('.darkmodeBg').hover(function () {
+        $('.darkmode').toggleClass('active');
+    }, function () {
+        $('.darkmode').toggleClass('active');
+    });
+    $('.darkmodeBg.dark').hover(function () {
+        $('.darkmode.dark').toggleClass('active');
+    }, function () {
+        $('.darkmode.dark').toggleClass('active');
+    });
+
+
+
     /* 띠배너 */
     $('.beltclose-btn').click(function () {
         $('.header_beltbox').stop().slideUp(400);
@@ -356,7 +440,7 @@ $(function() {
     if (!lang || lang === 'ko') {
         $("#mb_common_lang").append('<a href=' + $(location).attr('pathname')  +'?lang=en>ENG</a>');
     } else if ( lang === 'en'){
-        $("#mb_common_lang").append('<a href=' + $(location).attr('pathname')  +'?lang=ko>KO</a>');
+        $("#mb_common_lang").append('<a href=' + $(location).attr('pathname')  +'?lang=ko>KOR</a>');
     }
 });
 
@@ -1015,6 +1099,74 @@ $(window).resize(function(){
         $('.topsearch>input').attr('placeholder','검색을 입력하세요');
         $('.topsearch-en>input').attr('placeholder','Search');
     };
+
+    /* pc 다크모드 */
+    $('.darkmodeBg').click(function (){
+
+        $('*').toggleClass('dark');
+
+        $('.auctionTab-btn').click(function () {
+            const darkIngTab = $(this).index();
+            $('.auctionTab-btn').removeClass('dark');
+            $('.auctionTab-contents').removeClass('dark');
+
+            $(this).addClass('dark');
+            $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
+        });
+
+        $('.darktxt').text('다크모드로 보기');
+        $('.darktxt.dark').text('라이트모드로 보기');
+        $('.darktxt-en').text('Dark Mode');
+        $('.darktxt-en.dark').text('Light Mode');
+
+        const theme = localStorage.getItem('theme');
+        if (theme) {
+            localStorage.removeItem('theme');
+        } else {
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+
+    /* mobile 다크모드 */
+    $('.modebox').click(function () {
+        if ($('.mode-toggle>input').is(":checked")) {
+            $('*').addClass('dark');
+        } else {
+            $('*').removeClass('dark');
+        }
+
+        const theme = localStorage.getItem('theme');
+        if (theme) {
+            localStorage.removeItem('theme');
+        } else {
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+
+    /* 다크모드 새로고침 시 */
+    window.addEventListener('DOMContentLoaded', () => {
+        // console.log("theme ", localStorage.getItem('theme'));
+
+        $('*').toggleClass(localStorage.getItem('theme'));
+
+        $('.auctionTab-btn').click(function () {
+            const darkIngTab = $(this).index();
+            $('.auctionTab-btn').removeClass('dark');
+            $('.auctionTab-contents').removeClass('dark');
+
+            $(this).addClass('dark');
+            $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
+        });
+
+        $('.darktxt').text('다크모드로 보기');
+        $('.darktxt.dark').text('라이트모드로 보기');
+        $('.darktxt-en').text('Dark Mode');
+        $('.darktxt-en.dark').text('Ligth Mode');
+
+        $('.mode-toggle>input').addClass(localStorage.getItem('theme'));
+    });
+
+
 });
 
 /* 새로고침 */
