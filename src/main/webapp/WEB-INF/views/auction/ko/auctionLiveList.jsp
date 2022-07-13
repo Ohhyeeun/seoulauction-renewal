@@ -246,6 +246,7 @@
                                                                     <div class="size_year">
                                                                         <span ng-bind="item | size_text_cm"></span>
                                                                         <span ng-bind="item.MAKE_YEAR_JSON.ko" ng-show="item.MAKE_YEAR_JSON.ko !== undefined"></span>
+                                                                        <span ng-show="item.MAKE_YEAR_JSON.ko == undefined">&nbsp;</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -780,6 +781,9 @@
                             $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW.toLocaleString('ko-KR');
                             $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW.toLocaleString('ko-KR');
 
+
+                            $scope.saleInfoAll[i].EXPE_PRICE_INQ_YN = $scope.saleInfoAll[i].EXPE_PRICE_INQ_YN === undefined ? 'N' : $scope.saleInfoAll[i].EXPE_PRICE_INQ_YN;
+
                             $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = numberWithCommas($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW);
                             $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW = numberWithCommas($scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW);
                             $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.USD = numberWithCommas($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.USD);
@@ -787,8 +791,6 @@
                             $scope.saleInfoAll[i].MAX_BID_PRICE = numberWithCommas(parseInt($scope.saleInfoAll[i].MAX_BID_PRICE));
 
                             let expr_date = new Date($scope.saleInfoAll[i].LOT_EXPIRE_DATE).format('yyyy-MM-dd 00:00:00');
-
-                            console.log(expr_date, new Date().format('yyyy-MM-dd HH:mm:ss'))
 
                             if (expr_date <= new Date().format('yyyy-MM-dd HH:mm:ss')) {
                                 $scope.showBtn = 2
