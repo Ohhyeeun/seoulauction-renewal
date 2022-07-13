@@ -252,7 +252,6 @@
                                                             <div class="price-box">
                                                                 <dl class="price-list">
                                                                     <dt>추정가</dt>
-
                                                                     <div ng-switch on="item.EXPE_PRICE_INQ_YN">
                                                                         <div ng-switch-when="Y">
                                                                             <dd>별도 문의</dd>
@@ -267,12 +266,22 @@
                                                                     </div>
 
                                                                 </dl>
+                                                                <dl class="price-list"  ng-show="showBtn === 2">
+                                                                    <dt>낙찰가</dt>
+                                                                    <div ng-show="item.MAX_BID_PRICE">
+                                                                        <div>
+                                                                            <dd ng-bind="'KRW ' + (item.MAX_BID_PRICE | currency)"></dd>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </dl>
                                                             </div>
-                                                            <div id="biding_req" class="bidding-box col_2" ng-show="showBtn">
+                                                            <div id="biding_req" class="bidding-box col_2" ng-show="showBtn === 1">
                                                                 <div class="deadline_set"><span>신청마감 {{ item.LOT_EXPIRE_DATE | date_format }}</span></div>
                                                                 <div class="btn_set"><a class="btn btn_point" href="" ng-click="moveToBidding(item)"
                                                                                         role="button"><span>서면/전화 응찰 신청</span></a></div>
                                                             </div>
+                                                            <!-- MAX_BID_PRICE -->
                                                         </div>
                                                     </div>
 
@@ -775,10 +784,18 @@
                             $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW = numberWithCommas($scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW);
                             $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.USD = numberWithCommas($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.USD);
                             $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.USD = numberWithCommas($scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.USD);
+                            $scope.saleInfoAll[i].MAX_BID_PRICE = numberWithCommas(parseInt($scope.saleInfoAll[i].MAX_BID_PRICE));
 
+                            let expr_date = new Date($scope.saleInfoAll[i].LOT_EXPIRE_DATE).format('yyyy-MM-dd 00:00:00');
+
+                            console.log(expr_date, new Date().format('yyyy-MM-dd HH:mm:ss'))
+
+                            if (expr_date <= new Date().format('yyyy-MM-dd HH:mm:ss')) {
+                                $scope.showBtn = 2
+                            } else {
+                                $scope.showBtn = 1
+                            }
                         }
-
-
                     }
                     $scope.saleInfo = $scope.saleInfoAll.slice(0, $scope.itemsize);
 
@@ -849,6 +866,7 @@
             /*################ 웹소켓 #################*/
             let promise;
             let con_try_cnt;
+            let is_end_bid = false;
             // connect 정보
             $scope.connectInfo = {};
             // 웹소켓
@@ -887,14 +905,21 @@
                     return
                 }
 
+                if (custNo === undefined) {
+                    custNo = 0;
+                }
+                if (userId === undefined) {
+                    userId = "";
+                }
+
                 if (window.location.protocol !== "https:") {
                     w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws?sale_no=" +
-                        $scope.sale_no + "&lot_no=0&cust_no=" + $scope.cust_no +
-                        "&user_id=" + $scope.user_id + "&paddle=0&sale_type=1&bid_type=11");
+                        $scope.sale_no + "&lot_no=0&cust_no=" + custNo +
+                        "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
                 } else {
                     w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws?sale_no=" +
-                        $scope.sale_no + "&lot_no=0&cust_no=" + $scope.cust_no +
-                        "&user_id=" + $scope.user_id + "&paddle=0&sale_type=1&bid_type=11");
+                        $scope.sale_no + "&lot_no=0&cust_no=" + custNo +
+                        "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
                 }
                 w.onopen = function () {
                     console.log("open");
@@ -929,11 +954,10 @@
                     // 현재 토큰정보
                     $scope.token = d.message.token;
                 } else if (d.msg_type === packet_enum.time_sync) {
-                    $scope.showBtn = false;
                     if ($scope.saleInfoAll.length > 0) {
                         let expr_date = new Date($scope.saleInfoAll[0].LOT_EXPIRE_DATE).format('yyyy-MM-dd 00:00:00');
                         if (expr_date >= (new Date(d.message.tick_value).format('yyyy-MM-dd HH:mm:ss'))) {
-                            $scope.showBtn = true;
+                            $scope.showBtn = 1;
                         }
                     }
                     $scope.$apply();
@@ -942,7 +966,8 @@
                         for (let j = 0; j < $scope.saleInfoAll.length; j++) {
                             if ($scope.saleInfoAll[j].SALE_NO === d.message.customer.sale_no && $scope.saleInfoAll[j].LOT_NO === d.message.customer.lot_no) {
                                 // 낙찰가
-                                $scope.saleInfoAll[j].CUR_COST = "낙찰가 KRW " + d.message.max_bid_cost.toLocaleString('ko-KR');
+                                $scope.saleInfoAll[j].MAX_BID_PRICE = "낙찰가 KRW " + d.message.max_bid_cost.toLocaleString('ko-KR');
+                                $scope.showBtn = 2;
                                 break
                             }
                         }

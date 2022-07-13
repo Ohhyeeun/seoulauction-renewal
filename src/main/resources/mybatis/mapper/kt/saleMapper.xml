@@ -685,7 +685,8 @@
                A.SALE_KIND_CD,
                H.CD_ID CATE_CD_ID,
                H.CD_NM CATE_CD_NM,
-               H.CD_NM_EN CATE_CD_NM_EN
+               H.CD_NM_EN CATE_CD_NM_EN,
+               (SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = B.SALE_NO AND LOT_NO = B.LOT_NO) MAX_BID_PRICE
         from SALE A
                  INNER JOIN LOT B ON A.SALE_NO = B.SALE_NO
                  LEFT OUTER JOIN LOT_IMG C ON B.SALE_NO = C.SALE_NO AND B.LOT_NO = C.LOT_NO AND C.DISP_ORD = 1
