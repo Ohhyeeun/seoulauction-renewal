@@ -91,7 +91,7 @@
                 and start_at + interval 9 hour <= (now() + interval 9 hour)
                 and end_at + interval 9 hour >= (now() + interval 9 hour)
             ORDER BY
-                sort DESC
+                start_at DESC
             LIMIT
                 1
         ]]>
