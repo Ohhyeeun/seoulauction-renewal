@@ -48,4 +48,8 @@ public interface SaleMapper {
     void insertBid(CommonMap commonMap);
     void insertAutoBid(CommonMap commonMap);
     CommonMap selectCustCheckRequired(CommonMap commonMap);
+
+    void insertOfflineBid(CommonMap map);
+
+    CommonMap selectMaxBid(CommonMap commonMap);
 }

@@ -162,7 +162,7 @@
                                             ng-bind="curLot.LOT_NO"></span></strong></span>
                                 <!-- 자세히보기 버튼 구성 -->
 									<span class="btn_style01 green02" style="margin-left:10px;">
-										<a ng-href="{{'http://re-dev.seoulauction.com/auction/online/view/' +
+										<a ng-href="{{'http://re-dev.seoulauction.com/auction/live/view/' +
 										 curLot.SALE_NO + '/' + curLot.LOT_NO}}"
                                            target="new">
 										<span ng-if="locale == 'ko'">자세히 보기</span><span
@@ -634,12 +634,12 @@
 
             if (window.location.protocol !== "https:") {
                 w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws?sale_no=" +
-                    $scope.sale_no + "&lot_no=" + $scope.lot_no + "&cust_no=" + $scope.cust_no +
-                    "&user_id=" + $scope.user_id + "&paddle=0&sale_type=1&bid_type=11");
+                    saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
+                    "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
             } else {
                 w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws?sale_no=" +
-                    $scope.sale_no + "&lot_no=" + $scope.lot_no + "&cust_no=" + $scope.cust_no +
-                    "&user_id=" + $scope.user_id + "&paddle=0&sale_type=1&bid_type=11");
+                    saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
+                    "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
             }
             w.onopen = function () {
                 console.log("open");

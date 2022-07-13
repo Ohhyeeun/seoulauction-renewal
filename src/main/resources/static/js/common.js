@@ -1,6 +1,8 @@
 $(function() {
 
     const locale = document.documentElement.lang;
+
+
     const sleep = (ms) => new Promise(resolve => {
         setTimeout(resolve, ms)
     });
@@ -92,50 +94,6 @@ $(function() {
             });
     }
 
-
-    /* pc 다크모드 */
-    $('.darkmodeBg').click(function () {
-
-        $('*').toggleClass('dark');
-
-        $('.auctionTab-btn').click(function () {
-            const darkIngTab = $(this).index();
-            $('.auctionTab-btn').removeClass('dark');
-            $('.auctionTab-contents').removeClass('dark');
-
-            $(this).addClass('dark');
-            $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
-        });
-
-        $('.darktxt').text('다크모드로 보기');
-        $('.darktxt.dark').text('라이트모드로 보기');
-        $('.darktxt-en').text('Dark Mode');
-        $('.darktxt-en.dark').text('Ligth Mode');
-
-        const theme = localStorage.getItem('theme');
-        if (theme) {
-            localStorage.removeItem('theme');
-        } else {
-            localStorage.setItem('theme', 'dark');
-        }
-    });
-
-    /* mobile 다크모드 */
-    $('.modebox').click(function () {
-        if ($('.mode-toggle>input').is(":checked")) {
-            $('*').addClass('dark');
-        } else {
-            $('*').removeClass('dark');
-        }
-
-        const theme = localStorage.getItem('theme');
-        if (theme) {
-            localStorage.removeItem('theme');
-        } else {
-            localStorage.setItem('theme', 'dark');
-        }
-    });
-
     /* 띠배너 */
     $('.beltclose-btn').click(function () {
         $('.header_beltbox').stop().slideUp(400);
@@ -194,20 +152,6 @@ $(function() {
         // $('.header_beltbox.on').show(function(){
         //     $('.main-contents').css('margin-top','162px');
         // });
-
-        /* 다크모드 버튼 */ 
-        $('.darkmodeBg').hover(function () {
-            console.log(23432432);
-            $('.darkmode').toggleClass('active');
-        }, function () {
-            $('.darkmode').toggleClass('active');
-        });
-        $('.darkmodeBg.dark').hover(function () {
-            $('.darkmode.dark').toggleClass('active');
-        }, function () {
-            $('.darkmode.dark').toggleClass('active');
-        });
-
     } else { /* 테블릿 */
 
         $('.header_gnbmenu>li>a').mouseenter(false);
@@ -1113,4 +1057,8 @@ function nativeToggleMenu(state) {
         document.querySelector('.gnb_submenuBg.scroll_none')?.classList.remove('on');
         document.querySelector('.submenuBg')?.classList.remove('on');
     }
+}
+//오브젝트 or 배열 비었는지 확인
+function isNotObjectEmpty(param) {
+    return Object.keys(param).length !== 0 && param.constructor === Object;
 }

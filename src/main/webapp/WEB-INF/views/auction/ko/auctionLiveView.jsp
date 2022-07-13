@@ -30,7 +30,7 @@
                                                     <a href="#" onclick="window.history.back()" title="뒤로가기">
                                                         <i class="icon-page_back"></i>
                                                     </a>
-                                                    <span ng-bind="saleInfo.SALE_TITLE_KO"></span>
+<%--                                                    <span ng-bind="saleInfo.SALE_TITLE_KO"></span>--%>
                                                 </div>
                                             </div>
                                             <div class="col_item">
@@ -257,17 +257,57 @@
                                         <div class="info-box">
                                             <div class="title">작품정보</div>
                                             <div class="desc">
-                                                <span ng-bind="lotInfo.MATE_NM_EN"></span> <br/>
+                                                <span ng-bind="lotInfo.MATE_NM_EN"></span>
+                                                <br/>
+
+                                                <%--재질 규격--%>
                                                 <span ng-repeat="size in lotInfo.LOT_SIZE_JSON">
                                                         <span ng-bind="size | size_text_cm"></span>
-                                                </span><br/>
-                                                <span bind-html-compile="lotInfo.SIGN_INFO_JSON.ko"></span>
+                                                </span>
+
+                                                <%--년도--%>
+                                                <span ng-show="isNotObjectEmpty(lotInfo.MAKE_YEAR_JSON)"> ( {{lotInfo.MAKE_YEAR_JSON | locale_format }} ) </span>
+
+                                                <%--에디션--%>
+                                                <div ng-show="lotInfo.EDITION">
+                                                    <br/>
+                                                    <span> {{lotInfo.EDITION}} </span>
+                                                </div>
+
+                                                <%--서명 값--%>
+                                                <br/>
+                                                <span> {{lotInfo.SIGN_INFO_JSON | locale_format }}</span>
                                             </div>
                                         </div>
-                                        <div class="info-box">
+
+                                        <%--작품 설명--%>
+                                        <div ng-show="isNotObjectEmpty(lotInfo.CMMT_JSON)" class="info-box">
+                                            <div class="title">작품 설명</div>
+                                            <div class="desc">{{lotInfo.CMMT_JSON | locale_format }}</div>
+                                        </div>
+
+                                        <%--Condition Report--%>
+                                        <div ng-show="isNotObjectEmpty(lotInfo.COND_RPT_JSON)" class="info-box">
                                             <div class="title">Condition Report</div>
-                                            <div class="desc" ng-bind="lotInfo.COND_RPT_JSON.ko">
-                                            </div>
+                                            <div class="desc">{{lotInfo.COND_RPT_JSON | locale_format }}</div>
+                                        </div>
+
+                                        <%--LITERATURE--%>
+                                        <div ng-show="isNotObjectEmpty(lotInfo.LITE_INFO_JSON)" class="info-box">
+                                            <div class="title">LITERATURE</div>
+                                            <div class="desc">{{lotInfo.LITE_INFO_JSON | locale_format }}</div>
+                                        </div>
+
+                                        <%--EXHIBITED--%>
+                                        <div ng-show="isNotObjectEmpty(lotInfo.EXHI_INFO_JSON)" class="info-box">
+                                            <div class="title">EXHIBITED</div>
+                                            <div class="desc">{{lotInfo.EXHI_INFO_JSON | locale_format }}</div>
+                                        </div>
+
+                                        <%--PROVENANCE--%>
+                                        <div ng-show="isNotObjectEmpty(lotInfo.PROV_INFO_JSON)" class="info-box">
+                                            <div class="title">PROVENANCE</div>
+                                            <div class="desc">{{lotInfo.PROV_INFO_JSON | locale_format }}</div>
                                         </div>
 
                                         <div class="info-box">
@@ -639,6 +679,7 @@
 <script>
     document.cookie = "crossCookie=bar; SameSite=None; Secure";
 
+
     /* 섬네일 활성화 */
     function view_thumnailActive($index) {
         $(".js-view_thumnail .slide").removeClass("active");
@@ -722,7 +763,19 @@
             }
             return (val === '')?'':new Date(val).format('MM/dd(E) 00:00');
         };
-    })
+    });
+
+    const locale = document.documentElement.lang;
+
+    app.filter('locale_format', function(){
+        return function(val) {
+            if (val === undefined) {
+                return '';
+            }
+            return locale === 'ko' ? val.ko : val.en;
+        };
+    });
+
 
     app.controller('ctl', function ($scope, consts, common, is_login, locale) {
 
@@ -807,6 +860,15 @@
             } catch (error) {
                 console.error(error);
             }
+        }
+
+        //오브젝트 or 배열 비었는지 확인
+        $scope.isNotObjectEmpty = function (param) {
+
+            if(param === undefined){
+                return false;
+            }
+            return param.constructor === Object && Object.keys(param).length !== 0;
         }
 
         $scope.goLot = function (saleNo, lotNo) {
@@ -914,6 +976,9 @@
                 $scope.lotInfo.EXPE_PRICE_TO_JSON.KRW = numberWithCommas($scope.lotInfo.EXPE_PRICE_TO_JSON.KRW);
                 $scope.lotInfo.EXPE_PRICE_FROM_JSON.USD = numberWithCommas($scope.lotInfo.EXPE_PRICE_FROM_JSON.USD);
                 $scope.lotInfo.EXPE_PRICE_TO_JSON.USD = numberWithCommas($scope.lotInfo.EXPE_PRICE_TO_JSON.USD);
+
+
+                console.log($scope.lotInfo);
 
                 $scope.recentlyViews = r6.data.data;
 

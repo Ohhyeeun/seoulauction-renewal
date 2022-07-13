@@ -8,29 +8,29 @@
 <jsp:include page="../../include/ko/header.jsp" flush="false">
     <jsp:param name="main" value="true"/>
 </jsp:include>
-<script>
-window.addEventListener('DOMContentLoaded', () => {
-    // console.log("theme ", localStorage.getItem('theme'));
+<%--<script>--%>
+<%--window.addEventListener('DOMContentLoaded', () => {--%>
+<%--    // console.log("theme ", localStorage.getItem('theme'));--%>
 
-    $('*').toggleClass(localStorage.getItem('theme'));
+<%--    $('*').toggleClass(localStorage.getItem('theme'));--%>
 
-    $('.auctionTab-btn').click(function () {
-        const darkIngTab = $(this).index();
-        $('.auctionTab-btn').removeClass('dark');
-        $('.auctionTab-contents').removeClass('dark');
+<%--    $('.auctionTab-btn').click(function () {--%>
+<%--        const darkIngTab = $(this).index();--%>
+<%--        $('.auctionTab-btn').removeClass('dark');--%>
+<%--        $('.auctionTab-contents').removeClass('dark');--%>
 
-        $(this).addClass('dark');
-        $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
-    });
+<%--        $(this).addClass('dark');--%>
+<%--        $(".auctionTab-contents").eq(darkIngTab).addClass('dark');--%>
+<%--    });--%>
 
-    $('.darktxt').text('다크모드로 보기');
-    $('.darktxt.dark').text('라이트모드로 보기');
-    $('.darktxt-en').text('Dark Mode');
-    $('.darktxt-en.dark').text('Ligth Mode');
+<%--    $('.darktxt').text('다크모드로 보기');--%>
+<%--    $('.darktxt.dark').text('라이트모드로 보기');--%>
+<%--    $('.darktxt-en').text('Dark Mode');--%>
+<%--    $('.darktxt-en.dark').text('Ligth Mode');--%>
 
-    $('.mode-toggle>input').addClass(localStorage.getItem('theme'));
-});
-</script>
+<%--    $('.mode-toggle>input').addClass(localStorage.getItem('theme'));--%>
+<%--});--%>
+<%--</script>--%>
 <body>
 <%--<jsp:include page="../../main/include/topNotice.jsp" />--%>
 <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
@@ -42,7 +42,7 @@ window.addEventListener('DOMContentLoaded', () => {
         <section class="container wrap_padding">
             <section class="auction-contents">
                 <div class="auction-tit">
-                    <h1 class="main-sectiontit">Auction</h1>
+                    <h1 class="main-sectiontit main-sectiontit-auction">Auction</h1>
                     <div class="auctiontab-scroll">
                         <div class="auctionTab"> <!-- 최대 5개 까지 --></div>
                     </div>

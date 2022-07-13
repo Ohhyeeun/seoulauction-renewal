@@ -37,7 +37,7 @@
         </header>
         <!-- //header -->
         <!-- container -->
-        <div id="container" ng-controller="ctl" data-ng-init="load();">
+        <div id="container" ng-controller="ctl" data-ng-init="load();" ng-cloak>
             <div id="contents" class="contents">
                 <section class="basis-section last-section bidding_offline-section">
                     <div class="section-inner">
@@ -49,9 +49,10 @@
                             </div>
                             <div class="btn-area">
                                 <div class="select-box pc-ver">
-                                    <select class="" id="" onchange="selectCurrency()">
-                                        <option value="1">KRW</option>
-                                        <option value="2">USD</option>
+                                    <select class="" id="currency_type" ng-model="currencyType" ng-change="selectCurrency()">
+                                        <option ng-repeat="item in currencyTypes" value="{{item.value}}">
+                                            {{item.name}}
+                                        </option>
                                     </select>
                                     <i class="form-bidding_select_arrow"></i>
                                 </div>
@@ -109,7 +110,9 @@
                                                                                 ng-bind="item.LOT_TITLE_JSON.ko"></span>
                                                                         </div>
                                                                         <div class="price">
-                                                                            <span class=""
+                                                                            <span ng-show="item.IS_END_BID === false" class=""
+                                                                                  ng-bind="'KRW ' + item.EXPE_PRICE_FROM_JSON.KRW + '~' + item.EXPE_PRICE_TO_JSON.KRW"></span>
+                                                                            <span ng-show="item.IS_END_BID === true" style="color:#ff0000;"
                                                                                   ng-bind="item.CUR_COST"></span>
                                                                         </div>
                                                                     </div>
@@ -159,7 +162,7 @@
                                             </div>
                                         </div>
                                         <div class="my_lot">
-                                            <div class="my_lot_info">
+                                            <div class="my_lot_info" ng-show="paddNo > 0">
                                                 <div class="lotlist-tabmenu">
                                                     <div class="btn_item">
                                                         <a href="javascript:void(0);"
@@ -178,7 +181,7 @@
                                                                                                        ng-bind="paddNo"></span>
                                                 </p>
                                             </div>
-                                            <div class="my_lot_wrap">
+                                            <div class="my_lot_wrap" ng-show="paddNo > 0">
                                                 <div ng-if="selectUserTab === 1" ng-class="{'my_lot_type1':''===''}">
                                                     <a href="#" ng-click="moveCurrent()" class="lot_link"> 현재 LOT
                                                         이동 </a>
@@ -261,6 +264,24 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="my_lot_wrap" ng-show="paddNo<=0">
+
+                                                <div class="my_lot_type3">
+                                                    <p class="title">
+                                                        라이브 경매 응찰은 <span>정회원부터 가능</span>합니다.
+                                                    </p>
+                                                    <p class="txt">
+                                                        정회원은 유료로 운영되며 서울옥션이 발행하는 <br>
+                                                        간행물(각종 도록, 전시 안내 등)을 받으실 수 있습니다.
+                                                    </p>
+                                                    <div class="member_price">
+                                                        <!-- [0613]삭제
+                          <p class="p_txt">정회원 연회비 : 라이브 경매 응찰은 사전 신청한 정회원만 가능합니다.</p>
+                          // -->
+                                                        <!-- <a href="#" class="btn btn_member">정회원 결제</a> -->
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </article>
                                     <article class="bidding-offline-right">
@@ -289,10 +310,14 @@
                                                     </div>
                                                     <div class="typo-body">
                                                         <div class="price_won">
-                                                            <span>KRW {{curLot.EXPE_PRICE_FROM_JSON.KRW}} ~ {{curLot.EXPE_PRICE_TO_JSON.KRW}}</span>
+                                                            <span ng-show="curLot.EXPE_PRICE_FROM_JSON.KRW != undefined && selectedCurrencyType === 'KRW'">KRW {{curLot.EXPE_PRICE_FROM_JSON.KRW}} ~ {{curLot.EXPE_PRICE_TO_JSON.KRW}}</span>
+                                                            <span ng-show="curLot.EXPE_PRICE_FROM_JSON.USD != undefined && selectedCurrencyType === 'USD'">USD {{curLot.EXPE_PRICE_FROM_JSON.USD | currency}} ~ {{curLot.EXPE_PRICE_TO_JSON.USD | currency}}</span>
+                                                            <span ng-show="curLot.EXPE_PRICE_FROM_JSON.HKD != undefined && selectedCurrencyType === 'HKD'">HKD {{curLot.EXPE_PRICE_FROM_JSON.HKD}} ~ {{curLot.EXPE_PRICE_TO_JSON.HKD}}</span>
+                                                            <span ng-show="curLot.EXPE_PRICE_FROM_JSON.JPY != undefined && selectedCurrencyType === 'JPY'">JPY {{curLot.EXPE_PRICE_FROM_JSON.JPY | currency}} ~ {{curLot.EXPE_PRICE_TO_JSON.JPY | currency}}</span>
+                                                            <span ng-show="curLot.EXPE_PRICE_FROM_JSON.EUR != undefined && selectedCurrencyType === 'EUR'">EUR {{curLot.EXPE_PRICE_FROM_JSON.EUR | currency}} ~ {{curLot.EXPE_PRICE_TO_JSON.EUR | currency}}</span>
                                                         </div>
-                                                        <div class="price_other">
-                                                            <span>(USD {{curLot.EXPE_PRICE_FROM_JSON.en}})</span></div>
+                                                        <!--div class="price_other">
+                                                            <span>(USD {{curLot.EXPE_PRICE_FROM_JSON.en}})</span></div-->
                                                     </div>
                                                 </figcaption>
                                             </div>
@@ -302,7 +327,7 @@
                                                     <p class="price_unit1" ng-bind="curLot.bid_cost"></p>
                                                     <p class="price_unit2"></p>
                                                 </div>
-                                                <div class="bid_price">
+                                                <div class="bid_price" ng-show="paddNo > 0">
                                                     <!-- [0603]버튼수정 : 로그인버튼 없앰 -->
                                                     <button class="btn_bid" ng-click="bid();">
                                                         <p class="txt">응찰하기</p>
@@ -310,6 +335,11 @@
                                                         <p class="price_unit2"></p>
                                                     </button>
                                                     <!-- //[0603]버튼수정 : 로그인버튼 없앰 -->
+                                                </div>
+                                                <div class="bid_price view_only" ng-show="paddNo <== 0">
+                                                    <button class="btn_bid" disabled="">
+                                                        <p class="txt">VIEW ONLY</p>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </figure>
@@ -372,10 +402,10 @@
                                                     <div class="type1_info_box">
                                                         <div>
                                                             <div class="select-box">
-                                                                <select class="js-money_help" id="" onchange="selectCurrency()">
-                                                                    <option value="1">USD</option>
-                                                                    <option value="2">USD2</option>
-                                                                    <option value="3">USD3</option>
+                                                                <select class="" id="currency_type2" ng-model="currencyType" ng-change="selectCurrency()">
+                                                                    <option ng-repeat="item in currencyTypes" value="{{item.value}}">
+                                                                        {{item.name}}
+                                                                    </option>
                                                                 </select>
                                                                 <i class="form-bidding_select_arrow"></i>
                                                             </div>
@@ -385,8 +415,13 @@
                                                             <div class="title"><span ng-bind="curLot.ARTIST_NAME_JSON.ko"></span></div>
                                                             <!-- // [0516]년도수정  -->
                                                             <div class="desc"><span ng-bind="curLot.LOT_TITLE_JSON.ko"></span></div>
-                                                            <div class="price"><span>KRW {{curLot.EXPE_PRICE_FROM_JSON.KRW}} ~ {{curLot.EXPE_PRICE_TO_JSON.KRW}}</span></div>
-                                                            <div class="price_other"><span>(USD {{curLot.EXPE_PRICE_FROM_JSON.en}})</span></div>
+                                                            <div class="price">
+                                                                <span ng-show="curLot.EXPE_PRICE_FROM_JSON.KRW != undefined && selectedCurrencyType === 'KRW'">KRW {{curLot.EXPE_PRICE_FROM_JSON.KRW}} ~ {{curLot.EXPE_PRICE_TO_JSON.KRW}}</span>
+                                                                <span ng-show="curLot.EXPE_PRICE_FROM_JSON.USD != undefined && selectedCurrencyType === 'USD'">USD {{curLot.EXPE_PRICE_FROM_JSON.USD | currency}} ~ {{curLot.EXPE_PRICE_TO_JSON.USD | currency}}</span>
+                                                                <span ng-show="curLot.EXPE_PRICE_FROM_JSON.HKD != undefined && selectedCurrencyType === 'HKD'">HKD {{curLot.EXPE_PRICE_FROM_JSON.HKD}} ~ {{curLot.EXPE_PRICE_TO_JSON.HKD}}</span>
+                                                                <span ng-show="curLot.EXPE_PRICE_FROM_JSON.JPY != undefined && selectedCurrencyType === 'JPY'">JPY {{curLot.EXPE_PRICE_FROM_JSON.JPY | currency}} ~ {{curLot.EXPE_PRICE_TO_JSON.JPY | currency}}</span>
+                                                                <span ng-show="curLot.EXPE_PRICE_FROM_JSON.EUR != undefined && selectedCurrencyType === 'EUR'">EUR {{curLot.EXPE_PRICE_FROM_JSON.EUR | currency}} ~ {{curLot.EXPE_PRICE_TO_JSON.EUR | currency}}</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -400,7 +435,7 @@
                                                     <p class="price_unit1" ng-bind="curLot.bid_cost"></p>
                                                     <p class="price_unit2"></p>
                                                 </div>
-                                                <div class="bid_price">
+                                                <div class="bid_price" ng-show="paddNo > 0">
                                                     <button class="btn_bid">
                                                         <p class="txt">응찰하기</p>
                                                         <p class="price_unit1" ng-bind="curLot.bid_new_cost"></p>
@@ -409,21 +444,21 @@
                                                     </button>
                                                 </div>
                                                 <!-- 준회원 일 시 -->
-                                                <div class="bid_price view_only" style="display: none;">
+                                                <div class="bid_price view_only"  ng-show="paddNo <= 0">
                                                     <button class="btn_bid" disabled>
                                                         <p class="txt">VIEW ONLY</p>
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="bidding_situation">
+                                        <div class="bidding_situation"  ng-show="paddNo > 0">
                                             <div class="alert_wrap">
                                                 <p class="situ_alert" ng-bind="notice.msg"></p>
                                             </div>
                                             <div class="mobile_scroll-type">
                                                 <ul class="situation_list">
                                                     <li class="st_item" ng-repeat="item in bidHist">
-                                                        <p class="txt" ng-bind="item.customer.user_id"></p>
+                                                        <p class="txt" ng-bind="item.customer.user_id | floorUserCheck"></p>
                                                         <p class="price " ng-bind="item.bid_cost"></p>
                                                     </li>
                                                 </ul>
@@ -431,7 +466,7 @@
                                         </div>
 
                                         <div class="my_lot">
-                                            <div class="my_lot_info">
+                                            <div class="my_lot_info" ng-show="paddNo > 0">
                                                 <div class="lotlist-tabmenu">
                                                     <div class="btn_item">
                                                         <a href="javascript:void(0);"
@@ -449,7 +484,7 @@
                                             </div>
 
                                             <div class="my_lot_wrap">
-                                                <div class="my_lot_type1" style="display: none;">
+                                                <div class="my_lot_type1"  ng-show="paddNo > 0">
                                                     <a href="#" class="lot_link"> 현재 LOT 이동 </a>
                                                     <div class="view-img_wrap">
                                                         <div class="view-img">
@@ -484,7 +519,7 @@
                                                 </div>
 
                                                 <!-- 내 응찰내역 -->
-                                                <div class="my_lot_type2"> <!-- 임시주석 클래스 blind_none -->
+                                                <div class="my_lot_type2" ng-show="paddNo > 0"> <!-- 임시주석 클래스 blind_none -->
                                                     <div class="my_lot_header">
 
                                                         <table class="table_base my_lot_table">
@@ -531,7 +566,7 @@
                                                 </div> <!--// my_lot_type2 -->
 
                                                 <!-- 준회원 -->
-                                                <div class="my_lot_type3 blind_none"> <!-- 임시주석 클래스 blind_none -->
+                                                <div class="my_lot_type3" ng-show="paddNo <= 0"> <!-- 임시주석 클래스 blind_none -->
                                                     <p class="title">
                                                         라이브 경매 응찰은 <span>정회원부터 가능</span>합니다.
                                                     </p>
@@ -554,7 +589,7 @@
                         </div>
                         <div class="section-footer">
                             <div class="tac">
-                                <a class="btn btn_default " href="#" role="button"><span>닫기</span></a>
+                                <a class="btn btn_default " href="javascript:self.close();" role="button"><span>닫기</span></a>
                             </div>
                         </div>
 
@@ -571,6 +606,55 @@
             </div>
         </div>
         <!-- // stykey -->
+    </div>
+    <!-- 통화안내 -->
+    <div id="money_help-wrap" class="trp popupfixed-wrap auction_info-popup  ">
+        <div class="popup-dim"></div>
+        <div class="popup-align mode-ms mode-mb_center">
+            <div class="popup-vertical">
+                <div class="popup-layer">
+
+                    <div class="pop-panel">
+                        <div class="pop-header">
+                            <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+                        </div>
+                        <div class="pop-body scroll-type">
+                            <section class="section" style="display: block;">
+                                <article class="auction_info-article">
+                                    <div class="img">
+                                        <img class="only_ib-pc" src="/images/pc/auction/symbol-none_data.png" alt="안내" />
+                                        <img class="only_ib-mb" src="/images/pc/auction/symbol-none_data.png" alt="안내" />
+                                    </div>
+                                    <div class="title"><span>Seoul Auction 안내</span></div>
+                                    <div class="gray-box">
+                                        <ul class="mark_dot-list">
+                                            <!-- [0613]텍스트수정 -->
+                                            <li>원화(KRW) 이외의 통화는 해외 응찰자들의 참고를 위해 제공됩니다.</li>
+                                            <!-- //[0613]텍스트수정 -->
+                                            <li>모든 응찰 및 결제는 원화(KRW)로 이뤄집니다.</li>
+                                            <li>서울옥션은 환율 적용 과정에서 생기는 차이 및 실수에 대해서 책임을
+                                                부담하지 않습니다.</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="check-box">
+                                        <span class="trp checkbox-box">
+                                            <input id="checkbox_check" type="checkbox" name="">
+                                            <i></i>
+                                            <label for="checkbox_check">동의합니다.</label>
+                                        </span>
+                                    </div>
+                                    <div class="btn_set-float tac">
+                                        <button class="btn btn_point js-checkbox_check" onclick="confirmEnd()"><span>확인</span></button>
+                                    </div>
+                                </article>
+                            </section>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 
     <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
@@ -610,6 +694,15 @@
             $('.ic_video_play').hide();
         })
 
+        function Scope() {
+            var scope = angular.element(document.getElementById("container")).scope();
+            return scope;
+        }
+        function confirmEnd() {
+            $(".js-closepop").click();
+            Scope().selectedCurrencyType = Scope().currencyType;
+            Scope().$apply();
+        }
         /* 통화 전환 시 */
         function selectCurrency(){
             const Currency = document.getElementsByName('js-money_help');
@@ -695,6 +788,21 @@
             }
             $scope.userBids = [];
 
+            $scope.currencyTypes = [{
+                name: "KRW", value: "KRW"
+            }, {
+                name: "USD", value: "USD"
+            }, {
+                name: "HKD", value: "HKD"
+            }, {
+                name: "JPY", value: "JPY"
+            }, {
+                name: "EUR", value: "EUR"
+            },];
+
+            $scope.currencyType = "KRW";
+            $scope.selectedCurrencyType = "KRW";
+
             $scope.moveCurrent = function(){
                 $scope.userLot = $scope.curLot;
             }
@@ -733,8 +841,19 @@
                 func();
             }
 
+            $scope.selectCurrency = function (){
+                var money_help = $(".js-money_help").trpLayerFixedPopup("#money_help-wrap");
+                money_help.open(this);
+                popup_fixation("#money_help-wrap");
+                $("body").on("click", "#money_help-wrap .js-closepop, #money_help-wrap .popup-dim", function($e) {
+                    $e.preventDefault();
+                    money_help.close();
+                });
+                //$scope.$apply();
+            }
+
             $scope.goLot = function (saleNo, lotNo) {
-                window.location.href = '/auction/online/view/' + saleNo + '/' + lotNo;
+                window.location.href = '/auction/live/view/' + saleNo + '/' + lotNo;
             }
             $scope.favorite = function (item) {
                 checkLogin();
@@ -816,6 +935,7 @@
                         if ($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW != null) {
                             $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW.toLocaleString('ko-KR');
                             $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW.toLocaleString('ko-KR');
+                            $scope.saleInfoAll[i].IS_END_BID = false;
                         }
                     }
                     $scope.lotTags.unshift({
@@ -827,7 +947,7 @@
                     }
                     $scope.$apply();
                     // 웹소켓 수행
-                    $scope.bidstart('${member.loginId}', ${member.userNo});
+                    $scope.bidstart('${member.loginId}', ${member.userNo}, $scope.paddNo);
                 }
                 run();
             }
@@ -861,12 +981,12 @@
             let is_end_bid;
 
             // bidstart
-            $scope.bidstart = function (user_id, custNo) {
-                $scope.retry(parseInt($scope.saleNo), 0, 1, user_id, custNo);
+            $scope.bidstart = function (user_id, custNo, paddNo) {
+                $scope.retry(parseInt($scope.saleNo), 0, 1, user_id, custNo, paddNo);
             }
 
             // websocket connection retry
-            $scope.retry = function (saleNo, lotNo, saleType, userId, custNo) {
+            $scope.retry = function (saleNo, lotNo, saleType, userId, custNo, paddNo) {
                 window.clearTimeout($scope.websocketTimeout);
                 if (w != null) {
                     w = null;
@@ -879,12 +999,12 @@
                 if (window.location.protocol !== "https:") {
                     w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws?sale_no=" +
                         saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
-                        "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
+                        "&user_id=" + userId + "&paddle=" + paddNo + "&sale_type=1&bid_type=11");
                 } else {
                     w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws?sale_no=" +
                         saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
-                        "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
-                }
+                        "&user_id=" + userId + "&paddle=" + paddNo + "&sale_type=1&bid_type=11");
+                }""
                 w.onopen = function () {
                     console.log("open");
                 }
@@ -897,7 +1017,7 @@
                         if (!is_end_bid) {
                             $scope.con_try_cnt++;
                             $scope.websocketTimeout = window.setTimeout(function () {
-                                $scope.retry(saleNo, lotNo, saleType, userId, custNo);
+                                $scope.retry(saleNo, lotNo, saleType, userId, custNo, paddNo);
                             }, 1000);
                         }
                     }
@@ -950,6 +1070,7 @@
                     bid_change : 11,
                     bid_delete: 12,
                     notice: 13,
+                    office_winner:15,
                 }
                 let d = JSON.parse(evt.data);
                 if (d.msg_type === packet_enum.init) {
@@ -1026,11 +1147,11 @@
                         let bid_info = d.message.bids[0];
                         $scope.curLot.bid_new_cost = "KRW " + (((bid_info.bid_cost === 0)
                             ? bid_info.open_bid_cost
-                            : bid_info.bid_cost) + bid_info.bid_quote).toLocaleString('ko-KR');
+                            : bid_info.bid_cost + bid_info.bid_quote)).toLocaleString('ko-KR');
 
                         $scope.curLot.bid_new_cost_num = (((bid_info.bid_cost === 0)
                             ? bid_info.open_bid_cost
-                            : bid_info.bid_cost) + bid_info.bid_quote)
+                            : bid_info.bid_cost + bid_info.bid_quote))
 
                         $scope.viewers = d.message.viewers;
 
@@ -1093,15 +1214,17 @@
                                 let idx = matching.get($scope.saleInfoAll[j].SALE_NO + "-"
                                     + $scope.saleInfoAll[j].LOT_NO);
                                 if (idx !== undefined) {
-                                    let curCostValue = ($scope.bidsInfoAll[idx].bid_cost === 0) ? "KRW " + $scope.bidsInfoAll[idx].open_bid_cost.toLocaleString('ko-KR') : "KRW " + $scope.bidsInfoAll[idx].bid_cost.toLocaleString('ko-KR');
+                                    let curCostValue = ($scope.bidsInfoAll[idx].bid_cost === 0) ? "KRW " + $scope.bidsInfoAll[idx].open_bid_cost.toLocaleString('ko-KR') : "낙찰가 KRW " + $scope.bidsInfoAll[idx].bid_cost.toLocaleString('ko-KR');
                                     // 시작일자
                                     $scope.saleInfoAll[j].START_COST = "KRW " + $scope.bidsInfoAll[idx].open_bid_cost.toLocaleString('ko-KR');
                                     // 현재가
                                     $scope.saleInfoAll[j].CUR_COST = curCostValue;
+                                    $scope.saleInfoAll[j].IS_END_BID = false;
 
                                     // 낙찰이 완료 되었다면
                                     if ($scope.bidsInfoAll[idx].winner_state === 2) {
                                         $scope.bidsInfoAll[idx].IS_END_BID = true;
+                                        $scope.saleInfoAll[j].IS_END_BID = true;
                                     }
                                 }
                             }
@@ -1109,14 +1232,15 @@
                             // 모두 낙찰되었다면 종료
                             let isCanClose = true;
                             for (let j = 0; j < $scope.saleInfoAll.length; j++) {
-                                if ($scope.saleInfoAll[j].IS_END_BID) {
+                                if ($scope.saleInfoAll[j].IS_END_BID === false) {
                                     isCanClose = false;
                                     break;
                                 }
                             }
-                            if (!isCanClose) {
+                            if (isCanClose) {
                                 w.close();
                             }
+                            $scope.$apply();
 
                             // get current_lot
                             let currentLotInfoFunc = async function (token, saleNo, lotNo, saleType) {
@@ -1144,15 +1268,18 @@
                 } else if (d.msg_type === packet_enum.winner) {
                     if (d.message != null) {
                         for (let j = 0; j < $scope.saleInfoAll.length; j++) {
-                            if ($scope.saleInfoAll[j].SALE_NO === d.message.sale_no && $scope.saleInfoAll[j].LOT_NO === d.message.lot_no) {
+                            if ($scope.saleInfoAll[j].SALE_NO === d.message.customer.sale_no && $scope.saleInfoAll[j].LOT_NO === d.message.customer.lot_no) {
                                 // 낙찰가
-                                $scope.saleInfoAll[j].SUCEED_COST = 0;
+                                // $scope.saleInfoAll[j].CUR_COST = "낙찰가 KRW " + d.message.max_bid_cost.toLocaleString('ko-KR');
                                 // 현재 랏정보
                                 $scope.CUR_LOT_NO = d.message.cur_lot_no;
+                                // 종료 여부
+                                $scope.saleInfoAll[j].IS_END_BID = true;
                                 // 현재 랏 정보 삽입
                                 for (let j = 0; j < $scope.saleInfoAll.length; j++) {
                                     if ($scope.saleInfoAll[j].LOT_NO === d.message.cur_lot_no) {
                                         $scope.CUR_LOT_ARTIST_NAME = $scope.saleInfoAll[j].ARTIST_NAME_JSON.ko;
+                                        $scope.curLot = $scope.saleInfoAll[j];
                                         break;
                                     }
                                 }
@@ -1165,7 +1292,7 @@
                                 break
                             }
                         }
-                        if (!isCanClose) {
+                        if (isCanClose) {
                             w.close();
                         }
                     }
@@ -1235,11 +1362,11 @@
 
                     $scope.curLot.bid_new_cost = "KRW " + (((bid_info.bid_cost === 0)
                         ? bid_info.open_bid_cost
-                        : bid_info.bid_cost) + bid_info.bid_quote).toLocaleString('ko-KR');
+                        : bid_info.bid_cost + bid_info.bid_quote)).toLocaleString('ko-KR');
 
                     $scope.curLot.bid_new_cost_num = (((bid_info.bid_cost === 0)
                         ? bid_info.open_bid_cost
-                        : bid_info.bid_cost) + bid_info.bid_quote)
+                        : bid_info.bid_cost + bid_info.bid_quote))
 
                     $scope.viewers = d.message.viewers;
 
@@ -1278,11 +1405,11 @@
 
                     $scope.curLot.bid_new_cost = "KRW " + (((bid_info.bid_cost === 0)
                         ? bid_info.open_bid_cost
-                        : bid_info.bid_cost) + bid_info.bid_quote).toLocaleString('ko-KR');
+                        : bid_info.bid_cost + bid_info.bid_quote)).toLocaleString('ko-KR');
 
                     $scope.curLot.bid_new_cost_num = (((bid_info.bid_cost === 0)
                         ? bid_info.open_bid_cost
-                        : bid_info.bid_cost) + bid_info.bid_quote)
+                        : bid_info.bid_cost + bid_info.bid_quote))
 
                     $scope.viewers = d.message.viewers;
 
@@ -1319,6 +1446,17 @@
                 } else if (d.msg_type === packet_enum.notice) {
                     console.log(d.message.msg);
                     $scope.notice = d.message.msg;
+                    $scope.$apply();
+                } else if (d.msg_type === packet_enum.office_winner) {
+                    if (d.message != null) {
+                        for (let j = 0; j < $scope.saleInfoAll.length; j++) {
+                            if ($scope.saleInfoAll[j].SALE_NO === d.message.customer.sale_no && $scope.saleInfoAll[j].LOT_NO === d.message.customer.lot_no) {
+                                // 낙찰가
+                                $scope.saleInfoAll[j].CUR_COST = "낙찰가 KRW " + d.message.max_bid_cost.toLocaleString('ko-KR');
+                                break
+                            }
+                        }
+                    }
                     $scope.$apply();
                 }
             }

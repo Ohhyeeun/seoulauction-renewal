@@ -192,6 +192,12 @@ $(function(){
                             + numberWithCommas(lotData.EXPE_PRICE_FROM_JSON.KRW)
                             + ' ~ ' + numberWithCommas(lotData.EXPE_PRICE_TO_JSON.KRW)
                             + '</dd>'
+                            + '<br>'
+                            + '<dd>'
+                            + 'USD '
+                            + numberWithCommas(lotData.EXPE_PRICE_FROM_JSON.USD)
+                            + ' ~ ' + numberWithCommas(lotData.EXPE_PRICE_TO_JSON.USD)
+                            + '</dd>'
                         );
                     } else {
                         $("#print_expe_price").html('<dd> 추정가 별도 문의 </dd>');
