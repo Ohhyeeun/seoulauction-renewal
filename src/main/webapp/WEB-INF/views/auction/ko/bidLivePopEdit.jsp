@@ -162,7 +162,7 @@
                                             ng-bind="curLot.LOT_NO"></span></strong></span>
                                 <!-- 자세히보기 버튼 구성 -->
 									<span class="btn_style01 green02" style="margin-left:10px;">
-										<a ng-href="{{'http://re-dev.seoulauction.com/auction/online/view/' +
+										<a ng-href="{{'http://re-dev.seoulauction.com/auction/live/view/' +
 										 curLot.SALE_NO + '/' + curLot.LOT_NO}}"
                                            target="new">
 										<span ng-if="locale == 'ko'">자세히 보기</span><span

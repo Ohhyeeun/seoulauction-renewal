@@ -1,5 +1,14 @@
 @charset "UTF-8";
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@viewport {
+    width: device-width;
+}
+@-ms-viewport {
+    width: device-width;
+}
+@-o-viewport {
+    width: device-width;
+}
 
 /*
 Copyright (c) 2021 Kil Hyung-jin, with Reserved Font Name Pretendard.
@@ -2228,6 +2237,7 @@ body.dark,
     .Familysite-selectbox:lang(en) {
         top: 260px;
     }
+
     /* 1023 다크모드 */
     .topsearch>input.dark {
         background-color: transparent;
@@ -2235,6 +2245,25 @@ body.dark,
     }
     .topsearch-btn.dark {
         background-image: url("/images/pc/icon/ic_search_black_24.svg");
+    }
+    .search-bubble-box.dark {
+        background-color: transparent;
+        border-color: transparent;
+    }
+    .recent-keyword.dark,
+    .recommend-search-part.dark > a  {
+        background-color: #fff;
+        color: #555;
+    }
+    .recommend-search-part.dark > a {
+        border-color: #ccc;
+    }
+    .keyword-search-tit.dark,
+    .recommend-search-part.dark>span {
+        color: #333;
+    }
+    .keyword-del.dark {
+        background-image: url("/images/pc/icon/ic_close_gray_24.svg");
     }
 }
 @media all and (max-width: 719px) {
