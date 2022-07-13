@@ -808,7 +808,7 @@ $(window).resize(function(){
     $('.stopBtn').on('click', function(){
         visualSwiper.autoplay.stop();
         $(this).css({'display':'none'});
-        $('.playBtn').css({'display':'block'}); 
+        $('.playBtn').css({'display':'block'});
     });
 
     const platFormSwiper = new Swiper('.platform-swiper', {
