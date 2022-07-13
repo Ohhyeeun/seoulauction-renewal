@@ -14,7 +14,7 @@ public interface AppMapper {
 
     void updateAppInfo(CommonMap map);
 
-    List<CommonMap> selectToken(CommonMap paramMap);
+    List<CommonMap> selectLoginToken(CommonMap paramMap);
 
     void insertLoginToken(CommonMap map);
 
@@ -22,5 +22,4 @@ public interface AppMapper {
 
     int deleteLoginToken(CommonMap paramMap);
 
-    List<CommonMap> selectLoginByToken(CommonMap paramMap);
 }
