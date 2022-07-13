@@ -319,10 +319,8 @@
                                             <div class="desc" id="artistMedia">
                                             </div>
                                         </div>
-
                                     </div>
                                 </article>
-
                             </div>
                             <div class="panel-footer">
                                 <article class="product_recent_work-article">

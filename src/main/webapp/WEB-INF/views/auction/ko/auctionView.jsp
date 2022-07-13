@@ -256,20 +256,58 @@
                                         <div class="info-box">
                                             <div class="title">작품정보</div>
                                             <div class="desc">
-                                                <span ng-bind="lotInfo.MATE_NM_EN"></span><br/>
+                                                <span ng-bind="lotInfo.MATE_NM_EN"></span>
+                                                <br/>
+
+                                                <%--재질 규격--%>
                                                 <span ng-repeat="size in lotInfo.LOT_SIZE_JSON">
                                                         <span ng-bind="size | size_text_cm"></span>
-                                                    </span><br/>
-                                                <span bind-html-compile="lotInfo.SIGN_INFO_JSON.ko"></span>
-                                            </div>
-                                        </div>
-                                        <div class="info-box">
-                                            <div class="title">Condition Report</div>
-                                            <div class="desc" ng-bind="lotInfo.COND_RPT_JSON.ko">
+                                                </span>
+
+                                                <%--년도--%>
+                                                <span ng-show="isNotObjectEmpty(lotInfo.MAKE_YEAR_JSON)"> ( {{lotInfo.MAKE_YEAR_JSON | locale_format }} ) </span>
+
+                                                <%--에디션--%>
+                                                <div ng-show="lotInfo.EDITION">
+                                                    <span> {{lotInfo.EDITION}} </span>
+                                                </div>
+
+                                                <%--서명 값--%>
+                                                <span> {{lotInfo.SIGN_INFO_JSON | locale_format }}</span>
                                             </div>
                                         </div>
 
-                                        <div class="info-box" id="artist_layer">
+                                        <%--작품 설명--%>
+                                        <div ng-show="isNotObjectEmpty(lotInfo.CMMT_JSON)" class="info-box">
+                                            <div class="title">작품 설명</div>
+                                            <div class="desc">{{lotInfo.CMMT_JSON | locale_format }}</div>
+                                        </div>
+
+                                        <%--Condition Report--%>
+                                        <div ng-show="isNotObjectEmpty(lotInfo.COND_RPT_JSON)" class="info-box">
+                                            <div class="title">Condition Report</div>
+                                            <div class="desc">{{lotInfo.COND_RPT_JSON | locale_format }}</div>
+                                        </div>
+
+                                        <%--LITERATURE--%>
+                                        <div ng-show="isNotObjectEmpty(lotInfo.LITE_INFO_JSON)" class="info-box">
+                                            <div class="title">LITERATURE</div>
+                                            <div class="desc">{{lotInfo.LITE_INFO_JSON | locale_format }}</div>
+                                        </div>
+
+                                        <%--EXHIBITED--%>
+                                        <div ng-show="isNotObjectEmpty(lotInfo.EXHI_INFO_JSON)" class="info-box">
+                                            <div class="title">EXHIBITED</div>
+                                            <div class="desc">{{lotInfo.EXHI_INFO_JSON | locale_format }}</div>
+                                        </div>
+
+                                        <%--PROVENANCE--%>
+                                        <div ng-show="isNotObjectEmpty(lotInfo.PROV_INFO_JSON)" class="info-box">
+                                            <div class="title">PROVENANCE</div>
+                                            <div class="desc">{{lotInfo.PROV_INFO_JSON | locale_format }}</div>
+                                        </div>
+
+                                        <div class="info-box">
                                             <div class="title">작가정보</div>
                                             <div class="desc" id="artistName">
                                             </div>
@@ -278,7 +316,6 @@
                                             <div class="desc" id="artistMedia">
                                             </div>
                                         </div>
-
                                     </div>
                                 </article>
 
@@ -840,6 +877,17 @@
         };
     })
 
+    const locale = document.documentElement.lang;
+
+    app.filter('locale_format', function(){
+        return function(val) {
+            if (val === undefined) {
+                return '';
+            }
+            return locale === 'ko' ? val.ko : val.en;
+        };
+    });
+
     app.controller('ctl', function ($scope, consts, common, is_login, locale, $filter) {
 
         $scope.is_login = is_login;
@@ -974,6 +1022,14 @@
                     popup_biddingPopup1.close();
                 });
             }
+        }
+        //오브젝트 or 배열 비었는지 확인
+        $scope.isNotObjectEmpty = function (param) {
+
+            if(param === undefined){
+                return false;
+            }
+            return param.constructor === Object && Object.keys(param).length !== 0;
         }
 
         $scope.goLot = function (saleNo, lotNo) {
