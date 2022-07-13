@@ -1211,15 +1211,8 @@ function nativeToggleMenu(state) {
     const menugElement = document.querySelector('.submenuBg');
 
     if (bgElement.classList.contains('on') && menugElement.classList.contains('on')) {
-  //    window.alert(document.querySelector('.submenuBg-closeBtn').innerHTML);
-        window.alert(bgElement.classList);
-        window.alert(menugElement.classList);
       document.querySelector('.submenuBg-closeBtn').click();
     } else {
-   //   window.alert(document.querySelector('.m-gnbmenu').innerHTML)
-        window.alert(bgElement.classList);
-        window.alert(menugElement.classList);
-        document.querySelector('.m-gnbmenu').click();
-
+      document.querySelector('.m-gnbmenu').click();
     }
 }
