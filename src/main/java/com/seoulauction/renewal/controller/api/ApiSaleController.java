@@ -135,7 +135,7 @@ public class ApiSaleController {
         // sub 화폐
         String subCurrCd = String.valueOf(baseCurrency.get(currCd));
 
-        String[] mapKeys = {"ARTIST_NAME_JSON", "EXPE_PRICE_TO_JSON","EXPE_PRICE_FROM_JSON",
+        String[] mapKeys = {"ARTIST_NAME_JSON", "EXPE_PRICE_TO_JSON","EXPE_PRICE_FROM_JSON", "MAKE_YEAR_JSON" ,
                 "SIGN_INFO_JSON", "COND_RPT_JSON", "PROFILE_JSON" ,"LITE_INFO_JSON" , "EXHI_INFO_JSON" ,
                 "PROV_INFO_JSON" , "ETC_INFO_JSON" , "CMMT_JSON" };
         String[] listKeys = {"LOT_SIZE_JSON"};
@@ -523,6 +523,17 @@ public class ApiSaleController {
         }
         return ResponseEntity.ok(RestResponse.ok(artistInfoMap));
     }
+    @RequestMapping(value="/sale/maxbid/{sale_no}/{lot_no}", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> maxBid(HttpServletRequest req, HttpServletResponse res, Locale locale,
+                                                   @PathVariable("sale_no") int saleNo,
+                                                   @PathVariable("lot_no") int lotNo) {
+        CommonMap map = new CommonMap();
+        map.put("sale_no", saleNo);
+        map.put("lot_no", lotNo);
 
+        CommonMap result = saleService.selectMaxBid(map);
+
+        return ResponseEntity.ok(RestResponse.ok(result));
+    }
 
 }

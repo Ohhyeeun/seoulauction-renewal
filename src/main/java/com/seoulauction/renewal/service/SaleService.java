@@ -270,9 +270,14 @@ public class SaleService {
 
             //오프라인 응찰 시 자동 응찰 기록 해야함.
             saleMapper.insertAutoBid(map);
+            saleMapper.insertOfflineBid(map);
 
+        } else if (bidKindCd.equals("floor") || bidKindCd.equals("paper")) {
+            saleMapper.insertOfflineBid(map);
+        } else {
+            saleMapper.insertBid(map);
         }
-        saleMapper.insertBid(map);
+
     }
     public void insertAutoBid(CommonMap map){
         saleMapper.insertAutoBid(map);
@@ -290,6 +295,15 @@ public class SaleService {
 
     public CommonMap selectArtistInfo(CommonMap commonMap) {
         CommonMap resultMap = artistMapper.selectArtistInfo(commonMap);
+        return resultMap;
+    }
+    // 오프라인비딩 저장
+    public void insertOfflineBid(CommonMap map){
+        saleMapper.insertOfflineBid(map);
+    }
+
+    public CommonMap selectMaxBid(CommonMap commonMap) {
+        CommonMap resultMap = saleMapper.selectMaxBid(commonMap);
         return resultMap;
     }
 }

@@ -1,6 +1,8 @@
 $(function() {
 
     const locale = document.documentElement.lang;
+
+
     const sleep = (ms) => new Promise(resolve => {
         setTimeout(resolve, ms)
     });
@@ -1113,4 +1115,8 @@ function nativeToggleMenu(state) {
         document.querySelector('.gnb_submenuBg.scroll_none')?.classList.remove('on');
         document.querySelector('.submenuBg')?.classList.remove('on');
     }
+}
+//오브젝트 or 배열 비었는지 확인
+function isNotObjectEmpty(param) {
+    return Object.keys(param).length !== 0 && param.constructor === Object;
 }

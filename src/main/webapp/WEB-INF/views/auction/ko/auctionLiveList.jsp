@@ -922,7 +922,7 @@
             // bid protocols
             $scope.proc = function (evt, saleNo, lotNo, saleType, userId, custNo) {
                 const packet_enum = {
-                    init: 1, bid_info: 2, time_sync: 3, bid_info_init: 4, end_time_sync: 5, winner: 6, auto_bid_sync: 14
+                    init: 1, bid_info: 2, time_sync: 3, bid_info_init: 4, end_time_sync: 5, winner: 6, auto_bid_sync: 14, office_winner: 15
                 }
                 let d = JSON.parse(evt.data);
                 if (d.msg_type === packet_enum.init) {
@@ -934,6 +934,31 @@
                         let expr_date = new Date($scope.saleInfoAll[0].LOT_EXPIRE_DATE).format('yyyy-MM-dd 00:00:00');
                         if (expr_date >= (new Date(d.message.tick_value).format('yyyy-MM-dd HH:mm:ss'))) {
                             $scope.showBtn = true;
+                        }
+                    }
+                    $scope.$apply();
+                } else if (d.msg_type === packet_enum.office_winner) {
+                    if (d.message != null) {
+                        for (let j = 0; j < $scope.saleInfoAll.length; j++) {
+                            if ($scope.saleInfoAll[j].SALE_NO === d.message.customer.sale_no && $scope.saleInfoAll[j].LOT_NO === d.message.customer.lot_no) {
+                                // 낙찰가
+                                $scope.saleInfoAll[j].CUR_COST = "낙찰가 KRW " + d.message.max_bid_cost.toLocaleString('ko-KR');
+                                break
+                            }
+                        }
+                        for (let j = 0; j < $scope.searchSaleInfoAll.length; j++) {
+                            if ($scope.saleInfoAll[j].SALE_NO === d.message.customer.sale_no && $scope.saleInfoAll[j].LOT_NO === d.message.customer.lot_no) {
+                                // 낙찰가
+                                $scope.saleInfoAll[j].CUR_COST = "낙찰가 KRW " + d.message.max_bid_cost.toLocaleString('ko-KR');
+                                break
+                            }
+                        }
+                        for (let j = 0; j < $scope.saleInfo.length; j++) {
+                            if ($scope.saleInfoAll[j].SALE_NO === d.message.customer.sale_no && $scope.saleInfoAll[j].LOT_NO === d.message.customer.lot_no) {
+                                // 낙찰가
+                                $scope.saleInfoAll[j].CUR_COST = "낙찰가 KRW " + d.message.max_bid_cost.toLocaleString('ko-KR');
+                                break
+                            }
                         }
                     }
                     $scope.$apply();

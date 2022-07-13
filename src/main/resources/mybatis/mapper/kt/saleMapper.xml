@@ -761,4 +761,42 @@
             ,#{bid_dt}
         )
     </insert>
+    <!-- 오프라인 경매 insert -->
+    <insert id="insertOfflineBid" parameterType="CommonMap">
+        INSERT INTO BID_OFFLINE
+        (
+            SALE_NO,
+            LOT_NO,
+            BID_NO,
+            PADD_NO,
+            BID_PRICE,
+            BID_KIND_CD,
+            BID_NOTICE,
+            BID_NOTICE_EN,
+            BID_DT,
+            REG_DT
+        ) VALUES (
+                             #{sale_no},
+                             #{lot_no},
+                             #{bid_no},
+                             #{padd_no},
+                             #{bid_price},
+                             #{bid_kind_cd},
+                             #{bid_notice},
+                             #{bid_notice_en},
+                             #{bid_dt},
+                             #{reg_dt}
+         )
+    </insert>
+    <select id="selectMaxBid" parameterType="CommonMap" resultType="CommonMap">
+        select
+               SALE_NO,
+               LOT_NO,
+               max(BID_PRICE) BID_PRICE
+        from BID
+        where SALE_NO = #{sale_no} and LOT_NO = #{lot_no}
+        group by SALE_NO, LOT_NO
+    </select>
+
+
 </mapper>
