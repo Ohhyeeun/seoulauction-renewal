@@ -266,16 +266,16 @@
                                                 </span>
 
                                                 <%--년도--%>
-                                                <span ng-show="isNotObjectEmpty(lotInfo.MAKE_YEAR_JSON)"> | {{lotInfo.MAKE_YEAR_JSON | locale_format }}</span>
+                                                <div ng-show="isNotObjectEmpty(lotInfo.MAKE_YEAR_JSON)">
+                                                    <span> {{lotInfo.MAKE_YEAR_JSON | locale_format }}</span>
+                                                </div>
 
                                                 <%--에디션--%>
                                                 <div ng-show="lotInfo.EDITION">
-                                                    <br/>
                                                     <span> {{lotInfo.EDITION}} </span>
                                                 </div>
 
                                                 <%--서명 값--%>
-                                                <br/>
                                                 <span> {{lotInfo.SIGN_INFO_JSON | locale_format }}</span>
                                             </div>
                                         </div>
