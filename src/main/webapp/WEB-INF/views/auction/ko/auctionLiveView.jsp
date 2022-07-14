@@ -264,32 +264,19 @@
                                                 <span ng-repeat="size in lotInfo.LOT_SIZE_JSON">
                                                         <span ng-bind="size | size_text_cm"></span>
                                                 </span>
+                                                <%--에디션--%>
+                                                <div ng-show="lotInfo.EDITION">
+                                                    <span> {{lotInfo.EDITION}} </span>
+                                                </div>
 
                                                 <%--년도--%>
                                                 <div ng-show="isNotObjectEmpty(lotInfo.MAKE_YEAR_JSON)">
                                                     <span> {{lotInfo.MAKE_YEAR_JSON | locale_format }}</span>
                                                 </div>
 
-                                                <%--에디션--%>
-                                                <div ng-show="lotInfo.EDITION">
-                                                    <span> {{lotInfo.EDITION}} </span>
-                                                </div>
-
                                                 <%--서명 값--%>
                                                 <span> {{lotInfo.SIGN_INFO_JSON | locale_format }}</span>
                                             </div>
-                                        </div>
-
-                                        <%--작품 설명--%>
-                                        <div ng-show="isNotObjectEmpty(lotInfo.CMMT_JSON)" class="info-box">
-                                            <div class="title">작품 설명</div>
-                                            <div class="desc">{{lotInfo.CMMT_JSON | locale_format }}</div>
-                                        </div>
-
-                                        <%--Condition Report--%>
-                                        <div ng-show="isNotObjectEmpty(lotInfo.COND_RPT_JSON)" class="info-box">
-                                            <div class="title">Condition Report</div>
-                                            <div class="desc">{{lotInfo.COND_RPT_JSON | locale_format }}</div>
                                         </div>
 
                                         <%--LITERATURE--%>
@@ -309,6 +296,18 @@
                                             <div class="title">PROVENANCE</div>
                                             <div class="desc">{{lotInfo.PROV_INFO_JSON | locale_format }}</div>
                                         </div>
+
+                                        <%--Condition Report--%>
+                                        <div ng-show="isNotObjectEmpty(lotInfo.COND_RPT_JSON)" class="info-box">
+                                            <div class="title">Condition Report</div>
+                                            <div class="desc">{{lotInfo.COND_RPT_JSON | locale_format }}</div>
+                                        </div>
+
+                                        <%--작품 설명--%>
+                                        <%--                                        <div ng-show="isNotObjectEmpty(lotInfo.CMMT_JSON)" class="info-box">--%>
+                                        <%--                                            <div class="title">작품 설명</div>--%>
+                                        <%--                                            <div class="desc">{{lotInfo.CMMT_JSON | locale_format }}</div>--%>
+                                        <%--                                        </div>--%>
 
                                         <div id="artist_layer" class="info-box">
                                             <div class="title">작가정보</div>
@@ -1176,9 +1175,6 @@
                 $scope.lotInfo.EXPE_PRICE_TO_JSON.KRW = numberWithCommas($scope.lotInfo.EXPE_PRICE_TO_JSON.KRW);
                 $scope.lotInfo.EXPE_PRICE_FROM_JSON.USD = numberWithCommas($scope.lotInfo.EXPE_PRICE_FROM_JSON.USD);
                 $scope.lotInfo.EXPE_PRICE_TO_JSON.USD = numberWithCommas($scope.lotInfo.EXPE_PRICE_TO_JSON.USD);
-
-
-                console.log($scope.lotInfo);
 
                 $scope.recentlyViews = r6.data.data;
 

@@ -535,6 +535,9 @@ function setCookie(name, value, expiredays) {
 
 //숫자를 천단위마다 콤마 해줌.
 function numberWithCommas(x) {
+    if(x === undefined){
+        return x;
+    }
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
