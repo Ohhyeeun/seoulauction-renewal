@@ -92,6 +92,7 @@
 				and LI.IMG_NO = (select B.IMG_NO from LOT A, LOT_IMG B where A.SALE_NO = S.SALE_NO and A.SALE_NO = B.SALE_NO and A.LOT_NO = B.LOT_NO order by A.LOT_NO, B.DISP_ORD limit 1)
 		where DEL_YN ='N' and WWW_DISP_YN = 'Y'
 		  	and S.STAT_CD = 'open'
+			and S.SALE_KIND_CD NOT IN ('exhibit', 'exhibit_sa')
 		  	and now() &lt; case when S.SALE_KIND_CD in ('online','online_zb') then (select MAX(L.TO_DT) from LOT L where L.SALE_NO = S.SALE_NO GROUP BY L.SALE_NO)
 				when S.SALE_KIND_CD IN ('exhibit', 'exhibit_sa') then S.TO_DT
 				else (<![CDATA[select (case when LC.CLOSE_YN = 'Y' THEN LC.TO_DT ELSE DATE_ADD(NOW(), INTERVAL 1 HOUR)  END) from LOT LC where LC.SALE_NO = S.SALE_NO AND LC.LOT_NO = (SELECT MAX(LC1.LOT_NO) FROM LOT LC1 WHERE LC1.SALE_NO = S.SALE_NO AND LC1.STAT_CD <> 'reentry')]]>) end
@@ -126,6 +127,7 @@
 				and LI.IMG_NO = (select B.IMG_NO from LOT A, LOT_IMG B where A.SALE_NO = S.SALE_NO and A.SALE_NO = B.SALE_NO and A.LOT_NO = B.LOT_NO order by A.LOT_NO, B.DISP_ORD limit 1)
 		where DEL_YN ='N' and WWW_DISP_YN = 'Y'
 			and S.STAT_CD = 'upcoming'
+			and S.SALE_KIND_CD NOT IN ('exhibit', 'exhibit_sa')
 			and now() &lt; case when S.SALE_KIND_CD in ('online','online_zb') then (select MAX(L.TO_DT) from LOT L where L.SALE_NO = S.SALE_NO GROUP BY L.SALE_NO)
 				when S.SALE_KIND_CD IN ('exhibit', 'exhibit_sa') then S.TO_DT
 				else (<![CDATA[select (case when LC.CLOSE_YN = 'Y' THEN LC.TO_DT ELSE DATE_ADD(NOW(), INTERVAL 1 HOUR)  END) from LOT LC where LC.SALE_NO = S.SALE_NO AND LC.LOT_NO = (SELECT MAX(LC1.LOT_NO) FROM LOT LC1 WHERE LC1.SALE_NO = S.SALE_NO AND LC1.STAT_CD <> 'reentry')]]>) end
