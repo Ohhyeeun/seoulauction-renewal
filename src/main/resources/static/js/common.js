@@ -1260,3 +1260,7 @@ $(function(){
         window.isNativeApp = isNativeApp;
     });
 });
+
+function isNativeApp() {
+    return false;
+}
