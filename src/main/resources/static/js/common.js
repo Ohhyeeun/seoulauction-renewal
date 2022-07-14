@@ -1229,18 +1229,38 @@ function nativeToggleMenu(state) {
     }
 }
 
-/**
- * 앱 버전 호출
- */
+$(function(){
+    // 네이티브 웹뷰 초기화
+    window.isFlutterInAppWebViewReady = false;
+    window.addEventListener('flutterInAppWebViewPlatformReady', function(e) {
+        window.isFlutterInAppWebViewReady = true;
+
+        /**
+         * 앱 버전 호출
+         */
+        function isNativeApp() {
+            if (window.isFlutterInAppWebViewReady) {
+                if (typeof window.flutter_inappwebview === 'undefined') return false;
+                if (typeof window.flutter_inappwebview.callHandler === 'undefined') return false;
+
+                let appVersionData = '';
+                if (window.flutter_inappwebview.callHandler) {
+                    appVersionData = window.flutter_inappwebview.callHandler('getAppHeader', '');
+                } else {
+                    appVersionData = window.flutter_inappwebview._callHandler('getAppHeader', setTimeout(function(){}), JSON.stringify(['']));
+                }
+
+                if (!!appVersionData) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        window.isNativeApp = isNativeApp;
+    });
+});
+
 function isNativeApp() {
-    if (typeof flutter_inappwebview === 'undefined') return false;
-    if (typeof flutter_inappwebview.callHandler === 'undefined') return false;
-  
-    const appVersionData = flutter_inappwebview.callHandler('getAppHeader');
-    if (!!appVersionData) {
-      return true;
-    }
-  
     return false;
 }
-  
