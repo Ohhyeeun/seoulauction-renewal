@@ -610,7 +610,7 @@ function loadPopup(){
                                     }
                                 });
                             }
-
+                            $('#main_popup_a_link').attr("href",localeUrl);
                             $('.main-popup-img').show();
                             if(data.image !== "") {
                                 $('#main_popup_img').attr('src', imgUrl);
