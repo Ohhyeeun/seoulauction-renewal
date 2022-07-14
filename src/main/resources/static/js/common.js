@@ -1267,6 +1267,7 @@ $(function(){
 function isNativeApp() {
     try {
         window.flutter_inappwebview.callHandler('getAppHeader', '').then(result => {
+            console.log(JSON.stringify(result));
             return !!result;
         });
     } catch (error) {
