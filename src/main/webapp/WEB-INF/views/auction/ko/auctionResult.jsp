@@ -70,7 +70,7 @@
                     </div>
                 </section>
 
-                <section class="basis-section auction_result_list-section last-section">
+                <section ng-if="auctionList.length > 0" class="basis-section auction_result_list-section last-section">
                     <div class="section-inner">
                         <div class="content-panel type_panel-product_result_list">
                             <div class="panel-body">
@@ -133,6 +133,24 @@
                     </div>
                 </section>
 
+                <section ng-if="auctionList.length <= 0" class="basis-section auction_result_list-section last-section">
+                    <div class="section-inner">
+                        <div class="content-panel type_panel-product_result_list">
+                            <div class="panel-body">
+                                <div class="data-empty type-big">
+                                    <div class="img_empty">
+                                        <img src="/images/mobile/auction/symbol-none_data.png" alt="검색결과가 없습니다." />
+                                    </div>
+                                    <div class="txt_empty">
+                                        <div class="title">검색결과가 없습니다.</div>
+                                        <div class="desc">단어의 철자나 띄어쓰기가 <br class="only-mb" />
+                                            정확한지 확인해주세요</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
         <!-- //container -->
