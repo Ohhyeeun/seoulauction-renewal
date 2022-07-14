@@ -1245,9 +1245,9 @@ $(function(){
 
                 let appVersionData = '';
                 if (window.flutter_inappwebview.callHandler) {
-                    appVersionData = window.flutter_inappwebview.callHandler('getAppHeader', message);
+                    appVersionData = window.flutter_inappwebview.callHandler('getAppHeader', '');
                 } else {
-                    appVersionData = window.flutter_inappwebview._callHandler('getAppHeader', setTimeout(function(){}), JSON.stringify([message]));
+                    appVersionData = window.flutter_inappwebview._callHandler('getAppHeader', setTimeout(function(){}), JSON.stringify(['']));
                 }
 
                 if (!!appVersionData) {
