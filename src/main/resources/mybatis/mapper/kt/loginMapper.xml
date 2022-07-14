@@ -354,12 +354,12 @@
 <!--	로그인 한 유저의 고객담당자 번호 찾기.-->
 	<select id="selectCustForEmpNo" parameterType="CommonMap" resultType="CommonMap">
 		SELECT
-		    CUST_NAME,
+        	EMP_NAME,
 			TEL
 		FROM
-		    CUST
+		    EMP
 		WHERE
-			CUST_NO =
+			EMP_NO =
 				(
 				SELECT
 					EMP_NO
