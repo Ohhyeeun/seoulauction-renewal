@@ -1229,6 +1229,14 @@ function nativeToggleMenu(state) {
     }
 }
 
+$(function(){
+    // 네이티브 웹뷰 초기화
+    window.isFlutterInAppWebViewReady = false;
+    window.addEventListener("flutterInAppWebViewPlatformReady", function(e) {
+        window.isFlutterInAppWebViewReady = true;
+    });
+  });
+  
 /**
  * 앱 버전 호출
  */
@@ -1243,4 +1251,3 @@ function isNativeApp() {
   
     return false;
 }
-  
