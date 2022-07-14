@@ -243,13 +243,18 @@ $(function() {
         $(".submenuBg").mouseleave(false);
 
         /* mobile gnb bg */
+        $('.m-gnbmenu').off('click');
         $('.m-gnbmenu').click(function () {
 
             $('.gnb_submenuBg').addClass('on');
             $('.submenuBg').addClass('on');
             $('body').css({'overflow': 'hidden'});
             $('.submenuBg').animate({'right': '0', 'transition': 'ease .3s', 'display': 'block'}, function () {
+
+
+                $('.gnb_submenuBg').off('click');
                 $('.gnb_submenuBg').click(function () {
+
                     $('body').css({'overflow': 'visible'});
                     $('.submenu').stop().slideUp(function () {
                         $('.gnbmenu_arrow').removeClass('on');
@@ -260,6 +265,7 @@ $(function() {
                     });
                 });
 
+                $('.subGnbmenu-tit').off('click');
                 $('.subGnbmenu-tit').click(function () {
 
 
@@ -280,6 +286,7 @@ $(function() {
         });
         $('.submenuBg-closeBtn').off('click');
         $('.submenuBg-closeBtn').click(function () {
+
             $('body').css({'overflow': 'visible'});
             $('.gnbmenu_arrow').removeClass('on');
             $('.submenuBg').animate({'right': '-100%', 'transition': 'ease .2s'}, function () {
@@ -996,6 +1003,7 @@ $(window).resize(function(){
             $('.submenuBg').show();
             $('.submenuBg').animate({'right':'0','transition':'ease .3s','display':'block'}, function(){
 
+
                 $('.gnb_submenuBg').show();
                 $('.gnb_submenuBg').off('click');
                 $('.gnb_submenuBg').click(function(){
@@ -1063,6 +1071,9 @@ $(window).resize(function(){
             $('body').css({'overflow':'visible'});
             $('.gnbmenu_arrow').removeClass('on');
             $('.submenuBg').animate({'right':'-100%','transition':'none'}, function(){
+
+                console.log('asdfasdfasdf33333333333');
+
                 $(this).removeClass('on');
                 $('.gnb_submenuBg').removeClass('on');
             });
