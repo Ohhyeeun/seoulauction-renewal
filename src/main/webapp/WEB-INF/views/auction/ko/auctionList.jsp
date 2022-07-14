@@ -1,15 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<spring:eval expression="@environment.getProperty('bid.domain')" var="bid_domain" />
+
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
-<%--<style>--%>
-<%--    .select2-container {--%>
-<%--        z-index: 999;--%>
-<%--    }--%>
-<%--</style>--%>
+
 <body class="">
 <div class="wrapper">
     <div class="sub-wrap pageclass type-width_list">
@@ -26,23 +20,20 @@
                         <div class="padding-inner">
                             <article class="auction_head_info-article">
                                 <div class="center-box ing">
-                                    <h2 class="page_title"><span
-                                            class="th1">{{sale.SALE_TH | localeOrdinal}} {{sale.TITLE_JSON.ko}}</span>
+                                    <h2 class="page_title">
+                                        <span class="th1">{{sale.SALE_TH | localeOrdinal}} {{sale.TITLE_JSON.ko}} ${bid_domain}</span>
                                     </h2>
                                     <ul class="event_day-list">
-                                        <li><span class="colorB2">프리뷰</span><span
-                                                class=""> : {{sale.PREV_FROM_DT | date:'MM.dd' + '(' + getWeek(sale.PREV_FROM_DT) + ')'}} - {{sale.PREV_TO_DT | date:'MM.dd' + '(' + getWeek(sale.PREV_TO_DT) + ')'}}</span>
+                                        <li>
+                                            <span class="colorB2">프리뷰</span><span> : {{sale.PREV_FROM_DT | date:'MM.dd' + '(' + getWeek(sale.PREV_FROM_DT) + ')'}} - {{sale.PREV_TO_DT | date:'MM.dd' + '(' + getWeek(sale.PREV_TO_DT) + ')'}}</span>
                                         </li>
-                                        <li><span class="colorB2">경매일</span><span
-                                                class=""> : {{sale.TO_DT | date:'MM.dd' + '(' + getWeek(sale.TO_DT) + ')'}}</span>
+                                        <li>
+                                            <span class="colorB2">경매일</span><span> : {{sale.TO_DT | date:'MM.dd' + '(' + getWeek(sale.TO_DT) + ')'}}</span>
                                         </li>
                                     </ul>
                                     <div class="btn_set">
-                                        <a class="btn btn_white " href="#" target="_blank"
-                                           ng-href="/footer/notice/{{sale.WRITE_NO}}" role="button"
-                                           ng-if="sale.WRITE_NO > 0"><span>안내사항</span></a>
-                                        <a class="btn btn_white " ng-click="goBrochure(item.id, item.content.url)"
-                                           role="button" ng-repeat="item in sale.buttonList">
+                                        <a class="btn btn_white" href="#" target="_blank" ng-href="/footer/notice/{{sale.WRITE_NO}}" role="button" ng-if="sale.WRITE_NO > 0"><span>안내사항</span></a>
+                                        <a class="btn btn_white" ng-click="goBrochure(item.id, item.content.url)" role="button" ng-repeat="item in sale.buttonList">
                                             <span ng-bind="{'pdf':'E-BOOK', 'ebook':'E-BOOK', 'vr':'VR보기'}[item.content_type]"></span>
                                         </a>
                                     </div>
@@ -285,13 +276,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <%--                                                <div class="area-inner" ng-show="item.DISP_YN !== 'Y'">--%>
-                                                <%--                                                    <i class="icon-cancle_box"></i>--%>
-                                                <%--                                                    <div class="typo">--%>
-                                                <%--                                                        <div class="name"><span ng-bind="'LOT ' + item.LOT_NO"></span></div>--%>
-                                                <%--                                                        <div class="msg"><span>출물이 취소되었습니다.</span></div>--%>
-                                                <%--                                                    </div>--%>
-                                                <%--                                                </div>--%>
                                             </article>
                                         </div>
                                     </li>
@@ -923,9 +907,9 @@
                         //console.log(token, saleNo, lotNo, saleType, userId);
                         let url = '';
                         if (window.location.protocol !== "https:") {
-                            url = 'http://dev-bid.seoulauction.xyz/init2';
+                            url = 'http${bid_domain}/init2';
                         } else {
-                            url = 'https://dev-bid.seoulauction.xyz/init2';
+                            url = 'https${bid_domain}/init2';
                         }
                         let resp = await fetch(url, {
                             method: "POST", body: JSON.stringify({
@@ -1122,11 +1106,11 @@
                 }
 
                 if (window.location.protocol !== "https:") {
-                    w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws?sale_no=" +
+                    w = new WebSocket("ws${bid_domain}/ws?sale_no=" +
                         $scope.sale_no + "&lot_no=0&cust_no=" + $scope.cust_no +
                         "&user_id=" + $scope.user_id + "&paddle=0&sale_type=2&bid_type=21");
                 } else {
-                    w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws?sale_no=" +
+                    w = new WebSocket("wss${bid_domain}/ws?sale_no=" +
                         $scope.sale_no + "&lot_no=0&cust_no=" + $scope.cust_no +
                         "&user_id=" + $scope.user_id + "&paddle=0&sale_type=2&bid_type=21");
                 }
