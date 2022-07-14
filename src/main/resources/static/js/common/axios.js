@@ -99,12 +99,21 @@ axios.interceptors.response.use((response) => {
                 'X-RateLimit-Remaining': response.headers['X-RateLimit-Remaining'],
             };
         }
-/*        console.log(response);
+       
         
-        console.log("requestURL :" + response.config.url);
+        
+ /*    
+ 		console.log(response); 
+ 	    console.log("requestURL :" + response.config.url);
         console.log("responseURL :" + response.request.responseURL);
-        console.log("hostname :" + window.location.hostname);*/
-
+        console.log("hostname :" + window.location.hostname);
+        console.log("error Msg :" + response.data.data.msg);
+        
+        //요청 URL과 응답 URL로 비교 or indexOf로 비교
+        if(response.request.responseURL.indexOf('/login') > -1){
+			window.location.href='/login';
+		}
+		*/
         return response;
     },
     (error) => {
