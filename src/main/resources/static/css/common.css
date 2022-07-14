@@ -1441,23 +1441,26 @@ body.dark,
 .auction-thumbbox.dark,
 .swiper-slide.upcomingSlide.dark {
     background-color: #2d2d2d;
-}  
-
+}
+/*.swiper-progressbar.dark .visual-progressbar.dark { */
+/*    background: #333;*/
+/*}*/
 
 /* 외주 css selec container */
 .select2-container--open {
     z-index: 24 !important;
 }
 /* auction 팝업 및 gnb z-index 30 기준 */
-.sub-wrap .main-header,
-.allview_fixed-wrap .popup-dim,
-.popup-dim {
+.sub-wrap .main-header{
     z-index: 30 !important;
 }
+.allview_fixed-wrap .popup-dim,
 .allview_fixed-wrap .fixed-panel,
 .trp.popupfixed-wrap {
     z-index: 31 !important;
 }
+
+
 
 
 
@@ -1657,6 +1660,13 @@ body.dark,
     }
     .darkmodeBg {
         right: auto;
+    }
+    .topBtn:hover {
+        background-image: url("/images/pc/icon/top.png");
+    }
+    .scroll-top:hover {
+        background-color: #fff;
+        border-color: #ddd;
     }
     .wrap,
     .container,
