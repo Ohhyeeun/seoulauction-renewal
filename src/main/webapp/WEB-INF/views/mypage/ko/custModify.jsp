@@ -179,7 +179,7 @@
                                                         </div>
                                                         <div class="form_body vertical_item">
                                                             <div class="input-group">
-                                                                <input type="text" maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this, 'number');compareOldHp();" name="hp" id="hp" class="form-control" placeholder="">
+                                                                <input type="text" maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);compareOldHp();" onblur="phoneNumberBlur(this);" name="hp" id="hp" class="form-control" placeholder="">
                                                                 <button onclick="authNumRequest()" class="btn btn_light_gray_line" type="button">
                                                                     <span id="authNumMsg">인증번호 요청</span>
                                                                 </button>
