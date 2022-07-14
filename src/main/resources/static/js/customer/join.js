@@ -1189,6 +1189,8 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 			formData.set('social_type', $scope.form_data.social_type);
 			formData.set('social_email', $scope.form_data.social_email);
 			formData.set('social_login_id', $scope.form_data.social_login_id);
+			formData.delete('login_id');	
+			formData.delete('passwd');	
 		}
 		
 		formData.append('cust_kind_cd', $scope.form_data.cust_kind_cd);
