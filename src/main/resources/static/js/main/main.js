@@ -459,8 +459,8 @@ function loadBeltBanner() {
                     const returnDom =  `<div class="swiper-slide platform-bg" style="background-color: ${content.backgroundColor} ">
                                             <a href="${ locale === 'en' ? content.url_en : content.url_ko }" target="_blank"  onclick="addReadCount(${item.id},'main_banner')" >
                                                 <img src="${locale === 'en' ? item.image.pc_en_url : item.image.pc_ko_url }" alt="beltPcBanner" class="beltBannerImg-pc platform-img" >
-                                                <img src="${locale === 'en' ? item.image.mo_en_url : item.image.mo_ko_url }" alt="beltMobileBanner" className="beltBannerImg-mo platform-img"> 
-                                            </a> 
+                                                <img src="${locale === 'en' ? item.image.mo_en_url : item.image.mo_ko_url }" alt="beltMobileBanner" class="beltBannerImg-mo platform-img"> 
+                                            </a>
                                         </div>`;
 
                     slideArray.push(returnDom);

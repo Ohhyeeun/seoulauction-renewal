@@ -1442,9 +1442,12 @@ body.dark,
 .swiper-slide.upcomingSlide.dark {
     background-color: #2d2d2d;
 }
-/*.swiper-progressbar.dark .visual-progressbar.dark { */
-/*    background: #333;*/
-/*}*/
+.swiper-progressbar.dark .visual-progressbar.dark {
+    background: #555;
+}
+
+
+
 
 /* 외주 css selec container */
 .select2-container--open {
@@ -2288,6 +2291,12 @@ body.dark,
     }
     .keyword-del.dark {
         background-image: url("/images/pc/icon/ic_close_gray_24.svg");
+    }
+    .visual-pagaination.dark>span.dark {
+        background-color: #555;
+    }
+    .visual-pagaination>span.swiper-pagination-bullet-active {
+        background-color: #fff;
     }
 }
 @media all and (max-width: 719px) {
