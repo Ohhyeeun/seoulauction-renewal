@@ -80,9 +80,9 @@
                                             <article class="item-article">
                                                 <div class="image-area">
                                                     <figure class="img-ratio">
-                                                        <div class="img-align">
-                                                            <img ng-src="<spring:eval expression="@environment.getProperty('image.root.path')" />{{auction.SALE_IMG_NAME ? (auction.SALE_IMG_PATH + '/' + auction.SALE_IMG_NAME)  : (auction.LOT_IMG_NAME | imagePath : auction.LOT_IMG_PATH : true)}}" alt="">
-                                                        </div>
+                                                        <a href="javascript:void(0);" class="img-align" ng-click="goSale(auction.SALE_KIND_CD, auction.SALE_NO);">
+                                                            <img ng-src="<spring:eval expression="@environment.getProperty('image.root.path')" />{{auction.SALE_IMG_NAME ? (auction.SALE_IMG_PATH + '/' + auction.SALE_IMG_NAME)  : (auction.LOT_IMG_NAME | imagePath : auction.LOT_IMG_PATH : true)}}" alt="경매 결과 이미지">
+                                                        </a>
                                                     </figure>
                                                 </div>
                                                 <div class="typo-area">
@@ -105,9 +105,10 @@
                                                                     </ng:template>
                                                                 </dd>
                                                             </dl>
-                                                        </div>
-                                                        <div class="btn-box">
-                                                            <div class="btn_set" ng-if="EMP_GB === 'Y' || (IS_LOGIN === 'Y' && ((['main','hongkong','plan'].indexOf(auction.SALE_KIND_CD) > -1 && auction.IS_OLD_SALE === 'N') || (['main','hongkong','plan'].indexOf(auction.SALE_KIND_CD) <= 0 && today <= (auction.TO_DT | date:'yyyyMMdd'))))"><a class="btn btn_default" role="button" ng-click="goSale(auction.SALE_KIND_CD, auction.SALE_NO);"><span>결과보기</span></a></div>
+                                                            <%-- 결과보기 --%>
+                                                            <div class="btn-box">
+                                                                <div class="btn_set" ng-if="EMP_GB === 'Y' || (IS_LOGIN === 'Y' && ((['main','hongkong','plan'].indexOf(auction.SALE_KIND_CD) > -1 && auction.IS_OLD_SALE === 'N') || (['main','hongkong','plan'].indexOf(auction.SALE_KIND_CD) <= 0 && today <= (auction.TO_DT | date:'yyyyMMdd'))))"><a class="btn btn_default" role="button" ng-click="goSale(auction.SALE_KIND_CD, auction.SALE_NO);"><span>결과보기</span></a></div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

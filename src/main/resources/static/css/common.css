@@ -1455,9 +1455,12 @@ body.dark,
 .allview_fixed-wrap .popup-dim {
     z-index: 30 !important;
 }
-.allview_fixed-wrap .fixed-panel {
-    z-index: 31 !important;
+.allview_fixed-wrap .fixed-panel,
+.trp.popupfixed-wrap {
+    z-index: 31 !important; 
 }
+
+
 
 /* pc */ 
 @media all and (max-width: 1919px) {

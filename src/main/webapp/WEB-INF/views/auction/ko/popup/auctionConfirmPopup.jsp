@@ -136,7 +136,7 @@
                             <div class="btn-area">
                                 <div class="btn_set-float tac">
                                     <!-- [0523]a 버튼 href에 # 삽입 -->
-                                    <a class="btn btn_gray_line" href="#" role="button">
+                                    <a class="btn btn_gray_line js-closepop" href="#" role="button">  
                                         <span>취소</span>
                                     </a>
                                     <a class="btn btn_point" href="#" role="button" onClick="saleCertSuccess();">
