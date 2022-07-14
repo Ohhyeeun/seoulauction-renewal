@@ -967,7 +967,7 @@ $(window).resize(function(){
         $('.submenuBg').removeClass('on');
 
         /* top search right 위치 */
-        $('.topsearch-box>form').animate({'right': '0'});
+        // $('.topsearch-box>form').animate({'right': '0'});  
         $('.main-contents, #contents').click(function(){
             $('.search-bubble-box').removeClass('on');
             $('.bubble-box01').eq(utilityMenu).removeClass('hide');
@@ -1079,7 +1079,7 @@ $(window).resize(function(){
         });
 
         /* top search box */
-        $('.topsearch-box>form').animate({'right': '-100%', 'transition':'none'});
+        // $('.topsearch-box>form').animate({'right': '-100%', 'transition':'none'});
 
         /* 오프라인 라이브응찰 화면(mobile) */
         $('.bidding_pc').hide();
