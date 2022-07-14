@@ -223,12 +223,10 @@ public class SaleService {
         ) {
 
 
-            int paddNo =  auctionService.selectSalePaddNo(map);
-            if(paddNo == 0){
-                throw new SAException("패들을 신청해주세요.");
-            }
+            //int paddNo =  auctionService.selectSalePaddNo(map);
 
-            map.put("padd_no", paddNo);
+            //패들번호를 신경x
+            map.put("padd_no", null);
 
             WebClient webClient = WebClient.builder()
                     .baseUrl("http://dev-bid.seoulauction.xyz")
@@ -278,6 +276,8 @@ public class SaleService {
             map.put("emp_no", null);
 
             //오프라인 응찰 시 자동 응찰 기록 해야함.
+
+
             saleMapper.insertAutoBid(map);
             saleMapper.insertOfflineBid(map);
 
