@@ -17,7 +17,7 @@
 						<div class="content-panel type_panel-member">
 							<div class="panel-header">
 								<div class="title">
-									<span class="tt2">회원가입 완료되었습니다.</span>
+									<span class="tt2">회원가입이 완료되었습니다.</span>
 								</div>
 							</div>
 							<div class="panel-body">
@@ -77,7 +77,7 @@
 							<div class="panel-footer">
 								<article class="button-area">
 									<div class="btn_set-float tac">
-										<a class="btn btn_point btn_lg" href="#" role="button"><span>메인으로 이동</span></a>
+										<a class="btn btn_point btn_lg" href="/" role="button"><span>메인으로 이동</span></a>
 									</div>
 								</article>
 							</div>
