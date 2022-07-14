@@ -266,7 +266,7 @@
                                                 </span>
 
                                                 <%--년도--%>
-                                                <span ng-show="isNotObjectEmpty(lotInfo.MAKE_YEAR_JSON)"> ( {{lotInfo.MAKE_YEAR_JSON | locale_format }} ) </span>
+                                                <span ng-show="isNotObjectEmpty(lotInfo.MAKE_YEAR_JSON)"> | {{lotInfo.MAKE_YEAR_JSON | locale_format }}</span>
 
                                                 <%--에디션--%>
                                                 <div ng-show="lotInfo.EDITION">
