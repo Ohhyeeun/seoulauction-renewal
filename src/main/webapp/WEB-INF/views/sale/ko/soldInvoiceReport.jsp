@@ -8,6 +8,8 @@
 <!DOCTYPE html>
 <html lang="ko" ng-app="myApp">
 <head>
+  <link rel="icon" type="image/png" href="/images/favic/android-icon-192x192.png" sizes="192x192"/>
+  <title>Seoul Auction</title>
   <%@include file="../../common/angular.jsp"%>
   <%@include file="../../common/commonJs.jsp"%>
 
