@@ -2,7 +2,14 @@ app.value('locale', 'ko');
 app.value('is_login', 'false');
 	
 var userAgent = window.navigator.userAgent
-alert("agent : " + userAgent);
+console.log(userAgent)
+if(userAgent.search("sa_app") > -1){
+	console.log("**APP remember-me true**");
+	$("#remember-me").prop("checked", true);
+}else{
+	console.log("**NOT APP remember-me false**");
+	$("#remember-me").remove();
+}
 
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
 app.controller('loginCtl', function($scope, consts, common, ngDialog) {

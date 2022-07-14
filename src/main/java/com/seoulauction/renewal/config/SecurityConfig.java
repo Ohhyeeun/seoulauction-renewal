@@ -1,9 +1,5 @@
 package com.seoulauction.renewal.config;
 
-import com.seoulauction.renewal.auth.FrontAuthenticationProvider;
-import com.seoulauction.renewal.auth.FrontLoginSuccessHandler;
-import com.seoulauction.renewal.auth.FrontLogoutSuccessHandler;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,12 +17,24 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.seoulauction.renewal.auth.FrontAuthenticationProvider;
+import com.seoulauction.renewal.auth.FrontLoginSuccessHandler;
+import com.seoulauction.renewal.auth.FrontLogoutSuccessHandler;
+import com.seoulauction.renewal.auth.RememberMeLoginSuccessHandler;
+import com.seoulauction.renewal.auth.RememberMeService;
+
+import lombok.RequiredArgsConstructor;
+
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	private final RememberMeService rememberMeService;
+
+	private final RememberMeLoginSuccessHandler rememberMeLoginSuccessHandler;
+	
 	private final FrontAuthenticationProvider frontAuthenticationProvider;
 
 	@Override
@@ -95,6 +103,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureHandler(simpleUrlAuthenticationFailureHandler())
 				.successHandler(successHandler())
 	            .and()
+		    .rememberMe()
+		        .key("SeoulAuction")
+		        .rememberMeParameter("remember-me")
+		        .tokenValiditySeconds(86400 * 30) // 1달
+		        .userDetailsService(rememberMeService)
+		        .authenticationSuccessHandler(rememberMeLoginSuccessHandler)
+		        .and()
 			.logout()
 				.logoutUrl("/processLogout")
 //				.logoutSuccessUrl("/")
