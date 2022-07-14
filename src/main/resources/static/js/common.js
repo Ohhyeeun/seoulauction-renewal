@@ -1072,8 +1072,6 @@ $(window).resize(function(){
             $('.gnbmenu_arrow').removeClass('on');
             $('.submenuBg').animate({'right':'-100%','transition':'none'}, function(){
 
-                console.log('asdfasdfasdf33333333333');
-
                 $(this).removeClass('on');
                 $('.gnb_submenuBg').removeClass('on');
             });
