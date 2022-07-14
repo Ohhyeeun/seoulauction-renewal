@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <%@include file="../../include/ko/header.jsp"%>
-<link rel="stylesheet" href="/css/plugin/csslibrary.css">
+<%--<link rel="stylesheet" href="/css/plugin/csslibrary.css">--%> 
 <body class="">
     <div class="wrapper">
         <div class="sub-wrap pageclass type-pagemain">
@@ -12,6 +12,7 @@
                 app.value('locale', 'ko');
             </script>
 
+            <!-- container -->
             <!-- container -->
             <div id="container">
                 <div id="contents" class="contents">
@@ -35,12 +36,14 @@
                                     <div class="privacy-title">
                                         <h3>㈜서울옥션 개인정보처리방침</h3>
                                         <div class="privacy-selector select-box">
-                                            <select class="select2Basic42">
-                                                <option value="1">이전 개인정보처리방침 보기</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
+                                            <select class="select2Basic42" onchange="window.open(value,'_self')">
+                                                <!-- [0712]이전버전링크 -->
+                                                <option value="1" disabled selected>이전 개인정보처리방침 보기</option>
+                                                <option value="privacy-20190601.jsp">2019년 6월 1일 개정</option>
+                                                <%--                                                <option value="3">3</option>--%>
+                                                <%--                                                <option value="4">4</option>--%>
+                                                <%--                                                <option value="5">5</option>--%>
+                                                <!-- //[0712]이전버전링크 -->
                                             </select>
                                         </div>
                                     </div>
@@ -278,16 +281,13 @@
         </div>
     </div>
 
-
-    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-    <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+<%--    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
+<%--    <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->--%>
+<%--    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
+<%--    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
     <!-- [0516]삭제
-  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
+  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 -->
-
-
 </body>
 
 </html>

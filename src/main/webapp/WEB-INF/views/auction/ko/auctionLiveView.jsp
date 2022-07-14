@@ -310,7 +310,7 @@
                                             <div class="desc">{{lotInfo.PROV_INFO_JSON | locale_format }}</div>
                                         </div>
 
-                                        <div class="info-box">
+                                        <div id="artist_layer" class="info-box">
                                             <div class="title">작가정보</div>
                                             <div class="desc" id="artistName">
                                             </div>
@@ -1452,6 +1452,7 @@
                         if (success) {
                             let artistData = data.data;
                             if (!artistData) {
+                                $("#artist_layer").css("display", "none");
                             } else {
                                 let articlesList = JSON.parse(artistData.articles).articles;
                                 let artistYoutubeImages = JSON.parse(artistData.media).youtube;

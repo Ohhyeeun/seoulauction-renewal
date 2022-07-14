@@ -1448,16 +1448,18 @@ body.dark,
 .select2-container--open {
     z-index: 24 !important;
 }
-.sub-wrap .main-header { /* 기준 */
+/* auction 팝업 및 gnb z-index 30 기준 */
+.sub-wrap .main-header,
+.allview_fixed-wrap .popup-dim,
+.popup-dim {
     z-index: 30 !important;
 }
-/* aucton 페이지 전체 lot dim */
-.allview_fixed-wrap .popup-dim {
-    z-index: 30 !important;
-}
-.allview_fixed-wrap .fixed-panel {
+.allview_fixed-wrap .fixed-panel,
+.trp.popupfixed-wrap {
     z-index: 31 !important;
 }
+
+
 
 /* pc */ 
 @media all and (max-width: 1919px) {
