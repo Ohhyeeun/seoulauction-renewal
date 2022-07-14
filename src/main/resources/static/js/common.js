@@ -1262,5 +1262,11 @@ $(function(){
 });
 
 function isNativeApp() {
-    return false;
+    try {
+        window.flutter_inappwebview.callHandler('getAppHeader', '').then(result => {
+            return !!result;
+        });
+    } catch (error) {
+        return false;
+    }
 }
