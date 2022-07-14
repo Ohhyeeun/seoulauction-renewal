@@ -147,12 +147,15 @@
                                                     ▶ Privacy Officer<br>
                                                     Name: Yang, Dongho<br>
                                                     Position: Supervisor of IT Team<br>
-                                                    Contact: ☎+82-2-2075-4335, hajenuri@seoulauction.com, (fax)+82-2-395-0338<br>
+<%--                                                    Contact: ☎+82-2-2075-4335, hajenuri@seoulauction.com, (fax)+82-2-395-0338<br>--%>
+                                                    <span>Contact: ☎<a href="tel:02-2075-4335">02-2075-4335</a>, <a href="mailto:hajenuri@seoulauction.com">hajenuri@seoulauction.com</a>, (fax)<a href="tel:02-395-0330">02-395-0330</a></span><br>
+
                                                     ※ Directed to the privacy department.<br>
                                                     <br>
                                                     ▶ Privacy Department<br>
                                                     Department Name: IT Team<br>
-                                                    Contact: ☎+82-2-2075-4335, hajenuri@seoulauction.com, (fax)+82-2-395-0338<br>
+<%--                                                    Contact: ☎+82-2-2075-4335, hajenuri@seoulauction.com, (fax)+82-2-395-0338<br>--%>
+                                                    <span>Contact: ☎<a href="tel:02-2075-4335">02-2075-4335</a>, <a href="mailto:hajenuri@seoulauction.com">hajenuri@seoulauction.com</a>, (fax)<a href="tel:02-395-0338">02-395-0338</a></span><br>
                                                     <br>
                                                     ② All inquiries, complaints, damage relief, etc. concerning all personal information protection that arise in the course of using the services (or business) of the Company can be directed to the privacy officer or the privacy department. The Company shall provide replies to such inquiries without delay.
                                                 </p>
@@ -164,7 +167,8 @@
                                                     ▶ Department for Receipt and Processing the Request to Access the Personal Information<br>
                                                     Department Name: IT Team<br>
                                                     Manager: Yang, Dongho<br>
-                                                    Contact: ☎+82-2-2075-4335, hajenuri@seoulauction.com, (fax)+82-2-395-0338<br>
+                                                    <span>Contact: ☎<a href="tel:02-2075-4335">02-2075-4335</a>, <a href="mailto:hajenuri@seoulauction.com">hajenuri@seoulauction.com</a>, (fax)<a href="tel:02-395-0338">02-395-0338</a></span><br>
+                                                    <%--Contact: ☎+82-2-2075-4335, hajenuri@seoulauction.com, (fax)+82-2-395-0338<br>--%>
                                                 </p>
 
                                                 <h4>Article 11 (Remedy for Rights Infringement)</h4>
@@ -175,18 +179,18 @@
                                                     ▶ KISA Privacy Center (Operated by Korea Internet & Security Agency)<br>
                                                     - Responsible Duties: Reporting personal information infringement, request consultation<br>
                                                     - Homepage: privacy.kisa.or.kr<br>
-                                                    - Telephone: (No Area Code) 118<br>
+                                                    <span>- Telephone : (No Area Code) <a href="tel:118">118</a><br></span>
                                                     - Address: (58324) KISA Privacy Center, 3F, 9, Jinheung-gil, Naju-si, Jeollanam-do (301-2, Bitgaram-dong)<br>
                                                     <br>
                                                     ▶ Personal Information Dispute Mediation Committee<br>
                                                     - Responsible Duties: Application for personal information dispute mediation, collective dispute mediation (civil resolution)<br>
                                                     - Homepage: www.kopico.go.kr<br>
-                                                    - Telephone: (No Area Code) 1833-6972<br>
+                                                    <span>- Telephone: (No Area Code) <a href="tel:1833-6972">1833-6972</a></span><br>
                                                     - Address: (03171) 4F, Government Complex-Seoul, 209, Sejong-daero, Jongno-gu, Seoul<br>
                                                     <br>
-                                                    ▶ Supreme Prosecutors’ Office of the Republic of Korea – Cyber Crime Investigation Unit: +82-2-3480-3573 (www.spo.go.kr)<br>
+                                                    <span>▶ Supreme Prosecutors’ Office of the Republic of Korea – Cyber Crime Investigation Unit: <a href="tel:02-3480-3573">02-3480-3573</a> (www.spo.go.kr)</span><br><br>
                                                     <br>
-                                                    ▶ Cyber Terror Response Center: 182 (http://cyberbureau.police.go.kr)<br>
+                                                    <span>▶ Cyber Terror Response Center <a href="tel:182">182</a> (http://cyberbureau.police.go.kr) </span>
                                                 </p>
 
                                                 <h4>Article 12 (Modification of the Privacy Policy)</h4>

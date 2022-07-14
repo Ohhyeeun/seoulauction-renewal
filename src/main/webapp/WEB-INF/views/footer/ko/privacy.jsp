@@ -229,12 +229,12 @@
                                                     ▶ 개인정보 보호책임자<br>
                                                     성명 : 최윤석<br>
                                                     직책 : TF2 팀 전무<br>
-                                                    연락처: 02-395-0330 / sos@seoulauction.com<br>
+                                                    <span>연락처: <a href="tel:02-395-0330">02-395-0330</a> / <a href="mailto:sos@seoulauction.com">sos@seoulauction.com</a></span><br>
                                                     ※ 개인정보 민원처리 담당부서로 연결됩니다.<br>
                                                     <br>
                                                     ▶ 개인정보 보호 담당부서<br>
                                                     부서명 : 웹서비스개발팀<br>
-                                                    연락처: 02-395-0330 / sos@seoulauction.com<br>
+                                                    <span>연락처: <a href="tel:02-395-0330">02-395-0330</a> / <a href="mailto:sos@seoulauction.com">sos@seoulauction.com</a></span><br>
                                                     ※ 개인정보 민원처리 담당부서로 연결됩니다.<br>
                                                     <br>
                                                     ② 정보주체께서는 회사의 서비스(또는 사업)을 이용하시면서 발생한 모든 개인정보 보호 관련 문의, 불만처리, 피해구제 등에 관한 사항을 개인정보 보호책임자 및 담당부서로 문의하실 수 있습니다. 회사는 정보주체의 문의에 대해 지체없이 답변 및 처리해드릴 것입니다.
@@ -246,7 +246,7 @@
                                                     <br>
                                                     ▶ 개인정보 열람청구 접수․처리 부서<br>
                                                     서울옥션 고객센터<br>
-                                                    02-395-0330 / sos@seoulauction.com<br>
+                                                    <span><a href="tel:02-395-0330">02-395-0330</a> / <a href="mailto:sos@seoulauction.com">sos@seoulauction.com</a></span><br>
                                                 </p>
 
                                                 <h4>제11조(권익침해 구제방법)</h4>
@@ -256,19 +256,19 @@
                                                     <br>
                                                     ▶ 개인정보 침해신고센터<br>
                                                     - 홈페이지 : privacy.kisa.or.kr<br>
-                                                    - 전화 : (국번없이) 118<br>
+                                                    -  <span>전화 : (국번없이) <a href="tel:118">118</a></span><br>
                                                     <br>
                                                     ▶ 개인정보 분쟁조정위원회<br>
                                                     - 홈페이지 : www.kopico.go.kr<br>
-                                                    - 전화 : (국번없이) 1833-6972<br>
+                                                    - <span>전화 : (국번없이) <a href="tel:1833-6972">1833-6972</a></span><br>
                                                     <br>
                                                     ▶ 대검찰청 사이버수사과<br>
                                                     - 홈페이지 : http://www.spo.go.kr<br>
-                                                    - 전화 : 02-3480-3570<br>
+                                                    - <span>전화 : <a href="tel:02-3480-3570">02-3480-3570</a></span><br>
                                                     <br>
                                                     ▶ 경찰청 사이버수사국<br>
                                                     홈페이지 : https://ecrm.police.go.kr/<br>
-                                                    - 전화 : (국번없이) 182
+                                                    - <span>전화 : (국번없이) <a href="tel:182">182</a></span>
                                                 </p>
 
                                                 <h4>제12조(개인정보 처리방침 변경)</h4>
@@ -314,14 +314,14 @@
                                                         <td>최인경</td>
                                                         <td>이사</td>
                                                         <td>인사총무팀</td>
-                                                        <td>02-2075-4307</td>
+                                                        <td><span><a href="tel:02-2075-4307">02-2075-4307</a></span></td>
                                                     </tr>
                                                     <tr>
                                                         <td>접근권한자</td>
                                                         <td>이창섭</td>
                                                         <td>선임</td>
                                                         <td>인사총무팀</td>
-                                                        <td>02-2075-4494</td>
+                                                        <td><span><a href="tel:02-2075-4494">02-2075-4494</a></span></td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -364,7 +364,7 @@
                                                     <tr>
                                                         <td>에스원</td>
                                                         <td>사업장 소재지 영업담당자</td>
-                                                        <td>02-2075-4494</td>
+                                                        <td><span><a href="tel:02-2075-4494">02-2075-4494</a></span></td>
                                                     </tr>
                                                     </tbody>
                                                 </table>

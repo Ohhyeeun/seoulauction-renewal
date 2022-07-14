@@ -207,11 +207,11 @@
                                                     ▶ 개인정보 보호책임자<br>
                                                     성명 : 양동호<br>
                                                     직책 : IT팀 팀장<br>
-                                                    연락처:☎02-2075-4335, hajenuri@seoulauction.com, (fax)02-395-0338<br>
+                                                    <span>연락처:☎<a href="tel:02-2075-4335">02-2075-4335</a>, <a href="mailto:hajenuri@seoulauction.com">hajenuri@seoulauction.com</a>, (fax)<a href="tel:02-395-0330">02-395-0330</a></span><br>
                                                     ※ 개인정보 보호 담당부서로 연결됩니다.<br><br>
                                                     ▶ 개인정보 보호 담당부서<br>
                                                     부서명 : IT 팀<br>
-                                                    연락처:☎02-2075-4335, hajenuri@seoulauction.com, (fax)02-395-0338<br><br>
+                                                    <span>연락처:☎<a href="tel:02-2075-4335">02-2075-4335</a>, <a href="mailto:hajenuri@seoulauction.com">hajenuri@seoulauction.com</a>, (fax)<a href="tel:02-395-0338">02-395-0338</a></span><br>
                                                     ② 정보주체께서는 회사의 서비스(또는 사업)을 이용하시면서 발생한 모든 개인정보 보호 관련 문의, 불만처리, 피해구제 등에 관한 사항을 개인정보 보호책임자 및 담당부서로 문의하실 수 있습니다. 회사는 정보주체의 문의에 대해 지체없이 답변 및 처리해드릴 것입니다.
                                                 </p>
 
@@ -221,7 +221,7 @@
                                                     ▶ 개인정보 열람청구 접수․처리 부서<br>
                                                     부서명 : IT팀<br>
                                                     담당자 : 양동호<br>
-                                                    연락처 : ☎02-2075-4335, hajenuri@seoulauction.com, (fax)02-395-0338
+                                                    <span>연락처:☎<a href="tel:02-2075-4335">02-2075-4335</a>, <a href="mailto:hajenuri@seoulauction.com">hajenuri@seoulauction.com</a>, (fax)<a href="tel:02-395-0338">02-395-0338</a></span><br>
 
                                                 </p>
 
@@ -232,15 +232,15 @@
                                                     ▶ 개인정보 침해신고센터 (한국인터넷진흥원 운영)<br>
                                                     - 소관업무 : 개인정보 침해사실 신고, 상담 신청<br>
                                                     - 홈페이지 : privacy.kisa.or.kr<br>
-                                                    - 전화 : (국번없이) 118<br>
+                                                    <span>- 전화 : (국번없이) <a href="tel:118">118</a><br></span>
                                                     - 주소 : (58324) 전남 나주시 진흥길 9(빛가람동 301-2) 3층 개인정보침해신고센터<br><br>
                                                     ▶ 개인정보 분쟁조정위원회<br>
                                                     - 소관업무 : 개인정보 분쟁조정신청, 집단분쟁조정 (민사적 해결)<br>
                                                     - 홈페이지 : www.kopico.go.kr<br>
-                                                    - 전화 : (국번없이) 1833-6972<br>
+                                                    <span>- 전화 : (국번없이) <a href="tel:1833-6972">1833-6972</a></span><br>
                                                     - 주소 : (03171)서울특별시 종로구 세종대로 209 정부서울청사 4층<br><br>
-                                                    ▶ 대검찰청 사이버범죄수사단 : 02-3480-3573 (www.spo.go.kr)<br><br>
-                                                    ▶ 경찰청 사이버안전국 : 182 (http://cyberbureau.police.go.kr)
+                                                    <span>▶ 대검찰청 사이버범죄수사단 : <a href="tel:02-3480-3573">02-3480-3573</a> (www.spo.go.kr)</span><br><br>
+                                                    <span>▶ 경찰청 사이버안전국 : <a href="tel:182">182</a> (http://cyberbureau.police.go.kr) </span>
                                                 </p>
 
                                                 <h4>제12조(개인정보 처리방침 변경)</h4>
