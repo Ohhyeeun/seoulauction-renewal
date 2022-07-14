@@ -497,12 +497,13 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		}
  		var f = 'm:s';
     	var s = moment($scope.auth_end_time).diff(moment(new Date()), 'seconds');
-    	if(s > 0) {
-    		document.getElementById('checkHpAuthMsg').innerText = "남은시간 : " + moment.duration(s, "seconds").format(f);
-    	}
-    	else if (s == 0) {
+    	if(0 < s && s < 60){
+			document.getElementById('checkHpAuthMsg').innerText = "남은시간 0:" + moment.duration(s, "seconds").format(f);
+		}else if(s > 0) {
+    		document.getElementById('checkHpAuthMsg').innerText = "남은시간 " + moment.duration(s, "seconds").format(f);
+    	}else if (s == 0) {
     		//$scope.duraionEnd();
-    		document.getElementById('checkHpAuthMsg').innerText = "0";
+    		document.getElementById('checkHpAuthMsg').innerText = "남은시간 0:0";
     		$interval.cancel($scope.timer_duration);
     		console.log("======> cancel timer");
     		axios.post('/api/cert/clearAuthNum', {})
@@ -1189,6 +1190,8 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 			formData.set('social_type', $scope.form_data.social_type);
 			formData.set('social_email', $scope.form_data.social_email);
 			formData.set('social_login_id', $scope.form_data.social_login_id);
+			formData.delete('login_id');	
+			formData.delete('passwd');	
 		}
 		
 		formData.append('cust_kind_cd', $scope.form_data.cust_kind_cd);

@@ -84,6 +84,13 @@ public class FooterController {
     public String privacy(Locale locale) {
         return SAConst.getUrl(SERVICE_FOOTER , "privacy" , locale);
     }
+    //개인정보 관련 개정판
+    @GetMapping("/privacy_20190601")
+    public String privacy_20190601(Locale locale) {
+        return SAConst.getUrl(SERVICE_FOOTER , "privacy_20190601" , locale);
+    }
+    
+    
     @GetMapping("/rules")
     public String rules(Locale locale) {
         return SAConst.getUrl(SERVICE_FOOTER , "rules" , locale);

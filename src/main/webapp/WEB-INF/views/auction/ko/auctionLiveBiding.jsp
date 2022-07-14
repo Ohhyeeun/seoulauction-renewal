@@ -124,9 +124,9 @@
                                                         <div class="price">
                                                             <span id="price_to_han"></span>
                                                         </div>
-                                                        <div class="unit">
-                                                            <span>(호가단위:100,000 KRW)</span> 
-                                                        </div>
+<%--                                                        <div class="unit">--%>
+<%--                                                            <span>(호가단위:100,000 KRW)</span> --%>
+<%--                                                        </div>--%>
                                                     </div>
                                                 </div>
 
@@ -294,8 +294,6 @@
                     .then(function(response) {
 
                     let data = response.data.data;
-
-
                     let sale_title = JSON.parse(data.SALE_TITLE_JSON);
 
                     $("#bidding_lot_img").attr('src' , 'https://www.seoulauction.com/nas_img'+ data.LOT_IMG_PATH + '/' +data.LOT_IMG_NAME);
@@ -435,6 +433,14 @@
 
                 let url = '/api/auction/insertbid';
 
+                let date = new Date();
+                const month = String(date.getMonth()+1).padStart(2, "0");
+                const hours = String(date.getHours()).padStart(2, "0");
+                const min = String(date.getMinutes()).padStart(2, "0");
+                const sec = String(date.getSeconds()).padStart(2, "0");
+
+                let dateStr = date.getFullYear() + '-' + month + '-' + date.getDate() + ' ' + hours + ':' + min + ':' + sec;
+
                 try {
                     axios.post(url, {
                         bid_price: currentPrice,
@@ -442,13 +448,17 @@
                         sale_no : ${saleNo},
                         lot_no : ${lotNo},
                         cust_no : ${member.userNo},
-                        bid_dt : new Date().toISOString().slice(0, 19).replace('T', ' '),
+                        bid_dt : dateStr,
                         bid_grow_price : growPriceForOffline(currentPrice),
                         bid_type : bidType,
                         user_id : '${member.loginId}'
                     }).then(function(response) {
+
                         if(response.data.success){
                             alert("성공적으로 응찰 되었습니다.");
+                            location.href ='/auction/live/list/${saleNo}';
+                        } else {
+                            alert(response.data.data.msg);
                             location.href ='/auction/live/list/${saleNo}';
                         }
                     });
@@ -457,6 +467,9 @@
                     console.error(error);
                 }
             });
+
+
+
             $("#biding_cancel_btn").on('click', function(){
                 location.href ='/auction/live/list/${saleNo}';
             });

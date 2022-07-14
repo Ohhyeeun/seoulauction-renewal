@@ -1,3 +1,4 @@
+
 const baseURL = '/';
 const windowAxios = window.axios;
 const axiosExtension = window['axios-extensions'];
@@ -98,6 +99,12 @@ axios.interceptors.response.use((response) => {
                 'X-RateLimit-Remaining': response.headers['X-RateLimit-Remaining'],
             };
         }
+/*        console.log(response);
+        
+        console.log("requestURL :" + response.config.url);
+        console.log("responseURL :" + response.request.responseURL);
+        console.log("hostname :" + window.location.hostname);*/
+
         return response;
     },
     (error) => {

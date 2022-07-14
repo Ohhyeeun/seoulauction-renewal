@@ -201,9 +201,9 @@
 												<button class="btn btn_light_gray_line" type="button" ng-click="addressSearch()"><span>주소검색</span></button>
 											</div>
 
-											<div class="search-add">
-												<p class="add_txt tb1" name="addr" id="addr">{{form_data.addr}}</p>
-												<input type="text" tabindex="12" ng-model="form_data.addr_dtl" name="addr_dtl" id="addr_dtl" ng-change="addrDtlValidCheck()" class="form-control" placeholder="">
+											<div>
+												<p ng-show="form_data.addr != '' && form_data.addr != undefined" class="search-add" class="add_txt tb1" name="addr" id="addr">{{form_data.addr}}</p>
+												<input type="text" tabindex="12" ng-model="form_data.addr_dtl" name="addr_dtl" id="addr_dtl" ng-change="addrDtlValidCheck()" class="form-control mt10" placeholder="">
 											</div>
 											<p class="error_text tb2">{{addr_msg}}</p>
 										</div>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <%@include file="../../include/ko/header.jsp"%>
-<%--<link rel="stylesheet" href="/css/plugin/csslibrary.css">--%> 
+<%--<link rel="stylesheet" href="/css/plugin/csslibrary.css">--%>
 <body class="">
     <div class="wrapper">
         <div class="sub-wrap pageclass type-pagemain">
@@ -12,7 +12,6 @@
                 app.value('locale', 'ko');
             </script>
 
-            <!-- container -->
             <!-- container -->
             <div id="container">
                 <div id="contents" class="contents">
@@ -34,12 +33,11 @@
                             <div class="content-panel type_panel-privacy">
                                 <div class="panel-header">
                                     <div class="privacy-title">
-                                        <h3>㈜서울옥션 개인정보처리방침</h3>
+                                        <h3>㈜서울옥션 개인정보처리방침 (2019.06.01 이전)</h3>
                                         <div class="privacy-selector select-box">
                                             <select class="select2Basic42" onchange="window.open(value,'_self')">
-                                                <!-- [0712]이전버전링크 -->
-                                                <option value="" disabled selected>이전 개인정보처리방침 보기</option>
-                                                <option value="privacy_20190601">2019년 6월 1일 개정</option>
+                                                <option value="privacy" >이전 개인정보처리방침 보기</option>
+                                                <option value="" disabled selected>2019년 6월 1일 개정</option>
                                             </select>
                                         </div>
                                     </div>
@@ -92,60 +90,60 @@
                                                         <col span="2" style="width:50%;">
                                                     </colgroup>
                                                     <thead>
-                                                        <tr>
-                                                            <th>위탁받는 자</th>
-                                                            <th>위탁하는 업무의 내용</th>
-                                                        </tr>
+                                                    <tr>
+                                                        <th>위탁받는 자</th>
+                                                        <th>위탁하는 업무의 내용</th>
+                                                    </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td><span>㈜엘지유플러스</span></td>
-                                                            <td rowspan="2"><span>문자 발송 서비스</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><span>㈜바다정보</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><span>우리특송</span></td>
-                                                            <td><span>도록 발송 서비스</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><span>ks특송</span></td>
-                                                            <td rowspan="12"><span>도록 발송 서비스</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><span>원탑운송</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><span>㈜아트인아트</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><span>아트피크</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><span>아트드림</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><span>H&h특송</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><span>모두아트</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><span>경민특송</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><span>JM아트</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><span>㈜아트랜스</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><span>㈜동부아트</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><span>㈜오양특송</span></td>
-                                                        </tr>
+                                                    <tr>
+                                                        <td><span>㈜엘지유플러스</span></td>
+                                                        <td rowspan="2"><span>문자 발송 서비스</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>㈜바다정보</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>우리특송</span></td>
+                                                        <td><span>도록 발송 서비스</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>ks특송</span></td>
+                                                        <td rowspan="12"><span>도록 발송 서비스</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>원탑운송</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>㈜아트인아트</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>아트피크</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>아트드림</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>H&h특송</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>모두아트</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>경민특송</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>JM아트</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>㈜아트랜스</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>㈜동부아트</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span>㈜오양특송</span></td>
+                                                    </tr>
                                                     </tbody>
                                                 </table>
                                                 <p class="tb1">
@@ -252,11 +250,8 @@
                                     </article>
                                 </div>
                             </div>
-
-
                         </div>
                     </section>
-
                 </div>
             </div>
             <!-- //container -->
@@ -277,13 +272,16 @@
         </div>
     </div>
 
+
 <%--    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
 <%--    <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->--%>
 <%--    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
 <%--    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
     <!-- [0516]삭제
-  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
+  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
 -->
+
+
 </body>
 
 </html>

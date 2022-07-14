@@ -259,7 +259,7 @@
 									</div>
 									<div class="btn-area">
 										<div class="btn_set-float tac">
-											<a class="btn btn_gray_line" href="" role="button">
+											<a class="btn btn_gray_line js-closepop" href="" role="button">
 												<span>취소</span>
 											</a>
 											<a class="btn btn_point disabled" href="" role="button"

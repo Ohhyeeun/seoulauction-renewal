@@ -102,7 +102,7 @@
                                                                         <div class="pay-area">
                                                                             <dl class="price">
                                                                                 <dt class="tit">Estimate</dt>
-                                                                                <dd class="txt"><span>USD {{'$'}}{{comma(data.EXPE_PRICE_FROM_EN || 0)}}</span> <span>~ {{'$'}}{{comma(data.EXPE_PRICE_TO_EN || 0)}}</span></dd>
+                                                                                <dd class="txt"><span>USD {{comma(data.EXPE_PRICE_FROM_EN || 0)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_EN || 0)}}</span></dd>
                                                                             </dl>
                                                                         </div>
                                                                     </div>

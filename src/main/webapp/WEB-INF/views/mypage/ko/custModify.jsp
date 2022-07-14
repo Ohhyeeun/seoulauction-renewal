@@ -179,7 +179,7 @@
                                                         </div>
                                                         <div class="form_body vertical_item">
                                                             <div class="input-group">
-                                                                <input type="text" maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this, 'number');compareOldHp();" name="hp" id="hp" class="form-control" placeholder="">
+                                                                <input type="text" maxLength=13 onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);compareOldHp();" onblur="phoneNumberBlur(this);" name="hp" id="hp" class="form-control" placeholder="">
                                                                 <button onclick="authNumRequest()" class="btn btn_light_gray_line" type="button">
                                                                     <span id="authNumMsg">인증번호 요청</span>
                                                                 </button>
@@ -223,14 +223,14 @@
                                                         </div>
                                                         <div class="form_body vertical_item">
                                                             <div class="input-group">
-                                                                <input type="text" onclick="addressSearch()" name="zipno" id="zipno" class="form-control" placeholder="" readonly>
+                                                                <input type="text" onclick="addressSearch('addr')" name="zipno" id="zipno" class="form-control" placeholder="" readonly>
                                                                 <button onclick="addressSearch('addr')" class="btn btn_light_gray_line" type="button">
                                                                     <span>주소검색</span>
                                                                 </button>
                                                             </div>
                                                             <span class="mem_text address_text" id="addr"></span>
                                                             <div>
-                                                                <input type="text" onkeyup="addrDtlValidCheck()" name="addr_dtl" id="addr_dtl" class="form-control" value="" placeholder="">
+                                                                <input type="text" onkeyup="addrDtlValidCheck()" name="addr_dtl" id="addr_dtl" class="form-control mt10" value="" placeholder="">
                                                             </div>
                                                             <p class="error_text tb2" id="addrMsg"></p>
                                                         </div>
@@ -246,14 +246,14 @@
                                                                 <label for="copyAddrChk">주소와 동일한 경우 체크해 주세요.</label>
                                                             </span>
                                                             <div class="input-group">
-                                                                <input type="text" name="deli_zipno" id="deli_zipno" class="form-control" value="" placeholder="" readonly>
+                                                                <input type="text" onclick="addressSearch('deli')" name="deli_zipno" id="deli_zipno" class="form-control" value="" placeholder="" readonly>
                                                                 <button onclick="addressSearch('deli')" class="btn btn_light_gray_line" type="button">
                                                                     <span>주소검색</span>
                                                                 </button>
                                                             </div>
                                                             <span class="mem_text address_text" id="deli_addr"></span>
                                                             <div>
-                                                                <input type="text" name="deli_addr_dtl" id="deli_addr_dtl" class="form-control" value="" placeholder="">
+                                                                <input type="text" name="deli_addr_dtl" id="deli_addr_dtl" class="form-control mt10" value="" placeholder="">
                                                             </div>
                                                         </div>
                                                     </li>
