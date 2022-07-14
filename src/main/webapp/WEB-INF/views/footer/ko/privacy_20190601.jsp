@@ -35,9 +35,9 @@
                                     <div class="privacy-title">
                                         <h3>㈜서울옥션 개인정보처리방침 (2019.06.01 이전)</h3>
                                         <div class="privacy-selector select-box">
-                                            <select class="select2Basic42">
-                                                <option value="0">이전 개인정보처리방침 보기</option>
-                                                <option value="1">2019년 6월 1일 개정</option>
+                                            <select class="select2Basic42" onchange="window.open(value,'_self')">
+                                                <option value="privacy" >이전 개인정보처리방침 보기</option>
+                                                <option value="" disabled selected>2019년 6월 1일 개정</option>
                                             </select>
                                         </div>
                                     </div>
