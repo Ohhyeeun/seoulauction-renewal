@@ -7,7 +7,7 @@ window.addEventListener('load', () => {
    * @example
    * evaluateJavascript("webviewToggleMenu(true)")
    */
-  function webviewToggleMenu(state) {
+  function webviewToggleMenu2(state) {
     const bgElement = document.querySelector('.gnb_submenuBg');
     const menugElement = document.querySelector('.submenuBg');
 

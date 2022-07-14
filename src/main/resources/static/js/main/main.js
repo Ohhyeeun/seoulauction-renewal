@@ -118,72 +118,6 @@ window.onload = function(){
 
 }
 
-/* pc 다크모드 */
-$('.darkmodeBg').click(function () {
-
-    $('*').toggleClass('dark');
-
-    $('.auctionTab-btn').click(function () {
-        const darkIngTab = $(this).index();
-        $('.auctionTab-btn').removeClass('dark');
-        $('.auctionTab-contents').removeClass('dark');
-
-        $(this).addClass('dark');
-        $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
-    });
-
-    $('.darktxt').text('다크모드로 보기');
-    $('.darktxt.dark').text('라이트모드로 보기');
-    $('.darktxt-en').text('Dark Mode');
-    $('.darktxt-en.dark').text('Light Mode');
-
-    const theme = localStorage.getItem('theme');
-    if (theme) {
-        localStorage.removeItem('theme');
-    } else {
-        localStorage.setItem('theme', 'dark');
-    }
-});
-
-/* mobile 다크모드 */
-$('.modebox').click(function () {
-    if ($('.mode-toggle>input').is(":checked")) {
-        $('*').addClass('dark');
-    } else {
-        $('*').removeClass('dark');
-    }
-
-    const theme = localStorage.getItem('theme');
-    if (theme) {
-        localStorage.removeItem('theme');
-    } else {
-        localStorage.setItem('theme', 'dark');
-    }
-});
-
-/* 다크모드 새로고침 시 */
-window.addEventListener('DOMContentLoaded', () => {
-    // console.log("theme ", localStorage.getItem('theme'));
-
-    $('*').toggleClass(localStorage.getItem('theme'));
-
-    $('.auctionTab-btn').click(function () {
-        const darkIngTab = $(this).index();
-        $('.auctionTab-btn').removeClass('dark');
-        $('.auctionTab-contents').removeClass('dark');
-
-        $(this).addClass('dark');
-        $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
-    });
-
-    $('.darktxt').text('다크모드로 보기');
-    $('.darktxt.dark').text('라이트모드로 보기');
-    $('.darktxt-en').text('Dark Mode');
-    $('.darktxt-en.dark').text('Ligth Mode');
-
-    $('.mode-toggle>input').addClass(localStorage.getItem('theme'));
-});
-
 /* visual */
 const visualSwiper = new Swiper('.visual-swiper', {
     effect:'fade',
@@ -637,9 +571,9 @@ function loadPopup(){
                     if(data) {
 
                         let jsonData = JSON.parse(data.content);
-
                         let popupType = data.popup_type;
 
+                        //모바일 일때
                         let localeTitle = locale === 'ko' ? jsonData.title.ko : jsonData.title.en;
                         let localeContent = locale === 'ko' ? jsonData.content.ko.content : jsonData.content.en.content;
                         let localeUrl = locale === 'ko' ? jsonData.content.ko.url : jsonData.content.en.url;
@@ -650,12 +584,38 @@ function loadPopup(){
 
                         if(popupType === 'image'){
 
-                            $('.main-popup-img').show();
-                            if(data.image !== "") {
-                                $('#main_popup_img').attr('src', data.image);
-                                $('.main-popup-img').show();
+                            let imgUrl;
+
+                            ///////////// 이미지 선택 //////////////////
+                            //모바일이 아닐때만 .
+                            if (matchMedia("all and (min-width: 1024px)").matches) {
+
+                                $.each(data.image , function(lotIdx , el){
+
+                                    if(locale === 'ko' && el.tag === 'pcKo'){
+                                        imgUrl = el.cdn_url;
+                                    } else if (locale === 'en' && el.tag === 'pcEn'){
+                                        imgUrl = el.cdn_url;
+                                    }
+                                });
+                            //모바일일때만.
+                            } else {
+
+                                $.each(data.image , function(lotIdx , el){
+
+                                    if(locale === 'ko' && el.tag === 'moKo'){
+                                        imgUrl = el.cdn_url;
+                                    } else if (locale === 'en' && el.tag === 'moEn'){
+                                        imgUrl = el.cdn_url;
+                                    }
+                                });
                             }
 
+                            $('.main-popup-img').show();
+                            if(data.image !== "") {
+                                $('#main_popup_img').attr('src', imgUrl);
+                                $('.main-popup-img').show();
+                            }
 
                         } else if (popupType === 'text'){
                             $('.main-popup-txt').show();
@@ -702,17 +662,6 @@ function localeOrdinal(n, l) {
 /* main에서만 사용되는 gnb */
 if (matchMedia("all and (min-width: 1024px)").matches) {
 
-    /* 다크모드 버튼 */
-    $('.darkmodeBg').hover(function () {
-        $('.darkmode').toggleClass('active');
-    }, function () {
-        $('.darkmode').toggleClass('active');
-    });
-    $('.darkmodeBg.dark').hover(function () {
-        $('.darkmode.dark').toggleClass('active');
-    }, function () {
-        $('.darkmode.dark').toggleClass('active');
-    });
 
 } else {
     /* 띠배너 beltbanner */
@@ -841,71 +790,4 @@ $(window).resize(function(){
             },
         },
     });
-
-    /* pc 다크모드 */ 
-    $('.darkmodeBg').click(function (){
-
-        $('*').toggleClass('dark');
-
-        $('.auctionTab-btn').click(function () {
-            const darkIngTab = $(this).index();
-            $('.auctionTab-btn').removeClass('dark');
-            $('.auctionTab-contents').removeClass('dark');
-
-            $(this).addClass('dark');
-            $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
-        });
-
-        $('.darktxt').text('다크모드로 보기');
-        $('.darktxt.dark').text('라이트모드로 보기');
-        $('.darktxt-en').text('Dark Mode');
-        $('.darktxt-en.dark').text('Light Mode');
-
-        const theme = localStorage.getItem('theme');
-        if (theme) {
-            localStorage.removeItem('theme');
-        } else {
-            localStorage.setItem('theme', 'dark');
-        }
-    });
-
-    /* mobile 다크모드 */
-    $('.modebox').click(function () {
-        if ($('.mode-toggle>input').is(":checked")) {
-            $('*').addClass('dark');
-        } else {
-            $('*').removeClass('dark');
-        }
-
-        const theme = localStorage.getItem('theme');
-        if (theme) {
-            localStorage.removeItem('theme');
-        } else {
-            localStorage.setItem('theme', 'dark');
-        }
-    });
-
-    /* 다크모드 새로고침 시 */
-    window.addEventListener('DOMContentLoaded', () => {
-        // console.log("theme ", localStorage.getItem('theme'));
-
-        $('*').toggleClass(localStorage.getItem('theme'));
-
-        $('.auctionTab-btn').click(function () {
-            const darkIngTab = $(this).index();
-            $('.auctionTab-btn').removeClass('dark');
-            $('.auctionTab-contents').removeClass('dark');
-
-            $(this).addClass('dark');
-            $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
-        });
-
-        $('.darktxt').text('다크모드로 보기');
-        $('.darktxt.dark').text('라이트모드로 보기');
-        $('.darktxt-en').text('Dark Mode');
-        $('.darktxt-en.dark').text('Ligth Mode');
-
-        $('.mode-toggle>input').addClass(localStorage.getItem('theme'));
-    });
-
 });

@@ -72,6 +72,7 @@ $(document).ready(function(){
             let lotName = locale === 'ko' ? lotTitle.ko : lotTitle.en;
             let priceToJson =  JSON.parse(el.EXPE_PRICE_TO_JSON);
             let priceFromJson =  JSON.parse(el.EXPE_PRICE_FROM_JSON);
+
             let price = "";
             if (kind === "ONLINE") {
                 if (locale === 'ko') {
@@ -79,9 +80,13 @@ $(document).ready(function(){
                 }
             } else {
                 if (locale === 'ko') {
-                    price = numberWithCommas(priceFromJson.KRW) + '~' + numberWithCommas(priceToJson.KRW);
+                    if(priceFromJson.KRW) {
+                        price = numberWithCommas(priceFromJson.KRW) + '~' + numberWithCommas(priceToJson.KRW);
+                    }
                 } else {
-                    price = numberWithCommas(priceFromJson.USD) + '~' + numberWithCommas(priceToJson.USD);
+                    if(priceFromJson.USD) {
+                        price = numberWithCommas(priceFromJson.USD) + '~' + numberWithCommas(priceToJson.USD);
+                    }
                 }
             }
 

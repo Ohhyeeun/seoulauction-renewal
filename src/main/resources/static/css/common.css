@@ -1427,6 +1427,10 @@ body.dark,
 .keyword-del.dark {
     background-image: url("/images/pc/icon/x-btn-lightgray.svg");
 }
+.swiper-button-prev.platformBtn-left.dark,
+.swiper-button-next.platformBtn-right.dark {
+    background-size: 33px auto;
+}
 .swiper-button-prev.platformBtn-left.dark {
     background-image: url("/images/pc/icon/ic_chevron_left_white_48.svg");
 }
@@ -1437,16 +1441,24 @@ body.dark,
 .auction-thumbbox.dark,
 .swiper-slide.upcomingSlide.dark {
     background-color: #2d2d2d;
-}
+}  
 
 
 /* 외주 css selec container */
 .select2-container--open {
     z-index: 24 !important;
 }
-.sub-wrap .main-header {
+.sub-wrap .main-header { /* 기준 */
     z-index: 30 !important;
 }
+/* aucton 페이지 전체 lot dim */
+.allview_fixed-wrap .popup-dim {
+    z-index: 30 !important;
+}
+.allview_fixed-wrap .fixed-panel {
+    z-index: 31 !important;
+}
+
 /* pc */ 
 @media all and (max-width: 1919px) {
     .scroll-top {
@@ -1934,7 +1946,7 @@ body.dark,
         border-left: 0;
     }
     .main-sectiontit {
-        font-size: 1.625em; /* 26px */
+        font-size: 2em; /* 32px */
     }
     .modebox {
         border-top: 1px solid #dedede;
@@ -2210,8 +2222,8 @@ body.dark,
     .footer-infomenu {
         margin-bottom: 25px;
         font-size: 12px;
-        margin-bottom: 100px;
-        justify-content: center;
+        margin-bottom: 110px;
+        justify-content: center; 
     }
     .footer-infomenu>li:before {
         margin: 0 15px;

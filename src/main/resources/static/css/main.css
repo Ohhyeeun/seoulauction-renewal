@@ -969,6 +969,9 @@
     width: 450px;
     height: 372px;
 }
+.main-popup-img {
+    background-color: #fff;
+}
 .main-popup-txt {
     background-color: #fff;
     padding: 40px 30px;
@@ -1010,6 +1013,8 @@
 }
 .main-popup-img>img {
     display: block;
+    margin: 0 auto;
+    text-align: center
 }
 /* on 일때 보임 */
 .upcoming-open.on,
@@ -1193,7 +1198,7 @@
         width: 6px;
         height: 6px;
         background-color: #ccc;
-        margin-right: 10px;
+        margin-right: 6px;
         opacity: 1;
     }
     .visual-pagaination>span.swiper-pagination-bullet-active {
@@ -1424,7 +1429,7 @@
         padding: 30px 24.5px 29.5px 25px;
     }
     .sale-box>figcaption>h2 {
-        font-size: 21px;
+        font-size: 1.5625em;
         margin-bottom: 16px;
     }
     .sale-box>figcaption>p {
@@ -1455,7 +1460,7 @@
     }
     .familySite-tit,
     .newsLetter-tit {
-        font-size: 21px;
+        font-size: 25px;
     }
     .familysite-box,
     .newsletter-box {
@@ -1680,9 +1685,13 @@
         margin-right: 10px;
     }
     .video,
-    .article-contents {
-        margin-bottom: 60px;
-    }
+    .article-contents,
+    .video:lang(en) {
+        margin-bottom: 3.75em;
+    } 
+    .article-contents:lang(en) {
+        margin-bottom: 10em;
+    } 
     .swiper-slide.video-slide {
         max-width: calc(100% / 2 - 35px);
     }
@@ -1696,7 +1705,7 @@
         padding-top: 0;
     }
     .familysite-box {
-        padding: 30px;
+        padding: 20px; 
     }
     .familysite-box>h3 {
         padding-bottom: 20px;
