@@ -344,12 +344,13 @@ function authNumRequest(){
 function setAuthDuration() {
 	var f = 'm:s';
 	var s = moment(auth_end_time).diff(moment(new Date()), 'seconds');
-	if(s > 0) {
-		document.getElementById('checkHpAuthMsg').innerText = "남은시간 : " + moment.duration(s, "seconds").format(f);
-	}
-	else if (s == 0) {
+	if(0 < s && s < 60){
+		document.getElementById('checkHpAuthMsg').innerText = "남은시간 0:" + moment.duration(s, "seconds").format(f);
+	}else if(s > 0) {
+		document.getElementById('checkHpAuthMsg').innerText = "남은시간 " + moment.duration(s, "seconds").format(f);
+	}else if (s == 0) {
 		//$scope.duraionEnd();
-		document.getElementById('checkHpAuthMsg').innerText = "0";
+		document.getElementById('checkHpAuthMsg').innerText = "남은시간 0:0";
 		clearInterval(timer_duration);
 		console.log("======> cancel timer");
 		axios.post('/api/cert/clearAuthNum', {})
