@@ -1219,3 +1219,19 @@ function nativeToggleMenu(state) {
       document.querySelector('.m-gnbmenu').click();
     }
 }
+
+/**
+ * 앱 버전 호출
+ */
+function isNativeApp() {
+    if (typeof flutter_inappwebview === 'undefined') return false;
+    if (typeof flutter_inappwebview.callHandler === 'undefined') return false;
+  
+    const appVersionData = flutter_inappwebview.callHandler('getAppHeader');
+    if (!!appVersionData) {
+      return true;
+    }
+  
+    return false;
+}
+  
