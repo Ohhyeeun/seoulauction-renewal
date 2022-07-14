@@ -21,7 +21,7 @@
                             <article class="auction_head_info-article">
                                 <div class="center-box ing">
                                     <h2 class="page_title">
-                                        <span class="th1">{{sale.SALE_TH | localeOrdinal}} {{sale.TITLE_JSON.ko}} ${bid_domain}</span>
+                                        <span class="th1">{{sale.SALE_TH | localeOrdinal}} {{sale.TITLE_JSON.ko}}</span>
                                     </h2>
                                     <ul class="event_day-list">
                                         <li>

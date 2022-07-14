@@ -28,4 +28,6 @@ public interface AuctionMapper {
     CommonMap selectSaleInfo(CommonMap commonMap);
 
     CommonMap selectScTrans(CommonMap map);
+
+    List<CommonMap> selectSoldInvoiceInfo(CommonMap map);
 }
