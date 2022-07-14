@@ -42,7 +42,10 @@
 											<dd>
 												<!-- [0502] -->
 												<ul class="dot_list tb1">
-													<li>온라인 경매 응찰 자격 부여 낙찰 시, 수수료 <br class="only-pc">별도 부가</li>
+<!-- 													<li>온라인 경매 응찰 자격 부여 낙찰 시, 수수료 <br class="only-pc">별도 부가</li> -->
+													<li>온라인 경매 응찰 자격 부여</li>
+													<li>경매 대상 작품 위탁 신청</li>
+													<li>경매 관련 다양한 정보 제공(이메일/SMS)</li>
 												</ul>
 												<!-- //[0502] -->
 											</dd>
@@ -62,9 +65,9 @@
 												<p class="tb1">라이브 경매 도록 발송</p>
 												<p class="tb1">서울옥션 달력 발송</p>
 
-												<div class="btn_line">
-													<a href="/payment/member" class="btn btn_gray_line pr0"><span>정회원 신청 바로가기</span><i class="icon-page_next"></i></a>
-												</div>
+<!-- 												<div class="btn_line"> -->
+<!-- 													<a href="/payment/member" class="btn btn_gray_line pr0"><span>정회원 신청 바로가기</span><i class="icon-page_next"></i></a> -->
+<!-- 												</div> -->
 											</dd>
 											<!-- //[0502] -->
 										</dl>
