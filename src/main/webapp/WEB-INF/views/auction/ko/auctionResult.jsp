@@ -70,7 +70,7 @@
                     </div>
                 </section>
 
-                <section ng-if="auctionList.length > 0" class="basis-section auction_result_list-section last-section">
+                <section ng-show="totalCount > 0" class="basis-section auction_result_list-section last-section">
                     <div class="section-inner">
                         <div class="content-panel type_panel-product_result_list">
                             <div class="panel-body">
@@ -133,7 +133,7 @@
                     </div>
                 </section>
 
-                <section ng-if="auctionList.length <= 0" class="basis-section auction_result_list-section last-section">
+                <section ng-show="totalCount <= 0" class="basis-section auction_result_list-section last-section">
                     <div class="section-inner">
                         <div class="content-panel type_panel-product_result_list">
                             <div class="panel-body">
