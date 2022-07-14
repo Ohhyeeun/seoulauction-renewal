@@ -480,6 +480,7 @@ function addrDtlValidCheck(){
 	var addrDtl = $("#addr_dtl").val();
 	if(!undefCheck(addrDtl)){
 		addrValid = true;
+		$("#addrMsg").html('');	
 	}else{
 		$("#addrMsg").html('상세주소를 등록해주세요.');	
 	}
@@ -522,7 +523,6 @@ function findAddrNewForm(){
 function setAddr(addr){
 	if(addrType == 'addr'){
 		$("#addr").show();
-		$("#addr_dtl").removeClass('mt10');
 		$("#addr_old_yn").val("N");
 		$("#zipno").val(addr.postcd);
 		$("#addr").html(addr.address);
@@ -531,7 +531,6 @@ function setAddr(addr){
 		$("#addrMsg").html("상세주소를 입력해주세요.");
 	}else if(addrType == 'deli'){
 		$("#deli_addr").show();
-		$("#deli_addr_dtl").removeClass('mt10');
 		$("#deli_addr_old_yn").val("N");
 		$("#deli_zipno").val(addr.postcd);
 		$("#deli_addr").html(addr.address);
@@ -550,20 +549,17 @@ function copyAddr(){
 			$("#deli_addr").html($("#addr").html());
 			if($("#addr").html() != ''){
 				$("#deli_addr").show();
-				$("#deli_addr_dtl").removeClass('mt10');
 			}
 		}else{
 			$("#deli_addr").val($("#addr").val());
 			if($("#addr").val() != ''){
 				$("#deli_addr").show();
-				$("#deli_addr_dtl").removeClass('mt10');
 			}
 		}
 		$("#deli_addr_dtl").val($("#addr_dtl").val());
 	}else{
 		$("#deli_zipno, #deli_addr_dtl").val('');
 		$("#deli_addr").hide();
-		$("#deli_addr_dtl").addClass('mt10');
 		if(langType == 'ko'){
 			$("#deli_addr").html('');
 		}else{
