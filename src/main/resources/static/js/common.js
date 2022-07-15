@@ -1274,3 +1274,14 @@ function isNativeApp() {
         return false;
     }
 }
+
+async function isNativeAppAsync() {
+    try {
+        const result = await window.flutter_inappwebview.callHandler('getAppHeader', '');
+        console.log(JSON.stringify(result));
+        window.alert(JSON.stringify(result));
+        return !!result;
+    } catch (error) {
+        return false;
+    }
+}
