@@ -94,8 +94,8 @@ $('#findId').on('click', function() {
 		let success = result.success;
 		if (!success) {
 			popup_idsearch2.open(this);
-		} else if(result.data.SOCIAL_YN == 'Y'){
-			$('#socialType').text(result.data.SOCIAL_TYPE);
+		} else if(result.data[0].SOCIAL_YN == 'Y'){
+			$('#socialType').text(result.data[0].SOCIAL_TYPE);
 			popup_idsearch4.open(this);
 		} else {
 			let loginId = [];
