@@ -30,7 +30,7 @@
                                                     <a href="#" onclick="window.history.back()" title="뒤로가기">
                                                         <i class="icon-page_back"></i>
                                                     </a>
-<%--                                                    <span ng-bind="saleInfo.SALE_TITLE_KO"></span>--%>
+                                                    <span ng-bind="fullTitle"></span>
                                                 </div>
                                             </div>
                                             <div class="col_item">
@@ -322,7 +322,7 @@
                                 </article>
                             </div>
                             <div class="panel-footer">
-                                <article class="product_recent_work-article">
+                                <article ng-show="recentlyViews.length != 0" class="product_recent_work-article">
                                     <div class="article-header">
                                         <div class="title"><span>이 경매의 최근 본 작품</span></div>
                                     </div>
@@ -382,6 +382,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 </article>
                             </div>
                         </div>
@@ -1182,6 +1183,14 @@
                 $scope.artistNo = $scope.lotInfo.ARTIST_NO;
 
                 $scope.activeIndex = 0;
+
+
+                let sale_title;
+                sale_title = ( $scope.lotInfo.SALE_TH === undefined || $scope.lotInfo.SALE_TH === '')  ? '' : ( '제' + $scope.lotInfo.SALE_TH + '회 ' );
+                sale_title += JSON.parse($scope.lotInfo.SALE_TITLE_JSON).ko;
+
+                $scope.fullTitle = sale_title;
+
 
                 // popup setting
 

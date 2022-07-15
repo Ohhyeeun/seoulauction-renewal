@@ -100,7 +100,11 @@ $('#findId').on('click', function() {
 		} else {
 			let loginId = [];
 			for(let i=0; i<result.data.length; i++ ){
+				if(result.data[i].SOCIAL_YN == 'Y'){
+					loginId.push('SNS('+result.data[i].SOCIAL_TYPE+')');
+				} else {
 				loginId.push(result.data[i].LOGIN_ID);
+				}
 			}
 			$('#custId').text(loginId);
 			popup_idsearch1.open(this);

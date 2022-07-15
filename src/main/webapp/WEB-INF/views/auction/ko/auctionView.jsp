@@ -27,7 +27,7 @@
                                                     <a href="/auction/list/{{saleInfo.SALE_NO}}" title="뒤로가기">
                                                         <i class="icon-page_back"></i>
                                                     </a>
-                                                    <span ng-bind="sale | title"></span>
+                                                    <span ng-bind="fullTitle"></span>
                                                 </div>
                                             </div>
                                             <div class="col_item">
@@ -323,7 +323,7 @@
 
                             </div>
                             <div class="panel-footer">
-                                <article class="product_recent_work-article">
+                                <article ng-show="recentlyViews.length != 0" class="product_recent_work-article">
                                     <div class="article-header" ng-show="recentlyViews.length > 0">
                                         <div class="title"><span>이 경매의 최근 본 작품</span></div>
                                     </div>
@@ -1312,6 +1312,13 @@
                 $scope.lotInfo = r2.data.data;
                 $scope.lotImages = r3.data.data;
                 $scope.saleImages = r4.data.data;
+
+
+                let sale_title;
+
+                sale_title = ( $scope.lotInfo.SALE_TH === undefined || $scope.lotInfo.SALE_TH === '')  ? '' : ( '제' + $scope.lotInfo.SALE_TH + '회 ' );
+                sale_title += JSON.parse($scope.lotInfo.SALE_TITLE_JSON).ko;
+                $scope.fullTitle = sale_title;
 
                 $scope.estimatedRange = $scope.lotInfo.BASE_EXPE_FROM_PRICE + ' ~ '
                     + $scope.lotInfo.BASE_EXPE_TO_PRICE;
