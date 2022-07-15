@@ -223,10 +223,10 @@ public class SaleService {
         ) {
 
 
-            //int paddNo =  auctionService.selectSalePaddNo(map);
+            int paddNo =  auctionService.selectSalePaddNo(map);
 
             //패들번호를 신경x
-            map.put("padd_no", null);
+            map.put("padd_no", paddNo);
 
             WebClient webClient = WebClient.builder()
                     .baseUrl("http://dev-bid.seoulauction.xyz")

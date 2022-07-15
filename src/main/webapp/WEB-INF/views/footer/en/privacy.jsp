@@ -48,7 +48,7 @@
                                     <!-- [0712]내용전체수정 -->
                                     <div class="privacy-info tb1">
                                         Seoul Auction (hereinafter referred to as the “Company”) has established and is disclosing the following guidelines to protect the privacy of the data subjects and to quickly and smoothly address the related difficulties pursuant to the Act on the Promotion of Information and Communications Network Utilization and Information Protection, Etc. and the Personal Information Protection Act.<br>
-                                        This policy shall take effect from June 1, 2019.
+<%--                                        This policy shall take effect from June 1, 2019.--%>
                                     </div>
                                     <!-- //[0712]내용전체수정 -->
                                 </div>
@@ -231,12 +231,12 @@
                                                     ▶ Privacy Officer<br>
                                                     Name: Chey, Younseok<br>
                                                     Position: Executive Director of TF2 Team<br>
-                                                    Contact: 02-395-0330 / sos@seoulauction.com<br>
+                                                    <span>Contact: <a href="tel:02-395-0330">02-395-0330</a> / <a href="mailto:sos@seoulauction.com">sos@seoulauction.com</a></span><br>
                                                     ※ Directed to the privacy department.<br>
                                                     <br>
                                                     ▶ Privacy Department<br>
                                                     Webservice Development Team<br>
-                                                    02-395-0330 / sos@seoulauction.com<br>
+                                                    <span>Contact: <a href="tel:02-395-0330">02-395-0330</a> / <a href="mailto:sos@seoulauction.com">sos@seoulauction.com</a></span><br>
                                                     ※ Directed to the privacy department.<br>
                                                     <br>
                                                     ② All inquiries, complaints, damage relief, etc. concerning all personal information protection that arise in the course of using the services (or business) of the Company can be directed to the privacy officer or the privacy department. The Company shall provide replies to such inquiries without delay.
@@ -248,7 +248,7 @@
                                                     <br>
                                                     ▶ Department for Receipt and Processing the Request to Access the Personal Information<br>
                                                     Seoul Auction Customer Center<br>
-                                                    02-395-0330 / sos@seoulauction.com
+                                                    <span><a href="tel:02-395-0330">02-395-0330</a> / <a href="mailto:sos@seoulauction.com">sos@seoulauction.com</a></span><br>
                                                 </p>
 
                                                 <h4>Article 11 (Remedy for Rights Infringement)</h4>
@@ -258,19 +258,19 @@
                                                     <br>
                                                     ▶ KISA Privacy Center<br>
                                                     - Homepage: privacy.kisa.or.kr<br>
-                                                    - Telephone: (No Area Code) 118<br>
+                                                    -  <span>Telephone : (No Area Code) <a href="tel:118">118</a></span><br>
                                                     <br>
                                                     ▶ Personal Information Dispute Mediation Committee<br>
                                                     - Homepage: www.kopico.go.kr<br>
-                                                    - Telephone: (No Area Code) 1833-6972<br>
+                                                    -  <span>Telephone : (No Area Code) <a href="tel:1833-6972">1833-6972</a></span><br>
                                                     <br>
                                                     ▶ Supreme Prosecutors’ Office of the Republic of Korea - Cyber Investigation Division<br>
                                                     - Homepage: http://www.spo.go.kr<br>
-                                                    - Telephone: 02-3480-3570<br>
+                                                    -  <span>Telephone : (No Area Code) <a href="tel:02-3480-3570">02-3480-3570</a></span><br>
                                                     <br>
                                                     ▶ National Police Agency - Cyber Investigation Bureau<br>
                                                     - Homepage: https://ecrm.police.go.kr/<br>
-                                                    - Tel: (without area code) 182
+                                                    - <span>Tel : (without area code) <a href="tel:182">182</a></span>
                                                 </p>
 
                                                 <h4>Article 12 (Operation Management Policy for Image Information Processing Equipment)</h4>
@@ -318,14 +318,14 @@
                                                         <td>Choi, In-gyeong</td>
                                                         <td>Director</td>
                                                         <td>HR and General Affairs Team</td>
-                                                        <td>02-2075-4307</td>
+                                                        <td><span><a href="tel:02-2075-4307">02-2075-4307</a></span></td>
                                                     </tr>
                                                     <tr>
                                                         <td>Access Authority</td>
                                                         <td>Lee, Chang-seob</td>
                                                         <td>Senior</td>
                                                         <td>HR and General Affairs Team</td>
-                                                        <td>02-2075-4494</td>
+                                                        <td><span><a href="tel:02-2075-4494">02-2075-4494</a></span></td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -367,7 +367,7 @@
                                                     <tr>
                                                         <td>S1</td>
                                                         <td>Sales Manager at the Business Site</td>
-                                                        <td>02-2075-4494</td>
+                                                        <td><span><a href="tel:02-2075-4494">02-2075-4494</a></span></td>
                                                     </tr>
                                                     </tbody>
                                                 </table>

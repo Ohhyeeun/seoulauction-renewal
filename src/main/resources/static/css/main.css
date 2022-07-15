@@ -607,8 +607,8 @@
     width: 6px;
     height: 6px;
     background-color: #ccc;
-    margin-right: 10px;
-    opacity: 1;
+    margin-right: 6px;
+    opacity: 1; 
 }
 .platform-pagination>span:last-of-type {
     margin-right: 0;

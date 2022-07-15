@@ -1156,32 +1156,7 @@ $(window).resize(function(){
         } else {
             localStorage.setItem('theme', 'dark');
         }
-    });
-
-    /* 다크모드 새로고침 시 */
-    window.addEventListener('DOMContentLoaded', () => {
-        // console.log("theme ", localStorage.getItem('theme'));
-
-        $('*').toggleClass(localStorage.getItem('theme'));
-
-        $('.auctionTab-btn').click(function () {
-            const darkIngTab = $(this).index();
-            $('.auctionTab-btn').removeClass('dark');
-            $('.auctionTab-contents').removeClass('dark');
-
-            $(this).addClass('dark');
-            $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
-        });
-
-        $('.darktxt').text('다크모드로 보기');
-        $('.darktxt.dark').text('라이트모드로 보기');
-        $('.darktxt-en').text('Dark Mode');
-        $('.darktxt-en.dark').text('Ligth Mode');
-
-        $('.mode-toggle>input').addClass(localStorage.getItem('theme'));
-    });
-
-
+    });  
 });
 
 /* 새로고침 */
@@ -1237,38 +1212,21 @@ $(function(){
     window.isFlutterInAppWebViewReady = false;
     window.addEventListener('flutterInAppWebViewPlatformReady', function(e) {
         window.isFlutterInAppWebViewReady = true;
-
-        /**
-         * 앱 버전 호출
-         */
-        function isNativeApp() {
-            if (window.isFlutterInAppWebViewReady) {
-                if (typeof window.flutter_inappwebview === 'undefined') return false;
-                if (typeof window.flutter_inappwebview.callHandler === 'undefined') return false;
-
-                let appVersionData = '';
-                if (window.flutter_inappwebview.callHandler) {
-                    appVersionData = window.flutter_inappwebview.callHandler('getAppHeader', '');
-                } else {
-                    appVersionData = window.flutter_inappwebview._callHandler('getAppHeader', setTimeout(function(){}), JSON.stringify(['']));
-                }
-
-                if (!!appVersionData) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-        window.isNativeApp = isNativeApp;
     });
 });
-
-function isNativeApp() {
+  
+/**
+ * 앱 버전정보 조회
+ * @return {Promise<Object>}
+ * @example
+ * // Return Data Example
+ * { "X-Custom-Webview-Name": "sa_app", "X-Custom-App-Version": "3.0.0" }
+ */
+async function isNativeApp() {
     try {
-        window.flutter_inappwebview.callHandler('getAppHeader', '').then(result => {
-            return !!result;
-        });
+        const result = await window.flutter_inappwebview.callHandler('getAppHeader', '');
+        console.log(JSON.stringify(result));
+        return !!result;
     } catch (error) {
         return false;
     }

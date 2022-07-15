@@ -77,7 +77,7 @@
                                 <p class="family-infotxt tit-size16">Overseas auction agency "Buy art directly"</p>
                             </div>
                             <figure class="family-infoimg">
-                                <a href="#">
+                                <a href=https://www.auctionblue.com"  target="_blank">
                                     <img src="/images/pc/banner/FamilyBanner_01_383x150.png" alt="action blue" class="pc-ver">
                                     <img src="/images/mobile/banner/FamilyBanner_01_520x204.png" alt="action blue" class="m-ver">
                                 </a>
@@ -89,7 +89,7 @@
                                 <p class="family-infotxt tit-size16">Platform for joint purchase of artworks</p>
                             </div>
                             <figure class="family-infoimg">
-                                <a href="#">
+                                <a href="https://sotwo.com"  target="_blank">
                                     <img src="/images/pc/banner/FamilyBanner_02_383x150.png" alt="action blue" class="pc-ver">
                                     <img src="/images/mobile/banner/FamilyBanner_02_520x204.png" alt="action blue" class="m-ver">
                                 </a>
@@ -101,7 +101,7 @@
                                 <p class="family-infotxt tit-size16">"Taste everyday art"</p>
                             </div>
                             <figure class="family-infoimg">
-                                <a href="#">
+                                <a href="https://printbakery.com"  target="_blank">
                                     <img src="/images/pc/banner/FamilyBanner_03_383x150.png" alt="action blue" class="pc-ver">
                                     <img src="/images/mobile/banner/FamilyBanner_03_520x204.png" alt="action blue" class="m-ver">
                                 </a>
