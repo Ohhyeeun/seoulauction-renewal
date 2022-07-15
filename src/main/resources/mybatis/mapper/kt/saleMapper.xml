@@ -701,7 +701,7 @@
         WHERE A.SALE_NO = #{sale_no}
           AND A.WWW_DISP_YN = 'Y'
           AND A.CLOSE_YN = 'N'
-          AND B.CLOSE_YN = 'N'
+          -- AND B.CLOSE_YN = 'N'
         <if test='is_live !=null and is_live.equals("Y")'>
           AND A.SALE_KIND_CD IN ('main','plan','hongkong')
         </if>
