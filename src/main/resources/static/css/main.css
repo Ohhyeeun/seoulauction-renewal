@@ -607,13 +607,8 @@
     width: 8px;
     height: 8px;
     background-color: #ccc;
-<<<<<<< HEAD
-    margin-right: 6px;
-    opacity: 1; 
-=======
     margin-right: 8px;
     opacity: 1;
->>>>>>> develop
 }
 .platform-pagination>span:last-of-type {
     margin-right: 0; 
@@ -1296,14 +1291,11 @@
         height: 100%;
         padding: 20px;
     }
-<<<<<<< HEAD
-=======
     .platform-pagination>span {
         width: 6px;
         height: 6px;
         margin-right: 6px;
     }
->>>>>>> develop
     /*.platform-swiper {*/
     /*    padding-bottom: calc(45% - 64px);*/
     /*}*/
