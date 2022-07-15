@@ -1071,6 +1071,7 @@
                     bid_delete: 12,
                     notice: 13,
                     office_winner:15,
+                    lot_closed:16,
                 }
                 let d = JSON.parse(evt.data);
                 if (d.msg_type === packet_enum.init) {
@@ -1454,6 +1455,24 @@
                                 // 낙찰가
                                 $scope.saleInfoAll[j].CUR_COST = "낙찰가 KRW " + d.message.max_bid_cost.toLocaleString('ko-KR');
                                 break
+                            }
+                        }
+                    }
+                    $scope.$apply();
+                } else if (d.msg_type === packet_enum.lot_closed) {
+                    if (d.message != null) {
+                        let matching = new Map();
+                        // 정보를 처음 가져왔을 때, 인덱스 매핑
+                        for (let i = 0; i < d.message.data.length; i++) {
+                            matching.set(d.message.data[i].SALE_NO +
+                                "-" + d.message.data[i].LOT_NO, i);
+                        }
+                        // 전체데이타의 DISP_YN 설정
+                        for (let j = 0; j < $scope.saleInfoAll.length; j++) {
+                            let idx = matching.get($scope.saleInfoAll[j].SALE_NO + "-"
+                                + $scope.saleInfoAll[j].LOT_NO);
+                            if (idx !== undefined) {
+                                $scope.saleInfoAll[j].DISP_YN = d.message.data[idx].DISP_YN;
                             }
                         }
                     }

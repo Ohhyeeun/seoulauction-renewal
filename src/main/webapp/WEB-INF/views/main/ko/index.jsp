@@ -198,7 +198,7 @@
             </a>
 
             <!-- 텍스트 레이어팝업 on-->
-            <a href="javascript:void(0);" title="메인 팝업 텍스트">
+            <a href="javascript:void(0);" id="main_popup_text_a_link" title="메인 팝업 텍스트">
                 <div class="main-popup-txt"> 
                     <div class="main-popup-caption">
                         <h2 id="main_popup_title">국내 오프라인 경매 구매수수료율 인상 및 약관 개정 안내</h2>

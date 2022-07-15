@@ -34,7 +34,9 @@ public class AdminService {
             }
             resultMap.put("kr_title" , maps.get("ko"));
             resultMap.put("en_title" , maps.get("en"));
-            resultMap.put("sale_no",c.get("SALE_NO"));
+            resultMap.put("sale_no", c.get("SALE_NO"));
+            resultMap.put("sale_th", c.get("SALE_TH"));
+            resultMap.put("from_dt", c.get("FROM_DT"));
             return resultMap;
         }).collect(Collectors.toList());
     }
