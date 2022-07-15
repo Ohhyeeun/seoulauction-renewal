@@ -1071,6 +1071,7 @@
                     bid_delete: 12,
                     notice: 13,
                     office_winner:15,
+                    lot_closed:16,
                 }
                 let d = JSON.parse(evt.data);
                 if (d.msg_type === packet_enum.init) {
