@@ -2,12 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seoulauction.renewal.mapper.kt.AppMapper">
 
+	<select id="selectDeviceId" parameterType="CommonMap"
+			resultType="CommonMap">
+		SELECT
+			APP_INFO_NO
+			 , OS
+			 , DEVICE_ID
+			 , APP_VERSION
+			 , LAST_ACCESS_TIME
+			 , REG_DT
+		FROM CUST_APP_INFO
+		WHERE DEVICE_ID = #{device_id}
+	</select>
+
 	<insert id="insertAppInfo">
+		INSERT INTO CUST_APP_INFO
+		(
+			DEVICE_ID
+			, OS
+			, APP_VERSION
+			, LAST_ACCESS_TIME
+			, REG_DT
+		)
+		VALUES
+		(
+			#{device_id}
+			, #{os}
+			, #{app_version}
+			, now()
+			, now()
+		);
 
 	</insert>
 
 	<update id="updateAppInfo" parameterType="CommonMap">
-
+		update CUST_APP_INFO
+		set
+			LAST_ACCESS_TIME = now()
+		where DEVICE_ID = #{device_id}
 	</update>
 
 	<select id="selectLoginToken" parameterType="CommonMap"
@@ -55,7 +87,7 @@
 		update CUST_LOGIN_TOKEN
 		set
 			EXPIRED_DT = DATE_ADD(now(), INTERVAL 1 YEAR)
-			LOGIN_DT = now()
+			, LOGIN_DT = now()
 		where CUST_NO = #{cust_no}
 	</update>
 
