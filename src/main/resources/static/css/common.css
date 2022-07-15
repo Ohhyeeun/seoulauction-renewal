@@ -2296,7 +2296,7 @@ body.dark,
         background-color: #555;
     }
     .visual-pagaination>span.swiper-pagination-bullet-active {
-        background-color: #fff;
+        background:#fff;
     }
 }
 @media all and (max-width: 719px) {
