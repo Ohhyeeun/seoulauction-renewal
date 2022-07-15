@@ -32,7 +32,7 @@
                                 <div class="panel-header">
                                     <div class="privacy-title">
                                         <h3>Seoul Auction Co., Ltd. Privacy Policy<br>
-                                            (Before June 1, 2019)</h3>
+                                            (June 1, 2019)</h3>
                                         <div class="privacy-selector select-box">
                                             <select class="select2Basic42" onchange="window.open(value,'_self')">
                                                 <option value="privacy" >View previous privacy policy</option>
