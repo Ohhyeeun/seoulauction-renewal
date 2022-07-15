@@ -666,9 +666,8 @@ function localeOrdinal(n, l) {
 /* main에서만 사용되는 */
 if (matchMedia("all and (min-width: 1024px)").matches) {
     /* visual swiper hover 추가 */
-    $('.visual-swiper > .swiper-wrapper').off('mouseenter');
-    $('.visual-swiper > .swiper-wrapper').on('mouseenter' ,function(){
-        console.log(767567567);
+    $('.visual-swiper > .swiper-wrapper,.swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').off('mouseenter');
+    $('.visual-swiper > .swiper-wrapper, .swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').on('mouseenter' ,function(){
         $(this).hover(function(){
             $('.swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').css({
                 "background-color": "rgba(225,225,225,0.3)",
@@ -682,7 +681,6 @@ if (matchMedia("all and (min-width: 1024px)").matches) {
 
         $('.visual-swiper > .swiper-wrapper').on('mouseleave', function(){
             $('.swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').css("background-color",'transparent');
-            console.log(856756756);
         });
     });
 
@@ -710,6 +708,10 @@ if (matchMedia("all and (min-width: 1024px)").matches) {
 
 /* 반응형 resize 추가 */
 $(window).resize(function(){
+    /* 해상도 확인용 */
+    const innerW = window.innerWidth; 
+    console.log(innerW);
+
     /* gnb */
     if (matchMedia("all and (min-width: 1024px)").matches) {
 
@@ -839,3 +841,4 @@ window.addEventListener('DOMContentLoaded', () => {
 
     $('.mode-toggle>input').addClass(localStorage.getItem('theme'));
 });
+
