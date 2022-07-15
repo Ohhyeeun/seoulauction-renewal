@@ -277,6 +277,9 @@ public class SaleService {
 
             //오프라인 응찰 시 자동 응찰 기록 해야함.
 
+            if(paddNo == 0){
+                map.put("padd_no", null);
+            }
 
             saleMapper.insertAutoBid(map);
             saleMapper.insertOfflineBid(map);

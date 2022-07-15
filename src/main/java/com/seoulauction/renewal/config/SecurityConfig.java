@@ -83,6 +83,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 			.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 	        .antMatchers("/*").permitAll()
+			.antMatchers("/api/cert/insertSaleCert").authenticated() //경매 > 휴대폰인증
+			.antMatchers("/api/cert/updateSaleCertHp").authenticated() //경매 > 휴대폰인증
+			.antMatchers("/api/mypage/**").authenticated() //마이페이지 API
 			.antMatchers("/api/**").permitAll()
 			.antMatchers("/swagger-ui/**").permitAll()
 			.antMatchers("/swagger-resources/**").permitAll()
