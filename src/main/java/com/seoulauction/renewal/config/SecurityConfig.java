@@ -1,9 +1,5 @@
 package com.seoulauction.renewal.config;
 
-import com.seoulauction.renewal.auth.FrontAuthenticationProvider;
-import com.seoulauction.renewal.auth.FrontLoginSuccessHandler;
-import com.seoulauction.renewal.auth.FrontLogoutSuccessHandler;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,12 +17,24 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.seoulauction.renewal.auth.FrontAuthenticationProvider;
+import com.seoulauction.renewal.auth.FrontLoginSuccessHandler;
+import com.seoulauction.renewal.auth.FrontLogoutSuccessHandler;
+import com.seoulauction.renewal.auth.RememberMeLoginSuccessHandler;
+import com.seoulauction.renewal.auth.RememberMeService;
+
+import lombok.RequiredArgsConstructor;
+
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	private final RememberMeService rememberMeService;
+
+	private final RememberMeLoginSuccessHandler rememberMeLoginSuccessHandler;
+	
 	private final FrontAuthenticationProvider frontAuthenticationProvider;
 
 	@Override
@@ -75,6 +83,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 			.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 	        .antMatchers("/*").permitAll()
+			.antMatchers("/api/cert/insertSaleCert").authenticated() //경매 > 휴대폰인증
+			.antMatchers("/api/cert/updateSaleCertHp").authenticated() //경매 > 휴대폰인증
+			.antMatchers("/api/mypage/**").authenticated() //마이페이지 API
 			.antMatchers("/api/**").permitAll()
 			.antMatchers("/swagger-ui/**").permitAll()
 			.antMatchers("/swagger-resources/**").permitAll()
@@ -82,6 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/customer/**").permitAll()
 			.antMatchers("/mypage/**").authenticated()
 			.antMatchers("/payment/**").authenticated()
+			.antMatchers("/auction/live/sale/{id}/lot/{id}/biding").authenticated()
 			.antMatchers("/footer/recruit/{id}/form").authenticated()
 			//.anyRequest().authenticated()
 			.and()
@@ -94,6 +106,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureHandler(simpleUrlAuthenticationFailureHandler())
 				.successHandler(successHandler())
 	            .and()
+		    .rememberMe()
+		        .key("SeoulAuction")
+		        .rememberMeParameter("remember-me")
+		        .tokenValiditySeconds(86400 * 30) // 1달
+		        .userDetailsService(rememberMeService)
+		        .authenticationSuccessHandler(rememberMeLoginSuccessHandler)
+		        .and()
 			.logout()
 				.logoutUrl("/processLogout")
 //				.logoutSuccessUrl("/")

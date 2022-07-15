@@ -88,4 +88,8 @@ public class AuctionService {
     public CommonMap selectScTrans(CommonMap map) {
         return auctionMapper.selectScTrans(map);
     }
+
+    public List<CommonMap> selectSoldInvoiceInfo(CommonMap map) {
+        return auctionMapper.selectSoldInvoiceInfo(map);
+    }
 }

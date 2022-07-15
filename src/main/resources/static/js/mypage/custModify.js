@@ -58,6 +58,7 @@ function getCustDetails(){
 					}
 				}else{
 					$("#addrMsg").html('주소를 등록해주세요.');
+					$("#addr").hide();
 				}
 				if(!undefCheck(data.DELI_ZIPNO)){
 					$("#deli_zipno").val(data.DELI_ZIPNO);
@@ -67,6 +68,8 @@ function getCustDetails(){
 						$("#deli_addr").val(data.DELI_ADDR);
 					}
 					$("#deli_addr_dtl").val(data.DELI_ADDR_DTL);
+				}else{
+					$("#deli_addr").hide();
 				}
 //				if(data.PUSH_WAY_JSON != "[\"\"]"){
 				if(!undefCheck(data.PUSH_WAY_JSON)){
@@ -341,12 +344,13 @@ function authNumRequest(){
 function setAuthDuration() {
 	var f = 'm:s';
 	var s = moment(auth_end_time).diff(moment(new Date()), 'seconds');
-	if(s > 0) {
-		document.getElementById('checkHpAuthMsg').innerText = "남은시간 : " + moment.duration(s, "seconds").format(f);
-	}
-	else if (s == 0) {
+	if(0 < s && s < 60){
+		document.getElementById('checkHpAuthMsg').innerText = "남은시간 0:" + moment.duration(s, "seconds").format(f);
+	}else if(s > 0) {
+		document.getElementById('checkHpAuthMsg').innerText = "남은시간 " + moment.duration(s, "seconds").format(f);
+	}else if (s == 0) {
 		//$scope.duraionEnd();
-		document.getElementById('checkHpAuthMsg').innerText = "0";
+		document.getElementById('checkHpAuthMsg').innerText = "남은시간 0:0";
 		clearInterval(timer_duration);
 		console.log("======> cancel timer");
 		axios.post('/api/cert/clearAuthNum', {})
@@ -457,12 +461,14 @@ function changeNation(){
 }
 	
 var address_search1 = $(".js-address_search1").trpLayerFixedPopup("#address_search1-wrap")
-function addressSearch(addrType){
+var addrType = '';
+function addressSearch(addrT){
+	addrType = addrT;
     address_search1.open(this); // or false   
     popup_fixation("#address_search1-wrap");
     $("#addr_word").val('');
     $("#addrListBody").html('<tr><td colspan="2"><div class="data-empty_mem tb1">검색결과가 없습니다.</div></td></tr>');
-    document.getElementById("findAddr").setAttribute( "onClick", "javascript: findAddrNewForm('" + addrType + "');" );
+    document.getElementById("findAddr").setAttribute( "onClick", "javascript: findAddrNewForm(" + addrType + ");" );
 }
 	
 $("body").on("click", "#address_search1-wrap .js-closepop, #address_search1-wrap .popup-dim", function($e) {
@@ -475,20 +481,21 @@ function addrDtlValidCheck(){
 	var addrDtl = $("#addr_dtl").val();
 	if(!undefCheck(addrDtl)){
 		addrValid = true;
+		$("#addrMsg").html('');	
 	}else{
 		$("#addrMsg").html('상세주소를 등록해주세요.');	
 	}
 	buttonActive();
 }
 
-function findAddrNewForm(addrType){
+function findAddrNewForm(){
 	if($("#addr_word").val() == ''){
 		alert("주소를 입력해주세요.");
 		return;
 	}
 	let data = {};
     data['find_word'] = $("#addr_word").val();
-    axios.post('/api/mypage/address' , data)
+    axios.post('/api/login/address' , data)
         .then(function(response) {
             const result = response.data;
 
@@ -501,7 +508,7 @@ function findAddrNewForm(addrType){
 				if(addressList.length > 0){
 					$("#addrListBody").html('');
 					addressList.forEach(function(ele){
-						$("#addrListBody").append("<tr onclick='setAddr(\"" + addrType + "\", " + JSON.stringify(ele) + ");'><td>" + ele.postcd + "</td><td class='tal'>" + ele.address + "</td></tr>");
+						$("#addrListBody").append("<tr onclick='setAddr(" + JSON.stringify(ele) + ");'><td>" + ele.postcd + "</td><td class='tal'>" + ele.address + "</td></tr>");
 						
 					});	
 				}else{
@@ -514,8 +521,9 @@ function findAddrNewForm(addrType){
         });
 }
 
-function setAddr(addrType, addr){
+function setAddr(addr){
 	if(addrType == 'addr'){
+		$("#addr").show();
 		$("#addr_old_yn").val("N");
 		$("#zipno").val(addr.postcd);
 		$("#addr").html(addr.address);
@@ -523,6 +531,7 @@ function setAddr(addrType, addr){
 		$("#addr_dtl").focus();
 		$("#addrMsg").html("상세주소를 입력해주세요.");
 	}else if(addrType == 'deli'){
+		$("#deli_addr").show();
 		$("#deli_addr_old_yn").val("N");
 		$("#deli_zipno").val(addr.postcd);
 		$("#deli_addr").html(addr.address);
@@ -539,12 +548,19 @@ function copyAddr(){
 		$("#deli_zipno").val($("#zipno").val());
 		if(langType == 'ko'){
 			$("#deli_addr").html($("#addr").html());
+			if($("#addr").html() != ''){
+				$("#deli_addr").show();
+			}
 		}else{
 			$("#deli_addr").val($("#addr").val());
+			if($("#addr").val() != ''){
+				$("#deli_addr").show();
+			}
 		}
 		$("#deli_addr_dtl").val($("#addr_dtl").val());
 	}else{
 		$("#deli_zipno, #deli_addr_dtl").val('');
+		$("#deli_addr").hide();
 		if(langType == 'ko'){
 			$("#deli_addr").html('');
 		}else{

@@ -11,10 +11,10 @@
 
         </div>
         <!-- Add Arrows -->
-        <div class="swiper-button-next platformBtn-right pc-ver"></div>
-        <div class="swiper-button-prev platformBtn-left pc-ver"></div>
+<%--        <div class="swiper-button-next platformBtn-right pc-ver"></div>--%>
+<%--        <div class="swiper-button-prev platformBtn-left pc-ver"></div>--%>
     </div>
     <!-- Add Pagination -->
-    <div class="swiper-pagination platform-pagination m-ver"></div>
+    <div class="swiper-pagination platform-pagination"></div> 
 </section>
 

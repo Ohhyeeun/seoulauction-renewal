@@ -124,9 +124,9 @@
                                                         <div class="price">
                                                             <span id="price_to_han"></span>
                                                         </div>
-                                                        <div class="unit">
-                                                            <span>(호가단위:100,000 KRW)</span> 
-                                                        </div>
+<%--                                                        <div class="unit">--%>
+<%--                                                            <span>(호가단위:100,000 KRW)</span> --%>
+<%--                                                        </div>--%>
                                                     </div>
                                                 </div>
 
@@ -228,7 +228,7 @@
                                                                 <span>
                                                                     응찰 관련 문의가 있으신 경우,
 
-                                                                    귀하의 담당자(<em>${emp.CUST_NAME} ${emp.TEL}</em>)
+                                                                    귀하의 담당자( <em>${emp.EMP_NAME} ${emp.TEL}</em> )
 
                                                                     에게 연락주시기 바랍니다.
                                                                 </span>
@@ -293,17 +293,17 @@
                 axios.get('api/auction/lot_info/${saleNo}/${lotNo}')
                     .then(function(response) {
 
+
                     let data = response.data.data;
-
-
-                    let sale_title = JSON.parse(data.SALE_TITLE_JSON);
+                    let sale_title;
+                    sale_title = data.SALE_TH !== undefined ? ( '제' + data.SALE_TH + '회 ' ) : '';
+                    sale_title += JSON.parse(data.SALE_TITLE_JSON).ko;
 
                     $("#bidding_lot_img").attr('src' , 'https://www.seoulauction.com/nas_img'+ data.LOT_IMG_PATH + '/' +data.LOT_IMG_NAME);
-                    $("#sale_title").html(sale_title.ko);
+                    $("#sale_title").html(sale_title);
                     $("#lot_id").html(data.LOT_NO);
                     $("#artist_name").html(data.ARTIST_NAME_KO_TXT);
                     $("#lot_title").html(data.TITLE_KO_TXT);
-
 
                     let current_price = data.START_PRICE;
                     let MAX_PRICE = current_price * 10; // 추청가의 10배가 최대치.
@@ -435,6 +435,14 @@
 
                 let url = '/api/auction/insertbid';
 
+                let date = new Date();
+                const month = String(date.getMonth()+1).padStart(2, "0");
+                const hours = String(date.getHours()).padStart(2, "0");
+                const min = String(date.getMinutes()).padStart(2, "0");
+                const sec = String(date.getSeconds()).padStart(2, "0");
+
+                let dateStr = date.getFullYear() + '-' + month + '-' + date.getDate() + ' ' + hours + ':' + min + ':' + sec;
+
                 try {
                     axios.post(url, {
                         bid_price: currentPrice,
@@ -442,13 +450,17 @@
                         sale_no : ${saleNo},
                         lot_no : ${lotNo},
                         cust_no : ${member.userNo},
-                        bid_dt : new Date().toISOString().slice(0, 19).replace('T', ' '),
+                        bid_dt : dateStr,
                         bid_grow_price : growPriceForOffline(currentPrice),
                         bid_type : bidType,
                         user_id : '${member.loginId}'
                     }).then(function(response) {
+
                         if(response.data.success){
                             alert("성공적으로 응찰 되었습니다.");
+                            location.href ='/auction/live/list/${saleNo}';
+                        } else {
+                            alert(response.data.data.msg);
                             location.href ='/auction/live/list/${saleNo}';
                         }
                     });
@@ -457,6 +469,9 @@
                     console.error(error);
                 }
             });
+
+
+
             $("#biding_cancel_btn").on('click', function(){
                 location.href ='/auction/live/list/${saleNo}';
             });

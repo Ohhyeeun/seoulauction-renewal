@@ -65,4 +65,13 @@ public class ApiAuctionController {
         CommonMap result = auctionService.selectScTrans(map);
         return ResponseEntity.ok(RestResponse.ok(result));
     }
+
+    @GetMapping(value="/sold/invoice")
+    public ResponseEntity<RestResponse> invoice(@RequestParam int sale_no, @RequestParam int cust_no){
+        CommonMap map = new CommonMap();
+        map.put("sale_no", sale_no);
+        map.put("cust_no", cust_no);
+
+        return ResponseEntity.ok(RestResponse.ok(auctionService.selectSoldInvoiceInfo(map)));
+    }
 }

@@ -1,8 +1,15 @@
 app.value('locale', 'ko');
 app.value('is_login', 'false');
 	
-var userAgent = window.navigator.userAgent
-alert("agent : " + userAgent);
+window.onload = function(){
+	if(isNativeApp()){
+		console.log("isNativeApp() : true");
+		$("#remember-me").prop("checked", true);
+	}else{
+		console.log("isNativeApp() : false");
+		$("#remember-me").remove();
+	}
+}
 
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
 app.controller('loginCtl', function($scope, consts, common, ngDialog) {

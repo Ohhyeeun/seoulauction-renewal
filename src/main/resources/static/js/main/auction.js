@@ -66,12 +66,20 @@ $(document).ready(function(){
             starting = locale === 'ko' ? "시작가" : 'Starting KRW  ';
         }
 
+        let img_pre_fix = 'https://www.seoulauction.com';
+
         $.each(data , function(lotIdx , el){
-            let imgPath = 'https://www.seoulauction.com/nas_img' + el.FILE_PATH + '/' + el.FILE_NAME;
+
+            let imgPath = img_pre_fix +'/images/img/main/auction_sum/20190613.jpg';
+
+            if(el.FILE_PATH !==undefined || el.FILE_NAME !==undefined){
+                imgPath = 'https://www.seoulauction.com/nas_img' + el.FILE_PATH + '/' + el.FILE_NAME;
+            }
             let lotTitle = JSON.parse(el.EXPE_PRICE_TITLE);
             let lotName = locale === 'ko' ? lotTitle.ko : lotTitle.en;
             let priceToJson =  JSON.parse(el.EXPE_PRICE_TO_JSON);
             let priceFromJson =  JSON.parse(el.EXPE_PRICE_FROM_JSON);
+
             let price = "";
             if (kind === "ONLINE") {
                 if (locale === 'ko') {
@@ -79,9 +87,13 @@ $(document).ready(function(){
                 }
             } else {
                 if (locale === 'ko') {
-                    price = numberWithCommas(priceFromJson.KRW) + '~' + numberWithCommas(priceToJson.KRW);
+                    if(priceFromJson.KRW) {
+                        price = numberWithCommas(priceFromJson.KRW) + '~' + numberWithCommas(priceToJson.KRW);
+                    }
                 } else {
-                    price = numberWithCommas(priceFromJson.USD) + '~' + numberWithCommas(priceToJson.USD);
+                    if(priceFromJson.USD) {
+                        price = numberWithCommas(priceFromJson.USD) + '~' + numberWithCommas(priceToJson.USD);
+                    }
                 }
             }
 
@@ -91,8 +103,8 @@ $(document).ready(function(){
             //lot html
             let html =
                 `<figure class="auction-thumbbox" sale-no="${saleNo}" lot-no="${lotNo}">
-                            <img src='${imgPath}' alt="/images/pc/thumbnail/AuctionBanner_05_280x280.png" class="pc-ver">
-                                <img src='${imgPath}' alt="/images/pc/thumbnail/AuctionBanner_05_280x280.png" class="m-ver">
+                            <img src='${imgPath}' alt="" class="pc-ver">
+                                <img src='${imgPath}' alt="" class="m-ver">
                                     <figcaption class="auction-thumb">
                                         <button id='id_${lotNo}' class="wish_heart ${like}" ></button>
                                         <a>

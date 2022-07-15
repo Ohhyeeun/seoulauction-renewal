@@ -70,7 +70,7 @@
                     </div>
                 </section>
 
-                <section class="basis-section auction_result_list-section last-section">
+                <section ng-show="totalCount > 0" class="basis-section auction_result_list-section last-section">
                     <div class="section-inner">
                         <div class="content-panel type_panel-product_result_list">
                             <div class="panel-body">
@@ -80,9 +80,9 @@
                                             <article class="item-article">
                                                 <div class="image-area">
                                                     <figure class="img-ratio">
-                                                        <div class="img-align">
-                                                            <img ng-src="<spring:eval expression="@environment.getProperty('image.root.path')" />{{auction.SALE_IMG_NAME ? (auction.SALE_IMG_PATH + '/' + auction.SALE_IMG_NAME)  : (auction.LOT_IMG_NAME | imagePath : auction.LOT_IMG_PATH : true)}}" alt="">
-                                                        </div>
+                                                        <a href="javascript:void(0);" class="img-align" ng-click="goSale(auction.SALE_KIND_CD, auction.SALE_NO);">
+                                                            <img ng-src="<spring:eval expression="@environment.getProperty('image.root.path')" />{{auction.SALE_IMG_NAME ? (auction.SALE_IMG_PATH + '/' + auction.SALE_IMG_NAME)  : (auction.LOT_IMG_NAME | imagePath : auction.LOT_IMG_PATH : true)}}" alt="경매 결과 이미지">
+                                                        </a>
                                                     </figure>
                                                 </div>
                                                 <div class="typo-area">
@@ -105,9 +105,10 @@
                                                                     </ng:template>
                                                                 </dd>
                                                             </dl>
-                                                        </div>
-                                                        <div class="btn-box">
-                                                            <div class="btn_set" ng-if="EMP_GB === 'Y' || (IS_LOGIN === 'Y' && ((['main','hongkong','plan'].indexOf(auction.SALE_KIND_CD) > -1 && auction.IS_OLD_SALE === 'N') || (['main','hongkong','plan'].indexOf(auction.SALE_KIND_CD) <= 0 && today <= (auction.TO_DT | date:'yyyyMMdd'))))"><a class="btn btn_default" role="button" ng-click="goSale(auction.SALE_KIND_CD, auction.SALE_NO);"><span>결과보기</span></a></div>
+                                                            <%-- 결과보기 --%>
+                                                            <div class="btn-box">
+                                                                <div class="btn_set" ng-if="EMP_GB === 'Y' || (IS_LOGIN === 'Y' && ((['main','hongkong','plan'].indexOf(auction.SALE_KIND_CD) > -1 && auction.IS_OLD_SALE === 'N') || (['main','hongkong','plan'].indexOf(auction.SALE_KIND_CD) <= 0 && today <= (auction.TO_DT | date:'yyyyMMdd'))))"><a class="btn btn_default" role="button" ng-click="goSale(auction.SALE_KIND_CD, auction.SALE_NO);"><span>결과보기</span></a></div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -132,6 +133,24 @@
                     </div>
                 </section>
 
+                <section ng-show="totalCount <= 0" class="basis-section auction_result_list-section last-section">
+                    <div class="section-inner">
+                        <div class="content-panel type_panel-product_result_list">
+                            <div class="panel-body">
+                                <div class="data-empty type-big">
+                                    <div class="img_empty">
+                                        <img src="/images/mobile/auction/symbol-none_data.png" alt="검색결과가 없습니다." />
+                                    </div>
+                                    <div class="txt_empty">
+                                        <div class="title">검색결과가 없습니다.</div>
+                                        <div class="desc">단어의 철자나 띄어쓰기가 <br class="only-mb" />
+                                            정확한지 확인해주세요</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
         <!-- //container -->

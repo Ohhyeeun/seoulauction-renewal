@@ -173,7 +173,11 @@ $(function(){
 
                     console.log(lotData);
 
-                    $("#print_sale_title").html(JSON.parse(lotData.SALE_TITLE_JSON).ko);
+                    let sale_title;
+                    sale_title = lotData.SALE_TH !== undefined ? ( '제' + lotData.SALE_TH + '회 ' ) : '';
+                    sale_title += JSON.parse(lotData.SALE_TITLE_JSON).ko;
+
+                    $("#print_sale_title").html(sale_title);
                     $("#print_sale_to_date").html('마감일 : ' +
                         lotData.LOT_EXPIRE_DATE_TIME_T.replace(lotData.LOT_EXPIRE_DATE_DAY , enDayToHanDay(lotData.LOT_EXPIRE_DATE_DAY) )
                     );

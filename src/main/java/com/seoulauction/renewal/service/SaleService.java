@@ -13,6 +13,7 @@ import org.apache.commons.collections.ArrayStack;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
@@ -210,6 +211,7 @@ public class SaleService {
         return saleMapper.selectTopBid(commonMap);
     }
 
+    @Transactional("ktTransactionManager")
     public void insertBid(CommonMap map){
 
         String bidKindCd = map.getString("bid_kind_cd");
@@ -219,7 +221,12 @@ public class SaleService {
           || bidKindCd.equals("phone")
           || bidKindCd.equals("paper_phone")
         ) {
-            map.put("padd_no", auctionService.selectSalePaddNo(map));
+
+
+            int paddNo =  auctionService.selectSalePaddNo(map);
+
+            //패들번호를 신경x
+            map.put("padd_no", paddNo);
 
             WebClient webClient = WebClient.builder()
                     .baseUrl("http://dev-bid.seoulauction.xyz")
@@ -269,6 +276,11 @@ public class SaleService {
             map.put("emp_no", null);
 
             //오프라인 응찰 시 자동 응찰 기록 해야함.
+
+            if(paddNo == 0){
+                map.put("padd_no", null);
+            }
+
             saleMapper.insertAutoBid(map);
             saleMapper.insertOfflineBid(map);
 

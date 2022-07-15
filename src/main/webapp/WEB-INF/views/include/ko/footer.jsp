@@ -44,6 +44,10 @@
 
                     서울옥션 웹사이트의 콘텐츠(이미지/문자/영상/화면 등)에 대한 무단 복제, 배포, 전송, 게시, 크롤링/스크래핑 등 행위는 저작권법, 부정경쟁방지 및 영업비밀보호에 관한 법률 등 관련 법령에 의하여 금지됩니다.
                 </p>
+                <p>
+                    <button onclick="isNativeApp()" style="color: #f00;">getHeaders</button><br />
+                    <button onclick="saveDeviceInfo()" style="color: #f00;">getDeviceInfo</button><br />
+                </p>
             </section>
         </div> <%--innerfooter--%>
         <div class="Familysite-selectbox">

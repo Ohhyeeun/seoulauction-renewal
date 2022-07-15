@@ -38,6 +38,7 @@
 											<input id="checkedID" type="checkbox" name="checkedID">
 											<i></i>
 											<label for="checkedID" class="tb1">아이디 저장</label>
+											<input type="checkbox" id="remember-me" name="remember-me" class="is_mb" style="display:none"/>
 										</span>
 									</div>
 									<div ng-show="captchaShow">

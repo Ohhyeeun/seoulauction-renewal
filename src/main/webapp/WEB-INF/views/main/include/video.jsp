@@ -21,7 +21,7 @@
                         <span class="video-icon" ng-class="{'youtube':'video-icon-you', 'instagram':'video-icon-in'}[video.content_type]"></span>
                     </figure>
                     <p class="video-thmbtit text-over">
-                        {{video.content['en'].media_title}}
+                        {{video.content.media_title}}
                     </p>
                 </a>
             </div>
@@ -42,7 +42,7 @@
             common.callGetAPI('/api/main/videos', {"media_type" : "video", "size" : 12}, function (data, status) {
                 $scope.videoList = data.data;
                 $scope.videoList.map(item => {
-                    item.content = JSON.parse(item.content);
+                    item.content = JSON.parse(item.content)[document.documentElement.lang];
                 });
             });
         }

@@ -109,6 +109,7 @@ function responsiveDevices() {
     $("body").addClass(o), $("body").attr("data-device", o)), o;
 }
 
+
 /* PC,MB images resize */function imagesResizePcMb() {
     ///document.querySelector(".imageViewer");
     ///console.log("googooowwww: " , _tar[0].naturalWidth, _tar.length);
@@ -130,6 +131,7 @@ function responsiveDevices() {
     }
     /// console.log("=========imgresize=========", _orgW, _orgH, $("body").hasClass("is_mb"))
 }
+
 
 /* 팝업높이계산 */function popup_fixation(o) {
     var e = o, n = $(".pop-body>.section", e).outerHeight() + 166, i = $(window).height();

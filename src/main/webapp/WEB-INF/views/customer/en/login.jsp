@@ -36,6 +36,7 @@
 											<input id="checkedID" type="checkbox" name="checkedID">
 											<i></i>
 											<label for="checkedID" class="tb1">Save ID</label>
+											<input type="checkbox" id="remember-me" name="remember-me" class="is_mb" style="display:none"/>
 										</span>
 									</div>
 									<div ng-show="captchaShow">

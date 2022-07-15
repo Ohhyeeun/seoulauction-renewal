@@ -876,6 +876,7 @@ img::selection {
     padding: 50px 60px;
 }
 .Ingbanner-box{
+    flex-basis: 387px;
     width: 387px;
     flex-shrink: 0;
 }
@@ -1326,7 +1327,8 @@ body.dark,
 .newsletter-btnbox>button.commonbtn:hover.dark,
 .newsletter-btnbox>a.commonbtn:hover.dark,
 .newsletter-btnbox>button.commonbtn.dark,
-.auctionTab-btn.dark:hover:after {
+.auctionTab-btn.dark:hover:after,
+.platform-pagination.dark>.swiper-pagination-bullet-active.dark {
     background-color: #fff;
 }
 .newsletter-form>input.dark {
@@ -1427,6 +1429,10 @@ body.dark,
 .keyword-del.dark {
     background-image: url("/images/pc/icon/x-btn-lightgray.svg");
 }
+.swiper-button-prev.platformBtn-left.dark,
+.swiper-button-next.platformBtn-right.dark {
+    background-size: 33px auto;
+}
 .swiper-button-prev.platformBtn-left.dark {
     background-image: url("/images/pc/icon/ic_chevron_left_white_48.svg");
 }
@@ -1438,15 +1444,31 @@ body.dark,
 .swiper-slide.upcomingSlide.dark {
     background-color: #2d2d2d;
 }
+.swiper-progressbar.dark .visual-progressbar.dark,
+.platform-pagination>span.dark {
+    background: #555;
+}
+
 
 
 /* 외주 css selec container */
 .select2-container--open {
     z-index: 24 !important;
 }
-.sub-wrap .main-header {
+/* auction 팝업 및 gnb z-index 30 기준 */
+.sub-wrap .main-header{
     z-index: 30 !important;
 }
+.allview_fixed-wrap .popup-dim,
+.allview_fixed-wrap .fixed-panel,
+.trp.popupfixed-wrap {
+    z-index: 31 !important;
+}
+
+
+
+
+
 /* pc */ 
 @media all and (max-width: 1919px) {
     .scroll-top {
@@ -1482,9 +1504,9 @@ body.dark,
     .submenuBg>div {
         padding: 50px;
     }
-    .Ingbanner-box{
-        flex-basis: 350px;
-        margin-right: 10px;
+    .Ingbanner-box,
+    .blacklotbox {
+        display: none;
     }
     .Ingbanner-txt {
         padding: 16px 34px 20px 20px;
@@ -1518,12 +1540,12 @@ body.dark,
     .subGnbmenu-tit:nth-child(3) {
         margin-right: 60px;
     }*/
-    .blacklotbox {
-        flex-basis: 240px;
-        height: 240px;
-        max-width: 240px;
-        background-color: #808080;
-    }
+    /*.blacklotbox {*/
+    /*    flex-basis: 240px;*/
+    /*    height: 240px;*/
+    /*    max-width: 240px;*/
+    /*    background-color: #808080;*/
+    /*}*/
     .beltclose-btn {
         right: 50px;
     }
@@ -1539,9 +1561,6 @@ body.dark,
     .header_nav,
     .swiper-btn-wrap{
 
-    }
-    .Ingbanner-box {
-        display: none;
     }
     .belttxtbox {
         min-width: 100%;
@@ -1561,9 +1580,9 @@ body.dark,
     .subGnbmenu-tit:first-child {
         margin-left: 0;
     }
-    .blacklotbox {
-        display: none;
-    }
+    /*.blacklotbox {*/
+    /*    display: none;*/
+    /*}*/
     .platform {
         margin-bottom: 100px;
     }
@@ -1590,8 +1609,7 @@ body.dark,
     .m-ver1280 {
         display: block;
     }
-    .pc-ver1280,
-    .Ingbanner-box {
+    .pc-ver1280 {
         display: none;
     }
     .header_logo {
@@ -1643,6 +1661,13 @@ body.dark,
     }
     .darkmodeBg {
         right: auto;
+    }
+    .topBtn:hover {
+        background-image: url("/images/pc/icon/top.png");
+    }
+    .scroll-top:hover {
+        background-color: #fff;
+        border-color: #ddd;
     }
     .wrap,
     .container,
@@ -1934,7 +1959,7 @@ body.dark,
         border-left: 0;
     }
     .main-sectiontit {
-        font-size: 1.625em; /* 26px */
+        font-size: 2em; /* 32px */
     }
     .modebox {
         border-top: 1px solid #dedede;
@@ -2210,8 +2235,8 @@ body.dark,
     .footer-infomenu {
         margin-bottom: 25px;
         font-size: 12px;
-        margin-bottom: 100px;
-        justify-content: center;
+        margin-bottom: 110px;
+        justify-content: center; 
     }
     .footer-infomenu>li:before {
         margin: 0 15px;
@@ -2264,6 +2289,12 @@ body.dark,
     }
     .keyword-del.dark {
         background-image: url("/images/pc/icon/ic_close_gray_24.svg");
+    }
+    .visual-pagaination.dark>span.dark {
+        background-color: #555;
+    }
+    .visual-pagaination.dark>span.swiper-pagination-bullet-active.dark { 
+        background:#fff;
     }
 }
 @media all and (max-width: 719px) {

@@ -118,82 +118,6 @@ window.onload = function(){
 
 }
 
-/* pc 다크모드 */
-$('.darkmodeBg').click(function () {
-
-    $('*').toggleClass('dark');
-
-    $('.auctionTab-btn').click(function () {
-        const darkIngTab = $(this).index();
-        $('.auctionTab-btn').removeClass('dark');
-        $('.auctionTab-contents').removeClass('dark');
-
-        $(this).addClass('dark');
-        $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
-    });
-
-    $('.darktxt').text('다크모드로 보기');
-    $('.darktxt.dark').text('라이트모드로 보기');
-    $('.darktxt-en').text('Dark Mode');
-    $('.darktxt-en.dark').text('Light Mode');
-
-    const theme = localStorage.getItem('theme');
-    if (theme) {
-        localStorage.removeItem('theme');
-    } else {
-        localStorage.setItem('theme', 'dark');
-    }
-});
-
-/* mobile 다크모드 */
-$('.modebox').click(function () {
-    if ($('.mode-toggle>input').is(":checked")) {
-        $('*').addClass('dark');
-    } else {
-        $('*').removeClass('dark');
-    }
-
-    const theme = localStorage.getItem('theme');
-    if (theme) {
-        localStorage.removeItem('theme');
-    } else {
-        localStorage.setItem('theme', 'dark');
-    }
-});
-
-/* 새로고침 다크모드 */
-window.addEventListener('DOMContentLoaded', () => {
-    // console.log("theme ", localStorage.getItem('theme'));
-
-    $('*').toggleClass(localStorage.getItem('theme'));
-
-    console.log(6345534);
-
-    // $('.auctionTab-btn').click(function () {
-    //     const darkIngTab = $(this).index();
-    //     $('.auctionTab-btn').removeClass('dark');
-    //     $('.auctionTab-contents').removeClass('dark');
-    //
-    //     $(this).addClass('dark');
-    //     $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
-    // });
-    //
-    // $('.darktxt').text('다크모드로 보기');
-    // $('.darktxt.dark').text('라이트모드로 보기');
-    // $('.darktxt-en').text('Dark Mode');
-    // $('.darktxt-en.dark').text('Light Mode');
-
-    const theme = localStorage.getItem('theme');
-    if (theme) {
-        localStorage.removeItem('theme');
-        console.log(324434);
-    } else {
-        localStorage.setItem('theme', 'dark');
-        console.log(86767);
-    }
-    $('.mode-toggle>input').addClass(localStorage.getItem('theme'));
-});
-
 /* visual */
 const visualSwiper = new Swiper('.visual-swiper', {
     effect:'fade',
@@ -238,8 +162,6 @@ const visualSwiper = new Swiper('.visual-swiper', {
         },
     },
 });
-
-
 
 function  loadBigBanner (){
     const slideArray = [];
@@ -432,7 +354,7 @@ function loadUpcomings() {
                                                     <span class="auctionKind-box ${ item.SALE_KIND === 'LIVE' ? 'on' : ''}">
                                                         ${item.SALE_KIND} 
                                                     </span>
-                                                    ${ item.D_DAY <=7 ? 
+                                                    ${ item.D_DAY <= 7 ? 
                                                         `<span class="d-day on">
                                                             ${ item.D_DAY <= 0 ? "TODAY" : "D-" + item.D_DAY }
                                                         </span>` 
@@ -500,6 +422,7 @@ const platFormSwiper = new Swiper('.platform-swiper', {
     },
     pagination: {
         el: '.platform-pagination',
+        type: 'bullets',
         clickable: true,
     },
     navigation: {
@@ -514,6 +437,11 @@ const platFormSwiper = new Swiper('.platform-swiper', {
             effect: 'fade',
             autoplay: {
                 delay: 5000,
+            },
+            pagination: {
+                el: '.platform-pagination',
+                type: 'bullets',
+                clickable: true,
             },
         },
     },
@@ -535,8 +463,8 @@ function loadBeltBanner() {
                     const returnDom =  `<div class="swiper-slide platform-bg" style="background-color: ${content.backgroundColor} ">
                                             <a href="${ locale === 'en' ? content.url_en : content.url_ko }" target="_blank"  onclick="addReadCount(${item.id},'main_banner')" >
                                                 <img src="${locale === 'en' ? item.image.pc_en_url : item.image.pc_ko_url }" alt="beltPcBanner" class="beltBannerImg-pc platform-img" >
-                                                <img src="${locale === 'en' ? item.image.mo_en_url : item.image.mo_ko_url }" alt="beltMobileBanner" className="beltBannerImg-mo platform-img"> 
-                                            </a> 
+                                                <img src="${locale === 'en' ? item.image.mo_en_url : item.image.mo_ko_url }" alt="beltMobileBanner" class="beltBannerImg-mo platform-img"> 
+                                            </a>
                                         </div>`;
 
                     slideArray.push(returnDom);
@@ -631,7 +559,7 @@ $('.video-closebtn').click(function(){
 /* 메인 레이어 팝업 */
 
 //오늘 하루 그만보기 기능.
-$('#main_popup_today_stop_btn').on('click',function (){
+$('#main_popup_today_stop_btn').on('click', function(){
     closeToday('main-popup');
 });
 //메인 팝업 불러오기.
@@ -647,9 +575,9 @@ function loadPopup(){
                     if(data) {
 
                         let jsonData = JSON.parse(data.content);
-
                         let popupType = data.popup_type;
 
+                        //모바일 일때
                         let localeTitle = locale === 'ko' ? jsonData.title.ko : jsonData.title.en;
                         let localeContent = locale === 'ko' ? jsonData.content.ko.content : jsonData.content.en.content;
                         let localeUrl = locale === 'ko' ? jsonData.content.ko.url : jsonData.content.en.url;
@@ -660,12 +588,38 @@ function loadPopup(){
 
                         if(popupType === 'image'){
 
+                            let imgUrl;
+
+                            ///////////// 이미지 선택 //////////////////
+                            //모바일이 아닐때만 .
+                            if (matchMedia("all and (min-width: 1024px)").matches) {
+
+                                $.each(data.image , function(lotIdx , el){
+
+                                    if(locale === 'ko' && el.tag === 'pcKo'){
+                                        imgUrl = el.cdn_url;
+                                    } else if (locale === 'en' && el.tag === 'pcEn'){
+                                        imgUrl = el.cdn_url;
+                                    }
+                                });
+                            //모바일일때만.
+                            } else {
+
+                                $.each(data.image , function(lotIdx , el){
+
+                                    if(locale === 'ko' && el.tag === 'moKo'){
+                                        imgUrl = el.cdn_url;
+                                    } else if (locale === 'en' && el.tag === 'moEn'){
+                                        imgUrl = el.cdn_url;
+                                    }
+                                });
+                            }
+                            $('#main_popup_a_link').attr("href",localeUrl);
                             $('.main-popup-img').show();
                             if(data.image !== "") {
-                                $('#main_popup_img').attr('src', data.image);
+                                $('#main_popup_img').attr('src', imgUrl);
                                 $('.main-popup-img').show();
                             }
-
 
                         } else if (popupType === 'text'){
                             $('.main-popup-txt').show();
@@ -709,19 +663,25 @@ function localeOrdinal(n, l) {
 
 }
 
-/* main에서만 사용되는 gnb */
+/* main에서만 사용되는 */
 if (matchMedia("all and (min-width: 1024px)").matches) {
+    /* visual swiper hover 추가 */
+    $('.visual-swiper > .swiper-wrapper,.swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').off('mouseenter');
+    $('.visual-swiper > .swiper-wrapper, .swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').on('mouseenter' ,function(){
+        $(this).hover(function(){
+            $('.swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').css({
+                "background-color": "rgba(225,225,225,0.3)",
+                "padding": "2em",
+                "background-position": "center center",
+                "border-radius": "3.125rem", 
+                "right":"40px",
+            });
+            $('.swiper-button-prev.slide-btnleft').css("left","40px");
+        });
 
-    /* 다크모드 버튼 */
-    $('.darkmodeBg').hover(function () {
-        $('.darkmode').toggleClass('active');
-    }, function () {
-        $('.darkmode').toggleClass('active');
-    });
-    $('.darkmodeBg.dark').hover(function () {
-        $('.darkmode.dark').toggleClass('active');
-    }, function () {
-        $('.darkmode.dark').toggleClass('active');
+        $('.visual-swiper > .swiper-wrapper').on('mouseleave', function(){
+            $('.swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').css("background-color",'transparent');
+        });
     });
 
 } else {
@@ -748,6 +708,10 @@ if (matchMedia("all and (min-width: 1024px)").matches) {
 
 /* 반응형 resize 추가 */
 $(window).resize(function(){
+    /* 해상도 확인용 */
+    const innerW = window.innerWidth; 
+    console.log(innerW);
+
     /* gnb */
     if (matchMedia("all and (min-width: 1024px)").matches) {
 
@@ -818,7 +782,7 @@ $(window).resize(function(){
     $('.stopBtn').on('click', function(){
         visualSwiper.autoplay.stop();
         $(this).css({'display':'none'});
-        $('.playBtn').css({'display':'block'}); 
+        $('.playBtn').css({'display':'block'});
     });
 
     const platFormSwiper = new Swiper('.platform-swiper', {
@@ -852,3 +816,29 @@ $(window).resize(function(){
         },
     });
 });
+
+
+/* 다크모드 새로고침 시 */
+window.addEventListener('DOMContentLoaded', () => {
+    // console.log("theme ", localStorage.getItem('theme'));
+
+    $('*').toggleClass(localStorage.getItem('theme'));
+
+
+    $('.auctionTab-btn').click(function () {
+        const darkIngTab = $(this).index();
+        $('.auctionTab-btn').removeClass('dark');
+        $('.auctionTab-contents').removeClass('dark');
+
+        $(this).addClass('dark');
+        $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
+    });
+
+    $('.darktxt').text('다크모드로 보기');
+    $('.darktxt.dark').text('라이트모드로 보기');
+    $('.darktxt-en').text('Dark Mode');
+    $('.darktxt-en.dark').text('Ligth Mode');
+
+    $('.mode-toggle>input').addClass(localStorage.getItem('theme'));
+});
+
