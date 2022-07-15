@@ -81,11 +81,12 @@ document.addEventListener("DOMContentLoaded", function(){
 
 	setAuthDuration = function() {
 		console.log('setAuthDuration 5');
-		var f = 'mm:ss';
+		var f = 'm:s';
 		var s = moment(auth_end_time).diff(moment(new Date()), 'seconds');
-		console.log(s);
-		if (s > 0) {
-			messageArea3.innerText = "남은시간 : " + moment.duration(s, "seconds").format(f);
+		if(0 < s && s < 60){
+					messageArea3.innerText = "남은시간 0:" + moment.duration(s, "seconds").format(f);
+		} else if (s > 0) {
+			messageArea3.innerText = "남은시간 " + moment.duration(s, "seconds").format(f);
 		} else if (s == 0) {
 			//$scope.duraionEnd();
 			form_data.can_auth = false;
