@@ -1212,49 +1212,20 @@ $(function(){
     window.isFlutterInAppWebViewReady = false;
     window.addEventListener('flutterInAppWebViewPlatformReady', function(e) {
         window.isFlutterInAppWebViewReady = true;
-
-        /**
-         * 앱 버전 호출
-         */
-        function isNativeApp() {
-            if (window.isFlutterInAppWebViewReady) {
-                if (typeof window.flutter_inappwebview === 'undefined') return false;
-                if (typeof window.flutter_inappwebview.callHandler === 'undefined') return false;
-
-                let appVersionData = '';
-                if (window.flutter_inappwebview.callHandler) {
-                    appVersionData = window.flutter_inappwebview.callHandler('getAppHeader', '');
-                } else {
-                    appVersionData = window.flutter_inappwebview._callHandler('getAppHeader', setTimeout(function(){}), JSON.stringify(['']));
-                }
-
-                if (!!appVersionData) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-        window.isNativeApp = isNativeApp;
     });
 });
-
-function isNativeApp() {
-    try {
-        window.flutter_inappwebview.callHandler('getAppHeader', '').then(result => {
-            console.log(JSON.stringify(result));
-            return !!result;
-        });
-    } catch (error) {
-        return false;
-    }
-}
-
-async function isNativeAppAsync() {
+  
+/**
+ * 앱 버전정보 조회
+ * @return {Promise<Object>}
+ * @example
+ * // Return Data Example
+ * { "X-Custom-Webview-Name": "sa_app", "X-Custom-App-Version": "3.0.0" }
+ */
+async function isNativeApp() {
     try {
         const result = await window.flutter_inappwebview.callHandler('getAppHeader', '');
         console.log(JSON.stringify(result));
-        window.alert(JSON.stringify(result));
         return !!result;
     } catch (error) {
         return false;

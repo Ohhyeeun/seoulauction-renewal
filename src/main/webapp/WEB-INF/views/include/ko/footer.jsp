@@ -46,7 +46,6 @@
                 </p>
                 <p>
                     <button onclick="isNativeApp()" style="color: #f00;">getHeaders</button><br />
-                    <button onclick="isNativeAppAsync()" style="color: #f00;">isNativeAppAsync</button><br />
                 </p>
             </section>
         </div> <%--innerfooter--%>
