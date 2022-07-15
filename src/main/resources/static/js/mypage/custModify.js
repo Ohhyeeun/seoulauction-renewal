@@ -495,7 +495,7 @@ function findAddrNewForm(){
 	}
 	let data = {};
     data['find_word'] = $("#addr_word").val();
-    axios.post('/api/mypage/address' , data)
+    axios.post('/api/login/address' , data)
         .then(function(response) {
             const result = response.data;
 

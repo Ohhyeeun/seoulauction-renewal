@@ -198,7 +198,7 @@ public class ApiLoginController {
 	
 	@RequestMapping(value = "/employee", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<RestResponse> findAddr(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+	public ResponseEntity<RestResponse> findEmployee(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
 		log.info(paramMap.toString());
 		CommonMap resultMap = loginService.selectEmpByEmpName(paramMap);
         if(resultMap != null) {
@@ -390,4 +390,16 @@ public class ApiLoginController {
 	    
 	    return ResponseEntity.ok(RestResponse.ok(loginService.selectCustForCustSocial(paramMap)));
 	}
+	
+	@RequestMapping(value = "/address", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> findAddr(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+		log.info(paramMap.toString());
+    	Map<String, Object> resultMap = mypageService.findAddr(paramMap);
+        if(resultMap != null) {
+        	log.info(resultMap.toString());
+        }
+		return ResponseEntity.ok(RestResponse.ok(resultMap));
+	}
+
 }
