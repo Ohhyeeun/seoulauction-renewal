@@ -82,7 +82,7 @@
       // const url = `https://seoulauction.com/api/app/insert-app-info`;
       // const url = `https://stage.seoulauction.com/api/app/insert-app-info`;
       const url = `https://re-dev.seoulauction.com/api/app/insert-app-info`;
-      const body = { os, app_version: version, deviceId };
+      const body = { os: result.os, app_version: result.version, device_id: result.device_id };
       await window.axios.post(url, body);
       return;
     } catch (error) {
