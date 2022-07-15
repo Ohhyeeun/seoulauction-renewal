@@ -48,7 +48,7 @@
                                     <!-- [0712]내용전체수정 -->
                                     <div class="privacy-info tb1">
                                         Seoul Auction (hereinafter referred to as the “Company”) has established and is disclosing the following guidelines to protect the privacy of the data subjects and to quickly and smoothly address the related difficulties pursuant to the Act on the Promotion of Information and Communications Network Utilization and Information Protection, Etc. and the Personal Information Protection Act.<br>
-                                        This policy shall take effect from June 1, 2019.
+<%--                                        This policy shall take effect from June 1, 2019.--%>
                                     </div>
                                     <!-- //[0712]내용전체수정 -->
                                 </div>

@@ -33,7 +33,7 @@
                             <div class="content-panel type_panel-privacy">
                                 <div class="panel-header">
                                     <div class="privacy-title">
-                                        <h3>㈜서울옥션 개인정보처리방침 (2019.06.01 이전)</h3>
+                                        <h3>㈜서울옥션 개인정보처리방침 (2019.06.01)</h3>
                                         <div class="privacy-selector select-box">
                                             <select class="select2Basic42" onchange="window.open(value,'_self')">
                                                 <option value="privacy" >이전 개인정보처리방침 보기</option>

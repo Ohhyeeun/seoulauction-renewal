@@ -112,7 +112,7 @@
                                                         <td><span>㈜바다정보</span></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><span>우리특송</span></td>
+                                                        <td><span>삼일택배포장</span></td>
                                                         <td><span>도록 발송 서비스</span></td>
                                                     </tr>
                                                     <tr>
@@ -121,7 +121,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td><span>ks특송</span></td>
-                                                        <td rowspan="15"><span>도록 발송 서비스</span></td>
+                                                        <td rowspan="15"><span>작품 운송 서비스</span></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span>원탑운송</span></td>
@@ -289,7 +289,7 @@
                                                     <tbody>
                                                     <tr>
                                                         <td>129대</td>
-                                                        <td>129대</td>
+                                                        <td>건물로비, 전시장, 창고, 주차장 입구</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
