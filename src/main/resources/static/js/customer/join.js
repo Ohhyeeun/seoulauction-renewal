@@ -585,7 +585,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	$scope.findAddrNewForm = function(){
 		let data = {};
         data['find_word'] = $scope.find_word;
-        axios.post('/api/mypage/address' , data)
+        axios.post('/api/login/address' , data)
 	        .then(function(response) {
 	            const result = response.data;
 	

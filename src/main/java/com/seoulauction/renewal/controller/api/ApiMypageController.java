@@ -153,18 +153,6 @@ public class ApiMypageController {
 		
 		return ResponseEntity.ok(RestResponse.ok(mypageService.insertInquiry(request, principal)));
 	}
-	
-	@RequestMapping(value = "/address", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity<RestResponse> findAddr(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
-		log.info(paramMap.toString());
-    	Map<String, Object> resultMap = mypageService.findAddr(paramMap);
-        if(resultMap != null) {
-        	log.info(resultMap.toString());
-        }
-		return ResponseEntity.ok(RestResponse.ok(resultMap));
-	}
-
 
 	/* 관심정보 리스트*/
 	@RequestMapping(value = "/inteLots", method = RequestMethod.GET)

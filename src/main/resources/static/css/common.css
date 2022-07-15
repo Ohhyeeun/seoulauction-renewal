@@ -876,6 +876,7 @@ img::selection {
     padding: 50px 60px;
 }
 .Ingbanner-box{
+    flex-basis: 387px;
     width: 387px;
     flex-shrink: 0;
 }
@@ -1503,9 +1504,9 @@ body.dark,
     .submenuBg>div {
         padding: 50px;
     }
-    .Ingbanner-box{
-        flex-basis: 350px;
-        margin-right: 10px;
+    .Ingbanner-box,
+    .blacklotbox {
+        display: none;
     }
     .Ingbanner-txt {
         padding: 16px 34px 20px 20px;
@@ -1539,12 +1540,12 @@ body.dark,
     .subGnbmenu-tit:nth-child(3) {
         margin-right: 60px;
     }*/
-    .blacklotbox {
-        flex-basis: 240px;
-        height: 240px;
-        max-width: 240px;
-        background-color: #808080;
-    }
+    /*.blacklotbox {*/
+    /*    flex-basis: 240px;*/
+    /*    height: 240px;*/
+    /*    max-width: 240px;*/
+    /*    background-color: #808080;*/
+    /*}*/
     .beltclose-btn {
         right: 50px;
     }
@@ -1560,9 +1561,6 @@ body.dark,
     .header_nav,
     .swiper-btn-wrap{
 
-    }
-    .Ingbanner-box {
-        display: none;
     }
     .belttxtbox {
         min-width: 100%;
@@ -1582,9 +1580,9 @@ body.dark,
     .subGnbmenu-tit:first-child {
         margin-left: 0;
     }
-    .blacklotbox {
-        display: none;
-    }
+    /*.blacklotbox {*/
+    /*    display: none;*/
+    /*}*/
     .platform {
         margin-bottom: 100px;
     }
@@ -1611,8 +1609,7 @@ body.dark,
     .m-ver1280 {
         display: block;
     }
-    .pc-ver1280,
-    .Ingbanner-box {
+    .pc-ver1280 {
         display: none;
     }
     .header_logo {
