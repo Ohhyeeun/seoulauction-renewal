@@ -2,10 +2,10 @@ app.value('locale', 'ko');
 app.value('is_login', 'false');
 	
 if(isNativeApp()){
-	console.log("isNativeApp() : true");
+	alert("isNativeApp() : true");
 	$("#remember-me").prop("checked", true);
 }else{
-	console.log("isNativeApp() : false");
+	alert("isNativeApp() : false");
 	$("#remember-me").remove();
 }
 
