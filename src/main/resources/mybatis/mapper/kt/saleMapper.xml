@@ -175,6 +175,7 @@
         , L.ARTIST_NO ARTIST_NO
         , if(CD_ART.CD_ID in('traditional_painting', 'local_painting', 'foreign_painting'), 'Y', 'N') AS VIEW_SCALE_YN
         , DATE_FORMAT(L.TO_DT,'%Y-%m-%d') LOT_EXPIRE_DATE
+        , DATE_SUB( date_format( L.TO_DT ,'%Y-%m-%d') , interval 1 second) LOT_EXPIRE_DATE_SUB
         from LOT L
         left outer join (<include refid="com.seoulauction.renewal.mapper.kt.CommonMapper.saleLastBidInfos"/>) BD on
         BD.SALE_NO = L.SALE_NO and BD.LOT_NO	 = L.LOT_NO
@@ -676,6 +677,7 @@
                DATE_FORMAT(B.TO_DT,'%Y-%m-%d') LOT_EXPIRE_DATE,
                DATE_FORMAT(B.TO_DT,'%a') LOT_EXPIRE_DATE_DAY,
                DATE_FORMAT(B.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T,
+               DATE_SUB( date_format(B.TO_DT ,'%Y-%m-%d') , interval 1 second) LOT_EXPIRE_DATE_SUB,
                date_format(A.FROM_DT,'%m.%d(%a)') FROM_DT,
                date_format(A.TO_DT, '%m.%d(%a)') TO_DT,
                A.FROM_DT FROM_DT_ORG,

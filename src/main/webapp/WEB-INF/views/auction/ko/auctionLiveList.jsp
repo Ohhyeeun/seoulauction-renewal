@@ -279,7 +279,7 @@
                                                                 </dl>
                                                             </div>
                                                             <div id="biding_req" class="bidding-box col_2" ng-show="showBtn === 1">
-                                                                <div class="deadline_set"><span>신청마감 {{ item.LOT_EXPIRE_DATE | date_format }}</span></div>
+                                                                <div class="deadline_set"><span>신청마감 {{ item.LOT_EXPIRE_DATE_SUB | date_format }}</span></div>
                                                                 <div class="btn_set"><a class="btn btn_point" href="" ng-click="moveToBidding(item)"
                                                                                         role="button"><span>서면/전화 응찰 신청</span></a></div>
                                                             </div>
@@ -618,7 +618,8 @@
                 if (val === undefined) {
                     return '';
                 }
-                return (val === '')?'':new Date(val).format('MM/dd(E) 00:00');
+
+                return (val === '')?'':new Date(val).format('MM/dd(E)');
             };
         })
 
@@ -993,6 +994,9 @@
                             $scope.saleInfoAll[i].MAX_BID_PRICE = numberWithCommas(parseInt($scope.saleInfoAll[i].MAX_BID_PRICE));
 
                             let expr_date = new Date($scope.saleInfoAll[i].LOT_EXPIRE_DATE).format('yyyy-MM-dd 00:00:00');
+
+
+                            console.log($scope.saleInfoAll[i].LOT_EXPIRE_DATE_SUB);
 
                             if (expr_date <= new Date().format('yyyy-MM-dd HH:mm:ss')) {
                                 $scope.showBtn = 2
