@@ -46,6 +46,7 @@
                 </p>
                 <p>
                     <button onclick="isNativeApp()" style="color: #f00;">getHeaders</button><br />
+                    <button onclick="saveDeviceInfo()" style="color: #f00;">getDeviceInfo</button><br />
                 </p>
             </section>
         </div> <%--innerfooter--%>

@@ -354,7 +354,7 @@ function loadUpcomings() {
                                                     <span class="auctionKind-box ${ item.SALE_KIND === 'LIVE' ? 'on' : ''}">
                                                         ${item.SALE_KIND} 
                                                     </span>
-                                                    ${ item.D_DAY <=7 ? 
+                                                    ${ item.D_DAY <= 7 ? 
                                                         `<span class="d-day on">
                                                             ${ item.D_DAY <= 0 ? "TODAY" : "D-" + item.D_DAY }
                                                         </span>` 
@@ -559,7 +559,7 @@ $('.video-closebtn').click(function(){
 /* 메인 레이어 팝업 */
 
 //오늘 하루 그만보기 기능.
-$('#main_popup_today_stop_btn').on('click',function (){
+$('#main_popup_today_stop_btn').on('click', function(){
     closeToday('main-popup');
 });
 //메인 팝업 불러오기.
@@ -614,14 +614,15 @@ function loadPopup(){
                                     }
                                 });
                             }
-                            $('#main_popup_a_link').attr("href",localeUrl);
                             $('.main-popup-img').show();
                             if(data.image !== "") {
+                                $('#main_popup_a_link').attr("href",localeUrl);
                                 $('#main_popup_img').attr('src', imgUrl);
                                 $('.main-popup-img').show();
                             }
 
                         } else if (popupType === 'text'){
+                            $('#main_popup_text_a_link').attr("href",localeUrl);
                             $('.main-popup-txt').show();
                             $('#main_popup_title').html(localeTitle);
                             $('#main_popup_content').html(localeContent);

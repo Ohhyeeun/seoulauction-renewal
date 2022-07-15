@@ -279,7 +279,7 @@
                                                                 </dl>
                                                             </div>
                                                             <div id="biding_req" class="bidding-box col_2" ng-show="showBtn === 1">
-                                                                <div class="deadline_set"><span>신청마감 {{ item.LOT_EXPIRE_DATE | date_format }}</span></div>
+                                                                <div class="deadline_set"><span>신청마감 {{ item.LOT_EXPIRE_DATE_SUB | date_format }}</span></div>
                                                                 <div class="btn_set"><a class="btn btn_point" href="" ng-click="moveToBidding(item)"
                                                                                         role="button"><span>서면/전화 응찰 신청</span></a></div>
                                                             </div>
@@ -618,7 +618,8 @@
                 if (val === undefined) {
                     return '';
                 }
-                return (val === '')?'':new Date(val).format('MM/dd(E) 00:00');
+
+                return (val === '')?'':new Date(val).format('MM/dd(E)');
             };
         })
 
@@ -994,6 +995,9 @@
 
                             let expr_date = new Date($scope.saleInfoAll[i].LOT_EXPIRE_DATE).format('yyyy-MM-dd 00:00:00');
 
+
+                            console.log($scope.saleInfoAll[i].LOT_EXPIRE_DATE_SUB);
+
                             if (expr_date <= new Date().format('yyyy-MM-dd HH:mm:ss')) {
                                 $scope.showBtn = 2
                             } else {
@@ -1151,7 +1155,8 @@
             // bid protocols
             $scope.proc = function (evt, saleNo, lotNo, saleType, userId, custNo) {
                 const packet_enum = {
-                    init: 1, bid_info: 2, time_sync: 3, bid_info_init: 4, end_time_sync: 5, winner: 6, auto_bid_sync: 14, office_winner: 15
+                    init: 1, bid_info: 2, time_sync: 3,
+                    bid_info_init: 4, end_time_sync: 5, winner: 6, auto_bid_sync: 14, office_winner: 15, lot_closed: 16
                 }
                 let d = JSON.parse(evt.data);
                 if (d.msg_type === packet_enum.init) {
@@ -1187,6 +1192,45 @@
                                 // 낙찰가
                                 $scope.saleInfoAll[j].CUR_COST = "낙찰가 KRW " + d.message.max_bid_cost.toLocaleString('ko-KR');
                                 break
+                            }
+                        }
+                    }
+                    $scope.$apply();
+                // 랏 상태 변경(출품취소등등)
+                } else if (d.msg_type === packet_enum.lot_closed) {
+                    if (d.message != null) {
+                        let matching = new Map();
+
+                        // 정보를 처음 가져왔을 때, 인덱스 매핑
+                        for (let i = 0; i < d.message.data.length; i++) {
+                            matching.set(d.message.data[i].SALE_NO +
+                                "-" + d.message.data[i].LOT_NO, i);
+                        }
+
+                        // 전체데이타의 DISP_YN 설정
+                        for (let j = 0; j < $scope.saleInfoAll.length; j++) {
+                            let idx = matching.get($scope.saleInfoAll[j].SALE_NO + "-"
+                                + $scope.saleInfoAll[j].LOT_NO);
+                            if (idx !== undefined) {
+                                $scope.saleInfoAll[j].DISP_YN = d.message.data[idx].DISP_YN;
+                            }
+                        }
+
+                        // 검색데이타의 DISP_YN 설정
+                        for (let j = 0; j < $scope.searchSaleInfoAll.length; j++) {
+                            let idx = matching.get($scope.searchSaleInfoAll[j].SALE_NO + "-"
+                                + $scope.searchSaleInfoAll[j].LOT_NO);
+                            if (idx !== undefined) {
+                                $scope.searchSaleInfoAll[j].DISP_YN = d.message.data[idx].DISP_YN;
+                            }
+                        }
+
+                        // 현재페이지의 DISP_YN 설정
+                        for (let j = 0; j < $scope.saleInfo.length; j++) {
+                            let idx = matching.get($scope.saleInfo[j].SALE_NO + "-"
+                                + $scope.saleInfo[j].LOT_NO);
+                            if (idx !== undefined) {
+                                $scope.saleInfo[j].DISP_YN = d.message.data[idx].DISP_YN;
                             }
                         }
                     }

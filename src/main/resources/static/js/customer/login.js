@@ -1,12 +1,14 @@
 app.value('locale', 'ko');
 app.value('is_login', 'false');
 	
-if(isNativeApp()){
-	console.log("isNativeApp() : true");
-	$("#remember-me").prop("checked", true);
-}else{
-	console.log("isNativeApp() : false");
-	$("#remember-me").remove();
+window.onload = function(){
+	if(isNativeApp()){
+		console.log("isNativeApp() : true");
+		$("#remember-me").prop("checked", true);
+	}else{
+		console.log("isNativeApp() : false");
+		$("#remember-me").remove();
+	}
 }
 
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);

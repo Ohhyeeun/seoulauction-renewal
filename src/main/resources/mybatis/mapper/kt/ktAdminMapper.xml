@@ -6,7 +6,9 @@
 		-- 메뉴 count (진행경매/예정경매/전시/아카데미)
 		select
 			S.SALE_NO,
-			COLUMN_JSON(S.TITLE_BLOB) SALE_TITLE_JSON
+			COLUMN_JSON(S.TITLE_BLOB) SALE_TITLE_JSON,
+		    S.SALE_TH SALE_TH,
+			DATE_FORMAT(S.FROM_DT,'%Y-%m-%d') FROM_DT
 		from
 		     SALE S
 		where
