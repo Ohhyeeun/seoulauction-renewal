@@ -614,14 +614,15 @@ function loadPopup(){
                                     }
                                 });
                             }
-                            $('#main_popup_a_link').attr("href",localeUrl);
                             $('.main-popup-img').show();
                             if(data.image !== "") {
+                                $('#main_popup_a_link').attr("href",localeUrl);
                                 $('#main_popup_img').attr('src', imgUrl);
                                 $('.main-popup-img').show();
                             }
 
                         } else if (popupType === 'text'){
+                            $('#main_popup_text_a_link').attr("href",localeUrl);
                             $('.main-popup-txt').show();
                             $('#main_popup_title').html(localeTitle);
                             $('#main_popup_content').html(localeContent);
