@@ -1226,7 +1226,6 @@ async function isNativeApp() {
     try {
         const result = await window.flutter_inappwebview.callHandler('getAppHeader', '');
         console.log(JSON.stringify(result));
-		console.log("remember-me cookie : " + getCookie('remember-me'));
         return !!result;
     } catch (error) {
         return false;
