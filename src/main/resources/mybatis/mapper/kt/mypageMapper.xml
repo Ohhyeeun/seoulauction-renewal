@@ -1078,8 +1078,6 @@ SELECT 'INTE_LOT' AS GUBUN
 			, GROUP_CONCAT('{"BID_PRICE":', B.BID_PRICE, ', "BID_DT":"',  DATE_FORMAT(B.BID_DT, '%Y.%m.%d  %T'), '", "BID_DT_EN":"',  DATE_FORMAT(B.BID_DT, '%d %b, %Y %T'),'", "BID_NO":"', B.BID_NO, '"}' order by B.BID_PRICE desc, B.BID_DT)
 			, ']') BID_JSON
 			, B.BID_PRICE
-			, DATE_FORMAT(B.BID_DT, '%Y.%m.%d  %T')  BID_DT
-			, DATE_FORMAT(B.BID_DT, '%d %b, %Y %T')  as BID_DT_EN 
 			, B.BID_KIND_NM
 			,  (SELECT B.BID_PRICE  FROM BID B JOIN SUCCESS_BID SB2 ON B.BID_NO = SB2.BID_NO AND S.SALE_NO = SB2.SALE_NO AND L.LOT_NO = SB2.LOT_NO  ) success_bid_price
 			,  (SELECT B.BID_NO  FROM BID B JOIN SUCCESS_BID SB2 ON B.BID_NO = SB2.BID_NO AND S.SALE_NO = SB2.SALE_NO AND L.LOT_NO = SB2.LOT_NO  ) success_bid_no
@@ -1091,6 +1089,9 @@ SELECT 'INTE_LOT' AS GUBUN
 			 , COLUMN_GET(L.TITLE_BLOB, 'en' AS CHAR) LOT_TITLE_EN
 			 , if(S.TO_DT &gt; NOW(), 'N', 'Y') AS CLOSE_YN
 			 , L.HAMMER_CANCEL_YN
+			 , (SELECT DATE_FORMAT(BID_DT, '%Y.%m.%d  %T') FROM BID B WHERE B.CUST_NO=#{action_user_no} AND B.SALE_NO = S.SALE_NO AND B.LOT_NO=L.LOT_NO ORDER BY BID_DT DESC LIMIT 1) MAX_BID_DT
+			 , (SELECT DATE_FORMAT(BID_DT, '%d %b, %Y %T') FROM BID B WHERE B.CUST_NO=#{action_user_no} AND B.SALE_NO = S.SALE_NO AND B.LOT_NO=L.LOT_NO ORDER BY BID_DT DESC LIMIT 1) MAX_BID_DT_EN
+			 , (SELECT BID_PRICE FROM BID B WHERE B.CUST_NO=#{action_user_no} AND B.SALE_NO = S.SALE_NO AND B.LOT_NO=L.LOT_NO ORDER BY BID_DT DESC LIMIT 1) MAX_BID_PRICE
 	    from LOT L
 		inner join (
 			select SB.*, SCD.CD_NM BID_KIND_NM from BID SB
@@ -1112,7 +1113,7 @@ SELECT 'INTE_LOT' AS GUBUN
 		) S on L.SALE_NO = S.SALE_NO 
 		left join ARTIST A on L.ARTIST_NO = A.ARTIST_NO
 		group by L.SALE_NO, L.LOT_NO
-		order by L.SALE_NO desc, B.BID_DT desc
+		order by L.SALE_NO desc, MAX_BID_DT desc
 	</select>
 	
 	<select id="selectOnlineBidCnt" resultType="int">

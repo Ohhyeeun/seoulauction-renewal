@@ -89,7 +89,7 @@
                                                                     <div class="pay-area">
                                                                         <dl class="price">
                                                                             <dt class="tit">응찰가</dt>
-                                                                            <dd class="txt">{{data.CURR_CD}} {{comma(bidGroup(data.BID_JSON)[0].BID_PRICE)}}</dd>
+                                                                            <dd class="txt">{{data.CURR_CD}} {{comma(data.MAX_BID_PRICE)}}</dd>
                                                                         </dl>
                                                                         <dl class="price succ">
                                                                             <dt class="tit">낙찰가</dt>
@@ -97,7 +97,7 @@
                                                                         </dl>
                                                                         <dl class="date">
                                                                             <dt class="tit">응찰일</dt>
-                                                                            <dd class="txt">{{bidGroup(data.BID_JSON)[0].BID_DT}}</dd>
+                                                                            <dd class="txt">{{data.MAX_BID_DT}}</dd>
                                                                         </dl>
 <!--                                                                         <dl class="way">
                                                                             <dt class="tit"></dt>

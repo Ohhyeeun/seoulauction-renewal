@@ -171,10 +171,8 @@ $(function(){
                 if(success){
                     let lotData = data.data;
 
-                    console.log(lotData);
-
                     let sale_title;
-                    sale_title = lotData.SALE_TH !== undefined ? ( '제' + lotData.SALE_TH + '회 ' ) : '';
+                    sale_title = ( lotData.SALE_TH === undefined || lotData.SALE_TH === '')  ? '' : ( '제' + lotData.SALE_TH + '회 ' );
                     sale_title += JSON.parse(lotData.SALE_TITLE_JSON).ko;
 
                     $("#print_sale_title").html(sale_title);

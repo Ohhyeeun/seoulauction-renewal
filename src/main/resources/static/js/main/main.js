@@ -166,19 +166,15 @@ const visualSwiper = new Swiper('.visual-swiper', {
 function  loadBigBanner (){
     const slideArray = [];
     axios.get('/api/main/bigBanners')
-        // await sleep(2000);
         .then(function(response){
             const success =  response.data.success;
             if (success) {
                 const bannerList = response.data.data;
-                // console.log(bannerList);
                 bannerList.map(item => {
-                    // console.log(item)
                     item.content = JSON.parse(item.content);
                    if(!(locale === 'en' && item.content.banner_kind === 'academy') ) {
                         let btnListHtml = "";
                        item.content.button_list.forEach((button) => {
-                            // console.log(button);
                             btnListHtml +=  `<a href="${locale === 'en' ? button.url_ko : button.url_en }" 
                                                 target="${button.target}" 
                                                 onclick="addReadCount(${item.id},'main_banner')"
@@ -299,12 +295,9 @@ function loadTopNotice(){
 $('.upcoming-img>img').show(function () {
     const img_on = $(window).innerWidth();
      $('.swiper-slide.upcomingSlide').css('padding-right','40px');
-     console.log(643636);
     if (img_on >= 1280) {
-        console.log(32343);
         $('.swiper-slide.upcomingSlide').css('padding-right', '40px');
     } else {
-        console.log(77456);
         $('.swiper-slide.upcomingSlide').css('padding-right', '10px');
     }
     /* 영문버전 */
@@ -614,14 +607,15 @@ function loadPopup(){
                                     }
                                 });
                             }
-                            $('#main_popup_a_link').attr("href",localeUrl);
                             $('.main-popup-img').show();
                             if(data.image !== "") {
+                                $('#main_popup_a_link').attr("href",localeUrl);
                                 $('#main_popup_img').attr('src', imgUrl);
                                 $('.main-popup-img').show();
                             }
 
                         } else if (popupType === 'text'){
+                            $('#main_popup_text_a_link').attr("href",localeUrl);
                             $('.main-popup-txt').show();
                             $('#main_popup_title').html(localeTitle);
                             $('#main_popup_content').html(localeContent);

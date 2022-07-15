@@ -167,11 +167,11 @@
 
                 if (success) {
                     const data = response.data.data;
-                    let html = '<span class="keyword-search-tit">추천검색</span>';
+                    let html = '<span class="keyword-search-tit">추천 검색</span>';
 
                     $('.recommend-search-part').append(html);
                     data.map(item => {
-                        let innerHtml = '<a href="/sale/search?searchContent=' + JSON.parse(item.artist_name)[locale] + '" class="recommend-keyword">' + dotSubString(JSON.parse(item.artist_name)[locale], 10) + '</a>';
+                        let innerHtml = '<span class="recommend-keyword text-over"><a href="/sale/search?searchContent=' + JSON.parse(item.artist_name)[locale] + '" class="text-over">' + dotSubString(JSON.parse(item.artist_name)[locale], 10) + '</a></span>';
                         $('.recommend-search-part').append(innerHtml);
                     });
                 }
@@ -181,17 +181,17 @@
         }
         // 최근 검색어
         let keywords = getCookie("keywordHistory");
-        let html = '<span class="keyword-search-tit">최근검색<span class="keyword-all-del">전체삭제</span></span>';
+        let html = '<span class="keyword-search-tit">최근 검색<span class="keyword-all-del">전체삭제</span></span>';
 
         if(keywords){
             $(".recent-search").empty();
             let keywordsArray = keywords.split(',');
             $.each(keywordsArray , function(idx , el){
-                html += '<span class="recent-keyword"><a href="/sale/search?searchContent='+ el +'">'+ el+'</a><span class="keyword-del" searchContent="'+ el +'"></span></span>';
+                html += '<span class="recent-keyword text-over"><a href="/sale/search?searchContent='+ el +'" class="text-over">'+ el+'</a><span class="keyword-del" searchContent="'+ el +'"></span></span>';
             });
 
         }else{
-            html += '<span class="recent-keyword">표시할내용없음</span>';
+            html += '<span class="recent-keyword recent-keyword-none">최근 검색내역 없음</span>';
         }
 
         $(".recent-search").append(html);

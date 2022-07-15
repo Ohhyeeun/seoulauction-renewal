@@ -30,7 +30,7 @@
                                                     <a href="#" onclick="window.history.back()" title="뒤로가기">
                                                         <i class="icon-page_back"></i>
                                                     </a>
-<%--                                                    <span ng-bind="saleInfo.SALE_TITLE_KO"></span>--%>
+                                                    <span ng-bind="fullTitle"></span>
                                                 </div>
                                             </div>
                                             <div class="col_item">
@@ -197,7 +197,7 @@
                                                 </dl>
                                                 <dl class="price-list">
                                                     <dt>마감일</dt>
-                                                    <dd><b id="end_date_time" ng-bind="lotInfo.LOT_EXPIRE_DATE | date_format"><!--WEB SOCKET--></b></dd>
+                                                    <dd><b id="end_date_time" ng-bind="lotInfo.LOT_EXPIRE_DATE_SUB | date_format"><!--WEB SOCKET--></b></dd>
                                                 </dl>
                                             </div>
                                             <div class="button-area">
@@ -322,7 +322,7 @@
                                 </article>
                             </div>
                             <div class="panel-footer">
-                                <article class="product_recent_work-article">
+                                <article ng-show="recentlyViews.length != 0" class="product_recent_work-article">
                                     <div class="article-header">
                                         <div class="title"><span>이 경매의 최근 본 작품</span></div>
                                     </div>
@@ -332,7 +332,7 @@
                                                 <ul id="recently_views" class="product-list">
                                                     <li class="" ng-repeat="item in recentlyViews">
                                                         <div class="li-inner">
-                                                            <a href="#">
+                                                            <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
                                                                 <article class="item-article">
                                                                     <div class="image-area">
                                                                         <figure class="img-ratio">
@@ -351,7 +351,7 @@
                                                                                         class="icon-heart_off"></i></a>
                                                                             </div>
                                                                             <div class="info-box">
-                                                                                <a href="#">
+                                                                                <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
                                                                                     <div class="title">
                                                                                         <span ng-bind="item.ARTIST_NAME_BLOB_JSON.ko"></span>
                                                                                     </div>
@@ -382,6 +382,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 </article>
                             </div>
                         </div>
@@ -960,7 +961,7 @@
             if (val === undefined) {
                 return '';
             }
-            return (val === '')?'':new Date(val).format('MM/dd(E) 00:00');
+            return (val === '')?'':new Date(val).format('MM/dd(E)');
         };
     });
 
@@ -1182,6 +1183,15 @@
                 $scope.artistNo = $scope.lotInfo.ARTIST_NO;
 
                 $scope.activeIndex = 0;
+
+                console.log($scope.lotInfo);
+
+                let sale_title;
+                sale_title = ( $scope.lotInfo.SALE_TH === undefined || $scope.lotInfo.SALE_TH === '')  ? '' : ( '제' + $scope.lotInfo.SALE_TH + '회 ' );
+                sale_title += JSON.parse($scope.lotInfo.SALE_TITLE_JSON).ko;
+
+                $scope.fullTitle = sale_title;
+
 
                 // popup setting
 

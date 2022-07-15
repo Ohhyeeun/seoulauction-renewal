@@ -171,9 +171,9 @@
 
                     $('.recommend-search-part').append(html);
                     data.map(item => {
-                        let innerHtml = '<a href="/sale/search?searchContent=' + JSON.parse(item.artist_name)[locale] + '" class="recommend-keyword">' + dotSubString(JSON.parse(item.artist_name)[locale], 10) + '</a>';
+                        let innerHtml = '<span class="recommend-keyword"><a href="/sale/search?searchContent=' + JSON.parse(item.artist_name)[locale] + '" class="text-over">' + dotSubString(JSON.parse(item.artist_name)[locale], 10) + '</a></span>';
                         $('.recommend-search-part').append(innerHtml);
-                    });
+                    }); 
                 }
             }).catch(function (error) {
                 console.log(error);
@@ -187,7 +187,7 @@
             $(".recent-search").empty();
             let keywordsArray = keywords.split(',');
             $.each(keywordsArray , function(idx , el){
-                html += '<span class="recent-keyword"><a href="/sale/search?searchContent='+ el +'">'+ el+'</a><span class="keyword-del" searchContent="'+ el +'"></span></span>';
+                html += '<span class="recent-keyword text-over"><a href="/sale/search?searchContent='+ el +'" class="text-over">'+ el+'</a><span class="keyword-del" searchContent="'+ el +'"></span></span>';
             });
 
         }else{
