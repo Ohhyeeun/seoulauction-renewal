@@ -18,9 +18,11 @@ public class AppService {
     public CommonMap insertAppInfo(CommonMap map) {
         List<CommonMap> resultList = appMapper.selectDeviceId(map);
         if(resultList.size() < 1) {
+            System.out.println("앱 정보 조회 결과 없음 => 기기ID 및 버전정보 insert");
             appMapper.insertAppInfo(map); //기기ID 및 버전정보 저장
         }
         else {
+            System.out.println("앱 정보 조회 결과 있음 => 기존 앱 정보에 앱 재진입 시점 update");
             appMapper.updateAppInfo(map); //기존 저장된 App Info에 last_access_time을 현재시간으로 update
         }
 

@@ -18,8 +18,8 @@
 	<insert id="insertAppInfo">
 		INSERT INTO CUST_APP_INFO
 		(
-			OS
-			, DEVICE_ID
+			DEVICE_ID
+			, OS
 			, APP_VERSION
 			, LAST_ACCESS_TIME
 			, REG_DT

@@ -47,9 +47,7 @@ public class ApiAppController {
 
     @ApiOperation(value="selectLoginToken", notes="앱 재진입 시, 앱에서 보유한 토큰의 정합성 확인")
     @PostMapping(value="/select-login-token")
-    public ResponseEntity<RestResponse> selectLoginToken(
-    @RequestHeader(name = "Authorization") String token,
-    @ApiParam(example = "token : string") @RequestBody CommonMap paramMap) {
+    public ResponseEntity<RestResponse> selectLoginToken(@RequestHeader(name = "Authorization") String token) {
         log.info("앱 보유 토큰의 정합성 확인 API 실행(selectLoginToken)");
 
         //아래 메소드 리턴 타입 변경하고, 리턴 메시지 추가할 것
@@ -57,14 +55,19 @@ public class ApiAppController {
         if(resultList != null) {
             log.info(resultList.toString());
         }
-        return ResponseEntity.ok(RestResponse.ok(resultList));
+
+        return ResponseEntity.ok(RestResponse.ok());
     }
 
     @ApiOperation(value="loginByToken", notes="앱 재진입 시, 토큰을 통한 재로그인 처리")
     @PostMapping(value="/login-by-token")
-    public ResponseEntity<RestResponse> loginByToken(@ApiParam(example = "token : string") @RequestBody CommonMap paramMap) {
-        //requestBody내 json 데이터 : token(토큰 값)
+    public ResponseEntity<RestResponse> loginByToken(@RequestHeader(name = "Authorization") String token) {
         log.info("토큰을 통한 재로그인 처리 API 실행(loginByToken)");
+        //앱 보유 토큰의 정합성 확인
+        List<CommonMap> resultList = appService.selectLoginByToken(token);
+        if(resultList != null) {
+            log.info(resultList.toString());
+        }
 
         return ResponseEntity.ok(RestResponse.ok());
     }
