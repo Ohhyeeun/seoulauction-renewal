@@ -72,7 +72,7 @@
             <div class="wrap">
                 <span class="submenuBg-closeBtn closebtn closebtn-b m-ver"></span>
                 <div class="flex_wrap submenuBg-box">
-                    <div class="Ingbanner-box pc-ver1280"> 
+                    <div class="Ingbanner-box">
                     </div>
 
                     <ul class="subGnbmenu">
