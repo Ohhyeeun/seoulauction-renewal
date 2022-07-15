@@ -99,12 +99,22 @@ axios.interceptors.response.use((response) => {
                 'X-RateLimit-Remaining': response.headers['X-RateLimit-Remaining'],
             };
         }
-/*        console.log(response);
-        
-        console.log("requestURL :" + response.config.url);
-        console.log("responseURL :" + response.request.responseURL);
-        console.log("hostname :" + window.location.hostname);*/
 
+    
+/* 		console.log(response); 
+ 	    console.log("requestURL :" + response.config.url);
+        console.log("responseURL :" + response.request.responseURL);
+        console.log("hostname :" + window.location.hostname);
+        console.log("hostname :" + window.location.port);
+        console.log("error Msg :" + response.data.data.window.location.hostnamemsg);*/
+        
+        let responseURL = response.request.responseURL.toString().split('api/')[1];
+        let requestURL = response.config.url.toString().split('api/')[1];
+ 
+		if(responseURL != requestURL){
+			window.location.href = response.request.responseURL.toString();
+		}
+		
         return response;
     },
     (error) => {

@@ -424,6 +424,7 @@ const platFormSwiper = new Swiper('.platform-swiper', {
     },
     pagination: {
         el: '.platform-pagination',
+        type: 'bullets',
         clickable: true,
     },
     navigation: {
@@ -438,6 +439,11 @@ const platFormSwiper = new Swiper('.platform-swiper', {
             effect: 'fade',
             autoplay: {
                 delay: 5000,
+            },
+            pagination: {
+                el: '.platform-pagination',
+                type: 'bullets',
+                clickable: true,
             },
         },
     },
@@ -459,8 +465,8 @@ function loadBeltBanner() {
                     const returnDom =  `<div class="swiper-slide platform-bg" style="background-color: ${content.backgroundColor} ">
                                             <a href="${ locale === 'en' ? content.url_en : content.url_ko }" target="_blank"  onclick="addReadCount(${item.id},'main_banner')" >
                                                 <img src="${locale === 'en' ? item.image.pc_en_url : item.image.pc_ko_url }" alt="beltPcBanner" class="beltBannerImg-pc platform-img" >
-                                                <img src="${locale === 'en' ? item.image.mo_en_url : item.image.mo_ko_url }" alt="beltMobileBanner" className="beltBannerImg-mo platform-img"> 
-                                            </a> 
+                                                <img src="${locale === 'en' ? item.image.mo_en_url : item.image.mo_ko_url }" alt="beltMobileBanner" class="beltBannerImg-mo platform-img"> 
+                                            </a>
                                         </div>`;
 
                     slideArray.push(returnDom);
@@ -790,4 +796,29 @@ $(window).resize(function(){
             },
         },
     });
+});
+
+
+/* 다크모드 새로고침 시 */
+window.addEventListener('DOMContentLoaded', () => {
+    // console.log("theme ", localStorage.getItem('theme'));
+
+    $('*').toggleClass(localStorage.getItem('theme'));
+
+
+    $('.auctionTab-btn').click(function () {
+        const darkIngTab = $(this).index();
+        $('.auctionTab-btn').removeClass('dark');
+        $('.auctionTab-contents').removeClass('dark');
+
+        $(this).addClass('dark');
+        $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
+    });
+
+    $('.darktxt').text('다크모드로 보기');
+    $('.darktxt.dark').text('라이트모드로 보기');
+    $('.darktxt-en').text('Dark Mode');
+    $('.darktxt-en.dark').text('Ligth Mode');
+
+    $('.mode-toggle>input').addClass(localStorage.getItem('theme'));
 });

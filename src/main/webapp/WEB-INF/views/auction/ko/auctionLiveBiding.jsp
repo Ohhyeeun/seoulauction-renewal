@@ -228,7 +228,7 @@
                                                                 <span>
                                                                     응찰 관련 문의가 있으신 경우,
 
-                                                                    귀하의 담당자(<em>${emp.CUST_NAME} ${emp.TEL}</em>)
+                                                                    귀하의 담당자( <em>${emp.EMP_NAME} ${emp.TEL}</em> )
 
                                                                     에게 연락주시기 바랍니다.
                                                                 </span>
@@ -293,15 +293,17 @@
                 axios.get('api/auction/lot_info/${saleNo}/${lotNo}')
                     .then(function(response) {
 
+
                     let data = response.data.data;
-                    let sale_title = JSON.parse(data.SALE_TITLE_JSON);
+                    let sale_title;
+                    sale_title = data.SALE_TH !== undefined ? ( '제' + data.SALE_TH + '회 ' ) : '';
+                    sale_title += JSON.parse(data.SALE_TITLE_JSON).ko;
 
                     $("#bidding_lot_img").attr('src' , 'https://www.seoulauction.com/nas_img'+ data.LOT_IMG_PATH + '/' +data.LOT_IMG_NAME);
-                    $("#sale_title").html(sale_title.ko);
+                    $("#sale_title").html(sale_title);
                     $("#lot_id").html(data.LOT_NO);
                     $("#artist_name").html(data.ARTIST_NAME_KO_TXT);
                     $("#lot_title").html(data.TITLE_KO_TXT);
-
 
                     let current_price = data.START_PRICE;
                     let MAX_PRICE = current_price * 10; // 추청가의 10배가 최대치.

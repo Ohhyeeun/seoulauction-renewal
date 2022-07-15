@@ -243,13 +243,18 @@ $(function() {
         $(".submenuBg").mouseleave(false);
 
         /* mobile gnb bg */
+        $('.m-gnbmenu').off('click');
         $('.m-gnbmenu').click(function () {
 
             $('.gnb_submenuBg').addClass('on');
             $('.submenuBg').addClass('on');
             $('body').css({'overflow': 'hidden'});
             $('.submenuBg').animate({'right': '0', 'transition': 'ease .3s', 'display': 'block'}, function () {
+
+
+                $('.gnb_submenuBg').off('click');
                 $('.gnb_submenuBg').click(function () {
+
                     $('body').css({'overflow': 'visible'});
                     $('.submenu').stop().slideUp(function () {
                         $('.gnbmenu_arrow').removeClass('on');
@@ -260,6 +265,7 @@ $(function() {
                     });
                 });
 
+                $('.subGnbmenu-tit').off('click');
                 $('.subGnbmenu-tit').click(function () {
 
 
@@ -280,6 +286,7 @@ $(function() {
         });
         $('.submenuBg-closeBtn').off('click');
         $('.submenuBg-closeBtn').click(function () {
+
             $('body').css({'overflow': 'visible'});
             $('.gnbmenu_arrow').removeClass('on');
             $('.submenuBg').animate({'right': '-100%', 'transition': 'ease .2s'}, function () {
@@ -528,6 +535,9 @@ function setCookie(name, value, expiredays) {
 
 //숫자를 천단위마다 콤마 해줌.
 function numberWithCommas(x) {
+    if(x === undefined){
+        return x;
+    }
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
@@ -960,7 +970,7 @@ $(window).resize(function(){
         $('.submenuBg').removeClass('on');
 
         /* top search right 위치 */
-        $('.topsearch-box>form').animate({'right': '0'});
+        // $('.topsearch-box>form').animate({'right': '0'});  
         $('.main-contents, #contents').click(function(){
             $('.search-bubble-box').removeClass('on');
             $('.bubble-box01').eq(utilityMenu).removeClass('hide');
@@ -995,6 +1005,7 @@ $(window).resize(function(){
             $('.submenuBg').css({'right':'-100%'});
             $('.submenuBg').show();
             $('.submenuBg').animate({'right':'0','transition':'ease .3s','display':'block'}, function(){
+
 
                 $('.gnb_submenuBg').show();
                 $('.gnb_submenuBg').off('click');
@@ -1063,6 +1074,7 @@ $(window).resize(function(){
             $('body').css({'overflow':'visible'});
             $('.gnbmenu_arrow').removeClass('on');
             $('.submenuBg').animate({'right':'-100%','transition':'none'}, function(){
+
                 $(this).removeClass('on');
                 $('.gnb_submenuBg').removeClass('on');
             });
@@ -1070,7 +1082,7 @@ $(window).resize(function(){
         });
 
         /* top search box */
-        $('.topsearch-box>form').animate({'right': '-100%', 'transition':'none'});
+        // $('.topsearch-box>form').animate({'right': '-100%', 'transition':'none'});
 
         /* 오프라인 라이브응찰 화면(mobile) */
         $('.bidding_pc').hide();
@@ -1144,32 +1156,7 @@ $(window).resize(function(){
         } else {
             localStorage.setItem('theme', 'dark');
         }
-    });
-
-    /* 다크모드 새로고침 시 */
-    window.addEventListener('DOMContentLoaded', () => {
-        // console.log("theme ", localStorage.getItem('theme'));
-
-        $('*').toggleClass(localStorage.getItem('theme'));
-
-        $('.auctionTab-btn').click(function () {
-            const darkIngTab = $(this).index();
-            $('.auctionTab-btn').removeClass('dark');
-            $('.auctionTab-contents').removeClass('dark');
-
-            $(this).addClass('dark');
-            $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
-        });
-
-        $('.darktxt').text('다크모드로 보기');
-        $('.darktxt.dark').text('라이트모드로 보기');
-        $('.darktxt-en').text('Dark Mode');
-        $('.darktxt-en.dark').text('Ligth Mode');
-
-        $('.mode-toggle>input').addClass(localStorage.getItem('theme'));
-    });
-
-
+    });  
 });
 
 /* 새로고침 */
@@ -1217,5 +1204,31 @@ function nativeToggleMenu(state) {
       document.querySelector('.submenuBg-closeBtn').click();
     } else {
       document.querySelector('.m-gnbmenu').click();
+    }
+}
+
+$(function(){
+    // 네이티브 웹뷰 초기화
+    window.isFlutterInAppWebViewReady = false;
+    window.addEventListener('flutterInAppWebViewPlatformReady', function(e) {
+        window.isFlutterInAppWebViewReady = true;
+    });
+});
+  
+/**
+ * 앱 버전정보 조회
+ * @return {Promise<Object>}
+ * @example
+ * // Return Data Example
+ * { "X-Custom-Webview-Name": "sa_app", "X-Custom-App-Version": "3.0.0" }
+ */
+async function isNativeApp() {
+    try {
+        const result = await window.flutter_inappwebview.callHandler('getAppHeader', '');
+        console.log(JSON.stringify(result));
+		console.log("remember-me cookie : " + getCookie('remember-me'));
+        return !!result;
+    } catch (error) {
+        return false;
     }
 }

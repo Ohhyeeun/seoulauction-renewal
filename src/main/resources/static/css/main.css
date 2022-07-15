@@ -571,12 +571,12 @@
     display: block;
     margin: 0 auto;
     text-align: center;
-    background-color: #fff;
+    /*background-color: #fff;*/
 }
-.platform-swiper {
-    height: 0;
-    padding-bottom: 11.25em;
-}
+/*.platform-swiper {*/
+/*    height: 0;*/
+/*    padding-bottom: 11.25em;*/
+/*}*/
 .platform-bg > a {
     margin: 0 auto;
     text-align: center;
@@ -607,8 +607,8 @@
     width: 6px;
     height: 6px;
     background-color: #ccc;
-    margin-right: 10px;
-    opacity: 1;
+    margin-right: 6px;
+    opacity: 1; 
 }
 .platform-pagination>span:last-of-type {
     margin-right: 0;
@@ -1291,9 +1291,9 @@
         height: 100%;
         padding: 20px;
     }
-    .platform-swiper {
-        padding-bottom: calc(45% - 64px);
-    }
+    /*.platform-swiper {*/
+    /*    padding-bottom: calc(45% - 64px);*/
+    /*}*/
     .upcoming-slidebox {
         overflow: inherit;
     }
@@ -1360,9 +1360,9 @@
     .auction-tit>h1 {
         padding: 0;
     }
-    .platform-swiper {
-        padding-bottom: 13.75em;
-    }
+    /*.platform-swiper {*/
+    /*    padding-bottom: 13.75em;*/
+    /*}*/
     .video-thmbtit {
         font-size: 15px;
     }
@@ -1675,9 +1675,9 @@
     .upcoming-datebox:lang(en) {
         line-height: 1;
     }
-    .platform-swiper {
-        padding-bottom: 31%; 
-    }
+    /*.platform-swiper {*/
+    /*    padding-bottom: 31%; */
+    /*}*/
     .swiper-pagination.platform-pagination {
         margin-top: 15px;
     }

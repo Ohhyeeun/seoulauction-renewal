@@ -476,7 +476,7 @@ app.service("inquiryService", function($rootScope, common, locale) {
 		            }
 		        })
 		        .catch(function(error){
-		            alert(error);
+		            console.log(error);
 		        });
 	        /*
 				common.callFileAPI("/api/mypage/inquiry", formData,

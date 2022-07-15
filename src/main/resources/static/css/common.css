@@ -1326,7 +1326,8 @@ body.dark,
 .newsletter-btnbox>button.commonbtn:hover.dark,
 .newsletter-btnbox>a.commonbtn:hover.dark,
 .newsletter-btnbox>button.commonbtn.dark,
-.auctionTab-btn.dark:hover:after {
+.auctionTab-btn.dark:hover:after,
+.platform-pagination.dark>.swiper-pagination-bullet-active.dark {
     background-color: #fff;
 }
 .newsletter-form>input.dark {
@@ -1441,7 +1442,12 @@ body.dark,
 .auction-thumbbox.dark,
 .swiper-slide.upcomingSlide.dark {
     background-color: #2d2d2d;
-}  
+}
+.swiper-progressbar.dark .visual-progressbar.dark,
+.platform-pagination>span.dark {
+    background: #555;
+}
+
 
 
 /* 외주 css selec container */
@@ -1449,15 +1455,16 @@ body.dark,
     z-index: 24 !important;
 }
 /* auction 팝업 및 gnb z-index 30 기준 */
-.sub-wrap .main-header,
-.allview_fixed-wrap .popup-dim,
-.popup-dim {
+.sub-wrap .main-header{
     z-index: 30 !important;
 }
+.allview_fixed-wrap .popup-dim,
 .allview_fixed-wrap .fixed-panel,
 .trp.popupfixed-wrap {
     z-index: 31 !important;
 }
+
+
 
 
 
@@ -1657,6 +1664,13 @@ body.dark,
     }
     .darkmodeBg {
         right: auto;
+    }
+    .topBtn:hover {
+        background-image: url("/images/pc/icon/top.png");
+    }
+    .scroll-top:hover {
+        background-color: #fff;
+        border-color: #ddd;
     }
     .wrap,
     .container,
@@ -2278,6 +2292,12 @@ body.dark,
     }
     .keyword-del.dark {
         background-image: url("/images/pc/icon/ic_close_gray_24.svg");
+    }
+    .visual-pagaination.dark>span.dark {
+        background-color: #555;
+    }
+    .visual-pagaination.dark>span.swiper-pagination-bullet-active.dark { 
+        background:#fff;
     }
 }
 @media all and (max-width: 719px) {

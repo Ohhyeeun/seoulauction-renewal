@@ -1,13 +1,11 @@
 app.value('locale', 'ko');
 app.value('is_login', 'false');
 	
-var userAgent = window.navigator.userAgent
-console.log(userAgent)
-if(userAgent.search("sa_app") > -1){
-	console.log("**APP remember-me true**");
+if(isNativeApp()){
+	alert("isNativeApp() : true");
 	$("#remember-me").prop("checked", true);
 }else{
-	console.log("**NOT APP remember-me false**");
+	alert("isNativeApp() : false");
 	$("#remember-me").remove();
 }
 

@@ -21,7 +21,7 @@
                             <article class="auction_head_info-article">
                                 <div class="center-box ing">
                                     <h2 class="page_title">
-                                        <span class="th1">{{sale.SALE_TH | localeOrdinal}} {{sale.TITLE_JSON.ko}} ${bid_domain}</span>
+                                        <span class="th1">{{sale.SALE_TH | localeOrdinal}} {{sale.TITLE_JSON.ko}}</span>
                                     </h2>
                                     <ul class="event_day-list">
                                         <li>
@@ -752,8 +752,7 @@
             }
 
             $scope.favorite = function (item) {
-
-                checkLogin();
+                if(!checkLogin()) return;
 
                 let url = item.FAVORITE_YN === 'N' ? "/api/auction/delCustInteLot" : "/api/auction/addCustInteLot";
 
@@ -766,7 +765,6 @@
                             $scope.$apply();
                         }
                     });
-
                 } catch (error) {
                     console.error(error);
                 }
@@ -880,13 +878,7 @@
             }
 
             $scope.popSet = function (saleNo, lotNo, userId, custNo) {
-                if (sessionStorage.getItem("is_login") === 'false') {
-                    let login_message = (getCookie('lang') === "" || getCookie('lang') === 'ko') ?
-                        '로그인을 진행해주세요.' : 'Please Login in.';
-                    alert(login_message);
-                    location.href = '/login';
-                    return
-                }
+                if(!checkLogin()) return;
 
                 let is_sale_cert = $scope.is_sale_cert;
                 if (!is_sale_cert) {
@@ -998,7 +990,7 @@
                         if ($scope.saleInfoAll[0].SALE_KIND_CD !== "online") {
                             alert('잘못된 접근 입니다.');
                             window.history.back();
-                            return
+                            return;
                         }
                     }
 
