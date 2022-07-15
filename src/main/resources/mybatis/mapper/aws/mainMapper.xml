@@ -11,7 +11,7 @@
             and status = 'A'
             and start_at + interval 9 hour <=  (now() + interval 9 hour)
             and end_at + interval 9 hour  >= (now() + interval 9 hour)
-            order by start_at, updated_at
+            order by start_at desc, id desc
        limit 3;
     ]]>
     </select>
