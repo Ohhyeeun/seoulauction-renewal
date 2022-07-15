@@ -197,7 +197,7 @@
                                                 </dl>
                                                 <dl class="price-list">
                                                     <dt>마감일</dt>
-                                                    <dd><b id="end_date_time" ng-bind="lotInfo.LOT_EXPIRE_DATE | date_format"><!--WEB SOCKET--></b></dd>
+                                                    <dd><b id="end_date_time" ng-bind="lotInfo.LOT_EXPIRE_DATE_SUB | date_format"><!--WEB SOCKET--></b></dd>
                                                 </dl>
                                             </div>
                                             <div class="button-area">
@@ -961,7 +961,7 @@
             if (val === undefined) {
                 return '';
             }
-            return (val === '')?'':new Date(val).format('MM/dd(E) 00:00');
+            return (val === '')?'':new Date(val).format('MM/dd(E)');
         };
     });
 
@@ -1184,6 +1184,7 @@
 
                 $scope.activeIndex = 0;
 
+                console.log($scope.lotInfo);
 
                 let sale_title;
                 sale_title = ( $scope.lotInfo.SALE_TH === undefined || $scope.lotInfo.SALE_TH === '')  ? '' : ( '제' + $scope.lotInfo.SALE_TH + '회 ' );
