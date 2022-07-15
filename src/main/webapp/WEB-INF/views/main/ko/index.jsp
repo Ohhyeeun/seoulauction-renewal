@@ -191,15 +191,15 @@
 <div class="blackBg main-popupBg">
     <div class="main-popupwrap">
         <div class="main-popupbox">
-            <a href="javascript:void(0);" id="main_popup_a_link"  title="메인 팝업 이미지">
+            <a href="" id="main_popup_a_link"  title="메인 팝업 이미지">
                 <div class="main-popup-img"> <!-- 이미지 레이어팝업 -->
                     <img id="main_popup_img" <%--src="/images/pc/main/pop_event.jpg"--%> alt="레이어팝업 이미지">
                 </div>
             </a>
 
             <!-- 텍스트 레이어팝업 on-->
-            <a href="javascript:void(0);" title="메인 팝업 텍스트">
-                <div class="main-popup-txt"> 
+            <a href="" title="메인 팝업 텍스트">
+                <div class="main-popup-txt">
                     <div class="main-popup-caption">
                         <h2 id="main_popup_title">국내 오프라인 경매 구매수수료율 인상 및 약관 개정 안내</h2>
                         <p id="main_popup_content">항상 서울옥션을 이용해 주시는 고객 여러분들께<br> 진심으로 감사의 말씀을 드리며,<br>다음과 같이 국내 오프라인 경매 구매수수료율을<br>인상함을 알려드립니다.<br>

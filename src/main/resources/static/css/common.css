@@ -1522,30 +1522,16 @@ body.dark,
     .Ingkind-auction {
         font-size: 11px;
     }
+    .submenuBg-box {
+        justify-content: center;
+    }
+    .subGnbmenu {
+        justify-content: space-between;
+        flex-basis: calc(60% - 10px);
+    }
     .subGnbmenu-tit {
-        margin: 0 30px;
+        margin: 0;
     }
-    .subGnbmenu-tit:lang(en) {
-        margin: 0 20px;
-    }
-    .subGnbmenu-tit:first-child {
-        margin-left: 0;
-    }
-    /*.subGnbmenu-tit:first-of-type {
-        margin-right: 60px;
-    }
-    .subGnbmenu-tit:nth-child(2) {
-        margin-right: 54px;
-    }
-    .subGnbmenu-tit:nth-child(3) {
-        margin-right: 60px;
-    }*/
-    /*.blacklotbox {*/
-    /*    flex-basis: 240px;*/
-    /*    height: 240px;*/
-    /*    max-width: 240px;*/
-    /*    background-color: #808080;*/
-    /*}*/
     .beltclose-btn {
         right: 50px;
     }
@@ -1565,34 +1551,11 @@ body.dark,
     .belttxtbox {
         min-width: 100%;
     }
-    .submenuBg-box {
-        justify-content: normal;
-    }
     .subGnbmenu {
-        margin: 0 auto;
+        flex-basis: calc(45.625em - 10px);
     }
-    .subGnbmenu-tit {
-        margin: 0 35px;
-    }
-    .subGnbmenu-tit:lang(en) {
-        margin: 0 30px;
-    }
-    .subGnbmenu-tit:first-child {
-        margin-left: 0;
-    }
-    /*.blacklotbox {*/
-    /*    display: none;*/
-    /*}*/
     .platform {
         margin-bottom: 100px;
-    }
-    .upcoming {
-        /*max-width: 100%;
-        padding-right: 0;
-        padding-left: 0;    */
-    }
-    .upcoming-tit {
-        padding:
     }
 }
 @media all and (max-width: 1279px) {
@@ -1640,15 +1603,6 @@ body.dark,
     }
     .subGnbmenu  {
         margin: 0;
-    }
-    .subGnbmenu-tit {
-        margin: 0 62px;
-    }
-    .subGnbmenu-tit:lang(en) {
-        margin: 0 52px;
-    }
-    .subGnbmenu-tit:first-child {
-        margin-left: 0;
     }
     .header_gnbmenu>li:first-child {
         padding-left: 0;
@@ -1812,9 +1766,13 @@ body.dark,
     .gnb_blackBg {
         display: none;
     }
+    .subGnbmenu {
+        flex-basis: 100%;
+    }
     .submenuBg-box {
         padding: 20px 25px;
         padding-bottom: 0;
+        justify-content: normal;
     }
     .submenuBg-closeBtn {
         width: 15px;
