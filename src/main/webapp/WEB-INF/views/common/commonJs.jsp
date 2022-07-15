@@ -49,11 +49,8 @@
 
   /**
    * [Webview -> Native]
-   * 앱 버전정보 조회
+   * 접속한 정보가 앱이 맞는지 정보
    * @return {Promise<Object>}
-   * @example
-   * // Return Data Example
-   * { "X-Custom-Webview-Name": "sa_app", "X-Custom-App-Version": "3.0.0" }
    */
   async function isNativeApp() {
     try {
@@ -63,6 +60,21 @@
       return !!result;
     } catch (error) {
       return false;
+    }
+  }
+
+  /**
+   * 앱의 버전 정보 조회
+   * @example
+   * // Return Data Example
+   * { "X-Custom-Webview-Name": "sa_app", "X-Custom-App-Version": "3.0.0" }
+   */
+  async function getNativeAppHeader() {
+    try {
+      const result = await window.flutter_inappwebview.callHandler('getAppHeader', '');
+      return result;
+    } catch (error) {
+      return null;
     }
   }
 
@@ -79,6 +91,7 @@
 
       if (!result.os || !['ios', 'android'].includes(result.os)) return;
       if (!result.version || !result.device_id) return;
+
       // const url = `https://seoulauction.com/api/app/insert-app-info`;
       // const url = `https://stage.seoulauction.com/api/app/insert-app-info`;
       const url = `https://re-dev.seoulauction.com/api/app/insert-app-info`;
