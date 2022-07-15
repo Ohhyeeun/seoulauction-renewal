@@ -1326,7 +1326,8 @@ body.dark,
 .newsletter-btnbox>button.commonbtn:hover.dark,
 .newsletter-btnbox>a.commonbtn:hover.dark,
 .newsletter-btnbox>button.commonbtn.dark,
-.auctionTab-btn.dark:hover:after {
+.auctionTab-btn.dark:hover:after,
+.platform-pagination.dark>.swiper-pagination-bullet-active.dark {
     background-color: #fff;
 }
 .newsletter-form>input.dark {
@@ -1442,10 +1443,10 @@ body.dark,
 .swiper-slide.upcomingSlide.dark {
     background-color: #2d2d2d;
 }
-.swiper-progressbar.dark .visual-progressbar.dark {
+.swiper-progressbar.dark .visual-progressbar.dark,
+.platform-pagination>span.dark {
     background: #555;
 }
-
 
 
 
@@ -2295,7 +2296,7 @@ body.dark,
     .visual-pagaination.dark>span.dark {
         background-color: #555;
     }
-    .visual-pagaination>span.swiper-pagination-bullet-active {
+    .visual-pagaination.dark>span.swiper-pagination-bullet-active.dark { 
         background:#fff;
     }
 }

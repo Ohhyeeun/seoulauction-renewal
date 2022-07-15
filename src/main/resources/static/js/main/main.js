@@ -424,6 +424,7 @@ const platFormSwiper = new Swiper('.platform-swiper', {
     },
     pagination: {
         el: '.platform-pagination',
+        type: 'bullets',
         clickable: true,
     },
     navigation: {
@@ -438,6 +439,11 @@ const platFormSwiper = new Swiper('.platform-swiper', {
             effect: 'fade',
             autoplay: {
                 delay: 5000,
+            },
+            pagination: {
+                el: '.platform-pagination',
+                type: 'bullets',
+                clickable: true,
             },
         },
     },
@@ -790,4 +796,29 @@ $(window).resize(function(){
             },
         },
     });
+});
+
+
+/* 다크모드 새로고침 시 */
+window.addEventListener('DOMContentLoaded', () => {
+    // console.log("theme ", localStorage.getItem('theme'));
+
+    $('*').toggleClass(localStorage.getItem('theme'));
+
+
+    $('.auctionTab-btn').click(function () {
+        const darkIngTab = $(this).index();
+        $('.auctionTab-btn').removeClass('dark');
+        $('.auctionTab-contents').removeClass('dark');
+
+        $(this).addClass('dark');
+        $(".auctionTab-contents").eq(darkIngTab).addClass('dark');
+    });
+
+    $('.darktxt').text('다크모드로 보기');
+    $('.darktxt.dark').text('라이트모드로 보기');
+    $('.darktxt-en').text('Dark Mode');
+    $('.darktxt-en.dark').text('Ligth Mode');
+
+    $('.mode-toggle>input').addClass(localStorage.getItem('theme'));
 });
