@@ -333,53 +333,54 @@
                                                 <ul id="recently_views" class="product-list">
                                                     <li class="" ng-repeat="item in recentlyViews">
                                                         <div class="li-inner">
-                                                            <%--                                                            <a href="#">--%>
-                                                            <article class="item-article">
-                                                                <div class="image-area">
-                                                                    <figure class="img-ratio">
-                                                                        <a href="javascript:void(0);" class="img-align">
-                                                                            <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                                 alt="">
-                                                                        </a>
-                                                                    </figure>
-                                                                </div>
-                                                                <div class="typo-area">
-                                                                    <div class="product_info">
-                                                                        <div class="num_heart-box">
-                                                                            <%--<a href="#">--%><a
-                                                                                href="javascript:void(0);" class="num"
-                                                                                ng-bind="item.LOT_NO"></a><%--</a>--%>
-                                                                            <a ng-class="{'heart':item.FAVORITE_YN,'js-work_heart':item.FAVORITE_YN,'on':item.FAVORITE_YN==='Y'}"
-                                                                               ng-click="favorite2(item.SALE_NO, item.LOT_NO, $index);"><i
-                                                                                    class="icon-heart_off"></i></a>
-                                                                        </div>
-                                                                        <div class="info-box">
-                                                                            <%--                                                                                <a href="#">--%>
-                                                                            <div class="title">
-                                                                                <a href="javascript:void(0);">
-                                                                                    <span ng-bind="item.ARTIST_NAME_BLOB_JSON.ko"></span>
-                                                                                </a>
-                                                                            </div>
-                                                                            <div class="desc">
-                                                                                <a href="javascript:void(0);">
-                                                                                    <span ng-bind="item.TITLE_BLOB_JSON.ko"></span>
-                                                                                </a>
-                                                                            </div>
-                                                                            <%--                                                                                </a>--%>
-                                                                        </div>
+                                                            <a href="/auction/live/online/{{item.SALE_NO}}/{{item.LOT_NO}}">
+                                                                <article class="item-article">
+                                                                    <div class="image-area">
+                                                                        <figure class="img-ratio">
+                                                                            <a href="javascript:void(0);" class="img-align">
+                                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
+                                                                                     alt="">
+                                                                            </a>
+                                                                        </figure>
                                                                     </div>
-                                                                </div>
-                                                                <div class="product_cancle-area">
-                                                                    <div class="area-inner">
-                                                                        <i class="icon-cancle_box"></i>
-                                                                        <div class="typo">
-                                                                            <div class="name"><span>LOT 5</span></div>
-                                                                            <div class="msg"><span>출물이 취소되었습니다.</span>
+                                                                    <div class="typo-area">
+                                                                        <div class="product_info">
+                                                                            <div class="num_heart-box">
+                                                                                <%--<a href="#">--%><a
+                                                                                    href="javascript:void(0);" class="num"
+                                                                                    ng-bind="item.LOT_NO"></a><%--</a>--%>
+                                                                                <a ng-class="{'heart':item.FAVORITE_YN,'js-work_heart':item.FAVORITE_YN,'on':item.FAVORITE_YN==='Y'}"
+                                                                                   ng-click="favorite2(item.SALE_NO, item.LOT_NO, $index);"><i
+                                                                                        class="icon-heart_off"></i></a>
+                                                                            </div>
+                                                                            <div class="info-box">
+                                                                                <a href="/auction/live/online/{{item.SALE_NO}}/{{item.LOT_NO}}">
+                                                                                    <div class="title">
+                                                                                        <a href="javascript:void(0);">
+                                                                                            <span ng-bind="item.ARTIST_NAME_BLOB_JSON.ko"></span>
+                                                                                        </a>
+                                                                                    </div>
+                                                                                    <div class="desc">
+                                                                                        <a href="javascript:void(0);">
+                                                                                            <span ng-bind="item.TITLE_BLOB_JSON.ko"></span>
+                                                                                        </a>
+                                                                                    </div>
+                                                                                </a>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </article>
+                                                                    <div class="product_cancle-area">
+                                                                        <div class="area-inner">
+                                                                            <i class="icon-cancle_box"></i>
+                                                                            <div class="typo">
+                                                                                <div class="name"><span>LOT 5</span></div>
+                                                                                <div class="msg"><span>출물이 취소되었습니다.</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </article>
+                                                            </a>
                                                             <%--                                                            </a>--%>
                                                         </div>
                                                     </li>

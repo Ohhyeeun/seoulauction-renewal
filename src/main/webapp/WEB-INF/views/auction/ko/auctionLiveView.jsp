@@ -332,7 +332,7 @@
                                                 <ul id="recently_views" class="product-list">
                                                     <li class="" ng-repeat="item in recentlyViews">
                                                         <div class="li-inner">
-                                                            <a href="#">
+                                                            <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
                                                                 <article class="item-article">
                                                                     <div class="image-area">
                                                                         <figure class="img-ratio">
@@ -351,7 +351,7 @@
                                                                                         class="icon-heart_off"></i></a>
                                                                             </div>
                                                                             <div class="info-box">
-                                                                                <a href="#">
+                                                                                <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
                                                                                     <div class="title">
                                                                                         <span ng-bind="item.ARTIST_NAME_BLOB_JSON.ko"></span>
                                                                                     </div>
