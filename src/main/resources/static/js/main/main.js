@@ -163,8 +163,6 @@ const visualSwiper = new Swiper('.visual-swiper', {
     },
 });
 
-
-
 function  loadBigBanner (){
     const slideArray = [];
     axios.get('/api/main/bigBanners')
@@ -665,9 +663,28 @@ function localeOrdinal(n, l) {
 
 }
 
-/* main에서만 사용되는 gnb */
+/* main에서만 사용되는 */
 if (matchMedia("all and (min-width: 1024px)").matches) {
+    /* visual swiper hover 추가 */
+    $('.visual-swiper > .swiper-wrapper').off('mouseenter');
+    $('.visual-swiper > .swiper-wrapper').on('mouseenter' ,function(){
+        console.log(767567567);
+        $(this).hover(function(){
+            $('.swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').css({
+                "background-color": "rgba(225,225,225,0.3)",
+                "padding": "2em",
+                "background-position": "center center",
+                "border-radius": "3.125rem", 
+                "right":"40px",
+            });
+            $('.swiper-button-prev.slide-btnleft').css("left","40px");
+        });
 
+        $('.visual-swiper > .swiper-wrapper').on('mouseleave', function(){
+            $('.swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').css("background-color",'transparent');
+            console.log(856756756);
+        });
+    });
 
 } else {
     /* 띠배너 beltbanner */
