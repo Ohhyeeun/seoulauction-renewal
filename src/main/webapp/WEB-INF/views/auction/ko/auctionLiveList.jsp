@@ -744,14 +744,6 @@
             }
 
             $scope.goLiveBid = function() {
-                let isCustRequired = ${isCustRequired};
-                if(!isCustRequired){
-                    if(confirm('패들신청에 필요한 필수회원정보가 있습니다.\n회원정보를 수정하시겠습니까?')){
-                        location.href = '/mypage/custModify';
-                    }
-                    return;
-                }
-
                 if($scope.sale_status == 'ING' && $scope.liveCheckDt >= $scope.liveStartDt) {
                     // 경매 당일 응찰하기
                     console.log("1");
@@ -771,6 +763,14 @@
                         return;
                     }
 
+                    let isCustRequired = ${isCustRequired};
+                    if(!isCustRequired){
+                        if(confirm('패들 신청에 필요한 필수회원정보가 있습니다.\n회원정보를 수정하시겠습니까?')){
+                            location.href = '/mypage/custModify';
+                        }
+                        return;
+                    }
+                    
                     if($scope.paddNo <= 0) {
                         terms_required.open(this); // or false
                         popup_fixation("#terms_required-wrap");
