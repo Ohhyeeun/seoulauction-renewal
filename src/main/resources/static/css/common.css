@@ -398,15 +398,18 @@ img::selection {
 }
 .darkmodeBg:hover>span {
     color: #fff;
-}
+} 
 .scroll-top {
     width: 53px;
     height: 53px;
 }
-/*.scroll-top:hover {*/
-/*    background-color: #4dada7;*/
-/*    border-color: #4dada7;*/
-/*}*/
+.scroll-top {
+    opacity: 0;
+    transition: opacity 150ms;
+}
+.scroll-top.show {
+    opacity: 1;
+}
 .topBtn {
     background: url("/images/pc/icon/top.png") no-repeat center center;
     width: 12px;
@@ -787,6 +790,10 @@ img::selection {
 }
 recent-keyword:lang(en) {
     width: calc(50% - 15px);
+}
+.recent-keyword > a {
+    height: 16px;
+    line-height: 1;
 }
 .recent-keyword-none {
     background-color: transparent;
@@ -1800,9 +1807,9 @@ body.dark,
         justify-content: normal;
     }
     .submenuBg-closeBtn {
-        width: 15px;
-        height: 15px;
-        background-size: contain;
+        width: 20px;
+        height: 20px;
+        background-size: cover;
         display: block;
         cursor: pointer;
         margin-top: 20px;
