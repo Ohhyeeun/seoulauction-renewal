@@ -1476,15 +1476,15 @@ body.dark,
 .select2-container--open {
     z-index: 24 !important;
 }
-/* auction 팝업 및 gnb z-index 30 기준 */
+/* auction 팝업 및 gnb z-index 26 기준 */
 .sub-wrap .main-header{
-    z-index: 30 !important;
+    z-index: 26 !important; 
 }
-.allview_fixed-wrap .popup-dim,
-.allview_fixed-wrap .fixed-panel,
-.trp.popupfixed-wrap {
-    z-index: 31 !important;
-}
+/*.allview_fixed-wrap .popup-dim,*/
+/*.allview_fixed-wrap .fixed-panel,*/
+/*.trp.popupfixed-wrap {*/
+/*    z-index: 27 !important;*/
+/*}*/
 
 
 
