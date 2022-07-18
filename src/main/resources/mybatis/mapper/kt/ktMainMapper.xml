@@ -20,10 +20,11 @@
 		  	and WWW_DISP_YN = 'Y'
 		  	and S.SALE_OUTSIDE_YN = 'N'
 			and S.STAT_CD = 'upcoming'
+		 	and S.SALE_KIND_CD NOT IN ('exhibit', 'exhibit_sa')
 			and now() < case when S.SALE_KIND_CD in ('online','online_zb') then (select MAX(L.TO_DT) from LOT L where L.SALE_NO = S.SALE_NO GROUP BY L.SALE_NO)
 				when S.SALE_KIND_CD IN ('exhibit', 'exhibit_sa') then S.TO_DT
 				else (select (case when LC.CLOSE_YN = 'Y' THEN LC.TO_DT ELSE DATE_ADD(NOW(), INTERVAL 1 HOUR)  END) from LOT LC where LC.SALE_NO = S.SALE_NO AND LC.LOT_NO = (SELECT MAX(LC1.LOT_NO) FROM LOT LC1 WHERE LC1.SALE_NO = S.SALE_NO AND LC1.STAT_CD <> 'reentry')) end
-		ORDER BY S.SALE_NO
+		ORDER BY S.FROM_DT
 		]]>
 	</select>
 
@@ -42,18 +43,31 @@
 				and S.WWW_DISP_YN = 'Y'
 				and S.SALE_OUTSIDE_YN = 'N'
 			    and S.FROM_DT <= now()
-				and (
-				  case
-					  when S.SALE_KIND_CD in ('online','online_zb')
-						  then (select MAX(L.TO_DT) > now() from LOT L where L.STAT_CD = 'entry' and L.SALE_NO = S.SALE_NO)
-					  when S.SALE_KIND_CD in ('main','hongkong','plan')
-						  then (select IF(count(*) > 1, true, false) from LOT L where L.CLOSE_YN = 'N' and L.STAT_CD = 'entry' and L.SALE_NO = S.SALE_NO and S.SALE_OUTSIDE_YN = 'N')
-				  end
-				  )
-			  order by S.TO_DT desc
+				and S.SALE_KIND_CD NOT IN ('exhibit', 'exhibit_sa')
+				and now() <
+				    case
+						when S.SALE_KIND_CD in ('online','online_zb')
+				    	then (select MAX(L.TO_DT) from LOT L where L.SALE_NO = S.SALE_NO GROUP BY L.SALE_NO)
+						when S.SALE_KIND_CD in ('main','hongkong','plan')
+						then (select (case when LC.CLOSE_YN = 'Y'
+										THEN LC.TO_DT
+						    			ELSE DATE_ADD(NOW(), INTERVAL 1 HOUR)
+									END) from LOT LC
+									     where LC.SALE_NO = S.SALE_NO
+									       AND LC.LOT_NO = (SELECT MAX(LC1.LOT_NO) FROM LOT LC1 WHERE LC1.SALE_NO = S.SALE_NO AND LC1.STAT_CD <> 'reentry'))
+					end
+-- 				and (
+-- 				  case
+-- 					  when S.SALE_KIND_CD in ('online','online_zb')
+-- 						  then (select MAX(L.TO_DT) > now() from LOT L where L.STAT_CD = 'entry' and L.SALE_NO = S.SALE_NO)
+-- 					  when S.SALE_KIND_CD in ('main','hongkong','plan') -- 마감되지 않은 경매가 하나 이상 있으면 false
+-- 						  then (select IF(count(*) > 1, true, false) from LOT L where L.CLOSE_YN = 'N' and L.STAT_CD = 'entry' and L.SALE_NO = S.SALE_NO and S.SALE_OUTSIDE_YN = 'N')
+-- 				  end
+-- 				  )
+			  order by S.TO_DT
 			  limit 5
 		  ) SR
-		order by field(SR.SALE_KIND, 'LIVE', 'ONLINE')
+		order by field(SR.SALE_KIND, 'LIVE', 'ONLINE'), SR.TO_DT
 	]]>
 	</select>
 	<select id="selectIngMenuCount" parameterType="CommonMap" resultType="CommonMap" >
@@ -79,7 +93,7 @@
 	]]>
 	</select>
 
-	<select id="selectSaleImage" parameterType="CommonMap" resultType="CommonMap">
+	<select id="selectSaleSqaureImage" parameterType="CommonMap" resultType="CommonMap">
 		select * from SALE_IMG
 		where SALE_NO = #{sale_no}
 		and DISP_ORD = 2

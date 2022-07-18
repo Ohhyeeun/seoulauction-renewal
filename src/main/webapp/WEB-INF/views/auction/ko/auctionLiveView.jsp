@@ -199,6 +199,13 @@
                                                     <dt>마감일</dt>
                                                     <dd><b id="end_date_time" ng-bind="lotInfo.LOT_EXPIRE_DATE_SUB | date_format"><!--WEB SOCKET--></b></dd>
                                                 </dl>
+
+                                                <dl class="price-list" ng-show="lotInfo.OFFLINE_MAX_BID_PRICE">
+                                                    <dt>낙찰가</dt>
+                                                    <div>
+                                                        <dd><strong>KRW {{lotInfo.OFFLINE_MAX_BID_PRICE}}</strong></dd>
+                                                    </div>
+                                                </dl>
                                             </div>
                                             <div class="button-area">
                                                 <div class="btn_set only-pc">
@@ -1027,8 +1034,6 @@
 
         $scope.moveToBidding = function (item) {
 
-            console.log(item);
-
             //로그인 했는지 여부.
             if (!checkLogin()) {
                 return;
@@ -1163,6 +1168,9 @@
                 $scope.activeIndex = 0;
 
                 console.log($scope.lotInfo);
+
+                $scope.lotInfo.OFFLINE_MAX_BID_PRICE = numberWithCommas($scope.lotInfo.OFFLINE_MAX_BID_PRICE);
+
 
                 let sale_title;
                 sale_title = ( $scope.lotInfo.SALE_TH === undefined || $scope.lotInfo.SALE_TH === '')  ? '' : ( '제' + $scope.lotInfo.SALE_TH + '회 ' );

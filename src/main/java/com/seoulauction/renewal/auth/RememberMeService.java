@@ -27,6 +27,18 @@ public class RememberMeService implements UserDetailsService {
 	@Override
 	public SAUserDetails loadUserByUsername(String custNo) {
 		log.info("RememberMeService custNo : {}" , custNo);
+		String socialType = "";
+		String socialEmail = "";
+		if(custNo.contains("|")) {
+			// social Remember Me Auto Login
+			log.info("social Remember Me Auto Login");
+			
+			String[] custNoArr = custNo.split("\\|");
+			custNo = custNoArr[0];
+			socialType = custNoArr[1]; 
+			socialEmail = custNoArr[2];
+			log.info("custNo : {}, socialType : {}, socialEmail : {}", custNo, socialType, socialEmail);
+		}
 		CommonMap paramMap = new CommonMap();
         paramMap.put("cust_no", custNo);
         paramMap.put("remember_me", 'Y');
@@ -71,14 +83,29 @@ public class RememberMeService implements UserDetailsService {
 			roles.add(new SimpleGrantedAuthority("ROLE_EMPLOYEE_USER"));
 		}
 
+		String addr = "";
+        if(resultMap.get("ADDR") != null) {
+        	addr = resultMap.get("ADDR").toString();
+        	if(resultMap.get("ADDR_DTL") != null) {
+        		addr += resultMap.get("ADDR_DTL").toString();
+        	}
+        }
 		return SAUserDetails.builder()
 				.loginId(resultMap.get("CUST_NO").toString())
 				.password(resultMap.get("PASSWD").toString())
 				.userNo(Integer.parseInt(resultMap.get("CUST_NO").toString()))
 				.authorities(roles)
-				.userKind(resultMap.get("CUST_KIND_CD").toString())
-				.userNm(resultMap.get("CUST_NAME").toString())
-				.ip(null)
-				.build();
+				.userKind(resultMap.get("CUST_KIND_CD") != null ? resultMap.get("CUST_KIND_CD").toString() : "")
+    			.userNm(resultMap.get("CUST_NAME") != null ? resultMap.get("CUST_NAME").toString() : "")
+    			.ip(null)
+    			.zipNo(resultMap.get("ZIPNO") != null ? resultMap.get("ZIPNO").toString() : "")
+    			.addr(addr)
+    			.hp(resultMap.get("HP") != null ? resultMap.get("HP").toString() : "")
+				.email(resultMap.get("EMAIL") != null ? resultMap.get("EMAIL").toString() : "")
+				.validDate(resultMap.get("VALID_DATE") != null ? resultMap.get("VALID_DATE").toString() : "")
+				.socialYn(resultMap.get("SOCIAL_YN") != null ? resultMap.get("SOCIAL_YN").toString() : "" + resultMap.get("SOCIAL_YN") != null ? " " + resultMap.get("SOCIAL_YN").toString() : "")
+				.socialType(socialType)
+				.socialEmail(socialEmail)
+    			.build();
 	}
 }

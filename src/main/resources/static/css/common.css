@@ -403,19 +403,19 @@ img::selection {
     width: 53px;
     height: 53px;
 }
-.scroll-top:hover {
-    background-color: #4dada7;
-    border-color: #4dada7;
-}
+/*.scroll-top:hover {*/
+/*    background-color: #4dada7;*/
+/*    border-color: #4dada7;*/
+/*}*/
 .topBtn {
     background: url("/images/pc/icon/top.png") no-repeat center center;
     width: 12px;
     height: 18px;
     padding: 34px 26px 19px 27px;
 }
-.topBtn:hover {
-    background-image: url("/images/pc/icon/ic_arrow_up_white_24.svg");
-}
+/*.topBtn:hover {*/
+/*    background-image: url("/images/pc/icon/ic_arrow_up_white_24.svg");*/
+/*}*/
 .blackBg {
     width: 100%;
     height: 100%;
@@ -784,6 +784,9 @@ img::selection {
     width: calc(50% - 5px);
     align-items: center;
     justify-content: space-between;
+}
+recent-keyword:lang(en) {
+    width: calc(50% - 15px);
 }
 .recent-keyword-none {
     background-color: transparent;
@@ -1387,10 +1390,10 @@ body.dark,
     background-color: #555;
     border-color: #555;
 }
-.scroll-top.dark:hover {
-    background-color: #4dada7;
-    border-color: #4dada7;
-}
+/*.scroll-top.dark:hover {*/
+/*    background-color: #4dada7;*/
+/*    border-color: #4dada7;*/
+/*}*/
 .header-border.dark {
     border-bottom-color: #3d3d3d;
 }
@@ -1469,19 +1472,19 @@ body.dark,
 
 
 
-/* 외주 css selec container */
+/* 외주 css select container */
 .select2-container--open {
     z-index: 24 !important;
 }
-/* auction 팝업 및 gnb z-index 30 기준 */
+/* auction 팝업 및 gnb z-index 26 기준 */
 .sub-wrap .main-header{
-    z-index: 30 !important;
+    z-index: 26 !important; 
 }
-.allview_fixed-wrap .popup-dim,
-.allview_fixed-wrap .fixed-panel,
-.trp.popupfixed-wrap {
-    z-index: 31 !important;
-}
+/*.allview_fixed-wrap .popup-dim,*/
+/*.allview_fixed-wrap .fixed-panel,*/
+/*.trp.popupfixed-wrap {*/
+/*    z-index: 27 !important;*/
+/*}*/
 
 
 
@@ -1552,7 +1555,7 @@ body.dark,
     }
     .beltclose-btn {
         right: 50px;
-    }
+    }''
 }
 /* mobile,pc ui 혼용 */
 @media all and (max-width: 1439px) {
@@ -1634,13 +1637,13 @@ body.dark,
     .darkmodeBg {
         right: auto;
     }
-    .topBtn:hover {
-        background-image: url("/images/pc/icon/top.png");
-    }
-    .scroll-top:hover {
-        background-color: #fff;
-        border-color: #ddd;
-    }
+    /*.topBtn:hover {*/
+    /*    background-image: url("/images/pc/icon/top.png");*/
+    /*}*/
+    /*.scroll-top:hover {*/
+    /*    background-color: #fff;*/
+    /*    border-color: #ddd;*/
+    /*}*/
     .wrap,
     .container,
     .upcoming,

@@ -43,7 +43,16 @@ public class SAUserDetails implements UserDetails {
     	return this.loginId;
     }
 
-	@Override
+    @Override
+    public String getPassword() {
+    	if(this.password == null) {
+    		return "";
+    	}else {
+    		return this.password;
+    	}
+    }
+
+    @Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
 	}

@@ -12,7 +12,7 @@ public interface KTMainMapper {
     List<CommonMap> selectIngAuctions();
     CommonMap selectIngMenuCount();
 
-    CommonMap selectSaleImage(CommonMap map);
+    CommonMap selectSaleSqaureImage(CommonMap map);
 
     List<CommonMap> selectHaveToPayWork(CommonMap map);
     List<CommonMap> selectLotsBySaleNo(CommonMap map);

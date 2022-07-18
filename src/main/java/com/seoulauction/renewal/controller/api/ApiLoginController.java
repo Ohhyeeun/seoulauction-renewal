@@ -1,13 +1,19 @@
 package com.seoulauction.renewal.controller.api;
 
 import com.seoulauction.renewal.auth.FrontAuthenticationProvider;
+import com.seoulauction.renewal.auth.RememberMeService;
 import com.seoulauction.renewal.auth.SocialAuthenticationProvider;
+import com.seoulauction.renewal.auth.SocialRememberMeService;
+//import com.seoulauction.renewal.auth.SocialRememberMeService;
 import com.seoulauction.renewal.common.RestResponse;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
+import com.seoulauction.renewal.mapper.kt.LoginMapper;
 import com.seoulauction.renewal.service.*;
 import com.seoulauction.renewal.util.CaptchaUtil;
+
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import nl.captcha.Captcha;
@@ -51,12 +57,16 @@ public class ApiLoginController {
 
 	private final SocialAuthenticationProvider socialAuthenticationProvider;
 	
+	private final LoginMapper loginMapper;
+	
 	@Value("${mobile.msg.callback}")
 	String callback;
 
 	@Value("${social.service.domain}")
 	String currentUrl;
 
+	@Value("${rememberme.key}") 
+	String rememberMeKey;
 	
 	// captcha 이미지 가져오는 메서드
 	@GetMapping("/captchaImg")
@@ -343,7 +353,7 @@ public class ApiLoginController {
 	
 	// 소셜 로그인
 	@RequestMapping(value = "/social", method = RequestMethod.POST)
-	public ResponseEntity<RestResponse> socialLogin(HttpServletRequest request
+	public ResponseEntity<RestResponse> socialLogin(HttpServletRequest request, HttpServletResponse response
 			, @RequestBody CommonMap paramMap
 			, RedirectAttributes redirect) {
     	
@@ -361,7 +371,11 @@ public class ApiLoginController {
 			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(null, null);
 			auth.setDetails(parameterUserDetail);
 			sc.setAuthentication(socialAuthenticationProvider.authenticate(auth));
-			
+			if(paramMap.containsKey("is_native")) {
+				log.info("is native : {}", paramMap.get("is_native"));
+				log.info("getParameter remember-me : {}", request.getParameter("remember-me"));
+				new SocialRememberMeService(rememberMeKey + "social", new RememberMeService(loginMapper)).loginSuccess(request, response, sc.getAuthentication());
+			}
 			HttpSession session = request.getSession(true);
 			session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
 		} catch (Exception e) {

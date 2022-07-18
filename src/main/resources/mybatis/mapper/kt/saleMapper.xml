@@ -12,7 +12,8 @@
           AND B.DEL_YN = 'N'
     </select>
     <select id="selectSaleInfo" resultType="CommonMap" parameterType="commonMap">
-        select S.SALE_NO
+        select
+          S.SALE_NO
         , S.SALE_KIND_CD
         , IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH
         , IF(S.SALE_TH_DSP_YN = 'N', '', f_ordinal_number(S.SALE_TH)) SALE_TH_DSP
@@ -87,7 +88,8 @@
         where EX.SALE_NO = #{sale_no}
     </select>
     <select id="selectLotInfo" resultType="CommonMap" parameterType="commonMap">
-        select L.SALE_NO, L.LOT_NO, L.STAT_CD, L.FROM_DT, L.TO_DT
+        select
+          L.SALE_NO, L.LOT_NO, L.STAT_CD, L.FROM_DT, L.TO_DT
         , L.TO_DT AS SALE_TO_DT
         , L.START_PRICE
         , L.GROW_PRICE
@@ -176,6 +178,7 @@
         , if(CD_ART.CD_ID in('traditional_painting', 'local_painting', 'foreign_painting'), 'Y', 'N') AS VIEW_SCALE_YN
         , DATE_FORMAT(L.TO_DT,'%Y-%m-%d') LOT_EXPIRE_DATE
         , DATE_SUB( date_format( L.TO_DT ,'%Y-%m-%d') , interval 1 second) LOT_EXPIRE_DATE_SUB
+        , (SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = L.SALE_NO AND LOT_NO = L.LOT_NO AND BID_KIND_CD ='place') OFFLINE_MAX_BID_PRICE
         from LOT L
         left outer join (<include refid="com.seoulauction.renewal.mapper.kt.CommonMapper.saleLastBidInfos"/>) BD on
         BD.SALE_NO = L.SALE_NO and BD.LOT_NO	 = L.LOT_NO
@@ -676,7 +679,7 @@
                B.EXPE_PRICE_INQ_YN,
                DATE_FORMAT(B.TO_DT,'%Y-%m-%d') LOT_EXPIRE_DATE,
                DATE_FORMAT(B.TO_DT,'%a') LOT_EXPIRE_DATE_DAY,
-               DATE_FORMAT(B.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T,
+               DATE_FORMAT(A.TO_DT,'%Y-%m-%d %T') LOT_EXPIRE_DATE_ALL,
                DATE_SUB( date_format(B.TO_DT ,'%Y-%m-%d') , interval 1 second) LOT_EXPIRE_DATE_SUB,
                date_format(A.FROM_DT,'%m.%d(%a)') FROM_DT,
                date_format(A.TO_DT, '%m.%d(%a)') TO_DT,
@@ -688,7 +691,8 @@
                H.CD_ID CATE_CD_ID,
                H.CD_NM CATE_CD_NM,
                H.CD_NM_EN CATE_CD_NM_EN,
-               (SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = B.SALE_NO AND LOT_NO = B.LOT_NO) MAX_BID_PRICE
+               (SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = B.SALE_NO AND LOT_NO = B.LOT_NO) MAX_BID_PRICE,
+               (SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = B.SALE_NO AND LOT_NO = B.LOT_NO AND BID_KIND_CD ='place') OFFLINE_MAX_BID_PRICE
         from SALE A
                  INNER JOIN LOT B ON A.SALE_NO = B.SALE_NO
                  LEFT OUTER JOIN LOT_IMG C ON B.SALE_NO = C.SALE_NO AND B.LOT_NO = C.LOT_NO AND C.DISP_ORD = 1
@@ -720,18 +724,14 @@
           AND CD_ID IN (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID IN (SELECT IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID IN (SELECT CATE_CD FROM LOT WHERE SALE_NO = #{sale_no})))
         ORDER BY DISP_ORD
     </select>
-    <!--생년월일 성별 값 둘다 잇는지 여부-->
-    <select id="selectCustCheckRequired" parameterType="CommonMap" resultType="CommonMap">
+    <!--생년월일 성별 값 둘다 있는지 여부-->
+    <select id="selectCustCheckRequired" parameterType="CommonMap" resultType="boolean">
         select
-            *
+            case when CUST_KIND_CD = 'company' then true when SEX_CD IS NOT NULL and BORN_DT IS NOT null then true else false end checkRequired
         from
             CUST
         where
             CUST_NO = #{cust_no}
-            and SEX_CD IS NOT NULL
-            and BORN_DT IS NOT NULL
-        LIMIT
-            1
     </select>
     <!-- 자동 경매 insert -->
     <insert id="insertAutoBid" parameterType="CommonMap">
