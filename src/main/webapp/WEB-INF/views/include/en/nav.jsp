@@ -191,8 +191,8 @@
             });
 
         }else{
-            html += '<span class="recent-keyword">keyword empty</span>';
-        }
+            html += '<span class="recent-keyword recent-keyword-none">keyword empty</span>';
+        } 
 
         $(".recent-search").append(html);
 

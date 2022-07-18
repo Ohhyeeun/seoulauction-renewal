@@ -167,7 +167,7 @@
 
                 if (success) {
                     const data = response.data.data;
-                    let html = '<span class="keyword-search-tit">추천 검색</span>';
+                    let html = '<span class="keyword-search-tit">추천 검색어</span>';
 
                     $('.recommend-search-part').append(html);
                     data.map(item => {
@@ -181,7 +181,7 @@
         }
         // 최근 검색어
         let keywords = getCookie("keywordHistory");
-        let html = '<span class="keyword-search-tit">최근 검색<span class="keyword-all-del">전체삭제</span></span>';
+        let html = '<span class="keyword-search-tit">최근 검색어<span class="keyword-all-del">전체삭제</span></span>';
 
         if(keywords){
             $(".recent-search").empty();

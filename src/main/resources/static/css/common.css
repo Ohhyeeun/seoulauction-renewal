@@ -785,6 +785,9 @@ img::selection {
     align-items: center;
     justify-content: space-between;
 }
+recent-keyword:lang(en) {
+    width: calc(50% - 15px);
+}
 .recent-keyword-none {
     background-color: transparent;
     padding: 0;
