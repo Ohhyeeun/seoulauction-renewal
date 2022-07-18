@@ -206,7 +206,7 @@
                                     <!-- 작품 리스트 -->
                                     <li ng-class="{cancel: item.STAT_CD === 'reentry'}" ng-repeat="item in saleInfo">
                                         <div class="li-inner">
-                                            <article class="item-article">
+                                            <article class="item-article" ng-if="item.STAT_CD !== 'reentry'">
                                                 <div class="image-area">
                                                     <figure class="img-ratio">
                                                         <a href="/auction/online/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
@@ -271,6 +271,61 @@
                                                                                     ng-click="popSet(item.SALE_NO,item.LOT_NO, user_id, cust_no);"
                                                                                     role="button"><span
                                                                     ng-bind="item.BID_TICK_BTN">응찰</span></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                            <article class="item-article" ng-if="item.STAT_CD === 'reentry'">
+                                                <div class="image-area">
+                                                    <figure class="img-ratio">
+                                                        <a>
+                                                            <div class="img-align">
+                                                            </div>
+                                                        </a>
+                                                    </figure>
+                                                </div>
+                                                <div class="typo-area">
+                                                    <div class="product_info">
+                                                        <div class="num_heart-box">
+                                                            <span class="num"></span>
+                                                            <button class="heart js-work_heart"><i></i></button>
+                                                        </div>
+                                                        <div class="info-box">
+                                                            <div class="title"><span></span>
+                                                            </div>
+                                                            <div class="desc">
+                                                                <span class="text-over span_block"></span>
+                                                            </div>
+                                                            <div class="standard">
+                                                                <span class="text-over span_block"></span>
+                                                                <div class="size_year">
+                                                                    <span></span>
+                                                                    <span></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="price-box">
+                                                            <dl class="price-list">
+                                                                <dt></dt>
+                                                                <dd></dd>
+                                                                <dd></dd>
+                                                            </dl>
+                                                            <dl class="price-list">
+                                                                <dt></dt>
+                                                                <dd></dd>
+                                                            </dl>
+                                                            <dl class="price-list">
+                                                                <dt></dt>
+                                                                <dd>
+                                                                    <strong></strong><em></em>
+                                                                </dd>
+                                                            </dl>
+                                                        </div>
+                                                        <div class="bidding-box">
+                                                            <div class="deadline_set"><span></span>
+                                                            </div>
+                                                            <div class="btn_set">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -483,12 +538,6 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <!-- <li class="lotitem cancel">
-                <p class="txt">
-                  LOT 4 <br>
-                  출품이 취소되었습니다.
-                </p>
-              </li> -->
                                     <li class="lotitem">
                                         <div class="js-select_lotitem lotitem_wrap">
                                             <div class="view-img">
