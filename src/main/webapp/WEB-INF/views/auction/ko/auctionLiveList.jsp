@@ -743,6 +743,14 @@
             }
 
             $scope.goLiveBid = function() {
+                let isCustRequired = ${isCustRequired};
+                if(!isCustRequired){
+                    if(confirm('서면/전화 응찰 신청에 필요한 필수회원정보가 있습니다.\n회원정보를 수정하시겠습니까?')){
+                        location.href = '/mypage/custModify';
+                    }
+                    return;
+                }
+
                 if($scope.sale_status == 'ING' && $scope.liveCheckDt >= $scope.liveStartDt) {
                     // 경매 당일 응찰하기
                     console.log("1");
@@ -759,7 +767,6 @@
                     let isRegular = ${isRegular};
                     if(!isRegular){
                         alert('정회원만 패들 신청이 가능합니다.');
-                        location.href = "/payment/member";
                         return;
                     }
 
