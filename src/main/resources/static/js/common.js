@@ -29,6 +29,7 @@ $(function() {
                     const ingAuctionList = response.data.data;
                     ingAuctionList.map(item => {
                         const titleJSON = JSON.parse(item.TITLE_BLOB);
+                        const titleText = localeOrdinal(item.SALE_TH, locale) + titleJSON[locale];
                         const path = `${item.SALE_KIND === 'LIVE'? 'live' : ''}`;
                         const returnDom = `<a href='/auction/${path}/list/${item.SALE_NO}' class="Ingbanner" target="_blank">
                                             <figure class="border-txt-darkg Ingbanner-img">
@@ -38,7 +39,7 @@ $(function() {
                                             </figure>
                                             <div class="Ingbanner-txt text-over">
                                                 <span class="auctionKind-box Ingkind-auction ${item.SALE_KIND === 'LIVE' ? 'on' : ''}">${item.SALE_KIND}</span>
-                                                  <p class="text-over">${localeOrdinal(item.SALE_TH, locale) + titleJSON[locale]}</p>
+                                                  <p class="text-over" title="${titleText}">${titleText}</p>
                                                 <span class="Ingbanner-arrow"></span>
                                             </div>
                                         </a>`;
