@@ -203,6 +203,7 @@
 
 											<div>
 												<p ng-show="form_data.addr != '' && form_data.addr != undefined" class="search-add" class="add_txt tb1" name="addr" id="addr">{{form_data.addr}}</p>
+												<!-- 0718 주소미입력시 사이여백을 위해 mt10추가 -->
 												<input type="text" tabindex="12" ng-model="form_data.addr_dtl" name="addr_dtl" id="addr_dtl" ng-change="addrDtlValidCheck()" class="form-control mt10" placeholder="">
 											</div>
 											<p class="error_text tb2">{{addr_msg}}</p>
