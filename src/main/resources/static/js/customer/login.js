@@ -1,8 +1,9 @@
 app.value('locale', 'ko');
 app.value('is_login', 'false');
 	
-window.onload = function(){
-	if(isNativeApp()){
+window.onload = async function(){
+	var result = await isNativeApp();
+	if(result){
 		console.log("isNativeApp() : true");
 		$("#remember-me").prop("checked", true);
 	}else{

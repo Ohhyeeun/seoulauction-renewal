@@ -71,9 +71,9 @@ function PubUI() {
             }, 370);
         });
     }, o.mobileBack = function() {
-        $(".js-history_back").click(function() {
-            window.history.back();
-        });
+//        $(".js-history_back").click(function() {
+//            window.history.back();
+//        });
     }, 
     /* 초기실행 스크립트 */
     o.append_script = function() {///$("body").append( $(".js-append-script") );

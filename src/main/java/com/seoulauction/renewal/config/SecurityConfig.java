@@ -22,6 +22,7 @@ import com.seoulauction.renewal.auth.FrontLoginSuccessHandler;
 import com.seoulauction.renewal.auth.FrontLogoutSuccessHandler;
 import com.seoulauction.renewal.auth.RememberMeLoginSuccessHandler;
 import com.seoulauction.renewal.auth.RememberMeService;
+import com.seoulauction.renewal.auth.SocialRememberMeService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,6 +32,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	private final SocialRememberMeService socialRememberMeService;
+	
 	private final RememberMeService rememberMeService;
 
 	private final RememberMeLoginSuccessHandler rememberMeLoginSuccessHandler;
@@ -110,6 +113,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		        .key("SeoulAuction")
 		        .rememberMeParameter("remember-me")
 		        .tokenValiditySeconds(86400 * 30) // 1달
+		        .rememberMeServices(socialRememberMeService)
 		        .userDetailsService(rememberMeService)
 		        .authenticationSuccessHandler(rememberMeLoginSuccessHandler)
 		        .and()
