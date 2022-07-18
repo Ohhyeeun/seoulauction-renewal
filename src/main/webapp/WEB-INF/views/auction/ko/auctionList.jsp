@@ -90,11 +90,12 @@
                                             <div class="count tb1">
                                                 <span>ALL <em ng-bind="lotLength"></em></span>
                                             </div>
-                                            <div class="select-box">
+                                            <!-- [0714]LOT셀렉트박스 모바일 분리/변경 -->
+                                            <div class="select-box only-pc">
                                                 <div class="trp-dropdown-area h42-line">
                                                     <%-- 0712 lot 팝업 수정 --%>
-                                                    <button class="js-lotbox-btn">
-<%--                                                    <button class="js-dropdown-btn">--%>
+<%--                                                    <button class="js-lotbox-btn">--%>
+                                                    <button class="js-dropdown-btn">
                                                         <span>LOT</span><i
                                                             class="form-select_arrow_md"></i>
                                                     </button>
@@ -133,6 +134,13 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="select-box js-lotbox-slct only-mb">
+                                                <button class="js-lotbox-btn">
+                                                    <span>LOT</span>
+                                                    <i class="slct-arrow"></i>
+                                                </button>
+                                            </div>
+                                            <!-- //[0714]LOT셀렉트박스 모바일 분리/변경 -->
                                         </div>
                                         <div class="col_item mb-col2">
                                             <!-- 작가/작품서치  -->
@@ -558,20 +566,20 @@
     </script>
 
     <!-- 셀렉트 드롭다운 -->
-<%--    <script>--%>
-<%--        let dropdown = $(".js-dropdown-btn").trpDropdown({--%>
-<%--            list: ".trp-dropdown_list-box",--%>
-<%--            area: ".trp-dropdown-area"--%>
-<%--        });--%>
-<%--        $(".trp-dropdown-area .trp-dropdown_list-box a").on("click", function ($e) {--%>
-<%--            $e.preventDefault();--%>
-<%--            var _this = $(this);--%>
-<%--            _this.closest("ul").find("li").removeClass("on");--%>
-<%--            _this.closest("li").addClass("on");--%>
-<%--            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());--%>
-<%--            dropdown.getClose();--%>
-<%--        });--%>
-<%--    </script>--%>
+    <script>
+        let dropdown = $(".js-dropdown-btn").trpDropdown({
+            list: ".trp-dropdown_list-box",
+            area: ".trp-dropdown-area"
+        });
+        $(".trp-dropdown-area .trp-dropdown_list-box a").on("click", function ($e) {
+            $e.preventDefault();
+            var _this = $(this);
+            _this.closest("ul").find("li").removeClass("on");
+            _this.closest("li").addClass("on");
+            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
+            dropdown.getClose();
+        });
+    </script>
 
 
     <!-- tab menu -->

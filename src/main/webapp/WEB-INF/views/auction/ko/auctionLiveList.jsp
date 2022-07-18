@@ -105,10 +105,11 @@
                                                 <div class="count tb1">
                                                     <span>ALL <em ng-bind="lotLength"></em></span>
                                                 </div>
-                                                <div class="select-box">
+                                                <!-- [0714]LOT셀렉트박스 모바일 분리/변경 -->
+                                                <div class="select-box only-pc">
                                                     <div class="trp-dropdown-area h42-line">
-                                                        <button class="js-lotbox-btn">
-<%--                                                        <button class="js-dropdown-btn">--%>
+<%--                                                        <button class="js-lotbox-btn">--%>
+                                                        <button class="js-dropdown-btn">
                                                             <span>LOT</span>
                                                             <i class="form-select_arrow_md"></i>
                                                         </button>
@@ -144,6 +145,13 @@
 
                                                     </div>
                                                 </div>
+                                                <div class="select-box js-lotbox-slct only-mb">
+                                                    <button class="js-lotbox-btn">
+                                                        <span>LOT</span>
+                                                        <i class="slct-arrow"></i>
+                                                    </button>
+                                                </div>
+                                                <!-- //[0714]LOT셀렉트박스 모바일 분리/변경 -->
                                             </div>
 
                                             <div class="col_item mb-col2">
