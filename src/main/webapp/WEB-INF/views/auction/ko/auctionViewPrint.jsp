@@ -90,16 +90,59 @@
                                                     signed and dated on the right side <br>
                                                     signed titled and dated on the reverse
                                                 </div>
+
+                                                <!-- [0714]작품정보 하위댑스 추가 -->
+                                                <div class="info-sub-wrap">
+                                                    <div class="info-sub-box">
+                                                        <div class="tit">CONDITION</div>
+                                                        <div class="desc">good condition 종이 작품의 경우, 재질 특성상 산화·울음이 있을 수 있습니다.</div>
+                                                    </div>
+                                                    <div class="info-sub-box">
+                                                        <div class="tit">PROVENANCE</div>
+                                                        <div class="desc">Tonari no Zingaro(Tokyo)</div>
+                                                    </div>
+                                                    <div class="info-sub-box">
+                                                        <div class="tit">LITERATURE</div>
+                                                        <div class="desc">
+                                                            GRIMM Gallery, Amsterdam.<br>
+                                                            Acquired from the above by the present owner.
+                                                        </div>
+                                                    </div>
+                                                    <div class="info-sub-box">
+                                                        <div class="tit">EXHIBITED</div>
+                                                        <div class="desc">Online, Praz-Delavallade, Focus: Guy Yanai, 2020.</div>
+                                                    </div>
+                                                </div>
+                                                <!-- //[0714]작품정보 하위댑스 추가 -->
                                             </div>
 
-                                            <div class="info-box">
+                                            <%--<div class="info-box">
                                                 <div class="title">Condition Report</div>
                                                 <div id="cond_rpt" class="desc">
                                                     좌측 하단 미세 스크래치,우측 상단 이물질 있음
                                                 </div>
-                                            </div>
+                                            </div>--%>
                                         </div>
                                     </article>
+
+                                </div>
+                            </div>
+
+                            <div class="panel-footer page-break">
+                                <div class="section-inner">
+                                    <div class="footer-logo">
+                                        <img src="/images/pc/logo/SA_logo_black.svg" alt="Seolu Auction">
+                                    </div>
+                                    <dl class="footer-info">
+                                        <dt>본사</dt>
+                                        <dd>서울특별시 종로구 평창31길 11Tel 02 395 0330 Fax 02 395 0338</dd>
+                                        <dt>강남사옥</dt>
+                                        <dd>서울특별시 강남구 언주로 864 Tel 02 395 0330</dd>
+                                        <dt>홍콩SA+</dt>
+                                        <dd>11F, H Queen’s, 80 Queen’s Road Central,Central, Hon Kong Tel 02 395 0330 Fax 02 395 0338</dd>
+                                        <dt>부산</dt>
+                                        <dd>부산광역시 수영구 좌수영로 125번길 14-3, 1층(전시장) Tel 051 744 2020</dd>
+                                    </dl>
 
                                 </div>
                             </div>

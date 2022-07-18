@@ -1390,10 +1390,10 @@ body.dark,
     background-color: #555;
     border-color: #555;
 }
-.scroll-top.dark:hover {
-    background-color: #4dada7;
-    border-color: #4dada7;
-}
+/*.scroll-top.dark:hover {*/
+/*    background-color: #4dada7;*/
+/*    border-color: #4dada7;*/
+/*}*/
 .header-border.dark {
     border-bottom-color: #3d3d3d;
 }
@@ -1555,7 +1555,7 @@ body.dark,
     }
     .beltclose-btn {
         right: 50px;
-    }
+    }''
 }
 /* mobile,pc ui 혼용 */
 @media all and (max-width: 1439px) {

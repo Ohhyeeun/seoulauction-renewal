@@ -408,6 +408,7 @@ const platFormSwiper = new Swiper('.platform-swiper', {
     autoplay: {
         delay: 5000,
     },
+    initialSlide : 1,
     slidesPerView: 1,
     spaceBetween: 10,
     keyboard: {
@@ -784,7 +785,8 @@ $(window).resize(function(){
         autoplay: {
             delay: 5000,
         },
-        slidesPerView: 1,
+        initialSlide : 1,
+        slidesPerView: 1, 
         spaceBetween: 10,
         keyboard: {
             enabled: true,
