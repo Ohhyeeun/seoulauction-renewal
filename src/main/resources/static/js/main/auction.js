@@ -72,8 +72,6 @@ $(document).ready(function(){
         $.each(data , function(lotIdx , el){
 
             let imgPath = img_pre_fix +'/images/img/main/auction_sum/20190613.jpg';
-            // console.log("auction.js")
-            // console.log(el.FILE_PATH)
             if(el.FILE_PATH !== undefined || el.FILE_NAME !== undefined){
                 imgPath = 'https://www.seoulauction.com/nas_img' + el.FILE_PATH + '/' + el.FILE_NAME;
             }
