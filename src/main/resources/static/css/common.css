@@ -1700,16 +1700,16 @@ body.dark,
     }
     .header_beltTit {
         max-width: 100%;
-        font-size: 12px;
+        font-size: 14px;
     }
     .header_beltTit>a {
         height: 43px;
     }
     .belt_tit {
-        max-width: 260px;
+        max-width: 280px;
     }
     .belt_tit:lang(en) {
-        max-width: 270px;
+        max-width: 290px; 
     }
     .beltbanner-triangle {
         background-image: url("/images/mobile/icon/arrow01.png");
@@ -1718,8 +1718,8 @@ body.dark,
         height: 10px;
     }
     .beltclose-btn {
-        width: 15px;
-        height: 15px;
+        width: 20px;
+        height: 20px;
         background-image: url("/images/mobile/icon/notice_close.png");
         right: 25px;
     }
