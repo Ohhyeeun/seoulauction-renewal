@@ -302,7 +302,7 @@ public class SaleService {
     생년월일 , 성별 확인.
      */
     public Boolean checkCustRequired(CommonMap commonMap) {
-        return saleMapper.selectCustCheckRequired(commonMap) != null;
+        return saleMapper.selectCustCheckRequired(commonMap);
     }
 
     public CommonMap selectArtistInfo(CommonMap commonMap) {
