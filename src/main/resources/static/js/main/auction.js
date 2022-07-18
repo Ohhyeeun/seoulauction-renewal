@@ -33,6 +33,7 @@ $(document).ready(function(){
                         if(el.SHORT_TITLE){
                             let title = JSON.parse(el.SHORT_TITLE);
                             name = locale === 'ko' ? title.ko : title.en;
+                            name = localeOrdinal(el.SALE_TH, locale) + name;
                         }
 
                         //sale html
@@ -71,8 +72,9 @@ $(document).ready(function(){
         $.each(data , function(lotIdx , el){
 
             let imgPath = img_pre_fix +'/images/img/main/auction_sum/20190613.jpg';
-
-            if(el.FILE_PATH !==undefined || el.FILE_NAME !==undefined){
+            // console.log("auction.js")
+            // console.log(el.FILE_PATH)
+            if(el.FILE_PATH !== undefined || el.FILE_NAME !== undefined){
                 imgPath = 'https://www.seoulauction.com/nas_img' + el.FILE_PATH + '/' + el.FILE_NAME;
             }
             let lotTitle = JSON.parse(el.EXPE_PRICE_TITLE);
