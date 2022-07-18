@@ -71,9 +71,9 @@ function PubUI() {
             }, 370);
         });
     }, o.mobileBack = function() {
-//        $(".js-history_back").click(function() {
-//            window.history.back();
-//        });
+        $(".js-history_back").click(function() {
+            window.history.back();
+        });
     }, 
     /* 초기실행 스크립트 */
     o.append_script = function() {///$("body").append( $(".js-append-script") );
@@ -109,8 +109,7 @@ function responsiveDevices() {
     $("body").addClass(o), $("body").attr("data-device", o)), o;
 }
 
-
-/* PC,MB images resize */function imagesResizePcMb() {
+/* PC,MB images resize */function imagesResizePcMb() { 
     ///document.querySelector(".imageViewer");
     ///console.log("googooowwww: " , _tar[0].naturalWidth, _tar.length);
 
@@ -140,7 +139,6 @@ function responsiveDevices() {
     }
     /// console.log("=========imgresize=========", _orgW, _orgH, $("body").hasClass("is_mb"))
 }
-
 
 /* 팝업높이계산 */function popup_fixation(o) {
     var e = o, n = $(".pop-body>.section", e).outerHeight() + 166, i = $(window).height();
