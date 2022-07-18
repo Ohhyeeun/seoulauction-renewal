@@ -337,7 +337,7 @@
                                         <div class="info-box">
                                             <div id="artist_layer" class="info-box">
                                                 <div class="title">작가정보</div>
-                                                <div class="desc" id="artistName    ">
+                                                <div class="desc" id="artistName">
                                                 </div>
                                                 <div class="desc" id="artistProfile">
                                                 </div>

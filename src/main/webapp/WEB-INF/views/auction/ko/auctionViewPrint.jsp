@@ -4,23 +4,25 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <!-- header -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Seoul Auction</title>
-    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
-    <link rel="stylesheet" href="/css/common.css" type="text/css" />
-    <link rel="stylesheet" href="/css/pages_common_ko.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
-    <!-- //header -->
-</head>
+<%--<!DOCTYPE html>--%>
+<%--<html lang="ko">--%>
+<%--<head>--%>
+<%--    <!-- header -->--%>
+<%--    <meta charset="UTF-8">--%>
+<%--    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">--%>
+<%--    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">--%>
+<%--    <title>Seoul Auction</title>--%>
+<%--    <link rel="stylesheet" href="/css/plugin/csslibrary.css">--%>
+<%--    <link rel="stylesheet" href="/css/common.css" type="text/css" />--%>
+<%--    <link rel="stylesheet" href="/css/pages_common_ko.css">--%>
+<%--    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />--%>
+<%--    <link rel="preconnect" href="https://fonts.googleapis.com">--%>
+<%--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--%>
+<%--    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">--%>
+<%--    <!-- //header -->--%>
+<%--</head>--%>
+
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
 <body class="">
     <div class="wrapper">
@@ -159,24 +161,25 @@
 </body>
 
 <%--공통 footer 를 안쓰는관계로 필요 스크립트 다 import --%>
-<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+<%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
 
-<script src="/js/pages_common_ko.js"></script>
-<!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+<%--<script src="/js/pages_common_ko.js"></script>--%>
+<%--<!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->--%>
+<%--<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
+<%--<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
+<%--<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--%>
+<%--<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>--%>
 
 <%--Axios--%>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.js"></script>
 <script defer src="https://unpkg.com/axios-extensions/dist/axios-extensions.js"></script>
 <script defer src="/js/common/axios.js" type="text/javascript"></script>
 
-<!--[if lt IE 9]>
-<script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-<script src="/js/plugin/prefixfree.min.js"></script>
-<script src="/js/plugin/swiper.min.js" type="text/javascript"></script>
+<%--<!--[if lt IE 9]>--%>
+<%--<!--[if lt IE 9]>--%>
+<%--<script src="/js/plugin/html5shiv.js"></script> <![endif]-->--%>
+<%--<script src="/js/plugin/prefixfree.min.js"></script>--%>
+<%--<script src="/js/plugin/swiper.min.js" type="text/javascript"></script>--%>
 
 <script>
 
