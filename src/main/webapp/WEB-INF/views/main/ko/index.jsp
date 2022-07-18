@@ -198,13 +198,8 @@
             </a>
 
             <!-- 텍스트 레이어팝업 on-->
-<<<<<<< HEAD
-            <a href="" title="메인 팝업 텍스트">
+            <a href="javascript:void(0);" id="main_popup_text_a_link" title="메인 팝업 텍스트"> 
                 <div class="main-popup-txt">
-=======
-            <a href="javascript:void(0);" id="main_popup_text_a_link" title="메인 팝업 텍스트">
-                <div class="main-popup-txt"> 
->>>>>>> develop
                     <div class="main-popup-caption">
                         <h2 id="main_popup_title">국내 오프라인 경매 구매수수료율 인상 및 약관 개정 안내</h2>
                         <p id="main_popup_content">항상 서울옥션을 이용해 주시는 고객 여러분들께<br> 진심으로 감사의 말씀을 드리며,<br>다음과 같이 국내 오프라인 경매 구매수수료율을<br>인상함을 알려드립니다.<br>
