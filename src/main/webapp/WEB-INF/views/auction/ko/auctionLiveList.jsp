@@ -272,7 +272,7 @@
                                                                     <dt>낙찰가</dt>
                                                                     <div ng-show="item.OFFLINE_MAX_BID_PRICE !== 'NaN' ">
                                                                         <div>
-                                                                            <dd><strong>{{item.OFFLINE_MAX_BID_PRICE}}</strong></dd>
+                                                                            <dd><strong>KRW {{item.OFFLINE_MAX_BID_PRICE}}</strong></dd>
 <%--                                                                            <dd ng-bind="'KRW ' + (item.MAX_BID_PRICE | currency)"></dd>--%>
                                                                         </div>
                                                                     </div>
