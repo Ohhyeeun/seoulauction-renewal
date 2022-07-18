@@ -27827,7 +27827,7 @@ header.win_header .header-inner .header_logo {
 }
 
 .content-panel.type_panel-mypage_memberModify .contents-wrap .form_list > li .form_body .address_text {
-  margin-top: 25px;
+  margin: 25px 0 18px;
 }
 
 .content-panel.type_panel-mypage_memberModify .contents-wrap .form_list > li .form_body .address_text2 {
