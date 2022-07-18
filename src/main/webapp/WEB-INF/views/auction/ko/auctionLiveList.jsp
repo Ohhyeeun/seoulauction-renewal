@@ -268,11 +268,12 @@
                                                                     </div>
 
                                                                 </dl>
-                                                                <dl class="price-list"  ng-show="showBtn === 2">
+                                                                <dl class="price-list"  ng-show="item.showBtn === 2">
                                                                     <dt>낙찰가</dt>
-                                                                    <div ng-show="item.MAX_BID_PRICE">
+                                                                    <div ng-show="item.OFFLINE_MAX_BID_PRICE !== 'NaN' ">
                                                                         <div>
-                                                                            <dd ng-bind="'KRW ' + (item.MAX_BID_PRICE | currency)"></dd>
+                                                                            <dd><strong>{{item.OFFLINE_MAX_BID_PRICE}}</strong></dd>
+<%--                                                                            <dd ng-bind="'KRW ' + (item.MAX_BID_PRICE | currency)"></dd>--%>
                                                                         </div>
                                                                     </div>
 
@@ -982,10 +983,11 @@
                     $scope.lotTags = r3.data.data;
                     $scope.categories = r4.data.data;
 
+                    console.log($scope.saleInfoAll);
+
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
 
                         //영문 요일 -> 한국 요일로 치환처리.
-                        $scope.saleInfoAll[i].LOT_EXPIRE_DATE_HAN = $scope.saleInfoAll[i].LOT_EXPIRE_DATE_TIME_T.replace($scope.saleInfoAll[i].LOT_EXPIRE_DATE_DAY ,  enDayToHanDay($scope.saleInfoAll[i].LOT_EXPIRE_DATE_DAY) );
 
                         if($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW !=null) {
                             $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW.toLocaleString('ko-KR');
@@ -999,16 +1001,23 @@
                             $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.USD = numberWithCommas($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.USD);
                             $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.USD = numberWithCommas($scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.USD);
                             $scope.saleInfoAll[i].MAX_BID_PRICE = numberWithCommas(parseInt($scope.saleInfoAll[i].MAX_BID_PRICE));
+                            $scope.saleInfoAll[i].OFFLINE_MAX_BID_PRICE = numberWithCommas(parseInt($scope.saleInfoAll[i].OFFLINE_MAX_BID_PRICE));
 
-                            let expr_date = new Date($scope.saleInfoAll[i].LOT_EXPIRE_DATE).format('yyyy-MM-dd 00:00:00');
+                            //console.log($scope.saleInfoAll[i].LOT_EXPIRE_DATE_ALL);
 
+                            //let expr_date = new Date($scope.saleInfoAll[i].LOT_EXPIRE_DATE).format('yyyy-MM-dd HH:mm:ss');
 
-                            console.log($scope.saleInfoAll[i].LOT_EXPIRE_DATE_SUB);
+                            //경매에 대한 마감 일.
+                            let expr_date = $scope.saleInfoAll[i].LOT_EXPIRE_DATE_ALL;
 
-                            if (expr_date <= new Date().format('yyyy-MM-dd HH:mm:ss')) {
-                                $scope.showBtn = 2
+                            //경매 마감 일이 지나고 또한 BID_KD 가 PLACE 이고 MAX_PRICE 가 있는 경우. 즉 낙찰가가 있는경우.
+                            if (expr_date < new Date().format('yyyy-MM-dd HH:mm:ss')) {
+                                if( $scope.saleInfoAll[i].OFFLINE_MAX_BID_PRICE !=='NaN') {
+                                    $scope.saleInfoAll[i].showBtn = 2
+                                }
                             } else {
-                                $scope.showBtn = 1
+                            // 아직 경매 마감일이 되지 않은 경우. ( 서면응찰 버튼이 보여야함. )
+                                $scope.saleInfoAll[i].showBtn = 1
                             }
                         }
                     }

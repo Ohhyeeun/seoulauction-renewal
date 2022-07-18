@@ -12,7 +12,8 @@
           AND B.DEL_YN = 'N'
     </select>
     <select id="selectSaleInfo" resultType="CommonMap" parameterType="commonMap">
-        select S.SALE_NO
+        select
+          S.SALE_NO
         , S.SALE_KIND_CD
         , IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH
         , IF(S.SALE_TH_DSP_YN = 'N', '', f_ordinal_number(S.SALE_TH)) SALE_TH_DSP
@@ -676,7 +677,7 @@
                B.EXPE_PRICE_INQ_YN,
                DATE_FORMAT(B.TO_DT,'%Y-%m-%d') LOT_EXPIRE_DATE,
                DATE_FORMAT(B.TO_DT,'%a') LOT_EXPIRE_DATE_DAY,
-               DATE_FORMAT(B.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T,
+               DATE_FORMAT(A.TO_DT,'%Y-%m-%d %T') LOT_EXPIRE_DATE_ALL,
                DATE_SUB( date_format(B.TO_DT ,'%Y-%m-%d') , interval 1 second) LOT_EXPIRE_DATE_SUB,
                date_format(A.FROM_DT,'%m.%d(%a)') FROM_DT,
                date_format(A.TO_DT, '%m.%d(%a)') TO_DT,
@@ -688,7 +689,8 @@
                H.CD_ID CATE_CD_ID,
                H.CD_NM CATE_CD_NM,
                H.CD_NM_EN CATE_CD_NM_EN,
-               (SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = B.SALE_NO AND LOT_NO = B.LOT_NO) MAX_BID_PRICE
+               (SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = B.SALE_NO AND LOT_NO = B.LOT_NO) MAX_BID_PRICE,
+               (SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = B.SALE_NO AND LOT_NO = B.LOT_NO AND BID_KIND_CD ='place') OFFLINE_MAX_BID_PRICE
         from SALE A
                  INNER JOIN LOT B ON A.SALE_NO = B.SALE_NO
                  LEFT OUTER JOIN LOT_IMG C ON B.SALE_NO = C.SALE_NO AND B.LOT_NO = C.LOT_NO AND C.DISP_ORD = 1
