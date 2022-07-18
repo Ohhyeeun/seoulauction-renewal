@@ -745,7 +745,7 @@
             $scope.goLiveBid = function() {
                 let isCustRequired = ${isCustRequired};
                 if(!isCustRequired){
-                    if(confirm('서면/전화 응찰 신청에 필요한 필수회원정보가 있습니다.\n회원정보를 수정하시겠습니까?')){
+                    if(confirm('패들신청에 필요한 필수회원정보가 있습니다.\n회원정보를 수정하시겠습니까?')){
                         location.href = '/mypage/custModify';
                     }
                     return;
