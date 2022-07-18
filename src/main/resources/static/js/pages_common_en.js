@@ -86,9 +86,9 @@ function PubUI() {
             }, 370);
         });
     }, o.mobileBack = function() {
-//        $(".js-history_back").click(function() {
-//            window.history.back();
-//        });
+        $(".js-history_back").click(function() {
+            window.history.back();
+        });
     }, 
     /* 초기실행 스크립트 */
     o.append_script = function() {///$("body").append( $(".js-append-script") );
@@ -124,8 +124,6 @@ function responsiveDevices() {
     $("body").addClass(o), $("body").attr("data-device", o)), o;
 }
 
-
-
 /* PC,MB images resize */function imagesResizePcMb() {
     ///document.querySelector(".imageViewer");
     ///console.log("googooowwww: " , _tar[0].naturalWidth, _tar.length);
@@ -139,7 +137,7 @@ function responsiveDevices() {
 
 
         // let z = ((parseFloat($(window).width() / 1024) >= 1)?1:parseFloat($(window).width() / 1024));
-        //
+
         // let h = (parseFloat(parseInt($(o[e]).attr("size1"))) / 250) * 500 * z;
         // let w = (parseFloat(parseInt($(o[e]).attr("size2"))) / 250) * 500 * z;
 
@@ -148,13 +146,14 @@ function responsiveDevices() {
 
         /*$("body").hasClass("is_mb") ? (o[e].width = .55 * w, o[e].height = .55 * h) : (o[e].width = w,
         o[e].height = h);*/
+        // o[e].width = w;
+        // o[e].height = h;
         o[e].width = w;
         o[e].height = h;
         //$("body").hasClass("is_mb") ? (o[e].width = w : (o[e].width = w);
     }
     /// console.log("=========imgresize=========", _orgW, _orgH, $("body").hasClass("is_mb"))
-}
-
+} 
 
 
 /* 팝업높이계산 */function popup_fixation(o) {
