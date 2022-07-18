@@ -770,7 +770,7 @@
                         }
                         return;
                     }
-                    
+
                     if($scope.paddNo <= 0) {
                         terms_required.open(this); // or false
                         popup_fixation("#terms_required-wrap");
@@ -1429,29 +1429,29 @@
                     // 경매 당일 패들번호 출력
                     console.log("2");
                     if(is_login === 'true' && membership_yn === 'true' && padd_no > 0){
-                        paddNoteMsg = "라이브 경매 신청완료";
-                        paddNoteEtc = live_start_dt+"("+live_start_dt_date+") "+live_start_dt_hour+"시";
-                        if(live_start_dt_minute > 0) paddNoteEtc += " "+live_start_dt_minute+"분";
-                        paddNoteEtc += "에 시작합니다.";
+                        paddNoteMsg = "라이브 응찰 신청완료";
+                        paddNoteEtc = "나의 패들번호 ";
                     } else {
                         paddNoteMsg = "라이브 경매 준비 중";
                         paddNoteEtc = live_start_dt+"("+live_start_dt_date+") "+live_start_dt_hour+"시";
                         if(live_start_dt_minute > 0) paddNoteEtc += " "+live_start_dt_minute+"분";
                         paddNoteEtc += "에 시작합니다.";
                     }
+                    $("article.proceeding-article a.js-terms_required").css("cursor", "default");
+                    $("article.proceeding-article div.article-inner i.icon-link_arrow").css("display", "none");
                 } else if(sale_status == 'ING' && $scope.nowTime < $scope.liveEnd) {
                     // 경매 당일 전 신청하기 자동생성
                     console.log("3");
                     if(is_login === 'true' && membership_yn === 'true' && padd_no > 0){
-                        paddNoteMsg = "라이브 경매 신청완료";
-                        paddNoteEtc = live_start_dt+"("+live_start_dt_date+") "+live_start_dt_hour+"시";
-                        if(live_start_dt_minute > 0) paddNoteEtc += " "+live_start_dt_minute+"분";
-                        paddNoteEtc += "에 시작합니다.";
+                        paddNoteMsg = "라이브 응찰 신청완료";
+                        paddNoteEtc = "나의 패들번호 ";
                         $("article.proceeding-article a.js-terms_required").css("cursor", "default");
+                        $("article.proceeding-article div.article-inner i.icon-link_arrow").css("display", "none");
                     } else {
                         paddNoteMsg = "라이브 응찰 신청";
                         paddNoteEtc = "정회원만 응찰 신청이 가능합니다.";
                         $("article.proceeding-article a.js-terms_required").css("cursor", "pointer");
+                        $("article.proceeding-article div.article-inner i.icon-link_arrow").css("display", "");
                     }
                 }
 
