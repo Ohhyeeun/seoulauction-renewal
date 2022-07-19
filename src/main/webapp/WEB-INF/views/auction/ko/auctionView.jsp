@@ -61,7 +61,7 @@
                                                                                 <figure class="img-ratio">
                                                                                     <div class="img-align">
                                                                                         <img ng-if="item.IMG_DISP_YN === 'Y'" src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
-                                                                                        <img ng-if="item.IMG_DISP_YN !== 'Y'" src="/images/temp/img_list-3.jpg" alt="">
+                                                                                        <img ng-if="item.IMG_DISP_YN !== 'Y'" src="/images/bg/no_image.jpg" alt="">
                                                                                     </div>
                                                                                 </figure>
                                                                             </div>
@@ -98,7 +98,7 @@
                                                                         <figure class="img-ratio">
                                                                             <div class="img-align">
                                                                                 <img ng-if="item.IMG_DISP_YN === 'Y'" src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
-                                                                                <img ng-if="item.IMG_DISP_YN !== 'Y'" src="/images/temp/img_list-3.jpg" alt="">
+                                                                                <img ng-if="item.IMG_DISP_YN !== 'Y'" src="/images/bg/no_image.jpg" alt="">
                                                                             </div>
                                                                         </figure>
                                                                     </div>
@@ -118,7 +118,7 @@
                                                                     <figure class="img-ratio">
                                                                         <div class="img-align">
                                                                             <img ng-if="isEmployee || item.IMG_DISP_YN === 'Y'" src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt=""/>
-                                                                            <img ng-if="item.IMG_DISP_YN !== 'Y'" src="/images/temp/img_list-3.jpg" alt="">
+                                                                            <img ng-if="item.IMG_DISP_YN !== 'Y'" src="/images/bg/no_image.jpg" alt="">
                                                                         </div>
                                                                     </figure>
                                                                     <div class="line"></div>
@@ -176,24 +176,20 @@
                                             </div>
                                             <div class="artist-area">
                                                 <div class="name">
-                                                    <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT"></strong>
-                                                    <span ng-bind="'b.' + lotInfo.BORN_YEAR">b.1990</span>
+                                                    <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT" title="{{lotInfo.ARTIST_NAME_KO_TXT}}"></strong>
+                                                    <span ng-bind="'b.' + lotInfo.BORN_YEAR" title="{{'b.' + lotInfo.BORN_YEAR}}"></span>
                                                 </div>
                                                 <div class="desc">
-                                                    <span class="text-over span_block"
-                                                          ng-bind="lotInfo.TITLE_KO_TXT"></span>
+                                                    <span class="text-over span_block" title="{{lotInfo.TITLE_KO_TXT}}" ng-bind="lotInfo.TITLE_KO_TXT"></span>
                                                 </div>
                                             </div>
                                             <div class="price-area">
-                                                <dl class="price-list" ng-if="lotInfo.EXPE_PRICE_INQ_YN !== 'Y'">
+                                                <dl class="price-list" >
                                                     <dt>추정가</dt>
-                                                    <dd ng-bind="estimatedRange"></dd>
+                                                    <dd ng-bind="estimatedRange" ng-if="lotInfo.EXPE_PRICE_INQ_YN !== 'Y'"></dd>
+                                                    <dd ng-if="lotInfo.EXPE_PRICE_INQ_YN === 'Y'">별도문의</dd>
                                                 </dl>
-                                                <dl class="price-list" ng-if="lotInfo.EXPE_PRICE_INQ_YN === 'Y'">
-                                                    <dt>추정가 별도문의</dt>
-                                                    <dd></dd>
-                                                </dl>
-                                                <dl class="price-list">
+                                                <dl class="price-list" ng-if="lotInfo.START_PRICE > 0">
                                                     <dt>시작가</dt>
                                                     <dd id="start_cost"><!--WEB SOCKET--></dd>
                                                 </dl>
@@ -261,25 +257,29 @@
                                         <div class="info-box">
                                             <div class="title">작품정보</div>
                                             <div class="desc">
+                                               <%-- 재질--%>
                                                 <span ng-bind="lotInfo.MATE_NM_EN"></span>
                                                 <br/>
 
-                                                <%--재질 규격--%>
+                                                <%-- 규격--%>
                                                 <span ng-repeat="size in lotInfo.LOT_SIZE_JSON">
                                                     <span ng-bind="size | size_text_cm"></span>
                                                 </span>
+
                                                 <%--에디션--%>
                                                 <div ng-show="lotInfo.EDITION">
                                                     <span> {{lotInfo.EDITION}} </span>
                                                 </div>
 
-                                                <%--년도--%>
+                                                <%--제작년도--%>
                                                 <div ng-show="isNotObjectEmpty(lotInfo.MAKE_YEAR_JSON)">
-                                                    <span> {{lotInfo.MAKE_YEAR_JSON | locale_format }}</span>
+                                                    <span title="{{lotInfo.MAKE_YEAR_JSON | locale_format }}">{{lotInfo.MAKE_YEAR_JSON | locale_format }}</span>
                                                 </div>
 
-                                                <%--서명 값--%>
-                                                <span> {{lotInfo.SIGN_INFO_JSON | locale_format }}</span>
+                                                <%--서명 정보--%>
+                                                <div ng-show="isNotObjectEmpty(lotInfo.SIGN_INFO_JSON)">
+                                                    <span title="{{lotInfo.SIGN_INFO_JSON | locale_format }}">{{lotInfo.SIGN_INFO_JSON | locale_format }}</span>
+                                                </div>
                                             </div>
 
                                             <!-- [0714]작품정보 하위댑스 추가 -->
@@ -297,25 +297,24 @@
 
                                                 <%--PROVENANCE--%>
                                                 <div ng-show="isNotObjectEmpty(lotInfo.PROV_INFO_JSON)" class="info-sub-box">
-                                                    <div class="title tt5">PROVENANCE</div>
-                                                    <div class="desc">{{lotInfo.PROV_INFO_JSON | locale_format }}</div>
+                                                    <div class="tit tt5">PROVENANCE</div>
+                                                    <div class="desc" bind-html-compile="lotInfo.PROV_INFO_JSON[locale]"></div>
                                                 </div>
 
                                                 <%--LITERATURE--%>
                                                 <div ng-show="isNotObjectEmpty(lotInfo.LITE_INFO_JSON)" class="info-sub-box">
-                                                    <div class="title tt5">LITERATURE</div>
+                                                    <div class="tit tt5">LITERATURE</div>
                                                     <div class="desc">{{lotInfo.LITE_INFO_JSON | locale_format }}</div>
                                                 </div>
 
                                                 <%--EXHIBITED--%>
                                                 <div ng-show="isNotObjectEmpty(lotInfo.EXHI_INFO_JSON)" class="info-sub-box">
-                                                    <div class="title tt5">EXHIBITED</div>
+                                                    <div class="tit tt5">EXHIBITED</div>
                                                     <div class="desc">{{lotInfo.EXHI_INFO_JSON | locale_format }}</div>
                                                 </div>
                                             </div>
                                             <!-- [0714]작품정보 하위댑스 추가 -->
                                         </div>
-
 
                                         <!-- [0714]작품설명 추가 -->
                                         <div ng-show="isNotObjectEmpty(lotInfo.CMMT_JSON)" class="info-box">
@@ -330,11 +329,7 @@
                                             <!-- //[0714]텍스트 대소문자 수정 -->
                                             <div class="desc">
                                                 <ul class="mark_dot-list">
-                                                    <li>서울옥션은 작가 및 작품명에 한하여 낙찰일로부터 3년간 낙찰자에 대해서만 보증하며, 사전 고지한 작품에 대해서는 보증책임을 부담하지 않습니다.</li>
-                                                    <li>작품은 판매 당시 상태 그대로 판매되므로, 응찰 전 반드시 실물을 확인하여 주시기 바랍니다.<br>
-                                                        홈페이지에 기재된 컨디션은 작품 상태에 대한 당사의 주관적 의견을 제시하는 것일 뿐이므로, 내재된 모든 결함, 수리, 변형 등을 언급하지 않을 수 있습니다. 또한 제작된 지 오랜 시간이 경과한 작품에 자연스럽게 확인되는 노화 현상(구김, 마모, 오염, 산화 등)에 대해서도 별도 언급이 없을 수 있습니다.<br>
-                                                        컨디션은 작품만을 대상으로 하며 액자, 족자, 병풍, 좌대, 케이스 등 작품 구성품의 상태는 포함하지 않습니다. 온라인에 게재된 이미지로 작품의 일부 컨디션을 확인할 수 있으나 실제 상태를 정확하게 반영하지 못할 수 있으며 작품의 색상, 밝기 등이 실물과 다르게 보일 수 있습니다.<br>
-                                                        실물을 확인하지 않고 발생되는 문제에 대한 책임은 응찰자에게 있으며, 이와 같은 유의사항을 반드시 확인하시고 신중히 응찰해 주시길 바랍니다.</li>
+                                                    <li bind-html-compile="sale.NOTICE_DTL_JSON[locale]"></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -1341,6 +1336,7 @@
                 $scope.sale.buttonList.map(item => {
                     item.content = JSON.parse(item.content);
                 });
+                $scope.sale.NOTICE_DTL_JSON = JSON.parse($scope.sale.NOTICE_DTL_JSON);
 
                 let S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
                 let S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');

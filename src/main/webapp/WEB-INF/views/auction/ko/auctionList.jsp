@@ -220,7 +220,7 @@
                                                         <a href="/auction/online/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
                                                             <div class="img-align">
                                                                 <img ng-if="isEmployee || item.IMG_DISP_YN === 'Y'" src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
-                                                                <img ng-if="item.IMG_DISP_YN !== 'Y'" src="/images/temp/img_list-3.jpg" alt="">
+                                                                <img ng-if="item.IMG_DISP_YN !== 'Y'" src="/images/bg/no_image.jpg" alt="">
                                                             </div>
                                                         </a>
                                                     </figure>
@@ -256,11 +256,11 @@
                                                                 <dd>~ {{item.EXPE_PRICE_TO_JSON.KRW}}</dd>
                                                             </dl>
                                                             <dl ng-if="item.EXPE_PRICE_INQ_YN === 'Y'" class="price-list">
-                                                                <dt>추정가 별도문의</dt>
-                                                                <dd></dd>
+                                                                <dt>추정가</dt>
+                                                                <dd>별도문의</dd>
                                                                 <dd></dd>
                                                             </dl>
-                                                            <dl class="price-list">
+                                                            <dl class="price-list" ng-if="item.START_COST > 0">
                                                                 <dt>시작가</dt>
                                                                 <dd>{{item.START_COST}}</dd>
                                                             </dl>

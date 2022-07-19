@@ -29,8 +29,6 @@
     <input type="hidden" name="EdiDate" value="${ediDate}"/>			        <!-- 전문 생성일시 -->
     <input type="hidden" name="SignData" value="${signData}"/>	                <!-- 해쉬값 -->
 
-    <%--아카데미 정보--%>
-    <input type="hidden" name="academy_no" value="${academy_no}">
     <input type="hidden" name="LogoImage" value="">
     <input type="hidden" name="NpLang" value="KO">
     <input type="hidden" name="CurrencyCode" value="KRW">
