@@ -257,6 +257,8 @@ $(function(){
                     $("#print_year").html('b.' + lotData.BORN_YEAR);
                     $("#print_title").html(lotData.TITLE_KO_TXT);
 
+
+                    //가격 정보.
                     if(lotData.EXPE_PRICE_INQ_YN === 'N') {
                         $("#print_expe_price").html(
                             '<dd>'
@@ -275,9 +277,10 @@ $(function(){
                         $("#print_expe_price").html('<dd> 추정가 별도 문의 </dd>');
                     }
 
-                    //TODO 오프라인인경우 USD 달러 나와야함.
+
+                    //작품 정보
                     $("#price_lot_desc").html(
-                        lotData.MATE_NM_EN + '<br/>'
+                           lotData.MATE_NM_EN + '<br/>'
                         + '<span>'
                         + lotData.LOT_SIZE_JSON[0].SIZE1 + 'X'
                         + lotData.LOT_SIZE_JSON[0].SIZE2 + 'X'
@@ -286,6 +289,12 @@ $(function(){
                         + '<span>'
                         + lotData.SIGN_INFO_JSON.ko
                     );
+
+
+
+
+
+
 
                     $("#cond_rpt").html(lotData.COND_RPT_JSON.ko);
                 } else {

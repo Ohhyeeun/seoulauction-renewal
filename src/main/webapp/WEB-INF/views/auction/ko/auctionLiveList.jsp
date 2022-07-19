@@ -987,11 +987,10 @@
                     //     history.back();
                     // }
 
+
                     $scope.saleImages = r2.data.data;
                     $scope.lotTags = r3.data.data;
                     $scope.categories = r4.data.data;
-
-                    console.log($scope.saleInfoAll);
 
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
 
@@ -1029,7 +1028,11 @@
                             }
                         }
                     }
+
                     $scope.saleInfo = $scope.saleInfoAll.slice(0, $scope.itemsize);
+
+                    console.log($scope.saleImages);
+                    console.log($scope.saleInfo);
 
                     let p = [];
                     let endVal = 0;

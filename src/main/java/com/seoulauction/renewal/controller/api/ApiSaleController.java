@@ -224,6 +224,9 @@ public class ApiSaleController {
         List<CommonMap> lotImagesNew = new ArrayList<>();
 
 
+        log.info(lotImages);
+
+
         String[] listKeys = {"LOT_SIZE_JSON"};
         ObjectMapper mapper  = new ObjectMapper();
         // 랏 디스플레이 필터
@@ -239,12 +242,22 @@ public class ApiSaleController {
                     lotImagesNewItem.put(item2,
                             mapper.readValue(String.valueOf(lotImagesNewItem.get(item2)), List.class));
                 }
+
+                if (item.get("IMG_DISP_YN").equals("N")) {
+                    lotImagesNewItem.put("IMAGE_URL", IMAGE_URL.replace("/nas_img",""));
+                    lotImagesNewItem.put("FILE_PATH", "");
+                    lotImagesNewItem.put("FILE_NAME", "/images/bg/no_image.jpg");
+                } else {
+                    lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
+                }
+
                 lotImagesNew.add(lotImagesNewItem);
             }
         } catch (JsonMappingException e) {
+            e.printStackTrace();
 
         } catch (JsonProcessingException e) {
-
+            e.printStackTrace();
         }
         return ResponseEntity.ok(RestResponse.ok(lotImagesNew));
     }
@@ -271,16 +284,23 @@ public class ApiSaleController {
         // 랏 디스플레이 필터
         for (var item : lotImages) {
             CommonMap lotImagesNewItem = new CommonMap();
+
             for (var k : new ArrayList<>(item.keySet())){
                 lotImagesNewItem.put(k, item.get(k));
             }
-            if (lotInfoMap.get("IMG_DISP_YN").equals("N")) {
-                lotImagesNewItem.put("FILE_PATH", "/images/bg/no_image.jpg");
-            }
+
             lotImagesNewItem.put("UNIT_CD", lotInfoMap.get("UNIT_CD"));
             lotImagesNewItem.put("SIZE1", lotInfoMap.get("SIZE1"));
             lotImagesNewItem.put("SIZE2", lotInfoMap.get("SIZE2"));
-            lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
+
+            //N일경우에는 No 이미지로 변경.
+            if (lotInfoMap.get("IMG_DISP_YN").equals("N")) {
+                lotImagesNewItem.put("IMAGE_URL", IMAGE_URL.replace("/nas_img",""));
+                lotImagesNewItem.put("FILE_PATH", "");
+                lotImagesNewItem.put("FILE_NAME", "/images/bg/no_image.jpg");
+            } else {
+                lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
+            }
             lotImagesNew.add(lotImagesNewItem);
         }
         return ResponseEntity.ok(RestResponse.ok(lotImagesNew));
@@ -466,7 +486,14 @@ public class ApiSaleController {
                     lotImages.get(i).put(item2,
                             mapper.readValue(String.valueOf(lotImages.get(i).get(item2)), List.class));
                 }
-                lotImages.get(i).put("IMAGE_URL", IMAGE_URL);
+
+                if (lotImages.get(i).get("IMG_DISP_YN").equals("N")) {
+                    lotImages.get(i).put("IMAGE_URL", IMAGE_URL.replace("/nas_img", ""));
+                    lotImages.get(i).put("FILE_PATH", "");
+                    lotImages.get(i).put("FILE_NAME", "/images/bg/no_image.jpg");
+                }else {
+                    lotImages.get(i).put("IMAGE_URL", IMAGE_URL);
+                }
             }
         } catch (JsonProcessingException e) {
 

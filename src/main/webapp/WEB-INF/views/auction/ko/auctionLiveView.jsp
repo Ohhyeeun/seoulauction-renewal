@@ -57,8 +57,7 @@
                                                                             <div class="image-area">
                                                                                 <figure class="img-ratio">
                                                                                     <div class="img-align">
-                                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                                             alt="">
+                                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
                                                                                     </div>
                                                                                 </figure>
                                                                             </div>
@@ -1152,7 +1151,8 @@
         // 호출 부
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3, r4, , r6, r7, r8, r9] = await Promise.all([getSaleInfo($scope.sale_no),
+                let [r1, r2, r3, r4, , r6, r7, r8, r9] = await Promise.all([
+                    getSaleInfo($scope.sale_no),
                     getLotInfo($scope.sale_no, $scope.lot_no),
                     getLotImages($scope.sale_no, $scope.lot_no),
                     getSaleImages($scope.sale_no, $scope.lot_no),
@@ -1169,6 +1169,9 @@
 
                 // 0718
                 $scope.saleLotList = r7.data.data;
+
+                console.log($scope.lotImages);
+
 
                 $scope.lotTags = r8.data.data;
                 $scope.categories = r9.data.data;
@@ -1193,8 +1196,6 @@
 
                 $scope.activeIndex = 0;
 
-                console.log($scope.lotInfo);
-
                 $scope.lotInfo.OFFLINE_MAX_BID_PRICE = numberWithCommas($scope.lotInfo.OFFLINE_MAX_BID_PRICE);
 
 
@@ -1204,7 +1205,6 @@
 
                 $scope.fullTitle = sale_title;
 
-                console.log($scope.NOTICE_DTL_JSON);
 
 
                 $scope.lotInfo.NOTICE_DTL_JSON_VALUE =  $scope.locale === 'ko' ? $scope.lotInfo.NOTICE_DTL_JSON.ko : $scope.lotInfo.NOTICE_DTL_JSON.en;

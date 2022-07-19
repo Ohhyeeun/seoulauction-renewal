@@ -214,6 +214,7 @@
     <select id="selectSaleLotImages" resultType="CommonMap" parameterType="commonMap">
         SELECT B.SALE_NO     SALE_NO,
                B.LOT_NO      LOT_NO,
+               B.IMG_DISP_YN,
                C.FILE_PATH   FILE_PATH,
                C.FILE_NAME   FILE_NAME,
                ifnull(D.UNIT_CD, 'cm')             UNIT_CD,
@@ -675,6 +676,7 @@
                COLUMN_JSON(B.EXPE_PRICE_TO_BLOB)   EXPE_PRICE_TO_JSON,
                IFNULL(G.DEL_YN,'Y') FAVORITE_YN, /*N 이면 좋아요가 있음. Y면 좋아요가 아님.*/
                B.LOT_TAG,
+               B.IMG_DISP_YN,
                B.STAT_CD,
                B.EXPE_PRICE_INQ_YN,
                DATE_FORMAT(B.TO_DT,'%Y-%m-%d') LOT_EXPIRE_DATE,
