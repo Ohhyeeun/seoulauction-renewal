@@ -256,30 +256,29 @@
 
 
                                                         <div class="swiper-slide">
-                                                            <img class="only-pc" src="/images/pc/service/aca_banner01.jpg" alt="">
-                                                            <img class="only-mb" src="/images/mobile/service/aca_banner01.jpg" alt="">
+                                                            <img class="only-pc" src="/images/pc/service/Academy_01.png" alt="슬라이드 이미지 1">
+                                                            <img class="only-mb" src="/images/mobile/service/Academy_01.png" alt="슬라이드 이미지 1">
                                                         </div>
 
                                                         <div class="swiper-slide">
-                                                            <img class="only-pc" src="/images/pc/service/aca_banner02.jpg" alt="">
-                                                            <img class="only-mb" src="/images/mobile/service/aca_banner02.jpg" alt="">
+                                                            <img class="only-pc" src="/images/pc/service/Academy_02.png" alt="슬라이드 이미지 2">
+                                                            <img class="only-mb" src="/images/mobile/service/Academy_02.png" alt="슬라이드 이미지 2">
                                                         </div>
 
                                                         <div class="swiper-slide">
-                                                            <img class="only-pc" src="/images/pc/service/aca_banner03.jpg" alt="">
-                                                            <img class="only-mb" src="/images/mobile/service/aca_banner03.jpg" alt="">
+                                                            <img class="only-pc" src="/images/pc/service/Academy_03.png" alt="슬라이드 이미지 3">
+                                                            <img class="only-mb" src="/images/mobile/service/Academy_03.png" alt="슬라이드 이미지 3">
                                                         </div>
 
                                                         <div class="swiper-slide">
-                                                            <img class="only-pc" src="/images/pc/service/aca_banner04.jpg" alt="">
-                                                            <img class="only-mb" src="/images/mobile/service/aca_banner04.jpg" alt="">
+                                                            <img class="only-pc" src="/images/pc/service/Academy_04.png" alt="슬라이드 이미지 4">
+                                                            <img class="only-mb" src="/images/mobile/service/Academy_04.png" alt="슬라이드 이미지 4">
                                                         </div>
 
                                                         <div class="swiper-slide">
-                                                            <img class="only-pc" src="/images/pc/service/aca_banner05.jpg" alt="">
-                                                            <img class="only-mb" src="/images/mobile/service/aca_banner05.jpg" alt="">
-                                                        </div>
-
+                                                            <img class="only-pc" src="/images/pc/service/Academy_05.png" alt="슬라이드 이미지 5">
+                                                            <img class="only-mb" src="/images/mobile/service/Academy_05.png" alt="슬라이드 이미지 5">
+                                                        </div>  
                                                     </div>
                                                     <button class="btn-prev" title="Previous"><i class="icon-swiper_prev"></i></button>
                                                     <button class="btn-next" title="Next"><i class="icon-swiper_next"></i></button>
