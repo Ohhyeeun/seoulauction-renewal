@@ -66,6 +66,7 @@ public class LoginService {
 		return loginMapper.updateCustPwdModDtByCustNo(paramMap);
 	}
 
+	/*아이디 찾기*/
 	public List<CommonMap> selectCustLoginIdByCustName(CommonMap paramMap) {
 		List<CommonMap> resultList = loginMapper.selectCustLoginIdByCustName(paramMap);
 		if (resultList.size() < 1) {
@@ -74,10 +75,12 @@ public class LoginService {
 		return resultList;
 	}
 
+	/*비밀번호 업데이트*/
 	public int updatePasswordByLoginId(CommonMap commonMap) {
 		return loginMapper.updatePasswordByLoginId(commonMap);
 	}
 
+	/*비밀번호 찾기 > 사용자 조회*/
 	public CommonMap selectCustomerByStatCdAndLoginId(CommonMap paramMap) {
 		return loginMapper.selectCustomerByStatCdAndLoginId(paramMap);
 	}

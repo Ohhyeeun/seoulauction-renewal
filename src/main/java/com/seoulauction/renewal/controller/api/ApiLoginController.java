@@ -105,7 +105,7 @@ public class ApiLoginController {
 		return ResponseEntity.ok(RestResponse.ok(result));
 	}
 	
-	//아이디 찾기
+	/*아이디 찾기*/
 	@RequestMapping(value="/findCustId", method=RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<RestResponse> findId(@RequestBody CommonMap commonMap, HttpServletRequest request, HttpServletResponse response){
@@ -114,64 +114,65 @@ public class ApiLoginController {
    	}
 	
 
-	  //비밀번호 찾기
-	    @RequestMapping(value="/findCustPassword", method=RequestMethod.POST)
-	    @ResponseBody
-	    public ResponseEntity<RestResponse> findCustPassword(Locale locale, @RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
-			try{
-				paramMap.put("stat_cd", "normal");
-	        	CommonMap custMap = loginService.selectCustomerByStatCdAndLoginId(paramMap);
+	/*비밀번호 찾기*/
+	@RequestMapping(value="/findCustPassword", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> findCustPassword(Locale locale, @RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
+		try{
+			paramMap.put("stat_cd", "normal");
+	    	CommonMap custMap = loginService.selectCustomerByStatCdAndLoginId(paramMap);
+	    	
+	    	if(custMap != null) {
+	    		Map<String, Object> resultMap = new HashMap<String, Object>();
 	        	
-	        	if(custMap != null) {
-	        		Map<String, Object> resultMap = new HashMap<String, Object>();
-		        	
-		        	//소셜로그인
-		        	if(custMap.get("SOCIAL_YN") != null && custMap.get("SOCIAL_YN").equals("Y")) {
-		        		resultMap.put("SOCIAL_YN", custMap.get("SOCIAL_YN").toString());
-		        		resultMap.put("SOCIAL_TYPE", custMap.get("SOCIAL_TYPE").toString());
-		        		return ResponseEntity.ok(RestResponse.ok(resultMap));
-		        	}
-		        	
-			        int result = loginService.updatePasswordByLoginId(paramMap);
-			        
-			        if(result > 0 ){
-			        	if("email".equals(paramMap.get("search_type"))) {
-				        	resultMap.put("PASSWD", paramMap.get("passwd").toString());
-				        	resultMap.put("LOGIN_ID", paramMap.get("login_id").toString());
-				        	resultMap.put("CUST_NAME", paramMap.get("cust_name").toString());
-				        	
-				        	String subject = locale.toString().equals("en") ? "[SeoulAuction] Issued a temporary password reminder" : "[서울옥션] 임시 비밀번호 발급 알림";
-				        	String template = locale.toString().equals("en") ? "passwd_en.html" : "passwd.html";
-				        	resultMap.put("currentUrl", currentUrl);
-				        	
-				        	messageService.sendMail(paramMap.get("search_value").toString(), subject, template, resultMap);
-			        	} else {
-				        	String msg = locale.equals("en") ? 
-				        			"[SeoulAuction SMS] Issued a temporary password reminder\n temporary password : " + paramMap.get("passwd").toString()
-				        			: "[서울옥션 문자발송] 임시 비밀번호 발급 알림\n 임시비밀번호 : "+ paramMap.get("passwd").toString(); 
-				        	
-				        	//최종 문자 발송 데이터
-				        	paramMap.put("from_phone", callback.toString()); //02-395-0330
-				        	paramMap.put("to_phone", paramMap.get("search_value").toString());
-				        	paramMap.put("msg", msg.toString()); 
-
-					   		resultMap = certificationService.selectAuthNumber(paramMap);
-			        	}
-			        	//성공
-			        	return ResponseEntity.ok(RestResponse.ok(resultMap));
-			        } else {
-			        	throw new SAException("오류가 발생하였습니다. 관리자에게 문의하세요."); 
-			        }
-	        	} else {
-	        		throw new SAException("일치하는 회원 정보가 없습니다.");
+	        	//소셜로그인
+	        	if(custMap.get("SOCIAL_YN") != null && custMap.get("SOCIAL_YN").equals("Y")) {
+	        		resultMap.put("SOCIAL_YN", custMap.get("SOCIAL_YN").toString());
+	        		resultMap.put("SOCIAL_TYPE", custMap.get("SOCIAL_TYPE").toString());
+	        		return ResponseEntity.ok(RestResponse.ok(resultMap));
 	        	}
-			}
-			catch(Exception ex){
-				//실패
-				ex.printStackTrace();
-				throw new SAException("오류가 발생하였습니다. 관리자에게 문의하세요."); 
-			}
-	    }
+	        	
+		        int result = loginService.updatePasswordByLoginId(paramMap);
+		        
+		        if(result > 0 ){
+		        	//이메일 발송
+		        	if("email".equals(paramMap.get("search_type"))) {
+			        	resultMap.put("PASSWD", paramMap.get("passwd").toString());
+			        	resultMap.put("LOGIN_ID", paramMap.get("login_id").toString());
+			        	resultMap.put("CUST_NAME", paramMap.get("cust_name").toString());
+			        	
+			        	String subject = locale.toString().equals("en") ? "[SeoulAuction] Issued a temporary password reminder" : "[서울옥션] 임시 비밀번호 발급 알림";
+			        	String template = locale.toString().equals("en") ? "passwd_en.html" : "passwd.html";
+			        	resultMap.put("currentUrl", currentUrl);
+			        	
+			        	messageService.sendMail(paramMap.get("search_value").toString(), subject, template, resultMap);
+		        	} else { //이메일 번호 발송
+			        	String msg = locale.equals("en") ? 
+			        			"[SeoulAuction SMS] Issued a temporary password reminder\n temporary password : " + paramMap.get("passwd").toString()
+			        			: "[서울옥션 문자발송] 임시 비밀번호 발급 알림\n 임시비밀번호 : "+ paramMap.get("passwd").toString(); 
+			        	
+			        	//최종 문자 발송 데이터
+			        	paramMap.put("from_phone", callback.toString()); //02-395-0330
+			        	paramMap.put("to_phone", paramMap.get("search_value").toString());
+			        	paramMap.put("msg", msg.toString()); 
+	
+				   		resultMap = certificationService.selectAuthNumber(paramMap);
+		        	}
+		        	//성공
+		        	return ResponseEntity.ok(RestResponse.ok(resultMap));
+		        } else {
+		        	throw new SAException("오류가 발생하였습니다. 관리자에게 문의하세요."); 
+		        }
+	    	} else {
+	    		throw new SAException("일치하는 회원 정보가 없습니다.");
+	    	}
+		}
+		catch(Exception ex){
+			//실패
+			ex.printStackTrace();
+			throw new SAException("오류가 발생하였습니다. 관리자에게 문의하세요."); 
+		}
+	}
 
 	@RequestMapping(value="/isIdExist", method=RequestMethod.POST)
 	@ResponseBody
