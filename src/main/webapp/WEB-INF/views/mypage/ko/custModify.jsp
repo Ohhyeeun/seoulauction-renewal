@@ -230,6 +230,7 @@
                                                             </div>
                                                             <span class="mem_text address_text" id="addr"></span>
                                                             <div>
+                                                 	           <!-- 0718 주소미입력시 사이여백을 위해 mt10추가 -->	
                                                                 <input type="text" onkeyup="addrDtlValidCheck()" name="addr_dtl" id="addr_dtl" class="form-control mt10" value="" placeholder="">
                                                             </div>
                                                             <p class="error_text tb2" id="addrMsg"></p>
@@ -253,6 +254,7 @@
                                                             </div>
                                                             <span class="mem_text address_text" id="deli_addr"></span>
                                                             <div>
+                                                            	<!-- 0718 주소미입력시 사이여백을 위해 mt10추가 -->
                                                                 <input type="text" name="deli_addr_dtl" id="deli_addr_dtl" class="form-control mt10" value="" placeholder="">
                                                             </div>
                                                         </div>

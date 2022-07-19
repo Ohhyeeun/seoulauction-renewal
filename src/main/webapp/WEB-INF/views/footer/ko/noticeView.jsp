@@ -106,7 +106,8 @@
                             let data = response.data.data;
 
                             if(!data){
-                                location.href='/error/404';
+                                alert('Wrong Path.');
+                                history.back();
                             }
                             $("#notice_content").html(JSON.parse(data.content).ko);
                             $("#notice_title").html(JSON.parse(data.title).ko);

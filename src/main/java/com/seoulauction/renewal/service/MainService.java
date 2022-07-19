@@ -122,8 +122,8 @@ public class MainService {
             CommonMap paramMap = new CommonMap();
             paramMap.put("sale_no", item.get("SALE_NO"));
             CommonMap saleImg = new CommonMap();
-            if(ktMainMapper.selectSaleImage(paramMap) != null) {
-                saleImg = ktMainMapper.selectSaleImage(paramMap);
+            if(ktMainMapper.selectSaleSqaureImage(paramMap) != null) {
+                saleImg = ktMainMapper.selectSaleSqaureImage(paramMap);
             }
 
             returnMap.put("FILE_PATH", saleImg.get("FILE_PATH"));
@@ -149,12 +149,15 @@ public class MainService {
             returnMap.put("TITLE_BLOB", item.get("TITLE_BLOB"));
             returnMap.put("FROM_DT", item.get("FROM_DT"));
             returnMap.put("TO_DT", item.get("TO_DT"));
+            returnMap.put("DEFAULT_IMAGE_PATH", "");
 
             CommonMap paramMap = new CommonMap();
             paramMap.put("sale_no", item.get("SALE_NO"));
             CommonMap saleImg = new CommonMap();
-            if(ktMainMapper.selectSaleImage(paramMap) != null) {
-                saleImg = ktMainMapper.selectSaleImage(paramMap);
+            if(ktMainMapper.selectSaleSqaureImage(paramMap) != null) {
+                saleImg = ktMainMapper.selectSaleSqaureImage(paramMap);
+            }else{
+                returnMap.put("DEFAULT_IMAGE_PATH", "/images/pc/thumbnail/gnb_thubnatil_ready.jpg");
             }
 
             returnMap.put("FILE_PATH", saleImg.get("FILE_PATH"));

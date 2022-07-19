@@ -29,20 +29,21 @@ $(function() {
                     const ingAuctionList = response.data.data;
                     ingAuctionList.map(item => {
                         const titleJSON = JSON.parse(item.TITLE_BLOB);
+                        const titleText = localeOrdinal(item.SALE_TH, locale) + titleJSON[locale];
                         const path = `${item.SALE_KIND === 'LIVE'? 'live' : ''}`;
                         const returnDom = `<a href='/auction/${path}/list/${item.SALE_NO}' class="Ingbanner" target="_blank">
                                             <figure class="border-txt-darkg Ingbanner-img">
-                                                <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" 
-                                                     onerror="this.src='/images/pc/thumbnail/gnb_thubnatil_ready.jpg'"
+                                                <img src="${item.DEFAULT_IMAGE_PATH !== "" ? item.DEFAULT_IMAGE_PATH : ``}" 
+                                                     onerror="${item.DEFAULT_IMAGE_PATH}"
                                                     alt="ing_auction01">
                                             </figure>
                                             <div class="Ingbanner-txt text-over">
                                                 <span class="auctionKind-box Ingkind-auction ${item.SALE_KIND === 'LIVE' ? 'on' : ''}">${item.SALE_KIND}</span>
-                                                  <p class="text-over">${localeOrdinal(item.TITLE_TH, locale) + titleJSON[locale]}</p>
+                                                  <p class="text-over" title="${titleText}">${titleText}</p>
                                                 <span class="Ingbanner-arrow"></span>
                                             </div>
                                         </a>`;
-
+                        // this.src='/images/pc/thumbnail/gnb_thubnatil_ready.jpg'
                         document.querySelector(".Ingbanner-box").insertAdjacentHTML('beforeend', returnDom);
                     });
 
@@ -398,25 +399,25 @@ $(function() {
     });
 
     /*top search placeholder */
-    $('.topsearch>input').attr('placeholder', '작가 또는 작품명 검색'); /* placeholder 초기값 */
-    $('.topsearch-en>input').attr('placeholder', 'Search by artist or work name');
+    $('.topsearch>input').attr('placeholder', '작가,작품명 검색'); /* placeholder 초기값 */
+    $('.topsearch-en>input').attr('placeholder', 'Search');
 
-    $(window).resize(function () {
-        const windowWidth1279 = window.matchMedia('screen and (min-width:1279px)');
-        const windowWidth1024 = window.matchMedia('screen and (min-width:1024px)');
-        const windowWidth1023 = window.matchMedia('screen and (max-width:1023px)');
-
-        if (windowWidth1279.matches) {
-            $('.topsearch>input').attr('placeholder', '작가 또는 작품명 검색');
-            $('.topsearch-en>input').attr('placeholder', 'Search by artist or work name');
-        } else if (windowWidth1024.matches) {
-            $('.topsearch>input').attr('placeholder', '검색');
-            $('.topsearch-en>input').attr('placeholder', 'Search');
-        } else if (windowWidth1023.matches) {
-            $('.topsearch>input').attr('placeholder', '검색을 입력하세요');
-            $('.topsearch-en>input').attr('placeholder', 'Search');
-        }
-    });
+    // $(window).resize(function () {
+    //     const windowWidth1279 = window.matchMedia('screen and (min-width:1279px)');
+    //     const windowWidth1024 = window.matchMedia('screen and (min-width:1024px)');
+    //     const windowWidth1023 = window.matchMedia('screen and (max-width:1023px)');
+    //
+    //     if (windowWidth1279.matches) {
+    //         $('.topsearch>input').attr('placeholder', '작가 또는 작품명 검색');
+    //         $('.topsearch-en>input').attr('placeholder', 'Search by artist or work name');
+    //     } else if (windowWidth1024.matches) {
+    //         $('.topsearch>input').attr('placeholder', '검색');
+    //         $('.topsearch-en>input').attr('placeholder', 'Search');
+    //     } else if (windowWidth1023.matches) {
+    //         $('.topsearch>input').attr('placeholder', '검색을 입력하세요');
+    //         $('.topsearch-en>input').attr('placeholder', 'Search');
+    //     }
+    // });
 
     /* footer family site */
     $('.Familysite-selectbox').click(function () {
@@ -439,12 +440,7 @@ $(function() {
         $('.familyselect').toggleClass('on');
     });
 
-    /* scroll top */
-    $('.scroll-top').click(function () {
-        $('html, body').animate({scrollTop: '0'}, 700);
-    });
-
-    //모바일 한글/영문 변환 버튼
+    //모바일 한글/영문 변환 버튼 
     let lang = getCookie('lang');
     if (!lang || lang === 'ko') {
         $("#mb_common_lang").append('<a href=' + $(location).attr('pathname')  +'?lang=en>ENG</a>');
@@ -1089,31 +1085,31 @@ $(window).resize(function(){
         $('.bidding_mo').show();
     }; 
 
-    /*top search place holder*/
-    const windowWidth1279 = window.matchMedia('screen and (min-width:1279px)');
-    const windowWidth1024 = window.matchMedia('screen and (min-width:1024px)');
-    const windowWidth1023 = window.matchMedia('screen and (max-width:1023px)');
-
-    if(windowWidth1279.matches){
-        $('.topsearch>input').attr('placeholder','작가 또는 작품명 검색');
-        $('.topsearch-en>input').attr('placeholder','Search by artist or work name');
-        $('.darkmodeBg').hover(function(){
-            $('.darkmode').toggleClass('active');
-        }, function(){
-            $('.darkmode').toggleClass('active');
-        });
-        $('.darkmodeBg.dark').hover(function(){
-            $('.darkmode.dark').toggleClass('active');
-        }, function(){
-            $('.darkmode.dark').toggleClass('active');
-        });
-    } else if(windowWidth1024.matches) {
-        $('.topsearch>input').attr('placeholder','검색');
-        $('.topsearch-en>input').attr('placeholder','Search');
-    } else if(windowWidth1023.matches){
-        $('.topsearch>input').attr('placeholder','검색을 입력하세요');
-        $('.topsearch-en>input').attr('placeholder','Search');
-    };
+    /* top search place holder */
+    // const windowWidth1279 = window.matchMedia('screen and (min-width:1279px)');
+    // const windowWidth1024 = window.matchMedia('screen and (min-width:1024px)');
+    // const windowWidth1023 = window.matchMedia('screen and (max-width:1023px)');
+    //
+    // if(windowWidth1279.matches){
+    //     $('.topsearch>input').attr('placeholder','작가 또는 작품명 검색');
+    //     $('.topsearch-en>input').attr('placeholder','Search by artist or work name');
+    //     $('.darkmodeBg').hover(function(){
+    //         $('.darkmode').toggleClass('active');
+    //     }, function(){
+    //         $('.darkmode').toggleClass('active');
+    //     });
+    //     $('.darkmodeBg.dark').hover(function(){
+    //         $('.darkmode.dark').toggleClass('active');
+    //     }, function(){
+    //         $('.darkmode.dark').toggleClass('active');
+    //     });
+    // } else if(windowWidth1024.matches) {
+    //     $('.topsearch>input').attr('placeholder','검색');
+    //     $('.topsearch-en>input').attr('placeholder','Search');
+    // } else if(windowWidth1023.matches){
+    //     $('.topsearch>input').attr('placeholder','검색을 입력하세요');
+    //     $('.topsearch-en>input').attr('placeholder','Search');
+    // };
 
     /* pc 다크모드 */
     $('.darkmodeBg').click(function (){

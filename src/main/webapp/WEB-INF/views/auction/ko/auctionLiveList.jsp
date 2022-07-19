@@ -105,10 +105,11 @@
                                                 <div class="count tb1">
                                                     <span>ALL <em ng-bind="lotLength"></em></span>
                                                 </div>
-                                                <div class="select-box">
+                                                <!-- [0714]LOT셀렉트박스 모바일 분리/변경 -->
+                                                <div class="select-box only-pc">
                                                     <div class="trp-dropdown-area h42-line">
-                                                        <button class="js-lotbox-btn">
-<%--                                                        <button class="js-dropdown-btn">--%>
+<%--                                                        <button class="js-lotbox-btn">--%>
+                                                        <button class="js-dropdown-btn">
                                                             <span>LOT</span>
                                                             <i class="form-select_arrow_md"></i>
                                                         </button>
@@ -144,6 +145,13 @@
 
                                                     </div>
                                                 </div>
+                                                <div class="select-box js-lotbox-slct only-mb">
+                                                    <button class="js-lotbox-btn">
+                                                        <span>LOT</span>
+                                                        <i class="slct-arrow"></i>
+                                                    </button>
+                                                </div>
+                                                <!-- //[0714]LOT셀렉트박스 모바일 분리/변경 -->
                                             </div>
 
                                             <div class="col_item mb-col2">
@@ -268,11 +276,12 @@
                                                                     </div>
 
                                                                 </dl>
-                                                                <dl class="price-list"  ng-show="showBtn === 2">
+                                                                <dl class="price-list"  ng-show="item.showBtn === 2">
                                                                     <dt>낙찰가</dt>
-                                                                    <div ng-show="item.MAX_BID_PRICE">
+                                                                    <div ng-show="item.OFFLINE_MAX_BID_PRICE !== 'NaN' ">
                                                                         <div>
-                                                                            <dd ng-bind="'KRW ' + (item.MAX_BID_PRICE | currency)"></dd>
+                                                                            <dd><strong>KRW {{item.OFFLINE_MAX_BID_PRICE}}</strong></dd>
+<%--                                                                            <dd ng-bind="'KRW ' + (item.MAX_BID_PRICE | currency)"></dd>--%>
                                                                         </div>
                                                                     </div>
 
@@ -759,7 +768,14 @@
                     let isRegular = ${isRegular};
                     if(!isRegular){
                         alert('정회원만 패들 신청이 가능합니다.');
-                        location.href = "/payment/member";
+                        return;
+                    }
+
+                    let isCustRequired = ${isCustRequired};
+                    if(!isCustRequired){
+                        if(confirm('패들 신청에 필요한 필수회원정보가 있습니다.\n회원정보를 수정하시겠습니까?')){
+                            location.href = '/mypage/custModify';
+                        }
                         return;
                     }
 
@@ -975,10 +991,11 @@
                     $scope.lotTags = r3.data.data;
                     $scope.categories = r4.data.data;
 
+                    console.log($scope.saleInfoAll);
+
                     for (let i = 0; i < $scope.saleInfoAll.length; i++) {
 
                         //영문 요일 -> 한국 요일로 치환처리.
-                        $scope.saleInfoAll[i].LOT_EXPIRE_DATE_HAN = $scope.saleInfoAll[i].LOT_EXPIRE_DATE_TIME_T.replace($scope.saleInfoAll[i].LOT_EXPIRE_DATE_DAY ,  enDayToHanDay($scope.saleInfoAll[i].LOT_EXPIRE_DATE_DAY) );
 
                         if($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW !=null) {
                             $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW.toLocaleString('ko-KR');
@@ -992,16 +1009,23 @@
                             $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.USD = numberWithCommas($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.USD);
                             $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.USD = numberWithCommas($scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.USD);
                             $scope.saleInfoAll[i].MAX_BID_PRICE = numberWithCommas(parseInt($scope.saleInfoAll[i].MAX_BID_PRICE));
+                            $scope.saleInfoAll[i].OFFLINE_MAX_BID_PRICE = numberWithCommas(parseInt($scope.saleInfoAll[i].OFFLINE_MAX_BID_PRICE));
 
-                            let expr_date = new Date($scope.saleInfoAll[i].LOT_EXPIRE_DATE).format('yyyy-MM-dd 00:00:00');
+                            //console.log($scope.saleInfoAll[i].LOT_EXPIRE_DATE_ALL);
 
+                            //let expr_date = new Date($scope.saleInfoAll[i].LOT_EXPIRE_DATE).format('yyyy-MM-dd HH:mm:ss');
 
-                            console.log($scope.saleInfoAll[i].LOT_EXPIRE_DATE_SUB);
+                            //경매에 대한 마감 일.
+                            let expr_date = $scope.saleInfoAll[i].LOT_EXPIRE_DATE_ALL;
 
-                            if (expr_date <= new Date().format('yyyy-MM-dd HH:mm:ss')) {
-                                $scope.showBtn = 2
+                            //경매 마감 일이 지나고 또한 BID_KD 가 PLACE 이고 MAX_PRICE 가 있는 경우. 즉 낙찰가가 있는경우.
+                            if (expr_date < new Date().format('yyyy-MM-dd HH:mm:ss')) {
+                                if( $scope.saleInfoAll[i].OFFLINE_MAX_BID_PRICE !=='NaN') {
+                                    $scope.saleInfoAll[i].showBtn = 2
+                                }
                             } else {
-                                $scope.showBtn = 1
+                            // 아직 경매 마감일이 되지 않은 경우. ( 서면응찰 버튼이 보여야함. )
+                                $scope.saleInfoAll[i].showBtn = 1
                             }
                         }
                     }
@@ -1413,29 +1437,29 @@
                     // 경매 당일 패들번호 출력
                     console.log("2");
                     if(is_login === 'true' && membership_yn === 'true' && padd_no > 0){
-                        paddNoteMsg = "라이브 경매 신청완료";
-                        paddNoteEtc = live_start_dt+"("+live_start_dt_date+") "+live_start_dt_hour+"시";
-                        if(live_start_dt_minute > 0) paddNoteEtc += " "+live_start_dt_minute+"분";
-                        paddNoteEtc += "에 시작합니다.";
+                        paddNoteMsg = "라이브 응찰 신청완료";
+                        paddNoteEtc = "나의 패들번호 ";
                     } else {
                         paddNoteMsg = "라이브 경매 준비 중";
                         paddNoteEtc = live_start_dt+"("+live_start_dt_date+") "+live_start_dt_hour+"시";
                         if(live_start_dt_minute > 0) paddNoteEtc += " "+live_start_dt_minute+"분";
                         paddNoteEtc += "에 시작합니다.";
                     }
+                    $("article.proceeding-article a.js-terms_required").css("cursor", "default");
+                    $("article.proceeding-article div.article-inner i.icon-link_arrow").css("display", "none");
                 } else if(sale_status == 'ING' && $scope.nowTime < $scope.liveEnd) {
                     // 경매 당일 전 신청하기 자동생성
                     console.log("3");
                     if(is_login === 'true' && membership_yn === 'true' && padd_no > 0){
-                        paddNoteMsg = "라이브 경매 신청완료";
-                        paddNoteEtc = live_start_dt+"("+live_start_dt_date+") "+live_start_dt_hour+"시";
-                        if(live_start_dt_minute > 0) paddNoteEtc += " "+live_start_dt_minute+"분";
-                        paddNoteEtc += "에 시작합니다.";
+                        paddNoteMsg = "라이브 응찰 신청완료";
+                        paddNoteEtc = "나의 패들번호 ";
                         $("article.proceeding-article a.js-terms_required").css("cursor", "default");
+                        $("article.proceeding-article div.article-inner i.icon-link_arrow").css("display", "none");
                     } else {
                         paddNoteMsg = "라이브 응찰 신청";
                         paddNoteEtc = "정회원만 응찰 신청이 가능합니다.";
                         $("article.proceeding-article a.js-terms_required").css("cursor", "pointer");
+                        $("article.proceeding-article div.article-inner i.icon-link_arrow").css("display", "");
                     }
                 }
 
