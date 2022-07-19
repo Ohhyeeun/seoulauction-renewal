@@ -812,8 +812,23 @@ $(window).resize(function(){
             },
         },
     });
+}); 
+
+
+/* scroll top */
+$('.scroll-top').click(function () {
+    $('html, body').animate({scrollTop  : '0'}, 700);
 });
 
+/* 스크롤시 scroll top btn 나오게 함. */
+const initHeight = window.innerHeight;
+window.addEventListener('scroll', () => {
+    if (document.body.scrollTop > initHeight || document.documentElement.scrollTop > initHeight) {
+        document.querySelector('.scroll-top').classList.add('show');
+    } else {
+        document.querySelector('.scroll-top').classList.remove('show');
+    }
+});
 
 /* 다크모드 새로고침 시 */
 window.addEventListener('DOMContentLoaded', () => {
