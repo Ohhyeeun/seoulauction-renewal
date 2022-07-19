@@ -440,22 +440,7 @@ $(function() {
         $('.familyselect').toggleClass('on');
     });
 
-    /* scroll top */
-    $('.scroll-top').click(function () {
-        $('html, body').animate({scrollTop  : '0'}, 700);
-    });
-
-    /* 스크롤시 scroll top btn 나오게 함. */
-    const initHeight = window.innerHeight;
-    window.addEventListener('scroll', () => {
-        if (document.body.scrollTop > initHeight || document.documentElement.scrollTop > initHeight) {
-            document.querySelector('.scroll-top').classList.add('show');
-        } else {
-            document.querySelector('.scroll-top').classList.remove('show');
-        }
-    });
-
-    //모바일 한글/영문 변환 버튼
+    //모바일 한글/영문 변환 버튼 
     let lang = getCookie('lang');
     if (!lang || lang === 'ko') {
         $("#mb_common_lang").append('<a href=' + $(location).attr('pathname')  +'?lang=en>ENG</a>');
