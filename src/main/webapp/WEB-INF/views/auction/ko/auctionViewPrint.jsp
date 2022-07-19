@@ -274,19 +274,25 @@ $(function(){
 
                     //가격 정보.
                     if(lotData.EXPE_PRICE_INQ_YN === 'N') {
-                        $("#print_expe_price").html(
-                            '<dd>'
-                            + 'KRW '
-                            + numberWithCommas(lotData.EXPE_PRICE_FROM_JSON.KRW)
-                            + ' ~ ' + numberWithCommas(lotData.EXPE_PRICE_TO_JSON.KRW)
-                            + '</dd>'
-                            + '<br>'
-                            + '<dd>'
-                            + 'USD '
-                            + numberWithCommas(lotData.EXPE_PRICE_FROM_JSON.USD)
-                            + ' ~ ' + numberWithCommas(lotData.EXPE_PRICE_TO_JSON.USD)
-                            + '</dd>'
-                        );
+
+                        let html = '<dd>'
+                                    + 'KRW '
+                                    + numberWithCommas(lotData.EXPE_PRICE_FROM_JSON.KRW)
+                                    + ' ~ ' + numberWithCommas(lotData.EXPE_PRICE_TO_JSON.KRW)
+                                    + '</dd>';
+
+                        //라이브경매일경우 usd 추가.
+                        if(lotData.SALE_KIND_CD === ('main') || lotData.SALE_KIND_CD === ('plan')  || lotData.SALE_KIND_CD === ('hongkong')  ) {
+                            html +=
+                                '<br>'
+                                + '<dd>'
+                                + 'USD '
+                                + numberWithCommas(lotData.EXPE_PRICE_FROM_JSON.USD)
+                                + ' ~ ' + numberWithCommas(lotData.EXPE_PRICE_TO_JSON.USD)
+                                + '</dd>';
+                        }
+
+                        $("#print_expe_price").html(html);
                     } else {
                         $("#print_expe_price").html('<dd> 추정가 별도 문의 </dd>');
                     }
