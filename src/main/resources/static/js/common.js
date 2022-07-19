@@ -1,7 +1,5 @@
 $(function() {
 
-
-
     const locale = document.documentElement.lang;
 
 

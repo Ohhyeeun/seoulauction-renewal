@@ -1,13 +1,18 @@
-function nicepayStart(){
+function nicepayStart() {
 
-    if(isNativeApp() || checkPlatform(window.navigator.userAgent) == "mobile"){//모바일 결제창 진입
+    isNativeApp().then(nativeApp => {
 
-        document.payForm.action = "https://web.nicepay.co.kr/v3/v3Payment.jsp";
-        document.payForm.acceptCharset="euc-kr";
-        document.payForm.submit();
-    }else{//PC 결제창 진입
-        goPay(document.payForm);
-    }
+        console.log(nativeApp);
+
+        if (nativeApp || checkPlatform(window.navigator.userAgent) == "mobile"){//모바일 결제창 진입
+            document.payForm.action = "https://web.nicepay.co.kr/v3/v3Payment.jsp";
+            document.payForm.acceptCharset="euc-kr";
+            document.payForm.submit();
+        } else {//PC 결제창 진입
+
+            goPay(document.payForm);
+        }
+    });
 }
 
 //[PC 결제창 전용]결제 최종 요청시 실행됩니다. <<'nicepaySubmit()' 이름 수정 불가능>>
