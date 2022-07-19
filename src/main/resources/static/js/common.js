@@ -1,5 +1,8 @@
 $(function() {
 
+
+    console.log(window.navigator.userAgent);
+
     const locale = document.documentElement.lang;
 
 
