@@ -114,7 +114,8 @@
                                                                             <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="" />
                                                                         </div>
                                                                     </figure>
-                                                                    <div class="line"></div>
+                                                                    <a class="line" href="#"></a>
+<%--                                                                    <div class="line"></div>--%>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -210,13 +211,13 @@
                                             </div>
                                         </div>
 
-                                        <div class="info-box">
+                                        <div ng-show="isNotObjectEmpty(lotInfo.COND_RPT_JSON.ko)" class="info-box">
                                             <div class="title">Condition Report</div>
                                             <div class="desc" ng-bind="lotInfo.COND_RPT_JSON.ko">
                                             </div>
                                         </div>
 
-                                        <div class="info-box">
+                                        <div ng-show="isNotObjectEmpty(lotInfo.COND_RPT_JSON.ko)" class="info-box">
                                             <div class="title">작가정보</div>
                                             <div class="desc" id="artistName">
                                             </div>
