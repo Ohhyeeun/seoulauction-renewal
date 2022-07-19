@@ -1,8 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <spring:eval expression="@environment.getProperty('bid.domain')" var="bid_domain" />
 
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+
+<c:set var="isEmployee" value="false" />
+<sec:authorize access="hasAuthority('ROLE_EMPLOYEE_USER')">
+    <c:set var="isEmployee" value="true" />
+</sec:authorize>
 
 <body class="">
 <div class="wrapper">
@@ -211,8 +219,8 @@
                                                     <figure class="img-ratio">
                                                         <a href="/auction/online/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
                                                             <div class="img-align">
-                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                     alt="">
+                                                                <img ng-if="isEmployee || item.IMG_DISP_YN === 'Y'" src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
+                                                                <img ng-if="item.IMG_DISP_YN !== 'Y'" src="/images/temp/img_list-3.jpg" alt="">
                                                             </div>
                                                         </a>
                                                     </figure>
@@ -227,25 +235,30 @@
                                                             ></i></button>
                                                         </div>
                                                         <div class="info-box">
-                                                            <div class="title"><span>{{item.ARTIST_NAME_JSON.ko}}</span>
+                                                            <div class="title"><span title="{{item.ARTIST_NAME_JSON.ko}}" >{{item.ARTIST_NAME_JSON.ko}}</span>
                                                             </div>
                                                             <div class="desc">
-                                                                <span class="text-over span_block">{{item.LOT_TITLE_JSON.ko}}</span>
+                                                                <span class="text-over span_block" title="{{item.LOT_TITLE_JSON.ko}}">{{item.LOT_TITLE_JSON.ko}}</span>
                                                             </div>
                                                             <div class="standard">
-                                                                <span class="text-over span_block">{{item.CD_NM}}</span>
+                                                                <span class="text-over span_block" title="{{item.CD_NM}}">{{item.CD_NM}}</span>
                                                                 <div class="size_year">
-                                                                    <span ng-bind="item | size_text_cm"></span>
-                                                                    <span ng-bind="item.MAKE_YEAR_JSON.ko"
+                                                                    <span title="{{item | size_text_cm}}" ng-bind="item | size_text_cm"></span>
+                                                                    <span title="{{item.MAKE_YEAR_JSON.ko}}" ng-bind="item.MAKE_YEAR_JSON.ko"
                                                                           ng-show="item.MAKE_YEAR_JSON.ko !== undefined"></span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="price-box">
-                                                            <dl class="price-list">
+                                                            <dl ng-if="item.EXPE_PRICE_INQ_YN !== 'Y'" class="price-list">
                                                                 <dt>추정가</dt>
                                                                 <dd>KRW {{item.EXPE_PRICE_FROM_JSON.KRW}}</dd>
                                                                 <dd>~ {{item.EXPE_PRICE_TO_JSON.KRW}}</dd>
+                                                            </dl>
+                                                            <dl ng-if="item.EXPE_PRICE_INQ_YN === 'Y'" class="price-list">
+                                                                <dt>추정가 별도문의</dt>
+                                                                <dd></dd>
+                                                                <dd></dd>
                                                             </dl>
                                                             <dl class="price-list">
                                                                 <dt>시작가</dt>
@@ -739,6 +752,7 @@
 
             $scope.is_sale_cert = false;
             $scope.cust_hp = "";
+            $scope.isEmployee = ${isEmployee};
 
             $scope.modelSortType = [{
                 name: "LOT 번호순", value: 1

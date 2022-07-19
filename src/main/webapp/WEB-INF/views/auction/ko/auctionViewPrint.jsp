@@ -195,9 +195,9 @@
 <%--<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>--%>
 
 <%--Axios--%>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.js"></script>
-<script defer src="https://unpkg.com/axios-extensions/dist/axios-extensions.js"></script>
-<script defer src="/js/common/axios.js" type="text/javascript"></script>
+<%--<script defer src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.js"></script>--%>
+<%--<script defer src="https://unpkg.com/axios-extensions/dist/axios-extensions.js"></script>--%>
+<%--<script defer src="/js/common/axios.js" type="text/javascript"></script>--%>
 
 <%--<!--[if lt IE 9]>--%>
 <%--<!--[if lt IE 9]>--%>
@@ -251,7 +251,7 @@ $(function(){
                     );
 
                     $("#print_img").attr('src' ,
-                        'https://www.seoulauction.com/nas_img' + lotData.LOT_IMG_PATH + '/' + lotData.LOT_IMG_NAME );
+                        lotData.IMAGE_URL  + lotData.LOT_IMG_PATH + '/' + lotData.LOT_IMG_NAME );
                     $("#print_lot_no").html(lotData.LOT_NO);
                     $("#print_artist_name").html(lotData.ARTIST_NAME_KO_TXT);
                     $("#print_year").html('b.' + lotData.BORN_YEAR);

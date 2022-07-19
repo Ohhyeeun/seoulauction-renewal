@@ -109,8 +109,6 @@ public class ApiSaleController {
         // 관심정보가져오기
         CommonMap favoriteMap = saleService.selectCustInteLot(map);
 
-        log.info(favoriteMap);
-
         if (favoriteMap == null) {
             lotInfoMap.put("FAVORITE_YN", "N");
         } else {
@@ -133,6 +131,14 @@ public class ApiSaleController {
         lotInfoMap.put("LOT_EXPIRE_DATE_TIME_T" , saleInfoMap.get("LOT_EXPIRE_DATE_TIME_T"));
         lotInfoMap.put("NOTICE_DTL_JSON" , saleInfoMap.get("NOTICE_DTL_JSON"));
         lotInfoMap.put("SALE_TH" , saleInfoMap.get("SALE_TH"));
+
+        if (lotInfoMap.get("IMG_DISP_YN").equals("N")) {
+            lotInfoMap.put("IMAGE_URL", IMAGE_URL.replace("/nas_img",""));
+            lotInfoMap.put("LOT_IMG_PATH", "");
+            lotInfoMap.put("LOT_IMG_NAME", "/images/bg/no_image.jpg");
+        } else {
+            lotInfoMap.put("IMAGE_URL", IMAGE_URL);
+        }
 
         // sub 화폐
         String subCurrCd = String.valueOf(baseCurrency.get(currCd));
@@ -182,6 +188,8 @@ public class ApiSaleController {
 
 
 
+
+
                     if (item.equals("EXPE_PRICE_TO_JSON")) {
                         lotInfoMap.put("BASE_EXPE_TO_PRICE", cv);
                         lotInfoMap.put("SUB_EXPE_TO_PRICE", sv);
@@ -222,10 +230,6 @@ public class ApiSaleController {
 
         // 필터를 적용한 새로운 랏이미지 정보
         List<CommonMap> lotImagesNew = new ArrayList<>();
-
-
-        log.info(lotImages);
-
 
         String[] listKeys = {"LOT_SIZE_JSON"};
         ObjectMapper mapper  = new ObjectMapper();
@@ -289,6 +293,7 @@ public class ApiSaleController {
                 lotImagesNewItem.put(k, item.get(k));
             }
 
+            lotImagesNewItem.put("IMG_DISP_YN", lotInfoMap.get("IMG_DISP_YN"));
             lotImagesNewItem.put("UNIT_CD", lotInfoMap.get("UNIT_CD"));
             lotImagesNewItem.put("SIZE1", lotInfoMap.get("SIZE1"));
             lotImagesNewItem.put("SIZE2", lotInfoMap.get("SIZE2"));
@@ -396,10 +401,6 @@ public class ApiSaleController {
         CommonMap map = new CommonMap();
         CommonMap topBid = saleService.selectTopBid(map);
 
-        log.info("bid_no : {}" , topBid.get("BID_NO"));
-        log.info("sale_no : {}" , saleNo);
-        log.info("lotNo : {}" , lotNo);
-
         map.put("sale_no" , saleNo);
         map.put("lot_no" , lotNo);
         map.put("bid_no" , topBid.get("BID_NO"));
@@ -499,7 +500,6 @@ public class ApiSaleController {
 
         }
 
-        log.info("lotImages : {}" , lotImages.size());
 
         return ResponseEntity.ok(RestResponse.ok(lotImages));
    }
@@ -526,7 +526,6 @@ public class ApiSaleController {
             @RequestBody CommonMap map
     ){
         //map.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
-        log.info("map : {}" , map);
         saleService.insertBid(map);
 
         return ResponseEntity.ok(RestResponse.ok());

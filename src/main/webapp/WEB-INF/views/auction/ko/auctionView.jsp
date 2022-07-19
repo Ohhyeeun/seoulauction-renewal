@@ -6,6 +6,14 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+
+<spring:eval expression="@environment.getProperty('bid.domain')" var="bid_domain" />
+
+<c:set var="isEmployee" value="false" />
+<sec:authorize access="hasAuthority('ROLE_EMPLOYEE_USER')">
+    <c:set var="isEmployee" value="true" />
+</sec:authorize>
+
 <body class="">
 <div class="wrapper">
     <%--    <link rel="stylesheet" href="/css/plugin/csslibrary.css">--%>
@@ -47,15 +55,13 @@
                                                             </div>
                                                             <div class="list-box scroll-type">
                                                                 <ul id="sale_lot_list">
-                                                                    <li ng-repeat="item in saleImages"
-                                                                        data-index="{{item.LOT_NO}}">
-                                                                        <a href="#"
-                                                                           ng-click="goLot(item.SALE_NO, item.LOT_NO)">
+                                                                    <li ng-repeat="item in saleImages" data-index="{{item.LOT_NO}}">
+                                                                        <a href="#" ng-click="goLot(item.SALE_NO, item.LOT_NO)">
                                                                             <div class="image-area">
                                                                                 <figure class="img-ratio">
                                                                                     <div class="img-align">
-                                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                                             alt="">
+                                                                                        <img ng-if="item.IMG_DISP_YN === 'Y'" src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
+                                                                                        <img ng-if="item.IMG_DISP_YN !== 'Y'" src="/images/temp/img_list-3.jpg" alt="">
                                                                                     </div>
                                                                                 </figure>
                                                                             </div>
@@ -67,7 +73,6 @@
                                                                 </ul>
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                                 <!-- // [0516]select 변경 -->
@@ -92,8 +97,8 @@
                                                                     <div class="image-area">
                                                                         <figure class="img-ratio">
                                                                             <div class="img-align">
-                                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                                     alt=""/>
+                                                                                <img ng-if="item.IMG_DISP_YN === 'Y'" src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
+                                                                                <img ng-if="item.IMG_DISP_YN !== 'Y'" src="/images/temp/img_list-3.jpg" alt="">
                                                                             </div>
                                                                         </figure>
                                                                     </div>
@@ -112,24 +117,21 @@
                                                                      data-index="$index"> <%-- 빈칸 class="slide" 까지 합해서 총 최대 7개 --%>
                                                                     <figure class="img-ratio">
                                                                         <div class="img-align">
-                                                                            <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                                 alt=""/>
+                                                                            <img ng-if="isEmployee || item.IMG_DISP_YN === 'Y'" src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt=""/>
+                                                                            <img ng-if="item.IMG_DISP_YN !== 'Y'" src="/images/temp/img_list-3.jpg" alt="">
                                                                         </div>
                                                                     </figure>
                                                                     <div class="line"></div>
                                                                 </div>
 
-                                                                <div class="slide"
-                                                                     data-index="4"> <%-- 이미지 없을 시 클래스 slide만 남겨놔야 함. --%>
+                                                                <div class="slide" data-index="4"> <%-- 이미지 없을 시 클래스 slide만 남겨놔야 함. --%>
                                                                     <figure class="img-ratio">
                                                                         <div class="img-align">
-                                                                            <img src="/images/pc/auction/view_thumbnail_bg.jpg"
-                                                                                 alt=""/>
+                                                                            <img src="/images/pc/auction/view_thumbnail_bg.jpg" alt=""/>
                                                                         </div>
                                                                     </figure>
                                                                     <div class="line"></div>
                                                                 </div>
-
                                                             </div>
                                                         </div>
                                                     </div>
@@ -183,9 +185,13 @@
                                                 </div>
                                             </div>
                                             <div class="price-area">
-                                                <dl class="price-list">
+                                                <dl class="price-list" ng-if="lotInfo.EXPE_PRICE_INQ_YN !== 'Y'">
                                                     <dt>추정가</dt>
                                                     <dd ng-bind="estimatedRange"></dd>
+                                                </dl>
+                                                <dl class="price-list" ng-if="lotInfo.EXPE_PRICE_INQ_YN === 'Y'">
+                                                    <dt>추정가 별도문의</dt>
+                                                    <dd></dd>
                                                 </dl>
                                                 <dl class="price-list">
                                                     <dt>시작가</dt>
@@ -239,8 +245,7 @@
                                                     <span>작품문의 <a href="tel:02-395-0330">02-395-0330</a></span>
                                                 </div>
                                                 <div class="print-box">
-                                                    <a href="/auction/view/print/{{lotInfo.SALE_NO}}/{{lotInfo.LOT_NO}}"
-                                                       target="_blank">
+                                                    <a href="/auction/view/print/{{lotInfo.SALE_NO}}/{{lotInfo.LOT_NO}}" target="_blank">
                                                         <button class="print-btn">
                                                             <i class="icon-view_print"></i>
                                                         </button>
@@ -261,7 +266,7 @@
 
                                                 <%--재질 규격--%>
                                                 <span ng-repeat="size in lotInfo.LOT_SIZE_JSON">
-                                                        <span ng-bind="size | size_text_cm"></span>
+                                                    <span ng-bind="size | size_text_cm"></span>
                                                 </span>
                                                 <%--에디션--%>
                                                 <div ng-show="lotInfo.EDITION">
@@ -360,7 +365,7 @@
                                                 <ul id="recently_views" class="product-list">
                                                     <li class="" ng-repeat="item in recentlyViews">
                                                         <div class="li-inner">
-                                                            <a href="/auction/live/online/{{item.SALE_NO}}/{{item.LOT_NO}}">
+                                                            <a href="/auction/online/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
                                                                 <article class="item-article">
                                                                     <div class="image-area">
                                                                         <figure class="img-ratio">
@@ -1326,8 +1331,7 @@
                 sale_title += JSON.parse($scope.lotInfo.SALE_TITLE_JSON).ko;
                 $scope.fullTitle = sale_title;
 
-                $scope.estimatedRange = $scope.lotInfo.BASE_EXPE_FROM_PRICE + ' ~ '
-                    + $scope.lotInfo.BASE_EXPE_TO_PRICE;
+                $scope.estimatedRange = $scope.lotInfo.BASE_EXPE_FROM_PRICE + ' ~ ' + $scope.lotInfo.BASE_EXPE_TO_PRICE;
 
                 $scope.recentlyViews = r6.data.data;
 
@@ -1966,9 +1970,9 @@
         let datet = new Date();
         let url = '';
         if (window.location.protocol !== "https:") {
-            url = "http://dev-bid.seoulauction.xyz/bid";
+            url = "http${bid_domain}/bid";
         } else {
-            url = "https://dev-bid.seoulauction.xyz/bid";
+            url = "https${bid_domain}/bid";
         }
 
         let response = await fetch(url, {
@@ -1996,9 +2000,9 @@
         let val = document.getElementById("bid_new_cost_val").getAttribute("value");
         let url = '';
         if (window.location.protocol !== "https:") {
-            url = "http://dev-bid.seoulauction.xyz/bid";
+            url = "http${bid_domain}/bid";
         } else {
-            url = "https://dev-bid.seoulauction.xyz/bid";
+            url = "https${bid_domain}/bid";
         }
         let response = await fetch(url, {
             method: "POST",
@@ -2083,11 +2087,11 @@
         }
 
         if (window.location.protocol !== "https:") {
-            w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws?sale_no=" +
+            w = new WebSocket("ws${bid_domain}/ws?sale_no=" +
                 saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
                 "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
         } else {
-            w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws?sale_no=" +
+            w = new WebSocket("wss${bid_domain}/ws?sale_no=" +
                 saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
                 "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
         }
@@ -2130,9 +2134,9 @@
         let url = '';
 
         if (window.location.protocol !== "https:") {
-            url = "http://dev-bid.seoulauction.xyz";
+            url = "http${bid_domain}";
         } else {
-            url = "https://dev-bid.seoulauction.xyz";
+            url = "https${bid_domain}";
         }
 
         if (d.msg_type === packet_enum.init) {

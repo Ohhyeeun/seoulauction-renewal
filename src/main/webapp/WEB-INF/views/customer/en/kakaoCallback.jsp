@@ -5,6 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="en">
+<%@include file="../../common/commonJs.jsp"%>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.js"></script>
 <script defer src="https://unpkg.com/axios-extensions/dist/axios-extensions.js"></script>
 <script defer src="/js/common/axios.js" type="text/javascript"></script>
@@ -56,8 +57,15 @@
 	}
 	
 	// 로그인
-	function socialLogin(data) {
-		axios.post('/api/login/social', data)
+	async function socialLogin(data) {
+		let url = '/api/login/social'
+		if(await isNativeApp()){
+			console.log("is Native");
+			data['is_native'] = true;
+			url += '?remember-me=on'
+		}
+		
+		axios.post(url, data)
 			.then(function(response) {
 				console.log(response)
 				if(response.data.success == true){

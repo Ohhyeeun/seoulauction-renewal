@@ -157,6 +157,9 @@ public class PaymentService {
 
         String payMethod = request.getParameter("PayMethod");
 
+
+        log.info("request :{}" , request);
+
         if(SAConst.PAYMENT_METHOD_VBANK.equals(payMethod)){
             String mall_reserved = request.getParameter("MallReserved");
 

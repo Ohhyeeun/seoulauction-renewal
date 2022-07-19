@@ -255,7 +255,7 @@
                                                                     <div class="size_year">
                                                                         <span ng-bind="item | size_text_cm"></span>
                                                                         <span ng-bind="item.MAKE_YEAR_JSON.ko" ng-show="item.MAKE_YEAR_JSON.ko !== undefined"></span>
-                                                                        <span ng-show="item.MAKE_YEAR_JSON.ko == undefined">&nbsp;</span>
+                                                                        <span ng-show="(item.MAKE_YEAR_JSON.ko === undefined && change_size)">ㅤ</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -632,6 +632,7 @@
             };
         })
 
+
         app.controller('ctl', function ($scope, consts, common, is_login, locale, $filter) {
             $scope.is_login = is_login;
             $scope.locale = locale;
@@ -640,7 +641,7 @@
             $scope.pagesize = 10;
             $scope.itemsize = 20;
             $scope.curpage = 1;
-
+            $scope.change_size = false;
 
             $scope.modelSortType = [{
                 name: "LOT 번호순",
@@ -1014,6 +1015,10 @@
 
                             //let expr_date = new Date($scope.saleInfoAll[i].LOT_EXPIRE_DATE).format('yyyy-MM-dd HH:mm:ss');
 
+                            // if($scope.saleInfoAll[i].MAKE_YEAR_JSON.ko === undefined){
+                            //     $scope.saleInfoAll[i].MAKE_YEAR_JSON.ko = ' ';
+                            // }
+
                             //경매에 대한 마감 일.
                             let expr_date = $scope.saleInfoAll[i].LOT_EXPIRE_DATE_ALL;
 
@@ -1030,9 +1035,6 @@
                     }
 
                     $scope.saleInfo = $scope.saleInfoAll.slice(0, $scope.itemsize);
-
-                    console.log($scope.saleImages);
-                    console.log($scope.saleInfo);
 
                     let p = [];
                     let endVal = 0;
@@ -1093,6 +1095,15 @@
                             })
                         }
                     })
+
+                    //년도가 아래로 가야하는지 체크!!
+                    $scope.change_size = matchMedia("(max-width: 1280px) and (min-width: 1023px)").matches;
+                    $scope.$apply();
+
+                    $(window).resize(function(){
+                        $scope.change_size = matchMedia("(max-width: 1280px) and (min-width: 1023px)").matches;
+                        $scope.$apply();
+                    });
 
                 }
                 run();
