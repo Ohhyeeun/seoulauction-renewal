@@ -10,7 +10,7 @@
         <!-- //header -->
 
         <!-- container -->
-        <div id="container" ng-controller="auctionCtl" data-ng-init="loadAuction()" ng-cloak>>
+        <div id="container" ng-controller="auctionCtl" data-ng-init="loadAuction()" ng-cloak>
             <div id="contents" class="contents">
                 <section class="basis-section tab-auction_other-section">
                     <div class="section-inner">
