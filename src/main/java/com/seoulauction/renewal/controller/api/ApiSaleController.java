@@ -289,6 +289,7 @@ public class ApiSaleController {
                 lotImagesNewItem.put(k, item.get(k));
             }
 
+            lotImagesNewItem.put("IMG_DISP_YN", lotInfoMap.get("IMG_DISP_YN"));
             lotImagesNewItem.put("UNIT_CD", lotInfoMap.get("UNIT_CD"));
             lotImagesNewItem.put("SIZE1", lotInfoMap.get("SIZE1"));
             lotImagesNewItem.put("SIZE2", lotInfoMap.get("SIZE2"));
