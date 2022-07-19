@@ -2,8 +2,6 @@ function nicepayStart() {
 
     isNativeApp().then(nativeApp => {
 
-        console.log(nativeApp);
-
         if (nativeApp || checkPlatform(window.navigator.userAgent) == "mobile"){//모바일 결제창 진입
             document.payForm.action = "https://web.nicepay.co.kr/v3/v3Payment.jsp";
             document.payForm.acceptCharset="euc-kr";

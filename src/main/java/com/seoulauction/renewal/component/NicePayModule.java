@@ -41,6 +41,10 @@ public class NicePayModule {
         String authCode = wrapper.getParameter("AuthResultCode");
         CommonMap resultMap;
 
+
+        log.info(wrapper.getMapToString());
+
+
         String eDiDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 
         //인증요청이 성공인경우 승인 요청 고고
