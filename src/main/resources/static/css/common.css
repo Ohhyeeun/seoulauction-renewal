@@ -1487,9 +1487,6 @@ body.dark,
 .sub-wrap .main-header{
     z-index: 26 !important; 
 }
-.trp.popupfixed-wrap.image_viewer-popup .viewer-article .img-area .img-box .images img {
-    width: 100% !important;
-}
 /*.allview_fixed-wrap .popup-dim,*/
 /*.allview_fixed-wrap .fixed-panel,*/
 /*.trp.popupfixed-wrap {*/
