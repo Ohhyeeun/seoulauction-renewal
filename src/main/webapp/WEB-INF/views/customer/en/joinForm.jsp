@@ -253,8 +253,7 @@
 												<div class="con-area">
 													<div class="policy_cont scroll-type">
 														<p class="tb1 title_txt">Please carefully review the provisions of these Auction Terms.<br>
-														    Offline auctions and purchase contracts of Seoul Auction are implemented pursuant to the following, and you are consenting to being bound by these Auction Terms by participating in the auction or the contract.
-														</p>
+														    Online auctions and purchase contracts of Seoul Auction are implemented pursuant to the following, and you are consenting to being bound by these Auction Terms by participating in the auction or the contract.</p>
 														<h4>Article 1 Purpose</h4>
 														<p class="tb1">
 														    The purpose of the precautions included in the terms of the auction or the related Auction Catalogue is to stipulate the following:<br>
@@ -475,7 +474,7 @@
 												<div class="con-area">
 													<div class="policy_cont scroll-type">
 													    <p class="tb1 title_txt">Please carefully review the provisions of these Auction Terms.<br>
-													        Online auctions and purchase contracts of Seoul Auction are implemented pursuant to the following, and you are consenting to being bound by these Auction Terms by participating in the auction or the contract.</p>
+													        Offline auctions and purchase contracts of Seoul Auction are implemented pursuant to the following, and you are consenting to being bound by these Auction Terms by participating in the auction or the contract.</p>
 													    <h4>Article 1 Purpose</h4>
 													    <p class="tb1">
 													        The purpose of the precautions included in the terms of the auction or the related Auction Catalogue is to stipulate the following:<br>
