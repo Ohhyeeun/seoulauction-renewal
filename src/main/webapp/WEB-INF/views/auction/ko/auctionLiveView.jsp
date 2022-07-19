@@ -429,7 +429,7 @@
                             </button>
                         </div>
                         <div class="btn-box">
-                            <button ng-click="moveToBidding(lotInfo)">응찰하기</button>
+                            <button ng-click="moveToBidding(lotInfo)">서면/전화 응찰 신청</button>
                         </div>
                     </div>
                 </article>
