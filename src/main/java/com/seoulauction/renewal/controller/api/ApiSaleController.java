@@ -109,8 +109,6 @@ public class ApiSaleController {
         // 관심정보가져오기
         CommonMap favoriteMap = saleService.selectCustInteLot(map);
 
-        log.info(favoriteMap);
-
         if (favoriteMap == null) {
             lotInfoMap.put("FAVORITE_YN", "N");
         } else {
@@ -222,10 +220,6 @@ public class ApiSaleController {
 
         // 필터를 적용한 새로운 랏이미지 정보
         List<CommonMap> lotImagesNew = new ArrayList<>();
-
-
-        log.info(lotImages);
-
 
         String[] listKeys = {"LOT_SIZE_JSON"};
         ObjectMapper mapper  = new ObjectMapper();
@@ -397,10 +391,6 @@ public class ApiSaleController {
         CommonMap map = new CommonMap();
         CommonMap topBid = saleService.selectTopBid(map);
 
-        log.info("bid_no : {}" , topBid.get("BID_NO"));
-        log.info("sale_no : {}" , saleNo);
-        log.info("lotNo : {}" , lotNo);
-
         map.put("sale_no" , saleNo);
         map.put("lot_no" , lotNo);
         map.put("bid_no" , topBid.get("BID_NO"));
@@ -500,7 +490,6 @@ public class ApiSaleController {
 
         }
 
-        log.info("lotImages : {}" , lotImages.size());
 
         return ResponseEntity.ok(RestResponse.ok(lotImages));
    }
@@ -527,7 +516,6 @@ public class ApiSaleController {
             @RequestBody CommonMap map
     ){
         //map.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
-        log.info("map : {}" , map);
         saleService.insertBid(map);
 
         return ResponseEntity.ok(RestResponse.ok());
