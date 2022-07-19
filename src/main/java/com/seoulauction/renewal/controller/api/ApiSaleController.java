@@ -132,6 +132,14 @@ public class ApiSaleController {
         lotInfoMap.put("NOTICE_DTL_JSON" , saleInfoMap.get("NOTICE_DTL_JSON"));
         lotInfoMap.put("SALE_TH" , saleInfoMap.get("SALE_TH"));
 
+        if (lotInfoMap.get("IMG_DISP_YN").equals("N")) {
+            lotInfoMap.put("IMAGE_URL", IMAGE_URL.replace("/nas_img",""));
+            lotInfoMap.put("LOT_IMG_PATH", "");
+            lotInfoMap.put("LOT_IMG_NAME", "/images/bg/no_image.jpg");
+        } else {
+            lotInfoMap.put("IMAGE_URL", IMAGE_URL);
+        }
+
         // sub 화폐
         String subCurrCd = String.valueOf(baseCurrency.get(currCd));
 
@@ -177,6 +185,8 @@ public class ApiSaleController {
                             .append(svf).toString();
                     String uv = new StringBuilder().append("USD ")
                             .append(uvf).toString();
+
+
 
 
 
