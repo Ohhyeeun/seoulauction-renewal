@@ -131,6 +131,7 @@ public class ApiSaleController {
         lotInfoMap.put("SALE_TITLE_JSON" , saleInfoMap.get("TITLE_JSON"));
         lotInfoMap.put("LOT_EXPIRE_DATE_DAY" , saleInfoMap.get("LOT_EXPIRE_DATE_DAY"));
         lotInfoMap.put("LOT_EXPIRE_DATE_TIME_T" , saleInfoMap.get("LOT_EXPIRE_DATE_TIME_T"));
+        lotInfoMap.put("NOTICE_DTL_JSON" , saleInfoMap.get("NOTICE_DTL_JSON"));
         lotInfoMap.put("SALE_TH" , saleInfoMap.get("SALE_TH"));
 
         // sub 화폐
@@ -138,7 +139,7 @@ public class ApiSaleController {
 
         String[] mapKeys = {"ARTIST_NAME_JSON", "EXPE_PRICE_TO_JSON","EXPE_PRICE_FROM_JSON", "MAKE_YEAR_JSON" ,
                 "SIGN_INFO_JSON", "COND_RPT_JSON", "PROFILE_JSON" ,"LITE_INFO_JSON" , "EXHI_INFO_JSON" ,
-                "PROV_INFO_JSON" , "ETC_INFO_JSON" , "CMMT_JSON" };
+                "PROV_INFO_JSON" , "ETC_INFO_JSON" , "CMMT_JSON" ,"NOTICE_DTL_JSON"};
         String[] listKeys = {"LOT_SIZE_JSON"};
 
         // 맵 형태 거름

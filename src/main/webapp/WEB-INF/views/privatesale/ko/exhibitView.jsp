@@ -122,7 +122,7 @@
                                                 </div>
                                             </div>
                                             <div class="view_scale-area" ng-if="lotInfo.VIEW_SCALE_YN == 'Y'">
-                                                <a class="btn btn_default js-popup_image_viewer" href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
+                                                <a class="js-popup_image_viewer" href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
                                         </article>
 
@@ -186,9 +186,8 @@
                                                 <div class="inquiryinfo-box">
                                                     <i class="icon-view_inquiry"></i>
                                                     <div class="txt">
-                                                        프라이빗 세일 작품은 문의하기를 통해서 구매가 가능
-                                                        합니다. 작품에 관해 궁금한 부분이나 문의하실 사항이
-                                                        있으시다면, 문의하기를 이용해주시기 바랍니다.
+                                                        전시 작품은 문의하기를 통해서 구매 가능합니다.<br>
+                                                        궁금한 부분은 문의하기를 이용해주시기 바랍니다.
                                                     </div>
                                                 </div>
                                             </div>
