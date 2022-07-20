@@ -1569,11 +1569,17 @@
                 }
 
                 /* === 스와이퍼 === */
+                /* [0708]  스크립트 수정 */
                 console.log("스와이퍼 set");
+                var imagesSwiperIndex = 0;
                 var imagesSwiper = new Swiper('.js-imagesSwiper .gallery_center', {
                     loop: true,
-                    simulateTouch: false,
-                    pagination: ".js-imagesSwiper_pagination",
+                    simulateTouch: true,
+                    //pagination: ".js-imagesSwiper_pagination",
+                    pagination: {
+                        el: '.js-imagesSwiper_pagination',
+                        type: 'bullets',
+                    },
                     paginationClickable: true,
                     breakpoints: {
                         1023: {
@@ -1583,17 +1589,34 @@
                             spaceBetween: 10
                         }
                     },
-                    onSlideChangeStart: function (swiper) { // 움직임이 시작하면 실행
-                        imagesResizePcMb();
-                        if ($("body").hasClass("is_pc")) {
-                            panzoom.reset(); // zoom reset
-                        }
+                    // onSlideChangeStart: function (swiper) { // 움직임이 시작하면 실행
+                    //     imagesResizePcMb();
+                    //     if ($("body").hasClass("is_pc")) {
+                    //         panzoom.reset(); // zoom reset
+                    //     }
+                    // },
+                    // onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
+                    //     imagesResizePcMb();
+                    //     thumbnailActive(swiper.realIndex);
+                    //     console.log(">>> ", swiper.realIndex)
+                    // }
+                    on: {
+                        transitionStart: function() {
+                            // 움직임이 시작하면 실행
+                            imagesResizePcMb();
+                            if ($("body").hasClass("is_pc")) {
+                                panzoom.reset(); // zoom reset
+                            }
+                        },
+                        transitionEnd: function() {
+                            // 움직임이 끝나면 실행
+                            if (imagesSwiper != undefined) {
+                                imagesSwiperIndex = imagesSwiper.realIndex;
+                            }
+                            imagesResizePcMb();
+                            thumbnailActive();
+                        },
                     },
-                    onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
-                        imagesResizePcMb();
-                        thumbnailActive(swiper.realIndex);
-                        console.log(">>> ", swiper.realIndex)
-                    }
                 })
                 // 좌우버튼
                 $('.images-popup .page_prev').on('click', function ($e) {
