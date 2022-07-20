@@ -259,9 +259,9 @@
                                                                 <dd>별도문의</dd>
                                                                 <dd></dd>
                                                             </dl>
-                                                            <dl class="price-list" ng-if="item.START_COST > 0">
+                                                            <dl class="price-list" ng-if="item.START_PRICE !== ''">
                                                                 <dt>시작가</dt>
-                                                                <dd>{{item.START_COST}}</dd>
+                                                                <dd>{{item.START_PRICE}}</dd>
                                                             </dl>
                                                             <dl class="price-list">
                                                                 <dt ng-bind="item.onStateCostTxt"></dt>
@@ -1635,7 +1635,7 @@
                                     "" :
                                     "KRW " + $scope.bidsInfoAll[idx].bid_cost.toLocaleString('ko-KR');
                                 // 시작일자
-                                $scope.saleInfoAll[j].START_COST = "KRW " + $scope.bidsInfoAll[idx].open_bid_cost.toLocaleString('ko-KR');
+                                $scope.saleInfoAll[j].START_PRICE = "KRW " + $scope.bidsInfoAll[idx].open_bid_cost.toLocaleString('ko-KR');
                                 // 현재가
                                 $scope.saleInfoAll[j].CUR_COST = curCostValue;
                                 // 응찰 수
