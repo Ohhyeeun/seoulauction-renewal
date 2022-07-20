@@ -199,10 +199,6 @@ public class ApiSaleController {
                     String uv = new StringBuilder().append("USD ")
                             .append(uvf).toString();
 
-
-
-
-
                     if (item.equals("EXPE_PRICE_TO_JSON")) {
                         lotInfoMap.put("BASE_EXPE_TO_PRICE", cv);
                         lotInfoMap.put("SUB_EXPE_TO_PRICE", sv);
