@@ -1228,7 +1228,7 @@
                             let idx = matching.get($scope.saleInfoAll[j].SALE_NO + "-"
                                 + $scope.saleInfoAll[j].LOT_NO);
                             if (idx !== undefined) {
-                                $scope.saleInfoAll[j].DISP_YN = d.message.data[idx].DISP_YN;
+                                $scope.saleInfoAll[j].STAT_CD = d.message.data[idx].STAT_CD;
                             }
                         }
 
@@ -1237,7 +1237,7 @@
                             let idx = matching.get($scope.searchSaleInfoAll[j].SALE_NO + "-"
                                 + $scope.searchSaleInfoAll[j].LOT_NO);
                             if (idx !== undefined) {
-                                $scope.searchSaleInfoAll[j].DISP_YN = d.message.data[idx].DISP_YN;
+                                $scope.searchSaleInfoAll[j].STAT_CD = d.message.data[idx].STAT_CD;
                             }
                         }
 

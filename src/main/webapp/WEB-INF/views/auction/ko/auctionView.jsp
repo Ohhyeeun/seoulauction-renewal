@@ -2056,11 +2056,11 @@
         }
 
         if (window.location.protocol !== "https:") {
-            w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws?sale_no=" +
+            w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws?sale_no=" +
                 saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
                 "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
         } else {
-            w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws?sale_no=" +
+            w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws?sale_no=" +
                 saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
                 "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
         }

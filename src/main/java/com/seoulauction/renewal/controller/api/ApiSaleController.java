@@ -38,7 +38,7 @@ public class ApiSaleController {
     private String IMAGE_URL;
 
     private WebClient webClient = WebClient.builder()
-            .baseUrl("http://localhost:8002")
+            .baseUrl("http://dev-bid.seoulauction.xyz")
             .build();
 
     @RequestMapping(value="/bid", method = RequestMethod.POST)
