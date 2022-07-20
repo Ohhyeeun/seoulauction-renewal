@@ -253,7 +253,6 @@ public class ApiSaleController {
         boolean isEmployee = false;
         //만약 로그인을 했고 직원 이면.
         if( saUserDetails !=null) {
-            saUserDetails.getAuthorities().stream().forEach(log::info);
             isEmployee = saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER"));
         }
 
@@ -315,7 +314,6 @@ public class ApiSaleController {
         boolean isEmployee = false;
         //만약 로그인을 했고 직원 이면.
         if( saUserDetails !=null) {
-            saUserDetails.getAuthorities().stream().forEach(log::info);
             isEmployee = saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER"));
         }
 
