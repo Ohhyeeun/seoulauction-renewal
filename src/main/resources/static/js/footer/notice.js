@@ -16,7 +16,7 @@ $(document).ready(function(){
 
         let url = '/api/footer/notices?page=' + current_page + "&size=" + data_size + '&lang=' + locale;
         if(search_text){
-            url +="&search="+search_text;
+            url +="&search="+encodeURIComponent(search_text);
         }
 
         axios.get(url)
