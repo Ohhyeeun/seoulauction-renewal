@@ -106,7 +106,7 @@
                                                             <label class="tb1">본인은 서울옥션 경매 약관을 모두 알고 이해하였으며, 그 적용에 동의합니다.
                                                             </label>
                                                         </span>
-                                                        <a href="#none" class="terms_link tb1">약관 바로보기</a>
+                                                        <a href="/footer/privacy" class="terms_link tb1">약관 바로보기</a>
                                                     </p>
                                                 </li>
                                                 <li>
@@ -184,10 +184,10 @@
 
 <script>
     let isRegular = ${isRegular};
-    if(isRegular){
-        alert('이미 정회원 입니다.');
-        history.back();
-    }
+    // if(isRegular){
+    //     alert('이미 정회원 입니다.');
+    //     history.back();
+    // }
 </script>
 
 
