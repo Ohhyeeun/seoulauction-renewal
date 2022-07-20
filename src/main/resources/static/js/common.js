@@ -30,8 +30,8 @@ $(function() {
                     ingAuctionList.map(item => {
                         const titleJSON = JSON.parse(item.TITLE_BLOB);
                         const titleText = localeOrdinal(item.SALE_TH, locale) + titleJSON[locale];
-                        const path = `${item.SALE_KIND === 'LIVE'? 'live' : ''}`;
-                        const returnDom = `<a href='/auction/${path}/list/${item.SALE_NO}' class="Ingbanner" target="_blank">
+                        const path = `${item.SALE_KIND === 'LIVE'? 'live/' : ''}`;
+                        const returnDom = `<a href='/auction/${path}list/${item.SALE_NO}' class="Ingbanner" target="_blank">
                                             <figure class="border-txt-darkg Ingbanner-img">
                                                 <img src="${item.DEFAULT_IMAGE_PATH !== "" ? item.DEFAULT_IMAGE_PATH : ``}" 
                                                      onerror="${item.DEFAULT_IMAGE_PATH}"
