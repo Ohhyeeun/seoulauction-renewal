@@ -495,14 +495,21 @@ img::selection {
     border: 1px solid #333;
     color: #111;
 }
+/* 말줄임 */
 .text-over {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+/* 부모태그 말줄임 해제 */
 .text-over-nowrap {
     white-space: normal;
 }
+/* 텍스트 자동 줄바꿈 단락 */
+.txt-pre-line{
+    white-space: pre-line;
+}
+
 /* checkbox */
 .common_checkbox[type="checkbox"] {
     position: absolute;
@@ -1488,8 +1495,24 @@ body.dark,
     z-index: 26 !important; 
 }
 /* 이미지 팝업 */
+.trp.popupfixed-wrap.images-popup .popup-align .pop-body {
+    /*height: 0 !important;*/
+    height: calc(100% - 80px) !important;
+}
+.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box,
+.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box .images {
+    width: 100% !important;
+    height: 100% !important;
+}
+.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box .images img {
+    height: 100% !important;
+}
+.trp.popupfixed-wrap.images-popup .viewer-article .gallery_view {
+    position: absolute !important;
+    top: 0 !important;
+}
 .trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box {
-    margin-top: -70px !important;
+    margin-top: 0 !important;
 }
 .trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box .images {
     box-shadow: none !important;
@@ -2297,6 +2320,11 @@ body.dark,
     }
     .visual-pagaination.dark>span.swiper-pagination-bullet-active.dark { 
         background:#fff;
+    }
+
+    /* 외주 소스 임시 수정 1023 */
+    .trp.popupfixed-wrap.images-popup .popup-align .pop-body {
+         height: calc(100% - 40px) !important;
     }
 }
 @media all and (max-width: 719px) {

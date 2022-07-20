@@ -318,7 +318,7 @@
                                         <!-- [0714]작품설명 추가 -->
                                         <div ng-show="isNotObjectEmpty(lotInfo.CMMT_JSON)" class="info-box">
                                             <div class="title">작품 설명</div>
-                                            <div class="desc">{{lotInfo.CMMT_JSON | locale_format }}</div>
+                                            <div class="desc txt-pre-line">{{lotInfo.CMMT_JSON | locale_format }}</div>
                                         </div>
 
                                         <!-- [0613]notice 추가 -->
@@ -326,7 +326,8 @@
                                             <!-- [0714]텍스트 대소문자 수정 -->
                                             <div class="title">NOTICE</div>
                                             <!-- //[0714]텍스트 대소문자 수정 -->
-                                            <div class="desc">
+
+                                            <div class="desc txt-pre-line">
                                                 <ul class="mark_dot-list" bind-html-compile="sale.NOTICE_DTL_JSON[locale]">
                                                 </ul>
                                             </div>
@@ -335,11 +336,11 @@
                                         <div class="info-box">
                                             <div id="artist_layer" class="info-box">
                                                 <div class="title">작가정보</div>
-                                                <div class="desc" id="artistName">
+                                                <div class="desc txt-pre-line" id="artistName">
                                                 </div>
-                                                <div class="desc" id="artistProfile">
+                                                <div class="desc txt-pre-line" id="artistProfile">
                                                 </div>
-                                                <div class="desc" id="artistMedia">
+                                                <div class="desc txt-pre-line" id="artistMedia"> 
                                                 </div>
                                             </div>
                                         </div> <%-- //info-box --%>

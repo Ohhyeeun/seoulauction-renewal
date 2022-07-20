@@ -943,7 +943,7 @@ $(window).resize(function(){
         });
 
         //$('.gnb_submenuBg').hide();
-        $('.submenuBg').hide(); 
+        $('.submenuBg').hide();
 
         $('.header_beltbox.on').show(function(){
             $('.main-contents').css('margin-top','162px');
@@ -977,7 +977,6 @@ $(window).resize(function(){
         /* 오프라인 라이브응찰 화면(pc) */
         $('.bidding_pc').show();
         $('.bidding_mo').hide();
-
     } else {
         $(".submenuBg").off('mouseleave');
         $('.submenuBg').off('mouseenter');

@@ -324,7 +324,7 @@
                                         <!-- [0714]작품설명 추가 -->
                                         <div ng-show="isNotObjectEmpty(lotInfo.CMMT_JSON)" class="info-box">
                                             <div class="title">작품 설명</div>
-                                            <div class="desc">{{lotInfo.CMMT_JSON | locale_format }}</div>
+                                            <div class="desc txt-pre-line">{{lotInfo.CMMT_JSON | locale_format }}</div>
                                         </div>
                                         <!-- //[0714]작품설명 추가 -->
 
@@ -335,7 +335,7 @@
                                             <!-- //[0714]텍스트 대소문자 수정 -->
                                             <div class="desc">
                                                 <ul class="mark_dot-list">
-                                                    <li ng-bind-html="lotInfo.NOTICE_DTL_JSON_VALUE"></li>
+                                                    <li ng-bind-html="lotInfo.NOTICE_DTL_JSON_VALUE" class="txt-pre-line"></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -343,11 +343,11 @@
 
                                         <div id="artist_layer" class="info-box">
                                             <div class="title">작가정보</div>
-                                            <div class="desc" id="artistName">
+                                            <div class="desc txt-pre-line" id="artistName">
                                             </div>
-                                            <div class="desc" id="artistProfile">
+                                            <div class="desc txt-pre-line" id="artistProfile">
                                             </div>
-                                            <div class="desc" id="artistMedia">
+                                            <div class="desc txt-pre-line" id="artistMedia">
                                             </div>
                                         </div>
                                     </div>
@@ -1377,15 +1377,30 @@
                     });
 
                 /* 스와이퍼 */
+                /* [2022-0708] 수정 */
                 var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
                     loop: true,
-                    onSlideChangeStart: function (swiper) { // 움직임이 끝나면 실행
-                        imagesResizePcMb();
-                    },
-                    onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
-                        imagesResizePcMb();
+                    // onSlideChangeStart: function (swiper) { // 움직임이 끝나면 실행
+                    //     imagesResizePcMb();
+                    // },
+                    // onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
+                    //     imagesResizePcMb();
+                    // },
+                    on: {
+                        transitionStart: function() {
+                            // 움직임이 시작하면 실행
+                            imagesResizePcMb();
+                        },
+                        transitionEnd: function() {
+                            // 움직임이 끝나면 실행
+                            imagesResizePcMb();
+                        },
                     },
                 });
+
+                /* 이미지 팝업 브라우저별 해상도 resize */
+                let browserWidth = window.innerWidth;
+
 
                 $.each($(".swiper-slide"), function () {
                     let data = $(this).attr("data-swiper-slide-index");
