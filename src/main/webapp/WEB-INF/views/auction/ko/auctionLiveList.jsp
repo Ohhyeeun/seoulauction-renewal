@@ -336,7 +336,7 @@
                     </section>
                 </div>
 
-                <!-- [0712]전체 LOT 보기 팝업 -->
+                <!-- 랏상세 페이지 시작. -->
                 <aside class="allview_fixed-wrap lot">
                     <div class="popup-dim"></div>
                     <!-- [0712]외부영역 클릭 시 닫힘:class(js-modal) 추가 -->
@@ -356,191 +356,53 @@
                                         <div class="lotlist-tabmenu">
 
                                             <div class="btn_item">
-                                                <a ng-class="'전체' === selectLotTag ? 'lot-btn_tabmenu on' : 'lot-btn_tabmenu'"
+                                                <a href="#" ng-class="'전체' === selectLotTag ? 'lot-btn_tabmenu on' : 'lot-btn_tabmenu'"
                                                    ng-click="searchLotTags('전체');" role="button">전체</a>
                                             </div>
                                             <div class="btn_item" ng-repeat="item in categories">
-                                                <a ng-class="item.CD_ID === selectLotTag ? 'lot-btn_tabmenu on' : 'lot-btn_tabmenu'"
+                                                <a href="#" ng-class="item.CD_ID === selectLotTag ? 'lot-btn_tabmenu on' : 'lot-btn_tabmenu'"
                                                    ng-click="searchCategory(item.CD_ID);" ng-bind="item.CD_NM" role="button"></a>
                                             </div>
-<%--                                            <div class="btn_item">--%>
-<%--                                                <a href="#" class="lot-btn_tabmenu" role="button">고미술</a>--%>
-<%--                                            </div>--%>
-<%--                                            <div class="btn_item">--%>
-<%--                                                <a href="#" class="lot-btn_tabmenu" role="button">시계</a>--%>
-<%--                                            </div>--%>
-
                                         </div>
                                     </div>
                                     <div class="lotlist-tabCont">
 
                                         <div class="mobile_scroll-type">
                                             <div class="lotlist-box">
-                                                <ul class="lotlist-inner">
+                                                <ul class="lotlist-inner"  ng-repeat="item in saleInfo">
 
+                                                    <li ng-class="item.STAT_CD === 'reentry' ? 'lotitem cancel' : 'lotitem'">
 
-                                                    <li class="lotitem bidded">
-                                                        <div class="js-select_lotitem lotitem_wrap">
+                                                        <%--출품 취소상태가 아닐떄--%>
+                                                        <div ng-show="item.STAT_CD !== 'reentry'" class="js-select_lotitem lotitem_wrap"
+                                                             ng-click="goLot(item.SALE_NO, item.LOT_NO)">
                                                             <div class="view-img">
                                                                 <div class="img-box">
                                                                     <div class="box-inner">
-                                                                        <img src="/images/temp/temp_img0.jpg" alt="LOT 02">
+                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="LOT {{item.LOT_NO}}">
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="item-cont">
                                                                 <div class="num-box">
-                                                                    <div class="num"><span class="snum">1</span> </div>
+                                                                    <div class="num"><span class="snum">{{item.LOT_NO}}</span> </div>
                                                                 </div>
                                                                 <div class="typo-box">
-                                                                    <div class="title"><span>데미안허스트</span></div>
-                                                                    <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                                                                    <div class="title"><span>{{item.LOT_TITLE_JSON.ko}}</span></div>
+                                                                    <div class="desc"><span>{{item.CD_NM}}</span></div>
                                                                 </div>
                                                                 <div class="btn-box">
-                                                                    <button class="btn-lotChk js-work_heart on ">
-<%--                                                                            ng-class="item.FAVORITE_YN==='Y' ? 'btn-lotChk js-work_heart' : 'btn-lotChk js-work_heart on'"--%>
-<%--                                                                            ng-click="favorite(item);">--%>
-
-                                                                        Favorite</button>
+                                                                    <button ng-class="item.FAVORITE_YN==='Y' ? 'btn-lotChk js-work_heart' : 'btn-lotChk js-work_heart on'"
+                                                                            ng-click="favorite(item , event=$event);">Favorite</button>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </li>
-
-
-                                                    <li class="lotitem live">
-                                                        <div class="js-select_lotitem lotitem_wrap">
-                                                            <div class="view-img">
-                                                                <div class="img-box">
-                                                                    <div class="box-inner">
-                                                                        <img src="/images/temp/temp_img1.jpg" alt="LOT 02">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="item-cont">
-                                                                <div class="num-box">
-                                                                    <div class="num"><span class="snum">1</span> </div>
-                                                                </div>
-                                                                <div class="typo-box">
-                                                                    <!-- [0516]년도삭제 리스트공통// -->
-                                                                    <div class="title"><span>데미안허스트</span></div>
-                                                                    <div class="desc"><span>Air (From The Series The Elements)</span></div>
-                                                                </div>
-                                                                <div class="btn-box">
-                                                                    <button class="btn-lotChk js-work_heart ">Favorite</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-
-
-                                                    <li class="lotitem">
-                                                        <div class="js-select_lotitem lotitem_wrap">
-                                                            <div class="view-img">
-                                                                <div class="img-box">
-                                                                    <div class="box-inner">
-                                                                        <img src="/images/temp/temp_img2.jpg" alt="LOT 02">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="item-cont">
-                                                                <div class="num-box">
-                                                                    <div class="num"><span class="snum">1</span> </div>
-                                                                </div>
-                                                                <div class="typo-box">
-                                                                    <!-- [0516]년도삭제 리스트공통// -->
-                                                                    <div class="title"><span>데미안허스트</span></div>
-                                                                    <div class="desc"><span>Air (From The Series The Elements)</span></div>
-                                                                </div>
-                                                                <div class="btn-box">
-                                                                    <button class="btn-lotChk js-work_heart ">Favorite</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-
-
-                                                    <li class="lotitem">
-                                                        <div class="js-select_lotitem lotitem_wrap">
-                                                            <div class="view-img">
-                                                                <div class="img-box">
-                                                                    <div class="box-inner">
-                                                                        <img src="/images/temp/temp_img3.jpg" alt="LOT 02">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="item-cont">
-                                                                <div class="num-box">
-                                                                    <div class="num"><span class="snum">1</span> </div>
-                                                                </div>
-                                                                <div class="typo-box">
-                                                                    <!-- [0516]년도삭제 리스트공통// -->
-                                                                    <div class="title"><span>데미안허스트</span></div>
-                                                                    <div class="desc"><span>Air (From The Series The Elements)</span></div>
-                                                                </div>
-                                                                <div class="btn-box">
-                                                                    <button class="btn-lotChk js-work_heart ">Favorite</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <!-- <li class="lotitem cancel">
-                                                        <p class="txt">
-                                                          LOT 4 <br>
-                                                          출품이 취소되었습니다.
+                                                        <%--출품 취소상태 일떄--%>
+                                                        <p ng-show="item.STAT_CD === 'reentry'" class="txt">
+                                                            {{item.LOT_NO}} <br>
+                                                            출품이 취소 되었습니다.
                                                         </p>
-                                                      </li> -->
-                                                    <li class="lotitem">
-                                                        <div class="js-select_lotitem lotitem_wrap">
-                                                            <div class="view-img">
-                                                                <div class="img-box">
-                                                                    <div class="box-inner">
-                                                                        <img src="/images/temp/temp_img4.jpg" alt="LOT 02">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="item-cont">
-                                                                <div class="num-box">
-                                                                    <div class="num"><span class="snum">1</span> </div>
-                                                                </div>
-                                                                <div class="typo-box">
-                                                                    <!-- [0516]년도삭제 리스트공통// -->
-                                                                    <div class="title"><span>데미안허스트</span></div>
-                                                                    <div class="desc"><span>Air (From The Series The Elements)</span></div>
-                                                                </div>
-                                                                <div class="btn-box">
-                                                                    <button class="btn-lotChk js-work_heart " >Favorite</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                     </li>
-
-
-                                                    <li class="lotitem">
-                                                        <div class="js-select_lotitem lotitem_wrap">
-                                                            <div class="view-img">
-                                                                <div class="img-box">
-                                                                    <div class="box-inner">
-                                                                        <img src="/images/temp/temp_img4.jpg" alt="LOT 02">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="item-cont">
-                                                                <div class="num-box">
-                                                                    <div class="num"><span class="snum">1</span> </div>
-                                                                </div>
-                                                                <div class="typo-box">
-                                                                    <!-- [0516]년도삭제 리스트공통// -->
-                                                                    <div class="title"><span>데미안허스트</span></div>
-                                                                    <div class="desc"><span>Air (From The Series The Elements)</span></div>
-                                                                </div>
-                                                                <div class="btn-box">
-                                                                    <button class="btn-lotChk js-work_heart ">Favorite</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-
 
                                                 </ul>
                                             </div>
@@ -551,7 +413,7 @@
                         </div>
                     </div>
                 </aside>
-
+                <!-- 랏상세 페이지 끝. -->
 
                 <%-- 패들번호 부여 및 약관동의 팝업(위치 변경 금지) --%>
                 <jsp:include page="popup/paddle.jsp" />
@@ -718,8 +580,7 @@
                 window.location.href = '/auction/live/view/' + saleNo + '/' + lotNo;
             }
 
-            $scope.favorite = function(item) {
-
+            $scope.favorite = function(item , $e) {
                 if(!checkLogin()){
                     return;
                 }
@@ -740,6 +601,10 @@
 
                 } catch (error) {
                     console.error(error);
+                }
+
+                if($e !==undefined) {
+                    $e.stopPropagation();
                 }
             }
 

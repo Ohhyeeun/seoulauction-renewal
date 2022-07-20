@@ -33,7 +33,8 @@
                         <li><a href="/mypage/liveBidReqList">Live Auction Management</a></li>
                         <li id="MyMenuOnlineBadge"><a href="/mypage/onlineBidList">Online Auction Management</a></li>
                         <li><a href="/mypage/inteLotList">Wish List</a></li>
-                        <li><a href="/mypage/custModify">Edit member information</a></li>
+                        <li><a href="/mypage/inquiryList">1:1 Inquiry</a></li>
+                        <li><a href="/mypage/custModify">Edit member information</a></li> 
                     </ul>
                 </li>
                 <li class="utility-login"><a onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')">LOGOUT</a></li> <!-- !login -->
