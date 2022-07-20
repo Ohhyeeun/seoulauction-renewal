@@ -1487,6 +1487,18 @@ body.dark,
 .sub-wrap .main-header{
     z-index: 26 !important; 
 }
+/* 이미지 팝업 */
+.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box {
+    margin-top: -70px !important;
+}
+.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box .images {
+    box-shadow: none !important;
+    /*text-align: center !important;*/ 
+}
+.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box .images img {
+    /*width: 80% !important;*/
+}
+
 /*.allview_fixed-wrap .popup-dim,*/
 /*.allview_fixed-wrap .fixed-panel,*/
 /*.trp.popupfixed-wrap {*/
