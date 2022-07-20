@@ -34,7 +34,7 @@
 <body>
 <%--<jsp:include page="../../main/include/topNotice.jsp" />--%>
 <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
-<section class="main-contents footer-bottom footer-bottom40">
+<section class="main-contents footer-bottom footer-bottom50">
     <jsp:include page="../include/bigBanner.jsp" />
 
     <%--auction--%>
