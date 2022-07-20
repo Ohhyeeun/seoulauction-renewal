@@ -27,19 +27,19 @@ $(function() {
       });
     });
 
-    const button3 = makeButton('setWebviewData key:sample-data, value: timestamp', () => {
+    const button3 = makeButton('setWebviewData(sample-data)', () => {
       setWebviewData('sample-data', Date.now() + '').then(result => {
         console.log(JSON.stringify(result));
       });
     });
 
-    const button4 = makeButton('getWebviewData key:sample-data', () => {
+    const button4 = makeButton('getWebviewData(sample-data)', () => {
       getWebviewData('sample-data').then(result => {
         console.log(JSON.stringify(result));
       });
     });
 
-    const button5 = makeButton('deleteWebviewData key:sample-data', () => {
+    const button5 = makeButton('deleteWebviewData(sample-data)', () => {
       deleteWebviewData('sample-data').then(result => {
         console.log(JSON.stringify(result));
       });
@@ -51,19 +51,34 @@ $(function() {
       });
     });
 
+    const button7 = makeButton('saveDeviceInfo', () => {
+      saveDeviceInfo().then(result => {
+        console.log(JSON.stringify(result));
+      });
+    });
+
+    const button8 = makeButton('isNativeApp', () => {
+      isNativeApp().then(result => {
+        console.log(JSON.stringify(result));
+      });
+    });
+
     footerContainer.appendChild(button1);
     footerContainer.appendChild(button2);
     footerContainer.appendChild(button3);
     footerContainer.appendChild(button4);
     footerContainer.appendChild(button5);
     footerContainer.appendChild(button6);
+    footerContainer.appendChild(button7);
+    footerContainer.appendChild(button8);
 
     function makeButton(text, onClickHandler) {
       const button = document.createElement('button');
-      button.style.marginTop = '1rem';
+      button.style.marginTop = '0.5rem';
       button.style.color = '#fff';
       button.style.display = 'block';
       button.style.width = '100%';
+      button.style.fontSize = '13px';
       button.textContent = text;
 
       button.addEventListener('click', e => {
