@@ -129,8 +129,7 @@ async function getNativeAppHeader() {
 async function saveDeviceInfo() {
   try {
     // result = { "os": "ios", "version": "device_version", "device_id": "id..." }
-    // const result = await window.flutter_inappwebview.callHandler('getDeviceInfo', '');
-    const result = { os: 'ios', version: 'ios 15', device_id: 'asdasdasdqwdwdwqdasdsads' };
+    const result = await window.flutter_inappwebview.callHandler('getDeviceInfo', '');
     console.log(JSON.stringify(result));
 
     if (!result.os || !['ios', 'android'].includes(result.os)) return;
