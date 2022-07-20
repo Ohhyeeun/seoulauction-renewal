@@ -360,7 +360,7 @@ $(function(){
 
                         let html  =   '<div class="info-box">'
                                             +'<div class="title">작품 설명</div>'
-                                            +'<div class="desc">' + locale + '</div>'
+                                            +'<div class="desc txt-pre-line">' + locale + '</div>'
                                             +'</div>';
 
 
@@ -373,7 +373,7 @@ $(function(){
                         let html = '<div class="info-box">'
                             + '<div class="title">NOTICE</div>'
                             + '<div class="desc"></div>'
-                            + ' <ul class="mark_dot-list">' +  locale + ' </Ul>'
+                            + ' <ul class="mark_dot-list txt-pre-line">' +  locale + ' </Ul>'
                             + '</div>';
 
                         $("#print_notice").html(html);
