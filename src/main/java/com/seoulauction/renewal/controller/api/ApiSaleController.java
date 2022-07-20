@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -133,8 +135,18 @@ public class ApiSaleController {
         lotInfoMap.put("SALE_TH" , saleInfoMap.get("SALE_TH"));
         lotInfoMap.put("SALE_KIND_CD" , saleInfoMap.get("SALE_KIND_CD"));
 
-        if (lotInfoMap.get("IMG_DISP_YN").equals("N")) {
-            lotInfoMap.put("IMAGE_URL", IMAGE_URL.replace("/nas_img",""));
+
+        //로그인한 정보를 가져온다.
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        //직원 여부
+        boolean isEmployee = false;
+        //만약 로그인을 했고 직원 이면.
+        if( saUserDetails !=null) {
+            isEmployee = saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER"));
+        }
+
+        if (lotInfoMap.get("IMG_DISP_YN").equals("N") && !isEmployee) {
+            lotInfoMap.put("IMAGE_URL", "");
             lotInfoMap.put("LOT_IMG_PATH", "");
             lotInfoMap.put("LOT_IMG_NAME", "/images/bg/no_image.jpg");
         } else {
@@ -234,6 +246,17 @@ public class ApiSaleController {
 
         String[] listKeys = {"LOT_SIZE_JSON"};
         ObjectMapper mapper  = new ObjectMapper();
+
+        //로그인한 정보를 가져온다.
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        //직원 여부
+        boolean isEmployee = false;
+        //만약 로그인을 했고 직원 이면.
+        if( saUserDetails !=null) {
+            saUserDetails.getAuthorities().stream().forEach(log::info);
+            isEmployee = saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER"));
+        }
+
         // 랏 디스플레이 필터
         try{
             for (var item : lotImages) {
@@ -248,7 +271,7 @@ public class ApiSaleController {
                             mapper.readValue(String.valueOf(lotImagesNewItem.get(item2)), List.class));
                 }
 
-                if (item.get("IMG_DISP_YN").equals("N")) {
+                if (item.get("IMG_DISP_YN").equals("N") && !isEmployee) {
                     lotImagesNewItem.put("IMAGE_URL", IMAGE_URL.replace("/nas_img",""));
                     lotImagesNewItem.put("FILE_PATH", "");
                     lotImagesNewItem.put("FILE_NAME", "/images/bg/no_image.jpg");
@@ -286,6 +309,16 @@ public class ApiSaleController {
         // 필터를 적용한 새로운 랏이미지 정보
         List<CommonMap> lotImagesNew = new ArrayList<>();
 
+        //로그인한 정보를 가져온다.
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        //직원 여부
+        boolean isEmployee = false;
+        //만약 로그인을 했고 직원 이면.
+        if( saUserDetails !=null) {
+            saUserDetails.getAuthorities().stream().forEach(log::info);
+            isEmployee = saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER"));
+        }
+
         // 랏 디스플레이 필터
         for (var item : lotImages) {
             CommonMap lotImagesNewItem = new CommonMap();
@@ -300,7 +333,7 @@ public class ApiSaleController {
             lotImagesNewItem.put("SIZE2", lotInfoMap.get("SIZE2"));
 
             //N일경우에는 No 이미지로 변경.
-            if (lotInfoMap.get("IMG_DISP_YN").equals("N")) {
+            if (lotInfoMap.get("IMG_DISP_YN").equals("N") && !isEmployee) {
                 lotImagesNewItem.put("IMAGE_URL", IMAGE_URL.replace("/nas_img",""));
                 lotImagesNewItem.put("FILE_PATH", "");
                 lotImagesNewItem.put("FILE_NAME", "/images/bg/no_image.jpg");
@@ -457,6 +490,8 @@ public class ApiSaleController {
             @RequestParam(value = "is_live" ,defaultValue = "N") String isLive
     ) {
 
+        boolean isEmployee = false;
+
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
         commonMap.put("is_live" , isLive);
@@ -464,6 +499,7 @@ public class ApiSaleController {
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
         if (saUserDetails != null ) {
             commonMap.put("cust_no", saUserDetails.getUserNo());
+            isEmployee = saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER"));
         } else {
             commonMap.put("cust_no", 0);
         }
@@ -474,6 +510,7 @@ public class ApiSaleController {
                 "MAKE_YEAR_JSON", "ARTIST_NAME_JSON", "EXPE_PRICE_FROM_JSON", "EXPE_PRICE_TO_JSON"};
 
         String[] listKeys = {"LOT_SIZE_JSON"};
+
 
         // 맵 형태 거름
         ObjectMapper mapper  = new ObjectMapper();
@@ -489,7 +526,7 @@ public class ApiSaleController {
                             mapper.readValue(String.valueOf(lotImages.get(i).get(item2)), List.class));
                 }
 
-                if (lotImages.get(i).get("IMG_DISP_YN").equals("N")) {
+                if (lotImages.get(i).get("IMG_DISP_YN").equals("N") && !isEmployee) {
                     lotImages.get(i).put("IMAGE_URL", IMAGE_URL.replace("/nas_img", ""));
                     lotImages.get(i).put("FILE_PATH", "");
                     lotImages.get(i).put("FILE_NAME", "/images/bg/no_image.jpg");
