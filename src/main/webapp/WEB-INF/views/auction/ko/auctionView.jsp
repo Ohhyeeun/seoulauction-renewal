@@ -258,13 +258,13 @@
                                             <div class="title">작품정보</div>
                                             <div class="desc">
                                                <%-- 재질--%>
-                                                <span ng-bind="lotInfo.MATE_NM_EN"></span>
+                                                <span title="{{lotInfo.MATE_NM_EN}}" ng-bind="lotInfo.MATE_NM_EN"></span>
                                                 <br/>
 
                                                 <%-- 규격--%>
-                                                <span ng-repeat="size in lotInfo.LOT_SIZE_JSON">
-                                                    <span ng-bind="size | size_text_cm"></span>
-                                                </span>
+                                                <div ng-repeat="size in lotInfo.LOT_SIZE_JSON">
+                                                    <span title="{{size | size_text_cm}}" bind-html-compile="size | size_text_cm"></span>
+                                                </div>
 
                                                 <%--에디션--%>
                                                 <div ng-show="lotInfo.EDITION">
@@ -280,20 +280,19 @@
                                                 <div ng-show="isNotObjectEmpty(lotInfo.SIGN_INFO_JSON)">
                                                     <span title="{{lotInfo.SIGN_INFO_JSON | locale_format }}">{{lotInfo.SIGN_INFO_JSON | locale_format }}</span>
                                                 </div>
+
+                                               <div ng-if="lotInfo.FRAME_CD!='none'">
+                                                   <span>{{lotInfo.FRAME_CD}}</span>
+                                               </div>
                                             </div>
 
                                             <!-- [0714]작품정보 하위댑스 추가 -->
                                             <div class="info-sub-wrap">
                                                 <%-- CONDITION --%>
-                                                <div class="info-sub-box">
+                                                <div ng-show="isNotObjectEmpty(lotInfo.COND_RPT_JSON)" class="info-sub-box">
                                                     <div class="tit tt5">CONDITION</div>
-                                                    <div class="desc">good condition 종이 작품의 경우, 재질 특성상 산화·울음이 있을 수 있습니다.</div>
+                                                    <div class="desc" bind-html-compile="lotInfo.COND_RPT_JSON[locale]"></div>
                                                 </div>
-                                                <%--Condtion Report--%>
-                                                <%--<div ng-show="isNotObjectEmpty(lotInfo.COND_RPT_JSON)" class="info-sub-box">
-                                                    <div class="title">Condition Report</div>
-                                                    <div class="desc">{{lotInfo.COND_RPT_JSON | locale_format }}</div>
-                                                </div>--%>
 
                                                 <%--PROVENANCE--%>
                                                 <div ng-show="isNotObjectEmpty(lotInfo.PROV_INFO_JSON)" class="info-sub-box">
@@ -323,13 +322,12 @@
                                         </div>
 
                                         <!-- [0613]notice 추가 -->
-                                        <div class="info-box">
+                                        <div ng-show="isNotObjectEmpty(sale.NOTICE_DTL_JSON)" class="info-box">
                                             <!-- [0714]텍스트 대소문자 수정 -->
                                             <div class="title">NOTICE</div>
                                             <!-- //[0714]텍스트 대소문자 수정 -->
                                             <div class="desc">
-                                                <ul class="mark_dot-list">
-                                                    <li bind-html-compile="sale.NOTICE_DTL_JSON[locale]"></li>
+                                                <ul class="mark_dot-list" bind-html-compile="sale.NOTICE_DTL_JSON[locale]">
                                                 </ul>
                                             </div>
                                         </div>
@@ -1372,8 +1370,7 @@
                 // popup setting
                 let imgUrl;
                 if($scope.lotImages[0]) {
-                    imgUrl = $scope.lotImages[0].IMAGE_URL +
-                        $scope.lotImages[0].FILE_PATH + "/" + $scope.lotImages[0].FILE_NAME;
+                    imgUrl = $scope.lotImages[0].IMAGE_URL + $scope.lotImages[0].FILE_PATH + "/" + $scope.lotImages[0].FILE_NAME;
                 }
 
                 $("#bidding_title").html($scope.lotInfo.TITLE_KO_TXT);
@@ -1385,7 +1382,6 @@
                 $("#lot_size").html(size_text_cm($scope.lotInfo.LOT_SIZE_JSON));
                 $("#lot_mt_nm").html($scope.lotInfo.MATE_NM);
 
-                console.log("125540", $scope.cust_no);
                 startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2, '${member.loginId}', $scope.cust_no);
 
                 //await $scope.setSale($scope.sale_no);

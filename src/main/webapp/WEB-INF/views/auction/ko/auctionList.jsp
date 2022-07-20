@@ -219,8 +219,7 @@
                                                     <figure class="img-ratio">
                                                         <a href="/auction/online/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
                                                             <div class="img-align">
-                                                                <img ng-if="isEmployee || item.IMG_DISP_YN === 'Y'" src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
-                                                                <img ng-if="item.IMG_DISP_YN !== 'Y'" src="/images/bg/no_image.jpg" alt="">
+                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
                                                             </div>
                                                         </a>
                                                     </figure>
