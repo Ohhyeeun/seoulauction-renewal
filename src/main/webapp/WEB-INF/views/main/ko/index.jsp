@@ -145,8 +145,8 @@
                         <fieldset class="newsletter-checkbox">
                             <input type="checkbox" id="subscript_check" class="common_checkbox" value='subscript_check' name='subscript_check'>
                             <label for="subscript_check">
-                                <span id="news_sub_label" class="terms-checktxt">개인정보 수집 및 이용에 동의해주세요.</span>
-                            </label>
+                                <span id="news_sub_label" class="terms-checktxt"><span class="terms-checktxt-line">개인정보 수집 및 이용</span>에 동의해주세요.</span>
+                            </label> 
                         </fieldset>
                     </form>
                     <div class="flex_wrap newsletter-btnbox">
