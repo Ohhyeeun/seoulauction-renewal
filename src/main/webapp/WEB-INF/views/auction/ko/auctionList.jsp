@@ -1456,9 +1456,13 @@
                             end_bid_time = bid_info.end_bid_time;
 
                             quote_unit.innerText = "KRW " + bid_info.bid_quote.toLocaleString('ko-KR');
-                            bid_new_cost.innerText = "KRW " + ((bid_hist_info != null && bid_hist_info[0].value != null && bid_hist_info[0].value.length === 0 ) ? bid_info.open_bid_cost : bid_info.bid_cost + bid_info.bid_quote).toLocaleString('ko-KR');
+                            bid_new_cost.innerText = "KRW " + ((d.message.bids_hist == null ||
+                                (d.message.bids_hist != null && d.message.bids_hist[0].value != null &&
+                                    d.message.bids_hist[0].value.length === 0 )) ? bid_info.open_bid_cost : bid_info.bid_cost + bid_info.bid_quote).toLocaleString('ko-KR');
 
-                            document.getElementById("bid_new_cost_val").setAttribute("value", ((bid_hist_info != null && bid_hist_info[0].value != null && bid_hist_info[0].value.length === 0 ) ? bid_info.open_bid_cost : bid_info.bid_cost + bid_info.bid_quote));
+                            document.getElementById("bid_new_cost_val").setAttribute("value", ((d.message.bids_hist == null ||
+                                (d.message.bids_hist != null && d.message.bids_hist[0].value != null
+                                    && d.message.bids_hist[0].value.length === 0 )) ? bid_info.open_bid_cost : bid_info.bid_cost + bid_info.bid_quote));
                             document.getElementById("bid_new_cost_btn").innerText = "응찰하기";
 
                             if (bid_info.customer.cust_no === $scope.cust_no) {
