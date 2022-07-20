@@ -186,7 +186,7 @@
                                                     <dd ng-bind="estimatedRange" ng-if="lotInfo.EXPE_PRICE_INQ_YN !== 'Y'"></dd>
                                                     <dd ng-if="lotInfo.EXPE_PRICE_INQ_YN === 'Y'">별도문의</dd>
                                                 </dl>
-                                                <dl class="price-list" ng-if="lotInfo.START_PRICE > 0">
+                                                <dl class="price-list" ng-show="lotInfo.START_PRICE > 0">
                                                     <dt>시작가</dt>
                                                     <dd id="start_cost"><!--WEB SOCKET--></dd>
                                                 </dl>
