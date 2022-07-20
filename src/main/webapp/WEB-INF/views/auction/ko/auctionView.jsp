@@ -60,8 +60,7 @@
                                                                             <div class="image-area">
                                                                                 <figure class="img-ratio">
                                                                                     <div class="img-align">
-                                                                                        <img ng-if="item.IMG_DISP_YN === 'Y'" src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
-                                                                                        <img ng-if="item.IMG_DISP_YN !== 'Y'" src="/images/bg/no_image.jpg" alt="">
+                                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
                                                                                     </div>
                                                                                 </figure>
                                                                             </div>
@@ -97,8 +96,7 @@
                                                                     <div class="image-area">
                                                                         <figure class="img-ratio">
                                                                             <div class="img-align">
-                                                                                <img ng-if="item.IMG_DISP_YN === 'Y'" src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
-                                                                                <img ng-if="item.IMG_DISP_YN !== 'Y'" src="/images/bg/no_image.jpg" alt="">
+                                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
                                                                             </div>
                                                                         </figure>
                                                                     </div>
@@ -117,8 +115,7 @@
                                                                      data-index="$index"> <%-- 빈칸 class="slide" 까지 합해서 총 최대 7개 --%>
                                                                     <figure class="img-ratio">
                                                                         <div class="img-align">
-                                                                            <img ng-if="isEmployee || item.IMG_DISP_YN === 'Y'" src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt=""/>
-                                                                            <img ng-if="item.IMG_DISP_YN !== 'Y'" src="/images/bg/no_image.jpg" alt="">
+                                                                            <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt=""/>
                                                                         </div>
                                                                     </figure>
                                                                     <div class="line"></div>
