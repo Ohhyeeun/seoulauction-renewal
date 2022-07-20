@@ -205,7 +205,7 @@
                                                     <div class="btn_item">
                                                         <a class="btn btn_point btn_lg" href="#" role="button"
                                                            id="bid_btn"
-                                                           ng-click="popSet(sale_no, lot_no, user_id, cust_no);"><span>응찰하기</span></a>
+                                                           ng-click="popSet(sale_no, lot_no, user_id, cust_no);"><span>응찰</span></a>
                                                     </div>
                                                 </div>
                                                 <div class="btn_set cols_2">
@@ -453,7 +453,7 @@
 
                         </div>
                         <div class="btn-box">
-                            <button id="bid_btn" ng-click="popSet(sale_no, lot_no, user_id, cust_no);">응찰하기</button>
+                            <button id="bid_btn" ng-click="popSet(sale_no, lot_no, user_id, cust_no);">응찰</button>
                         </div>
                     </div>
                 </article>
@@ -567,7 +567,7 @@
         <!-- stykey -->
     </div>
 </div>
-<!--  응찰하기(온라인)  -->
+<!--  응찰(온라인)  -->
 <div id="popup_biddingPopup1-wrap" class="trp popupfixed-wrap bidding-online-popup">
     <div class="popup-dim"></div>
     <div class="popup-align mode-lg mode-mb_full">
@@ -640,7 +640,7 @@
                                     </div>
                                     <div class="caution-area">
                                         <ul class="mark_char-list">
-                                            <li class="accent"><span>응찰하기 버튼을 누르시면 취소가 불가능합니다.</span></li>
+                                            <li class="accent"><span>응찰 버튼을 누르시면 취소가 불가능합니다.</span></li>
                                             <li class=""><span>동시 응찰자 경우, 서버시각 기준 우선순위가 부여됩니다.</span></li>
                                         </ul>
                                     </div>
@@ -650,7 +650,7 @@
                                                                      id="bid_new_cost_val" href="javascript:bid();"
                                                                      role="button" value=""><span
                                                     id="bid_new_cost"></span> <span
-                                                    id="bid_new_cost_btn">응찰하기</span></a></div>
+                                                    id="bid_new_cost_btn">응찰</span></a></div>
                                         </div>
                                         <div class="btn_set type-pc_mb-column">
                                             <div class="btn_item">
@@ -663,7 +663,7 @@
                                             <div class="btn_item"><a class="btn btn_point btn_lg"
                                                                      href="javascript:autoBid();"
                                                                      role="button"><span
-                                                    id="auto_bid_txt">응찰하기</span></a></div>
+                                                    id="auto_bid_txt">응찰</span></a></div>
                                         </div>
                                     </div>
                                 </article>
@@ -758,7 +758,7 @@
     </div>
 
 </div>
-<!-- 응찰하기 -->
+<!-- 응찰 -->
 <div id="bidding_go-wrap" class="trp popupfixed-wrap auction_info-popup  ">
     <div class="popup-dim"></div>
     <div class="popup-align mode-ms mode-mb_center">
@@ -789,7 +789,7 @@
                                     <a id="auto_on_cancel" class="btn btn_default" href="#"
                                        role="button"><span>취소</span></a>
                                     <a id="auto_on_ok" class="btn btn_point" href="#"
-                                       role="button"><span>응찰하기</span></a>
+                                       role="button"><span>응찰</span></a>
                                 </div>
                             </article>
                         </section>
@@ -1332,7 +1332,10 @@
                 $scope.sale.buttonList.map(item => {
                     item.content = JSON.parse(item.content);
                 });
-                $scope.sale.NOTICE_DTL_JSON = JSON.parse($scope.sale.NOTICE_DTL_JSON);
+                if ($scope.sale.NOTICE_DTL_JSON != undefined) {
+                    $scope.sale.NOTICE_DTL_JSON = JSON.parse($scope.sale.NOTICE_DTL_JSON);
+                }
+
 
                 let S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
                 let S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
@@ -2067,7 +2070,7 @@
 
 
         } else {
-            let  c = confirm("자동응찰 중지하기 전까지의\n 응찰 낙찰 내역은 모두 기록되며 유효합니다.\n\n응찰하시겠습니까?", "응찰하기", "취소");
+            let  c = confirm("자동응찰 중지하기 전까지의\n 응찰 낙찰 내역은 모두 기록되며 유효합니다.\n\n응찰하시겠습니까?", "응찰", "취소");
             if (c) {
                 autoBiding(connect_info);
             }
@@ -2207,7 +2210,7 @@
                     d.message.bid[len - 1].open_bid_cost :
                     d.message.bid[len - 1].bid_cost) + d.message.bid[len - 1].bid_quote);
 
-                document.getElementById("bid_new_cost_btn").innerText = "응찰하기";
+                document.getElementById("bid_new_cost_btn").innerText = "응찰";
                 if (d.message.bid != null && d.message.bid.length > 0) {
                     let bid_hist_info = d.message.bid;
                     if (d.message.bid[len - 1].customer.cust_no === custNo) {
@@ -2414,15 +2417,13 @@
 
                 quote_unit.innerText = "KRW " + bid_info.bid_quote.toLocaleString('ko-KR');
 
-                bid_new_cost.innerText = "KRW " + (((bid_info.bid_cost === 0) ?
-                    bid_info.open_bid_cost :
-                    bid_info.bid_cost) + bid_info.bid_quote).toLocaleString('ko-KR');
+                bid_new_cost.innerText = "KRW " + ((d.message.bids_hist == null ||
+                    (d.message.bids_hist[0].value != null && d.message.bids_hist[0].value.length === 0)) ? bid_info.open_bid_cost : bid_info.bid_cost + bid_info.bid_quote).toLocaleString('ko-KR');
 
-                document.getElementById("bid_new_cost_val").setAttribute("value", ((bid_info.bid_cost === 0) ?
-                    bid_info.open_bid_cost :
-                    bid_info.bid_cost) + bid_info.bid_quote);
+                document.getElementById("bid_new_cost_val").setAttribute("value",  (d.message.bids_hist == null ||
+                    (d.message.bids_hist[0].value != null && d.message.bids_hist[0].value.length === 0)) ? bid_info.open_bid_cost : bid_info.bid_cost + bid_info.bid_quote);
 
-                document.getElementById("bid_new_cost_btn").innerText = "응찰하기";
+                document.getElementById("bid_new_cost_btn").innerText = "응찰";
 
                 let cost_tmp = (bid_info.bid_cost === 0) ?
                     bid_info.open_bid_cost :
@@ -2471,7 +2472,7 @@
                         $("#reservation_bid").val(d.message.reservation_bid.bid_cost);
                     } else {
                         $("#reservation_bid").prop("disabled", false);
-                        $("#auto_bid_txt").text("응찰하기");
+                        $("#auto_bid_txt").text("응찰");
                         $("#reservation_bid option:eq(0)").prop("selected", true);
                     }
                 }
@@ -2626,7 +2627,7 @@
                         $("#auto_bid_txt").text("자동응찰 중지");
                     } else {
                         $("#reservation_bid").prop("disabled", false);
-                        $("#auto_bid_txt").text("응찰하기");
+                        $("#auto_bid_txt").text("응찰");
                         let quote_arr = [];
                         if (d.message.quotes.quotes != null && d.message.quotes.quotes.length > 0) {
                             let cnt = 1;
