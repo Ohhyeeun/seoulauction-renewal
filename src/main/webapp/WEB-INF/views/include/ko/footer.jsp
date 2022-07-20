@@ -4,7 +4,17 @@
 
 
 <footer class="footer">
-    <section class="footerBg">
+    <section class="footerBg"> 
+        <div class="innerfooter-familybox">
+            <div class="Familysite-selectbox">
+                <a href="javascript:void(0);" class="Familysite">Family Site</a>
+                <ul class="familyselect">
+                    <li><a href="https://www.auctionblue.com/index" target="_blank">Print Bakery</a></li>
+                    <li><a href="https://printbakery.com/" target="_blank">Auction Blue</a></li>
+                    <li><a href="https://sotwo.com/" target="_blank">SOTOW</a></li>
+                </ul>
+            </div>
+        </div>
         <div class="innerfooter">
             <section class="flex_wrap footer_menubox">
                 <ul class="footer-gnbmenu">
@@ -46,14 +56,6 @@
                 </p>
             </section>
         </div> <%--innerfooter--%>
-        <div class="Familysite-selectbox">
-            <a href="javascript:void(0);" class="Familysite">Family Site</a>
-            <ul class="familyselect">
-                <li><a href="https://www.auctionblue.com/index" target="_blank">Print Bakery</a></li>
-                <li><a href="https://printbakery.com/" target="_blank">Auction Blue</a></li>
-                <li><a href="https://sotwo.com/" target="_blank">SOTOW</a></li>
-            </ul>
-        </div>
     </section>
 </footer>
 <%--</footer>--%>
