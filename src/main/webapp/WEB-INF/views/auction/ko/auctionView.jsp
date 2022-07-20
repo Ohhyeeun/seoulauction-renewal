@@ -2103,11 +2103,11 @@
         }
 
         if (window.location.protocol !== "https:") {
-            w = new WebSocket("wss${bid_domain}/ws?sale_no=" +
+            w = new WebSocket("ws${bid_domain}/ws?sale_no=" +
                 saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
                 "&user_id=" + userId + "&paddle=0&sale_type=2&bid_type=21");
         } else {
-            w = new WebSocket("ws${bid_domain}/ws?sale_no=" +
+            w = new WebSocket("wss${bid_domain}/ws?sale_no=" +
                 saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
                 "&user_id=" + userId + "&paddle=0&sale_type=2&bid_type=21");
         }
