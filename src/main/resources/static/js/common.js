@@ -942,7 +942,8 @@ $(window).resize(function(){
             $('.bubble-box').removeClass('on');
         });
 
-        $('.gnb_submenuBg').hide();
+        //$('.gnb_submenuBg').hide();
+        $('.submenuBg').hide(); 
 
         $('.header_beltbox.on').show(function(){
             $('.main-contents').css('margin-top','162px');
@@ -1000,10 +1001,10 @@ $(window).resize(function(){
             $('body').css({'overflow':'hidden'});
             $('.submenuBg').css({'right':'-100%'});
             $('.submenuBg').show();
-            $('.submenuBg').animate({'right':'0','transition':'ease .3s','display':'block'}, function(){
+            $('.submenuBg').animate({'right':'0','transition':'ease .3s'}, function(){
 
 
-                $('.gnb_submenuBg').show();
+                //$('.gnb_submenuBg').show();
                 $('.gnb_submenuBg').off('click');
                 $('.gnb_submenuBg').click(function(){
 
