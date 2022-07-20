@@ -184,10 +184,10 @@
 
 <script>
     let isRegular = ${isRegular};
-    // if(isRegular){
-    //     alert('이미 정회원 입니다.');
-    //     history.back();
-    // }
+    if(isRegular){
+        alert('이미 정회원 입니다.');
+        history.back();
+    }
 </script>
 
 
