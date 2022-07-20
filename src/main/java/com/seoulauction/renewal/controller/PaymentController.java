@@ -147,7 +147,10 @@ public class PaymentController {
         String hp 		        = saUserDetails.getHp(); 				// 구매자연락처
         String email 		    = saUserDetails.getEmail(); 			// 구매자메일주소
         String moid 			= "mnoid1234567890"; 			// 상품주문번호
-        String returnURL 		= nicePayMobileBaseReturnUrl +"/payment/academyProcess"; // 결과페이지(절대경로) - 모바일 결제창 전용
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(nicePayMobileBaseReturnUrl).append("/payment/academyProcess").append("?academy_no=").append(id);
+        String returnURL 		= stringBuilder.toString(); // 결과페이지(절대경로) - 모바일 결제창 전용
 
         //TODO: 과세, 면세 확인
         int vat_price = (int) (price / 1.1);

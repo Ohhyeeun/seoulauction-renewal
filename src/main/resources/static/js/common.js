@@ -1,7 +1,5 @@
 $(function() {
 
-
-
     const locale = document.documentElement.lang;
 
 
@@ -1176,6 +1174,21 @@ function localeOrdinal(n, l) {
     }else{
         return "";
     }
+}
+//json 로캐일 별로 분기.
+function localeValue(val){
+    if (val === undefined) {
+        return '';
+    }
+    return locale === 'ko' ? val.ko : val.en;
+}
+//오브젝트 비었나 확인.
+function isNotObjectEmpty (param) {
+
+    if(param === undefined){
+        return false;
+    }
+    return param.constructor === Object && Object.keys(param).length !== 0;
 }
 
 /* 이미지 우클릭 방지 */

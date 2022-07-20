@@ -131,6 +131,7 @@ public class ApiSaleController {
         lotInfoMap.put("LOT_EXPIRE_DATE_TIME_T" , saleInfoMap.get("LOT_EXPIRE_DATE_TIME_T"));
         lotInfoMap.put("NOTICE_DTL_JSON" , saleInfoMap.get("NOTICE_DTL_JSON"));
         lotInfoMap.put("SALE_TH" , saleInfoMap.get("SALE_TH"));
+        lotInfoMap.put("SALE_KIND_CD" , saleInfoMap.get("SALE_KIND_CD"));
 
         if (lotInfoMap.get("IMG_DISP_YN").equals("N")) {
             lotInfoMap.put("IMAGE_URL", IMAGE_URL.replace("/nas_img",""));

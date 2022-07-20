@@ -98,30 +98,30 @@
                                                 <article class="print_view-article no-line page-break">
                                                     <div class="view_editor-warp">
                                                         <div class="info-box">
-                                                    <div class="info-sub-wrap">
-                                                        <div class="info-sub-box">
-                                                            <div class="tit">CONDITION</div>
-                                                            <div class="desc">good condition 종이 작품의 경우, 재질 특성상 산화·울음이 있을 수 있습니다.</div>
-                                                        </div>
-                                                        <div class="info-sub-box">
-                                                            <div class="tit">PROVENANCE</div>
-                                                            <div class="desc">Tonari no Zingaro(Tokyo)</div>
-                                                        </div>
-                                                        <div class="info-sub-box">
-                                                            <div class="tit">LITERATURE</div>
-                                                            <div class="desc">
-                                                                GRIMM Gallery, Amsterdam.<br>
-                                                                Acquired from the above by the present owner.
+                                                            <div id="print_info" class="info-sub-wrap">
+<%--                                                                <div class="info-sub-box">--%>
+<%--                                                                    <div class="tit">CONDITION</div>--%>
+<%--                                                                    <div class="desc">good condition 종이 작품의 경우, 재질 특성상 산화·울음이 있을 수 있습니다.</div>--%>
+<%--                                                                </div>--%>
+<%--                                                                <div class="info-sub-box">--%>
+<%--                                                                    <div class="tit">PROVENANCE</div>--%>
+<%--                                                                    <div class="desc">Tonari no Zingaro(Tokyo)</div>--%>
+<%--                                                                </div>--%>
+<%--                                                                <div class="info-sub-box">--%>
+<%--                                                                    <div class="tit">LITERATURE</div>--%>
+<%--                                                                    <div class="desc">--%>
+<%--                                                                        GRIMM Gallery, Amsterdam.<br>--%>
+<%--                                                                        Acquired from the above by the present owner.--%>
+<%--                                                                    </div>--%>
+<%--                                                                </div>--%>
+<%--                                                                <div class="info-sub-box">--%>
+<%--                                                                    <div class="tit">EXHIBITED</div>--%>
+<%--                                                                    <div class="desc">Online, Praz-Delavallade, Focus: Guy Yanai, 2020.</div>--%>
+<%--                                                                </div>--%>
                                                             </div>
                                                         </div>
-                                                        <div class="info-sub-box">
-                                                            <div class="tit">EXHIBITED</div>
-                                                            <div class="desc">Online, Praz-Delavallade, Focus: Guy Yanai, 2020.</div>
-                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </article>
+                                                </article>
                                 <%--<div class="info-box">
                                                 <div class="title">Condition Report</div>
                                                 <div id="cond_rpt" class="desc">
@@ -132,23 +132,23 @@
                                     <!-- [0718]작품설명, Notice 추가 -->
                                     <article class="print_view-article page-break">
                                         <div class="view_editor-warp">
-                                            <div class="info-box">
-                                                <div class="title">작품 설명</div>
-                                                <div class="desc">
-                                                    조디커윅은 혜성처럼 미술계에 나타난 호주 작가로 정규 미술 교육을 받지 않고 본인만의 독보적인 화풍을 발전시켜 화폭에 담아낸다.
-                                                </div>
+                                            <div id="print_desc" class="info-box">
+<%--                                                <div class="title">작품 설명</div>--%>
+<%--                                                <div class="desc">--%>
+<%--&lt;%&ndash;                                                    조디커윅은 혜성처럼 미술계에 나타난 호주 작가로 정규 미술 교육을 받지 않고 본인만의 독보적인 화풍을 발전시켜 화폭에 담아낸다.&ndash;%&gt;--%>
+<%--                                                </div>--%>
                                             </div>
-                                            <div class="info-box">
-                                                <div class="title">NOTICE</div>
-                                                <div class="desc">
-                                                    <ul class="mark_dot-list">
-                                                        <li>서울옥션은 작가 및 작품명에 한하여 낙찰일로부터 3년간 낙찰자에 대해서만 보증하며, 사전 고지한 작품에 대해서는 보증책임을 부담하지 않습니다.</li>
-                                                        <li>작품은 판매 당시 상태 그대로 판매되므로, 응찰 전 반드시 실물을 확인하여 주시기 바랍니다.<br>
-                                                            홈페이지에 기재된 컨디션은 작품 상태에 대한 당사의 주관적 의견을 제시하는 것일 뿐이므로, 내재된 모든 결함, 수리, 변형 등을 언급하지 않을 수 있습니다. 또한 제작된 지 오랜 시간이 경과한 작품에 자연스럽게 확인되는 노화 현상(구김, 마모, 오염, 산화 등)에 대해서도 별도 언급이 없을 수 있습니다.<br>
-                                                            컨디션은 작품만을 대상으로 하며 액자, 족자, 병풍, 좌대, 케이스 등 작품 구성품의 상태는 포함하지 않습니다. 온라인에 게재된 이미지로 작품의 일부 컨디션을 확인할 수 있으나 실제 상태를 정확하게 반영하지 못할 수 있으며 작품의 색상, 밝기 등이 실물과 다르게 보일 수 있습니다.<br>
-                                                            실물을 확인하지 않고 발생되는 문제에 대한 책임은 응찰자에게 있으며, 이와 같은 유의사항을 반드시 확인하시고 신중히 응찰해 주시길 바랍니다.</li>
-                                                    </ul>
-                                                </div>
+                                            <div id="print_notice" class="info-box">
+<%--                                                <div class="title">NOTICE</div>--%>
+<%--                                                <div class="desc">--%>
+<%--                                                    <ul class="mark_dot-list">--%>
+<%--                                                        <li>서울옥션은 작가 및 작품명에 한하여 낙찰일로부터 3년간 낙찰자에 대해서만 보증하며, 사전 고지한 작품에 대해서는 보증책임을 부담하지 않습니다.</li>--%>
+<%--                                                        <li>작품은 판매 당시 상태 그대로 판매되므로, 응찰 전 반드시 실물을 확인하여 주시기 바랍니다.<br>--%>
+<%--                                                            홈페이지에 기재된 컨디션은 작품 상태에 대한 당사의 주관적 의견을 제시하는 것일 뿐이므로, 내재된 모든 결함, 수리, 변형 등을 언급하지 않을 수 있습니다. 또한 제작된 지 오랜 시간이 경과한 작품에 자연스럽게 확인되는 노화 현상(구김, 마모, 오염, 산화 등)에 대해서도 별도 언급이 없을 수 있습니다.<br>--%>
+<%--                                                            컨디션은 작품만을 대상으로 하며 액자, 족자, 병풍, 좌대, 케이스 등 작품 구성품의 상태는 포함하지 않습니다. 온라인에 게재된 이미지로 작품의 일부 컨디션을 확인할 수 있으나 실제 상태를 정확하게 반영하지 못할 수 있으며 작품의 색상, 밝기 등이 실물과 다르게 보일 수 있습니다.<br>--%>
+<%--                                                            실물을 확인하지 않고 발생되는 문제에 대한 책임은 응찰자에게 있으며, 이와 같은 유의사항을 반드시 확인하시고 신중히 응찰해 주시길 바랍니다.</li>--%>
+<%--                                                    </ul>--%>
+<%--                                                </div>--%>
                                             </div>
                                         </div>
                                     </article>
@@ -207,6 +207,8 @@
 
 <script>
 
+const locale = document.documentElement.lang;
+
 //숫자를 천단위마다 콤마 해줌.
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -227,7 +229,17 @@ function enDayToHanDay(enDay){
 
     return hanDay;
 }
+
+//json 로캐일 별로 분기.
+function localeValue(val){
+    if (val === undefined) {
+        return '';
+    }
+    return locale === 'ko' ? val.ko : val.en;
+}
+
 $(function(){
+
 
     init();
 
@@ -241,6 +253,8 @@ $(function(){
                 if(success){
                     let lotData = data.data;
 
+                    console.log(lotData);
+
                     let sale_title;
                     sale_title = ( lotData.SALE_TH === undefined || lotData.SALE_TH === '')  ? '' : ( '제' + lotData.SALE_TH + '회 ' );
                     sale_title += JSON.parse(lotData.SALE_TITLE_JSON).ko;
@@ -250,6 +264,7 @@ $(function(){
                         lotData.LOT_EXPIRE_DATE_TIME_T.replace(lotData.LOT_EXPIRE_DATE_DAY , enDayToHanDay(lotData.LOT_EXPIRE_DATE_DAY) )
                     );
 
+                    //
                     $("#print_img").attr('src' ,
                         lotData.IMAGE_URL  + lotData.LOT_IMG_PATH + '/' + lotData.LOT_IMG_NAME );
                     $("#print_lot_no").html(lotData.LOT_NO);
@@ -257,28 +272,32 @@ $(function(){
                     $("#print_year").html('b.' + lotData.BORN_YEAR);
                     $("#print_title").html(lotData.TITLE_KO_TXT);
 
-
                     //가격 정보.
                     if(lotData.EXPE_PRICE_INQ_YN === 'N') {
-                        $("#print_expe_price").html(
-                            '<dd>'
-                            + 'KRW '
-                            + numberWithCommas(lotData.EXPE_PRICE_FROM_JSON.KRW)
-                            + ' ~ ' + numberWithCommas(lotData.EXPE_PRICE_TO_JSON.KRW)
-                            + '</dd>'
-                            + '<br>'
-                            + '<dd>'
-                            + 'USD '
-                            + numberWithCommas(lotData.EXPE_PRICE_FROM_JSON.USD)
-                            + ' ~ ' + numberWithCommas(lotData.EXPE_PRICE_TO_JSON.USD)
-                            + '</dd>'
-                        );
+
+                        let html = '<dd>'
+                                    + 'KRW '
+                                    + numberWithCommas(lotData.EXPE_PRICE_FROM_JSON.KRW)
+                                    + ' ~ ' + numberWithCommas(lotData.EXPE_PRICE_TO_JSON.KRW)
+                                    + '</dd>';
+
+                        //라이브경매일경우 usd 추가.
+                        if(lotData.SALE_KIND_CD === ('main') || lotData.SALE_KIND_CD === ('plan')  || lotData.SALE_KIND_CD === ('hongkong')  ) {
+                            html +=
+                                '<br>'
+                                + '<dd>'
+                                + 'USD '
+                                + numberWithCommas(lotData.EXPE_PRICE_FROM_JSON.USD)
+                                + ' ~ ' + numberWithCommas(lotData.EXPE_PRICE_TO_JSON.USD)
+                                + '</dd>';
+                        }
+
+                        $("#print_expe_price").html(html);
                     } else {
                         $("#print_expe_price").html('<dd> 추정가 별도 문의 </dd>');
                     }
 
-
-                    //작품 정보
+                    //TODO 이건 다시해야함. ㅇㅇ; 규격
                     $("#price_lot_desc").html(
                            lotData.MATE_NM_EN + '<br/>'
                         + '<span>'
@@ -291,12 +310,76 @@ $(function(){
                     );
 
 
+                    //$("#cond_rpt").html(lotData.COND_RPT_JSON.ko);
+
+                    let print_info = '';
+
+                    if(isNotObjectEmpty(lotData.COND_RPT_JSON)){
+
+                        let locale = localeValue(lotData.COND_RPT_JSON);
+
+                        print_info +=   '<div class="info-sub-box">'
+                                       +'<div class="tit">CONDITION</div>'
+                                       +'<div class="desc">' +locale + '</div>'
+                                       +'</div>';
+                    }
+                    if(isNotObjectEmpty(lotData.PROV_INFO_JSON)) {
+
+                        let locale = localeValue(lotData.PROV_INFO_JSON);
+
+                        print_info +=   '<div class="info-sub-box">'
+                                        +'<div class="tit">PROVENANCE</div>'
+                                        +'<div class="desc">' +locale + '</div>'
+                                        +'</div>';
+                    }
+                    if(isNotObjectEmpty(lotData.LITE_INFO_JSON)) {
+
+                        let locale = localeValue(lotData.LITE_INFO_JSON);
+
+                        print_info +=   '<div class="info-sub-box">'
+                                        +'<div class="tit">LITERATURE</div>'
+                                        +'<div class="desc">' +locale + '</div>'
+                                        +'</div>';
+                    }
+
+                    if(isNotObjectEmpty(lotData.EXHI_INFO_JSON)) {
+
+                        let locale = localeValue(lotData.EXHI_INFO_JSON);
+
+                        print_info +=   '<div class="info-sub-box">'
+                                        +'<div class="tit">EXHIBITED</div>'
+                                        +'<div class="desc">' +locale + '</div>'
+                                        +'</div>';
+                    }
+
+                    $("#print_info").html(print_info);
+
+                    if(isNotObjectEmpty(lotData.CMMT_JSON)) {
+
+                        let locale = localeValue(lotData.CMMT_JSON);
+
+                        let html  =   '<div class="info-box">'
+                                            +'<div class="title">작품 설명</div>'
+                                            +'<div class="desc">' + locale + '</div>'
+                                            +'</div>';
 
 
+                        $("#print_desc").html(html);
+                    }
+
+                    if(isNotObjectEmpty(lotData.NOTICE_DTL_JSON)) {
+                        let locale = localeValue(lotData.NOTICE_DTL_JSON);
+
+                        let html = '<div class="info-box">'
+                            + '<div class="title">NOTICE</div>'
+                            + '<div class="desc"></div>'
+                            + ' <ul class="mark_dot-list">' +  locale + ' </Ul>'
+                            + '</div>';
+
+                        $("#print_notice").html(html);
+                    }
 
 
-
-                    $("#cond_rpt").html(lotData.COND_RPT_JSON.ko);
                 } else {
                     alert(data.data.msg);
                     history.back();
