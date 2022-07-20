@@ -4,23 +4,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <!-- header -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Seoul Auction</title>
-    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
-    <link rel="stylesheet" href="/css/common.css" type="text/css" />
-    <link rel="stylesheet" href="/css/pages_common_ko.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
-    <!-- //header -->
-</head>
+
+<jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
 <body class="">
     <div class="wrapper">
@@ -29,7 +14,7 @@
             <header class="print-header">
                 <div class="header-inner">
                     <a href="/" class="header_logo"><img src="/images/pc/logo/SA_logo_black.svg" alt="Seoul Auction"></a>
-                    <a class="header-print" onclick="return window.print();">
+                    <a class="header-print" href="javascript:window.print();">
                         <i class="icon_print"></i> PRINT
                     </a>
                 </div>
@@ -38,17 +23,15 @@
             <!-- container -->
             <div id="container">
                 <div id="contents" class="contents">
-
                     <section class="print-section">
-
                         <div class="print-panel">
                             <div class="panel-header">
                                 <div class="section-inner">
                                     <div class="print-title">
-                                        <div id="print_sale_title" class="title">2월 e BID 프리미엄 온라인 경매</div>
+                                        <div id="print_sale_title" class="title"></div>
                                         <div class="data">
-                                            <span id="print_sale_to_date">마감일 : 4.22.목 14:00 </span>
-                                            <span>전시장소 : 강남센터</span>
+                                            <span id="print_sale_to_date"></span>
+                                            <span id="print_sale_prev"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -62,76 +45,61 @@
                                         </div>
 
                                         <div class="artist-area">
-                                            <div class="index-num"><span id="print_lot_no">10</span></div>
+                                            <div class="index-num"><span id="print_lot_no"></span></div>
                                             <div class="name-info">
-                                                <div class="name" id="print_artist_name">데미안허스트</div>
+                                                <div class="name" id="print_artist_name"></div>
                                                 <div class="desc">
-                                                    <span id="print_year" lass="artist-b">b.1988</span>
-                                                    <span id="print_title" >Flight of 3 Dodos </span>
+                                                    <span id="print_year" lass="artist-b"></span>
+                                                    <span id="print_title" ></span>
                                                 </div>
                                             </div>
 
                                             <div class="price-area">
                                                 <dl id="print_expe_price" class="price-list">
-                                                    <dt>추정가 : </dt>
-                                                    <dd>KRW 9,900,000,000</dd>
+                                                    <dt></dt>
+                                                    <dd></dd>
                                                 </dl>
                                             </div>
                                         </div>
                                     </article>
 
-                                    <article class="print_view-article  page-break">
+                                    <!-- [0718]작품정보 하위댑스 추가 -->
+                                    <article class="print_view-article page-break">
                                         <div class="view_editor-warp">
                                             <div class="info-box">
                                                 <div class="title">작품정보</div>
                                                 <div id="price_lot_desc" class="desc">
-                                                    gouache on canvas <br>
-                                                    100.0X80.3cm (40) 2020 <br>
-                                                    signed and dated on the right side <br>
-                                                    signed titled and dated on the reverse
                                                 </div>
 
-                                                <!-- [0714]작품정보 하위댑스 추가 -->
-                                                <div class="info-sub-wrap">
-                                                    <div class="info-sub-box">
-                                                        <div class="tit">CONDITION</div>
-                                                        <div class="desc">good condition 종이 작품의 경우, 재질 특성상 산화·울음이 있을 수 있습니다.</div>
-                                                    </div>
-                                                    <div class="info-sub-box">
-                                                        <div class="tit">PROVENANCE</div>
-                                                        <div class="desc">Tonari no Zingaro(Tokyo)</div>
-                                                    </div>
-                                                    <div class="info-sub-box">
-                                                        <div class="tit">LITERATURE</div>
-                                                        <div class="desc">
-                                                            GRIMM Gallery, Amsterdam.<br>
-                                                            Acquired from the above by the present owner.
+                                                <!-- [0718]작품정보 하위댑스 추가 -->
+                                                <article class="print_view-article no-line page-break">
+                                                    <div class="view_editor-warp">
+                                                        <div class="info-box">
+                                                            <div id="print_info" class="info-sub-wrap">
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="info-sub-box">
-                                                        <div class="tit">EXHIBITED</div>
-                                                        <div class="desc">Online, Praz-Delavallade, Focus: Guy Yanai, 2020.</div>
-                                                    </div>
-                                                </div>
-                                                <!-- //[0714]작품정보 하위댑스 추가 -->
+                                                </article>
                                             </div>
-
-                                            <%--<div class="info-box">
-                                                <div class="title">Condition Report</div>
-                                                <div id="cond_rpt" class="desc">
-                                                    좌측 하단 미세 스크래치,우측 상단 이물질 있음
-                                                </div>
-                                            </div>--%>
                                         </div>
                                     </article>
-
+                                    <!-- [0718]작품설명, Notice 추가 -->
+                                    <article class="print_view-article page-break">
+                                        <div class="view_editor-warp">
+                                            <div id="print_desc" class="info-box">
+                                            </div>
+                                            <div id="print_notice" class="info-box">
+                                            </div>
+                                        </div>
+                                    </article>
+                                    <!-- //[0718]작품설명, Notice 추가 -->
                                 </div>
                             </div>
 
                             <div class="panel-footer page-break">
                                 <div class="section-inner">
                                     <div class="footer-logo">
-                                        <img src="/images/pc/logo/SA_logo_black.svg" alt="Seolu Auction">
+                                        <img src="/images/pc/logo/SA_logo_black.svg" alt="Seoul Auction">
                                     </div>
                                     <dl class="footer-info">
                                         <dt>본사</dt>
@@ -143,43 +111,19 @@
                                         <dt>부산</dt>
                                         <dd>부산광역시 수영구 좌수영로 125번길 14-3, 1층(전시장) Tel 051 744 2020</dd>
                                     </dl>
-
                                 </div>
                             </div>
-
                         </div>
                     </section>
-
                 </div>
             </div>
             <!-- //container -->
         </div>
     </div>
-
 </body>
 
-<%--공통 footer 를 안쓰는관계로 필요 스크립트 다 import --%>
-<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-
-<script src="/js/pages_common_ko.js"></script>
-<!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
-
-<%--Axios--%>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.js"></script>
-<script defer src="https://unpkg.com/axios-extensions/dist/axios-extensions.js"></script>
-<script defer src="/js/common/axios.js" type="text/javascript"></script>
-
-<!--[if lt IE 9]>
-<script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-<script src="/js/plugin/prefixfree.min.js"></script>
-<script src="/js/plugin/swiper.min.js" type="text/javascript"></script>
-
 <script>
-
+const locale = document.documentElement.lang;
 //숫자를 천단위마다 콤마 해줌.
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -200,12 +144,31 @@ function enDayToHanDay(enDay){
 
     return hanDay;
 }
+
+//json 로캐일 별로 분기.
+function localeValue(val){
+    if (val === undefined) {
+        return '';
+    }
+    return locale === 'ko' ? val.ko : val.en;
+}
+
 $(function(){
-
     init();
-
     function init(){
-
+        axios.get('/api/auction/sales/${saleNo}').then(function(response) {
+            const data = response.data;
+            let success = data.success;
+            if(success) {
+                let sale = data.data;
+                let sale_prev = JSON.parse(sale.PREVIEW_JSON);
+                let print_sale_prev = "전시장소: ";
+                for(let i = 0; i < sale_prev.length; i++) {
+                    print_sale_prev += sale_prev[i].PLACE_JSON.ko+" ";
+                }
+                $("#print_sale_prev").html(sale_prev.length > 0 ? print_sale_prev : '');
+            }
+        });
 
         axios.get('/api/auction/lot_info/${saleNo}/${lotNo}')
             .then(function(response) {
@@ -214,8 +177,7 @@ $(function(){
                 if(success){
                     let lotData = data.data;
 
-                    let sale_title;
-                    sale_title = ( lotData.SALE_TH === undefined || lotData.SALE_TH === '')  ? '' : ( '제' + lotData.SALE_TH + '회 ' );
+                    let sale_title = ( lotData.SALE_TH === undefined || lotData.SALE_TH === '')  ? '' : ( '제' + lotData.SALE_TH + '회 ' );
                     sale_title += JSON.parse(lotData.SALE_TITLE_JSON).ko;
 
                     $("#print_sale_title").html(sale_title);
@@ -223,44 +185,104 @@ $(function(){
                         lotData.LOT_EXPIRE_DATE_TIME_T.replace(lotData.LOT_EXPIRE_DATE_DAY , enDayToHanDay(lotData.LOT_EXPIRE_DATE_DAY) )
                     );
 
-                    $("#print_img").attr('src' ,
-                        'https://www.seoulauction.com/nas_img' + lotData.LOT_IMG_PATH + '/' + lotData.LOT_IMG_NAME );
+                    //
+                    $("#print_img").attr('src', lotData.IMAGE_URL  + lotData.LOT_IMG_PATH + '/' + lotData.LOT_IMG_NAME );
                     $("#print_lot_no").html(lotData.LOT_NO);
                     $("#print_artist_name").html(lotData.ARTIST_NAME_KO_TXT);
-                    $("#print_year").html('b.' + lotData.BORN_YEAR);
+                    $("#print_year").html(lotData.BORN_YEAR ? 'b.' + lotData.BORN_YEAR : '');
                     $("#print_title").html(lotData.TITLE_KO_TXT);
 
+                    //가격 정보.
                     if(lotData.EXPE_PRICE_INQ_YN === 'N') {
-                        $("#print_expe_price").html(
-                            '<dd>'
-                            + 'KRW '
-                            + numberWithCommas(lotData.EXPE_PRICE_FROM_JSON.KRW)
-                            + ' ~ ' + numberWithCommas(lotData.EXPE_PRICE_TO_JSON.KRW)
-                            + '</dd>'
-                            + '<br>'
-                            + '<dd>'
-                            + 'USD '
-                            + numberWithCommas(lotData.EXPE_PRICE_FROM_JSON.USD)
-                            + ' ~ ' + numberWithCommas(lotData.EXPE_PRICE_TO_JSON.USD)
-                            + '</dd>'
-                        );
+                        let html = '<dd>'
+                                    + 'KRW '
+                                    + numberWithCommas(lotData.EXPE_PRICE_FROM_JSON.KRW)
+                                    + ' ~ ' + numberWithCommas(lotData.EXPE_PRICE_TO_JSON.KRW)
+                                    + '</dd>';
+
+                        //라이브경매일경우 usd 추가.
+                        if(lotData.SALE_KIND_CD === ('main') || lotData.SALE_KIND_CD === ('plan')  || lotData.SALE_KIND_CD === ('hongkong')  ) {
+                            html +=
+                                '<br>'
+                                + '<dd>'
+                                + 'USD '
+                                + numberWithCommas(lotData.EXPE_PRICE_FROM_JSON.USD)
+                                + ' ~ ' + numberWithCommas(lotData.EXPE_PRICE_TO_JSON.USD)
+                                + '</dd>';
+                        }
+
+                        $("#print_expe_price").html(html);
                     } else {
                         $("#print_expe_price").html('<dd> 추정가 별도 문의 </dd>');
                     }
 
-                    //TODO 오프라인인경우 USD 달러 나와야함.
+                    //작품정보
+                    let LOT_SIZE = "";
+                    for(let i = 0; i < lotData.LOT_SIZE_JSON.length; i++) {
+                        LOT_SIZE += '<div>'+size_text_cm(lotData.LOT_SIZE_JSON[i])+'</div>';
+                    }
                     $("#price_lot_desc").html(
-                        lotData.MATE_NM_EN + '<br/>'
-                        + '<span>'
-                        + lotData.LOT_SIZE_JSON[0].SIZE1 + 'X'
-                        + lotData.LOT_SIZE_JSON[0].SIZE2 + 'X'
-                        + lotData.LOT_SIZE_JSON[0].SIZE3 + 'cm'
-                        + '</span><br/>'
-                        + '<span>'
-                        + lotData.SIGN_INFO_JSON.ko
+                           lotData.MATE_NM_EN + '<br/>'
+                        + LOT_SIZE
+                        + (lotData.EDITION ? '<div>' + lotData.EDITION + '</div>' : '')
+                        + (isNotObjectEmpty(lotData.MAKE_YEAR_JSON) ? '<div>' + lotData.MAKE_YEAR_JSON.ko + '</div>' : '')
+                        + (isNotObjectEmpty(lotData.SIGN_INFO_JSON) ? '<div>' + lotData.SIGN_INFO_JSON.ko + '</div>' : '')
+                        + (lotData.FRAME_CD!='none' ? '<div>' + lotData.FRAME_CD + '</div>' : '')
                     );
 
-                    $("#cond_rpt").html(lotData.COND_RPT_JSON.ko);
+                    let print_info = '';
+
+                    if(isNotObjectEmpty(lotData.COND_RPT_JSON)){
+                        let locale = localeValue(lotData.COND_RPT_JSON);
+                        print_info +=   '<div class="info-sub-box">'
+                                       +'<div class="tit">CONDITION</div>'
+                                       +'<div class="desc">' +locale + '</div>'
+                                       +'</div>';
+                    }
+
+                    if(isNotObjectEmpty(lotData.PROV_INFO_JSON)) {
+                        let locale = localeValue(lotData.PROV_INFO_JSON);
+                        print_info +=   '<div class="info-sub-box">'
+                                        +'<div class="tit">PROVENANCE</div>'
+                                        +'<div class="desc">' +locale + '</div>'
+                                        +'</div>';
+                    }
+                    if(isNotObjectEmpty(lotData.LITE_INFO_JSON)) {
+                        let locale = localeValue(lotData.LITE_INFO_JSON);
+                        print_info +=   '<div class="info-sub-box">'
+                                        +'<div class="tit">LITERATURE</div>'
+                                        +'<div class="desc">' +locale + '</div>'
+                                        +'</div>';
+                    }
+
+                    if(isNotObjectEmpty(lotData.EXHI_INFO_JSON)) {
+                        let locale = localeValue(lotData.EXHI_INFO_JSON);
+                        print_info +=   '<div class="info-sub-box">'
+                                        +'<div class="tit">EXHIBITED</div>'
+                                        +'<div class="desc">' +locale + '</div>'
+                                        +'</div>';
+                    }
+
+                    $("#print_info").html(print_info);
+
+                    if(isNotObjectEmpty(lotData.CMMT_JSON)) {
+                        let locale = localeValue(lotData.CMMT_JSON);
+                        let html  =   '<div class="info-box">'
+                                            +'<div class="title">작품 설명</div>'
+                                            +'<div class="desc txt-pre-line">' + locale + '</div>'
+                                            +'</div>';
+                        $("#print_desc").html(html);
+                    }
+
+                    if(isNotObjectEmpty(lotData.NOTICE_DTL_JSON)) {
+                        let locale = localeValue(lotData.NOTICE_DTL_JSON);
+                        let html = '<div class="info-box">'
+                            + '<div class="title">NOTICE</div>'
+                            + '<div class="desc"></div>'
+                            + ' <ul class="mark_dot-list txt-pre-line">' +  locale + ' </Ul>'
+                            + '</div>';
+                        $("#print_notice").html(html);
+                    }
                 } else {
                     alert(data.data.msg);
                     history.back();
@@ -269,11 +291,28 @@ $(function(){
             .catch(function(error) {
                 console.log(error);
             });
-
     }
-
-
 });
 
+function size_text_cm(src) {
+    if (src === null || src === undefined) {
+        return;
+    }
+
+    var returnValue = "";
+    var cmSize = ""
+
+    cmSize = src.SIZE1 != 0 ? src.SIZE1.toFixed(1) : "";
+    cmSize += src.SIZE2 != 0 ? "☓" + src.SIZE2.toFixed(1) : "";
+    cmSize += src.SIZE3 != 0 ? "☓" + src.SIZE3.toFixed(1) +
+        "(" + (src.MIX_CD == "depth" ? "d" : "h") + ")" : "";
+    cmSize += cmSize != "" ? src.UNIT_CD : "";
+    cmSize += cmSize != "" && src.CANVAS != 0 ? " (" + (src.CANVAS_EXT_YN == "Y" ? "변형" : "") + src.CANVAS + ")" : "";
+
+    returnValue = src.PREFIX;
+    returnValue += (src.DIAMETER_YN == "Y" ? "Φ " : "") + cmSize;
+    returnValue += (src.SUFFIX ? " (" + src.SUFFIX + ") " : "");
+    return returnValue;
+}
 </script>
 </html>

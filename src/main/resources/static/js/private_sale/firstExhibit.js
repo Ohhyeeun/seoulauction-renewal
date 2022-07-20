@@ -45,7 +45,7 @@ app.value('locale', 'ko');
 app.requires.push.apply(app.requires, ["ngDialog", "checklist-model"]);
 app.controller("exhibitCtl", function($scope, consts, common, locale, $filter) {
     $scope.locale = locale;
-    $scope.$size = 10;
+    $scope.$size = 20;
 
     $scope. loadExhibitList = function($page){
 
@@ -70,6 +70,7 @@ app.controller("exhibitCtl", function($scope, consts, common, locale, $filter) {
 
                     data.map(item =>{
                         const titleJSON = JSON.parse(item.TITLE_JSON);
+                        const artistNameJSON = JSON.parse(item.ARTIST_NAME_JSON);
                         const makeYearJSON = JSON.parse(item.MAKE_YEAR_JSON);
                         const lotSizeJSON = JSON.parse(item.LOT_SIZE_JSON);
 
@@ -90,7 +91,7 @@ app.controller("exhibitCtl", function($scope, consts, common, locale, $filter) {
                             + '<article class="item-article">'
                             + '<div class="image-area">'
                             + '<figure class="img-ratio">'
-                            + '<a class="img-align">'
+                            + '<a class="img-align" href="#">'
                             + '<img src="https://www.seoulauction.com/nas_img/' + item.LOT_IMG_PATH + '/' + item.LOT_IMG_NAME + '" alt="">'
                             + '</a>'
                             + '</figure>'
@@ -101,11 +102,13 @@ app.controller("exhibitCtl", function($scope, consts, common, locale, $filter) {
                             + '<a href="#"><span class="num">'+item.LOT_NO+'</span></a>'
                             + '</div>'
                             + '<div class="info-box">'
-                            + '<div class="title"><a href="#"><span>' + titleJSON[locale] + '</span></a>'
+                            + '<div class="title"><a href="#"><span>' + artistNameJSON[locale] + '</span></a>'
+                            // + '<div class="title"><a href="#"><span>' + titleJSON[locale] + '</span></a>'
                             + '</div>'
-                            + '<div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>'
+                            + '<div class="desc"><a href="#"><span>' + titleJSON[locale] + '</span></a></div>'
+                            // + '<div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>'
                             + '<div class="standard">'
-                            + '<a href="#"><span>'+ item.MATE_NM +'</span></a>'
+                            + '<a href="#"><span class="text-over span_block">'+ item.MATE_NM +'</span></a>'
                             + '<div class="size_year">'
                             + '<a href="#"><span>'+ size + '</span>'
                             + '<span>' +makeYearJSON[locale]+ '</span></a>'

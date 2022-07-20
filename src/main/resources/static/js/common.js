@@ -30,8 +30,8 @@ $(function() {
                     ingAuctionList.map(item => {
                         const titleJSON = JSON.parse(item.TITLE_BLOB);
                         const titleText = localeOrdinal(item.SALE_TH, locale) + titleJSON[locale];
-                        const path = `${item.SALE_KIND === 'LIVE'? 'live' : ''}`;
-                        const returnDom = `<a href='/auction/${path}/list/${item.SALE_NO}' class="Ingbanner" target="_blank">
+                        const path = `${item.SALE_KIND === 'LIVE'? 'live/' : ''}`;
+                        const returnDom = `<a href='/auction/${path}list/${item.SALE_NO}' class="Ingbanner" target="_blank">
                                             <figure class="border-txt-darkg Ingbanner-img">
                                                 <img src="${item.DEFAULT_IMAGE_PATH !== "" ? item.DEFAULT_IMAGE_PATH : ``}" 
                                                      onerror="${item.DEFAULT_IMAGE_PATH}"
@@ -440,12 +440,7 @@ $(function() {
         $('.familyselect').toggleClass('on');
     });
 
-    /* scroll top */
-    $('.scroll-top').click(function () {
-        $('html, body').animate({scrollTop: '0'}, 700);
-    });
-
-    //모바일 한글/영문 변환 버튼
+    //모바일 한글/영문 변환 버튼 
     let lang = getCookie('lang');
     if (!lang || lang === 'ko') {
         $("#mb_common_lang").append('<a href=' + $(location).attr('pathname')  +'?lang=en>ENG</a>');
@@ -947,7 +942,8 @@ $(window).resize(function(){
             $('.bubble-box').removeClass('on');
         });
 
-        $('.gnb_submenuBg').hide();
+        //$('.gnb_submenuBg').hide();
+        $('.submenuBg').hide();
 
         $('.header_beltbox.on').show(function(){
             $('.main-contents').css('margin-top','162px');
@@ -981,7 +977,6 @@ $(window).resize(function(){
         /* 오프라인 라이브응찰 화면(pc) */
         $('.bidding_pc').show();
         $('.bidding_mo').hide();
-
     } else {
         $(".submenuBg").off('mouseleave');
         $('.submenuBg').off('mouseenter');
@@ -1005,10 +1000,10 @@ $(window).resize(function(){
             $('body').css({'overflow':'hidden'});
             $('.submenuBg').css({'right':'-100%'});
             $('.submenuBg').show();
-            $('.submenuBg').animate({'right':'0','transition':'ease .3s','display':'block'}, function(){
+            $('.submenuBg').animate({'right':'0','transition':'ease .3s'}, function(){
 
 
-                $('.gnb_submenuBg').show();
+                //$('.gnb_submenuBg').show();
                 $('.gnb_submenuBg').off('click');
                 $('.gnb_submenuBg').click(function(){
 
@@ -1179,6 +1174,21 @@ function localeOrdinal(n, l) {
     }else{
         return "";
     }
+}
+//json 로캐일 별로 분기.
+function localeValue(val){
+    if (val === undefined) {
+        return '';
+    }
+    return locale === 'ko' ? val.ko : val.en;
+}
+//오브젝트 비었나 확인.
+function isNotObjectEmpty (param) {
+
+    if(param === undefined){
+        return false;
+    }
+    return param.constructor === Object && Object.keys(param).length !== 0;
 }
 
 /* 이미지 우클릭 방지 */

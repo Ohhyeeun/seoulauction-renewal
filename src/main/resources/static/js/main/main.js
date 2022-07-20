@@ -231,6 +231,7 @@ const beltNoticeSwiper = new Swiper(".belt-swiper", {
     autoplay: {
         delay: 4000,
     },
+    initialSlide : 1,
     allowTouchMove:false, /* 마우스 및 손가락 터치 시 슬라이드 이동 가능여부 */
     touchMoveStopPropagation: true,   /* touchmove 중지 */
     direction:'vertical',
@@ -811,8 +812,23 @@ $(window).resize(function(){
             },
         },
     });
+}); 
+
+
+/* scroll top */
+$('.scroll-top').click(function () {
+    $('html, body').animate({scrollTop  : '0'}, 700);
 });
 
+/* 스크롤시 scroll top btn 나오게 함. */
+const initHeight = window.innerHeight;
+window.addEventListener('scroll', () => {
+    if (document.body.scrollTop > initHeight || document.documentElement.scrollTop > initHeight) {
+        document.querySelector('.scroll-top').classList.add('show');
+    } else {
+        document.querySelector('.scroll-top').classList.remove('show');
+    }
+});
 
 /* 다크모드 새로고침 시 */
 window.addEventListener('DOMContentLoaded', () => {

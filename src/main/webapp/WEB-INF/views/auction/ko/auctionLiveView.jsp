@@ -57,8 +57,7 @@
                                                                             <div class="image-area">
                                                                                 <figure class="img-ratio">
                                                                                     <div class="img-align">
-                                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                                             alt="">
+                                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
                                                                                     </div>
                                                                                 </figure>
                                                                             </div>
@@ -284,52 +283,78 @@
                                                 <%--서명 값--%>
                                                 <span> {{lotInfo.SIGN_INFO_JSON | locale_format }}</span>
                                             </div>
+
+
+                                            <!-- [0714]작품정보 하위댑스 추가 -->
+                                            <div class="info-sub-wrap">
+                                                <div class="info-sub-box">
+                                                    <%--CONDITION --%>
+                                                    <div class="info-sub-box" ng-show="isNotObjectEmpty(lotInfo.COND_RPT_JSON)">
+                                                        <div class="tit tt5">CONDITION</div>
+                                                        <div class="desc">{{lotInfo.COND_RPT_JSON | locale_format }}</div>
+                                                    </div>
+                                                    <%--PROVENANCE--%>
+                                                    <div ng-show="isNotObjectEmpty(lotInfo.PROV_INFO_JSON)" class="info-sub-box">
+                                                        <div class="tit tt5">PROVENANCE</div>
+                                                        <div class="desc">{{lotInfo.PROV_INFO_JSON | locale_format }}</div>
+                                                    </div>
+
+                                                    <%--LITERATURE--%>
+                                                    <div ng-show="isNotObjectEmpty(lotInfo.LITE_INFO_JSON)" class="info-sub-box">
+                                                        <div class="tit tt5">LITERATURE</div>
+                                                        <div class="desc">{{lotInfo.LITE_INFO_JSON | locale_format }}</div>
+                                                    </div>
+
+                                                    <%--EXHIBITED--%>
+                                                    <div ng-show="isNotObjectEmpty(lotInfo.EXHI_INFO_JSON)" class="info-sub-box">
+                                                        <div class="tit tt5">EXHIBITED</div>
+                                                        <div class="desc">{{lotInfo.EXHI_INFO_JSON | locale_format }}</div>
+                                                    </div>
+
+                                                    <%--Condition Report--%>
+                                                    <%--                                        <div ng-show="isNotObjectEmpty(lotInfo.COND_RPT_JSON)" class="info-box">--%>
+                                                    <%--                                            <div class="title">Condition Report</div>--%>
+                                                    <%--                                            <div class="desc">{{lotInfo.COND_RPT_JSON | locale_format }}</div>--%>
+                                                    <%--                                        </div>--%>
+                                                </div>
+                                            </div>
+                                            <!-- //[0714]작품정보 하위댑스 추가 -->
                                         </div>
 
-                                        <%--LITERATURE--%>
-                                        <div ng-show="isNotObjectEmpty(lotInfo.LITE_INFO_JSON)" class="info-box">
-                                            <div class="title">LITERATURE</div>
-                                            <div class="desc">{{lotInfo.LITE_INFO_JSON | locale_format }}</div>
+                                        <!-- [0714]작품설명 추가 -->
+                                        <div ng-show="isNotObjectEmpty(lotInfo.CMMT_JSON)" class="info-box">
+                                            <div class="title">작품 설명</div>
+                                            <div class="desc txt-pre-line">{{lotInfo.CMMT_JSON | locale_format }}</div>
                                         </div>
+                                        <!-- //[0714]작품설명 추가 -->
 
-                                        <%--EXHIBITED--%>
-                                        <div ng-show="isNotObjectEmpty(lotInfo.EXHI_INFO_JSON)" class="info-box">
-                                            <div class="title">EXHIBITED</div>
-                                            <div class="desc">{{lotInfo.EXHI_INFO_JSON | locale_format }}</div>
+                                        <!-- [0613]notice 추가 -->
+                                        <div ng-show="isNotObjectEmpty(lotInfo.NOTICE_DTL_JSON)" class="info-box">
+                                            <!-- [0714]텍스트 대소문자 수정 -->
+                                            <div class="title">NOTICE</div>
+                                            <!-- //[0714]텍스트 대소문자 수정 -->
+                                            <div class="desc">
+                                                <ul class="mark_dot-list">
+                                                    <li ng-bind-html="lotInfo.NOTICE_DTL_JSON_VALUE" class="txt-pre-line"></li>
+                                                </ul>
+                                            </div>
                                         </div>
-
-                                        <%--PROVENANCE--%>
-                                        <div ng-show="isNotObjectEmpty(lotInfo.PROV_INFO_JSON)" class="info-box">
-                                            <div class="title">PROVENANCE</div>
-                                            <div class="desc">{{lotInfo.PROV_INFO_JSON | locale_format }}</div>
-                                        </div>
-
-                                        <%--Condition Report--%>
-                                        <div ng-show="isNotObjectEmpty(lotInfo.COND_RPT_JSON)" class="info-box">
-                                            <div class="title">Condition Report</div>
-                                            <div class="desc">{{lotInfo.COND_RPT_JSON | locale_format }}</div>
-                                        </div>
-
-                                        <%--작품 설명--%>
-                                        <%--                                        <div ng-show="isNotObjectEmpty(lotInfo.CMMT_JSON)" class="info-box">--%>
-                                        <%--                                            <div class="title">작품 설명</div>--%>
-                                        <%--                                            <div class="desc">{{lotInfo.CMMT_JSON | locale_format }}</div>--%>
-                                        <%--                                        </div>--%>
+                                        <!-- //[0613]notice 추가 -->
 
                                         <div id="artist_layer" class="info-box">
                                             <div class="title">작가정보</div>
-                                            <div class="desc" id="artistName">
+                                            <div class="desc txt-pre-line" id="artistName">
                                             </div>
-                                            <div class="desc" id="artistProfile">
+                                            <div class="desc txt-pre-line" id="artistProfile">
                                             </div>
-                                            <div class="desc" id="artistMedia">
+                                            <div class="desc txt-pre-line" id="artistMedia">
                                             </div>
                                         </div>
                                     </div>
                                 </article>
                             </div>
                             <div class="panel-footer">
-                                <article ng-show="recentlyViews.length != 0" class="product_recent_work-article">
+                                <article ng-show="recentlyViews.length != 0" class="product_recent_work-article"> 
                                     <div class="article-header">
                                         <div class="title"><span>이 경매의 최근 본 작품</span></div>
                                     </div>
@@ -404,7 +429,7 @@
                             </button>
                         </div>
                         <div class="btn-box">
-                            <button ng-click="moveToBidding(lotInfo)">응찰하기</button>
+                            <button ng-click="moveToBidding(lotInfo)">서면/전화 응찰 신청</button>
                         </div>
                     </div>
                 </article>
@@ -671,7 +696,7 @@
                     <div class="pop-header">
                         <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
                     </div>
-                    <div class="pop-body">
+                    <div class="pop-body scroll_none">
                         <article class="viewer-article js-zoom_inout">
                             <div class="gallery_view js-imagesSwiper" style="">
                                 <div class="gallery_center">
@@ -1126,7 +1151,8 @@
         // 호출 부
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3, r4, , r6, r7, r8, r9] = await Promise.all([getSaleInfo($scope.sale_no),
+                let [r1, r2, r3, r4, , r6, r7, r8, r9] = await Promise.all([
+                    getSaleInfo($scope.sale_no),
                     getLotInfo($scope.sale_no, $scope.lot_no),
                     getLotImages($scope.sale_no, $scope.lot_no),
                     getSaleImages($scope.sale_no, $scope.lot_no),
@@ -1143,6 +1169,9 @@
 
                 // 0718
                 $scope.saleLotList = r7.data.data;
+
+                console.log($scope.lotImages);
+
 
                 $scope.lotTags = r8.data.data;
                 $scope.categories = r9.data.data;
@@ -1167,8 +1196,6 @@
 
                 $scope.activeIndex = 0;
 
-                console.log($scope.lotInfo);
-
                 $scope.lotInfo.OFFLINE_MAX_BID_PRICE = numberWithCommas($scope.lotInfo.OFFLINE_MAX_BID_PRICE);
 
 
@@ -1178,6 +1205,9 @@
 
                 $scope.fullTitle = sale_title;
 
+
+
+                $scope.lotInfo.NOTICE_DTL_JSON_VALUE =  $scope.locale === 'ko' ? $scope.lotInfo.NOTICE_DTL_JSON.ko : $scope.lotInfo.NOTICE_DTL_JSON.en;
 
                 // popup setting
 
@@ -1347,15 +1377,27 @@
                     });
 
                 /* 스와이퍼 */
+                /* [2022-0708] 수정 */
                 var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
                     loop: true,
-                    onSlideChangeStart: function (swiper) { // 움직임이 끝나면 실행
-                        imagesResizePcMb();
-                    },
-                    onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
-                        imagesResizePcMb();
+                    // onSlideChangeStart: function (swiper) { // 움직임이 끝나면 실행
+                    //     imagesResizePcMb();
+                    // },
+                    // onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
+                    //     imagesResizePcMb();
+                    // },
+                    on: {
+                        transitionStart: function() {
+                            // 움직임이 시작하면 실행
+                            imagesResizePcMb();
+                        },
+                        transitionEnd: function() {
+                            // 움직임이 끝나면 실행
+                            imagesResizePcMb();
+                        },
                     },
                 });
+
 
                 $.each($(".swiper-slide"), function () {
                     let data = $(this).attr("data-swiper-slide-index");
@@ -1539,11 +1581,17 @@
                 }
 
                 /* === 스와이퍼 === */
+                /* [0708]  스크립트 수정 */
                 console.log("스와이퍼 set");
+                var imagesSwiperIndex = 0;
                 var imagesSwiper = new Swiper('.js-imagesSwiper .gallery_center', {
                     loop: true,
-                    simulateTouch: false,
-                    pagination: ".js-imagesSwiper_pagination",
+                    simulateTouch: true,
+                    //pagination: ".js-imagesSwiper_pagination",
+                    pagination: {
+                        el: '.js-imagesSwiper_pagination',
+                        type: 'bullets',
+                    },
                     paginationClickable: true,
                     breakpoints: {
                         1023: {
@@ -1553,17 +1601,34 @@
                             spaceBetween: 10
                         }
                     },
-                    onSlideChangeStart: function (swiper) { // 움직임이 시작하면 실행
-                        imagesResizePcMb();
-                        if ($("body").hasClass("is_pc")) {
-                            panzoom.reset(); // zoom reset
-                        }
+                    // onSlideChangeStart: function (swiper) { // 움직임이 시작하면 실행
+                    //     imagesResizePcMb();
+                    //     if ($("body").hasClass("is_pc")) {
+                    //         panzoom.reset(); // zoom reset
+                    //     }
+                    // },
+                    // onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
+                    //     imagesResizePcMb();
+                    //     thumbnailActive(swiper.realIndex);
+                    //     console.log(">>> ", swiper.realIndex)
+                    // }
+                    on: {
+                        transitionStart: function() {
+                            // 움직임이 시작하면 실행
+                            imagesResizePcMb();
+                            if ($("body").hasClass("is_pc")) {
+                                panzoom.reset(); // zoom reset
+                            }
+                        },
+                        transitionEnd: function() {
+                            // 움직임이 끝나면 실행
+                            if (imagesSwiper != undefined) {
+                                imagesSwiperIndex = imagesSwiper.realIndex;
+                            }
+                            imagesResizePcMb();
+                            thumbnailActive();
+                        },
                     },
-                    onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
-                        imagesResizePcMb();
-                        thumbnailActive(swiper.realIndex);
-                        console.log(">>> ", swiper.realIndex)
-                    }
                 })
                 // 좌우버튼
                 $('.images-popup .page_prev').on('click', function ($e) {

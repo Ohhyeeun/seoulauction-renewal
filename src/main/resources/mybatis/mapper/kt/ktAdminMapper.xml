@@ -17,7 +17,7 @@
 		  and S.SALE_OUTSIDE_YN = 'N'
 		  and S.TO_DT <![CDATA[ >= ]]> DATE_SUB(NOW(), INTERVAL ${month} MONTH)
 		order by
-		    S.SALE_NO desc
+			S.REG_DT
 		limit
 			#{offset} , #{size}
 	</select>

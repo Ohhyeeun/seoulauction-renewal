@@ -6,6 +6,14 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
+
+<spring:eval expression="@environment.getProperty('bid.domain')" var="bid_domain" />
+
+<c:set var="isEmployee" value="false" />
+<sec:authorize access="hasAuthority('ROLE_EMPLOYEE_USER')">
+    <c:set var="isEmployee" value="true" />
+</sec:authorize>
+
 <body class="">
 <div class="wrapper">
     <%--    <link rel="stylesheet" href="/css/plugin/csslibrary.css">--%>
@@ -47,15 +55,12 @@
                                                             </div>
                                                             <div class="list-box scroll-type">
                                                                 <ul id="sale_lot_list">
-                                                                    <li ng-repeat="item in saleImages"
-                                                                        data-index="{{item.LOT_NO}}">
-                                                                        <a href="#"
-                                                                           ng-click="goLot(item.SALE_NO, item.LOT_NO)">
+                                                                    <li ng-repeat="item in saleImages" data-index="{{item.LOT_NO}}">
+                                                                        <a href="#" ng-click="goLot(item.SALE_NO, item.LOT_NO)">
                                                                             <div class="image-area">
                                                                                 <figure class="img-ratio">
                                                                                     <div class="img-align">
-                                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                                             alt="">
+                                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
                                                                                     </div>
                                                                                 </figure>
                                                                             </div>
@@ -67,7 +72,6 @@
                                                                 </ul>
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                                 <!-- // [0516]select 변경 -->
@@ -92,8 +96,7 @@
                                                                     <div class="image-area">
                                                                         <figure class="img-ratio">
                                                                             <div class="img-align">
-                                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                                     alt=""/>
+                                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
                                                                             </div>
                                                                         </figure>
                                                                     </div>
@@ -112,24 +115,20 @@
                                                                      data-index="$index"> <%-- 빈칸 class="slide" 까지 합해서 총 최대 7개 --%>
                                                                     <figure class="img-ratio">
                                                                         <div class="img-align">
-                                                                            <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                                 alt=""/>
+                                                                            <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt=""/>
                                                                         </div>
                                                                     </figure>
                                                                     <div class="line"></div>
                                                                 </div>
 
-                                                                <div class="slide"
-                                                                     data-index="4"> <%-- 이미지 없을 시 클래스 slide만 남겨놔야 함. --%>
+                                                                <div class="slide" data-index="4"> <%-- 이미지 없을 시 클래스 slide만 남겨놔야 함. --%>
                                                                     <figure class="img-ratio">
                                                                         <div class="img-align">
-                                                                            <img src="/images/pc/auction/view_thumbnail_bg.jpg"
-                                                                                 alt=""/>
+                                                                            <img src="/images/pc/auction/view_thumbnail_bg.jpg" alt=""/>
                                                                         </div>
                                                                     </figure>
                                                                     <div class="line"></div>
                                                                 </div>
-
                                                             </div>
                                                         </div>
                                                     </div>
@@ -174,20 +173,20 @@
                                             </div>
                                             <div class="artist-area">
                                                 <div class="name">
-                                                    <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT"></strong>
-                                                    <span ng-bind="'b.' + lotInfo.BORN_YEAR">b.1990</span>
+                                                    <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT" title="{{lotInfo.ARTIST_NAME_KO_TXT}}"></strong>
+                                                    <span ng-show="lotInfo.BORN_YEAR" ng-bind="'b.' + lotInfo.BORN_YEAR" title="{{'b.' + lotInfo.BORN_YEAR}}"></span>
                                                 </div>
                                                 <div class="desc">
-                                                    <span class="text-over span_block"
-                                                          ng-bind="lotInfo.TITLE_KO_TXT"></span>
+                                                    <span class="text-over span_block" title="{{lotInfo.TITLE_KO_TXT}}" ng-bind="lotInfo.TITLE_KO_TXT"></span>
                                                 </div>
                                             </div>
                                             <div class="price-area">
-                                                <dl class="price-list">
+                                                <dl class="price-list" >
                                                     <dt>추정가</dt>
-                                                    <dd ng-bind="estimatedRange"></dd>
+                                                    <dd ng-bind="estimatedRange" ng-if="lotInfo.EXPE_PRICE_INQ_YN !== 'Y'"></dd>
+                                                    <dd ng-if="lotInfo.EXPE_PRICE_INQ_YN === 'Y'">별도문의</dd>
                                                 </dl>
-                                                <dl class="price-list">
+                                                <dl class="price-list" ng-if="lotInfo.START_PRICE > 0">
                                                     <dt>시작가</dt>
                                                     <dd id="start_cost"><!--WEB SOCKET--></dd>
                                                 </dl>
@@ -239,8 +238,7 @@
                                                     <span>작품문의 <a href="tel:02-395-0330">02-395-0330</a></span>
                                                 </div>
                                                 <div class="print-box">
-                                                    <a href="/auction/view/print/{{lotInfo.SALE_NO}}/{{lotInfo.LOT_NO}}"
-                                                       target="_blank">
+                                                    <a href="/auction/view/print/{{lotInfo.SALE_NO}}/{{lotInfo.LOT_NO}}" target="_blank">
                                                         <button class="print-btn">
                                                             <i class="icon-view_print"></i>
                                                         </button>
@@ -256,68 +254,93 @@
                                         <div class="info-box">
                                             <div class="title">작품정보</div>
                                             <div class="desc">
-                                                <span ng-bind="lotInfo.MATE_NM_EN"></span>
+                                               <%-- 재질--%>
+                                                <span title="{{lotInfo.MATE_NM_EN}}" ng-bind="lotInfo.MATE_NM_EN"></span>
                                                 <br/>
 
-                                                <%--재질 규격--%>
-                                                <span ng-repeat="size in lotInfo.LOT_SIZE_JSON">
-                                                        <span ng-bind="size | size_text_cm"></span>
-                                                </span>
+                                                <%-- 규격--%>
+                                                <div ng-repeat="size in lotInfo.LOT_SIZE_JSON">
+                                                    <span title="{{size | size_text_cm}}" bind-html-compile="size | size_text_cm"></span>
+                                                </div>
+
                                                 <%--에디션--%>
                                                 <div ng-show="lotInfo.EDITION">
                                                     <span> {{lotInfo.EDITION}} </span>
                                                 </div>
 
-                                                <%--년도--%>
+                                                <%--제작년도--%>
                                                 <div ng-show="isNotObjectEmpty(lotInfo.MAKE_YEAR_JSON)">
-                                                    <span> {{lotInfo.MAKE_YEAR_JSON | locale_format }}</span>
+                                                    <span title="{{lotInfo.MAKE_YEAR_JSON | locale_format }}">{{lotInfo.MAKE_YEAR_JSON | locale_format }}</span>
                                                 </div>
 
-                                                <%--서명 값--%>
-                                                <span> {{lotInfo.SIGN_INFO_JSON | locale_format }}</span>
+                                                <%--서명 정보--%>
+                                                <div ng-show="isNotObjectEmpty(lotInfo.SIGN_INFO_JSON)">
+                                                    <span title="{{lotInfo.SIGN_INFO_JSON | locale_format }}">{{lotInfo.SIGN_INFO_JSON | locale_format }}</span>
+                                                </div>
+
+                                               <div ng-if="lotInfo.FRAME_CD!='none'">
+                                                   <span>{{lotInfo.FRAME_CD}}</span>
+                                               </div>
+                                            </div>
+
+                                            <!-- [0714]작품정보 하위댑스 추가 -->
+                                            <div class="info-sub-wrap">
+                                                <%-- CONDITION --%>
+                                                <div ng-show="isNotObjectEmpty(lotInfo.COND_RPT_JSON)" class="info-sub-box">
+                                                    <div class="tit tt5">CONDITION</div>
+                                                    <div class="desc" bind-html-compile="lotInfo.COND_RPT_JSON[locale]"></div>
+                                                </div>
+
+                                                <%--PROVENANCE--%>
+                                                <div ng-show="isNotObjectEmpty(lotInfo.PROV_INFO_JSON)" class="info-sub-box">
+                                                    <div class="tit tt5">PROVENANCE</div>
+                                                    <div class="desc" bind-html-compile="lotInfo.PROV_INFO_JSON[locale]"></div>
+                                                </div>
+
+                                                <%--LITERATURE--%>
+                                                <div ng-show="isNotObjectEmpty(lotInfo.LITE_INFO_JSON)" class="info-sub-box">
+                                                    <div class="tit tt5">LITERATURE</div>
+                                                    <div class="desc">{{lotInfo.LITE_INFO_JSON | locale_format }}</div>
+                                                </div>
+
+                                                <%--EXHIBITED--%>
+                                                <div ng-show="isNotObjectEmpty(lotInfo.EXHI_INFO_JSON)" class="info-sub-box">
+                                                    <div class="tit tt5">EXHIBITED</div>
+                                                    <div class="desc">{{lotInfo.EXHI_INFO_JSON | locale_format }}</div>
+                                                </div>
+                                            </div>
+                                            <!-- [0714]작품정보 하위댑스 추가 -->
+                                        </div>
+
+                                        <!-- [0714]작품설명 추가 -->
+                                        <div ng-show="isNotObjectEmpty(lotInfo.CMMT_JSON)" class="info-box">
+                                            <div class="title">작품 설명</div>
+                                            <div class="desc txt-pre-line">{{lotInfo.CMMT_JSON | locale_format }}</div>
+                                        </div>
+
+                                        <!-- [0613]notice 추가 -->
+                                        <div ng-show="isNotObjectEmpty(sale.NOTICE_DTL_JSON)" class="info-box">
+                                            <!-- [0714]텍스트 대소문자 수정 -->
+                                            <div class="title">NOTICE</div>
+                                            <!-- //[0714]텍스트 대소문자 수정 -->
+
+                                            <div class="desc txt-pre-line">
+                                                <ul class="mark_dot-list" bind-html-compile="sale.NOTICE_DTL_JSON[locale]">
+                                                </ul>
                                             </div>
                                         </div>
-
-                                        <%--LITERATURE--%>
-                                        <div ng-show="isNotObjectEmpty(lotInfo.LITE_INFO_JSON)" class="info-box">
-                                            <div class="title">LITERATURE</div>
-                                            <div class="desc">{{lotInfo.LITE_INFO_JSON | locale_format }}</div>
-                                        </div>
-
-                                        <%--EXHIBITED--%>
-                                        <div ng-show="isNotObjectEmpty(lotInfo.EXHI_INFO_JSON)" class="info-box">
-                                            <div class="title">EXHIBITED</div>
-                                            <div class="desc">{{lotInfo.EXHI_INFO_JSON | locale_format }}</div>
-                                        </div>
-
-                                        <%--PROVENANCE--%>
-                                        <div ng-show="isNotObjectEmpty(lotInfo.PROV_INFO_JSON)" class="info-box">
-                                            <div class="title">PROVENANCE</div>
-                                            <div class="desc">{{lotInfo.PROV_INFO_JSON | locale_format }}</div>
-                                        </div>
-
-                                        <%--Condition Report--%>
-                                        <div ng-show="isNotObjectEmpty(lotInfo.COND_RPT_JSON)" class="info-box">
-                                            <div class="title">Condition Report</div>
-                                            <div class="desc">{{lotInfo.COND_RPT_JSON | locale_format }}</div>
-                                        </div>
-
-                                        <%--작품 설명--%>
-<%--                                        <div ng-show="isNotObjectEmpty(lotInfo.CMMT_JSON)" class="info-box">--%>
-<%--                                            <div class="title">작품 설명</div>--%>
-<%--                                            <div class="desc">{{lotInfo.CMMT_JSON | locale_format }}</div>--%>
-<%--                                        </div>--%>
-
-
-                                        <div id="artist_layer" class="info-box">
-                                            <div class="title">작가정보</div>
-                                            <div class="desc" id="artistName">
+                                        <!-- //[0613]notice 추가 -->
+                                        <div class="info-box">
+                                            <div id="artist_layer" class="info-box">
+                                                <div class="title">작가정보</div>
+                                                <div class="desc txt-pre-line" id="artistName">
+                                                </div>
+                                                <div class="desc txt-pre-line" id="artistProfile">
+                                                </div>
+                                                <div class="desc txt-pre-line" id="artistMedia"> 
+                                                </div>
                                             </div>
-                                            <div class="desc" id="artistProfile">
-                                            </div>
-                                            <div class="desc" id="artistMedia">
-                                            </div>
-                                        </div>
+                                        </div> <%-- //info-box --%>
                                     </div>
                                 </article>
 
@@ -333,7 +356,7 @@
                                                 <ul id="recently_views" class="product-list">
                                                     <li class="" ng-repeat="item in recentlyViews">
                                                         <div class="li-inner">
-                                                            <a href="/auction/live/online/{{item.SALE_NO}}/{{item.LOT_NO}}">
+                                                            <a href="/auction/online/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
                                                                 <article class="item-article">
                                                                     <div class="image-area">
                                                                         <figure class="img-ratio">
@@ -1299,8 +1322,7 @@
                 sale_title += JSON.parse($scope.lotInfo.SALE_TITLE_JSON).ko;
                 $scope.fullTitle = sale_title;
 
-                $scope.estimatedRange = $scope.lotInfo.BASE_EXPE_FROM_PRICE + ' ~ '
-                    + $scope.lotInfo.BASE_EXPE_TO_PRICE;
+                $scope.estimatedRange = $scope.lotInfo.BASE_EXPE_FROM_PRICE + ' ~ ' + $scope.lotInfo.BASE_EXPE_TO_PRICE;
 
                 $scope.recentlyViews = r6.data.data;
 
@@ -1310,6 +1332,7 @@
                 $scope.sale.buttonList.map(item => {
                     item.content = JSON.parse(item.content);
                 });
+                $scope.sale.NOTICE_DTL_JSON = JSON.parse($scope.sale.NOTICE_DTL_JSON);
 
                 let S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
                 let S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
@@ -1345,8 +1368,7 @@
                 // popup setting
                 let imgUrl;
                 if($scope.lotImages[0]) {
-                    imgUrl = $scope.lotImages[0].IMAGE_URL +
-                        $scope.lotImages[0].FILE_PATH + "/" + $scope.lotImages[0].FILE_NAME;
+                    imgUrl = $scope.lotImages[0].IMAGE_URL + $scope.lotImages[0].FILE_PATH + "/" + $scope.lotImages[0].FILE_NAME;
                 }
 
                 $("#bidding_title").html($scope.lotInfo.TITLE_KO_TXT);
@@ -1358,7 +1380,6 @@
                 $("#lot_size").html(size_text_cm($scope.lotInfo.LOT_SIZE_JSON));
                 $("#lot_mt_nm").html($scope.lotInfo.MATE_NM);
 
-                console.log("125540", $scope.cust_no);
                 startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2, '${member.loginId}', $scope.cust_no);
 
                 //await $scope.setSale($scope.sale_no);
@@ -1751,11 +1772,17 @@
             }
 
             /* === 스와이퍼 === */
+            /* [0708]  스크립트 수정 */
             console.log("스와이퍼 set");
+            var imagesSwiperIndex = 0;
             var imagesSwiper = new Swiper('.js-imagesSwiper .gallery_center', {
                 loop: true,
-                simulateTouch: false,
-                pagination: ".js-imagesSwiper_pagination",
+                simulateTouch: true,
+                //pagination: ".js-imagesSwiper_pagination",
+                pagination: {
+                    el: '.js-imagesSwiper_pagination',
+                    type: 'bullets',
+                },
                 paginationClickable: true,
                 breakpoints: {
                     1023: {
@@ -1765,17 +1792,34 @@
                         spaceBetween: 10
                     }
                 },
-                onSlideChangeStart: function (swiper) { // 움직임이 시작하면 실행
-                    imagesResizePcMb();
-                    if ($("body").hasClass("is_pc")) {
-                        panzoom.reset(); // zoom reset
+                // onSlideChangeStart: function (swiper) { // 움직임이 시작하면 실행
+                //     imagesResizePcMb();
+                //     if ($("body").hasClass("is_pc")) {
+                //         panzoom.reset(); // zoom reset
+                //     }
+                // },
+                // onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
+                //     imagesResizePcMb();
+                //     thumbnailActive(swiper.realIndex);
+                //     console.log(">>> ", swiper.realIndex)
+                // }
+                on: {
+                    transitionStart: function() {
+                        // 움직임이 시작하면 실행
+                        imagesResizePcMb();
+                        if ($("body").hasClass("is_pc")) {
+                            panzoom.reset(); // zoom reset
+                        }
+                    },
+                    transitionEnd: function() {
+                        // 움직임이 끝나면 실행
+                        if (imagesSwiper != undefined) {
+                            imagesSwiperIndex = imagesSwiper.realIndex;
+                        }
+                        imagesResizePcMb();
+                        thumbnailActive();
                     }
                 },
-                onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
-                    imagesResizePcMb();
-                    thumbnailActive(swiper.realIndex);
-                    console.log(">>> ", swiper.realIndex)
-                }
             })
             // 좌우버튼
             $('.images-popup .page_prev').on('click', function ($e) {
@@ -1939,9 +1983,9 @@
         let datet = new Date();
         let url = '';
         if (window.location.protocol !== "https:") {
-            url = "http://dev-bid.seoulauction.xyz/bid";
+            url = "http${bid_domain}/bid";
         } else {
-            url = "https://dev-bid.seoulauction.xyz/bid";
+            url = "https${bid_domain}/bid";
         }
 
         let response = await fetch(url, {
@@ -1969,9 +2013,9 @@
         let val = document.getElementById("bid_new_cost_val").getAttribute("value");
         let url = '';
         if (window.location.protocol !== "https:") {
-            url = "http://dev-bid.seoulauction.xyz/bid";
+            url = "http${bid_domain}/bid";
         } else {
-            url = "https://dev-bid.seoulauction.xyz/bid";
+            url = "https${bid_domain}/bid";
         }
         let response = await fetch(url, {
             method: "POST",
@@ -2056,14 +2100,15 @@
         }
 
         if (window.location.protocol !== "https:") {
-            w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws?sale_no=" +
+            w = new WebSocket("wss${bid_domain}/ws?sale_no=" +
                 saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
-                "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
+                "&user_id=" + userId + "&paddle=0&sale_type=2&bid_type=21");
         } else {
-            w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws?sale_no=" +
+            w = new WebSocket("ws${bid_domain}/ws?sale_no=" +
                 saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
-                "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
+                "&user_id=" + userId + "&paddle=0&sale_type=2&bid_type=21");
         }
+
         w.onopen = function () {
             console.log("open");
         }
@@ -2103,9 +2148,9 @@
         let url = '';
 
         if (window.location.protocol !== "https:") {
-            url = "http://dev-bid.seoulauction.xyz";
+            url = "http${bid_domain}";
         } else {
-            url = "https://dev-bid.seoulauction.xyz";
+            url = "https${bid_domain}";
         }
 
         if (d.msg_type === packet_enum.init) {

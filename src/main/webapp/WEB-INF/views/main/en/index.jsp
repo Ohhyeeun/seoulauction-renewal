@@ -120,7 +120,7 @@
                         <fieldset class="newsletter-checkbox">
                             <input type="checkbox" id="subscript_check" class="common_checkbox" value='subscript_check' name='subscript_check'>
                             <label for="subscript_check">
-                                <span class="terms-checktxt">I agree to the collection and use of personal information.</span>
+                                <span class="terms-checktxt"><span class="terms-checktxt-line">I agree to the collection and use</span> of personal information.</span>
                             </label>
                         </fieldset>
                     </form>

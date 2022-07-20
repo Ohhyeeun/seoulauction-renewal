@@ -15,7 +15,7 @@ $(document).ready(function(){
 
         let url = '/api/footer/recruits?page='+current_page+"&size="+data_size;
         if(search_text){
-            url +="&search="+search_text;
+            url +="&search="+encodeURIComponent(search_text);
         }
 
         axios.get(url)
