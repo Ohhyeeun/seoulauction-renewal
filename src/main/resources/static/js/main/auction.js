@@ -28,7 +28,7 @@ $(document).ready(function(){
                     //TODO 인클루드 작업.
                     $.each(auctionData , function(idx , el){
 
-                        const titleBlob = el.TITLE_BLOB;
+                        const titleBlob = el.SHORT_TITLE? el.SHORT_TITLE : el.TITLE_BLOB;
                         const title = JSON.parse(titleBlob);
                         let name = locale === 'ko' ? title.ko : title.en;
                             name = localeOrdinal(el.SALE_TH, locale) + name;
