@@ -62,7 +62,12 @@ $(function() {
         console.log(JSON.stringify(result));
       });
     });
-
+	
+	const button9 = makeButton('getRememberMe', () => {
+      getWebviewData('remember-me').then(result => {
+        console.log(JSON.stringify(result));
+      });
+    });
     footerContainer.appendChild(button1);
     footerContainer.appendChild(button2);
     footerContainer.appendChild(button3);
@@ -71,6 +76,7 @@ $(function() {
     footerContainer.appendChild(button6);
     footerContainer.appendChild(button7);
     footerContainer.appendChild(button8);
+    footerContainer.appendChild(button9);
 
     function makeButton(text, onClickHandler) {
       const button = document.createElement('button');

@@ -8,7 +8,7 @@
 			S.SALE_NO,
 			COLUMN_JSON(S.TITLE_BLOB) SALE_TITLE_JSON,
 		    S.SALE_TH SALE_TH,
-			DATE_FORMAT(S.TO_DT,'%Y-%m-%d') FROM_DT
+			DATE_FORMAT(S.TO_DT,'%Y-%m-%d') TO_DT
 		from
 		     SALE S
 		where

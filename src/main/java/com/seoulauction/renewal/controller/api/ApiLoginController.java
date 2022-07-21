@@ -42,21 +42,26 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("api/login")
 public class ApiLoginController {
-
+	/*첨부파일 service */
 	private final S3Service s3Service;
 	
+	/*로그인 service */
 	private final LoginService loginService;
 	
+	/*이메일 발송 service */
 	private final MessageService messageService;
 
+	/*휴대폰 인증 service */
 	private final CertificationService certificationService;
 
+	/*마이페이지 service */
 	private final MypageService mypageService;
 
 	private final FrontAuthenticationProvider frontAuthenticationProvider;
 
 	private final SocialAuthenticationProvider socialAuthenticationProvider;
 	
+	/*로그인 mapper */
 	private final LoginMapper loginMapper;
 	
 	@Value("${mobile.msg.callback}")

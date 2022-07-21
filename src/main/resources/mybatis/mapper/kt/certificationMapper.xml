@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seoulauction.renewal.mapper.kt.CertificationMapper">	
 
-	<!--본인인증  -->
+	<!--휴대폰 번호로 경매정보 조회  -->
 	<select id="selectSaleCertByCustHp" resultType="CommonMap">
 		SELECT
 		    *
@@ -16,10 +16,12 @@
 			1
 	</select>
 	
+	<!--인증번호 생성  -->
 	<select id="selectAuthNumber" resultType="int">
    		select CAST(FLOOR(100000 + RAND() * 899999) AS unsigned integer);
 	</select>
 	
+	<!--인증번호 등록  -->
 	<insert id="insertAuthNumber" >
 	   	insert into SC_TRAN(
 			TR_PHONE,
@@ -35,6 +37,7 @@
 		);
 	</insert>
 	
+	<!--경매 > 온라인 휴대폰 인증 > 경매정보 등록   -->
 	<insert id="insertSaleCert" parameterType="Map" useGeneratedKeys="true" keyProperty="sale_cert_no">
 		insert into SALE_CERT (SALE_NO, CUST_NO, HP, CUST_HP, DONE_CD, REG_DT, REG_EMP_NO)
 		VALUES (
@@ -48,14 +51,17 @@
 		);
 	</insert>	
 	
+	<!-- 경매 > 온라인 휴대폰 인증 > 사용자 정보 수정  -->
 	<update id="updateCustHp">
 		update CUST set HP = #{hp} where CUST_NO = #{action_user_no};
 	</update>	
 	
+	<!-- 경매 > 온라인 휴대폰 인증 > 경매정보 수정 -->
 	<update id="updateSaleCertHp">
 		update SALE_CERT set DONE_CD='modify' where	SALE_CERT_NO = #{sale_cert_no};
 	</update>	
 
+	<!-- 회원가입 > 중복체크 -->
 	<select id="selectDuplicationForJoin" resultType="CommonMap"> <!-- 탈퇴자는  카운트 제외. 웹회원만 체크 -->
 		select CUST_NO from CUST where STAT_CD &lt;&gt; 'leave'  and JOIN_KIND_CD = 'online'
 		<if test="login_id != null">
@@ -75,7 +81,7 @@
 		</if>
 	</select>
 	
-	<!-- 이메일 인증(외국인)  -->
+	<!-- 회원가입 > 이메일 인증(외국인) -->
 	<update id="updateCustForForeAuth" parameterType="CommonMap">
 	    update CUST
 	    set 
@@ -83,6 +89,7 @@
 		where FORE_CERT_CODE = #{fore_cert_code}
 	</update>
 
+	<!-- 인증정보 조회  -->
 	<select id="selectSaleCertInfo" resultType="CommonMap">
 		select 	count(*) as CNT, (select max(A.HP) from CUST A where A.CUST_NO = #{cust_no}) as HP
 		from	SALE_CERT A
