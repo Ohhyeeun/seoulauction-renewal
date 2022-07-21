@@ -95,6 +95,9 @@
 					var expire = new Date();
 					expire.setDate(expire.getDate() + 30);
 					document.cookie = 'recentSocialType=' + "KA" + '; path=/; expires=' + expire.toGMTString() + ';';
+					var rememberMeCookie = getCookie('remember-me');
+					console.log("리멤버미쿠키 : " + rememberMeCookie);
+					setWebviewData('remember-me', rememberMeCookie);
 					location.href = "/";
 				}else{
 					if(response.data.data.msg == "Not Certify User"){
