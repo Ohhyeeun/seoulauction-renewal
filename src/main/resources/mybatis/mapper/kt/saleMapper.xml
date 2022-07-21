@@ -630,7 +630,7 @@
         select *
         from BID
         where SALE_NO = #{sale_no}
-          and LOT_NO = #{bid_no}
+          and LOT_NO = #{lot_no}
         order by BID_NO desc limit 1;
     </select>
 
