@@ -61,6 +61,17 @@ public class SAExceptionHandler {
                 .build());
     }
 
+    //서버에서 오류난경우 오류페이지로 리턴시킬때 사용.( 500 에러페이지 리턴! )
+    @ExceptionHandler(InternalServerException.class)
+    public String InternalSererException(Exception e , Locale locale){
+
+        String errorMsg = ExceptionUtils.getStackTrace(e);
+        log.error(errorMsg);
+        slackSender.sendMessage(errorMsg);
+
+        return SAConst.getUrl(SERVICE_ERROR , "error_500" , locale);
+    }
+
 
     //그외 심각한 오류들
     @ExceptionHandler(Exception.class)

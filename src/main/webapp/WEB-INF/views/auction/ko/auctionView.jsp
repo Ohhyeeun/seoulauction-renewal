@@ -186,7 +186,7 @@
                                                     <dd ng-bind="estimatedRange" ng-if="lotInfo.EXPE_PRICE_INQ_YN !== 'Y'"></dd>
                                                     <dd ng-if="lotInfo.EXPE_PRICE_INQ_YN === 'Y'">별도문의</dd>
                                                 </dl>
-                                                <dl class="price-list" ng-if="lotInfo.START_PRICE > 0">
+                                                <dl class="price-list" ng-show="lotInfo.START_PRICE > 0">
                                                     <dt>시작가</dt>
                                                     <dd id="start_cost"><!--WEB SOCKET--></dd>
                                                 </dl>
@@ -205,7 +205,7 @@
                                                     <div class="btn_item">
                                                         <a class="btn btn_point btn_lg" href="#" role="button"
                                                            id="bid_btn"
-                                                           ng-click="popSet(sale_no, lot_no, user_id, cust_no);"><span>응찰하기</span></a>
+                                                           ng-click="popSet(sale_no, lot_no, user_id, cust_no);"><span>응찰</span></a>
                                                     </div>
                                                 </div>
                                                 <div class="btn_set cols_2">
@@ -453,7 +453,7 @@
 
                         </div>
                         <div class="btn-box">
-                            <button id="bid_btn" ng-click="popSet(sale_no, lot_no, user_id, cust_no);">응찰하기</button>
+                            <button id="bid_btn" ng-click="popSet(sale_no, lot_no, user_id, cust_no);">응찰</button>
                         </div>
                     </div>
                 </article>
@@ -567,7 +567,7 @@
         <!-- stykey -->
     </div>
 </div>
-<!--  응찰하기(온라인)  -->
+<!--  응찰(온라인)  -->
 <div id="popup_biddingPopup1-wrap" class="trp popupfixed-wrap bidding-online-popup">
     <div class="popup-dim"></div>
     <div class="popup-align mode-lg mode-mb_full">
@@ -630,7 +630,12 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="topbtn-area">
+                                    <div class="online_end" id="end_bid_true" style="display:none;">
+                                        <div class="txt">
+                                            현재 LOT의 경매가 <span>종료</span>되었습니다.
+                                        </div>
+                                    </div>
+                                    <div class="topbtn-area" name="end_bid_false">
                                         <div class="btn_set">
                                             <div class="btn_item"><a class="btn btn_default btn_lg" href="#"
                                                                      role="button"><span>1회 응찰</span></a></div>
@@ -638,19 +643,19 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="caution-area">
+                                    <div class="caution-area" name="end_bid_false">
                                         <ul class="mark_char-list">
-                                            <li class="accent"><span>응찰하기 버튼을 누르시면 취소가 불가능합니다.</span></li>
+                                            <li class="accent"><span>응찰 버튼을 누르시면 취소가 불가능합니다.</span></li>
                                             <li class=""><span>동시 응찰자 경우, 서버시각 기준 우선순위가 부여됩니다.</span></li>
                                         </ul>
                                     </div>
-                                    <div class="bottombtn-area">
+                                    <div class="bottombtn-area" name="end_bid_false"">
                                         <div class="btn_set active">
                                             <div class="btn_item"><a class="btn btn_point btn_lg typo-pc_mb-line"
                                                                      id="bid_new_cost_val" href="javascript:bid();"
                                                                      role="button" value=""><span
                                                     id="bid_new_cost"></span> <span
-                                                    id="bid_new_cost_btn">응찰하기</span></a></div>
+                                                    id="bid_new_cost_btn">응찰</span></a></div>
                                         </div>
                                         <div class="btn_set type-pc_mb-column">
                                             <div class="btn_item">
@@ -663,7 +668,7 @@
                                             <div class="btn_item"><a class="btn btn_point btn_lg"
                                                                      href="javascript:autoBid();"
                                                                      role="button"><span
-                                                    id="auto_bid_txt">응찰하기</span></a></div>
+                                                    id="auto_bid_txt">응찰</span></a></div>
                                         </div>
                                     </div>
                                 </article>
@@ -758,7 +763,7 @@
     </div>
 
 </div>
-<!-- 응찰하기 -->
+<!-- 응찰 -->
 <div id="bidding_go-wrap" class="trp popupfixed-wrap auction_info-popup  ">
     <div class="popup-dim"></div>
     <div class="popup-align mode-ms mode-mb_center">
@@ -789,7 +794,7 @@
                                     <a id="auto_on_cancel" class="btn btn_default" href="#"
                                        role="button"><span>취소</span></a>
                                     <a id="auto_on_ok" class="btn btn_point" href="#"
-                                       role="button"><span>응찰하기</span></a>
+                                       role="button"><span>응찰</span></a>
                                 </div>
                             </article>
                         </section>
@@ -1019,6 +1024,8 @@
         $scope.onStateCostTxt = "";
 
         $scope.selectLotTag = "전체";
+
+        $scope.endBid = false;
 
         // 호출 부
         const getSaleInfo = (saleNo) => {
@@ -1332,7 +1339,10 @@
                 $scope.sale.buttonList.map(item => {
                     item.content = JSON.parse(item.content);
                 });
-                $scope.sale.NOTICE_DTL_JSON = JSON.parse($scope.sale.NOTICE_DTL_JSON);
+                if ($scope.sale.NOTICE_DTL_JSON != undefined) {
+                    $scope.sale.NOTICE_DTL_JSON = JSON.parse($scope.sale.NOTICE_DTL_JSON);
+                }
+
 
                 let S_DB_NOW = $filter('date')($scope.sale.DB_NOW, 'yyyyMMddHHmm');
                 let S_DB_NOW_D = $filter('date')($scope.sale.DB_NOW, 'yyyyMMdd');
@@ -2067,7 +2077,7 @@
 
 
         } else {
-            let  c = confirm("자동응찰 중지하기 전까지의\n 응찰 낙찰 내역은 모두 기록되며 유효합니다.\n\n응찰하시겠습니까?", "응찰하기", "취소");
+            let  c = confirm("자동응찰 중지하기 전까지의\n 응찰 낙찰 내역은 모두 기록되며 유효합니다.\n\n응찰하시겠습니까?", "응찰", "취소");
             if (c) {
                 autoBiding(connect_info);
             }
@@ -2102,12 +2112,13 @@
         if (window.location.protocol !== "https:") {
             w = new WebSocket("ws${bid_domain}/ws?sale_no=" +
                 saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
-                "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
+                "&user_id=" + userId + "&paddle=0&sale_type=2&bid_type=21");
         } else {
             w = new WebSocket("wss${bid_domain}/ws?sale_no=" +
                 saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
-                "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
+                "&user_id=" + userId + "&paddle=0&sale_type=2&bid_type=21");
         }
+
         w.onopen = function () {
             console.log("open");
         }
@@ -2141,6 +2152,7 @@
             end_time_sync: 5,
             winner: 6,
             auto_bid_sync: 14,
+            lot_refresh: 16,
         }
         let d = JSON.parse(evt.data);
 
@@ -2206,7 +2218,7 @@
                     d.message.bid[len - 1].open_bid_cost :
                     d.message.bid[len - 1].bid_cost) + d.message.bid[len - 1].bid_quote);
 
-                document.getElementById("bid_new_cost_btn").innerText = "응찰하기";
+                document.getElementById("bid_new_cost_btn").innerText = "응찰";
                 if (d.message.bid != null && d.message.bid.length > 0) {
                     let bid_hist_info = d.message.bid;
                     if (d.message.bid[len - 1].customer.cust_no === custNo) {
@@ -2260,7 +2272,7 @@
 
                             // time
                             let dt_ly_span3 = document.createElement("span");
-                            dt_ly_span3.innerText = ddd.format("hh:mm:ss");
+                            dt_ly_span3.innerText = ddd.format("HH:mm:ss");
 
                             if (bid_hist_info[i].is_auto_bid) {
                                 // type
@@ -2380,6 +2392,10 @@
             if (d.message.bids != null && d.message.bids.length > 0) {
                 let bid_info = d.message.bids[0];
 
+                if (bid_info.winner_state === 2) {
+                    document.querySelector("#bid_btn span").innerText = "경매결과 보기";
+                }
+
                 // element
                 let bid = document.getElementById("bid_cost_val");
                 let bid_cnt = document.getElementById("bid_cost_cnt");
@@ -2413,15 +2429,13 @@
 
                 quote_unit.innerText = "KRW " + bid_info.bid_quote.toLocaleString('ko-KR');
 
-                bid_new_cost.innerText = "KRW " + (((bid_info.bid_cost === 0) ?
-                    bid_info.open_bid_cost :
-                    bid_info.bid_cost) + bid_info.bid_quote).toLocaleString('ko-KR');
+                bid_new_cost.innerText = "KRW " + ((d.message.bids_hist == null ||
+                    (d.message.bids_hist[0].value != null && d.message.bids_hist[0].value.length === 0)) ? bid_info.open_bid_cost : bid_info.bid_cost + bid_info.bid_quote).toLocaleString('ko-KR');
 
-                document.getElementById("bid_new_cost_val").setAttribute("value", ((bid_info.bid_cost === 0) ?
-                    bid_info.open_bid_cost :
-                    bid_info.bid_cost) + bid_info.bid_quote);
+                document.getElementById("bid_new_cost_val").setAttribute("value",  (d.message.bids_hist == null ||
+                    (d.message.bids_hist[0].value != null && d.message.bids_hist[0].value.length === 0)) ? bid_info.open_bid_cost : bid_info.bid_cost + bid_info.bid_quote);
 
-                document.getElementById("bid_new_cost_btn").innerText = "응찰하기";
+                document.getElementById("bid_new_cost_btn").innerText = "응찰";
 
                 let cost_tmp = (bid_info.bid_cost === 0) ?
                     bid_info.open_bid_cost :
@@ -2470,7 +2484,7 @@
                         $("#reservation_bid").val(d.message.reservation_bid.bid_cost);
                     } else {
                         $("#reservation_bid").prop("disabled", false);
-                        $("#auto_bid_txt").text("응찰하기");
+                        $("#auto_bid_txt").text("응찰");
                         $("#reservation_bid option:eq(0)").prop("selected", true);
                     }
                 }
@@ -2522,6 +2536,7 @@
                                         dt_ly_span1.innerText = "낙찰";
                                         document.getElementById("cur_cost_text").innerText = "낙찰가";
                                         document.getElementById("cur_cost_text2").innerText = "낙찰가";
+
                                     }
                                     let dt_ly_span11;
                                     if (bid_hist_info[i].value[j].is_auto_bid) {
@@ -2537,7 +2552,7 @@
 
                                     // time
                                     let dt_ly_span3 = document.createElement("span");
-                                    dt_ly_span3.innerText = ddd.format("hh:mm:ss");
+                                    dt_ly_span3.innerText = ddd.format("HH:mm:ss");
 
                                     if (bid_info.winner_state === 2) {
                                         dt_ly.appendChild(dt_ly_span1);
@@ -2569,6 +2584,8 @@
                 }
                 // 낙찰이 완료 되었다면
                 if (bid_info.winner_state === 2) {
+                    $("#end_bid_true").css("display","");
+                    $("div[name='end_bid_false']").css("display","none");
                     let bid_tick = document.getElementById("bid_tick");
                     let bid_tick_main = document.getElementById("end_date_time");
                     if (end_bid_time <= 0) {
@@ -2625,7 +2642,7 @@
                         $("#auto_bid_txt").text("자동응찰 중지");
                     } else {
                         $("#reservation_bid").prop("disabled", false);
-                        $("#auto_bid_txt").text("응찰하기");
+                        $("#auto_bid_txt").text("응찰");
                         let quote_arr = [];
                         if (d.message.quotes.quotes != null && d.message.quotes.quotes.length > 0) {
                             let cnt = 1;
@@ -2670,6 +2687,17 @@
                     }
 
 
+                }
+            }
+        } else if (d.msg_type === packet_enum.lot_refresh) {
+            if (d.message !== undefined && d.message != null) {
+                if (d.message.data !== undefined && d.message.data != null) {
+                    for (let j = 0; j < d.message.data.length; j++) {
+                        if (d.message.data[j].SALE_NO ===  saleNo && d.message.data[j].LOT_NO === lotNo) {
+                            $("#start_cost").text("KRW " + d.message.data[j].START_PRICE.toLocaleString('ko-KR'));
+                            end_bid_time = d.message.data[j].END_BID_TIME;
+                        }
+                    }
                 }
             }
         }

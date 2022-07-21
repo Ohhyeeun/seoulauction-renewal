@@ -1084,6 +1084,13 @@ recent-keyword:lang(en) {
     max-width: 1920px;
     margin: 0 auto;
 }
+.innerfooter-familybox {
+    max-width: 1920px;
+    margin: 0 auto;
+    position: relative;
+    top: 0;
+    right: 60px;
+}
 .footer_menubox {
     /*padding-top: 37px; */
     padding-bottom: 37px;
@@ -1179,9 +1186,9 @@ recent-keyword:lang(en) {
 }
 .Familysite-selectbox {
     position: absolute;
-    top: calc(50% - 102px);
-    right: 50px;
-    z-index: 1;
+    /*top: calc(50% - 102px);*/
+    top: calc(50% + 140px);
+    right: 0px;
     cursor: pointer;
 }
 .familyselect {
@@ -2173,6 +2180,9 @@ body.dark,
     .innerfooter {
         padding: 35px 25px 50px 25px;
         height: 100%;
+    }
+    .innerfooter-familybox {
+        right: auto;
     }
     .Familysite,
     .familyselect {

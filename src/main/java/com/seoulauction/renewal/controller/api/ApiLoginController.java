@@ -42,21 +42,26 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("api/login")
 public class ApiLoginController {
-
+	/*첨부파일 service */
 	private final S3Service s3Service;
 	
+	/*로그인 service */
 	private final LoginService loginService;
 	
+	/*이메일 발송 service */
 	private final MessageService messageService;
 
+	/*휴대폰 인증 service */
 	private final CertificationService certificationService;
 
+	/*마이페이지 service */
 	private final MypageService mypageService;
 
 	private final FrontAuthenticationProvider frontAuthenticationProvider;
 
 	private final SocialAuthenticationProvider socialAuthenticationProvider;
 	
+	/*로그인 mapper */
 	private final LoginMapper loginMapper;
 	
 	@Value("${mobile.msg.callback}")
@@ -375,7 +380,7 @@ public class ApiLoginController {
 			if(paramMap.containsKey("is_native")) {
 				log.info("is native : {}", paramMap.get("is_native"));
 				log.info("getParameter remember-me : {}", request.getParameter("remember-me"));
-				new SocialRememberMeService(rememberMeKey + "social", new RememberMeService(loginMapper)).loginSuccess(request, response, sc.getAuthentication());
+				new SocialRememberMeService(rememberMeKey, new RememberMeService(loginMapper)).loginSuccess(request, response, sc.getAuthentication());
 			}
 			HttpSession session = request.getSession(true);
 			session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
@@ -385,14 +390,6 @@ public class ApiLoginController {
 		}
 
         return ResponseEntity.ok(RestResponse.ok());
-	}
-	
-	//로그아웃
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public ResponseEntity<RestResponse> logout(HttpServletRequest request, HttpServletResponse response){
-		log.info("logout");
-		new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
-		return ResponseEntity.ok(RestResponse.ok());
 	}
 	
 	//소셜회원 기가입체크

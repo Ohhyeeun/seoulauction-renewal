@@ -28,7 +28,7 @@ $(document).ready(function(){
                     //TODO 인클루드 작업.
                     $.each(auctionData , function(idx , el){
 
-                        const titleBlob = el.TITLE_BLOB;
+                        const titleBlob = el.SHORT_TITLE? el.SHORT_TITLE : el.TITLE_BLOB;
                         const title = JSON.parse(titleBlob);
                         let name = locale === 'ko' ? title.ko : title.en;
                             name = localeOrdinal(el.SALE_TH, locale) + name;
@@ -69,8 +69,8 @@ $(document).ready(function(){
 
         $.each(data , function(lotIdx , el){
 
-            let imgPath = img_pre_fix +'/images/img/main/auction_sum/20190613.jpg';
-            if(el.FILE_PATH !== undefined || el.FILE_NAME !== undefined){
+            let imgPath = img_pre_fix +'/images/bg/no_image.jpg';
+            if(el.IMG_DISP_YN === 'Y' && (el.FILE_PATH !== undefined || el.FILE_NAME !== undefined)){
                 imgPath = 'https://www.seoulauction.com/nas_img' + el.FILE_PATH + '/' + el.FILE_NAME;
             }
             let lotTitle = JSON.parse(el.EXPE_PRICE_TITLE);

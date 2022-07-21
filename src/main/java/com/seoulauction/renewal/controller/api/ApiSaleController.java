@@ -40,7 +40,7 @@ public class ApiSaleController {
     private String IMAGE_URL;
 
     private WebClient webClient = WebClient.builder()
-            .baseUrl("http://localhost:8002")
+            .baseUrl("http://dev-bid.seoulauction.xyz")
             .build();
 
     @RequestMapping(value="/bid", method = RequestMethod.POST)
@@ -99,10 +99,16 @@ public class ApiSaleController {
                                                 @PathVariable("sale_no") int saleNo,
                                                 @PathVariable("lot_no") int lotNo) {
 
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+
         CommonMap map = new CommonMap();
         map.put("sale_no", saleNo);
         map.put("lot_no", lotNo);
-        map.put("cust_no" , 1);
+        if(saUserDetails !=null){
+            map.put("cust_no" , saUserDetails.getUserNo());
+        } else {
+            map.put("cust_no" , 0);
+        }
 
         // 세일 정보
         CommonMap saleInfoMap = saleService.selectSaleInfo(map);
@@ -137,7 +143,6 @@ public class ApiSaleController {
 
 
         //로그인한 정보를 가져온다.
-        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
         //직원 여부
         boolean isEmployee = false;
         //만약 로그인을 했고 직원 이면.
@@ -168,15 +173,15 @@ public class ApiSaleController {
             for(var item : mapKeys) {
                 lotInfoMap.put(item, mapper.readValue(String.valueOf(lotInfoMap.get(item)), Map.class));
                 Map<String,Object> m = (Map<String,Object>)lotInfoMap.get(item);
+
                 if (item.equals("ARTIST_NAME_JSON")) {
 
                     // artist filter DB화 필요
                     List<String> artistFilters = new ArrayList<>();
                     artistFilters.add("김환기");
                     artistFilters.add("박수근");
-
                     for (var artist : artistFilters) {
-                        if (m.get(locale.getLanguage()).equals(artist)) {
+                        if (m !=null && m.get(locale.getLanguage()).equals(artist)) {
                             lotInfoMap.put("IMAGE_MAGNIFY", false);
                             break;
                         }
@@ -198,10 +203,6 @@ public class ApiSaleController {
                             .append(svf).toString();
                     String uv = new StringBuilder().append("USD ")
                             .append(uvf).toString();
-
-
-
-
 
                     if (item.equals("EXPE_PRICE_TO_JSON")) {
                         lotInfoMap.put("BASE_EXPE_TO_PRICE", cv);

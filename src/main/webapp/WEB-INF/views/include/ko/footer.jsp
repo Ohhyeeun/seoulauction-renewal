@@ -4,7 +4,17 @@
 
 
 <footer class="footer">
-    <section class="footerBg">
+    <section class="footerBg"> 
+        <div class="innerfooter-familybox">
+            <div class="Familysite-selectbox">
+                <a href="javascript:void(0);" class="Familysite">Family Site</a>
+                <ul class="familyselect">
+                    <li><a href="https://www.auctionblue.com/index" target="_blank">Print Bakery</a></li>
+                    <li><a href="https://printbakery.com/" target="_blank">Auction Blue</a></li>
+                    <li><a href="https://sotwo.com/" target="_blank">SOTOW</a></li>
+                </ul>
+            </div>
+        </div>
         <div class="innerfooter">
             <section class="flex_wrap footer_menubox">
                 <ul class="footer-gnbmenu">
@@ -44,21 +54,8 @@
 
                     서울옥션 웹사이트의 콘텐츠(이미지/문자/영상/화면 등)에 대한 무단 복제, 배포, 전송, 게시, 크롤링/스크래핑 등 행위는 저작권법, 부정경쟁방지 및 영업비밀보호에 관한 법률 등 관련 법령에 의하여 금지됩니다.
                 </p>
-                <p>
-                    <button onclick="isNativeApp()" style="color: #f00;">getHeaders</button><br />
-                    <button onclick="saveDeviceInfo()" style="color: #f00;">getDeviceInfo</button><br />
-                    <button onclick="saveDeviceInfo()" style="color: #f00;">saveDeviceInfo</button><br />
-                </p>
             </section>
         </div> <%--innerfooter--%>
-        <div class="Familysite-selectbox">
-            <a href="javascript:void(0);" class="Familysite">Family Site</a>
-            <ul class="familyselect">
-                <li><a href="https://www.auctionblue.com/index" target="_blank">Print Bakery</a></li>
-                <li><a href="https://printbakery.com/" target="_blank">Auction Blue</a></li>
-                <li><a href="https://sotwo.com/" target="_blank">SOTOW</a></li>
-            </ul>
-        </div>
     </section>
 </footer>
 <%--</footer>--%>

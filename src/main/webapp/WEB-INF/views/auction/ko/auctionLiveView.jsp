@@ -151,9 +151,9 @@
                                                     <a href="#" title="" class="sns_share js-sns_share"><i
                                                             class="icon-view_sns"></i></a>
                                                     <a id="heart" title=""
-                                                       ng-class="{'work_heart':lotInfo.FAVORITE_YN,'js-work_heart':lotInfo.FAVORITE_YN,'on':lotInfo.FAVORITE_YN==='Y'}"
-                                                       ng-click="favorite(lotInfo.SALE_NO, lotInfo.LOT_NO);"><i
-                                                            class="icon-view_heart_off"></i></a>
+
+                                                       ng-class="lotInfo.FAVORITE_YN === 'Y' ? 'work_heart js-work_heart on' : 'work_heart js-work_heart'"
+                                                       ng-click="favorite(lotInfo.SALE_NO, lotInfo.LOT_NO);"><i class="icon-view_heart_off"></i></a>
 
                                                     <div class="sns_layer-area">
                                                         <div class="sns-layer">
@@ -176,7 +176,8 @@
                                             <div class="artist-area">
                                                 <div class="name">
                                                     <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT"></strong>
-                                                    <span ng-bind="'b.' + lotInfo.BORN_YEAR"></span>
+                                                    <span ng-show="lotInfo.BORN_YEAR"
+                                                          ng-bind="'b.' + lotInfo.BORN_YEAR"></span>
                                                 </div>
                                                 <div class="desc">
                                                     <span class="text-over span_block"
@@ -378,7 +379,8 @@
                                                                         <div class="product_info">
                                                                             <div class="num_heart-box">
                                                                                 <span class="num" ng-bind="item.LOT_NO"></span>
-                                                                                <a ng-class="{'heart':item.FAVORITE_YN,'js-work_heart':item.FAVORITE_YN,'on':item.FAVORITE_YN==='Y'}"
+
+                                                                                <a ng-class="item.FAVORITE_YN === 'Y' ? 'heart js-work_heart on' : 'heart js-work_heart'"
                                                                                    ng-click="favorite2(item.SALE_NO, item.LOT_NO, $index);"><i
                                                                                         class="icon-heart_off"></i></a>
                                                                             </div>
@@ -696,7 +698,7 @@
                     <div class="pop-header">
                         <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
                     </div>
-                    <div class="pop-body">
+                    <div class="pop-body scroll_none">
                         <article class="viewer-article js-zoom_inout">
                             <div class="gallery_view js-imagesSwiper" style="">
                                 <div class="gallery_center">
@@ -1170,7 +1172,7 @@
                 // 0718
                 $scope.saleLotList = r7.data.data;
 
-                console.log($scope.lotImages);
+                console.log($scope.lotInfo);
 
 
                 $scope.lotTags = r8.data.data;
@@ -1397,9 +1399,6 @@
                         },
                     },
                 });
-
-                /* 이미지 팝업 브라우저별 해상도 resize */
-                let browserWidth = window.innerWidth;
 
 
                 $.each($(".swiper-slide"), function () {

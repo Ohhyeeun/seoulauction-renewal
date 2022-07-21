@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.auth.Cryptography;
 import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.exception.InternalServerException;
 import com.seoulauction.renewal.exception.SAException;
 import kr.co.nicevan.nicepay.adapter.web.NicePayHttpServletRequestWrapper;
 import lombok.extern.log4j.Log4j2;
@@ -133,7 +134,7 @@ public class NicePayModule {
                 throw new SAException(e.getMessage());
             }
         } else {
-            throw new SAException("인증요청이 올바르지 않습니다.");
+            throw new InternalServerException("인증요청이 올바르지 않습니다.");
         }
 
         return resultMap;

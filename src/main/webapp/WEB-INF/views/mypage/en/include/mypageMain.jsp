@@ -8,20 +8,14 @@
 <sec:authentication property="Details.userNm" var="userName"/>
 <sec:authentication property="Details.validDate" var="validDate"/> 
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-	    <meta charset="UTF-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	    <title>mypage | Seoul Auction</title>
-	</head>
+<jsp:include page="../../../include/en/header.jsp" flush="false"/>
+
 <body class="" ng-controller="myPageCtl"  ng-init="loadMemberInfo()" ng-cloak>
     <div class="wrapper">
         <div class="sub-wrap pageclass">
 
             <!-- header -->
-            <jsp:include page="../../../include/en/header.jsp" flush="false" />
+            <jsp:include page="../../../include/en/nav.jsp" flush="false" />
 			<script type="text/javascript" src="/js/mypage/mypageSide.js"></script>
             <!-- //header -->
 
@@ -159,5 +153,3 @@
 	<!-- 팝업 : side popup -->
 	<jsp:include page="mypageSidePopup.jsp" flush="false"/>
 </body>
-
-</html>

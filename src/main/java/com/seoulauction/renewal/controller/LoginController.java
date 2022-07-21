@@ -183,6 +183,7 @@ public class LoginController {
     }
 
 
+    /*회원가입 > 이메일 인증(외국인)*/
     @GetMapping(value = "/join/{uuid}")
     public String joinAuthCode(Locale locale, @PathVariable(value = "uuid") String uuid, HttpServletResponse response) throws IOException{
     	CommonMap paramMap = new CommonMap();

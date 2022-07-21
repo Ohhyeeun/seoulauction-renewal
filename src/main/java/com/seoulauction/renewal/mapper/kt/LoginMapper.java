@@ -19,10 +19,13 @@ public interface LoginMapper {
     
     int updateCustLoginFailCntByCustNo(CommonMap paramMap);
     
+    /*아이디 찾기*/
     List<CommonMap> selectCustLoginIdByCustName(CommonMap paramMap);
 
+    /*비밀번호 업데이트*/
     int updatePasswordByLoginId(CommonMap commonMap);
 
+    /*비밀번호 찾기 > 사용자 조회*/
     CommonMap selectCustomerByStatCdAndLoginId(CommonMap paramMap);
 
     CommonMap selectCustLoginId(CommonMap paramMap);

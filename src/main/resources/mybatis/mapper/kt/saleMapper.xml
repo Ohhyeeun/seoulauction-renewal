@@ -521,6 +521,7 @@
                                     E.DEL_YN = 'N'
         where A.CUST_NO = #{cust_no}
           and A.SALE_NO = #{sale_no}
+          and B.LOT_NO != ${lot_no}  -- 현재 상세 페이지 랏은 제외.
           and B.DISP_ORD = 1
         ORDER BY VIEW_DT DESC limit 5;
     </select>
@@ -629,7 +630,7 @@
         select *
         from BID
         where SALE_NO = #{sale_no}
-          and LOT_NO = #{bid_no}
+          and LOT_NO = #{lot_no}
         order by BID_NO desc limit 1;
     </select>
 

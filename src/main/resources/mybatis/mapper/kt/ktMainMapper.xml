@@ -118,8 +118,8 @@
 		select
 			*
 		   ,COLUMN_JSON(L.TITLE_BLOB) EXPE_PRICE_TITLE -- 타이틀
-		   ,COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON -- 가격
-		   ,COLUMN_JSON(L.EXPE_PRICE_TO_BLOB) EXPE_PRICE_TO_JSON -- 가격
+		   ,COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON -- 낮은 추정가
+		   ,COLUMN_JSON(L.EXPE_PRICE_TO_BLOB) EXPE_PRICE_TO_JSON -- 높은 추정가
 			<if test="cust_no != null">
 		   ,IFNULL(IL.DEL_YN,'Y') FAVORITE_YN /*N 이면 좋아요가 있음. Y면 좋아요가 아님.*/
 			</if>
@@ -132,6 +132,8 @@
 		where
 			  L.SALE_NO = #{sale_no}
 		  and L.STAT_CD = 'entry'
+		  and L.WWW_DISP_YN = 'Y'
+-- 		  and L.IMG_DISP_YN = 'Y'
 		group by
 			L.LOT_NO
 		limit
