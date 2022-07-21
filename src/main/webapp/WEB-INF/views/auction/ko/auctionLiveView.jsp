@@ -151,9 +151,9 @@
                                                     <a href="#" title="" class="sns_share js-sns_share"><i
                                                             class="icon-view_sns"></i></a>
                                                     <a id="heart" title=""
-                                                       ng-class="{'work_heart':lotInfo.FAVORITE_YN,'js-work_heart':lotInfo.FAVORITE_YN,'on':lotInfo.FAVORITE_YN==='Y'}"
-                                                       ng-click="favorite(lotInfo.SALE_NO, lotInfo.LOT_NO);"><i
-                                                            class="icon-view_heart_off"></i></a>
+
+                                                       ng-class="lotInfo.FAVORITE_YN === 'Y' ? 'work_heart js-work_heart on' : 'work_heart js-work_heart'"
+                                                       ng-click="favorite(lotInfo.SALE_NO, lotInfo.LOT_NO);"><i class="icon-view_heart_off"></i></a>
 
                                                     <div class="sns_layer-area">
                                                         <div class="sns-layer">
@@ -378,7 +378,8 @@
                                                                         <div class="product_info">
                                                                             <div class="num_heart-box">
                                                                                 <span class="num" ng-bind="item.LOT_NO"></span>
-                                                                                <a ng-class="{'heart':item.FAVORITE_YN,'js-work_heart':item.FAVORITE_YN,'on':item.FAVORITE_YN==='Y'}"
+
+                                                                                <a ng-class="item.FAVORITE_YN === 'Y' ? 'heart js-work_heart on' : 'heart js-work_heart'"
                                                                                    ng-click="favorite2(item.SALE_NO, item.LOT_NO, $index);"><i
                                                                                         class="icon-heart_off"></i></a>
                                                                             </div>
@@ -1170,7 +1171,7 @@
                 // 0718
                 $scope.saleLotList = r7.data.data;
 
-                console.log($scope.lotImages);
+                console.log($scope.lotInfo);
 
 
                 $scope.lotTags = r8.data.data;

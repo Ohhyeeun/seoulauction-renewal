@@ -99,10 +99,16 @@ public class ApiSaleController {
                                                 @PathVariable("sale_no") int saleNo,
                                                 @PathVariable("lot_no") int lotNo) {
 
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+
         CommonMap map = new CommonMap();
         map.put("sale_no", saleNo);
         map.put("lot_no", lotNo);
-        map.put("cust_no" , 1);
+        if(saUserDetails !=null){
+            map.put("cust_no" , saUserDetails.getUserNo());
+        } else {
+            map.put("cust_no" , 0);
+        }
 
         // 세일 정보
         CommonMap saleInfoMap = saleService.selectSaleInfo(map);
@@ -137,7 +143,6 @@ public class ApiSaleController {
 
 
         //로그인한 정보를 가져온다.
-        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
         //직원 여부
         boolean isEmployee = false;
         //만약 로그인을 했고 직원 이면.
