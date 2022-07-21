@@ -630,7 +630,12 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="topbtn-area">
+                                    <div class="online_end" id="end_bid_true" style="display:none;">
+                                        <div class="txt">
+                                            현재 LOT의 경매가 <span>종료</span>되었습니다.
+                                        </div>
+                                    </div>
+                                    <div class="topbtn-area" name="end_bid_false">
                                         <div class="btn_set">
                                             <div class="btn_item"><a class="btn btn_default btn_lg" href="#"
                                                                      role="button"><span>1회 응찰</span></a></div>
@@ -638,13 +643,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="caution-area">
+                                    <div class="caution-area" name="end_bid_false">
                                         <ul class="mark_char-list">
                                             <li class="accent"><span>응찰 버튼을 누르시면 취소가 불가능합니다.</span></li>
                                             <li class=""><span>동시 응찰자 경우, 서버시각 기준 우선순위가 부여됩니다.</span></li>
                                         </ul>
                                     </div>
-                                    <div class="bottombtn-area">
+                                    <div class="bottombtn-area" name="end_bid_false"">
                                         <div class="btn_set active">
                                             <div class="btn_item"><a class="btn btn_point btn_lg typo-pc_mb-line"
                                                                      id="bid_new_cost_val" href="javascript:bid();"
@@ -1019,6 +1024,8 @@
         $scope.onStateCostTxt = "";
 
         $scope.selectLotTag = "전체";
+
+        $scope.endBid = false;
 
         // 호출 부
         const getSaleInfo = (saleNo) => {
@@ -2265,7 +2272,7 @@
 
                             // time
                             let dt_ly_span3 = document.createElement("span");
-                            dt_ly_span3.innerText = ddd.format("hh:mm:ss");
+                            dt_ly_span3.innerText = ddd.format("HH:mm:ss");
 
                             if (bid_hist_info[i].is_auto_bid) {
                                 // type
@@ -2384,6 +2391,10 @@
 
             if (d.message.bids != null && d.message.bids.length > 0) {
                 let bid_info = d.message.bids[0];
+
+                if (bid_info.winner_state === 2) {
+                    document.querySelector("#bid_btn span").innerText = "경매결과 보기";
+                }
 
                 // element
                 let bid = document.getElementById("bid_cost_val");
@@ -2525,6 +2536,7 @@
                                         dt_ly_span1.innerText = "낙찰";
                                         document.getElementById("cur_cost_text").innerText = "낙찰가";
                                         document.getElementById("cur_cost_text2").innerText = "낙찰가";
+
                                     }
                                     let dt_ly_span11;
                                     if (bid_hist_info[i].value[j].is_auto_bid) {
@@ -2540,7 +2552,7 @@
 
                                     // time
                                     let dt_ly_span3 = document.createElement("span");
-                                    dt_ly_span3.innerText = ddd.format("hh:mm:ss");
+                                    dt_ly_span3.innerText = ddd.format("HH:mm:ss");
 
                                     if (bid_info.winner_state === 2) {
                                         dt_ly.appendChild(dt_ly_span1);
@@ -2572,6 +2584,8 @@
                 }
                 // 낙찰이 완료 되었다면
                 if (bid_info.winner_state === 2) {
+                    $("#end_bid_true").css("display","");
+                    $("div[name='end_bid_false']").css("display","none");
                     let bid_tick = document.getElementById("bid_tick");
                     let bid_tick_main = document.getElementById("end_date_time");
                     if (end_bid_time <= 0) {
