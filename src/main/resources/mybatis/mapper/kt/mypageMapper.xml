@@ -464,7 +464,6 @@
 				JOIN CODE_GRP CB ON CA.GRP_ID = CB.GRP_ID
 				LEFT OUTER JOIN CODE CC ON CA.P_CD_ID = CC.CD_ID
 				where CA.GRP_ID = 'bbs_inquiry_category'
-				and CA.USE_YN = 'Y'
 			) C ON A.CATE_CD = C.CD_ID
 			LEFT OUTER JOIN EMP D ON A.EMP_NO = D.EMP_NO
 			WHERE A.WRITER_NO = #{action_user_no}
@@ -508,7 +507,6 @@
 			JOIN CODE_GRP CB ON CA.GRP_ID = CB.GRP_ID
 			LEFT OUTER JOIN CODE CC ON CA.P_CD_ID = CC.CD_ID
 			where CA.GRP_ID = 'bbs_inquiry_category'
-			and CA.USE_YN = 'Y'
 		) C ON A.CATE_CD = C.CD_ID
 		LEFT OUTER JOIN EMP D ON A.EMP_NO = D.EMP_NO
 		where A.BBS_ID= 'inquiry' and A.STAT_CD='normal' and A.WRITE_NO = #{write_no}
@@ -538,7 +536,7 @@
 		where		USE_YN = 'Y'
 				<foreach collection="grp_ids" item="item" index="index" open="and GRP_ID in (" close=")" separator=",">
 					'${item}'
-				</foreach>
+				</foreach> 
 		order by GRP_ID, DISP_ORD, CD_NM_EN
 	</select>
 	
