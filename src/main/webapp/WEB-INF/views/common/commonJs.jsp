@@ -22,9 +22,9 @@
 <script>
 $(() => {
   /**
-   * Footer 앵커태그 네이티브 호환으로 변경
+   * 페이지 내 앵커태그 네이티브 호환 되도록 변경
    */
-  const anchors = [...document.querySelectorAll('footer a[target="_blank"]')];
+  const anchors = [...document.querySelectorAll('a[target="_blank"]')];
   anchors.forEach(tag => {
     tag.addEventListener('click', e => {
       e.preventDefault();
