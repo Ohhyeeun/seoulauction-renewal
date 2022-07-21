@@ -690,7 +690,7 @@
                 let pp = [];
 
                 for (let i = 0; i < $scope.saleInfoAll.length; i++) {
-                    if ($scope.saleInfoAll[i].ARTIST_NAME_JSON.ko.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1 || $scope.saleInfoAll[i].LOT_TITLE_JSON.ko.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1) {
+                    if ($scope.saleInfoAll[i].ARTIST_NAME_JSON != null && $scope.saleInfoAll[i].ARTIST_NAME_JSON.ko.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1 || $scope.saleInfoAll[i].LOT_TITLE_JSON != null && $scope.saleInfoAll[i].LOT_TITLE_JSON.ko.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1) {
                         pp.push($scope.saleInfoAll[i]);
                     }
                 }
@@ -2014,6 +2014,7 @@
                             } else {
                                 $scope.sale_status = "END";
 
+                                // TODO: 온라인 경매는 당일까지 확인 가능 (직원은 계속 가능)
                                 if (sessionStorage.getItem("is_login") === 'false') {
                                     alert("권한이 없거나 허용되지 않은 접근입니다.");
                                     //history_back();

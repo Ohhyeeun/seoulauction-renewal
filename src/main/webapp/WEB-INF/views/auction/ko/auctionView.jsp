@@ -49,8 +49,7 @@
                                                         <div class="trp-dropdown_list-box"
                                                              data-trp-focusid="js-user_support">
                                                             <div class="search-box">
-                                                                <input id="search_lot" type="search"
-                                                                       placeholder="LOT 번호 입력">
+                                                                <input id="search_lot" type="search" placeholder="LOT 번호 입력">
                                                                 <i class="form-search_md"></i>
                                                             </div>
                                                             <div class="list-box scroll-type">
@@ -1698,8 +1697,7 @@
                                 }
                             });
 
-
-                            $("#artistName").html(JSON.parse(artistData.name).ko + ' ' + artistData.birth + '~' + artistData.death);
+                            $("#artistName").html(JSON.parse(artistData.name).ko + ' ' + artistData.birth + (artistData.death ? '~' + artistData.death : ''));
                             $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
 
                             let html = '<div class="vide_img-box">';
@@ -2193,8 +2191,8 @@
                     "KRW " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR') :
                     "KRW " + d.message.bid[len - 1].bid_cost.toLocaleString('ko-KR');
 
-                let cost_add_vat = (d.message.bid[len - 1].bid_cost === 0) ? d.message.bid[len - 1].open_bid_cost :
-                    d.message.bid[len - 1].bid_cost * 1.198;
+                let cost_add_vat = (d.message.bid[len - 1].bid_cost === 0) ? d.message.bid[len - 1].open_bid_cost * 1.18:
+                    d.message.bid[len - 1].bid_cost * 1.18;
 
                 document.getElementById("cost_add_vat").innerText = cost_add_vat.toLocaleString('ko-KR');
 
@@ -2413,8 +2411,7 @@
                     "KRW " + bid_info.bid_cost.toLocaleString('ko-KR');
 
 
-                let cost_add_vat = (bid_info.bid_cost === 0) ? bid_info.open_bid_cost :
-                    bid_info.bid_cost * 1.198;
+                let cost_add_vat = (bid_info.bid_cost === 0) ? bid_info.open_bid_cost * 1.18 : bid_info.bid_cost * 1.18;
 
                 document.getElementById("cost_add_vat").innerText = cost_add_vat.toLocaleString('ko-KR');
 
