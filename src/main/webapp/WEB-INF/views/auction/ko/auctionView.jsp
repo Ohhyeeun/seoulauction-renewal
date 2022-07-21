@@ -2145,6 +2145,7 @@
             end_time_sync: 5,
             winner: 6,
             auto_bid_sync: 14,
+            lot_refresh: 16,
         }
         let d = JSON.parse(evt.data);
 
@@ -2672,6 +2673,17 @@
                     }
 
 
+                }
+            }
+        } else if (d.msg_type === packet_enum.lot_refresh) {
+            if (d.message !== undefined && d.message != null) {
+                if (d.message.data !== undefined && d.message.data != null) {
+                    for (let j = 0; j < d.message.data.length; j++) {
+                        if (d.message.data[j].SALE_NO ===  saleNo && d.message.data[j].LOT_NO === lotNo) {
+                            $("#start_cost").text("KRW " + d.message.data[j].START_PRICE.toLocaleString('ko-KR'));
+                            end_bid_time = d.message.data[j].END_BID_TIME;
+                        }
+                    }
                 }
             }
         }

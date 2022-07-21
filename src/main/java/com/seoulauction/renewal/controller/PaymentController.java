@@ -208,7 +208,10 @@ public class PaymentController {
 
         String goodsName = "서울옥션-작품결제"; 					// 결제상품명
         String moid = "mnoid1234567890"; 			// 상품주문번호
-        String returnURL = nicePayMobileBaseReturnUrl + "/payment/workProcess"; // 결과페이지(절대경로) - 모바일
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(nicePayMobileBaseReturnUrl).append("/payment/workProcess").append("?sale_no=").append(saleNo).append("&lot_no=").append(lotNo);
+        String returnURL = stringBuilder.toString();  // 결과페이지(절대경로) - 모바일
 
         CommonMap paramMap = new CommonMap();
 

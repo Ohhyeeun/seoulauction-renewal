@@ -10,7 +10,7 @@
             and is_open = 'Y'
             and status = 'A'
             and start_at + interval 9 hour <=  (now() + interval 9 hour)
-            and end_at + interval 9 hour  >= (now() + interval 9 hour)
+            and end_at + interval 1 day + interval 9 hour >= (now() + interval 9 hour)
             order by start_at desc, id desc
        limit 3;
     ]]>
@@ -23,7 +23,7 @@
         where mb.banner_type = 'middle-rolling'
             and mb.status = 'A'
             and mb.start_at + interval 9 hour <= now() + interval 9 hour
-            and mb.end_at + interval 9 hour >= now() + interval 9 hour
+            and mb.end_at + interval 1 day + interval 9 hour >= now() + interval 9 hour
         order by mb.sort desc;
     ]]>
     </select>

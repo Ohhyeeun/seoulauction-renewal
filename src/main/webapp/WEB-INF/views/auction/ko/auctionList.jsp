@@ -1099,7 +1099,7 @@
                 const packet_enum = {
                     init: 1, bid_info: 2,
                     time_sync: 3, bid_info_init: 4,
-                    end_time_sync: 5, winner: 6, auto_bid_sync: 14
+                    end_time_sync: 5, winner: 6, auto_bid_sync: 14, lot_refresh: 16,
                 }
                 let d = JSON.parse(evt.data);
                 if (d.msg_type === packet_enum.init) {
@@ -1158,7 +1158,7 @@
                         bid_new_cost.innerText = "KRW " + (((d.message.bid[len - 1].bid_cost === 0) ? d.message.bid[len - 1].open_bid_cost : d.message.bid[len - 1].bid_cost) + d.message.bid[len - 1].bid_quote).toLocaleString('ko-KR');
 
                         document.getElementById("bid_new_cost_val").setAttribute("value", ((d.message.bid[len - 1].bid_cost === 0) ? d.message.bid[len - 1].open_bid_cost : d.message.bid[len - 1].bid_cost) + d.message.bid[len - 1].bid_quote);
-                        document.getElementById("bid_new_cost_btn").innerText = "응찰하기";
+                        document.getElementById("bid_new_cost_btn").innerText = "응찰";
 
                         if (d.message.bid != null && d.message.bid.length > 0) {
                             if (d.message.bid[len - 1].customer.cust_no === $scope.cust_no) {
@@ -1335,7 +1335,7 @@
                                 diffSec = ""
                             }*/
                             $scope.searchSaleInfoAll[j].BID_TICK = diffDay + diffHour + ":" + diffMin + ":" + diffSec;
-                            $scope.searchSaleInfoAll[j].BID_TICK_BTN = "응찰하기"
+                            $scope.searchSaleInfoAll[j].BID_TICK_BTN = "응찰"
                             //현재 일이 종료일보다 큰 경우
                         } else if ($scope.searchSaleInfoAll[j].END_DT < d.message.tick_value) {
                             if ($scope.searchSaleInfoAll[j].bid_count > 0) {
@@ -1380,7 +1380,7 @@
                                 diffSec = ""
                             }*/
                             $scope.saleInfoAll[j].BID_TICK = diffDay + diffHour + ":" + diffMin + ":" + diffSec;
-                            $scope.saleInfoAll[j].BID_TICK_BTN = "응찰하기"
+                            $scope.saleInfoAll[j].BID_TICK_BTN = "응찰"
                             //현재 일이 종료일보다 큰 경우
                         } else if ($scope.saleInfoAll[j].END_DT < d.message.tick_value) {
                             if ($scope.saleInfoAll[j].bid_count > 0) {
@@ -1463,7 +1463,7 @@
                             document.getElementById("bid_new_cost_val").setAttribute("value", ((d.message.bids_hist == null ||
                                 (d.message.bids_hist != null && d.message.bids_hist[0].value != null
                                     && d.message.bids_hist[0].value.length === 0 )) ? bid_info.open_bid_cost : bid_info.bid_cost + bid_info.bid_quote));
-                            document.getElementById("bid_new_cost_btn").innerText = "응찰하기";
+                            document.getElementById("bid_new_cost_btn").innerText = "응찰";
 
                             if (bid_info.customer.cust_no === $scope.cust_no) {
                                 document.getElementById("bid_new_cost_val").setAttribute("disabled", true);
@@ -1611,7 +1611,7 @@
                                 $("#reservation_bid").val(d.message.reservation_bid.bid_cost);
                             } else {
                                 $("#reservation_bid").prop("disabled", false);
-                                $("#auto_bid_txt").text("응찰하기");
+                                $("#auto_bid_txt").text("응찰");
                                 $("#reservation_bid option:eq(0)").prop("selected", true);
                             }
                         }
@@ -1740,7 +1740,7 @@
                                 $("#reservation_bid").val(d.message.reservation_bid.bid_cost);
                             } else {
                                 $("#reservation_bid").prop("disabled", false);
-                                $("#auto_bid_txt").text("응찰하기");
+                                $("#auto_bid_txt").text("응찰");
                                 let quote_arr = [];
                                 if (d.message.quotes.quotes != null && d.message.quotes.quotes.length > 0) {
                                     let cnt = 1;
@@ -1785,6 +1785,24 @@
                             }
                         }
                     }
+                } else if (d.msg_type === packet_enum.lot_refresh) {
+                    if (d.message !== undefined && d.message != null) {
+                        if (d.message.data !== undefined && d.message.data != null) {
+                            let matching = new Map();
+                            for (let j = 0; j < d.message.data.length; j++) {
+                                matching.set(d.message.data[j].SALE_NO + "-" + d.message.data[j].LOT_NO, j);
+                            }
+                            let i = 0;
+                            for (let j = 0; j < $scope.saleInfoAll.length; j++) {
+                                i = matching.get($scope.saleInfoAll[j].SALE_NO +
+                                    "-" + $scope.saleInfoAll[j].LOT_NO);
+                                $scope.saleInfoAll[j].STAT_CD = d.message.data[i].STAT_CD;
+                                $scope.saleInfoAll[j].START_PRICE = "KRW " + d.message.data[i].START_PRICE.toLocaleString('ko-KR');
+                                $scope.saleInfoAll[j].END_DT = d.message.data[i].END_BID_TIME;
+                            }
+                        }
+                    }
+                    $scope.$apply();
                 }
             }
             /*##################### 웹소켓 끝 #####################*/
