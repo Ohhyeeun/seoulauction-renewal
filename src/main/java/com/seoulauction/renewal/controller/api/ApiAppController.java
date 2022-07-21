@@ -21,8 +21,9 @@ public class ApiAppController {
 
     @ApiOperation(value="insertAppInfo", notes="앱 재진입 시, 앱 기기 ID & 버전정보 저장")
     @PostMapping(value="/insert-app-info")
-    public ResponseEntity<RestResponse> insertAppInfo(@ApiParam(example = "device_id : string\nos : string\napp_version : string") @RequestBody CommonMap paramMap) {
-        //requestBody내 json 데이터 : device_id(앱 기기 ID), os(사용 os 정보), app_version(앱 버전정보) 필수 그 외 필요시 추가
+    public ResponseEntity<RestResponse> insertAppInfo(
+            @ApiParam(example = "device_id : string\nos : string\napp_version : string\ndevice_version : string") @RequestBody CommonMap paramMap) {
+        //requestBody내 json 데이터 : device_id(앱 기기 ID), os(사용 os 정보), app_version(앱 버전정보), device_version(앱 기기 버전정보) 필수 그 외 필요시 추가
         log.info("앱 기기 ID & 버전정보 저장 API 실행(insertAppInfo)");
         return ResponseEntity.ok(RestResponse.ok(appService.insertAppInfo(paramMap)));
     }

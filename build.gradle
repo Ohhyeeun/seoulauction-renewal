@@ -97,6 +97,11 @@ dependencies {
 
     //taglib
     implementation 'org.apache.taglibs:taglibs-standard-impl:1.2.5'
+
+    //jwt
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+
 }
 
 tasks.named('test') {

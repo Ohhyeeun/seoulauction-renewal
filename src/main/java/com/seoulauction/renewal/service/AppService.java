@@ -7,9 +7,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
+
+import io.jsonwebtoken.*;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +22,9 @@ import java.util.List;
 public class AppService {
 
     private final AppMapper appMapper;
+
+    private static final String JWT_SECRET_KEY = "logtok"; //JWT Token의 서명(Signature)에 사용될 비밀키 (임의값)
+
     public CommonMap insertAppInfo(CommonMap map) {
         List<CommonMap> resultList = appMapper.selectDeviceId(map);
         if(resultList.size() < 1) {
@@ -36,8 +44,10 @@ public class AppService {
         CommonMap map = new CommonMap();
         if(resultList.size() < 1) {
             log.info("Token 조회 결과 없음 => Token 생성 및 insert");
-            //JWT Token을 생성하는 로직 구현 요망
-            String tokenVal = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.dyt0CoTl4WoVjAHI9Q_CwSKhl6d_9rhM3NrXuJttkao";
+            //JWT Token을 생성
+            String tokenVal;
+            tokenVal = createToken(paramMap);
+            System.out.println("생성된 JWT 토큰 값 = "+tokenVal);
             paramMap.put("token", tokenVal); //토큰 값
             //토큰 만료기간은 토큰 생성 시간으로부터 1년
             appMapper.insertLoginToken(paramMap);
@@ -58,6 +68,43 @@ public class AppService {
         }
 
         return map;
+    }
+
+    private String createToken(CommonMap paramMap) { //JWT Token을 생성 메소드
+        log.info("로그인 Token 생성 메소드 실행");
+        //JWT Header 설정
+        CommonMap headers = new CommonMap();
+        headers.put("typ", "JWT");      //Token Type
+        headers.put("alg", "HS256");    //Signature를 해싱하기위한 알고리즘 지정
+
+        //JWT Payload 설정
+        CommonMap payloads = new CommonMap();
+        //고객번호를 Base64로 인코딩
+        String custNo = String.valueOf(paramMap.get("cust_no"));
+        String encodedCustNo = Base64.getEncoder().encodeToString(custNo.getBytes(StandardCharsets.UTF_8));
+//        System.out.println("JWT Payload 설정 : CUST_NO = "+custNo+", encoded CUST_NO = "+encodedCustNo);
+        payloads.put("payloadKey", encodedCustNo);
+
+        //JWT 비밀키 설정 (임의 설정 String 값 + 중복되지 않는 4자리 난수)
+        //4자리 난수 생성
+        Random rand = new Random();
+        String numStr = "";
+        for(int i = 0; i < 4; i++) {
+            String ran = Integer.toString(rand.nextInt(10)); //0~9 까지 난수 생성
+            if(!numStr.contains(ran)) numStr += ran;
+            else i -= 1;
+        }
+        String jwtSecretKey = JWT_SECRET_KEY+numStr;
+//        System.out.println("JWT 비밀키 설정 : 비밀키 = "+jwtSecretKey);
+
+        //JWT 토큰 생성
+        String jwt = Jwts.builder()
+                .setHeader(headers)
+                .setClaims(payloads)
+                .signWith(SignatureAlgorithm.HS256, jwtSecretKey.getBytes()) //Header에서 설정한 알고리즘과 비밀키로 서명(Signature) 추가
+                .compact();
+
+        return jwt;
     }
 
     public int deleteLoginToken(CommonMap paramMap) {
