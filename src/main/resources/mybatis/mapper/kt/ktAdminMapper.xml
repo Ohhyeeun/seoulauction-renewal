@@ -12,12 +12,12 @@
 		from
 		     SALE S
 		where
-		      S.DEL_YN = 'N'
-		  and S.WWW_DISP_YN = 'Y'
-		  and S.SALE_OUTSIDE_YN = 'N'
-		  and S.TO_DT <![CDATA[ >= ]]> DATE_SUB(NOW(), INTERVAL ${month} MONTH)
+-- 		      S.DEL_YN = 'N'
+-- 		  and S.WWW_DISP_YN = 'Y'
+-- 		  and S.SALE_OUTSIDE_YN = 'N'
+		  S.TO_DT <![CDATA[ >= ]]> DATE_SUB(NOW(), INTERVAL ${month} MONTH)
 		order by
-			S.REG_DT
+			S.SALE_NO desc
 		limit
 			#{offset} , #{size}
 	</select>

@@ -696,7 +696,7 @@
                     <div class="pop-header">
                         <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
                     </div>
-                    <div class="pop-body">
+                    <div class="pop-body scroll_none">
                         <article class="viewer-article js-zoom_inout">
                             <div class="gallery_view js-imagesSwiper" style="">
                                 <div class="gallery_center">
@@ -1397,9 +1397,6 @@
                         },
                     },
                 });
-
-                /* 이미지 팝업 브라우저별 해상도 resize */
-                let browserWidth = window.innerWidth;
 
 
                 $.each($(".swiper-slide"), function () {

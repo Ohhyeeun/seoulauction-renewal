@@ -6,6 +6,7 @@ import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.component.NicePayModule;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.exception.InternalServerException;
 import com.seoulauction.renewal.exception.PgNotFoundException;
 import com.seoulauction.renewal.mapper.kt.PaymentMapper;
 import com.seoulauction.renewal.util.SecurityUtils;
@@ -148,33 +149,38 @@ public class PaymentService {
     @Transactional("ktTransactionManager")
     public CommonMap paymentProcess(HttpServletRequest request){
 
-        SAUserDetails details = SecurityUtils.getAuthenticationPrincipal();
+        CommonMap resultMap = null;
 
-        //결제 처리 요청.
-        CommonMap resultMap = nicePayModule.payProcess(request); //결제 처리
+        //결제 시 어떤 오류가 나든 오류가 나면 500 오류 페이지로 전달.
+        try{
 
-        resultMap.put("cust_no" , details.getUserNo()); // 로그인한 유저 정보.
+            SAUserDetails details = SecurityUtils.getAuthenticationPrincipal();
+            //결제 처리 요청.
+            resultMap = nicePayModule.payProcess(request); //결제 처리
 
-        String payMethod = request.getParameter("PayMethod");
+            resultMap.put("cust_no" , details.getUserNo()); // 로그인한 유저 정보.
 
+            String payMethod = request.getParameter("PayMethod");
 
-        log.info("request :{}" , request.getParameterMap());
+            if(SAConst.PAYMENT_METHOD_VBANK.equals(payMethod)){
+                String mall_reserved = request.getParameter("MallReserved");
 
-        if(SAConst.PAYMENT_METHOD_VBANK.equals(payMethod)){
-            String mall_reserved = request.getParameter("MallReserved");
+                CommonMap reservedMap;
+                try {
+                    reservedMap = new ObjectMapper().readValue(mall_reserved, CommonMap.class);
+                    request.setAttribute("uuid", reservedMap.get("uuid"));
+                    request.setAttribute("pay_kind", reservedMap.get("pay_kind"));
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
 
-            CommonMap reservedMap;
-            try {
-                reservedMap = new ObjectMapper().readValue(mall_reserved, CommonMap.class);
-                request.setAttribute("uuid", reservedMap.get("uuid"));
-                request.setAttribute("pay_kind", reservedMap.get("pay_kind"));
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                resultMap = insertPayWait(request, resultMap);
+            } else {
+                resultMap = insertPay(request);
             }
 
-            resultMap = insertPayWait(request, resultMap);
-        } else {
-            resultMap = insertPay(request);
+        }catch (Exception e){
+            throw new InternalServerException(e);
         }
 
         //결제 처리가 완료 시 디비 요청.

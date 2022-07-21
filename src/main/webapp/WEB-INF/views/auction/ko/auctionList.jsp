@@ -259,9 +259,9 @@
                                                                 <dd>별도문의</dd>
                                                                 <dd></dd>
                                                             </dl>
-                                                            <dl class="price-list" ng-if="item.START_COST > 0">
+                                                            <dl class="price-list" ng-if="item.START_PRICE !== ''">
                                                                 <dt>시작가</dt>
-                                                                <dd>{{item.START_COST}}</dd>
+                                                                <dd>{{item.START_PRICE}}</dd>
                                                             </dl>
                                                             <dl class="price-list">
                                                                 <dt ng-bind="item.onStateCostTxt"></dt>
@@ -426,13 +426,18 @@
                                                 <a href="#" ng-class="item.CD_ID === selectLotTag ? 'lot-btn_tabmenu on' : 'lot-btn_tabmenu'"
                                                    ng-click="searchCategory(item.CD_ID);" ng-bind="item.CD_NM" role="button"></a>
                                             </div>
+
+                                            <div class="btn_item" ng-repeat="item in lotTags">
+                                                <a href="#" ng-class="item.LOT_TAG === selectLotTag ? 'lot-btn_tabmenu on' : 'lot-btn_tabmenu'"
+                                                   ng-click="searchLotTags(item.LOT_TAG);" ng-bind="item.LOT_TAG" role="button"></a>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="lotlist-tabCont">
 
                                         <div class="mobile_scroll-type">
                                             <div class="lotlist-box">
-                                                <ul class="lotlist-inner"  ng-repeat="item in saleInfo">
+                                                <ul class="lotlist-inner"  ng-repeat="item in searchSaleInfoAll">
 
                                                     <li ng-class="item.STAT_CD === 'reentry' ? 'lotitem cancel' : 'lotitem'">
 
@@ -944,6 +949,8 @@
                     $scope.lotTags = r3.data.data;
                     $scope.categories = r4.data.data;
 
+                    $scope.searchSaleInfoAll = $scope.saleInfoAll;
+
                     if ($scope.saleInfoAll.length > 0) {
                         if ($scope.saleInfoAll[0].SALE_KIND_CD !== "online") {
                             alert('잘못된 접근 입니다.');
@@ -1449,10 +1456,13 @@
                             end_bid_time = bid_info.end_bid_time;
 
                             quote_unit.innerText = "KRW " + bid_info.bid_quote.toLocaleString('ko-KR');
+                            bid_new_cost.innerText = "KRW " + ((d.message.bids_hist == null ||
+                                (d.message.bids_hist != null && d.message.bids_hist[0].value != null &&
+                                    d.message.bids_hist[0].value.length === 0 )) ? bid_info.open_bid_cost : bid_info.bid_cost + bid_info.bid_quote).toLocaleString('ko-KR');
 
-                            bid_new_cost.innerText = "KRW " + ((bid_info.bid_cost === 0 && bid_info.open_bid_cost > 0) ? bid_info.open_bid_cost : bid_info.bid_cost + bid_info.bid_quote).toLocaleString('ko-KR');
-
-                            document.getElementById("bid_new_cost_val").setAttribute("value", ((bid_info.bid_cost === 0 && bid_info.open_bid_cost > 0) ? bid_info.open_bid_cost : bid_info.bid_cost + bid_info.bid_quote));
+                            document.getElementById("bid_new_cost_val").setAttribute("value", ((d.message.bids_hist == null ||
+                                (d.message.bids_hist != null && d.message.bids_hist[0].value != null
+                                    && d.message.bids_hist[0].value.length === 0 )) ? bid_info.open_bid_cost : bid_info.bid_cost + bid_info.bid_quote));
                             document.getElementById("bid_new_cost_btn").innerText = "응찰하기";
 
                             if (bid_info.customer.cust_no === $scope.cust_no) {
@@ -1635,7 +1645,7 @@
                                     "" :
                                     "KRW " + $scope.bidsInfoAll[idx].bid_cost.toLocaleString('ko-KR');
                                 // 시작일자
-                                $scope.saleInfoAll[j].START_COST = "KRW " + $scope.bidsInfoAll[idx].open_bid_cost.toLocaleString('ko-KR');
+                                $scope.saleInfoAll[j].START_PRICE = "KRW " + $scope.bidsInfoAll[idx].open_bid_cost.toLocaleString('ko-KR');
                                 // 현재가
                                 $scope.saleInfoAll[j].CUR_COST = curCostValue;
                                 // 응찰 수

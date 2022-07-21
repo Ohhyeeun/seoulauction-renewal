@@ -363,13 +363,18 @@
                                                 <a href="#" ng-class="item.CD_ID === selectLotTag ? 'lot-btn_tabmenu on' : 'lot-btn_tabmenu'"
                                                    ng-click="searchCategory(item.CD_ID);" ng-bind="item.CD_NM" role="button"></a>
                                             </div>
+
+                                            <div class="btn_item" ng-repeat="item in lotTags">
+                                                <a href="#" ng-class="item.LOT_TAG === selectLotTag ? 'lot-btn_tabmenu on' : 'lot-btn_tabmenu'"
+                                                   ng-click="searchLotTags(item.LOT_TAG);" ng-bind="item.LOT_TAG" role="button"></a>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="lotlist-tabCont">
 
                                         <div class="mobile_scroll-type">
                                             <div class="lotlist-box">
-                                                <ul class="lotlist-inner"  ng-repeat="item in saleInfo">
+                                                <ul class="lotlist-inner"  ng-repeat="item in searchSaleInfoAll">
 
                                                     <li ng-class="item.STAT_CD === 'reentry' ? 'lotitem cancel' : 'lotitem'">
 
@@ -865,6 +870,8 @@
                     $scope.saleInfoAll = r1.data.data;
                     $scope.lotLength = $scope.saleInfoAll.length;
 
+                    $scope.searchSaleInfoAll = $scope.saleInfoAll;
+
                     //데이터가 없을 시 , 오프라인 경매인데 온라인으로 올 시 등등 접근 불가.
                     // if($scope.saleInfoAll.length === 0){
                     //     alert('잘못된 접근 입니다.');
@@ -1133,7 +1140,7 @@
                             let idx = matching.get($scope.saleInfoAll[j].SALE_NO + "-"
                                 + $scope.saleInfoAll[j].LOT_NO);
                             if (idx !== undefined) {
-                                $scope.saleInfoAll[j].DISP_YN = d.message.data[idx].DISP_YN;
+                                $scope.saleInfoAll[j].STAT_CD = d.message.data[idx].STAT_CD;
                             }
                         }
 
@@ -1142,7 +1149,7 @@
                             let idx = matching.get($scope.searchSaleInfoAll[j].SALE_NO + "-"
                                 + $scope.searchSaleInfoAll[j].LOT_NO);
                             if (idx !== undefined) {
-                                $scope.searchSaleInfoAll[j].DISP_YN = d.message.data[idx].DISP_YN;
+                                $scope.searchSaleInfoAll[j].STAT_CD = d.message.data[idx].STAT_CD;
                             }
                         }
 

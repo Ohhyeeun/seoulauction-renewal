@@ -40,7 +40,7 @@ public class ApiSaleController {
     private String IMAGE_URL;
 
     private WebClient webClient = WebClient.builder()
-            .baseUrl("http://localhost:8002")
+            .baseUrl("http://dev-bid.seoulauction.xyz")
             .build();
 
     @RequestMapping(value="/bid", method = RequestMethod.POST)
@@ -198,10 +198,6 @@ public class ApiSaleController {
                             .append(svf).toString();
                     String uv = new StringBuilder().append("USD ")
                             .append(uvf).toString();
-
-
-
-
 
                     if (item.equals("EXPE_PRICE_TO_JSON")) {
                         lotInfoMap.put("BASE_EXPE_TO_PRICE", cv);
