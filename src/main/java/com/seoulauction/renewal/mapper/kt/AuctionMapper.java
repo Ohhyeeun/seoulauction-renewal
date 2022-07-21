@@ -19,7 +19,8 @@ public interface AuctionMapper {
 
     List<CommonMap> selectProgressSaleList(CommonMap commonMap);
 
-    List<CommonMap> selectUpcomingSaleList(CommonMap commonMap);
+    List<CommonMap> selectUpcomingSaleListPaging(CommonMap commonMap);
+    int selectUpcomingCount(CommonMap commonMap);
 
     List<CommonMap> selectResultSaleListPaging(CommonMap paramMap);
 

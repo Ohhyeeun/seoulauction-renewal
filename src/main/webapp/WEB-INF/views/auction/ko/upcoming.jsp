@@ -10,7 +10,7 @@
         <!-- //header -->
 
         <!-- container -->
-        <div id="container" ng-controller="auctionCtl" data-ng-init="loadAuction()" ng-cloak>
+        <div id="container" ng-controller="auctionCtl" data-ng-init="init()" ng-cloak>
             <div id="contents" class="contents">
                 <section class="basis-section tab-auction_other-section">
                     <div class="section-inner">
@@ -82,6 +82,18 @@
                                     </li>
                                 </ul>
                             </div>
+
+                            <div class="panel-footer">
+                                <div class="set-pc_mb">
+                                    <div class="only-pc">
+                                        <div class="paging-area" id="paging_search">
+                                        </div>
+                                    </div>
+                                    <div class="only-mb">
+                                        <button class="btn btn_gray_line" type="button" ng-click="more();"><span>더보기</span></button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -102,21 +114,53 @@
         <!-- // stykey -->
     </div>
 </div>
+<script type="text/javascript" src="/js/common/paging.js"></script>
 <!-- angular js -->
 <script>
     app.value('locale', 'ko');
     app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
     app.controller('auctionCtl', function($scope, consts, common, locale) {
-        $scope.loadAuction = function() {
-            axios.get('/api/auction/upcoming').then(function(response) {
+
+        $scope.reqRowCnt = 8;
+        $scope.currentPage = 1;
+        $scope.totalCount = 0;
+
+        $scope.init = function(){
+            $scope.loadAuction(1);
+        }
+
+        $scope.loadAuction = function(i) {
+
+            $scope.currentPage = i;
+            axios.get('/api/auction/upcoming?page=' + $scope.currentPage + "&size=" + $scope.reqRowCnt).then(function(response) {
                 const success = response.data.success;
                 if (success) {
-                    $scope.auctionList = response.data.data;
+
+                    console.log(response.data.data);
+
+                    $scope.auctionList = response.data.data.list;
                     $scope.auctionList.map(item => {
                         item.TITLE_JSON = JSON.parse(item.TITLE_JSON);
                         item.d_day = $scope.dDayCalc(item.DB_NOW, item.FROM_DT);
                     });
+
+                    $scope.totalCount = response.data.data.cnt;
+
+                    paging({
+                        id: "paging_search",
+                        className:"paging",
+                        totalCount:$scope.totalCount,
+                        itemSize:$scope.reqRowCnt,
+                        pageSize:10,
+                        page:$scope.currentPage,
+                        callBackFunc:function(i) {
+                            $scope.is_more = false;
+                            $scope.loadAuction(i);
+                        }
+                    });
+
                     $scope.$apply();
+
                 }
             }).
             catch(function(error){
@@ -126,6 +170,12 @@
 
         $scope.goUpcomingAuction = function(sale_no) {
             location.href = "/auction/upcoming/"+sale_no;
+        }
+
+        $scope.more = function(){
+            $scope.is_more = true;
+            $scope.currentPage++;
+            $scope.loadAuction($scope.currentPage);
         }
     });
 </script>

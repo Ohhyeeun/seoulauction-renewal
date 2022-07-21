@@ -360,8 +360,7 @@
                                                                     <div class="image-area">
                                                                         <figure class="img-ratio">
                                                                             <a href="javascript:void(0);" class="img-align">
-                                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                                     alt="">
+                                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
                                                                             </a>
                                                                         </figure>
                                                                     </div>

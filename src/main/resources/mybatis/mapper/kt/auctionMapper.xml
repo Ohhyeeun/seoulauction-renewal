@@ -100,44 +100,57 @@
 		ORDER BY SALE_KIND_ORDER, S.TO_DT
 	</select>
 
-	<select id="selectUpcomingSaleList" parameterType="CommonMap" resultType="CommonMap">
+	<select id="selectUpcomingSaleListPaging" parameterType="CommonMap" resultType="CommonMap">
+		<include refid="selectUpcomingSaleList"/>
+		LIMIT  #{offset}, #{size}
+	</select>
+
+	<sql id="selectUpcomingSaleList">
 		select 	S.SALE_NO
-			, IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH, COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
-			, S.FROM_DT
-			, S.TO_DT
-			, COLUMN_JSON(S.PLACE_BLOB) PLACE_JSON
-			, S.SALE_KIND_CD
-			, SI.FILE_PATH as SALE_IMG_PATH
-			, SI.FILE_NAME as SALE_IMG_NAME
-			, LI.FILE_PATH as LOT_IMG_PATH
-			, LI.FILE_NAME as LOT_IMG_NAME
-			, (select MAX(L.TO_DT) from LOT L where L.SALE_NO = S.SALE_NO GROUP BY L.SALE_NO) END_DT
-			, S.LIVE_BID_YN
-			, S.LIVE_BID_DT
-			, S.SALE_OUTSIDE_YN
-			, if(S.SALE_KIND_CD in ('plan', 'main', 'hongkong') and S.TO_DT &lt; current_timestamp - interval 5 year, 'Y', 'N') as IS_OLD_SALE
-			, (select min(SP.FROM_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_FROM_DT
-			, (select max(SP.TO_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_TO_DT
-			, now() as DB_NOW
+			 , IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH, COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
+			 , S.FROM_DT
+			 , S.TO_DT
+			 , COLUMN_JSON(S.PLACE_BLOB) PLACE_JSON
+			 , S.SALE_KIND_CD
+			 , SI.FILE_PATH as SALE_IMG_PATH
+			 , SI.FILE_NAME as SALE_IMG_NAME
+			 , LI.FILE_PATH as LOT_IMG_PATH
+			 , LI.FILE_NAME as LOT_IMG_NAME
+			 , (select MAX(L.TO_DT) from LOT L where L.SALE_NO = S.SALE_NO GROUP BY L.SALE_NO) END_DT
+			 , S.LIVE_BID_YN
+			 , S.LIVE_BID_DT
+			 , S.SALE_OUTSIDE_YN
+			 , if(S.SALE_KIND_CD in ('plan', 'main', 'hongkong') and S.TO_DT &lt; current_timestamp - interval 5 year, 'Y', 'N') as IS_OLD_SALE
+			 , (select min(SP.FROM_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_FROM_DT
+			 , (select max(SP.TO_DT) from SALE_PREV SP where SP.SALE_NO = S.SALE_NO) PREV_TO_DT
+			 , now() as DB_NOW
 		from SALE S
-			left outer join SALE_IMG SI on SI.SALE_NO = S.SALE_NO
-				and SI.IMG_NO = (select A.IMG_NO from SALE_IMG A where A.SALE_NO = S.SALE_NO order by A.IMG_NO limit 1)
+				 left outer join SALE_IMG SI on SI.SALE_NO = S.SALE_NO
+			and SI.IMG_NO = (select A.IMG_NO from SALE_IMG A where A.SALE_NO = S.SALE_NO order by A.IMG_NO limit 1)
 			left outer join LOT_IMG LI on LI.SALE_NO = S.SALE_NO
-				and LI.LOT_NO = (select A.LOT_NO from LOT A, LOT_IMG B where A.SALE_NO = S.SALE_NO and A.SALE_NO = B.SALE_NO and A.LOT_NO = B.LOT_NO order by A.LOT_NO, B.DISP_ORD limit 1)
-				and LI.IMG_NO = (select B.IMG_NO from LOT A, LOT_IMG B where A.SALE_NO = S.SALE_NO and A.SALE_NO = B.SALE_NO and A.LOT_NO = B.LOT_NO order by A.LOT_NO, B.DISP_ORD limit 1)
+			and LI.LOT_NO = (select A.LOT_NO from LOT A, LOT_IMG B where A.SALE_NO = S.SALE_NO and A.SALE_NO = B.SALE_NO and A.LOT_NO = B.LOT_NO order by A.LOT_NO, B.DISP_ORD limit 1)
+			and LI.IMG_NO = (select B.IMG_NO from LOT A, LOT_IMG B where A.SALE_NO = S.SALE_NO and A.SALE_NO = B.SALE_NO and A.LOT_NO = B.LOT_NO order by A.LOT_NO, B.DISP_ORD limit 1)
 		where DEL_YN ='N' and WWW_DISP_YN = 'Y'
-			and S.STAT_CD = 'upcoming'
-			and S.SALE_KIND_CD NOT IN ('exhibit', 'exhibit_sa')
-			and now() &lt; case when S.SALE_KIND_CD in ('online','online_zb') then (select MAX(L.TO_DT) from LOT L where L.SALE_NO = S.SALE_NO GROUP BY L.SALE_NO)
-				when S.SALE_KIND_CD IN ('exhibit', 'exhibit_sa') then S.TO_DT
-				else (<![CDATA[select (case when LC.CLOSE_YN = 'Y' THEN LC.TO_DT ELSE DATE_ADD(NOW(), INTERVAL 1 HOUR)  END) from LOT LC where LC.SALE_NO = S.SALE_NO AND LC.LOT_NO = (SELECT MAX(LC1.LOT_NO) FROM LOT LC1 WHERE LC1.SALE_NO = S.SALE_NO AND LC1.STAT_CD <> 'reentry')]]>) end
+		  and S.STAT_CD = 'upcoming'
+		  and S.SALE_KIND_CD NOT IN ('exhibit', 'exhibit_sa')
+		  and now() &lt; case when S.SALE_KIND_CD in ('online','online_zb') then (select MAX(L.TO_DT) from LOT L where L.SALE_NO = S.SALE_NO GROUP BY L.SALE_NO)
+			when S.SALE_KIND_CD IN ('exhibit', 'exhibit_sa') then S.TO_DT
+			else (<![CDATA[select (case when LC.CLOSE_YN = 'Y' THEN LC.TO_DT ELSE DATE_ADD(NOW(), INTERVAL 1 HOUR)  END) from LOT LC where LC.SALE_NO = S.SALE_NO AND LC.LOT_NO = (SELECT MAX(LC1.LOT_NO) FROM LOT LC1 WHERE LC1.SALE_NO = S.SALE_NO AND LC1.STAT_CD <> 'reentry')]]>) end
 			and S.SALE_OUTSIDE_YN = 'N'
 		ORDER BY S.FROM_DT
+	</sql>
+
+	<select id="selectUpcomingCount" parameterType="CommonMap" resultType="int">
+		select  count(*) as CNT
+		from (
+			<include refid="selectUpcomingSaleList"/>
+		) A
 	</select>
+
 
 	<select id="selectResultSaleListPaging" parameterType="CommonMap" resultType="CommonMap">
 		<include refid="selectResultSaleList"/>
-		limit #{from}, #{rows}
+		LIMIT #{from}, #{rows}
 	</select>
 	<select id="selectResultSaleListCount" parameterType="CommonMap" resultType="int">
 		select  count(*) as CNT

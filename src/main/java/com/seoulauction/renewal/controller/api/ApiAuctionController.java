@@ -1,6 +1,7 @@
 package com.seoulauction.renewal.controller.api;
 
 import com.seoulauction.renewal.common.RestResponse;
+import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.service.AuctionService;
 import lombok.RequiredArgsConstructor;
@@ -34,9 +35,11 @@ public class ApiAuctionController {
     }
 
     @GetMapping(value = "/upcoming")
-    public ResponseEntity<RestResponse> upcoming(){
-        CommonMap map = new CommonMap();
-        return ResponseEntity.ok(RestResponse.ok(auctionService.selectUpcomingSaleList(map)));
+    public ResponseEntity<RestResponse> upcoming(
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size
+    ){
+        return ResponseEntity.ok(RestResponse.ok(auctionService.selectUpcomingSaleList(CommonMap.create(page,size))));
     }
 
     @GetMapping(value="/sales/{saleNo}")
