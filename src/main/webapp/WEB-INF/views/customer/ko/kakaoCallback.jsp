@@ -83,9 +83,10 @@
 	async function socialLogin(data) {
 		let url = '/api/login/social'
 		if(await isNativeApp()){
-			console.log("is Native");
+			alert("is Native");
 			data['is_native'] = true;
 			url += '?remember-me=on'
+			alert(url)
 		}
 		
 		axios.post(url, data)
