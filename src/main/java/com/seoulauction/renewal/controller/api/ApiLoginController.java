@@ -380,7 +380,7 @@ public class ApiLoginController {
 			if(paramMap.containsKey("is_native")) {
 				log.info("is native : {}", paramMap.get("is_native"));
 				log.info("getParameter remember-me : {}", request.getParameter("remember-me"));
-				new SocialRememberMeService(rememberMeKey + "social", new RememberMeService(loginMapper)).loginSuccess(request, response, sc.getAuthentication());
+				new SocialRememberMeService(rememberMeKey, new RememberMeService(loginMapper)).loginSuccess(request, response, sc.getAuthentication());
 			}
 			HttpSession session = request.getSession(true);
 			session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);

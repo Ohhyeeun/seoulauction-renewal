@@ -474,8 +474,10 @@ function checkLogin(){
 }
 
 // 세션로그아웃
-function logout(loginId) {
-	deleteWebviewData('remember-me');
+async function logout(loginId) {
+	if(await isNativeApp()){
+		deleteWebviewData('remember-me');
+	}
 	location.href = "/processLogout";
 }
 
