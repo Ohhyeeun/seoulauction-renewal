@@ -701,9 +701,9 @@
                                 </button>
                             </div>
                             <div class="view_paging-area">
-                                <button class="page_prev"><i class="icon-view_paging_left"></i></button>
+<%--                                <button class="page_prev"><i class="icon-view_paging_left"></i></button>--%>
                                 <span id="view_lot_no"></span>
-                                <button class="page_next"><i class="icon-view_paging_right"></i></button>
+<%--                                <button class="page_next"><i class="icon-view_paging_right"></i></button>--%>
                             </div>
                         </article>
                     </div>
@@ -1561,15 +1561,15 @@
 
 
                 /* 스와이퍼 */
-                var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
-                    loop: true,
-                    onSlideChangeStart: function (swiper) { // 움직임이 끝나면 실행
-                        imagesResizePcMb();
-                    },
-                    onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
-                        imagesResizePcMb();
-                    },
-                });
+                // var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
+                //     loop: true,
+                //     onSlideChangeStart: function (swiper) { // 움직임이 끝나면 실행
+                //         imagesResizePcMb();
+                //     },
+                //     onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
+                //         imagesResizePcMb();
+                //     },
+                // });
                 $.each($(".swiper-slide"), function () {
                     let data = $(this).attr("data-swiper-slide-index");
                     let lot_no = $(this).find(".imageViewer").attr("lot_no");
@@ -1588,21 +1588,21 @@
                     popup_image_viewer.open(this); // or false
                     imagesResizePcMb();
                     imageViewer.update();
-                    imageViewer.slideTo(parseInt($("#view_lot_no").attr("sel-data-index")) - $scope.chk, 0);
+                    // imageViewer.slideTo(parseInt($("#view_lot_no").attr("sel-data-index")) - $scope.chk, 0);
                 });
                 // 좌우버튼
-                $('.view_paging-area .page_prev').on('click', function ($e) {
-                    $e.preventDefault();
-                    imageViewer.slidePrev();
-                    $("#view_lot_no").html("LOT " + $(".swiper-slide-active .imageViewer").attr('lot_no'));
-
-                })
-                $('.view_paging-area .page_next').on('click', function ($e) {
-                    $e.preventDefault();
-                    imageViewer.slideNext();
-                    $("#view_lot_no").html("LOT " + $(".swiper-slide-active .imageViewer").attr('lot_no'));
-
-                })
+                // $('.view_paging-area .page_prev').on('click', function ($e) {
+                //     $e.preventDefault();
+                //     imageViewer.slidePrev();
+                //     $("#view_lot_no").html("LOT " + $(".swiper-slide-active .imageViewer").attr('lot_no'));
+                //
+                // })
+                // $('.view_paging-area .page_next').on('click', function ($e) {
+                //     $e.preventDefault();
+                //     imageViewer.slideNext();
+                //     $("#view_lot_no").html("LOT " + $(".swiper-slide-active .imageViewer").attr('lot_no'));
+                //
+                // })
 
                 /* PC,MB images resize */
                 $(window).on("resize", function () {
