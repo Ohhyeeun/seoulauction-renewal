@@ -173,15 +173,15 @@ public class ApiSaleController {
             for(var item : mapKeys) {
                 lotInfoMap.put(item, mapper.readValue(String.valueOf(lotInfoMap.get(item)), Map.class));
                 Map<String,Object> m = (Map<String,Object>)lotInfoMap.get(item);
+
                 if (item.equals("ARTIST_NAME_JSON")) {
 
                     // artist filter DB화 필요
                     List<String> artistFilters = new ArrayList<>();
                     artistFilters.add("김환기");
                     artistFilters.add("박수근");
-
                     for (var artist : artistFilters) {
-                        if (m.get(locale.getLanguage()).equals(artist)) {
+                        if (m !=null && m.get(locale.getLanguage()).equals(artist)) {
                             lotInfoMap.put("IMAGE_MAGNIFY", false);
                             break;
                         }
