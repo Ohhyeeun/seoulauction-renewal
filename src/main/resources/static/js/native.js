@@ -62,7 +62,12 @@ $(function() {
         console.log(JSON.stringify(result));
       });
     });
-
+	
+	const button9 = makeButton('getRememberMe', () => {
+      getWebviewData('remember-me').then(result => {
+        console.log(JSON.stringify(result));
+      });
+    });
     footerContainer.appendChild(button1);
     footerContainer.appendChild(button2);
     footerContainer.appendChild(button3);
@@ -71,6 +76,7 @@ $(function() {
     footerContainer.appendChild(button6);
     footerContainer.appendChild(button7);
     footerContainer.appendChild(button8);
+    footerContainer.appendChild(button9);
 
     function makeButton(text, onClickHandler) {
       const button = document.createElement('button');
@@ -108,8 +114,8 @@ function nativeToggleMenu(state) {
 
 /**
  * [Webview -> Native]
- * 접속한 정보가 앱이 맞는지 정보
- * @return {Promise<Object>}
+ * 접속한 기기가 앱이 맞는지 정보
+ * @return {Promise<boolean>}
  */
 async function isNativeApp() {
   console.log("remember-me cookie : " + getCookie('remember-me'));
@@ -171,7 +177,11 @@ async function saveDeviceInfo() {
  */
 async function getAppHeader() {
   try {
-    return await window.flutter_inappwebview.callHandler('getAppHeader');
+    if ('flutter_inappwebview' in window) {
+      return await window.flutter_inappwebview.callHandler('getAppHeader');
+    } else {
+      return null;
+    }
   } catch (error) {
     return null;
   }
@@ -183,7 +193,11 @@ async function getAppHeader() {
  */
 async function getDeviceInfo() {
   try {
-    return await window.flutter_inappwebview.callHandler('getDeviceInfo');
+    if ('flutter_inappwebview' in window) {
+      return await window.flutter_inappwebview.callHandler('getDeviceInfo');
+    } else {
+      return null;
+    }
   } catch (error) {
     return null;
   }
@@ -192,12 +206,16 @@ async function getDeviceInfo() {
 /**
  * [Webview -> Native]
  * 앱에 데이터를 저장
+ * @param {string} key
+ * @param {string} value
  */
 async function setWebviewData(key, value) {
   try {
-    return await window.flutter_inappwebview.callHandler('setWebviewData', key, value);
+    if ('flutter_inappwebview' in window) {
+      await window.flutter_inappwebview.callHandler('setWebviewData', key, value);
+    }
   } catch (error) {
-    return null;
+    console.error(error);
   }
 }
 
@@ -207,7 +225,11 @@ async function setWebviewData(key, value) {
  */
 async function getWebviewData(key) {
   try {
-    return await window.flutter_inappwebview.callHandler('getWebviewData', key);
+    if ('flutter_inappwebview' in window) {
+      return await window.flutter_inappwebview.callHandler('getWebviewData', key);
+    }
+
+    return null;
   } catch (error) {
     return null;
   }
@@ -219,20 +241,26 @@ async function getWebviewData(key) {
  */
 async function deleteWebviewData(key) {
   try {
-    return await window.flutter_inappwebview.callHandler('deleteWebviewData', key);
+    if ('flutter_inappwebview' in window) {
+      await window.flutter_inappwebview.callHandler('deleteWebviewData', key);
+    }
   } catch (error) {
-    return null;
+    console.error(error);
   }
 }
 
 /**
  * [Webview -> Native]
- * 기본 브라우저로 열기
+ * 앱의 기본 브라우저로 URL 열기
  */
 async function openWebBrowser(url) {
   try {
-    return await window.flutter_inappwebview.callHandler('openWebBrowser', url);
+    if ('flutter_inappwebview' in window) {
+      await window.flutter_inappwebview.callHandler('openWebBrowser', url);
+    } else {
+      window.open(url, '_blank');
+    }
   } catch (error) {
-    return null;
+    console.error(error);
   }
 }

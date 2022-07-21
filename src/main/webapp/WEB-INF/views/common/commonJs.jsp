@@ -19,3 +19,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
 <script src="/js/common.js" type="text/javascript"></script>
 <script src="/js/native.js"></script>
+<script>
+$(() => {
+  /**
+   * 페이지 내 앵커태그 네이티브 호환 되도록 변경
+   */
+  const anchors = [...document.querySelectorAll('a[target="_blank"]')];
+  anchors.forEach(tag => {
+    tag.addEventListener('click', e => {
+      e.preventDefault();
+      if (e.currentTarget.href) {
+        openWebBrowser(e.currentTarget.href);
+      }
+    });
+  });
+});
+</script>

@@ -475,7 +475,7 @@ function checkLogin(){
 
 // 세션로그아웃
 function logout(loginId) {
-	console.log(loginId)
+	deleteWebviewData('remember-me');
 	location.href = "/processLogout";
 }
 
