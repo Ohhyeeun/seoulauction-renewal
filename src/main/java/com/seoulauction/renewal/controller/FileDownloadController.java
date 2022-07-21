@@ -20,6 +20,7 @@ public class FileDownloadController {
 	
 	private final S3Downloader s3Downloader;
 	
+	/* 첨부파일 다운로드 */
 	@RequestMapping("/fileDownload")
 	public void download(String fileKey, String downloadFileName, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try {

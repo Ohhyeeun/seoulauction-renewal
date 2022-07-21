@@ -58,10 +58,12 @@ public class CertificationService {
     	return result;
     }
     
+    /*  회원가입 > 이메일 인증(외국인)  */ 
     public int updateCustForForeAuth(CommonMap commonMap){
     	return certificationMapper.updateCustForForeAuth(commonMap);
     }
 
+    /*  인증정보 조회   */ 
     public CommonMap selectSaleCertInfo(CommonMap paramMap) {
 		SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
 		if (saUserDetails != null) {
