@@ -28,8 +28,8 @@ $(() => {
   anchors.forEach(tag => {
     tag.addEventListener('click', e => {
       e.preventDefault();
-      if (e.target.href) {
-        openWebBrowser(e.target.href);
+      if (e.currentTarget.href) {
+        openWebBrowser(e.currentTarget.href);
       }
     });
   });
