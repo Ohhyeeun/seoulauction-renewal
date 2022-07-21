@@ -28,8 +28,10 @@ public interface CertificationMapper {
 
     /* 경매 > 온라인 휴대폰 인증 > 사용자 정보 수정 */
     int updateSaleCertHp(CommonMap commonMap);
-
+    
+    /*  회원가입 > 이메일 인증(외국인)  */ 
     int updateCustForForeAuth(CommonMap commonMap);
-
+    
+    /* 인증정보 조회*/
     CommonMap selectSaleCertInfo(CommonMap paramMap);
 }

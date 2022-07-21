@@ -234,7 +234,7 @@ public class ApiMypageController {
 	
 	/* 라이브경매관리 > 온라인패들응찰내역 > 낙찰결과통보서 팝업*/
 	@RequestMapping(value = "/liveBidHammers/{sale_no}", method = RequestMethod.GET)
-	public ResponseEntity<RestResponse> liveBidHistories(
+	public ResponseEntity<RestResponse> liveBidHammers(
 			@PathVariable("sale_no") String sale_no,
 			Principal principal, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		CommonMap commonMap = new CommonMap();

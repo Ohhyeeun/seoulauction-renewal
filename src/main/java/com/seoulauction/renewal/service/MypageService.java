@@ -137,7 +137,7 @@ public class MypageService {
         return result;
     }
     
-    // 공통
+    // 공통(HttpServletRequest -> Map)
     public Map<String,Object> formatMapRequest(HttpServletRequest request) {
     	Map<String, Object> map = new HashMap<String, Object>();
         Enumeration<String> enumber = request.getParameterNames();
