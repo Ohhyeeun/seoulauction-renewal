@@ -10,7 +10,7 @@
         <!-- //header -->
 
         <!-- container -->
-        <div id="container" ng-controller="auctionCtl" data-ng-init="loadAuction()" ng-cloak>
+        <div id="container" ng-controller="auctionCtl" data-ng-init="init()" ng-cloak>
             <div id="contents" class="contents">
                 <section class="basis-section tab-auction_other-section">
                     <div class="section-inner">
@@ -81,8 +81,20 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
 
+                            <div class="panel-footer">
+                                <div class="set-pc_mb">
+                                    <div class="only-pc">
+                                        <div class="paging-area" id="paging_search">
+                                        </div>
+                                    </div>
+                                    <div ng-show="isMore" class="only-mb">
+                                        <br>
+                                        <button class="btn btn_gray_line" type="button" ng-click="more();"><span>더보기</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -103,19 +115,56 @@
     </div>
 </div>
 <!-- angular js -->
+<script type="text/javascript" src="/js/common/paging.js"></script>
 <script>
 app.value('locale', 'ko');
 app.requires.push.apply(app.requires, ["checklist-model", "ngDialog"]);
 app.controller('auctionCtl', function($scope, consts, common, locale) {
-    $scope.loadAuction = function() {
-        axios.get('/api/auction/progress').then(function(response) {
-            console.log(response);
+
+    $scope.reqRowCnt = 8;
+    $scope.currentPage = 1;
+    $scope.totalCount = 0;
+    $scope.isMore = false;
+
+    $scope.init = function(){
+        $scope.loadAuction(1);
+    }
+
+
+    $scope.loadAuction = function(i) {
+
+        $scope.currentPage = i;
+
+        axios.get('/api/auction/progress?page=' + $scope.currentPage + "&size=" + $scope.reqRowCnt).then(function(response) {
             const success = response.data.success;
             if (success) {
-                $scope.auctionList = response.data.data;
+
+                $scope.auctionList = response.data.data.list;
                 $scope.auctionList.map(item => {
                     item.TITLE_JSON = JSON.parse(item.TITLE_JSON);
                 });
+
+                $scope.totalCount = response.data.data.cnt;
+
+                //더보기 버튼 생성 조건 페이지가 2개이상일경우.
+                $scope.isMore =  (!($scope.totalCount <= $scope.reqRowCnt && ($scope.totalCount / $scope.reqRowCnt) < 2));
+
+                console.log($scope.totalCount);
+                console.log($scope.isMore);
+
+                paging({
+                    id: "paging_search",
+                    className:"paging",
+                    totalCount:$scope.totalCount,
+                    itemSize:$scope.reqRowCnt,
+                    pageSize:10,
+                    page:$scope.currentPage,
+                    callBackFunc:function(i) {
+                        $scope.is_more = false;
+                        $scope.loadAuction(i);
+                    }
+                });
+
                 $scope.$apply();
             }
         }).
@@ -123,13 +172,17 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
             console.log(error);
         });
     }
-
     $scope.goProgressAuction = function(sale_kind_cd, sale_no) {
         if(['online','online_zb'].indexOf(sale_kind_cd) > -1) {
             location.href = "/auction/list/"+sale_no;
         } else {
             location.href = "/auction/live/list/"+sale_no;
         }
+    }
+
+    $scope.more = function(){
+        $scope.currentPage++;
+        $scope.loadAuction($scope.currentPage);
     }
 });
 </script>

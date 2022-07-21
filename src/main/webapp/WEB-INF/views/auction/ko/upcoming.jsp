@@ -89,7 +89,7 @@
                                         <div class="paging-area" id="paging_search">
                                         </div>
                                     </div>
-                                    <div class="only-mb">
+                                    <div ng-show="isMore" class="only-mb">
                                         <button class="btn btn_gray_line" type="button" ng-click="more();"><span>더보기</span></button>
                                     </div>
                                 </div>
@@ -124,6 +124,7 @@
         $scope.reqRowCnt = 8;
         $scope.currentPage = 1;
         $scope.totalCount = 0;
+        $scope.isMore = false;
 
         $scope.init = function(){
             $scope.loadAuction(1);
@@ -136,8 +137,6 @@
                 const success = response.data.success;
                 if (success) {
 
-                    console.log(response.data.data);
-
                     $scope.auctionList = response.data.data.list;
                     $scope.auctionList.map(item => {
                         item.TITLE_JSON = JSON.parse(item.TITLE_JSON);
@@ -145,6 +144,9 @@
                     });
 
                     $scope.totalCount = response.data.data.cnt;
+
+                    //더보기 버튼 생성 조건 페이지가 2개이상일경우.
+                    $scope.isMore =  (!($scope.totalCount <= $scope.reqRowCnt && ($scope.totalCount / $scope.reqRowCnt) < 2));
 
                     paging({
                         id: "paging_search",
@@ -173,7 +175,6 @@
         }
 
         $scope.more = function(){
-            $scope.is_more = true;
             $scope.currentPage++;
             $scope.loadAuction($scope.currentPage);
         }

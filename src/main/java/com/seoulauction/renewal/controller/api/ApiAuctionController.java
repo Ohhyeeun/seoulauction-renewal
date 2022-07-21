@@ -29,9 +29,11 @@ public class ApiAuctionController {
     }
 
     @GetMapping(value = "/progress")
-    public ResponseEntity<RestResponse> progress(){
-        CommonMap map = new CommonMap();
-        return ResponseEntity.ok(RestResponse.ok(auctionService.selectProgressSaleList(map)));
+    public ResponseEntity<RestResponse> progress(
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size
+    ){
+        return ResponseEntity.ok(RestResponse.ok(auctionService.selectProgressSaleList(CommonMap.create(page,size))));
     }
 
     @GetMapping(value = "/upcoming")
