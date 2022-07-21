@@ -22,10 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -71,9 +68,9 @@ public class PaymentService {
         resultMap.put("pay_method_cd", resultMap.get("PayMethod"));
         resultMap.put("pay_method", resultMap.get("PayMethod"));
 
-        resultMap.put("no_vat_price", request.getParameter("no_vat_price"));
-        resultMap.put("vat_price", request.getParameter("vat_price"));
-        resultMap.put("vat", request.getParameter("vat"));
+        resultMap.put("no_vat_price", request.getAttribute("no_vat_price"));
+        resultMap.put("vat_price", request.getAttribute("vat_price"));
+        resultMap.put("vat", request.getAttribute("vat"));
 
         resultMap.put("vbank_cd", resultMap.get("VbankBankCode"));
         resultMap.put("vbank_nm", resultMap.get("VbankBankName"));
@@ -102,9 +99,9 @@ public class PaymentService {
             resultMap.put("real_payer", request.getParameter("VbankInputName"));
         } else {
             resultMap.put("pg_trans_id", request.getParameter("TxTid"));
-            resultMap.put("no_vat_price", request.getParameter("no_vat_price"));
-            resultMap.put("vat_price", request.getParameter("vat_price"));
-            resultMap.put("vat", request.getParameter("vat"));
+            resultMap.put("no_vat_price", request.getAttribute("no_vat_price"));
+            resultMap.put("vat_price", request.getAttribute("vat_price"));
+            resultMap.put("vat", request.getAttribute("vat"));
             resultMap.put("payer", details.getUserNm());
         }
 
@@ -161,24 +158,34 @@ public class PaymentService {
             resultMap.put("cust_no" , details.getUserNo()); // 로그인한 유저 정보.
 
             String payMethod = request.getParameter("PayMethod");
+            int Amt = Integer.parseInt(request.getParameter("Amt"));
+
+            //TODO: 과세, 면세 확인
+            int vat_price = (int) (Amt / 1.1);
+            int vat = Amt - vat_price;
+            int no_vat_price = 0;
+            request.setAttribute("vat_price", vat_price);
+            request.setAttribute("vat", vat);
+            request.setAttribute("no_vat_price", no_vat_price);
 
             if(SAConst.PAYMENT_METHOD_VBANK.equals(payMethod)){
-                String mall_reserved = request.getParameter("MallReserved");
+                String reqReserved = request.getParameter("ReqReserved");
 
-                CommonMap reservedMap;
-                try {
-                    reservedMap = new ObjectMapper().readValue(mall_reserved, CommonMap.class);
-                    request.setAttribute("uuid", reservedMap.get("uuid"));
-                    request.setAttribute("pay_kind", reservedMap.get("pay_kind"));
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
+                CommonMap reservedMap = new CommonMap();
+                StringTokenizer stk = new StringTokenizer(reqReserved, ",");
+                while(stk.hasMoreTokens()) {
+                    String[] str = stk.nextToken().split("=");
+                    if (str.length == 2) {
+                        reservedMap.put(str[0], str[1]);
+                    }
                 }
+                request.setAttribute("uuid", reservedMap.get("uuid"));
+                request.setAttribute("pay_kind", reservedMap.get("pay_kind"));
 
                 resultMap = insertPayWait(request, resultMap);
             } else {
                 resultMap = insertPay(request);
             }
-
         }catch (Exception e){
             throw new InternalServerException(e);
         }
@@ -236,16 +243,18 @@ public class PaymentService {
         String ResultCode   = request.getParameter("ResultCode");       //결과코드 ('4110' 경우 입금통보)
         String VbankInputName = request.getParameter("VbankInputName"); //입금자 명
         String RcptType     = request.getParameter("RcptType");         //현금 영수증 구분(0:미발행, 1:소득공제용, 2:지출증빙용)
-        String mall_reserved = request.getParameter("MallReserved");
+        String reqReserved = request.getParameter("ReqReserved");
 
-        CommonMap reservedMap;
-        try {
-            reservedMap = new ObjectMapper().readValue(mall_reserved, CommonMap.class);
-            request.setAttribute("uuid", reservedMap.get("uuid"));
-            request.setAttribute("pay_kind", reservedMap.get("pay_kind"));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        CommonMap reservedMap = new CommonMap();
+        StringTokenizer stk = new StringTokenizer(reqReserved, ",");
+        while(stk.hasMoreTokens()){
+            String[] str = stk.nextToken().split("=");
+            if(str.length == 2) {
+                reservedMap.put(str[0], str[1]);
+            }
         }
+        request.setAttribute("uuid", reservedMap.get("uuid"));
+        request.setAttribute("pay_kind", reservedMap.get("pay_kind"));
 
         boolean paySuccess = false;		// 결제 성공 여부
         if(PayMethod.equals(SAConst.PAYMENT_METHOD_VBANK)){		//가상계좌

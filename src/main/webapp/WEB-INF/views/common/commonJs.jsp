@@ -19,3 +19,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
 <script src="/js/common.js" type="text/javascript"></script>
 <script src="/js/native.js"></script>
+<script>
+$(() => {
+  /**
+   * Footer 앵커태그 네이티브 호환으로 변경
+   */
+  const anchors = [...document.querySelectorAll('footer a[target="_blank"]')];
+  anchors.forEach(tag => {
+    tag.addEventListener('click', e => {
+      e.preventDefault();
+      if (e.target.href) {
+        openWebBrowser(e.target.href);
+      }
+    });
+  });
+});
+</script>

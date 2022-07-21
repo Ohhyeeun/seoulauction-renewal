@@ -66,18 +66,10 @@ public class PaymentController {
         String ediDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         String signData = Cryptography.encrypt(ediDate + nicePayMerchantId + price + nicePaymerchantKey);
 
-        //TODO: 과세, 면세 확인
-        int vat_price = (int) (price / 1.1);
-        int vat = price - vat_price;
-        int no_vat_price = 0;
-
         /* attribute */
         request.setAttribute("goodsName" , goodsName);
 
         request.setAttribute("price" , price);
-        request.setAttribute("no_vat_price", no_vat_price);
-        request.setAttribute("vat_price", vat_price);
-        request.setAttribute("vat", vat);
 
         request.setAttribute("moid" , moid);
         request.setAttribute("returnURL" , returnURL);
@@ -152,11 +144,6 @@ public class PaymentController {
         stringBuilder.append(nicePayMobileBaseReturnUrl).append("/payment/academyProcess").append("?academy_no=").append(id);
         String returnURL 		= stringBuilder.toString(); // 결과페이지(절대경로) - 모바일 결제창 전용
 
-        //TODO: 과세, 면세 확인
-        int vat_price = (int) (price / 1.1);
-        int vat = price - vat_price;
-        int no_vat_price = 0;
-
         /*
          *******************************************************
          * <해쉬암호화> (수정하지 마세요)
@@ -169,9 +156,6 @@ public class PaymentController {
         request.setAttribute("goodsName", goodsName);
 
         request.setAttribute("price", price);
-        request.setAttribute("no_vat_price", no_vat_price);
-        request.setAttribute("vat_price", vat_price);
-        request.setAttribute("vat", vat);
 
         request.setAttribute("academy_no", id);
 
