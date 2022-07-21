@@ -34,6 +34,7 @@
                         <li id="MyMenuOnlineBadge"><a href="/mypage/onlineBidList">온라인 경매 관리</a></li>
                         <li><a href="/mypage/inteLotList">관심작품</a></li>
                         <li><a href="/mypage/academyList">아카데미 신청목록</a></li>
+                        <li><a href="/mypage/inquiryList">1:1 문의</a></li>
                         <li><a href="/mypage/custModify">회원정보 수정</a></li>
                     </ul>
                 </li>

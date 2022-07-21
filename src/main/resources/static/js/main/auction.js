@@ -28,13 +28,11 @@ $(document).ready(function(){
                     //TODO 인클루드 작업.
                     $.each(auctionData , function(idx , el){
 
-                        let name = '미술품 경매';
-
-                        if(el.SHORT_TITLE){
-                            let title = JSON.parse(el.SHORT_TITLE);
-                            name = locale === 'ko' ? title.ko : title.en;
+                        const titleBlob = el.SHORT_TITLE? el.SHORT_TITLE : el.TITLE_BLOB;
+                        const title = JSON.parse(titleBlob);
+                        let name = locale === 'ko' ? title.ko : title.en;
                             name = localeOrdinal(el.SALE_TH, locale) + name;
-                        }
+
 
                         //sale html
                         let saleHtml = idx === 0 ? `<span class="auctionTab-btn on"><span class="text-over">${name}</span></span>`
@@ -182,7 +180,7 @@ $(document).ready(function(){
                 // }
                  saleKind = event.target.getAttribute("sale-kind");
 
-                window.open('/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).attr('lot-no'));
+                location.href = '/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).attr('lot-no');
             });
         }
 
@@ -214,7 +212,7 @@ $(document).ready(function(){
                     //     saleKind = kind.toLowerCase();
                     // }
                     saleKind = event.target.getAttribute("sale-kind");
-                    window.open('/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).attr('lot-no'));
+                    location.href ='/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).attr('lot-no');
                 });
             }
         });
@@ -228,7 +226,7 @@ $(document).ready(function(){
             // }
             saleKind = event.target.getAttribute("sale-kind");
 
-            window.open('/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).children('button').attr('id').split('id_')[1]);
+            location.href ='/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).children('button').attr('id').split('id_')[1];
         });
 
         //auction haert 버튼

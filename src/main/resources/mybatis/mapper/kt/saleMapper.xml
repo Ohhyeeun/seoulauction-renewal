@@ -66,7 +66,7 @@
         , COLUMN_JSON(S.NOTICE_BLOB) NOTICE_JSON
         , COLUMN_JSON(S.NOTICE_DTL_BLOB) NOTICE_DTL_JSON
         , DATE_FORMAT(S.TO_DT,'%a') LOT_EXPIRE_DATE_DAY
-        , DATE_FORMAT(S.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T
+        , DATE_FORMAT(S.TO_DT,'%m.%d(%a) %H:%i') LOT_EXPIRE_DATE_TIME_T
         , S.SALE_OUTSIDE_YN
         , S.LIVE_BID_YN
         , S.LIVE_BID_DT
@@ -701,7 +701,8 @@
                 , B.IMG_DISP_YN
         from SALE A
                  INNER JOIN LOT B ON A.SALE_NO = B.SALE_NO
-                 LEFT OUTER JOIN LOT_IMG C ON B.SALE_NO = C.SALE_NO AND B.LOT_NO = C.LOT_NO AND C.DISP_ORD = 1
+                 LEFT OUTER JOIN LOT_IMG C ON B.SALE_NO = C.SALE_NO AND B.LOT_NO = C.LOT_NO
+                    AND C.IMG_NO = (select LI.IMG_NO from LOT_IMG LI where LI.SALE_NO = A.SALE_NO and LI.LOT_NO = B.LOT_NO order by LI.DISP_ORD limit 1)
                  LEFT OUTER JOIN ARTIST D ON B.ARTIST_NO = D.ARTIST_NO
                  LEFT OUTER JOIN LOT_SIZE E ON B.SALE_NO = E.SALE_NO AND B.LOT_NO = E.LOT_NO
                  LEFT OUTER JOIN CODE F ON F.GRP_ID = 'material' AND F.CD_ID = B.MATE_CD

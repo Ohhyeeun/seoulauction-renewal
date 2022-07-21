@@ -4,23 +4,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%--<!DOCTYPE html>--%>
-<%--<html lang="ko">--%>
-<%--<head>--%>
-<%--    <!-- header -->--%>
-<%--    <meta charset="UTF-8">--%>
-<%--    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">--%>
-<%--    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">--%>
-<%--    <title>Seoul Auction</title>--%>
-<%--    <link rel="stylesheet" href="/css/plugin/csslibrary.css">--%>
-<%--    <link rel="stylesheet" href="/css/common.css" type="text/css" />--%>
-<%--    <link rel="stylesheet" href="/css/pages_common_ko.css">--%>
-<%--    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />--%>
-<%--    <link rel="preconnect" href="https://fonts.googleapis.com">--%>
-<%--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--%>
-<%--    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">--%>
-<%--    <!-- //header -->--%>
-<%--</head>--%>
 
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
@@ -31,7 +14,7 @@
             <header class="print-header">
                 <div class="header-inner">
                     <a href="/" class="header_logo"><img src="/images/pc/logo/SA_logo_black.svg" alt="Seoul Auction"></a>
-                    <a class="header-print" onclick="return window.print();">
+                    <a class="header-print" href="javascript:window.print();">
                         <i class="icon_print"></i> PRINT
                     </a>
                 </div>
@@ -40,17 +23,15 @@
             <!-- container -->
             <div id="container">
                 <div id="contents" class="contents">
-
                     <section class="print-section">
-
                         <div class="print-panel">
                             <div class="panel-header">
                                 <div class="section-inner">
                                     <div class="print-title">
-                                        <div id="print_sale_title" class="title">2월 e BID 프리미엄 온라인 경매</div>
+                                        <div id="print_sale_title" class="title"></div>
                                         <div class="data">
-                                            <span id="print_sale_to_date">마감일 : 4.22.목 14:00 </span>
-                                            <span>전시장소 : 강남센터</span>
+                                            <span id="print_sale_to_date"></span>
+                                            <span id="print_sale_prev"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -64,19 +45,19 @@
                                         </div>
 
                                         <div class="artist-area">
-                                            <div class="index-num"><span id="print_lot_no">10</span></div>
+                                            <div class="index-num"><span id="print_lot_no"></span></div>
                                             <div class="name-info">
-                                                <div class="name" id="print_artist_name">데미안허스트</div>
+                                                <div class="name" id="print_artist_name"></div>
                                                 <div class="desc">
-                                                    <span id="print_year" lass="artist-b">b.1988</span>
-                                                    <span id="print_title" >Flight of 3 Dodos </span>
+                                                    <span id="print_year" lass="artist-b"></span>
+                                                    <span id="print_title" ></span>
                                                 </div>
                                             </div>
 
                                             <div class="price-area">
                                                 <dl id="print_expe_price" class="price-list">
-                                                    <dt>추정가 : </dt>
-                                                    <dd>KRW 9,900,000,000</dd>
+                                                    <dt></dt>
+                                                    <dd></dd>
                                                 </dl>
                                             </div>
                                         </div>
@@ -88,10 +69,6 @@
                                             <div class="info-box">
                                                 <div class="title">작품정보</div>
                                                 <div id="price_lot_desc" class="desc">
-                                                    gouache on canvas <br>
-                                                    100.0X80.3cm (40) 2020 <br>
-                                                    signed and dated on the right side <br>
-                                                    signed titled and dated on the reverse
                                                 </div>
 
                                                 <!-- [0718]작품정보 하위댑스 추가 -->
@@ -99,56 +76,19 @@
                                                     <div class="view_editor-warp">
                                                         <div class="info-box">
                                                             <div id="print_info" class="info-sub-wrap">
-<%--                                                                <div class="info-sub-box">--%>
-<%--                                                                    <div class="tit">CONDITION</div>--%>
-<%--                                                                    <div class="desc">good condition 종이 작품의 경우, 재질 특성상 산화·울음이 있을 수 있습니다.</div>--%>
-<%--                                                                </div>--%>
-<%--                                                                <div class="info-sub-box">--%>
-<%--                                                                    <div class="tit">PROVENANCE</div>--%>
-<%--                                                                    <div class="desc">Tonari no Zingaro(Tokyo)</div>--%>
-<%--                                                                </div>--%>
-<%--                                                                <div class="info-sub-box">--%>
-<%--                                                                    <div class="tit">LITERATURE</div>--%>
-<%--                                                                    <div class="desc">--%>
-<%--                                                                        GRIMM Gallery, Amsterdam.<br>--%>
-<%--                                                                        Acquired from the above by the present owner.--%>
-<%--                                                                    </div>--%>
-<%--                                                                </div>--%>
-<%--                                                                <div class="info-sub-box">--%>
-<%--                                                                    <div class="tit">EXHIBITED</div>--%>
-<%--                                                                    <div class="desc">Online, Praz-Delavallade, Focus: Guy Yanai, 2020.</div>--%>
-<%--                                                                </div>--%>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </article>
-                                <%--<div class="info-box">
-                                                <div class="title">Condition Report</div>
-                                                <div id="cond_rpt" class="desc">
-                                                    좌측 하단 미세 스크래치,우측 상단 이물질 있음
-                                                </div>
-                                            </div>--%>
+                                            </div>
+                                        </div>
                                     </article>
                                     <!-- [0718]작품설명, Notice 추가 -->
                                     <article class="print_view-article page-break">
                                         <div class="view_editor-warp">
                                             <div id="print_desc" class="info-box">
-<%--                                                <div class="title">작품 설명</div>--%>
-<%--                                                <div class="desc">--%>
-<%--&lt;%&ndash;                                                    조디커윅은 혜성처럼 미술계에 나타난 호주 작가로 정규 미술 교육을 받지 않고 본인만의 독보적인 화풍을 발전시켜 화폭에 담아낸다.&ndash;%&gt;--%>
-<%--                                                </div>--%>
                                             </div>
                                             <div id="print_notice" class="info-box">
-<%--                                                <div class="title">NOTICE</div>--%>
-<%--                                                <div class="desc">--%>
-<%--                                                    <ul class="mark_dot-list">--%>
-<%--                                                        <li>서울옥션은 작가 및 작품명에 한하여 낙찰일로부터 3년간 낙찰자에 대해서만 보증하며, 사전 고지한 작품에 대해서는 보증책임을 부담하지 않습니다.</li>--%>
-<%--                                                        <li>작품은 판매 당시 상태 그대로 판매되므로, 응찰 전 반드시 실물을 확인하여 주시기 바랍니다.<br>--%>
-<%--                                                            홈페이지에 기재된 컨디션은 작품 상태에 대한 당사의 주관적 의견을 제시하는 것일 뿐이므로, 내재된 모든 결함, 수리, 변형 등을 언급하지 않을 수 있습니다. 또한 제작된 지 오랜 시간이 경과한 작품에 자연스럽게 확인되는 노화 현상(구김, 마모, 오염, 산화 등)에 대해서도 별도 언급이 없을 수 있습니다.<br>--%>
-<%--                                                            컨디션은 작품만을 대상으로 하며 액자, 족자, 병풍, 좌대, 케이스 등 작품 구성품의 상태는 포함하지 않습니다. 온라인에 게재된 이미지로 작품의 일부 컨디션을 확인할 수 있으나 실제 상태를 정확하게 반영하지 못할 수 있으며 작품의 색상, 밝기 등이 실물과 다르게 보일 수 있습니다.<br>--%>
-<%--                                                            실물을 확인하지 않고 발생되는 문제에 대한 책임은 응찰자에게 있으며, 이와 같은 유의사항을 반드시 확인하시고 신중히 응찰해 주시길 바랍니다.</li>--%>
-<%--                                                    </ul>--%>
-<%--                                                </div>--%>
                                             </div>
                                         </div>
                                     </article>
@@ -159,7 +99,7 @@
                             <div class="panel-footer page-break">
                                 <div class="section-inner">
                                     <div class="footer-logo">
-                                        <img src="/images/pc/logo/SA_logo_black.svg" alt="Seolu Auction">
+                                        <img src="/images/pc/logo/SA_logo_black.svg" alt="Seoul Auction">
                                     </div>
                                     <dl class="footer-info">
                                         <dt>본사</dt>
@@ -175,40 +115,15 @@
                             </div>
                         </div>
                     </section>
-
                 </div>
             </div>
             <!-- //container -->
         </div>
     </div>
-
 </body>
 
-<%--공통 footer 를 안쓰는관계로 필요 스크립트 다 import --%>
-<%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
-
-<%--<script src="/js/pages_common_ko.js"></script>--%>
-<%--<!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->--%>
-<%--<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
-<%--<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
-<%--<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--%>
-<%--<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>--%>
-
-<%--Axios--%>
-<%--<script defer src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.js"></script>--%>
-<%--<script defer src="https://unpkg.com/axios-extensions/dist/axios-extensions.js"></script>--%>
-<%--<script defer src="/js/common/axios.js" type="text/javascript"></script>--%>
-
-<%--<!--[if lt IE 9]>--%>
-<%--<!--[if lt IE 9]>--%>
-<%--<script src="/js/plugin/html5shiv.js"></script> <![endif]-->--%>
-<%--<script src="/js/plugin/prefixfree.min.js"></script>--%>
-<%--<script src="/js/plugin/swiper.min.js" type="text/javascript"></script>--%>
-
 <script>
-
 const locale = document.documentElement.lang;
-
 //숫자를 천단위마다 콤마 해줌.
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -239,12 +154,21 @@ function localeValue(val){
 }
 
 $(function(){
-
-
     init();
-
     function init(){
-
+        axios.get('/api/auction/sales/${saleNo}').then(function(response) {
+            const data = response.data;
+            let success = data.success;
+            if(success) {
+                let sale = data.data;
+                let sale_prev = JSON.parse(sale.PREVIEW_JSON);
+                let print_sale_prev = "전시장소: ";
+                for(let i = 0; i < sale_prev.length; i++) {
+                    print_sale_prev += sale_prev[i].PLACE_JSON.ko+" ";
+                }
+                $("#print_sale_prev").html(sale_prev.length > 0 ? print_sale_prev : '');
+            }
+        });
 
         axios.get('/api/auction/lot_info/${saleNo}/${lotNo}')
             .then(function(response) {
@@ -253,10 +177,7 @@ $(function(){
                 if(success){
                     let lotData = data.data;
 
-                    console.log(lotData);
-
-                    let sale_title;
-                    sale_title = ( lotData.SALE_TH === undefined || lotData.SALE_TH === '')  ? '' : ( '제' + lotData.SALE_TH + '회 ' );
+                    let sale_title = ( lotData.SALE_TH === undefined || lotData.SALE_TH === '')  ? '' : ( '제' + lotData.SALE_TH + '회 ' );
                     sale_title += JSON.parse(lotData.SALE_TITLE_JSON).ko;
 
                     $("#print_sale_title").html(sale_title);
@@ -265,16 +186,14 @@ $(function(){
                     );
 
                     //
-                    $("#print_img").attr('src' ,
-                        lotData.IMAGE_URL  + lotData.LOT_IMG_PATH + '/' + lotData.LOT_IMG_NAME );
+                    $("#print_img").attr('src', lotData.IMAGE_URL  + lotData.LOT_IMG_PATH + '/' + lotData.LOT_IMG_NAME );
                     $("#print_lot_no").html(lotData.LOT_NO);
                     $("#print_artist_name").html(lotData.ARTIST_NAME_KO_TXT);
-                    $("#print_year").html('b.' + lotData.BORN_YEAR);
+                    $("#print_year").html(lotData.BORN_YEAR ? 'b.' + lotData.BORN_YEAR : '');
                     $("#print_title").html(lotData.TITLE_KO_TXT);
 
                     //가격 정보.
                     if(lotData.EXPE_PRICE_INQ_YN === 'N') {
-
                         let html = '<dd>'
                                     + 'KRW '
                                     + numberWithCommas(lotData.EXPE_PRICE_FROM_JSON.KRW)
@@ -297,45 +216,39 @@ $(function(){
                         $("#print_expe_price").html('<dd> 추정가 별도 문의 </dd>');
                     }
 
-                    //TODO 이건 다시해야함. ㅇㅇ; 규격
+                    //작품정보
+                    let LOT_SIZE = "";
+                    for(let i = 0; i < lotData.LOT_SIZE_JSON.length; i++) {
+                        LOT_SIZE += '<div>'+size_text_cm(lotData.LOT_SIZE_JSON[i])+'</div>';
+                    }
                     $("#price_lot_desc").html(
                            lotData.MATE_NM_EN + '<br/>'
-                        + '<span>'
-                        + lotData.LOT_SIZE_JSON[0].SIZE1 + 'X'
-                        + lotData.LOT_SIZE_JSON[0].SIZE2 + 'X'
-                        + lotData.LOT_SIZE_JSON[0].SIZE3 + 'cm'
-                        + '</span><br/>'
-                        + '<span>'
-                        + lotData.SIGN_INFO_JSON.ko
+                        + LOT_SIZE
+                        + (lotData.EDITION ? '<div>' + lotData.EDITION + '</div>' : '')
+                        + (isNotObjectEmpty(lotData.MAKE_YEAR_JSON) ? '<div>' + lotData.MAKE_YEAR_JSON.ko + '</div>' : '')
+                        + (isNotObjectEmpty(lotData.SIGN_INFO_JSON) ? '<div>' + lotData.SIGN_INFO_JSON.ko + '</div>' : '')
+                        + (lotData.FRAME_CD!='none' ? '<div>' + lotData.FRAME_CD + '</div>' : '')
                     );
-
-
-                    //$("#cond_rpt").html(lotData.COND_RPT_JSON.ko);
 
                     let print_info = '';
 
                     if(isNotObjectEmpty(lotData.COND_RPT_JSON)){
-
                         let locale = localeValue(lotData.COND_RPT_JSON);
-
                         print_info +=   '<div class="info-sub-box">'
                                        +'<div class="tit">CONDITION</div>'
                                        +'<div class="desc">' +locale + '</div>'
                                        +'</div>';
                     }
+
                     if(isNotObjectEmpty(lotData.PROV_INFO_JSON)) {
-
                         let locale = localeValue(lotData.PROV_INFO_JSON);
-
                         print_info +=   '<div class="info-sub-box">'
                                         +'<div class="tit">PROVENANCE</div>'
                                         +'<div class="desc">' +locale + '</div>'
                                         +'</div>';
                     }
                     if(isNotObjectEmpty(lotData.LITE_INFO_JSON)) {
-
                         let locale = localeValue(lotData.LITE_INFO_JSON);
-
                         print_info +=   '<div class="info-sub-box">'
                                         +'<div class="tit">LITERATURE</div>'
                                         +'<div class="desc">' +locale + '</div>'
@@ -343,9 +256,7 @@ $(function(){
                     }
 
                     if(isNotObjectEmpty(lotData.EXHI_INFO_JSON)) {
-
                         let locale = localeValue(lotData.EXHI_INFO_JSON);
-
                         print_info +=   '<div class="info-sub-box">'
                                         +'<div class="tit">EXHIBITED</div>'
                                         +'<div class="desc">' +locale + '</div>'
@@ -355,31 +266,23 @@ $(function(){
                     $("#print_info").html(print_info);
 
                     if(isNotObjectEmpty(lotData.CMMT_JSON)) {
-
                         let locale = localeValue(lotData.CMMT_JSON);
-
                         let html  =   '<div class="info-box">'
                                             +'<div class="title">작품 설명</div>'
-                                            +'<div class="desc">' + locale + '</div>'
+                                            +'<div class="desc txt-pre-line">' + locale + '</div>'
                                             +'</div>';
-
-
                         $("#print_desc").html(html);
                     }
 
                     if(isNotObjectEmpty(lotData.NOTICE_DTL_JSON)) {
                         let locale = localeValue(lotData.NOTICE_DTL_JSON);
-
                         let html = '<div class="info-box">'
                             + '<div class="title">NOTICE</div>'
                             + '<div class="desc"></div>'
-                            + ' <ul class="mark_dot-list">' +  locale + ' </Ul>'
+                            + ' <ul class="mark_dot-list txt-pre-line">' +  locale + ' </Ul>'
                             + '</div>';
-
                         $("#print_notice").html(html);
                     }
-
-
                 } else {
                     alert(data.data.msg);
                     history.back();
@@ -388,11 +291,28 @@ $(function(){
             .catch(function(error) {
                 console.log(error);
             });
-
     }
-
-
 });
 
+function size_text_cm(src) {
+    if (src === null || src === undefined) {
+        return;
+    }
+
+    var returnValue = "";
+    var cmSize = ""
+
+    cmSize = src.SIZE1 != 0 ? src.SIZE1.toFixed(1) : "";
+    cmSize += src.SIZE2 != 0 ? "☓" + src.SIZE2.toFixed(1) : "";
+    cmSize += src.SIZE3 != 0 ? "☓" + src.SIZE3.toFixed(1) +
+        "(" + (src.MIX_CD == "depth" ? "d" : "h") + ")" : "";
+    cmSize += cmSize != "" ? src.UNIT_CD : "";
+    cmSize += cmSize != "" && src.CANVAS != 0 ? " (" + (src.CANVAS_EXT_YN == "Y" ? "변형" : "") + src.CANVAS + ")" : "";
+
+    returnValue = src.PREFIX;
+    returnValue += (src.DIAMETER_YN == "Y" ? "Φ " : "") + cmSize;
+    returnValue += (src.SUFFIX ? " (" + src.SUFFIX + ") " : "");
+    return returnValue;
+}
 </script>
 </html>

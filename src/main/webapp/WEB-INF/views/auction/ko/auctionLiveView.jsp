@@ -151,9 +151,9 @@
                                                     <a href="#" title="" class="sns_share js-sns_share"><i
                                                             class="icon-view_sns"></i></a>
                                                     <a id="heart" title=""
-                                                       ng-class="{'work_heart':lotInfo.FAVORITE_YN,'js-work_heart':lotInfo.FAVORITE_YN,'on':lotInfo.FAVORITE_YN==='Y'}"
-                                                       ng-click="favorite(lotInfo.SALE_NO, lotInfo.LOT_NO);"><i
-                                                            class="icon-view_heart_off"></i></a>
+
+                                                       ng-class="lotInfo.FAVORITE_YN === 'Y' ? 'work_heart js-work_heart on' : 'work_heart js-work_heart'"
+                                                       ng-click="favorite(lotInfo.SALE_NO, lotInfo.LOT_NO);"><i class="icon-view_heart_off"></i></a>
 
                                                     <div class="sns_layer-area">
                                                         <div class="sns-layer">
@@ -324,7 +324,7 @@
                                         <!-- [0714]작품설명 추가 -->
                                         <div ng-show="isNotObjectEmpty(lotInfo.CMMT_JSON)" class="info-box">
                                             <div class="title">작품 설명</div>
-                                            <div class="desc">{{lotInfo.CMMT_JSON | locale_format }}</div>
+                                            <div class="desc txt-pre-line">{{lotInfo.CMMT_JSON | locale_format }}</div>
                                         </div>
                                         <!-- //[0714]작품설명 추가 -->
 
@@ -335,7 +335,7 @@
                                             <!-- //[0714]텍스트 대소문자 수정 -->
                                             <div class="desc">
                                                 <ul class="mark_dot-list">
-                                                    <li ng-bind-html="lotInfo.NOTICE_DTL_JSON_VALUE"></li>
+                                                    <li ng-bind-html="lotInfo.NOTICE_DTL_JSON_VALUE" class="txt-pre-line"></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -343,11 +343,11 @@
 
                                         <div id="artist_layer" class="info-box">
                                             <div class="title">작가정보</div>
-                                            <div class="desc" id="artistName">
+                                            <div class="desc txt-pre-line" id="artistName">
                                             </div>
-                                            <div class="desc" id="artistProfile">
+                                            <div class="desc txt-pre-line" id="artistProfile">
                                             </div>
-                                            <div class="desc" id="artistMedia">
+                                            <div class="desc txt-pre-line" id="artistMedia">
                                             </div>
                                         </div>
                                     </div>
@@ -378,7 +378,8 @@
                                                                         <div class="product_info">
                                                                             <div class="num_heart-box">
                                                                                 <span class="num" ng-bind="item.LOT_NO"></span>
-                                                                                <a ng-class="{'heart':item.FAVORITE_YN,'js-work_heart':item.FAVORITE_YN,'on':item.FAVORITE_YN==='Y'}"
+
+                                                                                <a ng-class="item.FAVORITE_YN === 'Y' ? 'heart js-work_heart on' : 'heart js-work_heart'"
                                                                                    ng-click="favorite2(item.SALE_NO, item.LOT_NO, $index);"><i
                                                                                         class="icon-heart_off"></i></a>
                                                                             </div>
@@ -696,7 +697,7 @@
                     <div class="pop-header">
                         <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
                     </div>
-                    <div class="pop-body">
+                    <div class="pop-body scroll_none">
                         <article class="viewer-article js-zoom_inout">
                             <div class="gallery_view js-imagesSwiper" style="">
                                 <div class="gallery_center">
@@ -1170,7 +1171,7 @@
                 // 0718
                 $scope.saleLotList = r7.data.data;
 
-                console.log($scope.lotImages);
+                console.log($scope.lotInfo);
 
 
                 $scope.lotTags = r8.data.data;
@@ -1377,15 +1378,27 @@
                     });
 
                 /* 스와이퍼 */
+                /* [2022-0708] 수정 */
                 var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
                     loop: true,
-                    onSlideChangeStart: function (swiper) { // 움직임이 끝나면 실행
-                        imagesResizePcMb();
-                    },
-                    onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
-                        imagesResizePcMb();
+                    // onSlideChangeStart: function (swiper) { // 움직임이 끝나면 실행
+                    //     imagesResizePcMb();
+                    // },
+                    // onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
+                    //     imagesResizePcMb();
+                    // },
+                    on: {
+                        transitionStart: function() {
+                            // 움직임이 시작하면 실행
+                            imagesResizePcMb();
+                        },
+                        transitionEnd: function() {
+                            // 움직임이 끝나면 실행
+                            imagesResizePcMb();
+                        },
                     },
                 });
+
 
                 $.each($(".swiper-slide"), function () {
                     let data = $(this).attr("data-swiper-slide-index");

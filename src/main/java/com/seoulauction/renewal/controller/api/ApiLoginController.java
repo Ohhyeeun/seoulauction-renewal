@@ -392,14 +392,6 @@ public class ApiLoginController {
         return ResponseEntity.ok(RestResponse.ok());
 	}
 	
-	//로그아웃
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public ResponseEntity<RestResponse> logout(HttpServletRequest request, HttpServletResponse response){
-		log.info("logout");
-		new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
-		return ResponseEntity.ok(RestResponse.ok());
-	}
-	
 	//소셜회원 기가입체크
 	@RequestMapping(value="/isCustSocialExist", method=RequestMethod.POST)
 	@ResponseBody

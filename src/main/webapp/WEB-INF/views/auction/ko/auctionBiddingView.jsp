@@ -86,9 +86,9 @@
                                                     <div class="lotlist-box">
                                                         <ul class="lotlist-inner">
                                                             <!-- bidded -->
-                                                            <li ng-class="{lotitem: saleInfo !== null, bidded: item.CUR_YN ==='Y', cancel: item.DISP_YN ==='N'}"
+                                                            <li ng-class="{lotitem: saleInfo !== null, bidded: item.CUR_YN ==='Y', cancel: item.STAT_CD ==='reentry'}"
                                                                 ng-repeat="item in saleInfo">
-                                                                <div ng-if="item.DISP_YN === 'Y'"
+                                                                <div ng-if="item.STAT_CD !== 'reentry'"
                                                                      class="js-select_lotitem lotitem_wrap"
                                                                     ng-click="showLot(item.SALE_NO, item.LOT_NO)">
                                                                     <div class="view-img">
@@ -117,11 +117,11 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <p ng-if="item.DISP_YN === 'N'" class="txt">
+                                                                <p ng-if="item.STAT_CD === 'reentry'" class="txt">
                                                                     LOT {{item.LOT_NO}} <br>
                                                                     출품이 취소되었습니다.
                                                                 </p>
-                                                                <button ng-if="item.DISP_YN === 'Y'"
+                                                                <button ng-if="item.STAT_CD !== 'reentry'"
                                                                         ng-class="{'btn-lotChk':item !== null, 'js-work_heart':item !== null, 'on':item.FAVORITE_YN==='N'}"
                                                                         ng-click="favorite(item);">Favorite
                                                                 </button>
@@ -336,7 +336,7 @@
                                                     </button>
                                                     <!-- //[0603]버튼수정 : 로그인버튼 없앰 -->
                                                 </div>
-                                                <div class="bid_price view_only" ng-show="paddNo <== 0">
+                                                <div class="bid_price view_only" ng-show="paddNo <= 0">
                                                     <button class="btn_bid" disabled="">
                                                         <p class="txt">VIEW ONLY</p>
                                                     </button>
@@ -738,6 +738,9 @@
         // 현재가 처리
         app.filter('currency', function(){
             return function(val) {
+                if (val == undefined || val === "") {
+                    return val;
+                }
                 return val.toLocaleString('ko-KR');
             };
         })
@@ -1472,7 +1475,7 @@
                             let idx = matching.get($scope.saleInfoAll[j].SALE_NO + "-"
                                 + $scope.saleInfoAll[j].LOT_NO);
                             if (idx !== undefined) {
-                                $scope.saleInfoAll[j].DISP_YN = d.message.data[idx].DISP_YN;
+                                $scope.saleInfoAll[j].STAT_CD = d.message.data[idx].STAT_CD;
                             }
                         }
                     }
