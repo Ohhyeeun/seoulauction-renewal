@@ -78,6 +78,11 @@ public class SaleService {
         return resultMap;
     }
 
+    public List<CommonMap> selectViewScaleLotImages(CommonMap commonMap) {
+        List<CommonMap> resultMap = saleMapper.selectViewScaleLotImages(commonMap);
+        return resultMap;
+    }
+
     public List<CommonMap> selectSaleLotImages(CommonMap commonMap) {
         List<CommonMap> resultMap = saleMapper.selectSaleLotImages(commonMap);
         return resultMap;

@@ -14,8 +14,8 @@ public interface SaleMapper {
     List<CommonMap> selectLotArtistOtherLots(CommonMap commonMap);
     CommonMap selectCustomerByCustNo(CommonMap commonMap);
     CommonMap selectSaleCertInfo(CommonMap commonMap);
+    List<CommonMap> selectViewScaleLotImages(CommonMap commonMap);
     List<CommonMap> selectSaleLotImages(CommonMap commonMap);
-
     List<CommonMap> searchListCount(CommonMap paramMap);
 
     List<CommonMap> searchListPaging(CommonMap paramMap);
