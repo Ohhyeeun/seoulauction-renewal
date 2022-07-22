@@ -2,8 +2,6 @@
  * Native 연동 인터페이스
  */
 $(function() {
-  console.log('load native.js');
-
   // 네이티브 웹뷰 초기화
   window.isFlutterInAppWebViewReady = false;
   window.addEventListener('flutterInAppWebViewPlatformReady', function(e) {
@@ -118,7 +116,8 @@ function nativeToggleMenu(state) {
  * @return {Promise<boolean>}
  */
 async function isNativeApp() {
-  console.log("remember-me cookie : " + getCookie('remember-me'));
+  console.log(`remember-me cookie value: ${getCookie('remember-me')}`);
+
   try {
     const result = await window.flutter_inappwebview.callHandler('getAppHeader', '');
     console.log(JSON.stringify(result));
@@ -149,21 +148,23 @@ async function getNativeAppHeader() {
  */
 async function saveDeviceInfo() {
   try {
-    // result = { "os": "ios", "version": "device_version", "device_id": "id..." }
-    const result = await window.flutter_inappwebview.callHandler('getDeviceInfo', '');
-    console.log(JSON.stringify(result));
+    const deviceInfo = await getDeviceInfo();
+    const appHeader = await getAppHeader();
 
-    if (!result.os || !['ios', 'android'].includes(result.os)) return;
-    if (!result.version || !result.device_id) return;
-
-    // const url = `https://seoulauction.com/api/app/insert-app-info`;
-    // const url = `https://stage.seoulauction.com/api/app/insert-app-info`;
-    const url = `https://re-dev.seoulauction.com/api/app/insert-app-info`;
-    const body = { os: result.os, app_version: result.version, device_id: result.device_id };
-    await window.axios.post(url, body);
-    return;
+    if (deviceInfo && appHeader) {
+      // TODO: 환경변수에 따른 URL 정의
+      const url = 'https://re-dev.seoulauction.com/api/app/insert-app-info';
+      /** @type {{ device_id: string; os: string; app_version: string; device_version: string; }} */
+      const body = {
+        os: deviceInfo.os,
+        device_version: deviceInfo.version,
+        device_id: deviceInfo.device_id,
+        app_version: appHeader['X-Custom-App-Version'],
+      };
+      await window.axios.post(url, body);
+    }
   } catch (error) {
-    return;
+    console.error(error);
   }
 }
 
@@ -174,6 +175,7 @@ async function saveDeviceInfo() {
 /**
  * [Webview -> Native]
  * 앱의 헤더 조회
+ * @return {Promise<{ "X-Custom-Webview-Name": "sa_app"; "X-Custom-App-Version": string; } | null>}
  */
 async function getAppHeader() {
   try {
@@ -190,6 +192,7 @@ async function getAppHeader() {
 /**
  * [Webview -> Native]
  * 기기 ID 및 버전 정보 조회
+ * @return {Promise<{os: 'ios' | 'android'; version: string; device_id: string; } | null>}
  */
 async function getDeviceInfo() {
   try {
@@ -222,6 +225,8 @@ async function setWebviewData(key, value) {
 /**
  * [Webview -> Native]
  * 앱에 저장된 데이터를 조회
+ * @param {string} key
+ * @return {Promise<string>}
  */
 async function getWebviewData(key) {
   try {
@@ -238,6 +243,7 @@ async function getWebviewData(key) {
 /**
  * [Webview -> Native]
  * 앱에서 데이터를 삭제
+ * @param {string} key
  */
 async function deleteWebviewData(key) {
   try {
@@ -252,6 +258,7 @@ async function deleteWebviewData(key) {
 /**
  * [Webview -> Native]
  * 앱의 기본 브라우저로 URL 열기
+ * @param {string} url
  */
 async function openWebBrowser(url) {
   try {
