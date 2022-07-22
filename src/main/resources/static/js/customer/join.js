@@ -324,7 +324,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	$scope.idValidCheckChange = function() {
 		$scope.idValid = false; //아이디 수정 시 중복체크api호출까지 일단 valid false
 		$scope.idExpValid = false;
-		var regExp = /^[a-z][a-z0-9]{5,13}$/g;
+		var regExp = /^[A-Za-z0-9]{6,14}$/g;
 		
 		if (!regExp.test($scope.form_data.login_id)){
 			const regExp = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;
@@ -332,7 +332,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 				$scope.form_data.login_id = $scope.form_data.login_id.replace(regExp, '');
 			}
 			if ($scope.langType == 'ko') {
-				$scope.login_id_msg = "영문자로 시작되는 아이디를 입력해 주세요. 6~14자 영문자 또는 숫자이어야 합니다.";
+				$scope.login_id_msg = "6~14자의 영문자, 숫자만 사용 가능합니다.";
 			} else {
 				$scope.login_id_msg = "From 6 to 14 characters.";
 			}
