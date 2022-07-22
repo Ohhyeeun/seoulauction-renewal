@@ -262,7 +262,7 @@ $(function() {
             $('.gnb_submenuBg').addClass('on');
             $('.submenuBg').addClass('on');
             $('body').css({'overflow': 'hidden'});
-            $('.submenuBg').animate({'right': '0', 'transition': 'ease .3s', 'display': 'block'}, function () {
+            $('.submenuBg').animate({'right': '0', 'transition': 'ease .2s', 'display': 'block'}, function () {
 
 
                 $('.gnb_submenuBg').off('click');
@@ -1014,8 +1014,7 @@ $(window).resize(function(){
             $('body').css({'overflow':'hidden'});
             $('.submenuBg').css({'right':'-100%'});
             $('.submenuBg').show();
-            $('.submenuBg').animate({'right':'0','transition':'ease .3s'}, function(){
-
+            $('.submenuBg').animate({'right':'0','transition':'ease .2s'}, function(){
 
                 //$('.gnb_submenuBg').show();
                 $('.gnb_submenuBg').off('click');
