@@ -1605,6 +1605,8 @@
                             }
                             // 낙찰이 완료 되었다면
                             if (bid_info.winner_state === 2) {
+                                $("#end_bid_true").css("display","");
+                                $("div[name='end_bid_false']").css("display","none");
                                 let bid_tick = document.getElementById("bid_tick");
                                 if (end_bid_time <= 0) {
                                     bid_tick.innerText = "경매 시작 전입니다.";
