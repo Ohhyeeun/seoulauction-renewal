@@ -1,7 +1,7 @@
 
 const baseURL = '/';
 const windowAxios = window.axios;
-const axiosExtension = window['axios-extensions'];
+//const axiosExtension = window['axios-extensions'];
 const axios = windowAxios.create({
     baseURL,
     timeout: 10 * 1000,

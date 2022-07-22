@@ -198,7 +198,7 @@
 
 <%--Axios--%>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.js"></script>
-<script defer src="https://unpkg.com/axios-extensions/dist/axios-extensions.js"></script>
+<%--<script defer src="https://unpkg.com/axios-extensions/dist/axios-extensions.js"></script>--%>
 <script defer src="/js/common/axios.js" type="text/javascript"></script>
 
 <%--<!--[if lt IE 9]>--%>
