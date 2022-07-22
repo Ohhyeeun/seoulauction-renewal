@@ -161,7 +161,9 @@ q:after {
     content: "";
     content: none;
 }
-span {
+span,
+a.text-flex,
+.contents a.text-flex { /*  a링크 공통 나열 클래스 명 text-flex */
     display: inline-block;
 }
 table {
