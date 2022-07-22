@@ -1511,11 +1511,11 @@ body.dark,
 .sub-wrap .main-header{
     z-index: 26 !important; 
 }
-/* 이미지 팝업 */
-.trp.popupfixed-wrap.images-popup .popup-align .pop-body {
-    /*height: 0 !important;*/
-    height: calc(100% - 80px) !important;
-}
+/* 이미지 팝업 */ 
+/*.trp.popupfixed-wrap.images-popup .popup-align .pop-body {*/
+/*    !*height: 0 !important;*!*/
+/*    height: calc(100% - 80px) !important;*/
+/*}*/
 /*.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box,*/
 /*.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box .images {*/
 /*    width: 100% !important;*/
