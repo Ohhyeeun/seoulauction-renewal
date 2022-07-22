@@ -1350,7 +1350,8 @@ body.dark,
 /* common color #111 */
 .newsletter-btnbox>button.commonbtn:hover.dark,
 .newsletter-btnbox>a.commonbtn:hover.dark,
-.mobile-utility>li>a.dark {
+.mobile-utility.dark>li>a.dark,
+.mb_common_lang.dark {
     color: #111;
 }
 /* common color #333 */
@@ -1515,38 +1516,25 @@ body.dark,
     /*height: 0 !important;*/
     height: calc(100% - 80px) !important;
 }
-.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box,
-.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box .images {
-    width: 100% !important;
-    height: 100% !important;
-}
-.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box .images img {
-    height: 100% !important;
-}
-.trp.popupfixed-wrap.images-popup .viewer-article .gallery_view {
-    position: absolute !important;
-    top: 0 !important;
-}
-.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box {
-    margin-top: 0 !important;
-}
-.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box .images {
-    box-shadow: none !important;
-    /*text-align: center !important;*/ 
-}
-.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box .images img {
-    /*width: 80% !important;*/
-}
-
-/*.allview_fixed-wrap .popup-dim,*/
-/*.allview_fixed-wrap .fixed-panel,*/
-/*.trp.popupfixed-wrap {*/
-/*    z-index: 27 !important;*/
+/*.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box,*/
+/*.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box .images {*/
+/*    width: 100% !important;*/
+/*    height: 100% !important;*/
 /*}*/
-
-
-
-
+/*.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box .images img {*/
+/*    height: 100% !important;*/
+/*}*/
+/*.trp.popupfixed-wrap.images-popup .viewer-article .gallery_view {*/
+/*    position: absolute !important;*/
+/*    top: 0 !important;*/
+/*}*/
+/*.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box {*/
+/*    margin-top: 0 !important;*/
+/*}*/
+/*.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box .images {*/
+/*    box-shadow: none !important;*/
+/*    !*text-align: center !important;*! */
+/*}*/ 
 
 /* pc */ 
 @media all and (max-width: 1919px) {
