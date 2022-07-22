@@ -85,7 +85,8 @@
 
                             <div class="panel-footer">
                                 <div class="set-pc_mb">
-                                    <div class="only-pc">
+                                    <div>
+                                        <%--22-07-22 더보기를 기본으로 가져로 설정.--%>
                                         <div class="paging-area" id="paging_search">
                                         </div>
                                     </div>
@@ -145,8 +146,10 @@
 
                     $scope.totalCount = response.data.data.cnt;
 
+
+                    //22-07-22 더보기를 기본으로 가져로 설정.
                     //더보기 버튼 생성 조건 페이지가 2개이상일경우.
-                    $scope.isMore =  (!($scope.totalCount <= $scope.reqRowCnt && ($scope.totalCount / $scope.reqRowCnt) < 2));
+                    //$scope.isMore =  true;//(!($scope.totalCount <= $scope.reqRowCnt && ($scope.totalCount / $scope.reqRowCnt) < 2));
 
                     paging({
                         id: "paging_search",
