@@ -190,8 +190,8 @@
 <%-- dim 없는 main 레이어 팝업(pc) --%>
 <div class="main-popupbox pc-ver">
     <a href="" id="main_popup_a_link"  title="메인 팝업 이미지">
-        <div class="main-popup-img"> <!-- 이미지 레이어팝업 -->
-            <img id="main_popup_img" src="/images/pc/main/pop_event.jpg" alt="레이어팝업 이미지">
+        <div class="main-popup-img"> <!-- 이미지 레이어팝업 --> 
+            <img id="main_popup_img" <%--src="/images/pc/main/pop_event.jpg"--%> alt="레이어팝업 이미지">
         </div>
     </a>
 
