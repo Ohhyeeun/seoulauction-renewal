@@ -144,6 +144,9 @@ app.service("inquiryService", function($rootScope, common, locale) {
 	        .catch(function(error){
 	            console.log(error);
 	        });
+	        $("#inqCate2").hide();
+	        $("#sellCate2").hide();
+	        $("#sellCate3").hide();
 		}
 
 
@@ -162,13 +165,13 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				}
 			}
 
-
 			$scope.inqCate2 = [];
+			$("#inqCate2").hide();
 			for (i in $scope.inqCate) {
 				if ($scope.inqCate[i].P_CD_ID == $scope.form_data.cate1) {
 					$scope.inqCate2.push($scope.inqCate[i]);
 					$scope.$apply();
-					
+					$("#inqCate2").show();
 				}
 			}
 		}
@@ -522,25 +525,28 @@ app.service("inquiryService", function($rootScope, common, locale) {
 		$scope.sell_categories1_3 = ["시계", "보석/장신구", "와인", "서적", "인형/장난감/모형", "포스터", "스포츠수집품", "가구/디자인소품", "부동산", "자동차", "근현대사자료", "기타"];
 
 		$scope.changeSellCate1 = function() {
-			document.getElementById("work_category2").style.display = "none";
-			document.getElementById("work_category3").style.display = "none";
+			$scope.sell_data.work_category1 = $("#work_category1 option:selected").val();
 			$scope.sell_data.work_category2 = "";
 			$scope.sell_data.work_category3 = "";
 			
 			$scope.sell_categories2 = [];
 			$scope.sell_categories3 = [];
-
+			$("#sellCate2").hide();
+			$("#sellCate3").hide();
 			if ($scope.sell_data.work_category1 == "근현대") {
 				$scope.sell_categories2 = $scope.sell_categories1_1;
-				document.getElementById("work_category2").style.display = "block";
+				$scope.$apply();
+				$("#sellCate2").show();
 			}
 			else if ($scope.sell_data.work_category1 == "고미술") {
 				$scope.sell_categories2 = $scope.sell_categories1_2;
-				document.getElementById("work_category2").style.display = "block";
+				$scope.$apply();
+				$("#sellCate2").show();
 			}
 			else if ($scope.sell_data.work_category1 == "기타") {
 				$scope.sell_categories2 = $scope.sell_categories1_3;
-				document.getElementById("work_category2").style.display = "block";
+				$scope.$apply();
+				$("#sellCate2").show();
 			}
 		}
 
@@ -549,9 +555,11 @@ app.service("inquiryService", function($rootScope, common, locale) {
 			$scope.sell_data.work_category3 = "";
 			$scope.sell_categories3 = [];
 
+			$("#sellCate3").hide();
 			if ($scope.sell_data.work_category1 == "근현대") {
 				$scope.sell_categories3 = $scope.sell_categories1_1_1;
-				document.getElementById("work_category3").style.display = "block";
+				$scope.$apply();
+				$("#sellCate3").show();
 			}
 		}
 		
