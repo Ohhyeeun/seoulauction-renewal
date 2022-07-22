@@ -296,7 +296,7 @@
                                                             <i class="icon-cancle_box"></i>
                                                             <div class="typo">
                                                                 <div class="name"><span>LOT {{item.LOT_NO}}</span></div>
-                                                                <div class="msg"><span>출물이 취소되었습니다.</span></div>
+                                                                <div class="msg"><span>출품이 취소되었습니다.</span></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -538,7 +538,7 @@
             }];
 
             $scope.modelViewType = [{
-                name: "페이징 방식",
+                name: "페이지 방식",
                 value: 1
             }, {
                 name: "더보기 방식",
