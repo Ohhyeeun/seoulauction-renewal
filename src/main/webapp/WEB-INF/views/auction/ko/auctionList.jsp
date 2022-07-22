@@ -933,7 +933,12 @@
                     $("#pop_lot_title").html(lotInfo.lotTitle);
                     $("#pop_material").html(lotInfo.material);
                     $("#pop_size").html(size_text_cm(lotInfo.lotSize));
-                    $("#pop_make_year").html(lotInfo.makeYear);
+                    if(lotInfo.makeYear) {
+                        $("#pop_make_year").show();
+                        $("#pop_make_year").html(lotInfo.makeYear);
+                    } else {
+                        $("#pop_make_year").hide();
+                    }
 
                     popup_biddingPopup1.open(this); // or false
                     popup_fixation("#popup_biddingPopup1-wrap");
@@ -1605,7 +1610,7 @@
                                     bid_tick.innerText = "경매 시작 전입니다.";
                                 } else if (end_bid_time < new Date().getTime()) {
                                     bid_tick.innerText = "경매가 종료 되었습니다.";
-                                    document.getElementById("bid_new_cost").innerText = "경매가 종료되었습니다.";
+                                    document.getElementById("bid_new_cost").innerText = "경매가 종료 되었습니다.";
                                 }
                                 /*let bid_lst = document.getElementById("bid_lst");
                                 let dt_ly_span1 = document.createElement("em");

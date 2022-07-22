@@ -30,19 +30,19 @@ $('.js-maintab_list a').on('click', function(e) {
 });
 
 $(function() {
-    $(window).on("resize", function($e) {
-        select_resize_change();
-    });
-
-    function select_resize_change() {
-        if ($("body").hasClass("is_mb")) {
-            $(".js-select_page").val("2");
-        } else {
-            $(".js-select_page").val("1");
-        }
-        $(".js-select_page").trigger('change');
-    }
-    select_resize_change();
+    // $(window).on("resize", function($e) {
+    //     select_resize_change();
+    // });
+    //
+    // function select_resize_change() {
+    //     if ($("body").hasClass("is_mb")) {
+    //         $(".js-select_page").val("2");
+    //     } else {
+    //         $(".js-select_page").val("1");
+    //     }
+    //     $(".js-select_page").trigger('change');
+    // }
+    // select_resize_change();
 });
 
 function goPsGuide(){
@@ -62,6 +62,26 @@ app.controller('ctl', function ($scope, consts, common, is_login, locale) {
     $scope.pagesize = 10;
     $scope.itemsize = 20;
     $scope.curpage = 1;
+
+
+    $scope.reqRowCnt = 8;
+    $scope.currentPage = 1;
+    $scope.totalCount = 0;
+    $scope.isMore = false;
+
+    $scope.init = function(){
+        //초반 영역 안보이게 세팅
+        $("#havePrivateSale").hide();
+        $("#emptyPrivateSale").hide();
+
+        $scope.load(1);
+    }
+
+    $scope.more = function(){
+
+        $scope.currentPage++;
+        $scope.load($scope.currentPage);
+    }
 
     let pagingName = '';
     let moreName = '';
@@ -85,7 +105,10 @@ app.controller('ctl', function ($scope, consts, common, is_login, locale) {
     $scope.selectViewType = 1;
     $scope.searchValue = "";
     $scope.searchSaleInfoAll = [];
+    $scope.saleInfoOriginAll = [];
     $scope.selectLotTag = "전체";
+    $scope.isMore = false;
+    $scope.totalCount = 0;
 
     $scope.searchArtist = function (event) {
         if (event.keyCode === 13 || $scope.searchValue.length <= 0) {
@@ -94,21 +117,31 @@ app.controller('ctl', function ($scope, consts, common, is_login, locale) {
     }
 
     $scope.searchArtist2 = function () {
+
+        if($scope.searchValue === ''){
+            $scope.load(1);
+            return;
+        } else {
+            $scope.saleInfoAll = [];
+        }
+
         let pp = [];
-        for (let i = 0; i < $scope.saleInfoAll.length; i++) {
+        for (let i = 0; i < $scope.saleInfoOriginAll.length; i++) {
             if(locale == 'ko'){
-                if ($scope.saleInfoAll[i].ARTIST_NAME_BLOB_KO.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1 || $scope.saleInfoAll[i].TITLE_BLOB_KO.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1) {
-                    pp.push($scope.saleInfoAll[i]);
+
+                if ($scope.saleInfoOriginAll[i].ARTIST_NAME_BLOB_KO.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1 || $scope.saleInfoOriginAll[i].TITLE_BLOB_KO.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1) {
+                    pp.push(JSON.parse(JSON.stringify($scope.saleInfoOriginAll[i])));
                 }
             }else{
-                if ($scope.saleInfoAll[i].ARTIST_NAME_BLOB_EN.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1 || $scope.saleInfoAll[i].TITLE_BLOB_EN.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1) {
-                    pp.push($scope.saleInfoAll[i]);
+                if ($scope.saleInfoOriginAll[i].ARTIST_NAME_BLOB_EN.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1 || $scope.saleInfoOriginAll[i].TITLE_BLOB_EN.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1) {
+                    pp.push(JSON.parse(JSON.stringify($scope.saleInfoOriginAll[i])));
                 }
             }
         }
-        $scope.searchSaleInfoAll = pp;
-        $scope.pageing(1);
 
+        $scope.saleInfoAll = pp;
+
+        setPagenation();
     }
 
     $scope.goLot = function (saleAsNo) {
@@ -117,7 +150,7 @@ app.controller('ctl', function ($scope, consts, common, is_login, locale) {
     }
 
     // 호출 부
-    const getSaleInfo = ( ) => {
+    const getSaleInfo = () => {
         try {
             return axios.get('/api/privatesale/list');
         } catch (error) {
@@ -125,17 +158,44 @@ app.controller('ctl', function ($scope, consts, common, is_login, locale) {
         }
     };
 
+    const setPagenation = function (){
+
+        //페이지가 변경되면 데이터도 변경 시킴.
+        $scope.saleInfoAll = $scope.saleInfoAll.slice(($scope.reqRowCnt * ($scope.currentPage - 1)), $scope.reqRowCnt * $scope.currentPage);
+
+        $scope.totalCount = $scope.saleInfoAll.length;
+
+        //$scope.isMore =  (!($scope.totalCount <= $scope.reqRowCnt && ($scope.totalCount / $scope.reqRowCnt) < 2));
+
+        paging({
+            id: "paging_search",
+            className:"paging",
+            totalCount:$scope.totalCount,
+            itemSize:$scope.reqRowCnt,
+            pageSize: 10,
+            page:$scope.currentPage,
+            callBackFunc:function(i) {
+                $scope.currentPage = i;
+                $scope.load();
+            }
+        });
+        if ($scope.$$phase !== '$apply' && $scope.$$phase !== '$digest') {
+            $scope.$apply();
+        }
+
+    };
+
     // 호출 부
     $scope.load = function () {
         let run = async function () {
 
-            //초반 영역 안보이게 세팅
-            $("#havePrivateSale").hide();
-            $("#emptyPrivateSale").hide();
 
             let [r1, r2] = await Promise.all([getSaleInfo()]);
 
             $scope.saleInfoAll = r1.data.data;
+
+            //오리진 데이터 복사.
+            $scope.saleInfoOriginAll = JSON.parse(JSON.stringify($scope.saleInfoAll));
 
             if($scope.saleInfoAll.length < 1){
                 $("#emptyPrivateSale").show();
@@ -143,27 +203,9 @@ app.controller('ctl', function ($scope, consts, common, is_login, locale) {
             }else{
                 $("#havePrivateSale").show();
                 $("#emptyPrivateSale").hide();
-                $scope.saleInfo = $scope.saleInfoAll.slice(0, $scope.itemsize);
+                $scope.saleInfo = $scope.saleInfoAll.slice(0, $scope.reqRowCnt);
 
-                let p = [];
-                let endVal = 0;
-                let page = 1;
-
-                let etc = ($scope.saleInfoAll.length % $scope.itemsize > 0) ? 1 : 0;
-                let end = parseInt($scope.saleInfoAll.length / $scope.itemsize) + etc;
-
-                if (end < (parseInt(page / $scope.pagesize) + 1) + $scope.pagesize) {
-                    endVal = end;
-                } else {
-                    endVal = $scope.pagesize + (parseInt(page / $scope.pagesize) + 1);
-                }
-
-                for (let i = 1; i <= endVal; i++) {
-                    p.push(i);
-                }
-
-                $scope.pageingdata = p;
-                $scope.$apply();
+                setPagenation();
 
                 // lot
                 $("#search_lot").on("keyup", function () {
@@ -190,80 +232,23 @@ app.controller('ctl', function ($scope, consts, common, is_login, locale) {
     }
     //페이지방식, 더보기방식 변경
     $scope.chgViewType = function () {
+
         let sst = parseInt($("#viewType option:selected").val())
         switch (sst) {
             case 1:
-                $("#page_layer").removeClass('only-mb');
-                $("#page_layer").addClass('only-pc');
-                $("#add_layer").removeClass('only-pc');
-                $("#add_layer").addClass('only-mb');
+                // $("#page_layer").removeClass('only-mb');
+                // $("#page_layer").addClass('only-pc');
+                // $("#add_layer").removeClass('only-pc');
+                // $("#add_layer").addClass('only-mb');
 
-                $scope.pageing($scope.curpage)
+                $scope.isMore = false;
+
                 break;
             case 2:
-                $("#page_layer").removeClass('only-pc');
-                $("#page_layer").addClass('only-mb');
-                $("#add_layer").removeClass('only-mb');
-                $("#add_layer").addClass('only-pc');
-
-                $scope.addpage($scope.curpage);
+                $scope.isMore = true;
                 break;
         }
+        $scope.$apply();
         $scope.selectViewType = sst;
-    }
-    // 더보기 페이징
-    $scope.addpage = function (page) {
-        let v = $scope.saleInfoAll;
-
-        if ($scope.searchValue.length > 0) {
-            v = $scope.searchSaleInfoAll;
-        } else {
-            if ($scope.searchSaleInfoAll != null && $scope.searchSaleInfoAll.length > 0) {
-                v = $scope.searchSaleInfoAll;
-            }
-        }
-        $scope.saleInfo = v.slice(0, $scope.itemsize * (page));
-        $scope.curpage = page;
-    }
-    //페이징
-    $scope.pageing = function (page) {
-        let v = $scope.saleInfoAll;
-        if ($scope.searchValue.length > 0) {
-            v = $scope.searchSaleInfoAll;
-        } else {
-            if ($scope.searchSaleInfoAll != null && $scope.searchSaleInfoAll.length > 0) {
-                v = $scope.searchSaleInfoAll;
-            }
-        }
-        $scope.saleInfo = v.slice(($scope.itemsize * (page - 1)), $scope.itemsize * page);
-
-        let pp = $scope.makePageing(v, page);
-        $scope.pageingdata = pp;
-        $scope.curpage = page;
-    }
-    //페이징 리스트 생성
-    $scope.makePageing = function (v, page) {
-        let p = [];
-        let endVal = 0;
-        let etc = (v.length % $scope.itemsize > 0) ? 1 : 0;
-        let end = parseInt(v.length / $scope.itemsize) + etc;
-
-
-        $scope.pagefirst = 1;
-        $scope.pageprev = (page < $scope.pagesize)? - 1: ($scope.pagesize * parseInt((page - 1) / $scope.pagesize));
-
-        if (end < (parseInt(page / $scope.pagesize) + 1) + $scope.pagesize) {
-            endVal = end;
-            $scope.pagelast = -1;
-            $scope.pagenext = -1;
-        } else {
-            endVal = $scope.pagesize + (parseInt(page / $scope.pagesize) + 1);
-            $scope.pagelast = end;
-            $scope.pagenext = endVal + 1;
-        }
-        for (let i = ($scope.pagesize * parseInt((page - 1) / $scope.pagesize)) + 1; i <= endVal; i++) {
-            p.push(i);
-        }
-        return p;
     }
 });

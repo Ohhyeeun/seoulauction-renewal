@@ -184,6 +184,8 @@ public class ApiSaleController {
                         if (m !=null && m.get(locale.getLanguage()).equals(artist)) {
                             lotInfoMap.put("IMAGE_MAGNIFY", false);
                             break;
+                        }else{
+                            lotInfoMap.put("IMAGE_MAGNIFY", true);
                         }
                     }
                 } else if (item.equals("EXPE_PRICE_TO_JSON")
@@ -228,6 +230,68 @@ public class ApiSaleController {
 
         }
         return ResponseEntity.ok(RestResponse.ok(lotInfoMap));
+    }
+
+    @RequestMapping(value="/viewscale_image/{sale_no}/{lot_no}", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> saleViewScaleImages(HttpServletRequest req,
+                                                   HttpServletResponse res,
+                                                   Locale locale,
+                                                   @PathVariable("sale_no") int saleNo,
+                                                   @PathVariable("lot_no") int lotNo) {
+
+        CommonMap map = new CommonMap();
+        map.put("sale_no", saleNo);
+        map.put("lot_no", lotNo);
+
+        // 랏 이미지 정보 가져오기
+        List<CommonMap> lotImages = saleService.selectViewScaleLotImages(map);
+
+        // 필터를 적용한 새로운 랏이미지 정보
+        List<CommonMap> lotImagesNew = new ArrayList<>();
+
+        String[] listKeys = {"LOT_SIZE_JSON"};
+        ObjectMapper mapper  = new ObjectMapper();
+
+        //로그인한 정보를 가져온다.
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        //직원 여부
+        boolean isEmployee = false;
+        //만약 로그인을 했고 직원 이면.
+        if( saUserDetails !=null) {
+            isEmployee = saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER"));
+        }
+
+        // 랏 디스플레이 필터
+        try{
+            for (var item : lotImages) {
+                CommonMap lotImagesNewItem = new CommonMap();
+                for (var k : new ArrayList<>(item.keySet())){
+                    lotImagesNewItem.put(k, item.get(k));
+                }
+                lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
+                // 리스트 변환
+                for(var item2 : listKeys) {
+                    lotImagesNewItem.put(item2,
+                            mapper.readValue(String.valueOf(lotImagesNewItem.get(item2)), List.class));
+                }
+
+                if (item.get("IMG_DISP_YN").equals("N") && !isEmployee) {
+                    lotImagesNewItem.put("IMAGE_URL", IMAGE_URL.replace("/nas_img",""));
+                    lotImagesNewItem.put("FILE_PATH", "");
+                    lotImagesNewItem.put("FILE_NAME", "/images/bg/no_image.jpg");
+                } else {
+                    lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
+                }
+
+                lotImagesNew.add(lotImagesNewItem);
+            }
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(RestResponse.ok(lotImagesNew));
     }
 
     @RequestMapping(value="/sale_images/{sale_no}", method = RequestMethod.GET)

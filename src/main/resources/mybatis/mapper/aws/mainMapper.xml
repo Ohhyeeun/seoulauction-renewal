@@ -24,7 +24,7 @@
             and mb.status = 'A'
             and mb.start_at + interval 9 hour <= now() + interval 9 hour
             and mb.end_at + interval 1 day + interval 9 hour >= now() + interval 9 hour
-        order by mb.sort desc;
+        order by mb.sort asc;
     ]]>
     </select>
     <!--Newsletter-->

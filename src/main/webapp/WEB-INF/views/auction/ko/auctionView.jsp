@@ -133,10 +133,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="view_scale-area"
-                                                 ng-if="lotInfo.VIEW_SCALE_YN == 'Y'">
-                                                <a class="js-popup_image_viewer" href="#"><i
-                                                        class="icon-view_scale"></i><span>VIEW SCALE</span></a>
+                                            <div class="view_scale-area"  ng-if="lotInfo.IMAGE_MAGNIFY && lotInfo.VIEW_SCALE_YN == 'Y' && ['traditional_painting', 'local_painting', 'foreign_painting'].indexOf(lotInfo.CATE_CD) > -1">
+                                                <a class="js-popup_image_viewer" href="#">
+                                                    <i class="icon-view_scale"></i>
+                                                    <span>VIEW SCALE</span>
+                                                </a>
                                             </div>
                                         </article>
                                     </div>
@@ -601,7 +602,7 @@
                                                 <span id="lot_mt_nm"></span>
                                                 <ul>
                                                     <li id="lot_size"></li>
-                                                    <li></li>
+                                                    <li id="lot_make_year"></li>
                                                 </ul>
                                             </div>
                                         </figcaption>
@@ -703,6 +704,7 @@
                                     <i class="icon-viewer_size-on"></i>
                                 </button>
                             </div>
+<%--                            LOT 이동 컨트롤 --%>
                             <div class="view_paging-area">
 <%--                                <button class="page_prev"><i class="icon-view_paging_left"></i></button>--%>
                                 <span id="view_lot_no"></span>
@@ -1074,8 +1076,9 @@
         };
 
         const getSaleImages = (saleNo, lotNo) => {
+            console.log("getSaleImages : ", saleNo, lotNo);
             try {
-                return axios.get('/api/auction/sale_images/${saleNo}');
+                return axios.get('/api/auction/viewscale_image/'+saleNo+'/'+lotNo);
             } catch (error) {
                 console.error(error);
             }
@@ -1385,6 +1388,13 @@
 
                 $("#lot_title").html("LOT " + $scope.lotInfo.LOT_NO);
                 $("#lot_size").html(size_text_cm($scope.lotInfo.LOT_SIZE_JSON));
+                if(isNotObjectEmpty($scope.lotInfo.MAKE_YEAR_JSON)) {
+                    $("#lot_make_year").show();
+                    $("#lot_make_year").html($scope.lotInfo.MAKE_YEAR_JSON.ko);
+                } else {
+                    $("#lot_make_year").hide();
+                }
+
                 $("#lot_mt_nm").html($scope.lotInfo.MATE_NM);
 
                 startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2, '${member.loginId}', $scope.cust_no);
@@ -1491,6 +1501,7 @@
                 let firstCheck = 0;
 
                 $.each(sale_images, function (index, el) {
+                    console.log("el",el)
                     let size1 = 0;
                     let size2 = 0;
                     let unitCd = '';
@@ -1499,8 +1510,8 @@
                         size1 = el.LOT_SIZE_JSON[0].SIZE1;
                         size2 = el.LOT_SIZE_JSON[0].SIZE2;
                         unitCd = el.LOT_SIZE_JSON[0].UNIT_CD;
-
                     }
+
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
                     let swiper_slide_item = '';
                     if (firstCheck == 0) {
@@ -1508,22 +1519,35 @@
                     }
                     firstCheck++;
                     //if (size1 > 160) {
-                    swiper_slide_item = `<div class="swiper-slide">
+                    console.log($scope.lotInfo.CATE_CD)
+                    if(['traditional_painting'].indexOf($scope.lotInfo.CATE_CD) > -1){
+                        swiper_slide_item = `<div class="swiper-slide">
                         <div class="img-area">
                             <div class="img-box">
                                 <div class="size_x"><span>` + size1 + unitCd + `</span></div>
                                 <div class="size_y"><span>` + size2 + unitCd + `</span></div>
                                 <div class="images">
-                                    <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `"
-                                         size2="` + size2 + `" lot_no="` + lot_no + `"/>
+                                    <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size1 + `" size-y="` + size2 + `" lot_no="` + lot_no + `"/>
                                 </div>
                             </div>
                         </div>
                     </div>`;
+                    }else if(['local_painting', 'foreign_painting'].indexOf($scope.lotInfo.CATE_CD) > -1){
+                        swiper_slide_item = `<div class="swiper-slide">
+                        <div class="img-area">
+                            <div class="img-box">
+                                <div class="size_x"><span>` + size2 + unitCd + `</span></div>
+                                <div class="size_y"><span>` + size1 + unitCd + `</span></div>
+                                <div class="images">
+                                    <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size2 + `" size-y="` + size1 + `" lot_no="` + lot_no + `"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                    }
+
                     $("#swiper-wrapper").append(swiper_slide_item);
                 });
-
-                console.log(lot_images);
 
                 $.each(lot_images, function (index, el) {
 
@@ -1571,15 +1595,15 @@
 
 
                 /* 스와이퍼 */
-                // var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
-                //     loop: true,
-                //     onSlideChangeStart: function (swiper) { // 움직임이 끝나면 실행
-                //         imagesResizePcMb();
-                //     },
-                //     onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
-                //         imagesResizePcMb();
-                //     },
-                // });
+                var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
+                    loop: true,
+                    onSlideChangeStart: function (swiper) { // 움직임이 끝나면 실행
+                        imagesResizePcMb();
+                    },
+                    onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
+                        imagesResizePcMb();
+                    },
+                });
                 $.each($(".swiper-slide"), function () {
                     let data = $(this).attr("data-swiper-slide-index");
                     let lot_no = $(this).find(".imageViewer").attr("lot_no");
@@ -1679,8 +1703,6 @@
 
                     if (success) {
                         let artistData = data.data;
-
-                        console.log(artistData);
 
                         if (!artistData) {
                             $("#artist_layer").css("display", "none");
@@ -2076,7 +2098,7 @@
 
 
         } else {
-            let  c = confirm("자동응찰 중지하기 전까지의\n 응찰 낙찰 내역은 모두 기록되며 유효합니다.\n\n응찰하시겠습니까?", "응찰", "취소");
+            let  c = confirm("자동응찰 중지하기 전까지의\n응찰 낙찰 내역은 모두 기록되며 유효합니다.\n\n응찰하시겠습니까?", "응찰", "취소");
             if (c) {
                 autoBiding(connect_info);
             }
@@ -2243,6 +2265,7 @@
 
                             let user_id_span = document.createElement("span");
                             user_id_span.innerText = bid_hist_info[i].customer.user_id;
+                            console.log(bid_hist_info[i].customer.user_id);
 
                             user_id_ly.appendChild(user_id_span);
 

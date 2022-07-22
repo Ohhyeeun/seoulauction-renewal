@@ -149,13 +149,12 @@ app.service("inquiryService", function($rootScope, common, locale) {
 
 		$scope.changeCate1 = function() {
 			var elements = document.getElementsByClassName('hide_row');
-			
+			$scope.form_data.cate1 = $("#category1 option:selected").val();
 			$scope.form_data.cate2 ="";
-			
+
 			for (var i = 0; i < elements.length; i++) {
 				if ($scope.form_data.cate1 == "sell" || $scope.form_data.cate1 == "chineseart") {
-					
-					console.log(elements[i]);
+
 					elements[i].style.display = 'flex';
 				}
 				else {
@@ -168,10 +167,16 @@ app.service("inquiryService", function($rootScope, common, locale) {
 			for (i in $scope.inqCate) {
 				if ($scope.inqCate[i].P_CD_ID == $scope.form_data.cate1) {
 					$scope.inqCate2.push($scope.inqCate[i]);
+					$scope.$apply();
+					
 				}
 			}
 		}
 
+		$scope.changeCate2 = function() {
+			$scope.form_data.cate2 = $("#category2 option:selected").val();
+		}
+		
 		$scope.fileValidCheck = function(){
 				let files = document.getElementById("file").files;
 				
