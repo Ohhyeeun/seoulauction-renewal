@@ -147,7 +147,7 @@
 	</sql>
 
 	<select id="selectUpcomingSaleListPaging" parameterType="CommonMap" resultType="CommonMap">
-		<include refid="selectProgressSaleList"/>
+		<include refid="selectUpcomingSaleList"/>
 		LIMIT  #{offset}, #{size}
 	</select>
 
