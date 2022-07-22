@@ -111,6 +111,15 @@ function nativeToggleMenu(state) {
 }
 
 /**
+ * [Native -> Webview]
+ * 앱의 상태값 수신(복수로 호출될 수 있음)
+ * @param {string} state
+ */
+function nativeGetAppStatus(status) {
+  console.log(`AppLifecycleState Value: ${status}`);
+}
+
+/**
  * [Webview -> Native]
  * 접속한 기기가 앱이 맞는지 정보
  * @return {Promise<boolean>}
