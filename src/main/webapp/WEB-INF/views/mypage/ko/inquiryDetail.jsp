@@ -83,7 +83,7 @@
                                                                     <span>답변내용</span>
                                                                 </dt>
                                                                 <dd class="tb1">
-                                                                    <div class="con-area" ng-bind-html="reply.CONTENT"></div>
+                                                                    <div class="con-area" ><pre>{{reply.CONTENT}}</pre></div>
                                                                 </dd>
                                                             </dl>
                                                         </dl>

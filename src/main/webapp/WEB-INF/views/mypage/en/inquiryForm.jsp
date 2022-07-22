@@ -58,9 +58,9 @@
 																<div class="td">
 																	<div class="col_select">
 																		<div class="select-box half">
-																			<select name="category1" id="category1"
+																			<select class="select2Basic" name="category1" id="category1"
 																				class="" ng-model="form_data.cate1"
-																				ng-change="changeCate1()">
+																				onchange="angular.element(this).scope().changeCate1()">
 																				<option value="">Choose</option>
 																				<option
 																					ng-repeat="code in inqCate | filter:{LEVEL:1}:true"
@@ -68,9 +68,10 @@
 																			</select>
 																		</div>
 																		<div class="select-box half">
-																			<select name="category2" id="category2"
+																			<select class="select2Basic" name="category2" id="category2"
 																				class="" ng-model="form_data.cate2"
-																				ng-if="inqCate2 != undefined && inqCate2.length > 0">
+																				ng-if="inqCate2 != undefined && inqCate2.length > 0"
+																				onchange="angular.element(this).scope().changeCate2()">
 																				<option value="">Choose</option>
 																				<option ng-repeat="code in inqCate2"
 																					value="{{code.CD_ID}}">{{code.CD_NM}}/{{code.CD_NM_EN}}</option>
