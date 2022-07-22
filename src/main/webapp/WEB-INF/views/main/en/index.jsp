@@ -20,7 +20,7 @@
         <section class="container wrap_padding">
             <section class="auction-contents">
                 <div class="auction-tit">
-                    <h1 class="main-sectiontit main-sectiontit-auction">Auction</h1> 
+                    <h1 class="main-sectiontit main-sectiontit-auction">Auction</h1>
                     <div class="auctiontab-scroll">
                         <div class="auctionTab">
                         </div>
@@ -78,8 +78,8 @@
                             </div>
                             <figure class="family-infoimg">
                                 <a href=https://www.auctionblue.com"  target="_blank">
-                                    <img src="/images/pc/banner/FamilyBanner_PrintBakery_383x150.png" alt="Seoul Auction Blue" class="pc-ver">
-                                    <img src="/images/mobile/banner/FamilyBanner_PrintBakery_520x204.png" alt="Seoul Auction Blue" class="m-ver">
+                                    <img src="/images/pc/banner/FamilyBanner_SaBlue_383x150.png" alt="Seoul Auction Blue" class="pc-ver">
+                                    <img src="/images/mobile/banner/FamilyBanner_SaBlue_520x204.png" alt="Seoul Auction Blue" class="m-ver">
                                 </a>
                             </figure>
                         </div>
@@ -90,8 +90,8 @@
                             </div>
                             <figure class="family-infoimg">
                                 <a href="https://sotwo.com" target="_blank">
-                                    <img src="/images/pc/banner/FamilyBanner_SaBlue_383x150.png" alt="SOTWO" class="pc-ver">
-                                    <img src="/images/mobile/banner/FamilyBanner_SaBlue_520x204.png" alt="SOTWO" class="m-ver">
+                                    <img src="/images/pc/banner/FamilyBanner_Sotwo_383x150.png" alt="SOTWO" class="pc-ver">
+                                    <img src="/images/mobile/banner/FamilyBanner_Sotwo_520x204.png" alt="SOTWO" class="m-ver">
                                 </a>
                             </figure>
                         </div>
@@ -102,8 +102,8 @@
                             </div>
                             <figure class="family-infoimg">
                                 <a href="https://printbakery.com"  target="_blank">
-                                    <img src="/images/pc/banner/FamilyBanner_Sotwo_383x150.png" alt="Print bakery" class="pc-ver">
-                                    <img src="/images/mobile/banner/FamilyBanner_Sotwo_520x204.png" alt="Print bakery" class="m-ver">
+                                    <img src="/images/pc/banner/FamilyBanner_PrintBakery_383x150.png" alt="프린트 베이커리" class="pc-ver">
+                                    <img src="/images/mobile/banner/FamilyBanner_PrintBakery_520x204.png" alt="프린트 베이커리" class="m-ver">
                                 </a>
                             </figure>
                         </div>
@@ -141,7 +141,7 @@
 
 <!-- 다크모드 darkmode -->
 <span class="darkmodeBg">
-        <button class="darkmode" type="button"></button><span class="darktxt darktxt-en">Dark Mode</span> 
+        <button class="darkmode" type="button"></button><span class="darktxt darktxt-en">Dark Mode</span>
     </span>
 <!--scroll top-->
 <a href="#" class="scroll-top">
@@ -153,8 +153,8 @@
 <div class="main-popupbox pc-ver">
     <a href="" id="main_popup_a_link"  title="메인 팝업 이미지">
         <div class="main-popup-img"> <!-- 이미지 레이어팝업 -->
-            <img id="main_popup_img" src="/images/pc/main/pop_event.jpg" alt="레이어팝업 이미지">
-        </div>
+            <img id="main_popup_img" <%--src="/images/pc/main/pop_event.jpg"--%> alt="레이어팝업 이미지">
+        </div> 
     </a>
 
     <!-- 텍스트 레이어팝업 on-->
@@ -184,13 +184,13 @@
                 <div class="main-popup-img"> <!-- 이미지 레이어팝업 -->
                     <img id="main_popup_img" <%--src="/images/pc/main/pop_event.jpg"--%> alt="레이어팝업 이미지">
                 </div>
-                <!-- 텍스트 레이어팝업 --> 
+                <!-- 텍스트 레이어팝업 -->
             </a>
 
 
             <!-- 텍스트 레이어팝업 on-->
             <a href="#" title="메인 팝업 텍스트" id="main_popup_text_a_link" title="main popup text">
-                <div class="main-popup-txt"> 
+                <div class="main-popup-txt">
                     <div class="main-popup-caption">
                         <h2 id="main_popup_title">국내 오프라인 경매 구매수수료율 인상 및 약관 개정 안내</h2>
                         <p id="main_popup_content">항상 서울옥션을 이용해 주시는 고객 여러분들께<br> 진심으로 감사의 말씀을 드리며,<br>다음과 같이 국내 오프라인 경매 구매수수료율을<br>인상함을 알려드립니다.<br>

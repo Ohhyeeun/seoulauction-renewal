@@ -104,8 +104,8 @@
                             </div>
                             <figure class="family-infoimg">
                                 <a href="https://www.auctionblue.com" target="_blank">
-                                    <img src="/images/pc/banner/FamilyBanner_PrintBakery_383x150.png" alt="서울옥션 블루" class="pc-ver">
-                                    <img src="/images/mobile/banner/FamilyBanner_PrintBakery_520x204.png" alt="서울옥션 블루" class="m-ver">
+                                    <img src="/images/pc/banner/FamilyBanner_SaBlue_383x150.png" alt="서울옥션 블루" class="pc-ver">
+                                    <img src="/images/mobile/banner/FamilyBanner_SaBlue_520x204.png" alt="서울옥션 블루" class="m-ver">
                                 </a>
                             </figure>
                         </div>
@@ -113,11 +113,11 @@
                             <div class="family-infobox">
                                 <p class="family-infotit">SOTWO</p>
                                 <p class="family-infotxt tit-size16">미술품 공동구매 플랫폼</p>
-                            </div>
+                            </div> 
                             <figure class="family-infoimg">
                                 <a href="https://sotwo.com" target="_blank">
-                                    <img src="/images/pc/banner/FamilyBanner_SaBlue_383x150.png" alt="SOTWO" class="pc-ver">
-                                    <img src="/images/mobile/banner/FamilyBanner_SaBlue_520x204.png" alt="SOTWO" class="m-ver">
+                                    <img src="/images/pc/banner/FamilyBanner_Sotwo_383x150.png" alt="SOTWO" class="pc-ver">
+                                    <img src="/images/mobile/banner/FamilyBanner_Sotwo_520x204.png" alt="SOTWO" class="m-ver">
                                 </a>
                             </figure>
                         </div>
@@ -128,8 +128,8 @@
                             </div>
                             <figure class="family-infoimg">
                                 <a href="https://printbakery.com" target="_blank">
-                                    <img src="/images/pc/banner/FamilyBanner_Sotwo_383x150.png" alt="프린트 베이커리" class="pc-ver">
-                                    <img src="/images/mobile/banner/FamilyBanner_Sotwo_520x204.png" alt="프린트 베이커리" class="m-ver">
+                                    <img src="/images/pc/banner/FamilyBanner_PrintBakery_383x150.png" alt="프린트 베이커리" class="pc-ver">
+                                    <img src="/images/mobile/banner/FamilyBanner_PrintBakery_520x204.png" alt="프린트 베이커리" class="m-ver">
                                 </a>
                             </figure>
                         </div>
@@ -190,8 +190,8 @@
 <%-- dim 없는 main 레이어 팝업(pc) --%>
 <div class="main-popupbox pc-ver">
     <a href="" id="main_popup_a_link"  title="메인 팝업 이미지">
-        <div class="main-popup-img"> <!-- 이미지 레이어팝업 -->
-            <img id="main_popup_img" src="/images/pc/main/pop_event.jpg" alt="레이어팝업 이미지">
+        <div class="main-popup-img"> <!-- 이미지 레이어팝업 --> 
+            <img id="main_popup_img" <%--src="/images/pc/main/pop_event.jpg"--%> alt="레이어팝업 이미지">
         </div>
     </a>
 
