@@ -31,8 +31,6 @@ $(document).ready(function(){
                         const titleBlob = el.SHORT_TITLE? el.SHORT_TITLE : el.TITLE_BLOB;
                         const title = JSON.parse(titleBlob);
                         let name = locale === 'ko' ? title.ko : title.en;
-                            name = localeOrdinal(el.SALE_TH, locale) + name;
-
 
                         //sale html
                         let saleHtml = idx === 0 ? `<span class="auctionTab-btn on"><span class="text-over">${name}</span></span>`
