@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="/css/plugin/csslibrary.css">
         <!-- //header -->
         <!-- container -->
-        <div id="container" ng-controller="ctl" data-ng-init="load();">
+        <div id="container" ng-controller="ctl" data-ng-init="init();">
             <div id="contents" class="contents">
                 <!-- page title -->
                 <section class="page_title-section type-dark">
@@ -103,7 +103,7 @@
                             </div>
                             <div class="panel-body">
                                 <ul class="product-list">
-                                    <li class="" ng-repeat="item in saleInfo"> 
+                                    <li class="" ng-repeat="item in saleInfoAll">
                                         <div class="li-inner">
                                             <a href="#">
                                                 <article class="item-article" ng-click="goLot(item.SALE_AS_NO)">
@@ -127,7 +127,7 @@
                                                                 <div class="standard">
                                                                     <span>{{item.CD_NM}}</span>
                                                                     <div class="size_year">
-                                                                        <span>{{item.SIZE1}} X {{item.SIZE2}} X {{item.SIZE3}}</span>
+                                                                        <span ng-bind="item | size_text_cm"></span>
                                                                         <span>{{item.MAKE_YEAR_BLOB}}</span>
                                                                     </div>
                                                                 </div>
@@ -143,25 +143,15 @@
 
                             </div>
 
-                            <div class="panel-footer">
+                            <div ng-show="totalCount !== 0" class="panel-footer">
                                 <div class="set-pc_mb">
-                                    <div id="page_layer" class="only-pc">
-                                        <div class="paging-area">
-                                            <div class="paging">
-                                                <a href="javascript:void(0);" ng-click="pageing(1);" class="prev_end icon-page_prevprev"><em>FIRST</em></a>
-                                                <a href="javascript:void(0);" ng-click="pageing(pageprev);" ng-show="pageprev > -1" class="next icon-page_prev "><em>PREV</em></a>
-                                                <a href="javascript:void(0);" ng-click="pageing(item);" ng-class="{'on':item === curpage}"
-                                                   ng-repeat="item in pageingdata">
-                                                    <strong ng-if="item === curpage"
-                                                            ng-bind="item"></strong>
-                                                    <span ng-if="item != curpage" ng-bind="item"></span></a>
-                                                <a href="javascript:void(0);" ng-click="pageing(pagenext);" ng-show="pagenext > -1" class="next icon-page_next"><em>NEXT</em></a>
-                                                <a href="javascript:void(0);" ng-click="pageing(pagelast);" ng-show="pagelast > -1" class="next icon-page_nextnext"><em>LAST</em></a>
-                                            </div>
+                                    <div ng-show="!isMore">
+                                        <div class="paging-area" id="paging_search">
                                         </div>
                                     </div>
-                                    <div id="add_layer" class="only-mb">
-                                        <button class="btn btn_gray_line" type="button" ng-click="addpage(curpage + 1);"><span>더보기</span></button>
+                                    <div ng-show="isMore">
+                                        <br>
+                                        <button class="btn btn_gray_line" type="button" ng-click="more();"><span>더보기</span></button>
                                     </div>
                                 </div>
                             </div>
@@ -169,13 +159,15 @@
                         </div>
 
                         <!--작품 없을때 -->
-                        <div class="content-panel type_panel-product_list" id="emptyPrivateSale">
+                        <div ng-show="totalCount === 0" class="content-panel type_panel-product_list">
                             <div class="panel-body">
                                 <article class="comingsoon-article">
                                     <div class="article-inner">
                                         <div class="data-empty">
                                             <div class="txt_empty">
-                                                <div class="title">작품을 준비중입니다.</div>
+                                                <div class="title">검색 된 작품이 없거나
+                                                    <br>
+                                                    현재 작품 준비된 작품이 없습니다.</div>
                                                 <div class="desc">빠른시일 내에 다양한 작품을 준비하여 찾아 뵙겠습니다. <br />
                                                     감사합니다.
                                                 </div>
@@ -243,7 +235,7 @@
 <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/private_sale/psList.js" type="text/javascript"></script>
-
+<script type="text/javascript" src="/js/common/paging.js"></script>
 </body>
 
 
