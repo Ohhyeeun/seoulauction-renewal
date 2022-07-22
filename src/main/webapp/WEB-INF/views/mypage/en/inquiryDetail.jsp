@@ -67,13 +67,13 @@
                                                             <dt class="tit tt5"><span>Contents</span></dt>
                                                             <dd class="tb1">
                                                                 <div class="con-area" ng-bind-html="inquiry.CONTENT"></div>
-                                                                <div class="file-area">
+                                                                <div class="file-area" ng-if="fileList != ''">
                                                                     <div class="file-area-inner" ng-repeat="file in fileList">
                                                                         <!-- <a href="{{file.cdn_url}}"> -->
                                                                          <!-- <a href="https://public.seoulauction.xyz/resources/images/main_popup/1/91489f49-81f7-4e42-91d6-39de4ecc2971.jpg" download="file.name" target="_blank"> -->
                                                                           <a href="/fileDownload?fileKey={{file.path}}&downloadFileName={{file.name}}.{{file.ext}}">  
                                                                         <div class="file-item">
-                                                                            <i class="icon_down"></i> <span>{{file.name}}</span>
+                                                                            <i class="icon_down"></i> <span>{{file.name}}.{{file.ext}}</span>
                                                                         </div>
                                                                         </a>
                                                                     </div>
