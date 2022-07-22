@@ -602,7 +602,7 @@
                                                 <span id="lot_mt_nm"></span>
                                                 <ul>
                                                     <li id="lot_size"></li>
-                                                    <li></li>
+                                                    <li id="lot_make_year"></li>
                                                 </ul>
                                             </div>
                                         </figcaption>
@@ -1388,6 +1388,13 @@
 
                 $("#lot_title").html("LOT " + $scope.lotInfo.LOT_NO);
                 $("#lot_size").html(size_text_cm($scope.lotInfo.LOT_SIZE_JSON));
+                if(isNotObjectEmpty($scope.lotInfo.MAKE_YEAR_JSON)) {
+                    $("#lot_make_year").show();
+                    $("#lot_make_year").html($scope.lotInfo.MAKE_YEAR_JSON.ko);
+                } else {
+                    $("#lot_make_year").hide();
+                }
+
                 $("#lot_mt_nm").html($scope.lotInfo.MATE_NM);
 
                 startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2, '${member.loginId}', $scope.cust_no);
@@ -2091,7 +2098,7 @@
 
 
         } else {
-            let  c = confirm("자동응찰 중지하기 전까지의\n 응찰 낙찰 내역은 모두 기록되며 유효합니다.\n\n응찰하시겠습니까?", "응찰", "취소");
+            let  c = confirm("자동응찰 중지하기 전까지의\n응찰 낙찰 내역은 모두 기록되며 유효합니다.\n\n응찰하시겠습니까?", "응찰", "취소");
             if (c) {
                 autoBiding(connect_info);
             }
@@ -2258,6 +2265,7 @@
 
                             let user_id_span = document.createElement("span");
                             user_id_span.innerText = bid_hist_info[i].customer.user_id;
+                            console.log(bid_hist_info[i].customer.user_id);
 
                             user_id_ly.appendChild(user_id_span);
 

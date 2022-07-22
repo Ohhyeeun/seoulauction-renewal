@@ -114,7 +114,7 @@ function bid() {
 // 자동응찰
 function autoBid() {
     if ($("#reservation_bid").prop("disabled")) {
-        let c = confirm("자동응찰 중지는 자동 응찰 취소가 아닙니다\n비딩이 올라간 상태에서 정지됩니다.\n\n자동 응찰을 중지 하시겠습니까??", "자동응찰중지", "취소");
+        let c = confirm("자동응찰 중지는 자동 응찰 취소가 아닙니다\n비딩이 올라간 상태에서 정지됩니다.\n\n자동 응찰을 중지 하시겠습니까?", "자동응찰중지", "취소");
         if (c) {
             autoBiding();
         }
