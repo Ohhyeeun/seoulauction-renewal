@@ -586,7 +586,7 @@
                                         <div class="view-img">
                                             <div class="img-box">
                                                 <div class="box-inner">
-                                                    <img id="img_url" alt="LOT 02">
+                                                    <img id="img_url" alt="LOT">
                                                 </div>
                                             </div>
                                         </div>
@@ -601,7 +601,7 @@
                                                 <span id="lot_mt_nm"></span>
                                                 <ul>
                                                     <li id="lot_size"></li>
-                                                    <li>2021</li>
+                                                    <li></li>
                                                 </ul>
                                             </div>
                                         </figcaption>
@@ -647,7 +647,7 @@
                                             <li class=""><span>동시 응찰자 경우, 서버시각 기준 우선순위가 부여됩니다.</span></li>
                                         </ul>
                                     </div>
-                                    <div class="bottombtn-area" name="end_bid_false"">
+                                    <div class="bottombtn-area" name="end_bid_false">
                                         <div class="btn_set active">
                                             <div class="btn_item"><a class="btn btn_point btn_lg typo-pc_mb-line"
                                                                      id="bid_new_cost_val" href="javascript:bid();"
@@ -1135,18 +1135,17 @@
         }
 
         $scope.popSet = function (saleNo, lotNo, userId, custNo) {
-            if (sessionStorage.getItem("is_login") === 'false') {
-                let login_message = (getCookie('lang') === "" || getCookie('lang') === 'ko') ?
-                    '로그인을 진행해주세요.' : 'Please Login in.';
-                alert(login_message);
-                location.href = '/login';
-                return
+            if(!checkLogin()) return;
+
+            let isCustRequired = ${isCustRequired};
+            if(!isCustRequired){
+                if(confirm('온라인 경매 응찰 신청에 필요한 필수회원정보가 있습니다.\n회원정보를 수정하시겠습니까?')){
+                    location.href = '/mypage/custModify';
+                }
+                return;
             }
 
             let is_sale_cert = $scope.is_sale_cert;
-
-            is_sale_cert = true;
-
             if (!is_sale_cert) {
                 popup_offline_payment.open(this); // or false
                 popup_fixation("#popup_online_confirm-wrap"); // pc 하단 붙이기
@@ -1400,7 +1399,10 @@
                                     if (response.data.data.CNT > 0) {
                                         $scope.is_sale_cert = true;
                                     } else {
-                                        $scope.popSet();
+                                        if(localStorage.getItem('saleCert${saleNo}') == null){
+                                            localStorage.setItem('saleCert${saleNo}', 'Y');
+                                            $scope.popSet();
+                                        }
                                     }
                                     $("#cust_hp").val(response.data.data.HP);
                                     $scope.cust_hp = response.data.data.HP;

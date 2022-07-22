@@ -843,6 +843,14 @@
             $scope.popSet = function (saleNo, lotNo, userId, custNo) {
                 if(!checkLogin()) return;
 
+                let isCustRequired = ${isCustRequired};
+                if(!isCustRequired){
+                    if(confirm('온라인 경매 응찰 신청에 필요한 필수회원정보가 있습니다.\n회원정보를 수정하시겠습니까?')){
+                        location.href = '/mypage/custModify';
+                    }
+                    return;
+                }
+
                 let is_sale_cert = $scope.is_sale_cert;
                 if (!is_sale_cert) {
                     popup_offline_payment.open(this); // or false
@@ -982,7 +990,10 @@
                                         if (response.data.data.CNT > 0) {
                                             $scope.is_sale_cert = true;
                                         } else {
-                                            $scope.popSet();
+                                            if(localStorage.getItem('saleCert${saleNo}') == null){
+                                                localStorage.setItem('saleCert${saleNo}', 'Y');
+                                                $scope.popSet();
+                                            }
                                         }
                                         $("#cust_hp").val(response.data.data.HP);
                                         $scope.cust_hp = response.data.data.HP;
