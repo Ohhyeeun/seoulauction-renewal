@@ -171,7 +171,6 @@
 <script type="text/javascript" src="/js/common/paging.js"></script>
 <script>
 var authorities = '${authorities}';
-console.log("authorities: ", authorities);
 
 <!-- angular js -->
 app.value('locale', 'ko');

@@ -35,20 +35,26 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 public class MypageService {
 
+	/* 첨부파일 Service*/
 	private final S3Service s3Service;
 	
+	/* mypage Mapper*/
 	private final MypageMapper mypageMapper;
 	
+	/* main Mapper*/
 	private final KTMainMapper ktMainMapper;
 	
+	/* 회원정보*/
     public CommonMap selectCustomerInfo(CommonMap commonMap){ 
         return mypageMapper.selectCustomerInfo(commonMap);
     }
 
+    /* 정회원 이력*/
 	public List<CommonMap> selectCustomerCustpayList(CommonMap commonMap){
         return mypageMapper.selectCustomerCustpayList(commonMap);
     }
 	
+	/* 아카데미 결제 이력*/
     public CommonMap selectAcademyList(CommonMap commonMap){  
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectAcademyList(commonMap));
@@ -56,16 +62,19 @@ public class MypageService {
         return map;
     }
     
+    /* 아카데미 결제 정보*/
     public CommonMap selectAcademyPayInfo(CommonMap commonMap){  
     	return mypageMapper.selectAcademyPayInfo(commonMap);
     }
     
+    /* 결제내역 select box */
     public CommonMap selectSaleListByCustNo(CommonMap commonMap){  
     	CommonMap map = new CommonMap();
     	map.put("saleList", mypageMapper.selectSaleListByCustNo(commonMap));
         return map;
     }
     
+    /* 결제내역 리스트 */
     public CommonMap selectPayListByCustNo(CommonMap commonMap){  
     	CommonMap map = new CommonMap();
     	List<CommonMap> list = mypageMapper.selectPayListByCustNo(commonMap);
@@ -76,7 +85,8 @@ public class MypageService {
     	//map.put("customerInfo", mypageMapper.selectCustomerByCustNo(commonMap));
         return map;
     }
-      
+    
+    /* 1대1 문의 리스트*/
     public CommonMap selectInquiryList(CommonMap commonMap){
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectInquiryList(commonMap));
@@ -84,7 +94,7 @@ public class MypageService {
         return map;
     }
 
-    
+    /* 1대1 문의 상세*/
     public CommonMap selectInquiry(CommonMap commonMap) {
 		CommonMap map = new CommonMap();
 		map.put("inquiryInfo", mypageMapper.selectInquiryInfo(commonMap));
@@ -93,14 +103,17 @@ public class MypageService {
     	return map;
     }
 
+    /* 1대1 문의 상세 > 카테고리 리스트*/
     public List<CommonMap> selectInquiryCategory(CommonMap commonMap){
         return mypageMapper.selectInquiryCategory(commonMap);
     }
     
+    /* 1대1 문의 상세 > 사용자 정보*/
     public CommonMap selectInquiryCustomerInfo(CommonMap commonMap){
         return mypageMapper.selectInquiryCustomerInfo(commonMap);
     }
     
+    /* 1대1 문의 등록*/
     public int insertInquiry(MultipartHttpServletRequest request, Principal principal) throws IOException {
     	
 		//문의 등록
@@ -124,7 +137,7 @@ public class MypageService {
         return result;
     }
     
-    // 공통
+    // 공통(HttpServletRequest -> Map)
     public Map<String,Object> formatMapRequest(HttpServletRequest request) {
     	Map<String, Object> map = new HashMap<String, Object>();
         Enumeration<String> enumber = request.getParameterNames();
@@ -150,6 +163,7 @@ public class MypageService {
 		return r;
 	}
 
+    /* 관심정보 리스트*/
     public CommonMap selectInteLotList(CommonMap commonMap){
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectCustInteLotList(commonMap));
@@ -157,14 +171,17 @@ public class MypageService {
         return map;
     }
     
+    /* 관심정보 등록*/
     public CommonMap insertCustInteLot(CommonMap commonMap){                                                                
         return mypageMapper.insertCustInteLot(commonMap);
     }
-
+    
+    /* 관심정보 삭제*/
     public int deleteCustInteLot(CommonMap commonMap){                                                                
     	return mypageMapper.deleteCustInteLot(commonMap);
     }
     
+    /* 라이브경매관리 > 응찰신청 내역*/
     public CommonMap selectBidReqList(CommonMap commonMap){
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectLiveBidReqList(commonMap));
@@ -172,6 +189,7 @@ public class MypageService {
         return map;
     }
     
+    /* 라이브경매관리 > 응찰신청 내역 > 응찰 팝업*/
     public CommonMap selectLiveBidReqHistoryList(CommonMap commonMap){
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectLiveBidReqHistoryList(commonMap));
@@ -179,6 +197,7 @@ public class MypageService {
         return map;
     }
     
+    /* 라이브경매관리 > 온라인패들응찰내역*/
     public CommonMap selectLiveBidList(CommonMap commonMap){
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectLiveBidList(commonMap));
@@ -186,7 +205,7 @@ public class MypageService {
     	return map;
     }
 
-
+    /* 라이브경매관리 > 온라인패들응찰내역 > 온라인패들응찰 팝업*/
     public CommonMap selectLiveBidHistoryList(CommonMap commonMap){
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectLiveBidHistoryList(commonMap));
@@ -194,6 +213,7 @@ public class MypageService {
         return map;
     }
     
+    /* 라이브경매관리 > 온라인패들응찰내역 > 낙찰결과통보서 팝업*/
     public CommonMap selectLiveBidHammerList(CommonMap commonMap){
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectLiveBidHammerList(commonMap));
@@ -201,6 +221,7 @@ public class MypageService {
     	return map;
     }
     
+    /* 온라인경매관리 > 응찰내역 */
     public CommonMap selectOnlineBidList(CommonMap commonMap){
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectOnlineBidList(commonMap));
@@ -208,6 +229,7 @@ public class MypageService {
     	return map;
     }
 
+    /* 온라인경매관리 > 응찰내역 > 응찰내역 팝업*/
     public CommonMap selectOnlineBidHistoryList(CommonMap commonMap){
     	CommonMap map = new CommonMap();
     	map.put("list", mypageMapper.selectOnlineBidHistoryList(commonMap));

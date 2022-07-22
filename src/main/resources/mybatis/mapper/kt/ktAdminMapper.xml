@@ -8,16 +8,17 @@
 			S.SALE_NO,
 			COLUMN_JSON(S.TITLE_BLOB) SALE_TITLE_JSON,
 		    S.SALE_TH SALE_TH,
-			DATE_FORMAT(S.FROM_DT,'%Y-%m-%d') FROM_DT
+			DATE_FORMAT(S.TO_DT,'%Y-%m-%d') TO_DT
 		from
 		     SALE S
 		where
-		      S.DEL_YN = 'N'
-		  and S.WWW_DISP_YN = 'Y'
-		  and S.SALE_OUTSIDE_YN = 'N'
-		  and S.TO_DT <![CDATA[ >= ]]> DATE_SUB(NOW(), INTERVAL ${month} MONTH)
+-- 		      S.DEL_YN = 'N'
+-- 		  and S.WWW_DISP_YN = 'Y'
+-- 		  and S.SALE_OUTSIDE_YN = 'N'
+		   S.REG_DT <![CDATA[ >= ]]> DATE_SUB(NOW(), INTERVAL ${month} MONTH)
 		order by
-		    S.SALE_NO desc
+			-- S.REG_DT desc
+			S.SALE_NO DESC
 		limit
 			#{offset} , #{size}
 	</select>
@@ -53,4 +54,5 @@
 
 
 </mapper>
+
 

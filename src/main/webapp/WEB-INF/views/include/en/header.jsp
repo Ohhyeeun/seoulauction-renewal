@@ -76,14 +76,5 @@
         <sec:authorize access="isAnonymous()">
         sessionStorage.setItem("is_login", "false" );
         </sec:authorize>
-        function logout(loginId){
-            console.log(loginId)
-            //TODO 소셜타입에 따른 SNS로그아웃처리
-            sessionLogout();
-        }
-        // 세션로그아웃
-        function sessionLogout() {
-            location.href = "/processLogout";
-        }
     </script>
 </head>

@@ -17,12 +17,13 @@ public interface AuctionMapper {
 
     void insertSalePadd(CommonMap map);
 
-    List<CommonMap> selectProgressSaleList(CommonMap commonMap);
+    List<CommonMap> selectProgressSaleListPaging(CommonMap commonMap);
+    int selectProgressCount(CommonMap commonMap);
 
-    List<CommonMap> selectUpcomingSaleList(CommonMap commonMap);
+    List<CommonMap> selectUpcomingSaleListPaging(CommonMap commonMap);
+    int selectUpcomingCount(CommonMap commonMap);
 
     List<CommonMap> selectResultSaleListPaging(CommonMap paramMap);
-
     int selectResultSaleListCount(CommonMap paramMap);
 
     CommonMap selectSaleInfo(CommonMap commonMap);

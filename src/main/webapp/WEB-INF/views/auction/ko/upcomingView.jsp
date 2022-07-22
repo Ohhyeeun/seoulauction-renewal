@@ -177,6 +177,14 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
                 } else {
                     $(".type-3").hide();
                 }
+
+                if (distance < 0) {
+                    $("ul.hourPlay li").eq(23).addClass("active, on");
+                    $("ul.minutePlay li").eq(59).addClass("active, on");
+                    $("ul.secondPlay li").eq(59).addClass("active, on");
+                    return;
+                }
+
                 CountDownTimer(end);
 
                 // 다시 카운트로 바꿈
@@ -283,7 +291,7 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
         $(".countdown-article").removeClass("play");
         if (num_num.html() == undefined) {
             num_num = $("li", $target).eq(count);
-            $("li", ul.secondPlay).removeClass("active")
+            $("li", "ul.secondPlay").removeClass("active")
             num_num.addClass("on")
         } else {
             /* 실행후 또실행 마지막 */
@@ -400,6 +408,13 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
                     openDdayFn();
                     return false;
                 }
+
+                if( _d == "0" && _h == "00" && _m=="00" ){
+                    $("ul.hourPlay li").eq(23).addClass("active, on");
+                    $("ul.minutePlay li").eq(59).addClass("active, on");
+                    $("ul.secondPlay li").eq(59).addClass("active, on");
+                    return false;
+                }
                 /* 분 카운트 */
                 numnumPlay("ul.minutePlay");
                 /* 시간 카운트 */
@@ -438,11 +453,12 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
 
     /* === 오픈시== */
     function openDdayFn() {
+        console.log("openDdayFn");
         numnumSet("ul.dayPlay", 0);
         numnumSet("ul.hourPlay", 0);
         numnumSet("ul.minutePlay", 0);
         numnumSet("ul.secondPlay", 0);
-        angular.element(this).scope().goProgressAuction();
+        //angular.element(this).scope().goProgressAuction();
         return;
     }
 </script>
@@ -461,7 +477,9 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
         var now = new Date();
         var distance = end - now;
         if (distance < 0) {
-            openDdayFn();
+            $("ul.hourPlay li").eq(23).addClass("active, on");
+            $("ul.minutePlay li").eq(59).addClass("active, on");
+            $("ul.secondPlay li").eq(59).addClass("active, on");
             return;
         }
 

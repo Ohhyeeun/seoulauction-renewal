@@ -16,13 +16,14 @@ $(document).ready(function(){
 
         let url = '/api/footer/faqs?faq_type=' + faq_type + "&lang=" + locale;
         if(search_text){
-            url +="&search="+search_text;
+            url +="&search="+encodeURIComponent(search_text);
         }
 
         axios.get(url)
             .then(function(response) {
                 const data = response.data;
                 let success = data.success;
+
                 if(success){
 
                     let data = response.data.data;
@@ -54,7 +55,7 @@ $(document).ready(function(){
                                                         ${localeContent}
                                                     </div>
                                                 </div>
-                                            </li>`;
+                                      </li>`;
 
                         $("#faq_content").append(html);
                     });
@@ -100,14 +101,15 @@ $(document).ready(function(){
                     $(".js-accordion_faq").trpAccordionMenu(".accordion_name", ".con-area", "on");
 
                 }
-            })
-            .catch(function(error) {
+            }).catch(function(error) {
                 console.log(error);
-        });
+            });
     }
 
     $("#search_btn").on('click',function (){
         search_text = $("#search_text").val();
+
+
         init();
     });
 

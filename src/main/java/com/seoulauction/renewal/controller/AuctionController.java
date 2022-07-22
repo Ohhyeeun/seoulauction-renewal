@@ -37,12 +37,18 @@ public class AuctionController {
         model.addAttribute("saleNo", saleNo);
         model.addAttribute("lotNo", lotNo);
 
+        //필수값 있는지 여부.
+        Boolean isCustRequired = false;
+
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
         if (saUserDetails != null) {
             model.addAttribute("member", saUserDetails);
+            isCustRequired = saleService.checkCustRequired(new CommonMap("cust_no", saUserDetails.getUserNo()));
         } else {
             model.addAttribute("member", new SAUserDetails());
         }
+        model.addAttribute("isCustRequired", isCustRequired);
+
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionView" , locale);
     }
 
@@ -98,12 +104,19 @@ public class AuctionController {
 
         model.addAttribute("saleNo", saleNo);
 
+        //필수값 있는지 여부.
+        Boolean isCustRequired = false;
+
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
         if (saUserDetails != null) {
             model.addAttribute("member", saUserDetails);
+            isCustRequired = saleService.checkCustRequired(new CommonMap("cust_no", saUserDetails.getUserNo()));
         } else {
             model.addAttribute("member", new SAUserDetails());
         }
+
+        model.addAttribute("isCustRequired", isCustRequired);
+
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionList" , locale);
     }
 

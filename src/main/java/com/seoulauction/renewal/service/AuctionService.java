@@ -49,12 +49,20 @@ public class AuctionService {
         return paddNo;
     }
 
-    public List<CommonMap> selectProgressSaleList(CommonMap paramMap) {
-        return auctionMapper.selectProgressSaleList(paramMap);
+    public CommonMap selectProgressSaleList(CommonMap paramMap) {
+        CommonMap map = new CommonMap();
+
+        map.put("list", auctionMapper.selectProgressSaleListPaging(paramMap));
+        map.put("cnt", auctionMapper.selectProgressCount(paramMap));
+        return map;
     }
 
-    public List<CommonMap> selectUpcomingSaleList(CommonMap paramMap) {
-        return auctionMapper.selectUpcomingSaleList(paramMap);
+    public CommonMap selectUpcomingSaleList(CommonMap paramMap) {
+        CommonMap map = new CommonMap();
+
+        map.put("list", auctionMapper.selectUpcomingSaleListPaging(paramMap));
+        map.put("cnt", auctionMapper.selectUpcomingCount(paramMap));
+        return map;
     }
 
     public CommonMap selectResultSaleList(CommonMap paramMap) {

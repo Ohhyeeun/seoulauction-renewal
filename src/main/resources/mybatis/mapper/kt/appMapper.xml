@@ -21,6 +21,7 @@
 			DEVICE_ID
 			, OS
 			, APP_VERSION
+			, DEVICE_VERSION
 			, LAST_ACCESS_TIME
 			, REG_DT
 		)
@@ -29,6 +30,7 @@
 			#{device_id}
 			, #{os}
 			, #{app_version}
+			, #{device_version}
 			, now()
 			, now()
 		);

@@ -55,7 +55,7 @@ let is_end_bid = false;
 let autoBiding = async function () {
     let val = $("#reservation_bid").val();
     let datet = new Date();
-    let response = await fetch('https://dev-bid.seoulauction.xyz/bid', {
+    let response = await fetch('http://dev-bid.seoulauction.xyz/bid', {
         method: "POST", body: JSON.stringify({
             customer: {
                 sale_no: parseInt($("#sale_no").val()),

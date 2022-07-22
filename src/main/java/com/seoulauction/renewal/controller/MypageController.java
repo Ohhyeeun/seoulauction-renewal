@@ -43,22 +43,18 @@ public class MypageController {
     	return SAConst.getUrl(SERVICE_MYPAGE , "academyList" , locale);
     }
 
+    /*아카데미 결제정보*/
     @GetMapping("/academyPayPopup")
     public String academyPayPopup(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "popup/academyPayPopup" , locale);
     }
     
-    /*결제목록*/
+    /*온라인경매관리 > 결제목록*/
     @GetMapping("/onlinePayList")
     public String onlinePayList(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "onlinePayList" , locale);
     }
     
-    /*본인인증 TEST*/
-    @GetMapping("/test")
-    public String test(Locale locale) {
-    	return SAConst.getUrl(SERVICE_MYPAGE , "test" , locale);
-    }
     /*본인인증*/
     @GetMapping("/saleCert")
     public String saleCert(@RequestParam Map<String, String> params, Locale locale, Model model) {
@@ -67,37 +63,43 @@ public class MypageController {
     	return SAConst.getUrl(SERVICE_MYPAGE , "saleCert" , locale);
     }
 
-    /*문의하기*/
+    /*1대1문의 목록*/
     @GetMapping("/inquiryList")
     public String inquiryList(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "inquiryList" , locale);
     }
 
+    /*1대1문의 상세*/
     @GetMapping("/inquiryDetail")
     public String inquiryView(@RequestParam(required = true ) int writeNo, Locale locale) {
         return SAConst.getUrl(SERVICE_MYPAGE, "inquiryDetail", locale);
     }
-
+    
+    /*1대1문의 등록*/
     @GetMapping("/inquiryForm")
     public String inquiryForm(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "inquiryForm" , locale);
     }
 
+    /*관심정보 목록*/
     @GetMapping("/inteLotList")
     public String inteLotList(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "inteLotList" , locale);
     }
 
+    /* 라이브경매관리 > 응찰신청 내역*/
     @GetMapping("/liveBidReqList")
     public String liveBidReqList(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "liveBidReqList" , locale);
     }
 
+    /* 라이브경매관리 > 온라인패들응찰내역*/
     @GetMapping("/liveBidList")
     public String liveBidList(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "liveBidList" , locale);
     }
     
+    /* 온라인경매관리 > 응찰내역 */
     @GetMapping("/onlineBidList")
     public String onlineBidList(Locale locale) {
     	return SAConst.getUrl(SERVICE_MYPAGE , "onlineBidList" , locale);

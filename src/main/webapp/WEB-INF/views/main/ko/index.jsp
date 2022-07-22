@@ -34,7 +34,7 @@
 <body>
 <%--<jsp:include page="../../main/include/topNotice.jsp" />--%>
 <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
-<section class="main-contents footer-bottom footer-bottom40">
+<section class="main-contents footer-bottom footer-bottom50">
     <jsp:include page="../include/bigBanner.jsp" />
 
     <%--auction--%>
@@ -145,8 +145,8 @@
                         <fieldset class="newsletter-checkbox">
                             <input type="checkbox" id="subscript_check" class="common_checkbox" value='subscript_check' name='subscript_check'>
                             <label for="subscript_check">
-                                <span id="news_sub_label" class="terms-checktxt">개인정보 수집 및 이용에 동의해주세요.</span>
-                            </label>
+                                <span id="news_sub_label" class="terms-checktxt"><span class="terms-checktxt-line">개인정보 수집 및 이용</span>에 동의해주세요.</span>
+                            </label> 
                         </fieldset>
                     </form>
                     <div class="flex_wrap newsletter-btnbox">

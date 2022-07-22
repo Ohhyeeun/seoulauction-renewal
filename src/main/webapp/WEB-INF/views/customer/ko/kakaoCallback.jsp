@@ -81,11 +81,14 @@
 	
 	// 로그인
 	async function socialLogin(data) {
-		let url = '/api/login/social'
+		let url = '/api/login/social';
+		let isApp = false;
+		
 		if(await isNativeApp()){
 			console.log("is Native");
 			data['is_native'] = true;
-			url += '?remember-me=on'
+			url += '?remember-me=on';
+			isApp = true;
 		}
 		
 		axios.post(url, data)
@@ -95,6 +98,11 @@
 					var expire = new Date();
 					expire.setDate(expire.getDate() + 30);
 					document.cookie = 'recentSocialType=' + "KA" + '; path=/; expires=' + expire.toGMTString() + ';';
+					var rememberMeCookie = getCookie('remember-me');
+					console.log("리멤버미쿠키 : " + rememberMeCookie);
+					if(isApp){
+						setWebviewData('remember-me', rememberMeCookie);
+					}
 					location.href = "/";
 				}else{
 					if(response.data.data.msg == "Not Certify User"){

@@ -93,6 +93,7 @@
 			limit #{offset}, #{size}
 	</select>
 	
+	<!-- 아카데미 결제 totalcount -->
 	<select id="selectAcademyCnt" resultType="int">
 				SELECT COUNT(*) FROM (
 			SELECT
@@ -140,7 +141,61 @@
 		where ACADEMY_NO = #{academy_no}
 	</select>
 	
-	<!-- 결제관리 -->
+	<!-- 온라인경매관리 > 결제/구매내역 응찰 LIST--> 
+	<sql id="sql_online_pay_bid_list">
+			SELECT
+				B1.*
+			FROM
+				SUCCESS_BID SB3
+			JOIN LOT L ON
+				SB3.SALE_NO = L.SALE_NO
+				AND SB3.LOT_NO = L.LOT_NO
+			JOIN BID B1 ON
+				B1.BID_NO = SB3.BID_NO
+			WHERE
+				(REAL_CUST_NO =  #{action_user_no}
+				OR (B1.CUST_NO =  #{action_user_no}
+					AND REAL_CUST_NO IS NULL))
+				and L.TO_DT &lt;= now()
+			GROUP BY
+				L.SALE_NO,
+				L.LOT_NO
+	</sql>
+	
+	<!-- 온라인경매관리 > 결제/구매내역 결제 LIST--> 
+	<sql id="sql_online_pay_pay_list">
+			SELECT
+				SP.CUST_NO,
+				SP.PG_CD,
+				SP.PG_TRANS_ID,
+				SUM(SP.PAY_PRICE) PAY_PRICE,
+				LP.SALE_NO,
+				LP.LOT_NO,
+				C.CD_NM PAY_METHOD_NM,
+				C.CD_NM_EN PAY_METHOD_NM_EN,
+				C.CD_ID PAY_METHOD_ID,
+				COUNT(*) PAY_CNT,
+				PAY_DT,
+				CONCAT('['
+		        , GROUP_CONCAT('{',
+		        '"PAY_PRICE":"', ifnull(SP.PAY_PRICE, 0) , '"',
+		        '}')
+		        ,']') AS PAY_PRICE_JSON,
+		         count(*) as PAY_COUNT
+			FROM
+				PAY SP
+			JOIN LOT_PAY LP ON
+				LP.PAY_NO = SP.PAY_NO
+				and LP.FEE_KIND_CD = 'payment'
+			JOIN CODE C ON
+				SP.PAY_METHOD_CD = C.CD_ID
+				and C.GRP_ID = 'pay_method'
+			GROUP BY
+				LP.SALE_NO,
+				LP.LOT_NO 
+	</sql>
+	
+	<!-- 온라인경매관리 > 결제/구매내역 결제 LIST--> 
 	<select id="selectPayListByCustNo" resultType="Map">
 		select 
 				S.SALE_NO 
@@ -222,27 +277,11 @@
 		        ,']') AS LOT_SIZE_JSON
 		        , P.PAY_PRICE_JSON
 		        , P.PAY_COUNT
-		        ,DATE_FORMAT((SELECT VBANK_EXP_DT FROM PAY_WAIT PW WHERE PW.CUST_NO = 82533 AND S.SALE_NO = PW.REF_NO AND L.LOT_NO = PW.REF_NO2 ORDER BY PW.PAY_WAIT_NO DESC LIMIT 1),'%Y.%m.%d') VBANK_EXP_DT
-		        ,IF(TIMESTAMPDIFF(DAY ,(SELECT VBANK_EXP_DT FROM PAY_WAIT PW WHERE PW.CUST_NO = 82533 AND S.SALE_NO = PW.REF_NO AND L.LOT_NO = PW.REF_NO2 ORDER BY PW.PAY_WAIT_NO DESC LIMIT 1), NOW()) &lt; 1, 'N', 'Y' ) as VBANK_EXP_DT_CLOSE_YN
+		        ,DATE_FORMAT((SELECT VBANK_EXP_DT FROM PAY_WAIT PW WHERE PW.CUST_NO = #{action_user_no} AND S.SALE_NO = PW.REF_NO AND L.LOT_NO = PW.REF_NO2 ORDER BY PW.PAY_WAIT_NO DESC LIMIT 1),'%Y.%m.%d') VBANK_EXP_DT
+		        ,IF(TIMESTAMPDIFF(DAY ,(SELECT VBANK_EXP_DT FROM PAY_WAIT PW WHERE PW.CUST_NO = #{action_user_no} AND S.SALE_NO = PW.REF_NO AND L.LOT_NO = PW.REF_NO2 ORDER BY PW.PAY_WAIT_NO DESC LIMIT 1), NOW()) &lt; 1, 'N', 'Y' ) as VBANK_EXP_DT_CLOSE_YN
 		FROM
 			(
-			SELECT
-				B1.*
-			FROM
-				SUCCESS_BID SB3
-			JOIN LOT L ON
-				SB3.SALE_NO = L.SALE_NO
-				AND SB3.LOT_NO = L.LOT_NO
-			JOIN BID B1 ON
-				B1.BID_NO = SB3.BID_NO
-			WHERE
-				(REAL_CUST_NO =  #{action_user_no}
-				OR (B1.CUST_NO =  #{action_user_no}
-					AND REAL_CUST_NO IS NULL))
-				and L.TO_DT &lt;= now()
-			GROUP BY
-				L.SALE_NO,
-				L.LOT_NO
+			<include refid="sql_online_pay_bid_list" />
 			ORDER BY B1.BID_DT
 		) B
 		INNER JOIN (
@@ -258,23 +297,7 @@
 		FROM
 			SALE S1
 		JOIN (
-			SELECT
-				B1.*
-			FROM
-				SUCCESS_BID SB3
-			JOIN LOT L ON
-				SB3.SALE_NO = L.SALE_NO
-				AND SB3.LOT_NO = L.LOT_NO
-			JOIN BID B1 ON
-				B1.BID_NO = SB3.BID_NO
-			WHERE
-				(REAL_CUST_NO =  #{action_user_no}
-				OR (B1.CUST_NO =  #{action_user_no}
-					AND REAL_CUST_NO IS NULL))
-				and L.TO_DT &lt;= now()
-			GROUP BY
-				L.SALE_NO,
-				L.LOT_NO
+			<include refid="sql_online_pay_bid_list" />
 		) B2 ON
 			B2.SALE_NO = S1.SALE_NO
 			GROUP BY SALE_NO
@@ -292,35 +315,8 @@
 			AND LF.LOT_NO = L.LOT_NO
 			and LF.FEE_KIND_CD = 'payment'
 		LEFT OUTER JOIN (
-			SELECT
-				SP.CUST_NO,
-				SP.PG_CD,
-				SP.PG_TRANS_ID,
-				SUM(SP.PAY_PRICE) PAY_PRICE,
-				LP.SALE_NO,
-				LP.LOT_NO,
-				C.CD_NM PAY_METHOD_NM,
-				C.CD_NM_EN PAY_METHOD_NM_EN,
-				C.CD_ID PAY_METHOD_ID,
-				COUNT(*) PAY_CNT,
-				PAY_DT,
-				CONCAT('['
-		        , GROUP_CONCAT('{',
-		        '"PAY_PRICE":"', ifnull(SP.PAY_PRICE, 0) , '"',
-		        '}')
-		        ,']') AS PAY_PRICE_JSON,
-		         count(*) as PAY_COUNT
-			FROM
-				PAY SP
-			JOIN LOT_PAY LP ON
-				LP.PAY_NO = SP.PAY_NO
-				and LP.FEE_KIND_CD = 'payment'
-			JOIN CODE C ON
-				SP.PAY_METHOD_CD = C.CD_ID
-				and C.GRP_ID = 'pay_method'
-			GROUP BY
-				LP.SALE_NO,
-				LP.LOT_NO ) P ON
+			<include refid="sql_online_pay_pay_list" />
+			) P ON
 			P.SALE_NO = L.SALE_NO
 			AND P.LOT_NO = L.LOT_NO
 		GROUP BY
@@ -328,7 +324,8 @@
 		ORDER BY
 			S.SALE_NO DESC, B.BID_DT DESC
 	</select>
-		
+	
+	<!-- 온라인경매관리 > 결제/구매내역 totalcount--> 	
 	<select id="selectPayTotalCountByCustNo" resultType="int">
 			SELECT
 				COUNT(*)
@@ -345,29 +342,14 @@
 				FROM
 						SALE S1
 				JOIN (
-					SELECT
-							B1.*
-					FROM
-							SUCCESS_BID SB3
-					JOIN LOT L ON
-							SB3.SALE_NO = L.SALE_NO
-						AND SB3.LOT_NO = L.LOT_NO
-					JOIN BID B1 ON
-							B1.BID_NO = SB3.BID_NO
-					WHERE
-							(REAL_CUST_NO = #{action_user_no}
-							OR (B1.CUST_NO = #{action_user_no}
-								AND REAL_CUST_NO IS NULL))
-						AND L.TO_DT &lt;= NOW()
-					GROUP BY
-							L.SALE_NO,
-							L.LOT_NO
+					<include refid="sql_online_pay_bid_list" />
 					) B2 ON
 						B2.SALE_NO = S1.SALE_NO
 				GROUP BY
 					SALE_NO) AS CNT
 	</select>
 	
+	<!-- 온라인경매관리 > 결제/구매내역 > 결제할 건수, 결제한 건수 --> 	
 	<select id="selectPayCountByCustNo" resultType="CommonMap">
 		select count(*) ROW_CNT, SUM(PAID_CNT) PAID_CNT from (
 		SELECT
@@ -375,23 +357,7 @@
 			CASE WHEN P.CUST_NO IS NULL THEN 0 ELSE 1 END PAID_CNT
 		FROM
 			(
-			SELECT
-				B1.*, L.TO_DT
-			FROM
-				SUCCESS_BID SB3
-			JOIN LOT L ON
-				SB3.SALE_NO = L.SALE_NO
-				AND SB3.LOT_NO = L.LOT_NO
-			JOIN BID B1 ON
-				B1.BID_NO = SB3.BID_NO
-			WHERE
-				(REAL_CUST_NO =  #{action_user_no}
-				OR (B1.CUST_NO =  #{action_user_no}
-					AND REAL_CUST_NO IS NULL))
-				AND L.TO_DT &lt;= NOW()
-			GROUP BY
-				L.SALE_NO,
-				L.LOT_NO
+			<include refid="sql_online_pay_bid_list" />
 		) B
 		INNER JOIN (
 		SELECT
@@ -405,23 +371,7 @@
 		FROM
 			SALE S1
 		JOIN (
-			SELECT
-				B1.*, L.TO_DT
-			FROM
-				SUCCESS_BID SB3
-			JOIN LOT L ON
-				SB3.SALE_NO = L.SALE_NO
-				AND SB3.LOT_NO = L.LOT_NO
-			JOIN BID B1 ON
-				B1.BID_NO = SB3.BID_NO
-			WHERE
-				(REAL_CUST_NO =  #{action_user_no}
-				OR (B1.CUST_NO =  #{action_user_no}
-					AND REAL_CUST_NO IS NULL))
-				AND L.TO_DT &lt;= NOW()
-			GROUP BY
-				L.SALE_NO,
-				L.LOT_NO
+			<include refid="sql_online_pay_bid_list" />
 		) B2 ON
 			B2.SALE_NO = S1.SALE_NO
 			GROUP BY SALE_NO
@@ -434,24 +384,8 @@
 			AND LF.LOT_NO = L.LOT_NO
 			AND LF.FEE_KIND_CD = 'PAYMENT'
 		LEFT OUTER JOIN (
-			SELECT
-				SP.CUST_NO,
-				SUM(SP.PAY_PRICE) PAY_PRICE,
-				LP.SALE_NO,
-				LP.LOT_NO,
-				C.CD_NM PAY_METHOD_NM,
-				COUNT(*) PAY_CNT
-			FROM
-				PAY SP
-			JOIN LOT_PAY LP ON
-				LP.PAY_NO = SP.PAY_NO
-				and LP.FEE_KIND_CD = 'payment'
-			join CODE C on
-				SP.PAY_METHOD_CD = C.CD_ID
-				and C.GRP_ID = 'pay_method'
-			GROUP BY
-				LP.SALE_NO,
-				LP.LOT_NO ) P ON
+			<include refid="sql_online_pay_pay_list" />
+			 ) P ON
 			P.SALE_NO = L.SALE_NO
 			AND P.LOT_NO = L.LOT_NO
 		GROUP BY
@@ -460,8 +394,7 @@
 		) result
 	</select>
 	
-	
-	
+	<!--결제내역 > 사용자정보-->
 	<select id="selectCustomerByCustNo" resultType="Map">
 		select CU.*
 			, (SELECT CASE WHEN MAX(CP.VALID_TO_DT) &gt;= NOW() THEN "정회원" ELSE "준회원" END
@@ -478,6 +411,7 @@
 		   and CU.CUST_NO = #{action_user_no}
 	</select>
 	
+	<!-- 결제내역 select box -->
 	<select id="selectSaleListByCustNo" resultType="Map">
 	select concat(year(S.TO_DT),'-',if (month(S.TO_DT) &lt; 10, concat('0',month(S.TO_DT)), month(S.TO_DT))) as saleMonth
 		from LOT L
@@ -530,7 +464,6 @@
 				JOIN CODE_GRP CB ON CA.GRP_ID = CB.GRP_ID
 				LEFT OUTER JOIN CODE CC ON CA.P_CD_ID = CC.CD_ID
 				where CA.GRP_ID = 'bbs_inquiry_category'
-				and CA.USE_YN = 'Y'
 			) C ON A.CATE_CD = C.CD_ID
 			LEFT OUTER JOIN EMP D ON A.EMP_NO = D.EMP_NO
 			WHERE A.WRITER_NO = #{action_user_no}
@@ -538,12 +471,14 @@
 		where 1=1
 	</sql>
 	
+	<!-- 문의 리스트 -->
 	<select id="selectInquiryList" resultType="Map">
 	    <include refid="sql_bbs_w_list" />
     	and	BBS_ID='inquiry' and STAT_CD='normal'
 	    order by Z.REG_DT desc limit #{offset}, #{size}
 	 </select>
 	 
+	 <!-- 문의 totalCount -->
 	<select id="selectInquiryListCnt" resultType="int">
 	    select count(*) AS ROW_CNT from (
 		    <include refid="sql_bbs_w_list" />
@@ -572,7 +507,6 @@
 			JOIN CODE_GRP CB ON CA.GRP_ID = CB.GRP_ID
 			LEFT OUTER JOIN CODE CC ON CA.P_CD_ID = CC.CD_ID
 			where CA.GRP_ID = 'bbs_inquiry_category'
-			and CA.USE_YN = 'Y'
 		) C ON A.CATE_CD = C.CD_ID
 		LEFT OUTER JOIN EMP D ON A.EMP_NO = D.EMP_NO
 		where A.BBS_ID= 'inquiry' and A.STAT_CD='normal' and A.WRITE_NO = #{write_no}
@@ -602,7 +536,7 @@
 		where		USE_YN = 'Y'
 				<foreach collection="grp_ids" item="item" index="index" open="and GRP_ID in (" close=")" separator=",">
 					'${item}'
-				</foreach>
+				</foreach> 
 		order by GRP_ID, DISP_ORD, CD_NM_EN
 	</select>
 	
@@ -684,9 +618,27 @@
 		)
 	</insert>
 
-<!-- 관심정보 -->
-<select id="selectCustInteLotList" resultType="Map">
-SELECT 'INTE_LOT' AS GUBUN
+	<!-- 관심정보 sale_list -->
+	<sql id="sql_sale_list">
+		SELECT
+			S1.SALE_NO , S1.SALE_TH, S1.SALE_TH_DSP_YN, S1.TITLE_BLOB, S1.SALE_OUTSIDE_YN, S1.TO_DT, S1.SALE_KIND_CD, S1.CURR_CD
+		FROM
+			SALE S1
+		JOIN CUST_INTE_LOT CIL ON
+			S1.SALE_NO = CIL.SALE_NO
+		WHERE
+			CIL.CUST_NO = #{action_user_no}
+			<choose>
+				<when test="sale_kind == 'online'">AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb')</when>
+				<when test="sale_kind == 'live'">AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb'</when>
+				<otherwise>AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb' or IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb')</otherwise>
+			</choose>
+		GROUP BY S1.SALE_NO
+	</sql>
+	
+	<!-- 관심정보 list-->
+	<select id="selectCustInteLotList" resultType="Map">
+		SELECT 'INTE_LOT' AS GUBUN
 			 , CL.*
 		     , CU.CUST_NAME
 		     , L.STAT_CD
@@ -713,20 +665,7 @@ SELECT 'INTE_LOT' AS GUBUN
 		  FROM CUST_INTE_LOT CL INNER JOIN CUST CU ON CL.CUST_NO = CU.CUST_NO
 							   INNER JOIN
 							   (
-							   SELECT
-									S1.SALE_NO , S1.SALE_TH, S1.SALE_TH_DSP_YN, S1.TITLE_BLOB, S1.SALE_OUTSIDE_YN, S1.TO_DT, S1.SALE_KIND_CD, S1.CURR_CD
-								FROM
-									SALE S1
-								JOIN CUST_INTE_LOT CIL ON
-									S1.SALE_NO = CIL.SALE_NO
-								WHERE
-									CIL.CUST_NO = #{action_user_no}
-									<choose>
-										<when test="sale_kind == 'online'">AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb')</when>
-										<when test="sale_kind == 'live'">AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb'</when>
-										<otherwise>AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb' or IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb')</otherwise>
-									</choose>
-								GROUP BY S1.SALE_NO ORDER BY S1.SALE_NO DESC LIMIT #{offset}, #{size}
+							    <include refid="sql_sale_list" />ORDER BY S1.SALE_NO DESC LIMIT #{offset}, #{size}
 								) S ON S.SALE_NO = CL.SALE_NO
 		  						INNER JOIN LOT  L ON CL.SALE_NO = L.SALE_NO AND CL.LOT_NO = L.LOT_NO
 		                      	LEFT OUTER JOIN ARTIST A ON L.ARTIST_NO = A.ARTIST_NO
@@ -735,23 +674,10 @@ SELECT 'INTE_LOT' AS GUBUN
 							     ORDER BY CL.SALE_NO DESC, CL.REG_DT DESC;
 	</select>
 
+	<!-- 관심정보 totalcount-->
     <select id="selectCustInteLotCnt" resultType="int">
 		SELECT COUNT(*) FROM
-			(SELECT
-				S1.SALE_NO , S1.SALE_TH, S1.SALE_TH_DSP_YN, S1.TITLE_BLOB, S1.SALE_OUTSIDE_YN
-			FROM
-				SALE S1
-			JOIN CUST_INTE_LOT CIL ON
-				S1.SALE_NO = CIL.SALE_NO
-
-			WHERE
-				CIL.CUST_NO = #{action_user_no}
-				<choose>
-					<when test="sale_kind == 'online'">AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb')</when>
-					<when test="sale_kind == 'live'">AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb'</when>
-					<otherwise>AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb' or IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb')</otherwise>
-				</choose>
-		group by S1.SALE_NO) as sale;
+			(<include refid="sql_sale_list" />) as sale;
 	</select>
 
 	
@@ -761,20 +687,25 @@ SELECT 'INTE_LOT' AS GUBUN
 	</update>
 	
 
-	<!-- 라이브 응찰 내역 -->
-	<!-- live auto bid -->
+	<!-- 라이브 응찰 내역 sale_list -->
+	<sql id="sql_live_bid_req_sale_list">
+		SELECT S1.SALE_NO,  S1.TITLE_BLOB, S1.FROM_DT, S1.TO_DT, S1.CURR_CD, S1.SALE_TH_DSP_YN, S1.SALE_TH FROM AUTO_BID_REQ AB1
+		JOIN SALE S1 ON AB1.SALE_NO = S1.SALE_NO
+		AND S1.DEL_YN ='N'
+		and AB1.CUST_NO = #{action_user_no}
+		join CODE CD on CD.GRP_ID='bid_kind' and AB1.BID_KIND_CD = CD.CD_ID
+		where AB1.BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place')
+		group by AB1.SALE_NO 
+	</sql>
+	
+	<!-- 라이브경매관리 > 응찰신청 totalcount -->
 	<select id="selectLiveBidReqCnt" resultType="int">
 	   select COUNT(*) from (
-	   select S1.SALE_NO,  S1.TITLE_BLOB, S1.FROM_DT, S1.TO_DT, S1.CURR_CD, S1.SALE_TH_DSP_YN, S1.SALE_TH from AUTO_BID_REQ AB1
-					join SALE S1 on AB1.SALE_NO = S1.SALE_NO
-					and S1.DEL_YN ='N'
-					and AB1.CUST_NO = #{action_user_no}
-					join CODE CD on CD.GRP_ID='bid_kind' and AB1.BID_KIND_CD = CD.CD_ID
-					where AB1.BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place')
-					group by AB1.SALE_NO 
+	   <include refid="sql_live_bid_req_sale_list" />
 		order by AB1.SALE_NO DESC) S
 	</select>
 	
+	<!-- 라이브경매관리 > 응찰신청 내역 -->
 	<select id="selectLiveBidReqList" resultType="Map">
   SELECT *
 		    , (
@@ -822,13 +753,8 @@ SELECT 'INTE_LOT' AS GUBUN
 				 , COLUMN_GET(L.TITLE_BLOB, 'en' AS CHAR) LOT_TITLE_EN
 				 , if(S.TO_DT &gt; NOW(), 'N', 'Y') AS CLOSE_YN
 				FROM AUTO_BID_REQ AB
-				JOIN (SELECT S1.SALE_NO,  S1.TITLE_BLOB, S1.FROM_DT, S1.TO_DT, S1.CURR_CD, S1.SALE_TH_DSP_YN, S1.SALE_TH FROM AUTO_BID_REQ AB1
-					JOIN SALE S1 ON AB1.SALE_NO = S1.SALE_NO
-					AND S1.DEL_YN ='N'
-					and AB1.CUST_NO = #{action_user_no}
-					join CODE CD on CD.GRP_ID='bid_kind' and AB1.BID_KIND_CD = CD.CD_ID
-					where AB1.BID_KIND_CD in ('paper_online', 'phone', 'paper_phone', 'place')
-					group by AB1.SALE_NO 
+				JOIN (
+					<include refid="sql_live_bid_req_sale_list" />
 					order by AB1.SALE_NO DESC 
 					limit #{offset}, #{size}
 				) S ON S.SALE_NO = AB.SALE_NO
@@ -841,6 +767,7 @@ SELECT 'INTE_LOT' AS GUBUN
   				order by ABL.REQ_DT DESC
 	</select>
 	
+	<!-- 라이브경매관리 > 응찰신청 내역 > 응찰 팝업-->
 	<select id="selectLiveBidReqHistoryList" resultType="Map">
   				select AB.SALE_NO, AB.LOT_NO, AB.REQ_NO 
 			    , COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON, S.FROM_DT, S.TO_DT, S.CURR_CD
@@ -888,7 +815,28 @@ SELECT 'INTE_LOT' AS GUBUN
 	
 	</select>
 	
+	<!-- 온라인패들 -->
+	<sql id="sql_online_paddle">
+			WHERE BIO.BID_KIND_CD = 'online' AND BIO.PADDLE &gt; 600  AND BIO.CUST_NO = #{action_user_no}
+			AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO &gt;= 622 AND S.STAT_CD = 'open'
+	</sql>
 	
+	<!-- 온라인패들 sale_list-->
+	<sql id="sql_live_bid_sale_list">
+			SELECT
+				S.SALE_NO , S.SALE_KIND_CD, S.STAT_CD, S.TITLE_BLOB, S.TO_DT, S.FROM_DT , S.CURR_CD, S.SALE_TH_DSP_YN ,S.SALE_TH
+			FROM
+				BID_OFFLINE BO
+			LEFT OUTER JOIN SALE_PADD PAD ON
+				BO.SALE_NO = PAD.SALE_NO
+				AND BO.CUST_NO = PAD.CUST_NO
+			JOIN SALE S ON BO.SALE_NO = S.SALE_NO
+			WHERE BO.BID_KIND_CD = 'online' AND PAD.PADD_NO &gt; 600  AND BO.CUST_NO = #{action_user_no}
+			AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO &gt;= 622 AND S.STAT_CD = 'open'
+			GROUP BY BO.SALE_NO ORDER BY PAD.SALE_NO DESC
+	</sql>
+	
+	<!--라이브경매관리 > 온라인패들응찰내역 -->
 	<select id="selectLiveBidList" resultType="Map">
 		SELECT S.SALE_NO, L.LOT_NO ,BIO.PADDLE 
 				 , DATE_FORMAT(BIO.BID_DT, '%Y.%m.%d  %T')  as BID_DT  
@@ -915,59 +863,33 @@ SELECT 'INTE_LOT' AS GUBUN
 		  		 , IF(S.SALE_TH_DSP_YN = 'N', '', f_ordinal_number(S.SALE_TH)) SALE_TH_DSP
 		FROM (SELECT PAD.PADD_NO PADDLE, BO.* FROM BID_OFFLINE BO LEFT OUTER JOIN SALE_PADD PAD ON BO.SALE_NO = PAD.SALE_NO AND BO.CUST_NO = PAD.CUST_NO) BIO
 		JOIN (
-		SELECT
-			S.SALE_NO , S.SALE_KIND_CD, S.STAT_CD, S.TITLE_BLOB, S.TO_DT, S.FROM_DT , S.CURR_CD, S.SALE_TH_DSP_YN ,S.SALE_TH
-		FROM
-			BID_OFFLINE BO
-		LEFT OUTER JOIN SALE_PADD PAD ON
-			BO.SALE_NO = PAD.SALE_NO
-			AND BO.CUST_NO = PAD.CUST_NO
-		JOIN SALE S ON BO.SALE_NO = S.SALE_NO
-		WHERE BO.BID_KIND_CD = 'online' AND PAD.PADD_NO &gt; 600  AND BO.CUST_NO = #{action_user_no}
-		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO &gt;= 622 AND S.STAT_CD = 'open'
-		GROUP BY BO.SALE_NO ORDER BY PAD.SALE_NO DESC
+		<include refid="sql_live_bid_sale_list" />
 		) S ON BIO.SALE_NO = S.SALE_NO
 		INNER JOIN (
 		SELECT MAX(BID_PRICE) BID_PRICE, MAX(BIO.BID_NO) BID_NO, BIO.SALE_NO, BIO.LOT_NO
 		, (SELECT B.BID_PRICE  FROM BID B JOIN SUCCESS_BID SB2 ON B.BID_NO = SB2.BID_NO AND BIO.SALE_NO = SB2.SALE_NO AND BIO.LOT_NO = SB2.LOT_NO  ) SUCCESS_BID_PRICE 
 		, (SELECT B.CUST_NO  FROM BID B JOIN SUCCESS_BID SB2 ON B.BID_NO = SB2.BID_NO AND BIO.SALE_NO = SB2.SALE_NO AND BIO.LOT_NO = SB2.LOT_NO  ) SUCCESS_CUST_NO
 		FROM (SELECT PAD.PADD_NO PADDLE, BO.* FROM BID_OFFLINE BO LEFT OUTER JOIN SALE_PADD PAD ON BO.SALE_NO = PAD.SALE_NO AND BO.CUST_NO = PAD.CUST_NO) BIO
-		JOIN ( SELECT S.SALE_NO , S.SALE_KIND_CD, S.STAT_CD FROM BID_OFFLINE BO
-		LEFT OUTER JOIN SALE_PADD PAD ON
-			BO.SALE_NO = PAD.SALE_NO
-			AND BO.CUST_NO = PAD.CUST_NO
-		JOIN SALE S ON BO.SALE_NO = S.SALE_NO
-		WHERE BO.BID_KIND_CD = 'online' AND PAD.PADD_NO &gt; 600  AND BO.CUST_NO = #{action_user_no}
-		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO &gt;= 622 AND S.STAT_CD = 'open'
-		GROUP BY BO.SALE_NO ORDER BY PAD.SALE_NO desc limit #{offset}, #{size}
+		JOIN ( 
+		<include refid="sql_live_bid_sale_list" />
+			 LIMIT #{offset}, #{size}
 		) S ON BIO.SALE_NO = S.SALE_NO 
-		WHERE BIO.BID_KIND_CD = 'online' AND BIO.PADDLE &gt; 600  AND BIO.CUST_NO = #{action_user_no}
-		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO &gt;= 622 AND S.STAT_CD = 'open'
+		<include refid="sql_online_paddle" />
 		group by BIO.SALE_NO, BIO.LOT_NO
 		order by BIO.SALE_NO desc , BIO.LOT_NO) MBIO on MBIO.SALE_NO = BIO.SALE_NO and MBIO.LOT_NO = BIO.LOT_NO and MBIO.BID_NO = BIO.BID_NO
 		LEFT OUTER JOIN LOT L ON BIO.LOT_NO = L.LOT_NO AND BIO.SALE_NO = L.SALE_NO
 		join LOT_IMG LI ON LI.SALE_NO = L.SALE_NO AND LI.LOT_NO = L.LOT_NO AND LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
 		left outer join ARTIST A ON L.ARTIST_NO = A.ARTIST_NO 
-		WHERE BIO.BID_KIND_CD = 'online' AND BIO.PADDLE &gt; 600  AND BIO.CUST_NO = #{action_user_no}
-		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO &gt;= 622 AND S.STAT_CD = 'open'
+		<include refid="sql_online_paddle" />
 		ORDER BY BIO.SALE_NO DESC, BIO.BID_DT DESC
 	</select>
 
+	<!--라이브경매관리 > 온라인패들응찰내역 totalcount  -->
 	<select id="selectLiveBidCnt" resultType="int">
-	    select COUNT(*) from (
-		SELECT
-			S.SALE_NO , S.SALE_KIND_CD, S.STAT_CD
-		FROM
-			BID_OFFLINE BO
-		LEFT OUTER JOIN SALE_PADD PAD ON
-			BO.SALE_NO = PAD.SALE_NO
-			AND BO.CUST_NO = PAD.CUST_NO
-		JOIN SALE S ON BO.SALE_NO = S.SALE_NO
-		WHERE BO.BID_KIND_CD = 'online' AND PAD.PADD_NO &gt; 600  AND BO.CUST_NO = #{action_user_no}
-		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO &gt;= 622 AND S.STAT_CD = 'open'
-		GROUP BY BO.SALE_NO ORDER BY PAD.SALE_NO DESC ) S
+	    select COUNT(*) from (<include refid="sql_live_bid_sale_list" />) S
 	</select>
 
+	<!--라이브경매관리 > 온라인패들응찰내역 > 온라인패들응찰 팝업  -->
 	<select id="selectLiveBidHistoryList" resultType="Map">
 		SELECT S.SALE_NO, L.LOT_NO ,BIO.PADDLE 
 				 , S.CURR_CD
@@ -988,8 +910,7 @@ SELECT 'INTE_LOT' AS GUBUN
 		LEFT OUTER JOIN LOT L ON BIO.LOT_NO = L.LOT_NO AND BIO.SALE_NO = L.SALE_NO
 		JOIN LOT_IMG LI ON LI.SALE_NO = L.SALE_NO AND LI.LOT_NO = L.LOT_NO AND LI.IMG_NO = (SELECT A.IMG_NO FROM LOT_IMG A WHERE A.SALE_NO = L.SALE_NO AND A.LOT_NO = L.LOT_NO ORDER BY A.DISP_ORD LIMIT 1)
 		left outer join ARTIST A ON L.ARTIST_NO = A.ARTIST_NO 
-		WHERE BIO.BID_KIND_CD = 'online' AND BIO.PADDLE &gt; 600  AND BIO.CUST_NO = #{action_user_no}
-		AND S.SALE_KIND_CD IN ('main','plan','hongkong') AND S.SALE_NO &gt;= 622 AND S.STAT_CD = 'open'
+		<include refid="sql_online_paddle" />
 		<if test="sale_no != null and sale_no > 0">
 		and S.SALE_NO = #{sale_no} 
 		</if>
@@ -999,6 +920,7 @@ SELECT 'INTE_LOT' AS GUBUN
 		ORDER BY BIO.SALE_NO DESC, BIO.LOT_NO ASC, BIO.BID_DT DESC, BIO.BID_PRICE DESC;
 	</select>
 
+	<!--라이브경매관리 > 온라인패들응찰내역 > 낙찰결과통보서 팝업 -->
 	<select id="selectLiveBidHammerList" resultType="Map">
 	select
 		B.*, LF.*
@@ -1031,7 +953,7 @@ SELECT 'INTE_LOT' AS GUBUN
 		ORDER BY AL.LOT_NO
 	</select>
 	
-	
+	<!--라이브경매관리 > 온라인패들응찰내역 > 낙찰결과통보서 totalcount -->
 	<select id="selectLiveBidHammerCnt"  resultType="CommonMap">
 		select
 			TA.*,
@@ -1058,6 +980,21 @@ SELECT 'INTE_LOT' AS GUBUN
 			) TA 
 	</select>
 	
+	<!--온라인경매관리 응찰내역 sale_list-->
+	<sql id="sql_online_bid_sale_list">
+			SELECT S1.*
+		    FROM  SALE S1 
+		    JOIN (
+				SELECT SB.*, SCD.CD_NM BID_KIND_NM FROM BID SB
+				JOIN CODE SCD ON SB.BID_KIND_CD = SCD.CD_ID AND SCD.GRP_ID = 'bid_kind'
+				WHERE SB.BID_KIND_CD IN ('online_once', 'online_auto')
+			) B ON S1.SALE_NO = B.SALE_NO 
+	 		WHERE B.CUST_NO = #{action_user_no}
+			GROUP BY S1.SALE_NO
+			ORDER BY S1.SALE_NO DESC 
+	</sql>
+	
+	<!-- 온라인경매관리 > 응찰내역  -->
 	<select id="selectOnlineBidList" resultType="Map">
 		select S.SALE_NO, IF(S.SALE_TH_DSP_YN = 'N', '', CONCAT(S.SALE_TH, f_ordinal_number(S.SALE_TH))) SALE_TH, COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
 			, DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT 
@@ -1091,7 +1028,7 @@ SELECT 'INTE_LOT' AS GUBUN
 			 , L.HAMMER_CANCEL_YN
 			 , (SELECT DATE_FORMAT(BID_DT, '%Y.%m.%d  %T') FROM BID B WHERE B.CUST_NO=#{action_user_no} AND B.SALE_NO = S.SALE_NO AND B.LOT_NO=L.LOT_NO ORDER BY BID_DT DESC LIMIT 1) MAX_BID_DT
 			 , (SELECT DATE_FORMAT(BID_DT, '%d %b, %Y %T') FROM BID B WHERE B.CUST_NO=#{action_user_no} AND B.SALE_NO = S.SALE_NO AND B.LOT_NO=L.LOT_NO ORDER BY BID_DT DESC LIMIT 1) MAX_BID_DT_EN
-			 , (SELECT BID_PRICE FROM BID B WHERE B.CUST_NO=#{action_user_no} AND B.SALE_NO = S.SALE_NO AND B.LOT_NO=L.LOT_NO ORDER BY BID_DT DESC LIMIT 1) MAX_BID_PRICE
+			 , (SELECT BID_PRICE FROM BID B WHERE B.CUST_NO=#{action_user_no} AND B.SALE_NO = S.SALE_NO AND B.LOT_NO=L.LOT_NO ORDER BY BID_DT DESC, BID_PRICE DESC LIMIT 1) MAX_BID_PRICE
 	    from LOT L
 		inner join (
 			select SB.*, SCD.CD_NM BID_KIND_NM from BID SB
@@ -1099,36 +1036,21 @@ SELECT 'INTE_LOT' AS GUBUN
 			where SB.BID_KIND_CD in ('online_once', 'online_auto') 
 		) B on L.SALE_NO = B.SALE_NO and L.LOT_NO = B.LOT_NO and B.CUST_NO = #{action_user_no}
 		right join (
-		select S1.*
-	    from  SALE S1 
-	    join (
-			select SB.*, SCD.CD_NM BID_KIND_NM from BID SB
-			join CODE SCD on SB.BID_KIND_CD = SCD.CD_ID and SCD.GRP_ID = 'bid_kind'
-			where SB.BID_KIND_CD in ('online_once', 'online_auto')
-		) B on S1.SALE_NO = B.SALE_NO 
- 		where B.CUST_NO = #{action_user_no}
-		group by S1.SALE_NO
-		order by S1.SALE_NO desc 
-		limit #{offset}, #{size}
-		) S on L.SALE_NO = S.SALE_NO 
-		left join ARTIST A on L.ARTIST_NO = A.ARTIST_NO
-		group by L.SALE_NO, L.LOT_NO
-		order by L.SALE_NO desc, MAX_BID_DT desc
+		<include refid="sql_online_bid_sale_list"/>
+		LIMIT #{offset}, #{size}
+		) S ON L.SALE_NO = S.SALE_NO 
+		LEFT JOIN ARTIST A ON L.ARTIST_NO = A.ARTIST_NO
+		GROUP BY L.SALE_NO, L.LOT_NO
+		ORDER BY L.SALE_NO DESC, MAX_BID_DT DESC
 	</select>
 	
+	<!-- 온라인경매관리 > 응찰내역 totalcount -->
 	<select id="selectOnlineBidCnt" resultType="int">
 		select COUNT(*)	from 
-		(select S1.* from  SALE S1 
-	    join (
-			select SB.*, SCD.CD_NM BID_KIND_NM from BID SB
-			join CODE SCD on SB.BID_KIND_CD = SCD.CD_ID and SCD.GRP_ID = 'bid_kind'
-			where SB.BID_KIND_CD in ('online_once', 'online_auto') 
-		) B on S1.SALE_NO = B.SALE_NO 
- 		where B.CUST_NO = #{action_user_no}
-		group by S1.SALE_NO
-		order by S1.SALE_NO desc ) S
+		(<include refid="sql_online_bid_sale_list"/> ) S
 	</select>
 	
+	<!-- 온라인경매관리 > 응찰내역 > 응찰내역 팝업 -->
 	<select id="selectOnlineBidHistoryList" resultType="Map">
 		select S.SALE_NO, L.LOT_NO, B.BID_NO , B.BID_KIND_NM, B.BID_KIND_NM_EN, B.BID_PRICE
 				, DATE_FORMAT(B.BID_DT, '%Y.%m.%d  %T')  as BID_DT
@@ -1160,7 +1082,7 @@ SELECT 'INTE_LOT' AS GUBUN
 		<if test="lot_no != null and lot_no > 0">
 		and L.LOT_NO = #{lot_no}
 		</if>	
-		order by B.BID_DT DESC, B.BID_DT DESC, B.BID_PRICE DESC
+		order by B.BID_DT DESC, B.BID_PRICE DESC
 	</select>
 	
 	<select id="selectCustForChkPassword" resultType="CommonMap">

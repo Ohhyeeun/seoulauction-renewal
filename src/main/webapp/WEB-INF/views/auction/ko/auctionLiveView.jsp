@@ -57,8 +57,7 @@
                                                                             <div class="image-area">
                                                                                 <figure class="img-ratio">
                                                                                     <div class="img-align">
-                                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                                             alt="">
+                                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
                                                                                     </div>
                                                                                 </figure>
                                                                             </div>
@@ -152,9 +151,9 @@
                                                     <a href="#" title="" class="sns_share js-sns_share"><i
                                                             class="icon-view_sns"></i></a>
                                                     <a id="heart" title=""
-                                                       ng-class="{'work_heart':lotInfo.FAVORITE_YN,'js-work_heart':lotInfo.FAVORITE_YN,'on':lotInfo.FAVORITE_YN==='Y'}"
-                                                       ng-click="favorite(lotInfo.SALE_NO, lotInfo.LOT_NO);"><i
-                                                            class="icon-view_heart_off"></i></a>
+
+                                                       ng-class="lotInfo.FAVORITE_YN === 'Y' ? 'work_heart js-work_heart on' : 'work_heart js-work_heart'"
+                                                       ng-click="favorite(lotInfo.SALE_NO, lotInfo.LOT_NO);"><i class="icon-view_heart_off"></i></a>
 
                                                     <div class="sns_layer-area">
                                                         <div class="sns-layer">
@@ -177,7 +176,8 @@
                                             <div class="artist-area">
                                                 <div class="name">
                                                     <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT"></strong>
-                                                    <span ng-bind="'b.' + lotInfo.BORN_YEAR"></span>
+                                                    <span ng-show="lotInfo.BORN_YEAR"
+                                                          ng-bind="'b.' + lotInfo.BORN_YEAR"></span>
                                                 </div>
                                                 <div class="desc">
                                                     <span class="text-over span_block"
@@ -325,7 +325,7 @@
                                         <!-- [0714]작품설명 추가 -->
                                         <div ng-show="isNotObjectEmpty(lotInfo.CMMT_JSON)" class="info-box">
                                             <div class="title">작품 설명</div>
-                                            <div class="desc">{{lotInfo.CMMT_JSON | locale_format }}</div>
+                                            <div class="desc txt-pre-line">{{lotInfo.CMMT_JSON | locale_format }}</div>
                                         </div>
                                         <!-- //[0714]작품설명 추가 -->
 
@@ -336,7 +336,7 @@
                                             <!-- //[0714]텍스트 대소문자 수정 -->
                                             <div class="desc">
                                                 <ul class="mark_dot-list">
-                                                    <li ng-bind-html="lotInfo.NOTICE_DTL_JSON_VALUE"></li>
+                                                    <li ng-bind-html="lotInfo.NOTICE_DTL_JSON_VALUE" class="txt-pre-line"></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -344,11 +344,11 @@
 
                                         <div id="artist_layer" class="info-box">
                                             <div class="title">작가정보</div>
-                                            <div class="desc" id="artistName">
+                                            <div class="desc txt-pre-line" id="artistName">
                                             </div>
-                                            <div class="desc" id="artistProfile">
+                                            <div class="desc txt-pre-line" id="artistProfile">
                                             </div>
-                                            <div class="desc" id="artistMedia">
+                                            <div class="desc txt-pre-line" id="artistMedia">
                                             </div>
                                         </div>
                                     </div>
@@ -379,7 +379,8 @@
                                                                         <div class="product_info">
                                                                             <div class="num_heart-box">
                                                                                 <span class="num" ng-bind="item.LOT_NO"></span>
-                                                                                <a ng-class="{'heart':item.FAVORITE_YN,'js-work_heart':item.FAVORITE_YN,'on':item.FAVORITE_YN==='Y'}"
+
+                                                                                <a ng-class="item.FAVORITE_YN === 'Y' ? 'heart js-work_heart on' : 'heart js-work_heart'"
                                                                                    ng-click="favorite2(item.SALE_NO, item.LOT_NO, $index);"><i
                                                                                         class="icon-heart_off"></i></a>
                                                                             </div>
@@ -430,7 +431,7 @@
                             </button>
                         </div>
                         <div class="btn-box">
-                            <button ng-click="moveToBidding(lotInfo)">응찰하기</button>
+                            <button ng-click="moveToBidding(lotInfo)">서면/전화 응찰 신청</button>
                         </div>
                     </div>
                 </article>
@@ -697,7 +698,7 @@
                     <div class="pop-header">
                         <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
                     </div>
-                    <div class="pop-body">
+                    <div class="pop-body scroll_none">
                         <article class="viewer-article js-zoom_inout">
                             <div class="gallery_view js-imagesSwiper" style="">
                                 <div class="gallery_center">
@@ -1152,7 +1153,8 @@
         // 호출 부
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3, r4, , r6, r7, r8, r9] = await Promise.all([getSaleInfo($scope.sale_no),
+                let [r1, r2, r3, r4, , r6, r7, r8, r9] = await Promise.all([
+                    getSaleInfo($scope.sale_no),
                     getLotInfo($scope.sale_no, $scope.lot_no),
                     getLotImages($scope.sale_no, $scope.lot_no),
                     getSaleImages($scope.sale_no, $scope.lot_no),
@@ -1169,6 +1171,9 @@
 
                 // 0718
                 $scope.saleLotList = r7.data.data;
+
+                console.log($scope.lotInfo);
+
 
                 $scope.lotTags = r8.data.data;
                 $scope.categories = r9.data.data;
@@ -1193,8 +1198,6 @@
 
                 $scope.activeIndex = 0;
 
-                console.log($scope.lotInfo);
-
                 $scope.lotInfo.OFFLINE_MAX_BID_PRICE = numberWithCommas($scope.lotInfo.OFFLINE_MAX_BID_PRICE);
 
 
@@ -1204,7 +1207,6 @@
 
                 $scope.fullTitle = sale_title;
 
-                console.log($scope.NOTICE_DTL_JSON);
 
 
                 $scope.lotInfo.NOTICE_DTL_JSON_VALUE =  $scope.locale === 'ko' ? $scope.lotInfo.NOTICE_DTL_JSON.ko : $scope.lotInfo.NOTICE_DTL_JSON.en;
@@ -1377,15 +1379,27 @@
                     });
 
                 /* 스와이퍼 */
+                /* [2022-0708] 수정 */
                 var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
                     loop: true,
-                    onSlideChangeStart: function (swiper) { // 움직임이 끝나면 실행
-                        imagesResizePcMb();
-                    },
-                    onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
-                        imagesResizePcMb();
+                    // onSlideChangeStart: function (swiper) { // 움직임이 끝나면 실행
+                    //     imagesResizePcMb();
+                    // },
+                    // onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
+                    //     imagesResizePcMb();
+                    // },
+                    on: {
+                        transitionStart: function() {
+                            // 움직임이 시작하면 실행
+                            imagesResizePcMb();
+                        },
+                        transitionEnd: function() {
+                            // 움직임이 끝나면 실행
+                            imagesResizePcMb();
+                        },
                     },
                 });
+
 
                 $.each($(".swiper-slide"), function () {
                     let data = $(this).attr("data-swiper-slide-index");
@@ -1569,11 +1583,17 @@
                 }
 
                 /* === 스와이퍼 === */
+                /* [0708]  스크립트 수정 */
                 console.log("스와이퍼 set");
+                var imagesSwiperIndex = 0;
                 var imagesSwiper = new Swiper('.js-imagesSwiper .gallery_center', {
                     loop: true,
-                    simulateTouch: false,
-                    pagination: ".js-imagesSwiper_pagination",
+                    simulateTouch: true,
+                    //pagination: ".js-imagesSwiper_pagination",
+                    pagination: {
+                        el: '.js-imagesSwiper_pagination',
+                        type: 'bullets',
+                    },
                     paginationClickable: true,
                     breakpoints: {
                         1023: {
@@ -1583,17 +1603,34 @@
                             spaceBetween: 10
                         }
                     },
-                    onSlideChangeStart: function (swiper) { // 움직임이 시작하면 실행
-                        imagesResizePcMb();
-                        if ($("body").hasClass("is_pc")) {
-                            panzoom.reset(); // zoom reset
-                        }
+                    // onSlideChangeStart: function (swiper) { // 움직임이 시작하면 실행
+                    //     imagesResizePcMb();
+                    //     if ($("body").hasClass("is_pc")) {
+                    //         panzoom.reset(); // zoom reset
+                    //     }
+                    // },
+                    // onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
+                    //     imagesResizePcMb();
+                    //     thumbnailActive(swiper.realIndex);
+                    //     console.log(">>> ", swiper.realIndex)
+                    // }
+                    on: {
+                        transitionStart: function() {
+                            // 움직임이 시작하면 실행
+                            imagesResizePcMb();
+                            if ($("body").hasClass("is_pc")) {
+                                panzoom.reset(); // zoom reset
+                            }
+                        },
+                        transitionEnd: function() {
+                            // 움직임이 끝나면 실행
+                            if (imagesSwiper != undefined) {
+                                imagesSwiperIndex = imagesSwiper.realIndex;
+                            }
+                            imagesResizePcMb();
+                            thumbnailActive();
+                        },
                     },
-                    onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
-                        imagesResizePcMb();
-                        thumbnailActive(swiper.realIndex);
-                        console.log(">>> ", swiper.realIndex)
-                    }
                 })
                 // 좌우버튼
                 $('.images-popup .page_prev').on('click', function ($e) {

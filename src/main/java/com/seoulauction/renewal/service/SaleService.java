@@ -228,44 +228,6 @@ public class SaleService {
             //패들번호를 신경x
             map.put("padd_no", paddNo);
 
-            WebClient webClient = WebClient.builder()
-                    .baseUrl("http://dev-bid.seoulauction.xyz")
-                    .build();
-
-            CommonMap paramMap = new CommonMap();
-            CommonMap customerMap = new CommonMap();
-
-            customerMap.put("sale_no", map.get("sale_no"));
-            customerMap.put("lot_no", map.get("lot_no"));
-            customerMap.put("cust_no", map.get("cust_no"));
-            customerMap.put("paddle", map.get("padd_no"));
-            customerMap.put("user_id", map.get("user_id"));
-            customerMap.put("sale_type", 1);
-            customerMap.put("bid_type", map.get("bid_type"));
-
-            paramMap.put("customer", customerMap);
-            paramMap.put("bid_cost", map.get("bid_price"));
-            //bidder.setToken(map.get("bid_token").toString());
-            // 비딩금액 저장
-
-            // 웹소켓에 데이타 전송
-            String result = webClient.post().uri("/bid")
-                    .bodyValue(paramMap)
-                    .retrieve()
-                    .bodyToMono(String.class)
-                    .block();
-
-            try {
-                CommonMap resultMap = new ObjectMapper().readValue(result, CommonMap.class);
-
-//            //웹소켓 통신을 제대로 보냇을때 디비 인서트!!
-//                if (resultMap.getInteger("code") == 200) {
-//                    saleMapper.insertBid(map);
-//                }
-
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
             CommonMap custMap = loginService.selectCustByCustNo(map);
 
             map.put("hp", custMap.get("HP"));

@@ -36,7 +36,7 @@ public class ApiCertificationController {
 	@Value("${is.phone.auth.bypass}")
 	boolean isPhoneAuthBypass;
 
-	//휴대폰 인증
+	/* 휴대폰 인증 */
 	@RequestMapping(value = "/sendAuthNum", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> sendAuthNumber(@RequestBody CommonMap commonMap, HttpServletRequest request,
@@ -78,6 +78,7 @@ public class ApiCertificationController {
 		return ResponseEntity.ok(RestResponse.ok(resultMap));
 	}
 
+	/* 인증번호 확인 */
 	@RequestMapping(value = "/confirmAuthNumCheck", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> confirmAuthNumCheck(@RequestBody CommonMap commonMap, Principal principal,
@@ -91,6 +92,7 @@ public class ApiCertificationController {
 		}
 	}
 
+	/* 인증번호 검증 */
 	@RequestMapping(value = "/confirmAuthNum", method = RequestMethod.POST)
 	@ResponseBody
 	public boolean confirmAuthNumber(@RequestBody Map<String, Object> paramMap, HttpServletRequest request,
@@ -106,6 +108,7 @@ public class ApiCertificationController {
 		}
 	}
 
+	/* 인증번호 초기화 */
 	@RequestMapping(value = "/clearAuthNum", method = RequestMethod.POST)
 	@ResponseBody
 	public boolean clearAuthNumber(@RequestBody Map<String, Object> paramMap, HttpServletRequest request,
@@ -118,6 +121,7 @@ public class ApiCertificationController {
 		}
 	}
 
+	/* 경매 > 온라인 휴대폰 인증 > 경매정보 등록 */
 	@RequestMapping(value = "/insertSaleCert", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> insertSaleCert(@RequestBody CommonMap commonMap, Principal principal,
@@ -125,7 +129,8 @@ public class ApiCertificationController {
 		commonMap.put("action_user_no", principal.getName());
 		return ResponseEntity.ok(RestResponse.ok(certificationService.insertSaleCert(commonMap)));
 	}
-	
+
+	/* 경매 > 온라인 휴대폰 인증 > 사용자 정보 수정 */
 	@RequestMapping(value = "/updateSaleCertHp", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> updateSaleCertHp(@RequestBody CommonMap commonMap, Principal principal,
@@ -134,6 +139,7 @@ public class ApiCertificationController {
 		return ResponseEntity.ok(RestResponse.ok(certificationService.updateSaleCertHp(commonMap)));
 	}
 
+	/* 경매 > 온라인 휴대폰 인증 > 경매조회 */
 	@GetMapping(value = "/sales/{saleNo}")
 	public ResponseEntity<RestResponse> saleCert(@PathVariable("saleNo") int saleNo){
 		System.out.println(saleNo);

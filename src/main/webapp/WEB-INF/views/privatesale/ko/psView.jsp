@@ -200,9 +200,8 @@
 
                                         <!-- [0714]작품설명 추가 -->
                                         <div class="info-box">
-                                            <div class="title">작품 설명</div>
-                                            <div class="desc">
-                                                조디커윅은 혜성처럼 미술계에 나타난 호주 작가로 정규 미술 교육을 받지 않고 본인만의 독보적인 화풍을 발전시켜 화폭에 담아낸다.
+                                            <div class="title">작품 설명</div> 
+                                            <div class="desc txt-pre-line">조디커윅은 혜성처럼 미술계에 나타난 호주 작가로 정규 미술 교육을 받지 않고 본인만의 독보적인 화풍을 발전시켜 화폭에 담아낸다.
                                             </div>
                                         </div>
                                         <!-- //[0714]작품설명 추가 -->
@@ -212,8 +211,8 @@
                                             <div class="title">NOTICE</div>
                                             <div class="desc">
                                                 <ul class="mark_dot-list">
-                                                    <li>서울옥션은 작가 및 작품명에 한하여 낙찰일로부터 3년간 낙찰자에 대해서만 보증하며, 사전 고지한 작품에 대해서는 보증책임을 부담하지 않습니다.</li>
-                                                    <li>작품은 판매 당시 상태 그대로 판매되므로, 응찰 전 반드시 실물을 확인하여 주시기 바랍니다.<br>
+                                                    <li class="txt-pre-line">서울옥션은 작가 및 작품명에 한하여 낙찰일로부터 3년간 낙찰자에 대해서만 보증하며, 사전 고지한 작품에 대해서는 보증책임을 부담하지 않습니다.</li>
+                                                    <li class="txt-pre-line">작품은 판매 당시 상태 그대로 판매되므로, 응찰 전 반드시 실물을 확인하여 주시기 바랍니다.<br>
                                                         홈페이지에 기재된 컨디션은 작품 상태에 대한 당사의 주관적 의견을 제시하는 것일 뿐이므로, 내재된 모든 결함, 수리, 변형 등을 언급하지 않을 수 있습니다. 또한 제작된 지 오랜 시간이 경과한 작품에 자연스럽게 확인되는 노화 현상(구김, 마모, 오염, 산화 등)에 대해서도 별도 언급이 없을 수 있습니다.<br>
                                                         컨디션은 작품만을 대상으로 하며 액자, 족자, 병풍, 좌대, 케이스 등 작품 구성품의 상태는 포함하지 않습니다. 온라인에 게재된 이미지로 작품의 일부 컨디션을 확인할 수 있으나 실제 상태를 정확하게 반영하지 못할 수 있으며 작품의 색상, 밝기 등이 실물과 다르게 보일 수 있습니다.<br>
                                                         실물을 확인하지 않고 발생되는 문제에 대한 책임은 응찰자에게 있으며, 이와 같은 유의사항을 반드시 확인하시고 신중히 응찰해 주시길 바랍니다.</li>
@@ -224,11 +223,11 @@
 
                                         <div class="info-box">
                                             <div class="title">작가정보</div>
-                                            <div class="desc" id="artistName">
+                                            <div class="desc txt-pre-line" id="artistName">
                                             </div>
-                                            <div class="desc" id="artistProfile">
+                                            <div class="desc txt-pre-line" id="artistProfile">
                                             </div>
-                                            <div class="desc" id="artistMedia">
+                                            <div class="desc txt-pre-line" id="artistMedia">
                                             </div>
                                         </div>
                                     </div>
@@ -784,11 +783,17 @@
                 });
 
                 /* === 스와이퍼 === */
+                /* [0708]  스크립트 수정 */
                 console.log("스와이퍼 set");
+                var imagesSwiperIndex = 0;
                 var imagesSwiper = new Swiper('.js-imagesSwiper .gallery_center', {
                     loop: true,
-                    simulateTouch: false,
-                    pagination: ".js-imagesSwiper_pagination",
+                    simulateTouch: true,
+                    //pagination: ".js-imagesSwiper_pagination",
+                    pagination: {
+                        el: '.js-imagesSwiper_pagination',
+                        type: 'bullets',
+                    },
                     paginationClickable: true,
                     breakpoints: {
                         1023: {
@@ -798,17 +803,34 @@
                             spaceBetween: 10
                         }
                     },
-                    onSlideChangeStart: function(swiper) { // 움직임이 시작하면 실행
-                        imagesResizePcMb();
-                        if ($("body").hasClass("is_pc")) {
-                            panzoom.reset(); // zoom reset
+                    // onSlideChangeStart: function(swiper) { // 움직임이 시작하면 실행
+                    //     imagesResizePcMb();
+                    //     if ($("body").hasClass("is_pc")) {
+                    //         panzoom.reset(); // zoom reset
+                    //     }
+                    // },
+                    // onSlideChangeEnd: function(swiper) { // 움직임이 끝나면 실행
+                    //     imagesResizePcMb();
+                    //     thumbnailActive(swiper.realIndex);
+                    //     console.log(">>> ", swiper.realIndex)
+                    // }
+                    on: {
+                        transitionStart: function() {
+                            // 움직임이 시작하면 실행
+                            imagesResizePcMb();
+                            if ($("body").hasClass("is_pc")) {
+                                panzoom.reset(); // zoom reset
+                            }
+                        },
+                        transitionEnd: function() {
+                            // 움직임이 끝나면 실행
+                            if (imagesSwiper != undefined) {
+                                imagesSwiperIndex = imagesSwiper.realIndex;
+                            }
+                            imagesResizePcMb();
+                            thumbnailActive();
                         }
-                    },
-                    onSlideChangeEnd: function(swiper) { // 움직임이 끝나면 실행
-                        imagesResizePcMb();
-                        thumbnailActive(swiper.realIndex);
-                        console.log(">>> ", swiper.realIndex)
-                    }
+                    } 
                 })
 
                 // 좌우버튼

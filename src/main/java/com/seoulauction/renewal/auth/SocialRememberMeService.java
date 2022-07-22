@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Date;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -72,8 +73,22 @@ public class SocialRememberMeService extends AbstractRememberMeServices {
 			// 쿠키 발행
 			String[] rawCookieValues = new String[] { userNo, expiryTime, tokenSignature };
 			log.info(Arrays.toString(rawCookieValues));
-			this.setCookie(rawCookieValues, getTokenValiditySeconds(), request, response);
-
+			
+			//httpOnly true
+//			this.setCookie(rawCookieValues, getTokenValiditySeconds(), request, response);
+			
+			//httpOnly false (테스트용)
+			int maxAge = getTokenValiditySeconds();
+			String cookieValue = this.encodeCookie(rawCookieValues);
+			Cookie cookie = new Cookie("remember-me", cookieValue);
+			cookie.setMaxAge(maxAge);
+			cookie.setPath("/");
+			if (maxAge < 1) {
+				cookie.setVersion(1);
+			}
+			cookie.setSecure(false);
+			cookie.setHttpOnly(false);
+			response.addCookie(cookie);
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		}

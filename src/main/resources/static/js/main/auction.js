@@ -28,13 +28,11 @@ $(document).ready(function(){
                     //TODO 인클루드 작업.
                     $.each(auctionData , function(idx , el){
 
-                        let name = '미술품 경매';
-
-                        if(el.SHORT_TITLE){
-                            let title = JSON.parse(el.SHORT_TITLE);
-                            name = locale === 'ko' ? title.ko : title.en;
+                        const titleBlob = el.SHORT_TITLE? el.SHORT_TITLE : el.TITLE_BLOB;
+                        const title = JSON.parse(titleBlob);
+                        let name = locale === 'ko' ? title.ko : title.en;
                             name = localeOrdinal(el.SALE_TH, locale) + name;
-                        }
+
 
                         //sale html
                         let saleHtml = idx === 0 ? `<span class="auctionTab-btn on"><span class="text-over">${name}</span></span>`
@@ -71,8 +69,8 @@ $(document).ready(function(){
 
         $.each(data , function(lotIdx , el){
 
-            let imgPath = img_pre_fix +'/images/img/main/auction_sum/20190613.jpg';
-            if(el.FILE_PATH !== undefined || el.FILE_NAME !== undefined){
+            let imgPath = img_pre_fix +'/images/bg/no_image.jpg';
+            if(el.IMG_DISP_YN === 'Y' && (el.FILE_PATH !== undefined || el.FILE_NAME !== undefined)){
                 imgPath = 'https://www.seoulauction.com/nas_img' + el.FILE_PATH + '/' + el.FILE_NAME;
             }
             let lotTitle = JSON.parse(el.EXPE_PRICE_TITLE);
@@ -98,14 +96,15 @@ $(document).ready(function(){
             }
 
             let saleNo = el.SALE_NO;
+            let saleKind = kind.toLowerCase();
             let lotNo = el.LOT_NO;
             let like = el.FAVORITE_YN === 'N' ? 'on' : '';
             //lot html
             let html =
-                `<figure class="auction-thumbbox" sale-no="${saleNo}" lot-no="${lotNo}">
+                `<figure class="auction-thumbbox" sale-kind="${saleKind}" sale-no="${saleNo}" lot-no="${lotNo}">
                             <img src='${imgPath}' alt="" class="pc-ver">
                                 <img src='${imgPath}' alt="" class="m-ver">
-                                    <figcaption class="auction-thumb">
+                                    <figcaption class="auction-thumb"  sale-kind="${saleKind}">
                                         <button id='id_${lotNo}' class="wish_heart ${like}" ></button>
                                         <a>
                                             <p class="auction-thumb-txt">
@@ -175,14 +174,13 @@ $(document).ready(function(){
             $('.auction-thumbbox').on('click', function (event) {
 
                 let saleKind = 'online';
-                if(kind){
-                    kind = kind.toLowerCase();
-                    if(kind.includes('main') || kind.includes('plan') || kind.includes('hongkong')){
-                        saleKind = 'live';
-                    }
-                }
+                //
+                // if(kind){
+                //     saleKind = kind.toLowerCase();
+                // }
+                 saleKind = event.target.getAttribute("sale-kind");
 
-                window.open('/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).attr('lot-no'));
+                location.href = '/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).attr('lot-no');
             });
         }
 
@@ -208,16 +206,13 @@ $(document).ready(function(){
             } else {
                 //모바일일땐 클릭이벤트로
                 $('.auction-thumbbox').on('click', function (event) {
-
                     let saleKind = 'online';
-                    if(kind){
-                        kind = kind.toLowerCase();
-                        if(kind.includes('main') || kind.includes('plan') || kind.includes('hongkong')){
-                            saleKind = 'live';
-                        }
-                    }
-
-                    window.open('/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).attr('lot-no'));
+                    //
+                    // if(kind){
+                    //     saleKind = kind.toLowerCase();
+                    // }
+                    saleKind = event.target.getAttribute("sale-kind");
+                    location.href ='/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).attr('lot-no');
                 });
             }
         });
@@ -225,16 +220,13 @@ $(document).ready(function(){
 
         //클릭시
         $('.auction-thumb').on('click', function (event) {
-
             let saleKind = 'online';
-            if(kind){
-                kind = kind.toLowerCase();
-                if(kind.includes('main') || kind.includes('plan') || kind.includes('hongkong')){
-                    saleKind = 'live';
-                }
-            }
+            // if(kind){
+            //     saleKind = kind.toLowerCase();
+            // }
+            saleKind = event.target.getAttribute("sale-kind");
 
-            window.open('/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).children('button').attr('id').split('id_')[1]);
+            location.href ='/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).children('button').attr('id').split('id_')[1];
         });
 
         //auction haert 버튼

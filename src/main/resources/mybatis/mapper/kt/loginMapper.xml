@@ -84,7 +84,7 @@
 		where CUST_NO = #{cust_no}
 	</update>
 
-
+	<!-- 아이디 찾기 -->
 	<select id="selectCustLoginIdByCustName" resultType="CommonMap">
 		select
 		concat(rpad(substring(LOGIN_ID, 1, 2), length(LOGIN_ID)-1, '*'),
@@ -114,7 +114,7 @@
 		</if>
 	</select>
 
-
+	<!-- 비밀번호 업데이트 -->
 	<update id="updatePasswordByLoginId" parameterType="Map">
 		<selectKey keyProperty="passwd" resultType="String"
 			order="BEFORE">
@@ -133,6 +133,7 @@
 		</if>
 	</update>
 
+	<!-- 비밀번호 찾기 > 사용자 조회 -->
 	<select id="selectCustomerByStatCdAndLoginId"
 		resultType="CommonMap">
 		select c.*,cs.CUST_NO ,

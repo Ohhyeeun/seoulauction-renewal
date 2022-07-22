@@ -16,7 +16,7 @@ $(document).ready(function(){
 
         let url = '/api/footer/medias?page='+current_page+"&size="+data_size+"&langs="+langs;
         if(search_text){
-            url +="&search="+search_text;
+            url +="&search="+encodeURIComponent(search_text);
         }
         axios.get(url)
             .then(function(response) {

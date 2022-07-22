@@ -25,7 +25,7 @@ public class MessageService {
 	@Value("${email.from}")
 	String emailFrom;
 
-	
+	/*이메일 발송*/
 	public void sendMail(String to, String subject, String template, Map<String, Object> model) throws MessagingException{
 
 		MimeMessage message = mailSender.createMimeMessage();
