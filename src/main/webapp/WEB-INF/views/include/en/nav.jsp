@@ -30,11 +30,11 @@
             <sec:authorize access="isAuthenticated()"> <!-- login -->
                 <li class="utility-tab utility-account"><a href="/mypage/liveBidReqList">MY PAGE</a>
                     <ul class="bubble-box bubble-box02">
-                        <li><a href="/mypage/liveBidReqList">Live Auction Management</a></li>
-                        <li id="MyMenuOnlineBadge"><a href="/mypage/onlineBidList">Online Auction Management</a></li>
-                        <li><a href="/mypage/inteLotList">Wish List</a></li>
+                        <li><a href="/mypage/liveBidReqList">Live Auction</a></li>
+                        <li id="MyMenuOnlineBadge"><a href="/mypage/onlineBidList">Online Auction</a></li>
+                        <li><a href="/mypage/inteLotList">Favorites</a></li>
                         <li><a href="/mypage/inquiryList">1:1 Inquiry</a></li>
-                        <li><a href="/mypage/custModify">Edit member information</a></li> 
+                        <li><a href="/mypage/custModify">Account Info</a></li>
                     </ul>
                 </li>
                 <li class="utility-login"><a onclick="logout('${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details.loginId}')">LOGOUT</a></li> <!-- !login -->

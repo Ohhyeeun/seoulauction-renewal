@@ -55,7 +55,14 @@ let is_end_bid = false;
 let autoBiding = async function () {
     let val = $("#reservation_bid").val();
     let datet = new Date();
-    let response = await fetch('http://dev-bid.seoulauction.xyz/bid', {
+
+    let url = '';
+    if (window.location.protocol !== "https:") {
+        url = 'http://dev-bid.seoulauction.xyz/bid';
+    } else {
+        url = 'https://dev-bid.seoulauction.xyz/bid';
+    }
+    let response = await fetch(url, {
         method: "POST", body: JSON.stringify({
             customer: {
                 sale_no: parseInt($("#sale_no").val()),

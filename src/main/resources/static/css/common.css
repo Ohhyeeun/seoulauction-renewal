@@ -1307,7 +1307,7 @@ body.dark,
 .darkmodeBg.dark>span.dark,
 .auctionTab-btn.dark:hover,
 .keyword-search-tit.dark,
-.recommend-search-part.dark>span,
+.recommend-search-part.dark > .keyword-search-tit,
 .newsletter-form>input.dark,
 .upcoming-datebox.dark,
 .upcoming-caption>h4.dark {
@@ -1336,8 +1336,11 @@ body.dark,
     border-color: #666;
     color: #fff;
 }
-.familysite-box.dark {
+.familysite-box.dark,
+.auction-contents.dark > .auction-thumbbox,
+.upcoming-contents.dark > .swiper-slide.upcomingSlide {
     background-color: #2d2d2d;
+    color: #fff;
 }
 .newsletter-btnbox>button.commonbtn.dark,
 .newsletter-btnbox>a.commonbtn.dark {
@@ -1359,6 +1362,10 @@ body.dark,
 .upcoming-wrap.dark,
 .slide_white.dark {
     color: #333;
+}
+/* background transparent */
+.recent-keyword.dark.recent-keyword-none.dark {
+    background: #2e2e2e;
 }
 .newsAgree-txt.dark {
     background-color: #f6f6f6;
@@ -1460,10 +1467,10 @@ body.dark,
 }
 .search-bubble-box.dark {
     background-color: #2e2e2e;
-    border-color: #2e2e2e;
+    border-color: #555;
 }
 .recent-keyword.dark,
-.recommend-search-part.dark > a {
+.recommend-search-part.dark>.recommend-keyword {
     background-color: #444;
     border-color: #444;
     color: #ccc;
@@ -1490,7 +1497,9 @@ body.dark,
 .platform-pagination>span.dark {
     background: #555;
 }
-
+.terms-checktxt-line.dark {
+    border-bottom-color: #fff;
+}
 
 
 /* 외주 css select container */
@@ -2311,15 +2320,16 @@ body.dark,
         border-color: transparent;
     }
     .recent-keyword.dark,
-    .recommend-search-part.dark > a  {
+    .recommend-search-part.dark>.recommend-keyword {
         background-color: #fff;
         color: #555;
     }
-    .recommend-search-part.dark > a {
+    .recommend-search-part.dark>.recommend-keyword {
         border-color: #ccc;
     }
     .keyword-search-tit.dark,
-    .recommend-search-part.dark>span {
+    .recommend-search-part.dark>span,
+    .recommend-search-part.dark > .keyword-search-tit {
         color: #333;
     }
     .keyword-del.dark {

@@ -164,6 +164,18 @@ $(function() {
         $('.darktxt-en.dark').text('Ligth Mode');
 
         $('.mode-toggle>input').addClass(localStorage.getItem('theme'));
+
+        /* 다크모드 버튼 hover */
+        $('.darkmodeBg').hover(function () {
+            $('.darkmode').toggleClass('active');
+        }, function () {
+            $('.darkmode').toggleClass('active');
+        });
+        $('.darkmodeBg.dark').hover(function () {
+            $('.darkmode.dark').toggleClass('active');
+        }, function () {
+            $('.darkmode.dark').toggleClass('active'); 
+        });
     });
 
     /* 다크모드 버튼 hover */

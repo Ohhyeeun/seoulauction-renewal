@@ -120,13 +120,13 @@
 
                             <div class="panel-footer">
                                 <div class="set-pc_mb">
-                                    <div class="only-pc">
+                                    <div>
                                         <div class="paging-area" id="paging_search">
                                         </div>
                                     </div>
-                                    <div class="only-mb">
-                                        <button class="btn btn_gray_line" type="button" ng-click="more();"><span>더보기</span></button>
-                                    </div>
+<%--                                    <div class="only-mb">--%>
+<%--                                        <button class="btn btn_gray_line" type="button" ng-click="more();"><span>더보기</span></button>--%>
+<%--                                    </div>--%>
                                 </div>
                             </div>
                         </div>
