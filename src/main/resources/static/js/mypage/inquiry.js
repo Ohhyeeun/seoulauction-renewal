@@ -1,4 +1,5 @@
 
+var page = document.referrer;
 var getParameter = function(param){
 	var requestParam ="";
     var url = unescape(location.href);
@@ -27,22 +28,19 @@ function opacity($timeout) {
 app.value('locale', document.documentElement.lang);
 /*문의하기 목록*/
 app.requires.push.apply(app.requires, ["bw.paging"]);
+
 app.controller('inquiryListCtl', function($scope, consts, common) {
 	
 	$scope.pageRows = 10;
 
-	$scope.currentPage = 1;
-
  	$scope.loadInquiryList = function($page){
-
- 		$scope.currentPage = $page;
- 		 	
- 		$page = $scope.currentPage;
-
- 		$size = 10;
-
-
+ 		var queryStirngPage= getParameter("page"); 
  		
+ 		$scope.currentPage = queryStirngPage ? queryStirngPage : $page;
+		history.replaceState({}, null, location.pathname);
+		
+		$page = $scope.currentPage;
+ 		$size = 10;
  		
  		$api = "/api/mypage/inquiries?page="+$page+"&size="+$size;
  	   	
@@ -63,15 +61,19 @@ app.controller('inquiryListCtl', function($scope, consts, common) {
             console.log(error);
         });
 	};
+	
+
 });
 
 
 /*문의하기 상세*/
 app.controller("inquiryViewCtl", function($scope, consts, common) {
-	
 	$scope.init = function(){
+		$scope.page = getParameter("page");
+		$scope.size = getParameter("size");
+		
 		let writeNo = getParameter("writeNo");
-		console.log(writeNo);
+		
 		axios.get("/api/mypage/inquiries/"+writeNo, null)
         .then(function(response) {
             const result = response.data;
@@ -82,7 +84,6 @@ app.controller("inquiryViewCtl", function($scope, consts, common) {
         	$scope.inquiry = result.data.inquiryInfo;
 			$scope.reply =  result.data.inquiryReply;
 			$scope.fileList =  result.data.inquiryFileList;
-			console.log($scope.reply);
 			$scope.$apply();
             }
         })
@@ -91,20 +92,14 @@ app.controller("inquiryViewCtl", function($scope, consts, common) {
         });
 	};
 	
+/*	window.onpageshow = function(event) {
+		if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+			alert($scope);
+			console.log(event);
+			console.log(window);
+		        }
+		}*/
 
-    
-/*    $scope.downloadfile = async function(url, name) {
-    // blob 형태로 들고 있어야 함.
-    const res = await fetch(url);
-    const blob = await res.blob();
-
-    // anchor tag를 통해 다운 받는 방법
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = url;
-    link.innerHTML = 'download';
-    document.body.appendChild(link);
-	}*/
 });
 
 app.controller('inquiryWriteCtl', function($scope, consts, common, inquiryService) {
@@ -131,8 +126,11 @@ app.service("inquiryService", function($rootScope, common, locale) {
 	                alert(result.data.msg);
 	            } else {
 	        	$scope.inqCate = result.data.category;
-				$scope.custInfo =  result.data.customerInfo;
-
+	        	$scope.custInfo =  result.data.customerInfo;
+				if(result.data.customerInfo.HP){
+					$scope.custInfo.HP = result.data.customerInfo.HP.replaceAll('-','');
+				}
+				
 				if($scope.paramCate1){
 					$scope.form_data.cate1 = $scope.paramCate1;
 					$scope.changeCate1()
@@ -188,7 +186,6 @@ app.service("inquiryService", function($rootScope, common, locale) {
 		$scope.fileHtml ;
 
 		$("#file").change(function(e){
-			console.log($scope.fileCount);
 			let maxSize  = 10 * 1024 * 1024 
 				if($scope.fileNameList.length > 9){
 						if (locale == "ko") {
@@ -229,19 +226,20 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				}
 				return false;		
 			}	
-			
+			console.log(filename);
 			$scope.fileNameList.push({"fileIndex" : $scope.fileCount, "fileName":filename });		
 		}
 				
 			
-			  var x = $("#file"),
-		 	  y = x.clone();
-		  
-			  y.attr("id", "file"+$scope.fileCount);
-			  $('#fileHtml').append(y);
+		  var x = $("#file"),
+	 	  y = x.clone();
+	  
+		  y.attr("id", "file"+$scope.fileCount);
+		  $('#fileHtml').append(y);
 			  
 			$scope.fileCount = $scope.fileCount+ 1;
 			$scope.$apply();
+			$("#file")[0].value = '';
 	    });
 	    
 
@@ -314,7 +312,7 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 				if (regEmail.test(document.getElementById('emailAccount').value) === false) {
 					if(locale == 'ko'){
-						alert('이메일을 확인해주세요.'); 
+						alert('이메일 형식에 맞게 입력해 주세요.'); 
 					} else {
 						alert('Check out the Email'); 
 					}
@@ -329,6 +327,17 @@ app.service("inquiryService", function($rootScope, common, locale) {
 					alert("Please put a mobile.");
 				}
 				return false;
+			} else if($scope.isValidString(document.getElementById('hp').value)){
+				var regPhone = /^01([0|1|6|7|8|9])?([0-9]{3,4})?([0-9]{4})$/;
+				if (regPhone.test(document.getElementById('hp').value) === false) {
+					if(locale == 'ko'){
+						alert('휴대폰번호 형식에 맞게 입력해 주세요.'); 
+						return;
+					} else {
+						alert('Check out the mobile'); 
+						return;
+					}
+				}
 			}
 			
 			if (!$scope.isValidString($scope.form_data.title)) {
@@ -576,7 +585,6 @@ app.service("inquiryService", function($rootScope, common, locale) {
 	}
 });
 
-
 window.addEventListener('load', function () {
 	$('#inquirySubject, #inquiryContent').on('keyup', function() {
 	        $('#'+$(this).attr('data-id')+'_length').html('<em>'+$(this).val().length+'</em> <span>/ '+$(this).attr('data-size')+'</span>');
@@ -584,5 +592,15 @@ window.addEventListener('load', function () {
 	            $(this).val($(this).val().substring(0, $(this).attr('data-size')));
 	            $('#'+this.id+'_length').html('<em>'+$(this).val().length+'</em> <span>/ '+$(this).attr('data-size')+'</span>');
 	        }
-	    });
+	    });		
+	    
+	   
 });
+
+
+	
+
+/*window.onpopstate = function(event) {
+	console.log(11);
+    alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+}*/

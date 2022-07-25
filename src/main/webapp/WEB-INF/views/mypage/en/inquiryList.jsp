@@ -44,8 +44,8 @@
 															<span>Write Inquiry</span>
 														</button></a>
 												</article>
-												<article class="inquiry-list-wrap"  ng-repeat="inquiry in inquiryList">
-													<ul class="inquiry-list">
+												<article class="inquiry-list-wrap"  ng-if="inquiryCnt != 0">
+													<ul class="inquiry-list" ng-repeat="inquiry in inquiryList">
 														<li class="inquiry-list-ea">
 															<div class="bbs-division">
 																{{inquiry.P_CATE_NM_EN}}{{inquiry.CATE_NM_EN != '' ? ' / '+inquiry.CATE_NM_EN : ''}}

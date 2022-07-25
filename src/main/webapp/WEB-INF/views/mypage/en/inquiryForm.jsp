@@ -94,7 +94,8 @@
 																</div>
 																<div class="td">
 																	<input type="text" name="hp" id="hp" 
-																		class="form-control half" maxlength="13"
+																		class="form-control half" maxlength="11"
+																		onkeypress="inquiryPhoneNumber(this);" onkeyup="onlyNumber(this);" onblur="inquiryPhoneNumberBlur(this);"
 																		value="{{custInfo.HP}}" placeholder="">
 																</div>
 															</li>
