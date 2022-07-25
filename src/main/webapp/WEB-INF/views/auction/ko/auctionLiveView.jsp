@@ -1269,31 +1269,31 @@
                 }*/
 
                 // swiper
-                // let view_visual = new Swiper(".js-view_visual .gallery_center", {
-                //     loop: true,
-                //     paginationClickable: true,
-                //     spaceBetween: 10,
-                //     effect: "fade",
-                //     simulateTouch: true,
-                //     pagination: {
-                //         el: '.js-view_visual .pagination',
-                //         type: 'bullets',
-                //     },
-                //     breakpoints: {
-                //         1023: {
-                //             effect: "fade",
-                //             simulateTouch: true,
-                //             slidesPerView: 1,
-                //             spaceBetween: 10
-                //         }
-                //     },
-                //     on: {
-                //         slideChange: function () {
-                //             $scope.activeIndex = view_visual.activeIndex;
-                //             view_thumnailActive(view_visual.activeIndex);
-                //         }
-                //     }
-                // });
+                let view_visual = new Swiper(".js-view_visual .gallery_center", {
+                    loop: true,
+                    paginationClickable: true,
+                    spaceBetween: 10,
+                    effect: "fade",
+                    simulateTouch: true,
+                    pagination: {
+                        el: '.js-view_visual .pagination',
+                        type: 'bullets',
+                    },
+                    breakpoints: {
+                        1023: {
+                            effect: "fade",
+                            simulateTouch: true,
+                            slidesPerView: 1,
+                            spaceBetween: 10
+                        }
+                    },
+                    // on: {
+                    //     slideChange: function () {
+                    //         $scope.activeIndex = view_visual.activeIndex;
+                    //         view_thumnailActive(view_visual.activeIndex);
+                    //     }
+                    // }
+                });
 
                 // $(".js-view_thumnail .slide").on("click", function () {
                 //     var _index = $(this).index();
@@ -1319,14 +1319,14 @@
                         size1 = el.LOT_SIZE_JSON[0].SIZE1;
                         size2 = el.LOT_SIZE_JSON[0].SIZE2;
                         unitCd = el.LOT_SIZE_JSON[0].UNIT_CD;
-
                     }
+
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
                     let swiper_slide_item = '';
-                    if (firstCheck == 0) {
+                    // if (firstCheck == 0) {
                         // $scope.chk = parseInt(lot_no) - index -1;
-                    }
-                    firstCheck++;
+                    // }
+                    // firstCheck++;
 
                     //if(size1 > 160) {
                     if(['traditional_painting'].indexOf($scope.lotInfo.CATE_CD) > -1){
@@ -1354,7 +1354,8 @@
                             </div>
                         </div>`;
                     }
-                    $("#swiper-wrapper").append(swiper_slide_item);
+
+                $("#popup_image_viewer-wrap .gallery_center").html(swiper_slide_item);
                     //}
                 // });
 
