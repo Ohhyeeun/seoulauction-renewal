@@ -1231,5 +1231,5 @@ $(document).ready(function(){
 
 //오브젝트 or 배열 비었는지 확인
 function isNotObjectEmpty(param) {
-    return Object.keys(param).length !== 0 && param.constructor === Object;
+    return param.constructor === Object && Object.keys(param).length !== 0;
 }
