@@ -694,8 +694,8 @@
                         <article class="viewer-article">
                             <div class="gallery_view js-image_viewer" style="">
                                 <div class="gallery_center">
-<%--                                    <div id="swiper-wrapper" class="swiper-wrapper">--%>
-<%--                                    </div>--%>
+                                    <div id="swiper-wrapper" class="swiper-wrapper">
+                                    </div>
                                 </div>
                             </div>
                             <div class="size-area">
@@ -1471,7 +1471,7 @@
                 }*/
 
                 // swiper
-                /*let view_visual = new Swiper(".js-view_visual .gallery_center", {
+                let view_visual = new Swiper(".js-view_visual .gallery_center", {
                     loop: false,
                     paginationClickable: false,
                     spaceBetween: 10,
@@ -1498,7 +1498,7 @@
                         }
                     },
 
-                });*/
+                });
 
                 // $(".js-view_thumnail .slide").on("click", function () {
                 //     var _index = $(this).index();
@@ -1506,9 +1506,9 @@
                     // view_visualActive(_index, view_visual);
                 // });
 
-                // $(window).on("resize", function () {
-                    // view_visual.update();
-                // });
+                $(window).on("resize", function () {
+                    view_visual.update();
+                });
 
                 let viewScaleImages = $scope.viewScaleImages;
                 let lot_images = $scope.lotImages;
@@ -1534,7 +1534,7 @@
                 // firstCheck++;
 
                 if(['traditional_painting'].indexOf($scope.lotInfo.CATE_CD) > -1){
-                    swiper_slide_item = `<div class="">
+                    swiper_slide_item = `<div class="swiper-slide">
                                             <div class="img-area">
                                                 <div class="img-box">
                                                     <div class="size_x"><span>` + size1 + unitCd + `</span></div>
@@ -1546,7 +1546,7 @@
                                             </div>
                                         </div>`;
                 }else if(['local_painting', 'foreign_painting'].indexOf($scope.lotInfo.CATE_CD) > -1) {
-                    swiper_slide_item = `<div class="">
+                    swiper_slide_item = `<div class="swiper-slide">
                                             <div class="img-area">
                                                 <div class="img-box">
                                                     <div class="size_x"><span>` + size2 + unitCd + `</span></div>
@@ -1558,7 +1558,7 @@
                                             </div>
                                         </div>`;
                 }
-                console.log(swiper_slide_item)
+
                 $("#popup_image_viewer-wrap .gallery_center").html(swiper_slide_item);
                 // $("#swiper-wrapper").html(swiper_slide_item);
 
