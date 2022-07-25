@@ -729,13 +729,19 @@ $(window).resize(function(){
 
     /* gnb */
     if (matchMedia("all and (min-width: 1024px)").matches) {
-        /* dim 없는  main 레이어팝업 */
+        /* 쿠키가 있을 때 dim 없는  main 레이어팝업 */
         $('.main-popupBg').removeClass('on');
     } else {
-        /* dim 있는 main 레이어팝업 */
+        /* 쿠키가 없을 때 dim 있는 main 레이어팝업 */
         if (isMainPopup) {
             $('.main-popupBg').addClass('on');
         }
+        /* 쿠키 상관없이 그냥 닫았을 때 resize */
+        if($('.main-popupbox').hasClass('down')){ /* down */
+            $('.main-popupBg').removeClass('on');
+            $('.main-popupwrap').removeClass('on');
+        } 
+
         /* 띠배너 beltbanner */
         $('.header_beltbox.on').show(function () {
             $('.main-contents').css('margin-top', '100px');
