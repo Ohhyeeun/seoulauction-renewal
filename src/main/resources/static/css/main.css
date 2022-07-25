@@ -933,17 +933,9 @@
     background-color: #4dada7;
 }
 /* 메인 팝업 */
-.main-popupBg {
-    background-color: transparent;
-    cursor: pointer;
-    display: none;
-}
+.main-popupBg,
 .main-popupwrap {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    cursor: default;
+    display: none;
 }
 .main-popupbox {
     position: fixed;
@@ -951,7 +943,7 @@
     right: 30px;
     box-shadow: 0px 5px 15px -3px rgba(0,0,0,0.4);
     animation: overlay .5s linear;
-    z-index: 10; 
+    z-index: 26;
 }
 .main-popupbox.down {
     bottom: -100%;
@@ -1029,8 +1021,7 @@
 /* on 일때 보임 */
 .upcoming-open.on,
 .upcoming-img.on,
-.video-thumbHover.on,
-.main-popupBg.on {
+.video-thumbHover.on {
     display: block;
 }
 
@@ -1170,9 +1161,6 @@
     }
     .auction-thumbbox:nth-of-type(3n) {
         margin-right: 0;
-    }
-    .main-popup-img {
-        height: 100%;
     }
     .visual_img>img {
         height: 690px;
@@ -1603,25 +1591,42 @@
     .newsletter-comfirmbox {
         max-width: 450px;
     }
+    /* 메인팝업 */
+    .main-popupBg {
+        background-color: rgba(0,0,0,0.5);
+        cursor: pointer;
+    }
+    .main-popupwrap {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        cursor: default;
+        display: none; 
+    }
+    .main-popupBg.on,
+    .main-popupwrap.on {
+        display: block;
+    }
     .main-popupwrap {
         max-width: 450px;
         margin: 0 auto;
     }
     .main-popupbox {
-        position: absolute;
         width: 100%;
         bottom: 0;
         right: auto;
-    }
-    .main-popupBg {
-        background-color: rgba(0,0,0,0.5);
-    }
-    .main-popup-img>img { /* 임시 넣음 모바일 이미지 없음 */
-        background-color: #ddd;
-        border-radius: 20px 20px 0 0;
+        box-shadow: none;
     }
     .main-popup-img, .main-popup-txt {
         width: 100%;
+        height: 100%;
+        max-width: 450px;
+        max-height: 500px;
+        margin: 0 auto;
+    }
+    .m ain-popup-img>img {
+        /*border-radius: 20px 20px 0 0; */
     }
     .main-popupbox>a {
         border-radius: 20px 20px 0 0;

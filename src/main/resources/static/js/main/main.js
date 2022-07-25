@@ -624,7 +624,7 @@ function loadPopup(){
 
                         }
 
-                        //$('.main-popupBg').addClass('on'); line663 으로 옮김.
+                        $('.main-popupBg').addClass('on'); //line663 으로 옮김.
 
                         $('.main-popup-close, .main-popupBg').click(function () {
                             $('.main-popupbox').addClass('down');
@@ -681,11 +681,13 @@ if (matchMedia("all and (min-width: 1024px)").matches) {
     });
 
     /* 메인팝업 pc 없음 */
-    $('.main-popupBg').removeClass('on')
+    $('.main-popupBg').removeClass('on');
+    $('.main-popupwrap').removeClass('on');
 
 } else {
     /* 메인팝업 mobile 있음 */
     $('.main-popupBg').addClass('on');
+    $('.main-popupwrap').addClass('on');
 
     /* 띠배너 beltbanner */
     $('.header_beltbox.on').show(function () {
