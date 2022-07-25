@@ -103,6 +103,8 @@
 						setWebviewData('remember-me', rememberMeCookie);
 					}
 					location.href = "/";
+// 					window.opener.location.href = "/";
+// 					window.close();
 				}else{
 					if(response.data.data.msg == "Not Certify User"){
 						alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");

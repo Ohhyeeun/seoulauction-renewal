@@ -224,7 +224,10 @@ public class LoginController {
 		JsonObject properties = userJson.getAsJsonObject().get("properties").getAsJsonObject();
 		JsonObject kakao_account = userJson.getAsJsonObject().get("kakao_account").getAsJsonObject();
 		String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-		String email = kakao_account.getAsJsonObject().get("email").getAsString();
+		String email = "";
+		if(kakao_account.getAsJsonObject().get("email") != null) {
+			email = kakao_account.getAsJsonObject().get("email").getAsString();
+		}
 		log.info("nickname : {}", nickname);
 		log.info("email : {}", email);
 		
