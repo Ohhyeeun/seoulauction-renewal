@@ -949,23 +949,6 @@
     bottom: -100%;
     animation: overlaydown .5s linear;
 }
-@keyframes overlay {
-    0% {
-        right: 40px;
-        bottom: -100%;
-    }
-    100% {
-        bottom: 30px;
-    }
-}
-@keyframes overlaydown {
-    from {
-        bottom: 0;
-    }
-    to {
-        bottom: -100%;
-    }
-}
 .main-popup-img,
 .main-popup-txt {
     width: 450px;
@@ -1014,9 +997,30 @@
     background-size: contain;
 }
 .main-popup-img>img {
-    display: block;
-    margin: 0 auto;
-    text-align: center
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    object-fit: cover;
+    object-position: 0 0;
+}
+
+@keyframes overlay {
+    0% {
+        right: 40px;
+        bottom: -100%;
+    }
+    100% {
+        bottom: 30px;
+    }
+}
+@keyframes overlaydown {
+    from {
+        bottom: 0;
+    }
+    to {
+        bottom: -100%;
+    }
 }
 /* on 일때 보임 */
 .upcoming-open.on,
@@ -1602,31 +1606,27 @@
         height: 100%;
         top: 0;
         cursor: default;
+        max-width: 450px;
+        margin: 0 auto;
         display: none; 
     }
     .main-popupBg.on,
     .main-popupwrap.on {
         display: block;
     }
-    .main-popupwrap {
-        max-width: 450px;
-        margin: 0 auto;
-    }
     .main-popupbox {
-        width: 100%;
+        /*width: 100%;*/
         bottom: 0;
         right: auto;
         box-shadow: none;
+        left: 50%;
+        transform: translate(-50% , 0);
     }
     .main-popup-img, .main-popup-txt {
-        width: 100%;
-        height: 100%;
-        max-width: 450px;
-        max-height: 500px;
-        margin: 0 auto;
+        height: 500px;
     }
-    .m ain-popup-img>img {
-        /*border-radius: 20px 20px 0 0; */
+    .main-popup-img>img { 
+
     }
     .main-popupbox>a {
         border-radius: 20px 20px 0 0;

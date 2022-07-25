@@ -69,7 +69,7 @@
                                                             <div class="sns-wrap">
                                                                 <div class="sns-logo"><i class="icon-sns_kakao_type1"></i></div>
                                                                 <div class="sns-txt">
-                                                                    <div class="tit tt4">카카오톡</div>
+                                                                    <div class="tit tt4">카카오</div>
                                                                     <div class="disc tb2" id="KARegDt"></div>
                                                                 </div>
                                                             </div>
