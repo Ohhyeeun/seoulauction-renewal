@@ -579,7 +579,6 @@ function loadPopup(){
                         let jsonData = JSON.parse(data.content);
                         let popupType = data.popup_type;
 
-
                         //모바일 일때
                         let localeTitle = locale === 'ko' ? jsonData.title.ko : jsonData.title.en;
                         let localeContent = locale === 'ko' ? jsonData.content.ko.content : jsonData.content.en.content;
@@ -589,11 +588,9 @@ function loadPopup(){
                         $('#main_popup_a_link').hide()
                         $('#main_popup_text_a_link').hide();
 
-
                         if(popupType === 'image'){
 
                             let imgUrl;
-
                             ///////////// 이미지 선택 //////////////////
                             //모바일이 아닐때만 .
                             if (matchMedia("all and (min-width: 1024px)").matches) {
@@ -627,7 +624,7 @@ function loadPopup(){
                         } else if (popupType === 'text'){
                             $('#main_popup_text_a_link').attr("href",localeUrl);
                             $('#main_popup_text_a_link').show();
-                            $('#main_popup_title').html(localeTitlㅊe);
+                            $('#main_popup_title').html(localeTitle);
                             $('#main_popup_content').html(localeContent);
                         }
 
