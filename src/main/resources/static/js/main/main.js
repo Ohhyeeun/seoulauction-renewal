@@ -573,14 +573,12 @@ function loadPopup(){
                     const data = response.data.data;
                     if(data) {
 
-
                         //메인팝업 보이기.
                         $('.main-popupbox').show();
 
                         let jsonData = JSON.parse(data.content);
                         let popupType = data.popup_type;
 
-                        console.log(data);
 
                         //모바일 일때
                         let localeTitle = locale === 'ko' ? jsonData.title.ko : jsonData.title.en;
@@ -593,8 +591,6 @@ function loadPopup(){
 
 
                         if(popupType === 'image'){
-
-                            console.log('asdfasdf');
 
                             let imgUrl;
 
@@ -623,24 +619,16 @@ function loadPopup(){
                                 });
                             }
                             if(data.image !== "") {
-
-                                console.log('localeUrl ' + localeUrl);
-                                console.log('imgUrl ' + imgUrl);
-
                                 $('#main_popup_a_link').attr("href",localeUrl);
                                 $('#main_popup_img').attr('src', imgUrl);
                                 $('#main_popup_a_link').show();
                             }
 
                         } else if (popupType === 'text'){
-
-                            console.log('asdfasdfasdfas1111111111');
-
                             $('#main_popup_text_a_link').attr("href",localeUrl);
                             $('#main_popup_text_a_link').show();
-                            $('#main_popup_title').html(localeTitle);
+                            $('#main_popup_title').html(localeTitlㅊe);
                             $('#main_popup_content').html(localeContent);
-
                         }
 
                         // $('.main-popupBg').addClass('on'); //line663 으로 옮김.
