@@ -1,3 +1,7 @@
+
+//메인팝업 첨에 하이드를 무조건 시킨다.
+$('.main-popupbox').hide();
+
 function Request(){
 	this.getParameter = function(param){
     	var requestParam ="";
@@ -101,6 +105,9 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
 
 window.onload = function(){
 
+    //팝업.
+    loadPopup();
+
     //빅배너
     loadBigBanner();
 
@@ -112,9 +119,6 @@ window.onload = function(){
 
     //띠배너
     loadBeltBanner();
-
-    //팝업.
-    loadPopup();
 
 }
 
@@ -569,8 +573,14 @@ function loadPopup(){
                     const data = response.data.data;
                     if(data) {
 
+
+                        //메인팝업 보이기.
+                        $('.main-popupbox').show();
+
                         let jsonData = JSON.parse(data.content);
                         let popupType = data.popup_type;
+
+                        console.log(data);
 
                         //모바일 일때
                         let localeTitle = locale === 'ko' ? jsonData.title.ko : jsonData.title.en;
@@ -578,10 +588,13 @@ function loadPopup(){
                         let localeUrl = locale === 'ko' ? jsonData.content.ko.url : jsonData.content.en.url;
                         //TODO URL로 뭐해야함...
 
-                        $('.main-popup-img').hide()
-                        $('.main-popup-txt').hide();
+                        $('#main_popup_a_link').hide()
+                        $('#main_popup_text_a_link').hide();
+
 
                         if(popupType === 'image'){
+
+                            console.log('asdfasdf');
 
                             let imgUrl;
 
@@ -609,22 +622,28 @@ function loadPopup(){
                                     }
                                 });
                             }
-                            $('.main-popup-img').show();
                             if(data.image !== "") {
+
+                                console.log('localeUrl ' + localeUrl);
+                                console.log('imgUrl ' + imgUrl);
+
                                 $('#main_popup_a_link').attr("href",localeUrl);
                                 $('#main_popup_img').attr('src', imgUrl);
-                                $('.main-popup-img').show();
+                                $('#main_popup_a_link').show();
                             }
 
                         } else if (popupType === 'text'){
+
+                            console.log('asdfasdfasdfas1111111111');
+
                             $('#main_popup_text_a_link').attr("href",localeUrl);
-                            $('.main-popup-txt').show();
+                            $('#main_popup_text_a_link').show();
                             $('#main_popup_title').html(localeTitle);
                             $('#main_popup_content').html(localeContent);
 
                         }
 
-                        $('.main-popupBg').addClass('on'); //line663 으로 옮김.
+                        // $('.main-popupBg').addClass('on'); //line663 으로 옮김.
 
                         $('.main-popup-close, .main-popupBg').click(function () {
                             $('.main-popupbox').addClass('down');
