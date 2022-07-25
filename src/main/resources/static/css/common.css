@@ -1513,30 +1513,10 @@ body.dark,
 .sub-wrap .main-header{
     z-index: 26 !important; 
 }
-/* 이미지 팝업 */ 
-/*.trp.popupfixed-wrap.images-popup .popup-align .pop-body {*/
-/*    !*height: 0 !important;*!*/
-/*    height: calc(100% - 80px) !important;*/
-/*}*/
-/*.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box,*/
-/*.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box .images {*/
-/*    width: 100% !important;*/
-/*    height: 100% !important;*/
-/*}*/
-/*.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box .images img {*/
-/*    height: 100% !important;*/
-/*}*/
-/*.trp.popupfixed-wrap.images-popup .viewer-article .gallery_view {*/
-/*    position: absolute !important;*/
-/*    top: 0 !important;*/
-/*}*/
-/*.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box {*/
-/*    margin-top: 0 !important;*/
-/*}*/
-/*.trp.popupfixed-wrap.images-popup .viewer-article .img-area .img-box .images {*/
-/*    box-shadow: none !important;*/
-/*    !*text-align: center !important;*! */
-/*}*/ 
+/* auction 더보기 방식 더보기 btn 별도 새로운 클래스 생성 only-mb2*/
+.content-panel.type_panel-product_list .set-pc_mb .only-mb2 {
+    text-align: center;
+} 
 
 /* pc */ 
 @media all and (max-width: 1919px) {

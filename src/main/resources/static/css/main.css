@@ -125,7 +125,7 @@
 .swiper-button-prev.slide-btnleft {
     width: 27px;
     width: 48px;
-    height: 49px;
+    height: 48px;
     left: 50px;
     transform: translate(0, -50%);
     transform: -webkit-translate(0, -50%);
@@ -1778,7 +1778,8 @@
     }
     .main-popup-img {
         width: 100%;
-        height: 100%;  
+        height: 100%;
+        max-height: 500px;
     }
     /*.upcoming-preview,*/
     /*.upcoming-datebox {*/
