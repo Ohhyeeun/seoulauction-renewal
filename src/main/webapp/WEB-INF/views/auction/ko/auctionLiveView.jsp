@@ -678,7 +678,7 @@
 <%--                            LOT이동 컨트롤 --%>
                             <div class="view_paging-area">
 <%--                                <button class="page_prev"><i class="icon-view_paging_left"></i></button>--%>
-                                <span id="view_lot_no"></span>
+<%--                                <span id="view_lot_no"></span>--%>
 <%--                                <button class="page_next"><i class="icon-view_paging_right"></i></button>--%>
                             </div>
                         </article>
@@ -951,7 +951,15 @@
         };
 
         const getSaleImages = (saleNo, lotNo) => {
-            console.log("getSaleImages : ", saleNo, lotNo);
+            try {
+                return axios.get('/api/auction/sale_images/'+saleNo);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        const getViewScaleImages = (saleNo, lotNo) => {
+            console.log("getViewScaleImages : ", saleNo, lotNo);
             try {
                 return axios.get('/api/auction/viewscale_image/'+saleNo+'/'+lotNo);
             } catch (error) {
@@ -1154,21 +1162,23 @@
         // 호출 부
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3, r4, , r6, r7, r8, r9] = await Promise.all([
-                    getSaleInfo($scope.sale_no),
-                    getLotInfo($scope.sale_no, $scope.lot_no),
-                    getLotImages($scope.sale_no, $scope.lot_no),
-                    getSaleImages($scope.sale_no, $scope.lot_no),
-                    insertRecentlyView($scope.sale_no, $scope.lot_no),
-                    getRecentlyView($scope.sale_no, $scope.lot_no),
-                    getSaleListInfo($scope.sale_no),
-                    getLotTags($scope.sale_no),
-                    getCategories($scope.sale_no)]);
+                let [r1, r2, r3, r4, _, r6, r7, r8, r9, r11] = await Promise.all([
+                    getSaleInfo($scope.sale_no), //1
+                    getLotInfo($scope.sale_no, $scope.lot_no), //2
+                    getLotImages($scope.sale_no, $scope.lot_no), //3
+                    getSaleImages($scope.sale_no, $scope.lot_no), //4
+                    insertRecentlyView($scope.sale_no, $scope.lot_no), //5
+                    getRecentlyView($scope.sale_no, $scope.lot_no), //6
+                    getSaleListInfo($scope.sale_no), //7
+                    getLotTags($scope.sale_no), //8
+                    getCategories($scope.sale_no), //9
+                    getViewScaleImages($scope.sale_no, $scope.lot_no)]); //11
 
                 $scope.saleInfo = r1.data.data;
                 $scope.lotInfo = r2.data.data;
                 $scope.lotImages = r3.data.data;
                 $scope.saleImages = r4.data.data;
+                $scope.viewScaleImages = r11.data.data;
 
                 // 0718
                 $scope.saleLotList = r7.data.data;
@@ -1260,47 +1270,47 @@
 
                 // swiper
                 let view_visual = new Swiper(".js-view_visual .gallery_center", {
-                    loop: false,
-                    // paginationClickable: true,
+                    loop: true,
+                    paginationClickable: true,
                     spaceBetween: 10,
                     effect: "fade",
-                    // simulateTouch: true,
-                    // pagination: {
-                    //     el: '.js-view_visual .pagination',
-                    //     type: 'bullets',
-                    // },
-                    // breakpoints: {
-                    //     1023: {
-                    //         effect: "fade",
-                    //         simulateTouch: true,
-                    //         slidesPerView: 1,
-                    //         spaceBetween: 10
+                    simulateTouch: true,
+                    pagination: {
+                        el: '.js-view_visual .pagination',
+                        type: 'bullets',
+                    },
+                    breakpoints: {
+                        1023: {
+                            effect: "fade",
+                            simulateTouch: true,
+                            slidesPerView: 1,
+                            spaceBetween: 10
+                        }
+                    },
+                    // on: {
+                    //     slideChange: function () {
+                    //         $scope.activeIndex = view_visual.activeIndex;
+                    //         view_thumnailActive(view_visual.activeIndex);
                     //     }
-                    // },
-                    on: {
-                        // slideChange: function () {
-                        //     $scope.activeIndex = view_visual.activeIndex;
-                        //     view_thumnailActive(view_visual.activeIndex);
-                        // }
-                    }
+                    // }
                 });
 
-                $(".js-view_thumnail .slide").on("click", function () {
-                    var _index = $(this).index();
-                    view_thumnailActive(_index);
-                    view_visualActive(_index, view_visual);
-                });
+                // $(".js-view_thumnail .slide").on("click", function () {
+                //     var _index = $(this).index();
+                //     view_thumnailActive(_index);
+                //     view_visualActive(_index, view_visual);
+                // });
 
-                $(window).on("resize", function () {
-                    view_visual.update();
-                });
+                // $(window).on("resize", function () {
+                //     view_visual.update();
+                // });
 
-                let sale_images = $scope.saleImages;
+                let viewScaleImages = $scope.viewScaleImages;
                 let lot_images = $scope.lotImages;
                 let firstCheck = 0;
 
                 // $.each(sale_images, function (index, el) {
-                 const el = sale_images[0];
+                 const el = viewScaleImages[0];
                     let size1 = 0;
                     let size2 = 0;
                     let unitCd = '';
@@ -1309,14 +1319,14 @@
                         size1 = el.LOT_SIZE_JSON[0].SIZE1;
                         size2 = el.LOT_SIZE_JSON[0].SIZE2;
                         unitCd = el.LOT_SIZE_JSON[0].UNIT_CD;
-
                     }
+
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
                     let swiper_slide_item = '';
-                    if (firstCheck == 0) {
+                    // if (firstCheck == 0) {
                         // $scope.chk = parseInt(lot_no) - index -1;
-                    }
-                    firstCheck++;
+                    // }
+                    // firstCheck++;
 
                     //if(size1 > 160) {
                     if(['traditional_painting'].indexOf($scope.lotInfo.CATE_CD) > -1){
@@ -1344,7 +1354,8 @@
                             </div>
                         </div>`;
                     }
-                    $("#swiper-wrapper").append(swiper_slide_item);
+
+                $("#popup_image_viewer-wrap .gallery_center").html(swiper_slide_item);
                     //}
                 // });
 

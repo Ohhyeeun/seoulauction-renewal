@@ -52,7 +52,7 @@
                                                 </article>
                                                 <article class="sns-mem-wrap">
                                                     <ul>
-                                                        <li class="on">
+                                                        <li id="NVLi">
                                                             <div class="sns-wrap">
                                                                 <div class="sns-logo"><i class="icon-sns_naver_type1"></i></div>
                                                                 <div class="sns-txt">
@@ -64,7 +64,7 @@
                                                                 <button class="btn btn_point btn_sm" id="NVButton" type="button" onclick="naverButtonClick()"><span>Connect</span></button>
                                                             </div>
                                                         </li>
-                                                        <li>
+                                                        <li id="KALi">
                                                             <div class="sns-wrap">
                                                                 <div class="sns-logo"><i class="icon-sns_kakao_type1"></i></div>
                                                                 <div class="sns-txt">
@@ -89,11 +89,11 @@
 <!--                                                                 <div id="googleIdLogin" style="display:none"></div> -->
 <!--                                                             </div> -->
 <!--                                                         </li> -->
-                                                        <li class="on">
+                                                        <li id="APLi">
                                                             <div class="sns-wrap">
                                                                 <div class="sns-logo"><i class="icon-sns_apple_type1"></i></div>
                                                                 <div class="sns-txt">
-                                                                    <div class="tit tt4">Connect</div>
+                                                                    <div class="tit tt4">APPLE</div>
                                                                     <div class="disc tb2" id="APRegDt"></div>
                                                                 </div>
                                                             </div>

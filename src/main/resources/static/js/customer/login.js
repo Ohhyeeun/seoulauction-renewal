@@ -1,11 +1,13 @@
 app.value('locale', 'ko');
 app.value('is_login', 'false');
 	
+let isApp = false;
 window.onload = async function(){
 	var result = await isNativeApp();
 	if(result){
 		console.log("isNativeApp() : true");
 		$("#remember-me").prop("checked", true);
+		isApp = true;
 	}else{
 		console.log("isNativeApp() : false");
 		$("#remember-me").remove();
@@ -110,6 +112,11 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 			}else{
 				deleteCookie("LoginID");   
 			}  
+			
+			var rememberMeCookie = getCookie('remember-me');
+			if(isApp){
+				setWebviewData('remember-me', rememberMeCookie);
+			}
 			document.getElementById('loginForm').submit();
 		}
 		
