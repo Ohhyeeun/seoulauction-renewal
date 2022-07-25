@@ -231,7 +231,7 @@ public class PaymentController {
         CommonMap payWorkInfoMap = paymentService.getWorkPayInfo(paramMap);
 
         String ediDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String signData = Cryptography.encrypt(ediDate + nicePayMerchantId + payWorkInfoMap.get("no_vat_price") + nicePaymerchantKey);
+        String signData = Cryptography.encrypt(ediDate + nicePayMerchantId + payWorkInfoMap.get("pay_price") + nicePaymerchantKey);
 
         request.setAttribute("lotInfo" , payWorkInfoMap);
 
@@ -240,7 +240,7 @@ public class PaymentController {
         request.setAttribute("hp", saUserDetails.getHp());
         request.setAttribute("email", saUserDetails.getEmail());
         request.setAttribute("goodsName" , goodsName);
-        request.setAttribute("price", payWorkInfoMap.get("no_vat_price"));
+        request.setAttribute("price", payWorkInfoMap.get("pay_price"));
         request.setAttribute("no_vat_price", payWorkInfoMap.get("no_vat_price"));
         request.setAttribute("vat_price", payWorkInfoMap.get("vat_price"));
         request.setAttribute("vat", payWorkInfoMap.get("vat"));
