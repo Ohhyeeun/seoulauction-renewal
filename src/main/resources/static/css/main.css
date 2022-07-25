@@ -1770,11 +1770,15 @@
 }
 @media all and (max-width: 559px) {
     /* 메인팝업 */
+    .main-popupwrap {
+        max-width: 100%;
+    }
     .main-popupbox {
         width: 100%;
     }
     .main-popup-img {
         width: 100%;
+        height: 100%;  
     }
     /*.upcoming-preview,*/
     /*.upcoming-datebox {*/
