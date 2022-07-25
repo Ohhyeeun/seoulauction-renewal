@@ -1574,7 +1574,7 @@
                                     bid_info.open_bid_cost :
                                     bid_info.bid_cost;
 
-                                if (bid_info.bid_cost === 0) {
+                                if (bid_info.bid_count === 0) {
                                     quote_arr.push(cost_tmp);
                                     viewCnt++;
                                 }
@@ -1661,7 +1661,7 @@
                         for (let j = 0; j < $scope.saleInfoAll.length; j++) {
                             let idx = matching.get($scope.saleInfoAll[j].SALE_NO + "-" + $scope.saleInfoAll[j].LOT_NO);
                             if (idx !== undefined) {
-                                let curCostValue = ($scope.bidsInfoAll[idx].bid_cost === 0) ?
+                                let curCostValue = ($scope.bidsInfoAll[idx].bid_count === 0) ?
                                     "" :
                                     "KRW " + $scope.bidsInfoAll[idx].bid_cost.toLocaleString('ko-KR');
                                 // 시작일자
