@@ -389,12 +389,18 @@ $(function() {
             itemArray.splice(index, 1)
             items = itemArray.join(',');
             setCookie("keywordHistory", items, 1);
+            if(itemArray.length == 0) {
+                $('.keyword-all-del').hide();
+                $(".recent-search").append('<span class="recent-keyword recent-keyword-none">최근 검색내역 없음</span>');
+            }
         }
     });
     /* 최근검색 전체삭제 */
     $('.keyword-all-del').click(function () {
         $('.recent-keyword').hide();
         setCookie("keywordHistory", "", 1);
+        $('.keyword-all-del').hide();
+        $(".recent-search").append('<span class="recent-keyword recent-keyword-none">최근 검색내역 없음</span>');
     });
     /* 모바일 gnb 서치*/
     $('.m-top-search').click(function () {
