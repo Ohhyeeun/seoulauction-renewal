@@ -19,7 +19,7 @@ function Request(){
     }
 }
 var request = new Request();
-
+let isMainPopup = false;
 //이중접속 팝업
 var maxSession = request.getParameter("maxSession");
 if(maxSession.startsWith('true')){
@@ -573,11 +573,14 @@ function loadPopup(){
                     const data = response.data.data;
                     if(data) {
 
+                        isMainPopup = true;
                         //메인팝업 보이기.
                         $('.main-popupbox').show();
 
                         let jsonData = JSON.parse(data.content);
                         let popupType = data.popup_type;
+
+
 
                         //모바일 일때
                         let localeTitle = locale === 'ko' ? jsonData.title.ko : jsonData.title.en;
@@ -638,11 +641,16 @@ function loadPopup(){
                             });
                         });
                     }
+
                 }
             })
             .catch(function (error) {
                 console.log(error);
             });
+    } else {
+        $('.main-popupBg').removeClass('on');
+        $('.main-popupwrap').removeClass('on');
+        $('body').css('overflow','visible');
     }
 }
 
@@ -725,8 +733,9 @@ $(window).resize(function(){
         $('.main-popupBg').removeClass('on');
     } else {
         /* dim 있는 main 레이어팝업 */
-        $('.main-popupBg').addClass('on');
-
+        if (isMainPopup) {
+            $('.main-popupBg').addClass('on');
+        }
         /* 띠배너 beltbanner */
         $('.header_beltbox.on').show(function () {
             $('.main-contents').css('margin-top', '100px');

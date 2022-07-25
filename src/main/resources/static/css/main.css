@@ -989,12 +989,13 @@
     padding: 20px;
 }
 .main-popup-close>span {
-
+    cursor: pointer;
 }
 .main-popup-closebtn {
     width: 16px;
     height: 16px;
     background-size: contain;
+    cursor: pointer;  
 }
 .main-popup-img>img {
     width: 100%;
