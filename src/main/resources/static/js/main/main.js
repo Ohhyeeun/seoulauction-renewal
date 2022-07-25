@@ -624,7 +624,7 @@ function loadPopup(){
 
                         }
 
-                        $('.main-popupBg').addClass('on');
+                        //$('.main-popupBg').addClass('on'); line663 으로 옮김.
 
                         $('.main-popup-close, .main-popupBg').click(function () {
                             $('.main-popupbox').addClass('down');
@@ -680,8 +680,13 @@ if (matchMedia("all and (min-width: 1024px)").matches) {
         });
     });
 
+    /* 메인팝업 pc 없음 */
+    $('.main-popupBg').removeClass('on')
+
 } else {
-    /* 띠배너 beltbanner */
+    /* 메인팝업 mobile 있음 */
+    $('.main-popupBg').addClass('on');
+
     /* 띠배너 beltbanner */
     $('.header_beltbox.on').show(function () {
         $('.main-contents').css('margin-top', '100px');
@@ -705,13 +710,17 @@ if (matchMedia("all and (min-width: 1024px)").matches) {
 /* 반응형 resize 추가 */
 $(window).resize(function(){
     /* 해상도 확인용 */
-    const innerW = window.innerWidth; 
+    const innerW = window.innerWidth;
     console.log(innerW);
 
     /* gnb */
     if (matchMedia("all and (min-width: 1024px)").matches) {
-
+        /* dim 없는  main 레이어팝업 */
+        $('.main-popupBg').removeClass('on');
     } else {
+        /* dim 있는 main 레이어팝업 */
+        $('.main-popupBg').addClass('on');
+
         /* 띠배너 beltbanner */
         $('.header_beltbox.on').show(function () {
             $('.main-contents').css('margin-top', '100px');
@@ -721,7 +730,7 @@ $(window).resize(function(){
         });
         $('.beltclose-btn').click(function () {
             $('.main-contents').css('margin-top', '56px');
-            $('.m-gnbmenu').click(function(){
+            $('.m-gnbmenu').click(function() {
                 $('.submenuBg').css({'top':'0'});
             });
         });

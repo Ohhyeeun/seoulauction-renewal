@@ -359,9 +359,7 @@
     width: 100%;
     background-color: #333;
 }
-.auctionTab-btn>span {
-    max-width: 310px;
-}
+
 .auctionTab-contents{
     display: none;
     justify-content: normal;
@@ -784,6 +782,10 @@
 .familysite-box>h3 {
     padding-bottom: 32px;
 }
+.family-infoimg > a > img {
+    width: 100%;
+    height: 100%;
+}
 .article-box {
     border-top: 1px solid #000;
     margin-right: 20px;
@@ -944,15 +946,16 @@
     cursor: default;
 }
 .main-popupbox {
-    position: absolute;
+    position: fixed;
     bottom: 40px;
     right: 30px;
     box-shadow: 0px 5px 15px -3px rgba(0,0,0,0.4);
-    animation: overlay .7s linear;
+    animation: overlay .5s linear;
+    z-index: 10; 
 }
 .main-popupbox.down {
     bottom: -100%;
-    animation: overlaydown .6s linear;
+    animation: overlaydown .5s linear;
 }
 @keyframes overlay {
     0% {
@@ -1155,9 +1158,6 @@
     .auction-tit>h1.main-sectiontit-auction {
         margin-bottom: 25px;
         margin-right: 0;
-    }
-    .auctionTab-btn>span {
-        max-width: 250px;
     }
     .auction-thumbbox {
         width: calc(33.33333% - 6.66667px);
@@ -1466,10 +1466,6 @@
     .article-contents {
         display: block;
     }
-    .family-infoimg>a>img {
-        width: 100%;
-        height: 100%;
-    }
     .familySite-tit,
     .newsLetter-tit {
         font-size: 25px;
@@ -1612,6 +1608,7 @@
         margin: 0 auto;
     }
     .main-popupbox {
+        position: absolute;
         width: 100%;
         bottom: 0;
         right: auto;

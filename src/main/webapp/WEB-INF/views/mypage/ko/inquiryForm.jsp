@@ -66,10 +66,8 @@
 																			</select>
 																		</div>
 																		
-																		<div class="select-box half">
-																			<select class="select2Basic" name="category2" id="category2" 
-																				 ng-model="form_data.cate2"
-																				ng-if="inqCate2 != undefined && inqCate2.length > 0"
+																		<div class="select-box half" id="inqCate2">
+																			<select class="select2Basic" name="category2" id="category2" ng-model="form_data.cate2"
 																				onchange="angular.element(this).scope().changeCate2()">
 																				<option value="">선택하세요</option>
 																				<option ng-repeat="code in inqCate2"
@@ -199,27 +197,30 @@
 																<div class="td">
 																	<div class="col_select">
 																		<div class="select-box third">
-																			<select ng-model="sell_data.work_category1"
-																				name="work_category1" id="work_category1"
-																				ng-change="changeSellCate1();" >
+																			<select class="select2Basic" name="work_category1" id="work_category1" ng-model="sell_data.work_category1"
+																				onchange="angular.element(this).scope().changeSellCate1()">
 																				<option value="">선택하세요</option>
 																				<option ng-repeat="cate in sell_categories1"
 																					value="{{cate}}">{{cate}}</option>
 																			</select>
 																		</div>
-																		<div class="select-box third">
+																		<div class="select-box third" id="sellCate2">
 																			<select ng-model="sell_data.work_category2"
-																				style="display: none;" name="work_category2"
-																				id="work_category2" ng-change="changeSellCate2();">
+																				name="work_category2"
+																				id="work_category2" 
+																				onchange="angular.element(this).scope().changeSellCate2()"
+																				class="select2Basic">
 																				<option value="">선택하세요</option>
 																				<option ng-repeat="cate in sell_categories2"
 																					value="{{cate}}">{{cate}}</option>
 																			</select>
 																		</div>
-																		<div class="select-box third">
+																		<div class="select-box third" id="sellCate3">
 																			<select ng-model="sell_data.work_category3"
-																				style="display: none;" name="work_category3"
-																				id="work_category3" >
+																				name="work_category3"
+																				id="work_category3" 
+																				onchange="angular.element(this).scope().changeSellCate3()"
+																				class="select2Basic">
 																				<option value="">선택하세요</option>
 																				<option ng-repeat="cate in sell_categories3"
 																					value="{{cate}}">{{cate}}</option>
@@ -282,11 +283,14 @@
 																	<label for="" class="">첨부파일</label> <i>*</i>
 																</div>
 																<div class="td">
-																<div class="trp file-box">
+																<div style="display:none" id="fileHtml">
+																
+																</div>
+																<div class="trp file-box" >
                                                                     <label for="fileName" class="screen-reader-text">파일 선택</label>
                                                                     <input type="text" id="fileName" class="trp-Filetext">
                                                                     <input type="button" class="btn btn_light_gray_line" value="파일첨부">
-                                                                    <input type="file" multiple="multiple" tabindex="7" class="trp-Filehidden" ng-model="form_data.file" name="file" id="file" onchange="angular.element(this).scope().fileValidCheck()" title="Insert Attachment">
+                                                                    <input type="file"  tabindex="7" class="trp-Filehidden" name="file" id="file" title="Insert Attachment">
                                                                 </div>
 						                                        <div class="file-box-list"  >
 						                                            <p class="label" ng-repeat="file in fileNameList">

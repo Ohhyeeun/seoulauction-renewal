@@ -180,7 +180,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	
 	// 개인/사업자회원구분
 	$scope.isPerson = function() {
-		return $scope.type.startsWith('person') || $scope.type.startsWith('social');
+		return $scope.type.startsWith('person') || $scope.type.startsWith('social') || $scope.langType == 'en';
 	}
 	
 	// 개인/소셜회원구분
@@ -712,12 +712,12 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		if($scope.isPerson()){
 			if($("input:checkbox[name=pushway_per]:checked").length > 0){
 				$scope.form_data.maketingAgree1 = true;
+				$($("input:checkbox[name=chk_per]")[3]).prop("checked", true);
 			}
 			$scope.onChangeCheckbox_P();
 		}else{
 			if($("input:checkbox[name=pushway_comp]:checked").length > 0){
 				$scope.form_data.compMaketingAgree1 = true;
-				console.log($scope.form_data.compMaketingAgree1)
 				$($("input:checkbox[name=chk_com]")[3]).prop("checked", true);
 			}
 			$scope.onChangeCheckbox_C();

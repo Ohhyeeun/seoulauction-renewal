@@ -61,7 +61,7 @@
 																	<div class="state-icon pending" ng-if="inquiry.REPLY_YN != 'Y'">답변대기</div>
 																</div>
 																<div class="date tb1">{{inquiry.REG_DT |
-																	date:'yyyy-MM-dd'}}</div>
+																	date:'yyyy.MM.dd'}}</div>
 															</div>
 														</li>
 													</ul>

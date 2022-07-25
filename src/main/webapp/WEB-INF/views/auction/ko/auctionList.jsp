@@ -359,29 +359,29 @@
                             </div>
                             <div class="panel-footer">
                                 <div class="set-pc_mb">
-                                    <div id="page_layer" class="only-pc">
+                                    <div id="page_layer" ng-show="selectViewType == 1">
                                         <div class="paging-area">
                                             <!-- paging -->
                                             <div class="paging">
                                                 <a href="javascript:void(0);" ng-click="pageing(1);"
                                                    class="prev_end icon-page_prevprev">FIRST</a>
-                                                <a href="javascript:void(0);" ng-click="pageing(pageprev);"
-                                                   ng-show="pageprev > -1" class="prev icon-page_prev">PREV</a>
+                                                <a href="javascript:void(0);" ng-click="pageingPrev();"
+                                                   class="prev icon-page_prev">PREV</a>
                                                 <a href="javascript:void(0);" ng-click="pageing(item);"
                                                    ng-class="{'on':item === curpage}"
                                                    ng-repeat="item in pageingdata">
                                                     <strong ng-if="item === curpage" ng-bind="item"></strong>
                                                     <span ng-if="item != curpage" ng-bind="item"></span></a>
-                                                <a href="javascript:void(0);" ng-click="pageing(pagenext);"
-                                                   ng-show="pagenext > -1" class="next icon-page_next">NEXT</a>
+                                                <a href="javascript:void(0);" ng-click="pageingNext();"
+                                                   class="next icon-page_next">NEXT</a>
                                                 <a href="javascript:void(0);" ng-click="pageing(pagelast);"
-                                                   ng-show="pagelast > -1" class="next_end icon-page_nextnext">LAST</a>
+                                                   class="next_end icon-page_nextnext">LAST</a>
                                             </div>
                                             <!-- paging -->
                                         </div>
                                     </div>
                                     <!-- 더보기 -->
-                                    <div id="add_layer" class="only-mb">
+                                    <div id="add_layer" class="only-mb2" ng-show="selectViewType == 2">
                                         <button class="btn btn_gray_line" type="button"
                                                 ng-click="addpage(curpage + 1);">
                                             <span>더보기</span></button>
@@ -954,6 +954,8 @@
 
             // 호출 부
             $scope.load = function () {
+
+
                 let run = async function () {
                     let [r1, r2, r3, r4] = await Promise.all([getSaleInfo($scope.sale_no), getSaleImages($scope.sale_no), getLotTags($scope.sale_no), getCategories($scope.sale_no)]);
 
@@ -1229,7 +1231,7 @@
 
                                     // time
                                     let dt_ly_span3 = document.createElement("span");
-                                    dt_ly_span3.innerText = ddd.format("hh:mm:ss");
+                                    dt_ly_span3.innerText = ddd.format("HH:mm:ss");
 
                                     if (bid_hist_info[i].is_auto_bid) {
                                         dt_ly.appendChild(dt_ly_span11);
@@ -1541,7 +1543,7 @@
                                                 dt_ly_span2.innerText = ddd.format("yyyy-MM-dd");
                                                 // time
                                                 let dt_ly_span3 = document.createElement("span");
-                                                dt_ly_span3.innerText = ddd.format("hh:mm:ss");
+                                                dt_ly_span3.innerText = ddd.format("HH:mm:ss");
 
                                                 if (bid_info.winner_state === 2) {
                                                     dt_ly.appendChild(dt_ly_span1);
@@ -1605,6 +1607,8 @@
                             }
                             // 낙찰이 완료 되었다면
                             if (bid_info.winner_state === 2) {
+                                $("#end_bid_true").css("display","");
+                                $("div[name='end_bid_false']").css("display","none");
                                 let bid_tick = document.getElementById("bid_tick");
                                 if (end_bid_time <= 0) {
                                     bid_tick.innerText = "경매 시작 전입니다.";
@@ -1824,23 +1828,14 @@
             /*##################### 웹소켓 끝 #####################*/
             //페이지방식, 더보기방식 변경
             $scope.chgViewType = function () {
+                //let sst = $scope.selectViewType;
                 let sst = parseInt($("#viewType option:selected").val())
                 $scope.curpage = 1;
                 switch (sst) {
                     case 1:
-                        $("#page_layer").removeClass('only-mb');
-                        $("#page_layer").addClass('only-pc');
-                        $("#add_layer").removeClass('only-pc');
-                        $("#add_layer").addClass('only-mb');
-
                         $scope.pageing($scope.curpage)
                         break;
                     case 2:
-                        $("#page_layer").removeClass('only-pc');
-                        $("#page_layer").addClass('only-mb');
-                        $("#add_layer").removeClass('only-mb');
-                        $("#add_layer").addClass('only-pc');
-
                         $scope.addpage($scope.curpage);
                         break;
                 }
@@ -1956,6 +1951,51 @@
                 //$scope.popSet();
             }
             //페이징
+            $scope.pageingPrev = function () {
+                if ($scope.curpage == 1) {
+                    return;
+                }
+                let v = $scope.saleInfoAll;
+                if ($scope.searchValue.length > 0) {
+                    v = $scope.searchSaleInfoAll;
+                } else {
+                    if ($scope.searchSaleInfoAll != null && $scope.searchSaleInfoAll.length > 0) {
+                        v = $scope.searchSaleInfoAll;
+                    }
+                }
+                $scope.saleInfo = v.slice(($scope.itemsize * (($scope.curpage - 1) - 1)), $scope.itemsize * ($scope.curpage - 1));
+
+                let pp = $scope.makePageing(v, ($scope.curpage - 1));
+                $scope.pageingdata = pp;
+                $scope.curpage = $scope.curpage - 1;
+                //let token = $scope.token;
+                //$scope.popSet();
+            }
+            //페이징
+            $scope.pageingNext = function () {
+                let v = $scope.saleInfoAll;
+                let etc = (v.length % $scope.itemsize > 0) ? 1 : 0;
+                let end = parseInt(v.length / $scope.itemsize) + etc;
+                if ($scope.curpage + 1 > end) {
+                    return;
+                }
+                if ($scope.searchValue.length > 0) {
+                    v = $scope.searchSaleInfoAll;
+                } else {
+                    if ($scope.searchSaleInfoAll != null && $scope.searchSaleInfoAll.length > 0) {
+                        v = $scope.searchSaleInfoAll;
+                    }
+                }
+                $scope.saleInfo = v.slice(($scope.itemsize * (($scope.curpage + 1) - 1)), $scope.itemsize * ($scope.curpage + 1));
+
+                let pp = $scope.makePageing(v, ($scope.curpage + 1));
+                $scope.pageingdata = pp;
+                $scope.curpage = $scope.curpage + 1;
+                //let token = $scope.token;
+                //$scope.popSet();
+            }
+
+            //페이징
             $scope.pageing = function (page) {
                 let v = $scope.saleInfoAll;
                 if ($scope.searchValue.length > 0) {
@@ -1987,7 +2027,7 @@
                 if (end < (parseInt(page / $scope.pagesize) + 1) + $scope.pagesize) {
                     endVal = end;
                     $scope.pagelast = endVal;
-                    $scope.pagenext = -1;
+                    //$scope.pagenext = -1;
                 } else {
                     endVal = $scope.pagesize + (parseInt(page / $scope.pagesize) + 1);
                     $scope.pagelast = end;

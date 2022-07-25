@@ -2009,7 +2009,7 @@
 
                             // time
                             let dt_ly_span3 = document.createElement("span");
-                            dt_ly_span3.innerText = ddd.format("hh:mm:ss");
+                            dt_ly_span3.innerText = ddd.format("HH:mm:ss");
 
                             // dt_ly.appendChild(dt_ly_span1);
                             dt_ly.appendChild(dt_ly_span2);
@@ -2142,7 +2142,7 @@
 
                                     // time
                                     let dt_ly_span3 = document.createElement("span");
-                                    dt_ly_span3.innerText = ddd.format("hh:mm:ss");
+                                    dt_ly_span3.innerText = ddd.format("HH:mm:ss");
 
                                     if (bid_info.winner_state === 2) {
                                         dt_ly.appendChild(dt_ly_span1);

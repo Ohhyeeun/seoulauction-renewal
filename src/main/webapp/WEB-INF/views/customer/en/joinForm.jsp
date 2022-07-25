@@ -202,7 +202,7 @@
 											<p class="tb2 warning_text">Please attach a copy of your credit card or bankbook</p>
 											<div class="trp file-box">
 												<label for="fileName" class="screen-reader-text">Select File</label>
-												<input type="text" id="fileName" class="trp-Filetext">
+												<input type="text" id="supportFileName" class="trp-Filetext">
 												<input type="button" class="btn btn_light_gray_line" value="Select File">
 <!-- 		                                            <input type="file" class="trp-Filehidden" name="fore_doc_file" id="fore_doc_file" onchange="javascript: document.getElementById('fileName').value = this.value" title="Insert Attachment"> -->
 												<input type="file" tabindex="14" class="trp-Filehidden" ng-model="form_data.fore_doc_file" name="fore_doc_file" id="fore_doc_file" onchange="angular.element(this).scope().fileValidCheck('fore_doc_file')" title="Insert Attachment">
