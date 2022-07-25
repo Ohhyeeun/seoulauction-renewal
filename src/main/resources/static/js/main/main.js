@@ -637,6 +637,7 @@ function loadPopup(){
                             $('.main-popupbox').addClass('down');
                             $('.main-popupBg').fadeOut('1000', function(){
                                 $(this).removeClass('on');
+                                $('.main-popupwrap').removeClass('on');
                                 $('body').css('overflow','visible');
                             });
                         });
