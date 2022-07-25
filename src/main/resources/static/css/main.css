@@ -1634,6 +1634,7 @@
         background-color: #fff;
     }
     .main-popup-txt {
+        width: 100%;
         padding: 25px 15px;
         border-radius: 20px 20px 0 0;
     }
@@ -1768,6 +1769,13 @@
     }
 }
 @media all and (max-width: 559px) {
+    /* 메인팝업 */
+    .main-popupbox {
+        width: 100%;
+    }
+    .main-popup-img {
+        width: 100%;
+    }
     /*.upcoming-preview,*/
     /*.upcoming-datebox {*/
     /*    line-height: 1.5;*/
