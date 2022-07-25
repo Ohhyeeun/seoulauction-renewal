@@ -783,19 +783,19 @@
 														<dt class="mem_txt">정보수신방법</dt>
 														<dd>
 															<span class="trp checkbox-box">
-																<input id="checkbox_1_per" tabindex="19" class="" type="checkbox" name="pushway_per" ng-change="clickPushWay()" ng-model="form_data.push_way_email">
+																<input id="checkbox_1_per" tabindex="19" class="" type="checkbox" name="pushway_per" ng-click="clickPushWay()" ng-model="form_data.push_way_email">
 																<i></i>
 																<label for="checkbox_1_per">이메일</label>
 															</span>
 
 															<span class="trp checkbox-box">
-																<input id="checkbox_2_per" tabindex="20" class="" type="checkbox" name="pushway_per" ng-change="clickPushWay()" ng-model="form_data.push_way_sms">
+																<input id="checkbox_2_per" tabindex="20" class="" type="checkbox" name="pushway_per" ng-click="clickPushWay()" ng-model="form_data.push_way_sms">
 																<i></i>
 																<label for="checkbox_2_per">SMS</label>
 															</span>
 
 															<span class="trp checkbox-box">
-																<input id="checkbox_3_per" tabindex="21" class="" type="checkbox" name="pushway_per" ng-change="clickPushWay()" ng-model="form_data.push_way_phone">
+																<input id="checkbox_3_per" tabindex="21" class="" type="checkbox" name="pushway_per" ng-click="clickPushWay()" ng-model="form_data.push_way_phone">
 																<i></i>
 																<label for="checkbox_3_per">전화</label>
 															</span>
@@ -1359,19 +1359,19 @@
 														<dt class="mem_txt">정보수신방법</dt>
 														<dd>
 															<span class="trp checkbox-box">
-																<input id="checkbox_1_comp" tabindex="27" class="" type="checkbox" name="pushway_comp" ng-change="clickPushWay()" ng-model="form_data.push_way_email">
+																<input id="checkbox_1_comp" tabindex="27" class="" type="checkbox" name="pushway_comp" ng-click="clickPushWay()" ng-model="form_data.push_way_email">
 																<i></i>
 																<label for="checkbox_1_comp">이메일</label>
 															</span>
 
 															<span class="trp checkbox-box">
-																<input id="checkbox_2_comp" tabindex="28" class="" type="checkbox" name="pushway_comp" ng-change="clickPushWay()" ng-model="form_data.push_way_sms">
+																<input id="checkbox_2_comp" tabindex="28" class="" type="checkbox" name="pushway_comp" ng-click="clickPushWay()" ng-model="form_data.push_way_sms">
 																<i></i>
 																<label for="checkbox_2_comp">SMS</label>
 															</span>
 
 															<span class="trp checkbox-box">
-																<input id="checkbox_3_comp" tabindex="29" class="" type="checkbox" name="pushway_comp" ng-change="clickPushWay()" ng-model="form_data.push_way_phone">
+																<input id="checkbox_3_comp" tabindex="29" class="" type="checkbox" name="pushway_comp" ng-click="clickPushWay()" ng-model="form_data.push_way_phone">
 																<i></i>
 																<label for="checkbox_3_comp">전화</label>
 															</span>
