@@ -67,10 +67,7 @@ $(document).ready(function(){
 
         $.each(data , function(lotIdx , el){
 
-            let imgPath = img_pre_fix +'/images/bg/no_image.jpg';
-            if(el.IMG_DISP_YN === 'Y' && (el.FILE_PATH !== undefined || el.FILE_NAME !== undefined)){
-                imgPath = 'https://www.seoulauction.com/nas_img' + el.FILE_PATH + '/' + el.FILE_NAME;
-            }
+            let imgPath = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
             let lotTitle = JSON.parse(el.EXPE_PRICE_TITLE);
             let lotName = locale === 'ko' ? lotTitle.ko : lotTitle.en;
             let priceToJson =  JSON.parse(el.EXPE_PRICE_TO_JSON);

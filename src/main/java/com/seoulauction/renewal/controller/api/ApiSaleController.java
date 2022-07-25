@@ -276,9 +276,9 @@ public class ApiSaleController {
                 }
 
                 if (item.get("IMG_DISP_YN").equals("N") && !isEmployee) {
-                    lotImagesNewItem.put("IMAGE_URL", IMAGE_URL.replace("/nas_img",""));
+                    lotImagesNewItem.put("IMAGE_URL", "");
                     lotImagesNewItem.put("FILE_PATH", "");
-                    lotImagesNewItem.put("FILE_NAME", "/images/bg/no_image.jpg");
+                    lotImagesNewItem.put("FILE_NAME", "images/bg/no_image.jpg");
                 } else {
                     lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
                 }
@@ -336,9 +336,9 @@ public class ApiSaleController {
                 }
 
                 if (item.get("IMG_DISP_YN").equals("N") && !isEmployee) {
-                    lotImagesNewItem.put("IMAGE_URL", IMAGE_URL.replace("/nas_img",""));
+                    lotImagesNewItem.put("IMAGE_URL", "");
                     lotImagesNewItem.put("FILE_PATH", "");
-                    lotImagesNewItem.put("FILE_NAME", "/images/bg/no_image.jpg");
+                    lotImagesNewItem.put("FILE_NAME", "images/bg/no_image.jpg");
                 } else {
                     lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
                 }
@@ -397,9 +397,9 @@ public class ApiSaleController {
 
             //N일경우에는 No 이미지로 변경.
             if (lotInfoMap.get("IMG_DISP_YN").equals("N") && !isEmployee) {
-                lotImagesNewItem.put("IMAGE_URL", IMAGE_URL.replace("/nas_img",""));
+                lotImagesNewItem.put("IMAGE_URL", "");
                 lotImagesNewItem.put("FILE_PATH", "");
-                lotImagesNewItem.put("FILE_NAME", "/images/bg/no_image.jpg");
+                lotImagesNewItem.put("FILE_NAME", "images/bg/no_image.jpg");
             } else {
                 lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
             }
@@ -590,9 +590,9 @@ public class ApiSaleController {
                 }
 
                 if (lotImages.get(i).get("IMG_DISP_YN").equals("N") && !isEmployee) {
-                    lotImages.get(i).put("IMAGE_URL", IMAGE_URL.replace("/nas_img", ""));
+                    lotImages.get(i).put("IMAGE_URL", "");
                     lotImages.get(i).put("FILE_PATH", "");
-                    lotImages.get(i).put("FILE_NAME", "/images/bg/no_image.jpg");
+                    lotImages.get(i).put("FILE_NAME", "images/bg/no_image.jpg");
                 }else {
                     lotImages.get(i).put("IMAGE_URL", IMAGE_URL);
                 }

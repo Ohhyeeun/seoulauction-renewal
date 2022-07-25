@@ -546,8 +546,12 @@ app.filter("size_text_cm", function($filter){
 	return function(src){
 		var returnValue = "";
 		var cmSize = "";
-		
-		cmSize = src.SIZE1 != 0 ? $filter('number')(src.SIZE1, 1) : "";
+
+		if(src === undefined){
+			return src;
+		}
+
+		cmSize =  src.SIZE1 != 0 ? $filter('number')(src.SIZE1, 1) : "";
 		cmSize += src.SIZE2 != 0 ? "☓" + $filter('number')(src.SIZE2, 1) : "";
 		cmSize += src.SIZE3 != 0 ? "☓" + $filter('number')(src.SIZE3, 1) + 
 				"(" + (src.MIX_CD == "depth" ? "d" : "h")  + ")": "";
