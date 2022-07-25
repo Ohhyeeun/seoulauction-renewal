@@ -161,7 +161,6 @@ public class ApiPrivateSaleController {
         map.put("sale_as_no", saleAsNo);
 
         CommonMap saleInfoMap = privateSaleService.selectPrivateSaleInfo(map);
-
         return ResponseEntity.ok(RestResponse.ok(saleInfoMap));
     }
 

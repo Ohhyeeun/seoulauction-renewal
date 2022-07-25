@@ -166,27 +166,48 @@
                                                 <span ng-bind="saleInfo | size_text_cm"></span>
                                                 | <span>{{saleInfo.MAKE_YEAR_KO}}</span> <br />
                                                 <span bind-html-compile="saleInfo.SIGN_INFO_KO"> <br />
+
+                                                <%--에디션--%>
+                                                <div ng-show="saleInfo.EDITION">
+                                                    <span> {{saleInfo.EDITION}} </span>
+                                                </div>
+
+                                                <%--제작년도--%>
+                                                <div ng-show="isNotObjectEmpty(saleInfo.MAKE_YEAR_JSON)">
+                                                    <span title="{{saleInfo.MAKE_YEAR_JSON | locale_format }}">{{saleInfo.MAKE_YEAR_JSON | locale_format }}</span>
+                                                </div>
+
+                                                <%--서명 정보--%>
+                                                <div ng-show="isNotObjectEmpty(saleInfo.SIGN_INFO_JSON)">
+                                                    <span title="{{saleInfo.SIGN_INFO_JSON | locale_format }}">{{saleInfo.SIGN_INFO_JSON | locale_format }}</span>
+                                                </div>
+
+
                                             </div>
                                             <!-- [0714]작품정보 하위댑스 추가 -->
                                             <div class="info-sub-wrap">
-                                                <div class="info-sub-box">
+                                                <%-- CONDITION --%>
+                                                <div ng-show="isNotObjectEmpty(saleInfo.COND_RPT_JSON)" class="info-sub-box">
                                                     <div class="tit tt5">CONDITION</div>
-                                                    <div class="desc">good condition 종이 작품의 경우, 재질 특성상 산화·울음이 있을 수 있습니다.</div>
+                                                    <div class="desc" bind-html-compile="saleInfo.COND_RPT_JSON[locale]"></div>
                                                 </div>
-                                                <div class="info-sub-box">
+
+                                                <%--PROVENANCE--%>
+                                                <div ng-show="isNotObjectEmpty(saleInfo.PROV_INFO_JSON)" class="info-sub-box">
                                                     <div class="tit tt5">PROVENANCE</div>
-                                                    <div class="desc">Tonari no Zingaro(Tokyo)</div>
+                                                    <div class="desc" bind-html-compile="saleInfo.PROV_INFO_JSON[locale]"></div>
                                                 </div>
-                                                <div class="info-sub-box">
+
+                                                <%--LITERATURE--%>
+                                                <div ng-show="isNotObjectEmpty(saleInfo.LITE_INFO_JSON)" class="info-sub-box">
                                                     <div class="tit tt5">LITERATURE</div>
-                                                    <div class="desc">
-                                                        GRIMM Gallery, Amsterdam.<br>
-                                                        Acquired from the above by the present owner.
-                                                    </div>
+                                                    <div class="desc">{{saleInfo.LITE_INFO_JSON | locale_format }}</div>
                                                 </div>
-                                                <div class="info-sub-box">
+
+                                                <%--EXHIBITED--%>
+                                                <div ng-show="isNotObjectEmpty(saleInfo.EXHI_INFO_JSON)" class="info-sub-box">
                                                     <div class="tit tt5">EXHIBITED</div>
-                                                    <div class="desc">Online, Praz-Delavallade, Focus: Guy Yanai, 2020.</div>
+                                                    <div class="desc">{{saleInfo.EXHI_INFO_JSON | locale_format }}</div>
                                                 </div>
                                             </div>
                                             <!-- //[0714]작품정보 하위댑스 추가 -->
@@ -199,29 +220,28 @@
 <%--                                        </div>--%>
 
                                         <!-- [0714]작품설명 추가 -->
-                                        <div class="info-box">
-                                            <div class="title">작품 설명</div> 
-                                            <div class="desc txt-pre-line">조디커윅은 혜성처럼 미술계에 나타난 호주 작가로 정규 미술 교육을 받지 않고 본인만의 독보적인 화풍을 발전시켜 화폭에 담아낸다.
-                                            </div>
+                                        <div ng-show="isNotObjectEmpty(saleInfo.CMMT_JSON)" class="info-box">
+                                            <div class="title">작품 설명</div>
+                                            <div class="desc txt-pre-line">{{saleInfo.CMMT_JSON | locale_format }}</div>
                                         </div>
                                         <!-- //[0714]작품설명 추가 -->
 
                                         <!-- [0714]Notice 추가 -->
-                                        <div class="info-box">
-                                            <div class="title">NOTICE</div>
-                                            <div class="desc">
-                                                <ul class="mark_dot-list">
-                                                    <li class="txt-pre-line">서울옥션은 작가 및 작품명에 한하여 낙찰일로부터 3년간 낙찰자에 대해서만 보증하며, 사전 고지한 작품에 대해서는 보증책임을 부담하지 않습니다.</li>
-                                                    <li class="txt-pre-line">작품은 판매 당시 상태 그대로 판매되므로, 응찰 전 반드시 실물을 확인하여 주시기 바랍니다.<br>
-                                                        홈페이지에 기재된 컨디션은 작품 상태에 대한 당사의 주관적 의견을 제시하는 것일 뿐이므로, 내재된 모든 결함, 수리, 변형 등을 언급하지 않을 수 있습니다. 또한 제작된 지 오랜 시간이 경과한 작품에 자연스럽게 확인되는 노화 현상(구김, 마모, 오염, 산화 등)에 대해서도 별도 언급이 없을 수 있습니다.<br>
-                                                        컨디션은 작품만을 대상으로 하며 액자, 족자, 병풍, 좌대, 케이스 등 작품 구성품의 상태는 포함하지 않습니다. 온라인에 게재된 이미지로 작품의 일부 컨디션을 확인할 수 있으나 실제 상태를 정확하게 반영하지 못할 수 있으며 작품의 색상, 밝기 등이 실물과 다르게 보일 수 있습니다.<br>
-                                                        실물을 확인하지 않고 발생되는 문제에 대한 책임은 응찰자에게 있으며, 이와 같은 유의사항을 반드시 확인하시고 신중히 응찰해 주시길 바랍니다.</li>
-                                                </ul>
-                                            </div>
-                                        </div>
+<%--                                        <div class="info-box">--%>
+<%--                                            <div class="title">NOTICE</div>--%>
+<%--                                            <div class="desc">--%>
+<%--                                                <ul class="mark_dot-list">--%>
+<%--                                                    <li class="txt-pre-line">서울옥션은 작가 및 작품명에 한하여 낙찰일로부터 3년간 낙찰자에 대해서만 보증하며, 사전 고지한 작품에 대해서는 보증책임을 부담하지 않습니다.</li>--%>
+<%--                                                    <li class="txt-pre-line">작품은 판매 당시 상태 그대로 판매되므로, 응찰 전 반드시 실물을 확인하여 주시기 바랍니다.<br>--%>
+<%--                                                        홈페이지에 기재된 컨디션은 작품 상태에 대한 당사의 주관적 의견을 제시하는 것일 뿐이므로, 내재된 모든 결함, 수리, 변형 등을 언급하지 않을 수 있습니다. 또한 제작된 지 오랜 시간이 경과한 작품에 자연스럽게 확인되는 노화 현상(구김, 마모, 오염, 산화 등)에 대해서도 별도 언급이 없을 수 있습니다.<br>--%>
+<%--                                                        컨디션은 작품만을 대상으로 하며 액자, 족자, 병풍, 좌대, 케이스 등 작품 구성품의 상태는 포함하지 않습니다. 온라인에 게재된 이미지로 작품의 일부 컨디션을 확인할 수 있으나 실제 상태를 정확하게 반영하지 못할 수 있으며 작품의 색상, 밝기 등이 실물과 다르게 보일 수 있습니다.<br>--%>
+<%--                                                        실물을 확인하지 않고 발생되는 문제에 대한 책임은 응찰자에게 있으며, 이와 같은 유의사항을 반드시 확인하시고 신중히 응찰해 주시길 바랍니다.</li>--%>
+<%--                                                </ul>--%>
+<%--                                            </div>--%>
+<%--                                        </div>--%>
                                         <!-- [0714]//Notice 추가 -->
 
-                                        <div class="info-box">
+                                        <div id="artist_layer" class="info-box">
                                             <div class="title">작가정보</div>
                                             <div class="desc txt-pre-line" id="artistName">
                                             </div>
@@ -426,6 +446,19 @@
             }
         }
     }
+    const locale = document.documentElement.lang;
+
+    app.filter('locale_format', function(){
+        return function(val) {
+            if (val === undefined) {
+                return '';
+            }
+            let parse = JSON.parse(val);
+
+
+            return locale === 'ko' ? parse.ko : parse.en;
+        };
+    });
 
     app.controller('ctl', function ($scope, consts, common, is_login, locale) {
 
@@ -483,6 +516,20 @@
             $temp.remove();
             alert('URL이 복사되었습니다.');
         }
+        //오브젝트 or 배열 비었는지 확인
+        $scope.isNotObjectEmpty = function (param) {
+
+            if(param === undefined){
+                return false;
+            }
+
+            let object = JSON.parse(param);
+
+            if(object === undefined){
+                return false;
+            }
+            return object.constructor === Object && Object.keys(object).length !== 0;
+        }
 
         // 호출 부
         $scope.load = function () {
@@ -496,7 +543,6 @@
                 $scope.saleList = r3.data.data;
 
                 $scope.activeIndex = 0;
-
                 // popup setting
 
                 let imgUrl = $scope.saleImages[0].IMAGE_URL +
@@ -512,6 +558,53 @@
 
                 //artist 번호
                 $scope.artistNo = $scope.saleInfo.ARTIST_NO;
+
+                //작가 정보 admin에서 가져오도록 변경
+                axios.get('/api/auction/artist_info/' + $scope.artistNo)
+                    .then(function(response) {
+                        const data = response.data;
+                        let success = data.success;
+
+                        if(success){
+                            let artistData = data.data;
+
+                            if(!artistData){
+                                $("#artist_layer").css("display", "none");
+                            }
+                            else{
+                                let articlesList = JSON.parse(artistData.articles).articles;
+                                let artistYoutubeImages = JSON.parse(artistData.media).youtube;
+                                let artistImageList = artistData.images;
+
+                                let title = '';
+                                $.each(articlesList, function (index, el) {
+                                    if(locale == 'ko'){
+                                        title += el.titleKo + '</br>';
+                                    }else{
+                                        title += el.titleEn + '</br>';
+                                    }
+                                });
+
+                                $("#artistName").html(JSON.parse(artistData.name).ko + ' ' +  artistData.birth + '~' + artistData.death);
+                                $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
+
+                                let html = '<div class="vide_img-box">';
+                                $.each(artistYoutubeImages, function (index, el) {
+                                    $.each(artistImageList, function (s3Index, el) {
+                                        //일단은 youtube만 뿌리기로
+                                        if(artistImageList[s3Index].tag == 'youtube' + index){
+                                            html += '<a href="' + artistYoutubeImages[index] + '"><img src=" '+ artistImageList[s3Index].cdn_url + ' " alt="" /></a>';
+                                        }
+                                    });
+                                });
+                                html += '</div>';
+                                $("#artistMedia").html(html);
+                            }
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
 
                 // 카카오 init
                 Kakao.init('cf2233f55e74d6d0982ab74909c97835');
@@ -845,51 +938,6 @@
                     imagesSwiper.slideNext();
                 })
 
-
-                //작가 정보 admin에서 가져오도록 변경
-                axios.get('/api/auction/artist_info/' + $scope.artistNo)
-                    .then(function(response) {
-                        const data = response.data;
-                        let success = data.success;
-
-                        if(success){
-                            let artistData = data.data;
-                            if(!artistData){
-                            }
-                            else{
-                                let articlesList = JSON.parse(artistData.articles).articles;
-                                let artistYoutubeImages = JSON.parse(artistData.media).youtube;
-                                let artistImageList = artistData.images;
-
-                                let title = '';
-                                $.each(articlesList, function (index, el) {
-                                    if(locale == 'ko'){
-                                        title += el.titleKo + '</br>';
-                                    }else{
-                                        title += el.titleEn + '</br>';
-                                    }
-                                });
-
-                                $("#artistName").html(JSON.parse(artistData.name).ko + ' ' +  artistData.birth + '~' + artistData.death);
-                                $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
-
-                                let html = '<div class="vide_img-box">';
-                                $.each(artistYoutubeImages, function (index, el) {
-                                    $.each(artistImageList, function (s3Index, el) {
-                                        //일단은 youtube만 뿌리기로
-                                        if(artistImageList[s3Index].tag == 'youtube' + index){
-                                            html += '<a href="' + artistYoutubeImages[index] + '"><img src=" '+ artistImageList[s3Index].cdn_url + ' " alt="" /></a>';
-                                        }
-                                    });
-                                });
-                                html += '</div>';
-                                $("#artistMedia").html(html);
-                            }
-                        }
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                    });
 
                 /* === zoom ===  panzoom.reset()*/
                 var zoom_range = document.querySelector('.js-zoom_inout');
