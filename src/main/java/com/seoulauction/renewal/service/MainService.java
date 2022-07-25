@@ -8,6 +8,7 @@ import com.seoulauction.renewal.mapper.kt.KTMainMapper;
 import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -22,6 +23,9 @@ public class MainService {
     private final MainMapper mainMapper;
     private final KTMainMapper ktMainMapper;
     private final S3Service s3Service;
+
+    @Value("${image.root.path}")
+    private String IMAGE_URL;
 
     public List<CommonMap> selectTopNotice() {
         return mainMapper.selectTopNotice();
@@ -71,16 +75,36 @@ public class MainService {
 
         CommonMap resultMap = new CommonMap();
 
+        boolean isEmployee = false;
+
         CommonMap counts = ktMainMapper.selectIngMenuCount();
         List<CommonMap> saleList = selectIngAuctions();
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if( saUserDetails !=null) {
+            isEmployee = saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER"));
+        }
 
+        boolean finalIsEmployee = isEmployee;
         saleList.forEach(c-> {
                 CommonMap lotMap = new CommonMap("sale_no" , c.get("SALE_NO"));
                 if (saUserDetails != null ) {
                     lotMap.put("cust_no", saUserDetails.getUserNo());
                 }
-                c.put("lots" , ktMainMapper.selectLotsBySaleNo(lotMap));
+
+                List<CommonMap> lots = ktMainMapper.selectLotsBySaleNo(lotMap);
+
+                List<CommonMap> customLots = lots.stream().peek(k->{
+
+                    if (k.get("IMG_DISP_YN").equals("N") && !finalIsEmployee) {
+                        k.put("IMAGE_URL", "");
+                        k.put("FILE_PATH", "");
+                        k.put("FILE_NAME", "images/bg/no_image.jpg");
+                    } else {
+                        k.put("IMAGE_URL", IMAGE_URL);
+                    }
+                }).collect(Collectors.toList());
+
+                c.put("lots" , customLots );
         });
 
 //        List<CommonMap> test2 = new ArrayList<>();
@@ -148,6 +172,7 @@ public class MainService {
             returnMap.put("SALE_TH", item.get("SALE_TH") != null ? item.get("SALE_TH") : "");
             returnMap.put("TITLE_BLOB", item.get("TITLE_BLOB"));
             returnMap.put("FROM_DT", item.get("FROM_DT"));
+            returnMap.put("IMG_DISP_YN", item.get("IMG_DISP_YN"));
             returnMap.put("TO_DT", item.get("TO_DT"));
             returnMap.put("DEFAULT_IMAGE_PATH", "");
 
