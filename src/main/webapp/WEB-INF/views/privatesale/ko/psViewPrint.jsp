@@ -358,7 +358,6 @@ $(function(){
 
                 const data = response.data;
                 let success = data.success;
-                console.log("data :::: " +  data);
 
                 if(success){
                     let saleImages = data.data;
