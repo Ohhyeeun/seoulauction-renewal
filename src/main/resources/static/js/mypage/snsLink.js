@@ -19,6 +19,7 @@ $(document).ready(function() {
 					}
 					$("#" + type + "Button").removeClass('btn_point');
 					$("#" + type + "Button").addClass('btn_gray_line');
+					$("#" + type + "Li").addClass('on');
 					eval(type + "LinkYn = true");
 					console.log(type + "LinkYn : " + eval(type + "LinkYn"));
 				}
@@ -81,6 +82,7 @@ function snsUnLink(socialType) {
 				$("#" + socialType + "RegDt").html("");
 				$("#" + socialType + "Button").removeClass('btn_gray_line');
 				$("#" + socialType + "Button").addClass('btn_point');
+				$("#" + socialType + "Li").removeClass('on');
 				
 				eval(socialType + "LinkYn = false");
 				console.log(socialType + "LinkYn : " + eval(socialType + "LinkYn"));
