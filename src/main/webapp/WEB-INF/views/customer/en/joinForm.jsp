@@ -102,7 +102,7 @@
 											<div class="select-box">
 												<select class="select2Basic" id="select_nation" ng-model="select_nation" tabindex="5" name="select_nation" ng-required="langType == 'en'" onchange="angular.element(this).scope().changeNation()">
 													<option value="">Select your country</option>
-													<option ng-repeat="nation in nationList" value="{{nation.CD_ID}}|{{nation.CD_VAL3}}">{{nation.CD_NM}} +{{nation.CD_VAL3}}</option>
+													<option ng-repeat="nation in nationList" value="{{nation.CD_ID}}|{{nation.CD_VAL3}}">{{nation.CD_NM_EN}} +{{nation.CD_VAL3}}</option>
 												</select>
 											</div>
 										</div>
@@ -734,19 +734,19 @@
 														<dt class="mem_txt">How to receive information</dt>
 														<dd>
 															<span class="trp checkbox-box">
-																<input id="checkbox_1" tabindex="20" class="" type="checkbox" name="pushway_per" ng-change="clickPushWay()" ng-model="form_data.push_way_email">
+																<input id="checkbox_1" tabindex="20" class="" type="checkbox" name="pushway_per" ng-click="clickPushWay()" ng-model="form_data.push_way_email">
 																<i></i>
 																<label for="checkbox_1">Email</label>
 															</span>
 
 															<span class="trp checkbox-box">
-																<input id="checkbox_2" tabindex="21" class="" type="checkbox" name="pushway_per" ng-change="clickPushWay()" ng-model="form_data.push_way_sms">
+																<input id="checkbox_2" tabindex="21" class="" type="checkbox" name="pushway_per" ng-click="clickPushWay()" ng-model="form_data.push_way_sms">
 																<i></i>
 																<label for="checkbox_2">SMS</label>
 															</span>
 
 															<span class="trp checkbox-box">
-																<input id="checkbox_3" tabindex="22" class="" type="checkbox" name="pushway_per" ng-change="clickPushWay()" ng-model="form_data.push_way_phone">
+																<input id="checkbox_3" tabindex="22" class="" type="checkbox" name="pushway_per" ng-click="clickPushWay()" ng-model="form_data.push_way_phone">
 																<i></i>
 																<label for="checkbox_3">Phone</label>
 															</span>

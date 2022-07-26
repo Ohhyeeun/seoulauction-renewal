@@ -61,11 +61,36 @@ $(function() {
       });
     });
 	
-	const button9 = makeButton('getRememberMe', () => {
+	  const button9 = makeButton('getRememberMe', () => {
       getWebviewData('remember-me').then(result => {
         console.log(JSON.stringify(result));
       });
     });
+
+    const button10 = makeButton('강제업데이트팝업', () => {
+      const popup = document.querySelector('#app-update-popup');
+      console.log(popup, popup.classList);
+
+      if (popup && popup.classList.contains('open')) {
+        popup.classList.remove('open');
+      } else {
+        popup.classList.add('open');
+      }
+    });
+
+    // 앱 업데이트 하러 가기(OS에 따른 앱 링크 추가)
+    document.querySelector('.app-update-popup-link').addEventListener('click', async (e) => {
+      e.preventDefault();
+      const deviceInfo = await getDeviceInfo();
+      if (deviceInfo?.os === 'android') {
+        openWebBrowser('https://play.google.com/store/apps/details?id=seoulauction.seoulauction&hl=ko&gl=US');
+      }
+
+      if (deviceInfo?.os === 'ios') {
+        openWebBrowser('https://apps.apple.com/kr/app/%EC%84%9C%EC%9A%B8%EC%98%A5%EC%85%98/id345138823');
+      }
+    });
+
     footerContainer.appendChild(button1);
     footerContainer.appendChild(button2);
     footerContainer.appendChild(button3);
@@ -75,6 +100,7 @@ $(function() {
     footerContainer.appendChild(button7);
     footerContainer.appendChild(button8);
     footerContainer.appendChild(button9);
+    footerContainer.appendChild(button10);
 
     function makeButton(text, onClickHandler) {
       const button = document.createElement('button');
@@ -114,9 +140,29 @@ function nativeToggleMenu(state) {
  * [Native -> Webview]
  * 앱의 상태값 수신(복수로 호출될 수 있음)
  * @param {string} state
+ * @return {string}
+ * 
+ * [result]
+ * active: 최초실행
+ * resumed
+ * inactive
+ * paused
+ * detached: 앱 종료
+ * 
+ * TODO: 앱에 진입하는 시점에 saveDeviceInfo() 호출
+ * TODO: remember-me 프로세스
  */
 function nativeGetAppStatus(status) {
   console.log(`AppLifecycleState Value: ${status}`);
+}
+
+/**
+ * [Native -> Webview]
+ * 앱의 상태값 수신 (비동기 실행)
+ * @param {string} status 
+ */
+async function nativeGetAppStatusAsync(status) {
+  console.log(`AppLifecycleState Value(async): ${status}`);
 }
 
 /**

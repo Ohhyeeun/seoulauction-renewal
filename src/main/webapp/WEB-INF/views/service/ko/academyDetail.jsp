@@ -83,7 +83,7 @@ var userNo = '${userNo}';
                                                         <strong>{{academyView.ACADEMY_TIME}}</strong>
                                                     </p>
                                                     <hr />
-                                                    <p ng-bind-html="academyView.CONTENTS">
+                                                    <p ng-bind-html="academyView.CONTENTS" class="txt-pre-line">
                                                     </p>
 
 

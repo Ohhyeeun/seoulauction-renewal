@@ -389,12 +389,18 @@ $(function() {
             itemArray.splice(index, 1)
             items = itemArray.join(',');
             setCookie("keywordHistory", items, 1);
+            if(itemArray.length == 0) {
+                $('.keyword-all-del').hide();
+                $(".recent-search").append('<span class="recent-keyword recent-keyword-none">최근 검색내역 없음</span>');
+            }
         }
     });
     /* 최근검색 전체삭제 */
     $('.keyword-all-del').click(function () {
         $('.recent-keyword').hide();
         setCookie("keywordHistory", "", 1);
+        $('.keyword-all-del').hide();
+        $(".recent-search").append('<span class="recent-keyword recent-keyword-none">최근 검색내역 없음</span>');
     });
     /* 모바일 gnb 서치*/
     $('.m-top-search').click(function () {
@@ -563,6 +569,12 @@ function receiptPopup (pay) {
        window.open(url,"popupIssue",status); 
 }
 
+function inquiryPhoneNumber(obj) {
+    if (event.keyCode < 48 || event.keyCode > 57) {
+        event.returnValue = false;
+    }
+}
+
 function onlyNumber(obj, type) {
     const regExp = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;
     if (regExp.test(obj.value)) {
@@ -596,6 +608,9 @@ function phoneNumberBlur(obj) {
 	}
 }
 
+function inquiryPhoneNumberBlur(obj) {
+		obj.value = obj.value.replaceAll('-','');
+}
 
 function telNumber(obj){
 	if (obj.value != '') {
@@ -1216,5 +1231,5 @@ $(document).ready(function(){
 
 //오브젝트 or 배열 비었는지 확인
 function isNotObjectEmpty(param) {
-    return Object.keys(param).length !== 0 && param.constructor === Object;
+    return param.constructor === Object && Object.keys(param).length !== 0;
 }

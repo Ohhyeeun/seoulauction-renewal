@@ -242,9 +242,9 @@
                                                             <div class="standard">
                                                                 <span class="text-over span_block" title="{{item.CD_NM}}">{{item.CD_NM}}</span>
                                                                 <div class="size_year">
-                                                                    <span title="{{item | size_text_cm}}" ng-bind="item | size_text_cm"></span>
-                                                                    <span title="{{item.MAKE_YEAR_JSON.ko}}" ng-bind="item.MAKE_YEAR_JSON.ko"
-                                                                          ng-show="item.MAKE_YEAR_JSON.ko !== undefined"></span>
+                                                                    <span ng-bind="item | size_text_cm"></span>
+                                                                    <span ng-bind="item.MAKE_YEAR_JSON.ko" ng-show="item.MAKE_YEAR_JSON.ko !== undefined"></span>
+                                                                    <span ng-show="(item.MAKE_YEAR_JSON.ko === undefined && change_size)">ㅤ</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -636,7 +636,7 @@
             $scope.pagesize = 10;
             $scope.itemsize = 20;
             $scope.curpage = 1;
-
+            $scope.change_size = false;
 
             $scope.is_sale_cert = false;
             $scope.cust_hp = "";
@@ -1037,6 +1037,18 @@
                             })
                         }
                     });
+
+
+                    //년도가 아래로 가야하는지 체크!!
+                    $scope.change_size = matchMedia("(max-width: 1280px) and (min-width: 1023px)").matches;
+                    $scope.$apply();
+
+                    $(window).resize(function(){
+                        $scope.change_size = matchMedia("(max-width: 1280px) and (min-width: 1023px)").matches;
+                        $scope.$apply();
+                    });
+
+
                 }
                 run();
             }

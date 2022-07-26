@@ -188,7 +188,7 @@ $(document).ready(function() {
 	        const result = response.data;
 	        nationList = result.data;
 	        nationList.forEach(function(ele){
-				$("#nation_cd").append("<option value='" + ele.CD_ID + "|" + ele.CD_VAL3 + "'>" + ele.CD_NM + "</option>");
+				$("#nation_cd").append("<option value='" + ele.CD_ID + "|" + ele.CD_VAL3 + "'>" + ele.CD_NM_EN + "</option>");
 //				$("#nation_cd").append("<option value='" + ele.CD_ID + "'>" + ele.CD_NM + "</option>");
 			})
 			

@@ -27,14 +27,6 @@
 .auction-tit>h1.main-sectiontit-auction {
     margin-right: 30px;
 }
-/*.main-sectiontit {*/
-/*    font-size: 42px;*/
-/*    font-family: 'Libre Baskerville', serif;*/
-/*    font-weight: 700;*/
-/*    color: #111111;*/
-/*    margin-right: 30px;*/
-/*}*/
-
 /* visual */
 .swiper-pagination-current {
     font-weight: bold;
@@ -125,7 +117,7 @@
 .swiper-button-prev.slide-btnleft {
     width: 27px;
     width: 48px;
-    height: 49px;
+    height: 48px;
     left: 50px;
     transform: translate(0, -50%);
     transform: -webkit-translate(0, -50%);
@@ -134,13 +126,6 @@
     background: url("/images/pc/icon/ic_chevron_left_white_48.svg") no-repeat center center;
     z-index: 1; 
 }
-/*.swiper-button-prev.slide-btnleft:hover,*/
-/*.swiper-button-next.slide-btnright:hover {*/
-/*    background-color: rgba(0,0,0,0.3);*/
-/*    padding: 2em;*/
-/*    background-position: left center;*/
-/*    border-radius: 3.125rem;*/
-/*}*/
 .swiper-button-next.slide-btnright:hover {
     background-position: right center;
 }
@@ -571,10 +556,6 @@
     text-align: center;
     /*background-color: #fff;*/
 }
-/*.platform-swiper {*/
-/*    height: 0;*/
-/*    padding-bottom: 11.25em;*/
-/*}*/
 .platform-bg > a {
     margin: 0 auto;
     text-align: center;
@@ -933,17 +914,9 @@
     background-color: #4dada7;
 }
 /* 메인 팝업 */
-.main-popupBg {
-    background-color: transparent;
-    cursor: pointer;
-    display: none;
-}
+.main-popupBg,
 .main-popupwrap {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    cursor: default;
+    display: none;
 }
 .main-popupbox {
     position: fixed;
@@ -951,28 +924,11 @@
     right: 30px;
     box-shadow: 0px 5px 15px -3px rgba(0,0,0,0.4);
     animation: overlay .5s linear;
-    z-index: 10; 
+    z-index: 26;
 }
 .main-popupbox.down {
     bottom: -100%;
     animation: overlaydown .5s linear;
-}
-@keyframes overlay {
-    0% {
-        right: 40px;
-        bottom: -100%;
-    }
-    100% {
-        bottom: 30px;
-    }
-}
-@keyframes overlaydown {
-    from {
-        bottom: 0;
-    }
-    to {
-        bottom: -100%;
-    }
 }
 .main-popup-img,
 .main-popup-txt {
@@ -1014,23 +970,44 @@
     padding: 20px;
 }
 .main-popup-close>span {
-
+    cursor: pointer;
 }
 .main-popup-closebtn {
     width: 16px;
     height: 16px;
     background-size: contain;
+    cursor: pointer;  
 }
 .main-popup-img>img {
-    display: block;
-    margin: 0 auto;
-    text-align: center
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    object-fit: cover;
+    object-position: 0 0;
+}
+
+@keyframes overlay {
+    0% {
+        right: 40px;
+        bottom: -100%;
+    }
+    100% {
+        bottom: 30px;
+    }
+}
+@keyframes overlaydown {
+    from {
+        bottom: 0;
+    }
+    to {
+        bottom: -100%;
+    }
 }
 /* on 일때 보임 */
 .upcoming-open.on,
 .upcoming-img.on,
-.video-thumbHover.on,
-.main-popupBg.on {
+.video-thumbHover.on {
     display: block;
 }
 
@@ -1095,9 +1072,6 @@
     }
 }
 @media all and (max-width: 1439px){
-    /*.visual_caption>div {
-        max-width: 1280px;
-    }*/
     .upcoming {
         margin-bottom: 100px;
     }
@@ -1121,10 +1095,6 @@
     }
 }
 @media all and (max-width: 1279px) {
-    /*.visual_caption>div {
-        max-width: 1024px;
-        padding: 0 120px;
-    }*/
     .auction-thumbbox {
         width: calc(33.3333% - 13.3333px);
         padding-bottom: calc(33.3333% - 13.3333px);
@@ -1170,9 +1140,6 @@
     }
     .auction-thumbbox:nth-of-type(3n) {
         margin-right: 0;
-    }
-    .main-popup-img {
-        height: 100%;
     }
     .visual_img>img {
         height: 690px;
@@ -1303,18 +1270,12 @@
         height: 6px;
         margin-right: 6px;
     }
-    /*.platform-swiper {*/
-    /*    padding-bottom: calc(45% - 64px);*/
-    /*}*/
     .upcoming-slidebox {
         overflow: inherit;
     }
     .upcoming-wrap {
         margin-bottom: 49px;
     }
-    /*.swiper-container.upcoming-swiper {*/
-    /*    width: calc(70% - 13.33333px);   */
-    /*}*/
     .upcomingSlide {
         flex-basis: 620px;
         height: 361px;
@@ -1372,9 +1333,6 @@
     .auction-tit>h1 {
         padding: 0;
     }
-    /*.platform-swiper {*/
-    /*    padding-bottom: 13.75em;*/
-    /*}*/
     .video-thmbtit {
         font-size: 15px;
     }
@@ -1603,25 +1561,38 @@
     .newsletter-comfirmbox {
         max-width: 450px;
     }
-    .main-popupwrap {
-        max-width: 450px;
-        margin: 0 auto;
-    }
-    .main-popupbox {
-        position: absolute;
-        width: 100%;
-        bottom: 0;
-        right: auto;
-    }
+    /* 메인팝업 */
     .main-popupBg {
         background-color: rgba(0,0,0,0.5);
+        cursor: pointer;
     }
-    .main-popup-img>img { /* 임시 넣음 모바일 이미지 없음 */
-        background-color: #ddd;
-        border-radius: 20px 20px 0 0;
+    .main-popupwrap {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        cursor: default;
+        max-width: 450px;
+        margin: 0 auto;
+        display: none; 
+    }
+    .main-popupBg.on,
+    .main-popupwrap.on {
+        display: block;
+    }
+    .main-popupbox {
+        /*width: 100%;*/
+        bottom: 0;
+        right: auto;
+        box-shadow: none;
+        left: 50%;
+        transform: translate(-50% , 0);
     }
     .main-popup-img, .main-popup-txt {
-        width: 100%;
+        height: 500px;
+    }
+    .main-popup-img>img { 
+
     }
     .main-popupbox>a {
         border-radius: 20px 20px 0 0;
@@ -1629,6 +1600,7 @@
         background-color: #fff;
     }
     .main-popup-txt {
+        width: 100%;
         padding: 25px 15px;
         border-radius: 20px 20px 0 0;
     }
@@ -1684,9 +1656,6 @@
     .upcoming-datebox:lang(en) {
         line-height: 1;
     }
-    /*.platform-swiper {*/
-    /*    padding-bottom: 31%; */
-    /*}*/
     .swiper-pagination.platform-pagination {
         margin-top: 15px;
     }
@@ -1763,10 +1732,22 @@
     }
 }
 @media all and (max-width: 559px) {
-    /*.upcoming-preview,*/
-    /*.upcoming-datebox {*/
-    /*    line-height: 1.5;*/
-    /*}*/
+    /* 메인팝업 */
+    .main-popupwrap {
+        max-width: 100%;
+    }
+    .main-popupbox {
+        width: 100%;
+    }
+    .main-popup-img {
+        width: 100%;
+        height: 100%;
+        max-height: 500px;
+        display: flex;
+    }
+    .main-popup-img>img {
+        flex-direction: column;
+    }
     .upcoming-img,
     .upcoming-img:lang(en) {
         flex-basis: calc(70% - 10px);

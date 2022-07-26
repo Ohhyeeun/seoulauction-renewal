@@ -27,7 +27,7 @@
 									</div>
 									<div class="id_pw_wrap">
 										<div class="id_box">
-											<input type="text" class="textType" style="width:100%" name="loginId" id="loginId" ng-model="form_data.loginId" placeholder="아이디 입력하기" title="Id" ng-pattern="/^[0-9a-zA-Z!@#$%^&*.;\-][0-9a-zA-Z!@#$%^&*.;\-]*$/" autofocus="autofocus" ng-keyup="enterKeylogin()"/>
+											<input type="text" class="textType" style="width:100%" name="loginId" id="loginId" ng-model="form_data.loginId" placeholder="아이디 입력하기" title="Id" autofocus="autofocus" ng-keyup="enterKeylogin()"/>
 										</div>
 										<div class="pw_box">
 											<input type="password" class="textType" style="width:100%" name="password" id="password" ng-model="form_data.password" placeholder="비밀번호 입력하기" title="password" ng-keyup="enterKeylogin()"/>
@@ -99,6 +99,7 @@
 											<!-- [0516]링크추가 -->
 											<ul>
 												<li>
+<%-- 													<a href="javascript:void(0)" onclick="window.open('https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=5qXZytacX_Uy60o0StGT&state=NAVER_LOGIN&redirect_uri=${socialServiceDomain}/naverCallback?type=login', '_blank', 'width=900,height=1000');"><i class="icon-sns_naver"></i></a> --%>
 													<a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=5qXZytacX_Uy60o0StGT&state=NAVER_LOGIN&redirect_uri=${socialServiceDomain}/naverCallback?type=login"><i class="icon-sns_naver"></i></a>
 													<div id="recentSocialTypeNV" class="sns_latest_wrap" style="display:none">
 														<img class="only-mb" src="/images/mobile/login/latest_login.png">

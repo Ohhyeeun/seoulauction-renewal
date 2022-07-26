@@ -1,3 +1,7 @@
+
+//메인팝업 첨에 하이드를 무조건 시킨다.
+$('.main-popupbox').hide();
+
 function Request(){
 	this.getParameter = function(param){
     	var requestParam ="";
@@ -15,7 +19,7 @@ function Request(){
     }
 }
 var request = new Request();
-
+let isMainPopup = false;
 //이중접속 팝업
 var maxSession = request.getParameter("maxSession");
 if(maxSession.startsWith('true')){
@@ -101,6 +105,9 @@ const sleep = (ms) => new Promise(resolve => { setTimeout(resolve, ms) });
 
 window.onload = function(){
 
+    //팝업.
+    loadPopup();
+
     //빅배너
     loadBigBanner();
 
@@ -112,9 +119,6 @@ window.onload = function(){
 
     //띠배너
     loadBeltBanner();
-
-    //팝업.
-    loadPopup();
 
 }
 
@@ -569,8 +573,14 @@ function loadPopup(){
                     const data = response.data.data;
                     if(data) {
 
+                        isMainPopup = true;
+                        //메인팝업 보이기.
+                        $('.main-popupbox').show();
+
                         let jsonData = JSON.parse(data.content);
                         let popupType = data.popup_type;
+
+
 
                         //모바일 일때
                         let localeTitle = locale === 'ko' ? jsonData.title.ko : jsonData.title.en;
@@ -578,13 +588,12 @@ function loadPopup(){
                         let localeUrl = locale === 'ko' ? jsonData.content.ko.url : jsonData.content.en.url;
                         //TODO URL로 뭐해야함...
 
-                        $('.main-popup-img').hide()
-                        $('.main-popup-txt').hide();
+                        $('#main_popup_a_link').hide()
+                        $('#main_popup_text_a_link').hide();
 
                         if(popupType === 'image'){
 
                             let imgUrl;
-
                             ///////////// 이미지 선택 //////////////////
                             //모바일이 아닐때만 .
                             if (matchMedia("all and (min-width: 1024px)").matches) {
@@ -609,36 +618,40 @@ function loadPopup(){
                                     }
                                 });
                             }
-                            $('.main-popup-img').show();
                             if(data.image !== "") {
                                 $('#main_popup_a_link').attr("href",localeUrl);
                                 $('#main_popup_img').attr('src', imgUrl);
-                                $('.main-popup-img').show();
+                                $('#main_popup_a_link').show();
                             }
 
                         } else if (popupType === 'text'){
                             $('#main_popup_text_a_link').attr("href",localeUrl);
-                            $('.main-popup-txt').show();
+                            $('#main_popup_text_a_link').show();
                             $('#main_popup_title').html(localeTitle);
                             $('#main_popup_content').html(localeContent);
-
                         }
 
-                        //$('.main-popupBg').addClass('on'); line663 으로 옮김.
+                        // $('.main-popupBg').addClass('on'); //line663 으로 옮김.
 
                         $('.main-popup-close, .main-popupBg').click(function () {
                             $('.main-popupbox').addClass('down');
                             $('.main-popupBg').fadeOut('1000', function(){
                                 $(this).removeClass('on');
+                                $('.main-popupwrap').removeClass('on');
                                 $('body').css('overflow','visible');
                             });
                         });
                     }
+
                 }
             })
             .catch(function (error) {
                 console.log(error);
             });
+    } else {
+        $('.main-popupBg').removeClass('on');
+        $('.main-popupwrap').removeClass('on');
+        $('body').css('overflow','visible');
     }
 }
 
@@ -666,10 +679,10 @@ if (matchMedia("all and (min-width: 1024px)").matches) {
     $('.visual-swiper > .swiper-wrapper, .swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').on('mouseenter' ,function(){
         $(this).hover(function(){
             $('.swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').css({
-                "background-color": "rgba(225,225,225,0.3)",
+                "background-color": "rgba(0,0,0,0.3)",
                 "padding": "2em",
                 "background-position": "center center",
-                "border-radius": "3.125rem", 
+                "border-radius": "3.125rem",
                 "right":"40px",
             });
             $('.swiper-button-prev.slide-btnleft').css("left","40px");
@@ -677,15 +690,17 @@ if (matchMedia("all and (min-width: 1024px)").matches) {
 
         $('.visual-swiper > .swiper-wrapper').on('mouseleave', function(){
             $('.swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').css("background-color",'transparent');
-        });
+        }); 
     });
 
     /* 메인팝업 pc 없음 */
-    $('.main-popupBg').removeClass('on')
+    $('.main-popupBg').removeClass('on');
+    $('.main-popupwrap').removeClass('on');
 
 } else {
     /* 메인팝업 mobile 있음 */
     $('.main-popupBg').addClass('on');
+    $('.main-popupwrap').addClass('on');
 
     /* 띠배너 beltbanner */
     $('.header_beltbox.on').show(function () {
@@ -715,11 +730,18 @@ $(window).resize(function(){
 
     /* gnb */
     if (matchMedia("all and (min-width: 1024px)").matches) {
-        /* dim 없는  main 레이어팝업 */
+        /* 쿠키가 있을 때 dim 없는  main 레이어팝업 */
         $('.main-popupBg').removeClass('on');
     } else {
-        /* dim 있는 main 레이어팝업 */
-        $('.main-popupBg').addClass('on');
+        /* 쿠키가 없을 때 dim 있는 main 레이어팝업 */
+        if (isMainPopup) {
+            $('.main-popupBg').addClass('on');
+        }
+        /* 쿠키 상관없이 그냥 닫았을 때 resize */
+        if($('.main-popupbox').hasClass('down')){ /* down */
+            $('.main-popupBg').removeClass('on');
+            $('.main-popupwrap').removeClass('on');
+        } 
 
         /* 띠배너 beltbanner */
         $('.header_beltbox.on').show(function () {

@@ -81,11 +81,14 @@
 	
 	// 로그인
 	async function socialLogin(data) {
-		let url = '/api/login/social'
+		let url = '/api/login/social';
+		let isApp = false;
+		
 		if(await isNativeApp()){
 			console.log("is Native");
 			data['is_native'] = true;
-			url += '?remember-me=on'
+			url += '?remember-me=on';
+			isApp = true;
 		}
 			
 		axios.post(url, data)
@@ -95,7 +98,13 @@
 					var expire = new Date();
 					expire.setDate(expire.getDate() + 30);
 					document.cookie = 'recentSocialType=' + "NV" + '; path=/; expires=' + expire.toGMTString() + ';';
+					var rememberMeCookie = getCookie('remember-me');
+					if(isApp){
+						setWebviewData('remember-me', rememberMeCookie);
+					}
 					location.href = "/";
+// 					window.opener.location.href = "/";
+// 					window.close();
 				}else{
 					if(response.data.data.msg == "Not Certify User"){
 						alert("This ID has not been verified by e-mail after registering as a member. \n Please check the e-mail sent to the e-mail address entered during registration and proceed with authentication. \n If you do not receive a verification email, please contact the customer center (02-395-0330 / info@seoulauction.com).");

@@ -182,16 +182,18 @@
         }
         // 최근 검색어
         let keywords = getCookie("keywordHistory");
-        let html = '<span class="keyword-search-tit">최근 검색어<span class="keyword-all-del">전체삭제</span></span>';
+        let html;
 
         if(keywords){
             $(".recent-search").empty();
+            html = '<span class="keyword-search-tit">최근 검색어<span class="keyword-all-del">전체삭제</span></span>';
             let keywordsArray = keywords.split(',');
             $.each(keywordsArray , function(idx , el){
                 html += '<span class="recent-keyword text-over"><a href="/sale/search?searchContent='+ el +'" class="text-over">'+ el+'</a><span class="keyword-del" searchContent="'+ el +'"></span></span>';
             });
 
         }else{
+            html = '<span class="keyword-search-tit">최근 검색어</span>';
             html += '<span class="recent-keyword recent-keyword-none">최근 검색내역 없음</span>';
         }
 
