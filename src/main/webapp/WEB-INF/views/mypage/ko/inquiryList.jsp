@@ -48,7 +48,7 @@
 													<ul class="inquiry-list" ng-repeat="inquiry in inquiryList">
 														<li class="inquiry-list-ea">
 															<div class="bbs-division">
-																{{inquiry.P_CATE_NM}}{{inquiry.CATE_NM != '' ? '/'+inquiry.CATE_NM : ''}}
+																{{inquiry.P_CATE_NM}}{{inquiry.CATE_NM != '' ? ' > '+inquiry.CATE_NM : ''}}
 															</div>
 															<a href="/mypage/inquiryDetail?writeNo={{inquiry.WRITE_NO}}&page={{currentPage}}&size=10">
 															<div class="bbs-subject tt4">

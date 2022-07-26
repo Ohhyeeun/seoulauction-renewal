@@ -42,7 +42,7 @@
                                                     <div class="sub-area tb1">
                                                         <dl>
                                                             <dt><span>문의종류 : </span></dt>
-                                                            <dd><span>{{inquiry.P_CATE_NM}}{{inquiry.CATE_NM != '' ? '/'+inquiry.CATE_NM : ''}}</span></dd>
+                                                            <dd><span>{{inquiry.P_CATE_NM}}{{inquiry.CATE_NM != '' ? ' > '+inquiry.CATE_NM : ''}}</span></dd>
                                                         </dl>
                                                         <dl>
                                                             <dt><span>처리현황 : </span></dt>
