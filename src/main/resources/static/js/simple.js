@@ -1,4 +1,5 @@
 var subscriber = new llnwrtssdk.Subscriber();
+var subscriber2 = new llnwrtssdk.Subscriber();
 // subscribe to events
 subscriber.on('*',handleSubscriberEvent);
 (function(llnwrtssdk) {
@@ -19,6 +20,28 @@ subscriber.on('*',handleSubscriberEvent);
                         .catch(function (err) {
                                 console.log('Could not play: ' + err);
                         });
+        });
+})(window.llnwrtssdk);
+
+subscriber2.on('*',handleSubscriberEvent);
+(function(llnwrtssdk) {
+    'use strict';
+    console.log('Starting!');
+    var subscribe_config2 = {
+        mediaElement: document.getElementById('llnw-rts-subscriber2'),
+        host: 'selauction-rts.s.llnwi.net',
+        shortName: 'selauction',
+        streamName: 'mg',
+    };
+    subscriber2.init(subscribe_config2)
+        .then(function () {
+            console.log('Subscribing!');
+            return subscriber2.subscribe().then(function () {
+                console.log('Playing!');
+            })
+                .catch(function (err) {
+                    console.log('Could not play: ' + err);
+                });
         });
 })(window.llnwrtssdk);
 //---------------------------------------------------------------------------
