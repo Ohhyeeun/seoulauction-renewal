@@ -90,9 +90,9 @@
                                                                         <div class="text-area">
                                                                             <div class="num">{{data.LOT_NO}}</div>
                                                                             <div class="title">
-                                                                                <div class="titlename">{{data.TITLE_KO}}</div>
+                                                                                <div class="titlename">{{data.ARTIST_NAME_KO}}</div>
                                                                             </div>
-                                                                            <div class="desc">{{data.ARTIST_NAME_KO}}</div>
+                                                                            <div class="desc">{{data.TITLE_KO}}</div>
                                                                         </div>
                                                                     </div>
                                                                 </div>

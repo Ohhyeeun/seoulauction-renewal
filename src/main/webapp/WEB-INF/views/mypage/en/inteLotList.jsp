@@ -91,9 +91,9 @@
                                                                         <div class="text-area">
                                                                             <div class="num">{{data.LOT_NO}}</div>
                                                                             <div class="title">
-                                                                                <div class="titlename">{{data.TITLE_EN}}</div>
+                                                                                <div class="titlename">{{data.ARTIST_NAME_EN}}</div>
                                                                             </div>
-                                                                            <div class="desc">{{data.ARTIST_NAME_EN}}</div>
+                                                                            <div class="desc">{{data.TITLE_EN}}</div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -103,7 +103,7 @@
                                                                             <dl class="price">
                                                                                 <dt class="tit">Estimate</dt>
                                                                                 <dd class="txt" ng-if="data.EXPE_PRICE_INQ_YN != 'Y'"><span>USD {{comma(data.EXPE_PRICE_FROM_EN || 0)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_EN || 0)}}</span></dd>
-                                                                            	<dd class="txt" ng-if="data.EXPE_PRICE_INQ_YN == 'Y'"><span>별도문의</span></dd>
+                                                                            	<dd class="txt" ng-if="data.EXPE_PRICE_INQ_YN == 'Y'"><span>separate inquiry</span></dd>
                                                                             </dl>
                                                                         </div>
                                                                     </div>
