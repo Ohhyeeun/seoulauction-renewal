@@ -706,7 +706,6 @@
             }
 
             $scope.goLot = function (saleNo, lotNo) {
-                console.log('asdfasdfasdf');
                 window.location.href = '/auction/online/view/' + saleNo + '/' + lotNo;
             }
 
@@ -769,7 +768,6 @@
             $scope.searchLotTags = function (lotTag) {
                 $scope.selectLotTag = lotTag;
 
-                console.log("검색", $scope.selectLotTag, $scope.searchValue );
 
                 let pp = [];
                 if (lotTag === '전체') {
@@ -1325,8 +1323,6 @@
 
                 } else if (d.msg_type === packet_enum.time_sync) {
 
-                    console.log('asdfasdf333333333');
-
                     let ddd = new Date(d.message.tick_value);
                     let bid_tick = document.getElementById("bid_tick");
                     // 앵귤러 정보 삽입
@@ -1746,8 +1742,6 @@
                         }
                     }
                 } else if (d.msg_type === packet_enum.winner) {
-
-                    console.log('asdfasdfasdf');
 
                     if (d.message != null) {
                         for (let j = 0; j < $scope.saleInfoAll.length; j++) {
