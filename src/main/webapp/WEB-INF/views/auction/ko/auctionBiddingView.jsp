@@ -4,17 +4,27 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%--<!DOCTYPE html>--%>
-<%--<html lang="ko" ng-app="myApp">--%>
-<%--<head>--%>
-<%--    <!-- header -->--%>
+<jsp:include page="../../common/angular.jsp"/>
+<!DOCTYPE html>
+<html lang="ko" ng-app="myApp">
+<head>
+    <!-- header -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>오프라인 응찰하기 | Seoul Auction</title>
+    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
+    <link rel="stylesheet" href="/css/common.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/pages_common_ko.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+</head>
 
-<%--    &lt;%&ndash;angular 관련은 미리 로딩&ndash;%&gt;--%>
-
-<%--    <!-- //header -->--%>
-<%--</head>--%>
-
-<jsp:include page="../../include/ko/header.jsp" flush="false"/>
+<%--<jsp:include page="../../include/ko/header.jsp" flush="false"/>--%>
 
 <body>
 <div class="wrapper">
@@ -849,6 +859,11 @@
         </div>
     </div>
 
+    <jsp:include page="../../common/commonJs.jsp"/>
+    <jsp:include page="../../common/commonJSNotMain.jsp"/>
+    <script src="/js/pages_common_ko.js" type="text/javascript"></script>
+
+
     <%-- 전체 lot 보기 --%>
     <script>
         $(".allview_fixed-wrap .js-fixed_total").trpToggleBtn(function($this) {
@@ -870,19 +885,20 @@
         });
     </script>
 
-    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!--[if lt IE 9]>
-    <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+<%--    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
+<%--    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--%>
+<%--    <!--[if lt IE 9]>--%>
+<%--    <script src="/js/plugin/html5shiv.js"></script> <![endif]-->--%>
+<%--    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
+<%--    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
     <!-- [0516]삭제
 <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 -->
-    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>
+<%--    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>--%>
+<%--    <script type="text/javascript" src="/js/pages_common_ko.js" type="text/javascript"></script>--%>
 
-    <jsp:include page="../../common/commonJs.jsp" flush="false"/>
+<%--    <jsp:include page="../../common/commonJs.jsp" flush="false"/>--%>
+
 
     <!-- youtube -->
     <script>
