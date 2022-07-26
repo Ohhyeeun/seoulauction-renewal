@@ -92,7 +92,7 @@
                                                 <article class="view-footer">
                                                     <div class="button-area">
                                                         <div class="btn_set-float tac">
-                                                        <a href="/mypage/inquiryList?page={{page}}&size={{size}}">
+                                                        <a href="/mypage/inquiryList?page={{page}}">
                                                             <button class="btn btn_default"><span>목록</span></button>
                                                         </a>
                                                         </div>

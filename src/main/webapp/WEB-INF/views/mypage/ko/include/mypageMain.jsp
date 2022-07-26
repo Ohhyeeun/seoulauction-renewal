@@ -93,7 +93,7 @@
 														class="icon-view_more"></i></a></li>
 												<li class="cate1-li" id="academy"><a href="/mypage/academyList" class="">아카데미신청내역 <i
 														class="icon-view_more"></i></a></li>
-												<li class="cate1-li" id="inquiry"><a href="/mypage/inquiryList" class="">1:1문의 <i
+												<li class="cate1-li" id="inquiry"><a href="/mypage/inquiryList?page=1" class="">1:1문의 <i
 														class="icon-view_more"></i></a></li>
 												<li class="cate1-group"><span>회원정보관리</span>
 													<ul>

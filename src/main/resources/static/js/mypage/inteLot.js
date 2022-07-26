@@ -16,7 +16,7 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 	$scope.loadInteLotList = function($page) {
 		$scope.currentPage = $page;
 		$page = $scope.currentPage;
-		$size = 3;
+		$size = 5;
 		$api = "/api/mypage/inteLots?page=" + $page + "&size=" + $size
 		if ($scope.saleKind) {
 			$api += "&sale_kind=" + $scope.saleKind;
@@ -31,7 +31,9 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 					alert(result.data.msg);
 				} else {
 					$scope.inteLotCnt = result.data.cnt;
-					$scope.inteLotList = Object.keys($scope.groupBy(result.data.list, 'SALE_NO')).map((key) => [Number(key), $scope.groupBy(result.data.list, 'SALE_NO')[key]]).sort((a, b) => b[0] - a[0]);
+					$scope.inteLotList = Object.keys($scope.groupBy(result.data.list, 'TO_DT')).map((key) => [Number(key), $scope.groupBy(result.data.list, 'TO_DT')[key]]).sort((a, b) => b[0] - a[0]);
+					
+					console.log($scope.inteLotList);
 					$scope.$apply();
 				}
 			})

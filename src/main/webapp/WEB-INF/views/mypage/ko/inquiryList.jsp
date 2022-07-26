@@ -50,7 +50,7 @@
 															<div class="bbs-division">
 																{{inquiry.P_CATE_NM}}{{inquiry.CATE_NM != '' ? ' > '+inquiry.CATE_NM : ''}}
 															</div>
-															<a href="/mypage/inquiryDetail?writeNo={{inquiry.WRITE_NO}}&page={{currentPage}}&size=10">
+															<a href="/mypage/inquiryDetail?writeNo={{inquiry.WRITE_NO}}&page={{currentPage}}">
 															<div class="bbs-subject tt4">
 																<span>{{inquiry.TITLE}}</span>
 															</div>
