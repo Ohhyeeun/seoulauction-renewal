@@ -31,41 +31,41 @@ $(function() {
 
   footerContainer.insertAdjacentHTML('beforeend', buttonsHtml);
 
-  document.addEventListener('click', (e) => {
+  document.addEventListener('click', async (e) => {
     switch (e.target?.id) {
       case 'native-test-is-native':
-        isNativeApp();
+        await isNativeApp();
         break;
 
       case 'native-test-save-device':
-        saveDeviceInfo();
+        await saveDeviceInfo();
         break;
 
       case 'native-test-get-header':
-        const result1 = getAppHeader();
+        const result1 = await getAppHeader();
         console.log(JSON.stringify(result1));
         break;
 
       case 'native-test-get-device':
-        const result2 = getDeviceInfo();
+        const result2 = await getDeviceInfo();
         console.log(JSON.stringify(result2));
         break;
 
       case 'native-test-set-data':
-        setWebviewData('sample-data', new Date() + '');
+        await setWebviewData('sample-data', new Date() + '');
         break;
 
       case 'native-test-get-data':
-        const result3 = getWebviewData('sample-data');
+        const result3 = await getWebviewData('sample-data');
         console.log(JSON.stringify(result3));
         break;
 
       case 'native-test-del-data':
-        deleteWebviewData('sample-data');
+        await deleteWebviewData('sample-data');
         break;
 
       case 'native-test-open-browser':
-        openWebBrowser('https://seoulauction.com');
+        await openWebBrowser('https://seoulauction.com');
         break;
 
       default:
