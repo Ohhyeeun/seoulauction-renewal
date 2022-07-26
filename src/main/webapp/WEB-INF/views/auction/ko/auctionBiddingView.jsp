@@ -1476,6 +1476,8 @@
                                 + $scope.saleInfoAll[j].LOT_NO);
                             if (idx !== undefined) {
                                 $scope.saleInfoAll[j].STAT_CD = d.message.data[idx].STAT_CD;
+                                // 추후 필요 시 적용
+                                $scope.saleInfoAll[j].OFFLINE_MAX_BID_PRICE = d.message.data[idx].MAX_OFFLINE_BID_PRICE;
                             }
                         }
                     }
