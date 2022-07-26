@@ -245,7 +245,6 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 			$scope.nameValid = name != '' && name != undefined ? true : false;
 			$scope.form_data.email = email;
 			$scope.emailValid = email != '' && email != undefined ? true : false;
-			$scope.form_data.social_login_id = socialLoginId;
 			$scope.form_data.social_email = socialEmail;
 			$scope.form_data.social_type = $scope.socialType;
 		}
@@ -1189,9 +1188,7 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		if($scope.isSocial()){
 			formData.set('social_type', $scope.form_data.social_type);
 			formData.set('social_email', $scope.form_data.social_email);
-			formData.set('social_login_id', $scope.form_data.social_login_id);
-			formData.set('login_id', $scope.form_data.social_login_id);
-//			formData.delete('login_id');	
+			formData.set('login_id', loginId);
 			formData.delete('passwd');	
 		}
 		

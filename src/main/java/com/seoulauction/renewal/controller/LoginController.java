@@ -215,11 +215,11 @@ public class LoginController {
 		}
 		
 		//소셜로그인아이디 랜덤생성 (카카오 KA, 네이버 NV, 구글 GL, 애플 AP) (소셜타입_숫자8개)
-		String socialLoginId = loginService.checkDuplSocialLoginId(socialType);
+		String loginId = loginService.checkDuplSocialLoginId(socialType);
 		
 		model.addAttribute("name", request.getParameter("name")); //소셜로그인을 통해 얻은 정보
 		model.addAttribute("email", request.getParameter("email")); //소셜로그인을 통해 얻은 정보
-		model.addAttribute("socialLoginId", socialLoginId);
+		model.addAttribute("loginId", loginId);
 		model.addAttribute("socialEmail", socialEmail);
         return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "joinForm" , locale);
     }

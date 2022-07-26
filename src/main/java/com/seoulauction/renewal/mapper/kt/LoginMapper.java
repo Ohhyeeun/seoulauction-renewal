@@ -35,8 +35,8 @@ public interface LoginMapper {
     /*비밀번호 찾기 > 사용자 조회*/
     CommonMap selectCustomerByStatCdAndLoginId(CommonMap paramMap);
 
-    /*소셜로그인아이디로 소셜회원조회*/
-    CommonMap selectCustSocialBySocialLoginId(CommonMap paramMap);
+    /*소셜로그인아이디로 소셜회원조회
+    CommonMap selectCustSocialByLoginId(CommonMap paramMap);*/
 
     /*아이디중복체크*/
     List<CommonMap> selectCustForIdExist(CommonMap paramMap);

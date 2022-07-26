@@ -1109,7 +1109,7 @@
 	
 	<select id="selectCustSocialByCustNo" resultType="CommonMap">
 		select
-			CUST_NO, SOCIAL_TYPE, SOCIAL_EMAIL, SOCIAL_LOGIN_ID, date_format(REG_DT,'%Y.%m.%d')REG_DT
+			CUST_NO, SOCIAL_TYPE, SOCIAL_EMAIL,date_format(REG_DT,'%Y.%m.%d')REG_DT
 		from
 			CUST_SOCIAL
 		where

@@ -90,10 +90,10 @@ public class LoginService {
 		return loginMapper.selectCustomerByStatCdAndLoginId(paramMap);
 	}
 
-	/*소셜로그인아이디로 소셜회원조회*/
-	public CommonMap selectCustSocialBySocialLoginId(CommonMap paramMap) {
-		return loginMapper.selectCustSocialBySocialLoginId(paramMap);
-	}
+	/*소셜로그인아이디로 소셜회원조회
+	public CommonMap selectCustSocialByLoginId(CommonMap paramMap) {
+		return loginMapper.selectCustSocialByLoginId(paramMap);
+	}*/
 
 	/*아이디중복체크*/
 	public List<CommonMap> selectCustForIdExist(CommonMap paramMap) {
@@ -257,21 +257,23 @@ public class LoginService {
 
 	/*소셜로그인아이디 생성*/
 	public String checkDuplSocialLoginId(String socialType) {
-		String socialLoginId = "";
+		String loginId = "";
 
 		boolean duplIdCheck = true;
 		while (duplIdCheck) {
-			socialLoginId = socialType + "_" + Double.toString(Math.random() * 10).replace(".", "").substring(0, 8);
-			log.info(socialLoginId);
+			loginId = socialType + "_" + Double.toString(Math.random() * 10).replace(".", "").substring(0, 8);
+			log.info(loginId);
 			CommonMap paramMap = new CommonMap();
-			paramMap.put("socialLoginId", socialLoginId);
-			CommonMap resultMap = selectCustSocialBySocialLoginId(paramMap);
-			if (resultMap == null) {
+			paramMap.put("loginId", loginId);
+//			CommonMap resultMap = selectCustSocialBySocialLoginId(paramMap);
+			List<CommonMap> resultMap = selectCustForIdExist(paramMap);
+			
+			if (resultMap.size() == 0) {
 				duplIdCheck = false;
 			}
 		}
 
-		return socialLoginId;
+		return loginId;
 	}
 	
 	/*직원번호로 회원조회*/

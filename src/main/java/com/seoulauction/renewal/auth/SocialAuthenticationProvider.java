@@ -55,7 +55,7 @@ public class SocialAuthenticationProvider  implements AuthenticationProvider {
         if(resultMap.get("STAT_CD") != null && resultMap.get("STAT_CD").equals("not_certify")){
 			throw new BadCredentialsException("Not Certify User"); // 해외고객 이메일 미인증 STAT_CD = 'not_certify'
         }
-        String socialLoginId= resultMap.getString("SOCIAL_LOGIN_ID");
+        String loginId = resultMap.getString("LOGIN_ID");
 
         // 접속이력추가
         paramMap.put("ip", ip);
@@ -92,7 +92,7 @@ public class SocialAuthenticationProvider  implements AuthenticationProvider {
         	}
         }
         result.setDetails(SAUserDetails.builder()
-    			.loginId(socialLoginId)
+    			.loginId(loginId)
     			.password(null)
     			.userNo(custNo)
     			.authorities(roles)

@@ -331,7 +331,6 @@ public class ApiMypageController {
         
 	    log.info("snsLink");
 	    paramMap.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
-	    paramMap.put("social_login_id", SecurityUtils.getAuthenticationPrincipal().getLoginId());
 	    log.info(paramMap.toString());
 	    
 	    int result = loginService.insertCustSocial(paramMap);

@@ -165,12 +165,12 @@
 		</if>
 	</select>
 
-	<!-- 소셜로그인아이디로 소셜회원조회 -->
-	<select id="selectCustSocialBySocialLoginId" resultType="CommonMap">
+	<!-- 소셜로그인아이디로 소셜회원조회
+	<select id="selectCustSocialByLoginId" resultType="CommonMap">
 		select * 
-		from CUST_SOCIAL 
-		where SOCIAL_LOGIN_ID = #{socialLoginId}
-	</select>
+		from CUST_SOCIAL
+		where CUST_NO = (select CUST_NO from CUST where LOGIN_ID = #{loginId})
+	</select> -->
 	
 	<!-- 아이디중복체크 -->
 	<select id="selectCustForIdExist" resultType="CommonMap">
@@ -321,14 +321,12 @@
 	   		CUST_NO,
 	    	SOCIAL_TYPE,
 			SOCIAL_EMAIL,
-			SOCIAL_LOGIN_ID,
 			REG_DT
 		) 
 		VALUES ( 
 			#{cust_no},
 			#{social_type},
 			#{social_email},
-			#{social_login_id},
 			now()
 		);
 		<selectKey keyProperty="reg_dt" resultType="String" order="AFTER">
@@ -339,18 +337,18 @@
 	<!-- 소셜정보로 회원조회 -->
 	<select id="selectCustForCustSocial" resultType="CommonMap">
 		SELECT *
-		FROM   CUST
-		       JOIN CUST_SOCIAL
-		         ON CUST.CUST_NO = CUST_SOCIAL.CUST_NO
+		FROM   CUST C
+		       JOIN CUST_SOCIAL CS
+		         ON C.CUST_NO = CS.CUST_NO
 		WHERE  1 = 1
 			<if test="social_email != null">
-				AND SOCIAL_EMAIL = #{social_email}
+				AND CS.SOCIAL_EMAIL = #{social_email}
 			</if>
-			<if test="social_login_id != null">
-				AND SOCIAL_LOGIN_ID = #{social_login_id}
+			<if test="login_id != null">
+				AND C.LOGIN_ID = #{login_id}
 			</if>
 			<if test="social_type != null">
-		       	AND SOCIAL_TYPE = #{social_type}
+		       	AND CS.SOCIAL_TYPE = #{social_type}
 			</if>
 	</select>
 	
