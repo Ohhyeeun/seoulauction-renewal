@@ -61,12 +61,13 @@ public class PaymentService {
         resultMap.put("reg_emp_no",  resultMap.get("cust_no")); // 로그인한 유저 값?
 
         resultMap.put("academy_no", request.getParameter("academy_no"));
-        resultMap.put("uuid", request.getAttribute("uuid"));
-        resultMap.put("kind_cd", request.getAttribute("pay_kind"));
         resultMap.put("pg_cd", SAConst.PG_NICEPAY);
 
         resultMap.put("pay_method_cd", resultMap.get("PayMethod"));
         resultMap.put("pay_method", resultMap.get("PayMethod"));
+
+        resultMap.put("uuid", request.getAttribute("uuid"));
+        resultMap.put("kind_cd", request.getAttribute("pay_kind"));
 
         resultMap.put("no_vat_price", request.getAttribute("no_vat_price"));
         resultMap.put("vat_price", request.getAttribute("vat_price"));
@@ -76,6 +77,9 @@ public class PaymentService {
         resultMap.put("vbank_nm", resultMap.get("VbankBankName"));
         resultMap.put("vbank_num", resultMap.get("VbankNum"));
         resultMap.put("vbank_exp_dt", resultMap.get("VbankExpDate"));
+
+        resultMap.put("rcpt_type", request.getAttribute("rcpt_type"));
+        resultMap.put("rcpt_type_no", request.getAttribute("rcpt_type_no"));
 
         paymentMapper.insertPayWait(resultMap);
 
@@ -95,7 +99,7 @@ public class PaymentService {
             paramMap.put("uuid", request.getAttribute("uuid"));
 
             resultMap = paymentMapper.selectPayWaitByUuid(paramMap);
-            resultMap.put("rcpt_type", request.getParameter("RcptType"));
+            //resultMap.put("rcpt_type", request.getParameter("RcptType"));
             resultMap.put("real_payer", request.getParameter("VbankInputName"));
         } else {
             resultMap.put("pg_trans_id", request.getParameter("TxTid"));
@@ -106,7 +110,7 @@ public class PaymentService {
         }
 
         //공통 페이먼트 테이블 필요한 부분 미리 넣기.
-        resultMap.put("cust_no", details.getUserNo()); //TODO: 로그인 한 유저 번호 가져와야함.
+        resultMap.put("cust_no", details.getUserNo());
         resultMap.put("pay_method", method);
         resultMap.put("pay_price", request.getParameter("Amt"));
         resultMap.put("pg_cd", SAConst.PG_NICEPAY);
@@ -127,7 +131,7 @@ public class PaymentService {
                 }
                 paymentMapper.insertAcademyPay(resultMap);
 
-                resultMap.put("reg_emp_no", details.getUserNo()); //TODO: 로그인 한 유저 번호 가져와야함.
+                resultMap.put("reg_emp_no", details.getUserNo());
                 paymentMapper.insertAcademyReq(resultMap);
 
                 break;
@@ -169,18 +173,7 @@ public class PaymentService {
             request.setAttribute("no_vat_price", no_vat_price);
 
             if(SAConst.PAYMENT_METHOD_VBANK.equals(payMethod)){
-                String reqReserved = request.getParameter("ReqReserved");
-
-                CommonMap reservedMap = new CommonMap();
-                StringTokenizer stk = new StringTokenizer(reqReserved, ",");
-                while(stk.hasMoreTokens()) {
-                    String[] str = stk.nextToken().split("=");
-                    if (str.length == 2) {
-                        reservedMap.put(str[0], str[1]);
-                    }
-                }
-                request.setAttribute("uuid", reservedMap.get("uuid"));
-                request.setAttribute("pay_kind", reservedMap.get("pay_kind"));
+                reservedStringSet(request.getParameter("ReqReserved"), request);
 
                 resultMap = insertPayWait(request, resultMap);
             } else {
@@ -243,18 +236,8 @@ public class PaymentService {
         String ResultCode   = request.getParameter("ResultCode");       //결과코드 ('4110' 경우 입금통보)
         String VbankInputName = request.getParameter("VbankInputName"); //입금자 명
         String RcptType     = request.getParameter("RcptType");         //현금 영수증 구분(0:미발행, 1:소득공제용, 2:지출증빙용)
-        String reqReserved = request.getParameter("ReqReserved");
 
-        CommonMap reservedMap = new CommonMap();
-        StringTokenizer stk = new StringTokenizer(reqReserved, ",");
-        while(stk.hasMoreTokens()){
-            String[] str = stk.nextToken().split("=");
-            if(str.length == 2) {
-                reservedMap.put(str[0], str[1]);
-            }
-        }
-        request.setAttribute("uuid", reservedMap.get("uuid"));
-        request.setAttribute("pay_kind", reservedMap.get("pay_kind"));
+        reservedStringSet(request.getParameter("MallReserved"), request);
 
         boolean paySuccess = false;		// 결제 성공 여부
         if(PayMethod.equals(SAConst.PAYMENT_METHOD_VBANK)){		//가상계좌
@@ -263,9 +246,28 @@ public class PaymentService {
 
         if(paySuccess){
             insertPay(request);
+            checkReceipt(request);
         }
     }
 
+    private void reservedStringSet(String reservedString, HttpServletRequest request) {
+        CommonMap reservedMap = new CommonMap();
+        StringTokenizer stk = new StringTokenizer(reservedString, ",");
+        while(stk.hasMoreTokens()) {
+            String[] str = stk.nextToken().split("=");
+            if (str.length == 2) {
+                reservedMap.put(str[0], str[1]);
+            }
+        }
+        request.setAttribute("uuid", reservedMap.get("uuid"));
+        request.setAttribute("pay_kind", reservedMap.get("pay_kind"));
+        request.setAttribute("rcpt_type", reservedMap.get("rcpt_type"));
+        request.setAttribute("rcpt_type", reservedMap.get("rcpt_type_no"));
+    }
+
+    public void checkReceipt(HttpServletRequest request) {
+        nicePayModule.receiptProcess(request);
+    }
     public CommonMap selectAcademyByAcademyNo(CommonMap paramMap) {
         CommonMap map = paymentMapper.selectAcademyByAcademyNo(paramMap);
         if(MapUtils.isEmpty(map)) {

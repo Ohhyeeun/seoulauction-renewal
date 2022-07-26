@@ -46,22 +46,27 @@ public class LoginService {
 
 	private final LoginMapper loginMapper;
 
+	/*아이디로 회원조회*/
 	public CommonMap selectCustByLoginId(CommonMap paramMap) {
 		return loginMapper.selectCustByLoginId(paramMap);
 	}
 
+	/*회원접속이력*/
 	public int insertConnHist(CommonMap paramMap) {
 		return loginMapper.insertConnHist(paramMap);
 	}
 
+	/*회원번호로 회원조회*/
 	public CommonMap selectCustByCustNo(CommonMap paramMap) {
 		return loginMapper.selectCustByCustNo(paramMap);
 	}
 
+	/*비밀번호초기화여부 업데이트*/
 	public int updateCustPwdResetByCustNo(CommonMap paramMap) {
 		return loginMapper.updateCustPwdResetByCustNo(paramMap);
 	}
 
+	/*비밀번호변경일시 업데이트*/
 	public int updateCustPwdModDtByCustNo(CommonMap paramMap) {
 		return loginMapper.updateCustPwdModDtByCustNo(paramMap);
 	}
@@ -85,18 +90,22 @@ public class LoginService {
 		return loginMapper.selectCustomerByStatCdAndLoginId(paramMap);
 	}
 
-	public CommonMap selectCustSocialBySocialLoginId(CommonMap paramMap) {
-		return loginMapper.selectCustSocialBySocialLoginId(paramMap);
-	}
+	/*소셜로그인아이디로 소셜회원조회
+	public CommonMap selectCustSocialByLoginId(CommonMap paramMap) {
+		return loginMapper.selectCustSocialByLoginId(paramMap);
+	}*/
 
+	/*아이디중복체크*/
 	public List<CommonMap> selectCustForIdExist(CommonMap paramMap) {
 		return loginMapper.selectCustForIdExist(paramMap);
 	}
 
+	/*핸드폰, 사업자등록번호, 외국인인증코드, 이메일중복체크*/
 	public List<CommonMap> selectCustForExist(CommonMap paramMap) {
 		return loginMapper.selectCustForExist(paramMap);
 	}
 
+	/*직원조회*/
 	public CommonMap selectEmpByEmpName(CommonMap paramMap) {
 		CommonMap map = new CommonMap();
 		map.put("list", loginMapper.selectEmpByEmpName(paramMap));
@@ -104,22 +113,27 @@ public class LoginService {
 		return map;
 	}
 
+	/*코드조회*/
 	public List<CommonMap> selectCode(CommonMap paramMap) {
 		return loginMapper.selectCode(paramMap);
 	}
 
+	/*회원가입*/
 	public int insertCust(CommonMap paramMap) {
 		return loginMapper.insertCust(paramMap);
 	}
 
+	/*소셜회원가입*/
 	public int insertCustSocial(CommonMap paramMap) {
 		return loginMapper.insertCustSocial(paramMap);
 	}
 
+	/*소셜정보로 회원조회*/
 	public CommonMap selectCustForCustSocial(CommonMap paramMap) {
 		return loginMapper.selectCustForCustSocial(paramMap);
 	}
 
+	/*회원정보수신방법 등록*/
 	public int insertCustPushWay(CommonMap paramMap) {
 		return loginMapper.insertCustPushWay(paramMap);
 	}
@@ -155,6 +169,7 @@ public class LoginService {
 		return ip;
 	}
 
+	/*POST방식 API호출*/
 	public JsonElement postRestful(StringBuilder sb, String reqUrl) {
 		JsonElement element = null;
 		
@@ -162,9 +177,9 @@ public class LoginService {
 			URL url = new URL(reqUrl);
 
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			// POST 요청을 위해 기본값이 false인 setDoOutput을 true로
 
 			conn.setRequestMethod("POST");
+			// POST 요청을 위해 기본값이 false인 setDoOutput을 true로
 			conn.setDoOutput(true);
 			// POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
 
@@ -204,6 +219,7 @@ public class LoginService {
 		return element;
 	}
 
+	/*GET방식 API호출*/
 	public JsonElement getRestful(String token, String reqUrl) {
 		JsonElement element = null; 
 		try {
@@ -239,23 +255,28 @@ public class LoginService {
 		return element;
 	}
 
+	/*소셜로그인아이디 생성*/
 	public String checkDuplSocialLoginId(String socialType) {
-		String socialLoginId = "";
+		String loginId = "";
 
 		boolean duplIdCheck = true;
 		while (duplIdCheck) {
-			socialLoginId = socialType + "_" + Double.toString(Math.random() * 10).replace(".", "").substring(0, 8);
-			log.info(socialLoginId);
+			loginId = socialType + "_" + Double.toString(Math.random() * 10).replace(".", "").substring(0, 8);
+			log.info(loginId);
 			CommonMap paramMap = new CommonMap();
-			paramMap.put("socialLoginId", socialLoginId);
-			CommonMap resultMap = selectCustSocialBySocialLoginId(paramMap);
-			if (resultMap == null) {
+			paramMap.put("loginId", loginId);
+//			CommonMap resultMap = selectCustSocialBySocialLoginId(paramMap);
+			List<CommonMap> resultMap = selectCustForIdExist(paramMap);
+			
+			if (resultMap.size() == 0) {
 				duplIdCheck = false;
 			}
 		}
 
-		return socialLoginId;
+		return loginId;
 	}
+	
+	/*직원번호로 회원조회*/
 	public CommonMap getCustByEmpNo(int custNo){
 
 		CommonMap empCustMap = loginMapper.selectCustForEmpNo(new CommonMap("cust_no" , custNo));
@@ -274,16 +295,10 @@ public class LoginService {
 		}
 
 		return empCustMap;
-
-
 	}
 	
+	/*애플 client secret생성*/
 	public String createClientSecret(String teamId, String clientId, String keyId, String keyPath, String authUrl) throws IOException {
-//		teamId 2LXTMAYUA5
-//		clientId com.seoulauction.renewal-web
-//		keyId 72UURP4N8Z
-//		keyPath AuthKey_72UURP4N8Z.p8
-//		authUrl https://appleid.apple.com
 	    Date expirationDate = Date.from(LocalDateTime.now().plusDays(30).atZone(ZoneId.systemDefault()).toInstant());
 	    return Jwts.builder()
 	               .setHeaderParam("kid", keyId)
@@ -297,6 +312,7 @@ public class LoginService {
 	               .compact();
 	}
 	
+	/*애플 인증서로 key가져오기*/
 	private PrivateKey getPrivateKey(String keyPath) throws IOException {
 	    ClassPathResource resource = new ClassPathResource(keyPath);
 	    InputStream is = resource.getInputStream();

@@ -19,7 +19,9 @@ public class FrontLogoutSuccessHandler implements LogoutSuccessHandler{
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
                              Authentication authentication) throws IOException, ServletException {
-    	log.info("onLogoutSuccess");
+    	log.info("FrontLogoutSuccessHandler - onLogoutSuccess");
+    	
+    	//인증이 남아있을경우 invalidate
         if (authentication != null && authentication.getDetails() != null) {
             try {
                  request.getSession().invalidate();
@@ -29,10 +31,12 @@ public class FrontLogoutSuccessHandler implements LogoutSuccessHandler{
         } 
         response.setStatus(HttpServletResponse.SC_OK);
 
+        //로그아웃 이전 접속페이지가 있다면 redirect
         String redirectUrl = (String)request.getHeader("REFERER");
         log.info("redirectUrl : {}",redirectUrl);
         
         if(redirectUrl != null) {
+        	//로그아웃 후 redirectUrl이 회원가입완료페이지면 로그인페이지로 이동
         	if(redirectUrl.contains("joinDone")) {
 	        	redirectUrl = "/login";
 	        	log.info("redirect to login");

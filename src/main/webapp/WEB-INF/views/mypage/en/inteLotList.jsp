@@ -102,7 +102,8 @@
                                                                         <div class="pay-area">
                                                                             <dl class="price">
                                                                                 <dt class="tit">Estimate</dt>
-                                                                                <dd class="txt"><span>USD {{comma(data.EXPE_PRICE_FROM_EN || 0)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_EN || 0)}}</span></dd>
+                                                                                <dd class="txt" ng-if="data.EXPE_PRICE_INQ_YN != 'Y'"><span>USD {{comma(data.EXPE_PRICE_FROM_EN || 0)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_EN || 0)}}</span></dd>
+                                                                            	<dd class="txt" ng-if="data.EXPE_PRICE_INQ_YN == 'Y'"><span>별도문의</span></dd>
                                                                             </dl>
                                                                         </div>
                                                                     </div>
@@ -138,7 +139,7 @@
                                                     </div>
                                                     <div class="wrap_paging" ng-if="inteLotCnt != 0">
 														<paging page="currentPage"
-															page-size=3
+															page-size=5
 															total="inteLotCnt"
 															paging-action="loadInteLotList(page)"
 															scroll-top="true"

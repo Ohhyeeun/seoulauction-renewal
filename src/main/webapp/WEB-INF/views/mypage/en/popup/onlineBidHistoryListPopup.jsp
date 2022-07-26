@@ -12,8 +12,8 @@
                             <span class="txt_title type-big"> Bid History</span>
                         </div>
                         <!-- [0610] 추가 -->
-                      <div class="right_txt" ng-if="onlineBidHisList[0].ABORT_YN =='N'">
-                          <span>Automatic bid set price <em>{{onlineBidHisList[0].CURR_CD}} {{comma(onlineBidHisList[0].BID_PRICE)}}</em></span>
+                      <div class="right_txt" ng-if="onlineBidHisList[0].ABORT_YN =='N' && onlineBidHisList[0].AUTO_BID_PRICE">
+                          <span>Automatic bid set price <em>{{onlineBidHisList[0].CURR_CD}} {{comma(onlineBidHisList[0].AUTO_BID_PRICE)}}</em></span>
                       </div>
                       <!-- //[0610] 추가 -->
                     </div>

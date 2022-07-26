@@ -34,7 +34,6 @@
 											<i>*</i>
 										</div>
 										<div class="form_body">
-											<input type="hidden" id="social_login_id" name="social_login_id" value="${socialLoginId }" ng-model="form_data.social_login_id" />
 											<input type="hidden" id="social_email" name="social_email" value="${socialEmail }" ng-model="form_data.social_email" />
 											<input
 												autofocus="autofocus"
@@ -49,7 +48,7 @@
 												class="form-control"
 												placeholder="">
 											<div class="id_name_box" ng-show="isSocial()">
-												<span class="tb1">${socialLoginId }</span>
+												<span class="tb1">${loginId }</span>
 												<span class="sns-icon"><img ng-src="/images/common/icon-sns_{{getSocialName()}}.png" alt=""></span>
 											</div>
 											<p class="error_text tb2">{{login_id_msg}}</p>
@@ -1586,10 +1585,9 @@
 </body>
 <script>
 	app.value('locale', 'ko');
-	var loginId = '${socialLoginId }';
+	var loginId = '${loginId }';
 	var name = '${name }';
 	var email = '${email }';
-	var socialLoginId = '${socialLoginId }';
 	var socialEmail = '${socialEmail }';
 </script>
 <%--<script src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>

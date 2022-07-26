@@ -96,7 +96,7 @@
 																</ul></li>
 															<li class="cate1-li" id="intelot"><a href="/mypage/inteLotList" class="">Favorites <i
 																	class="icon-view_more"></i></a></li>
-															<li class="cate1-li" id="inquiry"><a href="/mypage/inquiryList" class="">1:1 Inquiry <i
+															<li class="cate1-li" id="inquiry"><a href="/mypage/inquiryList?page=1" class="">1:1 Inquiry <i
 																	class="icon-view_more"></i></a></li>
 															<li class="cate1-group"><span>Account Info</span>
 																<ul>

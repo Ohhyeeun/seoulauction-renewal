@@ -109,8 +109,9 @@
                                                                                 <!-- [0613]재질/사이즈로 수정 -->
                                                                                     <div class="sub-li">{{data.CD_NM}}</div>
                                                                                     <div class="sub-li">
-                                                                                        <span>{{StringToJson(data.LOT_SIZE_JSON)[0].SIZE1}} X {{StringToJson(data.LOT_SIZE_JSON)[0].SIZE2}}cm</span>
-                                                                                        <span ng-if="StringToJson(data.MAKE_YEAR_JSON).ko">{{StringToJson(data.MAKE_YEAR_JSON).ko}}</span>
+                                                                                    	<span ng-bind="StringToJson(data.LOT_SIZE_JSON)[0] | size_text_cm"></span>
+					                                                                    <span ng-bind="StringToJson(data.MAKE_YEAR_JSON).en" ng-show="StringToJson(data.MAKE_YEAR_JSON).en !== undefined"></span>
+					                                                                    <span ng-show="(StringToJson(data.MAKE_YEAR_JSON).en === undefined && change_size)">ㅤ</span>
                                                                                     </div>
                                                                                     <!-- //[0613]재질/사이즈로 수정 -->
                                                                                 </div>

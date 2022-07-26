@@ -706,7 +706,6 @@
             }
 
             $scope.goLot = function (saleNo, lotNo) {
-                console.log('asdfasdfasdf');
                 window.location.href = '/auction/online/view/' + saleNo + '/' + lotNo;
             }
 
@@ -769,7 +768,6 @@
             $scope.searchLotTags = function (lotTag) {
                 $scope.selectLotTag = lotTag;
 
-                console.log("검색", $scope.selectLotTag, $scope.searchValue );
 
                 let pp = [];
                 if (lotTag === '전체') {
@@ -1126,6 +1124,7 @@
 
             // bid protocols
             $scope.proc = function (evt, saleNo, lotNo, saleType, userId, custNo) {
+
                 const packet_enum = {
                     init: 1, bid_info: 2,
                     time_sync: 3, bid_info_init: 4,
@@ -1322,6 +1321,7 @@
                     $scope.$apply();
 
                 } else if (d.msg_type === packet_enum.time_sync) {
+
                     let ddd = new Date(d.message.tick_value);
                     let bid_tick = document.getElementById("bid_tick");
                     // 앵귤러 정보 삽입
@@ -1536,11 +1536,14 @@
                                                 dt_ly.setAttribute("class", "product-day");
 
                                                 let dt_ly_span1;
-                                                if (bid_info.winner_state === 2 && bid_hist_info[i].value.length - 1 === j) {
+
+                                                //현재 경매가 끝나고 가장 마지막 비드에 낙찰을 달아줌.
+                                                if (bid_info.winner_state === 2 && (bid_hist_info[i].value.length - 1 ) === j) {
                                                     // type
                                                     dt_ly_span1 = document.createElement("em");
                                                     dt_ly_span1.setAttribute("class", "type-success");
                                                     dt_ly_span1.innerText = "낙찰";
+                                                    dt_ly.appendChild(dt_ly_span1);
                                                 }
                                                 let dt_ly_span11;
                                                 if (bid_hist_info[i].value[j].is_auto_bid) {
@@ -1556,9 +1559,12 @@
                                                 let dt_ly_span3 = document.createElement("span");
                                                 dt_ly_span3.innerText = ddd.format("HH:mm:ss");
 
-                                                if (bid_info.winner_state === 2) {
-                                                    dt_ly.appendChild(dt_ly_span1);
-                                                }
+                                                // if (bid_info.winner_state === 2) {
+                                                //
+                                                //     console.log(dt_ly_span1);
+                                                //
+                                                //     dt_ly.appendChild(dt_ly_span1);
+                                                // }
                                                 if (bid_hist_info[i].value[j].is_auto_bid) {
                                                     dt_ly.appendChild(dt_ly_span11);
                                                 }
@@ -1735,6 +1741,7 @@
                         }
                     }
                 } else if (d.msg_type === packet_enum.winner) {
+
                     if (d.message != null) {
                         for (let j = 0; j < $scope.saleInfoAll.length; j++) {
                             if ($scope.saleInfoAll[j].SALE_NO === d.message.sale_no && $scope.saleInfoAll[j].LOT_NO === d.message.lot_no) {

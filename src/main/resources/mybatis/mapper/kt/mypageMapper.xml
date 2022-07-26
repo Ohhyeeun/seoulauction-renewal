@@ -450,7 +450,7 @@
 		   	CASE WHEN C.P_CD_NM IS NULL THEN '' ELSE C.CD_NM END AS CATE_NM,
 			    CASE WHEN C.P_CD_NM IS NULL THEN C.CD_NM ELSE C.P_CD_NM END AS P_CATE_NM,
 			    C.CD_NM_EN P_CATE_NM_EN,
-			    IF(C.P_CD_NM IS NOT NULL ,(SELECT CD.CD_NM_EN  FROM CODE CD WHERE CD.CD_ID = C.P_CD_ID AND CD.GRP_ID = 'bbs_inquiry_category_en'),'') CATE_NM_EN,
+			    IF(C.P_CD_NM IS NOT NULL ,(SELECT CD.CD_NM_EN  FROM CODE CD WHERE CD.CD_ID = C.P_CD_ID AND CD.GRP_ID = 'bbs_inquiry_category'),'') CATE_NM_EN,
 				CASE WHEN B.REPLY_CNT &gt; 0 THEN 'Y' ELSE 'N' END AS REPLY_YN,
 				B.LAST_REPLY_DT,
 				D.EMP_NAME,
@@ -493,7 +493,7 @@
 		    CASE WHEN C.P_CD_NM IS NULL THEN '' ELSE C.CD_NM END AS CATE_NM,
 		    CASE WHEN C.P_CD_NM IS NULL THEN C.CD_NM ELSE C.P_CD_NM END AS P_CATE_NM,
 		    C.CD_NM_EN P_CATE_NM_EN,
-		    IF(C.P_CD_NM IS NOT NULL ,(SELECT CD.CD_NM_EN  FROM CODE CD WHERE CD.CD_ID = C.P_CD_ID AND CD.GRP_ID = 'bbs_inquiry_category_en'),'') CATE_NM_EN,
+		    IF(C.P_CD_NM IS NOT NULL ,(SELECT CD.CD_NM_EN  FROM CODE CD WHERE CD.CD_ID = C.P_CD_ID AND CD.GRP_ID = 'bbs_inquiry_category'),'') CATE_NM_EN,
 			CASE WHEN B.REPLY_CNT &gt; 0 THEN 'Y' ELSE 'N' END AS REPLY_YN,
 			B.LAST_REPLY_DT,
 			D.EMP_NAME,
@@ -646,7 +646,8 @@
 			 , COLUMN_GET(L.EXPE_PRICE_FROM_BLOB, 'KRW' AS CHAR) AS  EXPE_PRICE_FROM_KO
 			 , COLUMN_GET(L.EXPE_PRICE_FROM_BLOB, 'USD' AS CHAR) AS  EXPE_PRICE_FROM_EN
 			 , COLUMN_GET(L.EXPE_PRICE_TO_BLOB, 'KRW' AS CHAR) AS  EXPE_PRICE_TO_KO
-			 , COLUMN_GET(L.EXPE_PRICE_TO_BLOB, 'USD' AS CHAR) AS  EXPE_PRICE_TO_EN 
+			 , COLUMN_GET(L.EXPE_PRICE_TO_BLOB, 'USD' AS CHAR) AS  EXPE_PRICE_TO_EN
+			 , L.EXPE_PRICE_INQ_YN 
 		     , IF(S.SALE_TH_DSP_YN = 'N', '', CONCAT(S.SALE_TH, f_ordinal_number(S.SALE_TH))) AS SALE_TH_DSP
 		     , COLUMN_GET(S.TITLE_BLOB, 'ko' AS CHAR) AS SALE_TITLE_KO
 		     , COLUMN_GET(S.TITLE_BLOB, 'en' AS CHAR) AS SALE_TITLE_EN
@@ -662,16 +663,18 @@
 		     , LI.FILE_PATH
 		     , S.SALE_KIND_CD
 		     , S.CURR_CD
+		     , S.TO_DT
 		  FROM CUST_INTE_LOT CL INNER JOIN CUST CU ON CL.CUST_NO = CU.CUST_NO
 							   INNER JOIN
 							   (
-							    <include refid="sql_sale_list" />ORDER BY S1.SALE_NO DESC LIMIT #{offset}, #{size}
+							    <include refid="sql_sale_list" />ORDER BY S1.TO_DT DESC LIMIT #{offset}, #{size}
 								) S ON S.SALE_NO = CL.SALE_NO
 		  						INNER JOIN LOT  L ON CL.SALE_NO = L.SALE_NO AND CL.LOT_NO = L.LOT_NO
 		                      	LEFT OUTER JOIN ARTIST A ON L.ARTIST_NO = A.ARTIST_NO
 		                      	LEFT OUTER JOIN LOT_IMG LI ON CL.SALE_NO = LI.SALE_NO AND CL.LOT_NO = LI.LOT_NO AND LI.IMG_NO = (SELECT T.IMG_NO FROM LOT_IMG T WHERE T.SALE_NO = L.SALE_NO AND T.LOT_NO = L.LOT_NO ORDER BY T.DISP_ORD LIMIT 1)
 							   WHERE CL.CUST_NO =  #{action_user_no}
-							     ORDER BY CL.SALE_NO DESC, CL.REG_DT DESC;
+							   AND L.STAT_CD != 'reentry'
+							     ORDER BY S.TO_DT DESC, CL.REG_DT DESC;
 	</select>
 
 	<!-- 관심정보 totalcount-->
@@ -1066,6 +1069,7 @@
 				= B.BID_PRICE , 'hammer', 'bidding') AS HAMMER_STAT
 				, ABR.ABORT_YN
 				, S.CURR_CD
+				,(SELECT BID_PRICE  FROM AUTO_BID_REQ ABR WHERE SALE_NO = #{sale_no} AND LOT_NO = #{lot_no} AND CUST_NO = #{action_user_no} ORDER BY REG_DT DESC LIMIT 1 ) AUTO_BID_PRICE
 	    from LOT L
 		inner join SALE S on L.SALE_NO = S.SALE_NO 
 		inner join (
@@ -1105,7 +1109,7 @@
 	
 	<select id="selectCustSocialByCustNo" resultType="CommonMap">
 		select
-			CUST_NO, SOCIAL_TYPE, SOCIAL_EMAIL, SOCIAL_LOGIN_ID, date_format(REG_DT,'%Y.%m.%d')REG_DT
+			CUST_NO, SOCIAL_TYPE, SOCIAL_EMAIL,date_format(REG_DT,'%Y.%m.%d')REG_DT
 		from
 			CUST_SOCIAL
 		where

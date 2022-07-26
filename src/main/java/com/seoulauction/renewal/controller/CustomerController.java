@@ -1,6 +1,7 @@
 package com.seoulauction.renewal.controller;
 
 import com.seoulauction.renewal.common.SAConst;
+import com.seoulauction.renewal.exception.InternalServerException;
 import com.seoulauction.renewal.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -28,23 +29,25 @@ public class CustomerController {
         return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "login" , locale);
     }
 
-    @GetMapping(value = "/niceVbankPaid")
-    public void niceVBankPaidGet(HttpServletRequest request) {
-        log.info("get niceVBankPaid");
-    }
-
     @PostMapping(value = "/niceVbankPaid", produces="text/plain")
     @ResponseBody
     public void niceVBankPaid(HttpServletRequest request, HttpServletResponse response) {
         log.info("post niceVBankPaid");
-        Enumeration params = request.getParameterNames();
-        log.info("param start----------------------------");
-        while (params.hasMoreElements()){
-            String name = (String)params.nextElement();
-            log.info(name + " : " +request.getParameter(name));
-        }
-        log.info("param end----------------------------");
+        try {
+            request.setCharacterEncoding("euc-kr");
+            response.setContentType("text/html;charset=euc-kr");
 
-        paymentService.niceVBankPaid(request);
+            Enumeration params = request.getParameterNames();
+            log.info("param start----------------------------");
+            while (params.hasMoreElements()){
+                String name = (String)params.nextElement();
+                log.info(name + " : " +request.getParameter(name));
+            }
+            log.info("param end----------------------------");
+
+            paymentService.niceVBankPaid(request);
+        } catch(Exception e) {
+            throw new InternalServerException(e);
+        }
     }
 }

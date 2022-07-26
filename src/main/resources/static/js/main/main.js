@@ -347,8 +347,8 @@ function loadUpcomings() {
                     const prev_from_dt = moment(item.PREV_FROM_DT);
                     const prev_to_dt = moment(item.PREV_TO_DT);
                     const returnDom =  ` <div class="swiper-slide upcomingSlide "> 
-                                            <a href="/auction/upcoming/${item.SALE_NO}">
-                                                <div class="upcoming-caption">
+                                            <a href="/auction/upcoming/${item.SALE_NO}"> 
+                                                <div class="upcoming-caption text-over">  
                                                     <span class="auctionKind-box ${ item.SALE_KIND === 'LIVE' ? 'on' : ''}">
                                                         ${item.SALE_KIND} 
                                                     </span>
@@ -383,7 +383,7 @@ function loadUpcomings() {
                                                     </div>
                                                 </div>
                                                 ${item.FILE_PATH !== null && item.FILE_NAME !== null ?
-                                                `<figure class="upcoming-img on" style="display: flex; width:160px; height:160px; overflow: hidden;">
+                                                `<figure class="upcoming-img on">
                                                     <!--<span class="upcomingImg"></span>-->
 <!--                                                    <img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">-->
 <!--                                                    <img src="https://www.seoulauction.com/nas_img/front/online0688/thum/ea39a8bb-c1b9-427d-a250-62117dcc07f5.jpg" alt="alet">-->

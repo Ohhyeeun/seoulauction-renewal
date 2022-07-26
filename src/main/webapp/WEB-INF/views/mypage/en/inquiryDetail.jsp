@@ -45,7 +45,7 @@
                                                     <div class="sub-area tb1">
                                                         <dl>
                                                             <dt><span>Type : </span></dt>
-                                                            <dd><span>{{inquiry.P_CATE_NM_EN}}{{inquiry.CATE_NM_EN != '' ? ' / '+inquiry.CATE_NM_EN : ''}}</span></dd>
+                                                            <dd><span>{{inquiry.CATE_NM_EN}}{{inquiry.CATE_NM_EN != '' ? ' > '+ inquiry.P_CATE_NM_EN: inquiry.P_CATE_NM_EN}}</span></dd>
                                                         </dl>
                                                         <dl>
                                                             <dt><span>Status  : </span></dt>
@@ -95,7 +95,7 @@
                                                 <article class="view-footer">
                                                     <div class="button-area">
                                                         <div class="btn_set-float tac">
-                                                        <a href="/mypage/inquiryList">
+                                                        <a href="/mypage/inquiryList?page={{page}}">
                                                             <button class="btn btn_default"><span>List</span></button>
                                                         </a>
                                                         </div>

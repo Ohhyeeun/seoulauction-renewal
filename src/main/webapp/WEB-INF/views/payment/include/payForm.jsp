@@ -7,7 +7,7 @@
     <input type="hidden" name="GoodsName" value="${goodsName}" />               <!-- 결제 상품금액 -->
     <input type="hidden" name="Amt" value="${price}" />                         <!-- 상점 아이디 -->
     <input type="hidden" name="MID" value="${mId}" />                           <!-- 결제 수단 -->
-    <input type="hidden" name="Moid" value="${moid}" />                         <!-- 상품 주문번호 -->
+    <input type="hidden" name="Moid" value="" />                                <!-- 상품 주문번호 -->
     <input type="hidden" name="BuyerName" value="${cust_name}" />               <!-- 구매자명 -->
     <input type="hidden" name="BuyerEmail" value="${email}" />                  <!-- 구매자 이메일 -->
     <input type="hidden" name="BuyerTel" value="${hp}" />                       <!-- 구매자 연락처 -->
@@ -18,7 +18,8 @@
     <input type="hidden" name="TransType" value="0"/>					        <!-- 일반(0)/에스크로(1) -->
     <input type="hidden" name="CharSet" value="utf-8"/>					        <!-- 응답 파라미터 인코딩 방식 -->
     <input type="hidden" name="VbankExpDate" value="" />                        <!-- 가상계좌입금만료일(YYYYMMDD) -->
-    <input type="hidden" name="ReqReserved" value="uuid=${uuid},pay_kind=${pay_kind}" />
+    <input type="hidden" name="ReqReserved" value="" />
+    <input type="hidden" name="tmpReqReserved" value="uuid=${uuid},pay_kind=${pay_kind}" />
 
     <!-- 변경 불가능 -->
     <input type="hidden" name="EdiDate" value="${ediDate}"/>			        <!-- 전문 생성일시 -->

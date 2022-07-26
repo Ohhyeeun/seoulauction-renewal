@@ -291,7 +291,7 @@ public class ApiLoginController {
             					.build();
             			
             			SecurityContext sc = SecurityContextHolder.getContext();
-            			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(paramMap.get("social_login_id").toString(), null);
+            			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(paramMap.get("login_id").toString(), null);
             			auth.setDetails(parameterUserDetail);
             			sc.setAuthentication(socialAuthenticationProvider.authenticate(auth));
             			

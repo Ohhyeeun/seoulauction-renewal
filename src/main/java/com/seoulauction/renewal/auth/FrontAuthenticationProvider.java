@@ -10,7 +10,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
@@ -38,26 +37,31 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
         paramMap.put("login_id", loginId);
         paramMap.put("passwd", passwd);
         
+        // 아이디로 회원조회
         CommonMap resultMap = loginMapper.selectCustByLoginId(paramMap);
         
+        // 조회결과 없을시
         if(resultMap == null || resultMap.isEmpty()){
 			throw new BadCredentialsException("User not found.");
         }
         
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         
+        // 사용자입력 비밀번호를 암호화하여 DB값과 비교
         int loginFailCnt = (int) resultMap.get("LOGIN_FAIL_CNT");
         if(!encoder.matches(passwd, resultMap.getString("PASSWD"))){
         	// 로그인 실패 횟수 + 1
             paramMap.put("cust_no", resultMap.get("CUST_NO"));
             paramMap.put("login_fail_cnt", ++loginFailCnt);
         	
+            // 로그인실패횟수 업데이트, 10번 이상일시 로그인페이지에 보안문자(captcha)표현됨
             int result = loginMapper.updateCustLoginFailCntByCustNo(paramMap);
         	if(result > 0 && loginFailCnt >10) {
         		attr.getRequest().getSession().setAttribute("LOGIN_FAIL_CNT_YN", true);
         	}
         	throw new BadCredentialsException("Wrong password");
         }else {
+        	// 로그인성공이므로 실패횟수 0으로 업데이트
         	if(loginFailCnt > 0) {
         		paramMap.put("cust_no", resultMap.get("CUST_NO"));
                 paramMap.put("login_fail_cnt", 0);
@@ -68,10 +72,12 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
         	}
         }
 
+        // 이용제한 사용자 체크
         if(resultMap.get("STAT_CD") != null && resultMap.get("STAT_CD").equals("stop")){
 			throw new BadCredentialsException("Stop User"); // 이용제한 아이디 STAT_CD = 'stop'
         }
         
+        // 미인증 사용자 체크
         if(resultMap.get("STAT_CD") != null && resultMap.get("STAT_CD").equals("not_certify")){
 			throw new BadCredentialsException("Not Certify User"); // 해외고객 이메일 미인증 STAT_CD = 'not_certify'
         }
@@ -86,9 +92,9 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
             attr.getRequest().getSession().setAttribute("PASSWD_RESET_YN", true);
         }
         
+        // 접속IP체크
 		WebAuthenticationDetails wad;
         String userIPAddress;
-
         if(authentication.getDetails().getClass() == String.class) {
         	userIPAddress = authentication.getDetails().toString();
         }else {
@@ -96,6 +102,8 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
         	wad = (WebAuthenticationDetails) authentication.getDetails();
         	userIPAddress = wad.getRemoteAddress();
         }
+        
+        // 접속이력추가
         paramMap.put("ip", userIPAddress);
         paramMap.put("user_no", resultMap.get("CUST_NO"));
         paramMap.put("user_kind_cd", "customer");
@@ -104,19 +112,19 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
         	log.info("userIPAddress == " + userIPAddress);
         }
 
-        //결제여부, 직원여부에 따른 권한 분류
+        // 결제여부, 직원여부에 따른 권한 분류
         paramMap.put("cust_no", resultMap.get("CUST_NO"));
         paramMap.put("remember_me", 'N');
         resultMap = loginMapper.selectCustByCustNo(paramMap);
         
         List<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>();
-        //정,준회원 구분
+        // 정,준회원 구분하여 권한에 저장
         if(resultMap.get("MEMBERSHIP_YN").equals("Y")) {
         	roles.add(new SimpleGrantedAuthority("ROLE_REGULAR_USER"));
         }else if(resultMap.get("MEMBERSHIP_YN").equals("N")) {
         	roles.add(new SimpleGrantedAuthority("ROLE_ASSOCIATE_USER"));
         }
-        //직원여부
+        // 직원인 경우 권한에 저장
         if(resultMap.get("EMP_GB").equals("Y")) {
         	roles.add(new SimpleGrantedAuthority("ROLE_EMPLOYEE_USER"));
         }
