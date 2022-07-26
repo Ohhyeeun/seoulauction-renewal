@@ -10,7 +10,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
@@ -36,43 +35,47 @@ public class SocialAuthenticationProvider  implements AuthenticationProvider {
 
         log.info("socialType : {}, socialEmail: {}, ip: {}", socialType, socialEmail, ip);
 
-        // check CUST
+        // 소셜타입, 소셜이메일로 회원조회
         CommonMap paramMap = new CommonMap();
         paramMap.put("social_type", socialType);
         paramMap.put("social_email", socialEmail);
         CommonMap resultMap = loginMapper.selectCustForCustSocial(paramMap);
 		
+        // 조회결과 없을시
         if(resultMap == null || resultMap.isEmpty()){
 			throw new BadCredentialsException("User not found.");
         }
         
+        // 이용제한 사용자 체크
         if(resultMap.get("STAT_CD") != null && resultMap.get("STAT_CD").equals("stop")){
 			throw new BadCredentialsException("Stop User"); // 이용제한 아이디 STAT_CD = 'stop'
         }
 
+        // 미인증 사용자 체크
         if(resultMap.get("STAT_CD") != null && resultMap.get("STAT_CD").equals("not_certify")){
 			throw new BadCredentialsException("Not Certify User"); // 해외고객 이메일 미인증 STAT_CD = 'not_certify'
         }
         String socialLoginId= resultMap.getString("SOCIAL_LOGIN_ID");
 
+        // 접속이력추가
         paramMap.put("ip", ip);
         paramMap.put("user_no", resultMap.get("CUST_NO"));
         paramMap.put("user_kind_cd", "customer");
         loginMapper.insertConnHist(paramMap);
 
-        //결제여부, 직원여부에 따른 권한 분류
+        // 결제여부, 직원여부에 따른 권한 분류
         paramMap.put("cust_no", resultMap.get("CUST_NO"));
         paramMap.put("remember_me", 'N');
         resultMap = loginMapper.selectCustByCustNo(paramMap);
 
         List<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>();
-        //정,준회원 구분
+        // 정,준회원 구분하여 권한에 저장
         if(resultMap.get("MEMBERSHIP_YN").equals("Y")) {
         	roles.add(new SimpleGrantedAuthority("ROLE_REGULAR_USER"));
         }else if(resultMap.get("MEMBERSHIP_YN").equals("N")) {
         	roles.add(new SimpleGrantedAuthority("ROLE_ASSOCIATE_USER"));
         }
-        //직원여부
+        // 직원인 경우 권한에 저장
         if(resultMap.get("EMP_GB").equals("Y")) {
         	roles.add(new SimpleGrantedAuthority("ROLE_EMPLOYEE_USER"));
         }

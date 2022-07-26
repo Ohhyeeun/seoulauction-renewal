@@ -54,10 +54,53 @@ public class LoginController {
 	@Value("${social.service.domain}")
 	String currentUrl;
 	
+	/*카카오*/
+	@Value("${kakao.clientId}")
+	String kakaoClientId;
+	
+	@Value("${kakao.tokenApi}")
+	String kakaoTokenApi;
+	
+	@Value("${kakao.userApi}")
+	String kakaoUserApi;
+	
+	/*네이버*/
+	@Value("${naver.clientId}")
+	String naverClientId;
+	
+	@Value("${naver.clientSecret}")
+	String naverClientSecret;
+	
+	@Value("${naver.tokenApi}")
+	String naverTokenApi;
+	
+	@Value("${naver.userApi}")
+	String naverUserApi;
+	
+	/*애플*/
+	@Value("${apple.clientId}")
+	String appleClientId;
+	
+	@Value("${apple.teamId}")
+	String appleTeamId;
+	
+	@Value("${apple.keyId}")
+	String appleKeyId;
+	
+	@Value("${apple.keyPath}")
+	String appleKeyPath;
+	
+	@Value("${apple.authUrl}")
+	String appleAuthUrl;
+	
+	@Value("${apple.tokenApi}")
+	String appleTokenApi;
+	
     private final LoginService loginService;
     
     private final CertificationService certificationService;
     
+    /*로그인*/
     @GetMapping(SAConst.SERVICE_LOGIN)
     public String login(Locale locale, Model model
     		, HttpServletRequest request, HttpServletResponse response
@@ -87,7 +130,8 @@ public class LoginController {
     		&& !referrer.contains("/mypage/custLeave")) {
     		request.getSession().setAttribute("prevPage", referrer);
     	}
-
+    	
+    	//로그인햇을 경우 로그인페이지 접근불가, 메인페이지로 이동
     	if(principal != null) {
     		//Principal (CUST_NO)
     		log.info("===== CUST_NO : {} \t=====", principal.getName());
@@ -103,6 +147,7 @@ public class LoginController {
             return "redirect:/";
     	}
 
+    	//로그인실패시 에러메세지로 실패사유set
     	if (error != null) {
 			if(request.getSession().getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION) != null 
 				&& request.getSession().getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION)  instanceof BadCredentialsException){
@@ -124,19 +169,19 @@ public class LoginController {
         return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "login" , locale);
     }
     
-    /* 아이디 찾기*/
+    /*아이디 찾기*/
     @GetMapping("/findId")
     public String findId(Locale locale) {
     	return SAConst.getUrl(SAConst.SERVICE_CUSTOMER, "findId" , locale);
     }
 
-    /* 비밀번호 찾기*/
+    /*비밀번호 찾기*/
     @GetMapping("/findPassword")
     public String findPassword(Locale locale) {
     	return SAConst.getUrl(SAConst.SERVICE_CUSTOMER, "findPassword" , locale);
     }
     
-
+    /*회원가입 회원유형선택*/
     @GetMapping("/join")
     public String join(Locale locale, Principal principal) {
     	log.debug("===== join =====");
@@ -148,6 +193,7 @@ public class LoginController {
         return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "join" , locale);
     }
 
+    /*회원가입 일반회원*/
     @GetMapping("/joinForm")
     public String joinForm(Locale locale) {
     	log.info("===== joinForm =====");
@@ -155,26 +201,30 @@ public class LoginController {
         return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "joinForm" , locale);
     }
     
+    /*회원가입 소셜회원*/
     @PostMapping("/joinForm")
     public String joinFormPost(Locale locale, Model model, @RequestParam(value = "socialType") String socialType
     		, HttpServletRequest request, HttpServletResponse response) {
     	log.info("===== joinFormPost =====");
 	    
 		String socialEmail = request.getParameter("email");
+		//애플의 경우 unique한 값인 sub를 social_email로 취급 (애플은 이메일주소가리기 가능)
 		if(socialType.equals("AP")) {
 			socialEmail = request.getParameter("sub");
 			log.info("AP sub : {}", socialEmail);
 		}
 		
+		//소셜로그인아이디 랜덤생성 (카카오 KA, 네이버 NV, 구글 GL, 애플 AP) (소셜타입_숫자8개)
 		String socialLoginId = loginService.checkDuplSocialLoginId(socialType);
 		
-		model.addAttribute("name", request.getParameter("name"));
-		model.addAttribute("email", request.getParameter("email"));
+		model.addAttribute("name", request.getParameter("name")); //소셜로그인을 통해 얻은 정보
+		model.addAttribute("email", request.getParameter("email")); //소셜로그인을 통해 얻은 정보
 		model.addAttribute("socialLoginId", socialLoginId);
 		model.addAttribute("socialEmail", socialEmail);
         return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "joinForm" , locale);
     }
     
+    /*회원가입 가입완료*/
     @GetMapping("/joinDone")
     public String joinDone(Locale locale) {
     	log.debug("===== joinDone =====");
@@ -198,29 +248,30 @@ public class LoginController {
         }
     }
     
+    /*카카오로그인 후 콜백페이지*/
   	@RequestMapping(value="/kakaoRedirect/{type}", method=RequestMethod.GET)
   	public String kakaoRedirect(Model model, HttpServletRequest request, HttpServletResponse response
-  			,@RequestParam (value="code", required = false)String code
-  			,@PathVariable("type") String type) throws Exception {
-
+  			,@RequestParam (value="code", required = false)String code //카카오에서 주는 코드값
+  			,@PathVariable("type") String type //카카오 로그인 후 진행할 기능(ex : 로그인,회원가입,소셜연동,소셜확인)
+  			) throws Exception {
   	    log.info("===========kakaoRedirect : type : {} ===========", type);
   	    log.info(code);
   	    
   	    StringBuilder sb = new StringBuilder();
 		sb.append("grant_type=authorization_code");
-		sb.append("&client_id=adbdfe931311a01731a0161175701a42"); // 본인이 발급받은 key
-		sb.append("&redirect_uri=" + currentUrl + "/kakaoRedirect/" + type); // 본인이 설정한 주소
+		sb.append("&client_id=" + kakaoClientId); // 카카오개발자도구에서 발급받은값
+		sb.append("&redirect_uri=" + currentUrl + "/kakaoRedirect/" + type); // 카카오개발자도구에 설정한 주소
 		sb.append("&code=" + code);
 		
 		//토큰발급
-		JsonElement tokenJson = loginService.postRestful(sb, "https://kauth.kakao.com/oauth/token");
+		JsonElement tokenJson = loginService.postRestful(sb, kakaoTokenApi);
 		String accessToken = tokenJson.getAsJsonObject().get("access_token").getAsString();
 		String refreshToken = tokenJson.getAsJsonObject().get("refresh_token").getAsString();
 		log.info("access_token : {}", accessToken);
 		log.info("refresh_token : {}", refreshToken);
 		
 		//사용자정보조회
-		JsonElement userJson = loginService.getRestful(accessToken, "https://kapi.kakao.com/v2/user/me");
+		JsonElement userJson = loginService.getRestful(accessToken, kakaoUserApi);
 		JsonObject properties = userJson.getAsJsonObject().get("properties").getAsJsonObject();
 		JsonObject kakao_account = userJson.getAsJsonObject().get("kakao_account").getAsJsonObject();
 		String nickname = properties.getAsJsonObject().get("nickname").getAsString();
@@ -231,6 +282,7 @@ public class LoginController {
 		log.info("nickname : {}", nickname);
 		log.info("email : {}", email);
 		
+		//카카오 로그인 후 진행할 기능에 따른 분기처리
   	    if(type.equals("login")) {
   			model.addAttribute("name", nickname);
   	    }else if(type.equals("custConfirm")) {
@@ -239,40 +291,44 @@ public class LoginController {
   	    }
   	    model.addAttribute("email", email);
   	    model.addAttribute("type", type);
+  	    
   	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "kakaoCallback" , new Locale(Locale.KOREA.getLanguage()));
   	}
   	
+  	/*카카오로그인 후 콜백페이지*/
   	@RequestMapping(value="/naverCallback", method=RequestMethod.GET)
   	public String naverCallback(Model model, HttpServletRequest request, HttpServletResponse response
-  			,@RequestParam (value="type", required = false) String type
-  			,@RequestParam (value="state", required = false) String state
-  			,@RequestParam (value="code", required = false) String code) throws Exception {
+  			,@RequestParam (value="type", required = false) String type //네이버 로그인 후 진행할 기능(ex : 로그인,회원가입,소셜연동,소셜확인)
+  			,@RequestParam (value="state", required = false) String state //네이버에서 주는 상태값
+  			,@RequestParam (value="code", required = false) String code //네이버에서 주는 코드값
+  			) throws Exception {
 
   	    log.info("===========naverCallback : type : {} ===========", type);
   	    log.info(code);
   	    
   	    StringBuilder sb = new StringBuilder();
 		sb.append("grant_type=authorization_code");
-		sb.append("&client_id=5qXZytacX_Uy60o0StGT");
-		sb.append("&client_secret=N573KogeM1");
+		sb.append("&client_id=" + naverClientId); // 네이버개발자도구에서 발급받은값
+		sb.append("&client_secret=" + naverClientSecret); // 네이버개발자도구에서 발급받은값
 		sb.append("&code=" + code);
 		sb.append("&state=" + state);
 		
 		//토큰발급
-		JsonElement tokenJson = loginService.postRestful(sb, "https://nid.naver.com/oauth2.0/token");
+		JsonElement tokenJson = loginService.postRestful(sb, naverTokenApi);
 		String accessToken = tokenJson.getAsJsonObject().get("access_token").getAsString();
 		String refreshToken = tokenJson.getAsJsonObject().get("refresh_token").getAsString();
 		log.info("access_token : {}", accessToken);
 		log.info("refresh_token : {}", refreshToken);
 		
 		//사용자정보조회
-		JsonElement userJson = loginService.getRestful(accessToken, "https://openapi.naver.com/v1/nid/me");
+		JsonElement userJson = loginService.getRestful(accessToken, naverUserApi);
 		JsonObject properties = userJson.getAsJsonObject().get("response").getAsJsonObject();
 		String name = properties.getAsJsonObject().get("name").getAsString();
 		String email = properties.getAsJsonObject().get("email").getAsString();
 		log.info("name : {}", name);
 		log.info("email : {}", email);
 		
+		//네이버 로그인 후 진행할 기능에 따른 분기처리
   	    if(type.equals("login")) {
   			model.addAttribute("name", name);
   	    }else if(type.equals("custConfirm")) {
@@ -281,13 +337,16 @@ public class LoginController {
   	    }
   	    model.addAttribute("email", email);
   	    model.addAttribute("type", type);
+  	    
   	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "naverCallback" , new Locale(Locale.KOREA.getLanguage()));
   	}
   	
+  	/*애플로그인 후 콜백페이지*/
   	@RequestMapping(value="/appleReturn/{type}", method=RequestMethod.POST)
   	public String naverCallback(Model model, HttpServletRequest request, HttpServletResponse response
   			,@PathVariable("type") String type
-  			,@RequestParam (value="code", required = false) String code) {
+  			,@RequestParam (value="code", required = false) String code //애플에서 주는 코드값
+  			) {
 
   	    log.info("===========appleReturn : type : {} ===========", type);
   	    log.info(code);
@@ -295,14 +354,9 @@ public class LoginController {
 		try {
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
-			sb.append("&client_id=com.seoulauction.renewal-web");
+			sb.append("&client_id=" + appleClientId);
 			
-			String teamId = "2LXTMAYUA5";
-			String clientId = "com.seoulauction.renewal-web";
-			String keyId = "72UURP4N8Z";
-			String keyPath = "AuthKey_72UURP4N8Z.p8";
-			String authUrl = "https://appleid.apple.com";
-			String clientSecret = loginService.createClientSecret(teamId, clientId, keyId, keyPath, authUrl);
+			String clientSecret = loginService.createClientSecret(appleTeamId, appleClientId, appleKeyId, appleKeyPath, appleAuthUrl);
 			log.info("========= clientSecret : {}===========", clientSecret);
 			sb.append("&client_secret=" + clientSecret);
 			sb.append("&code=" + code);
@@ -329,6 +383,8 @@ public class LoginController {
 			log.info("email : {}", email);
 			log.info("sub : {}", sub);
 			
+			/*api를 통한 애플 로그인 시 이름정보 제공X*/
+			//애플 로그인 후 진행할 기능에 따른 분기처리
 			if(type.equals("custConfirm")) {
 				log.info("SecurityUtils.getAuthenticationPrincipal().getSocialEmail() : {}" ,SecurityUtils.getAuthenticationPrincipal().getSocialEmail());
 				model.addAttribute("custSocialEmail", SecurityUtils.getAuthenticationPrincipal().getSocialEmail());
@@ -340,6 +396,7 @@ public class LoginController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
   	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "appleReturn" , new Locale(Locale.KOREA.getLanguage()));
   	}
 }
