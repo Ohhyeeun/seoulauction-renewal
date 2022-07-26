@@ -173,7 +173,7 @@ public class PaymentService {
             request.setAttribute("no_vat_price", no_vat_price);
 
             if(SAConst.PAYMENT_METHOD_VBANK.equals(payMethod)){
-                reqReservedSet(request);
+                reservedStringSet(request.getParameter("ReqReserved"), request);
 
                 resultMap = insertPayWait(request, resultMap);
             } else {
@@ -237,7 +237,7 @@ public class PaymentService {
         String VbankInputName = request.getParameter("VbankInputName"); //입금자 명
         String RcptType     = request.getParameter("RcptType");         //현금 영수증 구분(0:미발행, 1:소득공제용, 2:지출증빙용)
 
-        reqReservedSet(request);
+        reservedStringSet(request.getParameter("MallReserved"), request);
 
         boolean paySuccess = false;		// 결제 성공 여부
         if(PayMethod.equals(SAConst.PAYMENT_METHOD_VBANK)){		//가상계좌
@@ -250,11 +250,9 @@ public class PaymentService {
         }
     }
 
-    private void reqReservedSet(HttpServletRequest request) {
-        String reqReserved = request.getParameter("ReqReserved");
-
+    private void reservedStringSet(String reservedString, HttpServletRequest request) {
         CommonMap reservedMap = new CommonMap();
-        StringTokenizer stk = new StringTokenizer(reqReserved, ",");
+        StringTokenizer stk = new StringTokenizer(reservedString, ",");
         while(stk.hasMoreTokens()) {
             String[] str = stk.nextToken().split("=");
             if (str.length == 2) {
