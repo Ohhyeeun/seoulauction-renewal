@@ -12,7 +12,7 @@
                         <span class="txt_title type-big">응찰 내역</span>
                     </div>
                 <!-- [0613] 추가 -->
-                   <div class="right_txt" ng-if="onlineBidHisList[0].ABORT_YN =='N'">
+                   <div class="right_txt" ng-if="onlineBidHisList[0].ABORT_YN =='N' && onlineBidHisList[0].AUTO_BID_PRICE">
                        <span>자동응찰설정가 <em>{{onlineBidHisList[0].CURR_CD}} {{comma(onlineBidHisList[0].AUTO_BID_PRICE)}}</em></span>
                    </div>
                    <!-- //[0613] 추가 -->
