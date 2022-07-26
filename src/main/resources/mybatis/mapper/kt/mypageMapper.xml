@@ -1089,6 +1089,7 @@
 		order by B.BID_DT DESC, B.BID_PRICE DESC
 	</select>
 	
+	<!-- 비밀번호확인 -->
 	<select id="selectCustForChkPassword" resultType="CommonMap">
 		SELECT *
 		FROM   CUST
@@ -1097,6 +1098,7 @@
 		    AND passwd = '${@com.seoulauction.renewal.auth.PasswordEncoderAESforSA@saPasswdEncoding(passwd)}'
 	</select>
 	
+	<!-- 비밀번호변경 -->
 	<update id="updateCustPasswdByCustNo"
 		parameterType="CommonMap">
 		update cust
@@ -1107,6 +1109,7 @@
 		where CUST_NO = #{cust_no}
 	</update>
 	
+	<!-- 회원번호로 소셜회원조회 -->
 	<select id="selectCustSocialByCustNo" resultType="CommonMap">
 		select
 			CUST_NO, SOCIAL_TYPE, SOCIAL_EMAIL,date_format(REG_DT,'%Y.%m.%d')REG_DT
@@ -1116,6 +1119,7 @@
 			CUST_NO = #{cust_no}
 	</select>
 	
+	<!-- 소셜정보삭제 -->
 	<delete id="deleteCustSocial" parameterType="CommonMap">
 		delete
 		from
@@ -1125,6 +1129,7 @@
 			and SOCIAL_TYPE = #{social_type}
 	</delete>
 	
+	<!-- 관심작가조회 -->
 	<select id="selectCustInteArtist" resultType="CommonMap">
 	    select CIA.ARTIST_NO, CIA.CUST_NO
 			, COLUMN_JSON(A.ARTIST_NAME_BLOB) ARTIST_NAME_JSON
@@ -1133,6 +1138,7 @@
 	    and CIA.CUST_NO = #{cust_no}
 	</select>
 	
+	<!-- 작가검색 -->
 	<select id="selectArtistByArtistName" resultType="CommonMap">
 		select * from(
 		    select ARTIST_NO
@@ -1147,6 +1153,7 @@
 			or TMP.ARTIST_NM_EN like concat('%', #{find_word}, '%')
 	</select>
 	
+	<!-- 회원정보 수정 -->
 	<update id="updateCust" parameterType="CommonMap">
 		UPDATE CUST 
 	    SET 
@@ -1187,18 +1194,22 @@
 		where CUST_NO = #{cust_no}
 	</update>
 	
+	<!-- 고객수신방법 삭제 -->
 	<update id="deleteCustPushWay" parameterType="CommonMap">
 		delete from CUST_PUSH_WAY where CUST_NO = #{cust_no}
 	</update>
 	
+	<!-- 고객관심작가 삭제 -->
 	<update id="deleteCustInteArtist" parameterType="CommonMap">
 		delete from CUST_INTE_ARTIST where CUST_NO = #{cust_no}
 	</update>
 	
+	<!-- 고객관심분야 삭제 -->
 	<update id="deleteCustInteArea" parameterType="CommonMap">
 		delete from CUST_INTE_AREA where CUST_NO = #{cust_no}
 	</update>
 	
+	<!-- 고객수신방법 등록 -->
 	<insert id="insertCustPushWay" parameterType="CommonMap">
 		INSERT INTO CUST_PUSH_WAY ( 
 			CUST_NO,
@@ -1212,6 +1223,7 @@
 		)
 	</insert>
 	
+	<!-- 고객관심작가 등록 -->
 	<insert id="insertCustInteArtist" parameterType="CommonMap">
 		INSERT INTO CUST_INTE_ARTIST ( 
 			CUST_NO,
@@ -1225,6 +1237,7 @@
 		)
 	</insert>
 	
+	<!-- 고객관심분야 등록 -->
 	<insert id="insertCustInteArea" parameterType="CommonMap">
 		INSERT INTO CUST_INTE_AREA ( 
 			CUST_NO,
@@ -1238,6 +1251,7 @@
 		)
 	</insert>
 	
+	<!-- 회원탈퇴 -->
 	<update id="deleteCust" parameterType="CommonMap">
 		UPDATE CUST 
 	    SET 
@@ -1245,6 +1259,7 @@
 		where CUST_NO = #{cust_no}
 	</update>
 	
+	<!-- 고객발송정보 delyn y로변경 -->
 	<update id="updateCustSendInfoNew" parameterType="CommonMap">
 		update CUST_SEND_INFO_NEW
 		set
@@ -1253,6 +1268,7 @@
 			and DEL_YN = 'N';
 	</update>
 	
+	<!-- 응찰중인지 확인 -->
 	<select id="selectBidForCustLeave" resultType="CommonMap">
 		SELECT
 			B.CUST_NO, B.SALE_NO, B.LOT_NO, L.TO_DT
@@ -1266,6 +1282,7 @@
 			and l.TO_DT > now()
 	</select>
 	
+	<!-- 자동응찰중인지 확인 -->
 	<select id="selectAutoBidReqForcustLeave" resultType="CommonMap">
 		SELECT
 			ABR.CUST_NO, ABR.SALE_NO, ABR.LOT_NO, L.TO_DT

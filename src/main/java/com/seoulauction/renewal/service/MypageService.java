@@ -150,6 +150,7 @@ public class MypageService {
         return map;
     }
     
+    /* 주소검색*/
     public HashMap<String, Object> findAddr(CommonMap action) {
     	HashMap<String, Object> r = null;
 		
@@ -237,63 +238,42 @@ public class MypageService {
         return map;
     }
     
+    /* 비밀번호확인*/
     public CommonMap selectCustForChkPassword(CommonMap paramMap){
     	return mypageMapper.selectCustForChkPassword(paramMap);
     }
     
+    /* 비밀번호변경*/
     public int updateCustPasswdByCustNo(CommonMap paramMap){
         return mypageMapper.updateCustPasswdByCustNo(paramMap);
     }
     
+    /* 회원번호로 소셜회원조회*/
     public List<CommonMap> selectCustSocialByCustNo(CommonMap commonMap){
         return mypageMapper.selectCustSocialByCustNo(commonMap);
     }
     
+    /* 소셜정보삭제*/
     public int deleteCustSocial(CommonMap paramMap){
         return mypageMapper.deleteCustSocial(paramMap);
     }
     
-    public String requestToServer(String apiURL) throws IOException {
-		URL url = new URL(apiURL);
-		HttpURLConnection con = (HttpURLConnection)url.openConnection();
-		con.setRequestMethod("GET");
-		int responseCode = con.getResponseCode();
-		BufferedReader br;
-		
-		log.info("responseCode===== {}", responseCode);
-		if(responseCode == 200) { // 정상 호출
-			br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-		} else {  // 에러 발생
-			br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-		}
-		
-		String inputLine;
-		StringBuffer res = new StringBuffer();
-		while ((inputLine = br.readLine()) != null) {
-		  res.append(inputLine);
-		}
-		
-		br.close();
-		if(responseCode == 200) {
-			log.info(res.toString());
-			String new_res=res.toString().replaceAll("&#39;", "");
-			return new_res; 
-		} else {
-			return null;
-		}
-    }
-    
+    /* 관심작가조회*/
     public List<CommonMap> selectCustInteArtist(CommonMap paramMap){
     	return mypageMapper.selectCustInteArtist(paramMap);
     }
-
+    
+    /* 작가검색*/
     public List<CommonMap> selectArtistByArtistName(CommonMap paramMap){
     	return mypageMapper.selectArtistByArtistName(paramMap);
     }
     
+    /* 회원정보 수정*/
     public int updateCust(CommonMap paramMap){
         return mypageMapper.updateCust(paramMap);
     }
+    
+    /* 정보수신방법 수정*/
     public int updateCustPushWay(String custNo, String pushWayStr){
 		CommonMap paramMap = new CommonMap();
 		paramMap.put("cust_no", custNo);
@@ -311,6 +291,7 @@ public class MypageService {
         return result >= pushWays.length + 1 ? 1 : 0;
     }
 
+    /* 관심작가 수정*/
     public int updateCustInteArtist(String custNo, String inteArtistStr){
     	CommonMap paramMap = new CommonMap();
 		paramMap.put("cust_no", custNo);
@@ -328,6 +309,7 @@ public class MypageService {
         return result >= inteArtists.length + 1 ? 1 : 0;
     }
 
+    /* 관심분야 수정*/
     public int updateCustInteArea(String custNo, String inteAreaStr){
     	CommonMap paramMap = new CommonMap();
 		paramMap.put("cust_no", custNo);
@@ -344,7 +326,8 @@ public class MypageService {
     	
         return result >= inteAreas.length + 1 ? 1 : 0;
     }
-    
+   
+    /* 회원탈퇴 가능여부조회*/
     public int custLeaveValidCheck(CommonMap paramMap){
     	int leaveValid = 0; // 1이상: 탈퇴불가능, 0; 탈퇴가능
 		
@@ -373,6 +356,7 @@ public class MypageService {
     	return leaveValid;
     }
     
+    /* 회원탈퇴*/
     public int deleteCust(CommonMap paramMap){
     	//회원탈퇴 (개인회원은 같은 아이디로 재가입불가능)
         int result = mypageMapper.deleteCust(paramMap);
@@ -394,14 +378,17 @@ public class MypageService {
         return result;
     }
     
+    /* 정보수신방법삭제*/
     public int deleteCustPushWay(CommonMap paramMap){
         return mypageMapper.deleteCustPushWay(paramMap);
     }
 
+    /* 관심작가삭제*/
     public int deleteCustInteArtist(CommonMap paramMap){
         return mypageMapper.deleteCustInteArtist(paramMap);
     }
 
+    /* 관심분야삭제*/
     public int deleteCustInteArea(CommonMap paramMap){
         return mypageMapper.deleteCustInteArea(paramMap);
     }
