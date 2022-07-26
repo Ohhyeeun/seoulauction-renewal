@@ -44,7 +44,9 @@ $(function() {
                                             </div>
                                         </a>`;
                         // this.src='/images/pc/thumbnail/gnb_thubnatil_ready.jpg'
-                        document.querySelector(".Ingbanner-box").insertAdjacentHTML('beforeend', returnDom);
+                        if(document.querySelector(".Ingbanner-box")) {
+                            document.querySelector(".Ingbanner-box").insertAdjacentHTML('beforeend', returnDom);
+                        }
                     });
 
                 }
@@ -63,13 +65,13 @@ $(function() {
                 if (success) {
                     const menuCount = response.data.data;
                     const badgeHtml = '<span class="currentIng">NOW</span>';
-                    if (menuCount.AuctionCount > 0)
+                    if (menuCount.AuctionCount > 0 && document.querySelector('#menu_auction'))
                         document.querySelector('#menu_auction').insertAdjacentHTML('beforeend', badgeHtml);
-                    if (menuCount.UpcomingCount > 0)
+                    if (menuCount.UpcomingCount > 0 && document.querySelector('#menu_upcoming'))
                         document.querySelector('#menu_upcoming').insertAdjacentHTML('beforeend', badgeHtml);
-                    if (menuCount.ExhibitionCount > 0)
+                    if (menuCount.ExhibitionCount > 0 && document.querySelector('#menu_exhibit'))
                         document.querySelector('#menu_exhibit').insertAdjacentHTML('beforeend', badgeHtml);
-                    if (locale === 'ko' && menuCount.AcademyCount > 0)
+                    if (locale === 'ko' && menuCount.AcademyCount > 0 && document.querySelector('#menu_academy'))
                         document.querySelector('#menu_academy').insertAdjacentHTML('beforeend', badgeHtml);
                 }
             })
