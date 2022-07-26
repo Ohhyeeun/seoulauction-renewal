@@ -31,7 +31,7 @@ public class ApiServiceController {
 
 	private final ServiceService serviceService;
 	
-	// 진행 중인 아카데미
+	/* 진행 중인 아카데미*/
 	@RequestMapping(value = "/academies/now", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> academyNow(
 			@RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
@@ -48,7 +48,7 @@ public class ApiServiceController {
 		return ResponseEntity.ok(RestResponse.ok(serviceService.selectAcademyForNow(commonMap)));
 	}
 	
-	// 아카데미 상세
+	/* 아카데미 상세*/
 	@RequestMapping(value = "/academies/{academyCd}/{academyNo}", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> academyDetail(
 			@PathVariable("academyNo") String academyNo,
@@ -66,7 +66,7 @@ public class ApiServiceController {
 		return ResponseEntity.ok(RestResponse.ok(serviceService.selectAcademy(commonMap)));
 	}
 	
-	// 아카데미 목록
+	/* 아카데미 목록*/
 	@RequestMapping(value = "/academies/{academyCd}", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> academyList(
 			@PathVariable("academyCd") String academyCd,

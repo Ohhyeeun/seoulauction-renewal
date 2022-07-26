@@ -43,6 +43,7 @@ public class ServiceController {
         return SAConst.getUrl(SERVICE_SERVICE , "marketing" , locale);
     }
     
+    /*진행중인 아카데미*/
     @GetMapping("/academy")
     public String academy(Locale locale) {
     	if(locale.getLanguage().equals("ko")) {
@@ -52,6 +53,7 @@ public class ServiceController {
     	}
     }
     
+    /*아카데미 상세*/
     @GetMapping("/academyDetail")
     public String inquiryView(@RequestParam(required = true ) int academyNo, @RequestParam(required = true ) String academyCd, Locale locale) {
     	if(locale.getLanguage().equals("ko")) {
@@ -61,6 +63,7 @@ public class ServiceController {
     	}
     }
     
+    /*아카데미 목록*/
     @GetMapping("/academyList")
     public String inquiryList(@RequestParam(required = true ) String academyCd, Locale locale) {
     	if(locale.getLanguage().equals("ko")) {

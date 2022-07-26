@@ -16,6 +16,7 @@ public class ServiceService {
 
 	private final ServiceMapper serviceMapper;
 	
+	/*진행중인 아카데미*/
     public CommonMap selectAcademyForNow(CommonMap commonMap){  
     	CommonMap map = new CommonMap();
     	map.put("list", serviceMapper.selectAcademyListForNow(commonMap));
@@ -23,10 +24,12 @@ public class ServiceService {
         return map;
     }
     
+    /*아카데미 상세*/
     public CommonMap selectAcademy(CommonMap commonMap){  
         return serviceMapper.selectAcademy(commonMap);
     }
     
+    /*아카데미 목록*/
     public CommonMap selectAcademyList(CommonMap commonMap){  
     	CommonMap map = new CommonMap();
     	map.put("list", serviceMapper.selectAcademyList(commonMap));
