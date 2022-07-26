@@ -1487,6 +1487,7 @@
         });
     </script>
 </div>
+<script type="text/javascript" src="https://llrtsprod.s.llnwi.net/v1/sdk/html/current/llnwrtssdk.min.js"></script>
 <script src="/js/simple.js?ver=1.0.0"></script>
 </body>
 </html>
