@@ -242,9 +242,9 @@
                                                             <div class="standard">
                                                                 <span class="text-over span_block" title="{{item.CD_NM}}">{{item.CD_NM}}</span>
                                                                 <div class="size_year">
-                                                                    <span title="{{item | size_text_cm}}" ng-bind="item | size_text_cm"></span>
-                                                                    <span title="{{item.MAKE_YEAR_JSON.ko}}" ng-bind="item.MAKE_YEAR_JSON.ko"
-                                                                          ng-show="item.MAKE_YEAR_JSON.ko !== undefined"></span>
+                                                                    <span ng-bind="item | size_text_cm"></span>
+                                                                    <span ng-bind="item.MAKE_YEAR_JSON.ko" ng-show="item.MAKE_YEAR_JSON.ko !== undefined"></span>
+                                                                    <span ng-show="(item.MAKE_YEAR_JSON.ko === undefined && change_size)">ㅤ</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -636,7 +636,7 @@
             $scope.pagesize = 10;
             $scope.itemsize = 20;
             $scope.curpage = 1;
-
+            $scope.change_size = false;
 
             $scope.is_sale_cert = false;
             $scope.cust_hp = "";
@@ -706,7 +706,6 @@
             }
 
             $scope.goLot = function (saleNo, lotNo) {
-                console.log('asdfasdfasdf');
                 window.location.href = '/auction/online/view/' + saleNo + '/' + lotNo;
             }
 
@@ -769,7 +768,6 @@
             $scope.searchLotTags = function (lotTag) {
                 $scope.selectLotTag = lotTag;
 
-                console.log("검색", $scope.selectLotTag, $scope.searchValue );
 
                 let pp = [];
                 if (lotTag === '전체') {
@@ -1037,6 +1035,18 @@
                             })
                         }
                     });
+
+
+                    //년도가 아래로 가야하는지 체크!!
+                    $scope.change_size = matchMedia("(max-width: 1280px) and (min-width: 1023px)").matches;
+                    $scope.$apply();
+
+                    $(window).resize(function(){
+                        $scope.change_size = matchMedia("(max-width: 1280px) and (min-width: 1023px)").matches;
+                        $scope.$apply();
+                    });
+
+
                 }
                 run();
             }
@@ -1114,6 +1124,7 @@
 
             // bid protocols
             $scope.proc = function (evt, saleNo, lotNo, saleType, userId, custNo) {
+
                 const packet_enum = {
                     init: 1, bid_info: 2,
                     time_sync: 3, bid_info_init: 4,
@@ -1311,6 +1322,7 @@
                     $scope.$apply();
 
                 } else if (d.msg_type === packet_enum.time_sync) {
+
                     let ddd = new Date(d.message.tick_value);
                     let bid_tick = document.getElementById("bid_tick");
                     // 앵귤러 정보 삽입
@@ -1525,11 +1537,14 @@
                                                 dt_ly.setAttribute("class", "product-day");
 
                                                 let dt_ly_span1;
-                                                if (bid_info.winner_state === 2 && bid_hist_info[i].value.length - 1 === j) {
+
+                                                //현재 경매가 끝나고 가장 마지막 비드에 낙찰을 달아줌.
+                                                if (bid_info.winner_state === 2 && (bid_hist_info[i].value.length - 1 ) === j) {
                                                     // type
                                                     dt_ly_span1 = document.createElement("em");
                                                     dt_ly_span1.setAttribute("class", "type-success");
                                                     dt_ly_span1.innerText = "낙찰";
+                                                    dt_ly.appendChild(dt_ly_span1);
                                                 }
                                                 let dt_ly_span11;
                                                 if (bid_hist_info[i].value[j].is_auto_bid) {
@@ -1545,9 +1560,12 @@
                                                 let dt_ly_span3 = document.createElement("span");
                                                 dt_ly_span3.innerText = ddd.format("HH:mm:ss");
 
-                                                if (bid_info.winner_state === 2) {
-                                                    dt_ly.appendChild(dt_ly_span1);
-                                                }
+                                                // if (bid_info.winner_state === 2) {
+                                                //
+                                                //     console.log(dt_ly_span1);
+                                                //
+                                                //     dt_ly.appendChild(dt_ly_span1);
+                                                // }
                                                 if (bid_hist_info[i].value[j].is_auto_bid) {
                                                     dt_ly.appendChild(dt_ly_span11);
                                                 }
@@ -1724,6 +1742,7 @@
                         }
                     }
                 } else if (d.msg_type === packet_enum.winner) {
+
                     if (d.message != null) {
                         for (let j = 0; j < $scope.saleInfoAll.length; j++) {
                             if ($scope.saleInfoAll[j].SALE_NO === d.message.sale_no && $scope.saleInfoAll[j].LOT_NO === d.message.lot_no) {

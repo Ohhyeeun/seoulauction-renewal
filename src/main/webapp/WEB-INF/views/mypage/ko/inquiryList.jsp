@@ -44,13 +44,13 @@
 															<span>문의하기</span>
 														</button></a>
 												</article>
-												<article class="inquiry-list-wrap">
+												<article class="inquiry-list-wrap" ng-if="inquiryCnt != 0">
 													<ul class="inquiry-list" ng-repeat="inquiry in inquiryList">
 														<li class="inquiry-list-ea">
 															<div class="bbs-division">
 																{{inquiry.P_CATE_NM}}{{inquiry.CATE_NM != '' ? '/'+inquiry.CATE_NM : ''}}
 															</div>
-															<a href="/mypage/inquiryDetail?writeNo={{inquiry.WRITE_NO}}">
+															<a href="/mypage/inquiryDetail?writeNo={{inquiry.WRITE_NO}}&page={{currentPage}}&size=10">
 															<div class="bbs-subject tt4">
 																<span>{{inquiry.TITLE}}</span>
 															</div>

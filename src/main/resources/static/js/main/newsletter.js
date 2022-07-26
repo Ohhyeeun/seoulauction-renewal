@@ -11,6 +11,8 @@ $(document).ready(function(){
     $('#news_sub_label').click(function(){
         $('.newsletter-blackBg').fadeIn();
         $('.newsletter-terms').fadeIn();
+        $('#subscript_check').prop('checked', true);
+        $('#subscript_check').attr('checked', true);
         return false;
     });
 

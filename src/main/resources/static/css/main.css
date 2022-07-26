@@ -27,14 +27,6 @@
 .auction-tit>h1.main-sectiontit-auction {
     margin-right: 30px;
 }
-/*.main-sectiontit {*/
-/*    font-size: 42px;*/
-/*    font-family: 'Libre Baskerville', serif;*/
-/*    font-weight: 700;*/
-/*    color: #111111;*/
-/*    margin-right: 30px;*/
-/*}*/
-
 /* visual */
 .swiper-pagination-current {
     font-weight: bold;
@@ -125,7 +117,7 @@
 .swiper-button-prev.slide-btnleft {
     width: 27px;
     width: 48px;
-    height: 49px;
+    height: 48px;
     left: 50px;
     transform: translate(0, -50%);
     transform: -webkit-translate(0, -50%);
@@ -134,13 +126,6 @@
     background: url("/images/pc/icon/ic_chevron_left_white_48.svg") no-repeat center center;
     z-index: 1; 
 }
-/*.swiper-button-prev.slide-btnleft:hover,*/
-/*.swiper-button-next.slide-btnright:hover {*/
-/*    background-color: rgba(0,0,0,0.3);*/
-/*    padding: 2em;*/
-/*    background-position: left center;*/
-/*    border-radius: 3.125rem;*/
-/*}*/
 .swiper-button-next.slide-btnright:hover {
     background-position: right center;
 }
@@ -554,8 +539,8 @@
     text-align: right;
     flex-basis: 174px;
     height: 100%;
-    flex-shrink: 1;
-    display: none;
+    flex-shrink: 0;
+    /*display: none;*/
 }
 .upcoming-img:lang(en) {
     flex-basis: 160px;
@@ -571,10 +556,6 @@
     text-align: center;
     /*background-color: #fff;*/
 }
-/*.platform-swiper {*/
-/*    height: 0;*/
-/*    padding-bottom: 11.25em;*/
-/*}*/
 .platform-bg > a {
     margin: 0 auto;
     text-align: center;
@@ -989,12 +970,13 @@
     padding: 20px;
 }
 .main-popup-close>span {
-
+    cursor: pointer;
 }
 .main-popup-closebtn {
     width: 16px;
     height: 16px;
     background-size: contain;
+    cursor: pointer;  
 }
 .main-popup-img>img {
     width: 100%;
@@ -1070,6 +1052,9 @@
     .swiper-slide.upcomingSlide.right-padding {
         padding-right: 20px;
     }
+    .upcoming-img {
+        flex-shrink: 1;
+    }
     .upcoming-caption>h4 {
         font-size: 20px;
     }
@@ -1090,9 +1075,6 @@
     }
 }
 @media all and (max-width: 1439px){
-    /*.visual_caption>div {
-        max-width: 1280px;
-    }*/
     .upcoming {
         margin-bottom: 100px;
     }
@@ -1105,6 +1087,7 @@
     }
     .upcoming-img {
         padding-top: 0;
+        flex-shrink: 0;
     }
     .article-contents {
         flex-direction: column;
@@ -1116,10 +1099,6 @@
     }
 }
 @media all and (max-width: 1279px) {
-    /*.visual_caption>div {
-        max-width: 1024px;
-        padding: 0 120px;
-    }*/
     .auction-thumbbox {
         width: calc(33.3333% - 13.3333px);
         padding-bottom: calc(33.3333% - 13.3333px);
@@ -1295,26 +1274,20 @@
         height: 6px;
         margin-right: 6px;
     }
-    /*.platform-swiper {*/
-    /*    padding-bottom: calc(45% - 64px);*/
-    /*}*/
     .upcoming-slidebox {
         overflow: inherit;
     }
     .upcoming-wrap {
         margin-bottom: 49px;
     }
-    /*.swiper-container.upcoming-swiper {*/
-    /*    width: calc(70% - 13.33333px);   */
-    /*}*/
     .upcomingSlide {
         flex-basis: 620px;
         height: 361px;
         padding: 86px 40px 88px;
     }
-    .upcoming-img {
-        flex-basis: calc(30% - 30px);
-        flex-shrink: 1;
+    .upcoming-img,
+    .upcoming-img:lang(en){
+        flex-basis: 180px;
         margin-left: 10px;
     }
     .upcoming-caption.on {
@@ -1364,9 +1337,6 @@
     .auction-tit>h1 {
         padding: 0;
     }
-    /*.platform-swiper {*/
-    /*    padding-bottom: 13.75em;*/
-    /*}*/
     .video-thmbtit {
         font-size: 15px;
     }
@@ -1690,9 +1660,6 @@
     .upcoming-datebox:lang(en) {
         line-height: 1;
     }
-    /*.platform-swiper {*/
-    /*    padding-bottom: 31%; */
-    /*}*/
     .swiper-pagination.platform-pagination {
         margin-top: 15px;
     }
@@ -1770,20 +1737,25 @@
 }
 @media all and (max-width: 559px) {
     /* 메인팝업 */
+    .main-popupwrap {
+        max-width: 100%;
+    }
     .main-popupbox {
         width: 100%;
     }
     .main-popup-img {
         width: 100%;
+        height: 100%;
+        max-height: 500px;
+        display: flex;
     }
-    /*.upcoming-preview,*/
-    /*.upcoming-datebox {*/
-    /*    line-height: 1.5;*/
-    /*}*/
+    .main-popup-img>img {
+        flex-direction: column;
+    }
     .upcoming-img,
     .upcoming-img:lang(en) {
-        flex-basis: calc(70% - 10px);
         margin-top: 0;
+        flex-basis: 100px;
     }
     .upcoming-preview>span:first-of-type:after,
     .upcoming-date>span:first-of-type:after,

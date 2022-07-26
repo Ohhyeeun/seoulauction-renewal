@@ -221,7 +221,8 @@
     </select>
 
     <select id="selectPrivateSaleInfo"  parameterType="CommonMap" resultType="CommonMap">
-        SELECT	SA.SALE_AS_NO
+        SELECT
+               SA.SALE_AS_NO
              , SA.SALE_AS_KIND
              , COLUMN_GET(SA.SALE_AS_TITLE_BLOB, 'ko' AS CHAR) SALE_AS_TITLE_KO
              , COLUMN_GET(SA.SALE_AS_TITLE_BLOB, 'en' AS CHAR) SALE_AS_TITLE_EN
@@ -294,6 +295,17 @@
              , COLUMN_GET(SA.SALE_PRICE_BLOB, 'KRW' AS CHAR) SALE_PRICE_KRW
              , COLUMN_GET(SA.SALE_PRICE_BLOB, 'USD' AS CHAR) SALE_PRICE_USD
              , COLUMN_GET(SA.SALE_PRICE_BLOB, 'HKD' AS CHAR) SALE_PRICE_HKD
+             , TRIM(COLUMN_GET(SA.MAKE_YEAR_BLOB, 'ko' as char)) as MAKE_YEAR_KO
+             , COLUMN_JSON(SA.SIGN_INFO_BLOB) SIGN_INFO_JSON
+             , COLUMN_JSON(SA.COND_RPT_BLOB) COND_RPT_JSON # YDH. 컨디션리포트용 데이터 컬럼 추가.
+             , COLUMN_JSON(SA.LITE_INFO_BLOB) LITE_INFO_JSON
+             , COLUMN_JSON(SA.EXHI_INFO_BLOB) EXHI_INFO_JSON # YDH. 전시정보 데이터 컬럼 추가.
+             , COLUMN_JSON(SA.PROV_INFO_BLOB) PROV_INFO_JSON # YDH. 소장정보 데이터 컬럼 추가.
+             , COLUMN_JSON(SA.ETC_INFO_BLOB) ETC_INFO_JSON # YDH. 기타정보 데이터 컬럼 추가.
+             , COLUMN_JSON(SA.CMMT_BLOB) CMMT_JSON
+             , COLUMN_JSON(A.ARTIST_NAME_BLOB) ARTIST_NAME_JSON
+             , COLUMN_GET(A.ARTIST_NAME_BLOB, 'ko' as CHAR) ARTIST_NAME_KO_TXT
+             , COLUMN_GET(A.ARTIST_NAME_BLOB, 'en' as CHAR) ARTIST_NAME_EN_TXT
              , SA.SALE_AS_ARTWORK_NO
              , RE.EMP_NAME AS REG_EMP_NAME
              , ME.EMP_NAME AS MOD_EMP_NAME

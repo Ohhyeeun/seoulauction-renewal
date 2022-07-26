@@ -569,6 +569,12 @@ function receiptPopup (pay) {
        window.open(url,"popupIssue",status); 
 }
 
+function inquiryPhoneNumber(obj) {
+    if (event.keyCode < 48 || event.keyCode > 57) {
+        event.returnValue = false;
+    }
+}
+
 function onlyNumber(obj, type) {
     const regExp = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;
     if (regExp.test(obj.value)) {
@@ -602,6 +608,9 @@ function phoneNumberBlur(obj) {
 	}
 }
 
+function inquiryPhoneNumberBlur(obj) {
+		obj.value = obj.value.replaceAll('-','');
+}
 
 function telNumber(obj){
 	if (obj.value != '') {
@@ -1222,5 +1231,5 @@ $(document).ready(function(){
 
 //오브젝트 or 배열 비었는지 확인
 function isNotObjectEmpty(param) {
-    return Object.keys(param).length !== 0 && param.constructor === Object;
+    return param.constructor === Object && Object.keys(param).length !== 0;
 }

@@ -72,7 +72,7 @@
 																				onchange="angular.element(this).scope().changeCate2()">
 																				<option value="">Choose</option>
 																				<option ng-repeat="code in inqCate2"
-																					value="{{code.CD_ID}}">{{code.CD_NM_EN}}/{{code.CD_NM_EN_EN}}</option>
+																					value="{{code.CD_ID}}">{{code.CD_NM}}/{{code.CD_NM_EN}}</option>
 																			</select>
 																		</div>
 																	</div>
@@ -94,7 +94,8 @@
 																</div>
 																<div class="td">
 																	<input type="text" name="hp" id="hp" 
-																		class="form-control half" maxlength="13"
+																		class="form-control half" maxlength="11"
+																		onkeypress="inquiryPhoneNumber(this);" onkeyup="onlyNumber(this);" onblur="inquiryPhoneNumberBlur(this);"
 																		value="{{custInfo.HP}}" placeholder="">
 																</div>
 															</li>

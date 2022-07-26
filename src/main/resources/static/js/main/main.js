@@ -19,7 +19,7 @@ function Request(){
     }
 }
 var request = new Request();
-
+let isMainPopup = false;
 //이중접속 팝업
 var maxSession = request.getParameter("maxSession");
 if(maxSession.startsWith('true')){
@@ -347,8 +347,8 @@ function loadUpcomings() {
                     const prev_from_dt = moment(item.PREV_FROM_DT);
                     const prev_to_dt = moment(item.PREV_TO_DT);
                     const returnDom =  ` <div class="swiper-slide upcomingSlide "> 
-                                            <a href="/auction/upcoming/${item.SALE_NO}">
-                                                <div class="upcoming-caption">
+                                            <a href="/auction/upcoming/${item.SALE_NO}"> 
+                                                <div class="upcoming-caption text-over">  
                                                     <span class="auctionKind-box ${ item.SALE_KIND === 'LIVE' ? 'on' : ''}">
                                                         ${item.SALE_KIND} 
                                                     </span>
@@ -383,7 +383,7 @@ function loadUpcomings() {
                                                     </div>
                                                 </div>
                                                 ${item.FILE_PATH !== null && item.FILE_NAME !== null ?
-                                                `<figure class="upcoming-img on" style="display: flex; width:160px; height:160px; overflow: hidden;">
+                                                `<figure class="upcoming-img on">
                                                     <!--<span class="upcomingImg"></span>-->
 <!--                                                    <img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">-->
 <!--                                                    <img src="https://www.seoulauction.com/nas_img/front/online0688/thum/ea39a8bb-c1b9-427d-a250-62117dcc07f5.jpg" alt="alet">-->
@@ -573,14 +573,14 @@ function loadPopup(){
                     const data = response.data.data;
                     if(data) {
 
-
+                        isMainPopup = true;
                         //메인팝업 보이기.
                         $('.main-popupbox').show();
 
                         let jsonData = JSON.parse(data.content);
                         let popupType = data.popup_type;
 
-                        console.log(data);
+
 
                         //모바일 일때
                         let localeTitle = locale === 'ko' ? jsonData.title.ko : jsonData.title.en;
@@ -591,13 +591,9 @@ function loadPopup(){
                         $('#main_popup_a_link').hide()
                         $('#main_popup_text_a_link').hide();
 
-
                         if(popupType === 'image'){
 
-                            console.log('asdfasdf');
-
                             let imgUrl;
-
                             ///////////// 이미지 선택 //////////////////
                             //모바일이 아닐때만 .
                             if (matchMedia("all and (min-width: 1024px)").matches) {
@@ -623,24 +619,16 @@ function loadPopup(){
                                 });
                             }
                             if(data.image !== "") {
-
-                                console.log('localeUrl ' + localeUrl);
-                                console.log('imgUrl ' + imgUrl);
-
                                 $('#main_popup_a_link').attr("href",localeUrl);
                                 $('#main_popup_img').attr('src', imgUrl);
                                 $('#main_popup_a_link').show();
                             }
 
                         } else if (popupType === 'text'){
-
-                            console.log('asdfasdfasdfas1111111111');
-
                             $('#main_popup_text_a_link').attr("href",localeUrl);
                             $('#main_popup_text_a_link').show();
                             $('#main_popup_title').html(localeTitle);
                             $('#main_popup_content').html(localeContent);
-
                         }
 
                         // $('.main-popupBg').addClass('on'); //line663 으로 옮김.
@@ -649,15 +637,21 @@ function loadPopup(){
                             $('.main-popupbox').addClass('down');
                             $('.main-popupBg').fadeOut('1000', function(){
                                 $(this).removeClass('on');
+                                $('.main-popupwrap').removeClass('on');
                                 $('body').css('overflow','visible');
                             });
                         });
                     }
+
                 }
             })
             .catch(function (error) {
                 console.log(error);
             });
+    } else {
+        $('.main-popupBg').removeClass('on');
+        $('.main-popupwrap').removeClass('on');
+        $('body').css('overflow','visible');
     }
 }
 
@@ -685,10 +679,10 @@ if (matchMedia("all and (min-width: 1024px)").matches) {
     $('.visual-swiper > .swiper-wrapper, .swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').on('mouseenter' ,function(){
         $(this).hover(function(){
             $('.swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').css({
-                "background-color": "rgba(225,225,225,0.3)",
+                "background-color": "rgba(0,0,0,0.3)",
                 "padding": "2em",
                 "background-position": "center center",
-                "border-radius": "3.125rem", 
+                "border-radius": "3.125rem",
                 "right":"40px",
             });
             $('.swiper-button-prev.slide-btnleft').css("left","40px");
@@ -696,7 +690,7 @@ if (matchMedia("all and (min-width: 1024px)").matches) {
 
         $('.visual-swiper > .swiper-wrapper').on('mouseleave', function(){
             $('.swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').css("background-color",'transparent');
-        });
+        }); 
     });
 
     /* 메인팝업 pc 없음 */
@@ -736,11 +730,18 @@ $(window).resize(function(){
 
     /* gnb */
     if (matchMedia("all and (min-width: 1024px)").matches) {
-        /* dim 없는  main 레이어팝업 */
+        /* 쿠키가 있을 때 dim 없는  main 레이어팝업 */
         $('.main-popupBg').removeClass('on');
     } else {
-        /* dim 있는 main 레이어팝업 */
-        $('.main-popupBg').addClass('on');
+        /* 쿠키가 없을 때 dim 있는 main 레이어팝업 */
+        if (isMainPopup) {
+            $('.main-popupBg').addClass('on');
+        }
+        /* 쿠키 상관없이 그냥 닫았을 때 resize */
+        if($('.main-popupbox').hasClass('down')){ /* down */
+            $('.main-popupBg').removeClass('on');
+            $('.main-popupwrap').removeClass('on');
+        } 
 
         /* 띠배너 beltbanner */
         $('.header_beltbox.on').show(function () {

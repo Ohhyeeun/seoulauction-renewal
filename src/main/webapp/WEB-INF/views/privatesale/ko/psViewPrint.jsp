@@ -70,12 +70,12 @@
                                             </div>
                                         </div>
 
-                                        <div class="price-area">
-                                            <dl id="print_expe_price" class="price-list">
-                                                <dt>추정가 : </dt>
-                                                <dd>KRW 9,900,000,000</dd>
-                                            </dl>
-                                        </div>
+<%--                                        <div class="price-area">--%>
+<%--                                            <dl id="print_expe_price" class="price-list">--%>
+<%--                                                <dt>추정가 : </dt>--%>
+<%--                                                <dd>KRW 9,900,000,000</dd>--%>
+<%--                                            </dl>--%>
+<%--                                        </div>--%>
                                     </div>
                                 </article>
 
@@ -83,7 +83,7 @@
                                     <div class="view_editor-warp">
                                         <div class="info-box">
                                             <div class="title">작품정보</div>
-                                            <div class="desc">
+                                            <div id="price_lot_desc" class="desc">
                                                 gouache on canvas <br>
                                                 100.0X80.3cm (40) 2020 <br>
                                                 signed and dated on the right side <br>
@@ -104,7 +104,7 @@
                                 <article class="print_view-article no-line page-break">
                                     <div class="view_editor-warp">
                                         <div class="info-box">
-                                            <div class="info-sub-wrap">
+                                            <div id="print_info" class="info-sub-wrap">
                                                 <div class="info-sub-box">
                                                     <div class="tit">CONDITION</div>
                                                     <div class="desc">good condition 종이 작품의 경우, 재질 특성상 산화·울음이 있을 수 있습니다.</div>
@@ -133,22 +133,9 @@
                                 <!-- [0718]작품설명, Notice 추가 -->
                                 <article class="print_view-article page-break">
                                     <div class="view_editor-warp">
-                                        <div class="info-box">
-                                            <div class="title">작품 설명</div>
-                                            <div class="desc txt-pre-line">조디커윅은 혜성처럼 미술계에 나타난 호주 작가로 정규 미술 교육을 받지 않고 본인만의 독보적인 화풍을 발전시켜 화폭에 담아낸다.
-                                            </div>
+                                        <div id="print_desc" class="info-box">
                                         </div>
-                                        <div class="info-box">
-                                            <div class="title">NOTICE</div>
-                                            <div class="desc">
-                                                <ul class="mark_dot-list">
-                                                    <li class="txt-pre-line">서울옥션은 작가 및 작품명에 한하여 낙찰일로부터 3년간 낙찰자에 대해서만 보증하며, 사전 고지한 작품에 대해서는 보증책임을 부담하지 않습니다.</li>
-                                                    <li class="txt-pre-line">작품은 판매 당시 상태 그대로 판매되므로, 응찰 전 반드시 실물을 확인하여 주시기 바랍니다.<br>
-                                                        홈페이지에 기재된 컨디션은 작품 상태에 대한 당사의 주관적 의견을 제시하는 것일 뿐이므로, 내재된 모든 결함, 수리, 변형 등을 언급하지 않을 수 있습니다. 또한 제작된 지 오랜 시간이 경과한 작품에 자연스럽게 확인되는 노화 현상(구김, 마모, 오염, 산화 등)에 대해서도 별도 언급이 없을 수 있습니다.<br>
-                                                        컨디션은 작품만을 대상으로 하며 액자, 족자, 병풍, 좌대, 케이스 등 작품 구성품의 상태는 포함하지 않습니다. 온라인에 게재된 이미지로 작품의 일부 컨디션을 확인할 수 있으나 실제 상태를 정확하게 반영하지 못할 수 있으며 작품의 색상, 밝기 등이 실물과 다르게 보일 수 있습니다.<br>
-                                                        실물을 확인하지 않고 발생되는 문제에 대한 책임은 응찰자에게 있으며, 이와 같은 유의사항을 반드시 확인하시고 신중히 응찰해 주시길 바랍니다.</li>
-                                                </ul>
-                                            </div>
+                                        <div id="print_notice" class="info-box">
                                         </div>
                                     </div>
                                 </article>
@@ -197,9 +184,9 @@
 <%--<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>--%>
 
 <%--Axios--%>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.js"></script>
+<%--<script defer src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.js"></script>--%>
 <%--<script defer src="https://unpkg.com/axios-extensions/dist/axios-extensions.js"></script>--%>
-<script defer src="/js/common/axios.js" type="text/javascript"></script>
+<%--<script defer src="/js/common/axios.js" type="text/javascript"></script>--%>
 
 <%--<!--[if lt IE 9]>--%>
 <%--<script src="/js/plugin/html5shiv.js"></script> <![endif]-->--%>
@@ -208,114 +195,188 @@
 
 
 <script>
+const locale = document.documentElement.lang;
+//숫자를 천단위마다 콤마 해줌.
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 
-    //숫자를 천단위마다 콤마 해줌.
-    function numberWithCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+//영어 요일을 한글 요일로
+function enDayToHanDay(enDay){
+    let hanDay;
+    switch (enDay){
+        case 'Mon' : hanDay = '월'; break;
+        case 'Tue' : hanDay = '화'; break;
+        case 'Wed' : hanDay = '수'; break;
+        case 'Thu' : hanDay = '목'; break;
+        case 'Fri' : hanDay = '금'; break;
+        case 'Sat' : hanDay = '토'; break;
+        case 'Sun' : hanDay = '일'; break;
     }
 
-    //영어 요일을 한글 요일로
-    function enDayToHanDay(enDay){
-        let hanDay;
-        switch (enDay){
-            case 'Mon' : hanDay = '월'; break;
-            case 'Tue' : hanDay = '화'; break;
-            case 'Wed' : hanDay = '수'; break;
-            case 'Thu' : hanDay = '목'; break;
-            case 'Fri' : hanDay = '금'; break;
-            case 'Sat' : hanDay = '토'; break;
-            case 'Sun' : hanDay = '일'; break;
-        }
-
-        return hanDay;
+    return hanDay;
+}
+//json 로캐일 별로 분기.
+function localeValue(val){
+    if (val === undefined) {
+        return '';
     }
-    $(function(){
 
-        init();
+    let json = JSON.parse(val);
 
-        function init(){
+    return locale === 'ko' ? json.ko : json.en;
+}
+function size_text_cm(src) {
+    if (src === null || src === undefined) {
+        return;
+    }
 
+    var returnValue = "";
+    var cmSize = ""
 
-            axios.get('/api/privatesale/saleAsInfo/${saleAsNo}')
-                .then(function(response) {
-                    const data = response.data;
-                    let success = data.success;
-                    if(success){
-                        let saleData = data.data;
+    cmSize = src.SIZE1 != 0 ? src.SIZE1.toFixed(1) : "";
+    cmSize += src.SIZE2 != 0 ? "☓" + src.SIZE2.toFixed(1) : "";
+    cmSize += src.SIZE3 != 0 ? "☓" + src.SIZE3.toFixed(1) +
+        "(" + (src.MIX_CD == "depth" ? "d" : "h") + ")" : "";
+    cmSize += cmSize != "" ? src.UNIT_CD : "";
+    cmSize += cmSize != "" && src.CANVAS != 0 ? " (" + (src.CANVAS_EXT_YN == "Y" ? "변형" : "") + src.CANVAS + ")" : "";
 
-                        $("#print_sale_title").html(saleData.TITLE_KO);
-                        $("#print_sale_to_date").html('마감일 : ' +
-                            saleData.LOT_EXPIRE_DATE_TIME_T.replace(saleData.LOT_EXPIRE_DATE_DAY , enDayToHanDay(saleData.LOT_EXPIRE_DATE_DAY) )
-                        );
+    returnValue = src.PREFIX;
+    returnValue += (src.DIAMETER_YN == "Y" ? "Φ " : "") + cmSize;
+    returnValue += (src.SUFFIX ? " (" + src.SUFFIX + ") " : "");
+    return returnValue;
+}
+$(function(){
 
-                        $("#print_lot_no").html(saleData.AS_NO);
-                        $("#print_artist_name").html(saleData.ARTIST_NAME_KO);
-                        $("#print_year").html('b.' + saleData.BORN_YEAR);
-                        $("#print_title").html(saleData.TITLE_KO);
-                        //TODO 오프라인인경우 USD 달러 나와야함.
+    function isNotJSonObjectEmpty(param) {
 
-                        $("#price_lot_desc").html(
-                            saleData.MATE_NM_EN + '<br/>'
-                            + '<span>'
-                            + saleData.SIZE1 + 'X'
-                            + saleData.SIZE2 + 'X'
-                            + saleData.SIZE3 + 'cm'
-                            + '</span><br/>'
-                            + '<span>'
-                            + saleData.SIGN_INFO_KO
-                        );
-
-                        $("#cond_rpt").html(saleData.COND_RPT_KO);
-                    } else {
-                        alert(data.data.msg);
-                        history.back();
-                    }
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-
-            axios.get('/api/privatesale/saleImages/${saleAsNo}')
-                .then(function(response) {
-
-                    const data = response.data;
-                    let success = data.success;
-                    console.log("data :::: " +  data);
-
-                    if(success){
-                        let saleImages = data.data;
-                        let imgUrl = saleImages[0].IMAGE_URL +
-                            saleImages[0].FILE_PATH + "/" + saleImages[0].FILE_NAME;
-
-                        $("#print_img").attr('src' , imgUrl);
-                    }
-                    else {
-                        alert(data.data.msg);
-                        history.back();
-                    }
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-
+        if(param === undefined ){
+            return false;
         }
 
-    });
+        let json = JSON.parse(param);
+
+        return json.constructor === Object && Object.keys(json).length !== 0;
+    }
 
 
+    init();
+
+    function init(){
+
+
+        axios.get('/api/privatesale/saleAsInfo/${saleAsNo}')
+            .then(function(response) {
+                const data = response.data;
+                let success = data.success;
+                if(success){
+                    let saleData = data.data;
+
+                    $("#print_sale_title").html(saleData.TITLE_KO);
+                    $("#print_sale_to_date").html('마감일 : ' +
+                        saleData.LOT_EXPIRE_DATE_TIME_T.replace(saleData.LOT_EXPIRE_DATE_DAY , enDayToHanDay(saleData.LOT_EXPIRE_DATE_DAY) )
+                    );
+
+                    $("#print_lot_no").html(saleData.AS_NO);
+                    $("#print_artist_name").html(saleData.ARTIST_NAME_KO);
+                    $("#print_year").html('b.' + saleData.BORN_YEAR);
+                    $("#print_title").html(saleData.TITLE_KO);
+                    //TODO 오프라인인경우 USD 달러 나와야함.
+
+                    //작품정보
+                    let LOT_SIZE = "";
+                    let LOT_SIZE_JSON = JSON.parse(saleData.LOT_SIZE_JSON);
+
+                    for(let i = 0; i < LOT_SIZE_JSON.length; i++) {
+                        LOT_SIZE += '<div>'+size_text_cm(LOT_SIZE_JSON[i])+'</div>';
+                    }
+
+
+                    $("#price_lot_desc").html(
+                        saleData.MATE_NM + '<br/>'
+                        + LOT_SIZE
+                        + (saleData.EDITION ? '<div>' + saleData.EDITION + '</div>' : '')
+                        + (isNotJSonObjectEmpty(saleData.MAKE_YEAR_KO) ? '<div>' + saleData.MAKE_YEAR_KO + '</div>' : '')
+                        + (isNotJSonObjectEmpty(saleData.SIGN_INFO_JSON) ? '<div>' + JSON.parse(saleData.SIGN_INFO_JSON).ko + '</div>' : '')
+                    );
+
+                    let print_info = '';
+
+                    if(isNotJSonObjectEmpty(saleData.COND_RPT_JSON)){
+                        let locale = localeValue(saleData.COND_RPT_JSON);
+                        print_info +=   '<div class="info-sub-box">'
+                            +'<div class="tit">CONDITION</div>'
+                            +'<div class="desc">' +locale + '</div>'
+                            +'</div>';
+                    }
+
+                    if(isNotJSonObjectEmpty(saleData.PROV_INFO_JSON)) {
+                        let locale = localeValue(saleData.PROV_INFO_JSON);
+                        print_info +=   '<div class="info-sub-box">'
+                            +'<div class="tit">PROVENANCE</div>'
+                            +'<div class="desc">' +locale + '</div>'
+                            +'</div>';
+                    }
+                    if(isNotJSonObjectEmpty(saleData.LITE_INFO_JSON)) {
+                        let locale = localeValue(saleData.LITE_INFO_JSON);
+                        print_info +=   '<div class="info-sub-box">'
+                            +'<div class="tit">LITERATURE</div>'
+                            +'<div class="desc">' +locale + '</div>'
+                            +'</div>';
+                    }
+
+                    if(isNotJSonObjectEmpty(saleData.EXHI_INFO_JSON)) {
+                        let locale = localeValue(saleData.EXHI_INFO_JSON);
+                        print_info +=   '<div class="info-sub-box">'
+                            +'<div class="tit">EXHIBITED</div>'
+                            +'<div class="desc">' +locale + '</div>'
+                            +'</div>';
+                    }
+
+                    $("#print_info").html(print_info);
+
+                    if(isNotJSonObjectEmpty(saleData.CMMT_JSON)) {
+                        let locale = localeValue(saleData.CMMT_JSON);
+                        let html  =   '<div class="info-box">'
+                            +'<div class="title">작품 설명</div>'
+                            +'<div class="desc txt-pre-line">' + locale + '</div>'
+                            +'</div>';
+                        $("#print_desc").html(html);
+                    }
+
+                } else {
+                    alert(data.data.msg);
+                    history.back();
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+
+        axios.get('/api/privatesale/saleImages/${saleAsNo}')
+            .then(function(response) {
+
+                const data = response.data;
+                let success = data.success;
+
+                if(success){
+                    let saleImages = data.data;
+                    let imgUrl = saleImages[0].IMAGE_URL +
+                        saleImages[0].FILE_PATH + "/" + saleImages[0].FILE_NAME;
+
+                    $("#print_img").attr('src' , imgUrl);
+                }
+                else {
+                    alert(data.data.msg);
+                    history.back();
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+
+    }
+
+});
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </html>

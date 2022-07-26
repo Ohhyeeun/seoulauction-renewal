@@ -59,14 +59,16 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 		}else{
 			$scope.captchaShow = false;
 		}
-
-		if($("#loginId").val() == ""){
+		
+		var loginId = $("#loginId").val();
+		var regExp = /^[A-Za-z0-9!@#$%^&*.;\-_+]*$/g;
+		if(loginId == ""){
 			if(lang === 'en'){
 				$scope.validMsg = "Please enter your ID.";
 			}else{
 				$scope.validMsg = "아이디를 입력해주세요.";
 			}
-		}else if(!$scope.loginForm.loginId.$valid){
+		}else if(!regExp.test(loginId)){
 			if(lang === 'en'){
 				$scope.validMsg = "ID must be contain one lowercase letter, number, and a special character.";
 			}else{
