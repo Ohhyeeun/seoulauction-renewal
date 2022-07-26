@@ -13,7 +13,7 @@
                     </div>
                 <!-- [0613] 추가 -->
                    <div class="right_txt" ng-if="onlineBidHisList[0].ABORT_YN =='N'">
-                       <span>자동응찰설정가 <em>{{onlineBidHisList[0].CURR_CD}} {{comma(onlineBidHisList[0].BID_PRICE)}}</em></span>
+                       <span>자동응찰설정가 <em>{{onlineBidHisList[0].CURR_CD}} {{comma(onlineBidHisList[0].AUTO_BID_PRICE)}}</em></span>
                    </div>
                    <!-- //[0613] 추가 -->
                     </div>

@@ -1069,6 +1069,7 @@
 				= B.BID_PRICE , 'hammer', 'bidding') AS HAMMER_STAT
 				, ABR.ABORT_YN
 				, S.CURR_CD
+				,(SELECT BID_PRICE  FROM AUTO_BID_REQ ABR WHERE SALE_NO = #{sale_no} AND LOT_NO = #{lot_no} AND CUST_NO = #{action_user_no} ORDER BY REG_DT DESC LIMIT 1 ) AUTO_BID_PRICE
 	    from LOT L
 		inner join SALE S on L.SALE_NO = S.SALE_NO 
 		inner join (
