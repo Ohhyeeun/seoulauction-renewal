@@ -35,16 +35,11 @@ app.controller('inquiryListCtl', function($scope, consts, common) {
  	$scope.loadInquiryList = function($page){
 		let page = getParameter("page");
 		
- 		$scope.currentPage = page ? page : getCookie('page') ? getCookie('page') : $page;
-		console.log('page :' +  page);
-		console.log('getCookie :' +  getCookie('page'));
-		
+ 		$scope.currentPage = page ? page : getCookie('page') ? getCookie('page') : $page;		
 		
 		history.replaceState({}, null, location.pathname);
 		setCookie('page', '', 0);
 
-		console.log('??????');
-		console.log($scope.currentPage);
 		$page = $scope.currentPage;
  		$size = 10;
  		
@@ -108,7 +103,6 @@ app.controller('inquiryWriteCtl', function($scope, consts, common, inquiryServic
 	
 
 app.service("inquiryService", function($rootScope, common, locale) {
-	console.log($rootScope);
 	this.setScope = function($scope) {
 		$scope.paramCate1 = getParameter("cate1");
 
@@ -226,7 +220,6 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				}
 				return false;		
 			}	
-			console.log(filename);
 			$scope.fileNameList.push({"fileIndex" : $scope.fileCount, "fileName":filename });		
 		}
 				
@@ -393,8 +386,8 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				}
 				return false;
 			}
-
-			if (($scope.form_data.cate1 == 'sell' || $scope.form_data.cate1 == "chineseart" ) && document.getElementById("file").files.length == 0) {
+			
+			if (($scope.form_data.cate1 == 'sell' || $scope.form_data.cate1 == "chineseart" ) && document.getElementsByName("file").length < 2) {
 				if (locale == "ko") {
 					alert("작품 이미지를 등록해주세요.");
 				} else {

@@ -72,7 +72,7 @@ public interface MypageMapper {
     int selectCustInteLotCnt(CommonMap commonMap);
 
     /* 관심정보 등록*/
-    CommonMap insertCustInteLot(CommonMap commonMap);
+    int insertCustInteLot(CommonMap commonMap);
 
     /* 관심정보 삭제*/
     int deleteCustInteLot(CommonMap commonMap);

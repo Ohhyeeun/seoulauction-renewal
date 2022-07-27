@@ -633,6 +633,7 @@
 				<when test="sale_kind == 'live'">AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb'</when>
 				<otherwise>AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb' or IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb')</otherwise>
 			</choose>
+		AND SALE_OUTSIDE_YN = 'N'
 		GROUP BY S1.SALE_NO
 	</sql>
 	
@@ -689,7 +690,21 @@
 		 DELETE FROM CUST_INTE_LOT WHERE CUST_NO = #{action_user_no} AND SALE_NO = #{sale_no} AND LOT_NO = #{lot_no};
 	</update>
 	
-
+	<insert id="insertCustInteLot" parameterType="CommonMap">
+	  INSERT INTO CUST_INTE_LOT(
+        CUST_NO,
+        SALE_NO,
+        LOT_NO,
+        REG_DT
+        )
+        VALUES(
+        #{action_user_no},
+        #{sale_no},
+        #{lot_no},
+        now()
+        )
+	</insert>
+	
 	<!-- 라이브 응찰 내역 sale_list -->
 	<sql id="sql_live_bid_req_sale_list">
 		SELECT S1.SALE_NO,  S1.TITLE_BLOB, S1.FROM_DT, S1.TO_DT, S1.CURR_CD, S1.SALE_TH_DSP_YN, S1.SALE_TH FROM AUTO_BID_REQ AB1

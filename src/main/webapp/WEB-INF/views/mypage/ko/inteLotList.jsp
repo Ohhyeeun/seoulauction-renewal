@@ -76,7 +76,8 @@
                                                             <dd ng-repeat="data in il[1]">
                                                                 <div class="product-infobox">
                                                                     <div class="product-infobox-inner">
-                                                                        <button class="btn-heart js-work_heart on" ng-click="inteDel(data.SALE_NO, data.LOT_NO)"><i class="icon-heart_off"></i></button>
+                                                                    <!--  <button class="btn-heart js-work_heart"><i class="icon-heart_off"></i></button> -->
+                                                                         <button class="btn-heart js-work_heart on" id="heart_{{data.SALE_NO}}_{{data.LOT_NO}}" ng-click="inteFavorite(data.SALE_NO, data.LOT_NO)"><i class="icon-heart_off"></i></button>
                                                                         <div class="thumb-area">
                                                                             <figure class="img-ratio">
                                                                                 <a href="#" class="img-align" ng-if="il[1][0].CLOSE_YN != 'Y'" ng-click="goLotDetail(data.SALE_KIND_CD, data.SALE_NO, data.LOT_NO)"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
@@ -115,7 +116,7 @@
                                                     </div>
                                                     <div class="wrap_paging" ng-if="inteLotCnt != 0">
 														<paging page="currentPage"
-															page-size=3
+															page-size=5
 															total="inteLotCnt"
 															paging-action="loadInteLotList(page)"
 															scroll-top="true"
@@ -190,13 +191,13 @@
             }
         });
 
-        /* $(".js-work_heart").click(function(){
+/*          $(".js-work_heart").click(function(){
 			if($(this).hasClass("on")){//on->off로 변경하는 시점
 				$(this).find("i").attr("class","icon-heart_off")
 			} else {//off->on으로 변경하는 시점
 				$(this).find("i").attr("class","icon-heart_on")
 			}
-		}) */
+		})  */
 
         /* $(".js-history_back").click(function(){
         	window.history.back();

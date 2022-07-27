@@ -61,9 +61,54 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 	
 		}*/
 
-	$scope.inteDel = function(sale_no, lot_no) {
-		console.log(sale_no);
-		console.log(lot_no);
+	var deleteList = [];
+	
+	$scope.inteFavorite = function(sale_no, lot_no) {
+		console.log(deleteList);
+		var $count = 0 ;
+		var $d = { "sale_no": sale_no, "lot_no": lot_no };
+		deleteList.forEach(function(id,i) {
+			if(id == sale_no+'_'+lot_no){
+				$count += 1;
+			}
+		});
+		if($count > 0){
+			$('#heart_'+sale_no+'_'+lot_no).addClass( 'on' );
+			//관심상품 재등록
+			axios.post("/api/mypage/inteLotInsert", $d)
+			.then(function(response) {
+				const result = response.data;
+
+				let success = result.success;
+				
+				deleteList.pop(sale_no+'_'+lot_no);
+				if (!success) {
+					alert(result.data.msg);
+				}
+				
+			})
+			.catch(function(error) {
+				console.log(error);
+			});
+		} else {
+			deleteList.push(sale_no+'_'+lot_no);
+			
+			axios.post("/api/mypage/inteLotDelete", $d)
+			.then(function(response) {
+				$('#heart_'+sale_no+'_'+lot_no).removeClass( 'on' );
+				const result = response.data;
+
+				let success = result.success;
+				if (!success) {
+					alert(result.data.msg);
+				}
+			})
+			.catch(function(error) {
+				console.log(error);
+			});
+		}
+	}
+/*	$scope.inteDel = function(sale_no, lot_no) {
 
 		var $d = { "sale_no": sale_no, "lot_no": lot_no };
 
@@ -74,15 +119,13 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 				let success = result.success;
 				if (!success) {
 					alert(result.data.msg);
-				} else {
-					$scope.loadInteLotList($scope.currentPage);
 				}
 			})
 			.catch(function(error) {
 				console.log(error);
 			});
 
-	}
+	}*/
 
 
 	$scope.tabClick = function(saleKind) {

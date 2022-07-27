@@ -173,7 +173,7 @@ public class MypageService {
     }
     
     /* 관심정보 등록*/
-    public CommonMap insertCustInteLot(CommonMap commonMap){                                                                
+    public int insertCustInteLot(CommonMap commonMap){                                                                
         return mypageMapper.insertCustInteLot(commonMap);
     }
     

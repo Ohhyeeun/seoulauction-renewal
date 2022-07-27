@@ -40,8 +40,6 @@ app.controller('onlineBidListCtl', function($scope, consts, common) {
 					}
 					});
 					
-					console.log($scope.onlineBidList);
-					console.log($scope.onlineBidList);
 					/*key.map((arrayKey)=> console.log('?' + arrayKey[1]))*/
 					$scope.$apply();
 				}

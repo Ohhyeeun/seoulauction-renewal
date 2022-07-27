@@ -137,9 +137,6 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 			subFee = sub_price * (lot_fee[0]["RATE"]/100);
 		}
 
-		console.log("=======>");
-		console.log(subFee);
-		console.log(sub_price);
 		totalFee += subFee;
 		subFee = 0.0;
 		

@@ -177,6 +177,15 @@ public class ApiMypageController {
 		commonMap.put("action_user_no", principal.getName());
 		return ResponseEntity.ok(RestResponse.ok(mypageService.deleteCustInteLot(commonMap)));
 	}
+	
+	/* 관심정보  등록*/
+	@RequestMapping(value = "/inteLotInsert", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> inteLotInsert(@RequestBody CommonMap commonMap, Principal principal,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.insertCustInteLot(commonMap)));
+	}
 
 	
 	/* 라이브경매관리 > 응찰신청 내역*/
