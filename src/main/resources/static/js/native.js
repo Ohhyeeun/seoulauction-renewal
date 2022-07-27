@@ -26,6 +26,7 @@ $(function() {
       <button style="${buttonStyle}" id="native-test-get-data">앱 데이터 조회</button>
       <button style="${buttonStyle}" id="native-test-del-data">앱 데이터 삭제</button>
       <button style="${buttonStyle}" id="native-test-open-browser">앱의 브라우저 열기</button>
+      <button style="${buttonStyle}" id="native-test-force-update">강제 업데이트 팝업</button>
     </div>
   `.trim();
 
@@ -68,10 +69,32 @@ $(function() {
         await openWebBrowser('https://seoulauction.com');
         break;
 
+      case 'native-test-force-update':
+        const popup = document.querySelector('#app-update-popup');
+        if (popup && popup.classList.contains('open')) {
+          popup.classList.remove('open');
+        } else {
+          popup.classList.add('open');
+        }
+        break;
+
       default:
         break;
     }
-  })
+  });
+
+  // 앱 업데이트 하러 가기(OS에 따른 앱 링크 추가)
+  document.querySelector('.app-update-popup-link').addEventListener('click', async (e) => {
+    e.preventDefault();
+    const deviceInfo = await getDeviceInfo();
+    if (deviceInfo?.os === 'android') {
+      openWebBrowser('https://play.google.com/store/apps/details?id=seoulauction.seoulauction&hl=ko&gl=US');
+    }
+
+    if (deviceInfo?.os === 'ios') {
+      openWebBrowser('https://apps.apple.com/kr/app/%EC%84%9C%EC%9A%B8%EC%98%A5%EC%85%98/id345138823');
+    }
+  });
 });
 
 // ----------------------------------------------------------------------------
