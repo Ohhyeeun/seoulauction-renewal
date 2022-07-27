@@ -91,7 +91,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="view_scale-area" ng-if="saleInfo.VIEW_SCALE_YN == 'Y' && ['traditional_painting', 'local_painting', 'foreign_painting'].indexOf(saleInfo.CATE_CD) > -1">
+                                            <div class="view_scale-area" ng-if="saleInfo.VIEW_SCALE_YN == 'Y' && ['local_painting', 'foreign_painting'].indexOf(saleInfo.CATE_CD) > -1">
                                                 <a class="js-popup_image_viewer" href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
                                         </article>
@@ -714,19 +714,20 @@
                     //                             </div>
                     //                         </div>
                     //     </div>`
-                        if(['traditional_painting'].indexOf($scope.saleInfo.CATE_CD) > -1){
-                            swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
-                                                <div class="img-area">
-                                                    <div class="img-box">
-                                                        <div class="size_x"><span>` + size1 + unitCd + `</span></div>
-                                                        <div class="size_y"><span>` + size2 + unitCd + `</span></div>
-                                                        <div class="images">
-                                                            <img class="imageViewer" src="` + img_url + `" alt="" " size-x="` + size1 + `" size-y="` + size2 + `" lot_no="` + sale_as_no + `"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>`;
-                        }else if(['local_painting', 'foreign_painting'].indexOf($scope.saleInfo.CATE_CD) > -1) {
+                    //     if(['traditional_painting'].indexOf($scope.saleInfo.CATE_CD) > -1){
+                    //         swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
+                    //                             <div class="img-area">
+                    //                                 <div class="img-box">
+                    //                                     <div class="size_x"><span>` + size1 + unitCd + `</span></div>
+                    //                                     <div class="size_y"><span>` + size2 + unitCd + `</span></div>
+                    //                                     <div class="images">
+                    //                                         <img class="imageViewer" src="` + img_url + `" alt="" " size-x="` + size1 + `" size-y="` + size2 + `" lot_no="` + sale_as_no + `"/>
+                    //                                     </div>
+                    //                                 </div>
+                    //                             </div>
+                    //                         </div>`;
+                    //     }
+                        if(['local_painting', 'foreign_painting'].indexOf($scope.saleInfo.CATE_CD) > -1) {
                             swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
                                                 <div class="img-area">
                                                     <div class="img-box">

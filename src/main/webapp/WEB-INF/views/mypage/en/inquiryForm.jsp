@@ -300,9 +300,9 @@
 						                                        </div>
 																	
 																	<ul class="dot_list tb2 mt10">
-																		<li>ou can attach files of 10 MB or less.</li>
-																		<li>You can upload 10 files</li>
-																		<li>File type : jpg, jpeg, png, gif, pdf, zip, alz</li>
+<%--																		<li>ou can attach files of 10 MB or less.</li>--%>
+<%--																		<li>You can upload 10 files</li>--%> 
+<%--																		<li>File type : jpg, jpeg, png, gif, pdf, zip, alz</li>--%>
 																		<li><u>Please attach the image file to get a prompt accurate answer, Choose the File</u></li>
 																	</ul>
 																</div>

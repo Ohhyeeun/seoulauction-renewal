@@ -1517,6 +1517,12 @@ body.dark,
     /* 상세 이미지 팝업 그림자 삭제 */
     box-shadow: none !important;
 }
+.trp.popupfixed-wrap.auction_live_record-popup .pop-body .article-area {
+    /* 마이페이지 응찰내역 스크롤 max-height 수정 */
+    border-top: 1px solid #999999;
+    max-height: 331px !important;
+    /*max-height: calc(100vh - 234px);*/
+}
 
 /* pc */ 
 @media all and (max-width: 1919px) {
