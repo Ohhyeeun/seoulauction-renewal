@@ -103,7 +103,7 @@
                                                                             <dl class="price">
                                                                                 <dt class="tit">Estimate</dt>
                                                                                 <dd class="txt" ng-if="data.EXPE_PRICE_INQ_YN != 'Y'"><span>USD {{comma(data.EXPE_PRICE_FROM_EN || 0)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_EN || 0)}}</span></dd>
-                                                                            	<dd class="txt" ng-if="data.EXPE_PRICE_INQ_YN == 'Y'"><span>separate inquiry</span></dd>
+                                                                            	<dd class="txt" ng-if="data.EXPE_PRICE_INQ_YN == 'Y'"><span>Separate Inquiry</span></dd>
                                                                             </dl>
                                                                         </div>
                                                                     </div>
