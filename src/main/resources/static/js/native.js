@@ -106,6 +106,7 @@ async function saveDeviceInfo() {
     if (deviceInfo && appHeader) {
       // TODO: 환경변수에 따른 URL 정의
       const url = 'https://re-dev.seoulauction.com/api/app/insert-app-info';
+
       /** @type {{ device_id: string; os: string; app_version: string; device_version: string; }} */
       const body = {
         os: deviceInfo.os,
@@ -147,17 +148,41 @@ function nativeToggleMenu(state) {
  * @return {string}
  * 
  * [result]
- * active: 최초실행
- * resumed
- * inactive
- * paused
- * detached: 앱 종료
+ * active: 최초 실행
+ * resumed: 앱 재진입
+ * inactive: 앱 비활성
+ * paused: 앱 멈춤
+ * detached: 앱 종료(해제)
  * 
  * TODO: 앱에 진입하는 시점에 saveDeviceInfo() 호출
  * TODO: remember-me 프로세스
  */
-function nativeGetAppStatus(status) {
-  console.log(`AppLifecycleState Value: ${status}`);
+async function nativeGetAppStatus(status) {
+  switch (status) {
+    case 'active': // 앱 최초 실행
+      console.log('앱 최초 실행');
+      await saveDeviceInfo();
+      break;
+
+    case 'resumed': // 앱 재진입
+      console.log('앱 다시 실행');
+      break;
+
+    case 'inactive': // 비활성
+      console.log('앱 비활성');
+      break;
+
+    case 'paused':
+      console.log('앱 멈춤');
+      break;
+
+    case 'detached':
+      console.log('앱 해제');
+      break;
+
+    default:
+      break;
+  }
 }
 
 // ----------------------------------------------------------------------------
