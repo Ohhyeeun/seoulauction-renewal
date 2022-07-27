@@ -133,8 +133,8 @@
 											</div>
 
 											<ul class="dot_list tb2 mt5">
-												<li>5 MB 이하의 파일 첨부가 가능합니다. </li>
-												<li>jpg, jpeg, png, gif 만 업로드</li>
+<%--												<li>5 MB 이하의 파일 첨부가 가능합니다. </li>--%>
+<%--												<li>jpg, jpeg, png, gif 만 업로드</li>--%>
 											</ul>
 										</div>
 									</li>

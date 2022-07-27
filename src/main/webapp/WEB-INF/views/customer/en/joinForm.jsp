@@ -186,8 +186,8 @@
 												</p>
 											</div>
 											<ul class="mark_dot-list tb2 mt5">
-												<li>Files of 5 MB or less can be attached</li>
-												<li>Upload only jpg, jpeg, png, gif</li>
+<%--												<li>Files of 5 MB or less can be attached</li>--%>
+<%--												<li>Upload only jpg, jpeg, png, gif</li>--%>
 											</ul>
 										</div>
 									</li>
@@ -216,8 +216,8 @@
 											</div>
 
 											<ul class="mark_dot-list tb2 mt5">
-												<li>Files of 5 MB or less can be attached</li>
-												<li>Upload only jpg, jpeg, png, gif</li>
+<%--												<li>Files of 5 MB or less can be attached</li>--%>
+<%--												<li>Upload only jpg, jpeg, png, gif</li>--%>
 											</ul>
 										</div>
 									</li>
