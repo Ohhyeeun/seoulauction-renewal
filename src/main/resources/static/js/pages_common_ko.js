@@ -13,10 +13,10 @@ function PubUI() {
         });
     }, o.forms = function() {
         /* input del */
-        function e(o) {
+        function n(o) {
             ///console.log('$this.val()', $this.val());
-            var e = !o.prop("disabled");
-            "" != o.val() && e ? (o.siblings("button").css({
+            var n = !o.prop("disabled");
+            "" != o.val() && n ? (o.siblings("button").css({
                 display: "block"
             }), o.siblings("button").one("click", function() {
                 o.val(""), o.siblings("button").css({
@@ -27,9 +27,9 @@ function PubUI() {
             });
         }
         $("body").on("focusout", ".input_del input", function() {
-            e($(this));
+            n($(this));
         }), $("body .input_del input").each(function(o) {
-            e($(this));
+            n($(this));
         }), 
         /* select - box */
         $(".select2Basic").select2({
@@ -70,11 +70,19 @@ function PubUI() {
                 scrollTop: 0
             }, 370);
         });
-    }, o.mobileBack = function() {
+    }, o.mobileBack = function() { 
         // $(".js-history_back").click(function() {
         //     window.history.back();
         // });
     }, 
+    /* 탑버튼 보이기 */
+    $(window).scroll(function() {
+        400 < $(window).scrollTop() ? $(".js-scroll_top").addClass("show") : $(".js-scroll_top").removeClass("show");
+    }), 
+    /* 탑버튼 높이 변경 */
+    $(window).resize(function() {
+        0 < $(".proceeding-article").length && $(window).width() < 1024 ? $(".js-scroll_top").css("transform", "translateY(-70px)") : $(".js-scroll_top").css("transform", "");
+    }), 
     /* 초기실행 스크립트 */
     o.append_script = function() {///$("body").append( $(".js-append-script") );
     };
@@ -113,24 +121,21 @@ function responsiveDevices() {
     ///document.querySelector(".imageViewer");
     ///console.log("googooowwww: " , _tar[0].naturalWidth, _tar.length);
 
-    for (let o = $(".imageViewer"), e = 0; e < o.length; e++) {
+    for (var o = $(".imageViewer"), e = 0; e < o.length; e++) {
         if (!o[e]) return !1;
-        let n = o[e].naturalWidth, i = o[e].naturalHeight;
+        var n = o[e].naturalWidth, i = o[e].naturalHeight;
 
-        let windowW = screen.availWidth;
-        let windowH = screen.availHeight;
+        var windowW = screen.availWidth;
+        var windowH = screen.availHeight;
 
-        let pxByObject= parseFloat(1024 / 500); //pc
-        // const pxScale= 1024 / 500; //mo
 
-        const h = $(o[e]).attr("size-y") * pxByObject;
-        const w = $(o[e]).attr("size-x") * pxByObject;
+        // let z = ((parseFloat($(window).width() / 1024) >= 1)?1:parseFloat($(window).width() / 1024));
 
         // let h = (parseFloat(parseInt($(o[e]).attr("size1"))) / 250) * 500 * z;
         // let w = (parseFloat(parseInt($(o[e]).attr("size2"))) / 250) * 500 * z;
 
-        // let h = parseFloat(windowH) / 2 / 250 * parseFloat($(o[e]).attr("size2"));
-        // let w = parseFloat(windowW) / 2 / 250 * parseFloat($(o[e]).attr("size1"));
+        let h = parseFloat(windowH) / 2 / 250 * parseFloat($(o[e]).attr("size2"));
+        let w = parseFloat(windowW) / 2 / 250 * parseFloat($(o[e]).attr("size1"));
 
         /*$("body").hasClass("is_mb") ? (o[e].width = .55 * w, o[e].height = .55 * h) : (o[e].width = w,
         o[e].height = h);*/
@@ -138,21 +143,22 @@ function responsiveDevices() {
         // o[e].height = h;
         o[e].width = w;
         o[e].height = h;
-
+        //$("body").hasClass("is_mb") ? (o[e].width = w : (o[e].width = w);
     }
     /// console.log("=========imgresize=========", _orgW, _orgH, $("body").hasClass("is_mb"))
 }
 
+
 /* 팝업높이계산 */function popup_fixation(o) {
-    var e = o, n = $(".pop-body>.section", e).outerHeight() + 166, i = $(window).height();
-    function t() {
-        i = $(window).height(), 
+    var n = o, e = $(".pop-body>.section", n).outerHeight() + 166, t = $(window).height();
+    function i() {
+        t = $(window).height(), 
         /* 모바일일때 && mode-mb_full 경우 사용안함 */
-        (!$("body").hasClass("is_mb") || !$(".popup-align", e).hasClass("mode-mb_full")) && i <= n ? $(".popup-align", e).addClass("footer_fixed") : $(".popup-align", e).removeClass("footer_fixed");
+        (!$("body").hasClass("is_mb") || !$(".popup-align", n).hasClass("mode-mb_full")) && t <= e ? $(".popup-align", n).addClass("footer_fixed") : $(".popup-align", n).removeClass("footer_fixed");
     }
     $(window).on("resize", function() {
-        t();
-    }), t();
+        i();
+    }), i();
 }
 
 /* 모바일 모션 팝업 */function popup_motion_open(o) {
@@ -173,26 +179,26 @@ function popup_motion_close(o) {
 onclick="window.open('biddingOffline_ko-pc4.html', '','_blank');" 
 onclick="javascript:window_close();"
 */
-/* ========== 바디 높이 조절 ========== */function gnb_footer_resize(o, e) {
+/* ========== 바디 높이 조절 ========== */function gnb_footer_resize(o, n) {
     /*  $('.main-contents') */
-    var n = $("header.header").innerHeight(), i = $("footer.footer").innerHeight();
+    var e = $("header.header").innerHeight(), t = $("footer.footer").innerHeight();
     o ? ($("#contents").css({
         "padding-top": o,
-        "padding-bottom": e
+        "padding-bottom": n
     }), $("footer.footer").css({
-        "margin-top": -e
+        "margin-top": -n
     })) : ($("#contents").css({
-        "padding-top": n,
-        "padding-bottom": i
+        "padding-top": e,
+        "padding-bottom": t
     }), $("footer.footer").css({
-        "margin-top": -i
+        "margin-top": -t
     }));
 }
 
-function trpScrollTop(o, e) {
-    e = $(o).offset().top - ($("header.header").innerHeight() + e);
+function trpScrollTop(o, n) {
+    n = $(o).offset().top - ($("header.header").innerHeight() + n);
     $("html, body").animate({
-        scrollTop: e
+        scrollTop: n
     }, 300);
 }
 //# sourceMappingURL=maps/pages_common_ko.js.map
