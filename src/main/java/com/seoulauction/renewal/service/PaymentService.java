@@ -262,7 +262,7 @@ public class PaymentService {
         request.setAttribute("uuid", reservedMap.get("uuid"));
         request.setAttribute("pay_kind", reservedMap.get("pay_kind"));
         request.setAttribute("rcpt_type", reservedMap.get("rcpt_type"));
-        request.setAttribute("rcpt_type", reservedMap.get("rcpt_type_no"));
+        request.setAttribute("rcpt_type_no", reservedMap.get("rcpt_type_no"));
     }
 
     public void checkReceipt(HttpServletRequest request) {
