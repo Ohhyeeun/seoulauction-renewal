@@ -120,10 +120,10 @@
                                                                 <span class="num">{{item.AS_NO}}</span>
                                                             </div>
                                                             <div class="info-box">
-                                                                <div class="title"><span>{{item.ARTIST_NAME_BLOB_KO}}</span>
+                                                                <div class="title"><span title="{{item.ARTIST_NAME_BLOB_KO}}">{{item.ARTIST_NAME_BLOB_KO}}</span>
                                                                     <!-- [0516]삭제	<span class="sub">(1965)</span> -->
                                                                 </div>
-                                                                <div class="desc"><span>{{item.TITLE_BLOB_KO}}</span></div>
+                                                                <div class="desc"><span title="{{item.TITLE_BLOB_KO}}">{{item.TITLE_BLOB_KO}}</span></div>
                                                                 <div class="standard">
                                                                     <span>{{item.CD_NM}}</span>
                                                                     <div class="size_year">

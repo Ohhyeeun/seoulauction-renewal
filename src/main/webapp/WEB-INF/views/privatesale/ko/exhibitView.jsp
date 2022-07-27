@@ -156,11 +156,11 @@
                                             </div>
                                             <div class="artist-area">
                                                 <div class="name">
-                                                    <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT">김선우</strong>
-                                                    <span>b.{{lotInfo.BORN_YEAR}}</span>
+                                                    <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT" title="{{lotInfo.ARTIST_NAME_KO_TXT}}">김선우</strong>
+                                                    <span title="{{'b.' + lotInfo.BORN_YEAR}}">b.{{lotInfo.BORN_YEAR}}</span>
                                                 </div>
                                                 <div class="desc">
-                                                    <span ng-bind="lotInfo.TITLE_KO_TXT">Flight of 3 Dodos</span>
+                                                    <span ng-bind="lotInfo.TITLE_KO_TXT" title="{{lotInfo.TITLE_KO_TXT}}">Flight of 3 Dodos</span>
                                                 </div>
                                             </div>
 
