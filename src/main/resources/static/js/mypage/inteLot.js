@@ -29,9 +29,11 @@ var getParameter = function(param){
 app.controller('InteListCtl', function($scope, common, ngDialog) {
 	$scope.loadInteLotList = function($page) {
 		
+		
 		/*페이징 param 존재할 경우(겸매상세에서 뒤로가기 눌렀을 경우)*/
 		let page = getParameter("page");
 		let saleKind = getParameter("saleKind");
+		
 		if(page){
 			if(saleKind){
 				$scope.saleKind = saleKind.toString().replace('#','')
@@ -141,6 +143,8 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 				console.log(error);
 			});
 		}
+		
+		history.pushState('', null, "/mypage/inteLotList?page="+$scope.currentPage+"&saleKind="+$scope.saleKind);
 	}
 /*	$scope.inteDel = function(sale_no, lot_no) {
 
