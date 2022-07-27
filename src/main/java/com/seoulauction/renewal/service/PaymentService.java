@@ -13,6 +13,8 @@ import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang.StringUtils;
+import org.eclipse.jetty.util.StringUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -229,24 +231,28 @@ public class PaymentService {
 
     @Transactional("ktTransactionManager")
     public void niceVBankPaid(HttpServletRequest request) {
-        String PayMethod    = request.getParameter("PayMethod");        //지불수단
-        String Amt          = request.getParameter("Amt");              //금액
-        String TID          = request.getParameter("TID");              //거래번호
-        String AuthDate     = request.getParameter("AuthDate");         //입금일시 (yyMMddHHmmss)
-        String ResultCode   = request.getParameter("ResultCode");       //결과코드 ('4110' 경우 입금통보)
-        String VbankInputName = request.getParameter("VbankInputName"); //입금자 명
-        String RcptType     = request.getParameter("RcptType");         //현금 영수증 구분(0:미발행, 1:소득공제용, 2:지출증빙용)
+        try {
+            String PayMethod = request.getParameter("PayMethod");        //지불수단
+            String Amt = request.getParameter("Amt");              //금액
+            String TID = request.getParameter("TID");              //거래번호
+            String AuthDate = request.getParameter("AuthDate");         //입금일시 (yyMMddHHmmss)
+            String ResultCode = request.getParameter("ResultCode");       //결과코드 ('4110' 경우 입금통보)
+            String VbankInputName = request.getParameter("VbankInputName"); //입금자 명
+            String RcptType = request.getParameter("RcptType");         //현금 영수증 구분(0:미발행, 1:소득공제용, 2:지출증빙용)
 
-        reservedStringSet(request.getParameter("MallReserved"), request);
+            reservedStringSet(request.getParameter("MallReserved"), request);
 
-        boolean paySuccess = false;		// 결제 성공 여부
-        if(PayMethod.equals(SAConst.PAYMENT_METHOD_VBANK)){		//가상계좌
-            if(ResultCode.equals("4110")) paySuccess = true;
-        }
+            boolean paySuccess = false;        // 결제 성공 여부
+            if (PayMethod.equals(SAConst.PAYMENT_METHOD_VBANK)) {        //가상계좌
+                if (ResultCode.equals("4110")) paySuccess = true;
+            }
 
-        if(paySuccess){
-            insertPay(request);
-            checkReceipt(request);
+            if (paySuccess) {
+                insertPay(request);
+                checkReceipt(request);
+            }
+        } catch(Exception e) {
+            throw new InternalServerException(e);
         }
     }
 
@@ -266,7 +272,11 @@ public class PaymentService {
     }
 
     public void checkReceipt(HttpServletRequest request) {
-        nicePayModule.receiptProcess(request);
+        int rcpt_type = Integer.parseInt(StringUtils.defaultString(String.valueOf(request.getAttribute("rcpt_type")), "0"));
+        String rcpt_type_no = String.valueOf(request.getAttribute("rcpt_type_no"));
+        if(rcpt_type > 0 && rcpt_type_no != null) {
+            nicePayModule.receiptProcess(request);
+        }
     }
     public CommonMap selectAcademyByAcademyNo(CommonMap paramMap) {
         CommonMap map = paymentMapper.selectAcademyByAcademyNo(paramMap);
