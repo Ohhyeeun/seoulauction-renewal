@@ -26,11 +26,13 @@ public class RememberMeService implements UserDetailsService {
 
 	@Override
 	public SAUserDetails loadUserByUsername(String custNo) {
+		//리멤버미 쿠키로 로그인처리 (쿠키값으로 사용자판별)
 		log.info("RememberMeService custNo : {}" , custNo);
 		String socialType = "";
 		String socialEmail = "";
+		
+		// 소셜회원의 경우 custNo외에 소셜타입,소셜이메일정보가 필요하므로 구분자(|)를 넣어 값을 표현함
 		if(custNo.contains("|")) {
-			// social Remember Me Auto Login
 			log.info("social Remember Me Auto Login");
 			
 			String[] custNoArr = custNo.split("\\|");
@@ -42,20 +44,25 @@ public class RememberMeService implements UserDetailsService {
 		CommonMap paramMap = new CommonMap();
         paramMap.put("cust_no", custNo);
         paramMap.put("remember_me", 'Y');
+        
+        // 사용자번호로 회원조회
 		CommonMap resultMap = loginMapper.selectCustByCustNo(paramMap);
 		
 		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 		
+		// 조회결과 없을시
 		if(resultMap == null || resultMap.isEmpty()){
 			attr.getRequest().getSession().setAttribute("USER_NOT_FOUND", true);
 			throw new RememberMeAuthenticationException("User not found");
 	    }
 		
+		// 이용제한 사용자 체크
 		if(resultMap.get("STAT_CD") != null && resultMap.get("STAT_CD").equals("stop")){
 			attr.getRequest().getSession().setAttribute("STOP_USER", true);
 			throw new RememberMeAuthenticationException("Stop User"); // 이용제한 아이디 STAT_CD = 'stop'
         }
 		
+		// 미인증 사용자 체크
 		if(resultMap.get("STAT_CD") != null && resultMap.get("STAT_CD").equals("not_certify")){
 			attr.getRequest().getSession().setAttribute("NOT_CERTIFY_USER", true);
 			throw new RememberMeAuthenticationException("Not Certify User"); // 해외고객 이메일 미인증 STAT_CD = 'not_certify'
@@ -72,13 +79,13 @@ public class RememberMeService implements UserDetailsService {
 		}
 		
 		List<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>();
-		//정,준회원 구분
+		//정,준회원 구분하여 권한에 저장
 		if(resultMap.get("MEMBERSHIP_YN").equals("Y")) {
 			roles.add(new SimpleGrantedAuthority("ROLE_REGULAR_USER"));
 		}else if(resultMap.get("MEMBERSHIP_YN").equals("N")) {
 			roles.add(new SimpleGrantedAuthority("ROLE_ASSOCIATE_USER"));
 		}
-		//직원여부
+		//직원인 경우 권한에 저장
 		if(resultMap.get("EMP_GB").equals("Y")) {
 			roles.add(new SimpleGrantedAuthority("ROLE_EMPLOYEE_USER"));
 		}

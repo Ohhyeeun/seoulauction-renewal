@@ -20,8 +20,8 @@ public class RememberMeLoginSuccessHandler implements AuthenticationSuccessHandl
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-		
-		log.info("loginSuccessHandler");
+		//리멤버미 쿠키값으로 로그인을 성공하였을때
+		log.info("RememberMeLoginSuccessHandler - onAuthenticationSuccess");
 		
 		RememberMeAuthenticationToken userPrincipal = (RememberMeAuthenticationToken) request.getUserPrincipal();
 		WebAuthenticationDetails wad = (WebAuthenticationDetails) userPrincipal.getDetails();

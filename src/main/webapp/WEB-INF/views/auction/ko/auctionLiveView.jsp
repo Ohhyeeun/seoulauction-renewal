@@ -94,6 +94,11 @@
                                                                      data-index="$index">
                                                                     <div class="image-area">
                                                                         <figure class="img-ratio">
+                                                                            <!-- [0725]hover시 돋보기표시 -->
+                                                                            <div class="dim">
+                                                                                <i class="icon-zoom_in"></i>
+                                                                            </div>
+                                                                            <!-- //[0725]hover시 돋보기표시 -->
                                                                             <div class="img-align">
                                                                                 <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
                                                                                      alt="">
@@ -347,7 +352,7 @@
                                             </div>
                                             <div class="desc txt-pre-line" id="artistProfile">
                                             </div>
-                                            <div class="desc txt-pre-line" id="artistMedia">
+                                            <div class="desc" id="artistMedia">
                                             </div>
                                         </div>
                                     </div>
@@ -1530,12 +1535,12 @@
                                 $("#artistName").html(JSON.parse(artistData.name).ko + ' ' + artistData.birth + '~' + artistData.death);
                                 $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
 
-                                let html = '<div class="vide_img-box">';
+                                let html = '<div class="video_img-box">';
                                 $.each(artistYoutubeImages, function (index, el) {
                                     $.each(artistImageList, function (s3Index, el) {
                                         //일단은 youtube만 뿌리기로
                                         if (artistImageList[s3Index].tag == 'youtube' + index) {
-                                            html += '<a href="' + artistYoutubeImages[index] + '"><img src=" ' + artistImageList[s3Index].cdn_url + ' " alt="" /></a>';
+                                            html += '<a href="' + artistYoutubeImages[index] + '"><div class="dim"><i class="icon-video_play_white"></i></div><img src=" ' + artistImageList[s3Index].cdn_url + ' " alt="" /></a>';
                                         }
                                     });
                                 });

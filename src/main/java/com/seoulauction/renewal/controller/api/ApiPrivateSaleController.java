@@ -154,6 +154,32 @@ public class ApiPrivateSaleController {
         return ResponseEntity.ok(RestResponse.ok(privateList));
     }
 
+    @RequestMapping(value = "/viewScaleList/{saleAsNo}", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> selectPrivateSaleViewScale(@PathVariable("saleAsNo") int saleAsNo) {
+
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("saleAsNo", saleAsNo);
+        List<CommonMap> privateList = privateSaleService.selectPrivateSaleViewScaleList(commonMap);
+
+        String[] mapKeys = {"SALE_TITLE_JSON", "LOT_TITLE_JSON",
+                "MAKE_YEAR_JSON", "ARTIST_NAME_JSON", "EXPE_PRICE_FROM_JSON", "EXPE_PRICE_TO_JSON"};
+
+        // 맵 형태 거름
+        ObjectMapper mapper  = new ObjectMapper();
+        try{
+            // 맵 변환
+            for (var i = 0; i < privateList.size(); i++) {
+                for (var item : mapKeys) {
+                    privateList.get(i).put(item, mapper.readValue(String.valueOf(privateList.get(i).get(item)),
+                            Map.class));
+                }
+                privateList.get(i).put("IMAGE_URL", IMAGE_URL);
+            }
+        } catch (JsonProcessingException e) {
+        }
+        return ResponseEntity.ok(RestResponse.ok(privateList));
+    }
+
     @RequestMapping(value="/saleAsInfo/{sale_as_no}", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> saleAsInfo(HttpServletRequest req, HttpServletResponse res, Locale locale,
                                                  @PathVariable("sale_as_no") int saleAsNo) {

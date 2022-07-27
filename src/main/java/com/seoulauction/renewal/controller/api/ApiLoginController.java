@@ -57,8 +57,10 @@ public class ApiLoginController {
 	/*마이페이지 service */
 	private final MypageService mypageService;
 
+	/*일반로그인 provider*/
 	private final FrontAuthenticationProvider frontAuthenticationProvider;
 
+	/*소셜로그인 provider*/
 	private final SocialAuthenticationProvider socialAuthenticationProvider;
 	
 	/*로그인 mapper */
@@ -73,13 +75,14 @@ public class ApiLoginController {
 	@Value("${rememberme.key}") 
 	String rememberMeKey;
 	
-	// captcha 이미지 가져오는 메서드
+	/*captcha 보안문자 이미지를 가져온다.*/
 	@GetMapping("/captchaImg")
 	@ResponseBody
 	public void captchaImg(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		new CaptchaUtil().getImgCaptCha(req, res);
 	}
 
+	/*captcha 보안문자의 음성을 가져온다.*/
 //	// 전달받은 문자열로 음성 가져오는 메서드
 //	@GetMapping("/captchaAudio")
 //	@ResponseBody
@@ -89,7 +92,7 @@ public class ApiLoginController {
 //		new CaptchaUtil().getAudioCaptCha(req, res, getAnswer);
 //	}
 
-	// 사용자가 입력한 보안문자 체크하는 메서드
+	/*사용자가 입력한 보안문자를 체크한다.*/
 	@PostMapping("/chkAnswer")
 	@ResponseBody
 	public ResponseEntity<RestResponse> chkAnswer(@RequestBody CommonMap map, HttpServletRequest req, HttpServletResponse res) {
@@ -179,6 +182,7 @@ public class ApiLoginController {
 		}
 	}
 
+	/*아이디 중복체크*/
 	@RequestMapping(value="/isIdExist", method=RequestMethod.POST)
 	@ResponseBody
 	public List<CommonMap> isIdExist(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
@@ -190,6 +194,7 @@ public class ApiLoginController {
 	    return resultMap;
 	}
 	
+	/*이메일 중복체크*/
 	@RequestMapping(value="/isEmailExist", method=RequestMethod.POST, headers = {"content-type=application/json"})
 	@ResponseBody
 	public List<CommonMap> isEmailExist(String domain, @RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
@@ -201,6 +206,7 @@ public class ApiLoginController {
 	    return resultMap;
 	}
 	
+	/*사업자등록번호 중복체크*/
 	@RequestMapping(value="/isCompNoExist", method=RequestMethod.POST, headers = {"content-type=application/json"})
 	@ResponseBody
 	public List<CommonMap> isCompNoExist(String domain, @RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
@@ -212,6 +218,7 @@ public class ApiLoginController {
 	    return resultMap;
 	}
 	
+	/*직원검색*/
 	@RequestMapping(value = "/employee", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> findEmployee(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
@@ -223,6 +230,7 @@ public class ApiLoginController {
 		return ResponseEntity.ok(RestResponse.ok(resultMap));
 	}
 	
+	/*국가목록 조회*/
 	@RequestMapping(value = "/nations", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> nations(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
@@ -234,6 +242,7 @@ public class ApiLoginController {
 		return ResponseEntity.ok(RestResponse.ok(resultMap));
 	}
 
+	/*정보수신방법 조회*/
 	@RequestMapping(value = "/pushWays", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> pushWays(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
@@ -245,11 +254,14 @@ public class ApiLoginController {
 		return ResponseEntity.ok(RestResponse.ok(resultMap));
 	}
 	
+	/*회원가입*/
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> join(MultipartHttpServletRequest request, HttpServletResponse response){
 		CommonMap paramMap = new CommonMap(mypageService.formatMapRequest(request));
 		log.info(paramMap.toString());
+		
+		//회원가입
 		int result = loginService.insertCust(paramMap);
         if(result > 0) {
         	String custNo = "";
@@ -260,10 +272,12 @@ public class ApiLoginController {
         	Boolean pwSms = Boolean.parseBoolean(paramMap.get("push_way_sms").toString());
         	Boolean pwPhone = Boolean.parseBoolean(paramMap.get("push_way_phone").toString());
         	
+        	//가입한 회원의 회원번호를 가져온다.
         	CommonMap resultMap = loginService.selectCustForExist(paramMap).get(0);
         	custNo = resultMap.get("CUST_NO").toString();
 
         	if(socialType != "" || pwEmail || pwSms || pwPhone) {
+        		//사용자가 선택한 정보수신방법을 저장한다.
         		paramMap.put("cust_no", custNo);
         		if(pwEmail) {
         			paramMap.put("push_way_cd", "email");
@@ -277,6 +291,8 @@ public class ApiLoginController {
         			paramMap.put("push_way_cd", "phone");
         			result += loginService.insertCustPushWay(paramMap);
         		}
+        		
+        		//소셜회원의 경우 소셜회원DB에 저장한다.
         		if(socialType != "") {
             		paramMap.put("push_way_cd", "email");
             		result += loginService.insertCustSocial(paramMap);
@@ -291,8 +307,9 @@ public class ApiLoginController {
             					.build();
             			
             			SecurityContext sc = SecurityContextHolder.getContext();
-            			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(paramMap.get("social_login_id").toString(), null);
+            			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(paramMap.get("login_id").toString(), null);
             			auth.setDetails(parameterUserDetail);
+            			//회원가입 완료 후 (소셜)로그인처리
             			sc.setAuthentication(socialAuthenticationProvider.authenticate(auth));
             			
             			HttpSession session = request.getSession(true);
@@ -304,8 +321,8 @@ public class ApiLoginController {
         	}
         	
         	if(localKindCd.equals("korean")) {
+        		//사업자회원 사업자등록증 s3 upload
         		if(custKindCd.equals("company")){
-        			//사업자회원 사업자등록증 s3 upload
         			try {	
         				Map<String, List<MultipartFile>> fileList = request.getMultiFileMap();
         	    		
@@ -323,6 +340,7 @@ public class ApiLoginController {
 	        	SecurityContext sc = SecurityContextHolder.getContext();
 	        	UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(paramMap.get("login_id").toString(), paramMap.get("passwd").toString());
 	        	auth.setDetails(loginService.getIp(request));
+	        	//회원가입 완료 후 (일반)로그인처리
 	        	sc.setAuthentication(frontAuthenticationProvider.authenticate(auth));
 	        	
 	        	HttpSession session = request.getSession(true);
@@ -357,7 +375,7 @@ public class ApiLoginController {
 		return ResponseEntity.ok(RestResponse.ok());
 	}
 	
-	// 소셜 로그인
+	/*소셜 로그인*/
 	@RequestMapping(value = "/social", method = RequestMethod.POST)
 	public ResponseEntity<RestResponse> socialLogin(HttpServletRequest request, HttpServletResponse response
 			, @RequestBody CommonMap paramMap
@@ -376,7 +394,9 @@ public class ApiLoginController {
 			SecurityContext sc = SecurityContextHolder.getContext();
 			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(null, null);
 			auth.setDetails(parameterUserDetail);
+			//소셜 로그인처리
 			sc.setAuthentication(socialAuthenticationProvider.authenticate(auth));
+			//앱일경우 rememberme쿠키를 생성한다.
 			if(paramMap.containsKey("is_native")) {
 				log.info("is native : {}", paramMap.get("is_native"));
 				log.info("getParameter remember-me : {}", request.getParameter("remember-me"));
@@ -392,7 +412,7 @@ public class ApiLoginController {
         return ResponseEntity.ok(RestResponse.ok());
 	}
 	
-	//소셜회원 기가입체크
+	/*소셜회원 기가입체크*/
 	@RequestMapping(value="/isCustSocialExist", method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> isCustSocialExist(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
@@ -403,6 +423,7 @@ public class ApiLoginController {
 	    return ResponseEntity.ok(RestResponse.ok(loginService.selectCustForCustSocial(paramMap)));
 	}
 	
+	/*주소검색*/
 	@RequestMapping(value = "/address", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> findAddr(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){

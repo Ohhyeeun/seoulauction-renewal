@@ -91,7 +91,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="view_scale-area" ng-if="lotInfo.VIEW_SCALE_YN == 'Y'">
+                                            <div class="view_scale-area" ng-if="saleInfo.VIEW_SCALE_YN == 'Y' && ['local_painting', 'foreign_painting'].indexOf(saleInfo.CATE_CD) > -1">
                                                 <a class="js-popup_image_viewer" href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
                                         </article>
@@ -318,9 +318,9 @@
                                 </button>
                             </div>
                             <div class="view_paging-area">
-                                <button class="page_prev"><i class="icon-view_paging_left"></i></button>
-                                <span id="view_lot_no"></span>
-                                <button class="page_next"><i class="icon-view_paging_right"></i></button>
+<%--                                <button class="page_prev"><i class="icon-view_paging_left"></i></button>--%>
+<%--                                <span id="view_lot_no"></span>--%>
+<%--                                <button class="page_next"><i class="icon-view_paging_right"></i></button>--%>
                             </div>
                         </article>
                     </div>
@@ -491,6 +491,15 @@
             }
         };
 
+        const getViewScaleList = (saleAsNo) => {
+            console.log("getViewScaleList : ", saleAsNo);
+            try {
+                return axios.get('/api/privatesale/viewScaleList/${saleAsNo}');
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
         $scope.goLot = function (saleAsNo) {
             window.location.href = '/privatesale/psView/' + saleAsNo;
         }
@@ -534,13 +543,15 @@
         // 호출 부
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3] = await Promise.all([getPrivateSaleInfo($scope.saleAsNo),
+                let [r1, r2, r3, r4] = await Promise.all([getPrivateSaleInfo($scope.saleAsNo),
                     getPrivateSaleImages($scope.saleAsNo),
-                    getSaleList()]);
+                    getSaleList(),
+                    getViewScaleList($scope.saleAsNo)]);
 
                 $scope.saleInfo = r1.data.data;
                 $scope.saleImages = r2.data.data;
                 $scope.saleList = r3.data.data;
+                $scope.viewScaleList = r4.data.data;
 
                 $scope.activeIndex = 0;
                 // popup setting
@@ -647,12 +658,12 @@
                             spaceBetween: 10
                         }
                     },
-                    on: {
-                        slideChange: function() {
-                            $scope.activeIndex = view_visual.activeIndex;
-                            view_thumnailActive(view_visual.activeIndex);
-                        }
-                    }
+                    // on: {
+                    //     slideChange: function() {
+                    //         $scope.activeIndex = view_visual.activeIndex;
+                    //         view_thumnailActive(view_visual.activeIndex);
+                    //     }
+                    // }
                 });
 
                 $(".js-view_thumnail .slide").on("click", function () {
@@ -666,11 +677,13 @@
                 });
 
                 let sale_list = $scope.saleList;
+                let viewScaleList = $scope.viewScaleList;
                 let sale_images = $scope.saleImages;
                 let firstCheck = 0;
 
-                $.each(sale_list, function (index, el) {
+                // $.each(sale_list, function (index, el) {
 
+                const el = viewScaleList[0];
                     let size1 = 0;
                     let size2 = 0;
                     let unitCd = '';
@@ -685,26 +698,54 @@
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
 
                     let swiper_slide_item = '';
-                    if (firstCheck == 0) {
-                        $scope.chk = parseInt(sale_as_no) - index -1;
-                    }
-                    firstCheck++;
+                    // if (firstCheck == 0) {
+                    //     $scope.chk = parseInt(sale_as_no) - index -1;
+                    // }
+                    // firstCheck++;
                     //if(size1 > 160) {
-                        swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
-                                               <div class="img-area">
-                                                <div class="img-box">
-                                                    <div class="size_x"><span>` + size1 + unitCd + `</span></div>
-                                                    <div class="size_y"><span>` + size2 + unitCd + `</span></div>
-                                                    <div class="images">
-                                                        <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + sale_as_no + `" />
+                    //     swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
+                    //                            <div class="img-area">
+                    //                             <div class="img-box">
+                    //                                 <div class="size_x"><span>` + size1 + unitCd + `</span></div>
+                    //                                 <div class="size_y"><span>` + size2 + unitCd + `</span></div>
+                    //                                 <div class="images">
+                    //                                     <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + sale_as_no + `" />
+                    //                                 </div>
+                    //                             </div>
+                    //                         </div>
+                    //     </div>`
+                    //     if(['traditional_painting'].indexOf($scope.saleInfo.CATE_CD) > -1){
+                    //         swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
+                    //                             <div class="img-area">
+                    //                                 <div class="img-box">
+                    //                                     <div class="size_x"><span>` + size1 + unitCd + `</span></div>
+                    //                                     <div class="size_y"><span>` + size2 + unitCd + `</span></div>
+                    //                                     <div class="images">
+                    //                                         <img class="imageViewer" src="` + img_url + `" alt="" " size-x="` + size1 + `" size-y="` + size2 + `" lot_no="` + sale_as_no + `"/>
+                    //                                     </div>
+                    //                                 </div>
+                    //                             </div>
+                    //                         </div>`;
+                    //     }
+                        if(['local_painting', 'foreign_painting'].indexOf($scope.saleInfo.CATE_CD) > -1) {
+                            swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
+                                                <div class="img-area">
+                                                    <div class="img-box">
+                                                        <div class="size_x"><span>` + size2 + unitCd + `</span></div>
+                                                        <div class="size_y"><span>` + size1 + unitCd + `</span></div>
+                                                        <div class="images">
+                                                            <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size2 + `" size-y="` + size1 + `" lot_no="` + sale_as_no + `"/>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                        </div>`
-                        $("#swiper-wrapper").append(swiper_slide_item);
+                                            </div>`;
+                        }
+                        $("#popup_image_viewer-wrap .gallery_center").html(swiper_slide_item);
+                        // $("#swiper-wrapper").html(swiper_slide_item);
+                        // $("#swiper-wrapper").append(swiper_slide_item);
                     //}
 
-                });
+                // });
 
                 $.each(sale_images, function (index, el) {
 

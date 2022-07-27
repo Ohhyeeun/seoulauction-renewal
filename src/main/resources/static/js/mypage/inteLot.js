@@ -16,7 +16,7 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 	$scope.loadInteLotList = function($page) {
 		$scope.currentPage = $page;
 		$page = $scope.currentPage;
-		$size = 3;
+		$size = 5;
 		$api = "/api/mypage/inteLots?page=" + $page + "&size=" + $size
 		if ($scope.saleKind) {
 			$api += "&sale_kind=" + $scope.saleKind;
@@ -31,7 +31,9 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 					alert(result.data.msg);
 				} else {
 					$scope.inteLotCnt = result.data.cnt;
-					$scope.inteLotList = Object.keys($scope.groupBy(result.data.list, 'SALE_NO')).map((key) => [Number(key), $scope.groupBy(result.data.list, 'SALE_NO')[key]]).sort((a, b) => b[0] - a[0]);
+					$scope.inteLotList = Object.keys($scope.groupBy(result.data.list, 'TO_DT')).map((key) => [Number(key), $scope.groupBy(result.data.list, 'TO_DT')[key]]).sort((a, b) => b[0] - a[0]);
+					
+					console.log($scope.inteLotList);
 					$scope.$apply();
 				}
 			})
@@ -59,9 +61,54 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 	
 		}*/
 
-	$scope.inteDel = function(sale_no, lot_no) {
-		console.log(sale_no);
-		console.log(lot_no);
+	var deleteList = [];
+	
+	$scope.inteFavorite = function(sale_no, lot_no) {
+		console.log(deleteList);
+		var $count = 0 ;
+		var $d = { "sale_no": sale_no, "lot_no": lot_no };
+		deleteList.forEach(function(id,i) {
+			if(id == sale_no+'_'+lot_no){
+				$count += 1;
+			}
+		});
+		if($count > 0){
+			$('#heart_'+sale_no+'_'+lot_no).addClass( 'on' );
+			//관심상품 재등록
+			axios.post("/api/mypage/inteLotInsert", $d)
+			.then(function(response) {
+				const result = response.data;
+
+				let success = result.success;
+				
+				deleteList.pop(sale_no+'_'+lot_no);
+				if (!success) {
+					alert(result.data.msg);
+				}
+				
+			})
+			.catch(function(error) {
+				console.log(error);
+			});
+		} else {
+			deleteList.push(sale_no+'_'+lot_no);
+			
+			axios.post("/api/mypage/inteLotDelete", $d)
+			.then(function(response) {
+				$('#heart_'+sale_no+'_'+lot_no).removeClass( 'on' );
+				const result = response.data;
+
+				let success = result.success;
+				if (!success) {
+					alert(result.data.msg);
+				}
+			})
+			.catch(function(error) {
+				console.log(error);
+			});
+		}
+	}
+/*	$scope.inteDel = function(sale_no, lot_no) {
 
 		var $d = { "sale_no": sale_no, "lot_no": lot_no };
 
@@ -72,15 +119,13 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 				let success = result.success;
 				if (!success) {
 					alert(result.data.msg);
-				} else {
-					$scope.loadInteLotList($scope.currentPage);
 				}
 			})
 			.catch(function(error) {
 				console.log(error);
 			});
 
-	}
+	}*/
 
 
 	$scope.tabClick = function(saleKind) {

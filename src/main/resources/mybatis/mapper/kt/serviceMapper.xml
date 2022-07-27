@@ -2,12 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seoulauction.renewal.mapper.kt.ServiceMapper">	
 	
+	<!-- 진행중인 아카데미 -->
 	<!-- get_academy_now_list -->
 	<select id="selectAcademyListForNow" resultType="CommonMap">
 		<include refid="get_academy_now_sql"/>
 <!-- 		    limit	 #{offset}, #{size} -->
 	</select>
 	
+	<!-- 진행중인 아카데미 카운트 -->
 	<!-- get_academy_now_count -->
 	<select id="selectAcademyCntForNow" resultType="int">
 		select  count(A.ACADEMY_NO) as CNT
@@ -59,6 +61,7 @@
 		order by A.FROM_DT DESC 
 	</sql>
 	
+	<!-- 아카데미 상세 -->
 	<!-- get_academy_view -->
 	<select id="selectAcademy" resultType="CommonMap">
 		select A.ACADEMY_NO AS ACADEMY_NO, 
@@ -98,6 +101,7 @@
 		order by A.REG_DT DESC
 	</select>
 	
+	<!-- 아카데미 목록 -->
 	<!-- get_academy_list -->
 	<select id="selectAcademyList" resultType="CommonMap">
 		select A.ACADEMY_NO AS ACADEMY_NO, 
@@ -140,6 +144,7 @@
 		        #{offset}, #{size}
 	</select>
 	
+	<!-- 아카데미 목록 카운트 -->
 	<!-- get_academy_cnt -->
 	<select id="selectAcademyListCnt" resultType="int">
 		select count(*) as CNT   

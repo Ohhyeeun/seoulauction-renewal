@@ -90,8 +90,21 @@
                                             </div>
                                             <div id="print_notice" class="info-box">
                                             </div>
+
+                                            <div id="artist_layer" class="info-box">
+                                                <div class="title">작가정보</div>
+                                                <div class="desc txt-pre-line" id="artistName">
+                                                </div>
+                                                <div class="desc txt-pre-line" id="artistProfile">
+                                                </div>
+                                                <div class="desc txt-pre-line" id="artistMedia">
+                                                </div>
+                                            </div>
                                         </div>
+
+
                                     </article>
+
                                     <!-- //[0718]작품설명, Notice 추가 -->
                                 </div>
                             </div>
@@ -177,6 +190,8 @@ $(function(){
                 if(success){
                     let lotData = data.data;
 
+                    console.log(lotData);
+
                     let sale_title = ( lotData.SALE_TH === undefined || lotData.SALE_TH === '')  ? '' : ( '제' + lotData.SALE_TH + '회 ' );
                     sale_title += JSON.parse(lotData.SALE_TITLE_JSON).ko;
 
@@ -222,7 +237,7 @@ $(function(){
                         LOT_SIZE += '<div>'+size_text_cm(lotData.LOT_SIZE_JSON[i])+'</div>';
                     }
                     $("#price_lot_desc").html(
-                           lotData.MATE_NM_EN + '<br/>'
+                          lotData.MATE_NM_EN + '<br/>'
                         + LOT_SIZE
                         + (lotData.EDITION ? '<div>' + lotData.EDITION + '</div>' : '')
                         + (isNotObjectEmpty(lotData.MAKE_YEAR_JSON) ? '<div>' + lotData.MAKE_YEAR_JSON.ko + '</div>' : '')
@@ -283,6 +298,57 @@ $(function(){
                             + '</div>';
                         $("#print_notice").html(html);
                     }
+
+                    axios.get('/api/auction/artist_info/' + lotData.ARTIST_NO)
+                        .then(function (response) {
+                            const data = response.data;
+                            let success = data.success;
+
+                            if (success) {
+                                let artistData = data.data;
+
+                                console.log(artistData);
+
+                                if (!artistData) {
+                                    $("#artist_layer").css("display", "none");
+                                } else {
+
+                                    console.log('asdfasdfasdf');
+
+                                    let articlesList = JSON.parse(artistData.articles).articles;
+                                    let artistYoutubeImages = JSON.parse(artistData.media).youtube;
+                                    let artistImageList = artistData.images;
+                                    let title = '';
+                                    $.each(articlesList, function (index, el) {
+                                        if (locale === 'ko') {
+                                            title += el.titleKo + '</br>';
+                                        } else {
+                                            title += el.titleEn + '</br>';
+                                        }
+                                    });
+
+                                    $("#artistName").html(JSON.parse(artistData.name).ko + ' ' + artistData.birth + '~' + artistData.death);
+                                    $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
+
+                                    let html = '<div class="vide_img-box">';
+                                    $.each(artistYoutubeImages, function (index, el) {
+                                        $.each(artistImageList, function (s3Index, el) {
+                                            //일단은 youtube만 뿌리기로
+                                            if (artistImageList[s3Index].tag == 'youtube' + index) {
+                                                html += '<a href="' + artistYoutubeImages[index] + '"><img src=" ' + artistImageList[s3Index].cdn_url + ' " alt="" /></a>';
+                                            }
+                                        });
+                                    });
+                                    html += '</div>';
+                                    $("#artistMedia").html(html);
+                                }
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+
+
                 } else {
                     alert(data.data.msg);
                     history.back();

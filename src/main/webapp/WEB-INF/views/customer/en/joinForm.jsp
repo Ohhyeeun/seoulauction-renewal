@@ -32,7 +32,6 @@
 											<i>*</i>
 										</div>
 										<div class="form_body">
-											<input type="hidden" id="social_login_id" name="social_login_id" ng-model="form_data.social_login_id" />
 											<input type="hidden" id="social_email" name="social_email" ng-model="form_data.social_email" />
 											<input
 												autofocus="autofocus"
@@ -47,7 +46,7 @@
 												class="form-control"
 												placeholder="">
 											<div class="id_name_box" ng-show="isSocial()">
-												<span class="tb1">${socialLoginId }</span>
+												<span class="tb1">${loginId }</span>
 												<span class="sns-icon"><img ng-src="/images/common/icon-sns_{{getSocialName()}}.png" alt=""></span>
 											</div>
 											<p class="error_text tb2">{{login_id_msg}}</p>
@@ -187,8 +186,8 @@
 												</p>
 											</div>
 											<ul class="mark_dot-list tb2 mt5">
-												<li>Files of 5 MB or less can be attached</li>
-												<li>Upload only jpg, jpeg, png, gif</li>
+<%--												<li>Files of 5 MB or less can be attached</li>--%>
+<%--												<li>Upload only jpg, jpeg, png, gif</li>--%>
 											</ul>
 										</div>
 									</li>
@@ -217,8 +216,8 @@
 											</div>
 
 											<ul class="mark_dot-list tb2 mt5">
-												<li>Files of 5 MB or less can be attached</li>
-												<li>Upload only jpg, jpeg, png, gif</li>
+<%--												<li>Files of 5 MB or less can be attached</li>--%>
+<%--												<li>Upload only jpg, jpeg, png, gif</li>--%>
 											</ul>
 										</div>
 									</li>
@@ -820,10 +819,9 @@
 </body>
 <script>
 	app.value('locale', 'en');
-	var loginId = '${socialLoginId }';
+	var loginId = '${loginId }';
 	var name = '${name }';
 	var email = '${email }';
-	var socialLoginId = '${socialLoginId }';
 	var socialEmail = '${socialEmail }';
 </script>
 <script src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>

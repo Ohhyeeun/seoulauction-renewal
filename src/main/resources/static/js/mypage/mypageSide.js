@@ -19,7 +19,6 @@ app.controller('myPageCtl', function($scope, consts, common, ngDialog) {
             if(!success){
                 alert(result.data.msg);
             } else {
-            	console.log(result.data);
             	$scope.userRole = result.data.USER_ROLE;
             	$scope.validDate = result.data.VALID_DATE;
             	$scope.$apply();        		
@@ -67,7 +66,6 @@ app.controller('myPageCtlPopup', function($scope, consts, common, ngDialog) {
             if(!success){
                 alert(result.data.msg);
             } else {
-            	console.log(result.data);
             	$scope.custPayList = result.data;
             	$scope.custPayCnt = result.data.length;
             	$scope.$apply();        		

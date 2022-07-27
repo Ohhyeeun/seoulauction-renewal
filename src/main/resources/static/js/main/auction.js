@@ -3,10 +3,12 @@ $(document).ready(function(){
 
     let auctionData = [];
     let currentLotData = [];
+    let SaleData = [];
     let curruentTab = 0;
     let initCount = 12;
     let currentSaleNo;
     let locale = document.documentElement.lang;
+    let saleKind;
     init();
 
     //초기작업.
@@ -21,11 +23,16 @@ $(document).ready(function(){
         axios.get('/api/main/auctions')
             .then(function(response) {
                 const data = response.data;
+
                 let success = data.success;
                 if(success){
 
                     auctionData = data.data.list;
                     //TODO 인클루드 작업.
+
+                    //초기 sale_kind 설정.
+                    saleKind = auctionData[0].SALE_KIND;
+
                     $.each(auctionData , function(idx , el){
 
                         const titleBlob = el.SHORT_TITLE? el.SHORT_TITLE : el.TITLE_BLOB;
@@ -42,11 +49,13 @@ $(document).ready(function(){
                         //lot data
                         currentLotData[idx] = el.lots;
                         // 처음은 0부터 10
-                        addLot(idx , currentLotData[idx].slice(0 , initCount) , el.SALE_KIND);
+                        addLot(idx , currentLotData[idx].slice(0 , initCount));
                     });
 
                     //초기 sale_NO 설정.
                     currentSaleNo = currentLotData[curruentTab][0].SALE_NO;
+
+
                     bidstart();
                 }
             })
@@ -55,11 +64,11 @@ $(document).ready(function(){
             });
     }
 
-    function addLot(idx , data , kind){
+    function addLot(idx , data){
 
         let starting = locale === 'ko' ? '추정가' : 'Starting KRW  ';
 
-        if (kind === "ONLINE") {
+        if (saleKind === "ONLINE") {
             starting = locale === 'ko' ? "시작가" : 'Starting KRW  ';
         }
 
@@ -74,7 +83,7 @@ $(document).ready(function(){
             let priceFromJson =  JSON.parse(el.EXPE_PRICE_FROM_JSON);
 
             let price = "";
-            if (kind === "ONLINE") {
+            if (saleKind === "ONLINE") {
                 if (locale === 'ko') {
                     price = numberWithCommas(el.START_PRICE);
                 }
@@ -91,15 +100,14 @@ $(document).ready(function(){
             }
 
             let saleNo = el.SALE_NO;
-            let saleKind = kind.toLowerCase();
             let lotNo = el.LOT_NO;
             let like = el.FAVORITE_YN === 'N' ? 'on' : '';
             //lot html
             let html =
-                `<figure class="auction-thumbbox" sale-kind="${saleKind}" sale-no="${saleNo}" lot-no="${lotNo}">
+                `<figure class="auction-thumbbox" sale-no="${saleNo}" lot-no="${lotNo}">
                             <img src='${imgPath}' alt="" class="pc-ver">
                                 <img src='${imgPath}' alt="" class="m-ver">
-                                    <figcaption class="auction-thumb"  sale-kind="${saleKind}">
+                                    <figcaption class="auction-thumb" lot-no="${lotNo}">
                                         <button id='id_${lotNo}' class="wish_heart ${like}" ></button>
                                         <a>
                                             <p class="auction-thumb-txt">
@@ -114,11 +122,11 @@ $(document).ready(function(){
 
         $(".auctionTab-contents.on").css('height','100%')
 
-        dynamicEvent(kind);
+        dynamicEvent();
     }
 
     //동적 이벤트
-    function dynamicEvent(kind){
+    function dynamicEvent(){
 
         //중복 이벤트 제거!!!
         $('.auctionTab-btn').off('click');
@@ -137,6 +145,8 @@ $(document).ready(function(){
 
             curruentTab = $(this).index()
             currentSaleNo = currentLotData[curruentTab][0].SALE_NO;
+
+            saleKind = auctionData[curruentTab].SALE_KIND;
 
             bidstart();
 
@@ -168,14 +178,13 @@ $(document).ready(function(){
             //모바일일땐 클릭이벤트로
             $('.auction-thumbbox').on('click', function (event) {
 
-                let saleKind = 'online';
+                //let saleKind = 'online';
                 //
                 // if(kind){
                 //     saleKind = kind.toLowerCase();
                 // }
-                 saleKind = event.target.getAttribute("sale-kind");
-
-                location.href = '/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).attr('lot-no');
+                let lotSaleKind = saleKind.toLowerCase();
+                location.href = '/auction/'+lotSaleKind+'/view/'+currentSaleNo + '/' +$(this).attr('lot-no');
             });
         }
 
@@ -201,13 +210,13 @@ $(document).ready(function(){
             } else {
                 //모바일일땐 클릭이벤트로
                 $('.auction-thumbbox').on('click', function (event) {
-                    let saleKind = 'online';
+                    //let saleKind = 'online';
                     //
                     // if(kind){
                     //     saleKind = kind.toLowerCase();
                     // }
-                    saleKind = event.target.getAttribute("sale-kind");
-                    location.href ='/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).attr('lot-no');
+                    let lotSaleKind = saleKind.toLowerCase();
+                    location.href = '/auction/'+lotSaleKind+'/view/'+currentSaleNo + '/' +$(this).attr('lot-no');
                 });
             }
         });
@@ -215,13 +224,12 @@ $(document).ready(function(){
 
         //클릭시
         $('.auction-thumb').on('click', function (event) {
-            let saleKind = 'online';
+            //let saleKind = 'online';
             // if(kind){
             //     saleKind = kind.toLowerCase();
             // }
-            saleKind = event.target.getAttribute("sale-kind");
-
-            location.href ='/auction/'+saleKind+'/view/'+currentSaleNo + '/' +$(this).children('button').attr('id').split('id_')[1];
+            let lotSaleKind = saleKind.toLowerCase();
+            location.href = '/auction/'+lotSaleKind+'/view/'+currentSaleNo + '/' +$(this).attr('lot-no');
         });
 
         //auction haert 버튼

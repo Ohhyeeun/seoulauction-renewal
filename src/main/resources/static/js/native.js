@@ -8,117 +8,145 @@ $(function() {
     window.isFlutterInAppWebViewReady = true;
   });
 
-  // 모바일
-  if (window.innerWidth < 576) {
-    const footerContainer = document.querySelector('footer .innerfooter');
-    if (!footerContainer) return;
+  // 버튼 플래그 토글
+  if (window.innerWidth >= 576) return;
 
-    const button1 = makeButton('getAppHeader', () => {
-      getAppHeader().then(result => {
-        console.log(JSON.stringify(result));
-      });
-    });
+  // 컨테이너
+  const footerContainer = document.querySelector('footer .innerfooter');
+  if (!footerContainer) return;
 
-    const button2 = makeButton('getDeviceInfo', () => {
-      getDeviceInfo().then(result => {
-        console.log(JSON.stringify(result));
-      });
-    });
+  const buttonStyle = `color: #fff; flex: 0 0 50%; max-width: 50%; margin-bottom: 0.5rem;`;
+  const buttonsHtml = `
+    <div style="display:flex;flex-wrap:wrap;margin-top:1rem;">
+      <button style="${buttonStyle}" id="native-test-is-native">앱 여부</button>
+      <button style="${buttonStyle}" id="native-test-save-device">앱 정보 저장</button>
+      <button style="${buttonStyle}" id="native-test-get-header">앱헤더정보</button>
+      <button style="${buttonStyle}" id="native-test-get-device">앱디바이스정보</button>
+      <button style="${buttonStyle}" id="native-test-set-data">앱 데이터 저장</button>
+      <button style="${buttonStyle}" id="native-test-get-data">앱 데이터 조회</button>
+      <button style="${buttonStyle}" id="native-test-del-data">앱 데이터 삭제</button>
+      <button style="${buttonStyle}" id="native-test-open-browser">앱의 브라우저 열기</button>
+      <button style="${buttonStyle}" id="native-test-force-update">강제 업데이트 팝업</button>
+    </div>
+  `.trim();
 
-    const button3 = makeButton('setWebviewData(sample-data)', () => {
-      setWebviewData('sample-data', Date.now() + '').then(result => {
-        console.log(JSON.stringify(result));
-      });
-    });
+  footerContainer.insertAdjacentHTML('beforeend', buttonsHtml);
 
-    const button4 = makeButton('getWebviewData(sample-data)', () => {
-      getWebviewData('sample-data').then(result => {
-        console.log(JSON.stringify(result));
-      });
-    });
+  document.addEventListener('click', async (e) => {
+    switch (e.target?.id) {
+      case 'native-test-is-native':
+        await isNativeApp();
+        break;
 
-    const button5 = makeButton('deleteWebviewData(sample-data)', () => {
-      deleteWebviewData('sample-data').then(result => {
-        console.log(JSON.stringify(result));
-      });
-    });
+      case 'native-test-save-device':
+        await saveDeviceInfo();
+        break;
 
-    const button6 = makeButton('openWebBrowser::seoulauction.com', () => {
-      openWebBrowser('https://seoulauction.com').then(result => {
-        console.log(JSON.stringify(result));
-      });
-    });
+      case 'native-test-get-header':
+        const result1 = await getAppHeader();
+        console.log(JSON.stringify(result1));
+        break;
 
-    const button7 = makeButton('saveDeviceInfo', () => {
-      saveDeviceInfo().then(result => {
-        console.log(JSON.stringify(result));
-      });
-    });
+      case 'native-test-get-device':
+        const result2 = await getDeviceInfo();
+        console.log(JSON.stringify(result2));
+        break;
 
-    const button8 = makeButton('isNativeApp', () => {
-      isNativeApp().then(result => {
-        console.log(JSON.stringify(result));
-      });
-    });
-	
-	  const button9 = makeButton('getRememberMe', () => {
-      getWebviewData('remember-me').then(result => {
-        console.log(JSON.stringify(result));
-      });
-    });
+      case 'native-test-set-data':
+        await setWebviewData('sample-data', new Date() + '');
+        break;
 
-    const button10 = makeButton('강제업데이트팝업', () => {
-      const popup = document.querySelector('#app-update-popup');
-      console.log(popup, popup.classList);
+      case 'native-test-get-data':
+        const result3 = await getWebviewData('sample-data');
+        console.log(JSON.stringify(result3));
+        break;
 
-      if (popup && popup.classList.contains('open')) {
-        popup.classList.remove('open');
-      } else {
-        popup.classList.add('open');
-      }
-    });
+      case 'native-test-del-data':
+        await deleteWebviewData('sample-data');
+        break;
 
-    // 앱 업데이트 하러 가기(OS에 따른 앱 링크 추가)
-    document.querySelector('.app-update-popup-link').addEventListener('click', async (e) => {
-      e.preventDefault();
-      const deviceInfo = await getDeviceInfo();
-      if (deviceInfo?.os === 'android') {
-        openWebBrowser('https://play.google.com/store/apps/details?id=seoulauction.seoulauction&hl=ko&gl=US');
-      }
+      case 'native-test-open-browser':
+        await openWebBrowser('https://seoulauction.com');
+        break;
 
-      if (deviceInfo?.os === 'ios') {
-        openWebBrowser('https://apps.apple.com/kr/app/%EC%84%9C%EC%9A%B8%EC%98%A5%EC%85%98/id345138823');
-      }
-    });
+      case 'native-test-force-update':
+        const popup = document.querySelector('#app-update-popup');
+        if (popup && popup.classList.contains('open')) {
+          popup.classList.remove('open');
+        } else {
+          popup.classList.add('open');
+        }
+        break;
 
-    footerContainer.appendChild(button1);
-    footerContainer.appendChild(button2);
-    footerContainer.appendChild(button3);
-    footerContainer.appendChild(button4);
-    footerContainer.appendChild(button5);
-    footerContainer.appendChild(button6);
-    footerContainer.appendChild(button7);
-    footerContainer.appendChild(button8);
-    footerContainer.appendChild(button9);
-    footerContainer.appendChild(button10);
-
-    function makeButton(text, onClickHandler) {
-      const button = document.createElement('button');
-      button.style.marginTop = '0.5rem';
-      button.style.color = '#fff';
-      button.style.display = 'block';
-      button.style.width = '100%';
-      button.style.fontSize = '13px';
-      button.textContent = text;
-
-      button.addEventListener('click', e => {
-        e.preventDefault();
-        onClickHandler();
-      }, { passive: false });
-      return button;
+      default:
+        break;
     }
-  }
+  });
+
+  // 앱 업데이트 하러 가기(OS에 따른 앱 링크 추가)
+  document.querySelector('.app-update-popup-link').addEventListener('click', async (e) => {
+    e.preventDefault();
+    const deviceInfo = await getDeviceInfo();
+    if (deviceInfo?.os === 'android') {
+      openWebBrowser('https://play.google.com/store/apps/details?id=seoulauction.seoulauction&hl=ko&gl=US');
+    }
+
+    if (deviceInfo?.os === 'ios') {
+      openWebBrowser('https://apps.apple.com/kr/app/%EC%84%9C%EC%9A%B8%EC%98%A5%EC%85%98/id345138823');
+    }
+  });
 });
+
+// ----------------------------------------------------------------------------
+// Native 연동 인터페이스
+// ----------------------------------------------------------------------------
+
+/**
+ * [Webview -> Native]
+ * 접속한 기기가 앱이 맞는지 정보
+ * @return {Promise<boolean>}
+ */
+async function isNativeApp() {
+  try {
+    console.log(`remember-me cookie value: ${getCookie('remember-me')}`);
+    const appHeader = await getAppHeader();
+    console.log(JSON.stringify(appHeader));
+    return !!appHeader;
+  } catch (error) {
+    return false;
+  }
+}
+
+/**
+ * [Webview -> Native]
+ * 기기 ID 및 버전 정보 저장
+ */
+async function saveDeviceInfo() {
+  try {
+    const deviceInfo = await getDeviceInfo();
+    const appHeader = await getAppHeader();
+
+    if (deviceInfo && appHeader) {
+      // TODO: 환경변수에 따른 URL 정의
+      const url = 'https://re-dev.seoulauction.com/api/app/insert-app-info';
+
+      /** @type {{ device_id: string; os: string; app_version: string; device_version: string; }} */
+      const body = {
+        os: deviceInfo.os,
+        device_version: deviceInfo.version,
+        device_id: deviceInfo.device_id,
+        app_version: appHeader['X-Custom-App-Version'],
+      };
+      await window.axios.post(url, body);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// ----------------------------------------------------------------------------
+// Native -> Webview
+// ----------------------------------------------------------------------------
 
 /**
  * [Native -> Webview]
@@ -143,89 +171,46 @@ function nativeToggleMenu(state) {
  * @return {string}
  * 
  * [result]
- * active: 최초실행
- * resumed
- * inactive
- * paused
- * detached: 앱 종료
+ * active: 최초 실행
+ * resumed: 앱 재진입
+ * inactive: 앱 비활성
+ * paused: 앱 멈춤
+ * detached: 앱 종료(해제)
  * 
  * TODO: 앱에 진입하는 시점에 saveDeviceInfo() 호출
  * TODO: remember-me 프로세스
  */
-function nativeGetAppStatus(status) {
-  console.log(`AppLifecycleState Value: ${status}`);
-}
+async function nativeGetAppStatus(status) {
+  switch (status) {
+    case 'active': // 앱 최초 실행
+      console.log('앱 최초 실행');
+      await saveDeviceInfo();
+      break;
 
-/**
- * [Native -> Webview]
- * 앱의 상태값 수신 (비동기 실행)
- * @param {string} status 
- */
-async function nativeGetAppStatusAsync(status) {
-  console.log(`AppLifecycleState Value(async): ${status}`);
-}
+    case 'resumed': // 앱 재진입
+      console.log('앱 다시 실행');
+      break;
 
-/**
- * [Webview -> Native]
- * 접속한 기기가 앱이 맞는지 정보
- * @return {Promise<boolean>}
- */
-async function isNativeApp() {
-  console.log(`remember-me cookie value: ${getCookie('remember-me')}`);
+    case 'inactive': // 비활성
+      console.log('앱 비활성');
+      break;
 
-  try {
-    const result = await window.flutter_inappwebview.callHandler('getAppHeader', '');
-    console.log(JSON.stringify(result));
-    return !!result;
-  } catch (error) {
-    return false;
+    case 'paused':
+      console.log('앱 멈춤');
+      break;
+
+    case 'detached':
+      console.log('앱 해제');
+      break;
+
+    default:
+      break;
   }
 }
 
-/**
- * 앱의 버전 정보 조회
- * @example
- * // Return Data Example
- * { "X-Custom-Webview-Name": "sa_app", "X-Custom-App-Version": "3.0.0" }
- */
-async function getNativeAppHeader() {
-  try {
-    const result = await window.flutter_inappwebview.callHandler('getAppHeader', '');
-    return result;
-  } catch (error) {
-    return null;
-  }
-}
-
-/**
- * [Webview -> Native]
- * 기기 ID 및 버전 정보 저장
- */
-async function saveDeviceInfo() {
-  try {
-    const deviceInfo = await getDeviceInfo();
-    const appHeader = await getAppHeader();
-
-    if (deviceInfo && appHeader) {
-      // TODO: 환경변수에 따른 URL 정의
-      const url = 'https://re-dev.seoulauction.com/api/app/insert-app-info';
-      /** @type {{ device_id: string; os: string; app_version: string; device_version: string; }} */
-      const body = {
-        os: deviceInfo.os,
-        device_version: deviceInfo.version,
-        device_id: deviceInfo.device_id,
-        app_version: appHeader['X-Custom-App-Version'],
-      };
-      await window.axios.post(url, body);
-    }
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// -------------------------------------------------------------------
-// Native 호출 함수
-// -------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// Webview -> Native
+// ----------------------------------------------------------------------------
 
 /**
  * [Webview -> Native]
@@ -236,9 +221,9 @@ async function getAppHeader() {
   try {
     if ('flutter_inappwebview' in window) {
       return await window.flutter_inappwebview.callHandler('getAppHeader');
-    } else {
-      return null;
     }
+
+    return null;
   } catch (error) {
     return null;
   }
@@ -253,9 +238,9 @@ async function getDeviceInfo() {
   try {
     if ('flutter_inappwebview' in window) {
       return await window.flutter_inappwebview.callHandler('getDeviceInfo');
-    } else {
-      return null;
     }
+
+    return null;
   } catch (error) {
     return null;
   }

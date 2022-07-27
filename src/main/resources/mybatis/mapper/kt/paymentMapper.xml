@@ -147,22 +147,22 @@
 
 	<insert id="insertPayWait" parameterType="commonMap" useGeneratedKeys="true" keyProperty="pay_no" keyColumn="PAY_WAIT_NO">
 		INSERT INTO PAY_WAIT (CUST_NO, KIND_CD, REF_NO, REF_NO2, PAY_METHOD_CD, PG_CD, PG_TRANS_ID, PAYER, PAY_PRICE
-			, STAT_CD, REG_DT, NO_VAT_PRICE, VAT_PRICE, VAT, UUID, VBANK_CD, VBANK_NM, VBANK_NUM, VBANK_EXP_DT, RCPT_TYPE
+			, STAT_CD, REG_DT, NO_VAT_PRICE, VAT_PRICE, VAT, UUID, VBANK_CD, VBANK_NM, VBANK_NUM, VBANK_EXP_DT, RCPT_TYPE, RCPT_TYPE_NO
 		) VALUES (#{cust_no}, lower(#{kind_cd}), #{ref_no}, #{ref_no2}, lower(#{pay_method_cd}), #{pg_cd}, #{pg_trans_id}, #{payer}, #{pay_price}
-			, 'wait', now(), #{no_vat_price}, #{vat_price}, #{vat}, #{uuid}, #{vbank_cd}, #{vbank_nm}, #{vbank_num}, #{vbank_exp_dt}, #{rcpt_type}
+			, 'wait', now(), #{no_vat_price}, #{vat_price}, #{vat}, #{uuid}, #{vbank_cd}, #{vbank_nm}, #{vbank_num}, #{vbank_exp_dt}, #{rcpt_type}, #{rcpt_type_no}
 		);
 	</insert>
 
 	<select id="selectPayWaitByUuid" resultType="commonMap" parameterType="commonMap">
-		SELECT PAY_WAIT_NO, CUST_NO, KIND_CD, REF_NO, REF_NO2, PAY_METHOD_CD, PG_CD, PG_TRANS_ID, PAYER, PAY_PRICE, STAT_CD, REG_DT
-            , NO_VAT_PRICE, VAT_PRICE, VAT, UUID, VBANK_CD, VBANK_NM, VBANK_NUM, VBANK_EXP_DT, RCPT_TYPE
+		SELECT pay_wait_no, cust_no, kind_cd, ref_no, ref_no2, pay_method_cd, pg_cd, pg_trans_id, payer, pay_price, stat_cd, reg_dt
+            , no_vat_price, vat_price, vat, uuid, vbank_cd, vbank_nm, vbank_num, vbank_exp_dt, rcpt_type, rcpt_type_no
 		FROM PAY_WAIT
 		WHERE uuid = #{uuid};
 	</select>
 
 	<select id="selectPayWaitByPayNoAndCustNo" resultType="commonMap" parameterType="commonMap">
 		SELECT PAY_WAIT_NO, CUST_NO, KIND_CD, REF_NO, REF_NO2, PAY_METHOD_CD, PG_CD, PG_TRANS_ID, PAYER, PAY_PRICE, STAT_CD, REG_DT
-			 , NO_VAT_PRICE, VAT_PRICE, VAT, UUID, VBANK_CD, VBANK_NM, VBANK_NUM, VBANK_EXP_DT, RCPT_TYPE
+			 , NO_VAT_PRICE, VAT_PRICE, VAT, UUID, VBANK_CD, VBANK_NM, VBANK_NUM, VBANK_EXP_DT, RCPT_TYPE, RCPT_TYPE_NO
 		FROM PAY_WAIT
 		WHERE pay_wait_no = #{pay_no}
 		  AND cust_no = #{cust_no};

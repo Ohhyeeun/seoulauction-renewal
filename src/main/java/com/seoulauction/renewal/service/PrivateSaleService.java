@@ -36,6 +36,11 @@ public class PrivateSaleService {
         return resultMaps;
     }
 
+    public List<CommonMap> selectPrivateSaleViewScaleList(CommonMap commonMap) {
+        List<CommonMap> resultMaps = privateSaleMapper.selectPrivateSaleViewScaleList(commonMap);
+        return resultMaps;
+    }
+
     public CommonMap selectPrivateSaleInfo(CommonMap commonMap){
         CommonMap resultMap = privateSaleMapper.selectPrivateSaleInfo(commonMap);
         if(MapUtils.isEmpty(resultMap)) {

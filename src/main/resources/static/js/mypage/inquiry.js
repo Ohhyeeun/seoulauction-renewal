@@ -30,15 +30,16 @@ app.value('locale', document.documentElement.lang);
 app.requires.push.apply(app.requires, ["bw.paging"]);
 
 app.controller('inquiryListCtl', function($scope, consts, common) {
-	
 	$scope.pageRows = 10;
 
  	$scope.loadInquiryList = function($page){
- 		var queryStirngPage= getParameter("page"); 
- 		
- 		$scope.currentPage = queryStirngPage ? queryStirngPage : $page;
-		history.replaceState({}, null, location.pathname);
+		let page = getParameter("page");
 		
+ 		$scope.currentPage = page ? page : getCookie('page') ? getCookie('page') : $page;		
+		
+		history.replaceState({}, null, location.pathname);
+		setCookie('page', '', 0);
+
 		$page = $scope.currentPage;
  		$size = 10;
  		
@@ -70,9 +71,12 @@ app.controller('inquiryListCtl', function($scope, consts, common) {
 app.controller("inquiryViewCtl", function($scope, consts, common) {
 	$scope.init = function(){
 		$scope.page = getParameter("page");
-		$scope.size = getParameter("size");
-		
 		let writeNo = getParameter("writeNo");
+		
+		/*페이징 넣기*/
+		setCookie('page', $scope.page);
+		history.replaceState({}, null, location.pathname);
+		/*페이징 넣기*/
 		
 		axios.get("/api/mypage/inquiries/"+writeNo, null)
         .then(function(response) {
@@ -91,19 +95,9 @@ app.controller("inquiryViewCtl", function($scope, consts, common) {
             console.log(error);
         });
 	};
-	
-/*	window.onpageshow = function(event) {
-		if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
-			alert($scope);
-			console.log(event);
-			console.log(window);
-		        }
-		}*/
-
 });
 
 app.controller('inquiryWriteCtl', function($scope, consts, common, inquiryService) {
-
 	inquiryService.setScope($scope);
 });
 	
@@ -226,7 +220,6 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				}
 				return false;		
 			}	
-			console.log(filename);
 			$scope.fileNameList.push({"fileIndex" : $scope.fileCount, "fileName":filename });		
 		}
 				
@@ -393,8 +386,8 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				}
 				return false;
 			}
-
-			if (($scope.form_data.cate1 == 'sell' || $scope.form_data.cate1 == "chineseart" ) && document.getElementById("file").files.length == 0) {
+			
+			if (($scope.form_data.cate1 == 'sell' || $scope.form_data.cate1 == "chineseart" ) && document.getElementsByName("file").length < 2) {
 				if (locale == "ko") {
 					alert("작품 이미지를 등록해주세요.");
 				} else {
@@ -597,10 +590,11 @@ window.addEventListener('load', function () {
 	   
 });
 
-
+/*window.onpageshow = function(event) {
+	if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
 	
-
+	        }
+	}*/
 /*window.onpopstate = function(event) {
-	console.log(11);
     alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
 }*/

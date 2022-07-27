@@ -177,6 +177,15 @@ public class ApiMypageController {
 		commonMap.put("action_user_no", principal.getName());
 		return ResponseEntity.ok(RestResponse.ok(mypageService.deleteCustInteLot(commonMap)));
 	}
+	
+	/* 관심정보  등록*/
+	@RequestMapping(value = "/inteLotInsert", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<RestResponse> inteLotInsert(@RequestBody CommonMap commonMap, Principal principal,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		commonMap.put("action_user_no", principal.getName());
+		return ResponseEntity.ok(RestResponse.ok(mypageService.insertCustInteLot(commonMap)));
+	}
 
 	
 	/* 라이브경매관리 > 응찰신청 내역*/
@@ -270,7 +279,7 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok(mypageService.selectOnlineBidHistoryList(commonMap)));
 	}
 	
-	//비밀번호 확인
+	/* 비밀번호 확인*/
 	@RequestMapping(value="/chkPassword", method=RequestMethod.POST, headers = {"content-type=application/json"})
 	@ResponseBody
 	public ResponseEntity<RestResponse> chkPassword(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
@@ -287,7 +296,7 @@ public class ApiMypageController {
 	    }
 	}
 	
-	//비밀번호 변경
+	/* 비밀번호 변경*/
 	@RequestMapping(value="/modPassword", method=RequestMethod.POST, headers = {"content-type=application/json"})
 	@ResponseBody
 	public ResponseEntity<RestResponse> modPassword(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
@@ -305,7 +314,7 @@ public class ApiMypageController {
 	    }
 	}
 	
-	//SNS연동현황
+	/* SNS연동현황*/
 	@RequestMapping(value="/snsLinks", method=RequestMethod.GET)
 	public ResponseEntity<RestResponse> snsLinks(HttpServletRequest request, HttpServletResponse response){
 	
@@ -319,7 +328,7 @@ public class ApiMypageController {
 	    return ResponseEntity.ok(RestResponse.ok(resultList));
 	}
 		
-	//SNS연동설정
+	/* SNS연동설정*/
 	@RequestMapping(value="/snsLink", method=RequestMethod.POST, headers = {"content-type=application/json"})
 	@ResponseBody
 	public ResponseEntity<RestResponse> snsLink(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
@@ -331,7 +340,6 @@ public class ApiMypageController {
         
 	    log.info("snsLink");
 	    paramMap.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
-	    paramMap.put("social_login_id", SecurityUtils.getAuthenticationPrincipal().getLoginId());
 	    log.info(paramMap.toString());
 	    
 	    int result = loginService.insertCustSocial(paramMap);
@@ -343,7 +351,7 @@ public class ApiMypageController {
 	    }
 	}
 
-	//SNS연동해제
+	/* SNS연동해제*/
 	@RequestMapping(value="/snsUnLink", method=RequestMethod.POST, headers = {"content-type=application/json"})
 	@ResponseBody
 	public ResponseEntity<RestResponse> snsUnLink(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
@@ -360,7 +368,7 @@ public class ApiMypageController {
 	    }
 	}
 
-	//회원정보조회
+	/* 회원정보조회*/
 	@RequestMapping(value = "/custs/{custNo}", method = RequestMethod.GET)
 	public ResponseEntity<RestResponse> cust(@PathVariable("custNo") String custNo, 
 //			@RequestParam(required = false) String socialType,
@@ -380,7 +388,7 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok(resultMap));
 	}
 	
-	//회원정보수정
+	/* 회원정보수정*/
 	@RequestMapping(value = "/custs/{custNo}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> custModify(@PathVariable("custNo") String custNo, 
@@ -397,7 +405,7 @@ public class ApiMypageController {
 		}
 	}
 
-	//회원탈퇴
+	/* 회원탈퇴*/
 	@RequestMapping(value = "/custs/leave", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> custLeave(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -427,6 +435,7 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok());
 	}
 	
+	/* 관심분야 목록조회*/
 	@RequestMapping(value = "/interestAreas", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> interestAreas(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){
@@ -438,7 +447,7 @@ public class ApiMypageController {
 		return ResponseEntity.ok(RestResponse.ok(resultMap));
 	}
 	
-
+	/* 작가검색*/
 	@RequestMapping(value = "/artists", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> artists(@RequestBody CommonMap paramMap, HttpServletRequest request, HttpServletResponse response){

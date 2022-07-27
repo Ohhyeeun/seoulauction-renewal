@@ -77,7 +77,7 @@
                                                             <dd ng-repeat="data in il[1]">
                                                              <div class="product-infobox">
                                                                     <div class="product-infobox-inner">
-                                                                        <button class="btn-heart js-work_heart on" ng-click="inteDel(data.SALE_NO, data.LOT_NO)"><i class="icon-heart_off"></i></button>
+                                                                        <button class="btn-heart js-work_heart on" id="heart_{{data.SALE_NO}}_{{data.LOT_NO}}" ng-click="inteFavorite(data.SALE_NO, data.LOT_NO)"><i class="icon-heart_off"></i></button>
                                                                         <div class="thumb-area">
                                                                             <figure class="img-ratio">
                                                                                 <a href="#" class="img-align" ng-if="il[1][0].CLOSE_YN != 'Y'" ng-click="goLotDetail(data.SALE_KIND_CD, data.SALE_NO, data.LOT_NO)"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
@@ -91,9 +91,9 @@
                                                                         <div class="text-area">
                                                                             <div class="num">{{data.LOT_NO}}</div>
                                                                             <div class="title">
-                                                                                <div class="titlename">{{data.TITLE_EN}}</div>
+                                                                                <div class="titlename">{{data.ARTIST_NAME_EN}}</div>
                                                                             </div>
-                                                                            <div class="desc">{{data.ARTIST_NAME_EN}}</div>
+                                                                            <div class="desc">{{data.TITLE_EN}}</div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -102,7 +102,8 @@
                                                                         <div class="pay-area">
                                                                             <dl class="price">
                                                                                 <dt class="tit">Estimate</dt>
-                                                                                <dd class="txt"><span>USD {{comma(data.EXPE_PRICE_FROM_EN || 0)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_EN || 0)}}</span></dd>
+                                                                                <dd class="txt" ng-if="data.EXPE_PRICE_INQ_YN != 'Y'"><span>USD {{comma(data.EXPE_PRICE_FROM_EN || 0)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_EN || 0)}}</span></dd>
+                                                                            	<dd class="txt" ng-if="data.EXPE_PRICE_INQ_YN == 'Y'"><span>Separate Inquiry</span></dd>
                                                                             </dl>
                                                                         </div>
                                                                     </div>
@@ -138,7 +139,7 @@
                                                     </div>
                                                     <div class="wrap_paging" ng-if="inteLotCnt != 0">
 														<paging page="currentPage"
-															page-size=3
+															page-size=5
 															total="inteLotCnt"
 															paging-action="loadInteLotList(page)"
 															scroll-top="true"

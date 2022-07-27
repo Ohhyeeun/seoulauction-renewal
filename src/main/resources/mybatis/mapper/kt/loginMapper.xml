@@ -3,6 +3,7 @@
 <mapper
 	namespace="com.seoulauction.renewal.mapper.kt.LoginMapper">
 
+	<!-- 아이디로 회원조회 -->
 	<select id="selectCustByLoginId" parameterType="CommonMap"
 		resultType="CommonMap">
 		select *
@@ -16,12 +17,14 @@
 		'leave'
 	</select>
 
+	<!-- 회원접속이력 -->
 	<insert id="insertConnHist" parameterType="CommonMap">
 		INSERT INTO CONN_HIST
 		(CONN_DT, IP, USER_KIND_CD, USER_NO)
 		VALUES (NOW(), #{ip}, #{user_kind_cd}, #{user_no})
 	</insert>
 
+	<!-- 회원번호로 회원조회 -->
 	<select id="selectCustByCustNo" parameterType="CommonMap"
 		resultType="CommonMap">
 		select CU.*
@@ -59,6 +62,7 @@
 		and CU.CUST_NO = #{cust_no}
 	</select>
 
+	<!-- 비밀번호초기화여부 업데이트 -->
 	<update id="updateCustPwdResetByCustNo"
 		parameterType="CommonMap">
 		update CUST
@@ -67,6 +71,7 @@
 		where CUST_NO = #{cust_no}
 	</update>
 
+	<!-- 비밀번호변경일시 업데이트 -->
 	<update id="updateCustPwdModDtByCustNo"
 		parameterType="CommonMap">
 		update CUST
@@ -77,6 +82,7 @@
 		where CUST_NO = #{cust_no}
 	</update>
 
+	<!-- 로그인실패횟수 업데이트 -->
 	<update id="updateCustLoginFailCntByCustNo"
 		parameterType="CommonMap">
 		update CUST
@@ -159,12 +165,14 @@
 		</if>
 	</select>
 
-	<select id="selectCustSocialBySocialLoginId" resultType="CommonMap">
+	<!-- 소셜로그인아이디로 소셜회원조회
+	<select id="selectCustSocialByLoginId" resultType="CommonMap">
 		select * 
-		from CUST_SOCIAL 
-		where SOCIAL_LOGIN_ID = #{socialLoginId}
-	</select>
+		from CUST_SOCIAL
+		where CUST_NO = (select CUST_NO from CUST where LOGIN_ID = #{loginId})
+	</select> -->
 	
+	<!-- 아이디중복체크 -->
 	<select id="selectCustForIdExist" resultType="CommonMap">
 		select CUST_NO, STAT_CD, FORE_CERT_CODE, CUST_NAME, LOGIN_ID 
 		from CUST 
@@ -173,6 +181,7 @@
 			and LOGIN_ID = #{loginId}
 	</select>
 	
+	<!-- 핸드폰, 사업자등록번호, 외국인인증코드, 이메일중복체크 -->
 	<select id="selectCustForExist" resultType="CommonMap"> <!-- 탈퇴자는  카운트 제외. 웹회원만 체크 -->
 		select CUST_NO, STAT_CD, FORE_CERT_CODE, CUST_NAME, LOGIN_ID from CUST where STAT_CD &lt;&gt; 'leave'  and JOIN_KIND_CD = 'online'
 		<if test="loginId != null">
@@ -192,6 +201,7 @@
 		</if>
 	</select>
 	
+	<!-- 직원조회 -->
 	<select id="selectEmpByEmpName" resultType="CommonMap">
 		SELECT *,
 		       (SELECT DEPT_NAME
@@ -203,6 +213,7 @@
 		AND SALES_USER_YN = 'Y'
 	</select>
 	
+	<!-- 직원조회 카운트 -->
 	<select id="selectEmpByEmpNameCnt" resultType="int">
 		SELECT Count(*) row_cnt
 		FROM  (SELECT EMP_NO
@@ -212,6 +223,7 @@
 		       AND SALES_USER_YN = 'Y')cnt
 	</select>
 	
+	<!-- 코드조회 -->
 	<select id="selectCode" resultType="CommonMap" parameterType="CommonMap">
 		select 		GRP_ID
 				  , CD_ID, CD_NM, CD_NM_EN, CD_NM_CN
@@ -226,6 +238,7 @@
 		order by GRP_ID, DISP_ORD, CD_NM_EN
 	</select>
 	
+	<!-- 회원가입 -->
 	<insert id="insertCust" parameterType="CommonMap" >
 	    INSERT INTO CUST (
 			LOGIN_ID,
@@ -302,19 +315,18 @@
 		);
 	</insert>
 	
+	<!-- 소셜회원가입 -->
 	<insert id="insertCustSocial" parameterType="CommonMap" >
 	    INSERT INTO CUST_SOCIAL (
 	   		CUST_NO,
 	    	SOCIAL_TYPE,
 			SOCIAL_EMAIL,
-			SOCIAL_LOGIN_ID,
 			REG_DT
 		) 
 		VALUES ( 
 			#{cust_no},
 			#{social_type},
 			#{social_email},
-			#{social_login_id},
 			now()
 		);
 		<selectKey keyProperty="reg_dt" resultType="String" order="AFTER">
@@ -322,23 +334,25 @@
 		</selectKey>
 	</insert>
 	
+	<!-- 소셜정보로 회원조회 -->
 	<select id="selectCustForCustSocial" resultType="CommonMap">
 		SELECT *
-		FROM   CUST
-		       JOIN CUST_SOCIAL
-		         ON CUST.CUST_NO = CUST_SOCIAL.CUST_NO
+		FROM   CUST C
+		       JOIN CUST_SOCIAL CS
+		         ON C.CUST_NO = CS.CUST_NO
 		WHERE  1 = 1
 			<if test="social_email != null">
-				AND SOCIAL_EMAIL = #{social_email}
+				AND CS.SOCIAL_EMAIL = #{social_email}
 			</if>
-			<if test="social_login_id != null">
-				AND SOCIAL_LOGIN_ID = #{social_login_id}
+			<if test="login_id != null">
+				AND C.LOGIN_ID = #{login_id}
 			</if>
 			<if test="social_type != null">
-		       	AND SOCIAL_TYPE = #{social_type}
+		       	AND CS.SOCIAL_TYPE = #{social_type}
 			</if>
 	</select>
 	
+	<!-- 회원정보수신방법 등록 -->
 	<insert id="insertCustPushWay" parameterType="CommonMap">
 		INSERT INTO CUST_PUSH_WAY (
 			CUST_NO,
@@ -353,6 +367,7 @@
 	</insert>
 
 <!--	로그인 한 유저의 고객담당자 번호 찾기.-->
+	<!-- 직원번호로 회원조회 -->
 	<select id="selectCustForEmpNo" parameterType="CommonMap" resultType="CommonMap">
 		SELECT
         	EMP_NAME,

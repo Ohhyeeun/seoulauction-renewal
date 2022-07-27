@@ -24,7 +24,6 @@ app.controller('liveBidListCtl', function($scope, consts, common) {
 					$scope.liveBidCnt = result["data"]["cnt"] || 0;
 					
 					$scope.liveBidList = Object.keys($scope.groupBy(result["data"]["list"],'SALE_NO')).map((key) => [Number(key), $scope.groupBy(result["data"]["list"],'SALE_NO')[key]]).sort((a, b) => b[0] - a[0]);
-					console.log($scope.liveBidList);
 					$scope.$apply();
 		            }
 		        })
