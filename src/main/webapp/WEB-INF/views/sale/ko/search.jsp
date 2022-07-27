@@ -562,9 +562,9 @@
             }];
 
         $scope.modelViewType = [{
-            name: "더보기 방식", value: 1
+            name: "페이징 방식", value: 1
         }, {
-            name: "페이징 방식", value: 2
+            name: "더보기 방식", value: 2
         }];
 
         $scope.selectSortType = 1;
@@ -587,9 +587,9 @@
             }
             const more = $("#selectMore option:selected").val();
 
-            if(more == 1){
+            if(more == 2){
                 $scope.moreBy = "MOREP";
-            }else if(more == 2){
+            }else if(more == 1){
                 $scope.moreBy = "PAGNG";
             }
 
