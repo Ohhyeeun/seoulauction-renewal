@@ -108,11 +108,11 @@ public class PaymentService {
             resultMap.put("no_vat_price", request.getAttribute("no_vat_price"));
             resultMap.put("vat_price", request.getAttribute("vat_price"));
             resultMap.put("vat", request.getAttribute("vat"));
+            resultMap.put("cust_no", details.getUserNo());
             resultMap.put("payer", details.getUserNm());
         }
 
         //공통 페이먼트 테이블 필요한 부분 미리 넣기.
-        resultMap.put("cust_no", details.getUserNo());
         resultMap.put("pay_method", method);
         resultMap.put("pay_price", request.getParameter("Amt"));
         resultMap.put("pg_cd", SAConst.PG_NICEPAY);
@@ -133,7 +133,7 @@ public class PaymentService {
                 }
                 paymentMapper.insertAcademyPay(resultMap);
 
-                resultMap.put("reg_emp_no", details.getUserNo());
+                resultMap.put("reg_emp_no", resultMap.get("cust_no"));
                 paymentMapper.insertAcademyReq(resultMap);
 
                 break;
@@ -231,28 +231,26 @@ public class PaymentService {
 
     @Transactional("ktTransactionManager")
     public void niceVBankPaid(HttpServletRequest request) {
-        try {
-            String PayMethod = request.getParameter("PayMethod");        //지불수단
-            String Amt = request.getParameter("Amt");              //금액
-            String TID = request.getParameter("TID");              //거래번호
-            String AuthDate = request.getParameter("AuthDate");         //입금일시 (yyMMddHHmmss)
-            String ResultCode = request.getParameter("ResultCode");       //결과코드 ('4110' 경우 입금통보)
-            String VbankInputName = request.getParameter("VbankInputName"); //입금자 명
-            String RcptType = request.getParameter("RcptType");         //현금 영수증 구분(0:미발행, 1:소득공제용, 2:지출증빙용)
+        String PayMethod = request.getParameter("PayMethod");        //지불수단
+        String Amt = request.getParameter("Amt");              //금액
+        String TID = request.getParameter("TID");              //거래번호
+        String AuthDate = request.getParameter("AuthDate");         //입금일시 (yyMMddHHmmss)
+        String ResultCode = request.getParameter("ResultCode");       //결과코드 ('4110' 경우 입금통보)
+        String VbankInputName = request.getParameter("VbankInputName"); //입금자 명
+        String RcptType = request.getParameter("RcptType");         //현금 영수증 구분(0:미발행, 1:소득공제용, 2:지출증빙용)
 
-            reservedStringSet(request.getParameter("MallReserved"), request);
+        reservedStringSet(request.getParameter("MallReserved"), request);
 
-            boolean paySuccess = false;        // 결제 성공 여부
-            if (PayMethod.equals(SAConst.PAYMENT_METHOD_VBANK)) {        //가상계좌
-                if (ResultCode.equals("4110")) paySuccess = true;
-            }
+        log.info("ResultCode: {}", ResultCode);
+        boolean paySuccess = false;        // 결제 성공 여부
+        if (PayMethod.equals(SAConst.PAYMENT_METHOD_VBANK)) {        //가상계좌
+            if (ResultCode.equals("4110")) paySuccess = true;
+        }
 
-            if (paySuccess) {
-                insertPay(request);
-                checkReceipt(request);
-            }
-        } catch(Exception e) {
-            throw new InternalServerException(e);
+        log.info("paySuccess: {}", paySuccess);
+        if (paySuccess) {
+            insertPay(request);
+            checkReceipt(request);
         }
     }
 
@@ -272,7 +270,7 @@ public class PaymentService {
     }
 
     public void checkReceipt(HttpServletRequest request) {
-        int rcpt_type = Integer.parseInt(StringUtils.defaultString(String.valueOf(request.getAttribute("rcpt_type")), "0"));
+        int rcpt_type = Integer.parseInt(StringUtils.defaultString((String)request.getAttribute("rcpt_type"), "0"));
         String rcpt_type_no = String.valueOf(request.getAttribute("rcpt_type_no"));
         if(rcpt_type > 0 && rcpt_type_no != null) {
             nicePayModule.receiptProcess(request);
