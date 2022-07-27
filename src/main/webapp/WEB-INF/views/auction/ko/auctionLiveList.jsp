@@ -244,9 +244,11 @@
 
                                                                 </div>
                                                                 <div class="desc">
-                                                                    <span class="text-over span_block">{{item.LOT_TITLE_JSON.ko}}</span></div>
+                                                                    <span class="text-over span_block">{{item.LOT_TITLE_JSON.ko != null ? item.LOT_TITLE_JSON.ko : 'ㅤ'}}</span>
+                                                                </div>
                                                                 <div class="standard">
-                                                                    <span class="text-over span_block">{{item.CD_NM}}</span>
+                                                                    <span class="text-over span_block">{{item.CD_NM != null ? item.CD_NM : 'ㅤ'}}
+                                                                    </span>
                                                                     <div class="size_year">
                                                                         <span ng-bind="item | size_text_cm"></span>
                                                                         <span ng-bind="item.MAKE_YEAR_JSON.ko" ng-show="item.MAKE_YEAR_JSON.ko !== undefined"></span>
