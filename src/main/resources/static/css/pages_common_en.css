@@ -34232,8 +34232,8 @@ header.win_header .header-inner .header_logo {
 
 .trp.popupfixed-wrap.auction_live_record-popup .pop-body .article-area {
   border-top: 1px solid #999999;
- /* max-height: 331px; */
-  max-height: calc(100vh - 234px);
+  max-height: 331px;
+  /*max-height: calc(100vh - 234px);*/
 }
 
 .trp.popupfixed-wrap.auction_live_record-popup .auction-bid-history {

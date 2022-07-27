@@ -9,8 +9,13 @@
                     <div class="pop-header">
                         <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
                         <div class="title-box">
-                            <span class="txt_title type-big"> Bid History</span>
+                            <span class="txt_title type-big">Bid History</span>
                         </div>
+                        <!-- [0617] 수정 -->
+                        <div class="right_txt">
+                            <span>Automatic bid set price<em>KRW 999,999,999</em></span>
+                        </div>
+                        <!-- //[0617] 수정 -->
                     </div>
                     <div class="pop-body">
                         <section class="section">
@@ -20,19 +25,18 @@
                                         <thead>
                                             <tr>
                                                 <th>Bid Price</th>
-                                                <th>Bid Date	</th>
+                                                <th>Bid Date</th>
                                                 <th>Bid Method</th>
                                                 <th>etc</th>
                                             </tr>
                                         </thead>
                                     </table>
                                 </div>
-                            </article>
+                            </article> 
                             <article class="article-area scroll-type mCustomScrollbar tbody_item-wrap">
                                 <div class="table-wrap">
                                     <table class="table_base data-table auction-bid-history">
                                         <tbody>
-                                        
                                             <tr ng-repeat="liveBidhis in liveBidHisList">
                                                 <td>{{liveBidhis.CURR_CD}} {{comma(liveBidhis.BID_PRICE)}}</td>
                                                 <td>{{liveBidhis.BID_DT_EN}}</td>
