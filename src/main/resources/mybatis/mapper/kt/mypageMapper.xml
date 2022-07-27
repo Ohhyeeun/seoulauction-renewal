@@ -144,7 +144,7 @@
 	<!-- 온라인경매관리 > 결제/구매내역 응찰 LIST--> 
 	<sql id="sql_online_pay_bid_list">
 			SELECT
-				B1.*
+				B1.*, REAL_CUST_NO
 			FROM
 				SUCCESS_BID SB3
 			JOIN LOT L ON
@@ -197,7 +197,7 @@
 	
 	<!-- 온라인경매관리 > 결제/구매내역 결제 LIST--> 
 	<select id="selectPayListByCustNo" resultType="Map">
-		select 
+		SELECT 
 				S.SALE_NO 
 				, S.ONLINE_YN
 				, DATE_FORMAT(S.FROM_DT, '%Y.%m.%d  %T')  as FROM_DT
@@ -319,6 +319,7 @@
 			) P ON
 			P.SALE_NO = L.SALE_NO
 			AND P.LOT_NO = L.LOT_NO
+			and IF(B.REAL_CUST_NO IS NOT NULL, B.REAL_CUST_NO = P.CUST_NO, B.CUST_NO =  P.CUST_NO)
 		GROUP BY
 			B.SALE_NO, B.LOT_NO
 		ORDER BY
