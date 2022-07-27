@@ -27,7 +27,8 @@
 		, CD1.CD_NM PAY_METHOD_NM
 		, CD1.CD_NM_EN PAY_METHOD_NM_EN
 		, CD1.CD_ID PAY_METHOD_ID
-		, IF(P.PG_TRANS_ID is not null and P.pg_cd='nice', 'Y', 'N' ) receipt
+		, IF(P.PAY_METHOD_CD = 'card' AND P.PG_TRANS_ID is not null and P.PG_CD='nice', 'Y', 'N' ) receipt_card
+		, IF((SELECT PW.PAY_WAIT_NO  FROM PAY_WAIT PW WHERE PW.CUST_NO = #{action_user_no} AND PW.REF_NO = #{action_user_no} AND PW.RCPT_TYPE = 1 AND PW.RCPT_TYPE_NO IS NOT NULL ORDER BY PW.PAY_WAIT_NO DESC LIMIT 1) IS NULL, 'N','Y' ) AS receipt_vbank
 		, P.PG_TRANS_ID
 		FROM CUST CU
 		LEFT OUTER JOIN CUST_PAY CP ON CU.CUST_NO = CP.CUST_NO
@@ -75,7 +76,8 @@
 				(select vat from PAY P where P.PAY_NO = D.PAY_NO) as vat,
 				(select PAY_METHOD_CD  from PAY P where P.PAY_NO = D.PAY_NO) as PAY_METHOD_CD
 				, CD.CD_ID PAY_METHOD_ID
-				, IF(P.PG_TRANS_ID is not null and P.pg_cd='nice', 'Y', 'N' ) receipt
+				, IF(P.PAY_METHOD_CD = 'card' AND P.PG_TRANS_ID is not null and P.PG_CD='nice', 'Y', 'N' ) receipt_card
+				, IF((SELECT PW.PAY_WAIT_NO  FROM PAY_WAIT PW WHERE PW.CUST_NO = #{action_user_no} AND C.ACADEMY_NO = PW.REF_NO AND PW.RCPT_TYPE = 1 AND PW.RCPT_TYPE_NO IS NOT NULL ORDER BY PW.PAY_WAIT_NO DESC LIMIT 1) IS NULL, 'N','Y' ) AS receipt_vbank
 				, P.PG_TRANS_ID
 				, DATE_FORMAT(B.REG_DT, '%Y.%m.%d') REG_DT
 			from
@@ -257,7 +259,7 @@
 					END AS payWeekDate
 				,DATE_FORMAT(P.PAY_DT, '%T') as payTime
 				,(select count(*) from BID where CUST_NO= #{action_user_no} and SALE_NO = S.SALE_NO and LOT_NO = L.LOT_NO) as bid_count
-				, IF(P.PG_TRANS_ID is not null and P.PG_CD='nice', 'Y', 'N' ) receipt
+				, IF(P.PAY_METHOD_ID = 'card' AND P.PG_TRANS_ID is not null and P.PG_CD='nice', 'Y', 'N' ) receipt_card
 				, C.CD_NM 
 				, C.CD_NM_EN 
 				, C.CD_NM_CN 
@@ -279,6 +281,7 @@
 		        , P.PAY_COUNT
 		        ,DATE_FORMAT((SELECT VBANK_EXP_DT FROM PAY_WAIT PW WHERE PW.CUST_NO = #{action_user_no} AND S.SALE_NO = PW.REF_NO AND L.LOT_NO = PW.REF_NO2 ORDER BY PW.PAY_WAIT_NO DESC LIMIT 1),'%Y.%m.%d') VBANK_EXP_DT
 		        ,IF(TIMESTAMPDIFF(DAY ,(SELECT VBANK_EXP_DT FROM PAY_WAIT PW WHERE PW.CUST_NO = #{action_user_no} AND S.SALE_NO = PW.REF_NO AND L.LOT_NO = PW.REF_NO2 ORDER BY PW.PAY_WAIT_NO DESC LIMIT 1), NOW()) &lt; 1, 'N', 'Y' ) as VBANK_EXP_DT_CLOSE_YN
+				,IF((SELECT PW.PAY_WAIT_NO  FROM PAY_WAIT PW WHERE PW.CUST_NO = #{action_user_no} AND S.SALE_NO = PW.REF_NO AND L.LOT_NO = PW.REF_NO2 AND PW.RCPT_TYPE = 1 AND PW.RCPT_TYPE_NO IS NOT NULL ORDER BY PW.PAY_WAIT_NO DESC LIMIT 1) IS NULL, 'N','Y' ) AS receipt_vbank
 		FROM
 			(
 			<include refid="sql_online_pay_bid_list" />
