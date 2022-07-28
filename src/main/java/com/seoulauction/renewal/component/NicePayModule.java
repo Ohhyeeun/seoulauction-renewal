@@ -22,6 +22,7 @@ import reactor.core.publisher.Mono;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 @Component
 @Log4j2
@@ -142,7 +143,7 @@ public class NicePayModule {
     }
 
     public CommonMap receiptProcess(HttpServletRequest request){
-        CommonMap resultMap;
+        CommonMap resultMap = new CommonMap();
 
         String eDiDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 
@@ -150,20 +151,19 @@ public class NicePayModule {
 
         String receiptAmt = request.getParameter("Amt");
 
-        String signData = Cryptography.encrypt(request.getParameter("MID")
+        String MID = request.getParameter("MID");
+
+        String signData = Cryptography.encrypt(MID
                         + receiptAmt
                         + eDiDate
                         + moid
                         + nicePaymerchantKey);
 
-        WebClient webClient = WebClient.builder()
-                .baseUrl(NICE_PAY_BASE_URL)
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-                .build();
+        String TID = getReceiptTID(MID);
 
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-        formData.add("TID", request.getParameter("TID"));
-        formData.add("MID", request.getParameter("MID"));
+        formData.add("TID", TID);
+        formData.add("MID", MID);
         formData.add("EdiDate", eDiDate);
         formData.add("Moid", moid);
         formData.add("ReceiptAmt", receiptAmt);
@@ -175,6 +175,11 @@ public class NicePayModule {
         formData.add("ReceiptVAT", "0");
         formData.add("ReceiptServiceAmt", "0");
         formData.add("ReceiptTaxFreeAmt", "0");
+
+        WebClient webClient = WebClient.builder()
+                .baseUrl(NICE_PAY_BASE_URL)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .build();
 
         String result = webClient
                 .post()
@@ -188,34 +193,23 @@ public class NicePayModule {
 
         try {
             resultMap = new ObjectMapper().readValue(result, CommonMap.class);
-            log.info(resultMap);
-            if(CONFIRM_FAIL_CODE.equals(resultMap.getString("ResultCode"))){
-                formData.add("NetCancel","1");
-                result = webClient
-                        .post()
-                        .uri("/webapi/cancel_process.jsp")
-                        .body(BodyInserters
-                                .fromFormData(formData))
-                        .retrieve()
-                        .onStatus(HttpStatus::is4xxClientError, clientResponse -> Mono.error(RuntimeException::new))
-                        .onStatus(HttpStatus::is5xxServerError, clientResponse -> Mono.error(RuntimeException::new))
-                        .bodyToMono(String.class).block();
 
-                resultMap = new ObjectMapper().readValue(result, CommonMap.class);
-                //망취소 후 오류 처리.
-                String resultMsg = resultMap.getString("ResultMsg");
-                throw new SAException(resultMsg);
-            } else {
-                //결제 성공 여부 검사!
-                String resultCode = resultMap.getString("ResultCode");
-                String resultMsg = resultMap.getString("ResultMsg");
+            String resultCode = resultMap.getString("ResultCode");
+            if(!resultCode.equals("7001")) {
+                throw new SAException("["+resultCode+"] "+resultMap.getString("ResultMsg"));
             }
-
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            throw new SAException(e.getMessage());
         }
 
         return resultMap;
+    }
+
+    private String getReceiptTID(String MID) {
+        //TID(30byte) = MID + 지불수단(현금영수증) + 매체구분(일반) + 시간정보(yyMMddHHmmss) + 랜덤(4byte)
+        StringBuilder result = new StringBuilder(MID).append("04").append("01")
+                .append(new SimpleDateFormat("yyMMddHHmmss").format(new Date()))
+                .append(String.format("%04d", new Random().nextInt(10000)));
+        return result.toString();
     }
 }
