@@ -1222,7 +1222,7 @@
 
 
                                     let user_id_span = document.createElement("span");
-                                    user_id_span.innerText = bid_hist_info[i].customer.user_id;
+                                    user_id_span.innerText = ($scope.cust_no === bid_hist_info[i].customer.cust_no)?$scope.user_id:bid_hist_info[i].customer.user_id;
 
                                     user_id_ly.appendChild(user_id_span);
 
@@ -1534,7 +1534,7 @@
                                                 }
 
                                                 let user_id_span = document.createElement("span");
-                                                user_id_span.innerText = bid_hist_info[i].value[j].customer.user_id;
+                                                user_id_span.innerText = ($scope.cust_no === bid_hist_info[i].customer.cust_no)?$scope.user_id:bid_hist_info[i].value[j].customer.user_id;
 
                                                 user_id_ly.appendChild(user_id_span);
 
@@ -1747,7 +1747,7 @@
                         $scope.$apply();
 
                     }
-                } else if (d.msg_type === packet_enum.end_time_sync) {
+                } /*else if (d.msg_type === packet_enum.end_time_sync) {
                     if (d.message.value != null) {
                         for (let j = 0; j < $scope.saleInfoAll.length; j++) {
                             if ($scope.saleInfoAll[j].SALE_NO === d.message.sale_no && $scope.saleInfoAll[j].LOT_NO === d.message.lot_no) {
@@ -1755,13 +1755,21 @@
                             }
                         }
                     }
-                } else if (d.msg_type === packet_enum.winner) {
-
+                }*/ else if (d.msg_type === packet_enum.winner) {
                     if (d.message != null) {
                         for (let j = 0; j < $scope.saleInfoAll.length; j++) {
-                            if ($scope.saleInfoAll[j].SALE_NO === d.message.sale_no && $scope.saleInfoAll[j].LOT_NO === d.message.lot_no) {
+                            if ($scope.saleInfoAll[j].SALE_NO === d.message.customer.sale_no &&
+                                $scope.saleInfoAll[j].LOT_NO === d.message.customer.lot_no) {
                                 $scope.saleInfoAll[j].BID_TICK = "경매가 종료 되었습니다.";
                                 $scope.saleInfoAll[j].BID_TICK_BTN = "경매결과 보기";
+                                if (parseInt(d.message.customer.lot_no) === parseInt($("#lot_no").val())) {
+                                    console.log("sadsa")
+                                    $("#end_bid_true").css("display", "");
+                                    $("div[name='end_bid_false']").css("display", "none");
+                                    $("#bid_lst li:eq(0) .product-day .type-auto").remove();
+                                    $("#bid_lst li:eq(0) .product-day .type-success").remove();
+                                    $("#bid_lst li:eq(0) .product-day").prepend("<em class=\"type-success\">낙찰</em>")
+                                }
                                 // 현재 랏정보
                                 $scope.CUR_LOT_NO = d.message.cur_lot_no;
                                 for (let j = 0; j < $scope.saleInfoAll.length; j++) {
@@ -1771,16 +1779,6 @@
                                     }
                                 }
                             }
-                        }
-                        let isCanClose = true;
-                        for (let j = 0; j < $scope.saleInfoAll.length; j++) {
-                            if (!$scope.saleInfoAll[j].IS_END_BID) {
-                                isCanClose = false;
-                                break
-                            }
-                        }
-                        if (!isCanClose) {
-                            w.close();
                         }
                     }
                 } else if (d.msg_type === packet_enum.auto_bid_sync) {

@@ -2387,7 +2387,7 @@
         } else if (d.msg_type === packet_enum.time_sync) {
             let bid_tick = document.getElementById("bid_tick");
             let bid_tick_main = document.getElementById("end_date_time");
-            let ddd = new Date().getTime();
+            let ddd = d.message.tick_value;
 
             if (end_bid_time > 0 && end_bid_time >= ddd) {
 
