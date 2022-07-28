@@ -169,11 +169,11 @@ const visualSwiper = new Swiper('.visual-swiper', {
 
 async function movePageOnBanner(url, target, id){
     alert("movepage")
-    addReadCount(id, 'main_banner');
+    await addReadCount(id, 'main_banner');
     if(target === '_blank'){
        await openWebBrowser(url);
     }else{
-        location.href=url;
+        location.href = url;
     }
 }
 
@@ -277,7 +277,8 @@ function loadTopNotice(){
                     slideArray.push(returnDom);
                 });
 
-                beltNoticeSwiper.appendSlide(slideArray)
+                beltNoticeSwiper.appendSlide(slideArray);
+
                 document.querySelector(".beltclose-btn").addEventListener("click", function(e){
                     $('.header_beltbox').slideUp(400);
                     closeToday('top-notice');
@@ -291,6 +292,7 @@ function loadTopNotice(){
                 }
 
             }else{
+
                 if(matchMedia("all and (min-width: 1024px)").matches) {//pc
                     $('.main-contents').css({'margin-top':'102px'});
                 } else {//mo
@@ -581,7 +583,6 @@ function loadPopup(){
                         let localeTitle = locale === 'ko' ? jsonData.title.ko : jsonData.title.en;
                         let localeContent = locale === 'ko' ? jsonData.content.ko.content : jsonData.content.en.content;
                         let localeUrl = locale === 'ko' ? jsonData.content.ko.url : jsonData.content.en.url;
-                        //TODO URL로 뭐해야함...
 
                         $('#main_popup_a_link').hide()
                         $('#main_popup_text_a_link').hide();
