@@ -144,7 +144,8 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 			});
 		}
 		
-		history.pushState('', null, "/mypage/inteLotList?page="+$scope.currentPage+"&saleKind="+$scope.saleKind);
+		let saleKind = $scope.saleKind ? $scope.saleKind : 'all';
+		history.pushState('', null, "/mypage/inteLotList?page="+$scope.currentPage+"&saleKind="+saleKind);
 	}
 /*	$scope.inteDel = function(sale_no, lot_no) {
 

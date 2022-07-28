@@ -625,20 +625,37 @@
 	<!-- 관심정보 sale_list -->
 	<sql id="sql_sale_list">
 		SELECT
-			S1.SALE_NO , S1.SALE_TH, S1.SALE_TH_DSP_YN, S1.TITLE_BLOB, S1.SALE_OUTSIDE_YN, S1.TO_DT, S1.SALE_KIND_CD, S1.CURR_CD
+			SALE.SALE_NO , SALE.SALE_TH, SALE.SALE_TH_DSP_YN, SALE.TITLE_BLOB, SALE.SALE_OUTSIDE_YN, SALE.TO_DT, SALE.SALE_KIND_CD, SALE.CURR_CD
 		FROM
-			SALE S1
-		JOIN CUST_INTE_LOT CIL ON
-			S1.SALE_NO = CIL.SALE_NO
-		WHERE
-			CIL.CUST_NO = #{action_user_no}
-			<choose>
-				<when test="sale_kind == 'online'">AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb')</when>
-				<when test="sale_kind == 'live'">AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb'</when>
-				<otherwise>AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb' or IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb')</otherwise>
-			</choose>
-		AND SALE_OUTSIDE_YN = 'N'
-		GROUP BY S1.SALE_NO
+				((
+			SELECT
+				S1.SALE_NO ,
+				S1.SALE_TH,
+				S1.SALE_TH_DSP_YN,
+				S1.TITLE_BLOB,
+				S1.SALE_OUTSIDE_YN,
+				S1.TO_DT,
+				S1.SALE_KIND_CD,
+				S1.CURR_CD,
+				CIL.LOT_NO
+			FROM
+				SALE S1
+			JOIN CUST_INTE_LOT CIL ON
+				S1.SALE_NO = CIL.SALE_NO
+			WHERE
+				CIL.CUST_NO = #{action_user_no}
+				<choose>
+					<when test="sale_kind == 'online'">AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb')</when>
+					<when test="sale_kind == 'live'">AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb'</when>
+					<otherwise>AND (S1.SALE_KIND_CD = 'online' or S1.SALE_KIND_CD = 'online_zb' or IFNULL(S1.SALE_KIND_CD, 'main') != 'online' AND IFNULL(S1.SALE_KIND_CD, 'main') != 'online_zb')</otherwise>
+				</choose>
+				AND SALE_OUTSIDE_YN = 'N') AS SALE
+		JOIN LOT L ON
+			SALE.SALE_NO = L.SALE_NO
+			AND SALE.LOT_NO = L.LOT_NO
+			AND L.STAT_CD != 'REENTRY' )
+		GROUP BY
+			SALE.SALE_NO
 	</sql>
 	
 	<!-- 관심정보 list-->
@@ -672,7 +689,7 @@
 		  FROM CUST_INTE_LOT CL INNER JOIN CUST CU ON CL.CUST_NO = CU.CUST_NO
 							   INNER JOIN
 							   (
-							    <include refid="sql_sale_list" />ORDER BY S1.TO_DT DESC LIMIT #{offset}, #{size}
+							    <include refid="sql_sale_list" />ORDER BY SALE.TO_DT DESC LIMIT #{offset}, #{size}
 								) S ON S.SALE_NO = CL.SALE_NO
 		  						INNER JOIN LOT  L ON CL.SALE_NO = L.SALE_NO AND CL.LOT_NO = L.LOT_NO
 		                      	LEFT OUTER JOIN ARTIST A ON L.ARTIST_NO = A.ARTIST_NO
