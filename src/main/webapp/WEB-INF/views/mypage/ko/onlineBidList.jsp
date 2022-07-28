@@ -54,7 +54,7 @@
                                                                     </div>
                                                                 </div>
                                                                  <div class="btn-area">
-                                                                   <button ng-if="onlineBid[2].SALE_CLOSE_YN != 'Y'"  class="btn btn_point btn-view-ing" type="button"><a href="/auction/list/{{onlineBid[1][0].SALE_NO}}"><span >진행경매보기</span></a></button>
+                                                                   <button ng-if="onlineBid[2].SALE_CLOSE_YN != 'Y'"  class="btn btn_point btn-view-ing" type="button"><a ng-click="goSale(onlineBid[1][0].SALE_NO)"><span >진행경매보기</span></a></button>
                                                                    <button ng-if="onlineBid[2].SALE_CLOSE_YN == 'Y'"class="btn btn_gray btn-view-end" type="button" disabled><span>경매 종료</span></button>
                                                                 </div>
                                                             </dt>
@@ -63,7 +63,7 @@
                                                                     <div class="product-infobox-inner">
                                                                         <div class="thumb-area">
                                                                             <figure class="img-ratio">
-                                                                                <a href="/auction/online/view/{{data.SALE_NO}}/{{data.LOT_NO}}" class="img-align" ng-if="data.CLOSE_YN != 'Y'"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
+                                                                                <a href="#" ng-click="goLotDetail(data.SALE_NO, data.LOT_NO)" class="img-align" ng-if="data.CLOSE_YN != 'Y'"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
                                                                                      <img src="${imageRootPath}{{data.LOT_IMG}}" alt="${imageRootPath}{{data.LOT_IMG}}">
                                                                                      <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'N' && bidGroup(data.BID_JSON)[0].BID_PRICE == data.success_bid_price && bidGroup(data.BID_JSON)[0].BID_NO == data.success_bid_no"><span class="bid_result-icon">낙찰</span></div>
                                                                                      <div class="success" ng-if="data.HAMMER_CANCEL_YN == 'Y'"><span class="bid_result-icon fail">낙찰취소</span></div>

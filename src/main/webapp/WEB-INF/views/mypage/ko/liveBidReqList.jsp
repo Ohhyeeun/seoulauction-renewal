@@ -54,8 +54,8 @@
                                                                     </div>
                                                                 </div>
                                                                  <div class="btn-area">
-                                                                   <button ng-if="liveBidReq[1][0].CLOSE_YN != 'Y'"  class="btn btn_point btn-view-ing" type="button"><a href="/auction/live/list/{{liveBidReq[1][0].SALE_NO}}"><span >진행경매보기</span></a></button>
-                                                                   <button ng-if="liveBidReq[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray_line btn-view-result" type="button"><a href="/auction/live/list/{{liveBidReq[1][0].SALE_NO}}"><span>경매결과보기</span></a></button>
+                                                                   <button ng-if="liveBidReq[1][0].CLOSE_YN != 'Y'"  class="btn btn_point btn-view-ing" type="button"><a ng-click="goSale(liveBidReq[1][0].SALE_NO)"><span >진행경매보기</span></a></button>
+                                                                   <button ng-if="liveBidReq[1][0].CLOSE_YN == 'Y'"  class="btn btn_gray_line btn-view-result" type="button"><a ng-click="goSale(liveBidReq[1][0].SALE_NO)"><span>경매결과보기</span></a></button>
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in liveBidReq[1]">
@@ -63,7 +63,7 @@
                                                                     <div class="product-infobox-inner">
                                                                         <div class="thumb-area">
                                                                             <figure class="img-ratio">
-                                                                                <a href="/auction/live/view/{{data.SALE_NO}}/{{data.LOT_NO}}" class="img-align" ng-if="liveBidReq[1][0].CLOSE_YN != 'Y'" > <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
+                                                                                <a href="#" ng-click="goLotDetail(data.SALE_NO, data.LOT_NO)"  class="img-align" ng-if="liveBidReq[1][0].CLOSE_YN != 'Y'" > <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
                                                                                      <img src="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}" alt="${imageRootPath}{{data.LOT_IMG_PATH}}/{{data.LOT_IMG_NAME}}">
                                                                                 </a >
                                                                                 <a class="img-align" ng-if="liveBidReq[1][0].CLOSE_YN == 'Y'" > <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
