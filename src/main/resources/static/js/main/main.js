@@ -862,7 +862,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     $('*').toggleClass(localStorage.getItem('theme'));
 
-
     $('.auctionTab-btn').click(function () {
         const darkIngTab = $(this).index();
         $('.auctionTab-btn').removeClass('dark');

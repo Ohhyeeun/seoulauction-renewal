@@ -1302,7 +1302,8 @@ body.dark,
 .header_nav.dark>li>a.dark,
 .main-sectiontit.dark,
 .header_gnbmenu>li>a.dark,
-.auctionTab-btn.on.dark,
+/*.auctionTab-btn.on.dark,*/
+.auctionTab.dark > .auctionTab-btn.on,
 .familysite-box>h3.dark,
 .commonbtn.dark,
 .swiper-pagination-current.dark,
@@ -1310,9 +1311,7 @@ body.dark,
 .auctionTab-btn.dark:hover,
 .keyword-search-tit.dark,
 .recommend-search-part.dark > .keyword-search-tit,
-.newsletter-form>input.dark,
-.upcoming-datebox.dark,
-.upcoming-caption>h4.dark {
+.newsletter-form>input.dark {
     color: #fff;
 }
 /* common color #dbdbdb */
@@ -1375,8 +1374,8 @@ body.dark,
     color: #333;
 }
 .swiper-progressbar .visual-progressbar.dark:after,
-.auctionTab-btn.on.dark::after,
-.newsletter-btnbox>button.commonbtn:hover.dark,
+.auctionTab.dark > .auctionTab-btn.on:after,
+.newsletter-btnbox>button.commonbtn:hover.dark, 
 .newsletter-btnbox>a.commonbtn:hover.dark,
 .newsletter-btnbox>button.commonbtn.dark,
 .auctionTab-btn.dark:hover:after,
@@ -1487,10 +1486,6 @@ body.dark,
 .swiper-button-next.platformBtn-right.dark {
     background-image: url("/images/pc/icon/ic_chevron_right_white_48.svg");
     fill: none;
-}
-.auction-thumbbox.dark,
-.swiper-slide.upcomingSlide.dark {
-    background-color: #2d2d2d;
 }
 .swiper-progressbar.dark .visual-progressbar.dark,
 .platform-pagination>span.dark {
