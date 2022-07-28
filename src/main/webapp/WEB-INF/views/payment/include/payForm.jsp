@@ -7,7 +7,7 @@
     <input type="hidden" name="GoodsName" value="${goodsName}" />               <!-- 결제 상품금액 -->
     <input type="hidden" name="Amt" value="${price}" />                         <!-- 상점 아이디 -->
     <input type="hidden" name="MID" value="${mId}" />                           <!-- 결제 수단 -->
-    <input type="hidden" name="Moid" value="" />                                <!-- 상품 주문번호 -->
+    <input type="hidden" name="Moid" value="${moid}" />                         <!-- 상품 주문번호 -->
     <input type="hidden" name="BuyerName" value="${cust_name}" />               <!-- 구매자명 -->
     <input type="hidden" name="BuyerEmail" value="${email}" />                  <!-- 구매자 이메일 -->
     <input type="hidden" name="BuyerTel" value="${hp}" />                       <!-- 구매자 연락처 -->

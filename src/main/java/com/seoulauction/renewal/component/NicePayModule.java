@@ -32,7 +32,7 @@ public class NicePayModule {
 
     private final String NICE_PAY_BASE_URL  = "https://webapi.nicepay.co.kr";
     private final String AUTH_SUCCESS_CODE  = "0000";
-    private final String CONFIRM_FAIE_CODE  = "9999";
+    private final String CONFIRM_FAIL_CODE  = "9999";
 
     //결제 요청. ( 타임아웃난경우 망취소까지 진행.)
     public CommonMap payProcess(HttpServletRequest request){
@@ -85,7 +85,7 @@ public class NicePayModule {
             try {
                 resultMap = new ObjectMapper().readValue(result, CommonMap.class);
                 //타임아웃 인경우 취소망 고고
-                if(CONFIRM_FAIE_CODE.equals(resultMap.getString("ResultCode"))){
+                if(CONFIRM_FAIL_CODE.equals(resultMap.getString("ResultCode"))){
                     //망취소 파라미터 ㄱㄱ
                     formData.add("NetCancel","1");
                     result = webClient
@@ -142,81 +142,78 @@ public class NicePayModule {
     }
 
     public CommonMap receiptProcess(HttpServletRequest request){
-        String authResultCode = request.getParameter("AuthResultCode");
         CommonMap resultMap;
 
         String eDiDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 
-        if(AUTH_SUCCESS_CODE.equals(authResultCode)) {
+        String moid = request.getParameter("MOID");
 
-            String signData = Cryptography.encrypt(
-                    request.getParameter("AuthToken")
-                            + request.getParameter("MID")
-                            + request.getParameter("Amt")
-                            + eDiDate
-                            + nicePaymerchantKey);
+        String receiptAmt = request.getParameter("Amt");
 
-            WebClient webClient = WebClient.builder()
-                    .baseUrl(NICE_PAY_BASE_URL)
-                    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-                    .build();
+        String signData = Cryptography.encrypt(request.getParameter("MID")
+                        + receiptAmt
+                        + eDiDate
+                        + moid
+                        + nicePaymerchantKey);
 
-            MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-            formData.add("TID", request.getParameter("TID"));
-            formData.add("AuthToken", request.getParameter("AuthToken"));
-            formData.add("MID", request.getParameter("MID"));
-            formData.add("ReceiptAmt", request.getParameter("Amt"));
-            formData.add("ReceiptType", String.valueOf(request.getAttribute("rcpt_type")));
-            formData.add("ReceiptTypeNo", String.valueOf(request.getAttribute("rcpt_type_no")));
-            formData.add("EdiDate", eDiDate);
-            formData.add("SignData", signData);
+        WebClient webClient = WebClient.builder()
+                .baseUrl(NICE_PAY_BASE_URL)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .build();
 
-            String result = webClient
-                    .post()
-                    .uri("/webapi/cash_receipt.jsp")
-                    .body(BodyInserters
-                            .fromFormData(formData))
-                    .retrieve()
-                    .onStatus(HttpStatus::is4xxClientError, clientResponse -> Mono.error(RuntimeException::new))
-                    .onStatus(HttpStatus::is5xxServerError, clientResponse -> Mono.error(RuntimeException::new))
-                    .bodyToMono(String.class).block();
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        formData.add("TID", request.getParameter("TID"));
+        formData.add("MID", request.getParameter("MID"));
+        formData.add("EdiDate", eDiDate);
+        formData.add("Moid", moid);
+        formData.add("ReceiptAmt", receiptAmt);
+        formData.add("GoodsName", request.getParameter("GoodsName"));
+        formData.add("SignData", signData);
+        formData.add("ReceiptType", String.valueOf(request.getAttribute("rcpt_type")));
+        formData.add("ReceiptTypeNo", String.valueOf(request.getAttribute("rcpt_type_no")));
+        formData.add("ReceiptSupplyAmt", "0");
+        formData.add("ReceiptVAT", "0");
+        formData.add("ReceiptServiceAmt", "0");
+        formData.add("ReceiptTaxFreeAmt", "0");
 
-            try {
+        String result = webClient
+                .post()
+                .uri("/webapi/cash_receipt.jsp")
+                .body(BodyInserters
+                        .fromFormData(formData))
+                .retrieve()
+                .onStatus(HttpStatus::is4xxClientError, clientResponse -> Mono.error(RuntimeException::new))
+                .onStatus(HttpStatus::is5xxServerError, clientResponse -> Mono.error(RuntimeException::new))
+                .bodyToMono(String.class).block();
+
+        try {
+            resultMap = new ObjectMapper().readValue(result, CommonMap.class);
+            log.info(resultMap);
+            if(CONFIRM_FAIL_CODE.equals(resultMap.getString("ResultCode"))){
+                formData.add("NetCancel","1");
+                result = webClient
+                        .post()
+                        .uri("/webapi/cancel_process.jsp")
+                        .body(BodyInserters
+                                .fromFormData(formData))
+                        .retrieve()
+                        .onStatus(HttpStatus::is4xxClientError, clientResponse -> Mono.error(RuntimeException::new))
+                        .onStatus(HttpStatus::is5xxServerError, clientResponse -> Mono.error(RuntimeException::new))
+                        .bodyToMono(String.class).block();
+
                 resultMap = new ObjectMapper().readValue(result, CommonMap.class);
-                if(CONFIRM_FAIE_CODE.equals(resultMap.getString("ResultCode"))){
-                    //망취소 파라미터 ㄱㄱ
-                    formData.add("NetCancel","1");
-                    result = webClient
-                            .post()
-                            .uri("/webapi/cancel_process.jsp")
-                            .body(BodyInserters
-                                    .fromFormData(formData))
-                            .retrieve()
-                            .onStatus(HttpStatus::is4xxClientError, clientResponse -> Mono.error(RuntimeException::new))
-                            .onStatus(HttpStatus::is5xxServerError, clientResponse -> Mono.error(RuntimeException::new))
-                            .bodyToMono(String.class).block();
-
-                    resultMap = new ObjectMapper().readValue(result, CommonMap.class);
-                    //망취소 후 오류 처리.
-                    String resultMsg = resultMap.getString("ResultMsg");
-                    throw new SAException(resultMsg);
-                } else {
-                    //결제 성공 여부 검사!
-                    String resultCode = resultMap.getString("ResultCode");
-                    String payMethod = resultMap.getString("PayMethod");
-                    boolean paySuccess = false;
-//
-                    if (payMethod != null) {
-                        log.info(payMethod);
-                    }
-                }
-
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                throw new SAException(e.getMessage());
+                //망취소 후 오류 처리.
+                String resultMsg = resultMap.getString("ResultMsg");
+                throw new SAException(resultMsg);
+            } else {
+                //결제 성공 여부 검사!
+                String resultCode = resultMap.getString("ResultCode");
+                String resultMsg = resultMap.getString("ResultMsg");
             }
-        } else {
-            throw new InternalServerException("인증요청이 올바르지 않습니다.");
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            throw new SAException(e.getMessage());
         }
 
         return resultMap;
