@@ -323,6 +323,9 @@
     cursor: pointer;
     color: #777;
 }
+.auctionTab-btn>span {
+    max-width: 310px;
+}
 .auctionTab-btn
 .auctionTab-btn:last-of-type {
     margin-right: 0;

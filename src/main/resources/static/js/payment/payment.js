@@ -1,13 +1,12 @@
 function nicepayStart() {
+    if(!rcptCheck()) return;
 
     isNativeApp().then(nativeApp => {
-
         if (nativeApp || checkPlatform(window.navigator.userAgent) == "mobile"){//모바일 결제창 진입
             document.payForm.action = "https://web.nicepay.co.kr/v3/v3Payment.jsp";
             document.payForm.acceptCharset="euc-kr";
             document.payForm.submit();
         } else {//PC 결제창 진입
-
             goPay(document.payForm);
         }
     });
@@ -29,32 +28,75 @@ function changePayMethod(obj) {
     btn.removeClass("btn_black").addClass("btn_default");
     $(obj).removeClass("btn_default").addClass("btn_black");
     $("form[name=payForm] #inputPayMethod").val($(obj).attr("data"));
+    if($(obj).attr("data") === "VBANK") {
+        $(".receipts, .text_wrap").show();
+    } else {
+        $(".receipts, .text_wrap").hide();
+    }
 }
 
-// 신용 / 가상계좌 스크립트
-// $(function(){
-//
-//     $("#payCard").removeClass('btn_default');
-//     $("#payCard").addClass('btn_black');
-//     $('#inputPayMethod').val('CARD');
-//     let buttons = $("#payMethod").children('.btn');
-//
-//     buttons.on('click',function (){
-//
-//         //버튼들을 기본으로 다만듬.;
-//         buttons.each(function(){
-//             $(this).addClass('btn_default');
-//             $(this).removeClass('btn_black');
-//         })
-//
-//         //클릭한 버튼만 블랙처리.
-//         $(this).addClass('btn_black');
-//         $(this).removeClass('btn_default');
-//         let id = $(this).attr('id');
-//         if(id === 'payCard'){
-//             $('#inputPayMethod').val('CARD');
-//         } else if (id === 'payVBank'){
-//             $('#inputPayMethod').val('VBANK');
-//         }
-//     });
-// });
+$(function() {
+    <!-- 개인소득공제 방법선택 -->
+    $(".js-selt_choice select").change(function() {
+        var _num = $(this).find("option:selected").index();
+        var _markWrap = $(this).parents(".js-selt_choice");
+        var _targetCon = _markWrap.next().find(".form-wrap");
+        _targetCon.eq(_num).show().siblings().hide();
+    });
+
+    <!-- [0614]개인/사업자 선택 -->
+    $(".js-selt_division input:radio").change(function() {
+        var _markWrap = $(".js-selt_division");
+        var _num = $(this).parent(".trp.radio-box").index();
+        var _targetCon = _markWrap.siblings(".form-area");
+        _targetCon.hide();
+        _targetCon.eq(_num).show();
+    });
+
+    // 개인소득공제 신청/안함
+    $(".personal .radio-wrap input:radio").change(function () {
+        var _markWrap = $(".personal .radio-wrap");
+        var _num = $(this).parent(".trp.radio-box").index();
+        var _targetCon = _markWrap.siblings(".con-wrap");
+        _targetCon.hide();
+        _targetCon.eq(_num).show();
+    });
+});
+
+function rcptCheck() {
+    if($("form[name=payForm] #inputPayMethod").val() !== "VBANK") {
+        // 데이터 초기화 적용
+        return true;
+    }
+
+    let tmpReqReserved = $("form[name=payForm] input[name=tmpReqReserved]").val();
+    switch ($("input:radio[name=rcpt_type]:checked").val()) {
+        case '1':
+            if($("input:radio[name=rcpt_yn]:checked").val() === "Y") {
+                let rcptNo = $("#rcpt_type_no1").val();
+                if(!rcptNo) {
+                    alert("현금영수증 번호를 입력해주세요.");
+                    $("#rcpt_type_no1").focus();
+                    return false;
+                }
+
+                tmpReqReserved += ",rcpt_type=1,rcpt_type_no="+rcptNo;
+                break;
+            }
+            break;
+
+        case '2':
+            let rcptNo = $("#rcpt_type_no2").val();
+            if(!rcptNo) {
+                alert("현금영수증 번호를 입력해주세요.");
+                $("#rcpt_type_no2").focus();
+                return false;
+            }
+
+            tmpReqReserved += ",rcpt_type=2,rcpt_type_no="+rcptNo;
+            break;
+    }
+
+    $("form[name=payForm] input[name=ReqReserved]").val(tmpReqReserved);
+    return true;
+}

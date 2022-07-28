@@ -122,7 +122,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="view_scale-area" ng-if="lotInfo.VIEW_SCALE_YN == 'Y' && ['traditional_painting', 'local_painting', 'foreign_painting'].indexOf(lotInfo.CATE_CD) > -1">
+                                            <div class="view_scale-area" ng-if="lotInfo.VIEW_SCALE_YN == 'Y' && ['local_painting', 'foreign_painting'].indexOf(lotInfo.CATE_CD) > -1">
                                                 <a class="js-popup_image_viewer" href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
                                         </article>
@@ -156,11 +156,11 @@
                                             </div>
                                             <div class="artist-area">
                                                 <div class="name">
-                                                    <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT">김선우</strong>
-                                                    <span>b.{{lotInfo.BORN_YEAR}}</span>
+                                                    <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT" title="{{lotInfo.ARTIST_NAME_KO_TXT}}">김선우</strong>
+                                                    <span title="{{'b.' + lotInfo.BORN_YEAR}}">b.{{lotInfo.BORN_YEAR}}</span>
                                                 </div>
                                                 <div class="desc">
-                                                    <span ng-bind="lotInfo.TITLE_KO_TXT">Flight of 3 Dodos</span>
+                                                    <span ng-bind="lotInfo.TITLE_KO_TXT" title="{{lotInfo.TITLE_KO_TXT}}">Flight of 3 Dodos</span>
                                                 </div>
                                             </div>
 
@@ -635,19 +635,20 @@
                     //                             </div>
                     //                         </div>
                     //     </div>`
-                    if(['traditional_painting'].indexOf($scope.lotInfo.CATE_CD) > -1){
-                        swiper_slide_item = `<div class="swiper-slide">
-                                <div class="img-area">
-                                    <div class="img-box">
-                                        <div class="size_x"><span>` + size1 + unitCd + `</span></div>
-                                        <div class="size_y"><span>` + size2 + unitCd + `</span></div>
-                                        <div class="images">
-                                            <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size1 + `" size-y="` + size2 + `" lot_no="` + lot_no + `"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`;
-                    }else if(['local_painting', 'foreign_painting'].indexOf($scope.lotInfo.CATE_CD) > -1){
+                    // if(['traditional_painting'].indexOf($scope.lotInfo.CATE_CD) > -1){
+                    //     swiper_slide_item = `<div class="swiper-slide">
+                    //             <div class="img-area">
+                    //                 <div class="img-box">
+                    //                     <div class="size_x"><span>` + size1 + unitCd + `</span></div>
+                    //                     <div class="size_y"><span>` + size2 + unitCd + `</span></div>
+                    //                     <div class="images">
+                    //                         <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size1 + `" size-y="` + size2 + `" lot_no="` + lot_no + `"/>
+                    //                     </div>
+                    //                 </div>
+                    //             </div>
+                    //         </div>`;
+                    // }
+                    if(['local_painting', 'foreign_painting'].indexOf($scope.lotInfo.CATE_CD) > -1){
                         swiper_slide_item = `<div class="swiper-slide">
                                 <div class="img-area">
                                     <div class="img-box">

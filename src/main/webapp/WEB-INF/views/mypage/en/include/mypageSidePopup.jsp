@@ -73,8 +73,8 @@
                                                 <div class="txt">{{pay.PAY_METHOD_CD}}</div>
                                             </div>
                                              <div class="info-li btn-area">
-                                                <button class="btn btn_gray_line btn_sm" type="button" data-id="{{art.PG_TRANS_ID}}" data-type="0" ng-if="pay.PAY_METHOD_ID == 'card' && pay.receipt == 'Y'" onclick="receiptPopup(this)"><span>Card Receipt</span></button>
-                                                <button class="btn btn_gray_line btn_sm" type="button" data-id="{{art.PG_TRANS_ID}}" data-type="1" ng-if="pay.PAY_METHOD_ID == 'vbank' && pay.receipt == 'Y'" onclick="receiptPopup(this)"><span>Cash Receipt</span></button>
+                                                <button class="btn btn_gray_line btn_sm" type="button" data-id="{{art.PG_TRANS_ID}}" data-type="0" ng-if="pay.receipt_card == 'Y'" onclick="receiptPopup(this)"><span>Card Receipt</span></button>
+                                                <button class="btn btn_gray_line btn_sm" type="button" data-id="{{art.PG_TRANS_ID}}" data-type="1" ng-if="pay.receipt_vbank == 'Y'" onclick="receiptPopup(this)"><span>Cash Receipt</span></button>
                                             </div>
                                         </dd>
                                     </dl>

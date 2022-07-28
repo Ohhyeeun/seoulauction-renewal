@@ -131,7 +131,8 @@
              , DATE_FORMAT(L.TO_DT,'%a') LOT_EXPIRE_DATE_DAY
              , DATE_FORMAT(L.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T
              , L.ARTIST_NO
-             , if(CD_ART.CD_ID in('traditional_painting', 'local_painting', 'foreign_painting'), 'Y', 'N') AS VIEW_SCALE_YN
+--              , if(CD_ART.CD_ID in('traditional_painting', 'local_painting', 'foreign_painting'), 'Y', 'N') AS VIEW_SCALE_YN
+             , if(CD_ART.CD_ID in('local_painting', 'foreign_painting'), 'Y', 'N') AS VIEW_SCALE_YN
              , ifnull(LS.SIZE1, '0')                SIZE1
              , ifnull(LS.SIZE2, '0')                SIZE2
              , L.CATE_CD
@@ -407,7 +408,8 @@
              , COLUMN_JSON(A.PROFILE_BLOB) PROFILE_JSON
              , DATE_FORMAT(SA.TO_DT,'%a') LOT_EXPIRE_DATE_DAY
              , DATE_FORMAT(SA.TO_DT,'%m.%d(%a) %I:%i') LOT_EXPIRE_DATE_TIME_T
-             , if(CD_C3.CD_ID in('traditional_painting', 'local_painting', 'foreign_painting'), 'Y', 'N') AS VIEW_SCALE_YN
+--              , if(CD_C3.CD_ID in('traditional_painting', 'local_painting', 'foreign_painting'), 'Y', 'N') AS VIEW_SCALE_YN
+             , if(CD_C3.CD_ID in('local_painting', 'foreign_painting'), 'Y', 'N') AS VIEW_SCALE_YN
              , ifnull(ASI.SIZE1, '0')                SIZE1
              , ifnull(ASI.SIZE2, '0')                SIZE2
         FROM SALE_AS SA	LEFT OUTER JOIN EMP RE ON RE.EMP_NO = SA.REG_EMP_NO

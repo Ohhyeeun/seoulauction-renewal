@@ -2427,6 +2427,11 @@
                 bid_tick.innerText = "경매 시작 전입니다.";
                 bid_tick_main.innerText = "경매 시작 전입니다.";
             } else {
+                $("#end_bid_true").css("display", "");
+                $("div[name='end_bid_false']").css("display", "none");
+                $("#bid_lst li:eq(0) .product-day .type-auto").remove();
+                $("#bid_lst li:eq(0) .product-day .type-success").remove();
+                $("#bid_lst li:eq(0) .product-day").prepend("<em class=\"type-success\">낙찰</em>")
                 bid_tick.innerText = "경매가 종료 되었습니다.";
                 bid_tick_main.innerText = "경매가 종료 되었습니다.";
             }
@@ -2576,7 +2581,7 @@
                                     dt_ly.setAttribute("class", "product-day");
 
                                     let dt_ly_span1 = document.createElement("em");
-                                    if (bid_info.winner_state === 2 && bid_hist_info[i].value.length - 1 == j) {
+                                    if (bid_info.winner_state === 2 && bid_hist_info[i].value.length - 1 === j) {
                                         // type
                                         dt_ly_span1.setAttribute("class", "type-success");
                                         dt_ly_span1.innerText = "낙찰";
@@ -2600,11 +2605,9 @@
                                     let dt_ly_span3 = document.createElement("span");
                                     dt_ly_span3.innerText = ddd.format("HH:mm:ss");
 
-                                    if (bid_info.winner_state === 2) {
+                                    if (bid_info.winner_state === 2 && j === bid_hist_info[i].value.length - 1) {
                                         dt_ly.appendChild(dt_ly_span1);
-                                    }
-                                    if (bid_hist_info[i].value[j].is_auto_bid) {
-                                        // type
+                                    } else if (bid_hist_info[i].value[j].is_auto_bid) {
                                         dt_ly.appendChild(dt_ly_span11);
                                     }
 
@@ -2638,6 +2641,11 @@
                         bid_tick.innerText = "경매 시작 전입니다.";
                         bid_tick_main.innerText = "경매 시작 전입니다.";
                     } else if (end_bid_time < new Date().getTime()) {
+                        $("#end_bid_true").css("display", "");
+                        $("div[name='end_bid_false']").css("display", "none");
+                        $("#bid_lst li:eq(0) .product-day .type-auto").remove();
+                        $("#bid_lst li:eq(0) .product-day .type-success").remove();
+                        $("#bid_lst li:eq(0) .product-day").prepend("<em class=\"type-success\">낙찰</em>")
                         bid_tick.innerText = "경매가 종료 되었습니다.";
                         bid_tick_main.innerText = "경매가 종료 되었습니다.";
                     }
@@ -2660,20 +2668,21 @@
             if (d.message != null) {
                 let bid_lst = document.getElementById("bid_lst");
 
-                if (d.message.customer.user_id == bid_lst.firstChild.firstChild.innerText) {
+                //if (d.message.customer.user_id == bid_lst.firstChild.firstChild.innerText) {
                     let bid_tick = document.getElementById("bid_tick");
                     let bid_tick_main = document.getElementById("end_date_time");
                     bid_tick.innerText = "경매가 종료 되었습니다.";
                     bid_tick_main.innerText = "경매가 종료 되었습니다.";
 
-                    let dt_ly_span1 = document.createElement("em");
-                    dt_ly_span1.setAttribute("class", "type-success");
-                    dt_ly_span1.innerText = "낙찰";
+                    $("#end_bid_true").css("display", "");
+                    $("div[name='end_bid_false']").css("display", "none");
+                    $("#bid_lst li:eq(0) .product-day .type-auto").remove();
+                    $("#bid_lst li:eq(0) .product-day .type-success").remove();
+                    $("#bid_lst li:eq(0) .product-day").prepend("<em class=\"type-success\">낙찰</em>")
+
                     document.getElementById("cur_cost_text").innerText = "낙찰가";
                     document.getElementById("cur_cost_text2").innerText = "낙찰가";
-
-                    bid_lst.firstChild.childNodes[2].insertBefore(dt_ly_span1, bid_lst.firstChild.childNodes[2].firstChild);
-                }
+                //}
 
                 is_end_bid = true;
                 w.close();

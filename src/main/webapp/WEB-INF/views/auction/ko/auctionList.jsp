@@ -871,6 +871,10 @@
                 } else {
                     let init_func_manual = async function (token, saleNo, lotNo, saleType, custNo) {
                         //console.log(token, saleNo, lotNo, saleType, userId);
+                        // 경매번호 삽입
+                        $("#sale_no").val(saleNo);
+                        // 랏번호 삽입
+                        $("#lot_no").val(lotNo);
                         let url = '';
                         if (window.location.protocol !== "https:") {
                             url = 'http${bid_domain}/init2';
@@ -1380,6 +1384,7 @@
                         }
                     }
                     for (let j = 0; j < $scope.saleInfoAll.length; j++) {
+
                         // 시작일이 현재 일자보다 큰경우
                         if (new Date($scope.saleInfoAll[j].FROM_DT_ORG).getTime() > d.message.tick_value) {
                             $scope.saleInfoAll[j].BID_TICK = "경매시작 전 입니다."
@@ -1417,22 +1422,27 @@
                             $scope.saleInfoAll[j].BID_TICK_BTN = "응찰"
                             //현재 일이 종료일보다 큰 경우
                         } else if ($scope.saleInfoAll[j].END_DT < d.message.tick_value) {
+                            if (parseInt($scope.saleInfoAll[j].LOT_NO) === parseInt($("#lot_no").val())) {
+                                $("#end_bid_true").css("display", "");
+                                $("div[name='end_bid_false']").css("display", "none");
+                            }
                             if ($scope.saleInfoAll[j].bid_count > 0) {
                                 $scope.saleInfoAll[j].onStateCostTxt = "낙찰가";
                             }
+
                             $scope.saleInfoAll[j].BID_TICK = "경매가 종료되었습니다."
                             $scope.saleInfoAll[j].BID_TICK_BTN = "경매결과 보기"
                         }
                     }
 
-                    for (let j = 0; j < $scope.saleInfoAll.length; j++) {
-                        if (parseInt($("#sale_no").val()) === $scope.saleInfoAll[j].SALE_NO && parseInt($("#lot_no").val()) === $scope.saleInfoAll[j].LOT_NO) {
-                            if (new Date($scope.saleInfoAll[j].FROM_DT_ORG).getTime() > d.message.tick_value) {
+                    for (let j = 0; j < $scope.saleInfo.length; j++) {
+                        if (parseInt($("#sale_no").val()) === $scope.saleInfo[j].SALE_NO && parseInt($("#lot_no").val()) === $scope.saleInfo[j].LOT_NO) {
+                            if (new Date($scope.saleInfo[j].FROM_DT_ORG).getTime() > d.message.tick_value) {
                                 bid_tick.innerText = "경매시작 전 입니다."
                                 // 현재일이 시작보다 크고 종료일자보다 작은경우
-                            } else if (new Date($scope.saleInfoAll[j].FROM_DT_ORG).getTime() <= d.message.tick_value && $scope.saleInfoAll[j].END_DT >= d.message.tick_value) {
+                            } else if (new Date($scope.saleInfo[j].FROM_DT_ORG).getTime() <= d.message.tick_value && $scope.saleInfo[j].END_DT >= d.message.tick_value) {
 
-                                let endDate = new Date($scope.saleInfoAll[j].END_DT);
+                                let endDate = new Date($scope.saleInfo[j].END_DT);
                                 let dateGap = endDate - ddd;
                                 let timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
                                 // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
@@ -1460,7 +1470,7 @@
                                     diffSec = ""
                                 }*/
                                 bid_tick.innerText = diffDay + diffHour + ":" + diffMin + ":" + diffSec;
-                            } else if ($scope.saleInfoAll[j].END_DT < d.message.tick_value) {
+                            } else if ($scope.saleInfo[j].END_DT < d.message.tick_value) {
                                 bid_tick.innerText = "경매가 종료되었습니다."
                             }
                             break
@@ -1472,7 +1482,6 @@
                 } else if (d.msg_type === packet_enum.bid_info_init) {
                     // popup용 이라면
                     if (d.message.is_list_popup) {
-
                         if (d.message.bids != null && d.message.bids.length > 0) {
                             let bid_info = d.message.bids[0];
                             // element
@@ -1643,6 +1652,9 @@
                                 dt_ly_span1.setAttribute("class", "type-success");
                                 dt_ly_span1.innerText = "낙찰";
                                 bid_lst.firstChild.childNodes[2].insertBefore(dt_ly_span1, bid_lst.firstChild.childNodes[2].firstChild);*/
+                            } else {
+                                $("#end_bid_true").css("display","none");
+                                $("div[name='end_bid_false']").css("display","");
                             }
                         }
                         if (d.message.reservation_bid != null) {
@@ -1676,6 +1688,19 @@
                         for (let j = 0; j < $scope.saleInfoAll.length; j++) {
                             if ($scope.saleInfoAll[j].LOT_NO === $scope.bidsInfoAll[0].cur_lot_no) {
                                 $scope.CUR_LOT_ARTIST_NAME = $scope.saleInfoAll[j].ARTIST_NAME_JSON.ko;
+                                break;
+                            }
+                        }
+
+                        for (let j = 0; j < $scope.saleInfoAll.length; j++) {
+                            let idx = matching.get($scope.saleInfoAll[j].SALE_NO + "-" + $scope.saleInfoAll[j].LOT_NO);
+                            if ($scope.bidsInfoAll[idx].winner_state === 2 &&
+                                parseInt($scope.saleInfoAll[j].LOT_NO) === parseInt($("#lot_no").val())) {
+                                $("#end_bid_true").css("display", "");
+                                $("div[name='end_bid_false']").css("display", "none");
+                                $("#bid_lst li:eq(0) .product-day .type-auto").remove();
+                                $("#bid_lst li:eq(0) .product-day .type-success").remove();
+                                $("#bid_lst li:eq(0) .product-day").prepend("<em class=\"type-success\">낙찰</em>")
                                 break;
                             }
                         }
@@ -1719,21 +1744,6 @@
                             }
 
                         }
-                        /*let isCanClose = true;
-                        for (let j = 0; j < $scope.bidsInfoAll.length; j++) {
-                            if ($scope.saleInfoAll[j].winner_state !== 2) {
-                                isCanClose = false;
-                                break;
-                            }
-                        }
-                        if (!isCanClose) {
-                            $scope.auctionEnd = true;
-                            w.close();
-                        }*/
-                        /*$scope.timeTickInterval();
-                        promise = $interval(function(){
-                            $scope.timeTickInterval();
-                        },1000);*/
                         $scope.$apply();
 
                     }

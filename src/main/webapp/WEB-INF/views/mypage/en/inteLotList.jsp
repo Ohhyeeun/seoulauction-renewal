@@ -50,9 +50,9 @@
                                             <div class="tabmenu-wrap">
                                                 <div class="tab-area type-left_mm_2">
                                                     <ul class="tab-list js-left_mm_2">
-                                                        <li class="active" ><a href="#tab-cont-1"><span  ng-click="tabClick('all')">All</span></a></li>
-                                                        <li class=""><a href="#tab-cont-2"><span   ng-click="tabClick('live')">Live</span></a></li>
-                                                        <li class="" ><a href="#tab-cont-3"><span  ng-click="tabClick('online')">Online</span></a></li>
+                                                        <li id="taball"  class="active" ><a href="#tab-cont-1"><span  ng-click="tabClick('all')">All</span></a></li>
+                                                        <li id="tablive"  class=""><a href="#tab-cont-2"><span   ng-click="tabClick('live')">Live</span></a></li>
+                                                        <li id="tabonline"  class="" ><a href="#tab-cont-3"><span  ng-click="tabClick('online')">Online</span></a></li>
                                                     	<input type="hidden" id="saleKind" value="all"/>
                                                     </ul>
                                                 </div>
@@ -80,10 +80,10 @@
                                                                         <button class="btn-heart js-work_heart on" id="heart_{{data.SALE_NO}}_{{data.LOT_NO}}" ng-click="inteFavorite(data.SALE_NO, data.LOT_NO)"><i class="icon-heart_off"></i></button>
                                                                         <div class="thumb-area">
                                                                             <figure class="img-ratio">
-                                                                                <a href="#" class="img-align" ng-if="il[1][0].CLOSE_YN != 'Y'" ng-click="goLotDetail(data.SALE_KIND_CD, data.SALE_NO, data.LOT_NO)"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
+                                                                                <a href="#" class="img-align" ng-if="data.CLOSE_YN != 'Y'" ng-click="goLotDetail(data.SALE_KIND_CD, data.SALE_NO, data.LOT_NO)"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
                                                                                     <img src="${imageRootPath}{{data.FILE_PATH}}/{{data.FILE_NAME}}" alt="">
                                                                                 </a>
-                                                                                <a class="img-align" ng-if="il[1][0].CLOSE_YN == 'Y'"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
+                                                                                <a class="img-align" ng-if="data.CLOSE_YN == 'Y'"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
                                                                                     <img src="${imageRootPath}{{data.FILE_PATH}}/{{data.FILE_NAME}}" alt="">
                                                                                 </a>
                                                                             </figure>

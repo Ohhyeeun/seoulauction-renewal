@@ -9,7 +9,7 @@
                     <div class="pop-header">
                         <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
                         <div class="title-box">
-                            <span class="txt_title type-big"> Bid History</span>
+                            <span class="txt_title type-big">Bid History</span>
                         </div>
                         <!-- [0610] 추가 -->
                       <div class="right_txt" ng-if="onlineBidHisList[0].ABORT_YN =='N' && onlineBidHisList[0].AUTO_BID_PRICE">
