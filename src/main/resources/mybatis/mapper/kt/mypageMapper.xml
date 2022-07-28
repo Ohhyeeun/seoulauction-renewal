@@ -689,7 +689,7 @@
 		  FROM CUST_INTE_LOT CL INNER JOIN CUST CU ON CL.CUST_NO = CU.CUST_NO
 							   INNER JOIN
 							   (
-							    <include refid="sql_sale_list" />ORDER BY S.TO_DT DESC LIMIT #{offset}, #{size}
+							    <include refid="sql_sale_list" />ORDER BY SALE.TO_DT DESC LIMIT #{offset}, #{size}
 								) S ON S.SALE_NO = CL.SALE_NO
 		  						INNER JOIN LOT  L ON CL.SALE_NO = L.SALE_NO AND CL.LOT_NO = L.LOT_NO
 		                      	LEFT OUTER JOIN ARTIST A ON L.ARTIST_NO = A.ARTIST_NO
