@@ -15,8 +15,6 @@
                 <section class="page_title-section type-dark">
                     <div class="section-inner full_size ">
                         <div class="center-box">
-<%--                            <h2 class="page_title"><span class="th1">Art Storage</span></h2>--%>
-<%--                            <div class="page_desc"><span class="tb1"></span></div>--%>
                             <h2 class="page_title"><span class="th1">Art Storage</span></h2>
                             <div class="page_desc"><span class="tb1"></span></div>
                         </div>
@@ -49,11 +47,9 @@
                                         </div>
                                         <div class="article-body">
                                             <div class="storage-intro">
-<%--                                                <p class="tb1">Seoul Auction manages a storage for artworks and valuables in the downtown area of Seoul. Located in Insa-dong, the heart of Korean art, Insa Art Storage is easily accessible by public transportation.--%>
-<%--                                                    Smaller storages ranging from 2.8㎡ to 8.3㎡can serve multiple functions and must use personal key to access. It also has a personal cabinet facility to safely and conveniently keep smaller works and valuables.--%>
-<%--                                                </p>--%>
-                                                <p class="tb1"> Store artworks and/or other valuables in the heart of Seoul in a specialized storage facility operated by Seoul Auction. Insa Art Storage is located in Insa-dong, a district full of galleries and art supply stores that is easily reached via public transportation.</p>
-                                                <p class="tb1"> Insa Art Storage has units of varying sizes (between 2.8 and 8.3 square meters, accessible separately with individual keys), allowing the storage of a wide range of objects. There is also a private cabinet section where valuables can be kept safely while remaining conveniently accessible.</p>
+                                                <p class="tb1">Seoul Auction manages a storage for artworks and valuables in the downtown area of Seoul. Located in Insa-dong, the heart of Korean art, Insa Art Storage is easily accessible by public transportation.
+                                                    Smaller storages ranging from 2.8㎡ to 8.3㎡can serve multiple functions and must use personal key to access. It also has a personal cabinet facility to safely and conveniently keep smaller works and valuables.
+                                                </p>
                                             </div>
                                             <div class="storage-image">
                                                 <img src="/images/pc/service/storage_insa_eng.png" alt="인사 아트 스토리지">
@@ -73,21 +69,13 @@
                                                         </div>
                                                     </div>
                                                     <div class="item-body">
-<%--                                                        <div class="title"><span class="tt4">Isothermal-Isohumidity System</span></div>--%>
-<%--                                                        <div class="desc tb1">--%>
-<%--                                                            <p>Maintains optimal condition for each and every artwork for 24 hours a day, 7 days a week.</p>--%>
-<%--                                                        </div>--%>
-<%--                                                        <ul class="info tb1">--%>
-<%--                                                            <li><i class="icon-system_arrow"></i>Constant temperature (18~22°c) </li>--%>
-<%--                                                            <li><i class="icon-system_arrow"></i>Constant humidity (45~55%)</li>--%>
-<%--                                                        </ul>--%>
-                                                        <div class="title"><span class="tt4">HVAC system</span></div>
+                                                        <div class="title"><span class="tt4">Isothermal-Isohumidity System</span></div>
                                                         <div class="desc tb1">
-                                                            <p>24-hour maintenance of optimum temperature and humidity levels per artwork</p>
+                                                            <p>Maintains optimal condition for each and every artwork for 24 hours a day, 7 days a week.</p>
                                                         </div>
                                                         <ul class="info tb1">
-                                                            <li><i class="icon-system_arrow"></i>Temperature: 18 to 22 degrees Celsius / Humidity: 45 to 55%</li>
-                                                            <li><i class="icon-system_arrow"></i>Maintained year-round (figures can be adjusted if necessary)</li>
+                                                            <li><i class="icon-system_arrow"></i>Constant temperature (18~22°c) </li>
+                                                            <li><i class="icon-system_arrow"></i>Constant humidity (45~55%)</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -98,25 +86,15 @@
                                                         </div>
                                                     </div>
                                                     <div class="item-body">
-<%--                                                        <div class="title"><span class="tt4">Fire Protection System</span></div>--%>
-<%--                                                        <!-- [0516]줄바꿈수정 -->--%>
-<%--                                                        <div class="desc tb1">--%>
-<%--                                                            <p>A cutting-edge Halon gas fire extinguisher puts out fire without damaging artworks.</p>--%>
-<%--                                                        </div>--%>
-<%--                                                        <!-- // [0516]줄바꿈수정 -->--%>
-<%--                                                        <ul class="info tb1">--%>
-<%--                                                            <li><i class="icon-system_arrow"></i>Central fire-alarm system</li>--%>
-<%--                                                            <li><i class="icon-system_arrow"></i>Automatic heat sensors / smoke detectors.</li>--%>
-<%--                                                        </ul>--%>
-                                                        <div class="title"><span class="tt4">Emergency ventilation system</span></div>
+                                                        <div class="title"><span class="tt4">Fire Protection System</span></div>
                                                         <!-- [0516]줄바꿈수정 -->
                                                         <div class="desc tb1">
-                                                            <p>Extinguishing of fires (with halon gas) without damaging artworks</p>
+                                                            <p>A cutting-edge Halon gas fire extinguisher puts out fire without damaging artworks.</p>
                                                         </div>
                                                         <!-- // [0516]줄바꿈수정 -->
                                                         <ul class="info tb1">
-                                                            <li><i class="icon-system_arrow"></i>Centralized fire alarm system</li>
-                                                            <li><i class="icon-system_arrow"></i>Automatically-activated heat/smoke detectors</li>
+                                                            <li><i class="icon-system_arrow"></i>Central fire-alarm system</li>
+                                                            <li><i class="icon-system_arrow"></i>Automatic heat sensors / smoke detectors.</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -129,14 +107,11 @@
                                                     <div class="item-body ">
                                                         <div class="title"><span class="tt4">Security System</span></div>
                                                         <div class="desc tb1">
-<%--                                                            <p>A cutting-edge 24 hours security system with the Korea's top security company, SECOM</p>--%>
-                                                            <p>Cutting-edge security system operated on 24-hour basis in partnership with Secom, Korea’s top security service provider</p>
+                                                            <p>A cutting-edge 24 hours security system with the Korea's top security company, SECOM</p>
                                                         </div>
                                                         <ul class="info tb1">
-<%--                                                            <li><i class="icon-system_arrow"></i>Operates CCTV 24-hour-a-day for the security monitoring </li>--%>
-<%--                                                            <li><i class="icon-system_arrow"></i>Strictly controls all visitors</li>--%>
-                                                            <li><i class="icon-system_arrow"></i>CCTV surveillance (recorded on 24-hour basis)</li>
-                                                            <li><i class="icon-system_arrow"></i>Strict control/management of all who enter or exit</li>
+                                                            <li><i class="icon-system_arrow"></i>Operates CCTV 24-hour-a-day for the security monitoring </li>
+                                                            <li><i class="icon-system_arrow"></i>Strictly controls all visitors</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -163,23 +138,15 @@
                                                         </div>
                                                         <div class="item-body">
                                                             <div class="navi-info tb1">
-<%--                                                                <div class="key">Land-lot number</div>--%>
-                                                                <div class="key">Address (old format)</div>
-<%--                                                                <div class="value">--%>
-<%--                                                                    <p>188, Gwanhun-dong, Jongno-gu, Seoul, Korea</p>--%>
-<%--                                                                </div>--%>
+                                                                <div class="key">Land-lot number</div>
                                                                 <div class="value">
-                                                                    <p>188, Gwanhun-dong, Jongno-gu, Seoul</p>
+                                                                    <p>188, Gwanhun-dong, Jongno-gu, Seoul, Korea</p>
                                                                 </div>
                                                             </div>
                                                             <div class="navi-info tb1">
-<%--                                                                <div class="key">Road name</div>--%>
-<%--                                                                <div class="value">--%>
-<%--                                                                    <p>41-1, Insadong-gil, Jongno-gu, Seoul, Korea</p>--%>
-<%--                                                                </div>--%>
-                                                                <div class="key">Address (street name format)</div>
+                                                                <div class="key">Road name</div>
                                                                 <div class="value">
-                                                                    <p>41-1, Insadong-gil, Jongno-gu, Seoul</p>
+                                                                    <p>41-1, Insadong-gil, Jongno-gu, Seoul, Korea</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -193,8 +160,7 @@
                                                         </div>
                                                         <div class="item-body">
                                                             <div class="navi-info tb1">
-<%--                                                                <div class="key">Jogyesa</div>--%>
-                                                                <div class="key">Jogyesa Temple</div>
+                                                                <div class="key">Jogyesa</div>
                                                                 <div class="value">
                                                                     <p>Jongno02, 1005-1, 5000, 5005, 5500, 5500-1, 5500-2, 7900, 9000, 9401</p>
                                                                 </div>
@@ -230,22 +196,19 @@
                                                             <div class="navi-info tb1">
                                                                 <div class="key subway-line"><span class="subway-color line-3">Line <i>3</i></span></div>
                                                                 <div class="value">
-<%--                                                                    <p>Anguk, Jongno 3(sam)-ga</p>--%>
-                                                                    <p>Anguk Station (Exit 6), Jongno 3-ga Station (Exit 5)</p>
+                                                                    <p>Anguk, Jongno 3(sam)-ga</p>
                                                                 </div>
                                                             </div>
                                                             <div class="navi-info tb1">
                                                                 <div class="key subway-line"><span class="subway-color line-1">Line <i>1</i></span></div>
                                                                 <div class="value">
-<%--                                                                    <p>Jonggak</p>--%>
-                                                                    <p>Jonggak Station (Exit 3-1)</p>
+                                                                    <p>Jonggak</p>
                                                                 </div>
                                                             </div>
                                                             <div class="navi-info tb1">
                                                                 <div class="key subway-line"><span class="subway-color line-5">Line <i>5</i></span></div>
                                                                 <div class="value">
-<%--                                                                    <p>Jongno 3(sam)-ga</p>--%>
-                                                                    <p>Jongno 3-ga Station (Exit 5)</p>
+                                                                    <p>Jongno 3(sam)-ga</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -262,10 +225,8 @@
                                         </div>
                                         <div class="article-body">
                                             <div class="storage-intro">
-<%--                                                <p class="tb1">Seoul Auction Jangheung Art Storage is half an hour away from the downtown area of Seoul. It has wonderful facilities, such as a large parking lot and gondolas for artworks. Jangheung Art Storage is an optimum place to securely store large artworks and considerable amount of goods as it has different sizes of storages units spanning from 34㎡ to 67㎡.--%>
-<%--                                                </p>--%>
-                                                <p class="tb1">Located 30 minutes from downtown Yangju, Seoul Auction’s Jangheung Art Storage is fully equipped with sophisticated convenience facilities, including a large parking lot and a gondola for transporting artworks.</p>
-                                                <p class="tb1">Jangheung Art Storage offers units of varying sizes (34 to 67 square meters) and specializes in the safe storage of large artworks and bulk items.</p>
+                                                <p class="tb1">Seoul Auction Jangheung Art Storage is half an hour away from the downtown area of Seoul. It has wonderful facilities, such as a large parking lot and gondolas for artworks. Jangheung Art Storage is an optimum place to securely store large artworks and considerable amount of goods as it has different sizes of storages units spanning from 34㎡ to 67㎡.
+                                                </p>
                                             </div>
                                             <div class="storage-image">
                                                 <img src="/images/pc/service/storage_jangheung.png" alt="장흥 아트 스토리지">
@@ -353,22 +314,21 @@
                                                             </div>
                                                         </div>
                                                         <div class="item-body">
-                                                            <div class="navi-info tb1">
-<%--                                                                <div class="key">Land-lot number</div>--%>
-                                                                <div class="key">Address (old format)</div>
+                                                            <div class="navi-info  tb1">
+                                                                <div class="key">Land-lot number</div>
                                                                 <div class="value">
                                                                     <p>45-10, Iryeong-ri, Jangheung-myeon, Yangju-si, Gyeonggi-do, Korea <span class="only_ib-pc">/ </span> <br class="only-mb">5-1, Iryeong-ri, Jangheung-myeon, Yangju-si, Gyeonggi-do, Korea</p>
                                                                 </div>
                                                             </div>
                                                             <div class="navi-info tb1">
-<%--                                                                <div class="key">Road name</div>--%>
-                                                                <div class="key">Address (street name format)</div>
+                                                                <div class="key">Road name</div>
                                                                 <div class="value">
                                                                     <p>113, Gwonyul-ro, Jangheung-myeon, Yangju-si, Gyeonggi-do, Korea <span class="only_ib-pc">/ </span> <br class="only-mb">143-8, Gwonyul-ro, Jangheung-myeon, Yangju-si, Gyeonggi-do, Korea</p>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -381,9 +341,8 @@
                                         </div>
                                         <div class="article-body">
                                             <div class="storage-intro">
-<%--                                                <p class="tb1">The Pyeongchang Storage is 19.8m²~26.4m² in area, located in Pyeongchang-dong, Seoul. This place will meet needs of clients, not only those who want to check and replace their artworks, but also submit works to auction.--%>
-<%--                                                </p>--%>
-                                                <p class="tb1">The units at Pyeongchang Art Storage are 19.8 to 26.4 square meters in size. Located in Pyeongchang-dong, Seoul, it is especially useful for clients who wish to check on their artworks often or wish to exchange an artwork or submit an artwork for auction.</p>
+                                                <p class="tb1">The Pyeongchang Storage is 19.8m²~26.4m² in area, located in Pyeongchang-dong, Seoul. This place will meet needs of clients, not only those who want to check and replace their artworks, but also submit works to auction.
+                                                </p>
                                             </div>
                                             <div class="storage-image">
                                                 <img src="/images/pc/service/storage_pyongchang.png" alt="평창 아트 스토리지">
@@ -472,8 +431,7 @@
                                                         </div>
                                                         <div class="item-body">
                                                             <div class="navi-info tb1">
-<%--                                                                <div class="key">Land-lot number</div>--%>
-                                                                <div class="key">Address (old format)</div>
+                                                                <div class="key">Land-lot number</div>
                                                                 <div class="value">
                                                                     <p>465-10, Pyeongchang-dong, Jongno-gu, Seoul, Korea</p>
                                                                     <p>98, Pyeongchang-dong, Jongno-gu, Seoul, Korea</p>
@@ -492,40 +450,13 @@
                                                     <div class="item-area">
                                                         <div class="item-header">
                                                             <div class="title">
-                                                                <i class="icon-navi_car"></i>
-                                                                <span class="tt3">By car</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="item-body">
-                                                            <div class="navi-info tb1">
-                                                                <div class="key">From Gangnam-gu</div>
-                                                                <div class="value">
-                                                                    <p>Gangbyeon Expressway &gt; Naebu Expressway (toward Hongje-dong) &gt;
-                                                                        Naebu Expressway-Kookmin University ramp &gt; Kookmin University (toward Bugak Tunnel) &gt;
-                                                                        after passing through Bugak Tunnel, turn right at crosswalk</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="navi-info tb1">
-                                                                <div class="key">From Jongno-gu</div>
-                                                                <div class="value">
-                                                                    <p>Gwanghwamun &gt; turn right at Gyeongbokgung Station (Line 3) (toward Jahamun Tunnel) &gt;
-                                                                        Hongji-dong Samgeori (Sangmyung University) &gt; head toward Bugak Tunnel &gt;
-                                                                        turn left at crosswalk in front of Lotte Apt.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="item-area">
-                                                        <div class="item-header">
-                                                            <div class="title">
                                                                 <i class="icon-navi_bus"></i>
-                                                                <span class="tt3">Bus</span>
+                                                                <span class="tt3">bus</span>
                                                             </div>
                                                         </div>
                                                         <div class="item-body">
                                                             <div class="navi-info tb1">
-                                                                <div class="key">Lotte Samsung Apt.</div>
+                                                                <div class="key">Lotte Samsung Apartment</div>
                                                                 <div class="value">
                                                                     <p>1711, 1020, 7211, 110, 153</p>
                                                                 </div>
@@ -543,22 +474,19 @@
                                                             <div class="navi-info tb1">
                                                                 <div class="key subway-line"><span class="subway-color line-3">Line <i>3</i></span></div>
                                                                 <div class="value">
-<%--                                                                    <p>Anguk, Jongno 3(sam)-ga</p>--%>
-                                                                    <p>Exit 3 &gt; transfer to (bus) 1020 or 1711 &gt; get off at Lotte Apt.</p>
+                                                                    <p>Anguk, Jongno 3(sam)-ga</p>
                                                                 </div>
                                                             </div>
                                                             <div class="navi-info tb1">
                                                                 <div class="key subway-line"><span class="subway-color line-1">Line <i>1</i></span></div>
                                                                 <div class="value">
-<%--                                                                    <p>Jonggak</p>--%>
-                                                                    <p>In front of Yujin Shopping Center &gt; transfer to (bus) 110 or 153 &gt; get off at Lotte Apt.</p>
+                                                                    <p>Jonggak</p>
                                                                 </div>
                                                             </div>
                                                             <div class="navi-info tb1">
                                                                 <div class="key subway-line"><span class="subway-color line-5">Line <i>5</i></span></div>
                                                                 <div class="value">
-<%--                                                                    <p>Jongno 3(sam)-ga</p>--%>
-                                                                    <p>Exit 3 &gt; transfer to (bus) 153 or 7211 &gt; get off at Lotte Apt.</p>
+                                                                    <p>Jongno 3(sam)-ga</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -572,7 +500,7 @@
                             <div class="panel-footer">
                                 <!-- 문의하기 -->
                                 <article class="inquiry-article ">
-                                    <div class="inquiry-box"> 
+                                    <div class="inquiry-box">
                                         <div class="typo-area">
                                             <div class="icon-box">
                                                 <i class="icon-academy_inquiry"></i>
