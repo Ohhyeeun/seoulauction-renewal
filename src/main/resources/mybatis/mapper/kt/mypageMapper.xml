@@ -689,7 +689,7 @@
 		  FROM CUST_INTE_LOT CL INNER JOIN CUST CU ON CL.CUST_NO = CU.CUST_NO
 							   INNER JOIN
 							   (
-							    <include refid="sql_sale_list" />ORDER BY SALE.TO_DT DESC LIMIT #{offset}, #{size}
+							    <include refid="sql_sale_list" />ORDER BY S.TO_DT DESC LIMIT #{offset}, #{size}
 								) S ON S.SALE_NO = CL.SALE_NO
 		  						INNER JOIN LOT  L ON CL.SALE_NO = L.SALE_NO AND CL.LOT_NO = L.LOT_NO
 		                      	LEFT OUTER JOIN ARTIST A ON L.ARTIST_NO = A.ARTIST_NO
@@ -1059,12 +1059,12 @@ FROM
 		    FROM  SALE S1 
 		    JOIN (
 				SELECT SB.*, SCD.CD_NM BID_KIND_NM FROM BID SB
-				JOIN CODE SCD ON SB.BID_KIND_CD = SCD.CD_ID AND SCD.GRP_ID = 'bid_kind'
-				WHERE SB.BID_KIND_CD IN ('online_once', 'online_auto')
+				JOIN CODE SCD ON SB.BID_KIND_CD = SCD.CD_ID 
+				WHERE SB.BID_KIND_CD IN ('online_once', 'online_auto') AND SCD.GRP_ID = 'bid_kind'
 			) B ON S1.SALE_NO = B.SALE_NO 
 	 		WHERE B.CUST_NO = #{action_user_no}
 			GROUP BY S1.SALE_NO
-			ORDER BY S1.SALE_NO DESC 
+			ORDER BY S1.TO_DT DESC 
 	</sql>
 	
 	<!-- 온라인경매관리 > 응찰내역  -->
@@ -1084,13 +1084,10 @@ FROM
 				from BID MB where B.SALE_NO = MB.SALE_NO and B.LOT_NO = MB.LOT_NO order by MB.BID_PRICE desc, MB.BID_DT limit 1) SUCCESS_YN 
 			, (select MB.BID_DT from BID MB where B.SALE_NO = MB.SALE_NO and B.LOT_NO = MB.LOT_NO order by MB.BID_PRICE desc, MB.BID_DT limit 1) SUCCESS_BID_DT
 			, COUNT(*) BID_CNT
-			, CONCAT('['
-			, GROUP_CONCAT('{"BID_PRICE":', B.BID_PRICE, ', "BID_DT":"',  DATE_FORMAT(B.BID_DT, '%Y.%m.%d  %T'), '", "BID_DT_EN":"',  DATE_FORMAT(B.BID_DT, '%d %b, %Y %T'),'", "BID_NO":"', B.BID_NO, '"}' order by B.BID_PRICE desc, B.BID_DT)
-			, ']') BID_JSON
 			, B.BID_PRICE
 			, B.BID_KIND_NM
-			,  (SELECT B.BID_PRICE  FROM BID B JOIN SUCCESS_BID SB2 ON B.BID_NO = SB2.BID_NO AND S.SALE_NO = SB2.SALE_NO AND L.LOT_NO = SB2.LOT_NO  ) success_bid_price
-			,  (SELECT B.BID_NO  FROM BID B JOIN SUCCESS_BID SB2 ON B.BID_NO = SB2.BID_NO AND S.SALE_NO = SB2.SALE_NO AND L.LOT_NO = SB2.LOT_NO  ) success_bid_no
+			,  (SELECT B.BID_PRICE  FROM BID B JOIN SUCCESS_BID SB2 ON B.BID_NO = SB2.BID_NO AND S.SALE_NO = SB2.SALE_NO AND L.LOT_NO = SB2.LOT_NO  ORDER BY BID_DT DESC LIMIT 1) success_bid_price
+			,  (SELECT B.BID_NO  FROM BID B JOIN SUCCESS_BID SB2 ON B.BID_NO = SB2.BID_NO AND S.SALE_NO = SB2.SALE_NO AND L.LOT_NO = SB2.LOT_NO  ORDER BY BID_DT DESC LIMIT 1) success_bid_no
 			 ,COLUMN_GET(S.TITLE_BLOB, 'ko' AS CHAR) SALE_TITLE_KR
 			 ,COLUMN_GET(S.TITLE_BLOB, 'en' AS CHAR) SALE_TITLE_EN
 			 ,IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'ko' AS CHAR), '') ARTIST_NAME_KR
@@ -1105,8 +1102,8 @@ FROM
 	    from LOT L
 		inner join (
 			select SB.*, SCD.CD_NM BID_KIND_NM from BID SB
-			join CODE SCD on SB.BID_KIND_CD = SCD.CD_ID and SCD.GRP_ID = 'bid_kind'
-			where SB.BID_KIND_CD in ('online_once', 'online_auto') 
+			join CODE SCD on SB.BID_KIND_CD = SCD.CD_ID 
+			where SB.BID_KIND_CD in ('online_once', 'online_auto') and SCD.GRP_ID = 'bid_kind'
 		) B on L.SALE_NO = B.SALE_NO and L.LOT_NO = B.LOT_NO and B.CUST_NO = #{action_user_no}
 		right join (
 		<include refid="sql_online_bid_sale_list"/>
@@ -1114,7 +1111,7 @@ FROM
 		) S ON L.SALE_NO = S.SALE_NO 
 		LEFT JOIN ARTIST A ON L.ARTIST_NO = A.ARTIST_NO
 		GROUP BY L.SALE_NO, L.LOT_NO
-		ORDER BY L.SALE_NO DESC, MAX_BID_DT DESC
+		ORDER BY S.TO_DT DESC, MAX_BID_DT DESC
 	</select>
 	
 	<!-- 온라인경매관리 > 응찰내역 totalcount -->
@@ -1144,8 +1141,8 @@ FROM
 		inner join SALE S on L.SALE_NO = S.SALE_NO 
 		inner join (
 			select SB.*, SCD.CD_NM BID_KIND_NM, SCD.CD_NM_EN BID_KIND_NM_EN from BID SB
-			join CODE SCD on SB.BID_KIND_CD = SCD.CD_ID and SCD.GRP_ID = 'bid_kind'
-			where SB.BID_KIND_CD in ('online_once', 'online_auto') 
+			join CODE SCD on SB.BID_KIND_CD = SCD.CD_ID 
+			where SB.BID_KIND_CD in ('online_once', 'online_auto') and SCD.GRP_ID = 'bid_kind'
 		) B ON L.SALE_NO = B.SALE_NO AND L.LOT_NO = B.LOT_NO
 		LEFT OUTER JOIN AUTO_BID_REQ ABR ON B.AUTO_BID_REQ_NO = ABR.REQ_NO
 		where
