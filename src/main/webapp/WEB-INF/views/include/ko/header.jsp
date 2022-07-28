@@ -72,6 +72,7 @@
     </c:if>
     <%-- 로그인 --%>
     <script>
+        app.value('locale', 'ko');
         <sec:authorize access="isAuthenticated()">
         sessionStorage.setItem("is_login", "true" );
         </sec:authorize>
