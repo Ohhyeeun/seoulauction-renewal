@@ -167,6 +167,15 @@ const visualSwiper = new Swiper('.visual-swiper', {
     },
 });
 
+async function movePageOnBanner(url, target, id){
+    addReadCount(id, 'main_banner');
+    if(target === '_blank'){
+       await openWebBrowser(url);
+    }else{
+        location.href=url;
+    }
+}
+
 function  loadBigBanner (){
     const slideArray = [];
     axios.get('/api/main/bigBanners')
@@ -179,9 +188,8 @@ function  loadBigBanner (){
                    if(!(locale === 'en' && item.content.banner_kind === 'academy') ) {
                         let btnListHtml = "";
                        item.content.button_list.forEach((button) => {
-                            btnListHtml +=  `<a href="${locale === 'en' ? button.url_ko : button.url_en }" 
-                                                target="${button.target}" 
-                                                onclick="addReadCount(${item.id},'main_banner')"
+                            const btnUrl = locale === 'en' ? button.url_ko : button.url_en;
+                            btnListHtml +=  `<a onclick="movePageOnBanner('${btnUrl}', '${button.target}', ${item.id});"
                                                 class="commonbtn visual-commonbtn ${button.className}">
                                                     ${locale === 'en' ? button.text_en : button.text_ko }
                                             </a>`;
@@ -252,11 +260,13 @@ function loadTopNotice(){
             const data = response.data.data;
             if(!getCookie('top-notice') && data.length > 0) {
                 document.querySelector(".header_beltbox").classList.add("on");
+
                 data.map(item => {
-                     content = JSON.parse(item.content);
+                     const content = JSON.parse(item.content);
+                     const url = locale === 'en' ? content.en_url : content.ko_url;
                      const returnDom = `<div class="swiper-slide"> <!-- slide 구간 -->
                                             <span class="header_beltTit">
-                                                <a href="${locale === 'en' ? content.en_url : content.ko_url}"  onclick="addReadCount(${item.id},'main_banner')">
+                                                <a onclick="movePageOnBanner('${url}', '_self', ${item.id})">
                                                     <span class="text-over belt_tit">
                                                         ${locale === 'en' ? content.en_text : content.ko_text}
                                                     </span>
@@ -384,9 +394,6 @@ function loadUpcomings() {
                                                 </div>
                                                 ${item.FILE_PATH !== null && item.FILE_NAME !== null ?
                                                 `<figure class="upcoming-img on">
-                                                    <!--<span class="upcomingImg"></span>-->
-<!--                                                    <img src="/images/pc/thumbnail/Upcoming_01_160x160.png" alt="alet">-->
-<!--                                                    <img src="https://www.seoulauction.com/nas_img/front/online0688/thum/ea39a8bb-c1b9-427d-a250-62117dcc07f5.jpg" alt="alet">-->
                                                     <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/thum/${item.FILE_NAME}" 
                                                         style="object-fit: cover"
                                                         onerror="this.parentNode.remove ? this.parentNode.remove() : this.parentNode.removeNode();" 
@@ -459,8 +466,10 @@ function loadBeltBanner() {
                 const bannerList = response.data.data;
                 bannerList.map(item => {
                     const content = JSON.parse(item.content);
+                    const url = locale === 'en' ? content.url_en : content.url_ko;
+
                     const returnDom =  `<div class="swiper-slide platform-bg" style="background-color: ${content.backgroundColor} ">
-                                            <a href="${ locale === 'en' ? content.url_en : content.url_ko }" target="_blank"  onclick="addReadCount(${item.id},'main_banner')" >
+                                            <a onclick="movePageOnBanner('${url}', '${content.target}' , ${item.id});" >
                                                 <img src="${locale === 'en' ? item.image.pc_en_url : item.image.pc_ko_url }" alt="beltPcBanner" class="beltBannerImg-pc platform-img" >
                                                 <img src="${locale === 'en' ? item.image.mo_en_url : item.image.mo_ko_url }" alt="beltMobileBanner" class="beltBannerImg-mo platform-img"> 
                                             </a>
@@ -490,22 +499,6 @@ function loadBeltBanner() {
 
 
 $(function() {
-    // console.log(window.innerWidth);
-    /* window.addEventListener('resize', (e) => {
-         const width = e.target.innerWidth;
-         if (width > 1280) {
-             console.log(23423);
-
-         } else if (width < 720) {
-             //
-             console.log(8687);
-         }
-     });
-     */
-
-
-
-
     /* video */
     //video hover
     $('.video-thumb').mouseenter(function () {
@@ -528,7 +521,8 @@ $('.video-btn').click(function(){
 
 /* 인스타 팝업 */
 $('.instar-btn').click(function(){
-    const instar = window.open('https://www.instagram.com/', name="_blank", width="700");
+    // openWebBrowser('https://www.instagram.com/')
+    // const instar = window.open('https://www.instagram.com/', name="_blank", width="700");
 });
 
 /* video 팝업 */
