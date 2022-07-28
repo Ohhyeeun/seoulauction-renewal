@@ -313,9 +313,10 @@
 
 
     <!-- 전체 LOT 보기 -->
-    <aside class="allview_fixed-wrap ">
+    <aside class="allview_fixed-wrap">
         <div class="popup-dim"></div>
-        <div class="fixed-panel">
+        <!-- [0712]외부영역 클릭 시 닫힘:class(js-modal) 추가 -->
+        <div class="fixed-panel js-modal">
             <div class="panel-header">
                 <button class="js-fixed_total"><span>전체 LOT 보기</span><i class="icon-fixed_arrow-2x"></i></button>
             </div>
@@ -517,6 +518,16 @@
         }, function($this) {
             $($this).removeClass("on");
             $($this).closest(".allview_fixed-wrap").removeClass("active");
+        });
+    </script>
+
+    <!-- [0712]외부영역 클릭 시 닫힘 -->
+    <script>
+        $(document).mouseup(function(e) {
+            if ($(".js-modal").has(e.target).length === 0) {
+                $(".js-modal").parent(".allview_fixed-wrap").removeClass("active");
+                $(".js-modal").closest(".js-fixed_total").removeClass("on");
+            }
         });
     </script>
 
