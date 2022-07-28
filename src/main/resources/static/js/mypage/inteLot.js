@@ -197,6 +197,16 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 	}
 
 
+		$scope.goSale= function(saleKind, saleNo) {
+		let saleKindParam =  $scope.saleKind ? $scope.saleKind : 'all'; 
+		history.pushState('', null, "/mypage/inteLotList?page="+$scope.currentPage+"&saleKind="+saleKindParam);
+		if(saleKind !='online' && saleKind !='online_zb'){
+			window.location.href = "/auction/live/list/"+saleNo
+		} else {
+			window.location.href = "/auction/list/"+saleNo
+		}
+	}
+	
 });
 
 

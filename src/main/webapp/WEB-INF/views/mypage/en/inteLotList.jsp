@@ -68,10 +68,10 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="btn-area">
-                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')" class="btn btn_point btn-view-bid" type="button"><a href="/auction/list/{{il[1][0].SALE_NO}}"><span >View Auction</span></a></button>
-                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')" class="btn btn_point btn-view-bid" type="button"><a href="/auction/live/list/{{il[1][0].SALE_NO}}"><span >View Auction</span></a></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')" class="btn btn_point btn-view-bid" type="button"><a ng-click="goSale(data.SALE_KIND_CD, il[1][0].SALE_NO)"><span >View Auction</span></a></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')" class="btn btn_point btn-view-bid" type="button"><a ng-click="goSale(data.SALE_KIND_CD, il[1][0].SALE_NO)"><span >View Auction</span></a></button>
                                                                     <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')"  class="btn btn_gray btn-view-bid" type="button" ><span>End Auction</span></button>
-                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')"  class="btn btn_gray_line btn-view-result" type="button" ><a href="/auction/live/list/{{il[1][0].SALE_NO}}"><span>View Result</span></a></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')"  class="btn btn_gray_line btn-view-result" type="button" ><a ng-click="goSale(data.SALE_KIND_CD, il[1][0].SALE_NO)"><span>View Result</span></a></button>
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in il[1]">
@@ -102,7 +102,7 @@
                                                                         <div class="pay-area">
                                                                             <dl class="price">
                                                                                 <dt class="tit">Estimate</dt>
-                                                                                <dd class="txt" ng-if="data.EXPE_PRICE_INQ_YN != 'Y'"><span>USD {{comma(data.EXPE_PRICE_FROM_EN || 0)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_EN || 0)}}</span></dd>
+                                                                                <dd class="txt" ng-if="data.EXPE_PRICE_INQ_YN != 'Y'"><span>KRW {{comma(data.EXPE_PRICE_FROM_KO || 0)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_KO || 0)}}</span></dd>
                                                                             	<dd class="txt" ng-if="data.EXPE_PRICE_INQ_YN == 'Y'"><span>Separate Inquiry</span></dd>
                                                                             </dl>
                                                                         </div>

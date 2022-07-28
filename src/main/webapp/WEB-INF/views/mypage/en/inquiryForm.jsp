@@ -316,7 +316,6 @@
                                                         <li>
                                                             <div class="th">
                                                                 <label for="" class="">Artwork</label>
-                                                                <i>*</i>
                                                             </div>
                                                             <div class="td" id="tmp_work_name">
                                                             </div>
@@ -324,7 +323,6 @@
                                                         <li>
                                                             <div class="th">
                                                                 <label for="" class="" >Author</label>
-                                                                <i>*</i>
                                                            </div>
                                                             <div class="td" id="tmp_artist_name">
                                                             </div>
@@ -347,7 +345,6 @@
                                                         <li>
                                                             <div class="th">
                                                                 <label for="" class="">Size</label>
-                                                                <i>*</i>
                                                             </div>
                                                             <div class="td" id="tmp_work_size">
                                                                 
@@ -357,18 +354,14 @@
                                                             <div class="th">
                                                                 <label for="" class="" >Classification</label>
                                                             </div>
-                                                            <div class="td">
-                                                                <div  id="tmp_work_category">
-                                                                </div>
+                                                            <div class="td" id="tmp_work_category">
                                                             </div>
                                                         </li>
                                                         <li>
                                                             <div class="th">
                                                                 <label for="" class="" >Hope Price</label>
                                                             </div>
-                                                            <div class="td">
-                                                                <div id="tmp_hope_price">
-                                                                </div>
+                                                            <div class="td" id="tmp_hope_price">
                                                             </div>
                                                         </li>
                                                         <li>
@@ -388,7 +381,6 @@
                                                         <li>
                                                             <div class="th">
                                                                 <label for="" class="">Inspector</label>
-                                                                <i>*</i>
                                                             </div>
                                                             <div class="td" id="tmp_possession_details">
                                                             </div>

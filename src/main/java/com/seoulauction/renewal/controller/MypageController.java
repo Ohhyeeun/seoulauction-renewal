@@ -12,6 +12,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,8 +71,8 @@ public class MypageController {
     }
 
     /*1대1문의 상세*/
-    @GetMapping("/inquiryDetail")
-    public String inquiryView(@RequestParam(required = true ) int writeNo, Locale locale) {
+    @GetMapping("/inquiryDetail/{writeNo}")
+    public String inquiryView(@PathVariable("writeNo") String writeNo, Locale locale) {
         return SAConst.getUrl(SERVICE_MYPAGE, "inquiryDetail", locale);
     }
     

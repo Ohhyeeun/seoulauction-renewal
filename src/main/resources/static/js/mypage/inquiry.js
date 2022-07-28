@@ -14,6 +14,12 @@ var getParameter = function(param){
     return requestParam;
 }
 
+var getWriteNo= function(param){
+	var requestParam ="";
+    var url = unescape(location.href);
+    return location.pathname.split('inquiryDetail/')[1];
+}
+
 app.directive('opacity', opacity);
 function opacity($timeout) {
     return {
@@ -71,13 +77,13 @@ app.controller('inquiryListCtl', function($scope, consts, common) {
 app.controller("inquiryViewCtl", function($scope, consts, common) {
 	$scope.init = function(){
 		$scope.page = getParameter("page");
-		let writeNo = getParameter("writeNo");
 		
 		/*페이징 넣기*/
 		setCookie('page', $scope.page);
 		history.replaceState({}, null, location.pathname);
 		/*페이징 넣기*/
 		
+		let writeNo = getWriteNo();
 		axios.get("/api/mypage/inquiries/"+writeNo, null)
         .then(function(response) {
             const result = response.data;
@@ -431,10 +437,11 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				//작가명
 				document.getElementById("tmp_artist_name").innerText= $scope.sell_data.artist_name;
 				//작품재질
-				document.getElementById("tmp_work_material").innerText = $scope.sell_data.work_material ? $scope.sell_data.work_material :'';
+				document.getElementById("tmp_work_material").innerText = $scope.sell_data.work_material ? $scope.sell_data.work_material : document.getElementById("tmp_work_material").parentElement.remove();
 				//추정시대
-				document.getElementById("tmp_work_estate").innerText = $scope.sell_data.work_estate ? $scope.sell_data.work_estate : '';
+				document.getElementById("tmp_work_estate").innerText = $scope.sell_data.work_estate ? $scope.sell_data.work_estate : document.getElementById("tmp_work_estate").parentElement.remove();
 				var category = "";
+				
 				if ($scope.isValidString($scope.sell_data.work_category1)) {
 					category = $scope.sell_data.work_category1;
 					if ($scope.isValidString($scope.sell_data.work_category2)) {
@@ -446,17 +453,17 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				}
 				
 				//작품크기
-				document.getElementById("tmp_work_size").innerText = $scope.sell_data.work_size ? $scope.sell_data.work_size : '';
+				document.getElementById("tmp_work_size").innerText = $scope.sell_data.work_size ? $scope.sell_data.work_size : document.getElementById("tmp_work_size").parentElement.remove();
 				//작품구분
-				document.getElementById("tmp_work_category").innerText = category;
+				document.getElementById("tmp_work_category").innerText = category ? category : document.getElementById("tmp_work_category").parentElement.remove();
 				//희망가격
-				document.getElementById("tmp_hope_price").innerText = $scope.sell_data.hope_price ? $scope.sell_data.hope_price : '';
+				document.getElementById("tmp_hope_price").innerText = $scope.sell_data.hope_price ? $scope.sell_data.hope_price : document.getElementById("tmp_hope_price").parentElement.remove()
 				//작가설명
-				document.getElementById("tmp_artist_desc").innerText = $scope.sell_data.artist_desc ? $scope.sell_data.artist_desc: '';
+				document.getElementById("tmp_artist_desc").innerText = $scope.sell_data.artist_desc ? $scope.sell_data.artist_desc: document.getElementById("tmp_artist_desc").parentElement.remove()
 				//작품설명
-				document.getElementById("tmp_work_desc").innerText = $scope.sell_data.work_desc ? $scope.sell_data.work_desc : '';
+				document.getElementById("tmp_work_desc").innerText = $scope.sell_data.work_desc ? $scope.sell_data.work_desc : document.getElementById("tmp_work_desc").parentElement.remove()
 				//소장경위
-				document.getElementById("tmp_possession_details").innerText = $scope.sell_data.possession_details ? $scope.sell_data.possession_details: '';
+				document.getElementById("tmp_possession_details").innerText = $scope.sell_data.possession_details ? $scope.sell_data.possession_details: document.getElementById("tmp_possession_details").parentElement.remove()
 
 				document.getElementById("inquiryContents").value = $scope.form_data.content + "\n\n" + document.getElementById("sell_form").innerHTML;
 			}
@@ -589,6 +596,32 @@ window.addEventListener('load', function () {
 	    
 	   
 });
+
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
+}
+
+function moneyFormat(event, elInput) {
+	// 방향키, PageUp, PageDown 키는 허용
+	switch(event.keyCode) {
+		case 16:
+		case 35:
+		case 36:
+		case 37:
+		case 38:
+		case 39:
+		case 40: {
+			return true;
+		}
+	}
+	// 금액 입력 시 콤마 처리
+	elInput.value = comma(uncomma(elInput.value));
+}
 
 /*window.onpageshow = function(event) {
 	if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
