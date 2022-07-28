@@ -35,15 +35,18 @@
                                             <div class="area-body">
                                                 <!-- [0516]띄어쓰기 -->
                                                 <span>
-                                                        Seoul Auction Gangnam Center is going forward to be remembered as a special place with luxury brands, car launching shows, VIP events, and pop-up stores. We are equipped with the optimal space for art exhibitions. Moreover, the exhibition space can be modified upon the exhibits. We will proceed to enhance customer brand value with the solutions that we have developed. If you need to find a place for a special invitation or event, please join us at the Seoul Auction Gangnam Center.
-                                                    </span>
+<%--                                                        Seoul Auction Gangnam Center is going forward to be remembered as a special place with luxury brands, car launching shows, VIP events, and pop-up stores. We are equipped with the optimal space for art exhibitions. Moreover, the exhibition space can be modified upon the exhibits. We will proceed to enhance customer brand value with the solutions that we have developed. If you need to find a place for a special invitation or event, please join us at the Seoul Auction Gangnam Center.--%>
+                                                    The Seoul Auction Gangnam Center, which can be used to display luxury goods or host car launches, VIP events, or pop-up stores, aims to be remembered as a special space. It is equipped with cutting-edge systems that make it ideal for art exhibitions (exhibition spaces can be modified/rearranged depending on the artwork’s dimensions).
+                                                    We strive to enhance customer value by pioneering technical and cultural solutions.
+                                                    If you are looking for a facility for a special occasion, the Seoul Auction Gangnam Center is always open.
+                                                </span>
                                                 <!-- //[0516]띄어쓰기 -->
                                             </div>
                                             <div class="area-footer">
                                                 <div class="btn_wrap btns">
-                                                    <a class="btn btn_gray_line" href="/footer/location" role="button" target="location"><span>Seoul Auction Location</span></a>
-                                                    <a class="btn btn_gray_line" href="/service/showroom/vr" role="button" target="vr"><span>Seoul Auction Gangnam Center VR</span></a>
-                                                    <a class="btn btn_gray_line" href="https://www.seoulauction.com/nas_img/front/homepage/ganam_brochure.pdf" role="button" target="brochure"><span>Venue Rental PDF</span></a>
+                                                    <a class="btn btn_gray_line" href="/footer/location" role="button" target="location"><!-- <span>Seoul Auction Location</span> --><span>Seoul Auction: location guide</span></a>
+                                                    <a class="btn btn_gray_line" href="/service/showroom/vr" role="button" target="vr"><!-- <span>Seoul Auction Gangnam Center VR</span> --><span>VR tour of exhibition venue</span></a>
+                                                    <a class="btn btn_gray_line" href="https://www.seoulauction.com/nas_img/front/homepage/ganam_brochure.pdf" role="button" target="brochure"><!-- <span>Venue Rental PDF</span> --><span>Rental brochure</span></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -55,7 +58,7 @@
                 </section>
 
                 <!-- 아카데미 리스트 -->
-                <section class="basis-section last-section">
+                <section class="basis-section last-section"> 
                     <div class="section-inner">
 
                         <div class="content-panel type_panel-marketing">
@@ -67,24 +70,83 @@
                                             <div class="gallery_container">
                                                 <div class="swiper-wrapper">
                                                     <div class="swiper-slide">
-                                                        <img class="only-pc" src="/images/pc/service/showroom_list-1.jpg" alt="">
-                                                        <img class="only-mb" src="/images/mobile/service/showroom_list-1.jpg" alt="">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner01.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner01.jpg" alt="">
                                                     </div>
+
                                                     <div class="swiper-slide">
-                                                        <img class="only-pc" src="/images/pc/service/showroom_list-1.jpg" alt="">
-                                                        <img class="only-mb" src="/images/mobile/service/showroom_list-1.jpg" alt="">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner02.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner02.jpg" alt="">
                                                     </div>
+
                                                     <div class="swiper-slide">
-                                                        <img class="only-pc" src="/images/pc/service/showroom_list-1.jpg" alt="">
-                                                        <img class="only-mb" src="/images/mobile/service/showroom_list-1.jpg" alt="">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner03.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner03.jpg" alt="">
                                                     </div>
+
                                                     <div class="swiper-slide">
-                                                        <img class="only-pc" src="/images/pc/service/showroom_list-1.jpg" alt="">
-                                                        <img class="only-mb" src="/images/mobile/service/showroom_list-1.jpg" alt="">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner04.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner04.jpg" alt="">
                                                     </div>
+
                                                     <div class="swiper-slide">
-                                                        <img class="only-pc" src="/images/pc/service/showroom_list-1.jpg" alt="">
-                                                        <img class="only-mb" src="/images/mobile/service/showroom_list-1.jpg" alt="">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner05.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner05.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner06.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner06.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner07.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner07.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner08.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner08.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner09.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner09.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner10.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner10.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner11.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner11.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner12.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner12.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner13.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner13.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner14.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner14.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner15.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner15.jpg" alt="">
+                                                    </div>
+
+                                                    <div class="swiper-slide">
+                                                        <img class="only-pc" src="/images/pc/service/showroom_banner16.jpg" alt="">
+                                                        <img class="only-mb" src="/images/mobile/service/showroom_banner16.jpg" alt="">
                                                     </div>
                                                 </div>
                                                 <button class="btn-prev" title="Previous"><i class="icon-swiper_prev"></i></button>
