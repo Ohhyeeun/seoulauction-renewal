@@ -168,7 +168,6 @@ const visualSwiper = new Swiper('.visual-swiper', {
 });
 
 async function movePageOnBanner(url, target, id){
-    alert("movepage")
     await addReadCount(id, 'main_banner');
     if(target === '_blank'){
        await openWebBrowser(url);
