@@ -1235,3 +1235,28 @@ $(document).ready(function(){
 function isNotObjectEmpty(param) {
     return param.constructor === Object && Object.keys(param).length !== 0;
 }
+
+
+function js_size_text_cm(sizeJson){
+    // console.log(sizeJson[0])
+    var returnValue = "";
+    var cmSize = "";
+    const src = sizeJson[0];
+    // console.log(src);
+
+    if(src === undefined){
+        return src;
+    }
+
+    cmSize =  src.SIZE1 != 0 ? parseFloat(src.SIZE1).toFixed(1) : "";
+    cmSize += src.SIZE2 != 0 ? "☓" +  parseFloat(src.SIZE2).toFixed(1) : "";
+    cmSize += src.SIZE3 != 0 ? "☓" +  parseFloat(src.SIZE3).toFixed(1) +
+        "(" + (src.MIX_CD == "depth" ? "d" : "h")  + ")": "";
+    cmSize += cmSize != "" ? src.UNIT_CD : "";
+    cmSize += cmSize != "" &&  src.CANVAS != 0 ? " (" + (src.CANVAS_EXT_YN == "Y" ? "변형" : "") + src.CANVAS + ")" : "";
+
+    returnValue = src.PREFIX;
+    returnValue += (src.DIAMETER_YN == "Y" ? "Φ " : "") + cmSize;
+    returnValue += (src.SUFFIX ? " (" + src.SUFFIX + ") " : "");
+    return returnValue;
+}
