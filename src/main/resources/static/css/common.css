@@ -1340,7 +1340,8 @@ body.dark,
 }
 .familysite-box.dark,
 .auction-contents.dark > .auction-thumbbox,
-.upcoming-contents.dark > .swiper-slide.upcomingSlide {
+.upcoming-contents.dark > .swiper-slide.upcomingSlide,
+#auction_contents.dark .auction-thumbbox {
     background-color: #2d2d2d;
     color: #fff;
 }
@@ -1352,8 +1353,7 @@ body.dark,
 /* common color #111 */
 .newsletter-btnbox>button.commonbtn:hover.dark,
 .newsletter-btnbox>a.commonbtn:hover.dark,
-.mobile-utility.dark>li>a.dark,
-.mb_common_lang.dark {
+.mobile-utility.dark>li>a {
     color: #111;
 }
 /* common color #333 */
