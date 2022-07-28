@@ -123,11 +123,11 @@
                                             </div>
                                             <div class="artist-area">
                                                 <div class="name">
-                                                    <strong ng-bind="saleInfo.ARTIST_NAME_KO"></strong>
-                                                    <span>b.{{saleInfo.BORN_YEAR}}</span>
+                                                    <strong ng-bind="saleInfo.ARTIST_NAME_KO" title="{{saleInfo.ARTIST_NAME_KO}}"></strong>
+                                                    <span title="{{'b.' + saleInfo.ARTIST_NAME_KO}}">b.{{saleInfo.ARTIST_NAME_KO}}</span>
                                                 </div>
                                                 <div class="desc">
-                                                    <span ng-bind="saleInfo.TITLE_KO"></span>
+                                                    <span ng-bind="saleInfo.TITLE_KO" title="{{saleInfo.TITLE_KO}}"></span>
                                                 </div>
                                             </div>
                                             <div class="inquirybtn-area">

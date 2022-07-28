@@ -23,7 +23,7 @@ app.controller('onlineBidListCtl', function($scope, consts, common) {
 				} else {
 					//$scope.onlineBidList = result["data"]["list"];
 					$scope.onlineBidCnt = result["data"]["cnt"] || 0;
-					$scope.onlineBidList = Object.keys($scope.groupBy(result["data"]["list"], 'SALE_NO')).map((key) => [Number(key), $scope.groupBy(result["data"]["list"], 'SALE_NO')[key]]).sort((a, b) => b[0] - a[0]);
+					$scope.onlineBidList = Object.keys($scope.groupBy(result["data"]["list"], 'TO_DT')).map((key) => [Number(key), $scope.groupBy(result["data"]["list"], 'TO_DT')[key]]).sort((a, b) => b[0] - a[0]);
 					var test = [];
 					$scope.onlineBidList.map((key) => {
 					var count =0;

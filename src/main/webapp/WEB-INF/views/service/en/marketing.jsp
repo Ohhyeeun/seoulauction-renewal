@@ -16,7 +16,7 @@
                 <section class="page_title-section type-dark">
                     <div class="section-inner full_size ">
                         <div class="center-box">
-                            <h2 class="page_title"><span class="th1">Art Collateral &amp; Corporate Marketing</span>
+                            <h2 class="page_title"><span class="th1">Art Collateral and Corporate Marketing</span>
                             </h2>
                             <div class="page_desc"><span class="tb1"></span></div>
                         </div>
@@ -28,7 +28,8 @@
                     <div class="section-inner">
                         <div class="content-panel type_panel-marketing">
                             <div class="panel-header">
-                                <div class="desc"><span class="tb1">Seoul Auction offers diverse, individually tailored opportunities through corporate partnerships to help companies realize the goals they wish to pursue. <br>
+                                <div class="desc"><span class="tb1">
+                                    Seoul Auction offers diverse, individually tailored opportunities through corporate partnerships to help companies realize the goals they wish to pursue. <br>
                                             Create new opportunities through the extensive experience, expertise, and art market networks of Seoul Auction - Korea’s largest art business company.</span>
                                 </div>
                             </div>

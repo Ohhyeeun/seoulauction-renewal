@@ -12,9 +12,44 @@ function opacity($timeout) {
 app.value('locale', document.documentElement.lang);
 app.requires.push.apply(app.requires, ["bw.paging", "ngDialog"]);
 
+var getParameter = function(param){
+	var requestParam ="";
+    var url = unescape(location.href);
+    var paramArr = (url.substring(url.indexOf("?")+1,url.length)).split("&");
+    for(var i = 0 ; i < paramArr.length ; i++){
+       var temp = paramArr[i].split("=");
+       if(temp[0].toUpperCase() == param.toUpperCase()){
+         requestParam = paramArr[i].split("=")[1];
+         break;
+       }
+    }
+    return requestParam;
+}
+
 app.controller('InteListCtl', function($scope, common, ngDialog) {
 	$scope.loadInteLotList = function($page) {
+		
+		
+		/*페이징 param 존재할 경우(겸매상세에서 뒤로가기 눌렀을 경우)*/
+		let page = getParameter("page");
+		let saleKind = getParameter("saleKind");
+		
+		if(page){
+			if(saleKind){
+				$scope.saleKind = saleKind.toString().replace('#','')
+				$('#taball').removeClass( 'active' );
+				$('#tab'+$scope.saleKind).addClass( 'active' );
+			}
+			
+			var regex = /[^0-9]/g;
+			var result = page.toString().replace(regex, "");	
+			$page = Number(result);
+			history.replaceState({}, null, location.pathname);
+		}
+		/*페이징 param 존재할 경우*/
+		
 		$scope.currentPage = $page;
+		
 		$page = $scope.currentPage;
 		$size = 5;
 		$api = "/api/mypage/inteLots?page=" + $page + "&size=" + $size
@@ -32,6 +67,7 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 				} else {
 					$scope.inteLotCnt = result.data.cnt;
 					$scope.inteLotList = Object.keys($scope.groupBy(result.data.list, 'TO_DT')).map((key) => [Number(key), $scope.groupBy(result.data.list, 'TO_DT')[key]]).sort((a, b) => b[0] - a[0]);
+					
 					
 					console.log($scope.inteLotList);
 					$scope.$apply();
@@ -107,6 +143,9 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 				console.log(error);
 			});
 		}
+		
+		let saleKind = $scope.saleKind ? $scope.saleKind : 'all';
+		history.pushState('', null, "/mypage/inteLotList?page="+$scope.currentPage+"&saleKind="+saleKind);
 	}
 /*	$scope.inteDel = function(sale_no, lot_no) {
 
@@ -147,6 +186,9 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 	}
 
 	$scope.goLotDetail= function(saleKind, saleNo, lotNo) {
+		let saleKindParam =  $scope.saleKind ? $scope.saleKind : 'all'; 
+		history.pushState('', null, "/mypage/inteLotList?page="+$scope.currentPage+"&saleKind="+saleKindParam);
+		//history.pushState('', null, "/mypage/inteLotList?page="+5);
 		if(saleKind !='online' && saleKind !='online_zb'){
 			window.location.href="/auction/live/view/"+saleNo+"/"+lotNo
 		} else {
@@ -154,7 +196,17 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 		}
 	}
 
-});
 
+		$scope.goSale= function(saleKind, saleNo) {
+		let saleKindParam =  $scope.saleKind ? $scope.saleKind : 'all'; 
+		history.pushState('', null, "/mypage/inteLotList?page="+$scope.currentPage+"&saleKind="+saleKindParam);
+		if(saleKind !='online' && saleKind !='online_zb'){
+			window.location.href = "/auction/live/list/"+saleNo
+		} else {
+			window.location.href = "/auction/list/"+saleNo
+		}
+	}
+	
+});
 
 

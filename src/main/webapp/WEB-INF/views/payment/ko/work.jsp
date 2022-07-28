@@ -46,7 +46,10 @@
                                                                 <dd class="tb2">
                                                                     <span> ${lotInfo.MATE_CD}</span>
                                                                     <div class="size_year">
-                                                                        <span>${lotInfo.LOT_SIZE_STRING}</span>
+                                                                        <span id="lotSizeString"></span>
+<%--                                                                        <span>${fn:size_text_cm(lotInfo.LOT_SIZE_JSON)}</span>--%>
+<%--                                                                        <span>${size_text_cm(lotInfo.LOT_SIZE_JSON)}</span>--%>
+<%--                                                                        <span>${lotInfo.LOT_SIZE_JSON}</span>--%>
                                                                         <span>${lotInfo.LOT_MAKE_YEAR}</span>
                                                                     </div>
                                                                 </dd>
@@ -134,8 +137,9 @@
     <script src="/js/payment/payment.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
     <script>
-
-
+        const lotSizeString = js_size_text_cm(${lotInfo.LOT_SIZE_JSON});
+        const elId = document.getElementById("lotSizeString");
+        elId.insertAdjacentText("beforeend", lotSizeString)
     </script>
 </body>
 

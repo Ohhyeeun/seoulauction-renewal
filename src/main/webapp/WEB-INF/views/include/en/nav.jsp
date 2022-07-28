@@ -172,7 +172,8 @@
 
                     $('.recommend-search-part').append(html);
                     data.map(item => {
-                        let innerHtml = '<span class="recommend-keyword"><a href="/sale/search?searchContent=' + JSON.parse(item.artist_name)[locale] + '" class="text-over">' + dotSubString(JSON.parse(item.artist_name)[locale], 10) + '</a></span>';
+                        const artistNameEn = JSON.parse(item.artist_name).en;
+                        let innerHtml = '<span class="recommend-keyword"><a href="/sale/search?searchContent=' + artistNameEn + '" class="text-over">' + dotSubString(artistNameEn, 10) + '</a></span>';
                         $('.recommend-search-part').append(innerHtml);
                     }); 
                 }

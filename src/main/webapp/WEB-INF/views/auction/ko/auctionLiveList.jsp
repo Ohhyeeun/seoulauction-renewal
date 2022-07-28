@@ -237,14 +237,14 @@
                                                                 ></i></button>
                                                             </div>
                                                             <div class="info-box">
-                                                                <div class="title"><span>{{item.ARTIST_NAME_JSON != null ? item.ARTIST_NAME_JSON.ko : 'ㅤ'}}</span>
+                                                                <div class="title"><span title="{{item.ARTIST_NAME_JSON != null ? item.ARTIST_NAME_JSON.ko : 'ㅤ'}}">{{item.ARTIST_NAME_JSON != null ? item.ARTIST_NAME_JSON.ko : 'ㅤ'}}</span>
 
 <%--                                                                    <span ng-if="item.BORN_YEAR !=null && item.BORN_YEAR !==''" class="sub">({{item.BORN_YEAR}})</span>--%>
 <%--                                                                    <span ng-if="item.BORN_YEAR ==null || item.BORN_YEAR ===''" class="sub">ㅤ</span>--%>
 
                                                                 </div>
                                                                 <div class="desc">
-                                                                    <span class="text-over span_block">{{item.LOT_TITLE_JSON.ko != null ? item.LOT_TITLE_JSON.ko : 'ㅤ'}}</span>
+                                                                    <span class="text-over span_block" title="{{item.LOT_TITLE_JSON.ko != null ? item.LOT_TITLE_JSON.ko : 'ㅤ'}}">{{item.LOT_TITLE_JSON.ko != null ? item.LOT_TITLE_JSON.ko : 'ㅤ'}}</span>
                                                                 </div>
                                                                 <div class="standard">
                                                                     <span class="text-over span_block">{{item.CD_NM != null ? item.CD_NM : 'ㅤ'}}
