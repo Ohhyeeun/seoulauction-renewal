@@ -1084,6 +1084,9 @@ FROM
 				from BID MB where B.SALE_NO = MB.SALE_NO and B.LOT_NO = MB.LOT_NO order by MB.BID_PRICE desc, MB.BID_DT limit 1) SUCCESS_YN 
 			, (select MB.BID_DT from BID MB where B.SALE_NO = MB.SALE_NO and B.LOT_NO = MB.LOT_NO order by MB.BID_PRICE desc, MB.BID_DT limit 1) SUCCESS_BID_DT
 			, COUNT(*) BID_CNT
+			, CONCAT('['
+			, GROUP_CONCAT('{"BID_PRICE":', B.BID_PRICE, ', "BID_DT":"',  DATE_FORMAT(B.BID_DT, '%Y.%m.%d  %T'), '", "BID_DT_EN":"',  DATE_FORMAT(B.BID_DT, '%d %b, %Y %T'),'", "BID_NO":"', B.BID_NO, '"}' order by B.BID_PRICE desc, B.BID_DT)
+			, ']') BID_JSON
 			, B.BID_PRICE
 			, B.BID_KIND_NM
 			,  (SELECT B.BID_PRICE  FROM BID B JOIN SUCCESS_BID SB2 ON B.BID_NO = SB2.BID_NO AND S.SALE_NO = SB2.SALE_NO AND L.LOT_NO = SB2.LOT_NO  ORDER BY BID_DT DESC LIMIT 1) success_bid_price
