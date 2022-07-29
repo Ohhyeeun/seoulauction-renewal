@@ -60,7 +60,7 @@ public class MvcConfig implements WebMvcConfigurer {
     FilterRegistrationBean<EucKrEncodingFilter> eucKrEncodingFilter() {
         FilterRegistrationBean<EucKrEncodingFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new EucKrEncodingFilter());
-        registrationBean.addUrlPatterns("/customer/niceVbankPaid");
+        //registrationBean.addUrlPatterns("/customer/niceVbankPaid");
         return registrationBean;
     }
 }
