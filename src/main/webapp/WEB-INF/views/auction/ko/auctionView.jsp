@@ -1184,6 +1184,9 @@
                 popup_biddingPopup1.open(this); // or false
                 popup_fixation("#popup_biddingPopup1-wrap");
 
+                // 팝업시 1회응찰고정
+                $(".js-bidding_tab .topbtn-area .btn_item:eq(0)").click();
+
                 $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function ($e) {
                     $e.preventDefault();
                     popup_biddingPopup1.close();
@@ -2703,14 +2706,14 @@
                             let cnt = 1;
                             let viewCnt = 0;
 
-                            let cost_tmp = (d.message.bid.bid_cost === 0) ?
+                            let cost_tmp = (d.message.reservation_bid.bid_count === 0) ?
                                 d.message.bid.open_bid_cost :
                                 d.message.bid.bid_cost;
 
-                            if (d.message.bid.bid_cost === 0) {
+                            /*if (d.message.bid.bid_cost === 0) {
                                 quote_arr.push(cost_tmp);
                                 viewCnt++;
-                            }
+                            }*/
 
                             while (viewCnt < 70) {
                                 if (cnt > d.message.quotes.quotes.length - 1) {

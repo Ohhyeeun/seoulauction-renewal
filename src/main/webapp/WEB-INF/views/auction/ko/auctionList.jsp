@@ -560,9 +560,11 @@
     <script>
         $("body").on("click", ".selection", function () {
             $(window).trigger("resize");
+
         })
         $(".js-bidding_tab .topbtn-area .btn_item").on("click", function ($e) {
             var _index = $(this).index();
+
 
             $(".js-bidding_tab .topbtn-area .btn").removeClass("btn_default");
             $(".js-bidding_tab .topbtn-area .btn").addClass("btn_gray");
@@ -949,6 +951,9 @@
 
                     popup_biddingPopup1.open(this); // or false
                     popup_fixation("#popup_biddingPopup1-wrap");
+
+                    // 팝업시 1회응찰고정
+                    $(".js-bidding_tab .topbtn-area .btn_item:eq(0)").click();
 
                     init_func_manual(token, parseInt(saleNo), parseInt(lotNo), 2, custNo);
 
@@ -1608,7 +1613,7 @@
 
                                 while (viewCnt < 70) {
                                     if (cnt > d.message.quotes.length - 1) {
-                                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[d.message.quotes.length - 1].quote_cost)
                                         quote_arr.push(cost_tmp)
                                         viewCnt++;
                                         continue
@@ -1793,18 +1798,18 @@
                                     let cnt = 1;
                                     let viewCnt = 0;
 
-                                    let cost_tmp = (d.message.bid.bid_cost === 0) ?
+                                    let cost_tmp = (d.message.reservation_bid.bid_count === 0) ?
                                         d.message.bid.open_bid_cost :
                                         d.message.bid.bid_cost;
 
-                                    if (d.message.bid.bid_cost === 0) {
+                                    /*if (d.message.reservation_bid.bid_count === 0) {
                                         quote_arr.push(cost_tmp);
                                         viewCnt++;
-                                    }
+                                    }*/
 
                                     while (viewCnt < 70) {
                                         if (cnt > d.message.quotes.quotes.length - 1) {
-                                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[d.message.quotes.quotes.length - 1].quote_cost)
                                             quote_arr.push(cost_tmp)
                                             viewCnt++;
                                             continue
