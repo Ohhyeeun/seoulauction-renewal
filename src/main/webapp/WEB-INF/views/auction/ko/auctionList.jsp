@@ -1286,7 +1286,7 @@
 
                                 while (viewCnt < 70) {
                                     if (cnt > d.message.quotes.length - 1) {
-                                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
+                                        cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[d.message.quotes.quotes.length - 1].quote_cost)
                                         quote_arr.push(cost_tmp)
                                         viewCnt++;
                                         continue
@@ -1518,8 +1518,9 @@
                                 let li = document.createElement("bid_lst");
                                 let bid_hist_info = d.message.bids_hist;
                                 if (bid_hist_info != null && bid_hist_info.length > 0) {
-
+                                    $("#no_history").css("display", "none");
                                     for (let i = 0; i < bid_hist_info.length; i++) {
+
                                         if (bid_hist_info[i].value != null) {
 
                                             for (let j = 0; j < bid_hist_info[i].value.length; j++) {
@@ -1560,11 +1561,13 @@
                                                     dt_ly.appendChild(dt_ly_span1);
                                                 }
                                                 let dt_ly_span11;
-                                                if (bid_hist_info[i].value[j].is_auto_bid) {
+                                                if (bid_hist_info[i].value[j].is_auto_bid &&
+                                                    (bid_hist_info[i].value.length - 1 ) !== j) {
                                                     // type
                                                     dt_ly_span11 = document.createElement("em");
                                                     dt_ly_span11.setAttribute("class", "type-auto");
                                                     dt_ly_span11.innerText = "자동";
+                                                    dt_ly.appendChild(dt_ly_span11);
                                                 }
                                                 // date
                                                 let dt_ly_span2 = document.createElement("span");
@@ -1573,15 +1576,6 @@
                                                 let dt_ly_span3 = document.createElement("span");
                                                 dt_ly_span3.innerText = ddd.format("HH:mm:ss");
 
-                                                // if (bid_info.winner_state === 2) {
-                                                //
-                                                //     console.log(dt_ly_span1);
-                                                //
-                                                //     dt_ly.appendChild(dt_ly_span1);
-                                                // }
-                                                if (bid_hist_info[i].value[j].is_auto_bid) {
-                                                    dt_ly.appendChild(dt_ly_span11);
-                                                }
                                                 dt_ly.appendChild(dt_ly_span2);
                                                 dt_ly.appendChild(dt_ly_span3);
                                                 li.appendChild(user_id_ly);
@@ -1589,6 +1583,8 @@
                                                 li.appendChild(dt_ly);
                                                 bid_lst.insertBefore(li, bid_lst.firstChild);
                                             }
+                                        } else {
+                                            $("#no_history").css("display", "");
                                         }
                                     }
                                 }
