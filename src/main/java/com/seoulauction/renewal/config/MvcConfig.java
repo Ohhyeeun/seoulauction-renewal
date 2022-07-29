@@ -55,12 +55,4 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
     }
-
-    @Bean
-    FilterRegistrationBean<EucKrEncodingFilter> eucKrEncodingFilter() {
-        FilterRegistrationBean<EucKrEncodingFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new EucKrEncodingFilter());
-        //registrationBean.addUrlPatterns("/customer/niceVbankPaid");
-        return registrationBean;
-    }
 }
