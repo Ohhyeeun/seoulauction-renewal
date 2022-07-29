@@ -445,9 +445,9 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				if ($scope.isValidString($scope.sell_data.work_category1)) {
 					category = $scope.sell_data.work_category1;
 					if ($scope.isValidString($scope.sell_data.work_category2)) {
-						category += " < " + $scope.sell_data.work_category2;
+						category += " > " + $scope.sell_data.work_category2;
 						if ($scope.isValidString($scope.sell_data.work_category3)) {
-							category += " < " + $scope.sell_data.work_category3;
+							category += " > " + $scope.sell_data.work_category3;
 						}
 					}
 				}

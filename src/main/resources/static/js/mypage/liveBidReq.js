@@ -99,7 +99,7 @@ app.controller('liveBidReqListCtl', function($scope, consts, common) {
 	
 	$scope.goSale= function(saleNo) {
 		history.pushState('', null, "/mypage/liveBidReqList?page="+$scope.currentPage);
-		window.location.href = "/auction/list/"+saleNo
+		window.location.href = "/auction/live/list/"+saleNo
 	}
 
 
