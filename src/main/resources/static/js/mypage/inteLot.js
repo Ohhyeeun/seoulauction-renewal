@@ -67,9 +67,6 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 				} else {
 					$scope.inteLotCnt = result.data.cnt;
 					$scope.inteLotList = Object.keys($scope.groupBy(result.data.list, 'TO_DT')).map((key) => [Number(key), $scope.groupBy(result.data.list, 'TO_DT')[key]]).sort((a, b) => b[0] - a[0]);
-					
-					
-					console.log($scope.inteLotList);
 					$scope.$apply();
 				}
 			})
@@ -100,9 +97,9 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 	var deleteList = [];
 	
 	$scope.inteFavorite = function(sale_no, lot_no) {
-		console.log(deleteList);
-		var $count = 0 ;
-		var $d = { "sale_no": sale_no, "lot_no": lot_no };
+		let page = $scope.currentPage;
+		let $count = 0 ;
+		let $d = { "sale_no": sale_no, "lot_no": lot_no };
 		deleteList.forEach(function(id,i) {
 			if(id == sale_no+'_'+lot_no){
 				$count += 1;
@@ -128,10 +125,16 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 			});
 		} else {
 			deleteList.push(sale_no+'_'+lot_no);
+			/*마지막 LOT일 경우 삭제 시, 현재페이지 -1 페이지로 이동*/
+			if($scope.inteLotList.length == 1 && $scope.inteLotList[0][1].length == 1){
+					page = Number($scope.currentPage)-1;
+					console.log(page);
+			}
 			
 			axios.post("/api/mypage/inteLotDelete", $d)
 			.then(function(response) {
 				$('#heart_'+sale_no+'_'+lot_no).removeClass( 'on' );
+				
 				const result = response.data;
 
 				let success = result.success;
@@ -145,7 +148,7 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 		}
 		
 		let saleKind = $scope.saleKind ? $scope.saleKind : 'all';
-		history.pushState('', null, "/mypage/inteLotList?page="+$scope.currentPage+"&saleKind="+saleKind);
+		history.pushState('', null, "/mypage/inteLotList?page="+page+"&saleKind="+saleKind);
 	}
 /*	$scope.inteDel = function(sale_no, lot_no) {
 
