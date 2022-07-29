@@ -432,10 +432,10 @@
 
         // 호출 부
         $scope.load = function () {
-            if (${member.userNo} === 0){
-               location.href = "/login";
-               return;
-            }
+            <%--if (${member.userNo} === 0){--%>
+            <%--   location.href = "/login";--%>
+            <%--   return;--%>
+            <%--}--%>
             let run = async function () {
                 // 호출 부
                 const getSaleInfo = (saleNo) => {
