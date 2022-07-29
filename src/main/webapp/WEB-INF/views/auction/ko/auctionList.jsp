@@ -1108,12 +1108,12 @@
                         $scope.sale_no + "&lot_no=0&cust_no=" + $scope.cust_no +
                         "&user_id=" + $scope.user_id + "&paddle=0&sale_type=2&bid_type=21");
                 }
-                w.onopen = function () {
+                w.onopen = function() {
                     console.log("open");
                 }
-                w.onerror = function () {
+                w.onerror = function(evt) {
                     w.close();
-                    console.log('error');
+                    console.log('error',evt);
                 }
                 w.onclose = function () {
                     if (w.readyState === w.CLOSED) {

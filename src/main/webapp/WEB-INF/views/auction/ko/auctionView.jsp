@@ -2168,9 +2168,9 @@
         w.onopen = function () {
             console.log("open");
         }
-        w.onerror = function () {
+        w.onerror = function(evt) {
             w.close();
-            console.log('error');
+            console.log('error',evt);
         }
         w.onclose = function () {
             if (w.readyState === w.CLOSED) {
