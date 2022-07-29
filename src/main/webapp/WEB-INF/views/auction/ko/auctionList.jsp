@@ -1534,7 +1534,7 @@
                                                 }
 
                                                 let user_id_span = document.createElement("span");
-                                                user_id_span.innerText = ($scope.cust_no === bid_hist_info[i].customer.cust_no)?$scope.user_id:bid_hist_info[i].value[j].customer.user_id;
+                                                user_id_span.innerText = ($scope.cust_no === bid_hist_info[i].value[j].customer.cust_no)?$scope.user_id:bid_hist_info[i].value[j].customer.user_id;
 
                                                 user_id_ly.appendChild(user_id_span);
 
