@@ -11,6 +11,21 @@ app.directive('opacity', opacity);
     }
 
 
+var getParameter = function(param){
+	var requestParam ="";
+    var url = unescape(location.href);
+    var paramArr = (url.substring(url.indexOf("?")+1,url.length)).split("&");
+    for(var i = 0 ; i < paramArr.length ; i++){
+       var temp = paramArr[i].split("=");
+       if(temp[0].toUpperCase() == param.toUpperCase()){
+         requestParam = paramArr[i].split("=")[1];
+         break;
+       }
+    }
+    return requestParam;
+}
+
+
 app.value('locale', document.documentElement.lang);
 app.requires.push.apply(app.requires, ["bw.paging", "ngDialog"]);
 
@@ -21,6 +36,16 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 	$scope.pay_sat_cd = null;
 
 	$scope.loadOnlinePayList = function($page) {
+				/*페이징 param 존재할 경우(겸매상세에서 뒤로가기 눌렀을 경우)*/
+				let page = getParameter("page");
+				
+				if(page){			
+					var regex = /[^0-9]/g;
+					var result = page.toString().replace(regex, "");	
+					$page = Number(result);
+					history.replaceState({}, null, location.pathname);
+				}
+				/*페이징 param 존재할 경우*/
 				$scope.currentPage = $page;
 		 		$page = $scope.currentPage;
 		 		
@@ -158,6 +183,9 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 		return bidCountToString;
 	}
 		
-	
+	$scope.goPay= function(saleNo, lotNo) {
+		history.pushState('', null, "/mypage/onlinePayList?page="+$scope.currentPage);
+		window.location.href="/payment/sale/"+saleNo+"/lot/"+lotNo;
+	}
 	
 });
