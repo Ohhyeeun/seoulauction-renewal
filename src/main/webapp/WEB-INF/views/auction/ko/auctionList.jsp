@@ -1321,10 +1321,47 @@
                         for (let j = 0; j < $scope.saleInfoAll.length; j++) {
                             $scope.saleInfoAll[j].END_DT = matching.get($scope.saleInfoAll[j].SALE_NO +
                                 "-" + $scope.saleInfoAll[j].LOT_NO);
+                            let endDate = new Date($scope.saleInfoAll[j].END_DT);
+                            let dateGap = endDate - ddd;
+                            let timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
+
+                            // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
+                            var diffDay = (Math.floor(dateGap / (1000 * 60 * 60 * 24)) < 10) ? 0 + (Math.floor(dateGap / (1000 * 60 * 60 * 24))).toString() : Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
+                            var diffHour = (timeGap.getHours() < 10) ? 0 + timeGap.getHours().toString() : timeGap.getHours();       // 시간
+                            var diffMin = (timeGap.getMinutes() < 10) ? 0 + timeGap.getMinutes().toString() : timeGap.getMinutes();   // 분
+                            var diffSec = (timeGap.getSeconds() < 10) ? 0 + timeGap.getSeconds().toString() : timeGap.getSeconds();   // 초
+
+                            if (diffDay == "00") {
+                                if (j === 0) {
+                                    $scope.showCurrentLot = true
+                                }
+                                diffDay = ""
+                            } else {
+                                $scope.showCurrentLot = false
+                                diffDay += "일 "
+                            }
+                            $scope.saleInfoAll[j].BID_TICK = diffDay + diffHour + ":" + diffMin + ":" + diffSec;
                         }
                         for (let j = 0; j < $scope.searchSaleInfoAll.length; j++) {
                             $scope.searchSaleInfoAll[j].END_DT = matching.get($scope.searchSaleInfoAll[j].SALE_NO +
                                 "-" + $scope.searchSaleInfoAll[j].LOT_NO);
+
+                            let endDate = new Date($scope.searchSaleInfoAll[j].END_DT);
+                            let dateGap = endDate - ddd;
+                            let timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
+
+                            // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
+                            var diffDay = (Math.floor(dateGap / (1000 * 60 * 60 * 24)) < 10) ? 0 + (Math.floor(dateGap / (1000 * 60 * 60 * 24))).toString() : Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
+                            var diffHour = (timeGap.getHours() < 10) ? 0 + timeGap.getHours().toString() : timeGap.getHours();       // 시간
+                            var diffMin = (timeGap.getMinutes() < 10) ? 0 + timeGap.getMinutes().toString() : timeGap.getMinutes();   // 분
+                            var diffSec = (timeGap.getSeconds() < 10) ? 0 + timeGap.getSeconds().toString() : timeGap.getSeconds();   // 초
+
+                            if (diffDay == "00") {
+                                diffDay = ""
+                            } else {
+                                diffDay += "일 "
+                            }
+                            $scope.searchSaleInfoAll[j].BID_TICK = diffDay + diffHour + ":" + diffMin + ":" + diffSec;
                         }
                     }
                     $scope.$apply();
