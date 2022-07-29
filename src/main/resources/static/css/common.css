@@ -307,35 +307,35 @@ img::selection {
 /* padding */
 /* 상단 공통 여백*/
 .toppd10 {
-    padding-bottom: 10px;
+    padding-top: 10px;
 }
 .toppd20 {
-    padding-bottom: 20px;
+    padding-top: 20px;
 }
 .toppd30 {
-    padding-bottom: 30px;
+    padding-top: 30px;
 }
 .toppd40 {
-    padding-bottom: 40px;
+    padding-top: 40px;
 }
 .toppd50 {
-    padding-bottom: 50px;
+    padding-top: 50px;
 }
 /* 하단 공통 여백 */
 .bottompd10 {
-    padding-top: 10px;
+    padding-bottom: 10px;
 }
 .bottompd20 {
-    padding-top: 20px;
+    padding-bottom: 20px;
 }
 .bottompd30 {
-    padding-top: 30px;
+    padding-bottom: 30px;
 }
 .bottompd40 {
-    padding-top: 40px;
+    padding-bottom: 40px;
 }
 .bottompd50 {
-    padding-top: 50px;
+    padding-bottom: 50px;
 }
 /* 오른쪽 공통 여백 */
 .rightpd10 {
@@ -361,35 +361,35 @@ img::selection {
 /* margin */
 /* 상단 공통 여백*/
 .topmargin10 {
-    margin-bottom: 10px;
+    margin-top: 10px;
 }
 .topmargin10 {
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 .topmargin10 {
-    margin-bottom: 30px;
+    margin-top: 30px;
 }
 .topmargin40 {
-    margin-bottom: 40px;
+    margin-top: 40px;
 }
 .topmargin50 {
-    margin-bottom: 50px;
+    margin-top: 50px;
 }
 /* 하단 공통 여백 */
 .bottommargin10 {
-    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .bottommargin20 {
-    margin-top: 20px;
+    margin-bottom: 20px;
 }
 .bottommargin30 {
-    margin-top: 30px;
+    margin-bottom: 30px;
 }
 .bottommargin40 {
-    margin-top: 40px;
+    margin-bottom: 40px;
 }
 .bottommargin50 {
-    margin-top: 50px;
+    margin-bottom: 50px;
 }
 /* 오른쪽 공통 여백 */
 .rightmargin10 {
@@ -410,7 +410,7 @@ img::selection {
 }
 .leftmargin30 {
     margin-left: 30px;
-}
+} 
 
 /* main layout frame */
 .footer-bottom {
@@ -1628,7 +1628,7 @@ body.dark,
 }
 
 /* pc */ 
-@media all and (max-width: 1919px) {
+    @media all and (max-width: 1919px) {
     .scroll-top {
         right: 50px;
     }
@@ -1692,7 +1692,7 @@ body.dark,
     }
     .beltclose-btn {
         right: 50px;
-    }''
+    }
 }
 /* mobile,pc ui 혼용 */
 @media all and (max-width: 1439px) {

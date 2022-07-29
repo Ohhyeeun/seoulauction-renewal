@@ -465,11 +465,11 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				//소장경위
 				document.getElementById("tmp_possession_details").innerText = $scope.sell_data.possession_details ? $scope.sell_data.possession_details: document.getElementById("tmp_possession_details").parentElement.remove()
 
-				document.getElementById("inquiryContents").value = '<p class="txt-pre-line">' +$scope.form_data.content+'</p>' + document.getElementById("sell_form").innerHTML;
+				document.getElementById("inquiryContents").value = '<p class="txt-pre-line bottompd10">' +$scope.form_data.content+'</p>' + document.getElementById("sell_form").innerHTML;
 			}
 			else {
-				document.getElementById("inquiryContents").value = '<p class="txt-pre-line">' + $scope.form_data.content +'</p>';
-			}
+				document.getElementById("inquiryContents").value = '<p class="txt-pre-line bottompd10">' + $scope.form_data.content +'</p>';
+			} 
 
 			
 			
