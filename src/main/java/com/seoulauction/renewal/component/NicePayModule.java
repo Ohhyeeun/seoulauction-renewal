@@ -152,8 +152,6 @@ public class NicePayModule {
     public CommonMap receiptProcess(HttpServletRequest request){
         CommonMap resultMap = new CommonMap();
         try {
-            request.setCharacterEncoding("EUC-KR");
-
             String eDiDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 
             String moid = request.getParameter("MOID");
@@ -182,7 +180,7 @@ public class NicePayModule {
             log.info(new String(request.getParameter("GoodsName").getBytes(), "EUC-KR"));
             log.info(new String(request.getParameter("GoodsName").getBytes(), "UTF-8"));
 
-            formData.add("GoodsName", new String(request.getParameter("GoodsName").getBytes(), "EUC-KR"));
+            formData.add("GoodsName", new String(request.getParameter("GoodsName").getBytes("UTF-8"), "EUC-KR"));
             formData.add("SignData", signData);
             formData.add("ReceiptType", String.valueOf(request.getAttribute("rcpt_type")));
             formData.add("ReceiptTypeNo", String.valueOf(request.getAttribute("rcpt_type_no")));
