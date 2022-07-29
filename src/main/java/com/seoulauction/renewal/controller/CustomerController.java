@@ -34,9 +34,6 @@ public class CustomerController {
     public void niceVBankPaid(HttpServletRequest request, HttpServletResponse response) {
         log.info("post niceVBankPaid");
         try {
-            request.setCharacterEncoding("euc-kr");
-            response.setContentType("text/html;charset=euc-kr");
-
             Enumeration params = request.getParameterNames();
             log.info("param start----------------------------");
             while (params.hasMoreElements()){
