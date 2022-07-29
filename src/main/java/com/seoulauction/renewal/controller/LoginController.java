@@ -13,6 +13,7 @@ import java.util.Base64.Decoder;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -250,7 +251,7 @@ public class LoginController {
     
     /*카카오로그인 후 콜백페이지*/
   	@RequestMapping(value="/kakaoRedirect/{type}", method=RequestMethod.GET)
-  	public String kakaoRedirect(Model model, HttpServletRequest request, HttpServletResponse response
+  	public String kakaoRedirect(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response
   			,@RequestParam (value="code", required = false)String code //카카오에서 주는 코드값
   			,@PathVariable("type") String type //카카오 로그인 후 진행할 기능(ex : 로그인,회원가입,소셜연동,소셜확인)
   			) throws Exception {
@@ -286,18 +287,24 @@ public class LoginController {
   	    if(type.equals("login")) {
   			model.addAttribute("name", nickname);
   	    }else if(type.equals("custConfirm")) {
-  	    	log.info("SecurityUtils.getAuthenticationPrincipal().getSocialEmail() : " ,SecurityUtils.getAuthenticationPrincipal().getSocialEmail());
-  	    	model.addAttribute("custSocialEmail", SecurityUtils.getAuthenticationPrincipal().getSocialEmail());
+  	    	SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+  	    	log.info("SecurityUtils.getAuthenticationPrincipal().getSocialEmail() : ", saUserDetails.getSocialEmail());
+  	    	CommonMap paramMap = new CommonMap();
+  			paramMap.put("cust_no", saUserDetails.getUserNo());
+  			CommonMap resultMap = loginService.selectCustByCustNo(paramMap);
+  			
+  			model.addAttribute("localKindCd", resultMap.getString("LOCAL_KIND_CD"));
+  	    	model.addAttribute("custSocialEmail", saUserDetails.getSocialEmail());
   	    }
   	    model.addAttribute("email", email);
   	    model.addAttribute("type", type);
   	    
-  	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "kakaoCallback" , new Locale(Locale.KOREA.getLanguage()));
+  	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "kakaoCallback" , locale);
   	}
   	
   	/*카카오로그인 후 콜백페이지*/
   	@RequestMapping(value="/naverCallback", method=RequestMethod.GET)
-  	public String naverCallback(Model model, HttpServletRequest request, HttpServletResponse response
+  	public String naverCallback(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response
   			,@RequestParam (value="type", required = false) String type //네이버 로그인 후 진행할 기능(ex : 로그인,회원가입,소셜연동,소셜확인)
   			,@RequestParam (value="state", required = false) String state //네이버에서 주는 상태값
   			,@RequestParam (value="code", required = false) String code //네이버에서 주는 코드값
@@ -332,18 +339,24 @@ public class LoginController {
   	    if(type.equals("login")) {
   			model.addAttribute("name", name);
   	    }else if(type.equals("custConfirm")) {
-  	    	log.info("SecurityUtils.getAuthenticationPrincipal().getSocialEmail() : " ,SecurityUtils.getAuthenticationPrincipal().getSocialEmail());
-  	    	model.addAttribute("custSocialEmail", SecurityUtils.getAuthenticationPrincipal().getSocialEmail());
+  	    	SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+  	    	log.info("SecurityUtils.getAuthenticationPrincipal().getSocialEmail() : ", saUserDetails.getSocialEmail());
+  	    	CommonMap paramMap = new CommonMap();
+  			paramMap.put("cust_no", saUserDetails.getUserNo());
+  			CommonMap resultMap = loginService.selectCustByCustNo(paramMap);
+  			
+  			model.addAttribute("localKindCd", resultMap.getString("LOCAL_KIND_CD"));
+  	    	model.addAttribute("custSocialEmail", saUserDetails.getSocialEmail());
   	    }
   	    model.addAttribute("email", email);
   	    model.addAttribute("type", type);
   	    
-  	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "naverCallback" , new Locale(Locale.KOREA.getLanguage()));
+  	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "naverCallback" , locale);
   	}
   	
   	/*애플로그인 후 콜백페이지*/
   	@RequestMapping(value="/appleReturn/{type}", method=RequestMethod.POST)
-  	public String naverCallback(Model model, HttpServletRequest request, HttpServletResponse response
+  	public String appleReturn(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response
   			,@PathVariable("type") String type
   			,@RequestParam (value="code", required = false) String code //애플에서 주는 코드값
   			) {
@@ -386,9 +399,18 @@ public class LoginController {
 			/*api를 통한 애플 로그인 시 이름정보 제공X*/
 			//애플 로그인 후 진행할 기능에 따른 분기처리
 			if(type.equals("custConfirm")) {
-				log.info("SecurityUtils.getAuthenticationPrincipal().getSocialEmail() : {}" ,SecurityUtils.getAuthenticationPrincipal().getSocialEmail());
-				model.addAttribute("custSocialEmail", SecurityUtils.getAuthenticationPrincipal().getSocialEmail());
-			}
+//                log.info("SecurityUtils.getAuthenticationPrincipal().getSocialEmail() : {}" ,SecurityUtils.getAuthenticationPrincipal().getSocialEmail());
+//                model.addAttribute("custSocialEmail", SecurityUtils.getAuthenticationPrincipal().getSocialEmail());
+//                model.addAttribute("localKindCd", "korean");
+				SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+	  	    	log.info("SecurityUtils.getAuthenticationPrincipal().getSocialEmail() : ", saUserDetails.getSocialEmail());
+	  	    	CommonMap paramMap = new CommonMap();
+	  			paramMap.put("cust_no", saUserDetails.getUserNo());
+	  			CommonMap resultMap = loginService.selectCustByCustNo(paramMap);
+	  			
+	  			model.addAttribute("localKindCd", resultMap.getString("LOCAL_KIND_CD"));
+	  	    	model.addAttribute("custSocialEmail", saUserDetails.getSocialEmail());
+	  	    }
 			model.addAttribute("email", email);
 			model.addAttribute("sub", sub);
 			model.addAttribute("type", type);
@@ -397,6 +419,6 @@ public class LoginController {
 			e.printStackTrace();
 		}
 		
-  	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "appleReturn" , new Locale(Locale.KOREA.getLanguage()));
+  	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "appleReturn" , locale);
   	}
 }

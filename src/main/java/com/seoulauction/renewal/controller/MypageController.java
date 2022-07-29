@@ -120,19 +120,20 @@ public class MypageController {
     
     /*회원정보수정 비밀번호확인*/
     @GetMapping("/custModify")
-    public String custConfirm(Locale locale) {
-    	return SAConst.getUrl(SERVICE_MYPAGE , "custConfirm" , locale);
-    }
-    
-    /*회원정보수정*/
-    @PostMapping("/custModify")
-    public String custModify(Locale locale) {
+    public String custConfirm(Locale locale, Model model) {
     	SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
     	CommonMap paramMap = new CommonMap();
 		paramMap.put("cust_no", saUserDetails.getUserNo());
 		CommonMap resultMap = loginService.selectCustByCustNo(paramMap);
 		
-		if(resultMap.get("LOCAL_KIND_CD").equals("korean")) {
+		model.addAttribute("localKindCd", resultMap.getString("LOCAL_KIND_CD"));
+    	return SAConst.getUrl(SERVICE_MYPAGE , "custConfirm" , locale);
+    }
+    
+    /*회원정보수정*/
+    @PostMapping("/custModify")
+    public String custModify(Locale locale, @RequestParam(value = "localKindCd") String localKindCd) {
+		if(localKindCd.equals("korean")) {
 			return SAConst.getUrl(SERVICE_MYPAGE , "custModify" , new Locale(Locale.KOREA.getLanguage()));
 		}else{
 			return SAConst.getUrl(SERVICE_MYPAGE , "custModify" , new Locale(Locale.ENGLISH.getLanguage()));
