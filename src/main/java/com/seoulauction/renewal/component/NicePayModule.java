@@ -175,12 +175,12 @@ public class NicePayModule {
             formData.add("Moid", moid);
             formData.add("ReceiptAmt", receiptAmt);
             log.info(request.getParameter("GoodsName"));
-            log.info(new String(request.getParameter("GoodsName").getBytes("UTF-8"), "EUC-KR"));
-            log.info(new String(request.getParameter("GoodsName").getBytes("EUC-KR"), "UTF-8"));
-            log.info(new String(request.getParameter("GoodsName").getBytes(), "EUC-KR"));
-            log.info(new String(request.getParameter("GoodsName").getBytes(), "UTF-8"));
+            log.info(request.getParameter("GoodsName").getBytes("UTF-8"));
+            log.info(request.getParameter("GoodsName").getBytes("EUC-KR"));
+            log.info(String.valueOf(request.getParameter("GoodsName").getBytes("UTF-8")));
+            log.info(String.valueOf(request.getParameter("GoodsName").getBytes("EUC-KR")));
 
-            formData.add("GoodsName", request.getParameter("GoodsName"));
+            formData.add("GoodsName", String.valueOf(request.getParameter("GoodsName").getBytes("EUC-KR")));
             formData.add("SignData", signData);
             formData.add("ReceiptType", String.valueOf(request.getAttribute("rcpt_type")));
             formData.add("ReceiptTypeNo", String.valueOf(request.getAttribute("rcpt_type_no")));
