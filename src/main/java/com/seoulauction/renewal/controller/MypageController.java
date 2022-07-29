@@ -122,11 +122,7 @@ public class MypageController {
     @GetMapping("/custModify")
     public String custConfirm(Locale locale, Model model) {
     	SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
-    	CommonMap paramMap = new CommonMap();
-		paramMap.put("cust_no", saUserDetails.getUserNo());
-		CommonMap resultMap = loginService.selectCustByCustNo(paramMap);
-		
-		model.addAttribute("localKindCd", resultMap.getString("LOCAL_KIND_CD"));
+		model.addAttribute("localKindCd", saUserDetails.getLocalKindCd());
     	return SAConst.getUrl(SERVICE_MYPAGE , "custConfirm" , locale);
     }
     

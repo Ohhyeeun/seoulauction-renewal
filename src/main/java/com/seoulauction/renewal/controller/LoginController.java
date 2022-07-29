@@ -286,15 +286,6 @@ public class LoginController {
 		//카카오 로그인 후 진행할 기능에 따른 분기처리
   	    if(type.equals("login")) {
   			model.addAttribute("name", nickname);
-  	    }else if(type.equals("custConfirm")) {
-  	    	SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
-  	    	log.info("SecurityUtils.getAuthenticationPrincipal().getSocialEmail() : ", saUserDetails.getSocialEmail());
-  	    	CommonMap paramMap = new CommonMap();
-  			paramMap.put("cust_no", saUserDetails.getUserNo());
-  			CommonMap resultMap = loginService.selectCustByCustNo(paramMap);
-  			
-  			model.addAttribute("localKindCd", resultMap.getString("LOCAL_KIND_CD"));
-  	    	model.addAttribute("custSocialEmail", saUserDetails.getSocialEmail());
   	    }
   	    model.addAttribute("email", email);
   	    model.addAttribute("type", type);
@@ -302,7 +293,7 @@ public class LoginController {
   	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "kakaoCallback" , locale);
   	}
   	
-  	/*카카오로그인 후 콜백페이지*/
+  	/*네이버로그인 후 콜백페이지*/
   	@RequestMapping(value="/naverCallback", method=RequestMethod.GET)
   	public String naverCallback(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response
   			,@RequestParam (value="type", required = false) String type //네이버 로그인 후 진행할 기능(ex : 로그인,회원가입,소셜연동,소셜확인)
@@ -338,15 +329,6 @@ public class LoginController {
 		//네이버 로그인 후 진행할 기능에 따른 분기처리
   	    if(type.equals("login")) {
   			model.addAttribute("name", name);
-  	    }else if(type.equals("custConfirm")) {
-  	    	SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
-  	    	log.info("SecurityUtils.getAuthenticationPrincipal().getSocialEmail() : ", saUserDetails.getSocialEmail());
-  	    	CommonMap paramMap = new CommonMap();
-  			paramMap.put("cust_no", saUserDetails.getUserNo());
-  			CommonMap resultMap = loginService.selectCustByCustNo(paramMap);
-  			
-  			model.addAttribute("localKindCd", resultMap.getString("LOCAL_KIND_CD"));
-  	    	model.addAttribute("custSocialEmail", saUserDetails.getSocialEmail());
   	    }
   	    model.addAttribute("email", email);
   	    model.addAttribute("type", type);
@@ -356,7 +338,7 @@ public class LoginController {
   	
   	/*애플로그인 후 콜백페이지*/
   	@RequestMapping(value="/appleReturn/{type}", method=RequestMethod.POST)
-  	public String appleReturn(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response
+    public String appleReturn(Model model, HttpServletRequest request, HttpServletResponse response
   			,@PathVariable("type") String type
   			,@RequestParam (value="code", required = false) String code //애플에서 주는 코드값
   			) {
@@ -397,20 +379,6 @@ public class LoginController {
 			log.info("sub : {}", sub);
 			
 			/*api를 통한 애플 로그인 시 이름정보 제공X*/
-			//애플 로그인 후 진행할 기능에 따른 분기처리
-			if(type.equals("custConfirm")) {
-//                log.info("SecurityUtils.getAuthenticationPrincipal().getSocialEmail() : {}" ,SecurityUtils.getAuthenticationPrincipal().getSocialEmail());
-//                model.addAttribute("custSocialEmail", SecurityUtils.getAuthenticationPrincipal().getSocialEmail());
-//                model.addAttribute("localKindCd", "korean");
-				SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
-	  	    	log.info("SecurityUtils.getAuthenticationPrincipal().getSocialEmail() : ", saUserDetails.getSocialEmail());
-	  	    	CommonMap paramMap = new CommonMap();
-	  			paramMap.put("cust_no", saUserDetails.getUserNo());
-	  			CommonMap resultMap = loginService.selectCustByCustNo(paramMap);
-	  			
-	  			model.addAttribute("localKindCd", resultMap.getString("LOCAL_KIND_CD"));
-	  	    	model.addAttribute("custSocialEmail", saUserDetails.getSocialEmail());
-	  	    }
 			model.addAttribute("email", email);
 			model.addAttribute("sub", sub);
 			model.addAttribute("type", type);
@@ -419,6 +387,6 @@ public class LoginController {
 			e.printStackTrace();
 		}
 		
-  	    return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "appleReturn" , locale);
+        return SAConst.getUrl(SAConst.SERVICE_CUSTOMER , "appleReturn" , new Locale(Locale.KOREA.getLanguage()));
   	}
 }

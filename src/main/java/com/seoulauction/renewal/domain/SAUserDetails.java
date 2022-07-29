@@ -34,6 +34,7 @@ public class SAUserDetails implements UserDetails {
 	private String email;
 	private String validDate;
 	private String socialYn;
+	private String localKindCd;
 	
 	private String socialType;
 	private String socialEmail;

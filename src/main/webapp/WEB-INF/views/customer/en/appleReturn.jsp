@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@include file="../../common/commonJs.jsp"%>
@@ -11,15 +12,19 @@
 <script defer src="/js/common/axios.js" type="text/javascript"></script>
 <body>
 <!-- 		callback 처리중입니다. 이 페이지에서는 callback을 처리하고 바로 main으로 redirect하기때문에 이 메시지가 보이면 안됩니다. -->
-
+<sec:authorize access="isAuthenticated()">
+<sec:authentication property="details.socialEmail" var="custSocialEmail"></sec:authentication>
+<sec:authentication property="details.localKindCd" var="localKindCd"></sec:authentication>
+</sec:authorize>
 <script>
-	var langType = document.documentElement.lang;
+	var langType = getCookie('lang');
 	console.log(langType);
 	var type = "${type}";
 	var custSocialEmail = "${custSocialEmail}";
 	var localKindCd = "${localKindCd}";
 	console.log(localKindCd);
 	console.log(custSocialEmail);
+	console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
 	console.log(type);
 	
 	window.onload = function() {
