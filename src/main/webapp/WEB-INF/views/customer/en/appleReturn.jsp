@@ -28,7 +28,7 @@
 		}else if(type=="login"){
 			submitJoin("AP", "${email}", "${sub}");
 		}else if(type=="custConfirm"){
-			if(custSocialEmail === "${email}"){
+			if(custSocialEmail === "${sub}"){
 				if(langType == 'ko'){
 					alert("연결 되었습니다.");
 				}else{
