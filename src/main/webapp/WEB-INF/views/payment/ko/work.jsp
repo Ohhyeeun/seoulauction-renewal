@@ -44,12 +44,9 @@
                                                                     <span class="sub_txt tb1">${ct:getJSONString(lotInfo.LOT_TITLE_JSON, 'ko')}</span>
                                                                 </dt>
                                                                 <dd class="tb2">
-                                                                    <span> ${lotInfo.MATE_CD}</span>
+                                                                    <span>${lotInfo.MATE_CD}</span>
                                                                     <div class="size_year">
                                                                         <span id="lotSizeString"></span>
-<%--                                                                        <span>${fn:size_text_cm(lotInfo.LOT_SIZE_JSON)}</span>--%>
-<%--                                                                        <span>${size_text_cm(lotInfo.LOT_SIZE_JSON)}</span>--%>
-<%--                                                                        <span>${lotInfo.LOT_SIZE_JSON}</span>--%>
                                                                         <span>${lotInfo.LOT_MAKE_YEAR}</span>
                                                                     </div>
                                                                 </dd>
