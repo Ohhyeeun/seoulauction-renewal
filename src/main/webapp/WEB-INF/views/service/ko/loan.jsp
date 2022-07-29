@@ -17,7 +17,7 @@
                 <section class="page_title-section type-dark">
                     <div class="section-inner full_size ">
                         <div class="center-box">
-                            <h2 class="page_title"><span class="th1">Art Collateral Loans</span></h2>
+                            <h2 class="page_title"><span class="th1">Art Financing</span></h2>
                             <div class="page_desc"><span class="tb1">담보대출</span></div>
                         </div>
                     </div>
@@ -292,7 +292,7 @@
                                                 <div class="contact-box">
                                                     <ul>
                                                         <li><span>T.</span> <a href="tel:02-2075-4499"><em>02-2075-4499</em></a></li>
-                                                        <li><span>E.</span> <a href="mailto:jlee@seoulauctionl.com"><em>jlee@seoulauctionl.com</em></a></li>
+                                                        <li><span>E.</span> <a href="mailto:jej@seoulauction.com"><em>jej@seoulauction.com</em></a></li>
                                                     </ul>
                                                 </div>
                                             </div>

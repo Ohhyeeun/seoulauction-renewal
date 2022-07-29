@@ -114,7 +114,7 @@
                                                 <div class="contact-box">
                                                     <ul>
                                                         <li><span>T.</span> <a href="tel:02-2075-4426"><em>02-2075-4426, </em></a> <a href="tel:010-9045-0315"><em>010-9045-0315</em></a></li>
-                                                        <li><span>E.</span> <a href="mailto:sky@seoulauctionl.com"><em>sky@seoulauctionl.com</em></a></li>
+                                                        <li><span>E.</span> <a href="mailto:sky@seoulauction.com"><em>sky@seoulauction.com</em></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
