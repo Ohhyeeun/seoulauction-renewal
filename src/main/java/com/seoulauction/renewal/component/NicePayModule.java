@@ -180,7 +180,7 @@ public class NicePayModule {
             log.info(new String(request.getParameter("GoodsName").getBytes(), "EUC-KR"));
             log.info(new String(request.getParameter("GoodsName").getBytes(), "UTF-8"));
 
-            formData.add("GoodsName", new String(request.getParameter("GoodsName").getBytes("UTF-8"), "EUC-KR"));
+            formData.add("GoodsName", request.getParameter("GoodsName"));
             formData.add("SignData", signData);
             formData.add("ReceiptType", String.valueOf(request.getAttribute("rcpt_type")));
             formData.add("ReceiptTypeNo", String.valueOf(request.getAttribute("rcpt_type_no")));
@@ -188,6 +188,7 @@ public class NicePayModule {
             formData.add("ReceiptVAT", "0");
             formData.add("ReceiptServiceAmt", "0");
             formData.add("ReceiptTaxFreeAmt", "0");
+            formData.add("CharSet", "utf-8");
 
             WebClient webClient = WebClient.builder()
                     .baseUrl(NICE_PAY_BASE_URL)
