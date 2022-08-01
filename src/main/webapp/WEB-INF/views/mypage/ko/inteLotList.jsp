@@ -67,10 +67,10 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="btn-area">
-                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')" class="btn btn_point btn-view-bid" type="button"><a ng-click="goSale(data.SALE_KIND_CD, il[1][0].SALE_NO)"><span >진행경매보기</span></a></button>
-                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')" class="btn btn_point btn-view-bid" type="button"><a ng-click="goSale(data.SALE_KIND_CD, il[1][0].SALE_NO)"><span >진행경매보기</span></a></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')" class="btn btn_point btn-view-bid" type="button"><a ng-click="goSale(il[1][0].SALE_KIND_CD, il[1][0].SALE_NO)"><span >진행경매보기</span></a></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')" class="btn btn_point btn-view-bid" type="button"><a ng-click="goSale(il[1][0].SALE_KIND_CD, il[1][0].SALE_NO)"><span >진행경매보기</span></a></button>
                                                                     <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')"  class="btn btn_gray btn-view-bid" type="button" ><span>경매 종료</span></button>
-                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')"  class="btn btn_gray_line btn-view-result" type="button" ><a ng-click="goSale(data.SALE_KIND_CD, il[1][0].SALE_NO)"><span>경매결과보기</span></a></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')"  class="btn btn_gray_line btn-view-result" type="button" ><a ng-click="goSale(il[1][0].SALE_KIND_CD, il[1][0].SALE_NO)"><span>경매결과보기</span></a></button>
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in il[1]">
