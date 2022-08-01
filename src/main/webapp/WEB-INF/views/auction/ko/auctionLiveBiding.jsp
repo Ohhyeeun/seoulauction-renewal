@@ -104,15 +104,6 @@
                                   </div> -->
                                                                     <div class="list-box scroll-type">
                                                                         <ul id="select_lot_scroll">
-                                                                            <!-- [0523]스크롤 미리보기를 위해 li 갯수 추가 -->
-<%--                                                                            <li>--%>
-<%--                                                                                <a href="#">--%>
-<%--                                                                                    <div class="typo-area">--%>
-<%--                                                                                        <span>1,500,000 KRW</span>--%>
-<%--                                                                                    </div>--%>
-<%--                                                                                </a>--%>
-<%--                                                                            </li>--%>
-                                                                            <!-- //[0523]스크롤 미리보기를 위해 li 갯수 추가 -->
                                                                         </ul>
                                                                     </div>
                                                                 </div>
@@ -278,7 +269,6 @@
     <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
     <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-
     <script>
         $(function() {
 

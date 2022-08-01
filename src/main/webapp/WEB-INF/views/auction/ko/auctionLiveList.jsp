@@ -1205,7 +1205,6 @@
                         $scope.searchSaleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = 0;
                     }
                 }
-                console.log("$scope.searchSaleInfoAll.length", $scope.searchSaleInfoAll.length);
                 switch (sst) {
                     case 1:
                         // lot 번호 순
@@ -1234,8 +1233,6 @@
                         });
                         break;
                 }
-
-                console.log(v);
 
                 $scope.curpage = 1;
                 $scope.pageing($scope.curpage);
