@@ -111,6 +111,7 @@
                                                         <div class="pagination"></div>
                                                     </div>
                                                 </div>
+
                                                 <div class="product_thumbnail-area">
                                                     <div class="gallery_thumbnail js-view_thumnail">
                                                         <div class="gallery_center">
@@ -140,13 +141,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="view_scale-area" ng-if="lotInfo.IMAGE_MAGNIFY && lotInfo.VIEW_SCALE_YN == 'Y' && ['traditional_painting', 'local_painting', 'foreign_painting'].indexOf(lotInfo.CATE_CD) > -1">
+                                            </div>{{isUseViewScale}}
+                                            <div class="view_scale-area" >
                                                 <a class="js-popup_image_viewer" href="#">
                                                     <i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
                                         </article>
                                     </div>
+
                                     <div class="col_item">
                                         <article class="product_detail-article js-product_detail-article">
                                             <div class="index-area">
@@ -966,7 +968,7 @@
         const getViewScaleImages = (saleNo, lotNo) => {
             console.log("getViewScaleImages : ", saleNo, lotNo);
             try {
-                return axios.get('/api/auction/viewscale_image/'+saleNo+'/'+lotNo);
+                return axios.get('/api/auction/getViewScaleImage/'+saleNo+'/'+lotNo);
             } catch (error) {
                 console.error(error);
             }
@@ -1310,12 +1312,15 @@
                 //     view_visual.update();
                 // });
 
-                let viewScaleImages = $scope.viewScaleImages;
-                let lot_images = $scope.lotImages;
+                const viewScaleImages = $scope.viewScaleImages;
+                $scope.isUseViewScale = viewScaleImages.length > 0 && !$scope.lotInfo.IMAGE_MAGNIFY; // || viewScaleImages.isUseViewScale;
+                const lot_images = $scope.lotImages;
                 let firstCheck = 0;
 
                 // $.each(sale_images, function (index, el) {
-                 const el = viewScaleImages[0];
+                console.log(viewScaleImages, $scope.isUseViewScale);
+                if($scope.isUseViewScale) {
+                    const el = viewScaleImages[0];
                     let size1 = 0;
                     let size2 = 0;
                     let unitCd = '';
@@ -1328,41 +1333,21 @@
 
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
                     let swiper_slide_item = '';
-                    // if (firstCheck == 0) {
-                        // $scope.chk = parseInt(lot_no) - index -1;
-                    // }
-                    // firstCheck++;
 
-                    //if(size1 > 160) {
-                    if(['traditional_painting'].indexOf($scope.lotInfo.CATE_CD) > -1){
-                        swiper_slide_item = `<div class="swiper-slide">
-                            <div class="img-area">
-                                <div class="img-box">
-                                    <div class="size_x"><span>` + size1 + unitCd + `</span></div>
-                                    <div class="size_y"><span>` + size2 + unitCd + `</span></div>
-                                    <div class="images">
-                                        <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size1 + `" size-y="` + size2 + `" lot_no="` + lot_no + `"/>
-                                    </div>
+                    swiper_slide_item = `<div class="swiper-slide">
+                        <div class="img-area">
+                            <div class="img-box">
+                                <div class="size_x"><span>` + size2 + unitCd + `</span></div>
+                                <div class="size_y"><span>` + size1 + unitCd + `</span></div>
+                                <div class="images">
+                                    <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size2 + `" size-y="` + size1 + `" lot_no="` + lot_no + `"/>
                                 </div>
                             </div>
-                        </div>`;
-                    }else if(['local_painting', 'foreign_painting'].indexOf($scope.lotInfo.CATE_CD) > -1){
-                        swiper_slide_item = `<div class="swiper-slide">
-                            <div class="img-area">
-                                <div class="img-box">
-                                    <div class="size_x"><span>` + size2 + unitCd + `</span></div>
-                                    <div class="size_y"><span>` + size1 + unitCd + `</span></div>
-                                    <div class="images">
-                                        <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size2 + `" size-y="` + size1 + `" lot_no="` + lot_no + `"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>`;
-                    }
+                        </div>
+                    </div>`;
 
-                $("#popup_image_viewer-wrap .gallery_center").html(swiper_slide_item);
-                    //}
-                // });
+                    $("#popup_image_viewer-wrap .gallery_center").html(swiper_slide_item);
+                }
 
                 $.each(lot_images, function (index, el) {
 

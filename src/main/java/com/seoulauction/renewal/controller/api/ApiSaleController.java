@@ -232,22 +232,29 @@ public class ApiSaleController {
         return ResponseEntity.ok(RestResponse.ok(lotInfoMap));
     }
 
-    @RequestMapping(value="/viewscale_image/{sale_no}/{lot_no}", method = RequestMethod.GET)
+    @RequestMapping(value="/getViewScaleImage/{sale_no}/{lot_no}", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> saleViewScaleImages(HttpServletRequest req,
                                                    HttpServletResponse res,
                                                    Locale locale,
                                                    @PathVariable("sale_no") int saleNo,
                                                    @PathVariable("lot_no") int lotNo) {
 
-        CommonMap map = new CommonMap();
-        map.put("sale_no", saleNo);
-        map.put("lot_no", lotNo);
+        // 필터를 적용한 새로운 랏이미지 정보
+        List<CommonMap> lotImagesNew = new ArrayList<CommonMap>();
+
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("sale_no", saleNo);
+        paramMap.put("lot_no", lotNo);
+
+        Boolean isUseViewScale = true;
 
         // 랏 이미지 정보 가져오기
-        List<CommonMap> lotImages = saleService.selectViewScaleLotImages(map);
-
-        // 필터를 적용한 새로운 랏이미지 정보
-        List<CommonMap> lotImagesNew = new ArrayList<>();
+        List<CommonMap> lotImages = new ArrayList<CommonMap>();
+        if(saleService.selectViewScaleLotImages(paramMap) != null){
+            lotImages = saleService.selectViewScaleLotImages(paramMap);
+        }else{
+            isUseViewScale = false;
+        }
 
         String[] listKeys = {"LOT_SIZE_JSON"};
         ObjectMapper mapper  = new ObjectMapper();
@@ -282,6 +289,8 @@ public class ApiSaleController {
                 } else {
                     lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
                 }
+
+                lotImagesNewItem.put("isUseViewScale", isUseViewScale);
 
                 lotImagesNew.add(lotImagesNewItem);
             }

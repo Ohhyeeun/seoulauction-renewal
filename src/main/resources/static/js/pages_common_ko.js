@@ -121,21 +121,27 @@ function responsiveDevices() {
     ///document.querySelector(".imageViewer");
     ///console.log("googooowwww: " , _tar[0].naturalWidth, _tar.length);
 
-    for (var o = $(".imageViewer"), e = 0; e < o.length; e++) {
+    for (let o = $(".imageViewer"), e = 0; e < o.length; e++) {
         if (!o[e]) return !1;
-        var n = o[e].naturalWidth, i = o[e].naturalHeight;
+        let n = o[e].naturalWidth, i = o[e].naturalHeight;
 
-        var windowW = screen.availWidth;
-        var windowH = screen.availHeight;
+        let windowW = screen.availWidth;
+        let windowH = screen.availHeight;
 
+        const ObjectSize = 500;
+        const LayerInnerWidth = 1024;
 
-        // let z = ((parseFloat($(window).width() / 1024) >= 1)?1:parseFloat($(window).width() / 1024));
+        let pxByObject= parseFloat(LayerInnerWidth / ObjectSize); //pc
+        // const pxScale= 1024 / 500; //mo
+
+        const h = $(o[e]).attr("size-y") * pxByObject;
+        const w = $(o[e]).attr("size-x") * pxByObject;
 
         // let h = (parseFloat(parseInt($(o[e]).attr("size1"))) / 250) * 500 * z;
         // let w = (parseFloat(parseInt($(o[e]).attr("size2"))) / 250) * 500 * z;
 
-        let h = parseFloat(windowH) / 2 / 250 * parseFloat($(o[e]).attr("size2"));
-        let w = parseFloat(windowW) / 2 / 250 * parseFloat($(o[e]).attr("size1"));
+        // let h = parseFloat(windowH) / 2 / 250 * parseFloat($(o[e]).attr("size2"));
+        // let w = parseFloat(windowW) / 2 / 250 * parseFloat($(o[e]).attr("size1"));
 
         /*$("body").hasClass("is_mb") ? (o[e].width = .55 * w, o[e].height = .55 * h) : (o[e].width = w,
         o[e].height = h);*/
@@ -143,7 +149,7 @@ function responsiveDevices() {
         // o[e].height = h;
         o[e].width = w;
         o[e].height = h;
-        //$("body").hasClass("is_mb") ? (o[e].width = w : (o[e].width = w);
+
     }
     /// console.log("=========imgresize=========", _orgW, _orgH, $("body").hasClass("is_mb"))
 }
@@ -152,7 +158,7 @@ function responsiveDevices() {
 /* 팝업높이계산 */function popup_fixation(o) {
     var n = o, e = $(".pop-body>.section", n).outerHeight() + 166, t = $(window).height();
     function i() {
-        t = $(window).height(), 
+        t = $(window).height(),
         /* 모바일일때 && mode-mb_full 경우 사용안함 */
         (!$("body").hasClass("is_mb") || !$(".popup-align", n).hasClass("mode-mb_full")) && t <= e ? $(".popup-align", n).addClass("footer_fixed") : $(".popup-align", n).removeClass("footer_fixed");
     }

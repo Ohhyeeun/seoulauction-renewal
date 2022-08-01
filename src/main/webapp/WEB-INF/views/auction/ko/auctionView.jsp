@@ -1095,7 +1095,7 @@
         const getViewScaleImages = (saleNo, lotNo) => {
             console.log("getViewScaleImages : ", saleNo, lotNo);
             try {
-                return axios.get('/api/auction/viewscale_image/'+saleNo+'/'+lotNo);
+                return axios.get('/api/auction/getViewScaleImage/'+saleNo+'/'+lotNo);
             } catch (error) {
                 console.error(error);
             }
@@ -1522,60 +1522,43 @@
                     view_visual.update();
                 });
 
-                let viewScaleImages = $scope.viewScaleImages;
-                let lot_images = $scope.lotImages;
+                const viewScaleImages = $scope.viewScaleImages;
+                console.log(viewScaleImages);
+                const lot_images = $scope.lotImages;
                 let firstCheck = 0;
 
                 // $.each(sale_images, function (index, el) {
-                const el = viewScaleImages[0];
-                let size1 = 0;
-                let size2 = 0;
-                let unitCd = '';
-                let lot_no = el.LOT_NO;
-                if (el.LOT_SIZE_JSON.length > 0) {
-                    size1 = el.LOT_SIZE_JSON[0].SIZE1;
-                    size2 = el.LOT_SIZE_JSON[0].SIZE2;
-                    unitCd = el.LOT_SIZE_JSON[0].UNIT_CD;
-                }
+                if(viewScaleImages.length > 0) {
+                    const el = viewScaleImages[0];
+                    let size1 = 0;
+                    let size2 = 0;
+                    let unitCd = '';
+                    let lot_no = el.LOT_NO;
+                    if (el.LOT_SIZE_JSON.length > 0) {
+                        size1 = el.LOT_SIZE_JSON[0].SIZE1;
+                        size2 = el.LOT_SIZE_JSON[0].SIZE2;
+                        unitCd = el.LOT_SIZE_JSON[0].UNIT_CD;
+                    }
 
-                let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
-                let swiper_slide_item = '';
-                // if (firstCheck == 0) {
-                //     $scope.chk = parseInt(lot_no) - index -1;
-                // }
-                // firstCheck++;
+                    let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
+                    let swiper_slide_item = '';
 
-                if(['traditional_painting'].indexOf($scope.lotInfo.CATE_CD) > -1){
-                    swiper_slide_item = `<div class="swiper-slide">
-                                            <div class="img-area">
-                                                <div class="img-box">
-                                                    <div class="size_x"><span>` + size1 + unitCd + `</span></div>
-                                                    <div class="size_y"><span>` + size2 + unitCd + `</span></div>
-                                                    <div class="images">
-                                                        <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size1 + `" size-y="` + size2 + `" lot_no="` + lot_no + `"/>
+                    if (['local_painting', 'foreign_painting'].indexOf($scope.lotInfo.CATE_CD) > -1) {
+                        swiper_slide_item = `<div class="swiper-slide">
+                                                <div class="img-area">
+                                                    <div class="img-box">
+                                                        <div class="size_x"><span>` + size2 + unitCd + `</span></div>
+                                                        <div class="size_y"><span>` + size1 + unitCd + `</span></div>
+                                                        <div class="images">
+                                                            <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size2 + `" size-y="` + size1 + `" lot_no="` + lot_no + `"/>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>`;
-                }else if(['local_painting', 'foreign_painting'].indexOf($scope.lotInfo.CATE_CD) > -1) {
-                    swiper_slide_item = `<div class="swiper-slide">
-                                            <div class="img-area">
-                                                <div class="img-box">
-                                                    <div class="size_x"><span>` + size2 + unitCd + `</span></div>
-                                                    <div class="size_y"><span>` + size1 + unitCd + `</span></div>
-                                                    <div class="images">
-                                                        <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size2 + `" size-y="` + size1 + `" lot_no="` + lot_no + `"/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>`;
+                                            </div>`;
+                    }
+
+                    $("#popup_image_viewer-wrap .gallery_center").html(swiper_slide_item);
                 }
-
-                $("#popup_image_viewer-wrap .gallery_center").html(swiper_slide_item);
-                // $("#swiper-wrapper").html(swiper_slide_item);
-
-                // $("#swiper-wrapper").append(swiper_slide_item);
-                // };
 
                 $.each(lot_images, function (index, el) {
 
@@ -1586,29 +1569,29 @@
 
                     //if (size1 > 160) {
                     popup_swiper_slide_item = `<div class="swiper-slide">
-                                            <div class="img-area">
-                                                <div class="img-box">
-                                                    <div class="images">
-                                                        <img class="imageViewerpopup" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
+                                                    <div class="img-area">
+                                                        <div class="img-box">
+                                                            <div class="images">
+                                                                <img class="imageViewerpopup" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                        </div>`
+                                                </div>`
                     $("#swiper-wrapper_popup").append(popup_swiper_slide_item);
 
 
                     popup_swiper_mini_slide_item = `<li class="active">
-                                            <a href="#">
-                                                <div class="imgs-item">
-                                                    <figure class="img-ratio">
-                                                        <div class="img-align">
-                                                            <img src="` + popup_img_url + `" alt="" />
-                                                        </div>
-                                                    </figure>
-                                                    <div class="line"></div>
-                                                    </div>
-                                                </a>
-                                            </li>`
+                                                        <a href="#">
+                                                            <div class="imgs-item">
+                                                                <figure class="img-ratio">
+                                                                    <div class="img-align">
+                                                                        <img src="` + popup_img_url + `" alt="" />
+                                                                    </div>
+                                                                </figure>
+                                                                <div class="line"></div>
+                                                                </div>
+                                                            </a>
+                                                        </li>`
                     $("#thumbnail_image").append(popup_swiper_mini_slide_item);
                 });
 
