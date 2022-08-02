@@ -202,9 +202,11 @@
                             <img class="only_ib-mb" src="/images/mobile/login/search_ico_01.png">
                         </div>
                         <div class="title-box_tac title_concurrent">
-                            <span class="title_tac">You are automatically logged out by simultaneously accessing from another PC with the same ID as the member.<br>
-                                If you are not the person, please log in again or contact the customer center.
-                            </span>
+                            <!-- [0728]텍스트수정 -->
+                            <span class="title_tac">You are automatically logged out by simultaneously accessing from another PC or mobile environment with the same ID as the member.<br>
+                                    If you are not the person, please log in again or contact the customer center.
+                                </span>
+                            <!-- //[0728]텍스트수정 --> 
                         </div>
                     </div>
                     <div class="pop-body">
