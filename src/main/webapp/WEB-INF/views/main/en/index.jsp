@@ -189,7 +189,6 @@
 </div>
 
 <!-- 이중접속 차단 안내 -->
-<div class="popup-dim popup_concurrent-wrap" style="display:none;"></div> <%-- 비번 초기화 및 이중접속 안내 등 공통 팝업 dim --%>
 <div id="popup_concurrent-wrap" class="trp popupfixed-wrap login-popup">
     <div class="popup-dim"></div>
     <div class="popup-align mode-ms mode-mb_center">

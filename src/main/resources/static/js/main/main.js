@@ -121,7 +121,6 @@ window.onload = function(){
     loadBeltBanner();
 
 }
-
 /* visual */
 const visualSwiper = new Swiper('.visual-swiper', {
     effect:'fade',
