@@ -44,8 +44,8 @@
                 </div>
 
                 <p class="bottom-p-spacing20">
-                    ㈜서울옥션 · 대표이사 : 이옥경   사업자등록번호 : 101-81-46818   통신판매업신고 : 종로 제01-2173호<br>
-                    주소 : 서울특별시 종로구 평창31길 11 (평창동 465-10)  고객센터 : <a class="footer_tel" href="tel:02-395-0330">02-395-0330</a><br>
+                    ㈜서울옥션 · 대표이사 : 이옥경 사업자등록번호 : 101-81-46818   통신판매업신고 : 종로 제01-2173호<br>
+                    주소 : 서울특별시 종로구 평창31길 11 (평창동 465-10)  고객센터 : <a class="footer_tel" href="tel:02-395-0330">02-395-0330</a> <a class="footer_tel leftmargin10" href="http://www.ftc.go.kr/bizCommPop.do?wrkr_no=1018146818" target="_blank">사업자정보 확인&gt;</a><br>
                     ⓒ Seoul Auction Corp.
                 </p>
                 <p>
