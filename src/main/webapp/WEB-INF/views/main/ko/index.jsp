@@ -228,8 +228,7 @@
                             <img class="only_ib-mb" src="/images/mobile/login/search_ico_01.png">
                         </div>
                         <div class="title-box_tac title_concurrent">
-                            <span class="title_tac">회원님과 동일한 아이디로 다른 PC에서 동시 접속하여 
-                                자동으로 로그아웃 되었습니다.<br>
+                            <span class="title_tac">회원님과 동일한 아이디로 다른 PC나 모바일 환경에서 동시 접속하여  자동으로 로그아웃 되었습니다.<br>
                                 ⁠본인이 아닌 경우 다시 로그인을 하시거나,<br class="only-pc">
                                 고객센터에 문의해 주세요.</span>
                         </div>
