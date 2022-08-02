@@ -1,20 +1,5 @@
 "use strict";
 
-/* $(function(){
-  console.log("common.js");
-  function msgFn(msg1, msg2){
-    var _msg = msg1 + msg2;
-    return _msg;
-  }
-  $("body").addClass( msgFn("msg_", "hi"));
-
-});
-
-
-function msgFn(msg1, msg2){
-  var _msg = msg1 + msg2;
-  return _msg;
-} */
 /* ==================================== 초기UI 실행 함수 호출  ==================================== */
 function PubUI() {
     var o = this;
@@ -86,9 +71,9 @@ function PubUI() {
             }, 370);
         });
     }, o.mobileBack = function() {
-        // $(".js-history_back").click(function() {
-        //     window.history.back();
-        // }); 
+        $(".js-history_back").click(function() {
+            window.history.back();
+        });
     }, 
     /* 초기실행 스크립트 */
     o.append_script = function() {///$("body").append( $(".js-append-script") );
@@ -127,32 +112,18 @@ function responsiveDevices() {
 /* PC,MB images resize */function imagesResizePcMb() {
     ///document.querySelector(".imageViewer");
     ///console.log("googooowwww: " , _tar[0].naturalWidth, _tar.length);
-
     for (var o = $(".imageViewer"), e = 0; e < o.length; e++) {
         if (!o[e]) return !1;
-        var n = o[e].naturalWidth, i = o[e].naturalHeight;
-
-        var windowW = screen.availWidth;
-        var windowH = screen.availHeight;
-
-
-        // let z = ((parseFloat($(window).width() / 1024) >= 1)?1:parseFloat($(window).width() / 1024));
-
-        // let h = (parseFloat(parseInt($(o[e]).attr("size1"))) / 250) * 500 * z;
-        // let w = (parseFloat(parseInt($(o[e]).attr("size2"))) / 250) * 500 * z;
-
-        let h = parseFloat(windowH) / 2 / 250 * parseFloat($(o[e]).attr("size2"));
-        let w = parseFloat(windowW) / 2 / 250 * parseFloat($(o[e]).attr("size1"));
-
-        /*$("body").hasClass("is_mb") ? (o[e].width = .55 * w, o[e].height = .55 * h) : (o[e].width = w,
-        o[e].height = h);*/
-        // o[e].width = w;
-        // o[e].height = h;
-        o[e].width = w;
-        o[e].height = h;
-        //$("body").hasClass("is_mb") ? (o[e].width = w : (o[e].width = w);
+        /*  
+     [2022-0707]원복 /[2022-0701] 고객사요청  */        var n = o[e].naturalWidth, i = o[e].naturalHeight;
+        $("body").hasClass("is_mb") ? (o[e].width = .55 * n, o[e].height = .55 * i) : (o[e].width = n, 
+        o[e].height = i)
+        /* var z = ((parseFloat($(window).width() / 1024) >= 1)?1:parseFloat($(window).width() / 1024));    
+    var w = (parseFloat(parseInt($(_tar[i]).attr("size2"))) / 250) * 500 * z;
+    _tar[i].width = w; */
+        /* // [2022-0701] 고객사요청 */;
     }
-    /// console.log("=========imgresize=========", _orgW, _orgH, $("body").hasClass("is_mb"))
+ /// console.log("=========imgresize=========", _orgW, _orgH, $("body").hasClass("is_mb"))
 }
 
 /* 팝업높이계산 */function popup_fixation(o) {

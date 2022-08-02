@@ -1605,13 +1605,13 @@ body.dark,
 
 
 /* 외주 css select container */
-.select2-container--open {
-    z-index: 24 !important;
-}
-.sub-wrap .main-header{
-    /* auction 팝업 및 gnb z-index 26 기준 */
-    z-index: 26 !important; 
-}
+/*.select2-container--open {*/
+/*    z-index: 24 !important;*/
+/*}*/
+/*.sub-wrap .main-header{*/
+/*    !* auction 팝업 및 gnb z-index 26 기준 *!*/
+/*    z-index: 26 !important; */ 
+/*}*/
 .content-panel.type_panel-product_list .set-pc_mb .only-mb2 {
     /* auction 더보기 방식 더보기 btn 별도 새로운 클래스 생성 only-mb2*/
     text-align: center;
