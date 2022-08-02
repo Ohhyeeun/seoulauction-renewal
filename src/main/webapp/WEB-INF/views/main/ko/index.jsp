@@ -213,8 +213,9 @@
     </div>
 </div>
 <%-- main 레이어 팝업 ---%>
-
+<div class="popup-dim popup_concurrent-wrap" style="display:none;"></div> <%-- 비번 초기화 및 이중접속 안내 등 공통 팝업 dim --%>
 <!-- 이중접속 차단 안내 -->
+
 <div id="popup_concurrent-wrap" class="trp popupfixed-wrap login-popup">
     <div class="popup-dim"></div>
     <div class="popup-align mode-ms mode-mb_center">
@@ -249,7 +250,7 @@
 <!-- 비밀번호변경알림-비밀번호초기화 -->
 <div id="popup_pwsearch6-wrap" class="trp popupfixed-wrap login-popup">
     <div class="popup-dim"></div>
-    <div class="popup-align mode-ms mode-mb_center">
+    <div class="popup-align mode-ms mode-mb_full">
         <div class="popup-vertical">
             <div class="popup-layer">
                 <div class="pop-panel">
@@ -281,7 +282,7 @@
 <!-- 비밀번호변경알림-비밀번호 변경 안내 -->
 <div id="popup_pwsearch5-wrap" class="trp popupfixed-wrap login-popup">
     <div class="popup-dim"></div>
-    <div class="popup-align mode-ms mode-mb_center">
+    <div class="popup-align mode-ms mode-mb_full">
         <div class="popup-vertical">
             <div class="popup-layer">
                 <div class="pop-panel">

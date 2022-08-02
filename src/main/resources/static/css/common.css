@@ -450,7 +450,7 @@ img::selection {
     width: 100%;
     position: fixed;
     top: 0;
-    z-index: 25;
+    z-index: 5;
     left:  50%;
     transform: translate(-50%, 0);
     -webkit-transform: translate(-50%, 0);
@@ -535,7 +535,7 @@ img::selection {
     background-color: rgba(0,0,0,0.5);
     top: 0;
     left: 0;
-    z-index: 25;
+    z-index: 6;
 }
 .visual {
     margin-bottom: 60px;
@@ -802,7 +802,7 @@ img::selection {
     border: 1px solid #b0b0b0;
     padding: 10px 0;
     position: absolute;
-    z-index: 26;
+    z-index: 6;
     top: 41px;
     left: -114%;
     background: #fff;
@@ -1011,7 +1011,7 @@ recent-keyword:lang(en) {
     width: 100%;
     left: 0px;
     /*padding: 50px 140px 49px 139px; */
-    z-index: 25;
+    z-index: 6;
     height: auto;
     display: none;
 }
@@ -1605,13 +1605,10 @@ body.dark,
 
 
 /* 외주 css select container */
-/*.select2-container--open {*/
-/*    z-index: 24 !important;*/
-/*}*/
-/*.sub-wrap .main-header{*/
-/*    !* auction 팝업 및 gnb z-index 26 기준 *!*/
-/*    z-index: 26 !important; */ 
-/*}*/
+.popup-dim.popup_biddingPopup1-wrap,
+.trp.popupfixed-wrap.bidding-online-popup {
+    z-index: 0 !important;
+}
 .content-panel.type_panel-product_list .set-pc_mb .only-mb2 {
     /* auction 더보기 방식 더보기 btn 별도 새로운 클래스 생성 only-mb2*/
     text-align: center;
@@ -1905,7 +1902,7 @@ body.dark,
         max-width: 570px;
         padding: 0;
         overflow-y: auto;
-        z-index: 25;
+        z-index: 6;
     }
     .gnb_blackBg {
         display: none;
