@@ -348,6 +348,8 @@
 
                     $("#select_lot_scroll").empty();
 
+
+                    //추정가의 10배 만큼 응찰가 표 세팅.
                     while (current_price <= ( MAX_PRICE + growPrice )) {
 
                         let commasCurrentPrice = numberWithCommas(current_price);
