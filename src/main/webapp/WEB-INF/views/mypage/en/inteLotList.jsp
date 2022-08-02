@@ -42,7 +42,9 @@
                                                     <div class="help-box">
                                                         <i class="icon-inquiry_g"></i>
                                                         <ul>
-                                                            <li><span>Online auction works can only be viewed in detail while the auction is in progress.</span></li>
+                                                            <!-- [0728]텍스트수정 -->
+                                                            <li><span>Auction works can only be viewed in detail while the auction is in progress.</span></li>
+                                                            <!-- //[0728]텍스트수정 -->
                                                         </ul>
                                                     </div>
                                                 </article>

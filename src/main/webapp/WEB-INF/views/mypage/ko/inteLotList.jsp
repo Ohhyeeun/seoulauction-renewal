@@ -40,9 +40,11 @@
                                                 <article class="help-box-wrap">
                                                     <div class="help-box">
                                                         <i class="icon-inquiry_g"></i>
-                                                        <ul>
-                                                            <li><span>온라인 경매 작품은 경매 진행 중에만 상세 확인이<br class="m-ver"> 가능합니다.</span></li>
-                                                        </ul>
+	                                                       <ul>
+	                                                            <!-- [0728]텍스트수정 -->
+	                                                            <li><span>관심작품은 경매 진행 중에만 상세 확인이<br class="m-ver"> 가능합니다.</span></li>
+	                                                            <!-- //[0728]텍스트수정 -->
+	                                                        </ul>
                                                     </div>
                                                 </article>
                                             </div>
