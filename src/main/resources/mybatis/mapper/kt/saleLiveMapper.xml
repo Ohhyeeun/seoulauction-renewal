@@ -206,6 +206,14 @@
             </if>
         ) BMAX
     </insert>
+    <select id="selectSaleExchRate" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+            EX.*
+        FROM
+             SALE_EXCH_RATE EX
+        WHERE
+              EX.SALE_NO = #{sale_no}
+    </select>
 
 
 

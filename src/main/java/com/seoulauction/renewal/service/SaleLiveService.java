@@ -95,5 +95,8 @@ public class SaleLiveService {
 
         saleLiveMapper.insertLiveBidding(map);
     }
+    public List<CommonMap> selectSaleExchRate(CommonMap map){
+        return saleLiveMapper.selectSaleExchRate(map);
+    }
 }
 
