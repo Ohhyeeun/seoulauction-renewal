@@ -824,7 +824,9 @@
             SALE_NO,
             LOT_NO,
             BID_NO,
-            PADD_NO,
+            PADD
+
+                _NO,
             BID_PRICE,
             BID_KIND_CD,
             BID_NOTICE,
@@ -832,16 +834,16 @@
             BID_DT,
             REG_DT
         ) VALUES (
-                             #{sale_no},
-                             #{lot_no},
-                             #{bid_no},
-                             #{padd_no},
-                             #{bid_price},
-                             #{bid_kind_cd},
-                             #{bid_notice},
-                             #{bid_notice_en},
-                             #{bid_dt},
-                             #{reg_dt}
+             #{sale_no},
+             #{lot_no},
+             #{bid_no},
+             #{padd_no},
+             #{bid_price},
+             #{bid_kind_cd},
+             #{bid_notice},
+             #{bid_notice_en},
+             #{bid_dt},
+             #{reg_dt}
          )
     </insert>
     <select id="selectMaxBid" parameterType="CommonMap" resultType="CommonMap">

@@ -4,10 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.mapper.aws.ArtistMapper;
 import com.seoulauction.renewal.mapper.kt.SaleLiveMapper;
 import com.seoulauction.renewal.mapper.kt.SaleMapper;
+import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.collections.MapUtils;
@@ -27,5 +29,24 @@ public class SaleLiveService {
 
     @Value("${image.root.path}")
     private String IMAGE_URL;
+
+    public CommonMap selectLiveSale(CommonMap map){
+        return saleLiveMapper.selectLiveSale(map);
+    }
+    public List<CommonMap> selectLiveSaleLots(CommonMap map){
+        return saleLiveMapper.selectLiveSaleLots(map);
+    }
+    public CommonMap selectLiveSaleLotByOne(CommonMap map){
+        return saleLiveMapper.selectLiveSaleLotByOne(map);
+    }
+    public List<CommonMap> selectLiveCategories(CommonMap map){
+        return saleLiveMapper.selectLiveCategories(map);
+    }
+    public List<CommonMap> selectLiveMyBidding(CommonMap map){
+        return saleLiveMapper.selectLiveMyBidding(map);
+    }
+    public List<CommonMap> selectLiveSiteBidding(CommonMap map){
+        return saleLiveMapper.selectLiveSiteBidding(map);
+    }
 }
 

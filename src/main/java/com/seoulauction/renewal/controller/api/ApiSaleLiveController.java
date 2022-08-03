@@ -8,7 +8,9 @@ import com.seoulauction.renewal.domain.Bid;
 import com.seoulauction.renewal.domain.Bidder;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.service.AuctionService;
 import com.seoulauction.renewal.service.S3Service;
+import com.seoulauction.renewal.service.SaleLiveService;
 import com.seoulauction.renewal.service.SaleService;
 import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +33,11 @@ public class ApiSaleLiveController {
 
     private final SaleService saleService;
 
+    private final SaleLiveService saleLiveService;
+
     private final S3Service s3Service;
+
+    private final AuctionService auctionService;
 
     @Value("${image.root.path}")
     private String IMAGE_URL;
@@ -612,8 +618,6 @@ public class ApiSaleLiveController {
         paramMap.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
         return ResponseEntity.ok(RestResponse.ok(saleService.getCustomerByCustNo(paramMap)));
     }
-
-
     @RequestMapping(value="/artist_info/{artist_no}", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> artistInfo(HttpServletRequest req, HttpServletResponse res, Locale locale,
                                                  @PathVariable("artist_no") int artistNo) {
@@ -637,6 +641,13 @@ public class ApiSaleLiveController {
         CommonMap result = saleService.selectMaxBid(map);
 
         return ResponseEntity.ok(RestResponse.ok(result));
+    }
+
+    @GetMapping(value="/paddles/{saleNo}")
+    public ResponseEntity<RestResponse> getPaddle(@PathVariable("saleNo") int saleNo) {
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("sale_no", saleNo);
+        return ResponseEntity.ok(RestResponse.ok(auctionService.selectSalePaddNo(paramMap)));
     }
 
 }
