@@ -51,25 +51,35 @@
         GROUP BY LOT_TAG
     </select>
 
-    <select id="selectLotList" parameterType="CommonMap" resultType="CommonMap">
+    <select id="selectLotListPaging" parameterType="CommonMap" resultType="CommonMap">
+        <include refid="selectLotList"/>
+        LIMIT #{offset}, #{size}
+    </select>
+    <select id="selectLotListCount" parameterType="CommonMap" resultType="int">
+        select  count(*) as CNT
+        from (
+        <include refid="selectLotList"/>
+        ) A
+    </select>
+    <sql id="selectLotList">
         select 	L.LOT_NO
-             , L.STAT_CD, L.FROM_DT, L.TO_DT
-             , L.START_PRICE
-             , L.GROW_PRICE
-             , COLUMN_JSON(L.TITLE_BLOB) TITLE_JSON
-             , COLUMN_JSON(L.STITLE_BLOB) STITLE_JSON
-             , L.EDITION
-             , COLUMN_JSON(L.MAKE_YEAR_BLOB) MAKE_YEAR_JSON
-             , COLUMN_JSON(L.SIGN_INFO_BLOB) SIGN_INFO_JSON
-             , COLUMN_JSON(AT.ARTIST_NAME_BLOB) ARTIST_NAME_JSON
-             , AT.BORN_YEAR
-             , AT.DIE_YEAR
-             , CD.CD_NM as MATE_NM
-             , CD.CD_NM_EN as MATE_NM_EN
-             , CD.CD_NM_CN as MATE_NM_CN
-             , LI.FILE_PATH as LOT_IMG_PATH
-             , LI.FILE_NAME as LOT_IMG_NAME
-             , IFNULL(BD.LAST_PRICE, L.DISP_SOLD_PRICE) AS LAST_PRICE
+            , L.STAT_CD, L.FROM_DT, L.TO_DT
+            , L.START_PRICE
+            , L.GROW_PRICE
+            , COLUMN_JSON(L.TITLE_BLOB) TITLE_JSON
+            , COLUMN_JSON(L.STITLE_BLOB) STITLE_JSON
+            , L.EDITION
+            , COLUMN_JSON(L.MAKE_YEAR_BLOB) MAKE_YEAR_JSON
+            , COLUMN_JSON(L.SIGN_INFO_BLOB) SIGN_INFO_JSON
+            , COLUMN_JSON(AT.ARTIST_NAME_BLOB) ARTIST_NAME_JSON
+            , AT.BORN_YEAR
+            , AT.DIE_YEAR
+            , CD.CD_NM as MATE_NM
+            , CD.CD_NM_EN as MATE_NM_EN
+            , CD.CD_NM_CN as MATE_NM_CN
+            , LI.FILE_PATH as LOT_IMG_PATH
+            , LI.FILE_NAME as LOT_IMG_NAME
+            , IFNULL(BD.LAST_PRICE, L.DISP_SOLD_PRICE) AS LAST_PRICE
             , ifnull(BD.SOLD_YN, 'N') as SOLD_YN
             , if(L.TO_DT &lt; now(), 'Y', 'N') as END_YN
             , ifnull(BD.BID_CNT, 0) as BID_CNT
@@ -100,12 +110,12 @@
             , IFNULL(L.FRAME_CD, 'none') AS FRAME_CD
             , L.ZEROBASE_PRICE_YN
         from LOT L
-		    left outer join (
-			    select BD.*, BD.BID_PRICE as LAST_PRICE, <![CDATA[if(L.TO_DT < now(), 'Y', 'N') as SOLD_YN ]]>
+            left outer join (
+                select BD.*, BD.BID_PRICE as LAST_PRICE, <![CDATA[if(L.TO_DT < now(), 'Y', 'N') as SOLD_YN ]]>
                     , (select count(A.BID_NO) from BID A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO) as BID_CNT
-			    from LOT L inner join BID BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
-						and BD.BID_NO = (select A.BID_NO from BID A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.BID_PRICE desc, A.BID_DT asc, A.BID_NO asc limit 1)
-			    where L.SALE_NO = #{sale_no}
+                from LOT L inner join BID BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+                    and BD.BID_NO = (select A.BID_NO from BID A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.BID_PRICE desc, A.BID_DT asc, A.BID_NO asc limit 1)
+                where L.SALE_NO = #{sale_no}
             ) BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
             left outer join ARTIST AT on AT.ARTIST_NO = L.ARTIST_NO
             left outer join CODE CD	on CD.grp_id = 'material' and CD.CD_ID = L.MATE_CD
@@ -114,7 +124,21 @@
             join SALE S ON S.SALE_NO = L.SALE_NO
             left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
         where L.WWW_DISP_YN = 'Y'
-            and L.SALE_NO = #{sale_no}
+          and L.SALE_NO = #{sale_no}
         group by L.SALE_NO , L.LOT_NO
-    </select>
+        order by
+        <choose>
+            <when test="sort_by == 'LOTAS'">L.LOT_NO</when>
+            <when test="sort_by == 'LOTDE'">L.LOT_NO desc</when>
+            <when test="sort_by == 'ESTAS'">COLUMN_GET(L.EXPE_PRICE_FROM_BLOB, 'KRW' as double), L.LOT_NO</when>
+            <when test="sort_by == 'ESTDE'">COLUMN_GET(L.EXPE_PRICE_FROM_BLOB, 'KRW' as double) desc, L.LOT_NO</when>
+            <when test="sort_by == 'ENDAS'">S.TO_DT, L.LOT_NO</when>
+            <when test="sort_by == 'ENDDE'">S.TO_DT DESC, L.LOT_NO</when>
+            <when test="sort_by == 'BIPAS'">BD.LAST_PRICE, L.LOT_NO</when>
+            <when test="sort_by == 'BIPDE'">BD.LAST_PRICE desc, L.LOT_NO</when>
+            <when test="sort_by == 'BICAS'">BD.BID_CNT, L.LOT_NO</when>
+            <when test="sort_by == 'BICDE'">BD.BID_CNT desc, L.LOT_NO</when>
+            <otherwise>L.LOT_NO</otherwise>
+        </choose>
+    </sql>
 </mapper>

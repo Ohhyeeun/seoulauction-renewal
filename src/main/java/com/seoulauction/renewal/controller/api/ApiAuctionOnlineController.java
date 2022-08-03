@@ -1,16 +1,14 @@
 package com.seoulauction.renewal.controller.api;
 
 import com.seoulauction.renewal.common.RestResponse;
+import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.service.AuctionOnlineService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Log4j2
@@ -30,8 +28,10 @@ public class ApiAuctionOnlineController {
 
     @ApiOperation(value = "온라인 랏 정보 조회", notes = "경매번호를 통해 랏 정보를 조회한다.")
     @GetMapping(value="/sales/{saleNo}/lots")
-    public ResponseEntity<RestResponse> lots(@PathVariable("saleNo") int saleNo) {
-        CommonMap commonMap = new CommonMap();
+    public ResponseEntity<RestResponse> lots(@PathVariable("saleNo") int saleNo
+            , @RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page
+            , @RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size) {
+        CommonMap commonMap = CommonMap.create(page,size);
         commonMap.put("sale_no", saleNo);
 
         return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.selectLotList(commonMap)));

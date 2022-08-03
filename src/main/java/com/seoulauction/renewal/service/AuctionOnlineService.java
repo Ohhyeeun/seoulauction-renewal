@@ -25,7 +25,11 @@ public class AuctionOnlineService {
         return resultMap;
     }
 
-    public List<CommonMap> selectLotList(CommonMap commonMap) {
-        return auctionOnlineMapper.selectLotList(commonMap);
+    public CommonMap selectLotList(CommonMap commonMap) {
+        CommonMap map = new CommonMap();
+        map.put("list", auctionOnlineMapper.selectLotListPaging(commonMap));
+        map.put("cnt", auctionOnlineMapper.selectLotListCount(commonMap));
+
+        return map;
     }
 }

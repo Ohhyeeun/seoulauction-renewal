@@ -13,5 +13,6 @@ public interface AuctionOnlineMapper {
 
     List<CommonMap> selectLotTagList(CommonMap commonMap);
 
-    List<CommonMap> selectLotList(CommonMap commonMap);
+    List<CommonMap> selectLotListPaging(CommonMap commonMap);
+    int selectLotListCount(CommonMap commonMap);
 }
