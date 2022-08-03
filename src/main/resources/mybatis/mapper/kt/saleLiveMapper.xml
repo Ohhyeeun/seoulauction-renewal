@@ -20,14 +20,14 @@
     <select id="selectLiveSaleLots" parameterType="CommonMap" resultType="CommonMap">
         SELECT
               L.LOT_NO
-             ,COLUMN_JSON(L.TITLE_BLOB) EXPE_PRICE_TITLE -- 타이틀
+             ,COLUMN_JSON(L.TITLE_BLOB) EXPE_PRICE_TITLE_JSON -- 타이틀
              ,COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON -- 낮은 추정가
              ,COLUMN_JSON(L.EXPE_PRICE_TO_BLOB) EXPE_PRICE_TO_JSON -- 높은 추정가
              ,COLUMN_JSON(D.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON
              ,IMG_DISP_YN
              ,IFNULL(IL.DEL_YN,'Y') FAVORITE_YN /*N 이면 좋아요가 있음. Y면 좋아요가 아님.*/
-             ,LI.FILE_PATH
-             ,LI.FILE_NAME
+             ,LI.FILE_PATH LOT_IMG_PATH
+             ,LI.FILE_NAME LOT_IMG_NAME
              ,LIVE_ING_YN
              ,LIVE_CLOSE_YN
              ,UNDERBIDDER_YN
@@ -46,6 +46,9 @@
               L.SALE_NO = #{sale_no}
           and L.STAT_CD = 'entry'
           and L.WWW_DISP_YN = 'Y'
+         <if test="category !=null">
+          and H.CD_ID = #{category}
+         </if>
         group by
             L.LOT_NO
     </select>
@@ -53,7 +56,7 @@
     <select id="selectLiveSaleLotByOne" parameterType="CommonMap" resultType="CommonMap">
         SELECT
               L.LOT_NO
-             ,COLUMN_JSON(L.TITLE_BLOB) EXPE_PRICE_TITLE -- 타이틀
+             ,COLUMN_JSON(L.TITLE_BLOB) EXPE_PRICE_TITLE_JSON -- 타이틀
              ,COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON -- 낮은 추정가
              ,COLUMN_JSON(L.EXPE_PRICE_TO_BLOB) EXPE_PRICE_TO_JSON -- 높은 추정가
              ,COLUMN_JSON(D.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON
@@ -61,8 +64,8 @@
              ,COLUMN_JSON(L.MAKE_YEAR_BLOB)       MAKE_YEAR_JSON
              ,D.ARTIST_NO
              ,D.BORN_YEAR
-             ,LI.FILE_PATH
-             ,LI.FILE_NAME
+             ,LI.FILE_PATH LOT_IMG_PATH
+             ,LI.FILE_NAME LOT_IMG_NAME
              ,IMG_DISP_YN
              ,IFNULL(IL.DEL_YN,'Y') FAVORITE_YN /*N 이면 좋아요가 있음. Y면 좋아요가 아님.*/
              ,concat('[',
@@ -165,7 +168,44 @@
         ORDER BY
              BD_OFF.BID_NO DESC
     </select>
+    <!--응찰 하기-->
+    <insert id="insertLiveBidding" parameterType="CommonMap">
+            INSERT INTO BID_OFFLINE (
+            SALE_NO,
+            LOT_NO,
+            CUST_NO,
+            PADD_NO,
+            BID_PRICE,
+            BID_KIND_CD,
+            BID_NOTICE,
+            BID_NOTICE_EN,
+            BID_DT,
+            REG_DT
+        )
+        SELECT BMAX.SALE_NO, BMAX.LOT_NO, BMAX.CUST_NO, #{padd_no}, BMAX.BID_PRICE, BMAX.BID_KIND_CD, BMAX.BID_NOTICE, BMAX.BID_NOTICE_EN, NOW(6), NOW(6)
+            FROM (SELECT 	#{sale_no} as SALE_NO,
+            #{lot_no} as LOT_NO,
+            CASE WHEN #{bid_kind_cd} = 'online' THEN ${cust_no} END as CUST_NO,
+            #{bid_price} as BID_PRICE,
+            #{bid_kind_cd} as BID_KIND_CD,
+            #{bid_notice} as BID_NOTICE,
+            #{bid_notice_en} as BID_NOTICE_EN
+            FROM  (SELECT L.SALE_NO, L.LOT_NO, BO.CUST_NO, BO.BID_PRICE
+            FROM (SELECT * FROM LOT WHERE SALE_NO = #{sale_no} AND LOT_NO = #{lot_no}) L
+            LEFT OUTER JOIN (SELECT * FROM BID_OFFLINE WHERE SALE_NO = #{sale_no} AND LOT_NO = #{lot_no} AND BID_PRICE IS NOT NULL ORDER BY BID_NO DESC LIMIT 1 ) BO
+            ON L.SALE_NO = BO.SALE_NO AND L.LOT_NO = BO.LOT_NO) BOFF
 
+            WHERE  BOFF.SALE_NO = #{sale_no}
+            AND  BOFF.LOT_NO = #{lot_no}
+            <if test='bid_kind_cd == "online"'>
+                AND  IFNULL(BOFF.CUST_NO, 0) != ${cust_no}
+                AND  IFNULL(#{bid_price}, 0) > IFNULL(BOFF.BID_PRICE, 0)
+            </if>
+            <if test='bid_notice == null and bid_kind_cd != "price_change"'>
+                AND  IFNULL(#{bid_price}, 0) >= IFNULL(BOFF.BID_PRICE, 0)
+            </if>
+        ) BMAX
+    </insert>
 
 
 

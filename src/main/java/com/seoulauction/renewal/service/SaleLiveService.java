@@ -1,24 +1,18 @@
 package com.seoulauction.renewal.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
-import com.seoulauction.renewal.exception.SAException;
-import com.seoulauction.renewal.mapper.aws.ArtistMapper;
+import com.seoulauction.renewal.form.OfflineBiddingForm;
 import com.seoulauction.renewal.mapper.kt.SaleLiveMapper;
-import com.seoulauction.renewal.mapper.kt.SaleMapper;
 import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,9 +28,43 @@ public class SaleLiveService {
         return saleLiveMapper.selectLiveSale(map);
     }
     public List<CommonMap> selectLiveSaleLots(CommonMap map){
-        return saleLiveMapper.selectLiveSaleLots(map);
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if(saUserDetails !=null){
+            map.put("cust_no" , saUserDetails.getUserNo());
+        } else {
+            map.put("cust_no" , 0);
+        }
+
+        AtomicBoolean isEmployee = new AtomicBoolean(false);
+
+        return saleLiveMapper.selectLiveSaleLots(map).stream().map(k->{
+
+            if( saUserDetails !=null) {
+                map.put("cust_no" , saUserDetails.getUserNo());
+                isEmployee.set(saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER")));
+            }
+            //노이미지 처리.
+            if (k.get("IMG_DISP_YN").equals("N") && !isEmployee.get()) {
+                k.put("IMAGE_URL", "");
+                k.put("LOT_IMG_PATH", "");
+                k.put("LOT_IMG_NAME", "/images/bg/no_image.jpg");
+            } else {
+                k.put("IMAGE_URL", IMAGE_URL);
+            }
+
+           return k;
+        }).collect(Collectors.toList());
     }
     public CommonMap selectLiveSaleLotByOne(CommonMap map){
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if(saUserDetails !=null){
+            map.put("cust_no" , saUserDetails.getUserNo());
+        } else {
+            map.put("cust_no" , 0);
+        }
+
         return saleLiveMapper.selectLiveSaleLotByOne(map);
     }
     public List<CommonMap> selectLiveCategories(CommonMap map){
@@ -45,8 +73,27 @@ public class SaleLiveService {
     public List<CommonMap> selectLiveMyBidding(CommonMap map){
         return saleLiveMapper.selectLiveMyBidding(map);
     }
-    public List<CommonMap> selectLiveSiteBidding(CommonMap map){
-        return saleLiveMapper.selectLiveSiteBidding(map);
+    public List<CommonMap> selectLiveSiteBidding(CommonMap map){return saleLiveMapper.selectLiveSiteBidding(map);}
+
+    public void insertOfflineBidding(int saleNo , int lotNo , OfflineBiddingForm offlineBiddingForm){
+
+        CommonMap map = new CommonMap();
+        map.put("sale_no", saleNo);
+        map.put("lot_no", lotNo);
+        map.put("bid_kind_cd", offlineBiddingForm.getBidKindCd());
+        map.put("bid_price", offlineBiddingForm.getBidPrice());
+        map.put("bid_notice", offlineBiddingForm.getBidNotice());
+        map.put("bid_notice_en", offlineBiddingForm.getBidNoticeEn());
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+
+        map.put("cust_no" , 0);
+        //만약 로그인을 했고 직원 이면.
+        if( saUserDetails !=null) {
+            map.put("cust_no" , saUserDetails.getUserNo());
+        }
+
+        saleLiveMapper.insertLiveBidding(map);
     }
 }
 
