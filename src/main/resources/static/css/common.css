@@ -1097,12 +1097,9 @@ recent-keyword:lang(en) {
     margin-bottom: 25px;
     font-weight: 500;
 }
-.submenu:lang(en)>li>a {
+.submenu:lang(en)>li>a { 
     line-height: 1.2;
     height: auto;
-}
-.submenu-part03:lang(en) {
-    max-width: 109px;
 }
 .currentIng {
     font-size: 11px;

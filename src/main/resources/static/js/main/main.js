@@ -674,17 +674,18 @@ if (matchMedia("all and (min-width: 1024px)").matches) {
         $(this).hover(function(){
             $('.swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').css({
                 "background-color": "rgba(0,0,0,0.3)",
-                "padding": "2em",
-                "background-position": "center center",
-                "border-radius": "3.125rem",
-                "right":"40px",
+                "border":"0",
+                "border-radius": "100%",
+                "display": "flex",
+                "align-items": "center",
+                "justify-content": "center",
             });
             $('.swiper-button-prev.slide-btnleft').css("left","40px");
         });
 
         $('.visual-swiper > .swiper-wrapper').on('mouseleave', function(){
             $('.swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').css("background-color",'transparent');
-        }); 
+        });
     });
 
     /* 메인팝업 pc 없음 */
