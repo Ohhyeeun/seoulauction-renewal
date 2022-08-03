@@ -1116,7 +1116,7 @@
                 if(!checkLogin()){
                     return;
                 }
-                let url = item.FAVORITE_YN === 'N' ? "/api/auction/delCustInteLot" : "/api/auction/addCustInteLot";
+                let url = item.FAVORITE_YN === 'N' ? "/api/auction/live/delCustInteLot" : "/api/auction/live/addCustInteLot";
                 try {
                     axios.post(url, {
                         sale_no: item.SALE_NO, lot_no: item.LOT_NO
@@ -1134,7 +1134,7 @@
             // 호출 부
             const getSaleInfo = (saleNo) => {
                 try {
-                    return axios.get('/api/auction/list/${saleNo}');
+                    return axios.get('/api/auction/live/list/${saleNo}');
                 } catch (error) {
                     console.error(error);
                 }
@@ -1142,7 +1142,7 @@
 
             const getSaleImages = (saleNo, lotNo) => {
                 try {
-                    return axios.get('/api/auction/sale_images/${saleNo}');
+                    return axios.get('/api/auction/live/sale_images/${saleNo}');
                 } catch (error) {
                     console.error(error);
                 }
@@ -1150,7 +1150,7 @@
 
             const getLotTags = (saleNo) => {
                 try {
-                    return axios.get('/api/auction/lotTag/${saleNo}');
+                    return axios.get('/api/auction/live/lotTag/${saleNo}');
                 } catch (error) {
                     console.error(error);
                 }
@@ -1158,7 +1158,7 @@
 
             const getPaddle = (saleNo) => {
                 try {
-                    return axios.get('/api/auction/paddles/${saleNo}');
+                    return axios.get('/api/auction/live/paddles/${saleNo}');
                 } catch (error) {
                     console.error(error);
                 }
