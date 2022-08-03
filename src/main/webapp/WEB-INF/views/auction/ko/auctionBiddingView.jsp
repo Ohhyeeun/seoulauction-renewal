@@ -664,19 +664,28 @@
                                     <p class="totalcount"><span class="num">300</span> <span class="unit">LOT</span></p>
                                 </div>
 
-                                <div class="lotlist-tabmenu">
+<%--                                <div class="lotlist-tabmenu">--%>
+<%--                                    <div class="btn_item">--%>
+<%--                                        <a href="#" class="lot-btn_tabmenu on" role="button">근현대</a>--%>
+<%--                                    </div>--%>
+<%--                                    <div class="btn_item">--%>
+<%--                                        <a href="#" class="lot-btn_tabmenu" role="button">고미술</a>--%>
+<%--                                    </div>--%>
+<%--                                    <div class="btn_item">--%>
+<%--                                        <a href="#" class="lot-btn_tabmenu" role="button">시계</a>--%>
+<%--                                    </div>--%>
 
-                                    <div class="btn_item">
-                                        <a href="#" class="lot-btn_tabmenu on" role="button">근현대</a>
-                                    </div>
-                                    <div class="btn_item">
-                                        <a href="#" class="lot-btn_tabmenu" role="button">고미술</a>
-                                    </div>
-                                    <div class="btn_item">
-                                        <a href="#" class="lot-btn_tabmenu" role="button">시계</a>
-                                    </div>
-
+<%--                                </div>--%>
+                                <!-- [0728]탭수정 -->
+                                <div class="tab-area type-left_mm_3">
+                                    <ul class="tab-list js-left_mm">
+                                        <li class="active"><a href="#tab-cont-1"><span>전체</span></a></li>
+                                        <li class=""><a href="#tab-cont-2"><span>근현대</span></a></li>
+                                        <li class=""><a href="#tab-cont-3"><span>고미술</span></a></li>
+                                        <li class=""><a href="#tab-cont-4"><span>시계</span></a></li>
+                                    </ul>
                                 </div>
+                                <!-- //[0728]탭수정 -->
                             </div>
                             <div class="lotlist-tabCont">
 
@@ -1232,6 +1241,25 @@
 
         });
     </script>
+
+    <!-- [0728]탭 -->
+    <script>
+        $('.js-left_mm a').on('click', function(e) {
+            e.preventDefault();
+            var tar = $(this).position().left;
+            var scrollX = tar - ($(".js-left_mm").parents(".tab-area").width() / 2) + $(this).width() / 2;
+
+            if ($(this).parents('li').hasClass('active')) {
+                return false;
+            } else {
+                $(".js-left_mm li").removeClass('active');
+                $(this).parents('li').addClass('active');
+
+                $(".js-left_mm").parents(".tab-area").scrollLeft(scrollX);
+            }
+        });
+    </script>
+    <!-- [0728]탭 --> 
 </div>
 <script type="text/javascript" src="https://llrtsprod.s.llnwi.net/v1/sdk/html/current/llnwrtssdk.min.js"></script>
 <script src="/js/simple.js?ver=1.0.0"></script>

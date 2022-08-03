@@ -118,8 +118,7 @@ $('#findId').on('click', function() {
 
 /*아이디찾기-아이디 검색 결과 */
 (function() {
-
-	$("body").on("click", ".popup_idsearch1-wrap .js-closepop, #popup_idsearch1-wrap .popup-dim, #confirm_1", function($e) {
+	$("body").on("click", "#popup_idsearch1-wrap .js-closepop, #popup_idsearch1-wrap .popup-dim, #confirm_1", function($e) {
 		$e.preventDefault();
 		popup_idsearch1.close();
 	});
@@ -127,7 +126,7 @@ $('#findId').on('click', function() {
 
 /*아이디찾기-일치하는 정보가 없을 경우  */
 (function() {
-	$("body").on("click", ".popup_idsearch2-wrap .js-closepop, #popup_idsearch2-wrap .popup-dim, #confirm_2", function($e) {
+	$("body").on("click", "#popup_idsearch2-wrap .js-closepop, #popup_idsearch2-wrap .popup-dim, #confirm_2", function($e) {
 		$e.preventDefault();
 		popup_idsearch2.close();
 	});
@@ -135,7 +134,7 @@ $('#findId').on('click', function() {
 
 /*아이디찾기-항목 미입력*/
 (function() {
-	$("body").on("click", ".popup_idsearch3-wrap .js-closepop, #popup_idsearch3-wrap .popup-dim, #confirm_3", function($e) {
+	$("body").on("click", "#popup_idsearch3-wrap .js-closepop, #popup_idsearch3-wrap .popup-dim, #confirm_3", function($e) {
 		$e.preventDefault();
 		popup_idsearch3.close();
 	});
@@ -143,7 +142,7 @@ $('#findId').on('click', function() {
 
 /*아이디찾기-소셜 회원인 경우*/
 (function() {
-	$("body").on("click", ".popup_idsearch4-wrap .js-closepop, #popup_idsearch4-wrap .popup-dim, #confirm_4", function($e) {
+	$("body").on("click", "#popup_idsearch4-wrap .js-closepop, #popup_idsearch4-wrap .popup-dim, #confirm_4", function($e) {
 		$e.preventDefault();
 		popup_idsearch4.close();
 	});

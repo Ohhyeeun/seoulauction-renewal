@@ -329,6 +329,26 @@ body {
     content: '';
     display: block;
 }
+.mark_dot-list li {
+    position: relative;
+    padding-left: 0.5em;
+}
+.mark_dot-list li:after {
+    content: "";
+    display: block;
+    width: 3px;
+    height: 3px;
+    position: absolute;
+    top: 11px;
+    left: 0;
+    background-color: #555555;
+}
+
+@media all and (max-width: 1023px) {
+    .mark_dot-list li.text-help:after {
+        top: 8px;
+    }
+}
 @media screen and (max-width: 1023px) {
     .icon-pop_close {
         display: inline-block;
@@ -363,7 +383,8 @@ body {
 
 .trp.popupfixed-wrap {
     display: none;
-    position: absolute;
+    /*position: absolute;*/ 
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -3055,6 +3076,9 @@ body {
 
 .trp.popupfixed-wrap.login-popup .pop-body .confirm_btn .btn {
     width: 170px;
+}
+.trp.popupfixed-wrap.login-popup .pop-body .confirm_btn .btn:lang(en) {
+    width: 210px;
 }
 
 @media all and (max-width: 1023px) {

@@ -191,14 +191,14 @@
 <div class="blackBg main-popupBg"></div>
 <div class="main-popupwrap"></div>
 <div class="main-popupbox">
-    <a href="" id="main_popup_a_link" title="메인 팝업 이미지">
+    <a href="" id="main_popup_a_link">
         <div class="main-popup-img"> <!-- 이미지 레이어팝업 -->
             <img id="main_popup_img" <%--src="/images/pc/main/pop_event.jpg"--%> alt="레이어팝업 이미지">
         </div>
     </a>
 
     <!-- 텍스트 레이어팝업 on-->
-    <a href="javascript:void(0);" id="main_popup_text_a_link" title="메인 팝업 텍스트">
+    <a href="javascript:void(0);" id="main_popup_text_a_link">
         <div class="main-popup-txt">
             <div class="main-popup-caption">
                 <h2 id="main_popup_title"></h2>
@@ -213,10 +213,10 @@
     </div>
 </div>
 <%-- main 레이어 팝업 ---%>
-<div class="popup-dim popup_concurrent-wrap" style="display:none;"></div> <%-- 비번 초기화 및 이중접속 안내 등 공통 팝업 dim --%>
-<!-- 이중접속 차단 안내 -->
 
-<div id="popup_concurrent-wrap" class="trp popupfixed-wrap login-popup">
+
+<!-- 이중접속 차단 안내 -->
+<div id="popup_concurrent-wrap" class="trp popupfixed-wrap login-popup"> 
     <div class="popup-dim"></div>
     <div class="popup-align mode-ms mode-mb_center">
         <div class="popup-vertical">
@@ -229,9 +229,11 @@
                             <img class="only_ib-mb" src="/images/mobile/login/search_ico_01.png">
                         </div>
                         <div class="title-box_tac title_concurrent">
-                            <span class="title_tac">회원님과 동일한 아이디로 다른 PC나 모바일 환경에서 동시 접속하여  자동으로 로그아웃 되었습니다.<br>
-                                ⁠본인이 아닌 경우 다시 로그인을 하시거나,<br class="only-pc">
-                                고객센터에 문의해 주세요.</span>
+                            <!-- [0728]텍스트수정 -->
+                            <span class="title_tac">회원님과 동일한 아이디로 다른 PC나 모바일 환경에서 동시 접속하여 자동으로 로그아웃 되었습니다<br>
+                                    ⁠본인이 아닌 경우 다시 로그인을 하시거나,<br class="only-pc">
+                                    고객센터에 문의해 주세요.</span>
+                            <!-- //[0728]텍스트수정 --> 
                         </div>
                     </div>
                     <div class="pop-body">

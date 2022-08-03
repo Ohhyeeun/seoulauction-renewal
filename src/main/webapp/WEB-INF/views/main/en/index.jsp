@@ -152,7 +152,7 @@
 <div class="blackBg main-popupBg"></div>
 <div class="main-popupwrap"></div>
     <div class="main-popupbox">
-        <a href="#" title="메인 팝업 이미지" id="main_popup_a_link" title="main popup img">
+        <a href="#" title="메인 팝업 이미지" id="main_popup_a_link">
             <div class="main-popup-img"> <!-- 이미지 레이어팝업 -->
                 <img id="main_popup_img" <%--src="/images/pc/main/pop_event.jpg"--%> alt="레이어팝업 이미지">
             </div>
@@ -161,7 +161,7 @@
 
 
         <!-- 텍스트 레이어팝업 on-->
-        <a href="#" title="메인 팝업 텍스트" id="main_popup_text_a_link" title="main popup text">
+        <a href="#" title="메인 팝업 텍스트" id="main_popup_text_a_link"> 
             <div class="main-popup-txt">
                 <div class="main-popup-caption">
                     <h2 id="main_popup_title"></h2>
@@ -189,7 +189,6 @@
 </div>
 
 <!-- 이중접속 차단 안내 -->
-<div class="popup-dim popup_concurrent-wrap" style="display:none;"></div> <%-- 비번 초기화 및 이중접속 안내 등 공통 팝업 dim --%>
 <div id="popup_concurrent-wrap" class="trp popupfixed-wrap login-popup">
     <div class="popup-dim"></div>
     <div class="popup-align mode-ms mode-mb_center">
@@ -203,9 +202,11 @@
                             <img class="only_ib-mb" src="/images/mobile/login/search_ico_01.png">
                         </div>
                         <div class="title-box_tac title_concurrent">
-                            <span class="title_tac">You are automatically logged out by simultaneously accessing from another PC with the same ID as the member.<br>
-                                If you are not the person, please log in again or contact the customer center.
-                            </span>
+                            <!-- [0728]텍스트수정 -->
+                            <span class="title_tac">You are automatically logged out by simultaneously accessing from another PC or mobile environment with the same ID as the member.<br>
+                                    If you are not the person, please log in again or contact the customer center.
+                                </span>
+                            <!-- //[0728]텍스트수정 --> 
                         </div>
                     </div>
                     <div class="pop-body">

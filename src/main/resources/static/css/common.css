@@ -802,7 +802,7 @@ img::selection {
     border: 1px solid #b0b0b0;
     padding: 10px 0;
     position: absolute;
-    z-index: 6;
+    z-index: 10;
     top: 41px;
     left: -114%;
     background: #fff;
@@ -1184,6 +1184,7 @@ recent-keyword:lang(en) {
     width: 100%;
     position: absolute;
     bottom: 0;
+    z-index: 0;
 }
 .footerBg  {
     position: relative;
@@ -1601,13 +1602,18 @@ body.dark,
 }
 .terms-checktxt-line.dark {
     border-bottom-color: #fff;
-}
-
+} 
 
 /* 외주 css select container */
+.sub-wrap .main-header {
+    z-index: 5!important;
+}
 .popup-dim.popup_biddingPopup1-wrap,
 .trp.popupfixed-wrap.bidding-online-popup {
     z-index: 0 !important;
+}
+.sticky_bidding-article {
+    z-index: 1 !important;
 }
 .content-panel.type_panel-product_list .set-pc_mb .only-mb2 {
     /* auction 더보기 방식 더보기 btn 별도 새로운 클래스 생성 only-mb2*/
@@ -1890,7 +1896,7 @@ body.dark,
         height: 100vh;
         background-color: rgba(0,0,0,.5);
         backdrop-filter:blur(10px);
-        z-index: 3;
+        z-index: 5;
         display: none;
     }
     .submenuBg {
