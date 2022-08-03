@@ -16,7 +16,7 @@
                 <section class="page_title-section type-dark">
                     <div class="section-inner full_size ">
                         <div class="center-box">
-                            <h2 class="page_title"><span class="th1">Exhibition space rental</span></h2
+                            <h2 class="page_title"><span class="th1">Exhibition space rental</span></h2>
                             <div class="page_desc"><span class="tb1">전시장대관</span></div>
                         </div>
                     </div>
@@ -215,10 +215,6 @@
         </div>
         <!-- //container -->
 
-        <!-- footer -->
-        <jsp:include page="../../include/ko/footer.jsp" />
-        <!-- //footer -->
-
         <!-- stykey -->
         <div class="scroll_top-box">
             <div class="box-inner">
@@ -226,9 +222,12 @@
             </div>
         </div>
         <!-- // stykey -->
-
+        <!-- footer -->
+        <jsp:include page="../../include/ko/footer.jsp" />
+        <!-- //footer -->
     </div>
 </div>
+
 
 <script>
     app.value('locale', 'ko');
