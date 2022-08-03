@@ -152,7 +152,7 @@
 <div class="blackBg main-popupBg"></div>
 <div class="main-popupwrap"></div>
     <div class="main-popupbox">
-        <a href="#" title="메인 팝업 이미지" id="main_popup_a_link" title="main popup img">
+        <a href="#" title="메인 팝업 이미지" id="main_popup_a_link">
             <div class="main-popup-img"> <!-- 이미지 레이어팝업 -->
                 <img id="main_popup_img" <%--src="/images/pc/main/pop_event.jpg"--%> alt="레이어팝업 이미지">
             </div>
@@ -161,7 +161,7 @@
 
 
         <!-- 텍스트 레이어팝업 on-->
-        <a href="#" title="메인 팝업 텍스트" id="main_popup_text_a_link" title="main popup text">
+        <a href="#" title="메인 팝업 텍스트" id="main_popup_text_a_link"> 
             <div class="main-popup-txt">
                 <div class="main-popup-caption">
                     <h2 id="main_popup_title"></h2>
