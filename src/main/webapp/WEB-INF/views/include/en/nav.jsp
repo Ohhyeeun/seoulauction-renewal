@@ -47,7 +47,7 @@
             <a href="/" class="header_logo"><span class="blind-text">logo</span></a>
             <ul class="header_gnbmenu pc-ver">
                 <li><a href="#" class="">AUCTION</a></li>
-                <li><a href="#">PRIVATE SALE</a></li>
+                <li><a href="#">PRIVATE SALES</a></li>
                 <li><a href="#">SELL</a></li>
                 <li><a href="#">SERVICE</a></li>
             </ul>
@@ -83,10 +83,10 @@
                                 <li id="menu_auction"><a href="/auction/progress">Current</a></li>
                                 <li id="menu_upcoming"><a href="/auction/upcoming">Upcoming</a></li>
                                 <li><a href="/auction/results">Result</a></li>
-                                <li><a href="/auction/info">Auction Guide</a></li>
+                                <li><a href="/auction/info">Guide</a></li>
                             </ul>
                         </li>
-                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
+                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALES<span></span></span>
                             <ul class="submenu submenu-part02">
                                 <li id="menu_exhibit"><a href="/privatesale/exhibit">Exhibition</a></li>
                                 <li><a href="/privatesale/psList">Private Sale</a></li>
@@ -95,8 +95,8 @@
                         </li>
                         <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>
                             <ul class="submenu submenu-part03">
-                                <li><a href="/sell/consignment">Consignment information</a></li>
-                                <li><a href="/mypage/inquiryForm">Consignment application</a></li>
+                                <li><a href="/sell/consignment">How to Sell</a></li>
+                                <li><a href="/mypage/inquiryForm">How to Consign</a></li>
                             </ul>
                         </li>
                         <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
