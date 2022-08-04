@@ -17,6 +17,4 @@ public interface SaleLiveMapper {
     void insertLiveBidding(CommonMap map);
     List<CommonMap> selectSaleExchRate(CommonMap map);
 
-    CommonMap selectSaleInfo(CommonMap commonMap);
-
 }

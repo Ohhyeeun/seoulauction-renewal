@@ -220,43 +220,5 @@
         WHERE
               EX.SALE_NO = #{sale_no}
     </select>
-    <!--라이브 경매 기본정보 -->
-    <select id="selectSaleInfo" parameterType="CommonMap" resultType="CommonMap">
-        select S.SALE_NO
-             , IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH
-             , COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
-             , S.FROM_DT
-             , S.TO_DT
-             , S.LIVE_BID_YN
-             , S.LIVE_BID_DT
-             , S.AUTO_BID_REQ_CLOSE_DT
-             , now() as DB_NOW
-             , (select MAX(L.TO_DT) from LOT L where L.SALE_NO = S.SALE_NO GROUP BY L.SALE_NO) END_DT
-             , (<![CDATA[select LC.CLOSE_YN from LOT LC where LC.SALE_NO = S.SALE_NO AND LC.LOT_NO = (SELECT MAX(LC1.LOT_NO) FROM LOT LC1 WHERE LC1.SALE_NO = S.SALE_NO AND LC1.STAT_CD <> 'reentry')]]>) AS CLOSE_YN
-             , BW.WRITE_NO
-             , min(SP.FROM_DT) PREV_FROM_DT
-             , max(SP.TO_DT) PREV_TO_DT
-             , concat('[',
-                      GROUP_CONCAT('{'
-                          , '"PLACE_JSON":', ifnull(CAST(COLUMN_JSON(SP.PLACE_BLOB) as char), ''), ', '
-                          , '"ADDR_JSON":', ifnull(CAST(COLUMN_JSON(SP.ADDR_BLOB) as char), ''), ', '
-                          , '"FROM_DT":"', SP.FROM_DT, '", '
-                          , '"TO_DT":"', SP.TO_DT, '", '
-                          , '"FROM_TIME":"', SP.FROM_TIME, '", '
-                          , '"TO_TIME":"', SP.TO_TIME, '", '
-                          , '"MAP_URL":"', ifnull(SP.MAP_URL, ''), '"'
-                          , '}')
-            ,']') as PREVIEW_JSON
-             , COLUMN_JSON(S.NOTICE_DTL_BLOB) NOTICE_DTL_JSON
-        from SALE S
-                 LEFT OUTER JOIN BBS_WRITE BW ON BW.SALE_NO = S.SALE_NO AND BBS_ID = 'notice'
-                 LEFT OUTER JOIN SALE_PREV SP ON S.SALE_NO = SP.SALE_NO
-        where S.SALE_NO = #{sale_no}
-          and S.DEL_YN ='N'
-          and S.WWW_DISP_YN = 'Y'
-    </select>
-
-
-
 
 </mapper>
