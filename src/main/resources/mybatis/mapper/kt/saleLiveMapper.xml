@@ -20,7 +20,7 @@
     <select id="selectLiveSaleLots" parameterType="CommonMap" resultType="CommonMap">
         SELECT
               L.LOT_NO
-             ,COLUMN_JSON(L.TITLE_BLOB) EXPE_PRICE_TITLE_JSON -- 타이틀
+             ,COLUMN_JSON(L.TITLE_BLOB) LOT_TITLE_JSON -- 타이틀
              ,COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON -- 낮은 추정가
              ,COLUMN_JSON(L.EXPE_PRICE_TO_BLOB) EXPE_PRICE_TO_JSON -- 높은 추정가
              ,COLUMN_JSON(D.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON
@@ -29,6 +29,7 @@
              ,LI.FILE_PATH LOT_IMG_PATH
              ,LI.FILE_NAME LOT_IMG_NAME
              ,LIVE_ING_YN
+             ,STAT_CD
              ,LIVE_CLOSE_YN
              ,UNDERBIDDER_YN
              ,UNDERBIDDER_REMARK
@@ -56,7 +57,7 @@
     <select id="selectLiveSaleLotByOne" parameterType="CommonMap" resultType="CommonMap">
         SELECT
               L.LOT_NO
-             ,COLUMN_JSON(L.TITLE_BLOB) EXPE_PRICE_TITLE_JSON -- 타이틀
+             ,COLUMN_JSON(L.TITLE_BLOB) LOT_TITLE_JSON -- 타이틀
              ,COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON -- 낮은 추정가
              ,COLUMN_JSON(L.EXPE_PRICE_TO_BLOB) EXPE_PRICE_TO_JSON -- 높은 추정가
              ,COLUMN_JSON(D.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON
@@ -108,18 +109,16 @@
                 left outer join LOT_IMG LI on L.SALE_NO = LI.SALE_NO and L.LOT_NO = LI.LOT_NO
                 left outer join CUST_INTE_LOT IL on IL.CUST_NO = #{cust_no} and L.SALE_NO = IL.SALE_NO and L.LOT_NO = IL.LOT_NO
                 and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
-            LEFT OUTER JOIN SALE S ON L.SALE_NO = S.SALE_NO
             LEFT OUTER JOIN ARTIST D ON L.ARTIST_NO = D.ARTIST_NO
             LEFT OUTER JOIN LOT_SIZE E ON L.SALE_NO = E.SALE_NO AND L.LOT_NO = E.LOT_NO
             LEFT OUTER JOIN CODE H ON H.GRP_ID = 'artwork_category' AND H.CD_ID = (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = (SELECT IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = L.CATE_CD))
         WHERE
               L.SALE_NO = #{sale_no}
           and L.LOT_NO = #{lot_no}
-        --   and L.STAT_CD = 'entry'
+          --  and L.STAT_CD = 'entry'
           and L.WWW_DISP_YN = 'Y'
         <if test="all !=null and !all" >
           and L.LIVE_ING_YN = 'Y'
-          and S.LIVE_BID_YN = 'Y'
         </if>
         group by
             L.LOT_NO
