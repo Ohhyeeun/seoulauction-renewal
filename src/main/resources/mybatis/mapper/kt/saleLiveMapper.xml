@@ -44,7 +44,7 @@
             LEFT OUTER JOIN CODE H ON H.GRP_ID = 'artwork_category' AND H.CD_ID = (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = (SELECT IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = L.CATE_CD))
         WHERE
               L.SALE_NO = #{sale_no}
-          and L.STAT_CD = 'entry'
+         --  and L.STAT_CD = 'entry'
           and L.WWW_DISP_YN = 'Y'
          <if test="category !=null">
           and H.CD_ID = #{category}
@@ -81,7 +81,7 @@
                       '"MIX_CD":"', ifnull(E.MIX_CD,'h') ,'",',
                       '"CANVAS_EXT_YN":"', ifnull(E.CANVAS_EXT_YN,'N'), '"',
                               '}')
-            ,']') AS LOT_SIZE_JSON
+            ,']') AS LOT_SIZE_ARRAY
              ,ifnull(E.UNIT_CD, 'cm')             UNIT_CD
              ,ifnull(E.SIZE1, '0')                SIZE1
              ,ifnull(E.SIZE2, '0')                SIZE2
@@ -108,14 +108,19 @@
                 left outer join LOT_IMG LI on L.SALE_NO = LI.SALE_NO and L.LOT_NO = LI.LOT_NO
                 left outer join CUST_INTE_LOT IL on IL.CUST_NO = #{cust_no} and L.SALE_NO = IL.SALE_NO and L.LOT_NO = IL.LOT_NO
                 and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
+            LEFT OUTER JOIN SALE S ON L.SALE_NO = S.SALE_NO
             LEFT OUTER JOIN ARTIST D ON L.ARTIST_NO = D.ARTIST_NO
             LEFT OUTER JOIN LOT_SIZE E ON L.SALE_NO = E.SALE_NO AND L.LOT_NO = E.LOT_NO
             LEFT OUTER JOIN CODE H ON H.GRP_ID = 'artwork_category' AND H.CD_ID = (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = (SELECT IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = L.CATE_CD))
         WHERE
-            L.SALE_NO = #{sale_no}
+              L.SALE_NO = #{sale_no}
           and L.LOT_NO = #{lot_no}
-          and L.STAT_CD = 'entry'
+        --   and L.STAT_CD = 'entry'
           and L.WWW_DISP_YN = 'Y'
+        <if test="all !=null and !all" >
+          and L.LIVE_ING_YN = 'Y'
+          and S.LIVE_BID_YN = 'Y'
+        </if>
         group by
             L.LOT_NO
         limit
@@ -206,6 +211,7 @@
             </if>
         ) BMAX
     </insert>
+    <!--환률정보 -->
     <select id="selectSaleExchRate" parameterType="CommonMap" resultType="CommonMap">
         SELECT
             EX.*
