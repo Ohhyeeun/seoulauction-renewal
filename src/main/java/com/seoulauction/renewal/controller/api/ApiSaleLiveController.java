@@ -728,6 +728,11 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectSaleExchRate(paramMap)));
     }
 
+    @PostMapping(value="/paddle")
+    public ResponseEntity<RestResponse> paddle(@RequestBody CommonMap paramMap) {
+        return ResponseEntity.ok(RestResponse.ok(auctionService.insertPaddle(paramMap)));
+    }
+
     @GetMapping(value="/sales/{saleNo}/one")
     public ResponseEntity<RestResponse> sale(@PathVariable("saleNo") int saleNo) {
         CommonMap commonMap = new CommonMap();
