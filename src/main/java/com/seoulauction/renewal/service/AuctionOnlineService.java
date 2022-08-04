@@ -32,4 +32,9 @@ public class AuctionOnlineService {
 
         return map;
     }
+
+    public CommonMap selectLotInfo(CommonMap commonMap) {
+        return auctionOnlineMapper.selectLotInfo(commonMap);
+    }
+
 }
