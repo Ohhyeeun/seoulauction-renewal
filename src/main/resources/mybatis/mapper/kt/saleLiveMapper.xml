@@ -81,7 +81,7 @@
                       '"MIX_CD":"', ifnull(E.MIX_CD,'h') ,'",',
                       '"CANVAS_EXT_YN":"', ifnull(E.CANVAS_EXT_YN,'N'), '"',
                               '}')
-            ,']') AS LOT_SIZE_JSON
+            ,']') AS LOT_SIZE_ARRAY
              ,ifnull(E.UNIT_CD, 'cm')             UNIT_CD
              ,ifnull(E.SIZE1, '0')                SIZE1
              ,ifnull(E.SIZE2, '0')                SIZE2
@@ -206,6 +206,7 @@
             </if>
         ) BMAX
     </insert>
+    <!--환률정보 -->
     <select id="selectSaleExchRate" parameterType="CommonMap" resultType="CommonMap">
         SELECT
             EX.*

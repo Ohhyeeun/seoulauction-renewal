@@ -3,6 +3,9 @@ package com.seoulauction.renewal.domain;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -19,6 +22,10 @@ public class CommonMap extends HashMap<String, Object>{
 	private int page;
 	@Getter
 	private int size;
+
+	private final String JSON_KEY ="JSON";
+
+	private final ObjectMapper mapper = new ObjectMapper();
 	
 	public CommonMap(){}
 
@@ -79,6 +86,31 @@ public class CommonMap extends HashMap<String, Object>{
 		CommonMap newMap = new CommonMap();
 		this.keySet().forEach(c-> newMap.put(c.toLowerCase() , this.get(c)));
 		return newMap;
+	}
+
+	/**
+	 * Data 에 JSONStringify 가 있다면 Map 으로 변환.
+	 * @return
+	 */
+	public void settingJsonStrToObject(){
+		mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+		this.keySet().stream().filter(f -> f.contains(JSON_KEY)).forEach(fo -> {
+			if (this.get(fo) != null) {
+				//this.put(fo, this.get(fo));
+				try {
+					System.out.println((this.get(fo)));
+
+					this.put(fo, mapper.readValue(String.valueOf(this.get(fo)), Map.class));
+
+				} catch (JsonProcessingException e) {
+					//오류날경우
+					this.put(fo, new CommonMap());
+				}
+			} else {
+				//값이없는경우 빈값을 넣어준다.
+				this.put(fo, new CommonMap());
+			}
+		});
 	}
 
 }
