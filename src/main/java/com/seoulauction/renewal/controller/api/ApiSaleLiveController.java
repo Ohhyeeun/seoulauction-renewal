@@ -728,6 +728,7 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectSaleExchRate(paramMap)));
     }
 
+    @GetMapping(value="/sales/{saleNo}/one")
     public ResponseEntity<RestResponse> sale(@PathVariable("saleNo") int saleNo) {
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);

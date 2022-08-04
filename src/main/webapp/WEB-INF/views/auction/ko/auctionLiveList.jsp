@@ -594,7 +594,7 @@
                 }
 
 
-                let url = item.FAVORITE_YN ==='N' ? "/api/auction/delCustInteLot" : "/api/auction/addCustInteLot";
+                let url = item.FAVORITE_YN ==='N' ? "/api/auction/live/delCustInteLot" : "/api/auction/live/addCustInteLot";
 
                 try {
                     axios.post(url, {
@@ -685,7 +685,7 @@
 
             $scope.goLiveBidAgree = function() {
                 if($(".js_all-terms #checkbox_all").is(":checked")) {
-                    axios.post('/api/auction/paddle', {sale_no : '${saleNo}'})
+                    axios.post('/api/auction/live/paddle', {sale_no : '${saleNo}'})
                         .then(function (response) {
                             if (response.data.success) {
                                 $scope.paddNo = response.data.data;
@@ -708,7 +708,7 @@
             }
 
             $scope.setSale = async function (saleNo) {
-                await axios.get('/api/auction/sales/' + saleNo)
+                await axios.get('/api/auction/live/sales/' + saleNo + '/one')
                     .then(function (response) {
                         if (response.data.success) {
                             $scope.sale = response.data.data;
@@ -752,7 +752,7 @@
             // 호출 부
             const getSaleInfo = (saleNo) => {
                 try {
-                    return axios.get('/api/auction/list/${saleNo}?is_live=Y');
+                    return axios.get('/api/auction/live/list/${saleNo}?is_live=Y');
                 } catch (error) {
                     console.error(error);
                 }
@@ -760,7 +760,7 @@
 
             const getSaleImages = (saleNo, lotNo) => {
                 try {
-                    return axios.get('/api/auction/sale_images/${saleNo}');
+                    return axios.get('/api/auction/live/sale_images/${saleNo}');
                 } catch (error) {
                     console.error(error);
                 }
@@ -768,7 +768,7 @@
 
             const getLotTags = (saleNo, lotNo) => {
                 try {
-                    return axios.get('/api/auction/lotTag/${saleNo}');
+                    return axios.get('/api/auction/live/lotTag/${saleNo}');
                 } catch (error) {
                     console.error(error);
                 }
@@ -776,7 +776,7 @@
 
             const getCategories = (saleNo) => {
                 try {
-                    return axios.get('/api/auction/categories/'+saleNo);
+                    return axios.get('/api/auction/live/categories/'+saleNo);
                 } catch (error) {
                     console.error(error);
                 }
@@ -950,7 +950,7 @@
                     //get paddle number
                     $scope.paddNo = 0;
                     if(sessionStorage.getItem("is_login") === 'true'){
-                        await axios.get('/api/auction/paddles/${saleNo}')
+                        await axios.get('/api/auction/live/paddles/${saleNo}')
                             .then(function(response) {
                                 if (response.data.success) {
                                     const paddNo = response.data.data;
@@ -1234,7 +1234,7 @@
             }
 
             $scope.goBrochure = function (id, url) {
-                axios.post('/api/auction/brochure/read', {id: id});
+                axios.post('/api/auction/live/brochure/read', {id: id});
                 window.open(url);
             }
         });
