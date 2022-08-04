@@ -20,7 +20,7 @@
     <select id="selectLiveSaleLots" parameterType="CommonMap" resultType="CommonMap">
         SELECT
               L.LOT_NO
-             ,COLUMN_JSON(L.TITLE_BLOB) EXPE_PRICE_TITLE_JSON -- 타이틀
+             ,COLUMN_JSON(L.TITLE_BLOB) LOT_TITLE_JSON -- 타이틀
              ,COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON -- 낮은 추정가
              ,COLUMN_JSON(L.EXPE_PRICE_TO_BLOB) EXPE_PRICE_TO_JSON -- 높은 추정가
              ,COLUMN_JSON(D.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON
