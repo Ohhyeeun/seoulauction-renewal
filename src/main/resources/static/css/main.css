@@ -1630,12 +1630,12 @@
     .main-popupwrap.on {
         display: block;
     }
-    .main-popupbox {
-        position: absolute;
+    .main-popupbox { 
         bottom: 0;
         right: auto;
         box-shadow: none;
-        margin: 0 6.25em
+        left: 50%;
+        transform: translate(-50% , 0);
     }
     .main-popup-img, .main-popup-txt {
         height: 500px;
@@ -1654,6 +1654,7 @@
         width: 100%;
         padding: 25px 15px;
         border-radius: 20px 20px 0 0;
+        min-width: 450px;
     }
     .main-popup-caption>h2 {
         font-size: 22px;
@@ -1789,7 +1790,9 @@
     }
     .main-popupbox {
         width: 100%;
-        margin: 0;
+    }
+    .main-popup-txt {
+        min-width: auto;
     }
     .main-popup-img {
         width: 100%;
