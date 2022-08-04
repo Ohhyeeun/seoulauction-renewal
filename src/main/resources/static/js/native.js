@@ -88,7 +88,8 @@ $(function() {
     e.preventDefault();
     const deviceInfo = await getDeviceInfo();
     if (deviceInfo?.os === 'android') {
-      openWebBrowser('https://play.google.com/store/apps/details?id=seoulauction.seoulauction&hl=ko&gl=US');
+      // openWebBrowser('https://play.google.com/store/apps/details?id=seoulauction.seoulauction&hl=ko&gl=US');
+      openWebBrowser('market://launch?id=seoulauction.seoulauction');
     }
 
     if (deviceInfo?.os === 'ios') {
