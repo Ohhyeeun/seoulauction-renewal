@@ -302,11 +302,12 @@ async function deleteWebviewData(key) {
  */
 async function openWebBrowser(url) {
   try {
-    if ('flutter_inappwebview' in window) {
-      await window.flutter_inappwebview.callHandler('openWebBrowser', url);
-    } else {
-      window.open(url, '_blank');
-    }
+    window.open(url, '_blank');
+    // if ('flutter_inappwebview' in window) {
+    //   await window.flutter_inappwebview.callHandler('openWebBrowser', url);
+    // } else {
+    //   window.open(url, '_blank');
+    // }
   } catch (error) {
     console.error(error);
   }
