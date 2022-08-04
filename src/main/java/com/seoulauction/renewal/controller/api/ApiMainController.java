@@ -27,6 +27,14 @@ public class ApiMainController {
 
     private final S3Service s3Service;
 
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public ResponseEntity<RestResponse> test(){
+
+        log.info("테스트트!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
     @RequestMapping(value = "/topNotice", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> topNotice(){
         return ResponseEntity.ok(RestResponse.ok(mainService.selectTopNotice()));
