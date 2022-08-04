@@ -178,7 +178,7 @@ public class NicePayModule {
             log.info(new String(request.getParameter("GoodsName").getBytes(), "euc-kr"));
             log.info(URLEncoder.encode(request.getParameter("GoodsName"), "euc-kr"));
 
-            formData.add("GoodsName", new String(request.getParameter("GoodsName").getBytes(), "euc-kr"));
+            formData.add("GoodsName", URLEncoder.encode(request.getParameter("GoodsName"), "euc-kr"));
             formData.add("SignData", signData);
             formData.add("ReceiptType", String.valueOf(request.getAttribute("rcpt_type")));
             formData.add("ReceiptTypeNo", String.valueOf(request.getAttribute("rcpt_type_no")));
