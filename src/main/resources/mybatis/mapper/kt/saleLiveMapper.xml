@@ -26,7 +26,8 @@
              ,COLUMN_JSON(D.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON
              ,COLUMN_JSON(L.MAKE_YEAR_BLOB)       MAKE_YEAR_JSON
              ,IMG_DISP_YN
-             ,IFNULL(IL.DEL_YN,'Y') FAVORITE_YN /*N 이면 H좋아요가 있음. Y면 좋아요가 아님.*/
+             ,IF ((select count(*) from CUST_INTE_LOT CIL where CIL.SALE_NO =
+              L.SALE_NO and CIL.LOT_NO = L.LOT_NO and CUST_NO = #{cust_no} ) <![CDATA[ > ]]> 0 , 'Y' , 'N') FAVORITE_YN
              ,LI.FILE_PATH LOT_IMG_PATH
              ,LI.FILE_NAME LOT_IMG_NAME
              ,LIVE_ING_YN
@@ -67,7 +68,6 @@
             LOT L
             left outer join LOT_IMG LI on L.SALE_NO = LI.SALE_NO and L.LOT_NO = LI.LOT_NO
             LEFT OUTER JOIN LOT_SIZE E ON L.SALE_NO = E.SALE_NO AND L.LOT_NO = E.LOT_NO
-            left outer join CUST_INTE_LOT IL on IL.CUST_NO = #{cust_no} and L.SALE_NO = IL.SALE_NO and L.LOT_NO = IL.LOT_NO
             and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
             LEFT OUTER JOIN ARTIST D ON L.ARTIST_NO = D.ARTIST_NO
             LEFT OUTER JOIN CODE H ON H.GRP_ID = 'artwork_category' AND H.CD_ID = (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = (SELECT IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = L.CATE_CD))
@@ -96,7 +96,9 @@
              ,LI.FILE_PATH LOT_IMG_PATH
              ,LI.FILE_NAME LOT_IMG_NAME
              ,IMG_DISP_YN
-             ,IFNULL(IL.DEL_YN,'Y') FAVORITE_YN /*N 이면 좋아요가 있음. Y면 좋아요가 아님.*/
+             ,IF (
+                 (select COUNT(*) from CUST_INTE_LOT CIL where CIL.SALE_NO =
+                  L.SALE_NO and CIL.LOT_NO = L.LOT_NO and CUST_NO = #{cust_no} ) <![CDATA[ > ]]> 0 , 'Y' , 'N') FAVORITE_YN
              ,concat('[',
                  GROUP_CONCAT('{',
                       '"UNIT_CD":"', ifnull(E.UNIT_CD, 'cm') ,'",',
@@ -135,7 +137,6 @@
         FROM
             LOT L
                 left outer join LOT_IMG LI on L.SALE_NO = LI.SALE_NO and L.LOT_NO = LI.LOT_NO
-                left outer join CUST_INTE_LOT IL on IL.CUST_NO = #{cust_no} and L.SALE_NO = IL.SALE_NO and L.LOT_NO = IL.LOT_NO
                 and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
             LEFT OUTER JOIN ARTIST D ON L.ARTIST_NO = D.ARTIST_NO
             LEFT OUTER JOIN LOT_SIZE E ON L.SALE_NO = E.SALE_NO AND L.LOT_NO = E.LOT_NO
