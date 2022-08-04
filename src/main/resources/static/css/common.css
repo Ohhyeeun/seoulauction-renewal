@@ -450,7 +450,7 @@ img::selection {
     width: 100%;
     position: fixed;
     top: 0;
-    z-index: 25;
+    z-index: 5;
     left:  50%;
     transform: translate(-50%, 0);
     -webkit-transform: translate(-50%, 0);
@@ -535,7 +535,7 @@ img::selection {
     background-color: rgba(0,0,0,0.5);
     top: 0;
     left: 0;
-    z-index: 25;
+    z-index: 6;
 }
 .visual {
     margin-bottom: 60px;
@@ -802,7 +802,7 @@ img::selection {
     border: 1px solid #b0b0b0;
     padding: 10px 0;
     position: absolute;
-    z-index: 26;
+    z-index: 10;
     top: 41px;
     left: -114%;
     background: #fff;
@@ -1011,7 +1011,7 @@ recent-keyword:lang(en) {
     width: 100%;
     left: 0px;
     /*padding: 50px 140px 49px 139px; */
-    z-index: 25;
+    z-index: 6;
     height: auto;
     display: none;
 }
@@ -1097,12 +1097,9 @@ recent-keyword:lang(en) {
     margin-bottom: 25px;
     font-weight: 500;
 }
-.submenu:lang(en)>li>a {
+.submenu:lang(en)>li>a { 
     line-height: 1.2;
     height: auto;
-}
-.submenu-part03:lang(en) {
-    max-width: 109px;
 }
 .currentIng {
     font-size: 11px;
@@ -1184,6 +1181,7 @@ recent-keyword:lang(en) {
     width: 100%;
     position: absolute;
     bottom: 0;
+    z-index: 0;
 }
 .footerBg  {
     position: relative;
@@ -1601,16 +1599,18 @@ body.dark,
 }
 .terms-checktxt-line.dark {
     border-bottom-color: #fff;
-}
-
+} 
 
 /* 외주 css select container */
-.select2-container--open {
-    z-index: 24 !important;
+.sub-wrap .main-header {
+    z-index: 5!important;
 }
-.sub-wrap .main-header{
-    /* auction 팝업 및 gnb z-index 26 기준 */
-    z-index: 26 !important; 
+.popup-dim.popup_biddingPopup1-wrap,
+.trp.popupfixed-wrap.bidding-online-popup {
+    z-index: 0 !important;
+}
+.sticky_bidding-article {
+    z-index: 1 !important;
 }
 .content-panel.type_panel-product_list .set-pc_mb .only-mb2 {
     /* auction 더보기 방식 더보기 btn 별도 새로운 클래스 생성 only-mb2*/
@@ -1893,7 +1893,7 @@ body.dark,
         height: 100vh;
         background-color: rgba(0,0,0,.5);
         backdrop-filter:blur(10px);
-        z-index: 3;
+        z-index: 5;
         display: none;
     }
     .submenuBg {
@@ -1905,7 +1905,7 @@ body.dark,
         max-width: 570px;
         padding: 0;
         overflow-y: auto;
-        z-index: 25;
+        z-index: 6;
     }
     .gnb_blackBg {
         display: none;

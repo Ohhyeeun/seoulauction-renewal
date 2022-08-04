@@ -338,10 +338,19 @@
                                         <div class="info-box">
                                             <div id="artist_layer" class="info-box">
                                                 <div class="title">작가정보</div>
-                                                <div class="desc txt-pre-line" id="artistName">
+                                                <%--0728 삭제 -%>
+<%--                                                <div class="desc txt-pre-line" id="artistName">--%>
+<%--                                                </div>--%>
+<%--                                                <div class="desc txt-pre-line" id="artistProfile">--%>
+<%--                                                </div>--%>
+                                                <%--//0728 삭제 -%>
+                                                <%--0728 추가--%>
+                                                <div class="desc txt-pre-line" id="artistArticle">
+                                                    <a href="#" class="sub-links">“날지 못해 멸종된 모리셔스 도도새 그리며 꿈과 자유를 본다”</a><%--
+                                                    --%><a href="#" class="sub-links">“날지 못해 멸종된 모리셔스 도도새 그리며 꿈과 자유를 본다”</a><%--
+                                                    --%><a href="#" class="sub-links">“날지 못해 멸종된 모리셔스 도도새 그리며 꿈과 자유를 본다”</a><%----%>
                                                 </div>
-                                                <div class="desc txt-pre-line" id="artistProfile">
-                                                </div>
+                                                <%--//0728 추가--%>
                                                 <div class="desc" id="artistMedia">
                                                 </div>
                                             </div>
@@ -479,29 +488,50 @@
                                     <div class="header_top">
                                         <p class="totalcount"><span class="num" ng-bind="lotLength"></span> <span class="unit">LOT</span></p>
                                     </div>
-                                    <div class="lotlist-tabmenu">
-                                        <div class="btn_item">
-                                            <a href="#"
-                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on':'전체' === selectLotTag}"
-                                               ng-click="searchLotTags('전체');" role="button">
+<%--                                    <div class="lotlist-tabmenu"> --%>
+<%--                                        <div class="btn_item">--%>
+<%--                                            <a href="#"--%>
+<%--                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on':'전체' === selectLotTag}"--%>
+<%--                                               ng-click="searchLotTags('전체');" role="button">--%>
+<%--                                                <span>전체</span>--%>
+<%--                                            </a>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="btn_item" ng-repeat="ci in categories">--%>
+<%--                                            <a href="#"--%>
+<%--                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': ci.CD_NM === selectLotTag}"--%>
+<%--                                               ng-click="searchLotTags(ci.CD_NM);">--%>
+<%--                                                <span ng-bind="ci.CD_NM"></span>--%>
+<%--                                            </a>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="btn_item" ng-repeat="li in lotTags">--%>
+<%--                                            <a href="#"--%>
+<%--                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': li.LOT_TAG === selectLotTag}"--%>
+<%--                                               ng-click="searchLotTags(li.LOT_TAG);">--%>
+<%--                                                <span ng-bind="li.LOT_TAG"></span>--%>
+<%--                                            </a>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
+                                        <!-- [0728]탭수정 -->
+                                    <div class="tab-area type-left_mm_3">
+                                        <ul class="tab-list js-left_mm">
+                                            <li class="active"><a href="#tab-cont-1"
+                                                                  ng-class="{'lot-btn_tabmenu': '1' === '1', 'on':'전체' === selectLotTag}"
+                                                                  ng-click="searchLotTags('전체');" role="button">
                                                 <span>전체</span>
-                                            </a>
-                                        </div>
-                                        <div class="btn_item" ng-repeat="ci in categories">
-                                            <a href="#"
-                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': ci.CD_NM === selectLotTag}"
-                                               ng-click="searchLotTags(ci.CD_NM);">
+                                            </a></li>
+                                            <li class=""><a href="#tab-cont-2"
+                                                            ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': ci.CD_NM === selectLotTag}"
+                                                            ng-click="searchLotTags(ci.CD_NM);">
                                                 <span ng-bind="ci.CD_NM"></span>
-                                            </a>
-                                        </div>
-                                        <div class="btn_item" ng-repeat="li in lotTags">
-                                            <a href="#"
-                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': li.LOT_TAG === selectLotTag}"
-                                               ng-click="searchLotTags(li.LOT_TAG);">
+                                            </a></li>
+                                            <li class=""><a href="#tab-cont-3"
+                                                            ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': li.LOT_TAG === selectLotTag}"
+                                                            ng-click="searchLotTags(li.LOT_TAG);">
                                                 <span ng-bind="li.LOT_TAG"></span>
-                                            </a>
-                                        </div>
+                                            </a></li>
+                                        </ul>
                                     </div>
+                                    <!-- //[0728]탭수정 -->
                                 </div>
                                 <div class="lotlist-tabCont">
                                     <div class="mobile_scroll-type">
@@ -1095,7 +1125,7 @@
         const getViewScaleImages = (saleNo, lotNo) => {
             console.log("getViewScaleImages : ", saleNo, lotNo);
             try {
-                return axios.get('/api/auction/viewscale_image/'+saleNo+'/'+lotNo);
+                return axios.get('/api/auction/getViewScaleImage/'+saleNo+'/'+lotNo);
             } catch (error) {
                 console.error(error);
             }
@@ -1522,60 +1552,43 @@
                     view_visual.update();
                 });
 
-                let viewScaleImages = $scope.viewScaleImages;
-                let lot_images = $scope.lotImages;
+                const viewScaleImages = $scope.viewScaleImages;
+                console.log(viewScaleImages);
+                const lot_images = $scope.lotImages;
                 let firstCheck = 0;
 
                 // $.each(sale_images, function (index, el) {
-                const el = viewScaleImages[0];
-                let size1 = 0;
-                let size2 = 0;
-                let unitCd = '';
-                let lot_no = el.LOT_NO;
-                if (el.LOT_SIZE_JSON.length > 0) {
-                    size1 = el.LOT_SIZE_JSON[0].SIZE1;
-                    size2 = el.LOT_SIZE_JSON[0].SIZE2;
-                    unitCd = el.LOT_SIZE_JSON[0].UNIT_CD;
-                }
+                if(viewScaleImages.length > 0) {
+                    const el = viewScaleImages[0];
+                    let size1 = 0;
+                    let size2 = 0;
+                    let unitCd = '';
+                    let lot_no = el.LOT_NO;
+                    if (el.LOT_SIZE_JSON.length > 0) {
+                        size1 = el.LOT_SIZE_JSON[0].SIZE1;
+                        size2 = el.LOT_SIZE_JSON[0].SIZE2;
+                        unitCd = el.LOT_SIZE_JSON[0].UNIT_CD;
+                    }
 
-                let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
-                let swiper_slide_item = '';
-                // if (firstCheck == 0) {
-                //     $scope.chk = parseInt(lot_no) - index -1;
-                // }
-                // firstCheck++;
+                    let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
+                    let swiper_slide_item = '';
 
-                if(['traditional_painting'].indexOf($scope.lotInfo.CATE_CD) > -1){
-                    swiper_slide_item = `<div class="swiper-slide">
-                                            <div class="img-area">
-                                                <div class="img-box">
-                                                    <div class="size_x"><span>` + size1 + unitCd + `</span></div>
-                                                    <div class="size_y"><span>` + size2 + unitCd + `</span></div>
-                                                    <div class="images">
-                                                        <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size1 + `" size-y="` + size2 + `" lot_no="` + lot_no + `"/>
+                    if (['local_painting', 'foreign_painting'].indexOf($scope.lotInfo.CATE_CD) > -1) {
+                        swiper_slide_item = `<div class="swiper-slide">
+                                                <div class="img-area">
+                                                    <div class="img-box">
+                                                        <div class="size_x"><span>` + size2 + unitCd + `</span></div>
+                                                        <div class="size_y"><span>` + size1 + unitCd + `</span></div>
+                                                        <div class="images">
+                                                            <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size2 + `" size-y="` + size1 + `" lot_no="` + lot_no + `"/>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>`;
-                }else if(['local_painting', 'foreign_painting'].indexOf($scope.lotInfo.CATE_CD) > -1) {
-                    swiper_slide_item = `<div class="swiper-slide">
-                                            <div class="img-area">
-                                                <div class="img-box">
-                                                    <div class="size_x"><span>` + size2 + unitCd + `</span></div>
-                                                    <div class="size_y"><span>` + size1 + unitCd + `</span></div>
-                                                    <div class="images">
-                                                        <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size2 + `" size-y="` + size1 + `" lot_no="` + lot_no + `"/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>`;
+                                            </div>`;
+                    }
+
+                    $("#popup_image_viewer-wrap .gallery_center").html(swiper_slide_item);
                 }
-
-                $("#popup_image_viewer-wrap .gallery_center").html(swiper_slide_item);
-                // $("#swiper-wrapper").html(swiper_slide_item);
-
-                // $("#swiper-wrapper").append(swiper_slide_item);
-                // };
 
                 $.each(lot_images, function (index, el) {
 
@@ -1586,29 +1599,29 @@
 
                     //if (size1 > 160) {
                     popup_swiper_slide_item = `<div class="swiper-slide">
-                                            <div class="img-area">
-                                                <div class="img-box">
-                                                    <div class="images">
-                                                        <img class="imageViewerpopup" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
+                                                    <div class="img-area">
+                                                        <div class="img-box">
+                                                            <div class="images">
+                                                                <img class="imageViewerpopup" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                        </div>`
+                                                </div>`
                     $("#swiper-wrapper_popup").append(popup_swiper_slide_item);
 
 
                     popup_swiper_mini_slide_item = `<li class="active">
-                                            <a href="#">
-                                                <div class="imgs-item">
-                                                    <figure class="img-ratio">
-                                                        <div class="img-align">
-                                                            <img src="` + popup_img_url + `" alt="" />
-                                                        </div>
-                                                    </figure>
-                                                    <div class="line"></div>
-                                                    </div>
-                                                </a>
-                                            </li>`
+                                                        <a href="#">
+                                                            <div class="imgs-item">
+                                                                <figure class="img-ratio">
+                                                                    <div class="img-align">
+                                                                        <img src="` + popup_img_url + `" alt="" />
+                                                                    </div>
+                                                                </figure>
+                                                                <div class="line"></div>
+                                                                </div>
+                                                            </a>
+                                                        </li>`
                     $("#thumbnail_image").append(popup_swiper_mini_slide_item);
                 });
 
@@ -2643,5 +2656,40 @@
         }
     });
 </script>
+<!-- [0728]비디오 세로사이즈 -->
+<script>
+    var _videoAnchor = $(".video_img-box a");
+    var _videoAnchorImg = $(".video_img-box a img");
+    _videoAnchorImg.each(function() {
+        _videoAnchor = $(this).parent(_videoAnchor);
+
+        if ($(this).width() < $(this).height()) {
+            _videoAnchor.addClass("vertical");
+        } else {
+            _videoAnchor.removeClass("vertical");
+        }
+    })
+</script>
+<!-- //[0728]비디오 세로사이즈 -->
+<!-- [0728]탭 -->
+<script>
+    $('.js-left_mm a').on('click', function(e) {
+        e.preventDefault();
+        var tar = $(this).position().left;
+        var scrollX = tar - ($(".js-left_mm").parents(".tab-area").width() / 2) + $(this).width() / 2;
+
+        if ($(this).parents('li').hasClass('active')) {
+            return false;
+        } else {
+            $(".js-left_mm li").removeClass('active');
+            $(this).parents('li').addClass('active');
+
+            $(".js-left_mm").parents(".tab-area").scrollLeft(scrollX);
+        }
+    });
+</script>
+<!-- [0728]탭 -->
+
+
 </body>
 </html>

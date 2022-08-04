@@ -154,7 +154,7 @@ public class ApiLoginController {
 			        	resultMap.put("currentUrl", currentUrl);
 			        	
 			        	messageService.sendMail(paramMap.get("search_value").toString(), subject, template, resultMap);
-		        	} else { //이메일 번호 발송
+		        	} else { //문자 번호 발송
 			        	String msg = locale.equals("en") ? 
 			        			"[SeoulAuction SMS] Issued a temporary password reminder\n temporary password : " + paramMap.get("passwd").toString()
 			        			: "[서울옥션 문자발송] 임시 비밀번호 발급 알림\n 임시비밀번호 : "+ paramMap.get("passwd").toString(); 

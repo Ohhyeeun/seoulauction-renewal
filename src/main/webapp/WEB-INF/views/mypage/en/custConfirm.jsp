@@ -16,6 +16,7 @@
 	var socialYn = '${socialYn}';
 	var socialType = '${socialType}';
 	var socialEmail = '${socialEmail}';
+	var localKindCd = '${localKindCd}';
 </script>
 <body class="">
 	<div class="wrapper">
@@ -66,6 +67,12 @@
 	                                                        </li>
 	                                                    </ul>
 	                                                </article>
+	                                                <article class="button-area">
+	                                                    <div class="btn_set-float tac">
+	                                                        <button class="btn btn_default btn_lg" onclick="passwdCancel()"><span>Cancel</span></button>
+	                                                        <button id="modifyButton" onclick="passwdConfirm()" class="btn btn_gray btn_lg" disabled><span>Submit</span></button>
+	                                                    </div>
+	                                                </article>
 	                                        	</c:if>
 	                                            <!-- 소셜회원 -->
 	                                            <c:if test="${socialYn == 'Y' }">
@@ -79,13 +86,13 @@
 <!-- 		                                            	<div id="googleIdLogin" style="display:none"></div> -->
 <!-- 		                                            	<div id="appleid-signin" style="display:none" data-type="sign in"></div> -->
 		                                            </article>
+	                                                <article class="button-area">
+	                                                    <div class="btn_set-float tac">
+	                                                        <button class="btn btn_default btn_lg" onclick="passwdCancel()"><span>Cancel</span></button>
+	                                                        <button id="modifyButtonSns" onclick="passwdConfirm()" class="btn btn_point btn_lg"><span>Submit</span></button>
+	                                                    </div>
+	                                                </article>
 	                                            </c:if>
-                                                <article class="button-area">
-                                                    <div class="btn_set-float tac">
-                                                        <button class="btn btn_default btn_lg" onclick="passwdCancel()"><span>Cancel</span></button>
-                                                        <button id="modifyButton" onclick="passwdConfirm()" class="btn btn_gray btn_lg" disabled><span>Submit</span></button>
-                                                    </div>
-                                                </article>
                                             </div>
                                         </div>
 

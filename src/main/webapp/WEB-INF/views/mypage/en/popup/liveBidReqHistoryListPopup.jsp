@@ -12,9 +12,9 @@
                                 <span class="txt_title type-big">Bid History</span>
                             </div>
                             <!-- [0617] 수정 -->
-                            <div class="right_txt">
+                           <!--  <div class="right_txt">
                                 <span>Automatic bid set price<em>KRW 999,999,999</em></span> 
-                            </div>
+                            </div> -->
                             <!-- //[0617] 수정 -->
                         </div>
                          <div class="pop-body">

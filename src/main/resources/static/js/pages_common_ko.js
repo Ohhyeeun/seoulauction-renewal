@@ -70,10 +70,10 @@ function PubUI() {
                 scrollTop: 0
             }, 370);
         });
-    }, o.mobileBack = function() { 
+    }, o.mobileBack = function() {
         // $(".js-history_back").click(function() {
         //     window.history.back();
-        // });
+        // }); 
     }, 
     /* 탑버튼 보이기 */
     $(window).scroll(function() {

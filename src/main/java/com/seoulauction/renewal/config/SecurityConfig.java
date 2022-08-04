@@ -111,9 +111,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.successHandler(successHandler())
 	            .and()
 		    .rememberMe()
-		        .key("SeoulAuction")
-		        .rememberMeParameter("remember-me")
-		        .tokenValiditySeconds(86400 * 30) // 1달
 		        .rememberMeServices(socialRememberMeService)
 		        .userDetailsService(rememberMeService)
 		        .authenticationSuccessHandler(rememberMeLoginSuccessHandler)

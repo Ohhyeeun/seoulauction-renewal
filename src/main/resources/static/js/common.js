@@ -420,7 +420,7 @@ $(function() {
 
     /*top search placeholder */
     $('.topsearch>input').attr('placeholder', '작가,작품명 검색'); /* placeholder 초기값 */
-    $('.topsearch-en>input').attr('placeholder', 'Search');
+    $('.topsearch-en>input').attr('placeholder', 'Artists, Works'); 
 
     // $(window).resize(function () {
     //     const windowWidth1279 = window.matchMedia('screen and (min-width:1279px)');

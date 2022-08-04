@@ -284,12 +284,13 @@
 
                                                                 </dl>
                                                             </div>
-                                                            <div id="biding_req" class="bidding-box col_2" ng-show="showBtn === 1">
+
+                                                            <%--TODO 서면 응찰 신청 조건 작업 해야함.--%>
+                                                            <div id="biding_req" class="bidding-box col_2">
                                                                 <div class="deadline_set"><span>신청마감 {{ item.LOT_EXPIRE_DATE_SUB | date_format }}</span></div>
                                                                 <div class="btn_set"><a class="btn btn_point" href="" ng-click="moveToBidding(item)"
                                                                                         role="button"><span>서면/전화 응찰 신청</span></a></div>
                                                             </div>
-                                                            <!-- MAX_BID_PRICE -->
                                                         </div>
                                                     </div>
 
@@ -961,11 +962,7 @@
                     }
 
                     $scope.pageingdata = p;
-
                     $scope.$apply();
-
-                    $scope.bidstart('${member.loginId}', ${member.userNo});
-
                     $scope.paddleStatus();
 
                     // lot
@@ -1000,174 +997,6 @@
                 }
                 run();
             }
-
-            /*################ 웹소켓 #################*/
-            let promise;
-            let con_try_cnt;
-            let is_end_bid = false;
-            // connect 정보
-            $scope.connectInfo = {};
-            // 웹소켓
-            $scope.w;
-            // 웹소켓 타임아웃
-            $scope.websocketTimeout;
-            // 커넥션시도횟수
-            $scope.conTryCnt = 0;
-            // 비딩 종료 시간
-            $scope.endBidTime = 0;
-            // 비딩 종료 여부
-            $scope.isEndBid = false;
-            // 모든 비딩 정보
-            $scope.bidsInfoAll = [];
-
-            $scope.auctionEnd = false;
-
-            let w;
-
-            // bidstart
-            $scope.bidstart = function (user_id, custNo) {
-                $scope.retry(parseInt($scope.sale_no), 0, 2, user_id, custNo);
-            }
-
-            // websocket connection retry
-            $scope.retry = function (saleNo, lotNo, saleType, userId, custNo) {
-                window.clearTimeout($scope.websocketTimeout);
-                if ($scope.auctionEnd) {
-                    return;
-                }
-                if (w != null) {
-                    w = null;
-                }
-                if (con_try_cnt > 5) {
-                    con_try_cnt = 0
-                    return
-                }
-
-                if (custNo === undefined) {
-                    custNo = 0;
-                }
-                if (userId === undefined) {
-                    userId = "";
-                }
-
-                if (window.location.protocol !== "https:") {
-                    w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws?sale_no=" +
-                        $scope.sale_no + "&lot_no=0&cust_no=" + custNo +
-                        "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
-                } else {
-                    w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws?sale_no=" +
-                        $scope.sale_no + "&lot_no=0&cust_no=" + custNo +
-                        "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
-                }
-                w.onopen = function () {
-                    console.log("open");
-                }
-                w.onerror = function () {
-                    w.close();
-                    console.log('error');
-                }
-                w.onclose = function () {
-                    if (w.readyState === w.CLOSED) {
-                        if (!is_end_bid) {
-                            con_try_cnt++;
-                            $scope.websocketTimeout = window.setTimeout(function () {
-                                $scope.retry(saleNo, lotNo, saleType, userId, custNo);
-                            }, 1000);
-                        }
-                    }
-                }
-                w.onmessage = function (evt) {
-                    $scope.proc(evt, saleNo, lotNo, saleType, userId, custNo);
-                }
-                con_try_cnt = 0;
-            }
-
-            // bid protocols
-            $scope.proc = function (evt, saleNo, lotNo, saleType, userId, custNo) {
-                const packet_enum = {
-                    init: 1, bid_info: 2, time_sync: 3,
-                    bid_info_init: 4, end_time_sync: 5, winner: 6, auto_bid_sync: 14, office_winner: 15, lot_closed: 16
-                }
-                let d = JSON.parse(evt.data);
-                if (d.msg_type === packet_enum.init) {
-                    // 현재 토큰정보
-                    $scope.token = d.message.token;
-                } else if (d.msg_type === packet_enum.time_sync) {
-                    if ($scope.saleInfoAll.length > 0) {
-                        let expr_date = new Date($scope.saleInfoAll[0].LOT_EXPIRE_DATE).format('yyyy-MM-dd 00:00:00');
-                        if (expr_date >= (new Date(d.message.tick_value).format('yyyy-MM-dd HH:mm:ss'))) {
-                            $scope.showBtn = 1;
-                        }
-                    }
-                    $scope.$apply();
-                } else if (d.msg_type === packet_enum.office_winner) {
-                    if (d.message != null) {
-                        for (let j = 0; j < $scope.saleInfoAll.length; j++) {
-                            if ($scope.saleInfoAll[j].SALE_NO === d.message.customer.sale_no && $scope.saleInfoAll[j].LOT_NO === d.message.customer.lot_no) {
-                                // 낙찰가
-                                $scope.saleInfoAll[j].MAX_BID_PRICE = "낙찰가 KRW " + d.message.max_bid_cost.toLocaleString('ko-KR');
-                                $scope.showBtn = 2;
-                                break
-                            }
-                        }
-                        for (let j = 0; j < $scope.searchSaleInfoAll.length; j++) {
-                            if ($scope.saleInfoAll[j].SALE_NO === d.message.customer.sale_no && $scope.saleInfoAll[j].LOT_NO === d.message.customer.lot_no) {
-                                // 낙찰가
-                                $scope.saleInfoAll[j].CUR_COST = "낙찰가 KRW " + d.message.max_bid_cost.toLocaleString('ko-KR');
-                                break
-                            }
-                        }
-                        for (let j = 0; j < $scope.saleInfo.length; j++) {
-                            if ($scope.saleInfoAll[j].SALE_NO === d.message.customer.sale_no && $scope.saleInfoAll[j].LOT_NO === d.message.customer.lot_no) {
-                                // 낙찰가
-                                $scope.saleInfoAll[j].CUR_COST = "낙찰가 KRW " + d.message.max_bid_cost.toLocaleString('ko-KR');
-                                break
-                            }
-                        }
-                    }
-                    $scope.$apply();
-                // 랏 상태 변경(출품취소등등)
-                } else if (d.msg_type === packet_enum.lot_closed) {
-                    if (d.message != null) {
-                        let matching = new Map();
-
-                        // 정보를 처음 가져왔을 때, 인덱스 매핑
-                        for (let i = 0; i < d.message.data.length; i++) {
-                            matching.set(d.message.data[i].SALE_NO +
-                                "-" + d.message.data[i].LOT_NO, i);
-                        }
-
-                        // 전체데이타의 DISP_YN 설정
-                        for (let j = 0; j < $scope.saleInfoAll.length; j++) {
-                            let idx = matching.get($scope.saleInfoAll[j].SALE_NO + "-"
-                                + $scope.saleInfoAll[j].LOT_NO);
-                            if (idx !== undefined) {
-                                $scope.saleInfoAll[j].STAT_CD = d.message.data[idx].STAT_CD;
-                            }
-                        }
-
-                        // 검색데이타의 DISP_YN 설정
-                        for (let j = 0; j < $scope.searchSaleInfoAll.length; j++) {
-                            let idx = matching.get($scope.searchSaleInfoAll[j].SALE_NO + "-"
-                                + $scope.searchSaleInfoAll[j].LOT_NO);
-                            if (idx !== undefined) {
-                                $scope.searchSaleInfoAll[j].STAT_CD = d.message.data[idx].STAT_CD;
-                            }
-                        }
-
-                        // 현재페이지의 DISP_YN 설정
-                        for (let j = 0; j < $scope.saleInfo.length; j++) {
-                            let idx = matching.get($scope.saleInfo[j].SALE_NO + "-"
-                                + $scope.saleInfo[j].LOT_NO);
-                            if (idx !== undefined) {
-                                $scope.saleInfo[j].DISP_YN = d.message.data[idx].DISP_YN;
-                            }
-                        }
-                    }
-                    $scope.$apply();
-                }
-            }
-            /*##################### 웹소켓 끝 #####################*/
 
             $scope.chgViewType = function () {
                 let sst = parseInt($("#viewType option:selected").val())
@@ -1205,7 +1034,6 @@
                         $scope.searchSaleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = 0;
                     }
                 }
-                console.log("$scope.searchSaleInfoAll.length", $scope.searchSaleInfoAll.length);
                 switch (sst) {
                     case 1:
                         // lot 번호 순
@@ -1234,8 +1062,6 @@
                         });
                         break;
                 }
-
-                console.log(v);
 
                 $scope.curpage = 1;
                 $scope.pageing($scope.curpage);

@@ -8,17 +8,17 @@ import com.seoulauction.renewal.domain.Bid;
 import com.seoulauction.renewal.domain.Bidder;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.form.OfflineBiddingForm;
+import com.seoulauction.renewal.service.AuctionService;
 import com.seoulauction.renewal.service.S3Service;
+import com.seoulauction.renewal.service.SaleLiveService;
 import com.seoulauction.renewal.service.SaleService;
 import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,48 +29,20 @@ import java.util.*;
 @RestController
 @Log4j2
 @RequiredArgsConstructor
-@RequestMapping("api/auction")
-public class ApiSaleController {
+@RequestMapping("api/auction/live")
+public class ApiSaleLiveController {
 
     private final SaleService saleService;
 
+    private final SaleLiveService saleLiveService;
+
     private final S3Service s3Service;
+
+    private final AuctionService auctionService;
 
     @Value("${image.root.path}")
     private String IMAGE_URL;
 
-    private WebClient webClient = WebClient.builder()
-            .baseUrl("http://dev-bid.seoulauction.xyz")
-            .build();
-
-    @RequestMapping(value="/bid", method = RequestMethod.POST)
-    public ResponseEntity<RestResponse> bid(@RequestBody CommonMap map, HttpServletRequest req, HttpServletResponse res) {
-
-        // 비드정보 설정
-        Bid bid = new Bid();
-        Bidder bidder = new Bidder();
-
-        bidder.setSaleNo((int)map.get("sale_no"));
-        bidder.setLotNo((int)map.get("lot_no"));
-        bidder.setSaleType((int)map.get("sale_type"));
-        bidder.setBidType((int)map.get("bid_type"));
-        bidder.setToken(map.get("bid_token").toString());
-
-        // 비딩금액 저장
-        bid.setBidCost((int)map.get("bid_cost"));
-
-        // 비더정보
-        bid.setBidder(bidder);
-
-        // 웹소켓에 데이타 전송
-        webClient.post().uri("/bid")
-                .bodyValue(bid)
-                .retrieve()
-                .bodyToMono(Bid.class)
-                .block();
-
-        return ResponseEntity.ok(RestResponse.ok());
-    }
 
     @RequestMapping(value="/sale_info/{sale_no}", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> saleInfo(HttpServletRequest req, HttpServletResponse res, Locale locale,
@@ -647,8 +619,6 @@ public class ApiSaleController {
         paramMap.put("cust_no", SecurityUtils.getAuthenticationPrincipal().getUserNo());
         return ResponseEntity.ok(RestResponse.ok(saleService.getCustomerByCustNo(paramMap)));
     }
-
-
     @RequestMapping(value="/artist_info/{artist_no}", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> artistInfo(HttpServletRequest req, HttpServletResponse res, Locale locale,
                                                  @PathVariable("artist_no") int artistNo) {
@@ -673,5 +643,90 @@ public class ApiSaleController {
 
         return ResponseEntity.ok(RestResponse.ok(result));
     }
+
+    @GetMapping(value="/paddles/{saleNo}")
+    public ResponseEntity<RestResponse> getPaddle(@PathVariable("saleNo") int saleNo
+                                                 ,@PathVariable("lotNo") int lotNo
+    ) {
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("sale_no", saleNo);
+        return ResponseEntity.ok(RestResponse.ok(auctionService.selectSalePaddNo(paramMap)));
+    }
+
+    @GetMapping(value="/sales/{saleNo}")
+    public ResponseEntity<RestResponse> selectLiveSale(@PathVariable("saleNo") int saleNo
+    ) {
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("sale_no", saleNo);
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveSale(paramMap)));
+    }
+
+    @GetMapping(value="sales/{saleNo}/lots")
+    public ResponseEntity<RestResponse> selectLiveSaleLots(@PathVariable("saleNo") int saleNo,
+                                                           @RequestParam(value = "category" , required = false) String category
+    ) {
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("sale_no", saleNo);
+        paramMap.put("category", category);
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveSaleLots(paramMap)));
+    }
+    @GetMapping(value="sales/{saleNo}/lots/{lotNo}/now")
+    public ResponseEntity<RestResponse> selectLiveSaleLotByOne(@PathVariable("saleNo") int saleNo
+                                                               ,@PathVariable("lotNo") int lotNo
+    ) {
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("sale_no", saleNo);
+        paramMap.put("lot_no", lotNo);
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveSaleLotByOne(paramMap)));
+    }
+    @GetMapping(value="sale/{saleNo}/categories")
+    public ResponseEntity<RestResponse> selectLiveCategories(@PathVariable("saleNo") int saleNo
+    ) {
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("sale_no", saleNo);
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveCategories(paramMap)));
+    }
+    @GetMapping(value="sales/{saleNo}/lots/{lotNo}/my-bidding")
+    public ResponseEntity<RestResponse> selectLiveMyBidding(@PathVariable("saleNo") int saleNo
+                                                            ,@PathVariable("lotNo") int lotNo
+    ) {
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("sale_no", saleNo);
+        paramMap.put("lot_no", lotNo);
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveMyBidding(paramMap)));
+    }
+    @GetMapping(value="sale/{saleNo}/lots/{lotNo}/site-bidding")
+    public ResponseEntity<RestResponse> selectLiveSiteBidding(@PathVariable("saleNo") int saleNo
+                                                             ,@PathVariable("lotNo") int lotNo
+    ) {
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("sale_no", saleNo);
+        paramMap.put("lot_no", lotNo);
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveSiteBidding(paramMap)));
+    }
+
+    @PostMapping(value="sale/{saleNo}/lots/{lotNo}/offline-bidding")
+    public ResponseEntity<RestResponse> offlineBidding(
+            @PathVariable("saleNo") int saleNo
+            ,@PathVariable("lotNo") int lotNo
+            ,@RequestBody OfflineBiddingForm offlineBiddingForm
+            ) {
+
+        log.info("offlineBiddingForm : {}" , offlineBiddingForm);
+
+        saleLiveService.insertOfflineBidding(saleNo , lotNo , offlineBiddingForm);
+
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+    @GetMapping(value="sale/{saleNo}/exch-rate")
+    public ResponseEntity<RestResponse> selectSaleExchRate(@PathVariable("saleNo") int saleNo
+    ) {
+        CommonMap paramMap = new CommonMap();
+        paramMap.put("sale_no", saleNo);
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectSaleExchRate(paramMap)));
+    }
+
+
+
 
 }

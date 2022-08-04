@@ -290,7 +290,7 @@ public class PaymentService {
 
         CommonMap lotMap = auctionService.lot(paramMap);
 
-        //작품정보 없을때 404 ㄱ
+        //작품정보 없을 때 Exception 발생
         if(MapUtils.isEmpty(lotMap)) {
             throw new PgNotFoundException();
         }

@@ -152,7 +152,6 @@ public class NicePayModule {
     public CommonMap receiptProcess(HttpServletRequest request){
         CommonMap resultMap = new CommonMap();
         try {
-
             String eDiDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 
             String moid = request.getParameter("MOID");
@@ -176,12 +175,12 @@ public class NicePayModule {
             formData.add("Moid", moid);
             formData.add("ReceiptAmt", receiptAmt);
             log.info(request.getParameter("GoodsName"));
-            log.info(new String(request.getParameter("GoodsName").getBytes("UTF-8"), "EUC-KR"));
-            log.info(new String(request.getParameter("GoodsName").getBytes("EUC-KR"), "UTF-8"));
-            log.info(new String(request.getParameter("GoodsName").getBytes(), "EUC-KR"));
-            log.info(new String(request.getParameter("GoodsName").getBytes(), "UTF-8"));
+            log.info(request.getParameter("GoodsName").getBytes("UTF-8"));
+            log.info(request.getParameter("GoodsName").getBytes("EUC-KR"));
+            log.info(String.valueOf(request.getParameter("GoodsName").getBytes("UTF-8")));
+            log.info(String.valueOf(request.getParameter("GoodsName").getBytes("EUC-KR")));
 
-            formData.add("GoodsName",request.getParameter("GoodsName"));
+            formData.add("GoodsName", String.valueOf(request.getParameter("GoodsName").getBytes("EUC-KR")));
             formData.add("SignData", signData);
             formData.add("ReceiptType", String.valueOf(request.getAttribute("rcpt_type")));
             formData.add("ReceiptTypeNo", String.valueOf(request.getAttribute("rcpt_type_no")));
@@ -189,6 +188,7 @@ public class NicePayModule {
             formData.add("ReceiptVAT", "0");
             formData.add("ReceiptServiceAmt", "0");
             formData.add("ReceiptTaxFreeAmt", "0");
+            formData.add("CharSet", "utf-8");
 
             WebClient webClient = WebClient.builder()
                     .baseUrl(NICE_PAY_BASE_URL)

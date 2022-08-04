@@ -243,10 +243,19 @@
 
                                         <div id="artist_layer" class="info-box">
                                             <div class="title">작가정보</div>
-                                            <div class="desc txt-pre-line" id="artistName">
+                                            <%--0728 삭제--%>
+<%--                                            <div class="desc txt-pre-line" id="artistName">--%>
+<%--                                            </div>--%>
+<%--                                            <div class="desc txt-pre-line" id="artistProfile">--%>
+<%--                                            </div>--%>
+                                        <%--//0728 삭제--%>
+                                            <%--0728 추가--%>
+                                            <div class="desc txt-pre-line" id="artistArticle">
+                                                <a href="#" class="sub-links">“날지 못해 멸종된 모리셔스 도도새 그리며 꿈과 자유를 본다”</a><%--
+                                                    --%><a href="#" class="sub-links">“날지 못해 멸종된 모리셔스 도도새 그리며 꿈과 자유를 본다”</a><%--
+                                                    --%><a href="#" class="sub-links">“날지 못해 멸종된 모리셔스 도도새 그리며 꿈과 자유를 본다”</a><%----%>
                                             </div>
-                                            <div class="desc txt-pre-line" id="artistProfile">
-                                            </div>
+                                            <%--//0728 추가--%> 
                                             <div class="desc txt-pre-line" id="artistMedia">
                                             </div>
                                         </div>
@@ -287,10 +296,10 @@
 </div>
 
 
-<script type="text/javascript" src="/js/plugin/jquery.min.js"></
-<!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+<%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></--%>
+<%--<!--[if lt IE 9]> --><script src="/js/plugin/html5shiv.js"></script> <![endif]-->--%>
+<%--<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
+<%--<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%> 
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
 <!-- 이미지 뷰어 -->

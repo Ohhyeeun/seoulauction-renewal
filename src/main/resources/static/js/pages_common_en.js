@@ -1,20 +1,5 @@
 "use strict";
 
-/* $(function(){
-  console.log("common.js");
-  function msgFn(msg1, msg2){
-    var _msg = msg1 + msg2;
-    return _msg;
-  }
-  $("body").addClass( msgFn("msg_", "hi"));
-
-});
-
-
-function msgFn(msg1, msg2){
-  var _msg = msg1 + msg2;
-  return _msg;
-} */
 /* ==================================== 초기UI 실행 함수 호출  ==================================== */
 function PubUI() {
     var o = this;
@@ -88,7 +73,7 @@ function PubUI() {
     }, o.mobileBack = function() {
         // $(".js-history_back").click(function() {
         //     window.history.back();
-        // }); 
+        // });
     }, 
     /* 초기실행 스크립트 */
     o.append_script = function() {///$("body").append( $(".js-append-script") );
@@ -153,7 +138,8 @@ function responsiveDevices() {
         //$("body").hasClass("is_mb") ? (o[e].width = w : (o[e].width = w);
     }
     /// console.log("=========imgresize=========", _orgW, _orgH, $("body").hasClass("is_mb"))
-}
+} 
+
 
 /* 팝업높이계산 */function popup_fixation(o) {
     var e = o, n = $(".pop-body>.section", e).outerHeight() + 166, i = $(window).height();

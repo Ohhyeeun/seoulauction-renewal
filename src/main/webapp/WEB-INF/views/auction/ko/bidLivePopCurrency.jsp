@@ -95,6 +95,7 @@
 
             if($scope.isFileExist($scope.today)){
                 $scope.existFileDate = $scope.today;
+
             }else if($scope.isFileExist($scope.yesterday)){
                 $scope.existFileDate = $scope.yesterday;
             }else{

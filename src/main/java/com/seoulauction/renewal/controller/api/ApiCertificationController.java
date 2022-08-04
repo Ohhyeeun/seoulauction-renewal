@@ -79,11 +79,13 @@ public class ApiCertificationController {
 	}
 
 	/* 인증번호 확인 */
+	//TODO : 나중에 박경훈 작업확인
 	@RequestMapping(value = "/confirmAuthNumCheck", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<RestResponse> confirmAuthNumCheck(@RequestBody CommonMap commonMap, Principal principal,
 			HttpServletRequest request, HttpServletResponse response) {
 		boolean b = this.confirmAuthNumber(commonMap, request, response);
+		//TESt를 위한 true처리.
 		if(isPhoneAuthBypass) b = true;
 		if (b) {
 			return ResponseEntity.ok(RestResponse.ok(commonMap));

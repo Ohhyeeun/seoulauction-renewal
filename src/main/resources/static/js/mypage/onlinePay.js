@@ -31,6 +31,7 @@ app.requires.push.apply(app.requires, ["bw.paging", "ngDialog"]);
 
 app.controller('onlinePayListCtl', function($scope, consts, common) {
 	var popup_offline_payment = $(".js-popup_offline_payment").trpLayerFixedPopup("#popup_offline_payment-wrap");
+	var popup_offline_payment_en = $(".js-popup_tooltip").trpLayerFixedPopup("#popup_tooltip-wrap");
 	
 	$scope.suc_yn = null;
 	$scope.pay_sat_cd = null;
@@ -115,6 +116,17 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
             $e.preventDefault();
             popup_offline_payment.close();
 		 });
+	}
+	$scope.payInfoPopupEn = function() {
+		 popup_offline_payment_en.open(this); // or false   
+         popup_fixation("#popup_tooltip-wrap"); // pc 스크롤
+         popup_motion_open("#popup_tooltip-wrap"); // mb 모션 
+        
+         $("body").on("click", "#popup_tooltip-wrap .js-closepop, #popup_tooltip-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                popup_offline_payment_en.close();
+                popup_motion_close("#popup_tooltip-wrap");
+         });
 	}
 
 	

@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html lang="ko">
 <%@include file="../../common/commonJs.jsp"%>
@@ -11,11 +12,15 @@
 <script defer src="/js/common/axios.js" type="text/javascript"></script>
 <body>
 <!-- 		callback 처리중입니다. 이 페이지에서는 callback을 처리하고 바로 main으로 redirect하기때문에 이 메시지가 보이면 안됩니다. -->
-
+<sec:authorize access="isAuthenticated()">
+<sec:authentication property="details.socialEmail" var="custSocialEmail"></sec:authentication>
+<sec:authentication property="details.localKindCd" var="localKindCd"></sec:authentication>
+</sec:authorize>
 <script>
 	var langType = document.documentElement.lang;
 	var type = "${type}";
 	var custSocialEmail = "${custSocialEmail}";
+	var localKindCd = "${localKindCd}";
 	console.log(type);
 	
 	window.onload = function() {
@@ -33,7 +38,24 @@
 				let f = document.createElement('form');
 			    f.setAttribute('method', 'post');
 			    f.setAttribute('action', '/mypage/custModify');
+			    var hiddenField = document.createElement("input");
+			    hiddenField.setAttribute("type", "hidden");
+			    hiddenField.setAttribute("name", "localKindCd");
+				hiddenField.setAttribute("value", localKindCd);
+			    f.appendChild(hiddenField);
 			    document.body.appendChild(f);
+			
+				if(localKindCd === "korean" && langType === "en"){
+					if(!confirm("Domestic customers can edit member information in terms of national culture. Do you want to change to KOR mode?")){
+						location.href = "/mypage/custModify";
+						return;
+					}
+				}else if(localKindCd !== "korean" && langType === "ko"){
+					if(!confirm("해외고객은 ENG(English) 화면에서 회원정보수정이 가능합니다. ENG 모드로 변경하시겠습니까?")){
+						location.href = "/mypage/custModify";
+						return;
+					}
+				}
 			    f.submit();
 			}else{
 				alert("가입한 계정과 다른 소셜계정으로 로그인하셨습니다.");
