@@ -94,6 +94,7 @@ public class SaleLiveService {
 
         if(result !=null) {
             result.settingJsonStrToObject();
+            //값이 만약없을경우 특정조건을 빼고 랏1번으로 재호출.
         } else{
             map.put("all" , true);
             map.put("lot_no" , 1);
