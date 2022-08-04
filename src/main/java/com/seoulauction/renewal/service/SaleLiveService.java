@@ -3,6 +3,7 @@ package com.seoulauction.renewal.service;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.form.OfflineBiddingForm;
+import com.seoulauction.renewal.mapper.aws.MainMapper;
 import com.seoulauction.renewal.mapper.kt.SaleLiveMapper;
 import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,8 @@ import java.util.stream.Collectors;
 public class SaleLiveService {
 
     private final SaleLiveMapper saleLiveMapper;
+
+    private final MainMapper mainMapper;
 
     @Value("${image.root.path}")
     private String IMAGE_URL;
@@ -97,6 +100,16 @@ public class SaleLiveService {
     }
     public List<CommonMap> selectSaleExchRate(CommonMap map){
         return saleLiveMapper.selectSaleExchRate(map);
+    }
+
+    public CommonMap selectSaleInfo(CommonMap commonMap) {
+        CommonMap resultMap = saleLiveMapper.selectSaleInfo(commonMap);
+        resultMap.put("buttonList", mainMapper.selectBrochures(commonMap));
+        return resultMap;
+    }
+
+    public void addBrochureReadCount(CommonMap paramMap) {
+        mainMapper.addBrochureReadCount(paramMap);
     }
 }
 

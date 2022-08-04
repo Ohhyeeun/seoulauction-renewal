@@ -726,7 +726,17 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectSaleExchRate(paramMap)));
     }
 
+    public ResponseEntity<RestResponse> sale(@PathVariable("saleNo") int saleNo) {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
 
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectSaleInfo(commonMap)));
+    }
 
+    @PostMapping(value="/brochure/read")
+    public ResponseEntity<RestResponse> brochureRead(@RequestBody CommonMap map) {
+        saleLiveService.addBrochureReadCount(map);
+        return ResponseEntity.ok(RestResponse.ok());
+    }
 
 }
