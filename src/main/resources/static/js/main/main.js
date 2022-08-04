@@ -678,7 +678,7 @@ if (matchMedia("all and (min-width: 1024px)").matches) {
                 "border-radius": "100%",
                 "display": "flex",
                 "align-items": "center",
-                "justify-content": "center",
+                "justify-content": "center", 
             });
             $('.swiper-button-prev.slide-btnleft').css("left","40px");
         });
