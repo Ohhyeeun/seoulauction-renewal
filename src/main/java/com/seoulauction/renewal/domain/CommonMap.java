@@ -98,8 +98,6 @@ public class CommonMap extends HashMap<String, Object>{
 			if (this.get(fo) != null) {
 				//this.put(fo, this.get(fo));
 				try {
-					System.out.println((this.get(fo)));
-
 					this.put(fo, mapper.readValue(String.valueOf(this.get(fo)), Map.class));
 
 				} catch (JsonProcessingException e) {

@@ -646,7 +646,6 @@ public class ApiSaleLiveController {
 
     @GetMapping(value="/paddles/{saleNo}")
     public ResponseEntity<RestResponse> getPaddle(@PathVariable("saleNo") int saleNo
-                                                 ,@PathVariable("lotNo") int lotNo
     ) {
         CommonMap paramMap = new CommonMap();
         paramMap.put("sale_no", saleNo);

@@ -32,7 +32,13 @@ public class SaleLiveService {
     private final ObjectMapper mapper = new ObjectMapper();
 
     public CommonMap selectLiveSale(CommonMap map){
-        return saleLiveMapper.selectLiveSale(map);
+
+        CommonMap result = saleLiveMapper.selectLiveSale(map);
+        if(result !=null){
+            result.settingJsonStrToObject();
+        }
+
+        return result;
     }
     public List<CommonMap> selectLiveSaleLots(CommonMap map){
 
@@ -76,10 +82,16 @@ public class SaleLiveService {
             map.put("cust_no" , 0);
         }
 
+        map.put("all" , false);
+
         CommonMap result = saleLiveMapper.selectLiveSaleLotByOne(map);
 
         if(result !=null) {
-            //json stringify -> object
+            result.settingJsonStrToObject();
+        } else{
+            map.put("all" , true);
+            map.put("lot_no" , 1);
+            result = saleLiveMapper.selectLiveSaleLotByOne(map);
             result.settingJsonStrToObject();
         }
 
