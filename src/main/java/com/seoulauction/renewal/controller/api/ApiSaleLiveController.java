@@ -654,7 +654,8 @@ public class ApiSaleLiveController {
     }
 
     @GetMapping(value="/sales/{saleNo}")
-    public ResponseEntity<RestResponse> selectLiveSale(@PathVariable("saleNo") int saleNo
+    public ResponseEntity<RestResponse> selectLiveSale(
+            @PathVariable("saleNo") int saleNo
     ) {
         CommonMap paramMap = new CommonMap();
         paramMap.put("sale_no", saleNo);
@@ -662,8 +663,9 @@ public class ApiSaleLiveController {
     }
 
     @GetMapping(value="sales/{saleNo}/lots")
-    public ResponseEntity<RestResponse> selectLiveSaleLots(@PathVariable("saleNo") int saleNo,
-                                                           @RequestParam(value = "category" , required = false) String category
+    public ResponseEntity<RestResponse> selectLiveSaleLots(
+            @PathVariable("saleNo") int saleNo,
+            @RequestParam(value = "category" , required = false) String category
     ) {
         CommonMap paramMap = new CommonMap();
         paramMap.put("sale_no", saleNo);
@@ -671,15 +673,16 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveSaleLots(paramMap)));
     }
     @GetMapping(value="sales/{saleNo}/lots/{lotNo}/now")
-    public ResponseEntity<RestResponse> selectLiveSaleLotByOne(@PathVariable("saleNo") int saleNo
-                                                               ,@PathVariable("lotNo") int lotNo
+    public ResponseEntity<RestResponse> selectLiveSaleLotByOne(
+            @PathVariable("saleNo") int saleNo
+           ,@PathVariable("lotNo") int lotNo
     ) {
         CommonMap paramMap = new CommonMap();
         paramMap.put("sale_no", saleNo);
         paramMap.put("lot_no", lotNo);
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveSaleLotByOne(paramMap)));
     }
-    @GetMapping(value="sale/{saleNo}/categories")
+    @GetMapping(value="sales/{saleNo}/categories")
     public ResponseEntity<RestResponse> selectLiveCategories(@PathVariable("saleNo") int saleNo
     ) {
         CommonMap paramMap = new CommonMap();
@@ -687,17 +690,19 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveCategories(paramMap)));
     }
     @GetMapping(value="sales/{saleNo}/lots/{lotNo}/my-bidding")
-    public ResponseEntity<RestResponse> selectLiveMyBidding(@PathVariable("saleNo") int saleNo
-                                                            ,@PathVariable("lotNo") int lotNo
+    public ResponseEntity<RestResponse> selectLiveMyBidding(
+            @PathVariable("saleNo") int saleNo
+           ,@PathVariable("lotNo") int lotNo
     ) {
         CommonMap paramMap = new CommonMap();
         paramMap.put("sale_no", saleNo);
         paramMap.put("lot_no", lotNo);
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveMyBidding(paramMap)));
     }
-    @GetMapping(value="sale/{saleNo}/lots/{lotNo}/site-bidding")
-    public ResponseEntity<RestResponse> selectLiveSiteBidding(@PathVariable("saleNo") int saleNo
-                                                             ,@PathVariable("lotNo") int lotNo
+    @GetMapping(value="sales/{saleNo}/lots/{lotNo}/site-bidding")
+    public ResponseEntity<RestResponse> selectLiveSiteBidding(
+            @PathVariable("saleNo") int saleNo
+           ,@PathVariable("lotNo") int lotNo
     ) {
         CommonMap paramMap = new CommonMap();
         paramMap.put("sale_no", saleNo);
@@ -705,20 +710,18 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveSiteBidding(paramMap)));
     }
 
-    @PostMapping(value="sale/{saleNo}/lots/{lotNo}/offline-bidding")
+    @PostMapping(value="sales/{saleNo}/lots/{lotNo}/offline-bidding")
     public ResponseEntity<RestResponse> offlineBidding(
-            @PathVariable("saleNo") int saleNo
+             @PathVariable("saleNo") int saleNo
             ,@PathVariable("lotNo") int lotNo
             ,@RequestBody OfflineBiddingForm offlineBiddingForm
             ) {
-
-        log.info("offlineBiddingForm : {}" , offlineBiddingForm);
 
         saleLiveService.insertOfflineBidding(saleNo , lotNo , offlineBiddingForm);
 
         return ResponseEntity.ok(RestResponse.ok());
     }
-    @GetMapping(value="sale/{saleNo}/exch-rate")
+    @GetMapping(value="sales/{saleNo}/exch-rate")
     public ResponseEntity<RestResponse> selectSaleExchRate(@PathVariable("saleNo") int saleNo
     ) {
         CommonMap paramMap = new CommonMap();

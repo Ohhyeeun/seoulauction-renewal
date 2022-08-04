@@ -1,5 +1,7 @@
 package com.seoulauction.renewal.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.form.OfflineBiddingForm;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
@@ -23,6 +26,10 @@ public class SaleLiveService {
 
     @Value("${image.root.path}")
     private String IMAGE_URL;
+
+    private final String JSON_KEY ="JSON";
+
+    private final ObjectMapper mapper = new ObjectMapper();
 
     public CommonMap selectLiveSale(CommonMap map){
         return saleLiveMapper.selectLiveSale(map);
@@ -44,6 +51,10 @@ public class SaleLiveService {
                 map.put("cust_no" , saUserDetails.getUserNo());
                 isEmployee.set(saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER")));
             }
+
+            //json stringify -> object
+            k.settingJsonStrToObject();
+
             //노이미지 처리.
             if (k.get("IMG_DISP_YN").equals("N") && !isEmployee.get()) {
                 k.put("IMAGE_URL", "");
@@ -65,7 +76,15 @@ public class SaleLiveService {
             map.put("cust_no" , 0);
         }
 
-        return saleLiveMapper.selectLiveSaleLotByOne(map);
+        CommonMap result = saleLiveMapper.selectLiveSaleLotByOne(map);
+
+        if(result !=null) {
+            //json stringify -> object
+            result.settingJsonStrToObject();
+        }
+
+
+        return result;
     }
     public List<CommonMap> selectLiveCategories(CommonMap map){
         return saleLiveMapper.selectLiveCategories(map);
