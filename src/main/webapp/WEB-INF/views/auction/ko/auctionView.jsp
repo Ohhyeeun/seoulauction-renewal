@@ -59,9 +59,10 @@
                                                                             <div class="image-area">
                                                                                 <figure class="img-ratio">
                                                                                     <!-- [0725]hover시 돋보기표시 -->
-                                                                                    <div class="dim">
-                                                                                        <i class="icon-zoom_in"></i>
-                                                                                    </div>
+                                                                                    <!-- [0803]돋보기표시Dim삭제(원복)-->  
+<%--                                                                                    <div class="dim">--%>
+<%--                                                                                        <i class="icon-zoom_in"></i>--%>
+<%--                                                                                    </div>--%>
                                                                                     <!-- //[0725]hover시 돋보기표시 -->
                                                                                     <div class="img-align">
                                                                                         <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
