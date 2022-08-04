@@ -312,8 +312,6 @@ public class AuctionController {
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "bidLivePopCurrency" , locale);
     }
 
-
-
     @GetMapping("/admin/sale/reg/{sale_no}")
     public String adminSaleReg(Locale locale, Model model, @PathVariable("sale_no") int saleNo) {
 
