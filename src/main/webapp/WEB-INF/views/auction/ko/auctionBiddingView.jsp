@@ -299,22 +299,25 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="my_lot_wrap" ng-show="paddNo<=0">
+                                            <!-- [0803]my_lot_type3만 .my_lot에 클리스(my_lot_type3-box)추가 -->
+                                            <div class="my_lot my_lot_type3-box">
+                                                <div class="my_lot_wrap" ng-show="paddNo<=0">
 
-                                                <div class="my_lot_type3">
-                                                    <p class="title">
-                                                        라이브 경매 응찰은 <span>정회원부터 가능</span>합니다.
-                                                    </p>
-                                                    <p class="txt">
-                                                        정회원은 유료로 운영되며 서울옥션이 발행하는 <br>
-                                                        간행물(각종 도록, 전시 안내 등)을 받으실 수 있습니다.
-                                                    </p>
-                                                    <div class="member_price">
-                                                        <!-- [0613]삭제
-                          <p class="p_txt">정회원 연회비 : 라이브 경매 응찰은 사전 신청한 정회원만 가능합니다.</p>
-                          // -->
-                                                        <!-- <a href="#" class="btn btn_member">정회원 결제</a> -->
-                                                    </div>
+                                                    <div class="my_lot_type3">
+                                                        <p class="title">
+                                                            라이브 경매 응찰은 <span>정회원부터 가능</span>합니다.
+                                                        </p>
+                                                        <p class="txt">
+                                                            정회원은 유료로 운영되며 서울옥션이 발행하는 <br>
+                                                            간행물(각종 도록, 전시 안내 등)을 받으실 수 있습니다.
+                                                        </p>
+                                                        <div class="member_price">
+                                                            <!-- [0613]삭제
+                              <p class="p_txt">정회원 연회비 : 라이브 경매 응찰은 사전 신청한 정회원만 가능합니다.</p>
+                              // -->
+                                                            <!-- <a href="#" class="btn btn_member">정회원 결제</a> -->
+                                                        </div>
+                                                    </div> 
                                                 </div>
                                             </div>
                                         </div>
