@@ -988,7 +988,7 @@
     color: #31aaa3;
 }
 .main-popup-caption>p {
-    margin: 20px 0;
+    /* margin: 20px 0; */
     line-height: 1.5;
 }
 .main-popup-close {
@@ -1631,12 +1631,11 @@
         display: block;
     }
     .main-popupbox {
-        /*width: 100%;*/
+        position: absolute;
         bottom: 0;
         right: auto;
         box-shadow: none;
-        left: 50%;
-        transform: translate(-50% , 0);
+        margin: 0 6.25em
     }
     .main-popup-img, .main-popup-txt {
         height: 500px;
@@ -1646,8 +1645,10 @@
     }
     .main-popupbox>a {
         border-radius: 20px 20px 0 0;
-        overflow: hidden;
         background-color: #fff;
+    }
+    .main-popup-txt::-webkit-scrollbar-track {
+        margin-top: 15px;
     }
     .main-popup-txt {
         width: 100%;
@@ -1788,6 +1789,7 @@
     }
     .main-popupbox {
         width: 100%;
+        margin: 0;
     }
     .main-popup-img {
         width: 100%;
