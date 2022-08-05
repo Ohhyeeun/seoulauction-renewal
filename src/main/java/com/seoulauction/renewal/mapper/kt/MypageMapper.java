@@ -160,6 +160,4 @@ public interface MypageMapper {
     
     /* 자동응찰중인지 확인*/
     List<CommonMap> selectAutoBidReqForcustLeave(CommonMap map);
-
-    CommonMap selectManager(CommonMap map);
 }

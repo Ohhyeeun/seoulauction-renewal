@@ -17,4 +17,6 @@ public interface AuctionOnlineMapper {
     int selectLotListCount(CommonMap commonMap);
 
     CommonMap selectLotInfo(CommonMap commonMap);
+
+    CommonMap selectManager(int custNo);
 }
