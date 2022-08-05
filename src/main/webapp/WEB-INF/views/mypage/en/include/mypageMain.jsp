@@ -71,8 +71,8 @@
 														</div>
 													</div>
 													<div class="mem-button-wrap" ng-if="userRole=='0'">
-													<a href="/payment/member">
-														<button class="btn btn_point btn_lg" type="button" >
+													<a href="#">
+														<button class="btn btn_point btn_lg" type="button" ng-click="showTooltip(this);">
 															<span>SeoulAuction Membership</span>
 														</button>
 													</a>

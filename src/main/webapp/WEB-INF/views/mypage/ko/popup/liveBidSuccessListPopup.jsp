@@ -37,7 +37,8 @@
                                                         <span>{{liveBidHisHammer.LOT_NO}}</span>
                                                     </td>
                                                     <td class="">
-                                                        <span class="tb1">{{liveBidHisHammer.ARTIST_NAME_KR}} / {{liveBidHisHammer.LOT_TITLE_KR}}</span>
+                                                        <span class="tb1" ng-if="liveBidHisHammer.ARTIST_NAME_KR" >{{liveBidHisHammer.ARTIST_NAME_KR}} / {{liveBidHisHammer.LOT_TITLE_KR}}</span>
+                                                        <span class="tb1" ng-if="!liveBidHisHammer.ARTIST_NAME_KR">{{liveBidHisHammer.LOT_TITLE_KR}}</span>
                                                     </td>
                                                     <td class="tar">
                                                         <span>{{comma(liveBidHisHammer.BID_PRICE)}}</span>
