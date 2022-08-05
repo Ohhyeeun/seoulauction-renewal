@@ -749,6 +749,13 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok());
     }
 
+    @GetMapping(value="/sales/{saleNo}/bid-notice")
+    public ResponseEntity<RestResponse> saleBidNotice(@PathVariable("saleNo") int saleNo) {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectBidNotice(commonMap)));
+    }
+
     /**
      * 운영자 페이지 전용 API 목록
      *
@@ -813,16 +820,6 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok());
     }
 
-    /**
-     *
-     * 응찰 페이지 공지사항
-     */
-    @GetMapping(value="/admin/sales/{saleNo}/bid-notice")
-    public ResponseEntity<RestResponse> adminBidNotice(@PathVariable("saleNo") int saleNo) {
-        CommonMap commonMap = new CommonMap();
-        commonMap.put("sale_no", saleNo);
-        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectBidNotice(commonMap)));
-    }
     /**
      *
      * LOT 동기화
