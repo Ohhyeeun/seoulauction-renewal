@@ -131,6 +131,26 @@ public class AuctionController {
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionLiveList" , locale);
     }
 
+    @GetMapping("/live/list/new/{sale_no}")
+    public String NewLiveList(Locale locale, Model model , HttpServletRequest request, HttpServletResponse response,
+                           @PathVariable("sale_no") int saleNo) {
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+
+        model.addAttribute("saleNo", saleNo);
+
+        //필수값 있는지 여부.
+        Boolean isCustRequired = false;
+
+        if( saUserDetails != null){
+            isCustRequired = saleService.checkCustRequired(new CommonMap("cust_no", saUserDetails.getUserNo()));
+        }
+
+        model.addAttribute("isCustRequired", isCustRequired);
+
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionLiveListNew" , locale);
+    }
+
     /* 라이브 경매 상세*/
     @GetMapping("/live/view/{sale_no}/{lot_no}")
     public String liveView(Locale locale, Model model
@@ -157,6 +177,8 @@ public class AuctionController {
 
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionLiveView" , locale);
     }
+
+
 
     /* 라이브 경매 서면/전화 응찰 페이지 */
     @GetMapping("/live/sale/{sale_no}/lot/{lot_no}/biding")
@@ -209,6 +231,21 @@ public class AuctionController {
             model.addAttribute("member", new SAUserDetails());
         }
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionBiddingView" , locale);
+    }
+
+    @GetMapping(value="/live/bidder/new/{saleNo}")
+    public String bidderTest(Locale locale, Model model
+            , HttpServletRequest request, HttpServletResponse response,
+                         @PathVariable("saleNo") int saleNo) {
+        model.addAttribute("saleNo", saleNo);
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            model.addAttribute("member", saUserDetails);
+        } else {
+            model.addAttribute("member", new SAUserDetails());
+        }
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionBiddingView_New" , locale);
     }
 
     /* 온라인 호가 */
@@ -274,8 +311,6 @@ public class AuctionController {
 
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "bidLivePopCurrency" , locale);
     }
-
-
 
     @GetMapping("/admin/sale/reg/{sale_no}")
     public String adminSaleReg(Locale locale, Model model, @PathVariable("sale_no") int saleNo) {

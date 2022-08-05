@@ -747,4 +747,77 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok());
     }
 
+    /**
+     * 운영자 페이지 전용 API 목록
+     *
+     */
+
+    /**
+     *
+     * @param saleNo
+     * 관리자용 sale 가져오기.
+     */
+    @GetMapping(value="/admin/sales/{saleNo}")
+    public ResponseEntity<RestResponse> adminSales(@PathVariable("saleNo") int saleNo) {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
+
+    /**
+     *
+     * LOT 동기화
+     */
+    @PostMapping(value="/admin/sales/{saleNo}/sync")
+    public ResponseEntity<RestResponse> adminLotSync(@PathVariable("saleNo") int saleNo) {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+    /**
+     *
+     * 현재가 조정
+     */
+    @PostMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/cur-price-control")
+    public ResponseEntity<RestResponse> adminCurPriceControl(@PathVariable("saleNo") int saleNo
+     ,@PathVariable("lotNo") int lotNo)
+    {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
+    /**
+     *
+     * 현장 응찰
+     */
+    @PostMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/place-bid")
+    public ResponseEntity<RestResponse> adminPlaceBid(
+                 @PathVariable("saleNo") int saleNo
+                ,@PathVariable("lotNo") int lotNo
+    ) {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
+    /**
+     *
+     * 랏 마감
+     */
+    @PostMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/lot-close")
+    public ResponseEntity<RestResponse> adminLotClose(
+             @PathVariable("saleNo") int saleNo
+            ,@PathVariable("lotNo") int lotNo) {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
 }
