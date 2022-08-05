@@ -173,7 +173,7 @@ public class NicePayModule {
             formData.add("EdiDate", eDiDate);
             formData.add("Moid", moid);
             formData.add("ReceiptAmt", receiptAmt);
-            formData.add("BuyerName", request.getParameter("BuyerName"));
+            formData.add("BuyerName", request.getParameter("name"));
             formData.add("GoodsName", request.getParameter("GoodsName"));
             formData.add("SignData", signData);
             formData.add("ReceiptType", String.valueOf(request.getAttribute("rcpt_type")));
