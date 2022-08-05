@@ -1003,8 +1003,9 @@ FROM
 		, IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'en' AS CHAR), '') ARTIST_NAME_EN
 		, COLUMN_GET(L.TITLE_BLOB, 'ko' AS CHAR) LOT_TITLE_KR
 		, COLUMN_GET(L.TITLE_BLOB, 'en' AS CHAR) LOT_TITLE_EN
-		,(LF.FEE + B.BID_PRICE) as PAY_PRICE
-		, LI.*
+		,(IFNULL(LF.FEE , B.BID_PRICE * (IFNULL(LF.RATE, 19.8) /100)) + B.BID_PRICE) as PAY_PRICE
+		,IFNULL(LF.FEE , B.BID_PRICE * (IFNULL(LF.RATE, 19.8) /100)) FEE
+		,LI.*
 		FROM
 			SUCCESS_BID SB
 		JOIN BID B ON
@@ -1033,8 +1034,8 @@ FROM
 		from
 			(
 			select
-				COUNT(*) as tatal_count,
-				SUM(LF.FEE) sum_fee,
+				COUNT(*) as total_count,
+				SUM(IFNULL(LF.FEE , B.BID_PRICE * (IFNULL(LF.RATE, 19.8) /100))) sum_fee,
 				SUM(B.BID_PRICE) sum_bid_price
 			from
 						SUCCESS_BID SB
