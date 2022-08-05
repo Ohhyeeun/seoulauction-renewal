@@ -4,7 +4,7 @@
     <!-- 응찰 페이지 공지사항 -->
     <select id="selectBidNotice" parameterType="CommonMap" resultType="CommonMap">
         SELECT
-            *
+            sale_no
             ,content_json CONTENT_JSON
             ,date_format(created_at, '%Y-%m-%d') dt_date
         FROM
