@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.form.OfflineBiddingForm;
-import com.seoulauction.renewal.mapper.aws.MainMapper;
 import com.seoulauction.renewal.mapper.aws.AWSSaleMapper;
+import com.seoulauction.renewal.mapper.aws.MainMapper;
 import com.seoulauction.renewal.mapper.kt.AuctionMapper;
 import com.seoulauction.renewal.mapper.kt.SaleLiveMapper;
 import com.seoulauction.renewal.util.SecurityUtils;
@@ -24,19 +24,10 @@ import java.util.stream.Collectors;
 public class SaleLiveService {
 
     private final SaleLiveMapper saleLiveMapper;
-
-    private final AuctionMapper auctionMapper;
-
-    private final MainMapper mainMapper;
-
     private final AWSSaleMapper awsSaleMapper;
 
     @Value("${image.root.path}")
     private String IMAGE_URL;
-
-    private final String JSON_KEY ="JSON";
-
-    private final ObjectMapper mapper = new ObjectMapper();
 
     public CommonMap selectLiveSale(CommonMap map){
 
