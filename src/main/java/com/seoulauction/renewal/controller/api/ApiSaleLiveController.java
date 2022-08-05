@@ -767,18 +767,6 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok());
     }
 
-
-    /**
-     *
-     * LOT 동기화
-     */
-    @PostMapping(value="/admin/sales/{saleNo}/sync")
-    public ResponseEntity<RestResponse> adminLotSync(@PathVariable("saleNo") int saleNo) {
-        CommonMap commonMap = new CommonMap();
-        commonMap.put("sale_no", saleNo);
-
-        return ResponseEntity.ok(RestResponse.ok());
-    }
     /**
      *
      * 현재가 조정
@@ -816,6 +804,18 @@ public class ApiSaleLiveController {
     public ResponseEntity<RestResponse> adminLotClose(
              @PathVariable("saleNo") int saleNo
             ,@PathVariable("lotNo") int lotNo) {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
+    /**
+     *
+     * LOT 동기화
+     */
+    @PostMapping(value="/admin/sales/{saleNo}/sync")
+    public ResponseEntity<RestResponse> adminLotSync(@PathVariable("saleNo") int saleNo) {
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
 

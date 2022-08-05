@@ -60,23 +60,17 @@ public class SaleLiveService {
 
         return saleLiveMapper.selectLiveSaleLots(map).stream().map(k->{
 
-            if( saUserDetails !=null) {
-                map.put("cust_no" , saUserDetails.getUserNo());
-                isEmployee.set(saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER")));
-            }
-
             //json stringify -> object
             k.settingJsonStrToObject();
             k.settingYNValueToBoolean();
 
-            //노이미지 처리.
-            if (k.get("IMG_DISP_YN").equals("N") && !isEmployee.get()) {
-                k.put("IMAGE_URL", "");
-                k.put("LOT_IMG_PATH", "");
-                k.put("LOT_IMG_NAME", "/images/bg/no_image.jpg");
-            } else {
-                k.put("IMAGE_URL", IMAGE_URL);
+            k.put("IMAGE_FULL_PATH","");
+            
+            if(k.get("LOT_IMG_PATH") !=null && k.get("LOT_IMG_NAME") !=null) {
+                k.put("IMAGE_FULL_PATH", IMAGE_URL + k.get("LOT_IMG_PATH") + "/" + k.get("LOT_IMG_NAME"));
             }
+            k.remove("LOT_IMG_PATH");
+            k.remove("LOT_IMG_NAME");
 
            return k;
         }).collect(Collectors.toList());
@@ -89,7 +83,6 @@ public class SaleLiveService {
         } else {
             map.put("cust_no" , 0);
         }
-
 
         CommonMap result = saleLiveMapper.selectLiveSaleLotByOne(map);
 
@@ -104,6 +97,14 @@ public class SaleLiveService {
             result.settingYNValueToBoolean();
         }
 
+        result.put("IMAGE_FULL_PATH","");
+
+        if(result.get("LOT_IMG_PATH") !=null && result.get("LOT_IMG_NAME") !=null) {
+            result.put("IMAGE_FULL_PATH", IMAGE_URL + result.get("LOT_IMG_PATH") + "/" + result.get("LOT_IMG_NAME"));
+        }
+
+        result.remove("LOT_IMG_PATH");
+        result.remove("LOT_IMG_NAME");
 
         return result;
     }
