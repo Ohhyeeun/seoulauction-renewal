@@ -945,14 +945,14 @@
         // 호출 부
         const getSaleInfo = (saleNo) => {
             try {
-                return axios.get('/api/auction/sale_info/${saleNo}');
+                return axios.get('/api/auction/live/sale_info/${saleNo}');
             } catch (error) {
                 console.error(error);
             }
         };
         const getLotInfo = (saleNo, lotNo) => {
             try {
-                return axios.get('/api/auction/lot_info/${saleNo}/${lotNo}');
+                return axios.get('/api/auction/live/lot_info/${saleNo}/${lotNo}');
             } catch (error) {
                 console.error(error);
             }
@@ -960,7 +960,7 @@
 
         const getLotImages = (saleNo, lotNo) => {
             try {
-                return axios.get('/api/auction/lot_images/${saleNo}/${lotNo}');
+                return axios.get('/api/auction/live/lot_images/${saleNo}/${lotNo}');
             } catch (error) {
                 console.error(error);
             }
@@ -968,7 +968,7 @@
 
         const getLotArtistOtherLots = (saleNo, lotNo) => {
             try {
-                return axios.get('/api/auction/lot_artist_other_lots');
+                return axios.get('/api/auction/live/lot_artist_other_lots');
             } catch (error) {
                 console.error(error);
             }
@@ -976,7 +976,7 @@
 
         const getLotCustomer = (saleNo, lotNo) => {
             try {
-                return axios.get('/api/auction/get_customer_by_cust_no');
+                return axios.get('/api/auction/live/get_customer_by_cust_no');
             } catch (error) {
                 console.error(error);
             }
@@ -984,7 +984,7 @@
 
         const getSaleCertInfo = (saleNo, lotNo) => {
             try {
-                return axios.get('/api/auction/sale_cert_info');
+                return axios.get('/api/auction/live/sale_cert_info');
             } catch (error) {
                 console.error(error);
             }
@@ -992,7 +992,7 @@
 
         const getSaleImages = (saleNo, lotNo) => {
             try {
-                return axios.get('/api/auction/sale_images/'+saleNo);
+                return axios.get('/api/auction/live/sale_images/'+saleNo);
             } catch (error) {
                 console.error(error);
             }
@@ -1001,7 +1001,7 @@
         const getViewScaleImages = (saleNo, lotNo) => {
             console.log("getViewScaleImages : ", saleNo, lotNo);
             try {
-                return axios.get('/api/auction/getViewScaleImage/'+saleNo+'/'+lotNo);
+                return axios.get('/api/auction/live/getViewScaleImage/'+saleNo+'/'+lotNo);
             } catch (error) {
                 console.error(error);
             }
@@ -1009,7 +1009,7 @@
 
         const insertRecentlyView = (saleNo, lotNo) => {
             try {
-                return axios.post('/api/auction/insertRecentlyView', {
+                return axios.post('/api/auction/live/insertRecentlyView', {
                     sale_no: saleNo,
                     lot_no: lotNo,
                     cust_no: $scope.cust_no,
@@ -1021,7 +1021,7 @@
 
         const getRecentlyView = (saleNo, lotNo) => {
             try {
-                return axios.get('/api/auction/recently/${saleNo}/${lotNo}');
+                return axios.get('/api/auction/live/recently/${saleNo}/${lotNo}');
             } catch (error) {
                 console.error(error);
             }
@@ -1030,7 +1030,7 @@
         // 호출 부
         const getSaleListInfo = (saleNo) => {
             try {
-                return axios.get('/api/auction/list/${saleNo}');
+                return axios.get('/api/auction/live/list/${saleNo}');
             } catch (error) {
                 console.error(error);
             }
@@ -1038,7 +1038,7 @@
 
         const getLotTags = (saleNo, lotNo) => {
             try {
-                return axios.get('/api/auction/lotTag/${saleNo}');
+                return axios.get('/api/auction/live/lotTag/${saleNo}');
             } catch (error) {
                 console.error(error);
             }
@@ -1046,7 +1046,7 @@
 
         const getCategories = (saleNo) => {
             try {
-                return axios.get('/api/auction/categories/' + saleNo);
+                return axios.get('/api/auction/live/categories/' + saleNo);
             } catch (error) {
                 console.error(error);
             }
@@ -1068,11 +1068,11 @@
         $scope.favorite = function (saleNo, lotNo) {
             let url = "";
             if ($scope.lotInfo.FAVORITE_YN === 'Y') {
-                url = "/api/auction/delCustInteLot";
+                url = "/api/auction/live/delCustInteLot";
                 $scope.lotInfo.FAVORITE_YN = "N";
 
             } else if ($scope.lotInfo.FAVORITE_YN === 'N') {
-                url = "/api/auction/addCustInteLot";
+                url = "/api/auction/live/addCustInteLot";
                 $scope.lotInfo.FAVORITE_YN = "Y";
             }
             try {
@@ -1090,11 +1090,11 @@
             console.log("index", index);
             let url = "";
             if ($scope.recentlyViews[index].FAVORITE_YN === 'Y') {
-                url = "/api/auction/delCustInteLot";
+                url = "/api/auction/live/delCustInteLot";
                 $scope.recentlyViews[index].FAVORITE_YN = "N";
 
             } else if ($scope.recentlyViews[index].FAVORITE_YN === 'N') {
-                url = "/api/auction/addCustInteLot";
+                url = "/api/auction/live/addCustInteLot";
                 $scope.recentlyViews[index].FAVORITE_YN = "Y";
             }
             try {
@@ -1151,12 +1151,12 @@
                 if ($scope.saleLotList[i].SALE_NO === saleNo &&
                     $scope.saleLotList[i].LOT_NO === lotNo && $scope.saleLotList[i].FAVORITE_YN === 'Y') {
                     $scope.saleLotList[i].FAVORITE_YN = "N";
-                    url = "/api/auction/addCustInteLot";
+                    url = "/api/auction/live/addCustInteLot";
                     break
                 } else if ($scope.saleLotList[i].SALE_NO === saleNo &&
                     $scope.saleLotList[i].LOT_NO === lotNo && $scope.saleLotList[i].FAVORITE_YN === 'N') {
                     $scope.saleLotList[i].FAVORITE_YN = "Y";
-                    url = "/api/auction/delCustInteLot";
+                    url = "/api/auction/live/delCustInteLot";
                     break
                 }
             }
@@ -1526,7 +1526,7 @@
                 })
 
                 //작가 정보 admin에서 가져오도록 변경
-                axios.get('/api/auction/artist_info/' + $scope.artistNo)
+                axios.get('/api/auction/live/artist_info/' + $scope.artistNo)
                     .then(function (response) {
                         const data = response.data;
                         let success = data.success;

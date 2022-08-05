@@ -93,7 +93,6 @@ public class CommonMap extends HashMap<String, Object>{
 	 * @return
 	 */
 	public void settingJsonStrToObject(){
-		mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
 		this.keySet().stream().filter(f -> f.contains(JSON_KEY)).forEach(fo -> {
 			if (this.get(fo) != null) {
 				//this.put(fo, this.get(fo));
@@ -107,6 +106,23 @@ public class CommonMap extends HashMap<String, Object>{
 			} else {
 				//값이없는경우 빈값을 넣어준다.
 				this.put(fo, new CommonMap());
+			}
+		});
+	}
+
+	/**
+	 * Data 에 값이 Y,N 일경우 Y-> true , N -> FALSE 로  변환.
+	 * @return
+	 */
+	public void settingYNValueToBoolean(){
+		this.keySet().stream().filter(
+				//값이 Y 이거나 N 일경우.
+			c-> ( this.get(c) !=null && (this.get(c).equals("Y") || this.get(c).equals("N") ) )
+		).forEach(fo -> {
+			if (this.get(fo) != null) {
+				this.put(fo, this.get(fo).equals("Y"));
+			} else {
+				this.put(fo, false);
 			}
 		});
 	}

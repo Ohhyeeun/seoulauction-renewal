@@ -4,8 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.common.RestResponse;
-import com.seoulauction.renewal.domain.Bid;
-import com.seoulauction.renewal.domain.Bidder;
+import com.seoulauction.renewal.component.CurrencyDataManager;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.form.OfflineBiddingForm;
@@ -14,6 +13,8 @@ import com.seoulauction.renewal.service.S3Service;
 import com.seoulauction.renewal.service.SaleLiveService;
 import com.seoulauction.renewal.service.SaleService;
 import com.seoulauction.renewal.util.SecurityUtils;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -39,6 +41,8 @@ public class ApiSaleLiveController {
     private final S3Service s3Service;
 
     private final AuctionService auctionService;
+
+    private final CurrencyDataManager currencyDataManager;
 
     @Value("${image.root.path}")
     private String IMAGE_URL;
@@ -671,14 +675,12 @@ public class ApiSaleLiveController {
         paramMap.put("category", category);
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveSaleLots(paramMap)));
     }
-    @GetMapping(value="sales/{saleNo}/lots/{lotNo}/now")
+    @GetMapping(value="sales/{saleNo}/bidding-lot-now")
     public ResponseEntity<RestResponse> selectLiveSaleLotByOne(
             @PathVariable("saleNo") int saleNo
-           ,@PathVariable("lotNo") int lotNo
     ) {
         CommonMap paramMap = new CommonMap();
         paramMap.put("sale_no", saleNo);
-        paramMap.put("lot_no", lotNo);
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveSaleLotByOne(paramMap)));
     }
     @GetMapping(value="sales/{saleNo}/categories")
@@ -818,6 +820,22 @@ public class ApiSaleLiveController {
         commonMap.put("sale_no", saleNo);
 
         return ResponseEntity.ok(RestResponse.ok());
+    }
+
+    /**
+     * 환율 정보 가져오기 ( 외부 API 이용 )
+     * PARAM 형식 - YYYY-MM-DD
+     */
+    @ApiOperation("YYYY-DD-MM 날짜형식 - 없을경우 현재 날짜의 환율 정보를 가져옴.")
+    @GetMapping(value="/admin/currency")
+    public ResponseEntity<RestResponse> currency(
+            @ApiParam(value = "EX ) YYYY-DD-MM")
+            @RequestParam(value = "date" , required = false) String date) {
+
+        if(date ==null){
+            date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        }
+        return ResponseEntity.ok(RestResponse.ok(currencyDataManager.getCurrency(date)));
     }
 
 }

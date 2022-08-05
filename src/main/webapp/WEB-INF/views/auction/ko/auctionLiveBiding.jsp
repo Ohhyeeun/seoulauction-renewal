@@ -423,7 +423,7 @@
                     return;
                 }
 
-                let url = '/api/auction/insertbid';
+                let url = '/api/auction/live/insertbid';
 
                 let date = new Date();
                 const month = String(date.getMonth()+1).padStart(2, "0");
