@@ -207,68 +207,7 @@ public class NicePayModule {
 
         return resultMap;
     }
-
-    public String connectToServer(String data, String reqUrl) throws Exception {
-        HttpURLConnection conn 		= null;
-        BufferedReader resultReader = null;
-        PrintWriter pw 				= null;
-        URL url 					= null;
-
-        int statusCode = 0;
-        StringBuffer recvBuffer = new StringBuffer();
-        try{
-            url = new URL(reqUrl);
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setConnectTimeout(15000);
-            conn.setReadTimeout(25000);
-            conn.setDoOutput(true);
-
-            pw = new PrintWriter(conn.getOutputStream());
-            pw.write(data);
-            pw.flush();
-
-            statusCode = conn.getResponseCode();
-            resultReader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "euc-kr"));
-            for(String temp; (temp = resultReader.readLine()) != null;){
-                recvBuffer.append(temp).append("\n");
-            }
-
-            if(!(statusCode == HttpURLConnection.HTTP_OK)){
-                throw new Exception();
-            }
-
-            return recvBuffer.toString().trim();
-        }catch (Exception e){
-            return "9999";
-        }finally{
-            recvBuffer.setLength(0);
-
-            try{
-                if(resultReader != null){
-                    resultReader.close();
-                }
-            }catch(Exception ex){
-                resultReader = null;
-            }
-
-            try{
-                if(pw != null) {
-                    pw.close();
-                }
-            }catch(Exception ex){
-                pw = null;
-            }
-
-            try{
-                if(conn != null) {
-                    conn.disconnect();
-                }
-            }catch(Exception ex){
-                conn = null;
-            }
-        }
-    }
+    
     private String getReceiptTID(String MID) {
         //TID(30byte) = MID + 지불수단(현금영수증) + 매체구분(일반) + 시간정보(yyMMddHHmmss) + 랜덤(4byte)
         StringBuilder result = new StringBuilder(MID).append("04").append("01")
