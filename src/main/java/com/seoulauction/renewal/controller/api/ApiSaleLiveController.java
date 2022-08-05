@@ -850,4 +850,14 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok(currencyDataManager.getCurrency(date)));
     }
 
+    /**
+     * 경매 공지 사항 입력.
+     */
+    @GetMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/add-notice")
+    public ResponseEntity<RestResponse> addSaleNotice() {
+
+
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
 }
