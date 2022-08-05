@@ -5,6 +5,7 @@ import com.seoulauction.renewal.mapper.aws.MainMapper;
 import com.seoulauction.renewal.mapper.kt.AuctionOnlineMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,4 +38,17 @@ public class AuctionOnlineService {
         return auctionOnlineMapper.selectLotInfo(commonMap);
     }
 
+    public CommonMap selectManager(int custNo){
+        CommonMap map = auctionOnlineMapper.selectManager(custNo);
+        if(map == null || StringUtils.isEmpty(map.getString("TEL"))){
+            map = new CommonMap();
+            map.put("EMP_NAME" , "고객센터");
+            map.put("EMP_NAME_EN" , "Customer Center");
+            map.put("TEL" , "02-395-0330");
+        } else if(StringUtils.isEmpty(map.getString("EMP_NAME_EN"))){
+            map.put("EMP_NAME_EN" , map.getString("EMP_NAME"));
+        }
+
+        return map;
+    }
 }

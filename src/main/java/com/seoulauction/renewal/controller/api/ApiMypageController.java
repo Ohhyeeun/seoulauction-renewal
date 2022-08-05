@@ -458,9 +458,4 @@ public class ApiMypageController {
         }
 		return ResponseEntity.ok(RestResponse.ok(resultMap));
 	}
-
-	@GetMapping(value = "/manager")
-	public ResponseEntity<RestResponse> manager(){
-		return ResponseEntity.ok(RestResponse.ok(mypageService.selectManager()));
-	}
 }

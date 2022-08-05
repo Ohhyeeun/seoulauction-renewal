@@ -1365,14 +1365,4 @@ FROM
 			CUST_NO = #{cust_no}
 			and L.TO_DT > now()
 	</select>
-
-	<select id="selectManager" resultType="CommonMap" parameterType="CommonMap">
-		SELECT E.EMP_NAME, E.HP, E.TEL, D.DEPT_NAME, D.DEPT_NAME_EN
-		FROM CUST CU
-				 LEFT OUTER JOIN EMP E ON E.EMP_NO = CU.EMP_NO
-				 LEFT OUTER JOIN DEPT D ON D.DEPT_NO = E.DEPT_NO
-		WHERE CU.STAT_CD = 'normal'
-		  AND CU.CUST_NO =  #{cust_no}
-		  AND CU.JOIN_KIND_CD = 'online'
-	</select>
 </mapper>

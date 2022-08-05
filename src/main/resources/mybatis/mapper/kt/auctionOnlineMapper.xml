@@ -231,4 +231,12 @@
             and L.LOT_NO = #{lot_no}
         group by L.SALE_NO, L.LOT_NO
     </select>
+
+    <select id="selectManager" parameterType="int" resultType="CommonMap">
+        SELECT E.TEL, E.EMP_NAME, E.EMP_NAME_EN
+        FROM CUST CU LEFT OUTER JOIN EMP E ON CU.EMP_NO = E.EMP_NO
+        WHERE CU.STAT_CD = 'normal'
+            AND CU.CUST_NO = #{cust_no}
+            AND CU.JOIN_KIND_CD = 'online'
+    </select>
 </mapper>
