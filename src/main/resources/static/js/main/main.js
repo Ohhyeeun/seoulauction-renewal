@@ -20,19 +20,6 @@ function Request(){
 }
 var request = new Request();
 let isMainPopup = false;
-//이중접속 팝업
-var maxSession = request.getParameter("maxSession");
-if(maxSession.startsWith('true')){
-	var popup_concurrent = $(".js-popup_concurrent").trpLayerFixedPopup("#popup_concurrent-wrap");
-	popup_concurrent.open(this); // or false   
-	popup_fixation("#popup_concurrent-wrap"); // pc_하단붙이기
-}
-
-$("body").on("click", "#popup_concurrent-wrap .js-closepop, #popup_concurrent-wrap .popup-dim, #confirmMaxSession", function($e) {
-    $e.preventDefault();
-    popup_concurrent.close();
-    location.href="/"
-});
 
 //비밀번호초기화 팝업
 if(resetPassword == 'true'){
