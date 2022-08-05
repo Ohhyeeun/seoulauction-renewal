@@ -820,4 +820,18 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok());
     }
 
+    /**
+     *
+     * 응찰 페이지 공지사항
+     */
+    @GetMapping(value="/admin/sales/{saleNo}/bid-notice")
+    public ResponseEntity<RestResponse> adminBidNotice(@PathVariable("saleNo") int saleNo) {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+
+        List<CommonMap> bidNotice = saleLiveService.selectBidNotice(commonMap);
+
+        return ResponseEntity.ok(RestResponse.ok(bidNotice));
+    }
+
 }

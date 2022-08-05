@@ -6,6 +6,7 @@ import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.form.OfflineBiddingForm;
 import com.seoulauction.renewal.mapper.aws.MainMapper;
+import com.seoulauction.renewal.mapper.aws.SaleMapper;
 import com.seoulauction.renewal.mapper.kt.AuctionMapper;
 import com.seoulauction.renewal.mapper.kt.SaleLiveMapper;
 import com.seoulauction.renewal.util.SecurityUtils;
@@ -29,6 +30,8 @@ public class SaleLiveService {
     private final AuctionMapper auctionMapper;
 
     private final MainMapper mainMapper;
+
+    private final SaleMapper saleMapper;
 
     @Value("${image.root.path}")
     private String IMAGE_URL;
@@ -137,5 +140,8 @@ public class SaleLiveService {
         return saleLiveMapper.selectSaleExchRate(map);
     }
 
+    public List<CommonMap> selectBidNotice(CommonMap commonMap) {
+        return saleMapper.selectBidNotice(commonMap);
+    }
 }
 
