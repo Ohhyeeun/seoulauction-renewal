@@ -1,5 +1,7 @@
    <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+	<spring:eval expression="@environment.getProperty('image.root.path')" var="imageRootPath" />
  <div id="popup_offline_payment-wrap" class="trp popupfixed-wrap offline_payment-popup " >
         <div class="popup-dim"></div>
         <div class="popup-align mode-xl mode-mb_full">
@@ -106,7 +108,7 @@
                                                                 <div class="image-area">
                                                                     <figure class="img-ratio">
                                                                         <div class="img-align">
-                                                                        <img src="/nas_img{{liveBidHisHammer.FILE_PATH}}/{{liveBidHisHammer.FILE_NAME}}" alt="">
+                                                                        <img src="${imageRootPath}{{liveBidHisHammer.FILE_PATH}}/{{liveBidHisHammer.FILE_NAME}}" alt="">
                                                                         </div>
                                                                     </figure>
                                                                 </div>
@@ -225,3 +227,18 @@
             </div>
         </div>
     </div>
+    
+        <script>
+        (function() {
+            /* 아코디언 */
+            var pop_accordion = $(".js-accordion-btn").trpToggleBtn(
+                function($this) {
+                    $($this).addClass("on");
+                    $($this).closest(".payment_price-accordion").find(".accordion-body").slideDown("fast");
+                },
+                function($this) {
+                    $($this).removeClass("on");
+                    $($this).closest(".payment_price-accordion").find(".accordion-body").slideUp("fast");
+                });
+        })();
+    </script>

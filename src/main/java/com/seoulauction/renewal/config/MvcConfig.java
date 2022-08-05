@@ -1,5 +1,7 @@
 package com.seoulauction.renewal.config;
 
+import com.seoulauction.renewal.filter.EucKrEncodingFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -52,5 +54,13 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
+    }
+
+    @Bean
+    FilterRegistrationBean<EucKrEncodingFilter> eucKrEncodingFilter() {
+        FilterRegistrationBean<EucKrEncodingFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new EucKrEncodingFilter());
+        registrationBean.addUrlPatterns("/customer/niceVbankPaid");
+        return registrationBean;
     }
 }

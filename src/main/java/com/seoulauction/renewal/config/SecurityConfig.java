@@ -96,6 +96,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/customer/**").permitAll()
 			.antMatchers("/mypage/**").authenticated()
 			.antMatchers("/payment/**").authenticated()
+			.antMatchers("/auction/admin/**").authenticated() // 오프라인 경매 관련 5대 페이지 권한 설정. ( 우선 로그인만 )
 			.antMatchers("/auction/live/sale/{id}/lot/{id}/biding").authenticated()
 			.antMatchers("/footer/recruit/{id}/form").authenticated()
 			//.anyRequest().authenticated()
@@ -110,9 +111,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.successHandler(successHandler())
 	            .and()
 		    .rememberMe()
-		        .key("SeoulAuction")
-		        .rememberMeParameter("remember-me")
-		        .tokenValiditySeconds(86400 * 30) // 1달
 		        .rememberMeServices(socialRememberMeService)
 		        .userDetailsService(rememberMeService)
 		        .authenticationSuccessHandler(rememberMeLoginSuccessHandler)

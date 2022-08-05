@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seoulauction.renewal.mapper.kt.SaleLiveMapper">
+    <!--경매 단일 -->
+    <select id="selectLiveSale" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+            A.SALE_NO,
+            A.SALE_TH,
+            COLUMN_JSON(A.TITLE_BLOB)           SALE_TITLE_JSON,
+            A.SALE_KIND_CD
+        FROM
+            SALE A
+        WHERE
+            A.SALE_NO = #{sale_no}
+            AND A.WWW_DISP_YN = 'Y'
+            AND A.CLOSE_YN = 'N'
+            AND A.SALE_KIND_CD IN ('main','plan','hongkong')
+    </select>
+    <!--랏 리스트 -->
+    <select id="selectLiveSaleLots" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+              L.LOT_NO
+             ,COLUMN_JSON(L.TITLE_BLOB) LOT_TITLE_JSON -- 타이틀
+             ,COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON -- 낮은 추정가
+             ,COLUMN_JSON(L.EXPE_PRICE_TO_BLOB) EXPE_PRICE_TO_JSON -- 높은 추정가
+             ,COLUMN_JSON(D.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON
+             ,COLUMN_JSON(L.MAKE_YEAR_BLOB)       MAKE_YEAR_JSON
+             ,IMG_DISP_YN
+             ,IF ((select COUNT(*) from CUST_INTE_LOT CIL where CIL.SALE_NO =
+              L.SALE_NO and CIL.LOT_NO = L.LOT_NO and CUST_NO = #{cust_no} ) <![CDATA[ > ]]> 0 , 'Y' , 'N') FAVORITE_YN
+             ,LI.FILE_PATH LOT_IMG_PATH
+             ,LI.FILE_NAME LOT_IMG_NAME
+             ,LIVE_ING_YN
+             ,STAT_CD
+             ,LIVE_CLOSE_YN
+             ,CLOSE_YN
+             ,UNDERBIDDER_YN
+             ,UNDERBIDDER_REMARK
+             ,H.CD_ID CATE_CD_ID
+             ,H.CD_NM CATE_CD_NM
+             ,H.CD_NM_EN CATE_CD_NM_EN
+             ,concat('[',
+             GROUP_CONCAT('{',
+                '"UNIT_CD":"', ifnull(E.UNIT_CD, 'cm') ,'",',
+                '"SIZE1":', ifnull(E.SIZE1,0) ,',',
+                '"SIZE2":', ifnull(E.SIZE2,0) ,',',
+                '"SIZE3":', ifnull(E.SIZE3,0) ,',',
+                '"CANVAS":', ifnull(E.CANVAS,0) ,',',
+                '"DIAMETER_YN":"', ifnull(E.DIAMETER_YN,'N') ,'",',
+                '"PREFIX":"', ifnull(E.PREFIX,'') ,'",',
+                '"SUFFIX":"', ifnull(E.SUFFIX,'') ,'",',
+                '"MIX_CD":"', ifnull(E.MIX_CD,'h') ,'",',
+                '"CANVAS_EXT_YN":"', ifnull(E.CANVAS_EXT_YN,'N'), '"',
+            '}')
+              ,']') AS LOT_SIZE_ARRAY
+              ,ifnull(E.UNIT_CD, 'cm')             UNIT_CD
+              ,ifnull(E.SIZE1, '0')                SIZE1
+              ,ifnull(E.SIZE2, '0')                SIZE2
+              ,ifnull(E.SIZE3, '0')                SIZE3
+              ,ifnull(E.CANVAS, '0')               CANVAS
+              ,ifnull(E.DIAMETER_YN, 'N')          DIAMETER_YN
+              ,ifnull(E.PREFIX, '')                PREFIX
+              ,ifnull(E.SUFFIX, '')                SUFFIX
+              ,ifnull(E.MIX_CD, 'h')               MIX_CD
+              ,ifnull(E.CANVAS_EXT_YN, 'N')        CANVAS_EXT_YN
+              ,(SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = L.SALE_NO AND LOT_NO = L.LOT_NO) MAX_BID_PRICE
+        FROM
+            LOT L
+            left outer join LOT_IMG LI on L.SALE_NO = LI.SALE_NO and L.LOT_NO = LI.LOT_NO
+            LEFT OUTER JOIN LOT_SIZE E ON L.SALE_NO = E.SALE_NO AND L.LOT_NO = E.LOT_NO
+            and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
+            LEFT OUTER JOIN ARTIST D ON L.ARTIST_NO = D.ARTIST_NO
+            LEFT OUTER JOIN CODE H ON H.GRP_ID = 'artwork_category' AND H.CD_ID = (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = (SELECT IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = L.CATE_CD))
+        WHERE
+              L.SALE_NO = #{sale_no}
+         --  and L.STAT_CD = 'entry'
+          and L.WWW_DISP_YN = 'Y'
+         <if test="category !=null">
+          and H.CD_ID = #{category}
+         </if>
+        group by
+            L.LOT_NO
+    </select>
+    <!--랏 상세 -->
+    <select id="selectLiveSaleLotByOne" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+              L.LOT_NO
+             ,COLUMN_JSON(L.TITLE_BLOB) LOT_TITLE_JSON -- 타이틀
+             ,COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON -- 낮은 추정가
+             ,COLUMN_JSON(L.EXPE_PRICE_TO_BLOB) EXPE_PRICE_TO_JSON -- 높은 추정가
+             ,COLUMN_JSON(D.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON
+             ,COLUMN_JSON(L.TITLE_BLOB)           LOT_TITLE_JSON
+             ,COLUMN_JSON(L.MAKE_YEAR_BLOB)       MAKE_YEAR_JSON
+             ,D.ARTIST_NO
+             ,D.BORN_YEAR
+             ,LI.FILE_PATH LOT_IMG_PATH
+             ,LI.FILE_NAME LOT_IMG_NAME
+             ,IMG_DISP_YN
+             ,IF (
+                 (select COUNT(*) from CUST_INTE_LOT CIL where CIL.SALE_NO =
+                  L.SALE_NO and CIL.LOT_NO = L.LOT_NO and CUST_NO = #{cust_no} ) <![CDATA[ > ]]> 0 , 'Y' , 'N') FAVORITE_YN
+             ,concat('[',
+                 GROUP_CONCAT('{',
+                      '"UNIT_CD":"', ifnull(E.UNIT_CD, 'cm') ,'",',
+                      '"SIZE1":', ifnull(E.SIZE1,0) ,',',
+                      '"SIZE2":', ifnull(E.SIZE2,0) ,',',
+                      '"SIZE3":', ifnull(E.SIZE3,0) ,',',
+                      '"CANVAS":', ifnull(E.CANVAS,0) ,',',
+                      '"DIAMETER_YN":"', ifnull(E.DIAMETER_YN,'N') ,'",',
+                      '"PREFIX":"', ifnull(E.PREFIX,'') ,'",',
+                      '"SUFFIX":"', ifnull(E.SUFFIX,'') ,'",',
+                      '"MIX_CD":"', ifnull(E.MIX_CD,'h') ,'",',
+                      '"CANVAS_EXT_YN":"', ifnull(E.CANVAS_EXT_YN,'N'), '"',
+                              '}')
+            ,']') AS LOT_SIZE_ARRAY
+             ,ifnull(E.UNIT_CD, 'cm')             UNIT_CD
+             ,ifnull(E.SIZE1, '0')                SIZE1
+             ,ifnull(E.SIZE2, '0')                SIZE2
+             ,ifnull(E.SIZE3, '0')                SIZE3
+             ,ifnull(E.CANVAS, '0')               CANVAS
+             ,ifnull(E.DIAMETER_YN, 'N')          DIAMETER_YN
+             ,ifnull(E.PREFIX, '')                PREFIX
+             ,ifnull(E.SUFFIX, '')                SUFFIX
+             ,ifnull(E.MIX_CD, 'h')               MIX_CD
+             ,ifnull(E.CANVAS_EXT_YN, 'N')        CANVAS_EXT_YN
+             , (CASE WHEN (SELECT CUST_NO FROM BID_OFFLINE BD_OFF WHERE BD_OFF.BID_NOTICE is NULL AND BD_OFF.SALE_NO = L.SALE_NO AND BD_OFF.LOT_NO = L.LOT_NO ORDER BY BD_OFF.BID_DT DESC, BD_OFF.BID_PRICE desc, BD_OFF.BID_NO desc limit 1)
+            = '${cust_no}' THEN 'Y' ELSE 'N' END) AS IS_WIN
+             ,LI.FILE_PATH
+             ,LI.FILE_NAME
+             ,LIVE_ING_YN
+             ,LIVE_CLOSE_YN
+             ,UNDERBIDDER_YN
+             ,UNDERBIDDER_REMARK
+             ,H.CD_ID CATE_CD_ID
+             ,H.CD_NM CATE_CD_NM
+             ,H.CD_NM_EN CATE_CD_NM_EN
+        FROM
+            LOT L
+                left outer join LOT_IMG LI on L.SALE_NO = LI.SALE_NO and L.LOT_NO = LI.LOT_NO
+                and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
+            LEFT OUTER JOIN ARTIST D ON L.ARTIST_NO = D.ARTIST_NO
+            LEFT OUTER JOIN LOT_SIZE E ON L.SALE_NO = E.SALE_NO AND L.LOT_NO = E.LOT_NO
+            LEFT OUTER JOIN CODE H ON H.GRP_ID = 'artwork_category' AND H.CD_ID = (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = (SELECT IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = L.CATE_CD))
+        WHERE
+              L.SALE_NO = #{sale_no}
+          and L.LOT_NO = #{lot_no}
+          --  and L.STAT_CD = 'entry'
+          and L.WWW_DISP_YN = 'Y'
+        <if test="all !=null and !all" >
+          and L.LIVE_ING_YN = 'Y'
+        </if>
+        group by
+            L.LOT_NO
+        limit
+            1
+    </select>
+    <!--카테고리 내역-->
+    <select id="selectLiveCategories" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+             CD_ID
+            ,CD_NM
+            ,CD_NM_EN
+        FROM
+            CODE
+        WHERE
+            GRP_ID = 'artwork_category'
+            AND CD_ID IN (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE
+            GRP_ID = 'artwork_category' AND CD_ID IN (SELECT IFNULL(P_CD_ID, CD_ID)
+            FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID IN (SELECT CATE_CD FROM LOT WHERE SALE_NO = #{sale_no})))
+        ORDER BY
+            DISP_ORD
+    </select>
+
+    <!--내 라이브 응찰 내역 -->
+    <select id="selectLiveMyBidding" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+              	L.LOT_NO
+             ,	BO.LAST_BID_PRICE								AS LAST_BID_PRICE
+             ,	BOH.HAMMER_BID_PRICE							AS HAMMER_BID_PRICE
+             ,	IF(BOH.HAMMER_BID_PRICE IS NULL, 'ING', 'DONE')	AS LIVE_STAT
+             , 	IF(BOH.CUST_NO = BO.CUST_NO AND BO.LAST_BID_PRICE = BOH.HAMMER_BID_PRICE, 'hammer', 'bidding') AS HAMMER_STAT
+        FROM	(SELECT SALE_NO, LOT_NO, CUST_NO, MAX(BID_PRICE) AS LAST_BID_PRICE FROM BID_OFFLINE WHERE SALE_NO = #{sale_no} AND LOT_NO = #{lot_no} AND CUST_NO = #{cust_no} GROUP BY SALE_NO, LOT_NO) BO
+                    LEFT OUTER JOIN SALE_PADD SP ON SP.SALE_NO = BO.SALE_NO AND SP.CUST_NO = BO.CUST_NO
+                    LEFT OUTER JOIN (SELECT SALE_NO, LOT_NO, CUST_NO, BID_PRICE AS HAMMER_BID_PRICE FROM BID WHERE SALE_NO = #{sale_no} AND LOT_NO = #{lot_no} ) BOH ON BOH.SALE_NO = BO.SALE_NO AND BOH.LOT_NO = BO.LOT_NO
+                    INNER JOIN (SELECT * FROM LOT WHERE SALE_NO = #{sale_no} AND LOT_NO = #{lot_no} ) L ON L.SALE_NO = BO.SALE_NO AND L.LOT_NO = BO.LOT_NO
+                    LEFT OUTER JOIN ARTIST A ON L.ARTIST_NO = A.ARTIST_NO
+        WHERE	1 = 1
+    </select>
+    <!--현장 응찰 내역 -->
+    <select id="selectLiveSiteBidding" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+            BD_OFF.*, PADD.PADD_NO as ONLINE_BID_ID
+        FROM
+            BID_OFFLINE BD_OFF
+            LEFT OUTER JOIN CUST C ON BD_OFF.CUST_NO = C.CUST_NO
+            LEFT OUTER JOIN SALE_PADD PADD ON BD_OFF.SALE_NO = PADD.SALE_NO AND BD_OFF.CUST_NO = PADD.CUST_NO AND PADD.PADD_NO > 600
+        WHERE
+              1 = 1
+          AND BD_OFF.SALE_NO = #{sale_no}
+          AND BD_OFF.LOT_NO  = #{lot_no}
+        ORDER BY
+             BD_OFF.BID_NO DESC
+    </select>
+    <!--응찰 하기-->
+    <insert id="insertLiveBidding" parameterType="CommonMap">
+            INSERT INTO BID_OFFLINE (
+            SALE_NO,
+            LOT_NO,
+            CUST_NO,
+            PADD_NO,
+            BID_PRICE,
+            BID_KIND_CD,
+            BID_NOTICE,
+            BID_NOTICE_EN,
+            BID_DT,
+            REG_DT
+        )
+        SELECT BMAX.SALE_NO, BMAX.LOT_NO, BMAX.CUST_NO, #{padd_no}, BMAX.BID_PRICE, BMAX.BID_KIND_CD, BMAX.BID_NOTICE, BMAX.BID_NOTICE_EN, NOW(6), NOW(6)
+            FROM (SELECT 	#{sale_no} as SALE_NO,
+            #{lot_no} as LOT_NO,
+            CASE WHEN #{bid_kind_cd} = 'online' THEN ${cust_no} END as CUST_NO,
+            #{bid_price} as BID_PRICE,
+            #{bid_kind_cd} as BID_KIND_CD,
+            #{bid_notice} as BID_NOTICE,
+            #{bid_notice_en} as BID_NOTICE_EN
+            FROM  (SELECT L.SALE_NO, L.LOT_NO, BO.CUST_NO, BO.BID_PRICE
+            FROM (SELECT * FROM LOT WHERE SALE_NO = #{sale_no} AND LOT_NO = #{lot_no}) L
+            LEFT OUTER JOIN (SELECT * FROM BID_OFFLINE WHERE SALE_NO = #{sale_no} AND LOT_NO = #{lot_no} AND BID_PRICE IS NOT NULL ORDER BY BID_NO DESC LIMIT 1 ) BO
+            ON L.SALE_NO = BO.SALE_NO AND L.LOT_NO = BO.LOT_NO) BOFF
+
+            WHERE  BOFF.SALE_NO = #{sale_no}
+            AND  BOFF.LOT_NO = #{lot_no}
+            <if test='bid_kind_cd == "online"'>
+                AND  IFNULL(BOFF.CUST_NO, 0) != ${cust_no}
+                AND  IFNULL(#{bid_price}, 0) > IFNULL(BOFF.BID_PRICE, 0)
+            </if>
+            <if test='bid_notice == null and bid_kind_cd != "price_change"'>
+                AND  IFNULL(#{bid_price}, 0) >= IFNULL(BOFF.BID_PRICE, 0)
+            </if>
+        ) BMAX
+    </insert>
+    <!--환률정보 -->
+    <select id="selectSaleExchRate" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+            EX.*
+        FROM
+             SALE_EXCH_RATE EX
+        WHERE
+              EX.SALE_NO = #{sale_no}
+    </select>
+
+</mapper>

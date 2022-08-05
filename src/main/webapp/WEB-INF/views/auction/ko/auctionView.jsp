@@ -59,9 +59,10 @@
                                                                             <div class="image-area">
                                                                                 <figure class="img-ratio">
                                                                                     <!-- [0725]hover시 돋보기표시 -->
-                                                                                    <div class="dim">
-                                                                                        <i class="icon-zoom_in"></i>
-                                                                                    </div>
+                                                                                    <!-- [0803]돋보기표시Dim삭제(원복)-->  
+<%--                                                                                    <div class="dim">--%>
+<%--                                                                                        <i class="icon-zoom_in"></i>--%>
+<%--                                                                                    </div>--%>
                                                                                     <!-- //[0725]hover시 돋보기표시 -->
                                                                                     <div class="img-align">
                                                                                         <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
@@ -338,10 +339,19 @@
                                         <div class="info-box">
                                             <div id="artist_layer" class="info-box">
                                                 <div class="title">작가정보</div>
-                                                <div class="desc txt-pre-line" id="artistName">
+                                                <%--0728 삭제 -%>
+<%--                                                <div class="desc txt-pre-line" id="artistName">--%>
+<%--                                                </div>--%>
+<%--                                                <div class="desc txt-pre-line" id="artistProfile">--%>
+<%--                                                </div>--%>
+                                                <%--//0728 삭제 -%>
+                                                <%--0728 추가--%>
+                                                <div class="desc txt-pre-line" id="artistArticle">
+                                                    <a href="#" class="sub-links">“날지 못해 멸종된 모리셔스 도도새 그리며 꿈과 자유를 본다”</a><%--
+                                                    --%><a href="#" class="sub-links">“날지 못해 멸종된 모리셔스 도도새 그리며 꿈과 자유를 본다”</a><%--
+                                                    --%><a href="#" class="sub-links">“날지 못해 멸종된 모리셔스 도도새 그리며 꿈과 자유를 본다”</a><%----%>
                                                 </div>
-                                                <div class="desc txt-pre-line" id="artistProfile">
-                                                </div>
+                                                <%--//0728 추가--%>
                                                 <div class="desc" id="artistMedia">
                                                 </div>
                                             </div>
@@ -479,29 +489,50 @@
                                     <div class="header_top">
                                         <p class="totalcount"><span class="num" ng-bind="lotLength"></span> <span class="unit">LOT</span></p>
                                     </div>
-                                    <div class="lotlist-tabmenu">
-                                        <div class="btn_item">
-                                            <a href="#"
-                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on':'전체' === selectLotTag}"
-                                               ng-click="searchLotTags('전체');" role="button">
+<%--                                    <div class="lotlist-tabmenu"> --%>
+<%--                                        <div class="btn_item">--%>
+<%--                                            <a href="#"--%>
+<%--                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on':'전체' === selectLotTag}"--%>
+<%--                                               ng-click="searchLotTags('전체');" role="button">--%>
+<%--                                                <span>전체</span>--%>
+<%--                                            </a>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="btn_item" ng-repeat="ci in categories">--%>
+<%--                                            <a href="#"--%>
+<%--                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': ci.CD_NM === selectLotTag}"--%>
+<%--                                               ng-click="searchLotTags(ci.CD_NM);">--%>
+<%--                                                <span ng-bind="ci.CD_NM"></span>--%>
+<%--                                            </a>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="btn_item" ng-repeat="li in lotTags">--%>
+<%--                                            <a href="#"--%>
+<%--                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': li.LOT_TAG === selectLotTag}"--%>
+<%--                                               ng-click="searchLotTags(li.LOT_TAG);">--%>
+<%--                                                <span ng-bind="li.LOT_TAG"></span>--%>
+<%--                                            </a>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
+                                        <!-- [0728]탭수정 -->
+                                    <div class="tab-area type-left_mm_3">
+                                        <ul class="tab-list js-left_mm">
+                                            <li class="active"><a href="#tab-cont-1"
+                                                                  ng-class="{'lot-btn_tabmenu': '1' === '1', 'on':'전체' === selectLotTag}"
+                                                                  ng-click="searchLotTags('전체');" role="button">
                                                 <span>전체</span>
-                                            </a>
-                                        </div>
-                                        <div class="btn_item" ng-repeat="ci in categories">
-                                            <a href="#"
-                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': ci.CD_NM === selectLotTag}"
-                                               ng-click="searchLotTags(ci.CD_NM);">
+                                            </a></li>
+                                            <li class=""><a href="#tab-cont-2"
+                                                            ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': ci.CD_NM === selectLotTag}"
+                                                            ng-click="searchLotTags(ci.CD_NM);">
                                                 <span ng-bind="ci.CD_NM"></span>
-                                            </a>
-                                        </div>
-                                        <div class="btn_item" ng-repeat="li in lotTags">
-                                            <a href="#"
-                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': li.LOT_TAG === selectLotTag}"
-                                               ng-click="searchLotTags(li.LOT_TAG);">
+                                            </a></li>
+                                            <li class=""><a href="#tab-cont-3"
+                                                            ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': li.LOT_TAG === selectLotTag}"
+                                                            ng-click="searchLotTags(li.LOT_TAG);">
                                                 <span ng-bind="li.LOT_TAG"></span>
-                                            </a>
-                                        </div>
+                                            </a></li>
+                                        </ul>
                                     </div>
+                                    <!-- //[0728]탭수정 -->
                                 </div>
                                 <div class="lotlist-tabCont">
                                     <div class="mobile_scroll-type">
@@ -1095,7 +1126,7 @@
         const getViewScaleImages = (saleNo, lotNo) => {
             console.log("getViewScaleImages : ", saleNo, lotNo);
             try {
-                return axios.get('/api/auction/viewscale_image/'+saleNo+'/'+lotNo);
+                return axios.get('/api/auction/getViewScaleImage/'+saleNo+'/'+lotNo);
             } catch (error) {
                 console.error(error);
             }
@@ -1183,6 +1214,9 @@
                 let popup_biddingPopup1 = $("#bid_btn").trpLayerFixedPopup("#popup_biddingPopup1-wrap");
                 popup_biddingPopup1.open(this); // or false
                 popup_fixation("#popup_biddingPopup1-wrap");
+
+                // 팝업시 1회응찰고정
+                $(".js-bidding_tab .topbtn-area .btn_item:eq(0)").click();
 
                 $("body").on("click", "#popup_biddingPopup1-wrap .js-closepop, #popup_biddingPopup1-wrap .popup-dim", function ($e) {
                     $e.preventDefault();
@@ -1519,60 +1553,43 @@
                     view_visual.update();
                 });
 
-                let viewScaleImages = $scope.viewScaleImages;
-                let lot_images = $scope.lotImages;
+                const viewScaleImages = $scope.viewScaleImages;
+                console.log(viewScaleImages);
+                const lot_images = $scope.lotImages;
                 let firstCheck = 0;
 
                 // $.each(sale_images, function (index, el) {
-                const el = viewScaleImages[0];
-                let size1 = 0;
-                let size2 = 0;
-                let unitCd = '';
-                let lot_no = el.LOT_NO;
-                if (el.LOT_SIZE_JSON.length > 0) {
-                    size1 = el.LOT_SIZE_JSON[0].SIZE1;
-                    size2 = el.LOT_SIZE_JSON[0].SIZE2;
-                    unitCd = el.LOT_SIZE_JSON[0].UNIT_CD;
-                }
+                if(viewScaleImages.length > 0) {
+                    const el = viewScaleImages[0];
+                    let size1 = 0;
+                    let size2 = 0;
+                    let unitCd = '';
+                    let lot_no = el.LOT_NO;
+                    if (el.LOT_SIZE_JSON.length > 0) {
+                        size1 = el.LOT_SIZE_JSON[0].SIZE1;
+                        size2 = el.LOT_SIZE_JSON[0].SIZE2;
+                        unitCd = el.LOT_SIZE_JSON[0].UNIT_CD;
+                    }
 
-                let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
-                let swiper_slide_item = '';
-                // if (firstCheck == 0) {
-                //     $scope.chk = parseInt(lot_no) - index -1;
-                // }
-                // firstCheck++;
+                    let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
+                    let swiper_slide_item = '';
 
-                if(['traditional_painting'].indexOf($scope.lotInfo.CATE_CD) > -1){
-                    swiper_slide_item = `<div class="swiper-slide">
-                                            <div class="img-area">
-                                                <div class="img-box">
-                                                    <div class="size_x"><span>` + size1 + unitCd + `</span></div>
-                                                    <div class="size_y"><span>` + size2 + unitCd + `</span></div>
-                                                    <div class="images">
-                                                        <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size1 + `" size-y="` + size2 + `" lot_no="` + lot_no + `"/>
+                    if (['local_painting', 'foreign_painting'].indexOf($scope.lotInfo.CATE_CD) > -1) {
+                        swiper_slide_item = `<div class="swiper-slide">
+                                                <div class="img-area">
+                                                    <div class="img-box">
+                                                        <div class="size_x"><span>` + size2 + unitCd + `</span></div>
+                                                        <div class="size_y"><span>` + size1 + unitCd + `</span></div>
+                                                        <div class="images">
+                                                            <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size2 + `" size-y="` + size1 + `" lot_no="` + lot_no + `"/>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>`;
-                }else if(['local_painting', 'foreign_painting'].indexOf($scope.lotInfo.CATE_CD) > -1) {
-                    swiper_slide_item = `<div class="swiper-slide">
-                                            <div class="img-area">
-                                                <div class="img-box">
-                                                    <div class="size_x"><span>` + size2 + unitCd + `</span></div>
-                                                    <div class="size_y"><span>` + size1 + unitCd + `</span></div>
-                                                    <div class="images">
-                                                        <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size2 + `" size-y="` + size1 + `" lot_no="` + lot_no + `"/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>`;
+                                            </div>`;
+                    }
+
+                    $("#popup_image_viewer-wrap .gallery_center").html(swiper_slide_item);
                 }
-
-                $("#popup_image_viewer-wrap .gallery_center").html(swiper_slide_item);
-                // $("#swiper-wrapper").html(swiper_slide_item);
-
-                // $("#swiper-wrapper").append(swiper_slide_item);
-                // };
 
                 $.each(lot_images, function (index, el) {
 
@@ -1583,29 +1600,29 @@
 
                     //if (size1 > 160) {
                     popup_swiper_slide_item = `<div class="swiper-slide">
-                                            <div class="img-area">
-                                                <div class="img-box">
-                                                    <div class="images">
-                                                        <img class="imageViewerpopup" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
+                                                    <div class="img-area">
+                                                        <div class="img-box">
+                                                            <div class="images">
+                                                                <img class="imageViewerpopup" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                        </div>`
+                                                </div>`
                     $("#swiper-wrapper_popup").append(popup_swiper_slide_item);
 
 
                     popup_swiper_mini_slide_item = `<li class="active">
-                                            <a href="#">
-                                                <div class="imgs-item">
-                                                    <figure class="img-ratio">
-                                                        <div class="img-align">
-                                                            <img src="` + popup_img_url + `" alt="" />
-                                                        </div>
-                                                    </figure>
-                                                    <div class="line"></div>
-                                                    </div>
-                                                </a>
-                                            </li>`
+                                                        <a href="#">
+                                                            <div class="imgs-item">
+                                                                <figure class="img-ratio">
+                                                                    <div class="img-align">
+                                                                        <img src="` + popup_img_url + `" alt="" />
+                                                                    </div>
+                                                                </figure>
+                                                                <div class="line"></div>
+                                                                </div>
+                                                            </a>
+                                                        </li>`
                     $("#thumbnail_image").append(popup_swiper_mini_slide_item);
                 });
 
@@ -2168,9 +2185,9 @@
         w.onopen = function () {
             console.log("open");
         }
-        w.onerror = function () {
+        w.onerror = function(evt) {
             w.close();
-            console.log('error');
+            console.log('error',evt);
         }
         w.onclose = function () {
             if (w.readyState === w.CLOSED) {
@@ -2188,21 +2205,158 @@
         con_try_cnt = 0;
     }
 
+
     function proc(evt, saleNo, lotNo, saleType, userId, custNo) {
         let wt;
-        const packet_enum = {
-            init: 1,
-            bid_info: 2,
-            time_sync: 3,
-            bid_info_init: 4,
-            end_time_sync: 5,
-            winner: 6,
-            auto_bid_sync: 14,
-            lot_refresh: 16,
+        // protocol 정의
+        const PROCTOCOL = {
+            INIT: 1, BID_INFO: 2,
+            TIME_SYNC: 3, BID_INFO_INIT: 4,
+            END_TIME_SYNC: 5, WINNER: 6, AUTO_BID_SYNC: 14, LOT_REFRESH: 16,
         }
-        let d = JSON.parse(evt.data);
 
+        // 돈 형식
+        const bidCostFormat = function (cost, locale) {
+            let currency = "";
+            if (locale === "ko-KR") {
+                currency = "KRW";
+            }
+
+            return currency + " " + cost.toLocaleString(locale);
+        };
+        // 응찰 수 형식
+        const bidCountFormat = function (cnt, locale) {
+            return "(" + transferWord("응찰", locale) + " " + cnt + ")";
+        };
+
+        // 한영변환
+        const transferWord = function (word, locale) {
+            const wordMap = new Map();
+
+            wordMap.set("응찰", "BID")
+            wordMap.set("현재가", "")
+            wordMap.set("최고가 응찰 중", "")
+            wordMap.set("자동", "AUTO");
+            wordMap.set("경매시작 전 입니다.", "")
+            wordMap.set("낙찰가", "");
+            wordMap.set("경매가 종료되었습니다.", "");
+            wordMap.set("경매결과 보기", "");
+            wordMap.set("자동응찰 중지", "");
+            wordMap.set("일", "DAY");
+
+            if (locale === "ko-KR") {
+                return word
+            }
+            return wordMap.get(word);
+        };
+
+        // history add
+        const historyAdd = function (bidLst) {
+            if (bidLst != null && bidLst.length > 0) {
+                let bidLstLayer = $("#bid_lst");
+                for (let i = 0; i < bidLst.length; i++) {
+                    let bidTime = new Date(bidLst[i].bid_time);
+                    let li = $("<li></li>");
+                    let userIdLayer = $("<div></div>");
+                    if (bidLst[i].customer.cust_no === custNo) {
+                        userIdLayer.attr("class", "product-user on_green");
+                    } else {
+                        userIdLayer.attr("class", "product-user");
+                    }
+                    let userIdSpanLayer = $("<span></span>");
+
+                    userIdSpanLayer.text(($scope.cust_no === bidLst[i].customer.cust_no) ? $scope.user_id :
+                        bidLst[i].customer.user_id);
+                    userIdLayer.append(userIdSpanLayer);
+
+                    // 금액 layer
+                    let costLayer = $("<div></div>");
+                    costLayer.attr("class", "product-price");
+
+                    // 금액 표시
+                    let costLayerSpan = $("<span></span>");
+                    costLayerSpan.text(bidLst[i].bid_cost.toLocaleString("ko-KR"));
+                    costLayer.append(costLayerSpan);
+
+                    let dateTimeLayer = $("<div></div>");
+                    dateTimeLayer.attr("class", "product-day");
+
+                    // 자동
+                    let tagTypeLayer;
+                    if (bidLst[i].is_auto_bid) {
+                        // type
+                        tagTypeLayer = $("<em></em>");
+                        tagTypeLayer.attr("class", "type-auto");
+                        tagTypeLayer.text(transferWord("자동", "ko-KR"));
+                        dateTimeLayer.append(tagTypeLayer);
+                    }
+
+                    // date
+                    let dateSpanLayer = $("<span></span>");
+                    dateSpanLayer.text(bidTime.format("yyyy-MM-dd"));
+                    // time
+                    let timeSpanLayer = $("<span></span>");
+                    timeSpanLayer.text(bidTime.format("HH:mm:ss"));
+
+                    dateTimeLayer.append(dateSpanLayer);
+                    dateTimeLayer.append(timeSpanLayer);
+
+                    li.append(userIdLayer);
+                    li.append(costLayer);
+                    li.append(dateTimeLayer);
+
+                    bidLstLayer.prepend(li, bidLstLayer.eq(0));
+                }
+            }
+        }
+
+        const quoteAdd = function (quoteLst, bidTopItem) {
+            let quoteArr = [];
+            if (quoteLst != null && quoteLst.length > 0) {
+                let cnt = 1;
+                let viewCnt = 0;
+
+                let tempCost = (bidTopItem.bid_count === 0) ?
+                    bidTopItem.open_bid_cost :
+                    bidTopItem.bid_cost;
+
+                if (bidTopItem.bid_cost === 0) {
+                    quoteArr.push(tempCost);
+                    viewCnt++;
+                }
+
+                while (viewCnt < 70) {
+                    if (cnt > quoteLst.length - 1) {
+                        tempCost = parseInt(tempCost) + parseInt(quoteLst[quoteLst.length - 1].quote_cost)
+                        quoteArr.push(tempCost)
+                        viewCnt++;
+                        continue
+                    }
+                    if (quoteLst[cnt].cost === tempCost) {
+                        tempCost = parseInt(tempCost) + parseInt(quoteLst[cnt].quote_cost)
+                        quoteArr.push(tempCost)
+                        viewCnt++;
+                        continue
+                    }
+                    if (quoteLst[cnt].cost > tempCost) {
+                        tempCost = parseInt(tempCost) + parseInt(quoteLst[cnt - 1].quote_cost)
+                        quoteArr.push(tempCost)
+                        viewCnt++;
+                        continue
+                    }
+                    cnt++
+                }
+
+                $("#reservation_bid").find("option").remove();
+                for (let i = 0; i < quoteArr.length; i++) {
+                    $("#reservation_bid").append(`<option value="` + quoteArr[i] + `">` + bidCostFormat(quoteArr[i], "ko-KR") + `</option>`);
+                }
+            }
+        }
+
+        let d = JSON.parse(evt.data);
         let url = '';
+        let endBidTime;
 
         if (window.location.protocol !== "https:") {
             url = "http${bid_domain}";
@@ -2210,7 +2364,7 @@
             url = "https${bid_domain}";
         }
 
-        if (d.msg_type === packet_enum.init) {
+        if (d.msg_type === PROCTOCOL.INIT) {
             // 현재 접속 세일/랏 정보
             connect_info.token = d.message.token
             connect_info.sale_no = saleNo;
@@ -2218,180 +2372,72 @@
             connect_info.user_id = userId;
             connect_info.cust_no = custNo;
 
-        } else if (d.msg_type === packet_enum.bid_info) {
-            $("#cur_cost_layer").css("display", "");
+        } else if (d.msg_type === PROCTOCOL.BID_INFO) {
             if (d.message.bid != null && d.message.bid.length > 0) {
-                // popup layer Values
-                let bid = document.getElementById("bid_cost_val");
-                let bid_cnt = document.getElementById("bid_cost_cnt");
-                let quote_unit = document.getElementById("quote_unit");
-                let bid_new_cost = document.getElementById("bid_new_cost");
+                $("#cur_cost_layer").css("display", "");
+                // 비딩 정보를 받으면 현재가로 변경
+                $("#bid_cost_text").text(transferWord("현재가", "ko-KR"));
 
-                let len = d.message.bid.length;
+                // 웹소켓 데이타
+                let topBidItem = d.message.bid[d.message.bid.length - 1];
+                let costView = topBidItem.bid_cost;
+                let openCostView = topBidItem.open_bid_cost;
+                let bidCountView = topBidItem.bid_count;
+                endBidTime = topBidItem.end_bid_time
 
-                // View page values
-                let start_cost = document.getElementById("start_cost");
-                let bid_cnt2 = document.getElementById("bid_cnt");
-                let cur_cost = document.getElementById("cur_cost");
-                //let end_date_time2 = document.getElementById("end_date_time");
+                // 현재 가격 관련 내용들
+                let startCostLayer = $("#start_cost");
+                let bidCntPopLayer = $("#bid_cnt");
+                let bidCntLayer = $("#bid_cost_cnt");
+                let curCostLayer = $("#cur_cost");
+                let qouteUnitLayer = $("#quote_unit");
 
-                let curCostValue = (d.message.bid[len - 1].bid_cost === 0) ?
-                    "KRW " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR') :
-                    "KRW " + d.message.bid[len - 1].bid_cost.toLocaleString('ko-KR');
+                // 새로운 비딩 가격 관련 DIV
+                let bidNewCostLayer = $("#bid_new_cost");
+                let bidNewCostValueLayer = $("#bid_new_cost_val");
+                let bidNewCostBtnLayer = $("#bid_new_cost_btn");
 
-                let cost_add_vat = (d.message.bid[len - 1].bid_cost === 0) ? d.message.bid[len - 1].open_bid_cost * 1.18:
-                    d.message.bid[len - 1].bid_cost * 1.18;
+                // 계산값
+                let curCostValue = (bidCountView === 0) ? openCostView : costView;
+                let costAddVat = (bidCountView === 0) ? openCostView * 1.18 : costView * 1.18;
 
-                document.getElementById("cost_add_vat").innerText = cost_add_vat.toLocaleString('ko-KR');
+                startCostLayer.text(bidCostFormat(openCostView, "ko-KR"));
+                bidCostLayerValue.text(bidCostFormat(curCostValue, "ko-KR"));
+                bidCntPopLayer.text(bidCountFormat(bidCountView, "ko-KR"));
+                bidCntLayer.text(bidCountFormat(bidCountView, "ko-KR"));
+                curCostLayer.text(bidCostFormat(curCostValue, "ko-KR"));
+                qouteUnitLayer.text(bidCostFormat(topBidItem.bid_quote, "ko-KR"));
 
-                start_cost.innerText = "KRW " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR');
-                bid_cnt2.innerText = "(응찰" + d.message.bid[len - 1].bid_count + ")"
-                cur_cost.innerText = curCostValue;
-                //end_date_time2.innerText = new Date(d.message.bid[len - 1].end_bid_time).format('MM/dd(E) hh:mm');
+                $("#cost_add_vat").text(costAddVat.toLocaleString('ko-KR'));
 
-                bid.innerText = curCostValue
+                let bidNewCostValue = curCostValue
+                if (bidCountView > 0) {
+                    bidNewCostValue += topBidItem.bid_quote
+                }
+                bidNewCostLayer.text(bidCostFormat(bidNewCostValue, "ko-KR"));
+                bidNewCostValueLayer.attr("value", bidNewCostValue);
+                bidNewCostBtnLayer.text("응찰")
 
-                bid_cnt.innerText = "(응찰" + d.message.bid[len - 1].bid_count + ")"
-
-                end_bid_time = d.message.bid[len - 1].end_bid_time;
-                quote_unit.innerText = "KRW " + d.message.bid[len - 1].bid_quote.toLocaleString('ko-KR');
-
-                bid_new_cost.innerText = "KRW " + (((d.message.bid[len - 1].bid_cost === 0) ?
-                    d.message.bid[len - 1].open_bid_cost :
-                    d.message.bid[len - 1].bid_cost) + d.message.bid[len - 1].bid_quote).toLocaleString('ko-KR');
-
-                document.getElementById("bid_new_cost_val").setAttribute("value", ((d.message.bid[len - 1].bid_cost === 0) ?
-                    d.message.bid[len - 1].open_bid_cost :
-                    d.message.bid[len - 1].bid_cost) + d.message.bid[len - 1].bid_quote);
-
-                document.getElementById("bid_new_cost_btn").innerText = "응찰";
                 if (d.message.bid != null && d.message.bid.length > 0) {
-                    let bid_hist_info = d.message.bid;
-                    if (d.message.bid[len - 1].customer.cust_no === custNo) {
-                        document.getElementById("bid_new_cost_val").setAttribute("disabled", true);
-                        document.getElementById("bid_new_cost").innerText = "최고가 응찰 중";
-                        document.getElementById("bid_new_cost_btn").innerText = "";
+                    if (topBidItem.customer.cust_no === custNo) {
+                        bidNewCostValueLayer.prop("disabled", true);
+                        bidNewCostLayer.text("최고가 응찰 중");
+                        bidNewCostBtnLayer.text("");
                     }
-                    if (bid_hist_info != null && bid_hist_info.length > 0) {
-
-                        let bid_lst = document.getElementById("bid_lst");
-                        for (let i = 0; i < bid_hist_info.length; i++) {
-
-                            let ddd = new Date(bid_hist_info[i].bid_time);
-                            let li = document.createElement("li");
-
-                            let user_id_ly = document.createElement("div");
-                            if (bid_hist_info[i].customer.cust_no === custNo) {
-                                user_id_ly.setAttribute("class", "product-user on_green");
-                            } else {
-                                user_id_ly.setAttribute("class", "product-user");
-                            }
-
-
-                            let user_id_span = document.createElement("span");
-                            user_id_span.innerText = bid_hist_info[i].customer.user_id;
-                            console.log(bid_hist_info[i].customer.user_id);
-
-                            user_id_ly.appendChild(user_id_span);
-
-                            let cost_ly = document.createElement("div");
-                            cost_ly.setAttribute("class", "product-price");
-
-                            let cost_ly_span = document.createElement("span");
-                            cost_ly_span.innerText = bid_hist_info[i].bid_cost.toLocaleString('ko-KR');
-
-                            cost_ly.appendChild(cost_ly_span);
-
-                            let dt_ly = document.createElement("div");
-                            dt_ly.setAttribute("class", "product-day");
-
-                            let dt_ly_span11;
-                            if (bid_hist_info[i].is_auto_bid) {
-                                // type
-                                dt_ly_span11 = document.createElement("em");
-                                dt_ly_span11.setAttribute("class", "type-auto");
-                                dt_ly_span11.innerText = "자동";
-                            }
-
-                            // date
-                            let dt_ly_span2 = document.createElement("span");
-                            dt_ly_span2.innerText = ddd.format("yyyy-MM-dd");
-
-                            // time
-                            let dt_ly_span3 = document.createElement("span");
-                            dt_ly_span3.innerText = ddd.format("HH:mm:ss");
-
-                            if (bid_hist_info[i].is_auto_bid) {
-                                // type
-                                dt_ly.appendChild(dt_ly_span11);
-                            }
-                            // dt_ly.appendChild(dt_ly_span1);
-                            dt_ly.appendChild(dt_ly_span2);
-                            dt_ly.appendChild(dt_ly_span3);
-
-                            li.appendChild(user_id_ly);
-                            li.appendChild(cost_ly);
-                            li.appendChild(dt_ly);
-
-                            bid_lst.insertBefore(li, bid_lst.firstChild);
-                        }
-                    }
+                    historyAdd(d.message.bid);
+                }
+                // 호가 추가
+                if (!$("#reservation_bid").prop("disabled")) {
+                    quoteAdd(d.message.quotes, bidTopItem);
                 }
             }
+        } else if (d.msg_type === PROCTOCOL.TIME_SYNC) {
+            let bidTick = $("#bid_tick");
+            let bidTickMain = $("#end_date_time");
+            let ddd = d.message.tick_value;
 
-            let quote_arr = [];
-            if ($("#reservation_bid").prop("disabled") === false){
-                if (d.message.quotes != null && d.message.quotes.length > 0) {
-                    let cnt = 1;
-                    let viewCnt = 0;
-
-                    let len = d.message.bid.length;
-
-                    let cost_tmp = (d.message.bid[len - 1].bid_cost === 0) ?
-                        d.message.bid[len - 1].open_bid_cost :
-                        d.message.bid[len - 1].bid_cost;
-
-                    if (d.message.bid[len - 1].bid_cost === 0) {
-                        quote_arr.push(cost_tmp);
-                        viewCnt++;
-                    }
-
-                    while (viewCnt < 70) {
-                        if (cnt > d.message.quotes.length - 1) {
-                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
-                            quote_arr.push(cost_tmp)
-                            viewCnt++;
-                            continue
-                        }
-                        if (d.message.quotes[cnt].cost === cost_tmp) {
-                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt].quote_cost)
-                            quote_arr.push(cost_tmp)
-                            viewCnt++;
-                            continue
-                        }
-                        if (d.message.quotes[cnt].cost > cost_tmp) {
-                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
-                            quote_arr.push(cost_tmp)
-                            viewCnt++;
-                            continue
-                        }
-                        cnt++
-                    }
-                    $("#reservation_bid").find("option").remove();
-                    for (let i = 0; i < quote_arr.length; i++) {
-                        $("#reservation_bid").append(`<option value="` + quote_arr[i] + `">KRW ` + quote_arr[i].toLocaleString("ko-KR") + `</option>`);
-                    }
-                }
-            }
-
-        } else if (d.msg_type === packet_enum.time_sync) {
-            let bid_tick = document.getElementById("bid_tick");
-            let bid_tick_main = document.getElementById("end_date_time");
-            let ddd = new Date().getTime();
-
-            if (end_bid_time > 0 && end_bid_time >= ddd) {
-
-                let endDate = new Date(end_bid_time);
+            if (endBidTime > 0 && endBidTime >= ddd) {
+                let endDate = new Date(endBidTime);
                 var dateGap = endDate - ddd;
                 var timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
 
@@ -2406,127 +2452,76 @@
                 } else {
                     diffDay += "일 "
                 }
-                /*if (diffHour == "00") {
-                    diffHour = ""
-                }else {
-                    diffHour += "시 "
-                }
-                if (diffMin == "00") {
-                    diffMin = ""
-                } else {
-                    diffMin += "분 "
-                }
-                if (diffSec == "00") {
-                    diffSec = ""
-                } else {
-                    diffSec += "초"
-                }*/
-                bid_tick.innerText = diffDay + diffHour + ":" + diffMin + ":" + diffSec;
-                bid_tick_main.innerText = diffDay + diffHour + ":" + diffMin + ":" + diffSec;
+                bidTick.text(diffDay + diffHour + ":" + diffMin + ":" + diffSec);
+                bidTickMain.text(diffDay + diffHour + ":" + diffMin + ":" + diffSec);
             } else if (end_bid_time <= 0) {
-                bid_tick.innerText = "경매 시작 전입니다.";
-                bid_tick_main.innerText = "경매 시작 전입니다.";
+                bidTick.text("경매 시작 전입니다.");
+                bidTickMain.text("경매 시작 전입니다.");
             } else {
                 $("#end_bid_true").css("display", "");
                 $("div[name='end_bid_false']").css("display", "none");
                 $("#bid_lst li:eq(0) .product-day .type-auto").remove();
                 $("#bid_lst li:eq(0) .product-day .type-success").remove();
                 $("#bid_lst li:eq(0) .product-day").prepend("<em class=\"type-success\">낙찰</em>")
-                bid_tick.innerText = "경매가 종료 되었습니다.";
-                bid_tick_main.innerText = "경매가 종료 되었습니다.";
+                bidTick.text("경매가 종료 되었습니다.");
+                bidTickMain.text("경매가 종료 되었습니다.");
             }
 
-        } else if (d.msg_type === packet_enum.bid_info_init) {
-
-            document.getElementById("cur_cost_text").innerText = "현재가";
-            document.getElementById("cur_cost_text2").innerText = "현재가";
+        } else if (d.msg_type === PROCTOCOL.BID_INFO_INIT) {
+            let curCostTextLayer = $("#cur_cost_text");
+            let curCostTextPopLayer = $("#cur_cost_text2");
+            curCostTextLayer.text("현재가");
+            curCostTextPopLayer.text("현재가");
 
             if (d.message.bids != null && d.message.bids.length > 0) {
-                let bid_info = d.message.bids[0];
+                // 웹소켓 데이타
+                let topBidItem = d.message.bids[0];
+                if (topBidItem.winner_state === 2) {
+                    document.querySelector("#bid_btn span").text("경매결과 보기");
+                }
+                let costView = topBidItem.bid_cost;
+                let openCostView = topBidItem.open_bid_cost;
+                let bidCountView = topBidItem.bid_count;
+                endBidTime = topBidItem.end_bid_time
 
-                if (bid_info.winner_state === 2) {
-                    document.querySelector("#bid_btn span").innerText = "경매결과 보기";
+                // 현재 가격 관련 내용들
+                let startCostLayer = $("#start_cost");
+                let bidCntPopLayer = $("#bid_cnt");
+                let bidCntLayer = $("#bid_cost_cnt");
+                let curCostLayer = $("#cur_cost");
+                let qouteUnitLayer = $("#quote_unit");
+
+                // 새로운 비딩 가격 관련 DIV
+                let bidNewCostLayer = $("#bid_new_cost");
+                let bidNewCostValueLayer = $("#bid_new_cost_val");
+                let bidNewCostBtnLayer = $("#bid_new_cost_btn");
+
+                // 계산값
+                let curCostValue = (bidCountView === 0) ? openCostView : costView;
+                let costAddVat = (bidCountView === 0) ? openCostView * 1.18 : costView * 1.18;
+
+                $("#cost_add_vat").text(costAddVat.toLocaleString('ko-KR'));
+
+                startCostLayer.text(bidCostFormat(openCostView, "ko-KR"));
+                bidCostLayerValue.text(bidCostFormat(curCostValue, "ko-KR"));
+                bidCntPopLayer.text(bidCountFormat(bidCountView, "ko-KR"));
+                bidCntLayer.text(bidCountFormat(bidCountView, "ko-KR"));
+                curCostLayer.text(bidCostFormat(curCostValue, "ko-KR"));
+                qouteUnitLayer.text(bidCostFormat(topBidItem.bid_quote, "ko-KR"));
+
+                let bidNewCostValue = curCostValue
+                if (bidCountView > 0) {
+                    bidNewCostValue += topBidItem.bid_quote
+                }
+                bidNewCostLayer.text(bidCostFormat(bidNewCostValue, "ko-KR"));
+                bidNewCostValueLayer.attr("value", bidNewCostValue);
+                bidNewCostBtnLayer.text("응찰")
+
+                // 호가 추가
+                if (!$("#reservation_bid").prop("disabled")) {
+                    quoteAdd(d.message.quotes, bidTopItem);
                 }
 
-                // element
-                let bid = document.getElementById("bid_cost_val");
-                let bid_cnt = document.getElementById("bid_cost_cnt");
-                let quote_unit = document.getElementById("quote_unit");
-                let bid_new_cost = document.getElementById("bid_new_cost");
-
-
-                let start_cost = document.getElementById("start_cost");
-                let bid_cnt2 = document.getElementById("bid_cnt");
-                let cur_cost = document.getElementById("cur_cost");
-                //let end_date_time2 = document.getElementById("end_date_time");
-
-                let curCostValue = (bid_info.bid_cost === 0) ?
-                    "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR') :
-                    "KRW " + bid_info.bid_cost.toLocaleString('ko-KR');
-
-
-                let cost_add_vat = (bid_info.bid_cost === 0) ? bid_info.open_bid_cost * 1.18 : bid_info.bid_cost * 1.18;
-
-                document.getElementById("cost_add_vat").innerText = cost_add_vat.toLocaleString('ko-KR');
-
-                start_cost.innerText = "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR');
-                bid_cnt2.innerText = "(응찰" + bid_info.bid_count + ")"
-                cur_cost.innerText = curCostValue;
-                //end_date_time2.innerText = new Date(bid_info.end_bid_time).format('MM/dd(E) hh:mm');
-
-                bid.innerText = curCostValue;
-                bid_cnt.innerText = "(응찰" + bid_info.bid_count + ")"
-                end_bid_time = bid_info.end_bid_time;
-
-                quote_unit.innerText = "KRW " + bid_info.bid_quote.toLocaleString('ko-KR');
-
-                bid_new_cost.innerText = "KRW " + ((d.message.bids_hist == null ||
-                    (d.message.bids_hist[0].value != null && d.message.bids_hist[0].value.length === 0)) ? bid_info.open_bid_cost : bid_info.bid_cost + bid_info.bid_quote).toLocaleString('ko-KR');
-
-                document.getElementById("bid_new_cost_val").setAttribute("value",  (d.message.bids_hist == null ||
-                    (d.message.bids_hist[0].value != null && d.message.bids_hist[0].value.length === 0)) ? bid_info.open_bid_cost : bid_info.bid_cost + bid_info.bid_quote);
-
-                document.getElementById("bid_new_cost_btn").innerText = "응찰";
-
-                let cost_tmp = (bid_info.bid_cost === 0) ?
-                    bid_info.open_bid_cost :
-                    bid_info.bid_cost;
-
-                let quote_arr = [];
-                if (d.message.quotes != null && d.message.quotes.length > 0) {
-                    let cnt = 1;
-                    let viewCnt = 0;
-                    if (bid_info.bid_cost === 0) {
-                        quote_arr.push(cost_tmp);
-                        viewCnt++;
-                    }
-                    while (viewCnt < 70) {
-                        if (cnt > d.message.quotes.length - 1) {
-                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
-                            quote_arr.push(cost_tmp)
-                            viewCnt++;
-                            continue
-                        }
-                        if (d.message.quotes[cnt].cost === cost_tmp) {
-                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt].quote_cost)
-                            quote_arr.push(cost_tmp)
-                            viewCnt++;
-                            continue
-                        }
-                        if (d.message.quotes[cnt].cost > cost_tmp) {
-                            cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
-                            quote_arr.push(cost_tmp)
-                            viewCnt++;
-                            continue
-                        }
-                        cnt++
-                        //cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
-                    }
-                    $("#reservation_bid").find("option").remove();
-                    $.each(quote_arr, function (idx, el) {
-                        $("#reservation_bid").append(`<option value="` + el + `">KRW ` + el.toLocaleString('ko-KR') + `</option>`);
-                    });
-                }
                 if (d.message.reservation_bid != null) {
                     if (d.message.reservation_bid.customer.sale_no > 0 &&
                         d.message.reservation_bid.customer.lot_no > 0) {
@@ -2541,153 +2536,69 @@
                 }
 
                 let item = '';
-                if (bid_info.customer.cust_no === custNo) {
-                    document.getElementById("bid_new_cost_val").setAttribute("disabled", true);
-                    document.getElementById("bid_new_cost").innerText = "최고가 응찰 중";
-                    document.getElementById("bid_new_cost_btn").innerText = "";
+                let bidHistInfo = d.message.bid;
+                if (topBidItem.customer.cust_no === custNo) {
+                    bidNewCostValueLayer.attr("disabled", true);
+                    bidNewCostLayer.text("최고가 응찰 중");
+                    bidNewCostBtnLayer.text("");
                 }
 
-                if (d.message.bids_hist != null && d.message.bids_hist.length > 0) {
-                    let li = document.createElement("bid_lst");
-                    let bid_hist_info = d.message.bids_hist;
-                    if (bid_hist_info != null && bid_hist_info.length > 0) {
-                        for (let i = 0; i < bid_hist_info.length; i++) {
-                            if (bid_hist_info[i].value != null) {
-                                for (let j = 0; j < bid_hist_info[i].value.length; j++) {
-                                    let ddd = new Date(bid_hist_info[i].value[j].bid_time);
-                                    let li = document.createElement("li");
-
-                                    let user_id_ly = document.createElement("div");
-                                    if (bid_hist_info[i].value[j].customer.cust_no === custNo) {
-                                        user_id_ly.setAttribute("class", "product-user on_green");
-                                    } else {
-                                        user_id_ly.setAttribute("class", "product-user");
-                                    }
-
-                                    let user_id_span = document.createElement("span");
-                                    user_id_span.innerText = bid_hist_info[i].value[j].customer.user_id;
-
-                                    user_id_ly.appendChild(user_id_span);
-
-                                    let cost_ly = document.createElement("div");
-                                    cost_ly.setAttribute("class", "product-price");
-
-                                    let cost_ly_span = document.createElement("span");
-                                    cost_ly_span.innerText = bid_hist_info[i].value[j].bid_cost.toLocaleString('ko-KR');
-
-                                    cost_ly.appendChild(cost_ly_span);
-
-                                    let dt_ly = document.createElement("div");
-                                    dt_ly.setAttribute("class", "product-day");
-
-                                    let dt_ly_span1 = document.createElement("em");
-                                    if (bid_info.winner_state === 2 && bid_hist_info[i].value.length - 1 === j) {
-                                        // type
-                                        dt_ly_span1.setAttribute("class", "type-success");
-                                        dt_ly_span1.innerText = "낙찰";
-                                        document.getElementById("cur_cost_text").innerText = "낙찰가";
-                                        document.getElementById("cur_cost_text2").innerText = "낙찰가";
-
-                                    }
-                                    let dt_ly_span11;
-                                    if (bid_hist_info[i].value[j].is_auto_bid) {
-                                        // type
-                                        dt_ly_span11 = document.createElement("em");
-                                        dt_ly_span11.setAttribute("class", "type-auto");
-                                        dt_ly_span11.innerText = "자동";
-                                    }
-
-                                    // date
-                                    let dt_ly_span2 = document.createElement("span");
-                                    dt_ly_span2.innerText = ddd.format("yyyy-MM-dd");
-
-                                    // time
-                                    let dt_ly_span3 = document.createElement("span");
-                                    dt_ly_span3.innerText = ddd.format("HH:mm:ss");
-
-                                    if (bid_info.winner_state === 2 && j === bid_hist_info[i].value.length - 1) {
-                                        dt_ly.appendChild(dt_ly_span1);
-                                    } else if (bid_hist_info[i].value[j].is_auto_bid) {
-                                        dt_ly.appendChild(dt_ly_span11);
-                                    }
-
-                                    dt_ly.appendChild(dt_ly_span2);
-                                    dt_ly.appendChild(dt_ly_span3);
-
-                                    li.appendChild(user_id_ly);
-                                    li.appendChild(cost_ly);
-                                    li.appendChild(dt_ly);
-
-                                    bid_lst.insertBefore(li, bid_lst.firstChild);
-                                }
-                            }
-                        }
-                    }
-                } else {
+                if (bidHistInfo.length <= 0) {
                     $("#cur_cost_layer").css("display", "none");
-                    document.getElementById("cur_cost_text").innerText = "시작가";
-                    document.getElementById("cur_cost_text2").innerText = "";
-                    document.getElementById("cur_cost").innerText = "";
-                    document.getElementById("bid_cost_cnt").innerText = "";
-                    document.getElementById("bid_cnt").innerText = "";
+                    $("#cur_cost_text").text("시작가");
+                    $("#cur_cost_text2").text("");
+                    $("#cur_cost").text("");
+                    $("#bid_cost_cnt").text("");
+                    $("#bid_cnt").text("");
+                } else {
+                    historyAdd(bidHistInfo);
                 }
                 // 낙찰이 완료 되었다면
-                if (bid_info.winner_state === 2) {
-                    $("#end_bid_true").css("display","");
-                    $("div[name='end_bid_false']").css("display","none");
-                    let bid_tick = document.getElementById("bid_tick");
-                    let bid_tick_main = document.getElementById("end_date_time");
-                    if (end_bid_time <= 0) {
-                        bid_tick.innerText = "경매 시작 전입니다.";
-                        bid_tick_main.innerText = "경매 시작 전입니다.";
-                    } else if (end_bid_time < new Date().getTime()) {
+                if (topBidItem.winner_state === 2) {
+                    $("#end_bid_true").css("display", "");
+                    $("div[name='end_bid_false']").css("display", "none");
+                    let bidTick = $("#bid_tick");
+                    let bidTickMain = $("#end_date_time");
+                    if (endBidTime <= 0) {
+                        bidTick.innerText = "경매 시작 전입니다.";
+                        bidTickMain.innerText = "경매 시작 전입니다.";
+                    } else if (endBidTime < new Date().getTime()) {
                         $("#end_bid_true").css("display", "");
                         $("div[name='end_bid_false']").css("display", "none");
                         $("#bid_lst li:eq(0) .product-day .type-auto").remove();
                         $("#bid_lst li:eq(0) .product-day .type-success").remove();
                         $("#bid_lst li:eq(0) .product-day").prepend("<em class=\"type-success\">낙찰</em>")
-                        bid_tick.innerText = "경매가 종료 되었습니다.";
-                        bid_tick_main.innerText = "경매가 종료 되었습니다.";
+                        bidTick.innerText = "경매가 종료 되었습니다.";
+                        bidTickMain.innerText = "경매가 종료 되었습니다.";
                     }
-
-                    /*let bid_lst = document.getElementById("bid_lst");
-                    let dt_ly_span1 = document.createElement("em");
-                    dt_ly_span1.setAttribute("class", "type-success");
-                    dt_ly_span1.innerText = "낙찰";
-                    bid_lst.firstChild.childNodes[2].insertBefore(dt_ly_span1, bid_lst.firstChild.childNodes[2].firstChild);
-                    */
                     is_end_bid = true;
                     w.close();
                 }
             }
-        } else if (d.msg_type == packet_enum.end_time_sync) {
+        } else if (d.msg_type === PROCTOCOL.END_TIME_SYNC) {
             if (d.message.value != null) {
                 end_bid_time = d.message.value;
             }
-        } else if (d.msg_type == packet_enum.winner) {
+        } else if (d.msg_type === PROCTOCOL.WINNER) {
             if (d.message != null) {
-                let bid_lst = document.getElementById("bid_lst");
+                let bidTick = $("#bid_tick");
+                let bidTickMain = $("#end_date_time");
+                bidTick.text("경매가 종료 되었습니다.");
+                bidTickMain.text("경매가 종료 되었습니다.");
 
-                //if (d.message.customer.user_id == bid_lst.firstChild.firstChild.innerText) {
-                    let bid_tick = document.getElementById("bid_tick");
-                    let bid_tick_main = document.getElementById("end_date_time");
-                    bid_tick.innerText = "경매가 종료 되었습니다.";
-                    bid_tick_main.innerText = "경매가 종료 되었습니다.";
+                $("#end_bid_true").css("display", "");
+                $("div[name='end_bid_false']").css("display", "none");
+                $("#bid_lst li:eq(0) .product-day .type-auto").remove();
+                $("#bid_lst li:eq(0) .product-day .type-success").remove();
+                $("#bid_lst li:eq(0) .product-day").prepend("<em class=\"type-success\">낙찰</em>")
 
-                    $("#end_bid_true").css("display", "");
-                    $("div[name='end_bid_false']").css("display", "none");
-                    $("#bid_lst li:eq(0) .product-day .type-auto").remove();
-                    $("#bid_lst li:eq(0) .product-day .type-success").remove();
-                    $("#bid_lst li:eq(0) .product-day").prepend("<em class=\"type-success\">낙찰</em>")
-
-                    document.getElementById("cur_cost_text").innerText = "낙찰가";
-                    document.getElementById("cur_cost_text2").innerText = "낙찰가";
-                //}
+                $("#cur_cost_text").text("낙찰가");
+                $("#cur_cost_text2").text("낙찰가");
 
                 is_end_bid = true;
                 w.close();
             }
-        } else if (d.msg_type === packet_enum.auto_bid_sync) {
+        } else if (d.msg_type === PROCTOCOL.AUTO_BID_SYNC) {
             if (d.message != null) {
                 if (d.message.reservation_bid != null) {
                     if (d.message.reservation_bid.customer.sale_no > 0 &&
@@ -2698,59 +2609,18 @@
                     } else {
                         $("#reservation_bid").prop("disabled", false);
                         $("#auto_bid_txt").text("응찰");
-                        let quote_arr = [];
-                        if (d.message.quotes.quotes != null && d.message.quotes.quotes.length > 0) {
-                            let cnt = 1;
-                            let viewCnt = 0;
-
-                            let cost_tmp = (d.message.bid.bid_cost === 0) ?
-                                d.message.bid.open_bid_cost :
-                                d.message.bid.bid_cost;
-
-                            if (d.message.bid.bid_cost === 0) {
-                                quote_arr.push(cost_tmp);
-                                viewCnt++;
-                            }
-
-                            while (viewCnt < 70) {
-                                if (cnt > d.message.quotes.quotes.length - 1) {
-                                    cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes[cnt - 1].quote_cost)
-                                    quote_arr.push(cost_tmp)
-                                    viewCnt++;
-                                    continue
-                                }
-                                if (d.message.quotes.quotes[cnt].cost === cost_tmp) {
-                                    cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes.quotes[cnt].quote_cost)
-                                    quote_arr.push(cost_tmp)
-                                    viewCnt++;
-                                    continue
-                                }
-                                if (d.message.quotes.quotes[cnt].cost > cost_tmp) {
-                                    cost_tmp = parseInt(cost_tmp) + parseInt(d.message.quotes.quotes[cnt - 1].quote_cost)
-                                    quote_arr.push(cost_tmp)
-                                    viewCnt++;
-                                    continue
-                                }
-                                cnt++
-                            }
-                            $("#reservation_bid").find("option").remove();
-                            for (let i = 0; i < quote_arr.length; i++) {
-                                $("#reservation_bid").append(`<option value="` + quote_arr[i] + `">KRW ` + quote_arr[i].toLocaleString("ko-KR") + `</option>`);
-                            }
-                        }
+                        quoteAdd(d.message.quotes.quotes, d.message.bid)
                         $("#reservation_bid option:eq(0)").prop("selected", true);
                     }
-
-
-                }
+               }
             }
-        } else if (d.msg_type === packet_enum.lot_refresh) {
+        } else if (d.msg_type === PROCTOCOL.LOT_REFRESH) {
             if (d.message !== undefined && d.message != null) {
                 if (d.message.data !== undefined && d.message.data != null) {
                     for (let j = 0; j < d.message.data.length; j++) {
-                        if (d.message.data[j].SALE_NO ===  saleNo && d.message.data[j].LOT_NO === lotNo) {
+                        if (d.message.data[j].SALE_NO === saleNo && d.message.data[j].LOT_NO === lotNo) {
                             $("#start_cost").text("KRW " + d.message.data[j].START_PRICE.toLocaleString('ko-KR'));
-                            end_bid_time = d.message.data[j].END_BID_TIME;
+                            endBidTime = d.message.data[j].END_BID_TIME;
                         }
                     }
                 }
@@ -2787,5 +2657,40 @@
         }
     });
 </script>
+<!-- [0728]비디오 세로사이즈 -->
+<script>
+    var _videoAnchor = $(".video_img-box a");
+    var _videoAnchorImg = $(".video_img-box a img");
+    _videoAnchorImg.each(function() {
+        _videoAnchor = $(this).parent(_videoAnchor);
+
+        if ($(this).width() < $(this).height()) {
+            _videoAnchor.addClass("vertical");
+        } else {
+            _videoAnchor.removeClass("vertical");
+        }
+    })
+</script>
+<!-- //[0728]비디오 세로사이즈 -->
+<!-- [0728]탭 -->
+<script>
+    $('.js-left_mm a').on('click', function(e) {
+        e.preventDefault();
+        var tar = $(this).position().left;
+        var scrollX = tar - ($(".js-left_mm").parents(".tab-area").width() / 2) + $(this).width() / 2;
+
+        if ($(this).parents('li').hasClass('active')) {
+            return false;
+        } else {
+            $(".js-left_mm li").removeClass('active');
+            $(this).parents('li').addClass('active');
+
+            $(".js-left_mm").parents(".tab-area").scrollLeft(scrollX);
+        }
+    });
+</script>
+<!-- [0728]탭 -->
+
+
 </body>
 </html>

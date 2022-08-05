@@ -11,7 +11,6 @@
 	<div class="wrapper" ng-app="myApp">
 		<div class="sub-wrap pageclass">
 			<jsp:include page="../../include/en/nav.jsp" flush="false" />
-			<script type="text/javascript" src="/js/mypage/onlinePay.js"></script>
             <!-- container -->
             <div id="container" class="onlinePay"  ng-controller="onlinePayListCtl" data-ng-init="loadOnlinePayList(1);"  style="opacity: 0" opacity=1>
                 <div id="contents" class="contents">
@@ -148,14 +147,14 @@
                                                                         </div>
                                                                         <div class="btn-area" >
                                                                         <!-- 온라인 가상계좌 외 결제대기상태 or 가상계좌 기간이 끝났을 때 -->
-                                                                        	<a href="/payment/sale/{{data.SALE_NO}}/lot/{{data.LOT_NO}}" ng-if="data.ONLINE_YN == 'Y' && data.PAID_CNT == 0 && data.VBANK_EXP_DT_CLOSE_YN !='N'"><button class="btn btn_point" type="button" ><span>Make a Payment</span></button></a>
+                                                                        	<button class="btn btn_point" type="button" ng-click="goPay(data.SALE_NO, data.LOT_NO)" ng-if="data.ONLINE_YN == 'Y' && data.PAID_CNT == 0 && data.VBANK_EXP_DT_CLOSE_YN !='N'"><span>Make a Payment</span></button>
                                                                         
                                                                         <!-- 라이브 결제대기상태 or 부분납 상태-->
-                                                                            <button class="btn btn_gray_line" type="button" ng-if="(data.ONLINE_YN == 'N' && data.PAID_CNT == 0) || (data.PAID_CNT > 0 && getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price > data.PAY_PRICE)" ng-click="payInfoPopup()" ><span>Payment info</span></button></a>
+                                                                            <button class="btn btn_gray_line" type="button" ng-if="(data.ONLINE_YN == 'N' && data.PAID_CNT == 0) || (data.PAID_CNT > 0 && getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price > data.PAY_PRICE)" ng-click="payInfoPopupEn()" ><span>Payment info</span></button>
                                                                         
                                                                         <!-- 온라인 부분납 제외 결제완료 일 경우만 영수증 버튼 노출-->
-                                                                            <button class="btn btn_gray_line" type="button" data-id="{{data.PG_TRANS_ID}}" data-type="0" ng-if="data.ONLINE_YN == 'Y' && data.PAID_CNT == 1 && getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price == data.PAY_PRICE && data.PAY_METHOD_ID == 'card' && data.receipt == 'Y' && data.PG_TRANS_ID" onclick="receiptPopup(this)"><span>Payment Receipt</span></button>
-                                                                            <button class="btn btn_gray_line" type="button" data-id="{{data.PG_TRANS_ID}}" data-type="1" ng-if="data.ONLINE_YN == 'Y' && data.PAID_CNT == 1 && getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price == data.PAY_PRICE && data.PAY_METHOD_ID == 'vbank' && data.receipt == 'Y' && data.PG_TRANS_ID" onclick="receiptPopup(this)"><span>Cash Receipt</span></button>
+                                                                            <button class="btn btn_gray_line" type="button" data-id="{{data.PG_TRANS_ID}}" data-type="0" ng-if="data.ONLINE_YN == 'Y' && data.PAID_CNT == 1 && getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price == data.PAY_PRICE && data.receipt_card == 'Y' && data.PG_TRANS_ID"  onclick="receiptPopup(this)"><span>Payment Receipt</span></button>
+                                                                            <button class="btn btn_gray_line" type="button" data-id="{{data.PG_TRANS_ID}}" data-type="1" ng-if="data.ONLINE_YN == 'Y' && data.PAID_CNT == 1 && getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price == data.PAY_PRICE && data.receipt_vbank == 'Y' && data.PG_TRANS_ID" onclick="receiptPopup(this)"><span>Cash Receipt</span></button>
 <!--                                                                             <button class="btn btn_gray btn-half btn-print" type="button" disabled>
                                                                                 <span>보증서출력하기</span>
                                                                                 <span>7일 이후 가능</span>
@@ -223,23 +222,25 @@
         </div>
     </div>
 
+<%--    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
+<%--    <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->--%>
+<%--    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
+<%--    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
+<%--    <!-- [0516]삭제--%>
+<%--  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> --%>
+<%---->--%>
+<%--    <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>--%>
 
-    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-    <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-    <!-- [0516]삭제
-  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
--->
-
-
-    <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/mypage/onlinePay.js"></script>
 
     <script>
         $(".js-history_back").click(function() {
         	window.location.href="/mypage/main";
         })
     </script>
+    
+    <!-- 오프라인결제 -->
+	<jsp:include page="popup/onlinePayInfoPopup.jsp" flush="false"/>
     
     <!-- 팝업 : side popup -->
 	<jsp:include page="include/mypageSidePopup.jsp" flush="false"/>

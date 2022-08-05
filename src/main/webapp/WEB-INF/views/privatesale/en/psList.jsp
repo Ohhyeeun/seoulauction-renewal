@@ -93,10 +93,10 @@
                                                             <a href="#"><span class="num">{{item.AS_NO}}</span></a>
                                                         </div>
                                                         <div class="info-box">
-                                                            <div class="title"><a href="#"><span>{{item.ARTIST_NAME_BLOB_EN}}</span></a>
+                                                            <div class="title"><a href="#"><span title="{{item.ARTIST_NAME_BLOB_EN}}">{{item.ARTIST_NAME_BLOB_EN}}</span></a>
                                                                 <!-- [0516]삭제	<span class="sub">(1965)</span> -->
                                                             </div>
-                                                            <div class="desc"><a href="#"><span>{{item.TITLE_BLOB_EN}}</span></a></div>
+                                                            <div class="desc"><a href="#"><span title="{{item.TITLE_BLOB_EN}}">{{item.TITLE_BLOB_EN}}</span></a></div>
                                                             <div class="standard">
                                                                 <a href="#"><span>{{item.CD_NM_EN}}</span></a>
                                                                 <div class="size_year">

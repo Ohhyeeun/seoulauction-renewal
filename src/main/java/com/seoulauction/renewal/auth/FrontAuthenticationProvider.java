@@ -143,18 +143,19 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
         }
         result.setDetails(SAUserDetails.builder()
         					.loginId(loginId)
-        					.password(resultMap.get("PASSWD") != null ? resultMap.get("PASSWD").toString() : "")
+        					.password(resultMap.get("PASSWD") != null ? resultMap.getString("PASSWD") : "")
         					.userNo(custNo)
         					.authorities(roles)
-        					.userKind(resultMap.get("CUST_KIND_CD") != null ? resultMap.get("CUST_KIND_CD").toString() : "")
+        					.userKind(resultMap.get("CUST_KIND_CD") != null ? resultMap.getString("CUST_KIND_CD") : "")
         					.userNm(resultMap.get("CUST_NAME").toString())
         					.ip(userIPAddress)
-        					.zipNo(resultMap.get("ZIPNO") != null ? resultMap.get("ZIPNO").toString() : "")
+        					.zipNo(resultMap.get("ZIPNO") != null ? resultMap.getString("ZIPNO") : "")
         					.addr(addr)
-        					.hp(resultMap.get("HP") != null ? resultMap.get("HP").toString() : "")
-        					.email(resultMap.get("EMAIL") != null ? resultMap.get("EMAIL").toString() : "")
-        					.validDate(resultMap.get("VALID_DATE") != null ? resultMap.get("VALID_DATE").toString() : "")
-        					.socialYn(resultMap.get("SOCIAL_YN") != null ? resultMap.get("SOCIAL_YN").toString() : "" + resultMap.get("SOCIAL_YN") != null ? " " + resultMap.get("SOCIAL_YN").toString() : "")
+        					.hp(resultMap.get("HP") != null ? resultMap.getString("HP") : "")
+        					.email(resultMap.get("EMAIL") != null ? resultMap.getString("EMAIL") : "")
+        					.validDate(resultMap.get("VALID_DATE") != null ? resultMap.getString("VALID_DATE") : "")
+        					.socialYn(resultMap.get("SOCIAL_YN") != null ? resultMap.getString("SOCIAL_YN") : "" + resultMap.get("SOCIAL_YN") != null ? " " + resultMap.getString("SOCIAL_YN") : "")
+        					.localKindCd(resultMap.get("LOCAL_KIND_CD") != null ? resultMap.getString("LOCAL_KIND_CD") : "" + resultMap.get("LOCAL_KIND_CD") != null ? " " + resultMap.getString("LOCAL_KIND_CD") : "")
         					.build());
 		return result;
 	}

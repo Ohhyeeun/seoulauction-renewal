@@ -95,9 +95,10 @@
                                                                     <div class="image-area">
                                                                         <figure class="img-ratio">
                                                                             <!-- [0725]hover시 돋보기표시 -->
-                                                                            <div class="dim">
-                                                                                <i class="icon-zoom_in"></i>
-                                                                            </div>
+                                                                            <!-- [0803]돋보기표시Dim삭제(원복)-->
+<%--                                                                            <div class="dim">--%>
+<%--                                                                                <i class="icon-zoom_in"></i>--%> 
+<%--                                                                            </div>--%>
                                                                             <!-- //[0725]hover시 돋보기표시 -->
                                                                             <div class="img-align">
                                                                                 <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
@@ -111,6 +112,7 @@
                                                         <div class="pagination"></div>
                                                     </div>
                                                 </div>
+
                                                 <div class="product_thumbnail-area">
                                                     <div class="gallery_thumbnail js-view_thumnail">
                                                         <div class="gallery_center">
@@ -140,13 +142,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="view_scale-area" ng-if="lotInfo.IMAGE_MAGNIFY && lotInfo.VIEW_SCALE_YN == 'Y' && ['traditional_painting', 'local_painting', 'foreign_painting'].indexOf(lotInfo.CATE_CD) > -1">
+                                            </div>{{isUseViewScale}}
+                                            <div class="view_scale-area" >
                                                 <a class="js-popup_image_viewer" href="#">
                                                     <i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
                                         </article>
                                     </div>
+
                                     <div class="col_item">
                                         <article class="product_detail-article js-product_detail-article">
                                             <div class="index-area">
@@ -179,13 +182,13 @@
                                             </div>
                                             <div class="artist-area">
                                                 <div class="name">
-                                                    <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT"></strong>
+                                                    <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT" title="{{lotInfo.ARTIST_NAME_KO_TXT}}"></strong>
                                                     <span ng-show="lotInfo.BORN_YEAR"
-                                                          ng-bind="'b.' + lotInfo.BORN_YEAR"></span>
+                                                          ng-bind="'b.' + lotInfo.BORN_YEAR" title="{{'b.' + lotInfo.BORN_YEAR}}"></span>
                                                 </div>
                                                 <div class="desc">
                                                     <span class="text-over span_block"
-                                                          ng-bind="lotInfo.TITLE_KO_TXT"></span>
+                                                          ng-bind="lotInfo.TITLE_KO_TXT" title="{{lotInfo.TITLE_KO_TXT}}"></span>
                                                 </div>
                                             </div>
                                             <div class="price-area">
@@ -348,10 +351,19 @@
 
                                         <div id="artist_layer" class="info-box">
                                             <div class="title">작가정보</div>
-                                            <div class="desc txt-pre-line" id="artistName">
+                                            <%--0728 삭제--%>
+<%--                                            <div class="desc txt-pre-line" id="artistName">--%>
+<%--                                            </div>--%>
+<%--                                            <div class="desc txt-pre-line" id="artistProfile">--%>
+<%--                                            </div>--%>
+                                            <%--//0728 삭제--%>
+                                            <%--0728 추가--%>
+                                            <div class="desc txt-pre-line" id="artistArticle">
+                                                <a href="#" class="sub-links">“날지 못해 멸종된 모리셔스 도도새 그리며 꿈과 자유를 본다”</a><%--
+                                                    --%><a href="#" class="sub-links">“날지 못해 멸종된 모리셔스 도도새 그리며 꿈과 자유를 본다”</a><%--
+                                                    --%><a href="#" class="sub-links">“날지 못해 멸종된 모리셔스 도도새 그리며 꿈과 자유를 본다”</a><%----%>
                                             </div>
-                                            <div class="desc txt-pre-line" id="artistProfile">
-                                            </div>
+                                            <%--//0728 추가--%>
                                             <div class="desc" id="artistMedia">
                                             </div>
                                         </div>
@@ -458,29 +470,50 @@
                                     <div class="header_top">
                                         <p class="totalcount"><span class="num" ng-bind="lotLength"></span> <span class="unit">LOT</span></p>
                                     </div>
-                                    <div class="lotlist-tabmenu">
-                                        <div class="btn_item">
-                                            <a href="#"
-                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on':'전체' === selectLotTag}"
-                                               ng-click="searchLotTags('전체');" role="button">
+<%--                                    <div class="lotlist-tabmenu">--%>
+<%--                                        <div class="btn_item">--%>
+<%--                                            <a href="#"--%>
+<%--                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on':'전체' === selectLotTag}"--%>
+<%--                                               ng-click="searchLotTags('전체');" role="button">--%>
+<%--                                                <span>전체</span>--%>
+<%--                                            </a>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="btn_item" ng-repeat="ci in categories">--%>
+<%--                                            <a href="#"--%>
+<%--                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': ci.CD_NM === selectLotTag}"--%>
+<%--                                               ng-click="searchLotTags(ci.CD_NM);">--%>
+<%--                                                <span ng-bind="ci.CD_NM"></span>--%>
+<%--                                            </a>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="btn_item" ng-repeat="li in lotTags">--%>
+<%--                                            <a href="#"--%>
+<%--                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': li.LOT_TAG === selectLotTag}"--%>
+<%--                                               ng-click="searchLotTags(li.LOT_TAG);">--%>
+<%--                                                <span ng-bind="li.LOT_TAG"></span>--%>
+<%--                                            </a>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
+                                    <!-- [0728]탭수정 -->
+                                    <div class="tab-area type-left_mm_3">
+                                        <ul class="tab-list js-left_mm">
+                                            <li class="active"><a href="#tab-cont-1"
+                                                                  ng-class="{'lot-btn_tabmenu': '1' === '1', 'on':'전체' === selectLotTag}"
+                                                                  ng-click="searchLotTags('전체');" role="button">
                                                 <span>전체</span>
-                                            </a>
-                                        </div>
-                                        <div class="btn_item" ng-repeat="ci in categories">
-                                            <a href="#"
-                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': ci.CD_NM === selectLotTag}"
-                                               ng-click="searchLotTags(ci.CD_NM);">
+                                            </a></li>
+                                            <li class=""><a href="#tab-cont-2"
+                                                            ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': ci.CD_NM === selectLotTag}"
+                                                            ng-click="searchLotTags(ci.CD_NM);">
                                                 <span ng-bind="ci.CD_NM"></span>
-                                            </a>
-                                        </div>
-                                        <div class="btn_item" ng-repeat="li in lotTags">
-                                            <a href="#"
-                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': li.LOT_TAG === selectLotTag}"
-                                               ng-click="searchLotTags(li.LOT_TAG);">
+                                            </a></li>
+                                            <li class=""><a href="#tab-cont-3"
+                                                            ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': li.LOT_TAG === selectLotTag}"
+                                                            ng-click="searchLotTags(li.LOT_TAG);">
                                                 <span ng-bind="li.LOT_TAG"></span>
-                                            </a>
-                                        </div>
+                                            </a></li>
+                                        </ul>
                                     </div>
+                                    <!-- //[0728]탭수정 -->
                                 </div>
                                 <div class="lotlist-tabCont">
                                     <div class="mobile_scroll-type">
@@ -875,13 +908,15 @@
 
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
 
-    // 현재가 처리
+    // TODO 마감일 작업 ( return (val === '')?'':new Date(val).format('MM/dd(E)'); 오류나서 주석형태 )
     app.filter('date_format', function(){
         return function(val) {
             if (val === undefined) {
                 return '';
             }
-            return (val === '')?'':new Date(val).format('MM/dd(E)');
+
+            return val;
+            //return new Date(val);
         };
     });
 
@@ -966,7 +1001,7 @@
         const getViewScaleImages = (saleNo, lotNo) => {
             console.log("getViewScaleImages : ", saleNo, lotNo);
             try {
-                return axios.get('/api/auction/viewscale_image/'+saleNo+'/'+lotNo);
+                return axios.get('/api/auction/getViewScaleImage/'+saleNo+'/'+lotNo);
             } catch (error) {
                 console.error(error);
             }
@@ -1240,8 +1275,6 @@
 
                 $("#lot_title").html("LOT " + $scope.lotInfo.LOT_NO);
                 // 시작
-                startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2,
-                    '${member.loginId}', ${member.userNo});
                 $scope.$apply();
 
                 // 카카오 init
@@ -1310,12 +1343,15 @@
                 //     view_visual.update();
                 // });
 
-                let viewScaleImages = $scope.viewScaleImages;
-                let lot_images = $scope.lotImages;
+                const viewScaleImages = $scope.viewScaleImages;
+                $scope.isUseViewScale = viewScaleImages.length > 0 && !$scope.lotInfo.IMAGE_MAGNIFY; // || viewScaleImages.isUseViewScale;
+                const lot_images = $scope.lotImages;
                 let firstCheck = 0;
 
                 // $.each(sale_images, function (index, el) {
-                 const el = viewScaleImages[0];
+                console.log(viewScaleImages, $scope.isUseViewScale);
+                if($scope.isUseViewScale) {
+                    const el = viewScaleImages[0];
                     let size1 = 0;
                     let size2 = 0;
                     let unitCd = '';
@@ -1328,41 +1364,21 @@
 
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
                     let swiper_slide_item = '';
-                    // if (firstCheck == 0) {
-                        // $scope.chk = parseInt(lot_no) - index -1;
-                    // }
-                    // firstCheck++;
 
-                    //if(size1 > 160) {
-                    if(['traditional_painting'].indexOf($scope.lotInfo.CATE_CD) > -1){
-                        swiper_slide_item = `<div class="swiper-slide">
-                            <div class="img-area">
-                                <div class="img-box">
-                                    <div class="size_x"><span>` + size1 + unitCd + `</span></div>
-                                    <div class="size_y"><span>` + size2 + unitCd + `</span></div>
-                                    <div class="images">
-                                        <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size1 + `" size-y="` + size2 + `" lot_no="` + lot_no + `"/>
-                                    </div>
+                    swiper_slide_item = `<div class="swiper-slide">
+                        <div class="img-area">
+                            <div class="img-box">
+                                <div class="size_x"><span>` + size2 + unitCd + `</span></div>
+                                <div class="size_y"><span>` + size1 + unitCd + `</span></div>
+                                <div class="images">
+                                    <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size2 + `" size-y="` + size1 + `" lot_no="` + lot_no + `"/>
                                 </div>
                             </div>
-                        </div>`;
-                    }else if(['local_painting', 'foreign_painting'].indexOf($scope.lotInfo.CATE_CD) > -1){
-                        swiper_slide_item = `<div class="swiper-slide">
-                            <div class="img-area">
-                                <div class="img-box">
-                                    <div class="size_x"><span>` + size2 + unitCd + `</span></div>
-                                    <div class="size_y"><span>` + size1 + unitCd + `</span></div>
-                                    <div class="images">
-                                        <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size2 + `" size-y="` + size1 + `" lot_no="` + lot_no + `"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>`;
-                    }
+                        </div>
+                    </div>`;
 
-                $("#popup_image_viewer-wrap .gallery_center").html(swiper_slide_item);
-                    //}
-                // });
+                    $("#popup_image_viewer-wrap .gallery_center").html(swiper_slide_item);
+                }
 
                 $.each(lot_images, function (index, el) {
 
@@ -1758,483 +1774,6 @@
 </script>
 
 <!-- BIDING-->
-<!-- 웹소켓 -->
-<script type="text/javascript">
-    Date.prototype.format = function (f) {
-        if (!this.valueOf()) return " ";
-
-        var weekName = ["일", "월", "화", "수", "목", "금", "토"];
-        var d = this;
-
-        return f.replace(/(yyyy|yy|MM|dd|E|hh|mm|ss|a\/p)/gi, function ($1) {
-            switch ($1) {
-                case "yyyy":
-                    return d.getFullYear();
-                case "yy":
-                    return (d.getFullYear() % 1000).zf(2);
-                case "MM":
-                    return (d.getMonth() + 1).zf(2);
-                case "dd":
-                    return d.getDate().zf(2);
-                case "E":
-                    return weekName[d.getDay()];
-                case "HH":
-                    return d.getHours().zf(2);
-                case "hh":
-                    return ((h = d.getHours() % 12) ? h : 12).zf(2);
-                case "mm":
-                    return d.getMinutes().zf(2);
-                case "ss":
-                    return d.getSeconds().zf(2);
-                case "a/p":
-                    return d.getHours() < 12 ? "오전" : "오후";
-                default:
-                    return $1;
-            }
-        });
-    };
-    String.prototype.string = function (len) {
-        var s = '', i = 0;
-        while (i++ < len) {
-            s += this;
-        }
-        return s;
-    };
-    String.prototype.zf = function (len) {
-        return "0".string(len - this.length) + this;
-    };
-    Number.prototype.zf = function (len) {
-        return this.toString().zf(len);
-    };
-
-    let connect_info = {};
-
-    let w;
-    let websocketTimeout;
-
-    let con_try_cnt = 0;
-    let end_bid_time = 0;
-    let is_end_bid = false;
-
-    let autoBiding = async function (connect_info) {
-        let val = $("#reservation_bid").val();
-        let datet = new Date();
-        let url = '';
-        if (window.location.protocol !== "https:") {
-            url = new WebSocket("https://dev-bid.seoulauction.xyz/bid");
-        } else {
-            url = new WebSocket("https://dev-bid.seoulauction.xyz/bid");
-        }
-
-        let response = await fetch(url, {
-            method: "POST",
-            body: JSON.stringify({
-                customer: {
-                    sale_no: connect_info.sale_no,
-                    lot_no: connect_info.lot_no,
-                    cust_no: connect_info.cust_no,
-                    paddle: 0,
-                    user_id: connect_info.user_id,
-                    token: connect_info.token,
-                    sale_type: 2,
-                    bid_type: 22,
-                },
-                bid_cost: parseInt(val),
-            }),
-        });
-        let vv = response.json();
-        return vv;
-    }
-
-    let biding = async function (connect_info) {
-        console.log(new Date().getTime(), "bidding");
-        let val = document.getElementById("bid_new_cost_val").getAttribute("value");
-        let url = '';
-        if (window.location.protocol !== "https:") {
-            url = new WebSocket("https://dev-bid.seoulauction.xyz/bid");
-        } else {
-            url = new WebSocket("https://dev-bid.seoulauction.xyz/bid");
-        }
-        let response = await fetch(url, {
-            method: "POST",
-            body: JSON.stringify({
-                customer: {
-                    sale_no: connect_info.sale_no,
-                    lot_no: connect_info.lot_no,
-                    cust_no: connect_info.cust_no,
-                    paddle: 0,
-                    user_id: connect_info.user_id,
-                    token: connect_info.token,
-                    sale_type: 2,
-                    bid_type: 21,
-                },
-                bid_cost: parseInt(val),
-            }),
-        });
-        let vv = response.json();
-        return vv;
-    }
-
-    // 1회응찰
-    function bid() {
-        biding(connect_info);
-    }
-
-    // 자동응찰
-    function autoBid() {
-        autoBiding(connect_info);
-    }
-
-    function retry(saleNo, lotNo, saleType, userId, custNo) {
-        window.clearTimeout(websocketTimeout);
-        if (w != null) {
-            w = null;
-        }
-        if (con_try_cnt > 5) {
-            con_try_cnt = 0
-            return
-        }
-        if (window.location.protocol !== "https:") {
-            w = new WebSocket("ws://dev-bid.seoulauction.xyz/ws?sale_no=" +
-                saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
-                "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
-        } else {
-            w = new WebSocket("wss://dev-bid.seoulauction.xyz/ws?sale_no=" +
-                saleNo + "&lot_no=" + lotNo + "&cust_no=" + custNo +
-                "&user_id=" + userId + "&paddle=0&sale_type=1&bid_type=11");
-        }
-        w.onopen = function () {
-            console.log("open");
-        }
-        w.onerror = function () {
-            w.close();
-            console.log('error');
-        }
-        w.onclose = function () {
-            if (w.readyState === w.CLOSED) {
-                if (!is_end_bid) {
-                    con_try_cnt++;
-                    websocketTimeout = window.setTimeout(function () {
-                        retry(saleNo, lotNo, saleType, userId, custNo);
-                    }, 1000);
-                }
-            }
-        }
-        w.onmessage = function (evt) {
-            proc(evt, saleNo, lotNo, saleType, userId, custNo);
-        }
-        con_try_cnt = 0;
-    }
-
-    function proc(evt, saleNo, lotNo, saleType, userId, custNo) {
-        let wt;
-        const packet_enum = {
-            init: 1,
-            bid_info: 2,
-            time_sync: 3,
-            bid_info_init: 4,
-            end_time_sync: 5,
-            winner: 6,
-        }
-        let d = JSON.parse(evt.data);
-
-        if (d.msg_type === packet_enum.init) {
-
-            // 현재 접속 세일/랏 정보
-            connect_info.token = d.message.token
-            connect_info.sale_no = saleNo;
-            connect_info.lot_no = lotNo;
-            connect_info.user_id = userId;
-            connect_info.cust_no = custNo;
-        } else if (d.msg_type === packet_enum.bid_info) {
-
-            if (d.message.bid != null && d.message.bid.length > 0) {
-                // popup layer Values
-                let bid = document.getElementById("bid_cost_val");
-                let bid_cnt = document.getElementById("bid_cost_cnt");
-                let quote_unit = document.getElementById("quote_unit");
-                let bid_new_cost = document.getElementById("bid_new_cost");
-
-                let len = d.message.bid.length;
-
-                // View page values
-                let start_cost = document.getElementById("start_cost");
-                let bid_cnt2 = document.getElementById("bid_cnt");
-                let cur_cost = document.getElementById("cur_cost");
-                //let end_date_time2 = document.getElementById("end_date_time");
-
-                let curCostValue = (d.message.bid[len - 1].bid_cost === 0) ?
-                    "KRW " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR') :
-                    "KRW " + d.message.bid[len - 1].bid_cost.toLocaleString('ko-KR');
-
-                start_cost.innerText = "KRW " + d.message.bid[len - 1].open_bid_cost.toLocaleString('ko-KR');
-                bid_cnt2.innerText = "(응찰" + d.message.bid[len - 1].bid_count + ")"
-                cur_cost.innerText = curCostValue;
-                //end_date_time2.innerText = new Date(d.message.bid[len - 1].end_bid_time).format('MM/dd(E) hh:mm');
-
-                bid.innerText = curCostValue
-                bid_cnt.innerText = "(응찰" + d.message.bid[len - 1].bid_count + ")"
-
-                end_bid_time = d.message.bid[len - 1].end_bid_time;
-                quote_unit.innerText = "KRW " + d.message.bid[len - 1].bid_quote.toLocaleString('ko-KR');
-
-                bid_new_cost.innerText = "KRW " + (((d.message.bid[len - 1].bid_cost === 0) ?
-                    d.message.bid[len - 1].open_bid_cost :
-                    d.message.bid[len - 1].bid_cost) + d.message.bid[len - 1].bid_quote).toLocaleString('ko-KR');
-
-                document.getElementById("bid_new_cost_val").setAttribute("value", ((d.message.bid[len - 1].bid_cost === 0) ?
-                    d.message.bid[len - 1].open_bid_cost :
-                    d.message.bid[len - 1].bid_cost) + d.message.bid[len - 1].bid_quote);
-
-                if (d.message.bid != null && d.message.bid.length > 0) {
-                    let bid_hist_info = d.message.bid;
-                    if (bid_hist_info != null && bid_hist_info.length > 0) {
-                        let bid_lst = document.getElementById("bid_lst");
-                        for (let i = 0; i < bid_hist_info.length; i++) {
-
-                            let ddd = new Date(bid_hist_info[i].bid_time);
-                            let li = document.createElement("li");
-
-                            let user_id_ly = document.createElement("div");
-                            if (bid_hist_info.user_id === "KYUNGHOON") {
-                                user_id_ly.setAttribute("class", "product-user on_green");
-                            } else {
-                                user_id_ly.setAttribute("class", "product-user");
-                            }
-
-
-                            let user_id_span = document.createElement("span");
-                            user_id_span.innerText = bid_hist_info[i].customer.user_id;
-
-                            user_id_ly.appendChild(user_id_span);
-
-                            let cost_ly = document.createElement("div");
-                            cost_ly.setAttribute("class", "product-price");
-
-                            let cost_ly_span = document.createElement("span");
-                            cost_ly_span.innerText = bid_hist_info[i].bid_cost.toLocaleString('ko-KR');
-
-                            cost_ly.appendChild(cost_ly_span);
-
-                            let dt_ly = document.createElement("div");
-                            dt_ly.setAttribute("class", "product-day");
-
-                            // date
-                            let dt_ly_span2 = document.createElement("span");
-                            dt_ly_span2.innerText = ddd.format("yyyy-MM-dd");
-
-                            // time
-                            let dt_ly_span3 = document.createElement("span");
-                            dt_ly_span3.innerText = ddd.format("HH:mm:ss");
-
-                            // dt_ly.appendChild(dt_ly_span1);
-                            dt_ly.appendChild(dt_ly_span2);
-                            dt_ly.appendChild(dt_ly_span3);
-
-                            li.appendChild(user_id_ly);
-                            li.appendChild(cost_ly);
-                            li.appendChild(dt_ly);
-
-                            bid_lst.insertBefore(li, bid_lst.firstChild);
-                        }
-                    }
-                }
-            }
-
-        } else if (d.msg_type === packet_enum.time_sync) {
-            let expr_date = new Date($("#lot_expr_date").val()).format('yyyy-MM-dd 00:00:00');
-            if (expr_date >= (new Date(d.message.tick_value).format('yyyy-MM-dd HH:mm:ss'))) {
-                $("#show_btn").css("display", "");
-            }
-
-            /*
-                        if (end_bid_time > 0 && end_bid_time >= d.message.tick_value) {
-
-                            let endDate = new Date(end_bid_time);
-                            var dateGap = endDate - ddd;
-                            var timeGap = new Date(0, 0, 0, 0, 0, 0, endDate - ddd);
-
-                            // 두 일자(startTime, endTime) 사이의 간격을 "일-시간-분"으로 표시한다.
-                            var diffDay = Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수
-                            var diffHour = timeGap.getHours();       // 시간
-                            var diffMin = timeGap.getMinutes();      // 분
-                            var diffSec = timeGap.getSeconds();      // 초
-
-                            bid_tick.innerText = diffDay + "일 " + diffHour + "시간 " + diffMin + "분 " + diffSec + "초 남았습니다.";
-                            bid_tick_main.innerText = diffDay + "일 " + diffHour + "시간 " + diffMin + "분 " + diffSec + "초 남았습니다.";
-                        } else if (end_bid_time <= 0) {
-                            bid_tick.innerText = "경매 시작 전입니다.";
-                            bid_tick_main.innerText = "경매 시작 전입니다.";
-                        } else {
-                            bid_tick.innerText = "경매가 종료 되었습니다.";
-                            bid_tick_main.innerText = "경매가 종료 되었습니다.";
-                        }
-            */
-        } else if (d.msg_type == packet_enum.bid_info_init) {
-            if (d.message.bids != null && d.message.bids.length > 0) {
-                let bid_info = d.message.bids[0];
-
-                // element
-                let bid = document.getElementById("bid_cost_val");
-                let bid_cnt = document.getElementById("bid_cost_cnt");
-                let quote_unit = document.getElementById("quote_unit");
-                let bid_new_cost = document.getElementById("bid_new_cost");
-
-
-                //let start_cost = document.getElementById("start_cost");
-                //let bid_cnt2 = document.getElementById("bid_cnt");
-                //let cur_cost = document.getElementById("cur_cost");
-                //let end_date_time2 = document.getElementById("end_date_time");
-
-                let curCostValue = (bid_info.bid_cost === 0) ?
-                    "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR') :
-                    "KRW " + bid_info.bid_cost.toLocaleString('ko-KR');
-
-                //start_cost.innerText = "KRW " + bid_info.open_bid_cost.toLocaleString('ko-KR');
-                //bid_cnt2.innerText = "(응찰" + bid_info.bid_count + ")"
-                //cur_cost.innerText = curCostValue;
-                //end_date_time2.innerText = new Date(bid_info.end_bid_time).format('MM/dd(E) hh:mm');
-
-                bid.innerText = curCostValue;
-                bid_cnt.innerText = "(응찰" + bid_info.bid_count + ")"
-                end_bid_time = bid_info.end_bid_time;
-
-
-                quote_unit.innerText = "KRW " + bid_info.bid_quote.toLocaleString('ko-KR');
-
-                bid_new_cost.innerText = "KRW " + (((bid_info.bid_cost === 0) ?
-                    bid_info.open_bid_cost :
-                    bid_info.bid_cost) + bid_info.bid_quote).toLocaleString('ko-KR');
-
-                document.getElementById("bid_new_cost_val").setAttribute("value", ((bid_info.bid_cost === 0) ?
-                    bid_info.open_bid_cost :
-                    bid_info.bid_cost) + bid_info.bid_quote);
-
-                let item = '';
-
-                if (d.message.bids_hist != null && d.message.bids_hist.length > 0) {
-                    let li = document.createElement("bid_lst");
-                    let bid_hist_info = d.message.bids_hist;
-                    if (bid_hist_info != null && bid_hist_info.length > 0) {
-                        for (let i = 0; i < bid_hist_info.length; i++) {
-                            if (bid_hist_info[i].value != null) {
-                                for (let j = 0; j < bid_hist_info[i].value.length; j++) {
-                                    let ddd = new Date(bid_hist_info[i].value[j].bid_time);
-                                    let li = document.createElement("li");
-
-                                    let user_id_ly = document.createElement("div");
-                                    if (bid_hist_info[i].value[j].user_id === "KYUNGHOON") {
-                                        user_id_ly.setAttribute("class", "product-user on_green");
-                                    } else {
-                                        user_id_ly.setAttribute("class", "product-user");
-                                    }
-
-                                    let user_id_span = document.createElement("span");
-                                    user_id_span.innerText = bid_hist_info[i].value[j].customer.user_id;
-
-                                    user_id_ly.appendChild(user_id_span);
-
-                                    let cost_ly = document.createElement("div");
-                                    cost_ly.setAttribute("class", "product-price");
-
-                                    let cost_ly_span = document.createElement("span");
-                                    cost_ly_span.innerText = bid_hist_info[i].value[j].bid_cost.toLocaleString('ko-KR');
-
-                                    cost_ly.appendChild(cost_ly_span);
-
-                                    let dt_ly = document.createElement("div");
-                                    dt_ly.setAttribute("class", "product-day");
-
-                                    let dt_ly_span1 = document.createElement("em");
-                                    if (bid_info.winner_state === 2 && bid_hist_info[i].value.length - 1 == j) {
-                                        // type
-                                        dt_ly_span1.setAttribute("class", "type-success");
-                                        dt_ly_span1.innerText = "낙찰";
-                                    }
-
-                                    // date
-                                    let dt_ly_span2 = document.createElement("span");
-                                    dt_ly_span2.innerText = ddd.format("yyyy-MM-dd");
-
-                                    // time
-                                    let dt_ly_span3 = document.createElement("span");
-                                    dt_ly_span3.innerText = ddd.format("HH:mm:ss");
-
-                                    if (bid_info.winner_state === 2) {
-                                        dt_ly.appendChild(dt_ly_span1);
-                                    }
-                                    dt_ly.appendChild(dt_ly_span2);
-                                    dt_ly.appendChild(dt_ly_span3);
-
-                                    li.appendChild(user_id_ly);
-                                    li.appendChild(cost_ly);
-                                    li.appendChild(dt_ly);
-
-                                    bid_lst.insertBefore(li, bid_lst.firstChild);
-                                }
-                            }
-                        }
-                    }
-                }
-                // 낙찰이 완료 되었다면
-                if (bid_info.winner_state === 2) {
-                    let bid_tick = document.getElementById("bid_tick");
-                    let bid_tick_main = document.getElementById("end_date_time");
-                    if (end_bid_time <= 0) {
-                        bid_tick.innerText = "경매 시작 전입니다.";
-                        bid_tick_main.innerText = "경매 시작 전입니다.";
-                    } else if (end_bid_time < new Date().getTime()) {
-                        bid_tick.innerText = "경매가 종료 되었습니다.";
-                        bid_tick_main.innerText = "경매가 종료 되었습니다.";
-                    }
-
-                    let bid_lst = document.getElementById("bid_lst");
-                    let dt_ly_span1 = document.createElement("em");
-                    dt_ly_span1.setAttribute("class", "type-success");
-                    dt_ly_span1.innerText = "낙찰";
-                    bid_lst.firstChild.childNodes[2].insertBefore(dt_ly_span1, bid_lst.firstChild.childNodes[2].firstChild);
-
-                    is_end_bid = true;
-                    w.close();
-                }
-            }
-        } else if (d.msg_type == packet_enum.end_time_sync) {
-            if (d.message.value != null) {
-                end_bid_time = d.message.value;
-            }
-        } else if (d.msg_type == packet_enum.winner) {
-            if (d.message != null) {
-                let bid_lst = document.getElementById("bid_lst");
-
-                if (d.message.customer.user_id == bid_lst.firstChild.firstChild.innerText) {
-                    let bid_tick = document.getElementById("bid_tick");
-                    let bid_tick_main = document.getElementById("end_date_time");
-                    bid_tick.innerText = "경매가 종료 되었습니다.";
-                    bid_tick_main.innerText = "경매가 종료 되었습니다.";
-
-                    let dt_ly_span1 = document.createElement("em");
-                    dt_ly_span1.setAttribute("class", "type-success");
-                    dt_ly_span1.innerText = "낙찰";
-
-
-                    bid_lst.firstChild.childNodes[2].insertBefore(dt_ly_span1, bid_lst.firstChild.childNodes[2].firstChild);
-                }
-
-                is_end_bid = true;
-                w.close();
-            }
-        }
-    }
-
-    function startBidProcess(saleNo, lotNo, saleType, userId, custNo) {
-        /*this.saleNo = saleNo;
-        this.lotNo = lotNo;
-        this.saleType = saleType;
-        this.userId = userId;*/
-        retry(saleNo, lotNo, saleType, userId, custNo);
-    }
-
-</script>
 
 <!-- [0712]모바일 LOT 버튼 클릭시 팝업 변경(전체 LOT 보기 팝업) -->
 <script>
@@ -2257,6 +1796,40 @@
         }
     });
 </script>
+
+<!-- [0728]비디오 세로사이즈 -->
+<script>
+    var _videoAnchor = $(".video_img-box a");
+    var _videoAnchorImg = $(".video_img-box a img");
+    _videoAnchorImg.each(function() {
+        _videoAnchor = $(this).parent(_videoAnchor);
+
+        if ($(this).width() < $(this).height()) {
+            _videoAnchor.addClass("vertical");
+        } else {
+            _videoAnchor.removeClass("vertical");
+        }
+    })
+</script>
+<!-- //[0728]비디오 세로사이즈 -->
+<!-- [0728]탭 -->
+<script>
+    $('.js-left_mm a').on('click', function(e) {
+        e.preventDefault();
+        var tar = $(this).position().left;
+        var scrollX = tar - ($(".js-left_mm").parents(".tab-area").width() / 2) + $(this).width() / 2;
+
+        if ($(this).parents('li').hasClass('active')) {
+            return false;
+        } else {
+            $(".js-left_mm li").removeClass('active');
+            $(this).parents('li').addClass('active');
+
+            $(".js-left_mm").parents(".tab-area").scrollLeft(scrollX);
+        }
+    });
+</script>
+<!-- [0728]탭 -->
 
 </body>
 </html>

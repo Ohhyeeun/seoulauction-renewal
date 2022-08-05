@@ -137,6 +137,7 @@ public class PaymentController {
         String cust_name 		= saUserDetails.getUserNm(); 						// 구매자명
         String hp 		        = saUserDetails.getHp(); 				// 구매자연락처
         String email 		    = saUserDetails.getEmail(); 			// 구매자메일주소
+        String moid 			= "mnoid1234567890"; 			// 상품주문번호
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(nicePayMobileBaseReturnUrl).append("/payment/academyProcess").append("?academy_no=").append(id);
@@ -160,6 +161,7 @@ public class PaymentController {
         request.setAttribute("cust_name", cust_name);
         request.setAttribute("hp", hp);
         request.setAttribute("email", email);
+        request.setAttribute("moid", moid);
         request.setAttribute("returnURL", returnURL);
 
         request.setAttribute("mId" , nicePayMerchantId);

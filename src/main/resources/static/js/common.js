@@ -88,7 +88,6 @@ $(function() {
                 if (success) {
                     const isExist = response.data.data.isExist;
                     const badgeHtml = '<i class="utility-icon on"></i>';
-                    console.log(isExist)
                     if (isExist)
                         document.querySelector('#MyMenuOnlineBadge a').insertAdjacentHTML('beforeend', badgeHtml);
                 }
@@ -420,7 +419,7 @@ $(function() {
 
     /*top search placeholder */
     $('.topsearch>input').attr('placeholder', '작가,작품명 검색'); /* placeholder 초기값 */
-    $('.topsearch-en>input').attr('placeholder', 'Search');
+    $('.topsearch-en>input').attr('placeholder', 'Artists, Works'); 
 
     // $(window).resize(function () {
     //     const windowWidth1279 = window.matchMedia('screen and (min-width:1279px)');
@@ -1234,4 +1233,29 @@ $(document).ready(function(){
 //오브젝트 or 배열 비었는지 확인
 function isNotObjectEmpty(param) {
     return param.constructor === Object && Object.keys(param).length !== 0;
+}
+
+
+function js_size_text_cm(sizeJson){
+    // console.log(sizeJson[0])
+    var returnValue = "";
+    var cmSize = "";
+    const src = sizeJson[0];
+    // console.log(src);
+
+    if(src === undefined){
+        return src;
+    }
+
+    cmSize =  src.SIZE1 != 0 ? parseFloat(src.SIZE1).toFixed(1) : "";
+    cmSize += src.SIZE2 != 0 ? "☓" +  parseFloat(src.SIZE2).toFixed(1) : "";
+    cmSize += src.SIZE3 != 0 ? "☓" +  parseFloat(src.SIZE3).toFixed(1) +
+        "(" + (src.MIX_CD == "depth" ? "d" : "h")  + ")": "";
+    cmSize += cmSize != "" ? src.UNIT_CD : "";
+    cmSize += cmSize != "" &&  src.CANVAS != 0 ? " (" + (src.CANVAS_EXT_YN == "Y" ? "변형" : "") + src.CANVAS + ")" : "";
+
+    returnValue = src.PREFIX;
+    returnValue += (src.DIAMETER_YN == "Y" ? "Φ " : "") + cmSize;
+    returnValue += (src.SUFFIX ? " (" + src.SUFFIX + ") " : "");
+    return returnValue;
 }

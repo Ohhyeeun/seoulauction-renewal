@@ -12,6 +12,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,8 +71,8 @@ public class MypageController {
     }
 
     /*1대1문의 상세*/
-    @GetMapping("/inquiryDetail")
-    public String inquiryView(@RequestParam(required = true ) int writeNo, Locale locale) {
+    @GetMapping("/inquiryDetail/{writeNo}")
+    public String inquiryView(@PathVariable("writeNo") String writeNo, Locale locale) {
         return SAConst.getUrl(SERVICE_MYPAGE, "inquiryDetail", locale);
     }
     
@@ -119,19 +120,16 @@ public class MypageController {
     
     /*회원정보수정 비밀번호확인*/
     @GetMapping("/custModify")
-    public String custConfirm(Locale locale) {
+    public String custConfirm(Locale locale, Model model) {
+    	SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+		model.addAttribute("localKindCd", saUserDetails.getLocalKindCd());
     	return SAConst.getUrl(SERVICE_MYPAGE , "custConfirm" , locale);
     }
     
     /*회원정보수정*/
     @PostMapping("/custModify")
-    public String custModify(Locale locale) {
-    	SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
-    	CommonMap paramMap = new CommonMap();
-		paramMap.put("cust_no", saUserDetails.getUserNo());
-		CommonMap resultMap = loginService.selectCustByCustNo(paramMap);
-		
-		if(resultMap.get("LOCAL_KIND_CD").equals("korean")) {
+    public String custModify(Locale locale, @RequestParam(value = "localKindCd") String localKindCd) {
+		if(localKindCd.equals("korean")) {
 			return SAConst.getUrl(SERVICE_MYPAGE , "custModify" , new Locale(Locale.KOREA.getLanguage()));
 		}else{
 			return SAConst.getUrl(SERVICE_MYPAGE , "custModify" , new Locale(Locale.ENGLISH.getLanguage()));

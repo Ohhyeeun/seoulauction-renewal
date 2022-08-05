@@ -61,7 +61,7 @@
                                             <ul id="bid_lst" class="product-list">
                                             </ul>
                                             <!-- [0725]응찰내역없을때 추가 -->
-                                            <div class="data-empty">
+                                            <div class="data-empty" id="no_history">
                                                 <p class="txt_empty tb1">응찰내역이 없습니다.</p>
                                             </div>
                                         </div>

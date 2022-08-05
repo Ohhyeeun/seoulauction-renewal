@@ -63,7 +63,7 @@
                                                         <dl class="inquiry-view">
                                                             <dt class="tit tt5"><span>문의내용</span></dt>
                                                             <dd class="tb1">
-                                                                <div class="con-area txt-pre-line" ng-bind-html="inquiry.CONTENT"></div>
+                                                                <div class="con-area " ng-bind-html="inquiry.CONTENT"></div>
                                                                 <div class="file-area" ng-if="fileList != ''">
                                                                     <div class="file-area-inner" ng-repeat="file in fileList">
                                                                         <!-- <a href="{{file.cdn_url}}"> -->

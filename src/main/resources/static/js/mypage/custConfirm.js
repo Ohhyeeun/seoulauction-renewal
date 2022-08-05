@@ -43,26 +43,29 @@ $(document).ready(function(){
 });
 
 $(window).on("load", function() {
-	if(socialYn == 'Y'){
-		if(socialType === "NV"){
-			location.href='https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=5qXZytacX_Uy60o0StGT&state=NAVER_LOGIN&redirect_uri=' + socialServiceDomain + '/naverCallback?type=custConfirm'
-		}else if(socialType === "KA"){
-			location.href='https://kauth.kakao.com/oauth/authorize?client_id=adbdfe931311a01731a0161175701a42&redirect_uri=' + socialServiceDomain + '/kakaoRedirect/custConfirm&response_type=code'
-//		}else if(socialType === "GL"){
-//			$("#googleIdLogin").trigger("click");
-		}else if(socialType === "AP"){
-			location.href='https://appleid.apple.com/auth/authorize?client_id=com.seoulauction.renewal-web&redirect_uri=' + socialServiceDomain + '/appleReturn/custConfirm&response_type=code%20id_token&scope=name%20email&response_mode=form_post'
-//			$("#appleid-signin").trigger("click");
-		}
-	}
+	
 });
 
 function goPost(){
     let f = document.createElement('form');
     f.setAttribute('method', 'post');
     f.setAttribute('action', '/mypage/custModify');
+ 	var hiddenField = document.createElement("input");
+    hiddenField.setAttribute("type", "hidden");
+    hiddenField.setAttribute("name", "localKindCd");
+	hiddenField.setAttribute("value", localKindCd);
+    f.appendChild(hiddenField);
     document.body.appendChild(f);
-    f.submit();
+	if(localKindCd === "korean" && langType === "en"){
+		if(!confirm("Domestic customers can edit member information in terms of national culture. Do you want to change to KOR mode?")){
+			return;
+		}
+	}else if(localKindCd !== "korean" && langType === "ko"){
+		if(!confirm("해외고객은 ENG(English) 화면에서 회원정보수정이 가능합니다. ENG 모드로 변경하시겠습니까?")){
+			return;
+		}
+	}
+	f.submit();
 }
 
 /* 개인회원 */
@@ -88,28 +91,41 @@ function enterKey(){
 
 // 회원번호수정 페이지이동
 function passwdConfirm() {
-	var pw = $("#passwd").val();
-
-	if(pw != ''){
-		let data = {};
-		data['passwd'] = pw;
-		axios.post('/api/mypage/chkPassword' , data)
-		.then(function(response) {
-		    const result = response.data;
-		    if(!result.success){
-				if (langType == 'ko') {
-					$("#passwdMsg").html("비밀번호가 일치하지 않습니다. 비밀번호를 다시 확인해주세요.");
-				} else {
-					$("#passwdMsg").html("Passwords do not match. Please check your password again.");
+	if(socialYn == 'Y'){
+		if(socialType === "NV"){
+			location.href='https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=5qXZytacX_Uy60o0StGT&state=NAVER_LOGIN&redirect_uri=' + socialServiceDomain + '/naverCallback?type=custConfirm'
+		}else if(socialType === "KA"){
+			location.href='https://kauth.kakao.com/oauth/authorize?client_id=adbdfe931311a01731a0161175701a42&redirect_uri=' + socialServiceDomain + '/kakaoRedirect/custConfirm&response_type=code'
+//		}else if(socialType === "GL"){
+//			$("#googleIdLogin").trigger("click");
+		}else if(socialType === "AP"){
+			location.href='https://appleid.apple.com/auth/authorize?client_id=com.seoulauction.renewal-web&redirect_uri=' + socialServiceDomain + '/appleReturn/custConfirm&response_type=code%20id_token&scope=name%20email&response_mode=form_post'
+//			$("#appleid-signin").trigger("click");
+		}
+	}else{
+		var pw = $("#passwd").val();
+	
+		if(pw != ''){
+			let data = {};
+			data['passwd'] = pw;
+			axios.post('/api/mypage/chkPassword' , data)
+			.then(function(response) {
+			    const result = response.data;
+			    if(!result.success){
+					if (langType == 'ko') {
+						$("#passwdMsg").html("비밀번호가 일치하지 않습니다. 비밀번호를 다시 확인해주세요.");
+					} else {
+						$("#passwdMsg").html("Passwords do not match. Please check your password again.");
+					}
+				}else{
+					goPost();
 				}
-			}else{
-				goPost();
-			}
-		})
-		.catch(function(error){
-		    console.log(error);
-		});
-	}	
+			})
+			.catch(function(error){
+			    console.log(error);
+			});
+		}	
+	}
 }
 
 // 취소

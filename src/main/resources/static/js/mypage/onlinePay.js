@@ -11,16 +11,42 @@ app.directive('opacity', opacity);
     }
 
 
+var getParameter = function(param){
+	var requestParam ="";
+    var url = unescape(location.href);
+    var paramArr = (url.substring(url.indexOf("?")+1,url.length)).split("&");
+    for(var i = 0 ; i < paramArr.length ; i++){
+       var temp = paramArr[i].split("=");
+       if(temp[0].toUpperCase() == param.toUpperCase()){
+         requestParam = paramArr[i].split("=")[1];
+         break;
+       }
+    }
+    return requestParam;
+}
+
+
 app.value('locale', document.documentElement.lang);
 app.requires.push.apply(app.requires, ["bw.paging", "ngDialog"]);
 
 app.controller('onlinePayListCtl', function($scope, consts, common) {
 	var popup_offline_payment = $(".js-popup_offline_payment").trpLayerFixedPopup("#popup_offline_payment-wrap");
+	var popup_offline_payment_en = $(".js-popup_tooltip").trpLayerFixedPopup("#popup_tooltip-wrap");
 	
 	$scope.suc_yn = null;
 	$scope.pay_sat_cd = null;
 
 	$scope.loadOnlinePayList = function($page) {
+				/*페이징 param 존재할 경우(겸매상세에서 뒤로가기 눌렀을 경우)*/
+				let page = getParameter("page");
+				
+				if(page){			
+					var regex = /[^0-9]/g;
+					var result = page.toString().replace(regex, "");	
+					$page = Number(result);
+					history.replaceState({}, null, location.pathname);
+				}
+				/*페이징 param 존재할 경우*/
 				$scope.currentPage = $page;
 		 		$page = $scope.currentPage;
 		 		
@@ -91,6 +117,17 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
             popup_offline_payment.close();
 		 });
 	}
+	$scope.payInfoPopupEn = function() {
+		 popup_offline_payment_en.open(this); // or false   
+         popup_fixation("#popup_tooltip-wrap"); // pc 스크롤
+         popup_motion_open("#popup_tooltip-wrap"); // mb 모션 
+        
+         $("body").on("click", "#popup_tooltip-wrap .js-closepop, #popup_tooltip-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                popup_offline_payment_en.close();
+                popup_motion_close("#popup_tooltip-wrap");
+         });
+	}
 
 	
 	$scope.groupBy = function(xs, key) {
@@ -158,6 +195,9 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 		return bidCountToString;
 	}
 		
-	
+	$scope.goPay= function(saleNo, lotNo) {
+		history.pushState('', null, "/mypage/onlinePayList?page="+$scope.currentPage);
+		window.location.href="/payment/sale/"+saleNo+"/lot/"+lotNo;
+	}
 	
 });

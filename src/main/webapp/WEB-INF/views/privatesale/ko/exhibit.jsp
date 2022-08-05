@@ -88,7 +88,7 @@
                                                 <div class="contact-box">
                                                     <ul>
                                                         <li><span>T.</span> <a href="tel:02-2075-4422"><em>02-2075-4422</em></a></li>
-                                                        <li><span>E.</span> <a href="mailto:kyoon@seoulauctionl.com"><em>kyoon@seoulauctionl.com</em></a></li>
+                                                        <li><span>E.</span> <a href="mailto:kyoon@seoulauction.com"><em>kyoon@seoulauction.com</em></a></li>
                                                     </ul>
                                                 </div>
                                             </div>

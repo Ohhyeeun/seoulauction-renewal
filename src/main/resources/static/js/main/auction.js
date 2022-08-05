@@ -40,8 +40,8 @@ $(document).ready(function(){
                         let name = locale === 'ko' ? title.ko : title.en;
 
                         //sale html
-                        let saleHtml = idx === 0 ? `<span class="auctionTab-btn on"><span class="">${name}</span></span>`
-                                                : `<span class="auctionTab-btn"><span class="">${name}</span></span>`;
+                        let saleHtml = idx === 0 ? `<span class="auctionTab-btn on"><span class="text-over">${name}</span></span>`
+                                                : `<span class="auctionTab-btn"><span class="text-over">${name}</span></span>`;
 
                         $(".auctionTab").append(saleHtml);
                         $("#auction_contents").append(idx === 0 ? `<div class="flex_wrap auctionTab-contents on"></div>` : `<div class="flex_wrap auctionTab-contents"></div>`);
@@ -279,7 +279,7 @@ $(document).ready(function(){
         //auction 전체 보기 버튼
         $('#AllAuction').click(function () {
            //TODO 옥션 랏 상세페이지로 이동.
-            location.href = '/auction/progress';
+            location.href = '/auction/live/list/'+ currentSaleNo;
         })
     }
 

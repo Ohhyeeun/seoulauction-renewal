@@ -45,7 +45,7 @@
                                                         <i class="icon-tel_g"></i>
                                                         <ul>
                                                             <li><span>문의 : </span>
-                                                                <span> <a href="tel:02-2075-4422">02-2075-4422</a></span><span>, </span>
+                                                                <span> <a href="tel:02-2075-4466">02-2075-4466</a></span><span>, </span>
                                                                 <span> <a href="tel:02-545-0330">02-545-0330</a></span>
                                                                 <span> (강남센터)</span>
                                                             </li>
@@ -53,8 +53,8 @@
                                                     </div>
                                                 </article>
                                                 <article class="academy-list-wrap"  ng-if="academyCnt != 0">
-                                                    <div class="table-wrap pc-ver">
-                                                        <table class="table_base data-table academy-list pc-ver">
+                                                     <div class="table-wrap only-pc">
+                                                         <table class="table_base data-table academy-list">
                                                             <thead>
                                                                 <tr>
                                                                     <th>강의명</th>
@@ -68,21 +68,22 @@
                                                                     <td ng-if="art.CANCEL_YN != 'Y'" class="bbs-subject" ><a href="#" ng-click="academyPayHis({'parent':this, 'academy':art});">{{art.TITLE_KO}}</a></td>
                                                                     <td ng-if="art.CANCEL_YN == 'Y'" class="bbs-subject" >{{art.TITLE_KO}}</td>
                                                                     <td ng-bind="art.pay_price | number : 0"></td>
-                                                                    <td ng-if="art.CANCEL_YN != 'Y'"><a class="pay complete" href="#" ng-click="academyPayHis({'parent':this, 'academy':art});" class="ng-scope" >결제완료</a>
-                                                                        <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="0" ng-if="art.PAY_METHOD_ID == 'card' && art.receipt == 'Y'" onclick="receiptPopup(this)"><span>결제영수증</span></button>
-                                                                        <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="1" ng-if="art.PAY_METHOD_ID == 'vbank' && art.receipt == 'Y'" onclick="receiptPopup(this)"><span>현금영수증</span></button>
+                                                                    <td ng-if="art.CANCEL_YN != 'Y'">
+                                                                    	<a class="pay complete" href="#" ng-click="academyPayHis({'parent':this, 'academy':art});" class="ng-scope" >결제완료</a>
+                                                                        <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="0" ng-if="art.receipt_card == 'Y'" onclick="receiptPopup(this)"><span>카드영수증</span></button>
+                                                                        <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="1" ng-if="art.receipt_vbank == 'Y'" onclick="receiptPopup(this)"><span>현금영수증</span></button>
                                                                     </td>
-                                                                    <td ng-if="art.CANCEL_YN == 'Y'"><a class="pay cancel">결제취소</a></td>
+                                                                     <td ng-if="art.CANCEL_YN == 'Y'"><span class="pay cancel">결제취소</span></td>
                                                                     <td>{{art.REG_DT}}</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                                    <div class="list-wrap m-ver">
+                                                     <div class="list-wrap only-mb">
                                                         <ul class="academy-list" ng-repeat="art in academyList">
                                                             <li class="academy-list-ea">
                                                                 <div class="title-wrap">
-                                                                    <div class="bbs-subject">{{art.TITLE_KO}}</div>
+                                                                    <div class="bbs-subject"><a href="#">{{art.TITLE_KO}}</a></div>
                                                                 </div>
                                                                 <div class="cont-wrap">
                                                                     <dl>
@@ -91,10 +92,10 @@
                                                                     </dl>
                                                                     <dl>
                                                                         <dt>결제현황</dt>
-                                                                        <dd  ng-if="art.CANCEL_YN != 'Y'">
-                                                                        <span class="pay complete" ng-click="academyPayHis({'parent':this, 'academy':art});">결제완료</span>
-                                                                         <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="0" ng-if="art.PAY_METHOD_ID == 'card' && art.receipt == 'Y'" onclick="receiptPopup(this)"><span>결제영수증</span></button>
-                                                                 		 <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="1" ng-if="art.PAY_METHOD_ID == 'vbank' && art.receipt == 'Y'" onclick="receiptPopup(this)"><span>현금영수증</span></button>
+                                                                        <dd ng-if="art.CANCEL_YN != 'Y'">
+                                                                            <span class="pay complete" ng-click="academyPayHis({'parent':this, 'academy':art});">결제완료</span>
+                                                                            <button class="btn btn_gray_line btn_sm" type="button" data-id="{{art.PG_TRANS_ID}}" data-type="0" ng-if="art.receipt_card == 'Y'" onclick="receiptPopup(this)"><span>카드영수증</span></button>
+                                                                            <button class="btn btn_gray_line btn_sm" type="button" data-id="{{art.PG_TRANS_ID}}" data-type="1" ng-if="art.receipt_vbank == 'Y'" onclick="receiptPopup(this)"><span>현금영수증</span></button>
                                                                         </dd>
                                                                         <dd ng-if="art.CANCEL_YN == 'Y'"><span class="pay cancel">결제취소</span></dd>
                                                                     </dl>

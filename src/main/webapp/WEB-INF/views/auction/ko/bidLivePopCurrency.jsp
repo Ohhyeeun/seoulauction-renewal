@@ -53,17 +53,8 @@
     <link rel="icon" type="image/png" href="/images/favic/favicon-16x16.png" sizes="16x16"/>
     <link rel="apple-touch-icon" sizes="180x180" href="/iamges/favic/apple-touch-icon.png">
 
-
-    <link href="<c:url value="/css/old/common.css?ver=20211104" />" rel="stylesheet">
-    <link href="<c:url value="/css/old/sa.common.2.0.css?ver=20210901" />" rel="stylesheet">
-    <link href="<c:url value="/css/old/sa.common.2.1.css?ver=20211013" />" rel="stylesheet">
-    <link href="<c:url value="/css/old/onepcssgrid.css" />" rel="stylesheet">
-
     <script type="text/javascript" src="/js/angular/angular.min.js"></script>
     <script src="/js/angular/angular-sanitize.js"></script>
-    <script type="text/javascript" src="<c:url value="/js/angular/angular-bind-html-compile.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/js/angular/app.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/js/common.js" />"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js" ></script>
     <script type="text/javascript" src="/js/jquery.easing.1.3.js"></script>
@@ -95,6 +86,7 @@
 
             if($scope.isFileExist($scope.today)){
                 $scope.existFileDate = $scope.today;
+
             }else if($scope.isFileExist($scope.yesterday)){
                 $scope.existFileDate = $scope.yesterday;
             }else{

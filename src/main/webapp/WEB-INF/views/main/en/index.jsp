@@ -11,7 +11,7 @@
 
 <body>
 <jsp:include page="../../include/en/nav.jsp" flush="false"/>
-<section class="main-contents footer-bottom footer-bottom50">
+<section class="main-contents footer-bottom footer-bottom40"> 
 
     <jsp:include page="../include/bigBanner.jsp" />
 
@@ -152,7 +152,7 @@
 <div class="blackBg main-popupBg"></div>
 <div class="main-popupwrap"></div>
     <div class="main-popupbox">
-        <a href="#" title="메인 팝업 이미지" id="main_popup_a_link" title="main popup img">
+        <a href="#" title="메인 팝업 이미지" id="main_popup_a_link">
             <div class="main-popup-img"> <!-- 이미지 레이어팝업 -->
                 <img id="main_popup_img" <%--src="/images/pc/main/pop_event.jpg"--%> alt="레이어팝업 이미지">
             </div>
@@ -161,7 +161,7 @@
 
 
         <!-- 텍스트 레이어팝업 on-->
-        <a href="#" title="메인 팝업 텍스트" id="main_popup_text_a_link" title="main popup text">
+        <a href="#" title="메인 팝업 텍스트" id="main_popup_text_a_link"> 
             <div class="main-popup-txt">
                 <div class="main-popup-caption">
                     <h2 id="main_popup_title"></h2>
@@ -187,6 +187,112 @@
         </div>
     </div>
 </div>
+
+<!-- 이중접속 차단 안내 -->
+<div id="popup_concurrent-wrap" class="trp popupfixed-wrap login-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-ms mode-mb_center">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="javascript:void(0);" title="닫기">X</a>
+                        <div class="ico_box">
+                            <img class="only_ib-pc" src="/images/mobile/login/search_ico_01_pc.png">
+                            <img class="only_ib-mb" src="/images/mobile/login/search_ico_01.png">
+                        </div>
+                        <div class="title-box_tac title_concurrent">
+                            <!-- [0728]텍스트수정 -->
+                            <span class="title_tac">You are automatically logged out by simultaneously accessing from another PC or mobile environment with the same ID as the member.<br>
+                                    If you are not the person, please log in again or contact the customer center.
+                                </span>
+                            <!-- //[0728]텍스트수정 --> 
+                        </div>
+                    </div>
+                    <div class="pop-body">
+                        <article class="button-area confirm_btn">
+                            <div class="btn_set-float tac">
+                                <a class="btn btn_point" id="confirmMaxSession" href="javascript:void(0);" role="button"><span>OK</span></a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 비밀번호변경알림-비밀번호초기화 -->
+<div id="popup_pwsearch6-wrap" class="trp popupfixed-wrap login-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-ms mode-mb_full">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="javascript:void(0);" title="닫기">X</a>
+                        <div class="ico_box change_ico">
+                            <img class="only_ib-pc" src="/images/mobile/login/search_ico_04_pc.png">
+                            <img class="only_ib-mb" src="/images/mobile/login/search_ico_04.png">
+                        </div>
+                        <div class="title-box_tac change_title">
+                            <p class="">Information on changing the reset password</p>
+                            <p class="title_sub">The password has been reset by the administrator.<br> Please change your password for safe personal information protection.</p>
+                        </div>
+                    </div>
+                    <div class="pop-body">
+                        <article class="button-area confirm_btn changenew_btn">
+                            <div class="btn_set-float tac">
+                                <a class="btn btn_gray_line" onClick="closeResetPassword()" href="javascript:void(0);" role="button"><span>Close</span></a>
+                                <a class="btn btn_point" onClick="closeResetPassword('Y')" href="javascript:void(0);" role="button"><span>Change now</span></a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 비밀번호변경알림-비밀번호 변경 안내 -->
+<div id="popup_pwsearch5-wrap" class="trp popupfixed-wrap login-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-ms mode-mb_full">
+        <div class="popup-vertical">
+            <div class="popup-layer">
+                <div class="pop-panel">
+                    <div class="pop-header">
+                        <a class="btn_close icon-pop_close js-closepop" href="javascript:void(0);" title="닫기">X</a>
+                        <div class="ico_box change_ico">
+                            <img class="only_ib-pc" src="/images/mobile/login/search_ico_04_pc.png">
+                            <img class="only_ib-mb" src="/images/mobile/login/search_ico_04.png">
+                        </div>
+                        <div class="title-box_tac change_title">
+                            <p class="">Password change guide</p>
+                            <p class="title_sub">Please change your password to protect<br> your valuable personal information!</p>
+                        </div>
+                    </div>
+                    <div class="pop-body">
+                        <div class="info_box">
+                            <ul class="tb1 mark_dot-list change_txt">
+                                <li>If you are using the same login information as other sites, be sure to change your password.</li>
+                                <li>Passwords must be 8 to 16 characters long using a combination of at least two of uppercase and lowercase letters, numbers, and special characters.</li>
+                                <li>Please change your password periodically</li>
+                            </ul>
+                        </div>
+                        <article class="confirm_btn change_btn">
+                            <div class="btn_set-float tac">
+                                <a class="btn btn_gray_line" onclick="reAlarm();" href="javascript:void(0);" role="button"><span>Remider after 30 days</span></a>
+                                <a class="btn btn_point" onclick="goModPassword();" href="javascript:void(0);" role="button"><span>Change now</span></a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 
 <script>

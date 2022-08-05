@@ -239,7 +239,9 @@
                                                         <span>이자정수</span>
                                                     </td>
                                                     <td>
-                                                        <span>원칙 : 선칙</span>
+                                                        <!-- [0728]텍스트수정 -->
+                                                        <span>원칙 : 선취</span>
+                                                        <!-- //[0728]텍스트수정 --> 
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -292,7 +294,7 @@
                                                 <div class="contact-box">
                                                     <ul>
                                                         <li><span>T.</span> <a href="tel:02-2075-4499"><em>02-2075-4499</em></a></li>
-                                                        <li><span>E.</span> <a href="mailto:jlee@seoulauctionl.com"><em>jlee@seoulauctionl.com</em></a></li>
+                                                        <li><span>E.</span> <a href="mailto:jej@seoulauction.com"><em>jej@seoulauction.com</em></a></li>
                                                     </ul>
                                                 </div>
                                             </div>

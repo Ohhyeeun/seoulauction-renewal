@@ -306,7 +306,7 @@
                                                     <div class="contact-box">
                                                         <ul>
                                                             <li><span>T.</span> <a href="tel:02-2075-4466"><em>02-2075-4466</em></a></li>
-                                                            <li><span>E.</span> <a href="mailto:ehs@seoulauctionl.com"><em>ehs@seoulauctionl.com</em></a></li>
+                                                            <li><span>E.</span> <a href="mailto:ehs@seoulauction.com"><em>ehs@seoulauction.com</em></a></li>
                                                         </ul>
                                                     </div>
                                                 </div>

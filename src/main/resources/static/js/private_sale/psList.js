@@ -87,7 +87,7 @@ app.controller('ctl', function ($scope, consts, common, is_login, locale) {
     let moreName = '';
 
     if(locale === 'ko') {
-        pagingName = '페이징 방식';
+        pagingName = '페이지 방식';
         moreName = '더보기 방식';
     }
     else{

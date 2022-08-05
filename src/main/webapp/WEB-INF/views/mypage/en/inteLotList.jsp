@@ -42,7 +42,9 @@
                                                     <div class="help-box">
                                                         <i class="icon-inquiry_g"></i>
                                                         <ul>
-                                                            <li><span>Online auction works can only be viewed in detail while the auction is in progress.</span></li>
+                                                            <!-- [0728]텍스트수정 -->
+                                                            <li><span>Auction works can only be viewed in detail while the auction is in progress.</span></li>
+                                                            <!-- //[0728]텍스트수정 -->
                                                         </ul>
                                                     </div>
                                                 </article>
@@ -50,9 +52,9 @@
                                             <div class="tabmenu-wrap">
                                                 <div class="tab-area type-left_mm_2">
                                                     <ul class="tab-list js-left_mm_2">
-                                                        <li class="active" ><a href="#tab-cont-1"><span  ng-click="tabClick('all')">All</span></a></li>
-                                                        <li class=""><a href="#tab-cont-2"><span   ng-click="tabClick('live')">Live</span></a></li>
-                                                        <li class="" ><a href="#tab-cont-3"><span  ng-click="tabClick('online')">Online</span></a></li>
+                                                        <li id="taball"  class="active" ><a href="#tab-cont-1"><span  ng-click="tabClick('all')">All</span></a></li>
+                                                        <li id="tablive"  class=""><a href="#tab-cont-2"><span   ng-click="tabClick('live')">Live</span></a></li>
+                                                        <li id="tabonline"  class="" ><a href="#tab-cont-3"><span  ng-click="tabClick('online')">Online</span></a></li>
                                                     	<input type="hidden" id="saleKind" value="all"/>
                                                     </ul>
                                                 </div>
@@ -68,10 +70,10 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="btn-area">
-                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')" class="btn btn_point btn-view-bid" type="button"><a href="/auction/list/{{il[1][0].SALE_NO}}"><span >View Auction</span></a></button>
-                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')" class="btn btn_point btn-view-bid" type="button"><a href="/auction/live/list/{{il[1][0].SALE_NO}}"><span >View Auction</span></a></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')" class="btn btn_point btn-view-bid" type="button"><a ng-click="goSale(il[1][0].SALE_KIND_CD, il[1][0].SALE_NO)"><span >View Auction</span></a></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')" class="btn btn_point btn-view-bid" type="button"><a ng-click="goSale(il[1][0].SALE_KIND_CD, il[1][0].SALE_NO)"><span >View Auction</span></a></button>
                                                                     <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')"  class="btn btn_gray btn-view-bid" type="button" ><span>End Auction</span></button>
-                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')"  class="btn btn_gray_line btn-view-result" type="button" ><a href="/auction/live/list/{{il[1][0].SALE_NO}}"><span>View Result</span></a></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')"  class="btn btn_gray_line btn-view-result" type="button" ><a ng-click="goSale(il[1][0].SALE_KIND_CD, il[1][0].SALE_NO)"><span>View Result</span></a></button>
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in il[1]">
@@ -80,10 +82,10 @@
                                                                         <button class="btn-heart js-work_heart on" id="heart_{{data.SALE_NO}}_{{data.LOT_NO}}" ng-click="inteFavorite(data.SALE_NO, data.LOT_NO)"><i class="icon-heart_off"></i></button>
                                                                         <div class="thumb-area">
                                                                             <figure class="img-ratio">
-                                                                                <a href="#" class="img-align" ng-if="il[1][0].CLOSE_YN != 'Y'" ng-click="goLotDetail(data.SALE_KIND_CD, data.SALE_NO, data.LOT_NO)"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
+                                                                                <a href="#" class="img-align" ng-if="data.CLOSE_YN != 'Y'" ng-click="goLotDetail(data.SALE_KIND_CD, data.SALE_NO, data.LOT_NO)"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
                                                                                     <img src="${imageRootPath}{{data.FILE_PATH}}/{{data.FILE_NAME}}" alt="">
                                                                                 </a>
-                                                                                <a class="img-align" ng-if="il[1][0].CLOSE_YN == 'Y'"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
+                                                                                <a class="img-align" ng-if="data.CLOSE_YN == 'Y'"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
                                                                                     <img src="${imageRootPath}{{data.FILE_PATH}}/{{data.FILE_NAME}}" alt="">
                                                                                 </a>
                                                                             </figure>
@@ -102,7 +104,7 @@
                                                                         <div class="pay-area">
                                                                             <dl class="price">
                                                                                 <dt class="tit">Estimate</dt>
-                                                                                <dd class="txt" ng-if="data.EXPE_PRICE_INQ_YN != 'Y'"><span>USD {{comma(data.EXPE_PRICE_FROM_EN || 0)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_EN || 0)}}</span></dd>
+                                                                                <dd class="txt" ng-if="data.EXPE_PRICE_INQ_YN != 'Y'"><span>KRW {{comma(data.EXPE_PRICE_FROM_KO || 0)}}</span> <span>~ {{comma(data.EXPE_PRICE_TO_KO || 0)}}</span></dd>
                                                                             	<dd class="txt" ng-if="data.EXPE_PRICE_INQ_YN == 'Y'"><span>Separate Inquiry</span></dd>
                                                                             </dl>
                                                                         </div>

@@ -40,18 +40,20 @@
                                                 <article class="help-box-wrap">
                                                     <div class="help-box">
                                                         <i class="icon-inquiry_g"></i>
-                                                        <ul>
-                                                            <li><span>온라인 경매 작품은 경매 진행 중에만 상세 확인이<br class="m-ver"> 가능합니다.</span></li>
-                                                        </ul>
+	                                                       <ul>
+	                                                            <!-- [0728]텍스트수정 -->
+	                                                            <li><span>관심작품은 경매 진행 중에만 상세 확인이<br class="m-ver"> 가능합니다.</span></li>
+	                                                            <!-- //[0728]텍스트수정 -->
+	                                                        </ul>
                                                     </div>
                                                 </article>
                                             </div>
                                             <div class="tabmenu-wrap">
                                                 <div class="tab-area type-left_mm_2">
                                                     <ul class="tab-list js-left_mm_2">
-                                                        <li class="active" ><a href="#tab-cont-1"><span  ng-click="tabClick('all')">전체</span></a></li>
-                                                        <li class=""><a href="#tab-cont-2"><span   ng-click="tabClick('live')">라이브</span></a></li>
-                                                        <li class="" ><a href="#tab-cont-3"><span  ng-click="tabClick('online')">온라인</span></a></li>
+                                                        <li id="taball" class="active" ><a href="#tab-cont-1"><span  ng-click="tabClick('all')">전체</span></a></li>
+                                                        <li id="tablive"  class=""><a href="#tab-cont-2"><span   ng-click="tabClick('live')">라이브</span></a></li>
+                                                        <li id="tabonline"  class="" ><a href="#tab-cont-3"><span  ng-click="tabClick('online')">온라인</span></a></li>
                                                     	<input type="hidden" id="saleKind" value="all"/>
                                                     </ul>
                                                 </div>
@@ -67,10 +69,10 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="btn-area">
-                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')" class="btn btn_point btn-view-bid" type="button"><a href="/auction/list/{{il[1][0].SALE_NO}}"><span >진행경매보기</span></a></button>
-                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')" class="btn btn_point btn-view-bid" type="button"><a href="/auction/live/list/{{il[1][0].SALE_NO}}"><span >진행경매보기</span></a></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')" class="btn btn_point btn-view-bid" type="button"><a ng-click="goSale(il[1][0].SALE_KIND_CD, il[1][0].SALE_NO)"><span >진행경매보기</span></a></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN != 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')" class="btn btn_point btn-view-bid" type="button"><a ng-click="goSale(il[1][0].SALE_KIND_CD, il[1][0].SALE_NO)"><span >진행경매보기</span></a></button>
                                                                     <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD =='online'||il[1][0].SALE_KIND_CD =='online_zb')"  class="btn btn_gray btn-view-bid" type="button" ><span>경매 종료</span></button>
-                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')"  class="btn btn_gray_line btn-view-result" type="button" ><a href="/auction/live/list/{{il[1][0].SALE_NO}}"><span>경매결과보기</span></a></button>
+                                                                    <button ng-if="il[1][0].CLOSE_YN == 'Y' && (il[1][0].SALE_KIND_CD !='online' && il[1][0].SALE_KIND_CD !='online_zb')"  class="btn btn_gray_line btn-view-result" type="button" ><a ng-click="goSale(il[1][0].SALE_KIND_CD, il[1][0].SALE_NO)"><span>경매결과보기</span></a></button>
                                                                 </div>
                                                             </dt>
                                                             <dd ng-repeat="data in il[1]">
@@ -80,10 +82,10 @@
                                                                          <button class="btn-heart js-work_heart on" id="heart_{{data.SALE_NO}}_{{data.LOT_NO}}" ng-click="inteFavorite(data.SALE_NO, data.LOT_NO)"><i class="icon-heart_off"></i></button>
                                                                         <div class="thumb-area">
                                                                             <figure class="img-ratio">
-                                                                                <a href="#" class="img-align" ng-if="il[1][0].CLOSE_YN != 'Y'" ng-click="goLotDetail(data.SALE_KIND_CD, data.SALE_NO, data.LOT_NO)"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
+                                                                                <a href="#" class="img-align" ng-if="data.CLOSE_YN != 'Y'" ng-click="goLotDetail(data.SALE_KIND_CD, data.SALE_NO, data.LOT_NO)"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
                                                                                     <img src="${imageRootPath}{{data.FILE_PATH}}/{{data.FILE_NAME}}" alt="">
                                                                                 </a>
-                                                                                <a class="img-align" ng-if="il[1][0].CLOSE_YN == 'Y'"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
+                                                                                <a class="img-align" ng-if="data.CLOSE_YN == 'Y'"> <%-- 경매 진행 중 일 떄만 해당 작품 상세페이지로 경매 마감 시 링크 닫음 --%>
                                                                                     <img src="${imageRootPath}{{data.FILE_PATH}}/{{data.FILE_NAME}}" alt="">
                                                                                 </a>
                                                                             </figure>
