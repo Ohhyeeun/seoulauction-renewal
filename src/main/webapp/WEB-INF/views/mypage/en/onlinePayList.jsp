@@ -147,7 +147,7 @@
                                                                         </div>
                                                                         <div class="btn-area" >
                                                                         <!-- 온라인 가상계좌 외 결제대기상태 or 가상계좌 기간이 끝났을 때 -->
-                                                                        	<button class="btn btn_point" type="button" ng-click="goPay(data.SALE_NO, data.LOT_NO)" ng-if="data.ONLINE_YN == 'Y' && data.PAID_CNT == 0 && data.VBANK_EXP_DT_CLOSE_YN !='N'"><span>Make a Payment</span></button>
+                                                                        	<button class="btn btn_point" type="button" ng-if="data.ONLINE_YN == 'Y' && data.PAID_CNT == 0 && data.VBANK_EXP_DT_CLOSE_YN !='N'"  ng-click="payInfoPopupEn()" ><span>Make a Payment</span></button>
                                                                         
                                                                         <!-- 라이브 결제대기상태 or 부분납 상태-->
                                                                             <button class="btn btn_gray_line" type="button" ng-if="(data.ONLINE_YN == 'N' && data.PAID_CNT == 0) || (data.PAID_CNT > 0 && getPayTotal(data.BID_PRICE, data.LOT_FEE_JSON).price > data.PAY_PRICE)" ng-click="payInfoPopupEn()" ><span>Payment info</span></button>

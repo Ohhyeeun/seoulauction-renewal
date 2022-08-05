@@ -214,41 +214,6 @@
 </div>
 <%-- main 레이어 팝업 ---%>
 
-
-<!-- 이중접속 차단 안내 -->
-<div id="popup_concurrent-wrap" class="trp popupfixed-wrap login-popup"> 
-    <div class="popup-dim"></div>
-    <div class="popup-align mode-ms mode-mb_center">
-        <div class="popup-vertical">
-            <div class="popup-layer">
-                <div class="pop-panel">
-                    <div class="pop-header">
-                        <a class="btn_close icon-pop_close js-closepop" href="javascript:void(0);" title="닫기">X</a>
-                        <div class="ico_box">
-                            <img class="only_ib-pc" src="/images/mobile/login/search_ico_01_pc.png">
-                            <img class="only_ib-mb" src="/images/mobile/login/search_ico_01.png">
-                        </div>
-                        <div class="title-box_tac title_concurrent">
-                            <!-- [0728]텍스트수정 -->
-                            <span class="title_tac">회원님과 동일한 아이디로 다른 PC나 모바일 환경에서 동시 접속하여 자동으로 로그아웃 되었습니다<br>
-                                    ⁠본인이 아닌 경우 다시 로그인을 하시거나,<br class="only-pc">
-                                    고객센터에 문의해 주세요.</span>
-                            <!-- //[0728]텍스트수정 --> 
-                        </div>
-                    </div>
-                    <div class="pop-body">
-                        <article class="button-area confirm_btn">
-                            <div class="btn_set-float tac">
-                                <a class="btn btn_point" id="confirmMaxSession" href="javascript:void(0);" role="button"><span>확인</span></a>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- 비밀번호변경알림-비밀번호초기화 -->
 <div id="popup_pwsearch6-wrap" class="trp popupfixed-wrap login-popup">
     <div class="popup-dim"></div>

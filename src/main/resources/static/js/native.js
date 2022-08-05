@@ -88,7 +88,8 @@ $(function() {
     e.preventDefault();
     const deviceInfo = await getDeviceInfo();
     if (deviceInfo?.os === 'android') {
-      openWebBrowser('https://play.google.com/store/apps/details?id=seoulauction.seoulauction&hl=ko&gl=US');
+      // openWebBrowser('https://play.google.com/store/apps/details?id=seoulauction.seoulauction&hl=ko&gl=US');
+      openWebBrowser('market://details?id=seoulauction.seoulauction');
     }
 
     if (deviceInfo?.os === 'ios') {
@@ -302,11 +303,12 @@ async function deleteWebviewData(key) {
  */
 async function openWebBrowser(url) {
   try {
-    if ('flutter_inappwebview' in window) {
-      await window.flutter_inappwebview.callHandler('openWebBrowser', url);
-    } else {
-      window.open(url, '_blank');
-    }
+    window.open(url, '_blank');
+    // if ('flutter_inappwebview' in window) {
+    //   await window.flutter_inappwebview.callHandler('openWebBrowser', url);
+    // } else {
+    //   window.open(url, '_blank');
+    // }
   } catch (error) {
     console.error(error);
   }

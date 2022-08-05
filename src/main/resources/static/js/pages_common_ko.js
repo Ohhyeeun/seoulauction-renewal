@@ -71,9 +71,9 @@ function PubUI() {
             }, 370);
         });
     }, o.mobileBack = function() {
-        // $(".js-history_back").click(function() {
-        //     window.history.back();
-        // }); 
+        $(".js-history_back").click(function() {
+            window.history.back();
+        });
     }, 
     /* 탑버튼 보이기 */
     $(window).scroll(function() {
@@ -120,34 +120,19 @@ function responsiveDevices() {
 /* PC,MB images resize */function imagesResizePcMb() {
     ///document.querySelector(".imageViewer");
     ///console.log("googooowwww: " , _tar[0].naturalWidth, _tar.length);
-
-    for (var o = $(".imageViewer"), e = 0; e < o.length; e++) {
-        if (!o[e]) return !1;
-        var n = o[e].naturalWidth, i = o[e].naturalHeight;
-
-        var windowW = screen.availWidth;
-        var windowH = screen.availHeight;
-
-
-        // let z = ((parseFloat($(window).width() / 1024) >= 1)?1:parseFloat($(window).width() / 1024));
-
-        // let h = (parseFloat(parseInt($(o[e]).attr("size1"))) / 250) * 500 * z;
-        // let w = (parseFloat(parseInt($(o[e]).attr("size2"))) / 250) * 500 * z;
-
-        let h = parseFloat(windowH) / 2 / 250 * parseFloat($(o[e]).attr("size2"));
-        let w = parseFloat(windowW) / 2 / 250 * parseFloat($(o[e]).attr("size1"));
-
-        /*$("body").hasClass("is_mb") ? (o[e].width = .55 * w, o[e].height = .55 * h) : (o[e].width = w,
-        o[e].height = h);*/
-        // o[e].width = w;
-        // o[e].height = h;
-        o[e].width = w;
-        o[e].height = h;
-        //$("body").hasClass("is_mb") ? (o[e].width = w : (o[e].width = w);
+    for (var o = $(".imageViewer"), n = 0; n < o.length; n++) {
+        if (!o[n]) return !1;
+        /*  
+     [2022-0707]원복 /[2022-0701] 고객사요청  */        var e = o[n].naturalWidth, t = o[n].naturalHeight;
+        $("body").hasClass("is_mb") ? (o[n].width = .55 * e, o[n].height = .55 * t) : (o[n].width = e, 
+        o[n].height = t)
+        /* var z = ((parseFloat($(window).width() / 1024) >= 1)?1:parseFloat($(window).width() / 1024));    
+    var w = (parseFloat(parseInt($(_tar[i]).attr("size2"))) / 250) * 500 * z;
+    _tar[i].width = w; */
+        /* // [2022-0701] 고객사요청 */;
     }
-    /// console.log("=========imgresize=========", _orgW, _orgH, $("body").hasClass("is_mb"))
+ /// console.log("=========imgresize=========", _orgW, _orgH, $("body").hasClass("is_mb"))
 }
-
 
 /* 팝업높이계산 */function popup_fixation(o) {
     var n = o, e = $(".pop-body>.section", n).outerHeight() + 166, t = $(window).height();

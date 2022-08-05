@@ -43,21 +43,6 @@ public class MainController {
         return SAConst.getUrl(SERVICE_MAIN , "newsletterView" , locale);
     }
     
-    @GetMapping("/maxSession" )
-    public String maxSession(Locale locale) {
-        return SAConst.getUrl(SERVICE_MAIN , "popup/maxSession" , locale);
-    }
-    
-    @GetMapping("/resetPassword" )
-    public String resetPassword(Locale locale) {
-        return SAConst.getUrl(SERVICE_MAIN , "popup/resetPassword" , locale);
-    }
-    
-    @GetMapping("/modPassword" )
-    public String modPassword(Locale locale) {
-        return SAConst.getUrl(SERVICE_MAIN , "popup/modPassword" , locale);
-    }
-
     @GetMapping("/beltBanner" )
     public String beltBanner(Locale locale) {
         return SAConst.getUrl(SERVICE_MAIN , "beltBanner" , locale);

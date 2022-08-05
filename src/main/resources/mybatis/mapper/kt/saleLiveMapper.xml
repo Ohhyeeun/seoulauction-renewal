@@ -143,13 +143,17 @@
             LEFT OUTER JOIN CODE H ON H.GRP_ID = 'artwork_category' AND H.CD_ID = (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = (SELECT IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = L.CATE_CD))
         WHERE
               L.SALE_NO = #{sale_no}
-          and L.LOT_NO = #{lot_no}
           --  and L.STAT_CD = 'entry'
           and L.WWW_DISP_YN = 'Y'
-        <if test="all !=null and !all" >
+        <if test="lot_no == null" >
           and L.LIVE_ING_YN = 'Y'
         </if>
+        <if test="lot_no != null" >
+            and L.LOT_NO = #{lot_no}
+        </if>
         group by
+            L.LOT_NO
+        ORDER BY
             L.LOT_NO
         limit
             1
@@ -248,5 +252,34 @@
         WHERE
               EX.SALE_NO = #{sale_no}
     </select>
+
+    <!-- 랏 동기화 - 해당 경매의 LOT 들을 전부 CLOSE YN , LIVE_ING_YN 을 Y 로 바꾼다.
+        랏번호가 있을경우 특정 LOT 만 바꾼다.
+    -->
+    <select id="updateLotSync" parameterType="CommonMap" resultType="CommonMap">
+        UPDATE
+            LOT
+         SET
+             LIVE_ING_YN = 'Y',
+             LIVE_CLOSE_YN = 'Y'
+         WHERE
+            SALE_NO = #{sale_no}
+        <if test="lot_no !=null">
+            AND LOT_NO = #{lot_no}
+        </if>
+    </select>
+
+    <!--랏 마감 - 특정 랏의 LIVE_CLOSE_YN 정보를 토글 형식으로 바꾼다. ( 호출 될때마다 Y , N 이 바낌 )
+    -->
+    <select id="updateLotCloseToggle" parameterType="CommonMap" resultType="CommonMap">
+        UPDATE
+            LOT
+        SET
+            LIVE_CLOSE_YN = IF(LIVE_CLOSE_YN = 'Y', 'N', 'Y')
+        WHERE
+            SALE_NO = #{sale_no}
+        AND LOT_NO = #{lot_no}
+    </select>
+
 
 </mapper>

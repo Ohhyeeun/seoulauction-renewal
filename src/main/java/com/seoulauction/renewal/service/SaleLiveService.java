@@ -45,6 +45,7 @@ public class SaleLiveService {
         CommonMap result = saleLiveMapper.selectLiveSale(map);
         if(result !=null){
             result.settingJsonStrToObject();
+            result.settingYNValueToBoolean();
         }
 
         return result;
@@ -69,6 +70,7 @@ public class SaleLiveService {
 
             //json stringify -> object
             k.settingJsonStrToObject();
+            k.settingYNValueToBoolean();
 
             //노이미지 처리.
             if (k.get("IMG_DISP_YN").equals("N") && !isEmployee.get()) {
@@ -91,18 +93,18 @@ public class SaleLiveService {
             map.put("cust_no" , 0);
         }
 
-        map.put("all" , false);
 
         CommonMap result = saleLiveMapper.selectLiveSaleLotByOne(map);
 
         if(result !=null) {
             result.settingJsonStrToObject();
+            result.settingYNValueToBoolean();
             //값이 만약없을경우 특정조건을 빼고 랏1번으로 재호출.
         } else{
-            map.put("all" , true);
             map.put("lot_no" , 1);
             result = saleLiveMapper.selectLiveSaleLotByOne(map);
             result.settingJsonStrToObject();
+            result.settingYNValueToBoolean();
         }
 
 

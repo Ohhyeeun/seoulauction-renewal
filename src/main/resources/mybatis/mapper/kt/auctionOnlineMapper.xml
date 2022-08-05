@@ -124,7 +124,7 @@
             join SALE S ON S.SALE_NO = L.SALE_NO
             left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
         where L.WWW_DISP_YN = 'Y'
-          and L.SALE_NO = #{sale_no}
+            and L.SALE_NO = #{sale_no}
         group by L.SALE_NO , L.LOT_NO
         order by
         <choose>
@@ -141,4 +141,102 @@
             <otherwise>L.LOT_NO</otherwise>
         </choose>
     </sql>
+
+    <select id="selectLotInfo" parameterType="CommonMap" resultType="CommonMap">
+        select L.SALE_NO, L.LOT_NO
+            , IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH
+            , COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
+            , COLUMN_JSON(S.NOTICE_DTL_BLOB) NOTICE_DTL_JSON
+            , S.FROM_DT
+            , S.TO_DT
+            , S.LIVE_BID_YN
+            , S.LIVE_BID_DT
+            , S.AUTO_BID_REQ_CLOSE_DT
+            , L.STAT_CD, L.FROM_DT, L.TO_DT
+            , L.TO_DT AS SALE_TO_DT
+            , L.START_PRICE
+            , L.GROW_PRICE
+            , COLUMN_JSON(L.TITLE_BLOB) TITLE_JSON
+            , COLUMN_JSON(L.STITLE_BLOB) STITLE_JSON
+            , COLUMN_GET(L.TITLE_BLOB, 'ko' as CHAR) TITLE_KO_TXT
+            , COLUMN_GET(L.TITLE_BLOB, 'en' as CHAR) TITLE_EN_TXT
+            , L.EDITION
+            , COLUMN_JSON(L.MAKE_YEAR_BLOB) MAKE_YEAR_JSON
+            , TRIM(COLUMN_GET(L.MAKE_YEAR_BLOB, 'ko' as char)) as MAKE_YEAR_KO
+            , COLUMN_JSON(L.SIGN_INFO_BLOB) SIGN_INFO_JSON
+            , COLUMN_JSON(L.COND_RPT_BLOB) COND_RPT_JSON   # YDH. 컨디션리포트용 데이터 컬럼 추가.
+            , COLUMN_JSON(L.LITE_INFO_BLOB) LITE_INFO_JSON
+            , COLUMN_JSON(L.EXHI_INFO_BLOB) EXHI_INFO_JSON   # YDH. 전시정보 데이터 컬럼 추가.
+            , COLUMN_JSON(L.PROV_INFO_BLOB) PROV_INFO_JSON   # YDH. 소장정보 데이터 컬럼 추가.
+            , COLUMN_JSON(L.ETC_INFO_BLOB) ETC_INFO_JSON   # YDH. 기타정보 데이터 컬럼 추가.
+            , COLUMN_JSON(L.CMMT_BLOB) CMMT_JSON
+            , COLUMN_JSON(AT.ARTIST_NAME_BLOB) ARTIST_NAME_JSON
+            , COLUMN_GET(AT.ARTIST_NAME_BLOB, 'ko' as CHAR) ARTIST_NAME_KO_TXT
+            , COLUMN_GET(AT.ARTIST_NAME_BLOB, 'en' as CHAR) ARTIST_NAME_EN_TXT
+            , AT.BORN_YEAR
+            , AT.DIE_YEAR
+            , CD.CD_NM as MATE_NM
+            , CD.CD_NM_EN as MATE_NM_EN
+            , CD.CD_NM_CN as MATE_NM_CN
+            , IFNULL(BD.LAST_PRICE, L.DISP_SOLD_PRICE) AS LAST_PRICE
+            , ifnull(BD.SOLD_YN, 'N') as SOLD_YN
+            , if(now() > L.TO_DT, 'Y', 'N') as END_YN
+            , ifnull(BD.BID_CNT, 0) as BID_CNT
+            , COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON
+            , COLUMN_JSON(L.EXPE_PRICE_TO_BLOB) EXPE_PRICE_TO_JSON
+            , CONCAT('['
+                , GROUP_CONCAT('{',
+                    '"UNIT_CD":"', ifnull(LS.UNIT_CD, 'cm') ,'",',
+                    '"SIZE1":', ifnull(LS.SIZE1,0) ,',',
+                    '"SIZE2":', ifnull(LS.SIZE2,0) ,',',
+                    '"SIZE3":', ifnull(LS.SIZE3,0) ,',',
+                    '"CANVAS":', ifnull(LS.CANVAS,0) ,',',
+                    '"DIAMETER_YN":"', ifnull(LS.DIAMETER_YN,'N') ,'",',
+                    '"PREFIX":"', ifnull(LS.PREFIX,'') ,'",',
+                    '"SUFFIX":"', ifnull(LS.SUFFIX,'') ,'",',
+                    '"MIX_CD":"', ifnull(LS.MIX_CD,'h') ,'",',
+                    '"CANVAS_EXT_YN":"', ifnull(LS.CANVAS_EXT_YN,'N') , '"',
+                '}')
+            ,']') AS LOT_SIZE_JSON
+            , GROUP_CONCAT(ifnull(LS.PREFIX,''),' ', CASE WHEN LS.DIAMETER_YN = 'Y' THEN 'ø' ELSE '' END,
+                ifnull(truncate(LS.SIZE1, 1),''), CASE WHEN LS.SIZE1 IS NULL THEN '' ELSE '×' END,
+                ifnull(truncate(LS.SIZE2, 1),''), CASE WHEN LS.SIZE3 IS NULL THEN '' ELSE '×' END,
+                ifnull(truncate(LS.SIZE3, 1),''), case when LS.MIX_CD = 'height' then '(h)' else '' end,  'cm', case when LS.SUFFIX is null then '' else ' (' end, ifnull(LS.SUFFIX,''), case when LS.SUFFIX is null then '' else ')' end, CHAR(10))
+            AS LOT_SIZE_STRING
+            , COLUMN_JSON(AT.PROFILE_BLOB) PROFILE_JSON
+            , SA.ARTWORK_NOS
+            , L.IMG_DISP_YN
+            , L.EXPE_PRICE_INQ_YN
+            , now() as DB_NOW
+            , L.WINE_YN
+            , IFNULL(L.FRAME_CD, 'none') AS FRAME_CD
+            , IFNULL(L.GUARANTEE_YN, 'Y') GUARANTEE_YN
+            , L.ZEROBASE_PRICE_YN
+        from LOT L
+            join SALE S on L.SALE_NO = S.SALE_NO
+            left outer join (
+                select BD.*, BD.BID_PRICE as LAST_PRICE, <![CDATA[if(L.TO_DT < now(), 'Y', 'N') as SOLD_YN ]]>
+                    , (select count(A.BID_NO) from BID A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO) as BID_CNT
+                from LOT L inner join BID BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+                    and BD.BID_NO = (select A.BID_NO from BID A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.BID_PRICE desc, A.BID_DT asc, A.BID_NO asc limit 1)
+                inner join CUST CU on BD.CUST_NO = CU.CUST_NO
+                where  L.SALE_NO = #{sale_no}
+            ) BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+            left outer join ARTIST AT on AT.ARTIST_NO = L.ARTIST_NO
+            left outer join CODE CD on CD.grp_id = 'material' and CD.CD_ID = L.MATE_CD
+            left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
+            LEFT OUTER JOIN (SELECT SALE_NO, LOT_NO, GROUP_CONCAT(ARTWORK_NO) ARTWORK_NOS FROM SALE_ARTWORK WHERE SALE_NO = #{sale_no} AND LOT_NO = #{lot_no}) SA
+                ON L.SALE_NO = SA.SALE_NO AND L.LOT_NO = SA.LOT_NO
+        where L.SALE_NO = #{sale_no}
+            and L.LOT_NO = #{lot_no}
+        group by L.SALE_NO, L.LOT_NO
+    </select>
+
+    <select id="selectManager" parameterType="int" resultType="CommonMap">
+        SELECT E.TEL, E.EMP_NAME, E.EMP_NAME_EN
+        FROM CUST CU LEFT OUTER JOIN EMP E ON CU.EMP_NO = E.EMP_NO
+        WHERE CU.STAT_CD = 'normal'
+            AND CU.CUST_NO = #{cust_no}
+            AND CU.JOIN_KIND_CD = 'online'
+    </select>
 </mapper>

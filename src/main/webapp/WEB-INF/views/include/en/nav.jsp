@@ -46,10 +46,10 @@
         <div class="header_nav wrap_padding" ng-controller="headCtl" >
             <a href="/" class="header_logo"><span class="blind-text">logo</span></a>
             <ul class="header_gnbmenu pc-ver">
-                <li><a href="#" class="">AUCTION</a></li>
+                <li><a href="#" class="">AUCTIONS</a></li>
                 <li><a href="#">PRIVATE SALES</a></li>
                 <li><a href="#">SELL</a></li>
-                <li><a href="#">SERVICE</a></li>
+                <li><a href="#">SERVICES</a></li>
             </ul>
             <section class="topsearch-box">
                 <button class="m-top-search m-ver" ng-click="recommandSearch();"></button>
@@ -78,7 +78,7 @@
                     </div>
 
                     <ul class="subGnbmenu">
-                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
+                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTIONS<span></span></span>
                             <ul class="submenu submenu-part01">
                                 <li id="menu_auction"><a href="/auction/progress">Current</a></li>
                                 <li id="menu_upcoming"><a href="/auction/upcoming">Upcoming</a></li>
@@ -91,7 +91,7 @@
                                 <li id="menu_exhibit"><a href="/privatesale/exhibit">Exhibition</a></li>
                                 <li><a href="/privatesale/psList">Private Sale</a></li>
                                 <li><a href="/privatesale/psGuide">Private Sale Guide</a></li>
-                            </ul>
+                            </ul> 
                         </li>
                         <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>
                             <ul class="submenu submenu-part03">
@@ -99,7 +99,7 @@
                                 <li><a href="/mypage/inquiryForm">How to Consign</a></li>
                             </ul>
                         </li>
-                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
+                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICES<span></span></span>
                             <ul class="submenu submenu-part04">
                                 <li><a href="/service/loan">Art Collateral Loans</a></li>
                                 <li><a href="/service/storage">Art Storage</a></li>

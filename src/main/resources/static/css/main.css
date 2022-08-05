@@ -988,7 +988,7 @@
     color: #31aaa3;
 }
 .main-popup-caption>p {
-    margin: 20px 0;
+    /* margin: 20px 0; */
     line-height: 1.5;
 }
 .main-popup-close {
@@ -1630,8 +1630,7 @@
     .main-popupwrap.on {
         display: block;
     }
-    .main-popupbox {
-        /*width: 100%;*/
+    .main-popupbox { 
         bottom: 0;
         right: auto;
         box-shadow: none;
@@ -1646,13 +1645,16 @@
     }
     .main-popupbox>a {
         border-radius: 20px 20px 0 0;
-        overflow: hidden;
         background-color: #fff;
+    }
+    .main-popup-txt::-webkit-scrollbar-track {
+        margin-top: 15px;
     }
     .main-popup-txt {
         width: 100%;
         padding: 25px 15px;
         border-radius: 20px 20px 0 0;
+        min-width: 450px;
     }
     .main-popup-caption>h2 {
         font-size: 22px;
@@ -1788,6 +1790,9 @@
     }
     .main-popupbox {
         width: 100%;
+    }
+    .main-popup-txt {
+        min-width: auto;
     }
     .main-popup-img {
         width: 100%;
