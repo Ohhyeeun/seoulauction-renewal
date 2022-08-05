@@ -767,18 +767,6 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok());
     }
 
-
-    /**
-     *
-     * LOT 동기화
-     */
-    @PostMapping(value="/admin/sales/{saleNo}/sync")
-    public ResponseEntity<RestResponse> adminLotSync(@PathVariable("saleNo") int saleNo) {
-        CommonMap commonMap = new CommonMap();
-        commonMap.put("sale_no", saleNo);
-
-        return ResponseEntity.ok(RestResponse.ok());
-    }
     /**
      *
      * 현재가 조정
@@ -835,6 +823,18 @@ public class ApiSaleLiveController {
 
         return ResponseEntity.ok(RestResponse.ok(bidNotice));
     }
+    /**
+     *
+     * LOT 동기화
+     */
+    @PostMapping(value="/admin/sales/{saleNo}/sync")
+    public ResponseEntity<RestResponse> adminLotSync(@PathVariable("saleNo") int saleNo) {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
     /**
      * 환율 정보 가져오기 ( 외부 API 이용 )
      * PARAM 형식 - YYYY-MM-DD

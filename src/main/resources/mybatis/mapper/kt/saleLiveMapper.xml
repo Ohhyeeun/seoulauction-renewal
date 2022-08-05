@@ -91,49 +91,12 @@
              ,COLUMN_JSON(D.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON
              ,COLUMN_JSON(L.TITLE_BLOB)           LOT_TITLE_JSON
              ,COLUMN_JSON(L.MAKE_YEAR_BLOB)       MAKE_YEAR_JSON
-             ,D.ARTIST_NO
              ,D.BORN_YEAR
              ,LI.FILE_PATH LOT_IMG_PATH
              ,LI.FILE_NAME LOT_IMG_NAME
-             ,IMG_DISP_YN
-             ,IF (
-                 (select COUNT(*) from CUST_INTE_LOT CIL where CIL.SALE_NO =
-                  L.SALE_NO and CIL.LOT_NO = L.LOT_NO and CUST_NO = #{cust_no} ) <![CDATA[ > ]]> 0 , 'Y' , 'N') FAVORITE_YN
-             ,concat('[',
-                 GROUP_CONCAT('{',
-                      '"UNIT_CD":"', ifnull(E.UNIT_CD, 'cm') ,'",',
-                      '"SIZE1":', ifnull(E.SIZE1,0) ,',',
-                      '"SIZE2":', ifnull(E.SIZE2,0) ,',',
-                      '"SIZE3":', ifnull(E.SIZE3,0) ,',',
-                      '"CANVAS":', ifnull(E.CANVAS,0) ,',',
-                      '"DIAMETER_YN":"', ifnull(E.DIAMETER_YN,'N') ,'",',
-                      '"PREFIX":"', ifnull(E.PREFIX,'') ,'",',
-                      '"SUFFIX":"', ifnull(E.SUFFIX,'') ,'",',
-                      '"MIX_CD":"', ifnull(E.MIX_CD,'h') ,'",',
-                      '"CANVAS_EXT_YN":"', ifnull(E.CANVAS_EXT_YN,'N'), '"',
-                              '}')
-            ,']') AS LOT_SIZE_ARRAY
-             ,ifnull(E.UNIT_CD, 'cm')             UNIT_CD
-             ,ifnull(E.SIZE1, '0')                SIZE1
-             ,ifnull(E.SIZE2, '0')                SIZE2
-             ,ifnull(E.SIZE3, '0')                SIZE3
-             ,ifnull(E.CANVAS, '0')               CANVAS
-             ,ifnull(E.DIAMETER_YN, 'N')          DIAMETER_YN
-             ,ifnull(E.PREFIX, '')                PREFIX
-             ,ifnull(E.SUFFIX, '')                SUFFIX
-             ,ifnull(E.MIX_CD, 'h')               MIX_CD
-             ,ifnull(E.CANVAS_EXT_YN, 'N')        CANVAS_EXT_YN
              , (CASE WHEN (SELECT CUST_NO FROM BID_OFFLINE BD_OFF WHERE BD_OFF.BID_NOTICE is NULL AND BD_OFF.SALE_NO = L.SALE_NO AND BD_OFF.LOT_NO = L.LOT_NO ORDER BY BD_OFF.BID_DT DESC, BD_OFF.BID_PRICE desc, BD_OFF.BID_NO desc limit 1)
             = '${cust_no}' THEN 'Y' ELSE 'N' END) AS IS_WIN
-             ,LI.FILE_PATH
-             ,LI.FILE_NAME
-             ,LIVE_ING_YN
-             ,LIVE_CLOSE_YN
-             ,UNDERBIDDER_YN
-             ,UNDERBIDDER_REMARK
-             ,H.CD_ID CATE_CD_ID
-             ,H.CD_NM CATE_CD_NM
-             ,H.CD_NM_EN CATE_CD_NM_EN
+             ,(SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = L.SALE_NO AND LOT_NO = L.LOT_NO) MAX_BID_PRICE
         FROM
             LOT L
                 left outer join LOT_IMG LI on L.SALE_NO = LI.SALE_NO and L.LOT_NO = LI.LOT_NO
