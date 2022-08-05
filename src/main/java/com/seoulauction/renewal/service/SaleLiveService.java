@@ -78,16 +78,15 @@ public class SaleLiveService {
 
         CommonMap result = saleLiveMapper.selectLiveSaleLotByOne(map);
 
-        if(result !=null) {
-            result.settingJsonStrToObject();
-            result.settingYNValueToBoolean();
-            //값이 만약없을경우 특정조건을 빼고 랏1번으로 재호출.
-        } else{
+        if(result == null){
             map.put("lot_no" , 1);
             result = saleLiveMapper.selectLiveSaleLotByOne(map);
             result.settingJsonStrToObject();
             result.settingYNValueToBoolean();
         }
+
+        result.settingJsonStrToObject();
+        result.settingYNValueToBoolean();
 
         result.put("IMAGE_FULL_PATH","");
 

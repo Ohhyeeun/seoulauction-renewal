@@ -62,7 +62,7 @@ public class CurrencyDataManager {
             if(!tokenEqules.get()){
                 if(ch != '='){
                     key.updateAndGet(v -> v + ch);
-                // = 를 만난경우 tokenEqules = true 를 true 로 설정.
+                // = 를 만난경우 tokenEqules 를 true 로 설정.
                 } else{
                     tokenEqules.set(true);
                 }
@@ -71,12 +71,12 @@ public class CurrencyDataManager {
             //첫번째 & 를 만난경우.
             if(ch == '&' && !tokenAmpersand.get()){
                 tokenAmpersand.set(true);
-                //두번째 & 을 만난 경우.
+            //두번째 & 을 만난 경우.
             } else if (ch == '&' && tokenAmpersand.get() ){
                 tokenAmpersand2.set(true);
             }
 
-            // =를 만났고 &를 만나기전.
+            // = 를 만났고 &를 만나기전.
             if(tokenEqules.get() && !tokenAmpersand.get() && !tokenAmpersand2.get() && ch != '=' ){
                 value.updateAndGet(k -> k + ch);
             }
