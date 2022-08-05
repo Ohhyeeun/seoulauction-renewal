@@ -143,13 +143,17 @@
             LEFT OUTER JOIN CODE H ON H.GRP_ID = 'artwork_category' AND H.CD_ID = (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = (SELECT IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = L.CATE_CD))
         WHERE
               L.SALE_NO = #{sale_no}
-          and L.LOT_NO = #{lot_no}
           --  and L.STAT_CD = 'entry'
           and L.WWW_DISP_YN = 'Y'
-        <if test="all !=null and !all" >
+        <if test="lot_no == null" >
           and L.LIVE_ING_YN = 'Y'
         </if>
+        <if test="lot_no != null" >
+            and L.LOT_NO = #{lot_no}
+        </if>
         group by
+            L.LOT_NO
+        ORDER BY
             L.LOT_NO
         limit
             1

@@ -90,7 +90,6 @@ public class SaleLiveService {
             map.put("cust_no" , 0);
         }
 
-        map.put("all" , false);
 
         CommonMap result = saleLiveMapper.selectLiveSaleLotByOne(map);
 
@@ -99,7 +98,6 @@ public class SaleLiveService {
             result.settingYNValueToBoolean();
             //값이 만약없을경우 특정조건을 빼고 랏1번으로 재호출.
         } else{
-            map.put("all" , true);
             map.put("lot_no" , 1);
             result = saleLiveMapper.selectLiveSaleLotByOne(map);
             result.settingJsonStrToObject();
