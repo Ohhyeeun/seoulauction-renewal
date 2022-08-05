@@ -26,7 +26,7 @@
              ,COLUMN_JSON(D.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON
              ,COLUMN_JSON(L.MAKE_YEAR_BLOB)       MAKE_YEAR_JSON
              ,IMG_DISP_YN
-             ,IF ((select count(*) from CUST_INTE_LOT CIL where CIL.SALE_NO =
+             ,IF ((select COUNT(*) from CUST_INTE_LOT CIL where CIL.SALE_NO =
               L.SALE_NO and CIL.LOT_NO = L.LOT_NO and CUST_NO = #{cust_no} ) <![CDATA[ > ]]> 0 , 'Y' , 'N') FAVORITE_YN
              ,LI.FILE_PATH LOT_IMG_PATH
              ,LI.FILE_NAME LOT_IMG_NAME

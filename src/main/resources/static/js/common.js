@@ -88,7 +88,6 @@ $(function() {
                 if (success) {
                     const isExist = response.data.data.isExist;
                     const badgeHtml = '<i class="utility-icon on"></i>';
-                    console.log(isExist)
                     if (isExist)
                         document.querySelector('#MyMenuOnlineBadge a').insertAdjacentHTML('beforeend', badgeHtml);
                 }
