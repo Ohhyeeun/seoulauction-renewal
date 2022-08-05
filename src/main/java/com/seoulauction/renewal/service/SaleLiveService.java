@@ -144,7 +144,7 @@ public class SaleLiveService {
     public List<CommonMap> selectBidNotice(CommonMap commonMap) {
 
         return awsSaleMapper.selectBidNotice(commonMap).stream().peek(c->{
-            c.settingYNValueToBoolean();
+            c.settingJsonStrToObject();
             c.settingYNValueToBoolean();
         }).collect(Collectors.toList());
     }
