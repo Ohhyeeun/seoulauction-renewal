@@ -795,7 +795,7 @@ public class ApiSaleLiveController {
      *
      * 현장 응찰
      */
-    @PostMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/cur-price-control")
+    @PostMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/place-bid")
     public ResponseEntity<RestResponse> adminPlaceBid(
                  @PathVariable("saleNo") int saleNo
                 ,@PathVariable("lotNo") int lotNo
