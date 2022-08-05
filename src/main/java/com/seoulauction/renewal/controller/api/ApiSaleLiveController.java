@@ -13,6 +13,7 @@ import com.seoulauction.renewal.service.S3Service;
 import com.seoulauction.renewal.service.SaleLiveService;
 import com.seoulauction.renewal.service.SaleService;
 import com.seoulauction.renewal.util.SecurityUtils;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -824,10 +826,15 @@ public class ApiSaleLiveController {
      * 환율 정보 가져오기 ( 외부 API 이용 )
      * PARAM 형식 - YYYY-MM-DD
      */
+    @ApiOperation("YYYY-DD-MM 날짜형식 - 없을경우 현재 날짜의 환율 정보를 가져옴.")
     @GetMapping(value="/admin/currency")
     public ResponseEntity<RestResponse> currency(
             @ApiParam(value = "EX ) YYYY-DD-MM")
-            @RequestParam("date") String date) {
+            @RequestParam(value = "date" , required = false) String date) {
+
+        if(date ==null){
+            date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        }
         return ResponseEntity.ok(RestResponse.ok(currencyDataManager.getCurrency(date)));
     }
 
