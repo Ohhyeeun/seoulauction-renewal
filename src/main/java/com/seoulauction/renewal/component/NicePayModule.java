@@ -9,12 +9,11 @@ import com.seoulauction.renewal.exception.SAException;
 import kr.co.nicevan.nicepay.adapter.web.NicePayHttpServletRequestWrapper;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -152,8 +151,6 @@ public class NicePayModule {
     public CommonMap receiptProcess(HttpServletRequest request){
         CommonMap resultMap = new CommonMap();
         try {
-            request.setCharacterEncoding("EUC-KR");
-
             String eDiDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 
             String moid = request.getParameter("MOID");
@@ -176,11 +173,8 @@ public class NicePayModule {
             formData.add("EdiDate", eDiDate);
             formData.add("Moid", moid);
             formData.add("ReceiptAmt", receiptAmt);
-            log.info(request.getParameter("GoodsName"));
-            log.info(new String(request.getParameter("GoodsName").getBytes(), "euc-kr"));
-            log.info(URLEncoder.encode(request.getParameter("GoodsName"), "euc-kr"));
-
-            formData.add("GoodsName", new String(request.getParameter("GoodsName").getBytes(), "euc-kr"));
+            formData.add("BuyerName", request.getParameter("BuyerName"));
+            formData.add("GoodsName", request.getParameter("GoodsName"));
             formData.add("SignData", signData);
             formData.add("ReceiptType", String.valueOf(request.getAttribute("rcpt_type")));
             formData.add("ReceiptTypeNo", String.valueOf(request.getAttribute("rcpt_type_no")));
@@ -189,22 +183,19 @@ public class NicePayModule {
             formData.add("ReceiptServiceAmt", "0");
             formData.add("ReceiptTaxFreeAmt", "0");
 
-            WebClient webClient = WebClient.builder()
-                    .baseUrl(NICE_PAY_BASE_URL)
-                    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-                    .build();
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE.concat(";charset=EUC-KR"));
 
-            String result = webClient
-                    .post()
-                    .uri("/webapi/cash_receipt.jsp")
-                    .body(BodyInserters
-                            .fromFormData(formData))
-                    .retrieve()
-                    .onStatus(HttpStatus::is4xxClientError, clientResponse -> Mono.error(RuntimeException::new))
-                    .onStatus(HttpStatus::is5xxServerError, clientResponse -> Mono.error(RuntimeException::new))
-                    .bodyToMono(String.class).block();
+            HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(formData, headers);
+            RestTemplate rt = new RestTemplate();
+            ResponseEntity<String> result = rt.exchange(
+                NICE_PAY_BASE_URL.concat("/webapi/cash_receipt.jsp"),
+                HttpMethod.POST,
+                entity,
+                String.class
+            );
 
-            resultMap = new ObjectMapper().readValue(result, CommonMap.class);
+            resultMap = new ObjectMapper().readValue(result.toString(), CommonMap.class);
 
             String resultCode = resultMap.getString("ResultCode");
             if(!resultCode.equals("7001")) {
