@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.seoulauction.renewal.mapper.aws.SaleMapper">
+<mapper namespace="com.seoulauction.renewal.mapper.aws.AWSSaleMapper">
     <!-- 응찰 페이지 공지사항 -->
     <select id="selectBidNotice" parameterType="CommonMap" resultType="CommonMap">
         SELECT
-            *,
-            date_format(created_at, '%Y.%m.%d') dt_date
+            *
+            ,content_json CONTENT_JSON
+            ,date_format(created_at, '%Y-%m-%d') dt_date
         FROM
             live_sale_notice
         WHERE status = 'A'

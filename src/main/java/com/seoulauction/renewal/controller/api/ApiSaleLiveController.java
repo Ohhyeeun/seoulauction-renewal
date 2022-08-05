@@ -821,10 +821,7 @@ public class ApiSaleLiveController {
     public ResponseEntity<RestResponse> adminBidNotice(@PathVariable("saleNo") int saleNo) {
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
-
-        List<CommonMap> bidNotice = saleLiveService.selectBidNotice(commonMap);
-
-        return ResponseEntity.ok(RestResponse.ok(bidNotice));
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectBidNotice(commonMap)));
     }
     /**
      *

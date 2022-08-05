@@ -1,13 +1,11 @@
 package com.seoulauction.renewal.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
-import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.form.OfflineBiddingForm;
 import com.seoulauction.renewal.mapper.aws.MainMapper;
-import com.seoulauction.renewal.mapper.aws.SaleMapper;
+import com.seoulauction.renewal.mapper.aws.AWSSaleMapper;
 import com.seoulauction.renewal.mapper.kt.AuctionMapper;
 import com.seoulauction.renewal.mapper.kt.SaleLiveMapper;
 import com.seoulauction.renewal.util.SecurityUtils;
@@ -17,7 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
@@ -32,7 +29,7 @@ public class SaleLiveService {
 
     private final MainMapper mainMapper;
 
-    private final SaleMapper saleMapper;
+    private final AWSSaleMapper awsSaleMapper;
 
     @Value("${image.root.path}")
     private String IMAGE_URL;
@@ -146,18 +143,10 @@ public class SaleLiveService {
 
     public List<CommonMap> selectBidNotice(CommonMap commonMap) {
 
-        List<CommonMap> bidNotices = saleMapper.selectBidNotice(commonMap);
-
-        if(bidNotices !=null) {
-            for (var i = 0; i < bidNotices.size(); i++) {
-                bidNotices.get(i).settingJsonStrToObject();
-                bidNotices.get(i).settingYNValueToBoolean();
-            }
-        } else {
-            throw new SAException("공지사항이 없습니다.");
-        }
-
-        return bidNotices;
+        return awsSaleMapper.selectBidNotice(commonMap).stream().peek(c->{
+            c.settingYNValueToBoolean();
+            c.settingYNValueToBoolean();
+        }).collect(Collectors.toList());
     }
     public void lotSync(CommonMap map){
         saleLiveMapper.updateLotSync(map);
