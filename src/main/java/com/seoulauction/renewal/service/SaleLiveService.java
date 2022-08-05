@@ -69,7 +69,7 @@ public class SaleLiveService {
             k.settingYNValueToBoolean();
 
             k.put("IMAGE_FULL_PATH","");
-            
+
             if(k.get("LOT_IMG_PATH") !=null && k.get("LOT_IMG_NAME") !=null) {
                 k.put("IMAGE_FULL_PATH", IMAGE_URL + k.get("LOT_IMG_PATH") + "/" + k.get("LOT_IMG_NAME"));
             }
@@ -159,5 +159,13 @@ public class SaleLiveService {
 
         return bidNotices;
     }
+    public void lotSync(CommonMap map){
+        saleLiveMapper.updateLotSync(map);
+    }
+
+    public void lotLotCloseToggle(CommonMap map){
+        saleLiveMapper.updateLotCloseToggle(map);
+    }
+
 }
 

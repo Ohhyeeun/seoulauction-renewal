@@ -806,6 +806,9 @@ public class ApiSaleLiveController {
             ,@PathVariable("lotNo") int lotNo) {
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
+        commonMap.put("lot_no", lotNo);
+        saleLiveService.lotLotCloseToggle(commonMap);
+
 
         return ResponseEntity.ok(RestResponse.ok());
     }
@@ -831,6 +834,8 @@ public class ApiSaleLiveController {
     public ResponseEntity<RestResponse> adminLotSync(@PathVariable("saleNo") int saleNo) {
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
+
+        saleLiveService.lotSync(commonMap);
 
         return ResponseEntity.ok(RestResponse.ok());
     }

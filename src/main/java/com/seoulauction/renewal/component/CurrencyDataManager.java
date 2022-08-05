@@ -18,13 +18,10 @@ public class CurrencyDataManager {
 
     private final static String BASE_URL = "http://www.smbs.biz";
 
-    //tr_date=2022-08-05
-
-
     /**
      *
      * @param date ( ex - 2020-08-05 )
-     * @return
+     * @return jsonMap
      */
     public CommonMap getCurrency(String date){
 
@@ -48,8 +45,6 @@ public class CurrencyDataManager {
         String res = result.replaceAll(regexp,"").replaceAll(regexp1,"").replaceAll(regexp2,"");
 
         // 2차작업 -> JSON 화 시키기.
-        Integer index = 0;
-
         String trimStr = res.trim();
 
         AtomicReference<String> key = new AtomicReference<>("");
