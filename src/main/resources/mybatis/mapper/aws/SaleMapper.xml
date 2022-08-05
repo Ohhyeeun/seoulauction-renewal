@@ -8,10 +8,8 @@
             date_format(created_at, '%Y.%m.%d') dt_date
         FROM
             live_sale_notice
-        WHERE
-            STATUS = 'A'
-          AND SALE_NO = #{sale_no}
-        ORDER BY
-        CREATED_AT desc
+        WHERE status = 'A'
+          AND sale_no = #{sale_no}
+        ORDER BY sort desc
     </select>
 </mapper>

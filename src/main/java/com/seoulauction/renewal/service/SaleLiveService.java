@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.form.OfflineBiddingForm;
 import com.seoulauction.renewal.mapper.aws.MainMapper;
 import com.seoulauction.renewal.mapper.aws.SaleMapper;
@@ -143,7 +144,19 @@ public class SaleLiveService {
     }
 
     public List<CommonMap> selectBidNotice(CommonMap commonMap) {
-        return saleMapper.selectBidNotice(commonMap);
+
+        List<CommonMap> bidNotices = saleMapper.selectBidNotice(commonMap);
+
+        if(bidNotices !=null) {
+            for (var i = 0; i < bidNotices.size(); i++) {
+                bidNotices.get(i).settingJsonStrToObject();
+                bidNotices.get(i).settingYNValueToBoolean();
+            }
+        } else {
+            throw new SAException("공지사항이 없습니다.");
+        }
+
+        return bidNotices;
     }
 }
 
