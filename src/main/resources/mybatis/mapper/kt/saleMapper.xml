@@ -824,9 +824,7 @@
             SALE_NO,
             LOT_NO,
             BID_NO,
-            PADD
-
-                _NO,
+            PADD_NO,
             BID_PRICE,
             BID_KIND_CD,
             BID_NOTICE,
