@@ -130,6 +130,9 @@
     -webkit-box-pack: center;
     -moz-box-align: center;
     -webkit-box-align: center;
+    transform: translate(0, -50%);
+    -webkit-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
 }
 .swiper-button-next.slide-btnright {
     right: 50px;
