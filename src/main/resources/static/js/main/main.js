@@ -272,7 +272,7 @@ function loadTopNotice(){
                 if(matchMedia("all and (min-width: 1024px)").matches) {//pc
                     $('.main-contents').css({'margin-top': '162px'});
                 } else {//mo
-                    $('.submenuBg').css({'top':'-40px'});
+                    $('.submenuBg').css({'top':'-43px'});
                     $('.main-contents').css({'margin-top': '100px'});
                 }
 
@@ -746,6 +746,9 @@ $(window).resize(function(){
                 $('.submenuBg').css({'top':'0'});
             });
         });
+
+        /* visual hover none */
+        $('.visual-swiper > .swiper-wrapper, .swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').off('mouseenter');
     };
 
     /* visual */

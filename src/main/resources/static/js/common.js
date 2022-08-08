@@ -300,13 +300,16 @@ $(function() {
         });
         $('.submenuBg-closeBtn').off('click');
         $('.submenuBg-closeBtn').click(function () {
-
             $('body').css({'overflow': 'visible'});
             $('.gnbmenu_arrow').removeClass('on');
             $('.submenuBg').animate({'right': '-100%', 'transition': 'ease .2s'}, function () {
                 $(this).removeClass('on');
                 $('.gnb_submenuBg').removeClass('on');
             });
+
+            /* topsearch */
+            $('.topsearch-box>form').animate({'right': '-100%', 'transition': 'ease .2s'});
+            $('body').css({'overflow':'visible'});
         });
 
         /* main gnb fixed */
@@ -405,16 +408,12 @@ $(function() {
     });
     /* 모바일 gnb 서치*/
     $('.m-top-search').click(function () {
-        $('.topsearch-box>form').animate({'right': '0', 'transition': 'ease .5s'});
+        $('.topsearch-box>form').animate({'right': '0', 'transition': 'ease .2s'});
         $('body').css({'overflow':'hidden'});
         //$('.topsearch-box>form').show();
         $('.topsearch>input').show();
         $('.topsearch-btn').show();
         $('.search-bubble-box').show();
-    });
-    $('.top-search-closeBtn').click(function () {
-        $('.topsearch-box>form').animate({'right': '-100%', 'transition': 'ease .5s'});
-        $('body').css({'overflow':'visible'});
     });
 
     /*top search placeholder */
@@ -996,13 +995,14 @@ $(window).resize(function(){
         $('.gnb_submenuBg').removeClass('on');
         $('.submenuBg').removeClass('on');
 
-        /* top search right 위치 */
-        // $('.topsearch-box>form').animate({'right': '0'});  
         $('.main-contents, #contents').click(function(){
             $('.search-bubble-box').removeClass('on');
             $('.bubble-box01').eq(utilityMenu).removeClass('hide');
             $('.bubble-box02').eq(utilityMenu).removeClass('hide');
         });
+
+        /* top search right 위치 */
+        // $('.topsearch-box>form').css('right','auto');  
 
         /* 오프라인 라이브응찰 화면(pc) */
         $('.bidding_pc').show();
@@ -1015,13 +1015,6 @@ $(window).resize(function(){
 
         $('.m-gnbmenu').off('click');
         $('.m-gnbmenu').click(function(){
-
-            if($('.header_beltbox').hasClass('on')){ /* on */
-                $('.submenuBg').animate({'top':'-43px'});
-            } else {
-                $('.submenuBg').animate({'top':'0'});
-            };
-
             $('.submenuBg').removeAttr("style");
             $('.submenuBg').hide();
 
@@ -1069,9 +1062,33 @@ $(window).resize(function(){
                 });
             });
 
+            /* notice 영역에 따라 모바일 gnb 메뉴 top 위치 조정 */
+            if($('.header_beltbox').hasClass('on')){ /* on */
+                $('.submenuBg').animate({'top':'-43px'});
+            } else {
+                $('.submenuBg').animate({'top':'0'});
+            };
+
             /* 오프라인 라이브응찰 화면(mobile) */
             $('.bidding_mo').show();
             $('.bidding_pc').hide();
+        });
+
+        /* 닫기 버튼 (gnb) */
+        $('.submenuBg-closeBtn').off('click');
+        $('.submenuBg-closeBtn').click(function(){
+            $('body').css({'overflow':'visible'});
+            $('.gnbmenu_arrow').removeClass('on');
+            $('.submenuBg').animate({'right':'-100%','transition':'none'}, function(){
+
+                $(this).removeClass('on');
+                $('.gnb_submenuBg').removeClass('on');
+            });
+            $('.gnb_submenuBg').animate({'right': '-100%','transition':'none'});
+
+            /* top search box 닫기 기능 */
+            $('.topsearch-box>form').animate({'right': '-100%', 'transition': 'ease .1ms'});
+            $('body').css({'overflow':'visible'});
         });
 
         /* 띠배너 beltbanner */
@@ -1093,52 +1110,10 @@ $(window).resize(function(){
             $(this).hasClass('main-header');
         });
 
-        $('.submenuBg-closeBtn').off('click');
-        /* 닫기 버튼 */
-        $('.submenuBg-closeBtn').click(function(){
-            $('body').css({'overflow':'visible'});
-            $('.gnbmenu_arrow').removeClass('on');
-            $('.submenuBg').animate({'right':'-100%','transition':'none'}, function(){
-
-                $(this).removeClass('on');
-                $('.gnb_submenuBg').removeClass('on');
-            });
-            $('.gnb_submenuBg').animate({'right': '-100%','transition':'.2s'});
-        });
-
-        /* top search box */
-        // $('.topsearch-box>form').animate({'right': '-100%', 'transition':'none'});
-
         /* 오프라인 라이브응찰 화면(mobile) */
         $('.bidding_pc').hide();
         $('.bidding_mo').show();
-    }; 
-
-    /* top search place holder */
-    // const windowWidth1279 = window.matchMedia('screen and (min-width:1279px)');
-    // const windowWidth1024 = window.matchMedia('screen and (min-width:1024px)');
-    // const windowWidth1023 = window.matchMedia('screen and (max-width:1023px)');
-    //
-    // if(windowWidth1279.matches){
-    //     $('.topsearch>input').attr('placeholder','작가 또는 작품명 검색');
-    //     $('.topsearch-en>input').attr('placeholder','Search by artist or work name');
-    //     $('.darkmodeBg').hover(function(){
-    //         $('.darkmode').toggleClass('active');
-    //     }, function(){
-    //         $('.darkmode').toggleClass('active');
-    //     });
-    //     $('.darkmodeBg.dark').hover(function(){
-    //         $('.darkmode.dark').toggleClass('active');
-    //     }, function(){
-    //         $('.darkmode.dark').toggleClass('active');
-    //     });
-    // } else if(windowWidth1024.matches) {
-    //     $('.topsearch>input').attr('placeholder','검색');
-    //     $('.topsearch-en>input').attr('placeholder','Search');
-    // } else if(windowWidth1023.matches){
-    //     $('.topsearch>input').attr('placeholder','검색을 입력하세요');
-    //     $('.topsearch-en>input').attr('placeholder','Search');
-    // };
+    };
 
     /* pc 다크모드 */
     $('.darkmodeBg').click(function (){
