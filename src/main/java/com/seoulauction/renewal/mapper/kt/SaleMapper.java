@@ -33,6 +33,7 @@ public interface SaleMapper {
     CommonMap selectBidForSuccessBid(CommonMap map);
     CommonMap selectSuccessBidForOverlab(CommonMap map);
     void insertSuccessBid(CommonMap map);
+    void updateSuccessBid(CommonMap map);
 
     CommonMap selectCustInteLot(CommonMap map);
 

@@ -186,14 +186,25 @@ public class SaleService {
     }
     public void insertSuccessBid(CommonMap map){
 
+        CommonMap topBid = selectTopBid(map);
+        map.put("bid_no" , topBid.get("BID_NO"));
+
         if (saleMapper.selectBidForSuccessBid(map) == null){
-            throw new SAException("일치하는 경매 정보가 없슴니다.");
+            throw new SAException("일치하는 경매 정보가 없습니다.");
         }
 
-        if(saleMapper.selectSuccessBidForOverlab(map) != null ) {
-            throw new SAException("이미 낙찰된 정보가 있습니다.");
+        //관리자에서 실행 시 혹시 업데이트라면.
+        if(map.getBoolean("update")){
+            saleMapper.updateSuccessBid(map);
+        } else {
+
+            if(saleMapper.selectSuccessBidForOverlab(map) != null ) {
+                throw new SAException("이미 낙찰된 정보가 있습니다.");
+            }
+            
+            saleMapper.insertSuccessBid(map);
         }
-        saleMapper.insertSuccessBid(map);
+
     }
 
     public CommonMap selectCustInteLot(CommonMap commonMap) {
