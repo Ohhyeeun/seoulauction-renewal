@@ -780,20 +780,6 @@ public class ApiSaleLiveController {
 
     /**
      *
-     * 현재가 조정
-     */
-    @PostMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/cur-price-control")
-    public ResponseEntity<RestResponse> adminCurPriceControl(@PathVariable("saleNo") int saleNo
-     ,@PathVariable("lotNo") int lotNo)
-    {
-        CommonMap commonMap = new CommonMap();
-        commonMap.put("sale_no", saleNo);
-
-        return ResponseEntity.ok(RestResponse.ok());
-    }
-
-    /**
-     *
      * 현장 응찰
      */
     @PostMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/place-bid")
@@ -852,16 +838,6 @@ public class ApiSaleLiveController {
             date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         }
         return ResponseEntity.ok(RestResponse.ok(currencyDataManager.getCurrency(date)));
-    }
-
-    /**
-     * 경매 공지 사항 입력.
-     */
-    @GetMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/add-notice")
-    public ResponseEntity<RestResponse> addSaleNotice() {
-
-
-        return ResponseEntity.ok(RestResponse.ok());
     }
 
 }
