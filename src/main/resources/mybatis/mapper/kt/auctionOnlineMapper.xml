@@ -243,4 +243,23 @@
             AND CU.CUST_NO = #{cust_no}
             AND CU.JOIN_KIND_CD = 'online'
     </select>
+
+    <select id="selectCustInteLotList" parameterType="CommonMap" resultType="CommonMap">
+        select L.SALE_NO, L.LOT_NO, IFNULL(IL.DEL_YN, 'Y') AS INTE_LOT_DEL, case when IL.DEL_YN is not null then 'Y' else 'N' end as INTE_LOT
+        from LOT L
+            join SALE S on L.SALE_NO = S.SALE_NO
+            left outer join CUST_INTE_LOT IL
+                ON L.SALE_NO = IL.SALE_NO AND L.LOT_NO = IL.LOT_NO AND IL.DEL_YN = 'N' AND IL.CUST_NO = #{cust_no}
+        where L.WWW_DISP_YN = 'Y'
+            and L.SALE_NO = #{sale_no}
+    </select>
+
+    <insert id="insertCustInteLot" parameterType="CommonMap">
+        INSERT INTO CUST_INTE_LOT(CUST_NO, SALE_NO, LOT_NO, REG_DT)
+        VALUES(#{cust_no}, #{sale_no}, #{lot_no}, now())
+    </insert>
+
+    <delete id="deleteCustInteLot" parameterType="CommonMap">
+        DELETE FROM CUST_INTE_LOT WHERE CUST_NO = #{cust_no} AND SALE_NO = #{sale_no} AND LOT_NO = #{lot_no};
+    </delete>
 </mapper>
