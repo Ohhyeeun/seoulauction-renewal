@@ -237,6 +237,11 @@ $(function() {
         $('.beltclose-btn').click(function () {
             $('.main-contents').css('margin-top', '102px');
         });
+
+        /* topsearch right 위치*/
+        $('.topsearch-box>form').css('right','auto');
+        $('.search-bubble-box').removeClass('on');
+
         /* 오프라인 라이브응찰 화면(pc) */
         $('.bidding_pc').show();
         $('.bidding_mo').hide();
@@ -252,9 +257,9 @@ $(function() {
         //     $('.main-contents').css('margin-top','162px');
         // });
     } else { /* 테블릿 */
-
         $('.header_gnbmenu>li>a').mouseenter(false);
         $(".submenuBg").mouseleave(false);
+        $('.topsearch-box>form').css('right','-100%');
 
         /* mobile gnb bg */
         $('.m-gnbmenu').off('click');
@@ -298,6 +303,7 @@ $(function() {
                 });
             });
         });
+
         $('.submenuBg-closeBtn').off('click');
         $('.submenuBg-closeBtn').click(function () {
             $('body').css({'overflow': 'visible'});
@@ -413,7 +419,7 @@ $(function() {
         //$('.topsearch-box>form').show();
         $('.topsearch>input').show();
         $('.topsearch-btn').show();
-        $('.search-bubble-box').show();
+        $('.search-bubble-box').addClass('on');
     });
 
     /*top search placeholder */
@@ -1001,8 +1007,9 @@ $(window).resize(function(){
             $('.bubble-box02').eq(utilityMenu).removeClass('hide');
         });
 
-        /* top search right 위치 */
-        // $('.topsearch-box>form').css('right','auto');  
+        /* topsearch right 위치*/
+        $('.topsearch-box>form').css('right','auto');
+        $('.search-bubble-box').removeClass('on');
 
         /* 오프라인 라이브응찰 화면(pc) */
         $('.bidding_pc').show();
@@ -1012,6 +1019,7 @@ $(window).resize(function(){
         $('.submenuBg').off('mouseenter');
         $('.header_gnbmenu>li>a').off('mouseenter');
         $('.submenu').hide();
+        $('.topsearch-box>form').css('right','-100%');
 
         $('.m-gnbmenu').off('click');
         $('.m-gnbmenu').click(function(){
@@ -1068,6 +1076,11 @@ $(window).resize(function(){
             } else {
                 $('.submenuBg').animate({'top':'0'});
             };
+
+            /* 모바일 topsearch */
+            $('.m-top-search').click(function (){
+                $('.search-bubble-box').addClass('on');
+            });
 
             /* 오프라인 라이브응찰 화면(mobile) */
             $('.bidding_mo').show();
