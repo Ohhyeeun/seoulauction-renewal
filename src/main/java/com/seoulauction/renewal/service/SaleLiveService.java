@@ -167,6 +167,13 @@ public class SaleLiveService {
             case "price_change":
                 //직원 권한이 있는지 여부 처리.
 
+                if(saUserDetails == null){
+                    throw new SAException("로그인을 하지 않았습니다.");
+                }
+
+                if(SecurityUtils.checkRole("ROLE_EMPLOYEE_USER")){
+                    throw new SAException("직원이 아닙니다.");
+                }
                 //floor 값이 아닌데도 notice 값이 있을경우 null 처리
                 offlineBiddingForm.setBidNotice(null);
                 offlineBiddingForm.setBidNoticeEn(null);
