@@ -61,4 +61,33 @@ public class ApiAuctionOnlineController {
 
         return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.selectManager(custNo)));
     }
+
+    @ApiOperation(value = "관심 랏 조회", notes = "경매번호를 통해 관심 랏을 조회한다.")
+    @GetMapping(value="/cust-inte-lot/sales/{saleNo}")
+    public ResponseEntity<RestResponse> selectCustInteLotList(@PathVariable("saleNo") int saleNo) {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+
+        return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.selectCustInteLotList(commonMap)));
+    }
+
+    @ApiOperation(value = "관심 랏 저장", notes = "경매번호, 랏 번호를 통해 관심 랏을 저장한다.")
+    @PostMapping(value="/cust-inte-lot/sales/{saleNo}/lots/{lotNo}")
+    public ResponseEntity<RestResponse> insertCustInteLotList(@PathVariable("saleNo") int saleNo, @PathVariable("lotNo") int lotNo) {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+        commonMap.put("lot_no", lotNo);
+
+        return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.insertCustInteLotList(commonMap)));
+    }
+
+    @ApiOperation(value = "관심 랏 삭제", notes = "경매번호, 랏 번호를 통해 관심 랏을 삭제한다.")
+    @DeleteMapping(value="/cust-inte-lot/sales/{saleNo}/lots/{lotNo}")
+    public ResponseEntity<RestResponse> deleteCustInteLotList(@PathVariable("saleNo") int saleNo, @PathVariable("lotNo") int lotNo) {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+        commonMap.put("lot_no", lotNo);
+
+        return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.deleteCustInteLotList(commonMap)));
+    }
 }
