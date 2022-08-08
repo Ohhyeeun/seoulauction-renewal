@@ -501,15 +501,15 @@ public class ApiSaleController {
 
     @PostMapping(value="/sale/successBid/{saleNo}/{lotNo}")
     public ResponseEntity<RestResponse> successBid(
+            @RequestParam(value = "update" , required = false , defaultValue = "false") Boolean update,
                @PathVariable("saleNo") int saleNo,
                @PathVariable("lotNo") int lotNo) {
 
         CommonMap map = new CommonMap();
-        CommonMap topBid = saleService.selectTopBid(map);
 
         map.put("sale_no" , saleNo);
         map.put("lot_no" , lotNo);
-        map.put("bid_no" , topBid.get("BID_NO"));
+        map.put("update", update);
 
         saleService.insertSuccessBid(map);
 
