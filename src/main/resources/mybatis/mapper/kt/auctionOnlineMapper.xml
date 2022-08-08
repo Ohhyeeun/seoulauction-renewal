@@ -3,10 +3,13 @@
 <mapper namespace="com.seoulauction.renewal.mapper.kt.AuctionOnlineMapper">
     <select id="selectSaleInfoList" parameterType="CommonMap" resultType="CommonMap">
         select S.SALE_NO
+             , S.SALE_KIND_CD
              , IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH
              , COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
              , S.FROM_DT
              , S.TO_DT
+             , S.CURR_CD
+             , S.STAT_CD
              , S.LIVE_BID_YN
              , S.LIVE_BID_DT
              , S.AUTO_BID_REQ_CLOSE_DT
@@ -27,6 +30,7 @@
                       , '"MAP_URL":"', ifnull(SP.MAP_URL, ''), '"'
                       , '}')
             ,']') as PREVIEW_JSON
+            , if(S.SALE_KIND_CD in('plan', 'main', 'hongkong') and S.TO_DT &lt; current_timestamp - interval 5 year, 'Y', 'N') as IS_OLD_SALE
         from SALE S
              LEFT OUTER JOIN BBS_WRITE BW ON BW.SALE_NO = S.SALE_NO AND BBS_ID = 'notice'
              LEFT OUTER JOIN SALE_PREV SP ON S.SALE_NO = SP.SALE_NO

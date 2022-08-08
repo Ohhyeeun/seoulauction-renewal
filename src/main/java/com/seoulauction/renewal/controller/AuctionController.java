@@ -84,6 +84,14 @@ public class AuctionController {
         return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionList" , locale);
     }
 
+    /**
+     * 온라인 경매 목록(New)
+     */
+    @GetMapping(value = "/online/list/{saleNo}")
+    public String onlineAuctionList(Locale locale, Model modal, HttpServletRequest request, HttpServletResponse response, @PathVariable("saleNo") Integer saleNo) {
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION, "onlineAuctionList", locale);
+    }
+
     /* 온라인 경매 상세*/
     @GetMapping("/online/view/{sale_no}/{lot_no}")
     public String view(Locale locale, Model model

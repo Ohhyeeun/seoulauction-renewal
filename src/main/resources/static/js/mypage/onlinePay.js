@@ -68,9 +68,6 @@ app.controller('onlinePayListCtl', function($scope, consts, common) {
 					$scope.totalCnt = result["data"]["payTotalCount"];
 					$scope.payList = Object.keys($scope.groupBy(result["data"]["payList"],'SALE_NO')).map((key) => [Number(key), $scope.groupBy(result["data"]["payList"],'SALE_NO')[key]]).sort((a, b) => b[0] - a[0]);
 					$scope.$apply();
-					
-					console.log($scope.totalCnt);
-					console.log($scope.totalCnt);
 		            }
 		        })
 		        .catch(function(error){
