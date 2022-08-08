@@ -29,6 +29,11 @@
                                 <div class="panel-body">
 
                                     <ul class="form_table_pay">
+                                        <!-- [0803]결제완료코멘트 추가 -->
+                                        <li class="comment_pay">
+                                            <p class="tt1">결제가 완료되었습니다.</p>
+                                        </li>
+                                        <!-- //[0803]결제완료코멘트 추가 --> 
                                         <li>
                                             <div class="account_info">
                                                 <p class="tit">가상계좌 정보</p>
