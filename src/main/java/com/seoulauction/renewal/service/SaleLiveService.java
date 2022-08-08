@@ -123,48 +123,67 @@ public class SaleLiveService {
         }
 
         CommonMap map = new CommonMap();
+        map.put("cust_no" , 0);
+
 
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
-
-
-        map.put("cust_no" , 0);
         //만약 로그인을 했고 직원 이면.
         if( saUserDetails !=null) {
             map.put("cust_no" , saUserDetails.getUserNo());
         }
 
+
+        CommonMap lastMap = new CommonMap();
+        lastMap.put("sale_no" , saleNo);
+        lastMap.put("lot_no" , lotNo);
+
         //비드 카인드가 online 일경우 paddle 정보를 넣음. )
-        if(offlineBiddingForm.getBidKindCd().equals("online")) {
-            int paddle = auctionService.selectSalePaddNo(map);
-            if (paddle == 0) {
-                //비드 카인드가 online 일경우 paddle 변호가 없으면 오류.
-                throw new SAException("패들 번호가 존재 해야합니다.");
-            } else {
-                map.put("padd_no" , paddle);
-            }
+        switch (offlineBiddingForm.getBidKindCd()) {
+            case "online":
 
-            //floor 값이 아닌데도 notice 값이 있을경우 null 처리
-            offlineBiddingForm.setBidNotice(null);
-            offlineBiddingForm.setBidNoticeEn(null);
+                int paddle = auctionService.selectSalePaddNo(map);
 
-        //현장 응찰일 때
-        } else if (offlineBiddingForm.getBidKindCd().equals("floor")) {
+                if (paddle == 0) {
+                    //비드 카인드가 online 일경우 paddle 변호가 없으면 오류.
+                    throw new SAException("패들 번호가 존재 해야합니다.");
+                } else {
+                    map.put("padd_no", paddle);
+                }
 
-            //notice 값이 둘다 있을경우 공지로 간주.
-            if(offlineBiddingForm.getBidNotice() !=null && offlineBiddingForm.getBidNoticeEn() !=null){
-                //혹시 bidPrice 값이 들어있다면 null 처리.
-                offlineBiddingForm.setBidPrice(null);
-            }
+                //floor 값이 아닌데도 notice 값이 있을경우 null 처리
+                offlineBiddingForm.setBidNotice(null);
+                offlineBiddingForm.setBidNoticeEn(null);
+                break;
+            //현장 응찰일 때
+            case "floor":
 
-        //현재가 조정일경우
-        } else if (offlineBiddingForm.getBidKindCd().equals("price_change")) {
-            //직원 권한이 있는지 여부 처리.
+                //notice 값이 둘다 있을경우 공지로 간주.
+                if (offlineBiddingForm.getBidNotice() != null && offlineBiddingForm.getBidNoticeEn() != null) {
+                    //혹시 bidPrice 값이 들어있다면 null 처리.
+                    offlineBiddingForm.setBidPrice(null);
+                }
+                break;
+            //현재가 조정일경우
+            case "price_change":
+                //직원 권한이 있는지 여부 처리.
 
-            //floor 값이 아닌데도 notice 값이 있을경우 null 처리
-            offlineBiddingForm.setBidNotice(null);
-            offlineBiddingForm.setBidNoticeEn(null);
+                //floor 값이 아닌데도 notice 값이 있을경우 null 처리
+                offlineBiddingForm.setBidNotice(null);
+                offlineBiddingForm.setBidNoticeEn(null);
+                break;
         }
 
+        CommonMap lastPriceMap = saleLiveMapper.selectBidOfflineForLastPrice(lastMap);
+        if(lastPriceMap !=null){
+            Long data = (Long) lastPriceMap.get("BID_PRICE");
+
+            if(offlineBiddingForm.getBidPrice()!=null && !offlineBiddingForm.getBidKindCd().equals("price_change")){
+                if( data > offlineBiddingForm.getBidPrice()){
+                    throw new SAException("현재가 보다 낮은 응찰을 할 수 없습니다.");
+                }
+            }
+
+        }
 
         //값 세팅.
         map.put("sale_no", saleNo);
