@@ -69,7 +69,9 @@ function getCustDetails(){
 					}
 					$("#deli_addr_dtl").val(data.DELI_ADDR_DTL);
 				}else{
-					$("#deli_addr").hide();
+					if(langType == 'ko'){
+						$("#deli_addr").hide();
+					}
 				}
 //				if(data.PUSH_WAY_JSON != "[\"\"]"){
 				if(!undefCheck(data.PUSH_WAY_JSON)){
