@@ -715,7 +715,11 @@ public class ApiSaleLiveController {
     public ResponseEntity<RestResponse> offlineBidding(
              @PathVariable("saleNo") int saleNo
             ,@PathVariable("lotNo") int lotNo
-            ,@RequestBody OfflineBiddingForm offlineBiddingForm
+            ,@ApiParam(
+            "<b>bidKindCd</b> 값이 분기 값에 따른 필수 파라미터 값 정의\n\n\n" +
+            "<b>online</b> -> bid_price 값 필수. ( 온라인 오프라인 응찰 )\n" +
+            "<b>price_change</b> -> bid_price 값 필수. ( 운영자 페이지 기능 - 현재가 조정 )\n" +
+            "<b>floor</b> -> bid_price 값 필수.  bid_notice 값이 있을경우는 공지로 인식.\n") @RequestBody OfflineBiddingForm offlineBiddingForm
             ) {
 
         saleLiveService.insertOfflineBidding(saleNo , lotNo , offlineBiddingForm);
@@ -768,20 +772,6 @@ public class ApiSaleLiveController {
      */
     @GetMapping(value="/admin/sales/{saleNo}")
     public ResponseEntity<RestResponse> adminSales(@PathVariable("saleNo") int saleNo) {
-        CommonMap commonMap = new CommonMap();
-        commonMap.put("sale_no", saleNo);
-
-        return ResponseEntity.ok(RestResponse.ok());
-    }
-
-    /**
-     *
-     * 현재가 조정
-     */
-    @PostMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/cur-price-control")
-    public ResponseEntity<RestResponse> adminCurPriceControl(@PathVariable("saleNo") int saleNo
-     ,@PathVariable("lotNo") int lotNo)
-    {
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
 
@@ -848,16 +838,6 @@ public class ApiSaleLiveController {
             date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         }
         return ResponseEntity.ok(RestResponse.ok(currencyDataManager.getCurrency(date)));
-    }
-
-    /**
-     * 경매 공지 사항 입력.
-     */
-    @GetMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/add-notice")
-    public ResponseEntity<RestResponse> addSaleNotice() {
-
-
-        return ResponseEntity.ok(RestResponse.ok());
     }
 
 }

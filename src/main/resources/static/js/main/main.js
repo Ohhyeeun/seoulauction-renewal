@@ -714,6 +714,14 @@ $(window).resize(function(){
     if (matchMedia("all and (min-width: 1024px)").matches) {
         /* 쿠키가 있을 때 dim 없는  main 레이어팝업 */
         $('.main-popupBg').removeClass('on');
+
+        /* 반응형 margin-top 조정 */
+        if($('.header_beltbox').hasClass('on')) {
+            $('.main-contents').css({'margin-top': '162px'});
+        } else {
+            $('.main-popupBg').removeClass('on');
+            $('.main-contents').css({'margin-top': '102px'});
+        }
     } else {
         /* 쿠키가 없을 때 dim 있는 main 레이어팝업 */
         if (isMainPopup) {
