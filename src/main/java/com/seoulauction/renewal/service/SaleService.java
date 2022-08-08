@@ -249,7 +249,8 @@ public class SaleService {
             }
 
             saleMapper.insertAutoBid(map);
-            saleMapper.insertOfflineBid(map);
+
+           // saleMapper.insertOfflineBid(map);
 
         } else if (bidKindCd.equals("floor") || bidKindCd.equals("paper")) {
             saleMapper.insertOfflineBid(map);
