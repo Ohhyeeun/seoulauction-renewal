@@ -25,6 +25,7 @@ public class SaleLiveService {
 
     private final SaleLiveMapper saleLiveMapper;
     private final AWSSaleMapper awsSaleMapper;
+    private final AuctionService auctionService;
 
     @Value("${image.root.path}")
     private String IMAGE_URL;
@@ -119,10 +120,19 @@ public class SaleLiveService {
 
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
 
+
         map.put("cust_no" , 0);
         //만약 로그인을 했고 직원 이면.
         if( saUserDetails !=null) {
             map.put("cust_no" , saUserDetails.getUserNo());
+        }
+
+        //비드 카인드가 online 일경우 paddle 정보를 넣음. )
+        if(offlineBiddingForm.getBidKindCd().equals("online")) {
+            int paddle = auctionService.selectSalePaddNo(map);
+            if (paddle != 0) {
+                map.put("padd_no" , paddle);
+            }
         }
 
         saleLiveMapper.insertLiveBidding(map);

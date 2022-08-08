@@ -715,7 +715,11 @@ public class ApiSaleLiveController {
     public ResponseEntity<RestResponse> offlineBidding(
              @PathVariable("saleNo") int saleNo
             ,@PathVariable("lotNo") int lotNo
-            ,@RequestBody OfflineBiddingForm offlineBiddingForm
+            ,@ApiParam(
+            "<b>bidKindCd</b> 값이 분기 값에 따른 필수 파라미터 값 정의\n\n\n" +
+            "<b>online</b> -> bid_price 값 필수. ( 온라인 오프라인 응찰 )\n" +
+            "<b>price_change</b> -> bid_price 값 필수. ( 운영자 페이지 기능 - 현재가 조정 )\n" +
+            "<b>floor</b> -> bid_price 값 필수.  bid_notice 값이 있을경우는 공지로 인식.\n") @RequestBody OfflineBiddingForm offlineBiddingForm
             ) {
 
         saleLiveService.insertOfflineBidding(saleNo , lotNo , offlineBiddingForm);
