@@ -280,7 +280,7 @@
             <!-- 데이터 세팅 -->
             function init(){
 
-                axios.get('api/auction/lot_info/${saleNo}/${lotNo}')
+                axios.get('api/auction/live/lot_info/${saleNo}/${lotNo}')
                     .then(function(response) {
                     let data = response.data.data;
                     let sale_title;

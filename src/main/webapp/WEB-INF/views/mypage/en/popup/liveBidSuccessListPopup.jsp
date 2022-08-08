@@ -15,7 +15,7 @@
 						<a class="btn_close icon-pop_close js-closepop" href="#"
 							title="닫기">X</a>
 						<div class="title-box">
-							<span class="txt_title">{{liveBidHisHammerList[0].SALE_TITLE_EN}}</span>
+							<span class="txt_title">{{liveBidHisHammerList[0].SALE_TH}}{{liveBidHisHammerList[0].SALE_TH_DSP}} {{liveBidHisHammerList[0].SALE_TITLE_EN}}</span>
 						</div>
 					</div>
 					<div class="pop-body scroll-type">

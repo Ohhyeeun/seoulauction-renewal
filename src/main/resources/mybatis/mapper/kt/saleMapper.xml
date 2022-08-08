@@ -588,13 +588,28 @@
 			1
     </select>
     <insert id="insertSuccessBid" parameterType="CommonMap">
-        INSERT INTO SUCCESS_BID(SALE_NO,
-                                LOT_NO,
-                                BID_NO)
-        VALUES (#{sale_no},
+        INSERT INTO SUCCESS_BID(
+                SALE_NO,
+                LOT_NO,
+                BID_NO
+                )
+        VALUES (
+                #{sale_no},
                 #{lot_no},
-                #{bid_no})
+                #{bid_no}
+                )
     </insert>
+    <update id="updateSuccessBid" parameterType="CommonMap">
+        UPDATE
+               SUCCESS_BID
+            SET
+                BID_NO = #{bid_no}
+                ,REG_DT = NOW()
+            WHERE
+                SALE_NO = #{sale_no}
+                AND LOT_NO = #{lot_no}
+    </update>
+
 
     <!-- 오프라인/온라인 각 상황에 맞게 insert -->
     <insert id="insertBid" parameterType="CommonMap">

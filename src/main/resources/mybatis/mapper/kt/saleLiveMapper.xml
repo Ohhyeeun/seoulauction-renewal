@@ -207,6 +207,11 @@
             </if>
         ) BMAX
     </insert>
+    <select id="selectBidOfflineForLastPrice" parameterType="CommonMap" resultType="CommonMap">
+        SELECT BID_PRICE FROM BID_OFFLINE WHERE SALE_NO = #{sale_no} AND LOT_NO = #{lot_no} AND BID_PRICE IS NOT NULL ORDER BY BID_NO DESC LIMIT 1
+    </select>
+
+
     <!--환률정보 -->
     <select id="selectSaleExchRate" parameterType="CommonMap" resultType="CommonMap">
         SELECT

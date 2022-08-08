@@ -11,6 +11,7 @@ public interface SaleLiveMapper {
     CommonMap selectLiveSale(CommonMap map);
     List<CommonMap> selectLiveSaleLots(CommonMap map);
     CommonMap selectLiveSaleLotByOne(CommonMap map);
+    CommonMap selectBidOfflineForLastPrice(CommonMap map);
     List<CommonMap> selectLiveCategories(CommonMap map);
     List<CommonMap> selectLiveMyBidding(CommonMap map);
     List<CommonMap> selectLiveSiteBidding(CommonMap map);
