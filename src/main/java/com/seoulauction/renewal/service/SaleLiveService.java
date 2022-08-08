@@ -3,6 +3,7 @@ package com.seoulauction.renewal.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.form.OfflineBiddingForm;
 import com.seoulauction.renewal.mapper.aws.AWSSaleMapper;
 import com.seoulauction.renewal.mapper.aws.MainMapper;
@@ -108,15 +109,20 @@ public class SaleLiveService {
     }
     public List<CommonMap> selectLiveSiteBidding(CommonMap map){return saleLiveMapper.selectLiveSiteBidding(map);}
 
-    public void insertOfflineBidding(int saleNo , int lotNo , OfflineBiddingForm offlineBiddingForm){
+
+    //동기화 처리.
+    public synchronized void insertOfflineBidding(int saleNo , int lotNo , OfflineBiddingForm offlineBiddingForm){
+
+
+        //비드 카인드가 이상한 값이 들어온경우.
+        if( !"online".equals(offlineBiddingForm.getBidKindCd()) &&
+            !"price_change".equals(offlineBiddingForm.getBidKindCd()) &&
+            !"floor".equals(offlineBiddingForm.getBidKindCd())
+        ) {
+            throw new SAException("bidKindCd 값이 올바르지 않습니다.");
+        }
 
         CommonMap map = new CommonMap();
-        map.put("sale_no", saleNo);
-        map.put("lot_no", lotNo);
-        map.put("bid_kind_cd", offlineBiddingForm.getBidKindCd());
-        map.put("bid_price", offlineBiddingForm.getBidPrice());
-        map.put("bid_notice", offlineBiddingForm.getBidNotice());
-        map.put("bid_notice_en", offlineBiddingForm.getBidNoticeEn());
 
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
 
@@ -130,10 +136,44 @@ public class SaleLiveService {
         //비드 카인드가 online 일경우 paddle 정보를 넣음. )
         if(offlineBiddingForm.getBidKindCd().equals("online")) {
             int paddle = auctionService.selectSalePaddNo(map);
-            if (paddle != 0) {
+            if (paddle == 0) {
+                //비드 카인드가 online 일경우 paddle 변호가 없으면 오류.
+                throw new SAException("패들 번호가 존재 해야합니다.");
+            } else {
                 map.put("padd_no" , paddle);
             }
+
+            //floor 값이 아닌데도 notice 값이 있을경우 null 처리
+            offlineBiddingForm.setBidNotice(null);
+            offlineBiddingForm.setBidNoticeEn(null);
+
+        //현장 응찰일 때
+        } else if (offlineBiddingForm.getBidKindCd().equals("floor")) {
+
+            //notice 값이 둘다 있을경우 공지로 간주.
+            if(offlineBiddingForm.getBidNotice() !=null && offlineBiddingForm.getBidNoticeEn() !=null){
+                //혹시 bidPrice 값이 들어있다면 null 처리.
+                offlineBiddingForm.setBidPrice(null);
+            }
+
+        //현재가 조정일경우
+        } else if (offlineBiddingForm.getBidKindCd().equals("price_change")) {
+            //직원 권한이 있는지 여부 처리.
+
+            //floor 값이 아닌데도 notice 값이 있을경우 null 처리
+            offlineBiddingForm.setBidNotice(null);
+            offlineBiddingForm.setBidNoticeEn(null);
         }
+
+
+        //값 세팅.
+        map.put("sale_no", saleNo);
+        map.put("lot_no", lotNo);
+        map.put("bid_kind_cd", offlineBiddingForm.getBidKindCd());
+        map.put("bid_price", offlineBiddingForm.getBidPrice());
+        map.put("bid_notice", offlineBiddingForm.getBidNotice());
+        map.put("bid_notice_en", offlineBiddingForm.getBidNoticeEn());
+
 
         saleLiveMapper.insertLiveBidding(map);
     }
