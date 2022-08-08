@@ -997,6 +997,8 @@ FROM
 	<select id="selectLiveBidHammerList" resultType="Map">
 	select
 		B.*, LF.*
+		, IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH
+ 		, IF(S.SALE_TH_DSP_YN = 'N', '', f_ordinal_number(S.SALE_TH)) SALE_TH_DSP
 		, COLUMN_GET(S.TITLE_BLOB, 'ko' AS CHAR) SALE_TITLE_KR
 		, COLUMN_GET(S.TITLE_BLOB, 'en' AS CHAR) SALE_TITLE_EN
 		, IFNULL(COLUMN_GET(A.ARTIST_NAME_BLOB, 'ko' AS CHAR), '') ARTIST_NAME_KR
