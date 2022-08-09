@@ -114,7 +114,22 @@ public class SaleLiveService {
     public List<CommonMap> selectLiveMyBidding(CommonMap map){
         return saleLiveMapper.selectLiveMyBidding(map);
     }
-    public List<CommonMap> selectLiveSiteBidding(CommonMap map){return saleLiveMapper.selectLiveSiteBidding(map);}
+    public CommonMap selectLiveSiteBidding(CommonMap map){
+
+        CommonMap resultMap = new CommonMap();
+
+        CommonMap lotOne = selectLiveSaleLotByOne(map);
+
+        List<CommonMap> biddingList = saleLiveMapper.selectLiveSiteBidding(map);
+
+        resultMap.put("bid_data" , biddingList);
+        resultMap.put("GROW_PRICE" , lotOne.get("GROW_PRICE"));
+        resultMap.put("LAST_PRICE" , lotOne.get("LAST_PRICE"));
+        resultMap.put("LIVE_ING_YN" , lotOne.get("LIVE_ING_YN"));
+        resultMap.settingYNValueToBoolean();
+
+        return resultMap;
+    }
 
     //동기화 처리.
     public synchronized void insertOfflineBidding(int saleNo , int lotNo , OfflineBiddingForm offlineBiddingForm){
