@@ -9,23 +9,23 @@
     <!-- container -->
     <div id="container">
       <div id="contents" class="contents">
-        <!-- page title (ing, view)   -->
+        <!-- 페이지 타이틀 영역 -->
         <section class="page_title-section list_page-section">
           <div class="section-inner full_size">
             <div class="padding-inner">
               <article class="auction_head_info-article">
                 <div class="center-box ing">
                   <h2 class="page_title">
-                    <span class="th1" data-title>2월 e BID 프리미엄 온라인 경매</span>
+                    <span class="th1" data-title>&nbsp;</span>
                   </h2>
                   <ul class="event_day-list">
                     <li>
                       <span class="colorB2">프리뷰</span>
-                      <span class="" data-preview> : 01.28(금) - 02.08(화)</span>
+                      <span class="" data-preview> : &nbsp;</span>
                     </li>
                     <li>
                       <span class="colorB2">경매일</span>
-                      <span class="" data-to-date> : 02.09(화) 14:00</span>
+                      <span class="" data-to-date> : &nbsp;</span>
                     </li>
                   </ul>
                   <div class="btn_set">
@@ -35,6 +35,8 @@
                   </div>
                 </div>
               </article>
+
+              <!-- 진행중 랏 영역 -->
               <article class="proceeding-article">
                 <a href="#" title="진행중 Lot 10|김선우">
                   <div class="article-inner">
@@ -53,23 +55,21 @@
                   </div>
                 </a>
               </article>
+              <!-- 진행중 랏 영역 //-->
             </div>
           </div>
         </section>
+        <!-- 페이지 타이틀 영역 //-->
 
+        <!-- 카테고리 영역 -->
         <section class="sticky-tab-menu">
           <div class="tab-wrap js-tabmenu-sticky">
             <div class="tab-area type-left">
-              <ul class="tab-list js-list_tab" data-category>
-                <li class="active">
-                  <a href="#tab-cont-1">
-                    <span>전체</span>
-                  </a>
-                </li>
-              </ul>
+              <ul class="tab-list js-list_tab" data-category></ul>
             </div>
           </div>
         </section>
+        <!-- 카테고리 영역 //-->
 
         <section class="basis-section tab-auction-section">
           <div class="section-inner">
@@ -155,14 +155,12 @@
                     </div>
 
                     <div class="col_item mb-col2">
-                      <!-- [0617]검색창위치 변경 -->
                       <div class="search-box">
-                        <input type="search" placeholder="작가/작품명" id="search-input" class="h42">
+                        <input type="search" id="search-input" placeholder="작가/작품명" class="h42" />
                         <i class="form-search_md"></i>
                       </div>
-                      <!-- //[0617]검색창위치 변경 -->
                       <div class="select-box">
-                        <select class="select2Basic42" id="sort-order">
+                        <select id="sort-order" class="select2Basic42">
                           <option value="LOTAS">LOT 번호순</option>
                           <option value="ESTDE">추정가 높은 순</option>
                           <option value="ESTAS">추정가 낮은 순</option>
@@ -197,9 +195,11 @@
                 <div class="paging-area">
                   <div class="paging"></div>
                 </div>
-                <button class="btn btn_gray_line" type="button">
-                  <span>더보기</span>
-                </button>
+                <div class="view-more-area">
+                  <button type="button" class="btn btn_gray_line">
+                    <span>더보기</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -221,11 +221,132 @@
     <!-- Scroll Top Button //-->
   </div>
 </div>
+
 <jsp:include page="./onlineAuctionListPopup.jsp" />
+
+<!-- 응찰하기(온라인) -->
+<template id="online-bid-popup">
+  <div id="popup_biddingPopup2-wrap" class="trp popupfixed-wrap bidding-online-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-lg mode-mb_full">
+      <div class="popup-vertical">
+        <div class="popup-layer">
+
+          <div class="pop-panel">
+            <div class="pop-header">
+              <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+              <div class="title-box">
+                <span class="txt_title">LOT 92</span>
+              </div>
+            </div>
+            <div class="pop-body scroll-type">
+              <section class="section  " style="display: block;">
+                <div class="bidding-online-wrap">
+                  <article class="bidding-online-left">
+
+                    <figure class="view-area">
+                      <div class="view-img">
+                        <div class="img-box">
+                          <div class="box-inner">
+                            <img src="/images/temp/lot-02.jpg" alt="LOT 02">
+                          </div>
+                        </div>
+                      </div>
+                      <figcaption class="view-typo">
+                        <div class="typo-header">
+                          <!-- [0516]년도수정 -->
+                          <div class="title"><span>데미안허스트</span></div>
+                          <div class="year"><span>b. 1956-2000</span></div>
+                          <!-- // [0516]년도수정 -->
+                          <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                        </div>
+                        <div class="typo-body">
+                          <span>spray paint on canvas</span>
+                          <ul>
+                            <li>80.9 X73.4cm</li>
+                            <li>2021</li>
+                          </ul>
+                        </div>
+                      </figcaption>
+                    </figure>
+                  </article>
+                  <article class="bidding-online-right js-bidding_tab">
+                    <div class="legend-area">
+                      <div class="side_time">
+                        <span>남은시간 종료</span>
+                      </div>
+                      <div class="unit">
+                        <span>호가단위 : </span>
+                        <em>KRW 200,000 </em>
+                      </div>
+                    </div>
+                    <div class="product-list-area ">
+                      <div class="list-header">
+                        <div class="price-name"><span>현재가</span></div>
+                        <div class="price-amount"><em>KRW 1,700,000</em> <span>(응찰11)</span></div>
+                      </div>
+                      <div class="list-body scroll-type">
+                        <ul class="product-list">
+                          <!-- [0516]최고가표기 -->
+                          <li>
+                            <div class="product-user on_green"><span>dj****</span></div>
+                            <div class="product-price on_red"><span>1,600,000</span></div>
+                            <div class="product-day"><em class="type-success">낙찰</em><span>2033-03-16</span><span>14:20:21</span></div>
+                          </li>
+                          <li>
+                            <div class="product-user"><span>dj****</span></div>
+                            <div class="product-price "><span>1,600,000</span></div>
+                            <div class="product-day"><em class="type-auto">자동</em><span>2033-03-16</span><span>14:20:21</span></div>
+                          </li>
+                          <!-- // [0516]최고가표기 -->
+                          <li>
+                            <div class="product-user"><span>dj****</span></div>
+                            <div class="product-price"><span>1,600,000</span></div>
+                            <div class="product-day"><span>2033-03-16</span><span>14:20:21</span></div>
+                          </li>
+                          <li>
+                            <div class="product-user"><span>dj****</span></div>
+                            <div class="product-price"><span>1,600,000</span></div>
+                            <div class="product-day"><span>2033-03-16</span><span>14:20:21</span></div>
+                          </li>
+                          <li>
+                            <div class="product-user"><span>dj****</span></div>
+                            <div class="product-price"><span>1,600,000</span></div>
+                            <div class="product-day"><span>2033-03-16</span><span>14:20:21</span></div>
+                          </li>
+                          <li>
+                            <div class="product-user"><span>dj****</span></div>
+                            <div class="product-price"><span>1,600,000</span></div>
+                            <div class="product-day"><span>2033-03-16</span><span>14:20:21</span></div>
+                          </li>
+
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="online_end">
+                      <div class="txt">
+                        현재 LOT의 경매가 <span>종료</span>되었습니다.
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              </section>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<!-- 응찰하기(온라인) //-->
 
 <!-- 순차적으로 실행 -->
 <script src="/js/online-auction-list/api.js" defer></script>
-<script src="/js/online-auction-list/render.js" defer></script>
+<script src="/js/online-auction-list/renderTitle.js" defer></script>
+<script src="/js/online-auction-list/renderLotList.js" defer></script>
+<script src="/js/online-auction-list/renderPaging.js" defer></script>
+<script src="/js/online-auction-list/renderViewMore.js" defer></script>
 <script src="/js/online-auction-list/ui.js" defer></script>
 <script src="/js/online-auction-list/utils.js" defer></script>
 <script src="/js/online-auction-list/index.js" defer></script>

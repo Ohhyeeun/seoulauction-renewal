@@ -1,3 +1,5 @@
+// @ts-check
+
 /**
  * ----------------------------------------------------------------------------
  * API 콜
@@ -6,19 +8,17 @@
 
 /**
  * [API Call] 경매 정보
+ * @return {Promise<Object>}
  */
 async function callApiSaleInfo(saleNo) {
-  if (typeof axios === 'undefined') return;
-  if (!saleNo) return;
+  if (typeof axios === 'undefined') return null;
+  if (!saleNo) return null;
 
   try {
     const { data } = await axios.get(`/api/auction/online/sales/${saleNo}`);
-    if (!data.success) {
-      throw new Error(data.data);
-    }
+    if (!data.success) return null;
 
-    const result = data.data;
-    return result;
+    return data.data;
   } catch (error) {
     console.log(error);
     return null;
@@ -27,23 +27,19 @@ async function callApiSaleInfo(saleNo) {
 
 /**
  * [API Call] 관심작품 목록
+ * @return {Promise<Array<Object>>}
  */
 async function callApiFavoriteLots(saleNo) {
-  if (typeof axios === 'undefined') return;
-  if (!saleNo) return;
+  if (typeof axios === 'undefined') return [];
+  if (!saleNo) return [];
 
   try {
     const { data } = await axios.get(`/api/auction/online/cust-inte-lot/sales/${saleNo}`);
-    console.log(data);
-    if (!data.success) {
-      throw new Error(data.data);
-    }
-
-    const result = data.data;
-    return result;
+    if (!data.success) return [];
+    return data.data;
   } catch (error) {
     console.log(error);
-    return null;
+    return [];
   }
 }
 
@@ -92,12 +88,33 @@ async function callApiDeleteFavoriteLot(saleNo, lotNo) {
 /**
  * [API Call] 랏 목록
  */
-async function callApiLotList(saleNo, page = 1, size = 20) {
+async function callApiLotList(pageData) {
   if (typeof axios === 'undefined') return;
-  if (!saleNo) return;
+  if (!pageData.saleNo) return;
 
   try {
-    const { data } = await axios.get(`/api/auction/online/sales/${saleNo}/lots?page=${page}&size=${size}`);
+    let params = {
+      page: pageData.page || 1,
+      size: pageData.size || 20,
+      sortBy: pageData.sort || 'LOTAS',
+    }
+
+    if (pageData.search) {
+      params.searchText = pageData.search;
+    }
+
+    if (pageData.category) {
+      params.cateCd = pageData.category;
+    }
+
+    if (pageData.tag) {
+      params.lotTag = encodeURI(pageData.tag);
+      delete params.cateCd;
+    }
+
+    const paramString = window.Qs.stringify(params);
+    const url = `/api/auction/online/sales/${pageData.saleNo}/lots?${paramString}`;
+    const { data } = await axios.get(url);
     if (!data.success) {
       throw new Error(data.data);
     }

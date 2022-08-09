@@ -5,28 +5,97 @@
  */
 
 /**
+ * URL 에서 페이지 데이터 가져오기
+ * @returns {{search: string, size: (number), page: (number), sort: string, tag: string, category: (string), saleNo: number}}
+ */
+function loadPageData() {
+  const pathname = window.location.pathname;
+  const pageParams = window.Qs.parse(window.location.search, { ignoreQueryPrefix: true });
+  const pathSaleNo = pathname.replace(/^\/auction\/online\/(\d+).*/, '$1');
+
+  const saleNo = pathSaleNo ? Number(pathSaleNo) : null;
+
+  let page = pageParams.page ? Number(pageParams.page) : 1;
+  let size = pageParams.size ? Number(pageParams.size) : 20;
+
+  if (page < 1) page = 1;
+  if (size > 100) size = 100;
+
+  const search = pageParams.search || '';
+  const sort = pageParams.sort || '';
+  const tag = pageParams.tag || '';
+  const category = pageParams.category || '';
+  const view = pageParams.view || 'page'; // page | more
+
+  return {
+    saleNo,
+    page,
+    size,
+    search,
+    sort,
+    tag,
+    category,
+    view,
+  }
+}
+
+/**
  * URL 생성
  */
-function makeUrl(page, sort, search) {
+function makeUrl(data) {
+  const { page, size, search, sort, tag, category, view } = data;
   const pathname = window.location.pathname;
   let params = window.Qs.parse(window.location.search, { ignoreQueryPrefix: true });
 
+  console.log(data)
+
+  // page
   if (page !== 1) {
     params.page = page;
   } else {
     delete params.page;
   }
 
+  // size
+  if (size !== 20) {
+    params.size = size;
+  } else {
+    delete params.size;
+  }
+
+  // search
+  if (search) {
+    params.search = search;
+  } else {
+    delete params.search;
+  }
+
+  // sort
   if (sort) {
     params.sort = sort;
   } else {
     delete params.sort;
   }
 
-  if (search) {
-    params.search = search;
+  // tag
+  if (tag) {
+    params.tag = tag;
   } else {
-    delete params.search;
+    delete params.tag;
+  }
+
+  // category
+  if (category) {
+    params.category = category;
+  } else {
+    delete params.category;
+  }
+
+  // view
+  if (view && view === 'more') {
+    params.view = 'more';
+  } else {
+    delete params.view;
   }
 
   return pathname + '?' +  window.Qs.stringify(params);
