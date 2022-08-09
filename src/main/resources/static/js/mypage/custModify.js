@@ -615,12 +615,6 @@ function artistSearch(){
 	
 $("body").on("click", "#writer_search1-wrap .js-closepop, #writer_search1-wrap .popup-dim, #writerClose", function($e) {
     $e.preventDefault();
-    let tmpCheckedList = $('input:checkbox[name=artistChk]:checked')
-    for(let i = 0; i < tmpCheckedList.length; i++){
-		let val = $(tmpCheckedList[i]).val().split("|");
-    	inteArtistList = inteArtistList.filter((ele) => ele != val[0]);
-	}
-		
     staff_search1.close();
 });
 
@@ -660,7 +654,7 @@ function findArtistNewForm(){
 					inteArtistList.forEach(function(ele){
 						$("#artistChk" + ele).prop("checked", true);
 					});	
-					tmpArtistList = inteArtistList;
+					tmpArtistList = inteArtistList.slice();
 					tmpArtistJson = inteArtistJson;
 	
 				}else{
