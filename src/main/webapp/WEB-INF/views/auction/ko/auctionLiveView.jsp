@@ -1247,7 +1247,14 @@
 
                 $scope.activeIndex = 0;
 
-                $scope.lotInfo.OFFLINE_MAX_BID_PRICE = numberWithCommas($scope.lotInfo.OFFLINE_MAX_BID_PRICE);
+                if($scope.lotInfo.OFFLINE_MAX_BID_PRICE != null) {
+                    console.log("낙찰가 있음");
+                    $scope.lotInfo.OFFLINE_MAX_BID_PRICE = numberWithCommas($scope.lotInfo.OFFLINE_MAX_BID_PRICE);
+                }
+                else {
+                    console.log("낙찰가 없음");
+                    $scope.lotInfo.OFFLINE_MAX_BID_PRICE = 0;
+                }
 
 
                 let sale_title;
