@@ -122,7 +122,7 @@ public class SaleLiveService {
 
         List<CommonMap> biddingList = saleLiveMapper.selectLiveSiteBidding(map);
 
-        resultMap.put("bid_data" , biddingList);
+        resultMap.put("BID_DATA" , biddingList);
         resultMap.put("GROW_PRICE" , lotOne.get("GROW_PRICE"));
         resultMap.put("LAST_PRICE" , lotOne.get("LAST_PRICE"));
         resultMap.put("LIVE_ING_YN" , lotOne.get("LIVE_ING_YN"));
