@@ -129,6 +129,23 @@
             left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
         where L.WWW_DISP_YN = 'Y'
             and L.SALE_NO = #{sale_no}
+        <if test="lot_tag != null">
+            and L.LOT_TAG = #{cate_cd}
+        </if>
+        <if test="cate_cd != null">
+            and L.CATE_CD in (select cd_id from CODE where grp_id = 'artwork_category' and p_cd_id = #{cate_cd} union
+            select cd_id from CODE where grp_id = 'artwork_category' and p_cd_id in (select cd_id from CODE where grp_id = 'artwork_category' and p_cd_id = #{cate_cd}))
+        </if>
+        <if test="search_text != null">
+            and (
+                COLUMN_GET(AT.ARTIST_NAME_BLOB, 'ko' AS CHAR) like concat('%', #{search_text}, '%')
+                or COLUMN_GET(AT.ARTIST_NAME_BLOB, 'en' AS CHAR) like concat('%', #{search_text}, '%')
+                or COLUMN_GET(AT.ARTIST_NAME_BLOB, 'zh' AS CHAR) like concat('%', #{search_text}, '%')
+                or COLUMN_GET(L.TITLE_BLOB, 'ko' AS CHAR) like concat('%', #{search_text}, '%')
+                or COLUMN_GET(L.TITLE_BLOB, 'en' AS CHAR) like concat('%', #{search_text}, '%')
+                or COLUMN_GET(L.TITLE_BLOB, 'zh' AS CHAR) like concat('%', #{search_text}, '%')
+            )
+        </if>
         group by L.SALE_NO , L.LOT_NO
         order by
         <choose>

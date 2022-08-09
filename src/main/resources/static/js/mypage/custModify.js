@@ -562,8 +562,8 @@ function copyAddr(){
 		$("#deli_addr_dtl").val($("#addr_dtl").val());
 	}else{
 		$("#deli_zipno, #deli_addr_dtl").val('');
-		$("#deli_addr").hide();
 		if(langType == 'ko'){
+			$("#deli_addr").hide();
 			$("#deli_addr").html('');
 		}else{
 			$("#deli_addr").val('');
@@ -818,7 +818,11 @@ function custModify(){
 		.then(function(response) {
 			var result = response.data;
 			if(result.success){
-				alert("회원정보가 수정되었습니다.");
+				if(langType == 'ko'){
+					alert("회원정보가 수정되었습니다.");
+				}else{
+					alert("It is changed.");
+				}
 				$('#modifyButton').attr('disabled', 'disabled');
 			}else{
 				alert(result.data.msg)	

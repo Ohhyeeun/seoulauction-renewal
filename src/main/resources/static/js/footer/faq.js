@@ -47,9 +47,9 @@ $(document).ready(function(){
                         let localeContent = locale === 'ko' ? content.ko : content.en;
 
                         //둘다 값이 있어야 나오도록 수정.
-                        if(title.ko !== '' && title.en !== '' ) {
+                        if(localeTitle !== '' && localeContent !== '' ) {
 
-                            let html = `<li className="trp_acitem">
+                            let html = `<li class="trp_acitem">
                                                 <div class="header-area">
                                                     <div class="accordion_name tt4">
                                                         <a href="#" class="">
