@@ -1,12 +1,10 @@
 package com.seoulauction.renewal.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.form.OfflineBiddingForm;
-import com.seoulauction.renewal.mapper.aws.MainMapper;
-import com.seoulauction.renewal.mapper.kt.AuctionMapper;
+import com.seoulauction.renewal.mapper.aws.AWSSaleMapper;
 import com.seoulauction.renewal.mapper.kt.SaleLiveMapper;
 import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,23 +21,18 @@ import java.util.stream.Collectors;
 public class SaleLiveService {
 
     private final SaleLiveMapper saleLiveMapper;
-
-    private final AuctionMapper auctionMapper;
-
-    private final MainMapper mainMapper;
+    private final AWSSaleMapper awsSaleMapper;
+    private final AuctionService auctionService;
 
     @Value("${image.root.path}")
     private String IMAGE_URL;
-
-    private final String JSON_KEY ="JSON";
-
-    private final ObjectMapper mapper = new ObjectMapper();
 
     public CommonMap selectLiveSale(CommonMap map){
 
         CommonMap result = saleLiveMapper.selectLiveSale(map);
         if(result !=null){
             result.settingJsonStrToObject();
+            result.settingYNValueToBoolean();
         }
 
         return result;
@@ -55,28 +46,20 @@ public class SaleLiveService {
             map.put("cust_no" , 0);
         }
 
-        AtomicBoolean isEmployee = new AtomicBoolean(false);
-
-        return saleLiveMapper.selectLiveSaleLots(map).stream().map(k->{
-
-            if( saUserDetails !=null) {
-                map.put("cust_no" , saUserDetails.getUserNo());
-                isEmployee.set(saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER")));
-            }
+        return saleLiveMapper.selectLiveSaleLots(map).stream().peek(k->{
 
             //json stringify -> object
             k.settingJsonStrToObject();
+            k.settingYNValueToBoolean();
 
-            //노이미지 처리.
-            if (k.get("IMG_DISP_YN").equals("N") && !isEmployee.get()) {
-                k.put("IMAGE_URL", "");
-                k.put("LOT_IMG_PATH", "");
-                k.put("LOT_IMG_NAME", "/images/bg/no_image.jpg");
-            } else {
-                k.put("IMAGE_URL", IMAGE_URL);
+            k.put("IMAGE_FULL_PATH","");
+
+            if(k.get("LOT_IMG_PATH") !=null && k.get("LOT_IMG_NAME") !=null) {
+                k.put("IMAGE_FULL_PATH", IMAGE_URL + k.get("LOT_IMG_PATH") + "/" + k.get("LOT_IMG_NAME"));
             }
+            k.remove("LOT_IMG_PATH");
+            k.remove("LOT_IMG_NAME");
 
-           return k;
         }).collect(Collectors.toList());
     }
     public CommonMap selectLiveSaleLotByOne(CommonMap map){
@@ -88,20 +71,26 @@ public class SaleLiveService {
             map.put("cust_no" , 0);
         }
 
-        map.put("all" , false);
-
         CommonMap result = saleLiveMapper.selectLiveSaleLotByOne(map);
 
-        if(result !=null) {
-            result.settingJsonStrToObject();
-            //값이 만약없을경우 특정조건을 빼고 랏1번으로 재호출.
-        } else{
-            map.put("all" , true);
+        if(result == null){
             map.put("lot_no" , 1);
             result = saleLiveMapper.selectLiveSaleLotByOne(map);
             result.settingJsonStrToObject();
+            result.settingYNValueToBoolean();
         }
 
+        result.settingJsonStrToObject();
+        result.settingYNValueToBoolean();
+
+        result.put("IMAGE_FULL_PATH","");
+
+        if(result.get("LOT_IMG_PATH") !=null && result.get("LOT_IMG_NAME") !=null) {
+            result.put("IMAGE_FULL_PATH", IMAGE_URL + result.get("LOT_IMG_PATH") + "/" + result.get("LOT_IMG_NAME"));
+        }
+
+        result.remove("LOT_IMG_PATH");
+        result.remove("LOT_IMG_NAME");
 
         return result;
     }
@@ -113,9 +102,89 @@ public class SaleLiveService {
     }
     public List<CommonMap> selectLiveSiteBidding(CommonMap map){return saleLiveMapper.selectLiveSiteBidding(map);}
 
-    public void insertOfflineBidding(int saleNo , int lotNo , OfflineBiddingForm offlineBiddingForm){
+
+    //동기화 처리.
+    public synchronized void insertOfflineBidding(int saleNo , int lotNo , OfflineBiddingForm offlineBiddingForm){
+
+        //비드 카인드가 이상한 값이 들어온경우.
+        if( !"online".equals(offlineBiddingForm.getBidKindCd()) &&
+            !"price_change".equals(offlineBiddingForm.getBidKindCd()) &&
+            !"floor".equals(offlineBiddingForm.getBidKindCd())
+        ) {
+            throw new SAException("bidKindCd 값이 올바르지 않습니다.");
+        }
 
         CommonMap map = new CommonMap();
+        map.put("cust_no" , 0);
+
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        //만약 로그인을 했고 직원 이면.
+        if( saUserDetails !=null) {
+            map.put("cust_no" , saUserDetails.getUserNo());
+        }
+
+
+        CommonMap lastMap = new CommonMap();
+        lastMap.put("sale_no" , saleNo);
+        lastMap.put("lot_no" , lotNo);
+
+        //비드 카인드가 online 일경우 paddle 정보를 넣음. )
+        switch (offlineBiddingForm.getBidKindCd()) {
+            case "online":
+
+                int paddle = auctionService.selectSalePaddNo(map);
+
+                if (paddle == 0) {
+                    //비드 카인드가 online 일경우 paddle 변호가 없으면 오류.
+                    throw new SAException("패들 번호가 존재 해야합니다.");
+                } else {
+                    map.put("padd_no", paddle);
+                }
+
+                //floor 값이 아닌데도 notice 값이 있을경우 null 처리
+                offlineBiddingForm.setBidNotice(null);
+                offlineBiddingForm.setBidNoticeEn(null);
+                break;
+            //현장 응찰일 때
+            case "floor":
+
+                //notice 값이 둘다 있을경우 공지로 간주.
+                if (offlineBiddingForm.getBidNotice() != null && offlineBiddingForm.getBidNoticeEn() != null) {
+                    //혹시 bidPrice 값이 들어있다면 null 처리.
+                    offlineBiddingForm.setBidPrice(null);
+                }
+                break;
+            //현재가 조정일경우
+            case "price_change":
+                //직원 권한이 있는지 여부 처리.
+
+                if(saUserDetails == null){
+                    throw new SAException("로그인을 하지 않았습니다.");
+                }
+
+                if(!SecurityUtils.checkRole("ROLE_EMPLOYEE_USER")){
+                    throw new SAException("직원이 아닙니다.");
+                }
+                //floor 값이 아닌데도 notice 값이 있을경우 null 처리
+                offlineBiddingForm.setBidNotice(null);
+                offlineBiddingForm.setBidNoticeEn(null);
+                break;
+        }
+
+        CommonMap lastPriceMap = saleLiveMapper.selectBidOfflineForLastPrice(lastMap);
+        if(lastPriceMap !=null){
+            Long data = (Long) lastPriceMap.get("BID_PRICE");
+
+            if(offlineBiddingForm.getBidPrice()!=null && !offlineBiddingForm.getBidKindCd().equals("price_change")){
+                if( data > offlineBiddingForm.getBidPrice()){
+                    throw new SAException("현재가 보다 낮은 응찰을 할 수 없습니다.");
+                }
+            }
+
+        }
+
+        //값 세팅.
         map.put("sale_no", saleNo);
         map.put("lot_no", lotNo);
         map.put("bid_kind_cd", offlineBiddingForm.getBidKindCd());
@@ -123,18 +192,26 @@ public class SaleLiveService {
         map.put("bid_notice", offlineBiddingForm.getBidNotice());
         map.put("bid_notice_en", offlineBiddingForm.getBidNoticeEn());
 
-        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
-
-        map.put("cust_no" , 0);
-        //만약 로그인을 했고 직원 이면.
-        if( saUserDetails !=null) {
-            map.put("cust_no" , saUserDetails.getUserNo());
-        }
 
         saleLiveMapper.insertLiveBidding(map);
     }
     public List<CommonMap> selectSaleExchRate(CommonMap map){
         return saleLiveMapper.selectSaleExchRate(map);
+    }
+
+    public List<CommonMap> selectBidNotice(CommonMap commonMap) {
+
+        return awsSaleMapper.selectBidNotice(commonMap).stream().peek(c->{
+            c.settingJsonStrToObject();
+            c.settingYNValueToBoolean();
+        }).collect(Collectors.toList());
+    }
+    public void lotSync(CommonMap map){
+        saleLiveMapper.updateLotSync(map);
+    }
+
+    public void lotLotCloseToggle(CommonMap map){
+        saleLiveMapper.updateLotCloseToggle(map);
     }
 
 }

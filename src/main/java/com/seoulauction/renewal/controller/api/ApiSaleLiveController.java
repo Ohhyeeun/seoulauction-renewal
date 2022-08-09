@@ -4,8 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.common.RestResponse;
-import com.seoulauction.renewal.domain.Bid;
-import com.seoulauction.renewal.domain.Bidder;
+import com.seoulauction.renewal.component.CurrencyDataManager;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.form.OfflineBiddingForm;
@@ -14,6 +13,8 @@ import com.seoulauction.renewal.service.S3Service;
 import com.seoulauction.renewal.service.SaleLiveService;
 import com.seoulauction.renewal.service.SaleService;
 import com.seoulauction.renewal.util.SecurityUtils;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -39,6 +41,8 @@ public class ApiSaleLiveController {
     private final S3Service s3Service;
 
     private final AuctionService auctionService;
+
+    private final CurrencyDataManager currencyDataManager;
 
     @Value("${image.root.path}")
     private String IMAGE_URL;
@@ -473,15 +477,15 @@ public class ApiSaleLiveController {
 
     @PostMapping(value="/sale/successBid/{saleNo}/{lotNo}")
     public ResponseEntity<RestResponse> successBid(
+               @RequestParam(value = "update" , required = false , defaultValue = "false") Boolean update,
                @PathVariable("saleNo") int saleNo,
                @PathVariable("lotNo") int lotNo) {
 
         CommonMap map = new CommonMap();
-        CommonMap topBid = saleService.selectTopBid(map);
 
         map.put("sale_no" , saleNo);
         map.put("lot_no" , lotNo);
-        map.put("bid_no" , topBid.get("BID_NO"));
+        map.put("update", update);
 
         saleService.insertSuccessBid(map);
 
@@ -671,14 +675,12 @@ public class ApiSaleLiveController {
         paramMap.put("category", category);
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveSaleLots(paramMap)));
     }
-    @GetMapping(value="sales/{saleNo}/lots/{lotNo}/now")
+    @GetMapping(value="sales/{saleNo}/bidding-lot-now")
     public ResponseEntity<RestResponse> selectLiveSaleLotByOne(
             @PathVariable("saleNo") int saleNo
-           ,@PathVariable("lotNo") int lotNo
     ) {
         CommonMap paramMap = new CommonMap();
         paramMap.put("sale_no", saleNo);
-        paramMap.put("lot_no", lotNo);
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveSaleLotByOne(paramMap)));
     }
     @GetMapping(value="sales/{saleNo}/categories")
@@ -713,7 +715,11 @@ public class ApiSaleLiveController {
     public ResponseEntity<RestResponse> offlineBidding(
              @PathVariable("saleNo") int saleNo
             ,@PathVariable("lotNo") int lotNo
-            ,@RequestBody OfflineBiddingForm offlineBiddingForm
+            ,@ApiParam(
+            "<b>bidKindCd</b> 값이 분기 값에 따른 필수 파라미터 값 정의\n\n\n" +
+            "<b>online</b> -> bid_price 값 필수. ( 온라인 오프라인 응찰 )\n" +
+            "<b>price_change</b> -> bid_price 값 필수. ( 운영자 페이지 기능 - 현재가 조정 )\n" +
+            "<b>floor</b> -> bid_price 값 필수.  bid_notice 값이 있을경우는 공지로 인식.\n") @RequestBody OfflineBiddingForm offlineBiddingForm
             ) {
 
         saleLiveService.insertOfflineBidding(saleNo , lotNo , offlineBiddingForm);
@@ -747,6 +753,13 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok());
     }
 
+    @GetMapping(value="/sales/{saleNo}/bid-notice")
+    public ResponseEntity<RestResponse> saleBidNotice(@PathVariable("saleNo") int saleNo) {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectBidNotice(commonMap)));
+    }
+
     /**
      * 운영자 페이지 전용 API 목록
      *
@@ -759,32 +772,6 @@ public class ApiSaleLiveController {
      */
     @GetMapping(value="/admin/sales/{saleNo}")
     public ResponseEntity<RestResponse> adminSales(@PathVariable("saleNo") int saleNo) {
-        CommonMap commonMap = new CommonMap();
-        commonMap.put("sale_no", saleNo);
-
-        return ResponseEntity.ok(RestResponse.ok());
-    }
-
-
-    /**
-     *
-     * LOT 동기화
-     */
-    @PostMapping(value="/admin/sales/{saleNo}/sync")
-    public ResponseEntity<RestResponse> adminLotSync(@PathVariable("saleNo") int saleNo) {
-        CommonMap commonMap = new CommonMap();
-        commonMap.put("sale_no", saleNo);
-
-        return ResponseEntity.ok(RestResponse.ok());
-    }
-    /**
-     *
-     * 현재가 조정
-     */
-    @PostMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/cur-price-control")
-    public ResponseEntity<RestResponse> adminCurPriceControl(@PathVariable("saleNo") int saleNo
-     ,@PathVariable("lotNo") int lotNo)
-    {
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
 
@@ -816,8 +803,41 @@ public class ApiSaleLiveController {
             ,@PathVariable("lotNo") int lotNo) {
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
+        commonMap.put("lot_no", lotNo);
+        saleLiveService.lotLotCloseToggle(commonMap);
+
 
         return ResponseEntity.ok(RestResponse.ok());
+    }
+
+    /**
+     *
+     * LOT 동기화
+     */
+    @PostMapping(value="/admin/sales/{saleNo}/sync")
+    public ResponseEntity<RestResponse> adminLotSync(@PathVariable("saleNo") int saleNo) {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+
+        saleLiveService.lotSync(commonMap);
+
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
+    /**
+     * 환율 정보 가져오기 ( 외부 API 이용 )
+     * PARAM 형식 - YYYY-MM-DD
+     */
+    @ApiOperation("YYYY-DD-MM 날짜형식 - 없을경우 현재 날짜의 환율 정보를 가져옴.")
+    @GetMapping(value="/admin/currency")
+    public ResponseEntity<RestResponse> currency(
+            @ApiParam(value = "EX ) YYYY-DD-MM")
+            @RequestParam(value = "date" , required = false) String date) {
+
+        if(date ==null){
+            date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        }
+        return ResponseEntity.ok(RestResponse.ok(currencyDataManager.getCurrency(date)));
     }
 
 }

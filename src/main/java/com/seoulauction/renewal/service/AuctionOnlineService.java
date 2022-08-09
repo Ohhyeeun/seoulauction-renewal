@@ -1,8 +1,10 @@
 package com.seoulauction.renewal.service;
 
 import com.seoulauction.renewal.domain.CommonMap;
+import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.mapper.aws.MainMapper;
 import com.seoulauction.renewal.mapper.kt.AuctionOnlineMapper;
+import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
@@ -38,7 +40,13 @@ public class AuctionOnlineService {
         return auctionOnlineMapper.selectLotInfo(commonMap);
     }
 
-    public CommonMap selectManager(int custNo){
+    public CommonMap selectManager(){
+        int custNo = 0;
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            custNo = saUserDetails.getUserNo();
+        }
+
         CommonMap map = auctionOnlineMapper.selectManager(custNo);
         if(map == null || StringUtils.isEmpty(map.getString("TEL"))){
             map = new CommonMap();
@@ -50,5 +58,36 @@ public class AuctionOnlineService {
         }
 
         return map;
+    }
+
+    public List<CommonMap> selectCustInteLotList(CommonMap commonMap) {
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            commonMap.put("cust_no", saUserDetails.getUserNo());
+        } else {
+            commonMap.put("cust_no", 0);
+        }
+        return auctionOnlineMapper.selectCustInteLotList(commonMap);
+    }
+
+    public int insertCustInteLotList(CommonMap commonMap) {
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            commonMap.put("cust_no", saUserDetails.getUserNo());
+        } else {
+            commonMap.put("cust_no", 0);
+        }
+        return auctionOnlineMapper.insertCustInteLot(commonMap);
+    }
+
+
+    public int deleteCustInteLotList(CommonMap commonMap) {
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            commonMap.put("cust_no", saUserDetails.getUserNo());
+        } else {
+            commonMap.put("cust_no", 0);
+        }
+        return auctionOnlineMapper.deleteCustInteLot(commonMap);
     }
 }

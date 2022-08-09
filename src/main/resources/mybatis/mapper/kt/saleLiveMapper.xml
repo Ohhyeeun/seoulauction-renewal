@@ -91,49 +91,13 @@
              ,COLUMN_JSON(D.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON
              ,COLUMN_JSON(L.TITLE_BLOB)           LOT_TITLE_JSON
              ,COLUMN_JSON(L.MAKE_YEAR_BLOB)       MAKE_YEAR_JSON
-             ,D.ARTIST_NO
              ,D.BORN_YEAR
+             ,D.DIE_YEAR
              ,LI.FILE_PATH LOT_IMG_PATH
              ,LI.FILE_NAME LOT_IMG_NAME
-             ,IMG_DISP_YN
-             ,IF (
-                 (select COUNT(*) from CUST_INTE_LOT CIL where CIL.SALE_NO =
-                  L.SALE_NO and CIL.LOT_NO = L.LOT_NO and CUST_NO = #{cust_no} ) <![CDATA[ > ]]> 0 , 'Y' , 'N') FAVORITE_YN
-             ,concat('[',
-                 GROUP_CONCAT('{',
-                      '"UNIT_CD":"', ifnull(E.UNIT_CD, 'cm') ,'",',
-                      '"SIZE1":', ifnull(E.SIZE1,0) ,',',
-                      '"SIZE2":', ifnull(E.SIZE2,0) ,',',
-                      '"SIZE3":', ifnull(E.SIZE3,0) ,',',
-                      '"CANVAS":', ifnull(E.CANVAS,0) ,',',
-                      '"DIAMETER_YN":"', ifnull(E.DIAMETER_YN,'N') ,'",',
-                      '"PREFIX":"', ifnull(E.PREFIX,'') ,'",',
-                      '"SUFFIX":"', ifnull(E.SUFFIX,'') ,'",',
-                      '"MIX_CD":"', ifnull(E.MIX_CD,'h') ,'",',
-                      '"CANVAS_EXT_YN":"', ifnull(E.CANVAS_EXT_YN,'N'), '"',
-                              '}')
-            ,']') AS LOT_SIZE_ARRAY
-             ,ifnull(E.UNIT_CD, 'cm')             UNIT_CD
-             ,ifnull(E.SIZE1, '0')                SIZE1
-             ,ifnull(E.SIZE2, '0')                SIZE2
-             ,ifnull(E.SIZE3, '0')                SIZE3
-             ,ifnull(E.CANVAS, '0')               CANVAS
-             ,ifnull(E.DIAMETER_YN, 'N')          DIAMETER_YN
-             ,ifnull(E.PREFIX, '')                PREFIX
-             ,ifnull(E.SUFFIX, '')                SUFFIX
-             ,ifnull(E.MIX_CD, 'h')               MIX_CD
-             ,ifnull(E.CANVAS_EXT_YN, 'N')        CANVAS_EXT_YN
              , (CASE WHEN (SELECT CUST_NO FROM BID_OFFLINE BD_OFF WHERE BD_OFF.BID_NOTICE is NULL AND BD_OFF.SALE_NO = L.SALE_NO AND BD_OFF.LOT_NO = L.LOT_NO ORDER BY BD_OFF.BID_DT DESC, BD_OFF.BID_PRICE desc, BD_OFF.BID_NO desc limit 1)
             = '${cust_no}' THEN 'Y' ELSE 'N' END) AS IS_WIN
-             ,LI.FILE_PATH
-             ,LI.FILE_NAME
-             ,LIVE_ING_YN
-             ,LIVE_CLOSE_YN
-             ,UNDERBIDDER_YN
-             ,UNDERBIDDER_REMARK
-             ,H.CD_ID CATE_CD_ID
-             ,H.CD_NM CATE_CD_NM
-             ,H.CD_NM_EN CATE_CD_NM_EN
+             ,(SELECT BD_OFF.BID_PRICE FROM BID_OFFLINE BD_OFF WHERE BD_OFF.BID_NOTICE is NULL AND BD_OFF.SALE_NO = L.SALE_NO AND BD_OFF.LOT_NO = L.LOT_NO ORDER BY BD_OFF.BID_NO DESC, BD_OFF.BID_DT DESC LIMIT 1) AS LAST_PRICE
         FROM
             LOT L
                 left outer join LOT_IMG LI on L.SALE_NO = LI.SALE_NO and L.LOT_NO = LI.LOT_NO
@@ -143,13 +107,17 @@
             LEFT OUTER JOIN CODE H ON H.GRP_ID = 'artwork_category' AND H.CD_ID = (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = (SELECT IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = L.CATE_CD))
         WHERE
               L.SALE_NO = #{sale_no}
-          and L.LOT_NO = #{lot_no}
           --  and L.STAT_CD = 'entry'
           and L.WWW_DISP_YN = 'Y'
-        <if test="all !=null and !all" >
+        <if test="lot_no == null" >
           and L.LIVE_ING_YN = 'Y'
         </if>
+        <if test="lot_no != null" >
+            and L.LOT_NO = #{lot_no}
+        </if>
         group by
+            L.LOT_NO
+        ORDER BY
             L.LOT_NO
         limit
             1
@@ -239,6 +207,11 @@
             </if>
         ) BMAX
     </insert>
+    <select id="selectBidOfflineForLastPrice" parameterType="CommonMap" resultType="CommonMap">
+        SELECT BID_PRICE FROM BID_OFFLINE WHERE SALE_NO = #{sale_no} AND LOT_NO = #{lot_no} AND BID_PRICE IS NOT NULL ORDER BY BID_NO DESC LIMIT 1
+    </select>
+
+
     <!--환률정보 -->
     <select id="selectSaleExchRate" parameterType="CommonMap" resultType="CommonMap">
         SELECT
@@ -248,5 +221,34 @@
         WHERE
               EX.SALE_NO = #{sale_no}
     </select>
+
+    <!-- 랏 동기화 - 해당 경매의 LOT 들을 전부 CLOSE YN , LIVE_ING_YN 을 Y 로 바꾼다.
+        랏번호가 있을경우 특정 LOT 만 바꾼다.
+    -->
+    <select id="updateLotSync" parameterType="CommonMap" resultType="CommonMap">
+        UPDATE
+            LOT
+         SET
+             LIVE_ING_YN = 'Y',
+             LIVE_CLOSE_YN = 'Y'
+         WHERE
+            SALE_NO = #{sale_no}
+        <if test="lot_no !=null">
+            AND LOT_NO = #{lot_no}
+        </if>
+    </select>
+
+    <!--랏 마감 - 특정 랏의 LIVE_CLOSE_YN 정보를 토글 형식으로 바꾼다. ( 호출 될때마다 Y , N 이 바낌 )
+    -->
+    <select id="updateLotCloseToggle" parameterType="CommonMap" resultType="CommonMap">
+        UPDATE
+            LOT
+        SET
+            LIVE_CLOSE_YN = IF(LIVE_CLOSE_YN = 'Y', 'N', 'Y')
+        WHERE
+            SALE_NO = #{sale_no}
+        AND LOT_NO = #{lot_no}
+    </select>
+
 
 </mapper>

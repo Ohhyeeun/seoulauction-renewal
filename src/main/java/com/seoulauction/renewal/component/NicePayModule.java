@@ -9,12 +9,11 @@ import com.seoulauction.renewal.exception.SAException;
 import kr.co.nicevan.nicepay.adapter.web.NicePayHttpServletRequestWrapper;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -38,6 +37,10 @@ public class NicePayModule {
     @Value("${nicepay.merchant.key}")
     String nicePaymerchantKey;
 
+
+    @Value("${nice.pay.mobile.wap.url}")
+    String nicePayMobileWapUrl;
+
     private final String NICE_PAY_BASE_URL  = "https://webapi.nicepay.co.kr";
     private final String AUTH_SUCCESS_CODE  = "0000";
     private final String CONFIRM_FAIL_CODE  = "9999";
@@ -49,10 +52,6 @@ public class NicePayModule {
 
         String authCode = wrapper.getParameter("AuthResultCode");
         CommonMap resultMap;
-
-
-        log.info(wrapper.getMapToString());
-
 
         String eDiDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 
@@ -79,6 +78,7 @@ public class NicePayModule {
             formData.add("EdiDate", eDiDate);
             formData.add("SignData", signData);
             formData.add("MallReserved", wrapper.getParameter("ReqReserved"));
+            formData.add("WapUrl", nicePayMobileWapUrl);
 
             String result = webClient
                     .post()
@@ -174,11 +174,8 @@ public class NicePayModule {
             formData.add("EdiDate", eDiDate);
             formData.add("Moid", moid);
             formData.add("ReceiptAmt", receiptAmt);
-            log.info(request.getParameter("GoodsName"));
-            log.info(new String(request.getParameter("GoodsName").getBytes(), "euc-kr"));
-            log.info(URLEncoder.encode(request.getParameter("GoodsName"), "euc-kr"));
-
-            formData.add("GoodsName", URLEncoder.encode(request.getParameter("GoodsName"), "euc-kr"));
+            formData.add("BuyerName", request.getParameter("name"));
+            formData.add("GoodsName", request.getParameter("GoodsName"));
             formData.add("SignData", signData);
             formData.add("ReceiptType", String.valueOf(request.getAttribute("rcpt_type")));
             formData.add("ReceiptTypeNo", String.valueOf(request.getAttribute("rcpt_type_no")));
@@ -188,22 +185,19 @@ public class NicePayModule {
             formData.add("ReceiptTaxFreeAmt", "0");
             formData.add("CharSet", "utf-8");
 
-            WebClient webClient = WebClient.builder()
-                    .baseUrl(NICE_PAY_BASE_URL)
-                    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-                    .build();
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE.concat(";charset=EUC-KR"));
 
-            String result = webClient
-                    .post()
-                    .uri("/webapi/cash_receipt.jsp")
-                    .body(BodyInserters
-                            .fromFormData(formData))
-                    .retrieve()
-                    .onStatus(HttpStatus::is4xxClientError, clientResponse -> Mono.error(RuntimeException::new))
-                    .onStatus(HttpStatus::is5xxServerError, clientResponse -> Mono.error(RuntimeException::new))
-                    .bodyToMono(String.class).block();
+            HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(formData, headers);
+            RestTemplate rt = new RestTemplate();
+            ResponseEntity<String> result = rt.exchange(
+                NICE_PAY_BASE_URL.concat("/webapi/cash_receipt.jsp"),
+                HttpMethod.POST,
+                entity,
+                String.class
+            );
 
-            resultMap = new ObjectMapper().readValue(result, CommonMap.class);
+            resultMap = new ObjectMapper().readValue(result.toString(), CommonMap.class);
 
             String resultCode = resultMap.getString("ResultCode");
             if(!resultCode.equals("7001")) {
@@ -215,68 +209,7 @@ public class NicePayModule {
 
         return resultMap;
     }
-
-    public String connectToServer(String data, String reqUrl) throws Exception {
-        HttpURLConnection conn 		= null;
-        BufferedReader resultReader = null;
-        PrintWriter pw 				= null;
-        URL url 					= null;
-
-        int statusCode = 0;
-        StringBuffer recvBuffer = new StringBuffer();
-        try{
-            url = new URL(reqUrl);
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setConnectTimeout(15000);
-            conn.setReadTimeout(25000);
-            conn.setDoOutput(true);
-
-            pw = new PrintWriter(conn.getOutputStream());
-            pw.write(data);
-            pw.flush();
-
-            statusCode = conn.getResponseCode();
-            resultReader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "euc-kr"));
-            for(String temp; (temp = resultReader.readLine()) != null;){
-                recvBuffer.append(temp).append("\n");
-            }
-
-            if(!(statusCode == HttpURLConnection.HTTP_OK)){
-                throw new Exception();
-            }
-
-            return recvBuffer.toString().trim();
-        }catch (Exception e){
-            return "9999";
-        }finally{
-            recvBuffer.setLength(0);
-
-            try{
-                if(resultReader != null){
-                    resultReader.close();
-                }
-            }catch(Exception ex){
-                resultReader = null;
-            }
-
-            try{
-                if(pw != null) {
-                    pw.close();
-                }
-            }catch(Exception ex){
-                pw = null;
-            }
-
-            try{
-                if(conn != null) {
-                    conn.disconnect();
-                }
-            }catch(Exception ex){
-                conn = null;
-            }
-        }
-    }
+    
     private String getReceiptTID(String MID) {
         //TID(30byte) = MID + 지불수단(현금영수증) + 매체구분(일반) + 시간정보(yyMMddHHmmss) + 랜덤(4byte)
         StringBuilder result = new StringBuilder(MID).append("04").append("01")

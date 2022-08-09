@@ -691,8 +691,8 @@
                                                         </p>
                                                         <h4>Collected items</h4>
                                                         <p class="tb1">
-                                                            (Required)Name , date of birth , gender , login ID , password , home address , mobile phone number , email<br>
-                                                            (Optional)Home phone number
+                                                            (Required)ID, Password, Name, Birth Date, Gender, E-mail, Country, Address<br>
+                                                            (Optional)Mobile Number, ID card attached(Fill the bidding registration), Shipping Address, Receive via, Art Work Interest, Favorite Artist
                                                         </p>
                                                         <h4>Purpose of collection and use of personal information</h4>
                                                         <p class="tb1">

@@ -8,7 +8,12 @@ $(document).ready(function(){
     let locale = document.documentElement.lang;
     let search_text = '';
 
-
+    $(document).keyup(function (e) {
+        // focus 되고 enter눌렀을 경우
+        if ((e.key == "Enter")) {
+            $("#search_btn").click();
+        }
+    });
     init();
 
     //초기작업.

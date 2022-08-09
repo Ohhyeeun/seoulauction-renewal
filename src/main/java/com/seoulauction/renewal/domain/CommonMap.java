@@ -66,6 +66,10 @@ public class CommonMap extends HashMap<String, Object>{
 	public Integer getInteger(Object key){
 		return super.get(key) instanceof Integer ? (Integer) super.get(key) : null;
 	}
+
+	public Boolean getBoolean(Object key){
+		return super.get(key) instanceof Boolean ? (Boolean) super.get(key) : null;
+	}
 	
 	@Override
 	public Object get(Object key) {
@@ -89,14 +93,12 @@ public class CommonMap extends HashMap<String, Object>{
 	}
 
 	/**
-	 * Data 에 JSONStringify 가 있다면 Map 으로 변환.
+	 * Data 에 JSONStringify 가 있다면 Map 으로 변환. ( JSON 대문자 키로 매칭 )
 	 * @return
 	 */
 	public void settingJsonStrToObject(){
-		mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
 		this.keySet().stream().filter(f -> f.contains(JSON_KEY)).forEach(fo -> {
 			if (this.get(fo) != null) {
-				//this.put(fo, this.get(fo));
 				try {
 					this.put(fo, mapper.readValue(String.valueOf(this.get(fo)), Map.class));
 
@@ -107,6 +109,24 @@ public class CommonMap extends HashMap<String, Object>{
 			} else {
 				//값이없는경우 빈값을 넣어준다.
 				this.put(fo, new CommonMap());
+			}
+		});
+	}
+
+	/**
+	 * Data 에 값이 Y,N 일경우 Y-> true , N -> FALSE로 변환.
+	 * @return
+	 */
+	public void settingYNValueToBoolean(){
+		//값이 Y 이거나 N 일경우.
+
+		this.keySet().stream().filter(
+			c-> ( this.get(c) !=null && (this.get(c).equals("Y") || this.get(c).equals("N") ) )
+		).forEach(fo -> {
+			if (this.get(fo) != null) {
+				this.put(fo, this.get(fo).equals("Y"));
+			} else {
+				this.put(fo, false);
 			}
 		});
 	}

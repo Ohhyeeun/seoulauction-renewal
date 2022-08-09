@@ -11,6 +11,13 @@ $(document).ready(function(){
 
     init();
 
+    $(document).keyup(function (e) {
+        // focus 되고 enter눌렀을 경우
+        if ((e.key == "Enter")) {
+            $("#search_btn").click();
+        }
+    });
+
     //초기작업.
     function init(){
 
@@ -38,8 +45,14 @@ $(document).ready(function(){
 
                         let localeTitle = locale === 'ko' ? title.ko : title.en;
                         let localeContent = locale === 'ko' ? content.ko : content.en;
+                        //let localeSellInfo = locale === 'ko' ? '위탁안내 바로가기' : 'How to Sell';
 
-                        let html = `<li className="trp_acitem">
+
+                        //둘다 값이 있어야 나오도록 수정.
+                        if(localeTitle !== '' && localeContent !== '' ) {
+
+                            let html = `<li class="trp_acitem">
+
                                                 <div class="header-area">
                                                     <div class="accordion_name tt4">
                                                         <a href="#" class="">
@@ -53,11 +66,17 @@ $(document).ready(function(){
                                                     <span class="faq">A.</span>
                                                     <div class="faq_cont tb1">
                                                         ${localeContent}
-                                                    </div>
+                                                        <!--0809 추가 -->  
+                                                        // <div class="btn_wrap">
+                                                        //     <a class="btn btn_gray_line tb2" href="/sell/consignment" role="button"><span>${localeSellInfo}</span></a>
+                                                        // </div>  
+                                                        <!--//0809 추가 -->
+                                                    </div>  
                                                 </div>
                                       </li>`;
 
-                        $("#faq_content").append(html);
+                            $("#faq_content").append(html);
+                        }
                     });
 
                     //===아코디언FAQ===//
@@ -108,8 +127,6 @@ $(document).ready(function(){
 
     $("#search_btn").on('click',function (){
         search_text = $("#search_text").val();
-
-
         init();
     });
 

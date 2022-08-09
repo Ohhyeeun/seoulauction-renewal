@@ -20,19 +20,6 @@ function Request(){
 }
 var request = new Request();
 let isMainPopup = false;
-//이중접속 팝업
-var maxSession = request.getParameter("maxSession");
-if(maxSession.startsWith('true')){
-	var popup_concurrent = $(".js-popup_concurrent").trpLayerFixedPopup("#popup_concurrent-wrap");
-	popup_concurrent.open(this); // or false   
-	popup_fixation("#popup_concurrent-wrap"); // pc_하단붙이기
-}
-
-$("body").on("click", "#popup_concurrent-wrap .js-closepop, #popup_concurrent-wrap .popup-dim, #confirmMaxSession", function($e) {
-    $e.preventDefault();
-    popup_concurrent.close();
-    location.href="/"
-});
 
 //비밀번호초기화 팝업
 if(resetPassword == 'true'){
@@ -285,7 +272,7 @@ function loadTopNotice(){
                 if(matchMedia("all and (min-width: 1024px)").matches) {//pc
                     $('.main-contents').css({'margin-top': '162px'});
                 } else {//mo
-                    $('.submenuBg').css({'top':'-40px'});
+                    $('.submenuBg').css({'top':'-43px'});
                     $('.main-contents').css({'margin-top': '100px'});
                 }
 
@@ -727,6 +714,14 @@ $(window).resize(function(){
     if (matchMedia("all and (min-width: 1024px)").matches) {
         /* 쿠키가 있을 때 dim 없는  main 레이어팝업 */
         $('.main-popupBg').removeClass('on');
+
+        /* 반응형 margin-top 조정 */
+        if($('.header_beltbox').hasClass('on')) {
+            $('.main-contents').css({'margin-top': '162px'});
+        } else {
+            $('.main-popupBg').removeClass('on');
+            $('.main-contents').css({'margin-top': '102px'});
+        }
     } else {
         /* 쿠키가 없을 때 dim 있는 main 레이어팝업 */
         if (isMainPopup) {
@@ -751,6 +746,9 @@ $(window).resize(function(){
                 $('.submenuBg').css({'top':'0'});
             });
         });
+
+        /* visual hover none */
+        $('.visual-swiper > .swiper-wrapper, .swiper-button-next.slide-btnright, .swiper-button-prev.slide-btnleft').off('mouseenter');
     };
 
     /* visual */

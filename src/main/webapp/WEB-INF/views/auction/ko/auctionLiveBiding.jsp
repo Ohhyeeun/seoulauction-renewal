@@ -280,7 +280,7 @@
             <!-- 데이터 세팅 -->
             function init(){
 
-                axios.get('api/auction/lot_info/${saleNo}/${lotNo}')
+                axios.get('api/auction/live/lot_info/${saleNo}/${lotNo}')
                     .then(function(response) {
                     let data = response.data.data;
                     let sale_title;
@@ -423,7 +423,7 @@
                     return;
                 }
 
-                let url = '/api/auction/insertbid';
+                let url = '/api/auction/live/insertbid';
 
                 let date = new Date();
                 const month = String(date.getMonth()+1).padStart(2, "0");
@@ -459,8 +459,6 @@
                     console.error(error);
                 }
             });
-
-
 
             $("#biding_cancel_btn").on('click', function(){
                 location.href ='/auction/live/list/${saleNo}';

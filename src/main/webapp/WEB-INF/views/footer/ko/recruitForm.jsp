@@ -73,13 +73,13 @@
                                                             <input id="recruit_file" type="file" class="trp-Filehidden" title="Insert Attachment">
                                                         </div>
 
-                                                        <div class="file-box-list">
-                                                            <p class="label">
-                                                                <i class="icon_down"></i>
-                                                                <span class="tb1">Attached_filename.jpg </span>
-                                                                <a href="#none" class="btn_del"><span class="icon-del"></span></a>
-                                                            </p>
-                                                        </div>
+<%--                                                        <div class="file-box-list">--%>
+<%--                                                            <p class="label">--%>
+<%--                                                                <i class="icon_down"></i>--%>
+<%--                                                                <span class="tb1">Attached_filename.jpg </span>--%>
+<%--                                                                <a href="#none" class="btn_del"><span class="icon-del"></span></a>--%>
+<%--                                                            </p>--%>
+<%--                                                        </div>--%>
 
                                                         <div id="current_file"></div>
                                                         <div class="mark_list-wrap">
@@ -179,10 +179,12 @@
             let fileVal;
             let current_file;
 
-            $("#recruit_file").on('change',function (){
+            $("#recruit_file").on('change', function(){
 
                 current_file = $(this);
                 fileVal = current_file.val();
+
+                console.log($(this));
 
                 if(fileVal !=='') {
                     let ext = fileVal.split('.').pop().toLowerCase();
@@ -192,10 +194,27 @@
                         alert('hwp , doc, docx, ppt, pptx, xls, xlsx, pdf, txt, zip, alz 파일만 \n업로드 할수 있습니다.');
                         return;
                     }
-                    $("#current_file").html('첨부 파일 : ' + fileName);
-                }
 
+                    let html =
+                        `<div class="file-box-list">
+                            <p class="label">
+                                <i class="icon_down"></i>
+                                <span class="tb1">` + fileName + `</span>
+                                <a href="#none" id="add_file" class="btn_del"><span class="icon-del"></span></a>
+                            </p>
+                        </div>`;
+
+                    $("#current_file").html(html);
+
+                    $("#add_file").on('click' , function (){
+                        console.log('asdfasdfasdf');
+                        $("#current_file").empty();
+                        $("#recruit_file").val('');
+                    });
+
+                }
             });
+
 
             $("#recruit_btn").on('click',function (){
                 form();

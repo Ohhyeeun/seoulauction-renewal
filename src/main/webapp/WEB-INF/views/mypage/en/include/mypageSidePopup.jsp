@@ -97,7 +97,7 @@
     </div>
 </div>
         <!-- 팝업 : 정회원 결제 이력 -->
-<div id="popup_tooltip-wrap" class="trp popupfixed-wrap tooltip-popup">
+	<div id="popup_tooltip-wrap" class="trp popupfixed-wrap tooltip-popup">
         <div class="popup-dim"></div>
         <div class="popup-align mode-md mode-mb_fixed">
             <div class="popup-vertical">
@@ -117,33 +117,33 @@
                                         <span class="box-title tt5">Annual fee</span>
                                         <ul class="mark_dot-list">
                                             <!-- [0613]텍스트수정 -->
-                                            <li class="tb1">200,000 won for domestic residence, 500 USD for overseas residence (A year)</li>
+                                            <li class="tb1">KRW 200,000 for domestic resident, USD 500 for overseas resident (annually)</li>
                                             <!-- //[0613]텍스트수정 -->
                                         </ul>
                                     </article>
                                     <article class="group-box">
                                         <span class="box-title tt5">Benefits</span>
                                         <ul class="mark_dot-list">
-                                            <li><span class="tb1">Qualification to participate in live auction (major, planned)</span></li>
-                                            <li><span class="tb1">Send live auction catalog</span></li>
-                                            <li><span class="tb1">Seoul Auction calendar sent</span></li>
+                                            <li><span class="tb1">Permitted to participate in live auctions (major, planned)</span></li>
+                                            <li><span class="tb1">Receives live auction catalog</span></li>
+                                            <li><span class="tb1">Receives Seoul Auction calendar</span></li>
                                         </ul>
                                     </article>
                                     <article class="group-box">
                                         <span class="box-title tt5">Refund Information</span>
                                         <ul class="mark_dot-list">
-                                            <li><span class="tb1">Immediately after registration – less than 1 month : Full refund</span></li>
-                                            <li><span class="tb1">More than 1 month – less than 3 month : 80% refund</span></li>
-                                            <li><span class="tb1">More than 3 months – less than 6 months : 60% refund</span></li>
-                                            <li><span class="tb1">More than 6 months after joining : No refund</span></li>
+                                            <li><span class="tb1">Immediately after registration > less than 1 month: full refund</span></li>
+                                            <li><span class="tb1">More than 1 month > less than 3 month: 80% refund</span></li>
+                                            <li><span class="tb1">More than 3 months > less than 6 months: 60% refund</span></li>
+                                            <li><span class="tb1">More than 6 months after registration: no refund</span></li>
                                         </ul>
                                     </article>
                                     <!-- [0613]텍스트(문단)추가 -->
                                     <article class="group-box">
-                                        <span class="box-title tt5">Question regarding to Subscription Membership</span>
+                                        <span class="box-title tt5">Inquiries regarding subscription membership</span>
                                         <ul class="mark_dot-list">
-                                            <li><span class="tb1">(Phone) <a href="tel:82-2-2075-4422">+82-2-2075-4422</a></span></li>
-                                            <li><span class="tb1">(Email) <a href="mailto:info@seoulauction.com">info@seoulauction.com</a></span></li>
+                                            <li><span class="tb1">(Phone) +82(0)2-2075-4422</span></li>
+                                            <li><span class="tb1">(Email) info@seoulauction.com</span></li>
                                         </ul>
                                     </article>
                                     <!-- //[0613]텍스트(문단)추가 -->

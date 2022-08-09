@@ -171,6 +171,9 @@ app.controller('InteListCtl', function($scope, common, ngDialog) {
 
 
 	$scope.tabClick = function(saleKind) {
+		//탭 클릭 시, pathname 초기화
+		history.replaceState({}, null, location.pathname);
+		
 		$scope.saleKind = saleKind;
 		$scope.loadInteLotList(1);
 	}

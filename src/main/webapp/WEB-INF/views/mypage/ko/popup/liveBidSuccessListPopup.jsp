@@ -12,7 +12,7 @@
                         <div class="pop-header">
                             <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
                             <div class="title-box">
-                                <span class="txt_title">{{liveBidHisHammerList[0].SALE_TITLE_KR}}</span>
+                                <span class="txt_title">{{liveBidHisHammerList[0].SALE_TH}}{{liveBidHisHammerList[0].SALE_TH_DSP}} {{liveBidHisHammerList[0].SALE_TITLE_KR}}</span>
                             </div>
                         </div>
                         <div class="pop-body scroll-type">
@@ -37,7 +37,8 @@
                                                         <span>{{liveBidHisHammer.LOT_NO}}</span>
                                                     </td>
                                                     <td class="">
-                                                        <span class="tb1">{{liveBidHisHammer.ARTIST_NAME_KR}} / {{liveBidHisHammer.LOT_TITLE_KR}}</span>
+                                                        <span class="tb1" ng-if="liveBidHisHammer.ARTIST_NAME_KR" >{{liveBidHisHammer.ARTIST_NAME_KR}} / {{liveBidHisHammer.LOT_TITLE_KR}}</span>
+                                                        <span class="tb1" ng-if="!liveBidHisHammer.ARTIST_NAME_KR">{{liveBidHisHammer.LOT_TITLE_KR}}</span>
                                                     </td>
                                                     <td class="tar">
                                                         <span>{{comma(liveBidHisHammer.BID_PRICE)}}</span>

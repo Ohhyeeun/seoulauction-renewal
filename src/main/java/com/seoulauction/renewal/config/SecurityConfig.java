@@ -119,12 +119,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutUrl("/processLogout")
 //				.logoutSuccessUrl("/")
 				.logoutSuccessHandler(logoutHandler())
-				.permitAll()
-	            .and()
-		    .sessionManagement()
-	        	.maximumSessions(1)
-	        	.maxSessionsPreventsLogin(false)
-	        	.expiredUrl("/?maxSession=true");
+				.permitAll();
 	}
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

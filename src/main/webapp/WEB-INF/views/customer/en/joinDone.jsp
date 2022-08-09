@@ -26,10 +26,10 @@
 										<p class="tb1">An email has been sent for email verification.</p>
 										<p class="tb1">Please verify your email address to complete membership registration.</p>
 										<div class="complete_msg">
-											<p class="tt5"><strong>Sign up email address</strong></p>
+											<p class="tt5"><strong>Registration email address</strong></p>
 											<p class="tt5 mt5"><em>{{email}}</em></p>
 										</div>
-										<p class="tb1">If you do not receive the registration confirmation email, please check your spam folder or contact the customer center ( <a href="mailto:info@seoulauction.com">info@seoulauction.com</a> ).</p>
+										<p class="tb1">If you do not receive the registration confirmation email, please check your spam folder or contact Seoul Auction Customer Center ( <a href="mailto:info@seoulauction.com">info@seoulauction.com</a> ).</p>
 									</div>
 
 									<div class="join_guide">
@@ -38,7 +38,7 @@
 											<dt class="mem_txt">Associate Member</dt>
 											<dd>
 												<ul class="dot_list tb1">
-													<li>Provided limited service on the Seoul Auction website</li>
+													<li>Limited service on the Seoul Auction website</li>
 												</ul>
 											</dd>
 										</dl>
@@ -46,12 +46,12 @@
 											<dt class="mem_txt">Regular member</dt>
 											<dd>
 												<ul class="dot_list tb1">
-													<li>Annual fee 20,000 won</li>
-													<li>Qualification to bid at Seoul Auction</li>
-													<li>Sending Auction Invitations</li>
-													<li>Auction catalog sending service benefit (for one year of membership)</li>
-													<li>Qualifications to participate in exhibitions, events and various events</li>
-													<li>Free access to online information</li>
+													<li>Must pay annual fee of USD 500</li>
+													<li>Allowed to bid in auctions</li>
+													<li>Receives auction invitations</li>
+													<li>Receives auction catalog (for each year of membership)</li>
+													<li>Permitted to participate in exhibitions and various events</li>
+													<li>Has free access to information on Seoul Auction website</li>
 												</ul>
 												<!-- 영문삭제
 					  <div class="btn_line">
@@ -64,13 +64,13 @@
 								</div>
 							</div>
 							<%-- 영문삭제 --%>
-							<%--<div class="panel-footer">
+							<div class="panel-footer">
 								<article class="button-area">
 									<div class="btn_set-float tac">
-										<a class="btn btn_point btn_lg" href="#" role="button"><span>메인으로 이동</span></a>
+										<a class="btn btn_point btn_lg" href="/" role="button"><span>Go to Main</span></a>
 									</div>
 								</article>
-							</div>--%>
+							</div>
 						</div>
 					</div>
 				</section>
