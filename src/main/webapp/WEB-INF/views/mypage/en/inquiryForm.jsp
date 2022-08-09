@@ -72,7 +72,7 @@
 																				onchange="angular.element(this).scope().changeCate2()">
 																				<option value="">Choose</option>
 																				<option ng-repeat="code in inqCate2"
-																					value="{{code.CD_ID}}">{{code.CD_NM}}/{{code.CD_NM_EN}}</option>
+																					value="{{code.CD_ID}}">{{code.CD_NM_EN}}</option>
 																			</select>
 																		</div>
 																	</div>
