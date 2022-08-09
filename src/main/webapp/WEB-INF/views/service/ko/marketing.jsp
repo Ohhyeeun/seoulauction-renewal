@@ -17,8 +17,8 @@
                 <section class="page_title-section type-dark">
                     <div class="section-inner full_size ">
                         <div class="center-box">
-                            <h2 class="page_title"><span class="th1">Art Consulting and Corporate Marketing</span></h2>
-                            <div class="page_desc"><span class="tb1">아트컨설팅&amp;기업마케팅</span></div>
+                            <h2 class="page_title"><span class="th1">Art Consulting &amp; Corporate Marketing</span></h2>
+                            <div class="page_desc"><span class="tb1">아트컨설팅&amp;기업마케팅</span></div> 
                         </div>
                     </div>
                 </section>
