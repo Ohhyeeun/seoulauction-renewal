@@ -36,6 +36,8 @@
              ,CLOSE_YN
              ,UNDERBIDDER_YN
              ,UNDERBIDDER_REMARK
+             ,( SELECT C.CD_NM FROM CODE C WHERE C.CD_ID = L.MATE_CD AND GRP_ID ='material') MATE_CD_KO
+             ,( SELECT C.CD_NM_EN FROM CODE C WHERE C.CD_ID = L.MATE_CD AND GRP_ID ='material') MATE_CD_EN
              ,H.CD_ID CATE_CD_ID
              ,H.CD_NM CATE_CD_NM
              ,H.CD_NM_EN CATE_CD_NM_EN
