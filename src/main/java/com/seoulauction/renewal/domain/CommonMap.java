@@ -47,7 +47,6 @@ public class CommonMap extends HashMap<String, Object>{
 		super.put("offset" , (size * (page - 1)));
 		return this;
 	}
-
 	public static CommonMap create(String key , Object value){
 		return new CommonMap(key , value);
 	}
@@ -57,8 +56,6 @@ public class CommonMap extends HashMap<String, Object>{
 		map.putPage(page,size);
 		return map;
 	}
-
-
 	public String getString(Object key){
 		return super.get(key) instanceof String ? (String) super.get(key) : null;
 	}
@@ -91,7 +88,6 @@ public class CommonMap extends HashMap<String, Object>{
 		this.keySet().forEach(c-> newMap.put(c.toLowerCase() , this.get(c)));
 		return newMap;
 	}
-
 	/**
 	 * Data 에 JSONStringify 가 있다면 Map 으로 변환. ( JSON 대문자 키로 매칭 )
 	 * @return
@@ -101,7 +97,6 @@ public class CommonMap extends HashMap<String, Object>{
 			if (this.get(fo) != null) {
 				try {
 					this.put(fo, mapper.readValue(String.valueOf(this.get(fo)), Map.class));
-
 				} catch (JsonProcessingException e) {
 					//오류날경우
 					this.put(fo, new CommonMap());
@@ -119,7 +114,6 @@ public class CommonMap extends HashMap<String, Object>{
 	 */
 	public void settingYNValueToBoolean(){
 		//값이 Y 이거나 N 일경우.
-
 		this.keySet().stream().filter(
 			c-> ( this.get(c) !=null && (this.get(c).equals("Y") || this.get(c).equals("N") ) )
 		).forEach(fo -> {
