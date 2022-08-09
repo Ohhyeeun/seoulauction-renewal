@@ -114,20 +114,16 @@ public class SaleLiveService {
     public List<CommonMap> selectLiveMyBidding(CommonMap map){
         return saleLiveMapper.selectLiveMyBidding(map);
     }
+    //현재 응찰 내역 + 랏 현재가 , 호가
     public CommonMap selectLiveSiteBidding(CommonMap map){
 
         CommonMap resultMap = new CommonMap();
-
         CommonMap lotOne = selectLiveSaleLotByOne(map);
-
-        List<CommonMap> biddingList = saleLiveMapper.selectLiveSiteBidding(map);
-
-        resultMap.put("BID_DATA" , biddingList);
+        resultMap.put("BID_DATA" , saleLiveMapper.selectLiveSiteBidding(map));
         resultMap.put("GROW_PRICE" , lotOne.get("GROW_PRICE"));
         resultMap.put("LAST_PRICE" , lotOne.get("LAST_PRICE"));
         resultMap.put("LIVE_ING_YN" , lotOne.get("LIVE_ING_YN"));
         resultMap.settingYNValueToBoolean();
-
         return resultMap;
     }
 
