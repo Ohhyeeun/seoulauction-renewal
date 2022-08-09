@@ -533,8 +533,8 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 				}
 		    }else{
 				$scope.email_msg = "";
+				$scope.emailValid = true;
 				if($scope.langType == 'ko'){ //외국인은 이메일중복체크필요
-					$scope.emailValid = true;
 					$('#email').removeClass('input_error');
 				}
 			}
@@ -552,13 +552,15 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		axios.post('/api/login/isEmailExist' , data)
 	    .then(function(response) {
 	        const result = response.data;
-	        if(result && result.length > 0){
-				$scope.email_msg = "The email you entered is already in use.";
-				$scope.emailValid = false;
-	        }else{
-				$scope.email_msg = "The email you entered is available.";
-				$scope.emailValid = true;
-				$('#email').removeClass('input_error');
+	        if($scope.emailValid){
+		        if(result && result.length > 0){
+					$scope.email_msg = "The email you entered is already in use.";
+					$scope.emailValid = false;
+		        }else{
+					$scope.email_msg = "The email you entered is available.";
+					$scope.emailValid = true;
+					$('#email').removeClass('input_error');
+				}
 			}
 			$scope.$apply();
 			$scope.allValidCheck();
