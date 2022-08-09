@@ -36,6 +36,10 @@ public class AuctionOnlineService {
         return map;
     }
 
+    public List<CommonMap> selectLotRefreshList(CommonMap commonMap) {
+        return auctionOnlineMapper.selectLotRefreshList(commonMap);
+    }
+
     public CommonMap selectLotInfo(CommonMap commonMap) {
         return auctionOnlineMapper.selectLotInfo(commonMap);
     }
