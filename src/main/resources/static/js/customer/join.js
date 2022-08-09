@@ -520,7 +520,12 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	$scope.emailValidCheck = function() {
 		$scope.emailValid = false;  
 		if($scope.form_data.email == "" || $scope.form_data.email == undefined){
-			$scope.email_msg = "이메일을 입력해주세요.";
+			if (langType == 'ko') {
+				$scope.email_msg = "이메일을 입력해주세요.";
+			}else{
+				$scope.email_msg = "Please enter your email.";
+			}
+			
 			$scope.emailValid = false;
 		}else{
 			var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;

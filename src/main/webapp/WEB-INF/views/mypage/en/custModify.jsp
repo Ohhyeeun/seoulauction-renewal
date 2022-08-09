@@ -252,9 +252,11 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
                                                     <a href="#" onclick="custLeave();">Delete Account</a>
                                                 </div>
                                                 <div class="btn_area">
-                                                    <button onclick="custModify()" class="btn btn_point btn_lg" id="modifyButton" type="button" disabled>
-                                                        <span>SAVE</span>
-                                                    </button>
+                                                	<span onclick="custModify()">
+	                                                    <button class="btn btn_point btn_lg" id="modifyButton" type="button" disabled>
+	                                                        <span>SAVE</span>
+	                                                    </button>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>

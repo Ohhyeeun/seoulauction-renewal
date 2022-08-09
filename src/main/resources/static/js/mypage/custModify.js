@@ -408,7 +408,11 @@ function emailValidCheck() {
 	var email = $("#email").val();
 	
 	if(undefCheck(email)){
-		$("#emailMsg").html("이메일을 입력해주세요.");
+		if (langType == 'ko') {
+			$("#emailMsg").html("이메일을 입력해주세요.");
+		}else{
+			$("#emailMsg").html("Please enter your email.");
+		}
 	}else{
 		var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 	    if (!regEmail.test(email)) {
