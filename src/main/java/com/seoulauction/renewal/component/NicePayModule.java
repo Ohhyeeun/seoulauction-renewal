@@ -37,10 +37,6 @@ public class NicePayModule {
     @Value("${nicepay.merchant.key}")
     String nicePaymerchantKey;
 
-
-    @Value("${nice.pay.mobile.wap.url}")
-    String nicePayMobileWapUrl;
-
     private final String NICE_PAY_BASE_URL  = "https://webapi.nicepay.co.kr";
     private final String AUTH_SUCCESS_CODE  = "0000";
     private final String CONFIRM_FAIL_CODE  = "9999";
@@ -78,7 +74,6 @@ public class NicePayModule {
             formData.add("EdiDate", eDiDate);
             formData.add("SignData", signData);
             formData.add("MallReserved", wrapper.getParameter("ReqReserved"));
-            formData.add("WapUrl", nicePayMobileWapUrl);
 
             String result = webClient
                     .post()

@@ -130,7 +130,7 @@
         where L.WWW_DISP_YN = 'Y'
             and L.SALE_NO = #{sale_no}
         <if test="lot_tag != null">
-            and L.LOT_TAG = #{cate_cd}
+            and L.LOT_TAG = #{lot_tag}
         </if>
         <if test="cate_cd != null">
             and L.CATE_CD in (select cd_id from CODE where grp_id = 'artwork_category' and p_cd_id = #{cate_cd} union
@@ -265,10 +265,11 @@
         select L.SALE_NO, L.LOT_NO, IFNULL(IL.DEL_YN, 'Y') AS INTE_LOT_DEL, case when IL.DEL_YN is not null then 'Y' else 'N' end as INTE_LOT
         from LOT L
             join SALE S on L.SALE_NO = S.SALE_NO
-            left outer join CUST_INTE_LOT IL
-                ON L.SALE_NO = IL.SALE_NO AND L.LOT_NO = IL.LOT_NO AND IL.DEL_YN = 'N' AND IL.CUST_NO = #{cust_no}
+            join CUST_INTE_LOT IL
+                ON L.SALE_NO = IL.SALE_NO AND L.LOT_NO = IL.LOT_NO AND IL.DEL_YN = 'N'
         where L.WWW_DISP_YN = 'Y'
             and L.SALE_NO = #{sale_no}
+            and IL.CUST_NO = #{cust_no}
     </select>
 
     <insert id="insertCustInteLot" parameterType="CommonMap">
@@ -279,4 +280,32 @@
     <delete id="deleteCustInteLot" parameterType="CommonMap">
         DELETE FROM CUST_INTE_LOT WHERE CUST_NO = #{cust_no} AND SALE_NO = #{sale_no} AND LOT_NO = #{lot_no};
     </delete>
+
+    <select id="selectLotRefreshList" parameterType="CommonMap" resultType="CommonMap">
+        select L.LOT_NO, L.STAT_CD, L.FROM_DT, L.TO_DT, L.START_PRICE
+            , COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON
+            , COLUMN_JSON(L.EXPE_PRICE_TO_BLOB) EXPE_PRICE_TO_JSON
+            , ifnull(BD.LAST_PRICE, 0) LAST_PRICE
+            , ifnull(BD.BID_CNT, 0) as BID_CNT
+            , now() DB_NOW
+            , if(L.TO_DT &lt; now(), 'Y', 'N') as END_YN
+            , ifnull(L.GROW_PRICE, 0) as GROW_PRICE
+        from LOT L
+            left outer join (
+                select BD.SALE_NO, BD.LOT_NO, BD.BID_PRICE as LAST_PRICE
+                    , (select count(A.BID_NO) from BID A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO) as BID_CNT
+                from LOT L
+                    inner join BID BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+                        and BD.BID_NO = (select A.BID_NO from BID A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.BID_PRICE desc, A.BID_DT asc, A.BID_NO asc limit 1)
+                where L.SALE_NO = #{sale_no}
+            ) BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+        where L.WWW_DISP_YN = 'Y'
+            and L.SALE_NO = #{sale_no}
+            and L.LOT_NO in (
+            <foreach collection="lot_list" item="item" separator=",">
+                #{item}
+            </foreach>
+        )
+        order by L.LOT_NO
+    </select>
 </mapper>
