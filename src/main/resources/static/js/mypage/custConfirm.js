@@ -59,10 +59,14 @@ function goPost(){
 	if(localKindCd === "korean" && langType === "en"){
 		if(!confirm("Domestic customers can edit member information in terms of national culture. Do you want to change to KOR mode?")){
 			return;
+		}else{
+			document.cookie = "lang=ko; path=/;";	
 		}
 	}else if(localKindCd !== "korean" && langType === "ko"){
 		if(!confirm("해외고객은 ENG(English) 화면에서 회원정보수정이 가능합니다. ENG 모드로 변경하시겠습니까?")){
 			return;
+		}else{
+			document.cookie = "lang=en; path=/;";
 		}
 	}
 	f.submit();
