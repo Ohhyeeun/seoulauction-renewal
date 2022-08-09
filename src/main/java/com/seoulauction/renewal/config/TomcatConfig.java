@@ -12,11 +12,9 @@ import org.springframework.context.annotation.Bean;
 public class TomcatConfig {
     @Bean
     public WebServerFactoryCustomizer<TomcatServletWebServerFactory> servletContainerCustomizer() {
-        return (TomcatServletWebServerFactory container) -> {
-            container.addContextCustomizers((Context context) -> {
-                context.setResources(new ExtractingRoot());
-                context.setReloadable(Boolean.FALSE);
-            });
-        };
+        return (TomcatServletWebServerFactory container) -> container.addContextCustomizers((Context context) -> {
+            context.setResources(new ExtractingRoot());
+            context.setReloadable(Boolean.FALSE);
+        });
     }
 }
