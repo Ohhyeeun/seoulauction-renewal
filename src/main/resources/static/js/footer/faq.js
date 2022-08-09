@@ -50,6 +50,7 @@ $(document).ready(function(){
                         if(localeTitle !== '' && localeContent !== '' ) {
 
                             let html = `<li class="trp_acitem">
+
                                                 <div class="header-area">
                                                     <div class="accordion_name tt4">
                                                         <a href="#" class="">

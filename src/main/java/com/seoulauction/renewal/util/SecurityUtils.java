@@ -22,7 +22,7 @@ public class SecurityUtils {
     public static Boolean checkRole(String Role){
 
         SAUserDetails userDetails = getAuthenticationPrincipal();
-        Boolean result = false;
+        boolean result = false;
         if(userDetails !=null){
             result = userDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals(Role));
         }
