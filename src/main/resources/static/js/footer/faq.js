@@ -45,11 +45,14 @@ $(document).ready(function(){
 
                         let localeTitle = locale === 'ko' ? title.ko : title.en;
                         let localeContent = locale === 'ko' ? content.ko : content.en;
+                        //let localeSellInfo = locale === 'ko' ? '위탁안내 바로가기' : 'How to Sell';
+
 
                         //둘다 값이 있어야 나오도록 수정.
-                        if(title.ko !== '' && title.en !== '' ) {
+                        if(localeTitle !== '' && localeContent !== '' ) {
 
                             let html = `<li class="trp_acitem">
+
                                                 <div class="header-area">
                                                     <div class="accordion_name tt4">
                                                         <a href="#" class="">
@@ -63,7 +66,12 @@ $(document).ready(function(){
                                                     <span class="faq">A.</span>
                                                     <div class="faq_cont tb1">
                                                         ${localeContent}
-                                                    </div>
+                                                        <!--0809 추가 -->  
+                                                        // <div class="btn_wrap">
+                                                        //     <a class="btn btn_gray_line tb2" href="/sell/consignment" role="button"><span>${localeSellInfo}</span></a>
+                                                        // </div>  
+                                                        <!--//0809 추가 -->
+                                                    </div>  
                                                 </div>
                                       </li>`;
 

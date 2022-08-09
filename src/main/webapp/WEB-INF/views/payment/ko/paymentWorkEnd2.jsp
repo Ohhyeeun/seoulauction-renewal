@@ -33,7 +33,16 @@
                                         <li class="comment_pay">
                                             <p class="tt1">결제가 완료되었습니다.</p>
                                         </li>
-                                        <!-- //[0803]결제완료코멘트 추가 --> 
+                                        <!-- //[0803]결제완료코멘트 추가 -->
+                                        <!-- [0803]결제완료코멘트 추가 -->
+                                        <li class="comment_pay">
+                                            <p class="tt1">가상계좌 신청이 완료 되었습니다.</p>
+                                            <div class="desc-box">
+                                                <p class="tt6"><em>우리은행 603-3508001-8678</em></p>
+                                                <p class="tb1">예금주명 <em>서울옥션</em> 으로 2022년 07월 26일까지 입금해주세요.</p>
+                                            </div>
+                                        </li>
+                                        <!-- //[0803]결제완료코멘트 추가 -->
                                         <li>
                                             <div class="account_info">
                                                 <p class="tit">가상계좌 정보</p>

@@ -40,7 +40,13 @@ public class AuctionOnlineService {
         return auctionOnlineMapper.selectLotInfo(commonMap);
     }
 
-    public CommonMap selectManager(int custNo){
+    public CommonMap selectManager(){
+        int custNo = 0;
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            custNo = saUserDetails.getUserNo();
+        }
+
         CommonMap map = auctionOnlineMapper.selectManager(custNo);
         if(map == null || StringUtils.isEmpty(map.getString("TEL"))){
             map = new CommonMap();

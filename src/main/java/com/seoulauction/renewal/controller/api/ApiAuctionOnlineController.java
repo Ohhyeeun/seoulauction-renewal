@@ -3,10 +3,7 @@ package com.seoulauction.renewal.controller.api;
 import com.seoulauction.renewal.common.RestResponse;
 import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
-import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.service.AuctionOnlineService;
-import com.seoulauction.renewal.service.LoginService;
-import com.seoulauction.renewal.util.SecurityUtils;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -31,11 +28,18 @@ public class ApiAuctionOnlineController {
 
     @ApiOperation(value = "온라인 랏 정보 조회", notes = "경매번호를 통해 랏 정보를 조회한다.")
     @GetMapping(value="/sales/{saleNo}/lots")
-    public ResponseEntity<RestResponse> lots(@PathVariable("saleNo") int saleNo
+    public ResponseEntity<RestResponse> lots(@PathVariable int saleNo
+            , @RequestParam(required = false) String cateCd, @RequestParam(required = false) String lotTag
+            , @RequestParam(required = false) String sortBy, @RequestParam(required = false) String searchText
             , @RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page
-            , @RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size) {
-        CommonMap commonMap = CommonMap.create(page,size);
+            , @RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size
+            ) {
+        CommonMap commonMap = CommonMap.create(page, size);
         commonMap.put("sale_no", saleNo);
+        commonMap.put("cate_cd", cateCd);
+        commonMap.put("lot_tag", lotTag);
+        commonMap.put("sort_by", sortBy);
+        commonMap.put("search_text", searchText);
 
         return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.selectLotList(commonMap)));
     }
@@ -53,13 +57,8 @@ public class ApiAuctionOnlineController {
     @ApiOperation(value = "고객 담당자 조회", notes = "로그인 된 고객 번호를 통해 담당자 정보를 조회한다.")
     @GetMapping(value="/manager")
     public ResponseEntity<RestResponse> manager() {
-        int custNo = 0;
-        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
-        if (saUserDetails != null) {
-            custNo = saUserDetails.getUserNo();
-        }
 
-        return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.selectManager(custNo)));
+        return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.selectManager()));
     }
 
     @ApiOperation(value = "관심 랏 조회", notes = "경매번호를 통해 관심 랏을 조회한다.")

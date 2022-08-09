@@ -1,13 +1,10 @@
 package com.seoulauction.renewal.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.form.OfflineBiddingForm;
 import com.seoulauction.renewal.mapper.aws.AWSSaleMapper;
-import com.seoulauction.renewal.mapper.aws.MainMapper;
-import com.seoulauction.renewal.mapper.kt.AuctionMapper;
 import com.seoulauction.renewal.mapper.kt.SaleLiveMapper;
 import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,8 +45,6 @@ public class SaleLiveService {
         } else {
             map.put("cust_no" , 0);
         }
-
-        AtomicBoolean isEmployee = new AtomicBoolean(false);
 
         return saleLiveMapper.selectLiveSaleLots(map).stream().peek(k->{
 
@@ -124,7 +118,6 @@ public class SaleLiveService {
     //동기화 처리.
     public synchronized void insertOfflineBidding(int saleNo , int lotNo , OfflineBiddingForm offlineBiddingForm){
 
-
         //비드 카인드가 이상한 값이 들어온경우.
         if( !"online".equals(offlineBiddingForm.getBidKindCd()) &&
             !"price_change".equals(offlineBiddingForm.getBidKindCd()) &&
@@ -182,7 +175,7 @@ public class SaleLiveService {
                     throw new SAException("로그인을 하지 않았습니다.");
                 }
 
-                if(SecurityUtils.checkRole("ROLE_EMPLOYEE_USER")){
+                if(!SecurityUtils.checkRole("ROLE_EMPLOYEE_USER")){
                     throw new SAException("직원이 아닙니다.");
                 }
                 //floor 값이 아닌데도 notice 값이 있을경우 null 처리

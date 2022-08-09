@@ -460,8 +460,6 @@
                 }
             });
 
-
-
             $("#biding_cancel_btn").on('click', function(){
                 location.href ='/auction/live/list/${saleNo}';
             });

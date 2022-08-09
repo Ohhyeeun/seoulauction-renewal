@@ -818,7 +818,11 @@ function custModify(){
 		.then(function(response) {
 			var result = response.data;
 			if(result.success){
-				alert("회원정보가 수정되었습니다.");
+				if(langType == 'ko'){
+					alert("회원정보가 수정되었습니다.");
+				}else{
+					alert("It is changed.");
+				}
 				$('#modifyButton').attr('disabled', 'disabled');
 			}else{
 				alert(result.data.msg)	
