@@ -562,8 +562,8 @@ function copyAddr(){
 		$("#deli_addr_dtl").val($("#addr_dtl").val());
 	}else{
 		$("#deli_zipno, #deli_addr_dtl").val('');
-		$("#deli_addr").hide();
 		if(langType == 'ko'){
+			$("#deli_addr").hide();
 			$("#deli_addr").html('');
 		}else{
 			$("#deli_addr").val('');
