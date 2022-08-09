@@ -11,6 +11,13 @@ $(document).ready(function(){
 
     init();
 
+    $(document).keyup(function (e) {
+        // focus 되고 enter눌렀을 경우
+        if ((e.key == "Enter")) {
+            $("#search_btn").click();
+        }
+    });
+
     //초기작업.
     function init(){
 
@@ -39,7 +46,10 @@ $(document).ready(function(){
                         let localeTitle = locale === 'ko' ? title.ko : title.en;
                         let localeContent = locale === 'ko' ? content.ko : content.en;
 
-                        let html = `<li className="trp_acitem">
+                        //둘다 값이 있어야 나오도록 수정.
+                        if(title.ko !== '' && title.en !== '' ) {
+
+                            let html = `<li class="trp_acitem">
                                                 <div class="header-area">
                                                     <div class="accordion_name tt4">
                                                         <a href="#" class="">
@@ -57,7 +67,8 @@ $(document).ready(function(){
                                                 </div>
                                       </li>`;
 
-                        $("#faq_content").append(html);
+                            $("#faq_content").append(html);
+                        }
                     });
 
                     //===아코디언FAQ===//
@@ -108,8 +119,6 @@ $(document).ready(function(){
 
     $("#search_btn").on('click',function (){
         search_text = $("#search_text").val();
-
-
         init();
     });
 
