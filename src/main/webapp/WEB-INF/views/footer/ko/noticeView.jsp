@@ -102,6 +102,7 @@
                     .then(function(response) {
                         const data = response.data;
                         let success = data.success;
+
                         if(success){
                             let data = response.data.data;
 
@@ -109,6 +110,7 @@
                                 alert('Wrong Path.');
                                 history.back();
                             }
+
                             $("#notice_content").html(JSON.parse(data.content).ko);
                             $("#notice_title").html(JSON.parse(data.title).ko);
                             $("#notice_date").html(data.dt_date);

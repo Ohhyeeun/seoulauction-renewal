@@ -40,7 +40,7 @@
                                         </div>
                                         <div class="button-area">
                                             <a id="recruit_file_down" class="btn btn_default" href="#" role="button"><span>입사지원서</span><i class="icon-file_down"></i></a>
-                                            <a class="btn btn_point" href="/footer/recruit/${id}/form" role="button"><span>지원</span></a>
+                                            <a id="recruid_apply_btn" style="display: none" class="btn btn_point" href="/footer/recruit/${id}/form" role="button"><span>지원</span></a>
                                         </div>
                                     </article>
                                 </div>
@@ -48,36 +48,6 @@
                                     <article class="incruit_view-area view-body">
                                         <div class="area-inner">
                                             <div id="recruit_content" class="view_editor-wrap">
-<%--                                                ◆ 직원 유형<br>--%>
-<%--                                                어시스턴트<br>--%>
-<%--                                                <br>--%>
-<%--                                                ◆ 영입인원<br>--%>
-<%--                                                0 명<br>--%>
-<%--                                                <br>--%>
-<%--                                                ◆ 조직소개<br>--%>
-<%--                                                <br>--%>
-<%--                                                커머스에 특화된 UX 고민을 통해 카카오만의 특별한 쇼핑 경험을 제공하며,<br>--%>
-<%--                                                선물하기, 쇼핑하기, 쇼핑하우, 카카오쇼핑라이브 등의 디자인을 담당합니다.<br>--%>
-<%--                                                <br>--%>
-<%--                                                <br>--%>
-<%--                                                ◆ 업무내용<br>--%>
-<%--                                                <br>--%>
-<%--                                                카카오쇼핑라이브 서비스는 실시간 모바일 라이브 방송을 통한 고객 참여형 쇼핑서비스로,--%>
-<%--                                                방송 CG 제작 및 마케팅 운영 디자인 작업을 수행하게 됩니다.<br>--%>
-<%--                                                <br>--%>
-<%--                                                라이브커머스 방송 CG 이미지 제작<br>--%>
-<%--                                                라이브커머스관련 마케팅 운영 이미지 제작<br>--%>
-<%--                                                <br>--%>
-<%--                                                ◆ 지원자격<br>--%>
-<%--                                                <br>--%>
-<%--                                                Adobe Photoshop /Sketch 프로그램을 능숙하게 다룰 수 있으신 분<br>--%>
-<%--                                                사진 보정 및 상품 이미지 작업 가능하신 분<br>--%>
-<%--                                                유관 부서 담당자들과의 협업을 위한 원할한 커뮤니케이션 능력을 보유하신 분<br>--%>
-<%--                                                라이브 방송 CG 작업 경험이 있으신 분 (우대)<br>--%>
-<%--                                                <br>--%>
-<%--                                                ◆ 근로제도<br>--%>
-<%--                                                해당 포지션은 월 단위로 정해진 총 근로시간 범위 내에서 본인이 스스로 근로시간을 유연하게 설정하여 근무하는 "완전선택적근로제도"를 적용 받습니다.<br>--%>
-<%--                                                이 경우 본인이 스스로 업무의 시작 및 종료시각을 일 단위로 등록하여 공유하며, 월 소정 근로시간을 채우면 됩니다.<br>--%>
                                             </div>
                                         </div>
                                     </article>
@@ -186,6 +156,26 @@
                         console.log(error);
                     });
             }
+
+
+            //화면에 따른 입사 지원 버튼 처리.
+            //모바일이 아닐때만 .
+            if (matchMedia("all and (min-width: 1024px)").matches) {
+
+                $('#recruid_apply_btn').show();
+            } else {
+                $('#recruid_apply_btn').hide();
+            }
+            $(window).resize(function(){
+                //모바일이 아닐때만 .
+                if (matchMedia("all and (min-width: 1024px)").matches) {
+
+                    $('#recruid_apply_btn').show();
+                } else {
+                    $('#recruid_apply_btn').hide();
+                }
+            });
+
         });
     </script>
 
