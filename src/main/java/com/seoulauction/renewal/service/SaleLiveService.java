@@ -85,6 +85,7 @@ public class SaleLiveService {
 
         CommonMap result = saleLiveMapper.selectLiveSaleLotByOne(map);
 
+        //만약 라이브경매값이 없는경우 첫번째 랏을 리턴.
         if(result == null){
             map.put("lot_no" , 1);
             result = saleLiveMapper.selectLiveSaleLotByOne(map);
@@ -114,7 +115,6 @@ public class SaleLiveService {
     }
     public List<CommonMap> selectLiveSiteBidding(CommonMap map){return saleLiveMapper.selectLiveSiteBidding(map);}
 
-
     //동기화 처리.
     public synchronized void insertOfflineBidding(int saleNo , int lotNo , OfflineBiddingForm offlineBiddingForm){
 
@@ -136,7 +136,6 @@ public class SaleLiveService {
             map.put("cust_no" , saUserDetails.getUserNo());
         }
 
-
         CommonMap lastMap = new CommonMap();
         lastMap.put("sale_no" , saleNo);
         lastMap.put("lot_no" , lotNo);
@@ -149,7 +148,7 @@ public class SaleLiveService {
 
                 if (paddle == 0) {
                     //비드 카인드가 online 일경우 paddle 변호가 없으면 오류.
-                    throw new SAException("패들 번호가 존재 해야합니다.");
+                    throw new SAException("패들 번호가 존재 해야 합니다.");
                 } else {
                     map.put("padd_no", paddle);
                 }
@@ -193,9 +192,7 @@ public class SaleLiveService {
                     throw new SAException("현재가 보다 낮은 응찰을 할 수 없습니다.");
                 }
             }
-
         }
-
         //값 세팅.
         map.put("sale_no", saleNo);
         map.put("lot_no", lotNo);
@@ -203,7 +200,6 @@ public class SaleLiveService {
         map.put("bid_price", offlineBiddingForm.getBidPrice());
         map.put("bid_notice", offlineBiddingForm.getBidNotice());
         map.put("bid_notice_en", offlineBiddingForm.getBidNoticeEn());
-
 
         saleLiveMapper.insertLiveBidding(map);
     }
