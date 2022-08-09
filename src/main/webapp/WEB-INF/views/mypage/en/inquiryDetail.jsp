@@ -57,7 +57,7 @@
                                                         </dl>
                                                         <dl ng-if="inquiry.REPLY_YN == 'Y'">
                                                             <dt><span>Reply Date : </span></dt>
-                                                            <dd><span>{{inquiry.LAST_REPLY_DT_EN}}</span></dd>
+                                                            <dd><span>{{inquiry.LAST_REPLY_DT | date:'yyyy.MM.dd'}}</span></dd>
                                                         </dl>
                                                     </div>
                                                 </article>

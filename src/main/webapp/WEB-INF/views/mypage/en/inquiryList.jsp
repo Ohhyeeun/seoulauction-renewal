@@ -60,7 +60,8 @@
 																	<div class="state-icon complete" ng-if="inquiry.REPLY_YN == 'Y'">Complete</div>
 																	<div class="state-icon pending" ng-if="inquiry.REPLY_YN != 'Y'">Waiting</div>
 																</div>
-																<div class="date tb1">{{inquiry.REG_DT_EN}}</div>
+																<div class="date tb1">{{inquiry.REG_DT |
+																	date:'yyyy.MM.dd'}}</div>
 															</div>
 														</li>
 													</ul>
