@@ -74,6 +74,7 @@ public class NicePayModule {
             formData.add("EdiDate", eDiDate);
             formData.add("SignData", signData);
             formData.add("MallReserved", wrapper.getParameter("ReqReserved"));
+            formData.add("WapUrl", "seoulauction://");
 
             String result = webClient
                     .post()
