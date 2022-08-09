@@ -109,9 +109,11 @@
                                                         작품별 스페셜리스트에게 전달되어 답변 드리겠습니다.<br />
                                                         자세한 내용은 위탁안내 페이지를 참고 해주시기 바랍니다.
 
+                                                        <%-- 0809 바로가기 추가 --%>
                                                         <div class="btn_wrap">
                                                             <a class="btn btn_gray_line tb2" href="#" role="button"><span>위탁안내 바로가기</span></a>
                                                         </div>
+                                                        <%-- //0809 바로가기 추가 --%>
                                                     </div>
                                                 </div>
                                             </li>
@@ -170,10 +172,10 @@
 
         </div>
     </div>
-    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-    <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+<%--    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
+<%--    <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->--%>
+<%--    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
+<%--    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
     <script src="/js/footer/faq.js" type="text/javascript"></script>
 </body>
 </html>

@@ -63,7 +63,12 @@ $(document).ready(function(){
                                                     <span class="faq">A.</span>
                                                     <div class="faq_cont tb1">
                                                         ${localeContent}
-                                                    </div>
+                                                        <!--0809 추가 --> 
+                                                        <div class="btn_wrap">
+                                                            <a class="btn btn_gray_line tb2" href="#" role="button"><span>위탁안내 바로가기</span></a>
+                                                        </div> 
+                                                        <!--//0809 추가 -->
+                                                    </div>  
                                                 </div>
                                       </li>`;
 
