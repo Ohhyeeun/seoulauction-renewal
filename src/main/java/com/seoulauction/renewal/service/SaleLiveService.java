@@ -68,10 +68,11 @@ public class SaleLiveService {
                 mateMap.put("en" , k.get("MATE_CD_EN"));
 
                 k.put("MATE_CD" , mateMap);
-
-                k.remove("MATE_CD_KO");
-                k.remove("MATE_CD_EN");
             }
+
+            k.remove("MATE_CD_KO");
+            k.remove("MATE_CD_EN");
+
         }).collect(Collectors.toList());
     }
     public CommonMap selectLiveSaleLotByOne(CommonMap map){
