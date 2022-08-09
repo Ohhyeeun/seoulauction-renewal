@@ -7359,10 +7359,6 @@ html, body, .wrapper {
   display: inline-block;
 }
 
-.contents .btn_item a {
-  display: inline-block;
-}
-
 .trp.popupfixed-wrap a {
   display: inline;
 }
@@ -15205,6 +15201,10 @@ header.win_header .header-inner .header_logo {
   min-width: 152px;
 }
 
+.content-panel.type_panel-search_tab .search_tab-article .col_item > .select-box.sort-type {
+  min-width: 210px;
+}
+
 .content-panel.type_panel-search_tab .search_tab-article .col_item > .select-box .trp-dropdown-area.h42-line button {
   padding: 10px;
 }
@@ -15342,6 +15342,7 @@ header.win_header .header-inner .header_logo {
 
   .content-panel.type_panel-search_tab .search_tab-article .col_item.mb-col2 {
     flex-wrap: wrap;
+    justify-content: space-between;
   }
 
   .content-panel.type_panel-search_tab .search_tab-article .col_item.mb-col2 > .search-box {
@@ -15354,9 +15355,14 @@ header.win_header .header-inner .header_logo {
     margin-left: 0;
   }
 
-  .content-panel.type_panel-search_tab .search_tab-article .col_item.mb-col2 > .select-box:last-child {
-    margin-top: 10px;
-    margin-left: 10px;
+  .content-panel.type_panel-search_tab .search_tab-article .col_item.mb-col2 > .select-box.sort-type {
+    flex: none;
+    min-width: calc(100% - 135px);
+  }
+
+  .content-panel.type_panel-search_tab .search_tab-article .col_item.mb-col2 > .select-box.more-type {
+    flex: none;
+    min-width: 125px;
   }
 }
 
@@ -15662,10 +15668,21 @@ header.win_header .header-inner .header_logo {
   font-size: 16px;
   font-weight: 500;
   color: #777777;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .content-panel.type_panel-product_list .product-list .item-article .typo-area .standard span {
   line-height: 1.5;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.content-panel.type_panel-product_list .product-list .item-article .typo-area .standard a {
+  display: inline-block;
 }
 
 .content-panel.type_panel-product_list .product-list .item-article .typo-area .standard .size_year span {
@@ -15691,13 +15708,14 @@ header.win_header .header-inner .header_logo {
 
 .content-panel.type_panel-product_list .product-list .item-article .typo-area .price-list {
   position: relative;
-  padding-left: 60px;
-  min-height: 26px;
+ /* padding-left: 60px; min-height: 26px; */
+  overflow: hidden;
 }
 
 .content-panel.type_panel-product_list .product-list .item-article .typo-area .price-list dt {
-  position: absolute;
+ /* position: absolute; */
   left: 0;
+  float: left;
   font-size: 16px;
   font-weight: 600;
   color: #333333;
@@ -15710,7 +15728,8 @@ header.win_header .header-inner .header_logo {
   color: #333333;
   text-align: right;
   line-height: 26px;
-  height: 26px;
+ /* height: 26px; */
+  min-height: 26px;
 }
 
 .content-panel.type_panel-product_list .product-list .item-article .typo-area .price-list strong {
@@ -15724,6 +15743,10 @@ header.win_header .header-inner .header_logo {
   font-weight: 500;
   color: #db1b1b;
   margin-left: 5px;
+}
+
+.content-panel.type_panel-product_list .product-list .item-article .typo-area .price-list strong.comment, .content-panel.type_panel-product_list .product-list .item-article .typo-area .price-list em.comment {
+  color: #21a099;
 }
 
 .content-panel.type_panel-product_list .product-list .item-article .typo-area .price-list s {
@@ -15769,6 +15792,11 @@ header.win_header .header-inner .header_logo {
   font-weight: 500;
   color: #777777;
   line-height: 1.64;
+}
+
+.content-panel.type_panel-product_list .product-list .item-article.result img {
+  max-width: 100px;
+  max-height: 100px;
 }
 
 @media all and (max-width: 1280px) {
@@ -15986,6 +16014,7 @@ header.win_header .header-inner .header_logo {
   .content-panel.type_panel-product_list .product-list .item-article .typo-area .price-list {
     padding-left: 60px;
     min-height: auto;
+    overflow: visible;
   }
 
   .content-panel.type_panel-product_list .product-list .item-article .typo-area .price-list dt {
@@ -26741,16 +26770,18 @@ header.win_header .header-inner .header_logo {
   }
 }
 
+.trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price thead tr th, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price thead tr td, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price tbody tr th, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price tbody tr td, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price tfoot tr th, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price tfoot tr td {
+  padding: 3px 1px;
+}
+
 .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price thead tr th:first-child, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price thead tr td:first-child, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price tbody tr th:first-child, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price tbody tr td:first-child, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price tfoot tr th:first-child, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price tfoot tr td:first-child {
   border-left: 1px solid #ccc;
+  padding-left: 20px;
 }
 
 .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price thead tr th:last-child, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price thead tr td:last-child, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price tbody tr th:last-child, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price tbody tr td:last-child, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price tfoot tr th:last-child, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price tfoot tr td:last-child {
   border-right: 1px solid #ccc;
-}
-
-.trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price thead tr th, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price thead tr td, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price tbody tr th, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price tbody tr td, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price tfoot tr th, .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price tfoot tr td {
-  padding: 3px 20px;
+  padding-right: 20px;
 }
 
 .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price thead th {
@@ -26767,7 +26798,6 @@ header.win_header .header-inner .header_logo {
 .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price tbody td {
   border: 0;
   border-bottom: 1px solid #ccc;
-  padding: 3px 20px;
 }
 
 .trp.popupfixed-wrap.offline_payment-popup .table_base.name-payment_price tfoot th {

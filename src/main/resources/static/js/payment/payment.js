@@ -3,7 +3,14 @@ function nicepayStart() {
 
     isNativeApp().then(nativeApp => {
         if (nativeApp || checkPlatform(window.navigator.userAgent) == "mobile"){//모바일 결제창 진입
-            document.payForm.action = "https://web.nicepay.co.kr/v3/v3Payment.jsp";
+
+
+            let method = $("form[name=payForm] #inputPayMethod").val();
+            if(method === 'CARD'){
+                document.payForm.action = "seoulauction://web.nicepay.co.kr/v3/v3Payment.jsp";
+            } else {
+                document.payForm.action = "https://web.nicepay.co.kr/v3/v3Payment.jsp";
+            }
             document.payForm.acceptCharset="euc-kr";
             document.payForm.submit();
         } else {//PC 결제창 진입
