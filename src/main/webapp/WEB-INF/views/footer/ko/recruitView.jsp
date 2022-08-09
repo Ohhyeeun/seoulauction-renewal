@@ -147,7 +147,7 @@
                                 location.href='/error/404';
                             }
 
-                            let endDate =  data.end_date !== undefined ? ' ~ ' + data.end_date : '';
+                            let endDate =  data.end_date !== null   ? ' ~ ' + data.end_date : '';
 
                             $("#recruit_title").html(data.title);
                             $("#recruit_content").html(data.content);
@@ -160,8 +160,6 @@
                                 let images = data.images;
 
                                 $("#recruit_file_down").show();
-
-
                                 $("#recruit_file_down").attr('href' , '/fileDownload?fileKey=' + images.path + '&downloadFileName=' + images.name);
 
                                 if(images.length !== 0){
@@ -169,7 +167,7 @@
                                     $.each(images , function(idx , el){
 
                                         //입사 지원서 파일 다운 작업.
-                                        if ( el.tag === 'applyForm' ){
+                                        if (el.tag === 'applyForm'){
 
                                             $("#recruit_file_down").attr('href' , '/fileDownload?fileKey=' + el.path + '&downloadFileName=' + el.name);
                                         } else {

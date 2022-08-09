@@ -119,7 +119,7 @@
                                 $.each(images , function(idx , el){
 
                                     let html = `<a href=/fileDownload?fileKey=` + el.path + `&downloadFileName=` + el.name  + `>`
-                                                + `<i class="icon_down"></i> <span>` + el.name + `</span></a>`;
+                                                + `<i class="icon_down"></i> <span>` + el.name + `</span></a><br>`;
 
                                     $("#notice_file_list").append(html);
                                 });
