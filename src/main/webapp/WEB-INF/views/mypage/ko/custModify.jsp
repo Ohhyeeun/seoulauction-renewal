@@ -295,10 +295,12 @@
                                                 <div class="dropOut_text">
                                                     <a href="#" onclick="custLeave();">회원탈퇴</a>
                                                 </div>
-                                                <div class="btn_area" onclick="custModify()">
-                                                    <button class="btn btn_point btn_lg" id="modifyButton" type="button" disabled>
-                                                        <span>회원정보 수정</span>
-                                                    </button>
+                                                <div class="btn_area">
+                                                	<span onclick="custModify()">
+	                                                    <button class="btn btn_point btn_lg" id="modifyButton" type="button" disabled>
+	                                                        <span>회원정보 수정</span>
+	                                                    </button>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>

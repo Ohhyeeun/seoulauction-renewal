@@ -532,10 +532,15 @@ app.service("inquiryService", function($rootScope, common, locale) {
 
 
 		$scope.sell_categories1 = ["근현대", "고미술", "기타"];
+		$scope.sell_categories1_en = ["Korean Contemporary Art", "Korean Antique & Traditional Art", "Others"];
 		$scope.sell_categories1_1 = ["국내", "국외"];
+		$scope.sell_categories1_1_en = ["Domestic", "Abroad"];
 		$scope.sell_categories1_1_1 = ["회화", "조각", "사진", "멀티플", "공예품", "기타"];
+		$scope.sell_categories1_1_1_en = ["Painting", "Sculpture", "Photography", "Multiple", "Crafts", "Others"];
 		$scope.sell_categories1_2 = ["회화", "서예", "도자기-청자", "도자기-백자", "도자기-분청", "목기", "공예품", "기타"];
+		$scope.sell_categories1_2_en = ["Painting", "Calligraphy", "Ceramic-Blue Jar", "Ceramic-White Jar", "Ceramic-Buncheong Jar", "Woodworking", "Crafts", "Others"];
 		$scope.sell_categories1_3 = ["시계", "보석/장신구", "와인", "서적", "인형/장난감/모형", "포스터", "스포츠수집품", "가구/디자인소품", "부동산", "자동차", "근현대사자료", "기타"];
+		$scope.sell_categories1_3_en = ["Clocks", "Jewels/trinkets", "Wine", "Book", "Doll/toy", "Poster", "Sports collectibles", "Furniture/Design Props", "Real estate", "Car", "Modern history data", "Others"];
 
 		$scope.changeSellCate1 = function() {
 			$scope.sell_data.work_category1 = $("#work_category1 option:selected").val();
@@ -546,6 +551,8 @@ app.service("inquiryService", function($rootScope, common, locale) {
 			$scope.sell_categories3 = [];
 			$("#sellCate2").hide();
 			$("#sellCate3").hide();
+			
+			if($scope.locale == 'ko'){
 			if ($scope.sell_data.work_category1 == "근현대") {
 				$scope.sell_categories2 = $scope.sell_categories1_1;
 				$scope.$apply();
@@ -561,6 +568,24 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				$scope.$apply();
 				$("#sellCate2").show();
 			}
+			} else {
+			if ($scope.sell_data.work_category1 == "Korean Contemporary Art") {
+				$scope.sell_categories2 = $scope.sell_categories1_1_en;
+				$scope.$apply();
+				$("#sellCate2").show();
+			}
+			else if ($scope.sell_data.work_category1 == "Korean Antique & Traditional Art") {
+				$scope.sell_categories2 = $scope.sell_categories1_2_en;
+				$scope.$apply();
+				$("#sellCate2").show();
+			}
+			else if ($scope.sell_data.work_category1 == "Others") {
+				$scope.sell_categories2 = $scope.sell_categories1_3_en;
+				$scope.$apply();
+				$("#sellCate2").show();
+			}
+			}
+
 		}
 
 		$scope.changeSellCate2 = function() {
@@ -571,11 +596,19 @@ app.service("inquiryService", function($rootScope, common, locale) {
 			$scope.sell_categories3 = [];
 
 			$("#sellCate3").hide();
-			if ($scope.sell_data.work_category1 == "근현대") {
+			if($scope.locale == 'ko'){
+				if ($scope.sell_data.work_category1 == "근현대") {
 				$scope.sell_categories3 = $scope.sell_categories1_1_1;
 				$scope.$apply();
 				$("#sellCate3").show();
 			}
+			} else {
+				if ($scope.sell_data.work_category1 == "Korean Contemporary Art") {
+				$scope.sell_categories3 = $scope.sell_categories1_1_1_en;
+				$scope.$apply();
+				$("#sellCate3").show();
+			}
+		}
 		}
 		
 		$scope.changeSellCate3 = function() {

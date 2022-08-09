@@ -5,6 +5,9 @@ var compNoValid, compManNameValid = false;
 var oldHp, oldCompNo, oldEmail = '';
 var nationList, artistList, inteArtistList = [];
 var inteArtistJson = {};
+let tmpArtistList = [];
+let tmpArtistJson = {};
+
 $(window).on("load", function() {
 	if(socialYn == 'Y'){
        document.getElementById('snsImg').src = '/images/common/icon-sns_' + snsFullName() + '.png';
@@ -234,8 +237,8 @@ function replaceAll(str, searchStr, replaceStr) {
 
 //수정 버튼 (비)활성화
 function buttonActive(){
-	console.log(bornDtValid ? '생일통과' : '생일실패');	console.log(sexCdValid ? '성별통과' : '성별실패');	console.log(hpValid ? '폰통과' : '폰실패');	console.log(emailValid ? '이메일통과' : '이메일실패');	console.log(addrValid ? '주소통과' : '주소실패');
-	console.log(compNoValid ? '사업자번호통과' : '사업자번호실패');	console.log(compManNameValid ? '업무 담당자통과' : '업무 담당자실패');
+//	console.log(bornDtValid ? '생일통과' : '생일실패');	console.log(sexCdValid ? '성별통과' : '성별실패');	console.log(hpValid ? '폰통과' : '폰실패');	console.log(emailValid ? '이메일통과' : '이메일실패');	console.log(addrValid ? '주소통과' : '주소실패');
+//	console.log(compNoValid ? '사업자번호통과' : '사업자번호실패');	console.log(compManNameValid ? '업무 담당자통과' : '업무 담당자실패');
 	if(userKind == 'person'){ //개인 소셜
 		if(langType == 'ko'){ //국내
 			if(bornDtValid && sexCdValid && hpValid && emailValid && addrValid){
@@ -400,10 +403,16 @@ function authNumConfirm() {
 //이메일 validation
 function emailValidCheck() {
 	emailValid = false;
+	buttonActive();
+	
 	var email = $("#email").val();
 	
 	if(undefCheck(email)){
-		$("#emailMsg").html("이메일을 입력해주세요.");
+		if (langType == 'ko') {
+			$("#emailMsg").html("이메일을 입력해주세요.");
+		}else{
+			$("#emailMsg").html("Please enter your email.");
+		}
 	}else{
 		var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 	    if (!regEmail.test(email)) {
@@ -413,22 +422,23 @@ function emailValidCheck() {
 				$("#emailMsg").html("The email you entered is not available.");
 			}
 	    }else{
+			emailValid = true;
 			$("#emailMsg").html("");
-			if(langType == 'ko'){ //외국인은 이메일중복체크필요
-				emailValid = true;
-			}
 		}
 	}
-	buttonActive();
+	if (langType == 'ko') {
+		buttonActive();
+	}
 }
 
 //해외회원 이메일 validation (api호출)
 function emailDuplCheck() {
-	emailValid = false;
 	var email = $("#email").val();
 	
 	if(oldEmail == email){
 		$("#emailMsg").html('It is the same as the registered email address.');
+		emailValid = false;
+		buttonActive();
 		return;
 	}
 		
@@ -438,12 +448,15 @@ function emailDuplCheck() {
 	axios.post('/api/login/isEmailExist' , data)
     .then(function(response) {
         const result = response.data;
-        if(result && result.length > 0){
-			$("#emailMsg").html("The email you entered is already in use.");
-			emailValid = false;
-        }else{
-			$("#emailMsg").html("The email you entered is available.");
-			emailValid = true;
+        
+        if(emailValid){
+	        if(result && result.length > 0){
+				$("#emailMsg").html("The email you entered is already in use.");
+				emailValid = false;
+	        }else{
+				$("#emailMsg").html("The email you entered is available.");
+				emailValid = true;
+			}
 		}
 		buttonActive();
     })
@@ -590,6 +603,8 @@ function artistSearch(){
 	$("#artist_word").val($("#writer").val());
 	if($("#writer").val() != ''){
 	    findArtistNewForm()
+	}else{
+		$("#artistCnt").html('0');
 	}
 	if (langType == 'ko') {
 		$("#artistListBody").html('<tr><td colspan="3"><div class="data-empty_mem tb1">검색결과가 없습니다.</div></td></tr>');
@@ -639,7 +654,7 @@ function findArtistNewForm(){
 					inteArtistList.forEach(function(ele){
 						$("#artistChk" + ele).prop("checked", true);
 					});	
-					tmpArtistList = inteArtistList;
+					tmpArtistList = inteArtistList.slice();
 					tmpArtistJson = inteArtistJson;
 	
 				}else{
@@ -656,9 +671,6 @@ function findArtistNewForm(){
         });
 }
 
-
-let tmpArtistList = [];
-let tmpArtistJson = {};
 function setArtist(val){
 	val = val.split("|");
 		
@@ -809,7 +821,7 @@ function custModify(){
 	
 	// Display the key/value pairs
 	for (var pair of formData.entries()) {
-	    console.log(pair[0]+ ', ' + pair[1]); 
+//	    console.log(pair[0]+ ', ' + pair[1]); 
 	}
 	
 	var data = {};
