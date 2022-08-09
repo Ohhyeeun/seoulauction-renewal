@@ -766,7 +766,7 @@ function custModify(){
 				}
 			}else{
 				if(!bornDtValid || !sexCdValid || !emailValid || !countryValid || !addrValid){
-					alert("Fill additional information below.");
+					alert("Please fill in all Required Items.");
 					return;
 				}
 			}

@@ -52,14 +52,26 @@ public class SaleLiveService {
             k.settingJsonStrToObject();
             k.settingYNValueToBoolean();
 
+            //이미지
             k.put("IMAGE_FULL_PATH","");
-
             if(k.get("LOT_IMG_PATH") !=null && k.get("LOT_IMG_NAME") !=null) {
                 k.put("IMAGE_FULL_PATH", IMAGE_URL + k.get("LOT_IMG_PATH") + "/" + k.get("LOT_IMG_NAME"));
             }
             k.remove("LOT_IMG_PATH");
             k.remove("LOT_IMG_NAME");
 
+            //재질
+            if( k.get("MATE_CD_KO") !=null && k.get("MATE_CD_EN") !=null ){
+
+                CommonMap mateMap = new CommonMap();
+                mateMap.put("ko" , k.get("MATE_CD_KO"));
+                mateMap.put("en" , k.get("MATE_CD_EN"));
+
+                k.put("MATE_CD" , mateMap);
+
+                k.remove("MATE_CD_KO");
+                k.remove("MATE_CD_EN");
+            }
         }).collect(Collectors.toList());
     }
     public CommonMap selectLiveSaleLotByOne(CommonMap map){

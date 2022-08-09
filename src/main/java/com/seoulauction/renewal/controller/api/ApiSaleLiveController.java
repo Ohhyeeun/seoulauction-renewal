@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -794,9 +795,10 @@ public class ApiSaleLiveController {
     }
 
     /**
-     *
+     * 직원 권한이 있어야 실행 가능.
      * 랏 마감
      */
+    @Secured("ROLE_EMPLOYEE_USER")
     @PostMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/lot-close")
     public ResponseEntity<RestResponse> adminLotClose(
              @PathVariable("saleNo") int saleNo
@@ -811,9 +813,10 @@ public class ApiSaleLiveController {
     }
 
     /**
-     *
+     * 직원 권한이 있어야 실행 가능.
      * LOT 동기화
      */
+    @Secured("ROLE_EMPLOYEE_USER")
     @PostMapping(value="/admin/sales/{saleNo}/sync")
     public ResponseEntity<RestResponse> adminLotSync(@PathVariable("saleNo") int saleNo) {
         CommonMap commonMap = new CommonMap();
