@@ -305,7 +305,7 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
 	                    <div class="pop-body scroll-type">
 	                        <section class="section">
 	                            <div class="search-group">
-	                                <input type="text" id="artist_word" class="form-control" value="" placeholder="Enter name">
+	                                <input type="text" id="artist_word" class="form-control" value="" placeholder="Enter name" onkeypress="event.keyCode === 13 && findArtistNewForm();">
 	                                <button onclick="findArtistNewForm()" class="btn btn_black" type="button"><span>Search</span></button>
 	                            </div>
 	                            <article class="articles-box">

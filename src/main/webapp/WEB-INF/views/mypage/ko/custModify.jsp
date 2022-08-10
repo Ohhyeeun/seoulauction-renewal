@@ -404,7 +404,7 @@
 	                    <div class="pop-body scroll-type">
 	                        <section class="section">
 	                            <div class="search-group">
-	                                <input type="text" id="artist_word" class="form-control" value="" placeholder="이름 입력">
+	                                <input type="text" id="artist_word" class="form-control" value="" placeholder="이름 입력" onkeypress="event.keyCode === 13 && findArtistNewForm();">
 	                                <button onclick="findArtistNewForm()" class="btn btn_black" type="button"><span>검색</span></button>
 	                            </div>
 	                            <article class="articles-box">
