@@ -762,11 +762,6 @@ public class ApiSaleLiveController {
     }
 
     /**
-     * 운영자 페이지 전용 API 목록
-     *
-     */
-
-    /**
      *
      * @param saleNo
      * 관리자용 sale 가져오기.
@@ -835,7 +830,7 @@ public class ApiSaleLiveController {
      * 오프라인 비드 삭제.
      * 직원 권한이 있어야 실행 가능.
      */
-    //@Secured("ROLE_EMPLOYEE_USER")
+    @Secured("ROLE_EMPLOYEE_USER")
     @PostMapping(value="/admin/bid/{bidNo}/off-del")
     public ResponseEntity<RestResponse> deleteBidOfflineByBidId(
             @PathVariable("bidNo") int bidNo) {
