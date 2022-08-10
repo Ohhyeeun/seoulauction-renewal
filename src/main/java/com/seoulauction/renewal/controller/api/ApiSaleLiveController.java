@@ -779,20 +779,6 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok());
     }
 
-    /**
-     *
-     * 현장 응찰
-     */
-    @PostMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/place-bid")
-    public ResponseEntity<RestResponse> adminPlaceBid(
-                 @PathVariable("saleNo") int saleNo
-                ,@PathVariable("lotNo") int lotNo
-    ) {
-        CommonMap commonMap = new CommonMap();
-        commonMap.put("sale_no", saleNo);
-
-        return ResponseEntity.ok(RestResponse.ok());
-    }
 
     /**
      * 직원 권한이 있어야 실행 가능.
@@ -803,6 +789,7 @@ public class ApiSaleLiveController {
     public ResponseEntity<RestResponse> adminLotClose(
              @PathVariable("saleNo") int saleNo
             ,@PathVariable("lotNo") int lotNo) {
+
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
         commonMap.put("lot_no", lotNo);
@@ -837,7 +824,7 @@ public class ApiSaleLiveController {
             @ApiParam(value = "EX ) YYYY-DD-MM")
             @RequestParam(value = "date" , required = false) String date) {
 
-        if(date ==null){
+        if(date == null){
             date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         }
         return ResponseEntity.ok(RestResponse.ok(currencyDataManager.getCurrency(date)));
@@ -846,6 +833,7 @@ public class ApiSaleLiveController {
     /**
      * 운영자용
      * 오프라인 비드 삭제.
+     * 직원 권한이 있어야 실행 가능.
      */
     //@Secured("ROLE_EMPLOYEE_USER")
     @PostMapping(value="/admin/bid/{bidNo}/off-del")
