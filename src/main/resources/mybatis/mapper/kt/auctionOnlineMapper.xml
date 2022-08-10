@@ -319,4 +319,27 @@
         order by LOT_NO limit 1
      ]]>
     </select>
+
+    <select id="selectSaleCertInfo" parameterType="CommonMap" resultType="CommonMap">
+        select count(*) as CNT, (select max(A.HP) from CUST A where A.CUST_NO = #{cust_no}) as HP
+        from SALE_CERT A
+        where A.DEL_YN = 'N' and A.SALE_NO = #{sale_no} and A.CUST_NO = #{cust_no}
+    </select>
+
+    <insert id="insertSaleCert" parameterType="Map" useGeneratedKeys="true" keyProperty="sale_cert_no">
+        insert into SALE_CERT (SALE_NO, CUST_NO, HP, CUST_HP, DONE_CD, REG_DT, REG_EMP_NO)
+        VALUES (
+                   #{sale_no},
+                   #{cust_no},
+                   #{hp},
+                   (select max(A.HP) from CUST A where A.CUST_NO = #{cust_no}),
+                   #{done_cd},
+                   now(),
+                   #{cust_no}
+               );
+    </insert>
+    
+    <update id="updateSaleCert" parameterType="CommonMap">
+        update SALE_CERT set DONE_CD = 'modify' where CUST_NO = #{cust_no} and SALE_CERT_NO = #{sale_cert_no};
+    </update>
 </mapper>
