@@ -114,74 +114,82 @@
                                         <div class="li-inner">
                                             <article class="item-article">
                                                 <div class="image-area" ng-if="item.STAT_CD != 'reentry' && (item.IMG_DISP_YN == 'Y' || custInfo.EMP_GB == 'Y')" ng-click="goDetail(item.SALE_NO, item.LOT_NO, item.SALE_KIND_CD, item.END_YN);">
-                                                    <figure class="img-ratio">
-                                                        <div class="img-align" ng-if="item.STAT_CD != 'reentry' && item.IMG_DISP_YN == 'Y'">
-                                                            <img src="{{item.IMAGE_URL}}{{item.LOT_IMG_PATH}}/{{item.LOT_IMG_NAME}}"
-                                                                 alt="{{item.TITLE_JSON.ko | trimSameCheck : item.TITLE_JSON[locale]}}">
-                                                        </div>
-                                                        <div class="img-align" ng-if="item.STAT_CD != 'reentry' && item.IMG_DISP_YN != 'Y'">
-                                                            <img src="/images/bg/no_image.jpg">
-                                                        </div>
-                                                    </figure>
+                                                    <a href="#" ng-click="goDetail(item.SALE_NO, item.LOT_NO, item.SALE_KIND_CD, item.END_YN);">
+                                                        <figure class="img-ratio">
+                                                            <div class="img-align" ng-if="item.STAT_CD != 'reentry' && item.IMG_DISP_YN == 'Y'">
+                                                                <img src="{{item.IMAGE_URL}}{{item.LOT_IMG_PATH}}/{{item.LOT_IMG_NAME}}"
+                                                                     alt="{{item.TITLE_JSON.ko | trimSameCheck : item.TITLE_JSON[locale]}}">
+                                                            </div>
+                                                            <div class="img-align" ng-if="item.STAT_CD != 'reentry' && item.IMG_DISP_YN != 'Y'">
+                                                                <img src="/images/bg/no_image.jpg">
+                                                            </div>
+                                                        </figure>
+                                                    </a>
                                                 </div>
                                                 <div class="typo-area">
                                                     <div class="product_info">
                                                         <div class="num_heart-box">
-                                                            <span class="num" ng-bind="item.LOT_NO"></span>
+                                                            <a href="#" ng-click="goDetail(item.SALE_NO, item.LOT_NO, item.SALE_KIND_CD, item.END_YN);">
+                                                                <span class="num" ng-bind="item.LOT_NO"></span>
+                                                            </a>
                                                             <button class="heart js-work_heart">
-                                                                <i ng-class="item.FAVORITE_YN === 'Y' ? 'icon-heart_on' : 'icon-heart_off'"
-                                                                   ng-click="favorite(item);"></i></button>
+                                                            <i ng-class="item.FAVORITE_YN === 'Y' ? 'icon-heart_on' : 'icon-heart_off'"
+                                                               ng-click="favorite(item);"></i></button>
                                                         </div>
                                                         <div class="info-box">
-                                                            <div class="title"><span> {{item.ARTIST_NAME_JSON.ko | trimSameCheck : item.TITLE_JSON[locale]}}</span></div>
-                                                            <!-- 30자 -->
-                                                            <div class="desc"><span ng-bind="item.TITLE_JSON.ko | do_sub_string : item.TITLE_JSON.ko" title="{{item.TITLE_JSON.ko}}"></span></div>
-                                                            <div class="standard">
-                                                                <span ng-bind="item.MATE_NM | do_sub_string : item.MATE_NM" title="{{item.MATE_NM}}"></span>
-                                                                <div class="size_year">
-                                                                    <span ng-bind="item.LOT_SIZE_JSON[0] | size_text_cm | do_sub_string_low : item.LOT_SIZE_JSON[0]" title="{{item.LOT_SIZE_JSON[0] | size_text_cm}}"></span>
-                                                                    <span ng-bind="item.MAKE_YEAR_JSON.ko | do_sub_string_low : item.MAKE_YEAR_JSON.ko" title="{{item.MAKE_YEAR_JSON.ko}}"></span>
+                                                            <a href="#" ng-click="goDetail(item.SALE_NO, item.LOT_NO, item.SALE_KIND_CD, item.END_YN);">
+                                                                <div class="title"><span> {{item.ARTIST_NAME_JSON.ko | trimSameCheck : item.TITLE_JSON[locale]}}</span></div>
+                                                                <!-- 30자 -->
+                                                                <div class="desc"><span ng-bind="item.TITLE_JSON.ko | do_sub_string : item.TITLE_JSON.ko" title="{{item.TITLE_JSON.ko}}"></span></div>
+                                                                <div class="standard">
+                                                                    <span ng-bind="item.MATE_NM | do_sub_string : item.MATE_NM" title="{{item.MATE_NM}}"></span>
+                                                                    <div class="size_year">
+                                                                        <span ng-bind="item.LOT_SIZE_JSON[0] | size_text_cm | do_sub_string_low : item.LOT_SIZE_JSON[0]" title="{{item.LOT_SIZE_JSON[0] | size_text_cm}}"></span>
+                                                                        <span ng-bind="item.MAKE_YEAR_JSON.ko | do_sub_string_low : item.MAKE_YEAR_JSON.ko" title="{{item.MAKE_YEAR_JSON.ko}}"></span>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                            </a>
                                                         </div>
                                                         <div class="price-box">
-                                                            <dl class="price-list" ng-if="lot.EXPE_PRICE_INQ_YN == 'Y'">
-                                                                <dt>추정가</dt>
-                                                                <dd>별도문의 </dd>
-                                                            </dl>
-                                                            <dl class="price-list" ng-if="lot.EXPE_PRICE_INQ_YN != 'Y'">
-                                                                <dt>추정가</dt>
-                                                                <dd ng-if="item.CURR_CD == 'HKD'">{{item.CURR_CD}} {{item.EXPE_PRICE_FROM_JSON.HKD | currency:item.EXPE_PRICE_FROM_JSON.HKD }} </dd>
-                                                                <dd ng-if="item.CURR_CD == 'HKD'">~ {{item.EXPE_PRICE_TO_JSON.HKD | currency:item.EXPE_PRICE_TO_JSON.HKD }}</dd>
-                                                                <dd ng-if="item.CURR_CD == 'USD'">{{item.CURR_CD}} {{item.EXPE_PRICE_FROM_JSON.USD | currency:item.EXPE_PRICE_FROM_JSON.USD }} </dd>
-                                                                <dd ng-if="item.CURR_CD == 'USD'">~ {{item.EXPE_PRICE_TO_JSON.USD | currency:item.EXPE_PRICE_TO_JSON.USD }}</dd>
-                                                                <dd ng-if="item.CURR_CD == 'KRW'">{{item.CURR_CD}} {{item.EXPE_PRICE_FROM_JSON.KRW | currency:item.EXPE_PRICE_FROM_JSON.KRW }} </dd>
-                                                                <dd ng-if="item.CURR_CD == 'KRW'">~ {{item.EXPE_PRICE_TO_JSON.KRW | currency:item.EXPE_PRICE_TO_JSON.KRW }}</dd>
-                                                            </dl>
-                                                            <dl class="price-list">
-                                                                <dt>시작가</dt>
-                                                                <dd>{{item.CURR_CD}} {{item.START_PRICE | currency : item.START_PRICE }} </dd>
-                                                            </dl>
-                                                            <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && item.STATUS == '진행' && item.LAST_PRICE > 0">
-                                                                <dt>현재가</dt>
-                                                                <dd><strong>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE : 0 }} </strong><em>(응찰 {{item.BID_CNT }})</em></dd>
-                                                            </dl>
-                                                            <dl class="price-list" ng-if="!custInfo.CUST_NO && item.STATUS == '진행'">
-                                                                <dt>현재가</dt>
-                                                                <dd>현재가는 로그인 후 확인할 수 있습니다.</dd>
-                                                            </dl>
-                                                            <dl class="price-list" ng-if="!custInfo.CUST_NO && item.STATUS == '완료'">
-                                                                <dt>낙찰가</dt>
-                                                                <dd>낙찰가는 로그인 후 확인할 수 있습니다.</dd>
-                                                            </dl>
-                                                            <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && item.STATUS == '완료' && item.LAST_PRICE > 0">
-                                                                <dt>낙찰가</dt>
-                                                                <dd><strong>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE }}</strong></dd>
-                                                            </dl>
-                                                            <dl class="price-list" ng-if="custInfo.CUST_NO && (item.LAST_PRICE == undefined || item.LAST_PRICE == 0)">
-                                                                <dt></dt>
-                                                                <dd></dd>
-                                                            </dl>
+                                                            <a href="#" ng-click="goDetail(item.SALE_NO, item.LOT_NO, item.SALE_KIND_CD, item.END_YN);">
+                                                                <dl class="price-list" ng-if="lot.EXPE_PRICE_INQ_YN == 'Y'">
+                                                                    <dt>추정가</dt>
+                                                                    <dd>별도문의 </dd>
+                                                                </dl>
+                                                                <dl class="price-list" ng-if="lot.EXPE_PRICE_INQ_YN != 'Y'">
+                                                                    <dt>추정가</dt>
+                                                                    <dd ng-if="item.CURR_CD == 'HKD'">{{item.CURR_CD}} {{item.EXPE_PRICE_FROM_JSON.HKD | currency:item.EXPE_PRICE_FROM_JSON.HKD }} </dd>
+                                                                    <dd ng-if="item.CURR_CD == 'HKD'">~ {{item.EXPE_PRICE_TO_JSON.HKD | currency:item.EXPE_PRICE_TO_JSON.HKD }}</dd>
+                                                                    <dd ng-if="item.CURR_CD == 'USD'">{{item.CURR_CD}} {{item.EXPE_PRICE_FROM_JSON.USD | currency:item.EXPE_PRICE_FROM_JSON.USD }} </dd>
+                                                                    <dd ng-if="item.CURR_CD == 'USD'">~ {{item.EXPE_PRICE_TO_JSON.USD | currency:item.EXPE_PRICE_TO_JSON.USD }}</dd>
+                                                                    <dd ng-if="item.CURR_CD == 'KRW'">{{item.CURR_CD}} {{item.EXPE_PRICE_FROM_JSON.KRW | currency:item.EXPE_PRICE_FROM_JSON.KRW }} </dd>
+                                                                    <dd ng-if="item.CURR_CD == 'KRW'">~ {{item.EXPE_PRICE_TO_JSON.KRW | currency:item.EXPE_PRICE_TO_JSON.KRW }}</dd>
+                                                                </dl>
+                                                                <dl class="price-list">
+                                                                    <dt>시작가</dt>
+                                                                    <dd>{{item.CURR_CD}} {{item.START_PRICE | currency : item.START_PRICE }} </dd>
+                                                                </dl>
+                                                                <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && item.STATUS == '진행' && item.LAST_PRICE > 0">
+                                                                    <dt>현재가</dt>
+                                                                    <dd><strong>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE : 0 }} </strong><em>(응찰 {{item.BID_CNT }})</em></dd>
+                                                                </dl>
+                                                                <dl class="price-list" ng-if="!custInfo.CUST_NO && item.STATUS == '진행'">
+                                                                    <dt>현재가</dt>
+                                                                    <dd>현재가는 로그인 후 확인할 수 있습니다.</dd>
+                                                                </dl>
+                                                                <dl class="price-list" ng-if="!custInfo.CUST_NO && item.STATUS == '완료'">
+                                                                    <dt>낙찰가</dt>
+                                                                    <dd>낙찰가는 로그인 후 확인할 수 있습니다.</dd>
+                                                                </dl>
+                                                                <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && item.STATUS == '완료' && item.LAST_PRICE > 0">
+                                                                    <dt>낙찰가</dt>
+                                                                    <dd><strong>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE }}</strong></dd>
+                                                                </dl>
+                                                                <dl class="price-list" ng-if="custInfo.CUST_NO && (item.LAST_PRICE == undefined || item.LAST_PRICE == 0)">
+                                                                    <dt></dt>
+                                                                    <dd></dd>
+                                                                </dl>
+                                                            </a> 
                                                         </div>
                                                         <div class="state-box">
 
