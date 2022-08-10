@@ -123,6 +123,7 @@ public class SaleLiveService {
         resultMap.put("GROW_PRICE" , lotOne.get("GROW_PRICE"));
         resultMap.put("LAST_PRICE" , lotOne.get("LAST_PRICE"));
         resultMap.put("LIVE_ING_YN" , lotOne.get("LIVE_ING_YN"));
+        resultMap.put("IS_WIN" , lotOne.get("IS_WIN"));
         resultMap.settingYNValueToBoolean();
         return resultMap;
     }
