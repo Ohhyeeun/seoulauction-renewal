@@ -7,6 +7,7 @@ import com.seoulauction.renewal.component.NicePayModule;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.InternalServerException;
+import com.seoulauction.renewal.exception.PaymentErrorException;
 import com.seoulauction.renewal.exception.PgNotFoundException;
 import com.seoulauction.renewal.mapper.kt.PaymentMapper;
 import com.seoulauction.renewal.util.SecurityUtils;
@@ -182,7 +183,7 @@ public class PaymentService {
                 resultMap = insertPay(request);
             }
         }catch (Exception e){
-            throw new InternalServerException(e);
+            throw new PaymentErrorException(e);
         }
 
         //결제 처리가 완료 시 디비 요청.

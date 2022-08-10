@@ -16,4 +16,8 @@ public class PaymentErrorException extends RuntimeException{
         super(msg);
     }
 
+    public PaymentErrorException(Exception e){
+        super(e);
+    }
+
 }

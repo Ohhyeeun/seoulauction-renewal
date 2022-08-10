@@ -78,8 +78,7 @@ public class NicePayModule {
             String result = webClient
                     .post()
                     .uri("/webapi/pay_process.jsp")
-                    .body(BodyInserters
-                            .fromFormData(formData))
+                    .body(BodyInserters.fromFormData(formData))
                     .retrieve()
                     .onStatus(HttpStatus::is4xxClientError, clientResponse -> Mono.error(RuntimeException::new))
                     .onStatus(HttpStatus::is5xxServerError, clientResponse -> Mono.error(RuntimeException::new))
