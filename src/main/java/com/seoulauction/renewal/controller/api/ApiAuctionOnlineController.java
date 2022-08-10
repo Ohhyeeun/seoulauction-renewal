@@ -54,6 +54,15 @@ public class ApiAuctionOnlineController {
         return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.selectLotRefreshList(commonMap)));
     }
 
+    @ApiOperation(value = "온라인 현재 진행중인 경매 polling 조회", notes = "경매번호를 통해 현재 진행중인 랏 정보를 조회한다.")
+    @GetMapping(value="/current-lot/sales/{saleNo}")
+    public ResponseEntity<RestResponse> currentLot(@PathVariable int saleNo) {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+
+        return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.selectCurrentLotInfo(commonMap)));
+    }
+
     @ApiOperation(value = "온라인 랏 정보 상세 조회", notes = "경매 번호, 랏 번호를 통해 랏 정보를 조회한다.")
     @GetMapping(value="/sales/{saleNo}/lots/{lotNo}")
     public ResponseEntity<RestResponse> lot(@PathVariable("saleNo") int saleNo, @PathVariable("lotNo") int lotNo) {

@@ -295,10 +295,12 @@
                                                 <div class="dropOut_text">
                                                     <a href="#" onclick="custLeave();">회원탈퇴</a>
                                                 </div>
-                                                <div class="btn_area" onclick="custModify()">
-                                                    <button class="btn btn_point btn_lg" id="modifyButton" type="button" disabled>
-                                                        <span>회원정보 수정</span>
-                                                    </button>
+                                                <div class="btn_area">
+                                                	<span onclick="custModify()">
+	                                                    <button class="btn btn_point btn_lg" id="modifyButton" type="button" disabled>
+	                                                        <span>회원정보 수정</span>
+	                                                    </button>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -402,7 +404,7 @@
 	                    <div class="pop-body scroll-type">
 	                        <section class="section">
 	                            <div class="search-group">
-	                                <input type="text" id="artist_word" class="form-control" value="" placeholder="이름 입력">
+	                                <input type="text" id="artist_word" class="form-control" value="" placeholder="이름 입력" onkeypress="event.keyCode === 13 && findArtistNewForm();">
 	                                <button onclick="findArtistNewForm()" class="btn btn_black" type="button"><span>검색</span></button>
 	                            </div>
 	                            <article class="articles-box">

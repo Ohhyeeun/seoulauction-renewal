@@ -520,7 +520,12 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 	$scope.emailValidCheck = function() {
 		$scope.emailValid = false;  
 		if($scope.form_data.email == "" || $scope.form_data.email == undefined){
-			$scope.email_msg = "이메일을 입력해주세요.";
+			if (langType == 'ko') {
+				$scope.email_msg = "이메일을 입력해주세요.";
+			}else{
+				$scope.email_msg = "Please enter your email.";
+			}
+			
 			$scope.emailValid = false;
 		}else{
 			var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
@@ -533,8 +538,8 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 				}
 		    }else{
 				$scope.email_msg = "";
+				$scope.emailValid = true;
 				if($scope.langType == 'ko'){ //외국인은 이메일중복체크필요
-					$scope.emailValid = true;
 					$('#email').removeClass('input_error');
 				}
 			}
@@ -552,13 +557,15 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 		axios.post('/api/login/isEmailExist' , data)
 	    .then(function(response) {
 	        const result = response.data;
-	        if(result && result.length > 0){
-				$scope.email_msg = "The email you entered is already in use.";
-				$scope.emailValid = false;
-	        }else{
-				$scope.email_msg = "The email you entered is available.";
-				$scope.emailValid = true;
-				$('#email').removeClass('input_error');
+	        if($scope.emailValid){
+		        if(result && result.length > 0){
+					$scope.email_msg = "The email you entered is already in use.";
+					$scope.emailValid = false;
+		        }else{
+					$scope.email_msg = "The email you entered is available.";
+					$scope.emailValid = true;
+					$('#email').removeClass('input_error');
+				}
 			}
 			$scope.$apply();
 			$scope.allValidCheck();
@@ -1054,9 +1061,8 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 						else if(!$scope.addrValid) $("#addr_dtl").addClass('input_error');
 					}
 				}else if($scope.langType == 'en'){
-					$("#alertMsg").html("Fill additional information below.");
+					$("#alertMsg").html("Please fill in all Required Items.");
 					popup_alert.open(this); // or false  
-//					alert("Fill additional information below.")
 					if($scope.isSocial()){ 
 						//외국소셜회원 필수 필드 : 이름/이메일/국가/주소/입찰여부/신분증/증빙서류
 						if(!$scope.nameValid) $("#cust_name").addClass('input_error');

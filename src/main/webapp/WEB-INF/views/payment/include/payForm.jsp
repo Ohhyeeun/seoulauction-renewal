@@ -21,6 +21,7 @@
     <input type="hidden" name="ReqReserved" value="" />
     <input type="hidden" name="tmpReqReserved" value="uuid=${uuid},pay_kind=${pay_kind}" />
 
+    <input type="hidden" name="WapUrl" value="seoulauction://" />                <!--모바일 신용카드용 -->
     <!-- 변경 불가능 -->
     <input type="hidden" name="EdiDate" value="${ediDate}"/>			        <!-- 전문 생성일시 -->
     <input type="hidden" name="SignData" value="${signData}"/>	                <!-- 해쉬값 -->

@@ -64,7 +64,7 @@
 																				<option value="">Choose</option>
 																				<option
 																					ng-repeat="code in inqCate | filter:{LEVEL:1}:true"
-																					value="{{code.CD_ID}}">{{code.CD_NM}}/{{code.CD_NM_EN}}</option>
+																					value="{{code.CD_ID}}">{{code.CD_NM_EN}}</option>
 																			</select>
 																		</div>
 																		<div class="select-box half" id="inqCate2">
@@ -72,7 +72,7 @@
 																				onchange="angular.element(this).scope().changeCate2()">
 																				<option value="">Choose</option>
 																				<option ng-repeat="code in inqCate2"
-																					value="{{code.CD_ID}}">{{code.CD_NM}}/{{code.CD_NM_EN}}</option>
+																					value="{{code.CD_ID}}">{{code.CD_NM_EN}}</option>
 																			</select>
 																		</div>
 																	</div>
@@ -200,7 +200,7 @@
 																			<select class="select2Basic" name="work_category1" id="work_category1" ng-model="sell_data.work_category1"
 																				onchange="angular.element(this).scope().changeSellCate1()">
 																				<option value="">Choose</option>
-																				<option ng-repeat="cate in sell_categories1"
+																				<option ng-repeat="cate in sell_categories1_en"
 																					value="{{cate}}">{{cate}}</option>
 																			</select>
 																		</div>

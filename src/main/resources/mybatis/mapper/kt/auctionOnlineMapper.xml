@@ -108,7 +108,6 @@
             , L.IMG_DISP_YN
             , now() as DB_NOW
             , COLUMN_JSON(L.COND_RPT_BLOB) COND_RPT_JSON   # YDH. 컨디션리포트용 데이터 컬럼 추가.
-            , (select LOT_NO from LOT where SALE_NO = L.SALE_NO and TO_DT >= now() order by LOT_NO limit 1) CURR_LOT_NO
             , IFNULL(L.GUARANTEE_YN, 'Y') GUARANTEE_YN
             , L.WINE_YN
             , IFNULL(L.FRAME_CD, 'none') AS FRAME_CD
@@ -307,5 +306,17 @@
             </foreach>
         )
         order by L.LOT_NO
+    </select>
+
+    <select id="selectCurrentLotInfo" parameterType="CommonMap" resultType="CommonMap">
+    <![CDATA[
+        select L.LOT_NO, (select COLUMN_JSON(AT.ARTIST_NAME_BLOB) from ARTIST AT where AT.ARTIST_NO = L.ARTIST_NO) ARTIST_NAME_JSON
+        from SALE S
+            join LOT L on S.SALE_NO = L.SALE_NO and L.WWW_DISP_YN = 'Y' and L.STAT_CD != 'reentry'
+        where DATE_ADD(S.TO_DT, INTERVAL -1 minute) <= now()
+            and L.TO_DT >= now()
+            and S.SALE_NO = #{sale_no}
+        order by LOT_NO limit 1
+     ]]>
     </select>
 </mapper>

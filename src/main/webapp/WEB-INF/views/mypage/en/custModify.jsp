@@ -251,10 +251,12 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
                                                 <div class="dropOut_text">
                                                     <a href="#" onclick="custLeave();">Delete Account</a>
                                                 </div>
-                                                <div class="btn_area" onclick="custModify()">
-                                                    <button class="btn btn_point btn_lg" id="modifyButton" type="button" disabled>
-                                                        <span>SAVE</span>
-                                                    </button>
+                                                <div class="btn_area">
+                                                	<span onclick="custModify()">
+	                                                    <button class="btn btn_point btn_lg" id="modifyButton" type="button" disabled>
+	                                                        <span>SAVE</span>
+	                                                    </button>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -303,7 +305,7 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
 	                    <div class="pop-body scroll-type">
 	                        <section class="section">
 	                            <div class="search-group">
-	                                <input type="text" id="artist_word" class="form-control" value="" placeholder="Enter name">
+	                                <input type="text" id="artist_word" class="form-control" value="" placeholder="Enter name" onkeypress="event.keyCode === 13 && findArtistNewForm();">
 	                                <button onclick="findArtistNewForm()" class="btn btn_black" type="button"><span>Search</span></button>
 	                            </div>
 	                            <article class="articles-box">
