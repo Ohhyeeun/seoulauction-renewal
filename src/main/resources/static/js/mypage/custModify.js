@@ -655,7 +655,7 @@ function findArtistNewForm(){
 						$("#artistChk" + ele).prop("checked", true);
 					});	
 					tmpArtistList = inteArtistList.slice();
-					tmpArtistJson = inteArtistJson;
+					tmpArtistJson = JSON.parse(JSON.stringify(inteArtistJson));;
 	
 				}else{
 					if (langType == 'ko') {
@@ -688,8 +688,8 @@ function setArtists(){
 		return;
 	}
 
-	inteArtistList = tmpArtistList;
-	inteArtistJson = tmpArtistJson;
+	inteArtistList = tmpArtistList.slice();
+	inteArtistJson = JSON.parse(JSON.stringify(tmpArtistJson));
 	
 	$("#artistList").html('');
 	inteArtistList.forEach(function(ele){
