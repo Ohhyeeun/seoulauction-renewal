@@ -212,7 +212,8 @@
                                                         <div class="state-box">
 
                                                             <div ng-if="item.STATUS == '완료'" class="state op-end">
-                                                                <div> {{item.STATUS}} </div>
+<%--                                                                <div> {{item.STATUS}} </div>  --%>
+                                                                <div> 종료 </div>
                                                             </div>
                                                             <div ng-if="item.STATUS == '진행'" class="state op-ing">
                                                                 <div> {{item.STATUS}} </div>
