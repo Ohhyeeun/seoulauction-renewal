@@ -229,9 +229,7 @@
               EX.SALE_NO = #{sale_no}
     </select>
 
-    <!-- 랏 동기화 - 해당 경매의 LOT 들을 전부 CLOSE YN , LIVE_ING_YN 을 Y 로 바꾼다.
-        랏번호가 있을경우 특정 LOT 만 바꾼다.
-    -->
+    <!-- 랏 동기화 - 해당 경매의 LOT 들을 전부 CLOSE YN , LIVE_ING_YN 을 Y 로 바꾼다. 랏번호가 있을경우 특정 LOT 만 바꾼다.-->
     <select id="updateLotSync" parameterType="CommonMap" resultType="CommonMap">
         UPDATE
             LOT
@@ -245,8 +243,7 @@
         </if>
     </select>
 
-    <!--랏 마감 - 특정 랏의 LIVE_CLOSE_YN 정보를 토글 형식으로 바꾼다. ( 호출 될때마다 Y , N 이 바낌 )
-    -->
+    <!--랏 마감 - 특정 랏의 LIVE_CLOSE_YN 정보를 토글 형식으로 바꾼다. ( 호출 될때마다 Y , N 이 바낌 ) -->
     <select id="updateLotCloseToggle" parameterType="CommonMap" resultType="CommonMap">
         UPDATE
             LOT

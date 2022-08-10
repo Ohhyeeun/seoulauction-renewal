@@ -139,13 +139,14 @@ public class SaleLiveService {
         }
 
         CommonMap map = new CommonMap();
+        //sale_no , lot_no 값 세팅.
+        map.put("sale_no", saleNo);
+        map.put("lot_no", lotNo);
         map.put("cust_no" , 0);
-
-
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
         //만약 로그인을 했고 직원 이면.
         if( saUserDetails !=null) {
-            map.put("cust_no" , saUserDetails.getUserNo());
+            map.put("cust_no", saUserDetails.getUserNo());
         }
 
         CommonMap lastMap = new CommonMap();
@@ -157,7 +158,6 @@ public class SaleLiveService {
             case "online":
 
                 int paddle = auctionService.selectSalePaddNo(map);
-
                 if (paddle == 0) {
                     //비드 카인드가 online 일경우 paddle 변호가 없으면 오류.
                     throw new SAException("패들 번호가 존재 해야 합니다.");
@@ -206,8 +206,6 @@ public class SaleLiveService {
             }
         }
         //값 세팅.
-        map.put("sale_no", saleNo);
-        map.put("lot_no", lotNo);
         map.put("bid_kind_cd", offlineBiddingForm.getBidKindCd());
         map.put("bid_price", offlineBiddingForm.getBidPrice());
         map.put("bid_notice", offlineBiddingForm.getBidNotice());
