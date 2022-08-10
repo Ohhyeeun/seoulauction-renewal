@@ -254,5 +254,13 @@
         AND LOT_NO = #{lot_no}
     </select>
 
+    <!--운영자용 오프라인 비드 삭제-->
+    <select id="deleteBidOfflineByBidId" parameterType="CommonMap" resultType="CommonMap">
+        DELETE FROM
+            BID_OFFLINE
+        WHERE
+            BID_NO = #{bid_no}
+    </select>
+
 
 </mapper>

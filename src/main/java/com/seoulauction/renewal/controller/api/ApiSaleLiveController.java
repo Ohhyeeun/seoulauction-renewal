@@ -843,4 +843,19 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok(currencyDataManager.getCurrency(date)));
     }
 
+    /**
+     * 운영자용
+     * 오프라인 비드 삭제.
+     */
+    //@Secured("ROLE_EMPLOYEE_USER")
+    @PostMapping(value="/admin/bid/{bidNo}/off-del")
+    public ResponseEntity<RestResponse> deleteBidOfflineByBidId(
+            @PathVariable("bidNo") int bidNo) {
+
+        saleLiveService.deleteBidOfflineByBidId(new CommonMap("bid_no" , bidNo));
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
+
+
 }

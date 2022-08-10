@@ -232,6 +232,9 @@ public class SaleLiveService {
     public void lotLotCloseToggle(CommonMap map){
         saleLiveMapper.updateLotCloseToggle(map);
     }
+    public void deleteBidOfflineByBidId(CommonMap map){
+        saleLiveMapper.deleteBidOfflineByBidId(map);
+    }
 
 }
 
