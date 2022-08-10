@@ -966,7 +966,7 @@ recent-keyword:lang(en) {
     margin: 0 auto;
 }
 .header_gnbmenu>li+li {
-    margin-left: 50px;
+    margin-left: 3.125vw;  
 }
 .header_gnbmenu>li>a {
     font-size: 20px;
@@ -1132,6 +1132,9 @@ recent-keyword:lang(en) {
     flex-basis: 177px;
     position: relative;
     flex-shrink: 0;
+}
+.topsearch-box:lang(en)>form {
+    flex-basis: 163px;
 }
 .topsearch {
     display: flex;

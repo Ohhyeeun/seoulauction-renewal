@@ -46,10 +46,10 @@
         <div class="header_nav wrap_padding" ng-controller="headCtl">
             <a href="/" class="header_logo"><span class="blind-text">logo</span></a>
             <ul class="header_gnbmenu pc-ver">
-                <li><a href="#" class="">AUCTION</a></li>
-                <li><a href="#">PRIVATE SALE</a></li>
+                <li><a href="#" class="">AUCTIONS</a></li>
+                <li><a href="#">PRIVATE SALES</a></li>
                 <li><a href="#">SELL</a></li>
-                <li><a href="#">SERVICE</a></li>
+                <li><a href="#">SERVICES</a></li>
             </ul>
             <section class="topsearch-box">
                 <button class="m-top-search m-ver" ng-click="recommandSearch();"></button>
@@ -77,7 +77,7 @@
                     </div>
 
                     <ul class="subGnbmenu">
-                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
+                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTIONS<span></span></span>
                             <ul class="submenu submenu-part01">
                                 <li id="menu_auction"><a href="/auction/progress">진행경매</a></li>
                                 <li id="menu_upcoming"><a href="/auction/upcoming">예정경매</a></li>
@@ -85,7 +85,7 @@
                                 <li><a href="/auction/info ">경매안내</a></li>
                             </ul>
                         </li>
-                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
+                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALES<span></span></span>
                             <ul class="submenu submenu-part02">
                                 <li id="menu_exhibit"><a href="/privatesale/exhibit">전시</a></li>
                                 <li><a href="/privatesale/psList">프라이빗 세일</a></li>
@@ -98,7 +98,7 @@
                                 <li><a href="/mypage/inquiryForm">위탁신청</a></li>
                             </ul>
                         </li>
-                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
+                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICES<span></span></span>
                             <ul class="submenu submenu-part04">
                                 <li id="menu_academy"><a href="/service/academy">아카데미</a></li>
                                 <li><a href="/service/loan">담보대출</a></li>
