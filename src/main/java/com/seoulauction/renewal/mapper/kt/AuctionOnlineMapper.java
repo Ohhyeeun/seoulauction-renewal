@@ -29,4 +29,10 @@ public interface AuctionOnlineMapper {
     int insertCustInteLot(CommonMap commonMap);
 
     int deleteCustInteLot(CommonMap commonMap);
+
+    CommonMap selectSaleCertInfo(CommonMap commonMap);
+
+    int insertSaleCert(CommonMap commonMap);
+
+    int updateSaleCert(CommonMap commonMap);
 }
