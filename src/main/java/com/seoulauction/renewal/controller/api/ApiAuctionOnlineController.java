@@ -119,7 +119,7 @@ public class ApiAuctionOnlineController {
         return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.selectSaleCertInfo(commonMap)));
     }
 
-    @ApiOperation(value = "온라인 휴대폰 인증 등록", notes = "온라인 휴대폰 인증을 등록한다.(no_modify/un_modify)")
+    @ApiOperation(value = "온라인 휴대폰 인증 등록", notes = "온라인 휴대폰 인증을 등록한다.(no_modify: 변경없음 / un_modify: 변경안함)")
     @PostMapping(value = "/sale-cert/sales/{saleNo}")
     public ResponseEntity<RestResponse> insertSaleCert(@PathVariable("saleNo") int saleNo
             , @ApiParam(example = "{\n\t\"done_cd\": \"\",\n\t\"hp\": \"\"\n}") @RequestBody CommonMap commonMap) {
