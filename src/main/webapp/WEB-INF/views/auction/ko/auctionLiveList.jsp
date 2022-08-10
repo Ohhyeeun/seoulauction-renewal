@@ -218,6 +218,20 @@
                                         <li ng-class="{cancel: item.STAT_CD === 'reentry'}"  ng-repeat="item in saleInfo">
 
                                             <div class="li-inner">
+                                                <!-- [0809]검색결과 result클래스추가 -->
+                                                <article class="item-article result">
+                                                    <div class="image-area">
+                                                        <figure class="img-ratio">
+                                                            <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
+                                                                <div class="img-align">
+                                                                    <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"  alt="">
+                                                                </div>
+                                                            </a> 
+                                                        </figure>
+                                                    </div>
+                                                </article>
+                                                <!-- //[0809]검색결과 result클래스추가 -->
+
                                                 <article class="item-article">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
