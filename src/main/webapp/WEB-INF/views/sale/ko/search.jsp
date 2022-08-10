@@ -195,11 +195,11 @@
                                                                     <dt>현재가</dt>
                                                                     <dd>현재가는 로그인 후 확인할 수 있습니다.</dd>
                                                                 </dl>
-                                                                <dl class="price-list" ng-if="!custInfo.CUST_NO && item.STATUS == '완료'">
+                                                                <dl class="price-list" ng-if="!custInfo.CUST_NO && item.STATUS == '종료'">
                                                                     <dt>낙찰가</dt>
                                                                     <dd>낙찰가는 로그인 후 확인할 수 있습니다.</dd>
                                                                 </dl>
-                                                                <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && item.STATUS == '완료' && item.LAST_PRICE > 0">
+                                                                <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && item.STATUS == '종료' && item.LAST_PRICE > 0">
                                                                     <dt>낙찰가</dt>
                                                                     <dd><strong>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE }}</strong></dd>
                                                                 </dl>
@@ -211,9 +211,9 @@
                                                         </div>
                                                         <div class="state-box">
 
-                                                            <div ng-if="item.STATUS == '완료'" class="state op-end">
+                                                            <div ng-if="item.STATUS == '종료'" class="state op-end">
                                                                 <div> {{item.STATUS}} </div>
-                                                            </div>
+                                                            </div> 
                                                             <div ng-if="item.STATUS == '진행'" class="state op-ing">
                                                                 <div> {{item.STATUS}} </div>
                                                             </div>
