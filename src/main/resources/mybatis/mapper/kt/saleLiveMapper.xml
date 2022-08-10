@@ -255,11 +255,21 @@
     </select>
 
     <!--운영자용 오프라인 비드 삭제-->
-    <select id="deleteBidOfflineByBidId" parameterType="CommonMap" resultType="CommonMap">
+    <delete id="deleteBidOfflineByBidId" parameterType="CommonMap">
         DELETE FROM
             BID_OFFLINE
         WHERE
             BID_NO = #{bid_no}
+    </delete>
+
+    <!-- 라이브 랏 마감 여부 -->
+    <select id="selectLotClose" parameterType="CommonMap" resultType="String">
+        select
+            LIVE_CLOSE_YN
+        FROM
+            LOT
+        WHERE
+            SALE_NO = #{sale_no} AND LOT_NO = #{lot_no}
     </select>
 
 

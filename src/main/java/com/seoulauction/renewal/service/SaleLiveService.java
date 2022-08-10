@@ -150,6 +150,13 @@ public class SaleLiveService {
             map.put("cust_no", saUserDetails.getUserNo());
         }
 
+
+        //!!!!!랏이 마감 되어있는지 체크!! ( 현재가 조정 기능은 가능 )
+        if("Y".equals(saleLiveMapper.selectLotClose(map)) && !"price_change".equals(offlineBiddingForm.getBidKindCd()) ){
+            throw new SAException("이미 랏이 마감 되었습니다.");
+        }
+
+
         CommonMap lastMap = new CommonMap();
         lastMap.put("sale_no" , saleNo);
         lastMap.put("lot_no" , lotNo);

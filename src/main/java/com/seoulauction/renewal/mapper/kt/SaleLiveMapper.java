@@ -20,5 +20,6 @@ public interface SaleLiveMapper {
     void updateLotCloseToggle(CommonMap map);
     void updateLotSync(CommonMap map);
     void deleteBidOfflineByBidId(CommonMap map);
+    String selectLotClose(CommonMap map);
 
 }
