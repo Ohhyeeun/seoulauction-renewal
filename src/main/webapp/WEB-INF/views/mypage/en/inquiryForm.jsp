@@ -200,7 +200,7 @@
 																			<select class="select2Basic" name="work_category1" id="work_category1" ng-model="sell_data.work_category1"
 																				onchange="angular.element(this).scope().changeSellCate1()">
 																				<option value="">Choose</option>
-																				<option ng-repeat="cate in sell_categories1"
+																				<option ng-repeat="cate in sell_categories1_en"
 																					value="{{cate}}">{{cate}}</option>
 																			</select>
 																		</div>

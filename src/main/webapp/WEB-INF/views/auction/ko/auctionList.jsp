@@ -214,6 +214,20 @@
                                     <!-- 작품 리스트 -->
                                     <li ng-class="{cancel: item.STAT_CD === 'reentry'}" ng-repeat="item in saleInfo">
                                         <div class="li-inner">
+                                            <!-- [0809]검색결과 result클래스추가 -->
+                                            <article class="item-article result">
+                                                <div class="image-area">
+                                                    <figure class="img-ratio">
+                                                        <a href="/auction/online/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
+                                                            <div class="img-align">
+                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
+                                                            </div>
+                                                        </a>
+                                                    </figure>
+                                                </div>
+                                            </article>
+                                            <!-- //[0809]검색결과 result클래스추가 -->
+
                                             <article class="item-article" ng-if="item.STAT_CD !== 'reentry'">
                                                 <div class="image-area">
                                                     <figure class="img-ratio">
@@ -234,49 +248,53 @@
                                                             ></i></button>
                                                         </div>
                                                         <div class="info-box">
-                                                            <div class="title"><span>{{item.ARTIST_NAME_JSON != null ? item.ARTIST_NAME_JSON.ko : 'ㅤ'}}</span>
+                                                            <a href="#" ng-click="goLot(item.SALE_NO, item.LOT_NO)">
+                                                                <div class="title"><span>{{item.ARTIST_NAME_JSON != null ? item.ARTIST_NAME_JSON.ko : 'ㅤ'}}</span>
 
-                                                                <%--                                                                    <span ng-if="item.BORN_YEAR !=null && item.BORN_YEAR !==''" class="sub">({{item.BORN_YEAR}})</span>--%>
-                                                                <%--                                                                    <span ng-if="item.BORN_YEAR ==null || item.BORN_YEAR ===''" class="sub">ㅤ</span>--%>
+                                                                    <%--                                                                    <span ng-if="item.BORN_YEAR !=null && item.BORN_YEAR !==''" class="sub">({{item.BORN_YEAR}})</span>--%>
+                                                                    <%--                                                                    <span ng-if="item.BORN_YEAR ==null || item.BORN_YEAR ===''" class="sub">ㅤ</span>--%>
 
-                                                            </div>
-                                                            <div class="desc">
-                                                                <span class="text-over span_block">{{item.LOT_TITLE_JSON.ko != null ? item.LOT_TITLE_JSON.ko : 'ㅤ'}}</span>
-                                                            </div>
-                                                            <div class="standard">
-                                                                    <span class="text-over span_block">{{item.CD_NM != null ? item.CD_NM : 'ㅤ'}}
-                                                                    </span>
-                                                                <div class="size_year">
-                                                                    <span ng-bind="item | size_text_cm"></span>
-                                                                    <span ng-bind="item.MAKE_YEAR_JSON.ko" ng-show="item.MAKE_YEAR_JSON.ko !== undefined"></span>
-                                                                    <span ng-show="(item.MAKE_YEAR_JSON.ko === undefined && change_size)">ㅤ</span>
                                                                 </div>
-                                                            </div>
+                                                                <div class="desc">
+                                                                    <span class="text-over span_block">{{item.LOT_TITLE_JSON.ko != null ? item.LOT_TITLE_JSON.ko : 'ㅤ'}}</span>
+                                                                </div>
+                                                                <div class="standard">
+                                                                        <span class="text-over span_block">{{item.CD_NM != null ? item.CD_NM : 'ㅤ'}}
+                                                                        </span>
+                                                                    <div class="size_year">
+                                                                        <span ng-bind="item | size_text_cm"></span>
+                                                                        <span ng-bind="item.MAKE_YEAR_JSON.ko" ng-show="item.MAKE_YEAR_JSON.ko !== undefined"></span>
+                                                                        <span ng-show="(item.MAKE_YEAR_JSON.ko === undefined && change_size)">ㅤ</span>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
                                                         </div>
                                                         <div class="price-box">
-                                                            <dl ng-if="item.EXPE_PRICE_INQ_YN !== 'Y'" class="price-list">
-                                                                <dt>추정가</dt>
-                                                                <dd>KRW {{item.EXPE_PRICE_FROM_JSON.KRW}}</dd>
-                                                                <dd>~ {{item.EXPE_PRICE_TO_JSON.KRW}}</dd>
-                                                            </dl>
-                                                            <dl ng-if="item.EXPE_PRICE_INQ_YN === 'Y'" class="price-list">
-                                                                <dt>추정가</dt>
-                                                                <dd>별도문의</dd>
-                                                                <dd></dd>
-                                                            </dl>
-                                                            <dl class="price-list" ng-if="item.START_PRICE !== ''">
-                                                                <dt>시작가</dt>
-                                                                <dd>{{item.START_PRICE}}</dd>
-                                                            </dl>
-                                                            <dl class="price-list">
-                                                                <dt ng-bind="item.ON_STATE_COST_TXT"></dt>
-                                                                <dd ng-if="item.CUR_COST !== ''">
-                                                                    <strong>{{item.CUR_COST}}</strong><em>{{item.BID_COUNT}}</em>
-                                                                </dd>
-                                                                <dd ng-if="item.CUR_COST === ''">
-                                                                    <strong></strong><em></em>
-                                                                </dd>
-                                                            </dl>
+                                                            <a href="#" ng-click="goLot(item.SALE_NO, item.LOT_NO)">
+                                                                <dl ng-if="item.EXPE_PRICE_INQ_YN !== 'Y'" class="price-list">
+                                                                    <dt>추정가</dt>
+                                                                    <dd>KRW {{item.EXPE_PRICE_FROM_JSON.KRW}}</dd>
+                                                                    <dd>~ {{item.EXPE_PRICE_TO_JSON.KRW}}</dd>
+                                                                </dl>
+                                                                <dl ng-if="item.EXPE_PRICE_INQ_YN === 'Y'" class="price-list">
+                                                                    <dt>추정가</dt>
+                                                                    <dd>별도문의</dd>
+                                                                    <dd></dd>
+                                                                </dl>
+                                                                <dl class="price-list" ng-if="item.START_PRICE !== ''">
+                                                                    <dt>시작가</dt>
+                                                                    <dd>{{item.START_PRICE}}</dd>
+                                                                </dl>
+                                                                <dl class="price-list">
+                                                                    <dt ng-bind="item.ON_STATE_COST_TXT"></dt>
+                                                                    <dd ng-if="item.CUR_COST !== ''">
+                                                                        <strong>{{item.CUR_COST}}</strong><em>{{item.BID_COUNT}}</em>
+                                                                    </dd>
+                                                                    <dd ng-if="item.CUR_COST === ''">
+                                                                        <strong></strong><em></em>
+                                                                    </dd>
+                                                                </dl>
+                                                            </a>
                                                         </div>
                                                         <div class="bidding-box">
                                                             <div class="deadline_set"><span
@@ -305,22 +323,26 @@
                                                 <div class="typo-area">
                                                     <div class="product_info">
                                                         <div class="num_heart-box">
-                                                            <span class="num"></span>
+                                                            <a href="#" ng-click="goLot(item.SALE_NO, item.LOT_NO)">
+                                                                <span class="num"></span>
+                                                            </a>
                                                             <button class="heart js-work_heart"><i></i></button>
                                                         </div>
                                                         <div class="info-box">
-                                                            <div class="title"><span></span>
-                                                            </div>
-                                                            <div class="desc">
-                                                                <span class="text-over span_block"></span>
-                                                            </div>
-                                                            <div class="standard">
-                                                                <span class="text-over span_block"></span>
-                                                                <div class="size_year">
-                                                                    <span></span>
-                                                                    <span></span>
+                                                            <a href="#" ng-click="goLot(item.SALE_NO, item.LOT_NO)">
+                                                                <div class="title"><span></span>
                                                                 </div>
-                                                            </div>
+                                                                <div class="desc">
+                                                                    <span class="text-over span_block"></span>
+                                                                </div>
+                                                                <div class="standard">
+                                                                    <span class="text-over span_block"></span>
+                                                                    <div class="size_year">
+                                                                        <span></span>
+                                                                        <span></span>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
                                                         </div>
                                                         <div class="price-box">
                                                             <dl class="price-list">

@@ -18,6 +18,8 @@ public interface AuctionOnlineMapper {
 
     List<CommonMap> selectLotRefreshList(CommonMap commonMap);
 
+    CommonMap selectCurrentLotInfo(CommonMap commonMap);
+
     CommonMap selectLotInfo(CommonMap commonMap);
 
     CommonMap selectManager(int custNo);
