@@ -1061,9 +1061,8 @@ app.controller('joinFormCtl', function($scope, consts, common, ngDialog, $interv
 						else if(!$scope.addrValid) $("#addr_dtl").addClass('input_error');
 					}
 				}else if($scope.langType == 'en'){
-					$("#alertMsg").html("Fill additional information below.");
+					$("#alertMsg").html("Please fill in all Required Items.");
 					popup_alert.open(this); // or false  
-//					alert("Fill additional information below.")
 					if($scope.isSocial()){ 
 						//외국소셜회원 필수 필드 : 이름/이메일/국가/주소/입찰여부/신분증/증빙서류
 						if(!$scope.nameValid) $("#cust_name").addClass('input_error');
