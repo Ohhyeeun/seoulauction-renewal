@@ -39,4 +39,6 @@ public interface AuctionOnlineMapper {
     List<CommonMap>  selectBidListPaging(CommonMap commonMap);
 
     int selectBidListCount(CommonMap commonMap);
+
+    CommonMap selectCustInfo(CommonMap commonMap);
 }
