@@ -333,7 +333,7 @@
                         });
 
                         let expe_text =
-                            data.EXPE_PRICE_INQ_YN == 'Y' ?  '별도 문의' :
+                            data.EXPE_PRICE_INQ_YN == 'Y' ?  'Separate Inquiry' :
                                 ('KRW ' + numberWithCommas(data.EXPE_PRICE_FROM_JSON.KRW) + '<br> ~ ' + numberWithCommas(data.EXPE_PRICE_TO_JSON.KRW))
 
                         $("#expe_price").html(expe_text);
@@ -357,7 +357,6 @@
                         }
 
                         $("#selected_lot").text(numberWithCommas(current_price) + ' KRW');
-                       // $("#price_to_han").text(num2han(current_price) + ' 원');
 
                         $("#select_lot_scroll").empty();
 
@@ -432,7 +431,7 @@
 
                 //전체 동의 확인
                 if(!$('#checkbox_all').is(":checked")){
-                    alert('전체 동의를 해주세요.');
+                    alert('Please give full agree.');
                     return;
                 }
 
@@ -460,7 +459,7 @@
                     }).then(function(response) {
 
                         if(response.data.success){
-                            alert("성공적으로 응찰 되었습니다.");
+                            alert("has been successfully bid.");
                             location.href ='/auction/live/list/${saleNo}';
                         } else {
                             alert(response.data.data.msg);
