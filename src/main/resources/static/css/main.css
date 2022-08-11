@@ -993,6 +993,7 @@
     animation: overlaydown .5s linear;
     -webkit-animation: overlaydown .5s linear;
     -ms-animation: overlaydown .5s linear;
+    display: none;
 }
 .main-popup-img,
 .main-popup-txt {

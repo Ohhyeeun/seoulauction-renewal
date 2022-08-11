@@ -11,7 +11,7 @@
 
 <body>
 <jsp:include page="../../include/en/nav.jsp" flush="false"/>
-<section class="main-contents footer-bottom footer-bottom40"> 
+<section class="main-contents footer-bottom footer-bottom40 m-pdnone">
 
     <jsp:include page="../include/bigBanner.jsp" />
 
