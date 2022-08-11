@@ -66,6 +66,7 @@
         where
             name  = #{name}
             and email = #{email}
+            and is_subscribe = 'Y'
         limit
             1
     </select>

@@ -64,13 +64,7 @@ public class MainService {
         CommonMap checkMap = mainMapper.selectNewsletterForOverlapCheck(map);
 
         if(checkMap != null){
-
-            //관리자에서 바꿧음. 그럼 업데이트만 진행.
-            if( checkMap.get("is_subscribe").equals("N")){
-                mainMapper.updateNewsletter(checkMap);
-            } else {
-                throw new SAException("해당 정보로 이미 구독한 정보가 있습니다.");
-            }
+            throw new SAException("해당 정보로 이미 구독한 정보가 있습니다.");
         } else {
             mainMapper.insertNewsletter(map);
             mainMapper.insertNewsletterHistory(map);
