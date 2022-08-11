@@ -280,15 +280,28 @@
             <!-- 데이터 세팅 -->
             function init(){
 
+                axios.get('/api/auction/live/sale_info/${saleNo}')
+                    .then(function(response) {
+                        let data = response.data.data;
+                        let sale_title;
+                        sale_title = data.SALE_TH !== undefined ? ( '제' + data.SALE_TH + '회 ' ) : '';
+                        sale_title += data.TITLE_JSON.ko;
+
+                        $("#sale_title").html(sale_title);
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    });
+
                 axios.get('api/auction/live/lot_info/${saleNo}/${lotNo}')
                     .then(function(response) {
                     let data = response.data.data;
-                    let sale_title;
-                    sale_title = data.SALE_TH !== undefined ? ( '제' + data.SALE_TH + '회 ' ) : '';
-                    sale_title += JSON.parse(data.SALE_TITLE_JSON).ko;
+                    // let sale_title;
+                    // sale_title = data.SALE_TH !== undefined ? ( '제' + data.SALE_TH + '회 ' ) : '';
+                    // sale_title += JSON.parse(data.SALE_TITLE_JSON).ko;
 
                     $("#bidding_lot_img").attr('src' , data.IMAGE_URL + data.LOT_IMG_PATH + '/' +data.LOT_IMG_NAME);
-                    $("#sale_title").html(sale_title);
+                    // $("#sale_title").html(sale_title);
                     $("#lot_id").html(data.LOT_NO);
                     $("#artist_name").html(data.ARTIST_NAME_KO_TXT);
                     $("#lot_title").html(data.TITLE_KO_TXT);

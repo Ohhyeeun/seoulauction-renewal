@@ -55,9 +55,23 @@ public class ApiSaleLiveController {
         CommonMap c = new CommonMap();
         c.put("sale_no", saleNo);
 
-
-
         CommonMap saleInfoMap = saleService.selectSaleInfo(c);
+
+        String[] mapKeys = {"TITLE_JSON", "NOTICE_DTL_JSON"};
+
+        // 맵 형태 거름
+        ObjectMapper mapper  = new ObjectMapper();
+        try{
+            // 맵 변환
+            for(var item : mapKeys) {
+                saleInfoMap.put(item, mapper.readValue(String.valueOf(saleInfoMap.get(item)), Map.class));
+                Map<String,Object> m = (Map<String,Object>)saleInfoMap.get(item);
+            }
+        } catch (JsonMappingException e) {
+
+        } catch (JsonProcessingException e) {
+
+        }
         return ResponseEntity.ok(RestResponse.ok(saleInfoMap));
     }
 
@@ -87,8 +101,6 @@ public class ApiSaleLiveController {
             map.put("cust_no" , 0);
         }
 
-        // 세일 정보
-        CommonMap saleInfoMap = saleService.selectSaleInfo(map);
         // 랏 정보 가져오기
         CommonMap lotInfoMap = saleService.selectLotInfo(map);
         // 관심정보가져오기
@@ -107,17 +119,7 @@ public class ApiSaleLiveController {
         baseCurrency.put("HKD", "KRW");
 
         // 현재 베이스 화폐
-        String currCd = String.valueOf(saleInfoMap.get("CURR_CD"));
-
-        //String saleTitle = saleInfoMap.getString("")
-
-        lotInfoMap.put("SALE_TITLE_JSON" , saleInfoMap.get("TITLE_JSON"));
-        lotInfoMap.put("LOT_EXPIRE_DATE_DAY" , saleInfoMap.get("LOT_EXPIRE_DATE_DAY"));
-        lotInfoMap.put("LOT_EXPIRE_DATE_TIME_T" , saleInfoMap.get("LOT_EXPIRE_DATE_TIME_T"));
-        lotInfoMap.put("NOTICE_DTL_JSON" , saleInfoMap.get("NOTICE_DTL_JSON"));
-        lotInfoMap.put("SALE_TH" , saleInfoMap.get("SALE_TH"));
-        lotInfoMap.put("SALE_KIND_CD" , saleInfoMap.get("SALE_KIND_CD"));
-
+        String currCd = String.valueOf(lotInfoMap.get("CURR_CD"));
 
         //로그인한 정보를 가져온다.
         //직원 여부
@@ -140,7 +142,7 @@ public class ApiSaleLiveController {
 
         String[] mapKeys = {"ARTIST_NAME_JSON", "EXPE_PRICE_TO_JSON","EXPE_PRICE_FROM_JSON", "MAKE_YEAR_JSON" ,
                 "SIGN_INFO_JSON", "COND_RPT_JSON", "PROFILE_JSON" ,"LITE_INFO_JSON" , "EXHI_INFO_JSON" ,
-                "PROV_INFO_JSON" , "ETC_INFO_JSON" , "CMMT_JSON" ,"NOTICE_DTL_JSON"};
+                "PROV_INFO_JSON" , "ETC_INFO_JSON" , "CMMT_JSON"};
         String[] listKeys = {"LOT_SIZE_JSON"};
 
         // 맵 형태 거름

@@ -336,14 +336,14 @@
                                         </div>
                                         <!-- //[0714]작품설명 추가 -->
 
-                                        <!-- [0613]notice 추가 -->
-                                        <div ng-show="isNotObjectEmpty(lotInfo.NOTICE_DTL_JSON)" class="info-box">
+                                        <!-- [0613]notice 추가 -->v
+                                        <div ng-show="isNotObjectEmpty(saleInfo.NOTICE_DTL_JSON)" class="info-box">
                                             <!-- [0714]텍스트 대소문자 수정 -->
                                             <div class="title">NOTICE</div>
                                             <!-- //[0714]텍스트 대소문자 수정 -->
                                             <div class="desc">
                                                 <ul class="mark_dot-list">
-                                                    <li ng-bind-html="lotInfo.NOTICE_DTL_JSON_VALUE" class="txt-pre-line"></li>
+                                                    <li ng-bind-html="saleInfo.NOTICE_DTL_JSON_VALUE" class="txt-pre-line"></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -371,7 +371,7 @@
                                 </article>
                             </div>
                             <div class="panel-footer">
-                                <article ng-show="recentlyViews.length != 0" class="product_recent_work-article"> 
+                                <article ng-show="recentlyViews.length != 0" class="product_recent_work-article">
                                     <div class="article-header">
                                         <div class="title"><span>이 경매의 최근 본 작품</span></div>
                                     </div>
@@ -1248,24 +1248,22 @@
                 $scope.activeIndex = 0;
 
                 if($scope.lotInfo.OFFLINE_MAX_BID_PRICE != null) {
-                    console.log("낙찰가 있음");
                     $scope.lotInfo.OFFLINE_MAX_BID_PRICE = numberWithCommas($scope.lotInfo.OFFLINE_MAX_BID_PRICE);
                 }
                 else {
-                    console.log("낙찰가 없음");
                     $scope.lotInfo.OFFLINE_MAX_BID_PRICE = 0;
                 }
 
 
                 let sale_title;
-                sale_title = ( $scope.lotInfo.SALE_TH === undefined || $scope.lotInfo.SALE_TH === '')  ? '' : ( '제' + $scope.lotInfo.SALE_TH + '회 ' );
-                sale_title += JSON.parse($scope.lotInfo.SALE_TITLE_JSON).ko;
+                sale_title = ( $scope.saleInfo.SALE_TH === undefined || $scope.saleInfo.SALE_TH === '')  ? '' : ( '제' + $scope.saleInfo.SALE_TH + '회 ' );
+                sale_title += $scope.saleInfo.SALE_TITLE_KO;
 
                 $scope.fullTitle = sale_title;
 
 
 
-                $scope.lotInfo.NOTICE_DTL_JSON_VALUE =  $scope.locale === 'ko' ? $scope.lotInfo.NOTICE_DTL_JSON.ko : $scope.lotInfo.NOTICE_DTL_JSON.en;
+                $scope.saleInfo.NOTICE_DTL_JSON_VALUE =  $scope.locale === 'ko' ? $scope.saleInfo.NOTICE_DTL_JSON.ko : $scope.saleInfo.NOTICE_DTL_JSON.en;
 
                 // popup setting
 
