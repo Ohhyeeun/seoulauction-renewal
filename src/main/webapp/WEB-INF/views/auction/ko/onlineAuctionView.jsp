@@ -232,11 +232,10 @@
                   <div class="col_item">
                     <article class="product_detail-article js-product_detail-article">
                       <div class="index-area">
-                        <div class="index-box"><span>10</span></div>
+                        <div class="index-box"><span class="data-lot-no">10</span></div>
                         <div class="btn-box">
                           <a href="#" title="" class="sns_share js-sns_share"><i class="icon-view_sns"></i></a>
                           <a href="#" title="" class="work_heart js-work_heart"><i class="icon-view_heart_off"></i></a>
-
                           <div class="sns_layer-area">
                             <div class="sns-layer">
                               <div class="sns-item">
@@ -257,19 +256,17 @@
                       </div>
                       <div class="artist-area">
                         <div class="name">
-                          <strong>김선우</strong>
-                          <span>b.1988</span>
+                          <strong class="data-artist-name">&nbsp;</strong>
+                          <span class="data-artist-born-year">b.1988</span>
                         </div>
                         <div class="desc">
-                          <span>Flight of 3 Dodos</span>
+                          <span class="data-title">Flight of 3 Dodos</span>
                         </div>
                       </div>
                       <div class="price-area">
                         <dl class="price-list">
                           <dt>추정가</dt>
-                          <!-- [0613]텍스트 수정 -->
-                          <dd>KRW 5,000,000 ~ 9,900,000,000</dd>
-                          <!-- [0613]텍스트 수정 -->
+                          <dd class="data-expect-price">KRW 5,000,000 ~ 9,900,000,000</dd>
                         </dl>
                         <dl class="price-list">
                           <dt>시작가</dt>
@@ -281,9 +278,7 @@
                         </dl>
                         <dl class="price-list">
                           <dt>마감일</dt>
-                          <!-- [0613]b태그 삭제 -->
                           <dd>4/22(금) 14:00</dd>
-                          <!-- //[0613]b태그 삭제 -->
                         </dl>
                       </div>
                       <div class="button-area">
@@ -295,20 +290,26 @@
                         <div class="btn_set cols_2">
                           <div class="btn_item hover_change only-pc">
                             <div class="op_default">
-                              <a class="btn btn_default btn_lg       " href="#" role="button"><span>낙찰수수료</span></a>
+                              <a class="btn btn_default btn_lg bid-fee-btn" href="#" role="button">
+                                <span>낙찰수수료</span>
+                              </a>
                             </div>
                             <div class="op_hover">
-                              <a class="btn btn_black btn_2 btn_lg   " href="#" role="button">
+                              <a class="btn btn_black btn_2 btn_lg bid-fee-btn" href="#" role="button">
                                 <em>현재가 기준</em>
-                                <strong>1,584,000</strong>
+                                <strong class="current-fee">1,584,000</strong>
                               </a>
                             </div>
                           </div>
                           <div class="btn_item only-mb">
-                            <a class="btn btn_default btn_lg js-delivery_price" href="#" role="button"><span>낙찰수수료</span></a>
+                            <a class="btn btn_default btn_lg js-delivery_price bid-fee-btn" href="#" role="button">
+                              <span>낙찰수수료</span>
+                            </a>
                           </div>
                           <div class="btn_item">
-                            <a class="btn btn_default btn_lg" href="#" role="button"><span>경매 호가표</span></a>
+                            <a class="btn btn_default btn_lg bid-grow-price-btn" href="#" role="button">
+                              <span>경매 호가표</span>
+                            </a>
                           </div>
                         </div>
                       </div>
@@ -563,17 +564,12 @@
                                   <!-- [0617]a태그 -->
                                   <div class="product_info">
                                     <div class="num_heart-box">
-                                      <a href="#"><span class="num">
-                                                                                            2
-                                                                                        </span></a>
+                                      <a href="#"><span class="num">2</span></a>
                                       <a class="heart js-work_heart"><i class="icon-heart_off"></i></a>
                                     </div>
                                     <div class="info-box">
-                                      <div class="title"><a href="#"><span>데미안허스트</span></a>
-                                        <!-- [0516]삭제  <span class="sub">(1965)</span> -->
-                                      </div>
-                                      <div class="desc"><a href="#"><span>Air (From The Series The
-                                                                                                Elements)</span></a></div>
+                                      <div class="title"><a href="#"><span>데미안허스트</span></a></div>
+                                      <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
                                     </div>
                                   </div>
                                 </div>
@@ -606,17 +602,12 @@
                                   <!-- [0617]a태그 -->
                                   <div class="product_info">
                                     <div class="num_heart-box">
-                                      <a href="#"><span class="num">
-                                                                                            3
-                                                                                        </span></a>
+                                      <a href="#"><span class="num">3</span></a>
                                       <a class="heart js-work_heart"><i class="icon-heart_off"></i></a>
                                     </div>
                                     <div class="info-box">
-                                      <div class="title"><a href="#"><span>데미안허스트</span></a>
-                                        <!-- [0516]삭제  <span class="sub">(1965)</span> -->
-                                      </div>
-                                      <div class="desc"><a href="#"><span>Air (From The Series The
-                                                                                                Elements)</span></a></div>
+                                      <div class="title"><a href="#"><span>데미안허스트</span></a></div>
+                                      <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
                                     </div>
                                   </div>
                                 </div>
@@ -675,15 +666,11 @@
                               </article>
                             </div>
                           </li>
-
-
                         </ul>
-
                       </div>
                     </div>
                   </div>
                 </article>
-
               </div>
             </div>
           </div>
@@ -765,6 +752,138 @@
   </div>
 </div>
 
+<!-- 낙찰 수수료 팝업 -->
+<template id="auction-fee-popup-template">
+  <div id="auction-fee-popup" class="trp popupfixed-wrap default-popup">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-md mode-mb_fixed">
+      <div class="popup-vertical">
+        <div class="popup-layer" style="display: inline-block;">
+          <div class="pop-panel">
+            <div class="pop-header">
+              <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+              <div class="title-box">
+                <span class="txt_title">낙찰 수수료</span>
+              </div>
+            </div>
+            <div class="pop-body scroll-type">
+              <!-- [0613]전체수정 -->
+              <section class="section" style="display: block;">
+                <article class="articles-box">
+                  <table class="table_base data-table name-bid_commission">
+                    <thead>
+                    <tr>
+                      <th>국내 경매</th>
+                      <th>홍콩 경매</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td>
+                        <span>일괄 18% (부가세 별도)</span>
+                      </td>
+                      <td>
+                        <span>일괄 18%</span>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </article>
+                <article class="articles-typo">
+                  <ul class="mark_dot-list">
+                    <li class="text-help">낙찰가(Hammer Price) : 경매사가 낙찰봉을 두드리면서 낙찰된 금액</li>
+                    <li class="text-help">구매가(Purchase Price) : 낙찰가 + 낙찰 수수료 + 부가가치세가 합산된 금액</li>
+                    <li class="text-help">현재가 기준 891,000원</li>
+                  </ul>
+                </article>
+              </section>
+              <!-- //[0613]전체수정 -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<!-- 낙찰 수수료 팝업 //-->
+
+<!--  -->
+<template id="auction-grow-price-popup-template">
+  <div id="auction-grow-price-popup" class="trp popupfixed-wrap default-popup" style="display: block;">
+    <div class="popup-dim"></div>
+    <div class="popup-align mode-md mode-mb_fixed">
+      <div class="popup-vertical">
+        <div class="popup-layer" style="display: inline-block;">
+          <div class="pop-panel">
+            <div class="pop-header">
+              <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+              <div class="title-box">
+                <span class="txt_title">경매호가표 안내</span>
+              </div>
+            </div>
+            <div class="pop-body scroll-type">
+              <section class="section" style="display: block;">
+                <article class="articles-box">
+                  <table class="table_base data-table name-price_tag">
+                    <thead>
+                    <tr>
+                      <th>현재가 구간 (원)</th>
+                      <th>호가 단위 (원)</th>
+                    </tr>
+                    </thead>
+                    <tbody id="grow_off_tbody">
+                      <tr>
+                        <td><span> ~ 100만 미만</span></td>
+                        <td><span>50,000</span></td>
+                      </tr>
+                      <tr>
+                        <td><span>100만 이상 ~ 300만 미만</span></td>
+                        <td><span>100,000</span></td>
+                      </tr>
+                      <tr>
+                        <td><span>300만 이상 ~ 500만 미만</span></td>
+                        <td><span>200,000</span></td>
+                      </tr>
+                      <tr>
+                        <td><span>500만 이상 ~ 1,000만 미만</span></td>
+                        <td><span>300,000</span></td>
+                      </tr>
+                      <tr>
+                        <td><span>1,000만 이상 ~ 3,000만 미만</span></td>
+                        <td><span>500,000</span></td>
+                      </tr>
+                      <tr>
+                        <td><span>3,000만 이상 ~ 5,000만 미만</span></td>
+                        <td><span>1,000,000</span></td>
+                      </tr>
+                      <tr>
+                        <td><span>5,000만 이상 ~ 1억 미만</span></td>
+                        <td><span>2,000,000</span></td>
+                      </tr>
+                      <tr>
+                        <td><span>1억 이상 ~ 2억 미만</span></td>
+                        <td><span>3,000,000</span></td>
+                      </tr>
+                      <tr>
+                        <td><span>2억 이상 ~ </span></td>
+                        <td><span>5,000,000</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </article>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script src="/js/online-auction-view/index.js" defer></script>
+<script src="/js/online-auction-view/ui.js" defer></script>
+<script src="/js/online-auction-view/api.js" defer></script>
+<script src="/js/online-auction-view/utils.js" defer></script>
+<script src="/js/online-auction-view/renderDetailInfo.js" defer></script>
 </body>
 </html>

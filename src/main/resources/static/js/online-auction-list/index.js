@@ -9,8 +9,8 @@ window.onload = async () => {
   window.globalData = {};
   window.globalData.isLogin = Boolean(window.sessionStorage.getItem('is_login')) || false; // 로그인 유무
   window.globalData.currency = 'KRW'; // 기축 통화
-  window.globalData.visibleLots = new Set(); // 현재 보고 있는 Lot 목록
   window.globalData.usePolling = true;
+  window.globalData.visibleLots = new Set(); // 현재 보고 있는 Lot 목록
 
   // 폴링 패처
   const fetcherWorker = new Worker('/js/online-auction-list/fetcher.worker.js');
@@ -141,4 +141,9 @@ window.onload = async () => {
   } else {
     viewMoreObserver.observe(viewMoreButton);
   }
+
+  // 현재 탭이 포커싱 되어 있지 않으면, 폴링을 중지
+  document.addEventListener('visibilitychange', () => {
+    window.globalData.usePolling = document.visibilityState === 'visible';
+  });
 }

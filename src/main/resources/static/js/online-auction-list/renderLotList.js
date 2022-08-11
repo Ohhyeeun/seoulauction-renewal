@@ -24,7 +24,8 @@ async function renderLotListSection(params) {
 
       // 관심작품 토글
       root.querySelectorAll('li .favorite-btn').forEach(item => {
-        item.addEventListener('click', handleToggleFavoriteLots);
+        const lotNo = item.dataset.lotNo;
+        item.addEventListener('click', e => handleToggleFavoriteLots(e, saleNo, Number(lotNo)));
       });
 
       // 응찰하기 버튼 클릭
@@ -49,8 +50,10 @@ async function renderLotListSection(params) {
 /**
  * [Event] 관심작품 토글
  * @param {Event<HTMLButtonElement>} e
+ * @param {number} saleNo
+ * @param {number} lotNo
  */
-async function handleToggleFavoriteLots(e) {
+async function handleToggleFavoriteLots(e, saleNo, lotNo) {
   e.preventDefault();
 
   // 로그인 체크
@@ -61,14 +64,12 @@ async function handleToggleFavoriteLots(e) {
   }
 
   const target = e.currentTarget;
-  const { saleNo, lotNo } = target.dataset;
   const isActive = target.classList.contains('on');
 
   if (isActive) {
     await callApiDeleteFavoriteLot(saleNo, lotNo);
     target.classList.remove('on');
   } else {
-
     await callApiAddFavoriteLot(saleNo, lotNo);
     target.classList.add('on');
   }
@@ -175,7 +176,7 @@ function renderLotItem(data, option) {
   if (remainTime) {
     remainTimeFormat = [
       remainTime[0] > 0 ? remainTime[0] + '일 ' : '',
-      remainTime[1] > 0 ? `${toFixTen(remainTime[1])}:` : '00:',
+      remainTime[1] > 0 ? `${toFixTen(remainTime[1])}:` : '',
       remainTime[2] > 0 ? `${toFixTen(remainTime[2])}:` : '00:',
       remainTime[3] > 0 ? toFixTen(remainTime[3]) : '00',
     ].filter(Boolean).join('');

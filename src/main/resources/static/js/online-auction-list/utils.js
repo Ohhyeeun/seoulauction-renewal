@@ -128,8 +128,8 @@ function getLanguage() {
 
 /**
  * Number 포맷
- * @param {number} num
- * @param {number} precision - 자릿수
+ * @param {number | string} num
+ * @param {number?} precision - 자릿수
  * @return {string}
  * @example
  * const value1 = format(999_999.999)     // 999,999.999
@@ -137,6 +137,10 @@ function getLanguage() {
  * const value3 = format(999_999.999, 1)  // 999,000.9
  */
 function format(num, precision) {
+  if (typeof num === 'string') {
+    num = Number(num);
+  }
+
   if (precision) {
     const modifier = 10 ** precision;
     return new Intl.NumberFormat().format(Math.floor(num * modifier) / modifier);
