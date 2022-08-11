@@ -417,8 +417,6 @@ $(function() {
     $('.m-top-search').click(function () {
         $('.topsearch-text').off('click');
         $('.topsearch-box>form').animate({'right': '0', 'transition': 'ease .2s','-wekbit-transition': 'ease .2s','-ms-transition': 'ease .2s'});
-        $('body').css({'overflow':'hidden'});
-        $('.topsearch-box>form').show();
         $('.topsearch>input').show();
         $('.topsearch-btn').show();
         $('.search-bubble-box').addClass('on');
@@ -1021,7 +1019,7 @@ $(window).resize(function(){
         $('.submenuBg').off('mouseenter');
         $('.header_gnbmenu>li>a').off('mouseenter');
         $('.submenu').hide();
-        $('.topsearch-box>form').css('right','-100%');
+        //$('.topsearch-box>form').css('right','-100%'); /* 안드로이드 모바일 input 기능 안되서 삭제 */
 
         $('.m-gnbmenu').off('click');
         $('.m-gnbmenu').click(function(){
