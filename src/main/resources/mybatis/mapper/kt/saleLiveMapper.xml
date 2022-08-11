@@ -80,6 +80,9 @@
          <if test="category !=null">
           and H.CD_ID = #{category}
          </if>
+        <if test="tag !=null">
+            and L.LAT_TAG = #{tag}
+        </if>
         group by
             L.LOT_NO
     </select>
@@ -98,6 +101,8 @@
              ,LI.FILE_PATH LOT_IMG_PATH
              ,LI.FILE_NAME LOT_IMG_NAME
              ,L.LIVE_ING_YN
+             ,L.LIVE_CLOSE_YN
+             ,L.START_PRICE
              , (CASE WHEN (SELECT CUST_NO FROM BID_OFFLINE BD_OFF WHERE BD_OFF.BID_NOTICE is NULL AND BD_OFF.SALE_NO = L.SALE_NO AND BD_OFF.LOT_NO = L.LOT_NO ORDER BY BD_OFF.BID_DT DESC, BD_OFF.BID_PRICE desc, BD_OFF.BID_NO desc limit 1)
             = '${cust_no}' THEN 'Y' ELSE 'N' END) AS IS_WIN
              ,(SELECT BD_OFF.BID_PRICE FROM BID_OFFLINE BD_OFF WHERE BD_OFF.BID_NOTICE is NULL AND BD_OFF.SALE_NO = L.SALE_NO AND BD_OFF.LOT_NO = L.LOT_NO ORDER BY BD_OFF.BID_NO DESC, BD_OFF.BID_DT DESC LIMIT 1) AS LAST_PRICE
@@ -129,6 +134,34 @@
         limit
             1
     </select>
+    <!--랏 태그와 랏 카테고리를 합침 .-->
+    <select id="selectLiveTypes" parameterType="CommonMap" resultType="CommonMap">
+        (
+            SELECT
+                'tag' as TYPE,
+                LOT_TAG as CD_ID,
+                LOT_TAG as CD_NM,
+                LOT_TAG as CD_NM_EN
+            FROM
+                LOT
+            WHERE
+                SALE_NO = #{sale_no} AND LOT_TAG IS NOT NULL
+            GROUP BY
+                LOT_TAG
+        )
+        UNION ALL
+        (
+            SELECT
+                'category' as TYPE
+                 , CD_ID
+                 , CD_NM
+                 , CD_NM_EN
+            FROM CODE
+            WHERE GRP_ID = 'artwork_category'
+              AND CD_ID IN (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID IN (SELECT IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID IN (SELECT CATE_CD FROM LOT WHERE SALE_NO = #{sale_no})))
+            ORDER BY DISP_ORD
+        )
+    </select>
     <!--카테고리 내역-->
     <select id="selectLiveCategories" parameterType="CommonMap" resultType="CommonMap">
         SELECT
@@ -144,6 +177,17 @@
             FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID IN (SELECT CATE_CD FROM LOT WHERE SALE_NO = #{sale_no})))
         ORDER BY
             DISP_ORD
+    </select>
+    <!--랏 태그 내역-->
+    <select id="selectLiveLotTags" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+            LOT_TAG
+        FROM
+            LOT
+        WHERE
+            SALE_NO = #{sale_no} AND LOT_TAG IS NOT NULL
+        GROUP BY
+            LOT_TAG
     </select>
 
     <!--내 라이브 응찰 내역 -->
@@ -229,8 +273,19 @@
               EX.SALE_NO = #{sale_no}
     </select>
 
-    <!-- 랏 동기화 - 해당 경매의 LOT 들을 전부 CLOSE YN , LIVE_ING_YN 을 Y 로 바꾼다. 랏번호가 있을경우 특정 LOT 만 바꾼다.-->
-    <select id="updateLotSync" parameterType="CommonMap" resultType="CommonMap">
+    <!-- 랏 동기화 작업 1 - 특정 경매의 모든 랏 LIVE_ING_YN - N , LIVE_CLOSE_YN - Y 로 세팅-->
+    <select id="updateLotSync1" parameterType="CommonMap" resultType="CommonMap">
+        UPDATE
+            LOT
+        SET
+            LIVE_ING_YN = 'N',
+            LIVE_CLOSE_YN = 'Y'
+        WHERE
+            SALE_NO = #{sale_no}
+    </select>
+
+    <!-- 랏 동기화 작업 2 - 특정 랏 LIVE-ING_YN - Y , LIVE_CLOSE_YN - Y 로 세팅-->
+    <select id="updateLotSync2" parameterType="CommonMap" resultType="CommonMap">
         UPDATE
             LOT
          SET
@@ -238,9 +293,7 @@
              LIVE_CLOSE_YN = 'Y'
          WHERE
             SALE_NO = #{sale_no}
-        <if test="lot_no !=null">
             AND LOT_NO = #{lot_no}
-        </if>
     </select>
 
     <!--랏 마감 - 특정 랏의 LIVE_CLOSE_YN 정보를 토글 형식으로 바꾼다. ( 호출 될때마다 Y , N 이 바낌 ) -->

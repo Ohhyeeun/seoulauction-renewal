@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -108,8 +109,8 @@ public class SaleLiveService {
 
         return result;
     }
-    public List<CommonMap> selectLiveCategories(CommonMap map){
-        return saleLiveMapper.selectLiveCategories(map);
+    public List<CommonMap> selectLiveTypes(CommonMap map){
+        return saleLiveMapper.selectLiveTypes(map);
     }
     public List<CommonMap> selectLiveMyBidding(CommonMap map){
         return saleLiveMapper.selectLiveMyBidding(map);
@@ -121,8 +122,9 @@ public class SaleLiveService {
         CommonMap lotOne = selectLiveSaleLotByOne(map);
         resultMap.put("BID_DATA" , saleLiveMapper.selectLiveSiteBidding(map));
         resultMap.put("GROW_PRICE" , lotOne.get("GROW_PRICE"));
-        resultMap.put("LAST_PRICE" , lotOne.get("LAST_PRICE"));
+        resultMap.put("CURRENT_PRICE" , lotOne.get("LAST_PRICE") !=null ? lotOne.get("LAST_PRICE") : lotOne.get("START_PRICE") );
         resultMap.put("LIVE_ING_YN" , lotOne.get("LIVE_ING_YN"));
+        resultMap.put("LIVE_CLOSE_YN" , lotOne.get("LIVE_CLOSE_YN"));
         resultMap.put("IS_WIN" , lotOne.get("IS_WIN"));
         resultMap.settingYNValueToBoolean();
         return resultMap;
@@ -232,8 +234,11 @@ public class SaleLiveService {
             c.settingYNValueToBoolean();
         }).collect(Collectors.toList());
     }
+
+    @Transactional("ktTransactionManager")
     public void lotSync(CommonMap map){
-        saleLiveMapper.updateLotSync(map);
+        saleLiveMapper.updateLotSync1(map);
+        saleLiveMapper.updateLotSync2(map);
     }
 
     public void lotLotCloseToggle(CommonMap map){

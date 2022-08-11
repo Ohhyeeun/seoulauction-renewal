@@ -13,13 +13,15 @@ public interface SaleLiveMapper {
     CommonMap selectLiveSaleLotByOne(CommonMap map);
     CommonMap selectBidOfflineForLastPrice(CommonMap map);
     List<CommonMap> selectLiveCategories(CommonMap map);
+    List<CommonMap> selectLiveLotTags(CommonMap map);
+    List<CommonMap> selectLiveTypes(CommonMap map);
     List<CommonMap> selectLiveMyBidding(CommonMap map);
     List<CommonMap> selectLiveSiteBidding(CommonMap map);
     void insertLiveBidding(CommonMap map);
     List<CommonMap> selectSaleExchRate(CommonMap map);
     void updateLotCloseToggle(CommonMap map);
-    void updateLotSync(CommonMap map);
     void deleteBidOfflineByBidId(CommonMap map);
     String selectLotClose(CommonMap map);
-
+    void updateLotSync1(CommonMap map);
+    void updateLotSync2(CommonMap map);
 }

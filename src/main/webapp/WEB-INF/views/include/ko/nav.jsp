@@ -57,7 +57,7 @@
                 <form action="" class="scroll_none">
                     <fieldset class="topsearch">
                         <span class="submenuBg-closeBtn top-search-closeBtn closebtn-b m-ver"></span>
-                        <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();" id="topsearchText" ng-keypress="$event.keyCode === 13 && goSearch('topsearchText', true, $event);" autocomplete="off"><button type="button" class="topsearch-btn pc-ver" ng-click="goSearch('topsearchText', true, $event);"></button>
+                        <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver" ng-click="recommandSearch();" id="topsearchText" ng-keypress="$event.keyCode === 13 && goSearch('topsearchText', true, $event);" autocomplete="off" autofocus="autofocus"><button type="button" class="topsearch-btn pc-ver" ng-click="goSearch('topsearchText', true, $event);"></button>
                         <section class="search-bubble-box">
                             <div class="recent-search">
                             </div>
@@ -205,7 +205,7 @@
             $event.preventDefault();
             if($event.keyCode == 13){
                 $('.topsearch-btn').trigger("click");
-                $('.search-bubble-box').removeClass('on');
+                //$('.search-bubble-box').removeClass('on'); /* 모바일에도 동작하므로 기능 삭제 */
                 var sSearchContent = $("#" + elementId).val();
                 if(sSearchContent) {
                     location.href = bIsKorean ? "/sale/search?searchContent=" + sSearchContent : "/eng/sale/search?searchContent=" + sSearchContent;
@@ -214,9 +214,9 @@
                     alert(bIsKorean ? "검색어를 입력해주세요." : "Please write search keyword.");
                 }
             } else if($('.topsearch-text').val().length == 0) {
-                $('.search-bubble-box').removeClass('on');
+                // $('.search-bubble-box').removeClass('on'); /* 모바일에도 동작하므로 기능 삭제 */
             } else {
-                $('.search-bubble-box').addClass('on');
+                //$('.search-bubble-box').addClass('on'); /* 모바일에도 동작하므로 기능 삭제 */
             }
             return false;
         }
