@@ -62,6 +62,30 @@ public class AdminService {
             return c;
         }).orElse(new CommonMap());
     }
+
+    public CommonMap getArtistByName(CommonMap map){
+        return Optional.ofNullable(ktAdminMapper.selectArtistByName(map)).map(c->{
+
+            ObjectMapper mapper = new ObjectMapper();
+            Map maps = null;
+            try {
+                maps = mapper.readValue(String.valueOf(c.get("ARTIST_NAME_BLOB")) , Map.class);
+                CommonMap nameMap = new CommonMap();
+                nameMap.put("ko" , maps.get("ko"));
+                nameMap.put("en" , maps.get("en"));
+                c.put("NAME", nameMap);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            c.putIfAbsent("NATION_CD", null);
+            c.putIfAbsent("DIE_YEAR", null);
+            c.putIfAbsent("BORN_YEAR", null);
+            c.remove("ARTIST_NAME_BLOB");
+
+            return c;
+        }).orElse(new CommonMap());
+    }
+
     public List<CommonMap> getCode(CommonMap map){
         return ktAdminMapper.selectCode(map);
     }

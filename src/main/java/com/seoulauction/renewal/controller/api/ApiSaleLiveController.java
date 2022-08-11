@@ -695,14 +695,12 @@ public class ApiSaleLiveController {
         paramMap.put("sale_no", saleNo);
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveTypes(paramMap)));
     }
-    @GetMapping(value="sales/{saleNo}/lots/{lotNo}/my-bidding")
+    @GetMapping(value="sales/{saleNo}/my-bidding")
     public ResponseEntity<RestResponse> selectLiveMyBidding(
             @PathVariable("saleNo") int saleNo
-           ,@PathVariable("lotNo") int lotNo
     ) {
         CommonMap paramMap = new CommonMap();
         paramMap.put("sale_no", saleNo);
-        paramMap.put("lot_no", lotNo);
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveMyBidding(paramMap)));
     }
     @GetMapping(value="sales/{saleNo}/lots/{lotNo}/site-bidding")
