@@ -317,7 +317,7 @@ $(function() {
             $('.topsearch-box>form').animate({'right': '-100%', 'transition': 'ease .2s'});
             $('body').css({'overflow':'visible'});
         });
-
+        
         /* main gnb fixed */
         // $('.header').show(function () {
         //     $('.main-header').show(function () {
@@ -369,6 +369,7 @@ $(function() {
     });
 
     /* top search 유틸리티 겹침X */
+    $('.topsearch-text').off('click');
     $('.topsearch-text').click(function () {
         if ($('.search-bubble-box').hasClass('on')) {
             $('.bubble-box01').eq(utilityMenu).removeClass('hide');
@@ -414,6 +415,7 @@ $(function() {
     });
     /* 모바일 gnb 서치*/
     $('.m-top-search').click(function () {
+        $('.topsearch-text').off('click');
         $('.topsearch-box>form').animate({'right': '0', 'transition': 'ease .2s'});
         $('body').css({'overflow':'hidden'});
         //$('.topsearch-box>form').show();
