@@ -430,7 +430,13 @@ app.service("inquiryService", function($rootScope, common, locale) {
 				}
 			}
 
-			if ($scope.form_data.cate1 == "sell" || $scope.form_data.cate1 == "chineseart") {
+ 
+
+			
+			
+			if ($scope.checkValidData()) {
+				
+							if ($scope.form_data.cate1 == "sell" || $scope.form_data.cate1 == "chineseart") {
 
 				//작품명
 				document.getElementById("tmp_work_name").innerText= $scope.sell_data.work_name;
@@ -469,11 +475,8 @@ app.service("inquiryService", function($rootScope, common, locale) {
 			}
 			else {
 				document.getElementById("inquiryContents").value = '<p class="txt-pre-line bottompd10">' + $scope.form_data.content +'</p>';
-			} 
-
+			}
 			
-			
-			if ($scope.checkValidData()) {
 				document.getElementById('file').remove();
 				let form = document.querySelector('#frmInquiry');
 				var formData = new FormData(form);

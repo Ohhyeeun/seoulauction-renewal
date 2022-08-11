@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="../../include/ko/header.jsp" />
 <body>
-<div id="lot-title"></div>
 <div class="wrapper online-auction">
   <div class="sub-wrap pageclass type-width_list">
     <jsp:include page="../../include/ko/nav.jsp" />
@@ -16,16 +15,16 @@
               <article class="auction_head_info-article">
                 <div class="center-box ing">
                   <h2 class="page_title">
-                    <span class="th1" data-title>&nbsp;</span>
+                    <span class="th1">&nbsp;</span>
                   </h2>
                   <ul class="event_day-list">
                     <li>
                       <span class="colorB2">프리뷰</span>
-                      <span class="" data-preview> : &nbsp;</span>
+                      <span class="preview-date"> : &nbsp;</span>
                     </li>
                     <li>
                       <span class="colorB2">경매일</span>
-                      <span class="" data-to-date> : &nbsp;</span>
+                      <span class="to-date"> : &nbsp;</span>
                     </li>
                   </ul>
                   <div class="btn_set">
@@ -79,12 +78,10 @@
                 <article class="search_tab-article">
                   <div class="article-body">
                     <div class="col_item mb-col1">
-                      <!-- [0617]카운트/LOT셀렉트박스 분리 -->
                       <div class="count tb1">
-                        <span>ALL <em data-total-count>0</em>
+                        <span>ALL <em id="lot-total-count">0</em>
                         </span>
                       </div>
-                      <!-- [0714]LOT셀렉트박스 모바일 분리/변경 -->
                       <div class="select-box only-pc">
                         <div class="trp-dropdown-area h42-line">
                           <button class="js-dropdown-btn">
@@ -188,7 +185,7 @@
           <div class="section-inner">
             <div class="content-panel type_panel-product_list">
               <div class="panel-body">
-                <ul class="product-list"></ul>
+                <ul id="lot-list" class="product-list"></ul>
               </div>
 
               <div class="panel-footer">
@@ -236,40 +233,38 @@
             <div class="pop-header">
               <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
               <div class="title-box">
-                <span class="txt_title">LOT 92</span>
+                <span class="txt_title bid-lot-no">LOT 0</span>
               </div>
             </div>
             <div class="pop-body scroll-type">
-              <section class="section  " style="display: block;">
+              <section class="section" style="display: block;">
                 <div class="bidding-online-wrap">
                   <article class="bidding-online-left">
-
                     <figure class="view-area">
                       <div class="view-img">
                         <div class="img-box">
                           <div class="box-inner">
-                            <img src="/images/temp/lot-02.jpg" alt="LOT 02">
+                            <img class="bid-lot-image" src="/images/bg/no_image.jpg" alt="LOT 02" />
                           </div>
                         </div>
                       </div>
                       <figcaption class="view-typo">
                         <div class="typo-header">
-                          <!-- [0516]년도수정 -->
-                          <div class="title"><span>데미안허스트</span></div>
-                          <div class="year"><span>b. 1956-2000</span></div>
-                          <!-- // [0516]년도수정 -->
-                          <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                          <div class="title"><span class="bid-lot-artist">&nbsp;</span></div>
+                          <div class="year"><span class="bid-lot-artist-born">&nbsp;</span></div>
+                          <div class="desc"><span class="bid-lot-title">&nbsp;</span></div>
                         </div>
                         <div class="typo-body">
-                          <span>spray paint on canvas</span>
+                          <span class="bid-lot-material">&nbsp;</span>
                           <ul>
-                            <li>80.9 X73.4cm</li>
-                            <li>2021</li>
+                            <li class="bid-lot-size">&nbsp;</li>
+                            <li class="bid-lot-year">&nbsp;</li>
                           </ul>
                         </div>
                       </figcaption>
                     </figure>
                   </article>
+
                   <article class="bidding-online-right js-bidding_tab">
                     <div class="legend-area">
                       <div class="side_time">
@@ -280,7 +275,7 @@
                         <em>KRW 200,000 </em>
                       </div>
                     </div>
-                    <div class="product-list-area ">
+                    <div class="product-list-area">
                       <div class="list-header">
                         <div class="price-name"><span>현재가</span></div>
                         <div class="price-amount"><em>KRW 1,700,000</em> <span>(응찰11)</span></div>
@@ -333,7 +328,6 @@
               </section>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -346,7 +340,6 @@
 <script src="/js/online-auction-list/renderTitle.js" defer></script>
 <script src="/js/online-auction-list/renderLotList.js" defer></script>
 <script src="/js/online-auction-list/renderPaging.js" defer></script>
-<script src="/js/online-auction-list/renderViewMore.js" defer></script>
 <script src="/js/online-auction-list/ui.js" defer></script>
 <script src="/js/online-auction-list/utils.js" defer></script>
 <script src="/js/online-auction-list/index.js" defer></script>

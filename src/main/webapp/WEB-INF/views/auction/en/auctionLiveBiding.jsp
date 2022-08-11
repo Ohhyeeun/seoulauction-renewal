@@ -47,13 +47,13 @@
                                                 <div class="guide">
 
                                                     <div class="product-box">
-                                                        <p class="img"><img id="bidding_lot_img" src="/images/temp/temp_img2.jpg" alt="" /></p>
+                                                        <p class="img"><img id="bidding_lot_img" src="" alt="" /></p>
                                                         <div class="product_info">
-                                                            <div class="num"><span id="lot_id" class="tb1">1</span></div>
+                                                            <div class="num"><span id="lot_id" class="tb1"></span></div>
                                                             <div class="title">
-                                                                <div class="name"><span id="artist_name" class="tt4">Damien Hirst</span></div>
+                                                                <div class="name"><span id="artist_name" class="tt4"></span></div>
                                                                 <div class="desc">
-                                                                    <span id="lot_title" class="tb1">The Elements: Air Silver vase with pear flower design; Silver pipe box with pear flower design; Dry ottchil plate with pear flower design</span>
+                                                                    <span id="lot_title" class="tb1"></span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -61,9 +61,8 @@
                                                 </div>
                                                 <div class="member_pay">
                                                     <p>
-                                                        <span class="tit ">Estimate</span>
-                                                        <span class="won" id="expe_price">KRW 9,900,000,000 <br />
-                                                            ~ 9,900,000,000</span>
+                                                        <span class="tit"></span>
+                                                        <span class="won" id="expe_price">
                                                     </p>
                                                 </div>
                                             </div>
@@ -193,7 +192,7 @@
                                                                     <input id="checkbox_all1" class="js_item" type="checkbox" name="">
                                                                     <i></i>
                                                                     <label for="checkbox_all1">I fully understand and am aware of Seoul Auction’s Terms for auctions and consent to their application.</label>
-                                                                    <a href="#" class="link_target">[Go to Terms]</a>
+                                                                    <a href="/footer/terms/#terms_view-offline_term" class="link_target">[Go to Terms]</a>
                                                                 </div>
                                                             </li>
                                                             <li class="trp_acitem">
@@ -222,7 +221,7 @@
                                                     <div class="help-box">
                                                         <i class="icon-inquiry_g"></i>
                                                         <ul>
-                                                            <li><span>If you have any inquiries regarding bidding, please do not hesitate to contact the employee who has been assigned to you <br class="only-mb">(<em>Hong Gil-dong: +82(0)2-1234-5678</em>).</span></li>
+                                                            <li><span>If you have any inquiries regarding bidding, please do not hesitate to contact the employee who has been assigned to you <br class="only-mb">(<em>${emp.EMP_NAME} <a href="tel:${emp.TEL}">${emp.TEL}</a></em>).</span></li>
                                                         </ul>
                                                     </div>
 
@@ -279,52 +278,205 @@
 
 <%--    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>--%>
 <%--    <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>--%>
-
-
-
-
-
-
-    <!-- 응찰방법 -->
     <script>
-        $(".js-bidding_method .btn_item").on("click", function($e) {
-            $(".js-bidding_method .btn_item").removeClass("active");
-            $(this).addClass("active");
-        });
-    </script>
+        $(function() {
 
-    <!-- [0516] 셀렉트 드롭다운 -->
-    <script>
-        var dropdown = $(".js-dropdown-btn").trpDropdown({
-            list: ".trp-dropdown_list-box",
-            area: ".trp-dropdown-area"
-        });
-        $(".trp-dropdown-area .trp-dropdown_list-box a").on("click", function($e) {
-            $e.preventDefault();
-            var _this = $(this);
-            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn em").text($("em", _this).text());
-            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
-            dropdown.getClose();
-        });
-    </script>
+            init();
+            let currentPrice;
+            let currentBidKind;
+            let growPrice;
+            let bidType;
+            <!-- 데이터 세팅 -->
+            function init(){
+
+                axios.get('api/auction/live/lot_info/${saleNo}/${lotNo}')
+                    .then(function(response) {
+                        let data = response.data.data;
+
+                        console.log(data);
+
+                        let sale_title;
+                        sale_title = data.SALE_TH !== undefined ? ( data.SALE_TH + 'th ' ) : '';
+                        sale_title += JSON.parse(data.SALE_TITLE_JSON).en;
+
+                        $("#bidding_lot_img").attr('src' , data.IMAGE_URL + data.LOT_IMG_PATH + '/' +data.LOT_IMG_NAME);
+                        $("#sale_title").html(sale_title);
+                        $("#lot_id").html(data.LOT_NO);
+                        $("#artist_name").html(data.ARTIST_NAME_EN_TXT);
+                        $("#lot_title").html(data.TITLE_EN_TXT);
+
+                        let current_price = data.START_PRICE;
+                        let MAX_PRICE = current_price * 10; // 추청가의 10배가 최대치.
+                        growPrice = growPriceForOffline(current_price);
+                        currentPrice = data.START_PRICE;
+
+                        <!-- 응찰방법 -->
+                        $(".js-bidding_method .btn_item").on("click", function($e) {
+                            $(".js-bidding_method .btn_item").removeClass("active");
+                            $(this).addClass("active");
+
+                            let bk = $(this).text().trim();
+                            console.log(bk);
+                            if(bk == 'Absentee'){
+                                currentBidKind = 'paper_online';
+                                bidType = 14;
+                                $("#select_field").show();
+                            }else if(bk == 'Telephone'){
+                                currentBidKind = 'phone';
+                                bidType = 15;
+                                $("#select_field").hide();
+                            }else if(bk == 'Absentee + Telephone'){
+                                currentBidKind = 'paper_phone';
+                                bidType = 16;
+                                $("#select_field").show();
+                            }
+                        });
+
+                        let expe_text =
+                            data.EXPE_PRICE_INQ_YN == 'Y' ?  'Separate Inquiry' :
+                                ('KRW ' + numberWithCommas(data.EXPE_PRICE_FROM_JSON.KRW) + '<br> ~ ' + numberWithCommas(data.EXPE_PRICE_TO_JSON.KRW))
+
+                        $("#expe_price").html(expe_text);
+
+                        //볃로문의 시
+                        if(data.EXPE_PRICE_INQ_YN == 'Y') {
+                            $("#select_paper_offline").attr("disabled", true);
+                            $("#select_floor").attr("disabled", true);
+
+                            $(".js-bidding_method .btn_item").off("click");
+                            $("#btn_select_phone").addClass("active");
+                            currentBidKind = 'phone';
+                            bidType = 15;
+                            $("#select_field").hide();
+                            currentPrice = 0;
+                        } else {
+                            //기본값 세팅
+                            $("#btn_select_paper_offline").addClass("active");
+                            currentBidKind = 'paper_online';
+                            bidType = 14;
+                        }
+
+                        $("#selected_lot").text(numberWithCommas(current_price) + ' KRW');
+
+                        $("#select_lot_scroll").empty();
 
 
-    <!-- 약관 -->
-    <script>
-        var accordion_toggle;
-        accordion_toggle = $(".js-accordion_btn").trpToggleBtn(
-            function($this) {
-                $($this).addClass("on");
-                $($this).closest(".check_all-wrap").find(".gray-box").slideDown("fast");
-            },
-            function($this) {
-                $($this).removeClass("on");
-                $($this).closest(".check_all-wrap").find(".gray-box").slideUp("fast");
+                        //추정가의 10배 만큼 응찰가 표 세팅.
+                        while (current_price <= ( MAX_PRICE + growPrice )) {
+
+                            let commasCurrentPrice = numberWithCommas(current_price);
+
+                            //grow price 체크.
+                            growPrice = growPriceForOffline(current_price);
+
+                            let select_html =
+                                `<li>
+                            <a href="#">
+                                <div class="typo-area">
+                                      <span id="` + current_price + `">` + commasCurrentPrice + ` KRW</span>
+                                </div>
+                            </a>
+                         </li>`;
+
+
+                            $("#select_lot_scroll").append(select_html);
+
+                            if(current_price === MAX_PRICE){
+                                break;
+                            }
+
+                            current_price += growPrice;
+                        }
+
+                        <!-- [0516] 셀렉트 드롭다운 -->
+                        let dropdown = $(".js-dropdown-btn").trpDropdown({
+                            list: ".trp-dropdown_list-box",
+                            area: ".trp-dropdown-area"
+                        });
+                        $(".trp-dropdown-area .trp-dropdown_list-box a").on("click", function ($e) {
+                            $e.preventDefault();
+                            var _this = $(this);
+                            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn em").text($("em", _this).text());
+                            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
+
+                            currentPrice = $("span", _this).attr('id');
+
+                           // $("#price_to_han").text(num2han(currentPrice) + ' 원');
+
+                            dropdown.getClose();
+                        });
+                    })
+
+                    .catch(function(error){
+                        console.log(error);
+                    });
+            }
+
+            <!-- 약관 -->
+            let accordion_toggle;
+            accordion_toggle = $(".js-accordion_btn").trpToggleBtn(
+                function($this) {
+                    $($this).addClass("on");
+                    $($this).closest(".check_all-wrap").find(".gray-box").slideDown("fast");
+                },
+                function($this) {
+                    $($this).removeClass("on");
+                    $($this).closest(".check_all-wrap").find(".gray-box").slideUp("fast");
+                });
+            accordion_toggle.setBtn(0);
+            $(".js_all-1").trpCheckBoxAllsImg(".js_all", ".js_item");
+
+            //응찰 신청
+            $("#biding_req_btn").on('click', function(){
+
+                //전체 동의 확인
+                if(!$('#checkbox_all').is(":checked")){
+                    alert('Please give full agree.');
+                    return;
+                }
+
+                let url = '/api/auction/live/insertbid';
+
+                let date = new Date();
+                const month = String(date.getMonth()+1).padStart(2, "0");
+                const hours = String(date.getHours()).padStart(2, "0");
+                const min = String(date.getMinutes()).padStart(2, "0");
+                const sec = String(date.getSeconds()).padStart(2, "0");
+
+                let dateStr = date.getFullYear() + '-' + month + '-' + date.getDate() + ' ' + hours + ':' + min + ':' + sec;
+
+                try {
+                    axios.post(url, {
+                        bid_price: currentPrice,
+                        bid_kind_cd: currentBidKind,
+                        sale_no : ${saleNo},
+                        lot_no : ${lotNo},
+                        cust_no : ${member.userNo},
+                        bid_dt : dateStr,
+                        bid_grow_price : growPriceForOffline(currentPrice),
+                        bid_type : bidType,
+                        user_id : '${member.loginId}'
+                    }).then(function(response) {
+
+                        if(response.data.success){
+                            alert("has been successfully bid.");
+                            location.href ='/auction/live/list/${saleNo}';
+                        } else {
+                            alert(response.data.data.msg);
+                            location.href ='/auction/live/list/${saleNo}';
+                        }
+                    });
+
+                } catch (error) {
+                    console.error(error);
+                }
             });
-        accordion_toggle.setBtn(0);
 
+            $("#biding_cancel_btn").on('click', function(){
+                location.href ='/auction/live/list/${saleNo}';
+            });
 
-        $(".js_all-1").trpCheckBoxAllsImg(".js_all", ".js_item");
+        });
     </script>
 
 </body>

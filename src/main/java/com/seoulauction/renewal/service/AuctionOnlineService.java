@@ -4,6 +4,7 @@ import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.mapper.aws.MainMapper;
 import com.seoulauction.renewal.mapper.kt.AuctionOnlineMapper;
+import com.seoulauction.renewal.mapper.kt.CertificationMapper;
 import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -19,6 +20,8 @@ public class AuctionOnlineService {
     private final AuctionOnlineMapper auctionOnlineMapper;
 
     private final MainMapper mainMapper;
+
+    private final CertificationMapper certificationMapper;
 
     public CommonMap selectSaleInfoList(CommonMap commonMap) {
         CommonMap resultMap = auctionOnlineMapper.selectSaleInfoList(commonMap);
@@ -97,5 +100,75 @@ public class AuctionOnlineService {
             commonMap.put("cust_no", 0);
         }
         return auctionOnlineMapper.deleteCustInteLot(commonMap);
+    }
+
+    public CommonMap selectSaleCertInfo(CommonMap commonMap) {
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            commonMap.put("cust_no", saUserDetails.getUserNo());
+        } else {
+            commonMap.put("cust_no", 0);
+        }
+        return auctionOnlineMapper.selectSaleCertInfo(commonMap);
+    }
+
+    public CommonMap insertSaleCert(CommonMap commonMap) {
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            commonMap.put("cust_no", saUserDetails.getUserNo());
+        } else {
+            commonMap.put("cust_no", 0);
+        }
+
+        auctionOnlineMapper.insertSaleCert(commonMap);
+        return commonMap;
+    }
+
+    public int updateSaleCert(CommonMap commonMap) {
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            commonMap.put("cust_no", saUserDetails.getUserNo());
+            commonMap.put("action_user_no", saUserDetails.getUserNo());
+        } else {
+            commonMap.put("cust_no", 0);
+            commonMap.put("action_user_no", 0);
+        }
+        int result = certificationMapper.updateCustHp(commonMap);
+        if(result > 0) {
+            auctionOnlineMapper.updateSaleCert(commonMap);
+        }
+        return result;
+    }
+
+    public CommonMap selectBidList(CommonMap commonMap) {
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            commonMap.put("cust_no", saUserDetails.getUserNo());
+        } else {
+            commonMap.put("cust_no", 0);
+        }
+
+        CommonMap map = new CommonMap();
+        map.put("list", auctionOnlineMapper.selectBidListPaging(commonMap));
+        map.put("cnt", auctionOnlineMapper.selectBidListCount(commonMap));
+
+        return map;
+    }
+
+    public CommonMap selectCustInfo() {
+        CommonMap commonMap = new CommonMap();
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails == null) {
+            commonMap.put("CUST_NO", 0);
+            commonMap.put("IS_LOGIN", "N");
+            commonMap.put("IS_MEMBERSHIP", "N");
+            commonMap.put("IS_EMPLOYEE", "N");
+            return commonMap;
+        }
+
+        commonMap.put("cust_no", saUserDetails.getUserNo());
+        commonMap = auctionOnlineMapper.selectCustInfo(commonMap);
+        commonMap.put("IS_LOGIN", "Y");
+        return commonMap;
     }
 }

@@ -70,6 +70,15 @@
             1
     </select>
 
+    <select id="updateNewsletter" parameterType="CommonMap" resultType="CommonMap">
+        UPDATE
+            newsletter_subscriber
+        SET
+            is_subscribe = 'Y'
+        where
+            id = #{id}
+    </select>
+
     <select id="selectVideos" parameterType="CommonMap" resultType="CommonMap">
         SELECT id, media_type, content_type, title, read_count, content, sort, status, created_at, updated_at, url
         FROM content_media cm

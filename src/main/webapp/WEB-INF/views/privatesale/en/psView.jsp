@@ -161,32 +161,93 @@
                                     <div class="view_editor-warp">
 
                                         <div class="info-box">
-                                            <div class="title">Work information</div>
+                                            <div class="title">DETAILS</div>
                                             <div class="desc">
                                                 {{saleInfo.MATE_NM_EN}} <br />
-                                                <span ng-bind="saleInfo | size_text"></span>
-                                                | <span>{{saleInfo.MAKE_YEAR_EN}}</span> <br />
-                                                <span bind-html-compile="saleInfo.SIGN_INFO_EN"> <br />
+                                                <span ng-bind="saleInfo | size_text"></span> <span>{{saleInfo.MAKE_YEAR_EN}}</span> <br />
+                                                <span bind-html-compile="saleInfo.SIGN_INFO_EN"></span>
                                             </div>
+
+                                            <!-- [0714]작품정보 하위댑스 추가 -->
+                                            <div class="info-sub-wrap">
+                                                <div class="info-sub-box">
+                                                    <div class="tit tt5">CONDITION</div>
+                                                    <div class="desc">There is a small scratch in the lower left, a foreign object in the upper right.</div>
+                                                </div>
+                                                <div class="info-sub-box">
+                                                    <div class="tit tt5">PROVENANCE</div>
+                                                    <div class="desc">Tonari no Zingaro(Tokyo)</div>
+                                                </div>
+                                                <div class="info-sub-box">
+                                                    <div class="tit tt5">LITERATURE</div>
+                                                    <div class="desc">
+                                                        GRIMM Gallery, Amsterdam.<br>
+                                                        Acquired from the above by the present owner.
+                                                    </div>
+                                                </div>
+                                                <div class="info-sub-box">
+                                                    <div class="tit tt5">EXHIBITED</div>
+                                                    <div class="desc">Online, Praz-Delavallade, Focus: Guy Yanai, 2020.</div>
+                                                </div>
+                                            </div>
+                                            <!-- //[0714]작품정보 하위댑스 추가 -->
                                         </div>
 
                                         <div class="info-box">
-                                            <div class="title">Condition Report</div>
+<%--                                            <div class="title">Condition Report</div>--%>
+<%--                                            <div class="desc">--%>
+<%--                                                There is a small scratch in the lower left, a foreign object in the upper right--%>
+<%--                                            </div>--%>
+                                        </div>
+
+                                        <!-- [0714]작품설명 추가 -->
+                                        <div class="info-box">
+                                            <div class="title">WORK DESCRIPTION</div>
+                                            <div class="desc txt-pre-line">
+                                                Jodie Kerwick is an Australian artist who appeared in the art world like a comet.
+                                            </div>
+                                        </div>
+                                        <!-- //[0714]작품설명 추가 -->
+
+                                        <!-- [0613]notice 추가 -->
+                                        <div class="info-box">
+                                            <div class="title">NOTICE</div>
                                             <div class="desc">
-                                                There is a small scratch in the lower left, a foreign object in the upper right
+                                                <ul class="mark_dot-list">
+                                                    <li class="txt-pre-line">Seoul Auction guarantees only the successful bidder for three years from the date of auction for the artist and the name of the work, and does not take responsibility for the guarantee for works that have been notified in advance.</li>
+                                                    <li class="txt-pre-line">The works are sold as they are at the time of sale, so please check the real thing before bidding.
+
+                                                        Since the condition described on the website is only to present our subjective opinion on the condition of the work, we may not mention all inherent defects, repairs, deformations, etc. Also, there may be no mention of aging phenomena (wrinkling, abrasion, contamination, oxidation, etc.) that are naturally found in works that have been produced for a long time.
+                                                        Conditions apply only to the work and do not include the condition of the work's components such as frames, hanging scrolls, folding screens, pedestals, and cases. You can check some condition of the work from the images posted online, but it may not accurately reflect the actual condition, and the color and brightness of the work may look different from the real thing.
+
+                                                        The bidder is responsible for any problems that arise from not checking the real thing, so please check these precautions and bid carefully.
+                                                    </li>
+                                                </ul>
                                             </div>
                                         </div>
+                                        <!-- //[0613]notice 추가 -->
 
                                         <div class="info-box">
-                                            <div class="title">Author information</div>
-                                            <div class="desc" id="artistName">
+                                            <div class="title">ARTIST</div>
+                                            <!-- [0728]삭제 -->
+<%--                                            <div class="desc" id="artistName"> --%>
+<%--                                            </div>--%>
+<%--                                            <div class="desc" id="artistProfile">--%>
+<%--                                            </div>--%>
+                                            <!-- //[0728]삭제 -->
+                                            <div class="desc txt-pre-line">
+                                                The artist conveys a message through the appearance of the extinct dodo. <br>
+                                                We offer an experienced encouragement to the drifting young people not to lose their ideals. <br>
+                                                The dodo bird in the work is not a "flyless foolish bird", but an existence with the possibility of flying again.
+                                                <!-- [0728]a태그로수정 -->
+                                                <b class="ft_b">Reference</b><%--
+                                                --%><a href="#" class="sub-links">“I see dreams and freedom while drawing the extinct Mauritian dodo because it can’t fly”</a><%--
+                                                --%>
+                                                <!-- //[0728]a태그로수정 -->
                                             </div>
-                                            <div class="desc" id="artistProfile">
-                                            </div>
-                                            <div class="desc" id="artistMedia">
+                                            <div class="desc" id="artistMedia"> 
                                             </div>
                                         </div>
-
                                     </div>
                                 </article>
 
@@ -224,10 +285,10 @@
 </div>
 
 
-<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
-<!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
-<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+<%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
+<%--<!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->--%>
+<%--<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
+<%--<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
 <!-- 이미지 뷰어 -->
@@ -313,6 +374,22 @@
     </div>
 </div>
 
+<!-- [0728]비디오 세로사이즈 -->
+<script>
+    var _videoAnchor = $(".video_img-box a");
+    var _videoAnchorImg = $(".video_img-box a img");
+    _videoAnchorImg.each(function() {
+        _videoAnchor = $(this).parent(_videoAnchor);
+
+        if ($(this).width() < $(this).height()) {
+            _videoAnchor.addClass("vertical");
+        } else {
+            _videoAnchor.removeClass("vertical");
+        }
+    })
+</script>
+<!-- //[0728]비디오 세로사이즈 -->
+
 <!-- [0516] 셀렉트 드롭다운 -->
 <script>
     var dropdown = $(".js-dropdown-btn").trpDropdown({
@@ -358,6 +435,14 @@
         $(".js-view_thumnail .slide").removeClass("active");
         $(".js-view_thumnail .slide").eq($index).addClass("active");
     };
+
+    /* 섬네일 클릭 */
+    $(".js-view_thumnail .slide.images").on("click", function() {
+        var _index = $(this).index();
+        console.log(_index);
+        view_thumnailActive(_index);
+        view_visualActive(_index);
+    });
 
     /* 비주얼 활성화 */
     function view_visualActive($index, view_visual) {
@@ -808,7 +893,7 @@
                                 $("#artistName").html(JSON.parse(artistData.name).en + ' ' +  artistData.birth + '~' + artistData.death);
                                 $("#artistProfile").html(JSON.parse(artistData.profile).en + '</br>' + title);
 
-                                let html = '<div class="vide_img-box">';
+                                let html = '<div class="video_img-box">';
                                 $.each(artistYoutubeImages, function (index, el) {
                                     $.each(artistImageList, function (s3Index, el) {
                                         //일단은 youtube만 뿌리기로
