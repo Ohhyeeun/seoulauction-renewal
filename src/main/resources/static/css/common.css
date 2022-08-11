@@ -177,8 +177,6 @@ input,
 textarea,
 select {
     font-family: 'Pretendard', sans-serif;
-}
-select {
     -moz-appearance:none;
     -o-appearance:none;
     -webkit-appearance:none;
@@ -198,6 +196,10 @@ input:focus {
 }
 input[type="checkbox"] {
     width: auto;
+    -moz-appearance:none;
+    -o-appearance:none;
+    -webkit-appearance:none;
+    appearance:none;
 }
 input::placeholder {
     color: #999;
