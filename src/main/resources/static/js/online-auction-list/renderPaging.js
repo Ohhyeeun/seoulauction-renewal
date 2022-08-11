@@ -11,6 +11,19 @@ async function renderPaginationSection(currentPage = 1, totalCount = 0, perPage 
   const prevBlock = (currentBlock - 1) * blockCount;
   const nextBlock = (currentBlock * blockCount) + 1;
 
+  const handleClickPagination = async (e) => {
+    e.preventDefault();
+    const target = e.currentTarget;
+
+    if (target.classList.contains('disabled')) return;
+
+    let pageData = loadPageData();
+    pageData.page = target.dataset.page || 1;
+
+    // 동기적으로 처리(페이지 리로드)
+    window.location.href = makeUrl(pageData);
+  }
+
   const pageList = Array.from({ length: endPage - startPage + 1 }).map((_, index) => {
     return {
       title: startPage + index,
@@ -27,7 +40,7 @@ async function renderPaginationSection(currentPage = 1, totalCount = 0, perPage 
     currentPage !== totalPage ? { title: 'END', page: totalPage } : null // last
   ].filter(Boolean);
 
-  const html = pagingObject.map(item => {
+  const renderHtml = pagingObject.map(item => {
     if (item.title === 'FIRST') {
       return `<a href="#" class="prev_end icon-page_prevprev" data-page="1">FIRST</a>`;
     }
@@ -48,31 +61,8 @@ async function renderPaginationSection(currentPage = 1, totalCount = 0, perPage 
     return `<a href="#" data-page="${item.page}"><em>${item.title}</em></a>`;
   }).join('\n');
 
-  const handleUpdatePaging = async (e) => {
-    e.preventDefault();
-    const target = e.currentTarget;
-
-    if (target.classList.contains('disabled')) return;
-
-    let pageData = loadPageData();
-    pageData.page = target.dataset.page || 1;
-    window.location.href = makeUrl(pageData);
-
-    // 페이징 변경 시,
-    // if (target.dataset?.page) {
-    //   const currentPage = target.dataset?.page ? Number(target.dataset?.page) : 1;
-    //   const pageData = loadPageData();
-    //   window.history.pushState({}, '', makeUrl(target.dataset.page));
-
-    //   const lotListResult = await callApiLotList(pageData.saleNo, Number(target.dataset?.page), pageData.lotSize);
-    //   renderLotListSection(lotListResult);
-    //   renderPaginationSection(currentPage, lotListResult.totalCount, pageData.lotSize);
-    //   window.scrollTo({ top: 0, behavior: 'smooth' })
-    // }
-  }
-
-  root.innerHTML = html;
+  root.innerHTML = renderHtml;
   root.querySelectorAll('a').forEach((element, index) => {
-    element.addEventListener('click', handleUpdatePaging);
+    element.addEventListener('click', handleClickPagination);
   });
 }

@@ -5,6 +5,7 @@ import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.service.AuctionOnlineService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -107,5 +108,51 @@ public class ApiAuctionOnlineController {
         commonMap.put("lot_no", lotNo);
 
         return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.deleteCustInteLotList(commonMap)));
+    }
+
+    @ApiOperation(value = "온라인 휴대폰 인증 조회", notes = "경매번호를 통해 온라인 휴대폰 인증을 조회한다.")
+    @GetMapping(value = "/sale-cert/sales/{saleNo}")
+    public ResponseEntity<RestResponse> saleCert(@PathVariable("saleNo") int saleNo){
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+
+        return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.selectSaleCertInfo(commonMap)));
+    }
+
+    @ApiOperation(value = "온라인 휴대폰 인증 등록", notes = "온라인 휴대폰 인증을 등록한다.(no_modify: 변경없음 / un_modify: 변경안함)")
+    @PostMapping(value = "/sale-cert/sales/{saleNo}")
+    public ResponseEntity<RestResponse> insertSaleCert(@PathVariable("saleNo") int saleNo
+            , @ApiParam(example = "{\n\t\"done_cd\": \"\",\n\t\"hp\": \"\"\n}") @RequestBody CommonMap commonMap) {
+        commonMap.put("sale_no", saleNo);
+
+        return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.insertSaleCert(commonMap)));
+    }
+
+    @ApiOperation(value = "온라인 휴대폰 인증 상태 변경", notes = "온라인 휴대폰 인증의 상태를 변경한다.")
+    @PatchMapping(value = "/sale-cert/sales/{saleNo}")
+    public ResponseEntity<RestResponse> updateSaleCert(@PathVariable("saleNo") int saleNo
+            , @ApiParam(example = "{\n\t\"sale_cert_no\": \"\",\n\t\"hp\": \"\"\n}") @RequestBody CommonMap commonMap) {
+        commonMap.put("sale_no", saleNo);
+
+        return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.updateSaleCert(commonMap)));
+    }
+
+    @ApiOperation(value = "온라인 응찰 목록 조회", notes = "경매번호, 랏 번호를 통해 응찰 목록을 조회한다.")
+    @GetMapping(value="/bid/sales/{saleNo}/lots/{lotNo}")
+    public ResponseEntity<RestResponse> bid(@PathVariable int saleNo, @PathVariable("lotNo") int lotNo
+            , @RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page
+            , @RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size
+    ) {
+        CommonMap commonMap = CommonMap.create(page, size);
+        commonMap.put("sale_no", saleNo);
+        commonMap.put("lot_no", lotNo);
+
+        return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.selectBidList(commonMap)));
+    }
+
+    @ApiOperation(value = "회원 정보 조회", notes = "경매번호, 랏 번호를 통해 응찰 목록을 조회한다.")
+    @GetMapping(value="/me")
+    public ResponseEntity<RestResponse> me() {
+        return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.selectCustInfo()));
     }
 }
