@@ -66,6 +66,7 @@
         where
             name  = #{name}
             and email = #{email}
+            and status = 'A'
         limit
             1
     </select>
