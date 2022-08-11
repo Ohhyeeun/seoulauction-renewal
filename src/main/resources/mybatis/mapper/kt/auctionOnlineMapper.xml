@@ -371,4 +371,15 @@
         where BD.SALE_NO = #{sale_no} and BD.LOT_NO = #{lot_no}
         order by BD.BID_PRICE desc, BD.BID_DT asc, BD.BID_NO asc
     </sql>
+
+    <select id="selectCustInfo" parameterType="CommonMap" resultType="CommonMap">
+        select	CU.CUST_NO
+             , (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "Y" ELSE "N" END
+                from CUST_PAY CP where CU.cust_no = CP.cust_no) IS_MEMBERSHIP
+             , CU.EMP_GB IS_EMPLOYEE
+        from CUST CU
+        where JOIN_KIND_CD = 'online'
+          and CU.STAT_CD = 'normal'
+          and CU.CUST_NO = #{cust_no}
+    </select>
 </mapper>

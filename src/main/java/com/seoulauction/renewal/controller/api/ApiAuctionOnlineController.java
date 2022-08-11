@@ -149,4 +149,10 @@ public class ApiAuctionOnlineController {
 
         return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.selectBidList(commonMap)));
     }
+
+    @ApiOperation(value = "회원 정보 조회", notes = "경매번호, 랏 번호를 통해 응찰 목록을 조회한다.")
+    @GetMapping(value="/me")
+    public ResponseEntity<RestResponse> me() {
+        return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.selectCustInfo()));
+    }
 }

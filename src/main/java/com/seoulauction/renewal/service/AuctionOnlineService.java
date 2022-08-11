@@ -154,4 +154,21 @@ public class AuctionOnlineService {
 
         return map;
     }
+
+    public CommonMap selectCustInfo() {
+        CommonMap commonMap = new CommonMap();
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails == null) {
+            commonMap.put("CUST_NO", 0);
+            commonMap.put("IS_LOGIN", "N");
+            commonMap.put("IS_MEMBERSHIP", "N");
+            commonMap.put("IS_EMPLOYEE", "N");
+            return commonMap;
+        }
+
+        commonMap.put("cust_no", saUserDetails.getUserNo());
+        commonMap = auctionOnlineMapper.selectCustInfo(commonMap);
+        commonMap.put("IS_LOGIN", "Y");
+        return commonMap;
+    }
 }
