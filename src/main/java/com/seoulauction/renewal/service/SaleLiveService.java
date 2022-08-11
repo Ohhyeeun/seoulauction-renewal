@@ -113,6 +113,15 @@ public class SaleLiveService {
         return saleLiveMapper.selectLiveTypes(map);
     }
     public List<CommonMap> selectLiveMyBidding(CommonMap map){
+
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if(saUserDetails !=null){
+            map.put("cust_no" , saUserDetails.getUserNo());
+        } else {
+            map.put("cust_no" , 0);
+        }
+
         return saleLiveMapper.selectLiveMyBidding(map);
     }
     //현재 응찰 내역 + 랏 현재가 , 호가
