@@ -102,6 +102,7 @@
              ,LI.FILE_NAME LOT_IMG_NAME
              ,L.LIVE_ING_YN
              ,L.LIVE_CLOSE_YN
+             ,L.START_PRICE
              , (CASE WHEN (SELECT CUST_NO FROM BID_OFFLINE BD_OFF WHERE BD_OFF.BID_NOTICE is NULL AND BD_OFF.SALE_NO = L.SALE_NO AND BD_OFF.LOT_NO = L.LOT_NO ORDER BY BD_OFF.BID_DT DESC, BD_OFF.BID_PRICE desc, BD_OFF.BID_NO desc limit 1)
             = '${cust_no}' THEN 'Y' ELSE 'N' END) AS IS_WIN
              ,(SELECT BD_OFF.BID_PRICE FROM BID_OFFLINE BD_OFF WHERE BD_OFF.BID_NOTICE is NULL AND BD_OFF.SALE_NO = L.SALE_NO AND BD_OFF.LOT_NO = L.LOT_NO ORDER BY BD_OFF.BID_NO DESC, BD_OFF.BID_DT DESC LIMIT 1) AS LAST_PRICE
@@ -132,6 +133,34 @@
             L.LOT_NO
         limit
             1
+    </select>
+    <!--랏 태그와 랏 카테고리를 합침 .-->
+    <select id="selectLiveTypes" parameterType="CommonMap" resultType="CommonMap">
+        (
+            SELECT
+                'TAG' as TYPE,
+                LOT_TAG as CD_ID,
+                LOT_TAG as CD_NM,
+                LOT_TAG as CD_NM_EN
+            FROM
+                LOT
+            WHERE
+                SALE_NO = #{sale_no} AND LOT_TAG IS NOT NULL
+            GROUP BY
+                LOT_TAG
+        )
+        UNION ALL
+        (
+            SELECT
+                'CATEGORY' as TYPE
+                 , CD_ID
+                 , CD_NM
+                 , CD_NM_EN
+            FROM CODE
+            WHERE GRP_ID = 'artwork_category'
+              AND CD_ID IN (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID IN (SELECT IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID IN (SELECT CATE_CD FROM LOT WHERE SALE_NO = #{sale_no})))
+            ORDER BY DISP_ORD
+        )
     </select>
     <!--카테고리 내역-->
     <select id="selectLiveCategories" parameterType="CommonMap" resultType="CommonMap">
