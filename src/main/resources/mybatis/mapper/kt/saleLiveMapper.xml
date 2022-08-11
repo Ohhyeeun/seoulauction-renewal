@@ -138,7 +138,7 @@
     <select id="selectLiveTypes" parameterType="CommonMap" resultType="CommonMap">
         (
             SELECT
-                'TAG' as TYPE,
+                'tag' as TYPE,
                 LOT_TAG as CD_ID,
                 LOT_TAG as CD_NM,
                 LOT_TAG as CD_NM_EN
@@ -152,7 +152,7 @@
         UNION ALL
         (
             SELECT
-                'CATEGORY' as TYPE
+                'category' as TYPE
                  , CD_ID
                  , CD_NM
                  , CD_NM_EN
