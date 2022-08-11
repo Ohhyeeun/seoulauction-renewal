@@ -10,5 +10,6 @@ public interface KTAdminMapper {
 
     List<CommonMap> selectActiveSales(CommonMap map);
     CommonMap selectArtistByNo(CommonMap map);
+    CommonMap selectArtistByName(CommonMap map);
     List<CommonMap> selectCode(CommonMap map);
 }
