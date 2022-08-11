@@ -66,9 +66,17 @@
         where
             name  = #{name}
             and email = #{email}
-            and is_subscribe = 'Y'
         limit
             1
+    </select>
+
+    <select id="updateNewsletter" parameterType="CommonMap" resultType="CommonMap">
+        UPDATE
+            newsletter_subscriber
+        SET
+            is_subscribe = 'Y'
+        where
+            id = #{id}
     </select>
 
     <select id="selectVideos" parameterType="CommonMap" resultType="CommonMap">

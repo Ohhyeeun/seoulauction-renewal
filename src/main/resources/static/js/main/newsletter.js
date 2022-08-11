@@ -53,6 +53,9 @@ $(document).ready(function(){
 
         axios.post('/api/main/newsletters' , data)
             .then(function(response) {
+
+                console.log(response);
+
                 const result = response.data;
 
                 let success = result.success;
