@@ -342,4 +342,33 @@
     <update id="updateSaleCert" parameterType="CommonMap">
         update SALE_CERT set DONE_CD = 'modify' where CUST_NO = #{cust_no} and SALE_CERT_NO = #{sale_cert_no};
     </update>
+
+    <select id="selectBidListPaging" parameterType="CommonMap" resultType="CommonMap">
+        <include refid="selectBidList"/>
+        LIMIT #{offset}, #{size}
+    </select>
+    <select id="selectBidListCount" parameterType="CommonMap" resultType="int">
+        select  count(*) as CNT
+        from (
+        <include refid="selectBidList"/>
+        ) A
+    </select>
+    <sql id="selectBidList">
+        select BD.SALE_NO, BD.LOT_NO, BD.CUST_NO, BD.BID_NO, BD.BID_PRICE, BD.BID_DT, BD.BID_KIND_CD, ifnull(BD2.END_YN, 'N') as END_YN,
+            CASE WHEN BD.CUST_NO = #{cust_no} THEN CU.LOGIN_ID ELSE concat(substr(CU.LOGIN_ID, 1, 2), '***') END CUST_ID,
+            CASE WHEN BD.CUST_NO = #{cust_no} THEN 'Y' ELSE 'N' END SELF_YN, BD.BID_GROW_PRICE
+        from BID BD
+            left outer join (
+                select BD.*, BD.BID_PRICE as LAST_PRICE, <![CDATA[if(L.TO_DT < now(), 'Y', 'N') END_YN]]>, CU.CUST_NAME
+                    , (select count(A.BID_NO) from BID A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO) as BID_CNT
+                from LOT L inner join BID BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+                    inner join CUST CU on BD.CUST_NO = CU.CUST_NO
+                where L.SALE_NO = #{sale_no} and L.LOT_NO = #{lot_no}
+                order by BD.BID_PRICE desc, BD.BID_DT asc, BD.BID_NO asc limit 1
+            ) as BD2
+                on BD2.SALE_NO = BD.SALE_NO and BD2.LOT_NO = BD.LOT_NO and BD2.BID_NO = BD.BID_NO
+            inner join CUST CU on CU.CUST_NO = BD.CUST_NO
+        where BD.SALE_NO = #{sale_no} and BD.LOT_NO = #{lot_no}
+        order by BD.BID_PRICE desc, BD.BID_DT asc, BD.BID_NO asc
+    </sql>
 </mapper>

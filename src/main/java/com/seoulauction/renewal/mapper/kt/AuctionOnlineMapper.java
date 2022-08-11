@@ -35,4 +35,8 @@ public interface AuctionOnlineMapper {
     int insertSaleCert(CommonMap commonMap);
 
     int updateSaleCert(CommonMap commonMap);
+
+    List<CommonMap>  selectBidListPaging(CommonMap commonMap);
+
+    int selectBidListCount(CommonMap commonMap);
 }

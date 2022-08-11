@@ -139,4 +139,19 @@ public class AuctionOnlineService {
         }
         return result;
     }
+
+    public CommonMap selectBidList(CommonMap commonMap) {
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            commonMap.put("cust_no", saUserDetails.getUserNo());
+        } else {
+            commonMap.put("cust_no", 0);
+        }
+
+        CommonMap map = new CommonMap();
+        map.put("list", auctionOnlineMapper.selectBidListPaging(commonMap));
+        map.put("cnt", auctionOnlineMapper.selectBidListCount(commonMap));
+
+        return map;
+    }
 }

@@ -136,4 +136,17 @@ public class ApiAuctionOnlineController {
 
         return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.updateSaleCert(commonMap)));
     }
+
+    @ApiOperation(value = "온라인 응찰 목록 조회", notes = "경매번호, 랏 번호를 통해 응찰 목록을 조회한다.")
+    @GetMapping(value="/bid/sales/{saleNo}/lots/{lotNo}")
+    public ResponseEntity<RestResponse> bid(@PathVariable int saleNo, @PathVariable("lotNo") int lotNo
+            , @RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page
+            , @RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size
+    ) {
+        CommonMap commonMap = CommonMap.create(page, size);
+        commonMap.put("sale_no", saleNo);
+        commonMap.put("lot_no", lotNo);
+
+        return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.selectBidList(commonMap)));
+    }
 }
