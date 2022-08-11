@@ -18,8 +18,8 @@ public interface SaleLiveMapper {
     void insertLiveBidding(CommonMap map);
     List<CommonMap> selectSaleExchRate(CommonMap map);
     void updateLotCloseToggle(CommonMap map);
-    void updateLotSync(CommonMap map);
     void deleteBidOfflineByBidId(CommonMap map);
     String selectLotClose(CommonMap map);
-
+    void updateLotSync1(CommonMap map);
+    void updateLotSync2(CommonMap map);
 }

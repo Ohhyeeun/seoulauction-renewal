@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -233,8 +234,11 @@ public class SaleLiveService {
             c.settingYNValueToBoolean();
         }).collect(Collectors.toList());
     }
+
+    @Transactional("ktTransactionManager")
     public void lotSync(CommonMap map){
-        saleLiveMapper.updateLotSync(map);
+        saleLiveMapper.updateLotSync1(map);
+        saleLiveMapper.updateLotSync2(map);
     }
 
     public void lotLotCloseToggle(CommonMap map){

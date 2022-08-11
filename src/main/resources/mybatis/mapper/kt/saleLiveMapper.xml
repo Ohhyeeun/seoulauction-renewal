@@ -230,8 +230,19 @@
               EX.SALE_NO = #{sale_no}
     </select>
 
-    <!-- 랏 동기화 - 해당 경매의 LOT 들을 전부 CLOSE YN , LIVE_ING_YN 을 Y 로 바꾼다. 랏번호가 있을경우 특정 LOT 만 바꾼다.-->
-    <select id="updateLotSync" parameterType="CommonMap" resultType="CommonMap">
+    <!-- 랏 동기화 작업 1 - 특정 경매의 모든 랏 LIVE_ING_YN - N , LIVE_CLOSE_YN - Y 로 세팅-->
+    <select id="updateLotSync1" parameterType="CommonMap" resultType="CommonMap">
+        UPDATE
+            LOT
+        SET
+            LIVE_ING_YN = 'N',
+            LIVE_CLOSE_YN = 'Y'
+        WHERE
+            SALE_NO = #{sale_no}
+    </select>
+
+    <!-- 랏 동기화 작업 2 - 특정 랏 LIVE-ING_YN - Y , LIVE_CLOSE_YN - Y 로 세팅-->
+    <select id="updateLotSync2" parameterType="CommonMap" resultType="CommonMap">
         UPDATE
             LOT
          SET
@@ -239,9 +250,7 @@
              LIVE_CLOSE_YN = 'Y'
          WHERE
             SALE_NO = #{sale_no}
-        <if test="lot_no !=null">
             AND LOT_NO = #{lot_no}
-        </if>
     </select>
 
     <!--랏 마감 - 특정 랏의 LIVE_CLOSE_YN 정보를 토글 형식으로 바꾼다. ( 호출 될때마다 Y , N 이 바낌 ) -->
