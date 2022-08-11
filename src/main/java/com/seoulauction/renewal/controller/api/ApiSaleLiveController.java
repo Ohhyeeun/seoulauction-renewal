@@ -669,11 +669,13 @@ public class ApiSaleLiveController {
     @GetMapping(value="sales/{saleNo}/lots")
     public ResponseEntity<RestResponse> selectLiveSaleLots(
             @PathVariable("saleNo") int saleNo,
-            @RequestParam(value = "category" , required = false) String category
+            @RequestParam(value = "category" , required = false) String category,
+            @RequestParam(value = "tag" , required = false) String tag
     ) {
         CommonMap paramMap = new CommonMap();
         paramMap.put("sale_no", saleNo);
         paramMap.put("category", category);
+        paramMap.put("tag", tag);
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveSaleLots(paramMap)));
     }
     @GetMapping(value="sales/{saleNo}/bidding-lot-now")
@@ -684,12 +686,12 @@ public class ApiSaleLiveController {
         paramMap.put("sale_no", saleNo);
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveSaleLotByOne(paramMap)));
     }
-    @GetMapping(value="sales/{saleNo}/categories")
+    @GetMapping(value="sales/{saleNo}/types")
     public ResponseEntity<RestResponse> selectLiveCategories(@PathVariable("saleNo") int saleNo
     ) {
         CommonMap paramMap = new CommonMap();
         paramMap.put("sale_no", saleNo);
-        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveCategories(paramMap)));
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveTypes(paramMap)));
     }
     @GetMapping(value="sales/{saleNo}/lots/{lotNo}/my-bidding")
     public ResponseEntity<RestResponse> selectLiveMyBidding(

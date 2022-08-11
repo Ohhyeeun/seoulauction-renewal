@@ -109,8 +109,13 @@ public class SaleLiveService {
 
         return result;
     }
-    public List<CommonMap> selectLiveCategories(CommonMap map){
-        return saleLiveMapper.selectLiveCategories(map);
+    public CommonMap selectLiveTypes(CommonMap map){
+
+        CommonMap resultMap = new CommonMap();
+        resultMap.put("CATEGORY_LIST" , saleLiveMapper.selectLiveCategories(map));
+        resultMap.put("TAG_LIST" , saleLiveMapper.selectLiveLotTags(map));
+
+        return resultMap;
     }
     public List<CommonMap> selectLiveMyBidding(CommonMap map){
         return saleLiveMapper.selectLiveMyBidding(map);

@@ -80,6 +80,9 @@
          <if test="category !=null">
           and H.CD_ID = #{category}
          </if>
+        <if test="tag !=null">
+            and L.LAT_TAG = #{tag}
+        </if>
         group by
             L.LOT_NO
     </select>
@@ -145,6 +148,17 @@
             FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID IN (SELECT CATE_CD FROM LOT WHERE SALE_NO = #{sale_no})))
         ORDER BY
             DISP_ORD
+    </select>
+    <!--랏 태그 내역-->
+    <select id="selectLiveLotTags" parameterType="CommonMap" resultType="CommonMap">
+        SELECT
+            LOT_TAG
+        FROM
+            LOT
+        WHERE
+            SALE_NO = #{sale_no} AND LOT_TAG IS NOT NULL
+        GROUP BY
+            LOT_TAG
     </select>
 
     <!--내 라이브 응찰 내역 -->
