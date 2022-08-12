@@ -586,7 +586,7 @@ public class ApiSaleLiveController {
                 }
             }
         } catch (JsonProcessingException e) {
-
+            e.printStackTrace();
         }
 
 
@@ -798,6 +798,7 @@ public class ApiSaleLiveController {
 
     /**
      * 직원 권한이 있어야 실행 가능.
+     * LOT 번호는 필수값이 아님. ( LOT 번호가 있을때 호출되는 기능 있음 )
      * LOT 동기화
      */
     @Secured("ROLE_EMPLOYEE_USER")
