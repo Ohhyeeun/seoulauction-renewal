@@ -179,8 +179,6 @@
             , L.GROW_PRICE
             , COLUMN_JSON(L.TITLE_BLOB) TITLE_JSON
             , COLUMN_JSON(L.STITLE_BLOB) STITLE_JSON
-            , COLUMN_GET(L.TITLE_BLOB, 'ko' as CHAR) TITLE_KO_TXT
-            , COLUMN_GET(L.TITLE_BLOB, 'en' as CHAR) TITLE_EN_TXT
             , L.EDITION
             , COLUMN_JSON(L.MAKE_YEAR_BLOB) MAKE_YEAR_JSON
             , TRIM(COLUMN_GET(L.MAKE_YEAR_BLOB, 'ko' as char)) as MAKE_YEAR_KO
@@ -191,9 +189,8 @@
             , COLUMN_JSON(L.PROV_INFO_BLOB) PROV_INFO_JSON   # YDH. 소장정보 데이터 컬럼 추가.
             , COLUMN_JSON(L.ETC_INFO_BLOB) ETC_INFO_JSON   # YDH. 기타정보 데이터 컬럼 추가.
             , COLUMN_JSON(L.CMMT_BLOB) CMMT_JSON
+            , AT.ARTIST_NO
             , COLUMN_JSON(AT.ARTIST_NAME_BLOB) ARTIST_NAME_JSON
-            , COLUMN_GET(AT.ARTIST_NAME_BLOB, 'ko' as CHAR) ARTIST_NAME_KO_TXT
-            , COLUMN_GET(AT.ARTIST_NAME_BLOB, 'en' as CHAR) ARTIST_NAME_EN_TXT
             , AT.BORN_YEAR
             , AT.DIE_YEAR
             , CD.CD_NM as MATE_NM
@@ -251,6 +248,15 @@
         where L.SALE_NO = #{sale_no}
             and L.LOT_NO = #{lot_no}
         group by L.SALE_NO, L.LOT_NO
+    </select>
+
+    <select id="selectLotImageList" parameterType="CommonMap" resultType="CommonMap">
+        select L.IMG_DISP_YN, LI.SALE_NO, LI.LOT_NO, LI.IMG_NO, LI.FILE_PATH, LI.FILE_NAME, LI.DISP_ORD
+        from LOT L
+            join LOT_IMG LI on L.SALE_NO = LI.SALE_NO and L.LOT_NO = LI.LOT_NO
+        where LI.SALE_NO = #{sale_no}
+            and LI.LOT_NO = #{lot_no}
+        order by LI.LOT_NO, LI.DISP_ORD
     </select>
 
     <select id="selectManager" parameterType="int" resultType="CommonMap">
