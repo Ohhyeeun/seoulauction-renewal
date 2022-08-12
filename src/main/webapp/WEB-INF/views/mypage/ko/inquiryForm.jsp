@@ -455,6 +455,19 @@
         	window.location.href="/mypage/inquiryList";
         })
     </script>
+
+	<!-- [0809]마이페이지 사이드 유저네임 글자수제한 -->
+	<script>
+		var asideUsername = $("aside .mem-name-wrap .tt2");
+		asideUsername.each(function() {
+			var asideUsernameTxt = $(this).text();
+			var asideUsernameLimit = 8;
+			if (asideUsernameTxt.length > asideUsernameLimit) {
+				$(this).text(asideUsernameTxt.substr(0, asideUsernameLimit) + "...")
+			}
+		})
+	</script>
+	<!-- //[0809]마이페이지 사이드 유저네임 글자수제한 -->
 	
 <%--	<script type="text/javascript" src="/js/pages_common_ko.js"
 		type="text/javascript"></script> --%>
