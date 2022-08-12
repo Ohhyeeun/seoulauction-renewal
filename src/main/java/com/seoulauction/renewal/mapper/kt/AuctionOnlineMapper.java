@@ -55,4 +55,6 @@ public interface AuctionOnlineMapper {
     void insertBidAuto(CommonMap commonMap);
 
     void updateAutoBidReqCancel(CommonMap commonMap);
+
+    CommonMap selectLastAutoBidReq(CommonMap commonMap);
 }

@@ -180,6 +180,16 @@ public class ApiAuctionOnlineController {
         return ResponseEntity.ok(RestResponse.ok());
     }
 
+    @ApiOperation(value = "온라인 마지막 자동응찰 조회", notes = "경매번호, 랏 번호를 통해 마지막 자동응찰을 조회한다.")
+    @GetMapping(value="/last-auto-bid-req/sales/{saleNo}/lots/{lotNo}")
+    public ResponseEntity<RestResponse> lastAutoBidReq(@PathVariable int saleNo, @PathVariable("lotNo") int lotNo) {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+        commonMap.put("lot_no", lotNo);
+
+        return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.selectLastAutoBidReq(commonMap)));
+    }
+
     @ApiOperation(value = "회원 정보 조회", notes = "경매번호, 랏 번호를 통해 응찰 목록을 조회한다.")
     @GetMapping(value="/me")
     public ResponseEntity<RestResponse> me() {

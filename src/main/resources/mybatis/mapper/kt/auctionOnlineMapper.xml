@@ -605,9 +605,19 @@
         and LOT_NO  = @lot_no;
     </insert>
 
-    <update id="updateAutoBidReqCancel" parameterType="Map">
+    <update id="updateAutoBidReqCancel" parameterType="CommonMap">
         update AUTO_BID_REQ
         set ABORT_YN = 'Y', ABORT_DT = now(6)
         where SALE_NO = #{sale_no} and LOT_NO = #{lot_no} and REQ_NO = #{req_no}
     </update>
+
+    <select id="selectLastAutoBidReq" parameterType="CommonMap" resultType="CommonMap">
+        select R.SALE_NO, R.LOT_NO, R.REQ_NO, R.CUST_NO, R.BID_KIND_CD, R.BID_PRICE
+        from AUTO_BID_REQ R
+        where ABORT_YN = 'N'
+            and R.SALE_NO = #{sale_no}
+            and R.LOT_NO = #{lot_no}
+            and R.CUST_NO = #{cust_no}
+        order by R.BID_PRICE desc, R.REQ_NO desc limit 1
+    </select>
 </mapper>

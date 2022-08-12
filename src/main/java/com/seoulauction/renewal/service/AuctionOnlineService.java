@@ -222,4 +222,14 @@ public class AuctionOnlineService {
     public void updateAutoBidReqCancel(CommonMap commonMap) {
         auctionOnlineMapper.updateAutoBidReqCancel(commonMap);
     }
+
+    public CommonMap selectLastAutoBidReq(CommonMap commonMap) {
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            commonMap.put("cust_no", saUserDetails.getUserNo());
+        } else {
+            commonMap.put("cust_no", 0);
+        }
+        return auctionOnlineMapper.selectLastAutoBidReq(commonMap);
+    }
 }
