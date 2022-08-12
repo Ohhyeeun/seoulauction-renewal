@@ -802,9 +802,13 @@ public class ApiSaleLiveController {
      */
     @Secured("ROLE_EMPLOYEE_USER")
     @PostMapping(value="/admin/sales/{saleNo}/sync")
-    public ResponseEntity<RestResponse> adminLotSync(@PathVariable("saleNo") int saleNo) {
+    public ResponseEntity<RestResponse> adminLotSync(
+            @PathVariable("saleNo") int saleNo,
+            @RequestParam("lotNo") int lotNo
+    ) {
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
+        commonMap.put("lot_no", lotNo);
 
         saleLiveService.lotSync(commonMap);
 
