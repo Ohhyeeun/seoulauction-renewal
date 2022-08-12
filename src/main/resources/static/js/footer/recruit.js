@@ -33,7 +33,6 @@ $(document).ready(function(){
                 if(success){
 
                     let data = response.data.data.list;
-                    console.log(data);
                     total_count = response.data.data.count;
                     $("#recurit_paging").empty();
                     $("#recurit_tbody").empty();
@@ -63,10 +62,8 @@ $(document).ready(function(){
                             html += `<div class="mem-icon icon-senior">경력</div>`;
                         }
 
-                        console.log(el);
-
                         //날짜가 안지낫을 경우 OR 상시모집 이거나 진행중 마감 인경우.
-                        if(el.is_over === 'N' || ( el.period_type === 'current' || el.period_type === 'immediate')  ){
+                        if(el.is_over === 'N' || ( el.period_type === 'current' || el.period_type === 'immediate')){
                             html += `<div class="mem-icon icon-recruiting">진행중</div>`;
                         }
 

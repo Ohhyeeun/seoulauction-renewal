@@ -117,14 +117,26 @@
                                 location.href='/error/404';
                             }
 
+                            console.log(data);
+
                             let endDate =  data.end_date !== null   ? ' ~ ' + data.end_date : '';
 
                             $("#recruit_title").html(data.title);
                             $("#recruit_content").html(data.content);
-                            $("#recruit_date").html(data.start_date + endDate);
+
+
+
+                            if(data.period_type === 'period'){
+                                $("#recruit_date").html(data.start_date + endDate);
+                            } else if (data.period_type === 'current'){
+                                $("#recruit_date").html('상시 모집');
+                            } else if (data.period_type === 'immediate'){
+                                $("#recruit_date").html('채용 시 마감');
+                            }
 
                             //입사 지원서 없을 경우 하이드!
                             //$("#recruit_file_down").hide();
+
 
                             if(data.images.length !==0){
                                 let images = data.images;
