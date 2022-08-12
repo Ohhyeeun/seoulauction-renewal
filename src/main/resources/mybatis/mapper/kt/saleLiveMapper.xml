@@ -81,7 +81,7 @@
           and H.CD_ID = #{category}
          </if>
         <if test="tag !=null">
-            and L.LAT_TAG = #{tag}
+            and L.LOT_TAG = #{tag}
         </if>
         group by
             L.LOT_NO
@@ -136,31 +136,38 @@
     </select>
     <!--랏 태그와 랏 카테고리를 합침 .-->
     <select id="selectLiveTypes" parameterType="CommonMap" resultType="CommonMap">
-        (
-            SELECT
-                'tag' as TYPE,
-                LOT_TAG as CD_ID,
-                LOT_TAG as CD_NM,
-                LOT_TAG as CD_NM_EN
-            FROM
-                LOT
-            WHERE
-                SALE_NO = #{sale_no} AND LOT_TAG IS NOT NULL
-            GROUP BY
-                LOT_TAG
-        )
-        UNION ALL
-        (
-            SELECT
-                'category' as TYPE
-                 , CD_ID
-                 , CD_NM
-                 , CD_NM_EN
-            FROM CODE
-            WHERE GRP_ID = 'artwork_category'
-              AND CD_ID IN (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID IN (SELECT IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID IN (SELECT CATE_CD FROM LOT WHERE SALE_NO = #{sale_no})))
-            ORDER BY DISP_ORD
-        )
+        SELECT *
+        FROM
+            (
+                 (
+                     SELECT 'tag'   as TYPE,
+                            LOT_TAG as CD_ID,
+                            LOT_TAG as CD_NM,
+                            LOT_TAG as CD_NM_EN
+                     FROM LOT
+                     WHERE SALE_NO = #{sale_no}
+                       AND LOT_TAG IS NOT NULL
+                     GROUP BY LOT_TAG
+                 )
+                 UNION ALL
+                 (
+                     SELECT 'category' as TYPE
+                          , CD_ID
+                          , CD_NM
+                          , CD_NM_EN
+                     FROM CODE
+                     WHERE GRP_ID = 'artwork_category'
+                       AND CD_ID IN (SELECT IFNULL(P_CD_ID, CD_ID)
+                                     FROM CODE
+                                     WHERE GRP_ID = 'artwork_category'
+                                       AND CD_ID IN (SELECT IFNULL(P_CD_ID, CD_ID)
+                                                     FROM CODE
+                                                     WHERE GRP_ID = 'artwork_category'
+                                                       AND CD_ID IN (SELECT CATE_CD FROM LOT WHERE SALE_NO = #{sale_no})))
+                     ORDER BY DISP_ORD
+                 )
+             ) AS R
+        ORDER BY R.TYPE
     </select>
     <!--카테고리 내역-->
     <select id="selectLiveCategories" parameterType="CommonMap" resultType="CommonMap">
