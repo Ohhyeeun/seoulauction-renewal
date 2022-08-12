@@ -190,8 +190,17 @@
                     let ext = fileVal.split('.').pop().toLowerCase();
                     let fileName = fileVal.split('\\').pop().toLowerCase();
 
+                    let maxSize = 20 * 1024 * 1024; //20MB;
+                    let fileSize = current_file[0].files[0].size;
+
+
                     if ($.inArray(ext, ['hwp', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx', 'pdf', 'txt', 'zip', 'alz']) == -1) {
                         alert('hwp , doc, docx, ppt, pptx, xls, xlsx, pdf, txt, zip, alz 파일만 \n업로드 할수 있습니다.');
+                        return;
+                    }
+
+                    if(fileSize > maxSize){
+                        alert("20MB 이내 파일만 업로드 할 수 있습니다.");
                         return;
                     }
 
