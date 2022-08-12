@@ -117,7 +117,12 @@
                                 location.href='/error/404';
                             }
 
-                            console.log(data);
+                            if (data.is_over === 'Y') {
+                                alert('이미 지난 채용 공고 입니다.');
+                                location.href='/footer/recruit'
+                                return;
+                            }
+
 
                             let endDate =  data.end_date !== null   ? ' ~ ' + data.end_date : '';
 

@@ -184,8 +184,6 @@
                 current_file = $(this);
                 fileVal = current_file.val();
 
-                console.log($(this));
-
                 if(fileVal !=='') {
                     let ext = fileVal.split('.').pop().toLowerCase();
                     let fileName = fileVal.split('\\').pop().toLowerCase();
