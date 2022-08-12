@@ -22,6 +22,7 @@ public interface AuctionOnlineMapper {
     CommonMap selectCurrentLotInfo(CommonMap commonMap);
 
     CommonMap selectLotInfo(CommonMap commonMap);
+    List<CommonMap> selectLotImageList(CommonMap commonMap);
 
     CommonMap selectManager(int custNo);
 
@@ -55,4 +56,6 @@ public interface AuctionOnlineMapper {
     void insertBidAuto(CommonMap commonMap);
 
     void updateAutoBidReqCancel(CommonMap commonMap);
+
+    CommonMap selectLastAutoBidReq(CommonMap commonMap);
 }
