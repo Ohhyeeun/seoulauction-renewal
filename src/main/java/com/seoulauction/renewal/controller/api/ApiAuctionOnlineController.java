@@ -150,6 +150,36 @@ public class ApiAuctionOnlineController {
         return ResponseEntity.ok(RestResponse.ok(auctionOnlineService.selectBidList(commonMap)));
     }
 
+    @ApiOperation(value = "온라인 1회응찰 등록", notes = "경매번호, 랏 번호를 통해 온라인 1회응찰을 등록한다.")
+    @PostMapping(value = "/bid/sales/{saleNo}/lots/{lotNo}")
+    public ResponseEntity<RestResponse> bid(@PathVariable("saleNo") int saleNo, @PathVariable("lotNo") int lotNo
+            , @ApiParam(example = "{\n\t\"bid_price\": ,\n\t\"cust_no\": \n}") @RequestBody CommonMap commonMap) {
+        commonMap.put("sale_no", saleNo);
+        commonMap.put("lot_no", lotNo);
+        auctionOnlineService.insertBidOnce(commonMap);
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
+    @ApiOperation(value = "온라인 자동응찰 등록", notes = "경매번호, 랏 번호를 통해 온라인 자동응찰을 등록한다.")
+    @PostMapping(value = "/bid-auto/sales/{saleNo}/lots/{lotNo}")
+    public ResponseEntity<RestResponse> bidAuto(@PathVariable("saleNo") int saleNo, @PathVariable("lotNo") int lotNo
+            , @ApiParam(example = "{\n\t\"bid_price\": ,\n\t\"cust_no\": \n}") @RequestBody CommonMap commonMap) {
+        commonMap.put("sale_no", saleNo);
+        commonMap.put("lot_no", lotNo);
+        auctionOnlineService.insertBidAuto(commonMap);
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
+    @ApiOperation(value = "온라인 자동응찰 취소", notes = "경매번호, 랏 번호, 자동응찰 번호를 통해 온라인 자동응찰을 취소한다.")
+    @DeleteMapping(value = "/bid-auto/sales/{saleNo}/lots/{lotNo}")
+    public ResponseEntity<RestResponse> bidAutoCancel(@PathVariable("saleNo") int saleNo, @PathVariable("lotNo") int lotNo
+            , @ApiParam(example = "{\n\t\"req_no\": ,\n\t\"cust_no\": \n}") @RequestBody CommonMap commonMap) {
+        commonMap.put("sale_no", saleNo);
+        commonMap.put("lot_no", lotNo);
+        auctionOnlineService.updateAutoBidReqCancel(commonMap);
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
     @ApiOperation(value = "회원 정보 조회", notes = "경매번호, 랏 번호를 통해 응찰 목록을 조회한다.")
     @GetMapping(value="/me")
     public ResponseEntity<RestResponse> me() {
