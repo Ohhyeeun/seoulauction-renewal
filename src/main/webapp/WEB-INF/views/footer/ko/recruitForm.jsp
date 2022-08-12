@@ -261,7 +261,7 @@
                 }
 
                 if(!checkboxCheck){
-                    alert('개인정보 동의를 해주세요.')
+                    alert('개인정보 수집 및 이용에 동의해주세요.')
                     return;
                 }
 
