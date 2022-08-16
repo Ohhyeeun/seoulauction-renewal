@@ -140,7 +140,7 @@
                                                 <button class="btn btn_gray btn_refresh"><i class="ic_refresh"></i>동영상 새로고침</button>
                                             </div>
                                         </div>
-                                        <div class="my_lot" my-info-tab>
+                                        <div class="my_lot my_lot_type3-box" my-info-tab>
                                             <div class="my_lot_info">
                                                 <%--tab Control 영역--%>
                                             </div>
@@ -220,7 +220,7 @@
                                                 <button class="btn btn_gray btn_refresh"><i class="ic_refresh"></i>새로고침</button>
                                             </div>
                                         </div>
-                                        <div class="my_lot">
+                                        <div class="my_lot my_lot_type3-box">
                                             <div class="my_lot_wrap">
                                                 <div class="my_lot_live">
                                                     <div class="view-img_wrap">
@@ -269,7 +269,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="my_lot" >
+                                        <div class="my_lot">
                                             <div class="my_lot_wrap" mobile-regular-notice-tab>
                                                 <%-- 정회원 안내 영역 --%>
                                             </div>
