@@ -8,6 +8,7 @@ $(function() {
         if (result) {
             let v = getWebviewData('remember-me');
             let d = getWebviewData('remember-me-date');
+
             if (d !== undefined && 'string' === typeof(d)) {
                 if (d.length > 0) {
                     let dd = parseInt(d);
@@ -526,7 +527,8 @@ function checkLogin(){
 async function logout(loginId) {
 	if(await isNativeApp()){
 		deleteWebviewData('remember-me');
-	}
+        deleteWebviewData('remember-me-date')
+    }
 	location.href = "/processLogout";
 }
 
