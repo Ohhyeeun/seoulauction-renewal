@@ -418,7 +418,9 @@ img::selection {
 }
 .leftmargin30 {
     margin-left: 30px;
-} 
+}
+/* max-width */
+
 
 /* main layout frame */
 .footer-bottom {
