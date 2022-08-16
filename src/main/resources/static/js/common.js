@@ -20,6 +20,9 @@ $(function() {
                             setCookie('remember-me', v, 365);
                             window.location.reload();
                         }
+                    } else {
+                        // 쿠키 삭제
+                        document.cookie += "remember-me=;expires=Thu, 01 Jan 1999 00:00:10 GMT;";
                     }
                 }
             }
