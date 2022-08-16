@@ -83,7 +83,7 @@ var authorities = '${authorities}'
                                                 <a href="#" class="tab-btn">
                                                     <div class="icon"><i class="icon-tab_ceo"></i></div>
                                                     <div class="txt">
-                                                        <span>CEO</span>
+                                                        <span>프라이빗</span>
                                                     </div>
                                                 </a>
                                             </div>
@@ -94,16 +94,6 @@ var authorities = '${authorities}'
                                                     <div class="icon"><i class="icon-tab_student"></i></div>
                                                     <div class="txt">
                                                         <span>대학생 아카데미</span>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </li>
-                                        <li class="{{activeAcademyCd('culture')}}" ng-click="goAcademyList('culture')">
-                                            <div class="li-inner">
-                                                <a href="#" class="tab-btn">
-                                                    <div class="icon"><i class="icon-tab_architecture"></i></div>
-                                                    <div class="txt">
-                                                        <span>건축</span>
                                                     </div>
                                                 </a>
                                             </div>

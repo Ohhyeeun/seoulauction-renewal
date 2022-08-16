@@ -1641,6 +1641,10 @@ body.dark,
     max-height: 331px !important;
     /*max-height: calc(100vh - 234px);*/
 }
+.content-panel .academy-article .academy-list li {
+    /*아카데미 건축 삭제 */
+    flex-grow: 1;
+}
 
 /* pc */ 
     @media all and (max-width: 1919px) {
