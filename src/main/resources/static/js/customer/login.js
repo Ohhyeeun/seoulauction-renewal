@@ -117,6 +117,7 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 			var rememberMeCookie = getCookie('remember-me');
 			if(isApp){
 				setWebviewData('remember-me', rememberMeCookie);
+				setWebviewData('remember-me-date', new Date().getTime());
 			}
 			document.getElementById('loginForm').submit();
 		}

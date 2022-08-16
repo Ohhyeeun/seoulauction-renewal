@@ -1,8 +1,31 @@
 $(function() {
 
     const locale = document.documentElement.lang;
-    console.log("KH Remember", getCookie("remember-me"))
 
+    // 네이티브 로그인 유지
+    let f = async function(){
+        let result = await isNativeApp();
+        if (result) {
+            let v = getWebviewData('remember-me');
+            let d = getWebviewData('remember-me-date');
+            if (d !== undefined && 'string' === typeof(d)) {
+                if (d.length > 0) {
+                    let dd = parseInt(d);
+                    let expYear = 1
+                    // 1년 더함
+                    let cd = new Date(new Date(dd).setFullYear(new Date(dd.getFullYear() + expYear)));
+                    if (cd > new Date()) {
+                        let rc = getCookie('remember-me')
+                        if (rc === undefined || rc === null || rc.length <= 0) {
+                            setCookie('remember-me', v, 365);
+                            window.location.reload();
+                        }
+                    }
+                }
+            }
+        }
+    }
+    f();
 
     const sleep = (ms) => new Promise(resolve => {
         setTimeout(resolve, ms)
