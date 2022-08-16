@@ -114,7 +114,6 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 			}else{
 				deleteCookie("LoginID");   
 			}  
-			
 			var rememberMeCookie = getCookie('remember-me');
 			if(isApp){
 				setWebviewData('remember-me', rememberMeCookie);

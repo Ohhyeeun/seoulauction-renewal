@@ -1,6 +1,7 @@
 $(function() {
 
     const locale = document.documentElement.lang;
+    console.log("KH Remember", getCookie("remember-me"))
 
 
     const sleep = (ms) => new Promise(resolve => {
