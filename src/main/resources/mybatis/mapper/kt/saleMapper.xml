@@ -180,6 +180,7 @@
         , DATE_FORMAT(L.TO_DT,'%Y-%m-%d') LOT_EXPIRE_DATE
         , DATE_SUB( date_format( L.TO_DT ,'%Y-%m-%d') , interval 1 second) LOT_EXPIRE_DATE_SUB
         , (SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = L.SALE_NO AND LOT_NO = L.LOT_NO AND BID_KIND_CD ='place') OFFLINE_MAX_BID_PRICE
+        , (SELECT CURR_CD FROM SALE WHERE SALE_NO = 713) CURR_CD
         from LOT L
         left outer join (<include refid="com.seoulauction.renewal.mapper.kt.CommonMapper.saleLastBidInfos"/>) BD on
         BD.SALE_NO = L.SALE_NO and BD.LOT_NO	 = L.LOT_NO

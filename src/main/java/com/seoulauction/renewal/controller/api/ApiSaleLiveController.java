@@ -55,9 +55,23 @@ public class ApiSaleLiveController {
         CommonMap c = new CommonMap();
         c.put("sale_no", saleNo);
 
-
-
         CommonMap saleInfoMap = saleService.selectSaleInfo(c);
+
+        String[] mapKeys = {"TITLE_JSON", "NOTICE_DTL_JSON"};
+
+        // 맵 형태 거름
+        ObjectMapper mapper  = new ObjectMapper();
+        try{
+            // 맵 변환
+            for(var item : mapKeys) {
+                saleInfoMap.put(item, mapper.readValue(String.valueOf(saleInfoMap.get(item)), Map.class));
+                Map<String,Object> m = (Map<String,Object>)saleInfoMap.get(item);
+            }
+        } catch (JsonMappingException e) {
+
+        } catch (JsonProcessingException e) {
+
+        }
         return ResponseEntity.ok(RestResponse.ok(saleInfoMap));
     }
 
@@ -87,8 +101,6 @@ public class ApiSaleLiveController {
             map.put("cust_no" , 0);
         }
 
-        // 세일 정보
-        CommonMap saleInfoMap = saleService.selectSaleInfo(map);
         // 랏 정보 가져오기
         CommonMap lotInfoMap = saleService.selectLotInfo(map);
         // 관심정보가져오기
@@ -107,17 +119,7 @@ public class ApiSaleLiveController {
         baseCurrency.put("HKD", "KRW");
 
         // 현재 베이스 화폐
-        String currCd = String.valueOf(saleInfoMap.get("CURR_CD"));
-
-        //String saleTitle = saleInfoMap.getString("")
-
-        lotInfoMap.put("SALE_TITLE_JSON" , saleInfoMap.get("TITLE_JSON"));
-        lotInfoMap.put("LOT_EXPIRE_DATE_DAY" , saleInfoMap.get("LOT_EXPIRE_DATE_DAY"));
-        lotInfoMap.put("LOT_EXPIRE_DATE_TIME_T" , saleInfoMap.get("LOT_EXPIRE_DATE_TIME_T"));
-        lotInfoMap.put("NOTICE_DTL_JSON" , saleInfoMap.get("NOTICE_DTL_JSON"));
-        lotInfoMap.put("SALE_TH" , saleInfoMap.get("SALE_TH"));
-        lotInfoMap.put("SALE_KIND_CD" , saleInfoMap.get("SALE_KIND_CD"));
-
+        String currCd = String.valueOf(lotInfoMap.get("CURR_CD"));
 
         //로그인한 정보를 가져온다.
         //직원 여부
@@ -140,7 +142,7 @@ public class ApiSaleLiveController {
 
         String[] mapKeys = {"ARTIST_NAME_JSON", "EXPE_PRICE_TO_JSON","EXPE_PRICE_FROM_JSON", "MAKE_YEAR_JSON" ,
                 "SIGN_INFO_JSON", "COND_RPT_JSON", "PROFILE_JSON" ,"LITE_INFO_JSON" , "EXHI_INFO_JSON" ,
-                "PROV_INFO_JSON" , "ETC_INFO_JSON" , "CMMT_JSON" ,"NOTICE_DTL_JSON"};
+                "PROV_INFO_JSON" , "ETC_INFO_JSON" , "CMMT_JSON"};
         String[] listKeys = {"LOT_SIZE_JSON"};
 
         // 맵 형태 거름
@@ -584,7 +586,7 @@ public class ApiSaleLiveController {
                 }
             }
         } catch (JsonProcessingException e) {
-
+            e.printStackTrace();
         }
 
 
@@ -669,11 +671,13 @@ public class ApiSaleLiveController {
     @GetMapping(value="sales/{saleNo}/lots")
     public ResponseEntity<RestResponse> selectLiveSaleLots(
             @PathVariable("saleNo") int saleNo,
-            @RequestParam(value = "category" , required = false) String category
+            @RequestParam(value = "category" , required = false) String category,
+            @RequestParam(value = "tag" , required = false) String tag
     ) {
         CommonMap paramMap = new CommonMap();
         paramMap.put("sale_no", saleNo);
         paramMap.put("category", category);
+        paramMap.put("tag", tag);
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveSaleLots(paramMap)));
     }
     @GetMapping(value="sales/{saleNo}/bidding-lot-now")
@@ -684,21 +688,19 @@ public class ApiSaleLiveController {
         paramMap.put("sale_no", saleNo);
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveSaleLotByOne(paramMap)));
     }
-    @GetMapping(value="sales/{saleNo}/categories")
+    @GetMapping(value="sales/{saleNo}/types")
     public ResponseEntity<RestResponse> selectLiveCategories(@PathVariable("saleNo") int saleNo
     ) {
         CommonMap paramMap = new CommonMap();
         paramMap.put("sale_no", saleNo);
-        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveCategories(paramMap)));
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveTypes(paramMap)));
     }
-    @GetMapping(value="sales/{saleNo}/lots/{lotNo}/my-bidding")
+    @GetMapping(value="sales/{saleNo}/my-bidding")
     public ResponseEntity<RestResponse> selectLiveMyBidding(
             @PathVariable("saleNo") int saleNo
-           ,@PathVariable("lotNo") int lotNo
     ) {
         CommonMap paramMap = new CommonMap();
         paramMap.put("sale_no", saleNo);
-        paramMap.put("lot_no", lotNo);
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLiveMyBidding(paramMap)));
     }
     @GetMapping(value="sales/{saleNo}/lots/{lotNo}/site-bidding")
@@ -762,11 +764,6 @@ public class ApiSaleLiveController {
     }
 
     /**
-     * 운영자 페이지 전용 API 목록
-     *
-     */
-
-    /**
      *
      * @param saleNo
      * 관리자용 sale 가져오기.
@@ -779,20 +776,6 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok());
     }
 
-    /**
-     *
-     * 현장 응찰
-     */
-    @PostMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/place-bid")
-    public ResponseEntity<RestResponse> adminPlaceBid(
-                 @PathVariable("saleNo") int saleNo
-                ,@PathVariable("lotNo") int lotNo
-    ) {
-        CommonMap commonMap = new CommonMap();
-        commonMap.put("sale_no", saleNo);
-
-        return ResponseEntity.ok(RestResponse.ok());
-    }
 
     /**
      * 직원 권한이 있어야 실행 가능.
@@ -803,6 +786,7 @@ public class ApiSaleLiveController {
     public ResponseEntity<RestResponse> adminLotClose(
              @PathVariable("saleNo") int saleNo
             ,@PathVariable("lotNo") int lotNo) {
+
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
         commonMap.put("lot_no", lotNo);
@@ -814,13 +798,18 @@ public class ApiSaleLiveController {
 
     /**
      * 직원 권한이 있어야 실행 가능.
+     * LOT 번호는 필수값이 아님. ( LOT 번호가 있을때 호출되는 기능 있음 )
      * LOT 동기화
      */
     @Secured("ROLE_EMPLOYEE_USER")
     @PostMapping(value="/admin/sales/{saleNo}/sync")
-    public ResponseEntity<RestResponse> adminLotSync(@PathVariable("saleNo") int saleNo) {
+    public ResponseEntity<RestResponse> adminLotSync(
+            @PathVariable("saleNo") int saleNo,
+            @RequestParam("lotNo") int lotNo
+    ) {
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
+        commonMap.put("lot_no", lotNo);
 
         saleLiveService.lotSync(commonMap);
 
@@ -837,10 +826,26 @@ public class ApiSaleLiveController {
             @ApiParam(value = "EX ) YYYY-DD-MM")
             @RequestParam(value = "date" , required = false) String date) {
 
-        if(date ==null){
+        if(date == null){
             date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         }
         return ResponseEntity.ok(RestResponse.ok(currencyDataManager.getCurrency(date)));
     }
+
+    /**
+     * 운영자용
+     * 오프라인 비드 삭제.
+     * 직원 권한이 있어야 실행 가능.
+     */
+    @Secured("ROLE_EMPLOYEE_USER")
+    @PostMapping(value="/admin/bid/{bidNo}/off-del")
+    public ResponseEntity<RestResponse> deleteBidOfflineByBidId(
+            @PathVariable("bidNo") int bidNo) {
+
+        saleLiveService.deleteBidOfflineByBidId(new CommonMap("bid_no" , bidNo));
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
+
 
 }
