@@ -161,7 +161,7 @@
                                                                     <dd ng-if="item.CURR_CD == 'KRW'">~ {{item.EXPE_PRICE_TO_JSON.KRW | currency:item.EXPE_PRICE_TO_JSON.KRW }}</dd>
                                                                 </dl>
                                                                 <dl class="price-list">
-                                                                    <dt>Start Price</dt>
+                                                                    <dt>Starting</dt>
                                                                     <dd>{{item.CURR_CD}} {{item.START_PRICE | currency : item.START_PRICE }} </dd>
                                                                 </dl>
                                                                 <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && item.STATUS == '진행' && item.LAST_PRICE > 0">
