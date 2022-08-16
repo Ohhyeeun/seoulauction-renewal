@@ -211,8 +211,12 @@
                                                     <div class="btn_item">
                                                         <a class="btn btn_point btn_lg" href="#" role="button"
                                                            id="bid_btn"
-                                                           ng-click="popSet(sale_no, lot_no, user_id, cust_no);"><span>응찰</span></a>
-                                                    </div>
+                                                           ng-click="popSet(sale_no, lot_no, user_id, cust_no);"><span>응찰</span>
+                                                        </a>
+                                                        <%-- //0812 경매 마감 시 경매결과 보기 버튼 --%> 
+                                                        <a class="btn btn_gray" href="#" role="button"><span>경매결과 보기</span></a>
+                                                        <%-- //0812 경매 마감 시 경매결과 보기 버튼 --%>
+                                                   </div>
                                                 </div>
                                                 <div class="btn_set cols_2">
                                                     <div class="btn_item hover_change only-pc">
