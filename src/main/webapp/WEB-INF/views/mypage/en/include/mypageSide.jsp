@@ -16,13 +16,13 @@
 		<div class="mem-infobox-wrap">
 			<div class="mem-name-wrap">
 			
-			<span class="tt2" >
-			<c:choose>
-			<c:when test="${empty userName}">MEMBER</c:when>
-			<c:otherwise>${userName}</c:otherwise>
-			</c:choose> 
-			</span><span class="tt4"></span>
-			</div>
+			<span class="tt2" ><%--
+			--%><c:choose><%--
+			--%><c:when test="${empty userName}">MEMBER</c:when><%--
+			--%><c:otherwise>${userName}</c:otherwise><%--
+			--%></c:choose><%--
+			--%></span><span class="tt4"></span><%--
+			--%></div>
 			
 			
 			

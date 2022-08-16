@@ -243,25 +243,14 @@
                                             <div class="row-box">
                                                 <div class="col_item">
                                                     <div class="page_title">
-                                                        <a href="#" conclick="window.history.back()" title="뒤로가기">
+                                                        <a href="#" conclick="window.history.back()" title="back">
                                                             <i class="icon-page_back"></i>
                                                         </a>
-                                                        <span>Online Auction Day2 in December 2019 Britannia Collection Contemporary & Korean Traditional Art</span>
+                                                        <span>January eBID Special Online Auction</span>
                                                     </div>
                                                 </div>
                                                 <div class="col_item">
                                                     <!-- [0516]select 변경 -->
-                                                    <!-- 
-                            <div class="select-box"> 
-                            <select class="select2Basic42"  id="">
-                              <option value="1">Lot 10</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              <option value="5">5</option>
-                            </select>
-                          </div> -->
-
                                                     <div class="select-box">
                                                         <div class="trp-dropdown-area h42-lines">
                                                             <button class="js-dropdown-btn"><span>LOT 10</span><i class="form-select_arrow_md"></i>
@@ -521,12 +510,11 @@
                                                 </div>
                                                 <div class="artist-area">
                                                     <div class="name">
-                                                        <strong>Personal Work (KTS Audio, Western Electric Replica et al.), Baroque Audio, Creation, Audio Note, Silvaweld
-                                                        </strong>
+                                                        <strong>Sunwoo Kim</strong>
                                                         <span>b.1988</span>
                                                     </div>
                                                     <div class="desc">
-                                                        <span>Wrapped Statues (Project for ‘Der Glyptotek-München’, West Germany) Aegina Temple (From Official Arts Portfolio of the XXIVth Olympiad, Seoul, Korea)</span>
+                                                        <span>Flight of 3 Dodos</span>
                                                     </div>
                                                 </div>
                                                 <div class="price-area">
@@ -543,13 +531,13 @@
                                                         <dd>KRW 9,900,000,000</dd>
                                                     </dl>
                                                     <dl class="price-list">
-                                                        <dt>Current</dt>
+                                                        <dt>Hammer</dt>
                                                         <dd><strong>KRW 9,900,000,000</strong><em>(Bid 20)</em></dd>
                                                     </dl>
                                                     <dl class="price-list">
                                                         <dt>Closing Time</dt>
                                                         <!-- [0613]b태그 삭제 -->
-                                                        <dd>8Days 19:33:31</dd>
+                                                        <dd>Closed</dd>
                                                         <!-- //[0613]b태그 삭제 -->
                                                     </dl>
                                                 </div>
@@ -557,7 +545,7 @@
                                                     <div class="btn_set only-pc">
                                                         <div class="btn_item">
                                                             <!-- [0812]버튼텍스트변경 -->
-                                                            <a class="btn btn_point btn_lg" href="#" role="button"><span>Place Bid</span></a>
+                                                            <a class="btn btn_gray btn_lg" href="#" role="button"><span>Bid History</span></a>
                                                             <!-- //[0812]버튼텍스트변경 -->
                                                         </div>
                                                     </div>
@@ -565,11 +553,11 @@
                                                         <div class="btn_item hover_change only-pc">
                                                             <div class="op_default">
                                                                 <!-- [0812]버튼텍스트변경 -->
-                                                                <a class="btn btn_default btn_lg" href="#" role="button"><span>Purchase Fe</span></a>
+                                                                <a class="btn btn_default btn_lg" href="#" role="button"><span>Purchase Fee</span></a>
                                                                 <!-- //[0812]버튼텍스트변경 -->
                                                             </div>
                                                             <div class="op_hover">
-                                                                <a class="btn btn_black btn_2 btn_lg" href="#" role="button">
+                                                                <a class="btn btn_black btn_2 btn_lg   " href="#" role="button">
                                                                     <em>Buyer’s Premium</em>
                                                                     <strong>1,584,000 KRW</strong>
                                                                 </a>
@@ -577,7 +565,7 @@
                                                         </div>
                                                         <div class="btn_item only-mb">
                                                             <!-- [0812]버튼텍스트변경 -->
-                                                            <a class="btn btn_default btn_lg js-delivery_price" href="#" role="button"><span>Purchase Fe</span></a>
+                                                            <a class="btn btn_default btn_lg js-delivery_price" href="#" role="button"><span>Purchase Fee</span></a>
                                                             <!-- //[0812]버튼텍스트변경 -->
                                                         </div>
                                                         <div class="btn_item">
@@ -740,17 +728,68 @@
 
                                                     <ul class="product-list">
                                                         <!-- [0617]a태그 -->
+                                                        <li>
+                                                            <div class="li-inner">
+
+                                                                <article class="item-article">
+                                                                    <div class="image-area">
+                                                                        <figure class="img-ratio">
+                                                                            <a href="#" class="img-align">
+                                                                                <img src="/images/pc/thumbnail/auction02.jpg" alt="">
+                                                                            </a>
+                                                                            <a href="javascript:void(0);" class="img-align">
+                                                                                <img src="https://www.seoulauction.com/nas_img/front/main0713/02a92925-09d8-4457-a12d-e2cb858c5102.jpg" alt="">
+                                                                            </a>
+                                                                        </figure>
+                                                                    </div>
+                                                                    <div class="typo-area">
+                                                                        <div class="product_info">
+                                                                            <div class="num_heart-box">
+                                                                                <a href="javascript:void(0);" class=" ng-binding" ng-bind="item.LOT_NO"><span class="num">10</span></a>
+                                                                                <a ng-class="{'heart':item.FAVORITE_YN,'js-work_heart':item.FAVORITE_YN,'on':item.FAVORITE_YN==='Y'}" ng-click="favorite2(item.SALE_NO, item.LOT_NO, $index);" class="heart js-work_heart"><i class="icon-heart_off"></i></a>
+                                                                            </div>
+                                                                            <div class="info-box">
+
+                                                                                <div class="title">
+                                                                                    <a href="javascript:void(0);">
+                                                                                        <span ng-bind="item.ARTIST_NAME_BLOB_JSON.ko" class="ng-binding">운보 김기창
+                                                                                        </span>
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div class="desc">
+                                                                                    <a href="javascript:void(0);">
+                                                                                        <span ng-bind="item.TITLE_BLOB_JSON.ko" class="ng-binding">청록산수(靑綠山水)</span>
+                                                                                    </a>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="product_cancle-area">
+                                                                        <div class="area-inner">
+                                                                            <i class="icon-cancle_box"></i>
+                                                                            <div class="typo">
+                                                                                <div class="name"><span>LOT 5</span></div>
+                                                                                <div class="msg"><span>출물이 취소되었습니다.</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </article>
+
+                                                            </div>
+                                                        </li>
 
                                                         <li class="">
                                                             <div class="li-inner">
                                                                 <article class="item-article">
                                                                     <div class="image-area">
                                                                         <figure class="img-ratio">
-                                                                            <!-- [0617]a태그로 수정 -->
+                                                                            <!-- [0617]a태그로 변경 -->
                                                                             <a href="#" class="img-align">
                                                                                 <img src="/images/pc/thumbnail/auction01.jpg" alt="">
                                                                             </a>
-                                                                            <!-- //[0617]a태그로 수정 -->
+                                                                            <!-- //[0617]a태그로 변경 -->
                                                                         </figure>
                                                                     </div>
                                                                     <div class="typo-area">
@@ -760,7 +799,7 @@
                                                                                 <a class="heart js-work_heart"><i class="icon-heart_off"></i></a>
                                                                             </div>
                                                                             <div class="info-box">
-                                                                                <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                                <div class="title"><a href="#"><span>DamienHirstDamienHirstDamienHirstDamienHirstDamienHirstDamienHirstDamienHirstDamienHirst</span></a>
                                                                                 </div>
                                                                                 <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
                                                                             </div>
@@ -784,11 +823,11 @@
                                                                 <article class="item-article">
                                                                     <div class="image-area">
                                                                         <figure class="img-ratio">
-                                                                            <!-- [0617]a태그로 수정 -->
+                                                                            <!-- [0617]a태그로 변경 -->
                                                                             <a href="#" class="img-align">
                                                                                 <img src="/images/pc/thumbnail/auction02.jpg" alt="">
                                                                             </a>
-                                                                            <!-- //[0617]a태그로 수정 -->
+                                                                            <!-- //[0617]a태그로 변경 -->
                                                                         </figure>
                                                                     </div>
                                                                     <div class="typo-area">
@@ -798,7 +837,7 @@
                                                                                 <a class="heart js-work_heart"><i class="icon-heart_off"></i></a>
                                                                             </div>
                                                                             <div class="info-box">
-                                                                                <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                                <div class="title"><a href="#"><span>DamienHirstDamienHirstDamienHirstDamienHirstDamienHirstDamienHirstDamienHirstDamienHirst</span></a>
                                                                                 </div>
                                                                                 <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
                                                                             </div>
@@ -822,11 +861,11 @@
                                                                 <article class="item-article">
                                                                     <div class="image-area">
                                                                         <figure class="img-ratio">
-                                                                            <!-- [0617]a태그로 수정 -->
+                                                                            <!-- [0617]a태그로 변경 -->
                                                                             <a href="#" class="img-align">
                                                                                 <img src="/images/pc/thumbnail/auction03.jpg" alt="">
                                                                             </a>
-                                                                            <!-- //[0617]a태그로 수정 -->
+                                                                            <!-- //[0617]a태그로 변경 -->
                                                                         </figure>
                                                                     </div>
                                                                     <div class="typo-area">
@@ -836,7 +875,7 @@
                                                                                 <a class="heart js-work_heart"><i class="icon-heart_off"></i></a>
                                                                             </div>
                                                                             <div class="info-box">
-                                                                                <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                                <div class="title"><a href="#"><span>DamienHirstDamienHirstDamienHirstDamienHirstDamienHirstDamienHirstDamienHirstDamienHirst</span></a>
                                                                                 </div>
                                                                                 <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
                                                                             </div>
@@ -860,11 +899,11 @@
                                                                 <article class="item-article">
                                                                     <div class="image-area">
                                                                         <figure class="img-ratio">
-                                                                            <!-- [0617]a태그로 수정 -->
+                                                                            <!-- [0617]a태그로 변경 -->
                                                                             <a href="#" class="img-align">
                                                                                 <img src="/images/pc/thumbnail/auction01.jpg" alt="">
                                                                             </a>
-                                                                            <!-- //[0617]a태그로 수정 -->
+                                                                            <!-- //[0617]a태그로 변경 -->
                                                                         </figure>
                                                                     </div>
                                                                     <div class="typo-area">
@@ -874,45 +913,7 @@
                                                                                 <a class="heart js-work_heart"><i class="icon-heart_off"></i></a>
                                                                             </div>
                                                                             <div class="info-box">
-                                                                                <div class="title"><a href="#"><span>Damien Hirst</span></a>
-                                                                                </div>
-                                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="product_cancle-area">
-                                                                        <div class="area-inner">
-                                                                            <i class="icon-cancle_box"></i>
-                                                                            <div class="typo">
-                                                                                <div class="name"><span>LOT 5</span></div>
-                                                                                <div class="msg"><span>The entry has been cancelled.</span></div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </article>
-                                                            </div>
-                                                        </li>
-
-                                                        <li class="">
-                                                            <div class="li-inner">
-                                                                <article class="item-article">
-                                                                    <div class="image-area">
-                                                                        <figure class="img-ratio">
-                                                                            <!-- [0617]a태그로 수정 -->
-                                                                            <a href="#" class="img-align">
-                                                                                <img src="/images/pc/thumbnail/auction02.jpg" alt="">
-                                                                            </a>
-                                                                            <!-- //[0617]a태그로 수정 -->
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="typo-area">
-                                                                        <div class="product_info">
-                                                                            <div class="num_heart-box">
-                                                                                <a href="#"><span class="num">5</span></a>
-                                                                                <a class="heart js-work_heart"><i class="icon-heart_off"></i></a>
-                                                                            </div>
-                                                                            <div class="info-box">
-                                                                                <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                                <div class="title"><a href="#"><span>DamienHirstDamienHirstDamienHirstDamienHirstDamienHirstDamienHirstDamienHirstDamienHirst</span></a>
                                                                                 </div>
                                                                                 <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
                                                                             </div>
@@ -1368,7 +1369,7 @@
 
     <!-- visual swiper -->
     <script>
-        /* [2022-0624]  */
+        /* [2022-0628]  */
         var view_visual = new Swiper(".js-view_visual .gallery_center", {
             loop: false,
             paginationClickable: true,
@@ -1393,7 +1394,7 @@
                 }
             }
         });
-        /* ///[2022-0624]  */
+        /* ///[2022-0628]  */
 
 
         /* 섬네일 클릭 */
@@ -1419,22 +1420,6 @@
         });
     </script>
 
-    <!-- [0516] 셀렉트 드롭다운 -->
-    <script>
-        var dropdown = $(".js-dropdown-btn").trpDropdown({
-            list: ".trp-dropdown_list-box",
-            area: ".trp-dropdown-area"
-        });
-        $(".trp-dropdown-area .trp-dropdown_list-box a").on("click", function($e) {
-            $e.preventDefault();
-            var _this = $(this);
-            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn em").text($("em", _this).text());
-            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
-            dropdown.getClose();
-        });
-    </script>
-
-
     <!--  sns 공유 -->
     <script>
         var toggle_sns;
@@ -1452,6 +1437,21 @@
             $e.preventDefault();
             toggle_sns.toggleAllSet(false);
         })
+    </script>
+
+    <!-- [0516] 셀렉트 드롭다운 -->
+    <script>
+        var dropdown = $(".js-dropdown-btn").trpDropdown({
+            list: ".trp-dropdown_list-box",
+            area: ".trp-dropdown-area"
+        });
+        $(".trp-dropdown-area .trp-dropdown_list-box a").on("click", function($e) {
+            $e.preventDefault();
+            var _this = $(this);
+            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn em").text($("em", _this).text());
+            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
+            dropdown.getClose();
+        });
     </script>
 
 
@@ -1477,6 +1477,7 @@
         }
     </script>
     <!-- // [2022-0516] 사용 -->
+
 </body>
 
 </html>

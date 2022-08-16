@@ -49,7 +49,7 @@
 		from
 			ARTIST
 		where
-		  JSON_UNQUOTE(JSON_EXTRACT( COLUMN_JSON(ARTIST_NAME_BLOB), "$.ko" )) like '%' #{search} '%'
+		  JSON_UNQUOTE(JSON_EXTRACT( COLUMN_JSON(ARTIST_NAME_BLOB), "$.ko" )) like '%' #{name} '%'
 		  AND DEL_YN = 'N'
 		LIMIT
 			1

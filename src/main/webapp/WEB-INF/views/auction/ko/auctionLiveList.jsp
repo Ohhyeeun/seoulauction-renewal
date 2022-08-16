@@ -280,7 +280,7 @@
                                                                         <dt>추정가</dt>
                                                                         <div ng-switch on="item.EXPE_PRICE_INQ_YN">
                                                                             <div ng-switch-when="Y">
-                                                                                <dd>별도 문의</dd>
+                                                                                <dd><strong>별도 문의</strong></dd>
                                                                                 <dd>&nbsp;</dd>
                                                                                 <dd>&nbsp;</dd>
                                                                             </div>

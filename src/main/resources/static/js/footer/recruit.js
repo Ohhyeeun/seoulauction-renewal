@@ -33,95 +33,94 @@ $(document).ready(function(){
                 if(success){
 
                     let data = response.data.data.list;
-                    console.log(data);
                     total_count = response.data.data.count;
                     $("#recurit_paging").empty();
                     $("#recurit_tbody").empty();
 
+                    $("#recurit_data_count").html(total_count);
+
                     if(total_count == 0) {
-                        let empty_html = `<div class="data-empty">
+
+                        let empty_html = `<div class="data-empty" style="border-top: hidden">
                                              <p class="txt_empty">검색된 채용공고가 없습니다.</p>
                                          </div>`;
                         $("#recurit_tbody").append(empty_html);
-                    }
+                    } else {
 
-                    //TODO 인클루드 작업.
-                    $.each(data , function(idx , el){
+                        //TODO 인클루드 작업.
+                        $.each(data, function (idx, el) {
 
-                        let html =  `<tr>
+                            let html = `<tr>
                                         <td class="bbs-subject">
                                             <div class="icon-wrap">`;
 
-                        //신입 / 경력 확인.
-                        if ( el.recruit_type === 'fresh'){
+                            //신입 / 경력 확인.
+                            if (el.recruit_type === 'fresh') {
 
-                            html +=  `<div class="mem-icon icon-new">신입</div>`;
-                        }else if ( el.recruit_type === 'experience'){
-                            html += `<div class="mem-icon icon-senior">경력</div>`;
-                        }else if ( el.recruit_type === 'all'){
-                            html += `<div class="mem-icon icon-new">신입</div>`;
-                            html += `<div class="mem-icon icon-senior">경력</div>`;
-                        }
+                                html += `<div class="mem-icon icon-new">신입</div>`;
+                            } else if (el.recruit_type === 'experience') {
+                                html += `<div class="mem-icon icon-senior">경력</div>`;
+                            } else if (el.recruit_type === 'all') {
+                                html += `<div class="mem-icon icon-new">신입</div>`;
+                                html += `<div class="mem-icon icon-senior">경력</div>`;
+                            }
 
-                        console.log(el);
+                            //날짜가 안지낫을 경우 OR 상시모집 이거나 진행중 마감 인경우.
+                            if (el.is_over === 'N' || (el.period_type === 'current' || el.period_type === 'immediate')) {
+                                html += `<div class="mem-icon icon-recruiting">진행중</div>`;
+                            }
 
-                        //날짜가 안지낫을 경우 OR 상시모집 이거나 진행중 마감 인경우.
-                        if(el.is_over === 'N' || ( el.period_type === 'current' || el.period_type === 'immediate')  ){
-                            html += `<div class="mem-icon icon-recruiting">진행중</div>`;
-                        }
+                            html += '</div>';
 
-                        html +='</div>';
+                            if (el.period_type === 'period') {
 
-                        if ( el.period_type === 'period'){
+                                let endDate = el.end_date !== undefined ? ' ~ ' + el.end_date : '';
+                                html += `<a id="re_${el.is_over}" class="re_detail_btn" href="/footer/recruit/${el.id}"  class="tit">${el.title}</a></td>`;
+                                html += `<td class="bbs-date long">${el.start_date} ${endDate} </td></tr>`;
 
-                            let endDate = el.end_date !== undefined ? ' ~ ' + el.end_date : '';
-                            html += `<a id="re_${el.is_over}" class="re_detail_btn" href="/footer/recruit/${el.id}"  class="tit">${el.title}</a></td>`;
-                            html += `<td class="bbs-date long">${el.start_date} ${endDate} </td></tr>`;
+                            } else if (el.period_type === 'current') {
 
-                        } else if ( el.period_type === 'current'){
+                                html += `<a href="/footer/recruit/${el.id}" class="tit">${el.title}</a></td>`;
 
-                            html +=  `<a href="/footer/recruit/${el.id}" class="tit">${el.title}</a></td>`;
+                                html += `<td class="bbs-date long">상시 모집</td></tr>`;
 
-                            html += `<td class="bbs-date long">상시 모집</td></tr>`;
+                            } else if (el.period_type === 'immediate') {
 
-                        }  else if ( el.period_type === 'immediate'){
+                                html += `<a href="/footer/recruit/${el.id}" class="tit">${el.title}</a></td>`;
 
-                            html +=  `<a href="/footer/recruit/${el.id}" class="tit">${el.title}</a></td>`;
-
-                            html += `<td class="bbs-date long">채용 시 마감</td></tr>`;
-                        }
+                                html += `<td class="bbs-date long">채용 시 마감</td></tr>`;
+                            }
 
 
-                        $("#recurit_tbody").append(html);
-                    });
-                    $("#recurit_data_count").html(total_count);
+                            $("#recurit_tbody").append(html);
+                        });
 
 
-                    paging({
-                        id: "recurit_paging",
-                        className:"paging",
-                        totalCount:total_count,
-                        itemSize: data_size,
-                        pageSize: page_size,
-                        page: current_page,
-                        callBackFunc:function(i) {
-                            current_page = i;
-                            init();
-                        }
-                    });
+                        paging({
+                            id: "recurit_paging",
+                            className: "paging",
+                            totalCount: total_count,
+                            itemSize: data_size,
+                            pageSize: page_size,
+                            page: current_page,
+                            callBackFunc: function (i) {
+                                current_page = i;
+                                init();
+                            }
+                        });
 
-                    $('.re_detail_btn').on('click',function (){
+                        $('.re_detail_btn').on('click', function () {
 
-                        console.log($(this).attr('id'));
+                            console.log($(this).attr('id'));
 
-                        let is_over = $(this).attr('id').split('_')[1];
+                            let is_over = $(this).attr('id').split('_')[1];
 
-                        if(is_over ==='Y'){
-                            alert('이미 지난 채용 공고 입니다.');
-                            return false;
-                        }
-                    });
-
+                            if (is_over === 'Y') {
+                                alert('이미 지난 채용 공고 입니다.');
+                                return false;
+                            }
+                        });
+                    }
 
                 }
             })

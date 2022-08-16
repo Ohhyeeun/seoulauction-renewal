@@ -97,32 +97,39 @@
                                                             </span>
                                                         </div>
                                                         <div class="form-area personal">
-                                                            <div class="radio-wrap">
-                                                                <span class="trp radio-box">
-                                                                    <input id="radio2-1" type="radio" name="rcpt_yn" value="Y" checked>
-                                                                    <i></i>
-                                                                    <label for="radio2-1">신청하기</label>
-                                                                </span>
-                                                                <span class="trp radio-box">
-                                                                    <input id="radio2-2" type="radio" name="rcpt_yn" value="N">
-                                                                    <i></i>
-                                                                    <label for="radio2-2">신청안함</label>
-                                                                </span>
-                                                            </div>
-                                                            <div class="con-wrap">
-                                                                <div class="tit js-selt_choice">
-                                                                    <div class="select-box">
-                                                                        <select class="select2Basic42" id="">
-                                                                            <option value="1">휴대폰 번호</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="con">
-                                                                    <div class="form-wrap form-con1">
-                                                                        <input type="text" placeholder="휴대폰 번호를 입력해주세요" id="rcpt_type_no1" class="h42" maxlength="11" onkeyup="onlyNumber(this, 'number');">
-                                                                    </div>
+                                                            <div class="con">
+                                                                <div class="form-wrap">
+                                                                    <input type="text" placeholder="휴대폰 번호를 입력해주세요" id="" class="h42">
                                                                 </div>
                                                             </div>
+                                                            <!-- [0812]삭제(기존작업백업) -->
+<%--                                                            <div class="radio-wrap">--%>
+<%--                                                                <span class="trp radio-box">--%>
+<%--                                                                    <input id="radio2-1" type="radio" name="rcpt_yn" value="Y" checked>--%>
+<%--                                                                    <i></i>--%>
+<%--                                                                    <label for="radio2-1">신청하기</label>--%>
+<%--                                                                </span>--%>
+<%--                                                                <span class="trp radio-box">--%>
+<%--                                                                    <input id="radio2-2" type="radio" name="rcpt_yn" value="N">--%>
+<%--                                                                    <i></i>--%>
+<%--                                                                    <label for="radio2-2">신청안함</label>--%>
+<%--                                                                </span>--%>
+<%--                                                            </div>--%>
+<%--                                                            <div class="con-wrap">--%>
+<%--                                                                <div class="tit js-selt_choice">--%>
+<%--                                                                    <div class="select-box">--%>
+<%--                                                                        <select class="select2Basic42" id="">--%>
+<%--                                                                            <option value="1">휴대폰 번호</option>--%>
+<%--                                                                        </select>--%>
+<%--                                                                    </div>--%>
+<%--                                                                </div>--%>
+<%--                                                                <div class="con">--%>
+<%--                                                                    <div class="form-wrap form-con1">--%>
+<%--                                                                        <input type="text" placeholder="휴대폰 번호를 입력해주세요" id="rcpt_type_no1" class="h42" maxlength="11" onkeyup="onlyNumber(this, 'number');">--%>
+<%--                                                                    </div>--%>
+<%--                                                                </div>--%>
+<%--                                                            </div>--%> 
+                                                            <!-- //[0812]개인소득공제신청양식 변경 -->
                                                         </div>
                                                         <div class="form-area business">
                                                             <div class="con">
