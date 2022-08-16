@@ -419,7 +419,7 @@
                                                                                 <div class="name"><span ng-bind="'LOT ' + item.LOT_NO"></span>
                                                                                 </div>
                                                                                 <div class="msg">
-                                                                                    <span>출물이 취소되었습니다.</span>
+                                                                                    <span>출품이 취소되었습니다.</span>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
