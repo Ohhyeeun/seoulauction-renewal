@@ -74,7 +74,7 @@ app.controller('academyNowListCtl', function($scope, consts, common ) {
 		if(param == "artauction"){ // 대학생 아카데미
 			return "대학생 아카데미";
 		}else if(param == "artbrunch"){ // CEO
-			return "CEO";
+			return "프라이빗";
 		}else if(param == "artculture"){ //아트마켓
 			return "아트마켓";
 		}else if(param == "artisttalk"){ //작가론
@@ -145,7 +145,7 @@ app.controller('academyDetailCtl', function($scope, consts, common) {
 		if(param == "artauction"){ // 대학생 아카데미
 			return "대학생 아카데미";
 		}else if(param == "artbrunch"){ // CEO
-			return "CEO";
+			return "프라이빗";
 		}else if(param == "artculture"){ //아트마켓
 			return "아트마켓";
 		}else if(param == "artisttalk"){ //작가론
@@ -195,7 +195,7 @@ app.controller('academyListCtl', function($scope, consts, common) {
 		if(param == "artauction"){ // 대학생 아카데미
 			return "대학생 아카데미";
 		}else if(param == "artbrunch"){ // CEO
-			return "CEO";
+			return "프라이빗";
 		}else if(param == "artculture"){ //아트마켓
 			return "아트마켓";
 		}else if(param == "artisttalk"){ //작가론
