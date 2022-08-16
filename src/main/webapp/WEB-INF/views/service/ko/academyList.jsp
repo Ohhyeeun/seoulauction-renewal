@@ -23,7 +23,7 @@ var authorities = '${authorities}'
         <!-- header -->
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <script type="text/javascript" src="/js/service/academy.js"></script>
-        <!-- //header -->
+        <!-- //header -->l
 
         <!-- container -->
         <div id="container" ng-controller="academyListCtl" data-ng-init="loadAcademyList(1)" ng-cloak>
@@ -112,11 +112,11 @@ var authorities = '${authorities}'
                                 </div>
                                 <div class="only-mb">
                                     <div class="select-box">
-                                        <select class="" id="">
+                                        <select id="academy_category" onchange="angular.element(this).scope().changeAcademyCate();">
                                             <option value="1">전체</option>
                                             <option value="2">아트마켓</option>
                                             <option value="3">작가론</option>
-                                            <option value="4">CEO</option>
+                                            <option value="4">프라이빗</option>
                                             <option value="5">대학생 아카데미</option>
                                             <option value="6">건축</option>
                                         </select>
