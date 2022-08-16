@@ -4,6 +4,7 @@ import com.seoulauction.renewal.domain.CommonMap;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface AuctionOnlineMapper {
@@ -21,6 +22,7 @@ public interface AuctionOnlineMapper {
     CommonMap selectCurrentLotInfo(CommonMap commonMap);
 
     CommonMap selectLotInfo(CommonMap commonMap);
+    List<CommonMap> selectLotImageList(CommonMap commonMap);
 
     CommonMap selectManager(int custNo);
 
@@ -29,4 +31,31 @@ public interface AuctionOnlineMapper {
     int insertCustInteLot(CommonMap commonMap);
 
     int deleteCustInteLot(CommonMap commonMap);
+
+    CommonMap selectSaleCertInfo(CommonMap commonMap);
+
+    int insertSaleCert(CommonMap commonMap);
+
+    int updateSaleCert(CommonMap commonMap);
+
+    List<CommonMap>  selectBidListPaging(CommonMap commonMap);
+
+    int selectBidListCount(CommonMap commonMap);
+
+    CommonMap selectCustInfo(CommonMap commonMap);
+
+    CommonMap selectBidOnce(CommonMap commonMap);
+    CommonMap selectBidOnceAuto(CommonMap commonMap);
+    int insertBidOnce(Map map);
+
+    void updateLotToDt(CommonMap commonMap);
+
+    long selectBidMaxBidPrice(CommonMap commonMap);
+    void updateLotGrowPrice(CommonMap commonMap);
+
+    void insertBidAuto(CommonMap commonMap);
+
+    void updateAutoBidReqCancel(CommonMap commonMap);
+
+    CommonMap selectLastAutoBidReq(CommonMap commonMap);
 }

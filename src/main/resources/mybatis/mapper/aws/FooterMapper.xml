@@ -31,7 +31,7 @@
             AND TITLE like '%' #{search} '%'
         </if>
         ORDER BY
-            CREATED_AT desc
+            PRESS_DATE DESC , CREATED_AT DESC
         limit
             #{offset} , #{size}
     </select>
@@ -89,6 +89,7 @@
     <select id="selectRecruitById" parameterType="CommonMap" resultType="CommonMap">
         SELECT
             *,
+            IF( date_format(end_at, '%Y.%m.%d')  <![CDATA[ < ]]> date_format(now(), '%Y.%m.%d') , 'Y' , 'N') AS is_over,
             date_format(start_at, '%Y.%m.%d') start_date,
             date_format(end_at, '%Y.%m.%d') end_date
         FROM

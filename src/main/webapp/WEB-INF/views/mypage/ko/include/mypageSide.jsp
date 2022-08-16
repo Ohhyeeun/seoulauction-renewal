@@ -12,16 +12,17 @@
 <aside class="aside-area" ng-controller="myPageCtl" ng-init="loadMemberInfo()"  ng-cloak>
 	<div class="aside-inner">
 		<div class="mem-infobox-wrap">
-			<div class="mem-name-wrap">
+			<div class="mem-name-wrap"> 
 			
-			<span class="tt2" >
-			<c:choose>
-			<c:when test="${empty userName}">회원</c:when>
-			<c:otherwise>${userName}</c:otherwise>
-			</c:choose> 
-			</span><span class="tt4">님</span>
-			</div>
-			
+			<span class="tt2" ><%--
+			--%><c:choose><%--
+			--%><c:when test="${empty userName}">회원</c:when><%--
+			--%><c:otherwise>${userName}</c:otherwise><%--
+			--%></c:choose><%--
+			--%></span><span class="tt4">님</span><%--
+			--%></div>
+
+
 			
 			<div class="mem-info-wrap" ng-if="userRole=='1'">
 				<div class="mem-lv-box">
@@ -88,4 +89,3 @@
 		</div>
 	</div>
 </aside>
-    

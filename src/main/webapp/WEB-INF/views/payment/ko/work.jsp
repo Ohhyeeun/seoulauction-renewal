@@ -85,6 +85,43 @@
                                                     <a id="payCard" class="btn btn_black"  role="button" data="CARD" onclick="changePayMethod(this);"><span>신용/체크카드</span></a>
                                                     <a id="payVBank" class="btn btn_default"  role="button" data="VBANK" onclick="changePayMethod(this);"><span>가상 계좌</span></a>
                                                 </div>
+
+                                                <!-- [0614]전체수정 -->
+                                                <div class="receipts">
+                                                    <dl class="receipts-inner">
+                                                        <dt class="tit tt5"><span>현금영수증</span></dt>
+                                                        <dd class="con">
+                                                            <div class="btn-area js-selt_division">
+                                                            <span class="trp radio-box">
+                                                                <input id="radio1-1" type="radio" name="radioSet1" checked>
+                                                                <i></i>
+                                                                <label for="radio1-1">개인 소득 공제</label>
+                                                            </span>
+                                                                <span class="trp radio-box">
+                                                                <input id="radio1-2" type="radio" name="radioSet1">
+                                                                <i></i>
+                                                                <label for="radio1-2">사업자 지출 증빙</label>
+                                                            </span>
+                                                            </div>
+                                                            <div class="form-area personal">
+                                                                <!-- [0812]개인소득공제신청양식 변경 -->
+                                                                <div class="con">
+                                                                    <div class="form-wrap">
+                                                                        <input type="text" placeholder="휴대폰 번호를 입력해주세요" id="" class="h42">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-area business">
+                                                                <div class="con">
+                                                                    <div class="form-wrap">
+                                                                        <input type="text" placeholder="사업자번호를 입력해 주세요" id="" class="h42">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                                <!-- //[0614]전체수정 -->
                                             </li>
                                             <li class="no-line">
                                                 <p class="list_tit tt4">총 결제금액</p>

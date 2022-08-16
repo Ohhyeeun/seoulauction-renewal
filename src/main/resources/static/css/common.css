@@ -146,6 +146,8 @@ body::-webkit-scrollbar-thumb,
 .submenuBg::-webkit-scrollbar-thumb {
     background-color: #f4f4f4;
     border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -ms-border-radius: 10px;
 }
 .submenuBg::-webkit-scrollbar-thumb {
     background-color: rgba(225,225,225,0.5);
@@ -177,8 +179,6 @@ input,
 textarea,
 select {
     font-family: 'Pretendard', sans-serif;
-}
-select {
     -moz-appearance:none;
     -o-appearance:none;
     -webkit-appearance:none;
@@ -195,9 +195,17 @@ input {
 }
 input:focus {
     outline: none;
+    -moz-appearance:none;
+    -o-appearance:none;
+    -webkit-appearance:none;
+    appearance:none;
 }
 input[type="checkbox"] {
     width: auto;
+    -moz-appearance:none;
+    -o-appearance:none;
+    -webkit-appearance:none;
+    appearance:none;
 }
 input::placeholder {
     color: #999;
@@ -1069,8 +1077,8 @@ recent-keyword:lang(en) {
     height: 12px;
     background: url("/images/pc/icon/arrow.png") no-repeat center center;
     transform: translate(0, -50%);
-    transform: -webkit-translate(0, -50%);
-    transform: -ms-translate(0, -50%);
+    -webkit-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
 }
 .subGnbmenu {
     display: flex;
@@ -1148,6 +1156,8 @@ recent-keyword:lang(en) {
     border-right: 0;
     border-right-color: transparent;
     border-radius: 0;
+    -webkit-border-radius: 0;
+    -ms-border-radius: 0;
 }
 .topsearch>input::placeholder {
     color: #999;
@@ -1361,7 +1371,6 @@ recent-keyword:lang(en) {
 .span_block,
 .familyselect.on,
 .gnb_submenuBg.on,
-.submenuBg.on,
 .common_block {
     display: block;
 }
@@ -1614,6 +1623,9 @@ body.dark,
 }
 .sticky_bidding-article {
     z-index: 1 !important;
+}
+.page_title-section.list_page-section .proceeding-article {
+    z-index: 4 !important; 
 }
 .content-panel.type_panel-product_list .set-pc_mb .only-mb2 {
     /* auction 더보기 방식 더보기 btn 별도 새로운 클래스 생성 only-mb2*/
@@ -1904,11 +1916,22 @@ body.dark,
         top: 0px;
         right: -100%;
         left: auto;
-        height: 100vh;
+        height: calc(var(--vh, 1vh)*100);
         max-width: 570px;
         padding: 0;
         overflow-y: auto;
         z-index: 6;
+
+        transition: ease 350ms;
+        -webkit-transition: ease 350ms;
+        -ms-transition: ease 350ms;
+    }
+    .submenuBg.on {
+        right: 0;
+        transition:ease 350ms;
+        -webkit-transition:ease 350ms;
+        -ms-transition: ease 350ms;
+        display: block;
     }
     .gnb_blackBg {
         display: none;
@@ -2141,14 +2164,21 @@ body.dark,
         flex-basis: inherit;
         position: fixed;
         width: 100%;
-        height: 100vh;
-        padding: 40px 45px;
+        height: calc(var(--vh, 1vh)*100);
+        padding: 20px 22.5px;
         top:0;
         right: -100%;
         background-color: #f2f2f2;
         overflow: hidden;
         overflow-y: auto;
         z-index: 2;
+        transition: ease 250ms;
+    }
+    .topsearch-box>form.right {
+        right: 0;
+        transition: ease .2s;
+        -wekbit-transition: ease .2s;
+        -ms-transition: ease .2s;
     }
     .topsearch {
         display: block;
@@ -2186,9 +2216,6 @@ body.dark,
     .topsearch>input::placeholder {
         font-size: 16px;
         font-weight: 600;
-    }
-    .topsearch-box>form {
-        padding: 20px 22.5px;
     }
     .topsearch-btn {
         width: 30px;

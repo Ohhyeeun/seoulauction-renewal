@@ -1,19 +1,5 @@
-
-// BID_CNT: 0
-// DB_NOW: "2022-08-09T10:21:56.000+00:00"
-// END_YN: "N"
-// EXPE_PRICE_FROM_JSON: "{\"KRW\":2000000}"
-// EXPE_PRICE_TO_JSON: "{\"KRW\":5000000}"
-// FROM_DT: "2022-05-04T07:00:00.000+00:00"
-// GROW_PRICE: 300000
-// LAST_PRICE: 0
-// LOT_NO: 1
-// START_PRICE: 2000000
-// STAT_CD: "entry"
-// TO_DT: "2022-08-31T05:00:00.000+00:00"
-
 /**
- * Network API Polling Wroker
+ * Network API Polling Worker
  */
 addEventListener('message', async function (e) {
   const data = e.data;
@@ -33,17 +19,34 @@ addEventListener('message', async function (e) {
       if (resultData.length > 0) {
         const currency = 'KRW';
         const resultDataString = resultData.map(item => {
+          const lotNo = item.LOT_NO;
           const expectPriceFrom = JSON.parse(item.EXPE_PRICE_FROM_JSON)[currency];
           const expectPriceTo = JSON.parse(item.EXPE_PRICE_TO_JSON)[currency];
           const isNotExpectPrice = !expectPriceFrom && !expectPriceTo;
-          const remainTime = timerFormat(new Date(item?.TO_DT).getTime() - new Date().getTime());
-          const remainTimeString = remainTimeFormat(remainTime);
+
+          const remainTime = timerFormat(new Date(item?.TO_DT).getTime() - new Date().getTime()); // 남은 timestamp
+          let remainTimeFormat = '';
+          if (remainTime) {
+            remainTimeFormat = [
+              remainTime[0] > 0 ? remainTime[0] + '일 ' : '',
+              remainTime[1] > 0 ? `${toFixTen(remainTime[1])}:` : '00:',
+              remainTime[2] > 0 ? `${toFixTen(remainTime[2])}:` : '00:',
+              remainTime[3] > 0 ? toFixTen(remainTime[3]) : '00',
+            ].filter(Boolean).join('');
+          }
+
           const startPrice = item.START_PRICE || 0;
+          const currentPrice = item.LAST_PRICE >= 0 && item.END_YN === 'N' ? format(item.LAST_PRICE) : '-';
           const isAuctioned = item.LAST_PRICE >= 0 && item.BID_CNT > 0 && (item.END_YN == 'Y' || item.CLOSE_YN == 'Y');
-          const hammerPriceField = isAuctioned ? `<strong>${currency} ${format(hammerPrice)}</strong><em>(응찰${format(bidCount)})</em>` : '';
+
+          const hammerPrice = data.LAST_PRICE; // 낙찰가
+          let hammerPriceField = '';
+          if (isAuctioned) {
+            hammerPriceField = `<strong>${currency} ${format(hammerPrice)}</strong><em>(응찰${format(bidCount)})</em>`;
+          }
 
           return {
-            lotNo: item.LOT_NO,
+            lotNo,
             expectPrice: `
               <dt>추정가</dt>
               <dd>${isNotExpectPrice ? '별도문의' : currency + ' ' + format(expectPriceFrom)}</dd>
@@ -53,12 +56,16 @@ addEventListener('message', async function (e) {
               <dt>시작가</dt>
               <dd>${currency} ${startPrice > 0 ? format(startPrice) : '-'}</dd>
             `,
+            currentPrice: `
+              <dt>현재가</dt>
+              <dd>${currency} ${currentPrice}</dd>
+            `,
             hammerPrice: `
               <dt>낙찰가</dt>
               <dd>${hammerPriceField}</dd>
             `,
             remainTimeValues: `
-              <span>${remainTime && remainTimeString ? remainTimeString : ''}</span>
+              <span>${remainTimeFormat}</span>
             `,
           }
         });

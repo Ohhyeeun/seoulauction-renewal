@@ -38,6 +38,23 @@
 		LIMIT
 			1
 	</select>
+
+	<select id="selectArtistByName" parameterType="CommonMap" resultType="CommonMap" >
+		select
+			ARTIST_NO,
+			COLUMN_JSON(ARTIST_NAME_BLOB) ARTIST_NAME_BLOB,
+			NATION_CD,
+			BORN_YEAR,
+			DIE_YEAR
+		from
+			ARTIST
+		where
+		  JSON_UNQUOTE(JSON_EXTRACT( COLUMN_JSON(ARTIST_NAME_BLOB), "$.ko" )) like '%' #{name} '%'
+		  AND DEL_YN = 'N'
+		LIMIT
+			1
+	</select>
+
 	<select id="selectCode" parameterType="CommonMap" resultType="CommonMap" >
 		select
 			CD_ID,

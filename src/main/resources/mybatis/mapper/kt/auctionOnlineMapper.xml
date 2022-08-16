@@ -167,6 +167,7 @@
             , IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH
             , COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
             , COLUMN_JSON(S.NOTICE_DTL_BLOB) NOTICE_DTL_JSON
+            , S.CURR_CD
             , S.FROM_DT
             , S.TO_DT
             , S.LIVE_BID_YN
@@ -178,8 +179,6 @@
             , L.GROW_PRICE
             , COLUMN_JSON(L.TITLE_BLOB) TITLE_JSON
             , COLUMN_JSON(L.STITLE_BLOB) STITLE_JSON
-            , COLUMN_GET(L.TITLE_BLOB, 'ko' as CHAR) TITLE_KO_TXT
-            , COLUMN_GET(L.TITLE_BLOB, 'en' as CHAR) TITLE_EN_TXT
             , L.EDITION
             , COLUMN_JSON(L.MAKE_YEAR_BLOB) MAKE_YEAR_JSON
             , TRIM(COLUMN_GET(L.MAKE_YEAR_BLOB, 'ko' as char)) as MAKE_YEAR_KO
@@ -190,9 +189,8 @@
             , COLUMN_JSON(L.PROV_INFO_BLOB) PROV_INFO_JSON   # YDH. 소장정보 데이터 컬럼 추가.
             , COLUMN_JSON(L.ETC_INFO_BLOB) ETC_INFO_JSON   # YDH. 기타정보 데이터 컬럼 추가.
             , COLUMN_JSON(L.CMMT_BLOB) CMMT_JSON
+            , AT.ARTIST_NO
             , COLUMN_JSON(AT.ARTIST_NAME_BLOB) ARTIST_NAME_JSON
-            , COLUMN_GET(AT.ARTIST_NAME_BLOB, 'ko' as CHAR) ARTIST_NAME_KO_TXT
-            , COLUMN_GET(AT.ARTIST_NAME_BLOB, 'en' as CHAR) ARTIST_NAME_EN_TXT
             , AT.BORN_YEAR
             , AT.DIE_YEAR
             , CD.CD_NM as MATE_NM
@@ -250,6 +248,15 @@
         where L.SALE_NO = #{sale_no}
             and L.LOT_NO = #{lot_no}
         group by L.SALE_NO, L.LOT_NO
+    </select>
+
+    <select id="selectLotImageList" parameterType="CommonMap" resultType="CommonMap">
+        select L.IMG_DISP_YN, LI.SALE_NO, LI.LOT_NO, LI.IMG_NO, LI.FILE_PATH, LI.FILE_NAME, LI.DISP_ORD
+        from LOT L
+            join LOT_IMG LI on L.SALE_NO = LI.SALE_NO and L.LOT_NO = LI.LOT_NO
+        where LI.SALE_NO = #{sale_no}
+            and LI.LOT_NO = #{lot_no}
+        order by LI.LOT_NO, LI.DISP_ORD
     </select>
 
     <select id="selectManager" parameterType="int" resultType="CommonMap">
@@ -318,5 +325,305 @@
             and S.SALE_NO = #{sale_no}
         order by LOT_NO limit 1
      ]]>
+    </select>
+
+    <select id="selectSaleCertInfo" parameterType="CommonMap" resultType="CommonMap">
+        select count(*) as CNT, (select max(A.HP) from CUST A where A.CUST_NO = #{cust_no}) as HP
+        from SALE_CERT A
+        where A.DEL_YN = 'N' and A.SALE_NO = #{sale_no} and A.CUST_NO = #{cust_no}
+    </select>
+
+    <insert id="insertSaleCert" parameterType="Map" useGeneratedKeys="true" keyProperty="sale_cert_no">
+        insert into SALE_CERT (SALE_NO, CUST_NO, HP, CUST_HP, DONE_CD, REG_DT, REG_EMP_NO)
+        VALUES (
+                   #{sale_no},
+                   #{cust_no},
+                   #{hp},
+                   (select max(A.HP) from CUST A where A.CUST_NO = #{cust_no}),
+                   #{done_cd},
+                   now(),
+                   #{cust_no}
+               );
+    </insert>
+    
+    <update id="updateSaleCert" parameterType="CommonMap">
+        update SALE_CERT set DONE_CD = 'modify' where CUST_NO = #{cust_no} and SALE_CERT_NO = #{sale_cert_no};
+    </update>
+
+    <select id="selectBidListPaging" parameterType="CommonMap" resultType="CommonMap">
+        <include refid="selectBidList"/>
+        LIMIT #{offset}, #{size}
+    </select>
+    <select id="selectBidListCount" parameterType="CommonMap" resultType="int">
+        select  count(*) as CNT
+        from (
+        <include refid="selectBidList"/>
+        ) A
+    </select>
+    <sql id="selectBidList">
+        select BD.SALE_NO, BD.LOT_NO, BD.CUST_NO, BD.BID_NO, BD.BID_PRICE, BD.BID_DT, BD.BID_KIND_CD, ifnull(BD2.END_YN, 'N') as END_YN,
+            CASE WHEN BD.CUST_NO = #{cust_no} THEN CU.LOGIN_ID ELSE concat(substr(CU.LOGIN_ID, 1, 2), '***') END CUST_ID,
+            CASE WHEN BD.CUST_NO = #{cust_no} THEN 'Y' ELSE 'N' END SELF_YN, BD.BID_GROW_PRICE
+        from BID BD
+            left outer join (
+                select BD.*, BD.BID_PRICE as LAST_PRICE, <![CDATA[if(L.TO_DT < now(), 'Y', 'N') END_YN]]>, CU.CUST_NAME
+                    , (select count(A.BID_NO) from BID A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO) as BID_CNT
+                from LOT L inner join BID BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+                    inner join CUST CU on BD.CUST_NO = CU.CUST_NO
+                where L.SALE_NO = #{sale_no} and L.LOT_NO = #{lot_no}
+                order by BD.BID_PRICE desc, BD.BID_DT asc, BD.BID_NO asc limit 1
+            ) as BD2
+                on BD2.SALE_NO = BD.SALE_NO and BD2.LOT_NO = BD.LOT_NO and BD2.BID_NO = BD.BID_NO
+            inner join CUST CU on CU.CUST_NO = BD.CUST_NO
+        where BD.SALE_NO = #{sale_no} and BD.LOT_NO = #{lot_no}
+        order by BD.BID_PRICE desc, BD.BID_DT asc, BD.BID_NO asc
+    </sql>
+
+    <select id="selectCustInfo" parameterType="CommonMap" resultType="CommonMap">
+        select	CU.CUST_NO
+             , (select CASE WHEN max(CP.VALID_TO_DT) >= NOW() THEN "Y" ELSE "N" END
+                from CUST_PAY CP where CU.cust_no = CP.cust_no) IS_MEMBERSHIP
+             , CU.EMP_GB IS_EMPLOYEE
+        from CUST CU
+        where JOIN_KIND_CD = 'online'
+          and CU.STAT_CD = 'normal'
+          and CU.CUST_NO = #{cust_no}
+    </select>
+
+    <select id="selectBidOnce" parameterType="CommonMap" resultType="CommonMap">
+        #단일 응찰
+        #같은 고객이 기존 최고가인 경우 중복응찰은 하지 못한다.
+        select 1 as chk, BD.LAST_PRICE as PREV_PRICE
+            , 1 as ord
+            , #{sale_no} as SALE_NO, #{lot_no} as LOT_NO, #{cust_no} as CUST_NO
+            , #{bid_price} as BID_PRICE
+            , 'online_once' as BID_KIND_CD
+            , null as REQ_NO
+            , now(6) as BID_DT
+            , L.GROW_PRICE as BID_GROW_PRICE
+        from LOT L
+            left outer join (
+                select BD.SALE_NO, BD.LOT_NO, BD.BID_PRICE as LAST_PRICE, BD.BID_DT, BD.BID_NO, BD.CUST_NO
+                from LOT L inner join BID BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+                where L.SALE_NO = #{sale_no} and L.LOT_NO = #{lot_no}
+                order by BD.BID_PRICE desc, BD.BID_DT asc, BD.BID_NO asc limit 1
+            ) as BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+        where L.SALE_NO = #{sale_no} and L.LOT_NO = #{lot_no}
+            and #{bid_price} >= ifnull(BD.LAST_PRICE + L.GROW_PRICE, L.START_PRICE)
+            and #{cust_no} != ifnull(BD.CUST_NO, 0)
+            and L.TO_DT >= now(6)
+    </select>
+    <select id="selectBidOnceAuto" parameterType="CommonMap" resultType="CommonMap">
+        #자동응찰을 입력한다.
+        #이전 자동응찰 신청 금액이 이전에 최종가 보다 높으면(즉 자기자신이 최종 응찰하였을 경우) 응찰 처리한다.
+        #즉 수동응찰가 보다 낮은 자동응찰 금액이라도 응찰 신청 금액을 입력한다.
+        select 1 as chk, #{PREV_PRICE} as PREV_PRICE
+            , 2 as ord
+            , R.SALE_NO, R.LOT_NO, R.CUST_NO
+            , <![CDATA[if(R.BID_PRICE <= #{BID_PRICE}, R.BID_PRICE, #{BID_PRICE} + f_grow_price(#{BID_PRICE}))]]> as BID_PRICE
+            , R.BID_KIND_CD
+            , R.REQ_NO
+            , R.REQ_DT as BID_DT
+            , f_grow_price(#{BID_PRICE}) as BID_GROW_PRICE
+        from AUTO_BID_REQ R
+            inner join LOT L on L.SALE_NO = R.SALE_NO and R.LOT_NO = L.LOT_NO
+            left outer join (
+                select BD.SALE_NO, BD.LOT_NO, BD.BID_PRICE as LAST_PRICE, BD.BID_DT, BD.BID_NO, BD.CUST_NO
+                from LOT L inner join BID BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+                where L.SALE_NO = #{sale_no} and L.LOT_NO = #{lot_no}
+                order by BD.BID_PRICE desc, BD.BID_DT asc, BD.BID_NO asc limit 1
+            ) as BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+        where R.SALE_NO = #{SALE_NO} and R.LOT_NO = #{LOT_NO} and R.BID_KIND_CD = 'online_auto' and R.ABORT_YN = 'N'
+            and R.BID_PRICE > #{PREV_PRICE} and R.CUST_NO != #{CUST_NO}
+            #and @chk = 1
+    </select>
+    <insert id="insertBidOnce" parameterType="CommonMap">
+        insert into BID (SALE_NO, LOT_NO, CUST_NO, BID_PRICE, BID_KIND_CD, AUTO_BID_REQ_NO, BID_DT, REG_DT, ETC, BID_GROW_PRICE)
+        values
+        <foreach collection="list" item="item" separator=" , ">
+            (#{item.SALE_NO}, #{item.LOT_NO}, #{item.CUST_NO}, #{item.BID_PRICE}, #{item.BID_KIND_CD}, #{item.REQ_NO}, #{item.BID_DT}
+                , now(6), concat('once.', #{item.ord}), #{item.BID_GROW_PRICE})
+        </foreach>
+    </insert>
+
+    <update id="updateLotToDt" parameterType="CommonMap">
+        #경매종료가 30초 전이면 시간을 30초 연장한다.
+        update LOT
+        set TO_DT = date_add(TO_DT, INTERVAL 30 SECOND)
+        where SALE_NO = #{sale_no}
+            and LOT_NO &gt;= #{lot_no}
+            and 1 = (
+                select if(L2.TO_DT &gt;= now(6) and date_add(now(6), INTERVAL 30 SECOND) &gt;= L2.TO_DT, 1, 0)
+                from (select TO_DT from LOT where SALE_NO = #{sale_no} and LOT_NO = #{lot_no}) L2
+            );
+    </update>
+
+    <select id="selectBidMaxBidPrice" parameterType="CommonMap" resultType="long">
+        SELECT max(BID_PRICE) max_bid_price FROM BID WHERE SALE_NO = #{sale_no} AND LOT_NO  = #{lot_no};
+    </select>
+    <update id="updateLotGrowPrice" parameterType="CommonMap">
+        #호가 자동 변경처리(YDH, 2019.09.16. 2019.10.02수정보완)
+        update LOT
+        set GROW_PRICE = f_grow_price(if(#{max_bid_price} is null, #{bid_price}, if(#{bid_price} &lt;= #{max_bid_price}, #{max_bid_price}, #{bid_price})))
+        where SALE_NO = #{sale_no}
+            and LOT_NO  = #{lot_no};
+    </update>
+    
+    <insert id="insertBidAuto">
+        set @db_now = now(6);
+		set @req_no := 0;
+		set @sale_no := #{sale_no};
+        set @lot_no := #{lot_no};
+        set @cust_no := #{cust_no};
+        set @bid_price := #{bid_price};
+
+        set @chk := 0;
+		set @p_req_no := 0;
+		set @last_req_no := 0;
+		set @last_price := 0;
+
+        #자동응찰 신청 입력
+        #기존 최고가 보다 큰 금액, 날짜 검사
+        #자동응찰시 최고가보다 큰 이전 자동응찰 신청한 내역이 있는지 확인해야 한다.
+        insert into AUTO_BID_REQ (SALE_NO, LOT_NO, CUST_NO, BID_KIND_CD, REQ_DT, BID_PRICE, REG_DT)
+        select L.SALE_NO, L.LOT_NO, @cust_no, 'online_auto', @db_now, @bid_price, @db_now
+        from LOT L
+            left outer join (
+                select BD.SALE_NO, BD.LOT_NO, BD.BID_PRICE as LAST_PRICE
+                from LOT L inner join BID BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+                where L.SALE_NO = @sale_no and L.LOT_NO = @lot_no
+                order by BD.BID_PRICE desc, BD.BID_DT asc, BD.BID_NO asc limit 1
+            ) as BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+        where L.SALE_NO = @sale_no and L.LOT_NO = @lot_no
+            and @bid_price >= ifnull(BD.LAST_PRICE + L.GROW_PRICE, L.START_PRICE)
+            and L.TO_DT >= @db_now;
+
+        set @chk := if(row_count() > 0, 1, 0);
+        set @req_no := if(@chk = 1, last_insert_id(), 0);
+
+        insert into BID (SALE_NO, LOT_NO, CUST_NO, BID_PRICE, BID_KIND_CD, AUTO_BID_REQ_NO, BID_DT, REG_DT, ETC, BID_GROW_PRICE)
+        select SALE_NO, LOT_NO, CUST_NO, BID_PRICE, 'online_auto', REQ_NO, BID_DT, now(6), concat('auto.', ord), BID_GROW_PRICE
+        from (
+            #자동응찰 시작
+            #경매 처음이면 START_PRICE, 경매중이면 최종가 + 호가
+            select 	0 as tmp, (@chk := 2) as chk
+                , 1 as ord
+                , R.SALE_NO, R.LOT_NO, R.CUST_NO
+                , (@last_price := if(BD.LAST_PRICE is null, L.START_PRICE, BD.LAST_PRICE + f_grow_price(BD.LAST_PRICE))) as BID_PRICE
+                , (@last_req_no := R.REQ_NO) as REQ_NO
+                , R.REQ_DT as BID_DT
+                , f_grow_price(@last_price) as BID_GROW_PRICE
+            from AUTO_BID_REQ R
+                inner join LOT L on L.SALE_NO = R.SALE_NO and R.LOT_NO = L.LOT_NO
+                left outer join (
+                    select BD.SALE_NO, BD.LOT_NO, BD.CUST_NO, BD.BID_GROW_PRICE, BD.BID_PRICE as LAST_PRICE
+                    from LOT L
+                        inner join BID BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+                    where L.SALE_NO = @sale_no and L.LOT_NO = @lot_no
+                    order by BD.BID_PRICE desc, BD.BID_DT asc, BD.BID_NO asc limit 1
+                ) as BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+            where R.SALE_NO = @sale_no and R.LOT_NO = @lot_no
+                and R.REQ_NO = @req_no and R.CUST_NO = @cust_no
+                and R.BID_KIND_CD = 'online_auto' and R.ABORT_YN = 'N'
+                and R.BID_PRICE >= ifnull(BD.LAST_PRICE + BD.BID_GROW_PRICE, L.START_PRICE)
+                and R.CUST_NO != ifnull(BD.CUST_NO, 0)
+                and L.TO_DT >= @db_now
+                and @req_no > 0
+                and @chk = 1
+
+            #경합처리 - 경합은 무조건 이전에 신청한 사람이 먼저 응찰한다.
+            #경합시 중복응찰전까지만 처리하기 위해 @p_reg_no 사용, @last_req_no를 사용하면 앞에서 세팅되는 값이 있으므로 처리가 안된다.
+            union
+            select (@p_req_no := R.REQ_NO) as tmp, 0 as chk
+                , 2 as ord
+                , R.SALE_NO, R.LOT_NO, R.CUST_NO
+                , (@last_price := @last_price + f_grow_price(@last_price)) as BID_PRICE
+                , (@last_req_no := R.REQ_NO) as REQ_NO
+                , R.REQ_DT as BID_DT
+                , f_grow_price(@last_price) as BID_GROW_PRICE
+            from (
+                select T.*, (@t := 1) as t
+                from (
+                    select 	S.seq, R.SALE_NO, R.LOT_NO, R.REQ_NO, R.CUST_NO
+                        , R.REQ_DT
+                        , R.BID_PRICE
+                        , L.GROW_PRICE
+                    from LOT L
+                        inner join AUTO_BID_REQ R on R.BID_KIND_CD = 'online_auto' and R.ABORT_YN = 'N' and R.BID_PRICE > @last_price and R.SALE_NO = L.SALE_NO and R.LOT_NO = L.LOT_NO
+                            and (select count(*) from AUTO_BID_REQ where SALE_NO = @sale_no and LOT_NO = @lot_no and ABORT_YN = 'N' and BID_PRICE >= (@last_price + L.GROW_PRICE) and REQ_NO != @req_no) > 0
+                        join (select seq from seq_1_to_100) as S
+                    where L.SALE_NO = @sale_no
+                        and L.LOT_NO = @lot_no
+                    order by S.seq, R.REQ_DT, R.REQ_NO
+                ) T
+                order by T.seq, T.REQ_DT, T.REQ_NO
+            ) as R
+            where R.BID_PRICE > @last_price
+                and R.REQ_NO != @p_req_no
+                and @chk = 2
+
+            # 최종가 처리 -- 최종금액과 동일한 금액 요청 처리
+            union
+            select 0 as tmp, (@chk := if(R.REQ_NO != @req_no, 3, 4)) as chk
+                , 3 as ord, R.SALE_NO, R.LOT_NO, R.CUST_NO
+                , R.BID_PRICE
+                , R.REQ_NO
+                , R.REQ_DT as BID_DT
+                , f_grow_price(R.BID_PRICE) as BID_GROW_PRICE
+            from AUTO_BID_REQ R
+            where R.SALE_NO = @sale_no and R.LOT_NO = @lot_no and R.BID_KIND_CD = 'online_auto' and R.ABORT_YN = 'N'
+                and R.BID_PRICE = @last_price and R.REQ_NO != @last_req_no
+                and @chk = 2
+
+            # 최종가 처리 -- 최종금액보다 큰 금액 요청 처리
+            union
+            select 0 as tmp, 0 as chk
+                , 4 as ord, R.SALE_NO, R.LOT_NO, R.CUST_NO
+                , @last_price + f_grow_price(@last_price) as BID_PRICE   #L.GROW_PRICE
+                , R.REQ_NO
+                , R.REQ_DT as BID_DT
+                , f_grow_price(@last_price) as BID_GROW_PRICE
+            from AUTO_BID_REQ R, LOT L
+            where R.SALE_NO = @sale_no and R.LOT_NO = @lot_no and R.BID_KIND_CD = 'online_auto' and R.ABORT_YN = 'N'
+                and L.SALE_NO = R.SALE_NO and L.LOT_NO = R.LOT_NO
+                and R.BID_PRICE > @last_price
+                and R.REQ_NO = @last_req_no
+                and @chk = 3
+        ) as BIDS
+        order by ord, BID_PRICE, BID_DT, REQ_NO;
+
+        #경매종료가 30초전이면 시간을 30초 연장한다.
+        update LOT set TO_DT = date_add(TO_DT, INTERVAL 30 SECOND)
+        where SALE_NO = @sale_no
+            and LOT_NO &gt;= @lot_no
+            and @chk &gt;= 2
+            and 1 = (
+                select if(L2.TO_DT &gt;= @db_now and date_add(@db_now, INTERVAL 30 SECOND) &gt;= L2.TO_DT, 1, 0)
+                from (select TO_DT	from LOT where SALE_NO = @sale_no and LOT_NO = @lot_no) L2
+            );
+
+        #호가 자동 변경처리(YDH, 2019.09.16)
+        set @max_bid_price := 0;
+        SELECT @max_bid_price := max(BID_PRICE) FROM BID WHERE SALE_NO = @sale_no AND LOT_NO  = @lot_no;
+
+        update LOT set GROW_PRICE = f_grow_price(@max_bid_price)
+        where SALE_NO = @sale_no
+        and LOT_NO  = @lot_no;
+    </insert>
+
+    <update id="updateAutoBidReqCancel" parameterType="CommonMap">
+        update AUTO_BID_REQ
+        set ABORT_YN = 'Y', ABORT_DT = now(6)
+        where SALE_NO = #{sale_no} and LOT_NO = #{lot_no} and REQ_NO = #{req_no}
+    </update>
+
+    <select id="selectLastAutoBidReq" parameterType="CommonMap" resultType="CommonMap">
+        select R.SALE_NO, R.LOT_NO, R.REQ_NO, R.CUST_NO, R.BID_KIND_CD, R.BID_PRICE
+        from AUTO_BID_REQ R
+        where ABORT_YN = 'N'
+            and R.SALE_NO = #{sale_no}
+            and R.LOT_NO = #{lot_no}
+            and R.CUST_NO = #{cust_no}
+        order by R.BID_PRICE desc, R.REQ_NO desc limit 1
     </select>
 </mapper>

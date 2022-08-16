@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -108,10 +109,19 @@ public class SaleLiveService {
 
         return result;
     }
-    public List<CommonMap> selectLiveCategories(CommonMap map){
-        return saleLiveMapper.selectLiveCategories(map);
+    public List<CommonMap> selectLiveTypes(CommonMap map){
+        return saleLiveMapper.selectLiveTypes(map);
     }
     public List<CommonMap> selectLiveMyBidding(CommonMap map){
+
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if(saUserDetails !=null){
+            map.put("cust_no" , saUserDetails.getUserNo());
+        } else {
+            map.put("cust_no" , 0);
+        }
+
         return saleLiveMapper.selectLiveMyBidding(map);
     }
     //현재 응찰 내역 + 랏 현재가 , 호가
@@ -121,8 +131,10 @@ public class SaleLiveService {
         CommonMap lotOne = selectLiveSaleLotByOne(map);
         resultMap.put("BID_DATA" , saleLiveMapper.selectLiveSiteBidding(map));
         resultMap.put("GROW_PRICE" , lotOne.get("GROW_PRICE"));
-        resultMap.put("LAST_PRICE" , lotOne.get("LAST_PRICE"));
+        resultMap.put("CURRENT_PRICE" , lotOne.get("LAST_PRICE") !=null ? lotOne.get("LAST_PRICE") : lotOne.get("START_PRICE") );
         resultMap.put("LIVE_ING_YN" , lotOne.get("LIVE_ING_YN"));
+        resultMap.put("LIVE_CLOSE_YN" , lotOne.get("LIVE_CLOSE_YN"));
+        resultMap.put("IS_WIN" , lotOne.get("IS_WIN"));
         resultMap.settingYNValueToBoolean();
         return resultMap;
     }
@@ -139,14 +151,22 @@ public class SaleLiveService {
         }
 
         CommonMap map = new CommonMap();
+        //sale_no , lot_no 값 세팅.
+        map.put("sale_no", saleNo);
+        map.put("lot_no", lotNo);
         map.put("cust_no" , 0);
-
-
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
         //만약 로그인을 했고 직원 이면.
         if( saUserDetails !=null) {
-            map.put("cust_no" , saUserDetails.getUserNo());
+            map.put("cust_no", saUserDetails.getUserNo());
         }
+
+
+        //!!!!!랏이 마감 되어있는지 체크!! ( 현재가 조정 기능은 가능 )
+        if("Y".equals(saleLiveMapper.selectLotClose(map)) && !"price_change".equals(offlineBiddingForm.getBidKindCd()) ){
+            throw new SAException("이미 랏이 마감 되었습니다.");
+        }
+
 
         CommonMap lastMap = new CommonMap();
         lastMap.put("sale_no" , saleNo);
@@ -157,7 +177,6 @@ public class SaleLiveService {
             case "online":
 
                 int paddle = auctionService.selectSalePaddNo(map);
-
                 if (paddle == 0) {
                     //비드 카인드가 online 일경우 paddle 변호가 없으면 오류.
                     throw new SAException("패들 번호가 존재 해야 합니다.");
@@ -206,8 +225,6 @@ public class SaleLiveService {
             }
         }
         //값 세팅.
-        map.put("sale_no", saleNo);
-        map.put("lot_no", lotNo);
         map.put("bid_kind_cd", offlineBiddingForm.getBidKindCd());
         map.put("bid_price", offlineBiddingForm.getBidPrice());
         map.put("bid_notice", offlineBiddingForm.getBidNotice());
@@ -226,12 +243,18 @@ public class SaleLiveService {
             c.settingYNValueToBoolean();
         }).collect(Collectors.toList());
     }
+
+    @Transactional("ktTransactionManager")
     public void lotSync(CommonMap map){
-        saleLiveMapper.updateLotSync(map);
+        saleLiveMapper.updateLotSync1(map);
+        saleLiveMapper.updateLotSync2(map);
     }
 
     public void lotLotCloseToggle(CommonMap map){
         saleLiveMapper.updateLotCloseToggle(map);
+    }
+    public void deleteBidOfflineByBidId(CommonMap map){
+        saleLiveMapper.deleteBidOfflineByBidId(map);
     }
 
 }

@@ -34,7 +34,7 @@
 <body>
 <%--<jsp:include page="../../main/include/topNotice.jsp" />--%>
 <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
-<section class="main-contents footer-bottom footer-bottom50">
+<section class="main-contents footer-bottom footer-bottom50 m-pdnone">
     <jsp:include page="../include/bigBanner.jsp" />
 
     <%--auction--%>
@@ -187,7 +187,7 @@
     </div>
 </div>
 
-<%-- main 레이어 팝업 --%>
+<%-- main 레이어 팝업  --%>
 <div class="blackBg main-popupBg"></div>
 <div class="main-popupwrap"></div>
 <div class="main-popupbox">
@@ -212,7 +212,7 @@
         <span class="main-popup-closebtn closebtn closebtn-w"></span>
     </div>
 </div>
-<%-- main 레이어 팝업 ---%>
+<%-- main 레이어 팝업--%>
 
 <!-- 비밀번호변경알림-비밀번호초기화 -->
 <div id="popup_pwsearch6-wrap" class="trp popupfixed-wrap login-popup">
