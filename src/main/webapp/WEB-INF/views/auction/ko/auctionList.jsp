@@ -214,21 +214,9 @@
                                     <!-- 작품 리스트 -->
                                     <li ng-class="{cancel: item.STAT_CD === 'reentry'}" ng-repeat="item in saleInfo">
                                         <div class="li-inner">
-                                            <!-- [0809]검색결과 result클래스추가 -->
-                                            <article class="item-article result">
-                                                <div class="image-area">
-                                                    <figure class="img-ratio">
-                                                        <a href="/auction/online/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
-                                                            <div class="img-align">
-                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
-                                                            </div>
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                            </article>
-                                            <!-- //[0809]검색결과 result클래스추가 -->
-
+                                            <!-- 경매 마감 일 때 "result" 클래스 추가 하면 됨. <article class="item-article result"> -->
                                             <article class="item-article" ng-if="item.STAT_CD !== 'reentry'">
+                                            <!-- //경매 마감 일 때 "result" 클래스 추가 하면 됨. <article class="item-article result"> -->
                                                 <div class="image-area">
                                                     <figure class="img-ratio">
                                                         <a href="/auction/online/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
