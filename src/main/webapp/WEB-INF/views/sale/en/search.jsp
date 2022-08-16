@@ -167,11 +167,11 @@
                                                                     <dd>{{item.CURR_CD}} {{item.START_PRICE | currency : item.START_PRICE }} </dd>
                                                                 </dl>
                                                                 <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && item.STATUS == '진행' && item.LAST_PRICE > 0">
-                                                                    <dt>Hammer</dt>
+                                                                    <dt>Current</dt>
                                                                     <dd><strong>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE : 0 }} </strong><em>(Bid {{item.BID_CNT }})</em></dd>
                                                                 </dl>
                                                                 <dl class="price-list" ng-if="!custInfo.CUST_NO && item.STATUS == '진행'">
-                                                                    <dt>Hammer</dt>
+                                                                    <dt>Current</dt> 
                                                                     <dd><strong class="comment">Log in and check Please.</strong></dd>
                                                                 </dl>
                                                                 <dl class="price-list" ng-if="!custInfo.CUST_NO && item.STATUS == '완료'">
