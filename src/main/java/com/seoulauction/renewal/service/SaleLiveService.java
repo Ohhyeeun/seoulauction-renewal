@@ -161,7 +161,6 @@ public class SaleLiveService {
             map.put("cust_no", saUserDetails.getUserNo());
         }
 
-
         //!!!!!랏이 마감 되어있는지 체크!! ( 현재가 조정 기능은 가능 )
         if("Y".equals(saleLiveMapper.selectLotClose(map)) && !"price_change".equals(offlineBiddingForm.getBidKindCd()) ){
             throw new SAException("이미 랏이 마감 되었습니다.");
@@ -247,7 +246,11 @@ public class SaleLiveService {
     @Transactional("ktTransactionManager")
     public void lotSync(CommonMap map){
         saleLiveMapper.updateLotSync1(map);
-        saleLiveMapper.updateLotSync2(map);
+
+        //lot no 가 있을경우에는 lot 전용 sync 실행.
+        if(map.get("lot_no") !=null){
+            saleLiveMapper.updateLotSync2(map);
+        }
     }
 
     public void lotLotCloseToggle(CommonMap map){

@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- header -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Online Auction | Seoul Auction</title>
+    <link rel="stylesheet" href="/css/plugin/csslibrary.css">
+    <link rel="stylesheet" href="/css/common.css" type="text/css" />
+    <link rel="stylesheet" href="/css/pages_common_en.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+    <!-- //header -->
+</head>
+
+<body class="">
+    <div class="wrapper">
+        <div class="sub-wrap pageclass type-width_list">
+
+            <!-- header -->
+            <header class="header main-header header-border">
+                <!-- class="main-header fixed" -->
+                <div class="header_beltbox on">
+                    <!--class="on" block-->
+                    <div class="wrap belttxtbox wrap_padding">
+                        <span class="header_beltTit">
+                            <a href="#">
+                                <span class="text-over belt_tit">
+                                    Notice of increase in purchase Notice of increase
+                                </span>
+                                <!--<span class="beltbanner-triangle"></span>-->
+                            </a>
+                        </span>
+                        <span class="beltclose-btn closebtn closebtn-w"></span>
+                    </div>
+                </div>
+                <div>
+                    <ul class="header_utilitymenu wrap_padding pc-ver">
+                        <li class="utility-tab utility-lang"><a href="javascript:void(0);">KOR</a>
+                            <ul class="bubble-box bubble-box01">
+                                <li><a href="/index.html">KOR(한국어)</a></li>
+                                <li><a href="/">ENG(English)</a></li>
+                            </ul>
+                        </li>
+                        <li class="utility-join"><a href="#">JOIN</a></li> <!-- !login -->
+                        <li class="utility-tab utility-account"><a href="javascript:void(0);">ACCOUNT</a>
+                            <ul class="bubble-box bubble-box02">
+                                <li><a href="/index_en.html">Live Auction</a></li>
+                                <li><a href="#">Online Auction<i class="utility-icon on"></i></a></li>
+                                <li><a href="#">Favaorites</a></li>
+                                <li><a href="#">Profile</a></li>
+                            </ul>
+                        </li> <!-- login -->
+                        <li class="utility-login"><a href="#">LOGIN</a></li> <!-- !login -->
+                        <li class="utility-logout"><a href="#">LOGOUT</a></li> <!-- login -->
+                    </ul>
+                </div>
+
+                <nav class="header_navbox">
+                    <div class="header_nav wrap_padding">
+                        <a href="/" class="header_logo"><span class="blind-text">logo</span></a>
+                        <ul class="header_gnbmenu pc-ver">
+                            <li><a href="#" class="">AUCTION</a></li>
+                            <li><a href="#">PRIVATE SALE</a></li>
+                            <li><a href="#">SELL</a></li>
+                            <li><a href="#">SERVICE</a></li>
+                        </ul>
+                        <section class="topsearch-box">
+                            <button class="m-top-search m-ver"></button>
+                            <button class="m-gnbmenu m-ver"></button>
+                            <form action="" class="scroll_none">
+                                <fieldset class="topsearch topsearch-en">
+                                    <span class="submenuBg-closeBtn closebtn-b top-search-closeBtn m-ver"></span>
+                                    <input onkeydown="searchFilter()" type="text" class="topsearch-text pc-ver"><button type="submit" class="topsearch-btn pc-ver"></button>
+                                    <section class="search-bubble-box">
+                                        <div class="recent-search">
+                                            <span class="keyword-search-tit">Recent Keyword<span class="keyword-all-del">All Delete</span></span>
+                                            <!-- 
+															--><span class="recent-keyword"><a href="#">Kim SunWoo</a><span class="keyword-del"></span></span>
+                                            <!-- 
+															--><span class="recent-keyword"><a href="#">Yayoi Kusama</a><span class="keyword-del"></span></span>
+                                            <!--
+															--><span class="recent-keyword"><a href="#">Lee UFan</a><span class="keyword-del"></span></span>
+                                            <!--
+															--><span class="recent-keyword"><a href="#">Kim WhanKi</a><span class="keyword-del"></span></span>
+                                            <!--
+															--><span class="recent-keyword"><a href="#">Park SooKeun </a><span class="keyword-del"></span></span>
+                                            <!--
+															-->
+                                        </div>
+                                        <div class="recommend-search-part">
+                                            <span class="keyword-search-tit">Recommend Keyword</span>
+                                            <!--   
+															--><a href="#" class="recommend-keyword">Lee Bae</a>
+                                            <!--
+															--><a href="#" class="recommend-keyword">Min JoungKi</a>
+                                            <!--
+															--><a href="#" class="recommend-keyword">Chungshin</a>
+                                            <!--
+															--><a href="#" class="recommend-keyword">Park SeoBo</a>
+                                            <!--
+															--><a href="#" class="recommend-keyword">Lim HanSoo</a>
+                                            <!--
+															--><a href="#" class="recommend-keyword">David Hockney</a>
+                                            <!---->
+                                        </div>
+                                    </section>
+                                </fieldset>
+                            </form>
+                        </section>
+                    </div>
+
+                    <section class="gnb_submenuBg scroll_none">
+                        <section class="submenuBg scroll_none">
+                            <div class="wrap">
+                                <span class="submenuBg-closeBtn closebtn closebtn-b m-ver"></span>
+                                <div class="flex_wrap submenuBg-box">
+                                    <div class="Ingbanner-box">
+                                        <a href="#" class="Ingbanner" target="_blank">
+                                            <figure class="border-txt-darkg Ingbanner-img">
+                                                <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
+                                            </figure>
+                                            <div class="Ingbanner-txt text-over">
+                                                <span class="auctionKind-box Ingkind-auction on">LIVE</span>
+                                                <p class="text-over">February Live Auction</p>
+                                                <span class="Ingbanner-arrow"></span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="Ingbanner" target="_blank">
+                                            <figure class="border-txt-darkg Ingbanner-img">
+                                                <img src="/images/pc/thumbnail/gnb_thubnatil_02.jpg" alt="ing_auction02">
+                                            </figure>
+                                            <div class="Ingbanner-txt text-over">
+                                                <span class="auctionKind-box Ingkind-auction">ONLINE</span>
+                                                <p class="text-over">e BID Public Online Auction</p>
+                                                <span class="Ingbanner-arrow"></span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="Ingbanner" target="_blank">
+                                            <figure class="border-txt-darkg Ingbanner-img">
+                                                <img src="/images/pc/thumbnail/gnb_thubnatil_ready.jpg" alt="ing_auction03">
+                                            </figure>
+                                            <div class="Ingbanner-txt text-over">
+                                                <span class="auctionKind-box Ingkind-auction">ONLINE</span>
+                                                <p class="text-over">ZEROBASE</p>
+                                                <span class="Ingbanner-arrow"></span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="Ingbanner" target="_blank">
+                                            <figure class="border-txt-darkg Ingbanner-img">
+                                                <img src="/images/pc/thumbnail/gnb_thubnatil_01.jpg" alt="ing_auction01">
+                                            </figure>
+                                            <div class="Ingbanner-txt text-over">
+                                                <span class="auctionKind-box Ingkind-auction on">LIVE</span>
+                                                <p class="text-over">February Live Auction</p>
+                                                <span class="Ingbanner-arrow"></span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="Ingbanner" target="_blank">
+                                            <figure class="border-txt-darkg Ingbanner-img">
+                                                <img src="/images/pc/thumbnail/gnb_thubnatil_02.jpg" alt="ing_auction02">
+                                            </figure>
+                                            <div class="Ingbanner-txt text-over">
+                                                <span class="auctionKind-box Ingkind-auction">ONLINE</span>
+                                                <p class="text-over">e BID Public Online Auction</p>
+                                                <span class="Ingbanner-arrow"></span>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <ul class="subGnbmenu">
+                                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">AUCTION<span></span></span>
+                                            <ul class="submenu submenu-part01">
+                                                <li><a href="#">Current</a><span class="currentIng">NOW</span></li>
+                                                <li><a href="#">Upcoming</a><span class="currentIng">NOW</span></li>
+                                                <li><a href="#">Result</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">PRIVATE SALE<span></span></span>
+                                            <ul class="submenu submenu-part02">
+                                                <li><a href="#">Exhibition</a><span class="currentIng">NOW</span></li>
+                                                <li><a href="#">Private Sale</a></li>
+                                                <li><a href="#">Private Sale Guide</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SELL<span></span></span>
+                                            <ul class="submenu submenu-part03">
+                                                <li><a href="#">Consignment information</a></li>
+                                                <li><a href="#">Consignment application</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="subGnbmenu-tit"><span class="gnbmenu_arrow">SERVICE<span></span></span>
+                                            <ul class="submenu submenu-part04">
+                                                <li><a href="#">Academy</a><span class="currentIng">NOW</span></li>
+                                                <li><a href="#">Art Collateral Loans</a></li>
+                                                <li><a href="#">Art Storage</a></li>
+                                                <li><a href="#">Rental of Space</a></li>
+                                                <li><a href="#">Art Consulting & <br>Corporate Marketing</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="subGnbmenu-tit m-ver">
+                                            <span class="gnbmenu_arrow modebox">Light Mode
+                                                <label for="dark" class="mode-toggle">
+                                                    <input type="checkbox" id="dark" name="dark">
+                                                    <span class="mode-switch"></span>
+                                                </label>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                    <figure class="blacklotbox">
+                                        <a href="https://www.blacklot.com/" target="_blank">
+                                            <img src="/images/pc/thumbnail/gnb_blacklot.jpg" alt="blacklot">
+                                        </a>
+                                    </figure>
+                                </div>
+                                <ul class="mobile-utility m-ver">
+                                    <li><a href="/index.html">KOR</a></li>
+                                    <li><a href="#" class="gnb_join">JOIN</a><a href="#" class="gnb_member">ACCOUNT</a></li>
+                                    <li><a href="#" class="gnb_login">LOGIN</a><span class="gnb_logout">LOGOUT</span></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </nav>
+            </header>
+
+            <!-- //header -->
+
+            <!-- container -->
+            <div id="container">
+                <div id="contents" class="contents">
+
+                    <!-- page title (ing, view)   -->
+                    <section class="page_title-section list_page-section">
+                        <div class="section-inner full_size">
+                            <div class="padding-inner">
+
+                                <article class="auction_head_info-article">
+                                    <div class="center-box ">
+                                        <h2 class="page_title"><span class="th1">February e BID Premium online Auction</span></h2>
+
+
+                                        <ul class="event_day-list">
+
+                                            <li><span class="colorB2">Preview</span><span class=""> : 01.14 (Fri) – 01.25 (Tue)</span></li>
+
+                                            <li><span class="colorB2">Auction Date</span><span class=""> : 01.25 (Tue) 15:00</span></li>
+
+                                        </ul>
+
+
+
+                                        <div class="btn_set">
+
+                                            <a class="btn btn_white " href="#" role="button"><span>Notice</span></a>
+
+                                        </div>
+
+
+                                    </div>
+                                </article>
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- [0617]세일하일라이트 -->
+                    <!-- [2022-0622] 클래스 이름 추가 // -->
+                    <section class="basis-section sale_highlights-section only-pc">
+                        <div class="section-inner">
+
+                            <!-- [2022-0622] 클래스 이름 추가 // -->
+                            <div class="content-panel type_panel-sale_highlights">
+                                <div class="panel-body">
+
+                                    <article class="product_recent_work-article">
+                                        <div class="article-header">
+                                            <div class="title"><span>Sale Highlights</span></div>
+                                        </div>
+                                        <div class="article-body">
+                                            <div class="scroll-type">
+                                                <div class="product-area">
+
+                                                    <div class="product-wrap swiper js-sale_swiper">
+                                                        <ul class="product-list swiper-wrapper">
+
+                                                            <li class="swiper-slide">
+                                                                <div class="li-inner">
+                                                                    <article class="item-article">
+                                                                        <div class="image-area">
+                                                                            <figure class="img-ratio">
+                                                                                <a href="#" class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                                                </a>
+                                                                            </figure>
+                                                                        </div>
+                                                                        <div class="typo-area">
+                                                                            <div class="product_info">
+                                                                                <div class="num_heart-box">
+                                                                                    <a href="#"><span class="num">1</span></a>
+                                                                                </div>
+                                                                                <div class="info-box">
+                                                                                    <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                                    </div>
+                                                                                    <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="product_cancle-area">
+                                                                            <div class="area-inner">
+                                                                                <i class="icon-cancle_box"></i>
+                                                                                <div class="typo">
+                                                                                    <div class="name"><span>LOT 5</span></div>
+                                                                                    <div class="msg"><span>The entry has been cancelled.</span></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </article>
+                                                                </div>
+                                                            </li>
+
+                                                            <li class="swiper-slide">
+                                                                <div class="li-inner">
+                                                                    <article class="item-article">
+                                                                        <div class="image-area">
+                                                                            <figure class="img-ratio">
+                                                                                <a href="#" class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction02.jpg" alt="">
+                                                                                </a>
+                                                                            </figure>
+                                                                        </div>
+                                                                        <div class="typo-area">
+                                                                            <div class="product_info">
+                                                                                <div class="num_heart-box">
+                                                                                    <a href="#"><span class="num">2</span></a>
+                                                                                </div>
+                                                                                <div class="info-box">
+                                                                                    <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                                    </div>
+                                                                                    <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="product_cancle-area">
+                                                                            <div class="area-inner">
+                                                                                <i class="icon-cancle_box"></i>
+                                                                                <div class="typo">
+                                                                                    <div class="name"><span>LOT 5</span></div>
+                                                                                    <div class="msg"><span>The entry has been cancelled.</span></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </article>
+                                                                </div>
+                                                            </li>
+
+                                                            <li class="swiper-slide">
+                                                                <div class="li-inner">
+                                                                    <article class="item-article">
+                                                                        <div class="image-area">
+                                                                            <figure class="img-ratio">
+                                                                                <a href="#" class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction03.jpg" alt="">
+                                                                                </a>
+                                                                            </figure>
+                                                                        </div>
+                                                                        <div class="typo-area">
+                                                                            <div class="product_info">
+                                                                                <div class="num_heart-box">
+                                                                                    <a href="#"><span class="num">3</span></a>
+                                                                                </div>
+                                                                                <div class="info-box">
+                                                                                    <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                                    </div>
+                                                                                    <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="product_cancle-area">
+                                                                            <div class="area-inner">
+                                                                                <i class="icon-cancle_box"></i>
+                                                                                <div class="typo">
+                                                                                    <div class="name"><span>LOT 5</span></div>
+                                                                                    <div class="msg"><span>The entry has been cancelled.</span></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </article>
+                                                                </div>
+                                                            </li>
+
+                                                            <li class="swiper-slide">
+                                                                <div class="li-inner">
+                                                                    <article class="item-article">
+                                                                        <div class="image-area">
+                                                                            <figure class="img-ratio">
+                                                                                <a href="#" class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                                                </a>
+                                                                            </figure>
+                                                                        </div>
+                                                                        <div class="typo-area">
+                                                                            <div class="product_info">
+                                                                                <div class="num_heart-box">
+                                                                                    <a href="#"><span class="num">4</span></a>
+                                                                                </div>
+                                                                                <div class="info-box">
+                                                                                    <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                                    </div>
+                                                                                    <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="product_cancle-area">
+                                                                            <div class="area-inner">
+                                                                                <i class="icon-cancle_box"></i>
+                                                                                <div class="typo">
+                                                                                    <div class="name"><span>LOT 5</span></div>
+                                                                                    <div class="msg"><span>The entry has been cancelled.</span></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </article>
+                                                                </div>
+                                                            </li>
+
+                                                            <li class="swiper-slide">
+                                                                <div class="li-inner">
+                                                                    <article class="item-article">
+                                                                        <div class="image-area">
+                                                                            <figure class="img-ratio">
+                                                                                <a href="#" class="img-align">
+                                                                                    <img src="/images/pc/thumbnail/auction02.jpg" alt="">
+                                                                                </a>
+                                                                            </figure>
+                                                                        </div>
+                                                                        <div class="typo-area">
+                                                                            <div class="product_info">
+                                                                                <div class="num_heart-box">
+                                                                                    <a href="#"><span class="num">5</span></a>
+                                                                                </div>
+                                                                                <div class="info-box">
+                                                                                    <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                                    </div>
+                                                                                    <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="product_cancle-area">
+                                                                            <div class="area-inner">
+                                                                                <i class="icon-cancle_box"></i>
+                                                                                <div class="typo">
+                                                                                    <div class="name"><span>LOT 5</span></div>
+                                                                                    <div class="msg"><span>The entry has been cancelled.</span></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </article>
+                                                                </div>
+                                                            </li>
+
+
+                                                        </ul>
+                                                        <button class="button-next"><i class="icon-swiper_next"></i></button>
+                                                        <button class="button-prev"><i class="icon-swiper_prev"></i></button>
+                                                        </di>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </article>
+
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- //[0617]세일하일라이트 -->
+
+                    <section class="basis-section tab-auction-section">
+                        <div class="section-inner">
+
+                            <!-- 텝메뉴 -->
+                            <div class="content-panel type_panel-search_tab ">
+                                <div class="panel-header">
+
+                                    <!-- [0613]탭메뉴 스티키 : 클래스명(js-tabmenu-sticky) 추가 -->
+                                    <div class="tab-wrap js-tabmenu-sticky">
+                                        <div class="tab-area type-left">
+                                            <ul class="tab-list js-list_tab">
+                                                <li class="active"><a href="#tab-cont-1"><span>All</span></a></li>
+                                                <li><a href="#tab-cont-2"><span>Modern</span></a></li>
+                                                <li><a href="#tab-cont-3"><span>Antique Art</span></a></li>
+                                                <li><a href="#tab-cont-4"><span>Clocks</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="panel-body">
+                                    <article class="search_tab-article">
+                                        <div class="article-body">
+                                            <div class="col_item mb-col1">
+                                                <!-- [0617]카운트/LOT셀렉트박스 분리 -->
+                                                <div class="count tb1">
+                                                    <span>ALL <em>200</em></span>
+                                                </div>
+                                                <!-- [0714]LOT셀렉트박스 모바일 분리/변경 -->
+                                                <div class="select-box only-pc">
+                                                    <div class="trp-dropdown-area h42-line">
+                                                        <button class="js-dropdown-btn"><span>LOT</span><i class="form-select_arrow_md"></i>
+                                                        </button>
+                                                        <div class="trp-dropdown_list-box" data-trp-focusid="js-user_support">
+                                                            <div class="search-box">
+                                                                <input type="search" placeholder="LOT No." id="" class="">
+                                                                <i class="form-search_md"></i>
+                                                            </div>
+                                                            <div class="list-box scroll-type">
+                                                                <ul>
+                                                                    <li>
+                                                                        <a href="#">
+                                                                            <div class="image-area">
+                                                                                <figure class="img-ratio">
+                                                                                    <div class="img-align">
+                                                                                        <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                                                    </div>
+                                                                                </figure>
+                                                                            </div>
+                                                                            <div class="typo-area">
+                                                                                <span>LOT</span>
+                                                                            </div>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#">
+                                                                            <div class="image-area">
+                                                                                <figure class="img-ratio">
+                                                                                    <div class="img-align">
+                                                                                        <img src="/images/pc/thumbnail/auction02.jpg" alt="">
+                                                                                    </div>
+                                                                                </figure>
+                                                                            </div>
+                                                                            <div class="typo-area">
+                                                                                <span>LOT1</span>
+                                                                            </div>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li><a href="#">
+                                                                            <div class="image-area">
+                                                                                <figure class="img-ratio">
+                                                                                    <div class="img-align">
+                                                                                        <img src="/images/pc/thumbnail/auction03.jpg" alt="">
+                                                                                    </div>
+                                                                                </figure>
+                                                                            </div>
+                                                                            <div class="typo-area">
+                                                                                <span>LOT2</span>
+                                                                            </div>
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="select-box js-lotbox-slct only-mb">
+                                                    <button class="js-lotbox-btn">
+                                                        <span>LOT</span>
+                                                        <i class="slct-arrow"></i>
+                                                    </button>
+                                                </div>
+                                                <!-- //[0714]LOT셀렉트박스 모바일 분리/변경 -->
+                                                <!-- //[0617]카운트/LOT셀렉트박스 분리 -->
+                                            </div>
+                                            <div class="col_item mb-col2">
+                                                <!-- [0617]검색창위치 변경 -->
+                                                <div class="search-box">
+                                                    <input type="search" placeholder="Artists, Works" id="" class="h42">
+                                                    <i class="form-search_md"></i>
+                                                </div>
+                                                <!-- //[0617]검색창위치 변경 -->
+                                                <!-- [0812]select-box -->
+                                                <div class="select-box sort-type">
+                                                    <select class="select2Basic42" id="">
+                                                        <option value="1">LOT</option>
+                                                        <option value="2">Estimate highest</option>
+                                                        <option value="3">Estimate lowest</option>
+                                                        <option value="4">Time:ending soonest</option>
+                                                        <option value="5">Bid price highest</option>
+                                                        <option value="6">Bid price lowest</option>
+                                                        <option value="7">Bid time highest</option>
+                                                        <option value="8">Bid time lowest</option>
+                                                    </select>
+                                                </div>
+                                                <div class="select-box more-type">
+                                                    <select class="select2Basic42 js-select_page" id="">
+                                                        <option value="1">Page Type</option>
+                                                        <option value="2">More Type</option>
+                                                    </select>
+                                                </div>
+                                                <!-- //[0812]select-box -->
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <section class="basis-section last-section auction_list-section">
+                        <div class="section-inner">
+
+                            <div class="content-panel type_panel-product_list">
+                                <div class="panel-body">
+
+                                    <ul class="product-list">
+                                        <!-- [0617]a태그 -->
+
+                                        <li class="">
+                                            <div class="li-inner">
+                                                <article class="item-article">
+                                                    <div class="image-area">
+                                                        <figure class="img-ratio">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
+                                                                <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
+                                                        </figure>
+                                                    </div>
+                                                    <div class="typo-area">
+                                                        <div class="product_info">
+                                                            <div class="num_heart-box">
+                                                                <a href="#"><span class="num">1</span></a>
+                                                                <button class="heart js-work_heart"><i class="icon-heart_off"></i></button>
+                                                            </div>
+                                                            <div class="info-box">
+                                                                <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                </div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
+                                                                <div class="standard">
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
+                                                                    <div class="size_year">
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="price-box">
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>Estimate</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <!-- [0812]텍스트변경 -->
+                                                                        <dt>Starting</dt>
+                                                                        <!-- //[0812]텍스트변경 -->
+                                                                        <dd>KRW 4,500,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>Current</dt>
+                                                                        <dd><strong>KRW 9,00,000,000</strong><em>(Bid1)</em></dd>
+                                                                    </dl>
+                                                                </a>
+                                                            </div>
+                                                            <div class="bidding-box">
+                                                                <div class="deadline_set"><a href="#"><span>Closed</span></a></div>
+                                                                <!-- [0812]버튼텍스트변경  -->
+                                                                <div class="btn_set"><a class="btn btn_gray" href="#" role="button"><span>Bid History</span></a></div>
+                                                                <!-- //[0812]버튼텍스트변경  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        </li>
+
+                                        <li class="">
+                                            <div class="li-inner">
+                                                <article class="item-article">
+                                                    <div class="image-area">
+                                                        <figure class="img-ratio">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
+                                                                <img src="/images/pc/thumbnail/auction02.jpg" alt="">
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
+                                                        </figure>
+                                                    </div>
+                                                    <div class="typo-area">
+                                                        <div class="product_info">
+                                                            <div class="num_heart-box">
+                                                                <a href="#"><span class="num">2</span></a>
+                                                                <button class="heart js-work_heart"><i class="icon-heart_off"></i></button>
+                                                            </div>
+                                                            <div class="info-box">
+                                                                <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                </div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
+                                                                <div class="standard">
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
+                                                                    <div class="size_year">
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="price-box">
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>Estimate</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <!-- [0812]텍스트변경 -->
+                                                                        <dt>Starting</dt>
+                                                                        <!-- //[0812]텍스트변경 -->
+                                                                        <dd>KRW 4,500,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>Current</dt>
+                                                                        <dd><strong>KRW 9,00,000,000</strong><em>(Bid1)</em></dd>
+                                                                    </dl>
+                                                                </a>
+                                                            </div>
+                                                            <div class="bidding-box">
+                                                                <div class="deadline_set"><a href="#"><span>Closed</span></a></div>
+                                                                <!-- [0812]버튼텍스트변경  -->
+                                                                <div class="btn_set"><a class="btn btn_gray" href="#" role="button"><span>Bid History</span></a></div>
+                                                                <!-- //[0812]버튼텍스트변경  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        </li>
+
+                                        <li class="">
+                                            <div class="li-inner">
+                                                <article class="item-article">
+                                                    <div class="image-area">
+                                                        <figure class="img-ratio">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
+                                                                <img src="/images/pc/thumbnail/auction03.jpg" alt="">
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
+                                                        </figure>
+                                                    </div>
+                                                    <div class="typo-area">
+                                                        <div class="product_info">
+                                                            <div class="num_heart-box">
+                                                                <a href="#"><span class="num">3</span></a>
+                                                                <button class="heart js-work_heart"><i class="icon-heart_off"></i></button>
+                                                            </div>
+                                                            <div class="info-box">
+                                                                <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                </div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
+                                                                <div class="standard">
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
+                                                                    <div class="size_year">
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="price-box">
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>Estimate</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <!-- [0812]텍스트변경 -->
+                                                                        <dt>Starting</dt>
+                                                                        <!-- //[0812]텍스트변경 -->
+                                                                        <dd>KRW 4,500,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>Current</dt>
+                                                                        <dd><strong>KRW 9,00,000,000</strong><em>(Bid1)</em></dd>
+                                                                    </dl>
+                                                                </a>
+                                                            </div>
+                                                            <div class="bidding-box">
+                                                                <div class="deadline_set"><a href="#"><span>Closed</span></a></div>
+                                                                <!-- [0812]버튼텍스트변경  -->
+                                                                <div class="btn_set"><a class="btn btn_gray" href="#" role="button"><span>Bid History</span></a></div>
+                                                                <!-- //[0812]버튼텍스트변경  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        </li>
+
+                                        <li class="">
+                                            <div class="li-inner">
+                                                <article class="item-article">
+                                                    <div class="image-area">
+                                                        <figure class="img-ratio">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
+                                                                <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
+                                                        </figure>
+                                                    </div>
+                                                    <div class="typo-area">
+                                                        <div class="product_info">
+                                                            <div class="num_heart-box">
+                                                                <a href="#"><span class="num">4</span></a>
+                                                                <button class="heart js-work_heart"><i class="icon-heart_off"></i></button>
+                                                            </div>
+                                                            <div class="info-box">
+                                                                <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                </div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
+                                                                <div class="standard">
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
+                                                                    <div class="size_year">
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="price-box">
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>Estimate</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <!-- [0812]텍스트변경 -->
+                                                                        <dt>Starting</dt>
+                                                                        <!-- //[0812]텍스트변경 -->
+                                                                        <dd>KRW 4,500,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>Current</dt>
+                                                                        <dd><strong>KRW 9,00,000,000</strong><em>(Bid1)</em></dd>
+                                                                    </dl>
+                                                                </a>
+                                                            </div>
+                                                            <div class="bidding-box">
+                                                                <div class="deadline_set"><a href="#"><span>Closed</span></a></div>
+                                                                <!-- [0812]버튼텍스트변경  -->
+                                                                <div class="btn_set"><a class="btn btn_gray" href="#" role="button"><span>Bid History</span></a></div>
+                                                                <!-- //[0812]버튼텍스트변경  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        </li>
+
+                                        <li class="">
+                                            <div class="li-inner">
+                                                <article class="item-article">
+                                                    <div class="image-area">
+                                                        <figure class="img-ratio">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
+                                                                <img src="/images/pc/thumbnail/auction02.jpg" alt="">
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
+                                                        </figure>
+                                                    </div>
+                                                    <div class="typo-area">
+                                                        <div class="product_info">
+                                                            <div class="num_heart-box">
+                                                                <a href="#"><span class="num">5</span></a>
+                                                                <button class="heart js-work_heart"><i class="icon-heart_off"></i></button>
+                                                            </div>
+                                                            <div class="info-box">
+                                                                <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                </div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
+                                                                <div class="standard">
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
+                                                                    <div class="size_year">
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="price-box">
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>Estimate</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <!-- [0812]텍스트변경 -->
+                                                                        <dt>Starting</dt>
+                                                                        <!-- //[0812]텍스트변경 -->
+                                                                        <dd>KRW 4,500,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>Current</dt>
+                                                                        <dd><strong>KRW 9,00,000,000</strong><em>(Bid1)</em></dd>
+                                                                    </dl>
+                                                                </a>
+                                                            </div>
+                                                            <div class="bidding-box">
+                                                                <div class="deadline_set"><a href="#"><span>Closed</span></a></div>
+                                                                <!-- [0812]버튼텍스트변경  -->
+                                                                <div class="btn_set"><a class="btn btn_gray" href="#" role="button"><span>Bid History</span></a></div>
+                                                                <!-- //[0812]버튼텍스트변경  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        </li>
+
+                                        <li class="">
+                                            <div class="li-inner">
+                                                <article class="item-article">
+                                                    <div class="image-area">
+                                                        <figure class="img-ratio">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
+                                                                <img src="/images/pc/thumbnail/auction03.jpg" alt="">
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
+                                                        </figure>
+                                                    </div>
+                                                    <div class="typo-area">
+                                                        <div class="product_info">
+                                                            <div class="num_heart-box">
+                                                                <a href="#"><span class="num">6</span></a>
+                                                                <button class="heart js-work_heart"><i class="icon-heart_off"></i></button>
+                                                            </div>
+                                                            <div class="info-box">
+                                                                <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                </div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
+                                                                <div class="standard">
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
+                                                                    <div class="size_year">
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="price-box">
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>Estimate</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <!-- [0812]텍스트변경 -->
+                                                                        <dt>Starting</dt>
+                                                                        <!-- //[0812]텍스트변경 -->
+                                                                        <dd>KRW 4,500,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>Current</dt>
+                                                                        <dd><strong>KRW 9,00,000,000</strong><em>(Bid1)</em></dd>
+                                                                    </dl>
+                                                                </a>
+                                                            </div>
+                                                            <div class="bidding-box">
+                                                                <div class="deadline_set"><a href="#"><span>Closed</span></a></div>
+                                                                <!-- [0812]버튼텍스트변경  -->
+                                                                <div class="btn_set"><a class="btn btn_gray" href="#" role="button"><span>Bid History</span></a></div>
+                                                                <!-- //[0812]버튼텍스트변경  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        </li>
+
+                                        <li class="">
+                                            <div class="li-inner">
+                                                <article class="item-article">
+                                                    <div class="image-area">
+                                                        <figure class="img-ratio">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
+                                                                <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
+                                                        </figure>
+                                                    </div>
+                                                    <div class="typo-area">
+                                                        <div class="product_info">
+                                                            <div class="num_heart-box">
+                                                                <a href="#"><span class="num">7</span></a>
+                                                                <button class="heart js-work_heart"><i class="icon-heart_off"></i></button>
+                                                            </div>
+                                                            <div class="info-box">
+                                                                <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                </div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
+                                                                <div class="standard">
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
+                                                                    <div class="size_year">
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="price-box">
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>Estimate</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <!-- [0812]텍스트변경 -->
+                                                                        <dt>Starting</dt>
+                                                                        <!-- //[0812]텍스트변경 -->
+                                                                        <dd>KRW 4,500,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>Current</dt>
+                                                                        <dd><strong>KRW 9,00,000,000</strong><em>(Bid1)</em></dd>
+                                                                    </dl>
+                                                                </a>
+                                                            </div>
+                                                            <div class="bidding-box">
+                                                                <div class="deadline_set"><a href="#"><span>Closed</span></a></div>
+                                                                <!-- [0812]버튼텍스트변경  -->
+                                                                <div class="btn_set"><a class="btn btn_gray" href="#" role="button"><span>Bid History</span></a></div>
+                                                                <!-- //[0812]버튼텍스트변경  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        </li>
+
+                                        <li class="">
+                                            <div class="li-inner">
+                                                <article class="item-article">
+                                                    <div class="image-area">
+                                                        <figure class="img-ratio">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
+                                                                <img src="/images/pc/thumbnail/auction02.jpg" alt="">
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
+                                                        </figure>
+                                                    </div>
+                                                    <div class="typo-area">
+                                                        <div class="product_info">
+                                                            <div class="num_heart-box">
+                                                                <a href="#"><span class="num">8</span></a>
+                                                                <button class="heart js-work_heart"><i class="icon-heart_off"></i></button>
+                                                            </div>
+                                                            <div class="info-box">
+                                                                <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                </div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
+                                                                <div class="standard">
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
+                                                                    <div class="size_year">
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="price-box">
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>Estimate</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <!-- [0812]텍스트변경 -->
+                                                                        <dt>Starting</dt>
+                                                                        <!-- //[0812]텍스트변경 -->
+                                                                        <dd>KRW 4,500,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>Current</dt>
+                                                                        <dd><strong>KRW 9,00,000,000</strong><em>(Bid1)</em></dd>
+                                                                    </dl>
+                                                                </a>
+                                                            </div>
+                                                            <div class="bidding-box">
+                                                                <div class="deadline_set"><a href="#"><span>Closed</span></a></div>
+                                                                <!-- [0812]버튼텍스트변경  -->
+                                                                <div class="btn_set"><a class="btn btn_gray" href="#" role="button"><span>Bid History</span></a></div>
+                                                                <!-- //[0812]버튼텍스트변경  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        </li>
+
+                                        <li class="">
+                                            <div class="li-inner">
+                                                <article class="item-article">
+                                                    <div class="image-area">
+                                                        <figure class="img-ratio">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
+                                                                <img src="/images/pc/thumbnail/auction03.jpg" alt="">
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
+                                                        </figure>
+                                                    </div>
+                                                    <div class="typo-area">
+                                                        <div class="product_info">
+                                                            <div class="num_heart-box">
+                                                                <a href="#"><span class="num">9</span></a>
+                                                                <button class="heart js-work_heart"><i class="icon-heart_off"></i></button>
+                                                            </div>
+                                                            <div class="info-box">
+                                                                <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                </div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
+                                                                <div class="standard">
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
+                                                                    <div class="size_year">
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="price-box">
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>Estimate</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <!-- [0812]텍스트변경 -->
+                                                                        <dt>Starting</dt>
+                                                                        <!-- //[0812]텍스트변경 -->
+                                                                        <dd>KRW 4,500,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>Current</dt>
+                                                                        <dd><strong>KRW 9,00,000,000</strong><em>(Bid1)</em></dd>
+                                                                    </dl>
+                                                                </a>
+                                                            </div>
+                                                            <div class="bidding-box">
+                                                                <div class="deadline_set"><a href="#"><span>Closed</span></a></div>
+                                                                <!-- [0812]버튼텍스트변경  -->
+                                                                <div class="btn_set"><a class="btn btn_gray" href="#" role="button"><span>Bid History</span></a></div>
+                                                                <!-- //[0812]버튼텍스트변경  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        </li>
+
+                                        <li class="">
+                                            <div class="li-inner">
+                                                <article class="item-article">
+                                                    <div class="image-area">
+                                                        <figure class="img-ratio">
+                                                            <!-- [0617]a태그로 변경 -->
+                                                            <a href="#" class="img-align">
+                                                                <img src="/images/pc/thumbnail/auction01.jpg" alt="">
+                                                            </a>
+                                                            <!-- //[0617]a태그로 변경 -->
+                                                        </figure>
+                                                    </div>
+                                                    <div class="typo-area">
+                                                        <div class="product_info">
+                                                            <div class="num_heart-box">
+                                                                <a href="#"><span class="num">10</span></a>
+                                                                <button class="heart js-work_heart"><i class="icon-heart_off"></i></button>
+                                                            </div>
+                                                            <div class="info-box">
+                                                                <div class="title"><a href="#"><span>Damien Hirst</span></a>
+                                                                </div>
+                                                                <div class="desc"><a href="#"><span>Air (From The Series The Elements)</span></a></div>
+                                                                <div class="standard">
+                                                                    <a href="#"><span>spray paint on canvas</span></a>
+                                                                    <div class="size_year">
+                                                                        <a href="#">
+                                                                            <span>80.9 X 73.4cm</span>
+                                                                            <span>2021</span>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="price-box">
+                                                                <a href="#">
+                                                                    <dl class="price-list">
+                                                                        <dt>Estimate</dt>
+                                                                        <dd>KRW 9,900,000,000</dd>
+                                                                        <dd>~ 9,900,000,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <!-- [0812]텍스트변경 -->
+                                                                        <dt>Starting</dt>
+                                                                        <!-- //[0812]텍스트변경 -->
+                                                                        <dd>KRW 4,500,000</dd>
+                                                                    </dl>
+                                                                    <dl class="price-list">
+                                                                        <dt>Current</dt>
+                                                                        <dd><strong>KRW 9,00,000,000</strong><em>(Bid1)</em></dd>
+                                                                    </dl>
+                                                                </a>
+                                                            </div>
+                                                            <div class="bidding-box">
+                                                                <div class="deadline_set"><a href="#"><span>Closed</span></a></div>
+                                                                <!-- [0812]버튼텍스트변경  -->
+                                                                <div class="btn_set"><a class="btn btn_gray" href="#" role="button"><span>Bid History</span></a></div>
+                                                                <!-- //[0812]버튼텍스트변경  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+                                <div class="panel-footer">
+                                    <div class="set-pc_mb">
+                                        <div class="only-pc">
+                                            <div class="paging-area">
+                                                <div class="paging">
+                                                    <a href="#" class="prev_end icon-page_prevprev">FIRST</a><a href="#" class="prev icon-page_prev">PREV</a>
+                                                    <a href="#" class="on"><strong>1</strong></a>
+                                                    <a href="#"><em>2</em></a>
+                                                    <a href="#"><em>3</em></a>
+                                                    <a href="#"><em>4</em></a>
+                                                    <a href="#"><em>5</em></a>
+                                                    <a href="#"><em>6</em></a>
+                                                    <a href="#"><em>7</em></a>
+                                                    <a href="#"><em>8</em></a>
+                                                    <a href="#"><em>9</em></a>
+                                                    <a href="#"><em>10</em></a>
+                                                    <a href="#" class="next icon-page_next "><em>NEXT</em></a><a href="#" class="next_end icon-page_nextnext">END</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="only-mb">
+                                            <button class="btn btn_gray_line" type="button"><span>More</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+            <!-- //container -->
+
+            <!-- footer -->
+            <footer class="footer">
+                <div class="innerfooter">
+                    <section class="flex_wrap footer_menubox">
+                        <ul class="footer-gnbmenu">
+                            <li><a href="#">ABOUT US</a></li>
+                            <li><a href="#">PRESS</a></li>
+                            <li><a href="#">CAREERS</a></li>
+                            <li><a href="#">LOCATION</a></li>
+                            <li><a href="#">CUSTOMER CENTER</a></li>
+                        </ul>
+
+                        <ul class="snsbox_icon">
+                            <li><a href="#" class="sns-icon sns-icon01"></a></li>
+                            <li><a href="#" class="sns-icon sns-icon02"></a></li>
+                            <li><a href="#" class="sns-icon sns-icon03"></a></li>
+                            <li><a href="#" class="sns-icon sns-icon04"></a></li>
+                            <li><a href="#" class="sns-icon sns-icon05"></a></li>
+                        </ul>
+                    </section>
+                    <section class="flex_wrap footer_infobox">
+                        <div class="footer-infomenubox">
+                            <ul class="flex_wrap footer-infomenu">
+                                <li><a href="#">Terms</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Information Mgmt. Rules</a></li>
+                            </ul>
+                            <div class="Familysite-selectbox">
+                                <span class="Familysite">Family Site</span>
+                                <ul class="familyselect">
+                                    <li><a href="https://www.auctionblue.com/index" target="_blank">Print Bakery</a></li>
+                                    <li><a href="https://printbakery.com/" target="_blank">Auction Blue</a></li>
+                                    <li><a href="https://sotwo.com/" target="_blank">SOTOW</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <p class="bottom-p-spacing20">
+                            CEO : Lee Ok-Kyung Tax Registration No : 101-81-46818 E-commerce Registration : Jong-Ro No. 01-2173<br>
+                            11, Pyeongchang 31-gil, Jongno-gu, Seoul, Korea T. +82-02-395-0330<br>
+                            ⓒ Seoul Auction Corp.
+                        </p>
+                        <p>
+                            Any unauthorized reproduction, transmission, distribution, and/or crawling/scraping of images, videos, text, and other material or information <br>
+                            (including the website screen) is strictly forbidden by the Copyright Act, the Unfair Competition Prevention and Trade Secret Protection Act, and other relevant law.
+                        </p>
+                    </section>
+                </div>
+            </footer>
+
+            <!-- //footer -->
+
+            <!-- stykey -->
+
+            <div class="scroll_top-box">
+                <div class="box-inner">
+                    <a href="#" class="btn-scroll_top js-scroll_top"><i class="icon-scroll_top"></i></a>
+                </div>
+            </div>
+            <!-- // stykey -->
+
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="/js/plugin/jquery.min.js"></script>
+    <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
+    <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
+    <!-- [0516]삭제
+  <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script> 
+-->
+
+
+    <script type="text/javascript" src="/js/common.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/pages_common_en.js" type="text/javascript"></script>
+
+
+
+
+
+    <!-- [0617]세일하일라이트 스와이퍼 -->
+    <script class="js-sale_highlights">
+        var resize_index = 0;
+        var shSwiper = new Swiper(".js-sale_swiper", {
+            slidesPerView: 5,
+            spaceBetween: 20,
+            initialSlide: 0,
+            loop: false,
+            allowTouchMove: false,
+            loopFillGroupWithBlank: true,
+            breakpoints: {
+                1280: {
+                    allowTouchMove: true,
+                    initialSlide: 0,
+                    slidesPerView: 4,
+                },
+            },
+            navigation: {
+                nextEl: ".js-sale_swiper .button-next",
+                prevEl: ".js-sale_swiper .button-prev",
+            },
+            on: {
+                init: function() {
+                    // console.log('swiper initialized');
+                },
+                transitionEnd: function() {
+                    // resize_index = shSwiper.activeIndex;
+                }
+            },
+        });
+
+        $(window).on("resize", function() {
+            shSwiper.slideTo(0, 0);
+        });
+    </script>
+    <!-- // [0617]세일하일라이트 스와이퍼 -->
+
+
+    <!-- [0728]비디오 세로사이즈 -->
+    <script>
+        var _videoAnchor = $(".video_img-box a");
+        var _videoAnchorImg = $(".video_img-box a img");
+        _videoAnchorImg.each(function() {
+            _videoAnchor = $(this).parent(_videoAnchor);
+
+            if ($(this).width() < $(this).height()) {
+                _videoAnchor.addClass("vertical");
+            } else {
+                _videoAnchor.removeClass("vertical");
+            }
+        })
+    </script>
+    <!-- //[0728]비디오 세로사이즈 -->
+
+    <!-- [0809]마이페이지 사이드 유저네임 글자수제한 -->
+    <script>
+        var asideUsername = $("aside .mem-name-wrap .tt2");
+        asideUsername.each(function() {
+            var asideUsernameTxt = $(this).text();
+            var asideUsernameLimit = 9;
+            if (asideUsernameTxt.length > asideUsernameLimit) {
+                $(this).text(asideUsernameTxt.substr(0, asideUsernameLimit) + "...")
+            }
+        })
+    </script>
+    <!-- //[0809]마이페이지 사이드 유저네임 글자수제한 -->
+
+
+    <!-- [0714]전체 LOT 보기 팝업 -->
+    <aside class="allview_fixed-wrap lot">
+        <div class="popup-dim"></div>
+        <!-- [0712]외부영역 클릭 시 닫힘:class(js-modal) 추가 -->
+        <div class="fixed-panel js-modal">
+            <div class="panel-header">
+                <button class="js-fixed_total"><span>ALL LOT</span><i class="icon-fixed_arrow-2x"></i></button>
+            </div>
+            <div class="panel-body">
+
+                <article class="bidding-offline-left">
+
+                    <div class="lotlist-wrap">
+                        <div class="lotlist-header">
+                            <div class="header_top">
+                                <p class="totalcount"><span class="num">300</span> <span class="unit">LOT</span></p>
+                            </div>
+                            <!-- [0728]탭수정 -->
+                            <div class="tab-area type-left_mm_3">
+                                <ul class="tab-list js-left_mm">
+                                    <li class="active"><a href="#tab-cont-1"><span>All</span></a></li>
+                                    <li class=""><a href="#tab-cont-2"><span>Modern</span></a></li>
+                                    <li class=""><a href="#tab-cont-3"><span>Antique Art</span></a></li>
+                                    <li class=""><a href="#tab-cont-4"><span>Clocks</span></a></li>
+                                </ul>
+                            </div>
+                            <!-- //[0728]탭수정 -->
+                        </div>
+                        <div class="lotlist-tabCont">
+
+                            <div class="mobile_scroll-type">
+                                <div class="lotlist-box">
+                                    <ul class="lotlist-inner">
+                                        <li class="lotitem bidded">
+                                            <div class="js-select_lotitem lotitem_wrap">
+                                                <div class="view-img">
+                                                    <div class="img-box">
+                                                        <div class="box-inner">
+                                                            <img src="/images/temp/temp_img0.jpg" alt="LOT 02">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="item-cont">
+                                                    <div class="num-box">
+                                                        <div class="num"><span class="snum">1</span> </div>
+                                                    </div>
+                                                    <div class="typo-box">
+                                                        <div class="title"><span>Damien Hirst</span></div>
+                                                        <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                                                    </div>
+                                                    <div class="btn-box">
+                                                        <button class="btn-lotChk js-work_heart on ">Favorite</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="lotitem live">
+                                            <div class="js-select_lotitem lotitem_wrap">
+                                                <div class="view-img">
+                                                    <div class="img-box">
+                                                        <div class="box-inner">
+                                                            <img src="/images/temp/temp_img1.jpg" alt="LOT 02">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="item-cont">
+                                                    <div class="num-box">
+                                                        <div class="num"><span class="snum">1</span> </div>
+                                                    </div>
+                                                    <div class="typo-box">
+                                                        <!-- [0516]년도삭제 리스트공통// -->
+                                                        <div class="title"><span>Damien Hirst</span></div>
+                                                        <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                                                    </div>
+                                                    <div class="btn-box">
+                                                        <button class="btn-lotChk js-work_heart ">Favorite</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="lotitem">
+                                            <div class="js-select_lotitem lotitem_wrap">
+                                                <div class="view-img">
+                                                    <div class="img-box">
+                                                        <div class="box-inner">
+                                                            <img src="/images/temp/temp_img2.jpg" alt="LOT 02">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="item-cont">
+                                                    <div class="num-box">
+                                                        <div class="num"><span class="snum">1</span> </div>
+                                                    </div>
+                                                    <div class="typo-box">
+                                                        <!-- [0516]년도삭제 리스트공통// -->
+                                                        <div class="title"><span>Damien Hirst</span></div>
+                                                        <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                                                    </div>
+                                                    <div class="btn-box">
+                                                        <button class="btn-lotChk js-work_heart ">Favorite</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="lotitem">
+                                            <div class="js-select_lotitem lotitem_wrap">
+                                                <div class="view-img">
+                                                    <div class="img-box">
+                                                        <div class="box-inner">
+                                                            <img src="/images/temp/temp_img3.jpg" alt="LOT 02">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="item-cont">
+                                                    <div class="num-box">
+                                                        <div class="num"><span class="snum">1</span> </div>
+                                                    </div>
+                                                    <div class="typo-box">
+                                                        <!-- [0516]년도삭제 리스트공통// -->
+                                                        <div class="title"><span>Damien Hirst</span></div>
+                                                        <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                                                    </div>
+                                                    <div class="btn-box">
+                                                        <button class="btn-lotChk js-work_heart ">Favorite</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <!-- <li class="lotitem cancel">
+                    <p class="txt">
+                      LOT 4 <br>
+                      출품이 취소되었습니다.
+                    </p>
+                  </li> -->
+                                        <li class="lotitem">
+                                            <div class="js-select_lotitem lotitem_wrap">
+                                                <div class="view-img">
+                                                    <div class="img-box">
+                                                        <div class="box-inner">
+                                                            <img src="/images/temp/temp_img4.jpg" alt="LOT 02">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="item-cont">
+                                                    <div class="num-box">
+                                                        <div class="num"><span class="snum">1</span> </div>
+                                                    </div>
+                                                    <div class="typo-box">
+                                                        <!-- [0516]년도삭제 리스트공통// -->
+                                                        <div class="title"><span>Damien Hirst</span></div>
+                                                        <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                                                    </div>
+                                                    <div class="btn-box">
+                                                        <button class="btn-lotChk js-work_heart ">Favorite</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="lotitem">
+                                            <div class="js-select_lotitem lotitem_wrap">
+                                                <div class="view-img">
+                                                    <div class="img-box">
+                                                        <div class="box-inner">
+                                                            <img src="/images/temp/temp_img4.jpg" alt="LOT 02">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="item-cont">
+                                                    <div class="num-box">
+                                                        <div class="num"><span class="snum">1</span> </div>
+                                                    </div>
+                                                    <div class="typo-box">
+                                                        <!-- [0516]년도삭제 리스트공통// -->
+                                                        <div class="title"><span>Damien Hirst</span></div>
+                                                        <div class="desc"><span>Air (From The Series The Elements)</span></div>
+                                                    </div>
+                                                    <div class="btn-box">
+                                                        <button class="btn-lotChk js-work_heart ">Favorite</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </article>
+
+
+            </div>
+        </div>
+    </aside>
+    <!-- [0712]모바일 LOT 버튼 클릭시 팝업 변경(전체 LOT 보기 팝업) -->
+    <script>
+        $(".js-lotbox-btn").on("click", function($e) {
+            $(".allview_fixed-wrap.lot .js-fixed_total").addClass("on")
+            $(".allview_fixed-wrap.lot").addClass("active");
+        });
+        $(".allview_fixed-wrap.lot .js-fixed_total").on("click", function() {
+            $(this).removeClass("on");
+            $(".allview_fixed-wrap.lot").removeClass("active");
+        })
+    </script>
+
+    <!-- [0712]외부영역 클릭 시 닫힘 -->
+    <script>
+        $(document).mouseup(function(e) {
+            if ($(".js-modal").has(e.target).length === 0) {
+                $(".js-modal").parent(".allview_fixed-wrap").removeClass("active");
+                $(".js-modal").closest(".js-fixed_total").removeClass("on");
+            }
+        });
+    </script>
+
+    <!-- [0728]탭 -->
+    <script>
+        $('.js-left_mm a').on('click', function(e) {
+            e.preventDefault();
+            var tar = $(this).position().left;
+            var scrollX = tar - ($(".js-left_mm").parents(".tab-area").width() / 2) + $(this).width() / 2;
+
+            if ($(this).parents('li').hasClass('active')) {
+                return false;
+            } else {
+                $(".js-left_mm li").removeClass('active');
+                $(this).parents('li').addClass('active');
+
+                $(".js-left_mm").parents(".tab-area").scrollLeft(scrollX);
+            }
+        });
+    </script>
+    <!-- [0728]탭 -->
+
+
+    <!-- 하트 토글 -->
+    <script>
+        $(".js-work_heart").trpToggleBtn(function($this) {
+            $($this).addClass("on");
+        }, function($this) {
+            $($this).removeClass("on");
+        });
+    </script>
+
+    <!-- 셀렉트 드롭다운 -->
+    <script>
+        var dropdown = $(".js-dropdown-btn").trpDropdown({
+            list: ".trp-dropdown_list-box",
+            area: ".trp-dropdown-area"
+        });
+        $(".trp-dropdown-area .trp-dropdown_list-box a").on("click", function($e) {
+            $e.preventDefault();
+            var _this = $(this);
+            _this.closest("ul").find("li").removeClass("on");
+            _this.closest("li").addClass("on");
+            _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
+            dropdown.getClose();
+        });
+    </script>
+
+
+    <!-- tab menu -->
+    <script>
+        $('.js-list_tab a').on('click', function(e) {
+            e.preventDefault();
+            var tar = $(this).position().left;
+            var scrollX = tar - ($(".js-list_tab").parents(".tab-area").width() / 2) + $(this).width() / 2;
+
+            if ($(this).parents('li').hasClass('active')) {
+                return false;
+            } else {
+                $(".js-list_tab li").removeClass('active');
+                $(this).parents('li').addClass('active');
+
+                $(".js-list_tab").parents(".tab-area").scrollLeft(scrollX);
+            }
+
+        });
+    </script>
+
+    <!-- pc, mb select 값변경  -->
+    <script>
+        $(function() {
+            $(window).on("resize", function($e) {
+                select_resize_change();
+            });
+
+            function select_resize_change() {
+                if ($("body").hasClass("is_mb")) {
+                    $(".js-select_page").val("2");
+                } else {
+                    $(".js-select_page").val("1");
+                }
+                $(".js-select_page").trigger('change');
+            }
+            select_resize_change();
+        });
+    </script>
+
+    <!-- [0613]탭메뉴 스티키 -->
+    <script>
+        $(window).scroll(function(e) {
+            var _headerH = $("header.header").height();
+            var _tabMT = $(".tab-auction-section").css("margin-top").replace(/[^-\d\.]/g, '');
+            var _eventTopPos = $(".type_panel-search_tab").offset().top - _headerH;
+            var _fixedTop = _headerH + _tabMT;
+            if ($(window).scrollTop() < (_eventTopPos)) {
+                $(".js-tabmenu-sticky").removeClass("hold_start");
+                $(".js-tabmenu-sticky").css({
+                    top: "auto"
+                });
+            } else {
+                $(".js-tabmenu-sticky").addClass("hold_start");
+                $(".js-tabmenu-sticky").css({
+                    top: (_headerH),
+                    bottom: "auto"
+                });
+            }
+        })
+    </script>
+
+</body>
+
+</html>
