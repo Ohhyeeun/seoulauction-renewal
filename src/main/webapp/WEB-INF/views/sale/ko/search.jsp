@@ -169,10 +169,11 @@
                                                             </a>
                                                         </div>
                                                         <div class="price-box">
+                                                            <!-- [0809]가격정보수정 -->
                                                             <a href="#" ng-click="goDetail(item.SALE_NO, item.LOT_NO, item.SALE_KIND_CD, item.END_YN);">
                                                                 <dl class="price-list" ng-if="lot.EXPE_PRICE_INQ_YN == 'Y'">
                                                                     <dt>추정가</dt>
-                                                                    <dd>별도문의 </dd>
+                                                                    <dd><strong class="comment">별도문의</strong></dd>
                                                                 </dl>
                                                                 <dl class="price-list" ng-if="lot.EXPE_PRICE_INQ_YN != 'Y'">
                                                                     <dt>추정가</dt>
@@ -193,11 +194,11 @@
                                                                 </dl>
                                                                 <dl class="price-list" ng-if="!custInfo.CUST_NO && item.STATUS == '진행'">
                                                                     <dt>현재가</dt>
-                                                                    <dd>현재가는 로그인 후 확인할 수 있습니다.</dd>
+                                                                    <dd><strong class="comment">현재가는 로그인 후 확인할 수 있습니다.</strong></dd>
                                                                 </dl>
                                                                 <dl class="price-list" ng-if="!custInfo.CUST_NO && item.STATUS == '완료'">
                                                                     <dt>낙찰가</dt>
-                                                                    <dd>낙찰가는 로그인 후 확인할 수 있습니다.</dd>
+                                                                    <dd><strong class="comment">낙찰가는 로그인 후 확인할 수 있습니다.</strong></dd>
                                                                 </dl>
                                                                 <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && item.STATUS == '완료' && item.LAST_PRICE > 0">
                                                                     <dt>낙찰가</dt>
@@ -207,6 +208,7 @@
                                                                     <dt></dt>
                                                                     <dd></dd>
                                                                 </dl>
+                                                                <!-- //[0809]가격정보수정 -->
                                                             </a> 
                                                         </div>
                                                         <div class="state-box">
