@@ -23,7 +23,7 @@ var authorities = '${authorities}'
         <!-- header -->
         <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
         <script type="text/javascript" src="/js/service/academy.js"></script>
-        <!-- //header -->l
+        <!-- //header --> 
 
         <!-- container -->
         <div id="container" ng-controller="academyListCtl" data-ng-init="loadAcademyList(1)" ng-cloak>
