@@ -7,7 +7,7 @@ $(function() {
             let v = await getWebviewData('remember-me');
             let d = await getWebviewData('remember-me-date');
             // 데이타 확인
-
+            alert(v, d);
             if (d !== undefined && d !== "no data" ) {
                 if (d.length > 0) {
                     let dd = parseInt(d);
