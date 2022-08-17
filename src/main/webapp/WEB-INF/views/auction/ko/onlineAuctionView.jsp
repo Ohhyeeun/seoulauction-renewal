@@ -17,73 +17,21 @@
                     <div class="row-box">
                       <div class="col_item">
                         <div class="page_title">
-                          <a href="#" conclick="window.history.back()" title="뒤로가기">
+                          <a href="#" onclick="window.history.back()" title="뒤로가기">
                             <i class="icon-page_back"></i>
                           </a>
-                          <span id="data-sale-title">2월 e BID 프리미엄 온라인 경매</span>
+                          <span id="data-sale-title">&nbsp;</span>
                         </div>
                       </div>
                       <div class="col_item">
-                        <!-- [0516]select 변경 -->
                         <div class="select-box">
                           <div class="trp-dropdown-area h42-lines">
-                            <button class="js-dropdown-btn"><span>LOT 10</span><i class="form-select_arrow_md"></i>
+                            <button id="toggle-direct-lot-popup" class="js-dropdown-btn">
+                              <span>LOT 10</span><i class="form-select_arrow_md"></i>
                             </button>
-                            <div class="trp-dropdown_list-box" data-trp-focusid="js-user_support">
-                              <div class="search-box">
-                                <input type="search" placeholder="LOT 번호 입력" class="">
-                                <i class="form-search_md"></i>
-                              </div>
-                              <div class="list-box scroll-type">
-                                <ul>
-                                  <li>
-                                    <a href="#">
-                                      <div class="image-area">
-                                        <figure class="img-ratio">
-                                          <div class="img-align">
-                                            <img src="/images/pc/thumbnail/auction01.jpg" alt="">
-                                          </div>
-                                        </figure>
-                                      </div>
-                                      <div class="typo-area">
-                                        <span>LOT 10</span>
-                                      </div>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a href="#">
-                                      <div class="image-area">
-                                        <figure class="img-ratio">
-                                          <div class="img-align">
-                                            <img src="/images/pc/thumbnail/auction02.jpg" alt="">
-                                          </div>
-                                        </figure>
-                                      </div>
-                                      <div class="typo-area">
-                                        <span>LOT1</span>
-                                      </div>
-                                    </a>
-                                  </li>
-                                  <li><a href="#">
-                                    <div class="image-area">
-                                      <figure class="img-ratio">
-                                        <div class="img-align">
-                                          <img src="/images/pc/thumbnail/auction03.jpg" alt="">
-                                        </div>
-                                      </figure>
-                                    </div>
-                                    <div class="typo-area">
-                                      <span>LOT2</span>
-                                    </div>
-                                  </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
+                            <!-- direct lot popup position -->
                           </div>
                         </div>
-                        <!-- // [0516]select 변경 -->
-
                       </div>
                     </div>
                   </article>
@@ -573,9 +521,10 @@
   </div>
 </div>
 
-<jsp:include page="./onlineAuctionFeePopup.jsp" />
-<jsp:include page="./onlineAuctionGrowPricePopup.jsp" />
-<jsp:include page="./onlineAuctionBidPopup.jsp" />
+<jsp:include page="popup/onlineAuctionFeePopup.jsp" />
+<jsp:include page="popup/onlineAuctionGrowPricePopup.jsp" />
+<jsp:include page="popup/onlineAuctionBidPopup.jsp" />
+<jsp:include page="popup/onlineAuctionDirectLotPopup.jsp" />
 
 <script src="/js/online-auction/api.js" defer></script>
 <script src="/js/online-auction/utils.js" defer></script>
@@ -583,7 +532,6 @@
 <script src="/js/online-auction-view/index.js" defer></script>
 <script src="/js/online-auction-view/ui.js" defer></script>
 <script src="/js/online-auction-view/api.js" defer></script>
-<script src="/js/online-auction-view/utils.js" defer></script>
 <script src="/js/online-auction-view/renderDetailInfo.js" defer></script>
 <script src="/js/online-auction-view/renderArtistInfo.js" defer></script>
 </body>

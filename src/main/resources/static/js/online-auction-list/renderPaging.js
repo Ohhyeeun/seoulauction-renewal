@@ -17,11 +17,11 @@ async function renderPaginationSection(currentPage = 1, totalCount = 0, perPage 
 
     if (target.classList.contains('disabled')) return;
 
-    let pageData = loadPageData();
-    pageData.page = target.dataset.page || 1;
+    let urlData = getDataFromUrl(`/auction/online/{saleNo}`);
+    urlData.page = target.dataset.page || 1;
 
     // 동기적으로 처리(페이지 리로드)
-    window.location.href = makeUrl(pageData);
+    window.location.href = makeUrl(urlData);
   }
 
   const pageList = Array.from({ length: endPage - startPage + 1 }).map((_, index) => {

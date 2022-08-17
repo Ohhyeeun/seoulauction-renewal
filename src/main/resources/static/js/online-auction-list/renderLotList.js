@@ -3,11 +3,11 @@
  * @param {Partial<{ data: Array<Object>; totalCount: number; append: boolean; }>} params
  */
 async function renderLotListSection(params) {
-  const pageData = loadPageData();
+  const urlData = getDataFromUrl(`/auction/online/{saleNo}`);
   const root = document.getElementById('lot-list');
   const lang = getLanguage();
   const currency = window.globalData.currency;
-  const saleNo = pageData.saleNo;
+  const saleNo = urlData?.saleNo;
 
   // State
   let state = createState({}, (target, key, value, receiver) => {
@@ -31,9 +31,11 @@ async function renderLotListSection(params) {
       // 응찰하기 버튼 클릭
       root.querySelectorAll('.go-bid-btn').forEach(item => {
         const lotNo = item.dataset.lotNo;
-        const lotData = value.find(lot => lot.LOT_NO === Number(lotNo));
-        const option = { saleNo, lang, currency };
-        item.addEventListener('click',e => handleOpenBidPopup(e, saleNo, lotData));
+
+        item.addEventListener('click',async e => {
+          e.preventDefault();
+          await handleOpenBidPopup(saleNo, lotNo);
+        });
       });
     }
 
