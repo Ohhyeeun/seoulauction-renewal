@@ -5,8 +5,8 @@ $(function() {
     let f = async function(){
         let result = await isNativeApp();
         if (result) {
-            let v = getWebviewData('remember-me');
-            let d = getWebviewData('remember-me-date');
+            let v = await getWebviewData('remember-me');
+            let d = await getWebviewData('remember-me-date');
             // 데이타 확인
             alert(d);
 
