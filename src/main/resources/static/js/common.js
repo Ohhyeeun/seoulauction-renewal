@@ -329,6 +329,9 @@ $(function() {
             });
         });
 
+        /* topsearch right 위치*/
+        $('.topsearch-box>form').removeClass('right');
+
         $('.submenuBg-closeBtn').off('click');
         $('.submenuBg-closeBtn').click(function () {
             $('body').css({'overflow': 'visible'});
@@ -1050,7 +1053,7 @@ $(window).resize(function(){
         });
 
         /* topsearch right 위치*/
-        $('.topsearch-box>form').removeClass('right');
+        $('.topsearch-box>form').addClass('right');
         $('.search-bubble-box').removeClass('on');
 
         /* 오프라인 라이브응찰 화면(pc) */
@@ -1120,6 +1123,7 @@ $(window).resize(function(){
 
             /* 모바일 topsearch */
             $('.m-top-search').click(function (){
+                $('.topsearch-box>form').addClass('right');
                 $('.search-bubble-box').addClass('on');
             });
 
@@ -1127,6 +1131,9 @@ $(window).resize(function(){
             $('.bidding_mo').show();
             $('.bidding_pc').hide();
         });
+
+        /* 반응형 일때 없어야 함. */
+        $('.topsearch-box>form').removeClass('right');
 
         /* 닫기 버튼 (gnb) */
         $('.submenuBg-closeBtn').off('click');
