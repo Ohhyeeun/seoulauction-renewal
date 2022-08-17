@@ -159,27 +159,6 @@
 
                                             <li>
                                                 <div class="li-inner">
-                                                    <a href="/service/academyList?academyCd=artbrunch" title="프라이빗">
-                                                        <div class="item-area">
-                                                            <div class="item-header">
-                                                                <div class="icon-box">
-                                                                    <i class="icon-academy_ceo"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="item-body">
-                                                                <div class="title"><span class="">프라이빗</span></div>
-                                                                <!-- <div class="desc"><span>CEO</span></div> -->
-                                                            </div>
-                                                            <div class="item-footer">
-                                                                <i class="icon-academy_linkarrow"></i>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </li>
-
-                                            <li>
-                                                <div class="li-inner">
                                                     <a href="/service/academyList?academyCd=artauction" title="대학생 아카데미">
                                                         <div class="item-area">
                                                             <div class="item-header">
@@ -211,6 +190,27 @@
                                                             <div class="item-body">
                                                                 <div class="title"><span class="">특강</span></div>
                                                                 <!-- <div class="desc"><span>SPECIAL LECTURE</span></div> -->
+                                                            </div>
+                                                            <div class="item-footer">
+                                                                <i class="icon-academy_linkarrow"></i>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="li-inner">
+                                                    <a href="/service/academyList?academyCd=artbrunch" title="프라이빗">
+                                                        <div class="item-area">
+                                                            <div class="item-header">
+                                                                <div class="icon-box">
+                                                                    <i class="icon-academy_ceo"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div class="item-body">
+                                                                <div class="title"><span class="">프라이빗</span></div>
+                                                                <!-- <div class="desc"><span>CEO</span></div> -->
                                                             </div>
                                                             <div class="item-footer">
                                                                 <i class="icon-academy_linkarrow"></i>

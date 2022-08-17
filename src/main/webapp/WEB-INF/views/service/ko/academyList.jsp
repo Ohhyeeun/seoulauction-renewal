@@ -78,16 +78,6 @@ var authorities = '${authorities}'
                                                 </a>
                                             </div>
                                         </li>
-                                        <li class="{{activeAcademyCd('artbrunch')}}" ng-click="goAcademyList('artbrunch')">
-                                            <div class="li-inner">
-                                                <a href="#" class="tab-btn">
-                                                    <div class="icon"><i class="icon-tab_ceo"></i></div>
-                                                    <div class="txt">
-                                                        <span>프라이빗</span>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </li>
                                         <li class="{{activeAcademyCd('artauction')}}" ng-click="goAcademyList('artauction')">
                                             <div class="li-inner">
                                                 <a href="#" class="tab-btn">
@@ -108,6 +98,16 @@ var authorities = '${authorities}'
                                                 </a>
                                             </div>
                                         </li>
+                                        <li class="{{activeAcademyCd('artbrunch')}}" ng-click="goAcademyList('artbrunch')">
+                                            <div class="li-inner">
+                                                <a href="#" class="tab-btn">
+                                                    <div class="icon"><i class="icon-tab_ceo"></i></div>
+                                                    <div class="txt">
+                                                        <span>프라이빗</span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </li> 
                                     </ul>
                                 </div>
                                 <div class="only-mb">
@@ -116,9 +116,9 @@ var authorities = '${authorities}'
                                             <option value="1">전체</option>
                                             <option value="2">아트마켓</option>
                                             <option value="3">작가론</option>
-                                            <option value="4">프라이빗</option>
                                             <option value="5">대학생 아카데미</option>
-                                            <option value="6">건축</option> 
+                                            <option value="6">특강</option>
+                                            <option value="4">프라이빗</option>
                                         </select>
                                         <i class="icon-select_arrow"></i>
                                     </div>
