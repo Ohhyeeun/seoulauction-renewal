@@ -519,10 +519,13 @@
                                                            role="button">내 응찰내역</a>
                                                     </div>
                                                 </div>
+                                                <%-- 패들번호 추가 --%>
+                                                <p class="count"><span class="txt">패들번호 : </span><span class="num" ng-bind="paddNo"></span></p>  
                                             </div>
 
                                             <div class="my_lot_wrap">
-                                                <div class="my_lot_type1"  ng-show="paddNo > 0">
+<%--                                                <div class="my_lot_type1"  ng-show="paddNo > 0">--%>
+                                                <div ng-show="paddNo > 0" ng-if="selectUserTab === 1" ng-class="{'my_lot_type1':''===''}">
                                                     <a href="#" class="lot_link"> 현재 LOT 이동 </a>
                                                     <div class="view-img_wrap">
                                                         <div class="view-img">
@@ -544,7 +547,7 @@
                                                             <div class="standard">
                                                                 <span ng-bind="userLot.CD_NM"></span>
                                                                 <div class="size_year">
-                                                                    <span ng-bind="userLot | size_text_cm"></span>
+                                                                    <span ng-bind="userLot | size_text_cm"></span> 
                                                                     <span ng-bind="userLot.MAKE_YEAR_JSON.ko" ng-if="userLot.MAKE_YEAR_JSON.ko !== undefined"></span>
                                                                 </div>
                                                             </div>
@@ -557,9 +560,9 @@
                                                 </div>
 
                                                 <!-- 내 응찰내역 -->
-                                                <div class="my_lot_type2" ng-show="paddNo > 0"> <!-- 임시주석 클래스 blind_none -->
+<%--                                                <div class="my_lot_type2" ng-show="paddNo > 0"> <!-- 임시주석 클래스 blind_none -->--%>
+                                                <div ng-show="paddNo > 0" ng-if="selectUserTab === 2" ng-class="{'my_lot_type2':''===''}" ng-show="paddNo > 0">
                                                     <div class="my_lot_header">
-
                                                         <table class="table_base my_lot_table">
                                                             <colgroup>
                                                                 <col width="44px">

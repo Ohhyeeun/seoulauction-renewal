@@ -673,13 +673,15 @@
             }, {
                 name: "추정가 낮은순", value: 3
             }, {
-                name: "응찰가 높은순", value: 4
+                name: "마감순", value: 4
+            },{
+                name: "응찰가 높은순", value: 5
             }, {
-                name: "응찰가 낮은순", value: 5
+                name: "응찰가 낮은순", value: 6
             }, {
-                name: "응찰수 높은순", value: 6
+                name: "응찰수 높은순", value: 7
             }, {
-                name: "응찰수 낮은순", value: 7
+                name: "응찰수 낮은순", value: 8
             }];
 
             $scope.modelViewType = [{

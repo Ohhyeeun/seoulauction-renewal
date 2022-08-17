@@ -1642,8 +1642,12 @@ body.dark,
     /*아카데미 건축 삭제 */
     flex-grow: 1;
 }
+.content-panel.type_panel-introduce .history-area .history-header .select-box {
+    /* 회사소개 연혁 select 텍스트 추가 */
+    min-width: 150px;
+} 
 
-/* pc */ 
+/* pc */
     @media all and (max-width: 1919px) {
     .scroll-top {
         right: 50px;
