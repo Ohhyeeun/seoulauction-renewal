@@ -177,7 +177,8 @@
             , L.TO_DT AS SALE_TO_DT
             , L.START_PRICE
             , L.GROW_PRICE
-            , COLUMN_JSON(L.TITLE_BLOB) TITLE_JSON
+            , COLUMN_GET(L.TITLE_BLOB, 'ko' as CHAR) TITLE_KO_TXT
+            , COLUMN_GET(L.TITLE_BLOB, 'en' as CHAR) TITLE_EN_TXT
             , COLUMN_JSON(L.STITLE_BLOB) STITLE_JSON
             , L.EDITION
             , COLUMN_JSON(L.MAKE_YEAR_BLOB) MAKE_YEAR_JSON
