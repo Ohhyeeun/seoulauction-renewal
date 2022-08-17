@@ -3,14 +3,12 @@ $(function() {
 
     // 네이티브 로그인 유지
     let f = async function(){
-        let result = await isNativeApp();
-        if (result) {
+        if (await isNativeApp()) {
             let v = await getWebviewData('remember-me');
             let d = await getWebviewData('remember-me-date');
             // 데이타 확인
-            alert(d);
 
-            if (d !== undefined) {
+            if (d !== undefined && d !== "no data" ) {
                 if (d.length > 0) {
                     let dd = parseInt(d);
                     let expYear = 1
