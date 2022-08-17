@@ -20423,7 +20423,8 @@ header.win_header .header-inner .header_logo {
   position: relative;
 }
 
-.bidding_pc .my_lot .my_lot_info .count {
+.bidding_pc .my_lot .my_lot_info .count,
+.bidding_mo .my_lot .my_lot_info .count {
   position: absolute;
   top: 0px;
   right: 0;
@@ -20432,12 +20433,17 @@ header.win_header .header-inner .header_logo {
   color: #333;
   font-weight: 500;
 }
+.bidding_mo .my_lot .my_lot_info .count {
+  top: 9px;
+}
 
-.bidding_pc .my_lot .my_lot_info .count .txt {
+.bidding_pc .my_lot .my_lot_info .count .txt,
+.bidding_mo .my_lot .my_lot_info .count .txt {
   font-weight: 700;
 }
 
-.bidding_pc .my_lot .my_lot_info .count .num {
+.bidding_pc .my_lot .my_lot_info .count .num,
+.bidding_mo .my_lot .my_lot_info .count .num {
   margin-left: 5px;
 }
 

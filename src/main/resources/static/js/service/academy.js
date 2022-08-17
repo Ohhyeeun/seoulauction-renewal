@@ -173,7 +173,7 @@ app.controller('academyListCtl', function($scope, consts, common) {
 	let academyCd = getParameter("academyCd");
 	$scope.loadAcademyList = function($page){
 		$scope.currentPage = $page;
- 		
+
  		$page = $scope.currentPage;
  		$size = 12;
 		axios.get("/api/service/academies/"+academyCd + "?page="+$page+"&size="+$size)
@@ -189,6 +189,20 @@ app.controller('academyListCtl', function($scope, consts, common) {
 				$scope.$apply();
             }
         })
+
+		if(academyCd == 'all'){
+			$("#academy_category").val("1").prop("selected", true);
+		}else if(academyCd == 'artculture'){
+			$("#academy_category").val("2").prop("selected", true);
+		}else if(academyCd == 'artisttalk'){
+			$("#academy_category").val("3").prop("selected", true);
+		}else if(academyCd == 'artbrunch'){
+			$("#academy_category").val("4").prop("selected", true);
+		}else if(academyCd == 'artauction'){
+			$("#academy_category").val("5").prop("selected", true);
+		}else if(academyCd == 'lecture'){
+			$("#academy_category").val("6").prop("selected", true);
+		}
  	}
  		
 	$scope.getAcademyNm = function(param){
@@ -259,7 +273,28 @@ app.controller('academyListCtl', function($scope, consts, common) {
 			return "academy-thum_lecture.jpg";
 		}
 	}
-	
+
+	$scope.changeAcademyCate = function() {
+
+		$scope.academy_category = $("#academy_category option:selected").val();
+
+		if ($scope.academy_category == "1") { // 전체
+			$scope.goAcademyList('all');
+		} else if ($scope.academy_category == "2") { //아트마켓
+			$scope.goAcademyList('artculture');
+		} else if ($scope.academy_category == "3") { //작가론
+			$scope.goAcademyList('artisttalk');
+		} else if ($scope.academy_category == "4") { //프라이빗
+			$scope.goAcademyList('artbrunch');
+		} else if ($scope.academy_category == "5") { //대학생 아카데미
+			$scope.goAcademyList('artauction');
+		} else if ($scope.academy_category == "6") { //건축
+			$scope.goAcademyList('lecture');
+		}
+
+	}
+
+
 });
 
 

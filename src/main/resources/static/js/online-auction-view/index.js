@@ -7,52 +7,24 @@ window.onload = async () => {
   window.globalData.currency = 'KRW'; // 기축 통화
   window.globalData.usePolling = true; // 폴링 여부
 
-  // 낙찰 수수료 토글
-  const feePopupName = 'auction-fee-popup';
-  document.querySelectorAll('.bid-fee-btn').forEach(el => {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-
-      const popup = createPopupWithTemplate(feePopupName);
-      togglePopup(popup, true);
-
-      popup.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = e.target;
-        if (target.classList.contains('popup-dim') || target.classList.contains('js-closepop')) {
-          togglePopup(popup, false);
-        }
-      });
-    });
-  });
-
-  // 경매 호가표 토글
-  const growPricePopupName = 'auction-grow-price-popup';
-  document.querySelectorAll('.bid-grow-price-btn').forEach(el => {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-
-      const popup = createPopupWithTemplate(growPricePopupName);
-      togglePopup(popup, true);
-
-      popup.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = e.target;
-        if (target.classList.contains('popup-dim') || target.classList.contains('js-closepop')) {
-          togglePopup(popup, false);
-        }
-      });
-    });
-  });
-
-  // 랏 상세 정보 조회
+  /**
+   * [Onload] 랏 상세 정보 조회
+   */
   const pageData = loadPageData();
   if (pageData) {
-    const lotDetail = await callApiGetLotInfo(pageData.saleNo, pageData.lotNo);
-    renderDetailInfo(lotDetail);
+    const lotDetailData = await callApiGetLotInfo(pageData.saleNo, pageData.lotNo);
+    renderDetailInfo(lotDetailData);
+
+    const artistData = await callApiGetArtistInfo(lotDetailData.ARTIST_NO);
+    renderArtistInfo(artistData);
+
+    const favoriteData = await callApiGetFavoriteLots(pageData.saleNo);
+    console.log(favoriteData);
   }
 
-  // SNS 공유하기
+  /**
+   * [Event] SNS 공유하기
+   */
   document.querySelector('.sns_share').addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -67,7 +39,9 @@ window.onload = async () => {
     }
   });
 
-  // 배경 클릭
+  /**
+   * [Event] 배경 클릭 시, 팝업 닫기
+   */
   window.addEventListener('click', async (e) => {
     e.preventDefault();
 
@@ -80,71 +54,104 @@ window.onload = async () => {
     }
   });
 
-  // 카카오 공유하기
+  /**
+   * [Event] 카카오 공유하기 버튼 클릭
+   */
   document.querySelector('.js-share_kakao').addEventListener('click', (e) => {
     e.preventDefault();
   });
 
-  // 클립보드에 복사
+  /**
+   * [Event] 클립보드에 복사
+   */
   document.querySelector('.js-share_url').addEventListener('click', (e) => {
     e.preventDefault();
   });
 
+  /**
+   * [Event] 프린트 페이지로 이동
+   */
+  document.querySelector('.print-btn').addEventListener('click', e => {
+    e.preventDefault();
+    window.location.href = `/auction/view/print/${pageData.saleNo}/${pageData.lotNo}`;
+  });
 
-}
+  /**
+   * [Event] 응찰하기 팝업 오픈
+   */
+  document.querySelector('.go-bid-btn').addEventListener('click', async e => {
+    e.preventDefault();
+    const { saleNo, lotNo } = loadPageData();
+    const lotData = await callApiGetLotInfo(saleNo, lotNo);
+    await handleOpenBidPopup(null, saleNo, lotData);
+  });
 
-/**
- * 팝업 생성
- * - template#popup-id-template > #popup-id 사전에 존재해야 함
- * @param {string} id
- */
-function createPopupWithTemplate(id) {
-  // <template> 값 레이어 Dom 으로 추가
-  if (!document.getElementById(id)) {
-    const popupTemplate = document.getElementById(`${id}-template`);
-    const clone = document.importNode(popupTemplate.content, true);
-    document.body.appendChild(clone);
-  }
+  /**
+   * [Event] 낙찰 수수료 토글
+   */
+  document.querySelectorAll('.bid-fee-btn').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
 
-  const popup = document.getElementById(id);
-  popup.style.height = `${window.innerHeight}px`;
-  popup.style.position = 'fixed';
-  return popup;
-}
+      const popup = createPopupWithTemplate('auction-fee-popup');
+      togglePopup(popup, true);
 
-/**
- * createPopupWithTemplate 으로 생성된 팝업 토글
- * @param {HTMLElement} popup
- * @param {boolean} isOpen
- */
-function togglePopup(popup, isOpen) {
-  const popupContentBg = popup.querySelector('.popup-dim');
-  if (popupContentBg) {
-    popupContentBg.style.backgroundColor = '#000';
-  }
+      popup.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = e.target;
+        if (target.classList.contains('popup-dim') || target.classList.contains('js-closepop')) {
+          togglePopup(popup, false);
+        }
+      });
+    });
+  });
 
-  if (isOpen) {
-    if (popupContentBg) {
-      popupContentBg.style.opacity = 0.7;
+  /**
+   * [Event] 경매 호가표 토글
+   */
+  document.querySelectorAll('.bid-grow-price-btn').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      const popup = createPopupWithTemplate('auction-grow-price-popup');
+      togglePopup(popup, true);
+
+      popup.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = e.target;
+        if (target.classList.contains('popup-dim') || target.classList.contains('js-closepop')) {
+          togglePopup(popup, false);
+        }
+      });
+    });
+  });
+
+  /**
+   * [Event] 관심작품 토글
+   * @param {Event<HTMLButtonElement>} e
+   * @param {number} saleNo
+   * @param {number} lotNo
+   */
+  document.querySelector('.js-work_heart').addEventListener('click', async e => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!window.globalData.isLogin) {
+      // TODO: 얼럿 확인
+      window.alert('로그인이 필요합니다');
+      return;
     }
-    popup.style.display = 'block';
-    document.body.style.overflow = 'hidden';
-    document.body.style.touchAction = 'none';
-  } else {
-    if (popupContentBg) {
-      popupContentBg.style.opacity = 0;
-    }
-    popup.style.display = 'none';
-    document.body.style.overflow = 'visible';
-    document.body.style.touchAction = 'auto';
-  }
-}
 
-/**
- * Sleep
- * @param {number} ms
- * @return {Promise<any>}
- */
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+    const { saleNo, lotNo } = loadPageData();
+    const target = e.currentTarget;
+    const isActive = target.classList.contains('on');
+
+    if (isActive) {
+      await callApiDeleteFavoriteLot(saleNo, lotNo);
+      target.classList.remove('on');
+    } else {
+      await callApiAddFavoriteLot(saleNo, lotNo);
+      target.classList.add('on');
+    }
+  });
 }
