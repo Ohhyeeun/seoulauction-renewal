@@ -8,7 +8,7 @@ $(function() {
             let v = getWebviewData('remember-me');
             let d = getWebviewData('remember-me-date');
             // 데이타 확인
-            alert(parseInt(d));
+            alert(d);
 
             if (d !== undefined) {
                 if (d.length > 0) {
