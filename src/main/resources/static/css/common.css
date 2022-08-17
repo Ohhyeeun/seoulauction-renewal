@@ -1642,6 +1642,9 @@ body.dark,
     /*아카데미 건축 삭제 */
     flex-grow: 1;
 }
+.content-panel.type_panel-introduce .history-area .history-header .select-box {
+    min-width: 150px;
+}
 
 /* pc */ 
     @media all and (max-width: 1919px) {
