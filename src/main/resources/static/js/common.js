@@ -1,5 +1,4 @@
 $(function() {
-
     const locale = document.documentElement.lang;
 
     // 네이티브 로그인 유지
@@ -8,8 +7,10 @@ $(function() {
         if (result) {
             let v = getWebviewData('remember-me');
             let d = getWebviewData('remember-me-date');
+            // 데이타 확인
+            alert(parseInt(d));
 
-            if (d !== undefined && 'string' === typeof(d)) {
+            if (d !== undefined) {
                 if (d.length > 0) {
                     let dd = parseInt(d);
                     let expYear = 1
