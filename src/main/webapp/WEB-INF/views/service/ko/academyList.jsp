@@ -118,7 +118,7 @@ var authorities = '${authorities}'
                                             <option value="3">작가론</option>
                                             <option value="4">프라이빗</option>
                                             <option value="5">대학생 아카데미</option>
-                                            <option value="6">건축</option>
+                                            <option value="6">건축</option> 
                                         </select>
                                         <i class="icon-select_arrow"></i>
                                     </div>

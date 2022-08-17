@@ -117,7 +117,7 @@
 
                                             <li>
                                                 <div class="li-inner">
-                                                    <a href="/service/academyList?academyCd=artculture" title="아트 마켓">
+                                                    <a href="/service/academyList?academyCd=artculture" title="아트마켓">
                                                         <div class="item-area">
                                                             <div class="item-header">
                                                                 <div class="icon-box">
@@ -125,7 +125,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="item-body">
-                                                                <div class="title"><span class="">아트 마켓</span></div>
+                                                                <div class="title"><span class="">아트마켓</span></div> 
                                                                 <!-- <div class="desc"><span>ART MARKET</span></div> -->
                                                             </div>
                                                             <div class="item-footer">
@@ -159,7 +159,7 @@
 
                                             <li>
                                                 <div class="li-inner">
-                                                    <a href="/service/academyList?academyCd=artbrunch" title="CEO">
+                                                    <a href="/service/academyList?academyCd=artbrunch" title="프라이빗">
                                                         <div class="item-area">
                                                             <div class="item-header">
                                                                 <div class="icon-box">
@@ -219,7 +219,6 @@
                                                     </a>
                                                 </div>
                                             </li>
-
                                         </ul>
                                     </article>
 
