@@ -24,4 +24,6 @@ public interface SaleLiveMapper {
     String selectLotClose(CommonMap map);
     void updateLotSync1(CommonMap map);
     void updateLotSync2(CommonMap map);
+
+    List<CommonMap> selectSaleLotImages(CommonMap commonMap);
 }

@@ -260,5 +260,10 @@ public class SaleLiveService {
         saleLiveMapper.deleteBidOfflineByBidId(map);
     }
 
+    public List<CommonMap> selectSaleLotImages(CommonMap commonMap) {
+        List<CommonMap> resultMap = saleLiveMapper.selectSaleLotImages(commonMap);
+        return resultMap;
+    }
+
 }
 
