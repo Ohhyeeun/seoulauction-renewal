@@ -214,21 +214,9 @@
                                     <!-- 작품 리스트 -->
                                     <li ng-class="{cancel: item.STAT_CD === 'reentry'}" ng-repeat="item in saleInfo">
                                         <div class="li-inner">
-                                            <!-- [0809]검색결과 result클래스추가 -->
-                                            <article class="item-article result">
-                                                <div class="image-area">
-                                                    <figure class="img-ratio">
-                                                        <a href="/auction/online/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
-                                                            <div class="img-align">
-                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
-                                                            </div>
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                            </article>
-                                            <!-- //[0809]검색결과 result클래스추가 -->
-
+                                            <!-- 경매 마감 일 때 "result" 클래스 추가 하면 됨. <article class="item-article result"> -->
                                             <article class="item-article" ng-if="item.STAT_CD !== 'reentry'">
+                                            <!-- //경매 마감 일 때 "result" 클래스 추가 하면 됨. <article class="item-article result"> -->
                                                 <div class="image-area">
                                                     <figure class="img-ratio">
                                                         <a href="/auction/online/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
@@ -278,7 +266,7 @@
                                                                 </dl>
                                                                 <dl ng-if="item.EXPE_PRICE_INQ_YN === 'Y'" class="price-list">
                                                                     <dt>추정가</dt>
-                                                                    <dd>별도문의</dd>
+                                                                    <dd><strong>별도문의</strong></dd>
                                                                     <dd></dd>
                                                                 </dl>
                                                                 <dl class="price-list" ng-if="item.START_PRICE !== ''">
@@ -296,6 +284,13 @@
                                                                 </dl>
                                                             </a>
                                                         </div>
+                                                        <%-- 0812(경매 마감 시 경매결과 보기) --%>
+                                                        <div class="bidding-box">
+                                                            <div class="deadline_set"><a href="#"><span>경매종료</span></a></div>
+                                                            <div class="btn_set"><a class="btn btn_gray" href="#" role="button"><span>경매결과 보기</span></a></div>
+                                                        </div>
+                                                        <%-- //0812(경매 마감 시 경매결과 보기) --%>  
+
                                                         <div class="bidding-box">
                                                             <div class="deadline_set"><span
                                                                     ng-bind="item.BID_TICK"></span>

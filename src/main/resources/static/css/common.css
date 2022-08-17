@@ -129,10 +129,7 @@ body {
     padding: 0;
     width: 100%;
     height: 100%;
-    letter-spacing: -0.4px;
-
-    /* 터치 시 확대,축소 방지  */
-    touch-action: pan-x pan-y;
+    letter-spacing: -0.4px; 
 }
 /*scroll style */
 body::-webkit-scrollbar,
@@ -418,7 +415,7 @@ img::selection {
 }
 .leftmargin30 {
     margin-left: 30px;
-} 
+}
 
 /* main layout frame */
 .footer-bottom {
@@ -1371,7 +1368,6 @@ recent-keyword:lang(en) {
 .span_block,
 .familyselect.on,
 .gnb_submenuBg.on,
-.submenuBg.on,
 .common_block {
     display: block;
 }
@@ -1625,6 +1621,9 @@ body.dark,
 .sticky_bidding-article {
     z-index: 1 !important;
 }
+.page_title-section.list_page-section .proceeding-article {
+    z-index: 4 !important; 
+}
 .content-panel.type_panel-product_list .set-pc_mb .only-mb2 {
     /* auction 더보기 방식 더보기 btn 별도 새로운 클래스 생성 only-mb2*/
     text-align: center;
@@ -1638,6 +1637,10 @@ body.dark,
     border-top: 1px solid #999999;
     max-height: 331px !important;
     /*max-height: calc(100vh - 234px);*/
+}
+.content-panel .academy-article .academy-list li {
+    /*아카데미 건축 삭제 */
+    flex-grow: 1;
 }
 
 /* pc */ 
@@ -1903,7 +1906,7 @@ body.dark,
         left: 0;
         right: 0;
         width: 100%;
-        height: 100vh;
+        height: calc(var(--vh, 1vh)*100);
         background-color: rgba(0,0,0,.5);
         backdrop-filter:blur(10px);
         z-index: 5;
@@ -1914,11 +1917,22 @@ body.dark,
         top: 0px;
         right: -100%;
         left: auto;
-        height: 100vh;
+        height: calc(var(--vh, 1vh)*100);
         max-width: 570px;
         padding: 0;
         overflow-y: auto;
         z-index: 6;
+
+        transition: ease 350ms;
+        -webkit-transition: ease 350ms;
+        -ms-transition: ease 350ms;
+    }
+    .submenuBg.on {
+        right: 0;
+        transition:ease 350ms;
+        -webkit-transition:ease 350ms;
+        -ms-transition: ease 350ms;
+        display: block;
     }
     .gnb_blackBg {
         display: none;
@@ -2158,7 +2172,14 @@ body.dark,
         background-color: #f2f2f2;
         overflow: hidden;
         overflow-y: auto;
-        z-index: 2; 
+        z-index: 2;
+        transition: ease 250ms;
+    }
+    .topsearch-box>form.right {
+        right: 0;
+        transition: ease .2s;
+        -wekbit-transition: ease .2s;
+        -ms-transition: ease .2s;
     }
     .topsearch {
         display: block;

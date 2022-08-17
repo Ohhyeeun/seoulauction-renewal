@@ -196,7 +196,7 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="my_lot">
+                                        <div class="my_lot my_lot_type3-box"> 
                                             <div class="my_lot_info" ng-show="paddNo > 0">
                                                 <div class="lotlist-tabmenu">
                                                     <div class="btn_item">

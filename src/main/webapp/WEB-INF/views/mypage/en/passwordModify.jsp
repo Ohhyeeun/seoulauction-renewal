@@ -115,4 +115,17 @@
     	window.location.href="/mypage/main";
     })
 </script>
+
+<!-- [0809]마이페이지 사이드 유저네임 글자수제한 -->
+<script>
+    var asideUsername = $("aside .mem-name-wrap .tt2");
+    asideUsername.each(function() {
+        var asideUsernameTxt = $(this).text();
+        var asideUsernameLimit = 9;
+        if (asideUsernameTxt.length > asideUsernameLimit) {
+            $(this).text(asideUsernameTxt.substr(0, asideUsernameLimit) + "...")
+        }
+    })
+</script>
+<!-- //[0809]마이페이지 사이드 유저네임 글자수제한 -->
 </html>

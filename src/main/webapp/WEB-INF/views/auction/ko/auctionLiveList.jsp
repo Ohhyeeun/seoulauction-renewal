@@ -218,21 +218,9 @@
                                         <li ng-class="{cancel: item.STAT_CD === 'reentry'}"  ng-repeat="item in saleInfo">
 
                                             <div class="li-inner">
-                                                <!-- [0809]검색결과 result클래스추가 -->
-                                                <article class="item-article result">
-                                                    <div class="image-area">
-                                                        <figure class="img-ratio">
-                                                            <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
-                                                                <div class="img-align">
-                                                                    <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"  alt="">
-                                                                </div>
-                                                            </a> 
-                                                        </figure>
-                                                    </div>
-                                                </article>
-                                                <!-- //[0809]검색결과 result클래스추가 -->
-
+                                                <!-- 경매 마감 일 때 "result" 클래스 추가 하면 됨. <article class="item-article result"> -->
                                                 <article class="item-article">
+                                                <!-- 경매 마감 일 때 "result" 클래스 추가 하면 됨. <article class="item-article result"> -->
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
                                                             <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
@@ -280,7 +268,7 @@
                                                                         <dt>추정가</dt>
                                                                         <div ng-switch on="item.EXPE_PRICE_INQ_YN">
                                                                             <div ng-switch-when="Y">
-                                                                                <dd>별도 문의</dd>
+                                                                                <dd><strong>별도 문의</strong></dd>
                                                                                 <dd>&nbsp;</dd>
                                                                                 <dd>&nbsp;</dd>
                                                                             </div>

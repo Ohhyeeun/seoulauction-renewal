@@ -159,27 +159,6 @@
 
                                             <li>
                                                 <div class="li-inner">
-                                                    <a href="/service/academyList?academyCd=artauction" title="대학생 아카데미">
-                                                        <div class="item-area">
-                                                            <div class="item-header">
-                                                                <div class="icon-box">
-                                                                    <i class="icon-academy_student"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="item-body">
-                                                                <div class="title"><span class="">대학생 아카데미</span></div>
-                                                                <!-- <div class="desc"><span>STUDENT ACADEMY</span></div> -->
-                                                            </div>
-                                                            <div class="item-footer">
-                                                                <i class="icon-academy_linkarrow"></i>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </li>
-
-                                            <li>
-                                                <div class="li-inner">
                                                     <a href="/service/academyList?academyCd=artbrunch" title="CEO">
                                                         <div class="item-area">
                                                             <div class="item-header">
@@ -188,7 +167,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="item-body">
-                                                                <div class="title"><span class="">CEO</span></div>
+                                                                <div class="title"><span class="">프라이빗</span></div>
                                                                 <!-- <div class="desc"><span>CEO</span></div> -->
                                                             </div>
                                                             <div class="item-footer">
@@ -201,16 +180,16 @@
 
                                             <li>
                                                 <div class="li-inner">
-                                                    <a href="/service/academyList?academyCd=culture" title="건축">
+                                                    <a href="/service/academyList?academyCd=artauction" title="대학생 아카데미">
                                                         <div class="item-area">
                                                             <div class="item-header">
                                                                 <div class="icon-box">
-                                                                    <i class="icon-academy_architecture"></i>
+                                                                    <i class="icon-academy_student"></i>
                                                                 </div>
                                                             </div>
                                                             <div class="item-body">
-                                                                <div class="title"><span class="">건축</span></div>
-                                                                <!-- <div class="desc"><span>ARCHITECTURE</span></div> -->
+                                                                <div class="title"><span class="">대학생 아카데미</span></div>
+                                                                <!-- <div class="desc"><span>STUDENT ACADEMY</span></div> -->
                                                             </div>
                                                             <div class="item-footer">
                                                                 <i class="icon-academy_linkarrow"></i>

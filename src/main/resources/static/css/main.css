@@ -989,11 +989,11 @@
     z-index: 26;
 }
 .main-popupbox.down {
-    bottom: -100%;
+    /*bottom: -100%;*/
+    bottom: calc(var(--vh, 1vh)*100);
     animation: overlaydown .5s linear;
     -webkit-animation: overlaydown .5s linear;
     -ms-animation: overlaydown .5s linear;
-    display: none;
 }
 .main-popup-img,
 .main-popup-txt {

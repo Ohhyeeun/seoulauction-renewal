@@ -111,7 +111,9 @@
                                     <!-- [0617]a태그 -->
                                     <li class="" ng-if="lotList !== null" ng-repeat="item in lotList">
                                         <div class="li-inner">
+                                            <!-- 경매 마감 일 때 "result" 클래스 추가 하면 됨. <article class="item-article result"> -->
                                             <article class="item-article">
+                                            <!-- //경매 마감 일 때 "result" 클래스 추가 하면 됨. <article class="item-article result"> -->
                                                 <div class="image-area" ng-if="item.STAT_CD != 'reentry' && (item.IMG_DISP_YN == 'Y' || custInfo.EMP_GB == 'Y')" ng-click="goDetail(item.SALE_NO, item.LOT_NO, item.SALE_KIND_CD, item.END_YN);">
                                                     <figure class="img-ratio">
                                                         <!-- [0617]a태그로 변경 -->
@@ -161,7 +163,7 @@
                                                                     <dd ng-if="item.CURR_CD == 'KRW'">~ {{item.EXPE_PRICE_TO_JSON.KRW | currency:item.EXPE_PRICE_TO_JSON.KRW }}</dd>
                                                                 </dl>
                                                                 <dl class="price-list">
-                                                                    <dt>Start Price</dt>
+                                                                    <dt>Starting</dt>
                                                                     <dd>{{item.CURR_CD}} {{item.START_PRICE | currency : item.START_PRICE }} </dd>
                                                                 </dl>
                                                                 <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && item.STATUS == '진행' && item.LAST_PRICE > 0">
@@ -169,12 +171,12 @@
                                                                     <dd><strong>{{item.CURR_CD}} {{item.LAST_PRICE | currency:item.LAST_PRICE : 0 }} </strong><em>(Bid {{item.BID_CNT }})</em></dd>
                                                                 </dl>
                                                                 <dl class="price-list" ng-if="!custInfo.CUST_NO && item.STATUS == '진행'">
-                                                                    <dt>Current</dt>
-                                                                    <dd>Log in and check Please.</dd>
+                                                                    <dt>Current</dt> 
+                                                                    <dd><strong class="comment">Log in and check Please.</strong></dd>
                                                                 </dl>
                                                                 <dl class="price-list" ng-if="!custInfo.CUST_NO && item.STATUS == '완료'">
                                                                     <dt>Winning Bid</dt>
-                                                                    <dd>Log in and check Please.</dd>
+                                                                    <dd><strong class="comment">Log in and check Please.</strong></dd>
                                                                 </dl>
                                                                 <dl class="price-list" ng-if="custInfo.CUST_NO && is_login && item.STATUS == '완료' && item.LAST_PRICE > 0">
                                                                     <dt>Winning Bid</dt>
@@ -188,14 +190,21 @@
                                                         </div>
                                                         <div class="state-box">
                                                             <div ng-if="item.STATUS == '완료'" class="state op-end">
-                                                                <div>End</div>
+<%--                                                                <div>End</div>--%>
+                                                                <%-- //0812 변경--%>
+                                                                <div>Last</div>
+                                                                <%-- //0812 변경--%>
                                                             </div>
                                                             <div ng-if="item.STATUS == '진행'" class="state op-ing">
-                                                                <div>Proceeding</div>
+<%--                                                                <div>Proceeding</div>--%>
+                                                                <%--0812 변경--%>
+                                                                <div>In progress</div>
+                                                                <%-- //0812 변경--%>
                                                             </div>
                                                             <div class="other">
                                                                 <a href="#">
                                                                     <div class="d_name" ng-bind="item.SALE_TITLE_JSON.en | do_sub_string_low : item.SALE_TITLE_JSON.en" title="{{item.SALE_TITLE_JSON.en}}"></div>
+                                                                    <%-- 0812 <div class="d_day">25 April 15:00 KST</div> 대로 변경 부탁드립니다.  --%>
                                                                     <div class="d_day">{{item.SALE_TO_DT | date:'yyyy.MM.dd'+'('+getWeek(item.SALE_TO_DT)+')'}} {{item.SALE_TO_DT | date : 'HH:mm'}} {{item.SALE_KIND_CD == 'hongkong' ? "HKT" : "KST"}}</div>
                                                                 </a>
                                                             </div>
@@ -562,12 +571,12 @@
             moreValue1 = '더보기 방식';
             moreValue2 = '페이징 방식';
         }else{
-            sortValue1 = 'Auction Latest';
-            sortValue2 = 'LOT Number Order';
-            sortValue3 = 'Lowest estimate';
-            sortValue4 = 'Highest estimate';
-            moreValue1 = 'Page';
-            moreValue2 = 'More';
+            sortValue1 = 'Latest';
+            sortValue2 = 'LOT';
+            sortValue3 = 'Estimate lowest';
+            sortValue4 = 'Estimate highest';
+            moreValue1 = 'Page Type';
+            moreValue2 = 'More Type';
         }
 
         $scope.modelSortType = [{
