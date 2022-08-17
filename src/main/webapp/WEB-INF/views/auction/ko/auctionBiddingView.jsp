@@ -519,6 +519,8 @@
                                                            role="button">내 응찰내역</a>
                                                     </div>
                                                 </div>
+                                                <%-- 패들번호 추가 --%>
+                                                <p class="count"><span class="txt">패들번호 : </span><span class="num" ng-bind="paddNo"></span></p>  
                                             </div>
 
                                             <div class="my_lot_wrap">
