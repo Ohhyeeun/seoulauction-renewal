@@ -3,6 +3,7 @@
  * @typedef {Object} LotDetail
  * @property {number} SALE_NO
  * @property {number} LOT_NO
+ * @property {number} ARTIST_NO
  * @property {string} ARTIST_NAME_EN_TXT
  * @property {string} ARTIST_NAME_JSON
  * @property {string} ARTIST_NAME_KO_TXT
@@ -67,6 +68,21 @@ async function callApiGetLotInfo(saleNo, lotNo) {
     const { success, data } = response;
     if (!success) throw new Error('Error');
     return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+/**
+ * 작가 정보 조회
+ * @param {number} artistNo
+ */
+async function callApiGetArtistInfo(artistNo) {
+  try {
+    const { data: response } = await window.axios.get(`/api/auction/online/artists/${artistNo}`);
+    const { success, data } = response;
+    if (!success) throw new Error('Error');
+    return data || null;
   } catch (error) {
     return null;
   }

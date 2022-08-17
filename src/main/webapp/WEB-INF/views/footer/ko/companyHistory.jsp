@@ -285,7 +285,7 @@
                                                                 <figcaption>
                                                                     <ul>
                                                                         <li>22회 홍콩경매, 김흥수 특별전시 진행</li>
-                                                                        <li>특별전시 진행 첫 대구 경매 실시, 낙찰률 84% </li>
+                                                                        <li>첫 대구 경매 실시, 낙찰률 84% </li>
                                                                         <li>이응노 &lt;People&gt; 작가 레코드 경신</li>
                                                                     </ul>
                                                                 </figcaption>
