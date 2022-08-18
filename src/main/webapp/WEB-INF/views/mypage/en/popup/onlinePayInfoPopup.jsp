@@ -29,7 +29,7 @@
 <%--                                            <li class="tb1">Account Name : SEOUL AUCTION</li>--%>
 <%--                                            <li class="tb1">Swift code : HVBKKRSEXXX</li>--%>
                                             <li class="tb1">For an artwork bid upon via online auction and payment with a credit card that is accepted in Korea, credit card payments may be made on the Seoul Auction website. For a high-value item, there is a chance that credit card payment may not be accepted, in accordance with the policy of the relevant credit card company. The successful bidder should make the payment after logging in to the Seoul Auction website and confirming the hammer price.</li>
-                                            <li class="tb1">Inquiries : (Phone) +82(0)2-2075-4422 (Email) info@seoulauction.com</li>
+                                            <li class="tb1">Inquiries : (Phone) +82(0)2-2075-4422 <br>(Email) info@seoulauction.com</li>
                                             <li class="tb1">Business hours: (KST) 9:00-18:00</li>
                                         </ul>
                                     </article>
