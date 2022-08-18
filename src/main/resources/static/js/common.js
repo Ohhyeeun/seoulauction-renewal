@@ -1,15 +1,16 @@
 $(function() {
-
     const locale = document.documentElement.lang;
 
     // 네이티브 로그인 유지
     let f = async function(){
         let result = await isNativeApp();
         if (result) {
-            let v = getWebviewData('remember-me');
-            let d = getWebviewData('remember-me-date');
+            let v = await getWebviewData('remember-me');
+            let d = await getWebviewData('remember-me-date');
+            // 데이타 확인
+            alert(d);
 
-            if (d !== undefined && 'string' === typeof(d)) {
+            if (d !== undefined) {
                 if (d.length > 0) {
                     let dd = parseInt(d);
                     let expYear = 1
@@ -329,6 +330,9 @@ $(function() {
                 });
             });
         });
+
+        /* topsearch right 위치*/
+        $('.topsearch-box>form').removeClass('right');
 
         $('.submenuBg-closeBtn').off('click');
         $('.submenuBg-closeBtn').click(function () {
@@ -1051,7 +1055,7 @@ $(window).resize(function(){
         });
 
         /* topsearch right 위치*/
-        $('.topsearch-box>form').removeClass('right');
+        $('.topsearch-box>form').addClass('right');
         $('.search-bubble-box').removeClass('on');
 
         /* 오프라인 라이브응찰 화면(pc) */
@@ -1121,6 +1125,7 @@ $(window).resize(function(){
 
             /* 모바일 topsearch */
             $('.m-top-search').click(function (){
+                $('.topsearch-box>form').addClass('right');
                 $('.search-bubble-box').addClass('on');
             });
 
@@ -1128,6 +1133,9 @@ $(window).resize(function(){
             $('.bidding_mo').show();
             $('.bidding_pc').hide();
         });
+
+        /* 반응형 일때 없어야 함. */
+        $('.topsearch-box>form').removeClass('right');
 
         /* 닫기 버튼 (gnb) */
         $('.submenuBg-closeBtn').off('click');
