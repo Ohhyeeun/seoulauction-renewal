@@ -50,21 +50,21 @@ public class CurrencyDataManager {
         AtomicReference<String> key = new AtomicReference<>("");
         AtomicReference<String> value = new AtomicReference<>("");
 
-        AtomicReference<Boolean> tokenEqules = new AtomicReference<>(false);
+        AtomicReference<Boolean> tokenEquals = new AtomicReference<>(false);
         AtomicReference<Boolean> tokenAmpersand = new AtomicReference<>(false);
         AtomicReference<Boolean> tokenAmpersand2 = new AtomicReference<>(false);
 
         CommonMap jsonMap = new CommonMap();
 
-        trimStr.substring(1).codePoints().mapToObj(c -> (char) c).forEach(ch ->{
+        trimStr.substring(1).codePoints().mapToObj(c -> (char) c).forEach(ch -> {
 
             // tokenEqules = true 가 아닐때까지 key 값을만듬.
-            if(!tokenEqules.get()){
+            if(!tokenEquals.get()){
                 if(ch != '='){
                     key.updateAndGet(v -> v + ch);
                 // = 를 만난경우 tokenEqules 를 true 로 설정.
                 } else{
-                    tokenEqules.set(true);
+                    tokenEquals.set(true);
                 }
             }
 
@@ -77,14 +77,14 @@ public class CurrencyDataManager {
             }
 
             // = 를 만났고 &를 만나기전.
-            if(tokenEqules.get() && !tokenAmpersand.get() && !tokenAmpersand2.get() && ch != '=' ){
+            if(tokenEquals.get() && !tokenAmpersand.get() && !tokenAmpersand2.get() && ch != '=' ){
                 value.updateAndGet(k -> k + ch);
             }
 
             //모든 토큰 값을 만난경우 key 와 value 가 다 만들어졌다고 가정. ( 초기화 )
-            if(tokenEqules.get() && tokenAmpersand.get() && tokenAmpersand2.get() ){
+            if(tokenEquals.get() && tokenAmpersand.get() && tokenAmpersand2.get() ){
                 jsonMap.put(key.get() , value.get());
-                tokenEqules.set(false);
+                tokenEquals.set(false);
                 tokenAmpersand.set(false);
                 tokenAmpersand2.set(false);
                 key.set("");
