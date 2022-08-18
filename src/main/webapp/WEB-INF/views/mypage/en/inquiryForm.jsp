@@ -196,7 +196,7 @@
 																</div>
 																<div class="td">
 																	<div class="col_select">
-																		<div class="select-box third">
+																		<div class="select-box half dep1">
 																			<select class="select2Basic" name="work_category1" id="work_category1" ng-model="sell_data.work_category1"
 																				onchange="angular.element(this).scope().changeSellCate1()">
 																				<option value="">Choose</option>
@@ -204,7 +204,7 @@
 																					value="{{cate}}">{{cate}}</option>
 																			</select>
 																		</div>
-																		<div class="select-box third" id="sellCate2">
+																		<div class="select-box half dep2" id="sellCate2">
 																			<select ng-model="sell_data.work_category2"
 																				name="work_category2"
 																				id="work_category2" 
@@ -215,7 +215,7 @@
 																					value="{{cate}}">{{cate}}</option>
 																			</select>
 																		</div>
-																		<div class="select-box third" id="sellCate3">
+																		<div class="select-box half dep3" id="sellCate3">  
 																			<select ng-model="sell_data.work_category3"
 																				name="work_category3"
 																				id="work_category3" 

@@ -333,6 +333,35 @@
 
 
 
+    <!-- [0728]비디오 세로사이즈 -->
+    <script>
+        var _videoAnchor = $(".video_img-box a");
+        var _videoAnchorImg = $(".video_img-box a img");
+        _videoAnchorImg.each(function() {
+            _videoAnchor = $(this).parent(_videoAnchor);
+
+            if ($(this).width() < $(this).height()) {
+                _videoAnchor.addClass("vertical");
+            } else {
+                _videoAnchor.removeClass("vertical");
+            }
+        })
+    </script>
+    <!-- //[0728]비디오 세로사이즈 -->
+
+    <!-- [0809]마이페이지 사이드 유저네임 글자수제한 -->
+    <script>
+        var asideUsername = $("aside .mem-name-wrap .tt2");
+        asideUsername.each(function() {
+            var asideUsernameTxt = $(this).text();
+            var asideUsernameLimit = 9;
+            if (asideUsernameTxt.length > asideUsernameLimit) {
+                $(this).text(asideUsernameTxt.substr(0, asideUsernameLimit) + "...")
+            }
+        })
+    </script>
+    <!-- //[0809]마이페이지 사이드 유저네임 글자수제한 -->
+
 
     <!-- 낙찰수수료 -->
     <div id="popup_alert1-wrap" class="trp popupfixed-wrap default-popup ">
@@ -345,7 +374,9 @@
                         <div class="pop-header">
                             <a class="btn_close icon-pop_close js-closepop" href="#" title="closed">X</a>
                             <div class="title-box">
-                                <span class="txt_title">Winning Bid fee</span>
+                                <!-- [0812]텍스트변경 -->
+                                <span class="txt_title">Purchase Fee</span>
+                                <!-- //[0812]텍스트변경 -->
                             </div>
                         </div>
                         <div class="pop-body scroll-type">
@@ -375,6 +406,7 @@
                                     <ul class="mark_dot-list">
                                         <li class="text-help">Hammer Price: The amount that the auctioneer beats the winning bidder to win the bid</li>
                                         <li class="text-help">Purchase Price: The sum of the successful bid price + the successful bid fee + VAT</li>
+                                        <li class="text-help">891,000 won based on the current price</li>
                                     </ul>
                                 </article>
                             </section>
