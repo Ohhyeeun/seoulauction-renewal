@@ -87,6 +87,10 @@ public class AuctionOnlineService {
         return resultMap;
     }
 
+    public CommonMap selectLotRefreshInfo(CommonMap commonMap) {
+        return auctionOnlineMapper.selectLotRefreshInfo(commonMap);
+    }
+
     public CommonMap selectManager(){
         int custNo = 0;
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
