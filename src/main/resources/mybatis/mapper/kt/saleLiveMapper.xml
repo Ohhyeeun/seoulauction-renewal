@@ -7,7 +7,8 @@
             A.SALE_NO,
             A.SALE_TH,
             COLUMN_JSON(A.TITLE_BLOB)           SALE_TITLE_JSON,
-            A.SALE_KIND_CD
+            A.SALE_KIND_CD,
+            A.CURR_CD
         FROM
             SALE A
         WHERE
