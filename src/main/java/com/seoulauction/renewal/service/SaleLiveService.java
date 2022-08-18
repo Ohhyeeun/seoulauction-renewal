@@ -31,12 +31,7 @@ public class SaleLiveService {
     public CommonMap selectLiveSale(CommonMap map){
 
         CommonMap result = saleLiveMapper.selectLiveSale(map);
-        if(result !=null){
-            result.settingJsonStrToObject();
-            result.settingYNValueToBoolean();
-        }
-
-        return result;
+        return settingLotData(result);
     }
     public List<CommonMap> selectLiveSaleLots(CommonMap map){
 
@@ -68,19 +63,7 @@ public class SaleLiveService {
             result.settingYNValueToBoolean();
         }
 
-        result.settingJsonStrToObject();
-        result.settingYNValueToBoolean();
-
-        result.put("IMAGE_FULL_PATH","");
-
-        if(result.get("LOT_IMG_PATH") !=null && result.get("LOT_IMG_NAME") !=null) {
-            result.put("IMAGE_FULL_PATH", IMAGE_URL + result.get("LOT_IMG_PATH") + "/" + result.get("LOT_IMG_NAME"));
-        }
-
-        result.remove("LOT_IMG_PATH");
-        result.remove("LOT_IMG_NAME");
-
-        return result;
+        return settingLotData(result);
     }
     public List<CommonMap> selectLiveTypes(CommonMap map){
         return saleLiveMapper.selectLiveTypes(map);
@@ -210,10 +193,7 @@ public class SaleLiveService {
 
     public List<CommonMap> selectBidNotice(CommonMap commonMap) {
 
-        return awsSaleMapper.selectBidNotice(commonMap).stream().peek(c->{
-            c.settingJsonStrToObject();
-            c.settingYNValueToBoolean();
-        }).collect(Collectors.toList());
+        return awsSaleMapper.selectBidNotice(commonMap).stream().peek(this::settingLotData).collect(Collectors.toList());
     }
 
     @Transactional("ktTransactionManager")
@@ -252,34 +232,36 @@ public class SaleLiveService {
     //랏 데이터를 세팅 ( 이미지 PATH , MATE )
     private CommonMap settingLotData(CommonMap map){
 
-        //json stringify -> object
-        map.settingJsonStrToObject();
-        map.settingYNValueToBoolean();
+        if(map !=null) {
+            //json stringify -> object
+            map.settingJsonStrToObject();
+            map.settingYNValueToBoolean();
 
-        //이미지
-        map.put("IMAGE_FULL_PATH","");
-        if(map.get("LOT_IMG_PATH") !=null && map.get("LOT_IMG_NAME") !=null) {
-            map.put("IMAGE_FULL_PATH", IMAGE_URL + map.get("LOT_IMG_PATH") + "/" + map.get("LOT_IMG_NAME"));
+            //이미지
+            map.put("IMAGE_FULL_PATH", "");
+            if (map.get("LOT_IMG_PATH") != null && map.get("LOT_IMG_NAME") != null) {
+                map.put("IMAGE_FULL_PATH", IMAGE_URL + map.get("LOT_IMG_PATH") + "/" + map.get("LOT_IMG_NAME"));
+            } else {
+                map.remove("IMAGE_FULL_PATH");
+            }
+            map.remove("LOT_IMG_PATH");
+            map.remove("LOT_IMG_NAME");
+
+            //재질
+            if (map.get("MATE_CD_KO") != null && map.get("MATE_CD_EN") != null) {
+
+                CommonMap mateMap = new CommonMap();
+                mateMap.put("ko", map.get("MATE_CD_KO"));
+                mateMap.put("en", map.get("MATE_CD_EN"));
+
+                map.put("MATE_CD", mateMap);
+            }
+
+            map.remove("MATE_CD_KO");
+            map.remove("MATE_CD_EN");
         }
-        map.remove("LOT_IMG_PATH");
-        map.remove("LOT_IMG_NAME");
-
-        //재질
-        if( map.get("MATE_CD_KO") !=null && map.get("MATE_CD_EN") !=null ){
-
-            CommonMap mateMap = new CommonMap();
-            mateMap.put("ko" , map.get("MATE_CD_KO"));
-            mateMap.put("en" , map.get("MATE_CD_EN"));
-
-            map.put("MATE_CD" , mateMap);
-        }
-
-        map.remove("MATE_CD_KO");
-        map.remove("MATE_CD_EN");
-
         return map;
     }
-
 
 }
 
