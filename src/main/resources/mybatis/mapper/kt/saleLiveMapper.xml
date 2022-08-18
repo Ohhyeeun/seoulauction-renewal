@@ -377,7 +377,6 @@
         ,']') AS LOT_SIZE_ARRAY,
         IF ((select COUNT(*) from CUST_INTE_LOT CIL where CIL.SALE_NO =
         L.SALE_NO and CIL.LOT_NO = L.LOT_NO and CUST_NO = #{cust_no} ) <![CDATA[ > ]]> 0 , 'Y' , 'N') FAVORITE_YN,
-        DATE_FORMAT(L.TO_DT,'%Y-%m-%d') 	LOT_EXPIRE_DATE,
         L.CLOSE_YN,
         L.EXPE_PRICE_INQ_YN,
         L.STAT_CD -- 출품취소여부
