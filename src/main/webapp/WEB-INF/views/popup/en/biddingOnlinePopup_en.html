@@ -240,6 +240,9 @@
                             <!-- [0613]자동응찰 옵션활성화,js 수정 -->
                             <a class="btn btn_default js-popup_biddingPopup1 ing" href="#" role="button"><span>응찰하기(온라인) - 자동응찰중일때</span><i class="icon-page_next"></i></a>
                             <!-- //[0613]자동응찰 옵션활성화,js 수정 -->
+                            <!-- [0725]응찰내역없을때 추가 -->
+                            <a class="btn btn_default js-popup_biddingPopup1 nodata" href="#" role="button"><span>응찰하기(온라인) - 응찰내역 없을때</span><i class="icon-page_next"></i></a>
+                            <!-- //[0725]응찰내역없을때 추가 -->
                             <a class="btn btn_default js-popup_biddingPopup2" href="#" role="button"><span>응찰하기(입찰종료)</span><i class="icon-page_next"></i></a>
 
                         </div>
@@ -328,6 +331,35 @@
 
 
 
+
+    <!-- [0728]비디오 세로사이즈 -->
+    <script>
+        var _videoAnchor = $(".video_img-box a");
+        var _videoAnchorImg = $(".video_img-box a img");
+        _videoAnchorImg.each(function() {
+            _videoAnchor = $(this).parent(_videoAnchor);
+
+            if ($(this).width() < $(this).height()) {
+                _videoAnchor.addClass("vertical");
+            } else {
+                _videoAnchor.removeClass("vertical");
+            }
+        })
+    </script>
+    <!-- //[0728]비디오 세로사이즈 -->
+
+    <!-- [0809]마이페이지 사이드 유저네임 글자수제한 -->
+    <script>
+        var asideUsername = $("aside .mem-name-wrap .tt2");
+        asideUsername.each(function() {
+            var asideUsernameTxt = $(this).text();
+            var asideUsernameLimit = 9;
+            if (asideUsernameTxt.length > asideUsernameLimit) {
+                $(this).text(asideUsernameTxt.substr(0, asideUsernameLimit) + "...")
+            }
+        })
+    </script>
+    <!-- //[0809]마이페이지 사이드 유저네임 글자수제한 -->
 
 
 
@@ -428,6 +460,11 @@
                                                     </li>
 
                                                 </ul>
+                                                <!-- [0725]응찰내역없을때 추가 -->
+                                                <div class="data-empty">
+                                                    <p class="txt_empty tb1">No bid history.</p>
+                                                </div>
+                                                <!-- //[0725]응찰내역없을때 추가 -->
                                             </div>
                                         </div>
                                         <div class="topbtn-area">
@@ -492,6 +529,15 @@
                 } else {
                     $(".js-bidding_option").attr("disabled", false);
                     $(".js-bidding_btn span").text("Bid")
+                }
+
+                //[0725]응찰내역없을때 추가
+                if ($(this).hasClass("nodata") == true) {
+                    $("#popup_biddingPopup1-wrap").find(".product-list").hide();
+                    $("#popup_biddingPopup1-wrap").find(".data-empty").show();
+                } else {
+                    $("#popup_biddingPopup1-wrap").find(".product-list").show();
+                    $("#popup_biddingPopup1-wrap").find(".data-empty").hide();
                 }
             });
 
