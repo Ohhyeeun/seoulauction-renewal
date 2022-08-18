@@ -373,23 +373,13 @@
         '"MIX_CD":"', ifnull(E.MIX_CD,'h') ,'",',
         '"CANVAS_EXT_YN":"', ifnull(E.CANVAS_EXT_YN,'N'), '"',
         '}')
-        ,']') AS LOT_SIZE_JSON,
-        ifnull(E.UNIT_CD, 'cm')             UNIT_CD,
-        ifnull(E.SIZE1, '0')                SIZE1,
-        ifnull(E.SIZE2, '0')                SIZE2,
-        ifnull(E.SIZE3, '0')                SIZE3,
-        ifnull(E.CANVAS, '0')               CANVAS,
-        ifnull(E.DIAMETER_YN, 'N')          DIAMETER_YN,
-        ifnull(E.PREFIX, '')                PREFIX,
-        ifnull(E.SUFFIX, '')                SUFFIX,
-        ifnull(E.MIX_CD, 'h')               MIX_CD,
-        ifnull(E.CANVAS_EXT_YN, 'N')        CANVAS_EXT_YN,
+        ,']') AS LOT_SIZE_ARRAY,
         IF ((select COUNT(*) from CUST_INTE_LOT CIL where CIL.SALE_NO =
         L.SALE_NO and CIL.LOT_NO = L.LOT_NO and CUST_NO = #{cust_no} ) <![CDATA[ > ]]> 0 , 'Y' , 'N') FAVORITE_YN,
         DATE_FORMAT(L.TO_DT,'%Y-%m-%d') 	LOT_EXPIRE_DATE,
-        L.LIVE_CLOSE_YN,
         L.CLOSE_YN,
-        L.EXPE_PRICE_INQ_YN
+        L.EXPE_PRICE_INQ_YN,
+        L.STAT_CD -- 출품취소여부
         FROM LOT L
         LEFT OUTER JOIN LOT_SIZE E ON L.SALE_NO = E.SALE_NO AND L.LOT_NO = E.LOT_NO
         LEFT OUTER JOIN LOT_IMG LI ON L.SALE_NO = LI.SALE_NO AND L.LOT_NO = LI.LOT_NO
