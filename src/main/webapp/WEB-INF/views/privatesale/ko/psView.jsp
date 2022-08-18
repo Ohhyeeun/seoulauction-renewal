@@ -1004,6 +1004,14 @@
                     $(".js-zoomout").on("click", function() {
                         panzoom.zoomOut();
                     });
+                    document.addEventListener("wheel", function (e) {
+                        if (e.deltaY > 0) {
+                            panzoom.zoomOut();
+                        }
+                        else {
+                            panzoom.zoomIn();
+                        }
+                    });
                     panzoom.zoom(1, {
                         animate: true
                     })
@@ -1089,6 +1097,14 @@
             });
             $(".js-zoomout").on("click", function() {
                 panzoom.zoomOut();
+            });
+            document.addEventListener("wheel", function (e) {
+                if (e.deltaY > 0) {
+                    panzoom.zoomOut();
+                }
+                else {
+                    panzoom.zoomIn();
+                }
             });
             panzoom.zoom(1, {
                 animate: true
