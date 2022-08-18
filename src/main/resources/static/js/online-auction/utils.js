@@ -160,9 +160,49 @@ function timerFormat(countDown) {
 }
 
 /**
+ * Zerofill
+ * @param {number} num
+ * @param {number} length
+ */
+function zerofillNumber(num, length = 2) {
+  return String(num).padStart(length, '0');
+}
+
+/**
  * 문자열(숫자) 정렬
  * @return {Intl.Collator}
  */
 function sortCollator() {
   return new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+}
+
+/**
+ * URL 에서 페이지 데이터 가져오기
+ * @requires {window.Qs}
+ * @param {string} urlPath
+ * @return {Partial<object>}
+ */
+function getDataFromUrl(urlPath = '') {
+  const pathname = window.location.pathname;
+  const pageParams = window.Qs.parse(window.location.search, { ignoreQueryPrefix: true });
+
+  let pathData = {}
+  if (urlPath) {
+    const pathArray = pathname.split('/').filter(Boolean);
+    const urlPathArray = urlPath.split('/').filter(Boolean);
+
+    urlPathArray.forEach((item, index) => {
+      if (item.match(/{(.+)}/g)) {
+        const name = item.replace(/{(.+)}/g, '$1');
+        if (pathArray[index]) {
+          pathData[name] = pathArray[index];
+        }
+      }
+    });
+  }
+
+  return {
+    ...pathData,
+    ...pageParams,
+  }
 }

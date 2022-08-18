@@ -431,11 +431,16 @@
     <!-- [0712]외부영역 클릭 시 닫힘 -->
     <script>
         $(document).mouseup(function(e) {
+            closeTotalLotList(e);
+        });
+
+        const closeTotalLotList = (e) =>{
+            e.preventDefault();
             if ($(".js-modal").has(e.target).length === 0) {
                 $(".js-modal").parent(".allview_fixed-wrap").removeClass("active");
                 $(".js-modal").closest(".js-fixed_total").removeClass("on");
             }
-        });
+        }
     </script>
 
 
@@ -523,6 +528,7 @@
         let lotList = [{}];
         let lotTotalCount = 0;
         let currentLotNo = 0; //진행중인 랏 번호
+        let prevLotNo = 0;
         let myBidingList = [{}];
 
         // const viewers = 0; //시청자
@@ -555,9 +561,8 @@
 
         window.onload = async () => {
             classForDevice = document.body.getAttribute('data-device') === 'is_pc'? '.pcVer' : '.mobileVer';
-            console.log(classForDevice)
             await dataInit();
-            // await getPollingData();
+
             setInterval(await getPollingData, 1000);
         }
 
@@ -614,23 +619,29 @@
 
            currentLotNo = currentLotInfo.LOT_NO;
            await bindingCurrentLotInfo(currentLotInfo);
-           // TODO: 랏 변동시에만 호출
-           // await clickLotItem(currentLotNo);
 
-           const bidingData = await getCurrentLotBiddingInfo(saleNo, currentLotNo);
-           const bidingInfo = bidingData.data.data;
-           await bindingCurrentLotBidingInfo(bidingInfo);
+           if(currentLotNo !== prevLotNo ){
+               prevLotNo = currentLotNo;
+               await clickLotItem(currentLotNo);
+               moveScrollToCurrentLot();
+           }
 
-           const lotListData = await getLotList(saleNo, selectedType, selectedCategory);
-           lotList = lotListData.data.data;
-           lotTotalCount = lotList.length;
-           if(lotTotalCount > 0)
-               bindingLotListInfo(lotList, lotTotalCount);
+           if(currentLotNo !== 0) {
+               const bidingData = await getCurrentLotBiddingInfo(saleNo, currentLotNo);
+               const bidingInfo = bidingData.data.data;
+               await bindingCurrentLotBidingInfo(bidingInfo);
 
-           if(authKind !== 'viewonly'){
-               const myBidingData = await getMyBidingList(saleNo);
-               myBidingList = myBidingData.data.data;
-               bindingMyBidingInfo(myBidingList);
+               const lotListData = await getLotList(saleNo, selectedType, selectedCategory);
+               lotList = lotListData.data.data;
+               lotTotalCount = lotList.length;
+               if (lotTotalCount > 0)
+                   bindingLotListInfo(lotList, lotTotalCount);
+
+               if (authKind !== 'viewonly') {
+                   const myBidingData = await getMyBidingList(saleNo);
+                   myBidingList = myBidingData.data.data;
+                   bindingMyBidingInfo(myBidingList);
+               }
            }
         }
 
@@ -827,7 +838,7 @@
                                         </p>`
 
                 const tab1 = `<div class="my_lot_tab my_lot_type1" >
-                                    <a href="#" id="btnMoveCurrentLot" onClick="moveCurrent()" class="lot_link" >현재 LOT 이동</a>
+                                    <a href="#" id="btnMoveCurrentLot" onClick="moveCurrentLot(event)" class="lot_link" >현재 LOT 이동</a>
                                     <div class="view-img_wrap">
                                         <div class="view-img">
                                             <div class="img-box">
@@ -1000,6 +1011,7 @@
                                         \${classForDevice === '.pcVer'? `<button id="btnFav\${item.LOT_NO}" data-status="\${isFavoriteStatus}" onclick="toggleFavoriteLot(event,\${item.LOT_NO})" class="btn-lotChk js-work_heart \${isFavoriteStatus}">Favorite</button>` : ``}
                                     </li>`;
                 }
+
             });
 
             document.querySelector(`\${classForDevice} [lot-list-ul]`).innerHTML = lotListDom;
@@ -1015,9 +1027,14 @@
                 });
             });
 
+
+
         }
 
         const clickLotItem = (lotIdx) =>{
+            if(classForDevice === '.mobileVer'){
+                closeTotalLotList(document);
+            }
             const data = lotList.filter(item => item.LOT_NO == lotIdx)[0];
 
             const lotSizeArray = JSON.parse(data.LOT_SIZE_ARRAY);
@@ -1149,6 +1166,22 @@
         }
 
         /* 이벤트 핸들러 */
+        const moveScrollToCurrentLot = (e) => {
+            const currLotElem = document.querySelector(`.lotitem[data-lotIdx='\${currentLotNo}']`);
+            if(currLotElem) {
+                $(`\${classForDevice} .lotlist-tabCont .mCustomScrollBox`).animate({
+                    scrollTop: $(currLotElem).offset().top - 400,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        const moveCurrentLot = async (e) => {
+            e.preventDefault();
+            await clickLotItem(currentLotNo);
+            moveScrollToCurrentLot();
+        }
+
         const changeCategory = async ($this, type, cd_id) =>{
             selectedType = type;
             selectedCategory = cd_id;
@@ -1164,6 +1197,8 @@
             lotTotalCount = lotList.length;
             if(lotTotalCount > 0)
                 bindingLotListInfo(lotList, lotTotalCount);
+
+            moveScrollToCurrentLot();
         }
 
         const changeInfoTab = ($this, tabId) => {
