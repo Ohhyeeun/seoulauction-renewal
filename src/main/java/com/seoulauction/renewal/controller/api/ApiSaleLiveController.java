@@ -504,59 +504,14 @@ public class ApiSaleLiveController {
     @GetMapping(value="/list/{saleNo}")
     public ResponseEntity<RestResponse> list(
             @PathVariable("saleNo") int saleNo,
-            @RequestParam(value = "is_live" ,defaultValue = "N") String isLive
+            @RequestParam(value = "category" , required = false) String category,
+            @RequestParam(value = "tag" , required = false) String tag
     ) {
-
-        boolean isEmployee = false;
-
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
-        commonMap.put("is_live" , isLive);
-
-        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
-        if (saUserDetails != null ) {
-            commonMap.put("cust_no", saUserDetails.getUserNo());
-            isEmployee = saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER"));
-        } else {
-            commonMap.put("cust_no", 0);
-        }
-
-        List<CommonMap> lotImages = saleService.selectSaleList(commonMap);
-
-        String[] mapKeys = {"SALE_TITLE_JSON", "LOT_TITLE_JSON",
-                "MAKE_YEAR_JSON", "ARTIST_NAME_JSON", "EXPE_PRICE_FROM_JSON", "EXPE_PRICE_TO_JSON"};
-
-        String[] listKeys = {"LOT_SIZE_JSON"};
-
-
-        // 맵 형태 거름
-        ObjectMapper mapper  = new ObjectMapper();
-        try{
-            // 맵 변환
-            for (var i = 0; i < lotImages.size(); i++) {
-                for (var item : mapKeys) {
-                    lotImages.get(i).put(item, mapper.readValue(String.valueOf(lotImages.get(i).get(item)),
-                            Map.class));
-                }
-                for(var item2 : listKeys) {
-                    lotImages.get(i).put(item2,
-                            mapper.readValue(String.valueOf(lotImages.get(i).get(item2)), List.class));
-                }
-
-                if (lotImages.get(i).get("IMG_DISP_YN").equals("N") && !isEmployee) {
-                    lotImages.get(i).put("IMAGE_URL", "");
-                    lotImages.get(i).put("FILE_PATH", "");
-                    lotImages.get(i).put("FILE_NAME", "images/bg/no_image.jpg");
-                }else {
-                    lotImages.get(i).put("IMAGE_URL", IMAGE_URL);
-                }
-            }
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-
-        return ResponseEntity.ok(RestResponse.ok(lotImages));
+        commonMap.put("category", category);
+        commonMap.put("tag", tag);
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectSaleList(commonMap)));
    }
     @RequestMapping(value = "/lotTag/{saleNo}", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> selectLotTagList(
