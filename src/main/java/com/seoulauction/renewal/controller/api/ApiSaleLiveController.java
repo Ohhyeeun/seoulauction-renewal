@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.common.RestResponse;
+import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.component.CurrencyDataManager;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
@@ -505,12 +506,20 @@ public class ApiSaleLiveController {
     public ResponseEntity<RestResponse> list(
             @PathVariable("saleNo") int saleNo,
             @RequestParam(value = "category" , required = false) String category,
-            @RequestParam(value = "tag" , required = false) String tag
+            @RequestParam(value = "tag" , required = false) String tag,
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size,
+            @@RequestParam(value = "lang" , defaultValue = "ko" , required = false) String lang,
+            @RequestParam(value = "search" , required = false ) String search,
+            @RequestParam(required = false) String sortBy
     ) {
-        CommonMap commonMap = new CommonMap();
+        CommonMap commonMap = CommonMap.create(page,size);
         commonMap.put("sale_no", saleNo);
         commonMap.put("category", category);
         commonMap.put("tag", tag);
+        commonMap.put("lang" , lang);
+        commonMap.put("search" , search);
+        commonMap.put("sort_by", sortBy);
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectSaleList(commonMap)));
    }
     @RequestMapping(value = "/lotTag/{saleNo}", method = RequestMethod.GET)

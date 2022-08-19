@@ -394,7 +394,20 @@
         <if test="tag !=null">
           AND L.LOT_TAG = #{tag}
         </if>
+        <if test="search != null and lang != null">
+          AND (COLUMN_GET(D.ARTIST_NAME_BLOB, #{lang} AS CHAR) like concat('%', #{search}, '%')
+          OR COLUMN_GET(L.TITLE_BLOB, #{lang} AS CHAR) like concat('%', #{search}, '%'))
+        </if>
         GROUP BY L.LOT_NO
+        ORDER BY
+        <choose>
+            <when test="sort_by == 'LOTAS'">L.LOT_NO</when>
+            <when test="sort_by == 'ESTDE'">COLUMN_GET(L.EXPE_PRICE_FROM_BLOB, 'KRW' as double) desc, L.LOT_NO</when>
+            <when test="sort_by == 'ESTAS'">COLUMN_GET(L.EXPE_PRICE_FROM_BLOB, 'KRW' as double), L.LOT_NO</when>
+            <otherwise>L.LOT_NO</otherwise>
+        </choose>
+        limit
+        #{offset} , #{size}
     </select>
 
 
