@@ -598,7 +598,7 @@
 
                 //카테고리
                 const categories = categoriesData.data.data;
-                categories.unshift({CD_ID:'all', CD_NM:'전체'});
+                categories.unshift({CD_ID:'all', CD_NM:'전체', CD_NM_EN : 'All'});
                 bindingCategoriesInfo(categories);
 
 
@@ -945,8 +945,9 @@
             let categoryDom = ``;
             data.map(item => {
                 const isSelect = item.CD_ID === 'all'? 'on' : '';
+                const categoryName = locale === 'ko'? item.CD_NM : item.CD_NM_EN;
                 categoryDom += `<div class="btn_item">
-                                    <a href="javascript:void(0);" onClick="changeCategory(this,'\${item.TYPE}','\${item.CD_ID}')" class="lot-btn_tabmenu `+isSelect+`" >`+item.CD_NM+`</a>
+                                    <a href="javascript:void(0);" onClick="changeCategory(this,'\${item.TYPE}','\${item.CD_ID}')" class="lot-btn_tabmenu `+isSelect+`" >`+categoryName+`</a>
                                 </div>`;
             });
             document.querySelector(`\${classForDevice} [lot-list-menu]`).innerHTML =  categoryDom;
