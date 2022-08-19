@@ -245,6 +245,17 @@ public class AuctionController {
 
     /** 라이브 중계 페이지 **/
     /* 응찰 */
+    @GetMapping(value="/live/bid/player")
+    public String bidingPlayOnly(Locale locale, Model model , HttpServletRequest request, HttpServletResponse response) {
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            model.addAttribute("member", saUserDetails);
+        } else {
+            model.addAttribute("member", new SAUserDetails());
+        }
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionBidingPlayOnly" , locale);
+    }
+
     @GetMapping(value="/live/bidder/{saleNo}")
     public String bidder(Locale locale, Model model
             , HttpServletRequest request, HttpServletResponse response,
