@@ -152,7 +152,7 @@
                         <div class="btn_set bid-type-once">
                           <div class="btn_item">
                             <a id="bid-once-btn" class="btn btn_point btn_lg typo-pc_mb-line" href="#" role="button">
-                              <span>KRW 1,800,000</span> <span>응찰하기</span>
+                              <span id="bid-once-btn-price">KRW 1,800,000</span> <span>응찰하기</span>
                             </a>
                           </div>
                         </div>
@@ -172,7 +172,7 @@
                             </div>
                           </div>
                           <div class="btn_item">
-                            <a id="bid-auto-btn" class="btn btn_point btn_lg js-bidding_btn" href="#" role="button"><span>자동응찰 중지</span></a>
+                            <a id="bid-auto-btn" class="btn btn_point btn_lg js-bidding_btn" href="#" role="button"><span>응찰하기</span></a>
                           </div>
                         </div>
                       </div>
