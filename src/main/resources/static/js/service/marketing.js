@@ -1,6 +1,6 @@
-for (let i = 1; i <= 4; i++) {
-    $("#popup_marketing"+i).addClass("js-popup_marketing"+i);
-}
+// for (let i = 1; i <= 4; i++) {
+//     $("#popup_marketing"+i).addClass("js-popup_marketing"+i);
+// }
 
 for (let i = 1; i <= 4; i++) {
     const popup_marketing = $(`.js-popup_marketing` + i).trpLayerFixedPopup("#popup_marketing" + i + "-wrap");
@@ -18,6 +18,7 @@ for (let i = 1; i <= 4; i++) {
     });
 }
 <!-- / 모바일용 팝업 -->
+
 
 <!-- PC용 팝업 -->
 (function() {
@@ -81,8 +82,8 @@ for (let i = 1; i <= 4; i++) {
 /* 화면 해상도 추가 */
 
 function marketingViewBtn(){
-    const marketingViewPcBtn = $('.tab-popup_marketing1', '.tab-popup_marketing2','.tab-popup_marketing3', '.tab-popup_marketing4');
-    const marketingViewMBtn = $('.js-popup_marketing1');
+    const marketingViewPcBtn = $('.js-popup_marketing_pc'); /* 자세히 보기 pc*/
+    const marketingViewMBtn = $('.js-popup_marketing_mo'); /* 자세히 보기 mobile */
     if(matchMedia("all and (min-width: 1024px)").matches) {
         $(marketingViewPcBtn).show();
         $(marketingViewMBtn).hide();
@@ -91,10 +92,9 @@ function marketingViewBtn(){
         $(marketingViewMBtn).show();
     }
 }
-
 marketingViewBtn();
 
 $(window).resize(function(){
-    marketingViewBtn();
+    marketingViewBtn(); 
 });
 

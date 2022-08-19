@@ -49,7 +49,11 @@
                                                     </div>
                                                     <div class="area-footer">
                                                         <div class="btn_wrap">
-                                                          <a class="btn btn_gray_line js-popup_marketing1" href="#" role="button"><span>View Detail</span></a>
+                                                            <%--pc전용 --%>
+                                                            <a id="popup_marketing1" class="btn btn_gray_line js-popup_marketing_pc" href="#" role="button"><span>View Detail</span></a>
+                                                            <%--mobile전용 --%>
+                                                            <a class="btn btn_gray_line js-popup_marketing1 js-popup_marketing_mo" href="#" role="button"><span>View Detail</span></a>
+<%--                                                          <a class="btn btn_gray_line js-popup_marketing1" href="#" role="button"><span>View Detail</span></a>--%>
                                                         </div>
                                                     </div>
                                                 </div>
