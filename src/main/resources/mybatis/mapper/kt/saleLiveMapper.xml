@@ -410,5 +410,12 @@
         #{offset} , #{size}
     </select>
 
+    <select id="selectSaleListCount" parameterType="CommonMap" resultType="int">
+        select  count(*) as CNT
+        from (
+        <include refid="selectSaleList"/>
+        ) A
+    </select>
+
 
 </mapper>

@@ -217,7 +217,7 @@ public class SaleLiveService {
         return saleLiveMapper.selectSaleLotImages(commonMap);
     }
 
-    public List<CommonMap> selectSaleList(CommonMap map){
+    public CommonMap selectSaleList(CommonMap map){
 
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
         if(saUserDetails !=null){
@@ -225,8 +225,12 @@ public class SaleLiveService {
         } else {
             map.put("cust_no" , 0);
         }
+        CommonMap resultMap = new CommonMap();
+        resultMap.put("list" , saleLiveMapper.selectSaleList(map).stream().peek(this::settingLotData).collect(Collectors.toList()));
+        resultMap.put("count" , saleLiveMapper.selectSaleListCount(map));
 
-        return saleLiveMapper.selectSaleList(map).stream().peek(this::settingLotData).collect(Collectors.toList());
+        return resultMap;
+
     }
 
     //랏 데이터를 세팅 ( 이미지 PATH , MATE )
