@@ -399,22 +399,22 @@
                                                                                 <dt class="tt4">4. Payment guidelines</dt>
                                                                                 <dd class="tb1">Methods of paying the full price of the artwork successfully bid upon are listed below.
                                                                                     <div class="txt_box_last">
-                                                                                        <div class="article">
-                                                                                            <div class="inquiry_txt">
-                                                                                                <i class="icon-inquiry"></i>
-                                                                                                <span class="tb1">Wire transfer</span>
-                                                                                            </div>
-                                                                                            <ul>
-                                                                                                <li><em>Bank : Woori Bank (Pyeongchangdong Branch)</em></li>
-                                                                                                <li><em>(Online Auction) Account :1005-500-700549</em></li>
-                                                                                                <li><em>(Zero Base Auction) Account :1005-403-971518</em></li>
-                                                                                                <li>Account Name : SEOUL AUCTION</li>
-                                                                                                <li>Swift code : HVBKKRSEXXX</li>
-                                                                                                <li><em>Inquiries</em> : (Phone) <a href="tel:82-2-2075-4422">+82 (0)2-2075-4422</a> (Email) <a href="mailto:info@seoulauction.com">info@seoulauction.com</a></li>
-                                                                                                <li>Business hours: (KST) 9:00-18:00</li>
-                                                                                            </ul>
-                                                                                            <p>When making an account transfer, please write the name of the successful bidder in the deposit memo section. If the name of the account holder and name of the bidder are not the same, the deposit confirmation may be delayed. Seoul Auction assumes no responsibility for any inconvenience that may arise from a discrepancy between the name of the account holder and the name of the bidder.</p>
-                                                                                        </div>
+<%--                                                                                        <div class="article">--%>
+<%--                                                                                            <div class="inquiry_txt">--%>
+<%--                                                                                                <i class="icon-inquiry"></i>--%>
+<%--                                                                                                <span class="tb1">Wire transfer</span>--%>
+<%--                                                                                            </div>--%>
+<%--                                                                                            <ul>--%>
+<%--                                                                                                <li><em>Bank : Woori Bank (Pyeongchangdong Branch)</em></li>--%>
+<%--                                                                                                <li><em>(Online Auction) Account :1005-500-700549</em></li>--%>
+<%--                                                                                                <li><em>(Zero Base Auction) Account :1005-403-971518</em></li>--%>
+<%--                                                                                                <li>Account Name : SEOUL AUCTION</li>--%>
+<%--                                                                                                <li>Swift code : HVBKKRSEXXX</li>--%>
+<%--                                                                                                <li><em>Inquiries</em> : (Phone) <a href="tel:82-2-2075-4422">+82 (0)2-2075-4422</a> (Email) <a href="mailto:info@seoulauction.com">info@seoulauction.com</a></li>--%>
+<%--                                                                                                <li>Business hours: (KST) 9:00-18:00</li>--%>
+<%--                                                                                            </ul>--%>
+<%--                                                                                            <p>When making an account transfer, please write the name of the successful bidder in the deposit memo section. If the name of the account holder and name of the bidder are not the same, the deposit confirmation may be delayed. Seoul Auction assumes no responsibility for any inconvenience that may arise from a discrepancy between the name of the account holder and the name of the bidder.</p>--%>
+<%--                                                                                        </div>--%>
                                                                                         <div class="article">
                                                                                             <div class="inquiry_txt">
                                                                                                 <i class="icon-inquiry"></i>
@@ -424,25 +424,25 @@
                                                                                                 <li>For an artwork bid upon via online auction and payment with a credit card that is accepted in Korea, credit card payments may be made on the Seoul Auction website. For a high-value item, there is a chance that credit card payment may not be accepted, in accordance with the policy of the relevant credit card company. The successful bidder should make the payment after logging in to the Seoul Auction website and confirming the hammer price.</li>
                                                                                             </ul>
                                                                                         </div>
-                                                                                        <div class="article">
-                                                                                            <div class="inquiry_txt">
-                                                                                                <i class="icon-inquiry"></i>
-                                                                                                <span class="tb1">In-person payment</span>
-                                                                                            </div>
-                                                                                            <ul>
-                                                                                                <li>If the bidder would like to make the payment with a credit card that cannot be used online, he or she may make the payment in person at the Pyeongchang-dong office of Seoul Auction.</li>
-                                                                                                <li>If a payment inquiry is made in advance, the employee in charge will provide the relevant guidelines.</li>
-                                                                                            </ul>
-                                                                                        </div>
+<%--                                                                                        <div class="article">--%>
+<%--                                                                                            <div class="inquiry_txt">--%>
+<%--                                                                                                <i class="icon-inquiry"></i>--%>
+<%--                                                                                                <span class="tb1">In-person payment</span>--%>
+<%--                                                                                            </div>--%>
+<%--                                                                                            <ul>--%>
+<%--                                                                                                <li>If the bidder would like to make the payment with a credit card that cannot be used online, he or she may make the payment in person at the Pyeongchang-dong office of Seoul Auction.</li>--%>
+<%--                                                                                                <li>If a payment inquiry is made in advance, the employee in charge will provide the relevant guidelines.</li>--%>
+<%--                                                                                            </ul>--%>
+<%--                                                                                        </div>--%>
 
 
-                                                                                        <div class="txt_area">
-                                                                                            <ul class="mark_dot-list tb1 info_dot_list">
-                                                                                                <li>The bidder must make the payment for the artwork (including purchase commission) within seven days of the auction (or 21 days, for hammer prices of KRW 300 million or higher) and take possession of the relevant artwork.</li>
-                                                                                                <li>The bidder may make the payment for an artwork via installment based on negotiation with Seoul Auction prior to the auction.</li>
-                                                                                                <li>The bidder may pay the full price for the artwork via cashier’s check, cash, or wire transfer to Seoul Auction’s designated bank account.</li>
-                                                                                            </ul>
-                                                                                        </div>
+<%--                                                                                        <div class="txt_area">--%>
+<%--                                                                                            <ul class="mark_dot-list tb1 info_dot_list">--%>
+<%--                                                                                                <li>The bidder must make the payment for the artwork (including purchase commission) within seven days of the auction (or 21 days, for hammer prices of KRW 300 million or higher) and take possession of the relevant artwork.</li>--%>
+<%--                                                                                                <li>The bidder may make the payment for an artwork via installment based on negotiation with Seoul Auction prior to the auction.</li>--%>
+<%--                                                                                                <li>The bidder may pay the full price for the artwork via cashier’s check, cash, or wire transfer to Seoul Auction’s designated bank account.</li>--%>
+<%--                                                                                            </ul>--%>
+<%--                                                                                        </div>--%> 
                                                                                     </div>
                                                                                 </dd>
                                                                             </dl>
