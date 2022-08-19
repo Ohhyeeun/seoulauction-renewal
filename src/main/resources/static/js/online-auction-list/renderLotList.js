@@ -114,18 +114,8 @@ function renderLotItem(data, option) {
 
   const currentPrice = data.LAST_PRICE >= 0 && data.END_YN === 'N' ? formatNumber(data.LAST_PRICE) : '-';
 
-  const remainTime = timerFormat(new Date(data?.TO_DT).getTime() - new Date().getTime()); // 남은 timestamp
-  let remainTimeFormat = '';
-  if (remainTime) {
-    remainTimeFormat = [
-      remainTime[0] > 0 ? remainTime[0] + '일 ' : '',
-      remainTime[1] > 0 ? `${toFixTen(remainTime[1])}:` : '',
-      remainTime[2] > 0 ? `${toFixTen(remainTime[2])}:` : '00:',
-      remainTime[3] > 0 ? toFixTen(remainTime[3]) : '00',
-    ].filter(Boolean).join('');
-  }
-
-  const isProcessing = ['online'].includes(data.SALE_KIND_CD) && data.END_YN === 'N'; // 진행중 여부
+  const times = fromNow(data?.TO_DT);
+  // const isProcessing = ['online'].includes(data.SALE_KIND_CD) && data.END_YN === 'N'; // 진행중 여부
   const isAuctioned = data.LAST_PRICE >= 0 && data.BID_CNT > 0 && data.END_YN === 'Y'; // 낙찰 여부
   const hammerPrice = data.LAST_PRICE; // 낙찰가
 
@@ -225,7 +215,7 @@ function renderLotItem(data, option) {
               <div class="bidding-box">
                 <div class="deadline_set">
                   <a href="#" id="data-lot-${lotNo}-remain-time">
-                    <span>${remainTime && remainTimeFormat ? remainTimeFormat : ''}</span>
+                    <span>${times ? times.format : ''}</span>
                   </a>
                 </div>
                 <div class="btn_set">
