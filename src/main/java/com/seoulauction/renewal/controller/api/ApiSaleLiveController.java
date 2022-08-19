@@ -509,7 +509,7 @@ public class ApiSaleLiveController {
             @RequestParam(value = "tag" , required = false) String tag,
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size,
-            @@RequestParam(value = "lang" , defaultValue = "ko" , required = false) String lang,
+            @RequestParam(value = "lang" , defaultValue = "ko" , required = false) String lang,
             @RequestParam(value = "search" , required = false ) String search,
             @RequestParam(required = false) String sortBy
     ) {
