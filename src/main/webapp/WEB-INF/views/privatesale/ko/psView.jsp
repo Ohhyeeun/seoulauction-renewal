@@ -987,47 +987,43 @@
 
 
                 /* === zoom ===  panzoom.reset()*/
-                var zoom_range = document.querySelector('.js-zoom_inout');
-                var panzoom = "";
-
-                function panzoom_set() {
-                    console.log("=====================>panzoom_set");
-
-                    panzoom = Panzoom(zoom_range, {
-                        /* disablePan: true, */
-                        maxScale: 4, // (Default: 4)
-                        minScale: 1 // (Default: 0.125)
-                    });
-                    $(".js-zoomin").on("click", function() {
-                        panzoom.zoomIn();
-                    });
-                    $(".js-zoomout").on("click", function() {
-                        panzoom.zoomOut();
-                    });
-                    document.addEventListener("wheel", function (e) {
-                        if (e.deltaY > 0) {
-                            panzoom.zoomOut();
-                        }
-                        else {
-                            panzoom.zoomIn();
-                        }
-                    });
-                    panzoom.zoom(1, {
-                        animate: true
-                    })
-                }
-
-                function panzoom_reset() {
-                    console.log("-------------------------->panzoom_reset");
-                    panzoom.reset();
-                    panzoom.destroy();
-                    panzoom = "";
-                    $(".js-zoomin").off("click");
-                    $(".js-zoomout").off("click");
-                }
-                if ($("body").hasClass("is_pc")) {
-                    panzoom_set();
-                }
+                // var zoom_range = document.querySelector('.js-zoom_inout');
+                // var panzoom = "";
+                //
+                // function panzoom_set() {
+                //     console.log("=====================>panzoom_set");
+                //
+                //     panzoom = Panzoom(zoom_range, {
+                //         /* disablePan: true, */
+                //         maxScale: 4, // (Default: 4)
+                //         minScale: 1 // (Default: 0.125)
+                //     });
+                //     $(".js-zoomin").on("click", function() {
+                //         panzoom.zoomIn();
+                //     });
+                //     $(".js-zoomout").on("click", function() {
+                //         panzoom.zoomOut();
+                //     });
+                //     document.addEventListener("wheel", function (e) {
+                //         if (e.deltaY > 0) panzoom.zoomOut();
+                //         else panzoom.zoomIn();
+                //     });
+                //     panzoom.zoom(1, {
+                //         animate: true
+                //     })
+                // }
+                //
+                // function panzoom_reset() {
+                //     console.log("-------------------------->panzoom_reset");
+                //     panzoom.reset();
+                //     panzoom.destroy();
+                //     panzoom = "";
+                //     $(".js-zoomin").off("click");
+                //     $(".js-zoomout").off("click");
+                // }
+                // if ($("body").hasClass("is_pc")) {
+                //     panzoom_set();
+                // }
 
                 /* 섭네일 클릭 */
                 $(".js-thumbnail-list a").on("click", function($e) {
@@ -1099,12 +1095,8 @@
                 panzoom.zoomOut();
             });
             document.addEventListener("wheel", function (e) {
-                if (e.deltaY > 0) {
-                    panzoom.zoomOut();
-                }
-                else {
-                    panzoom.zoomIn();
-                }
+                if (e.deltaY > 0) panzoom.zoomOut();
+                else panzoom.zoomIn();
             });
             panzoom.zoom(1, {
                 animate: true
