@@ -541,10 +541,12 @@
                 const saleStatus = $scope.sale_status;
                 const paddleNo = $scope.paddNo;
                 const isLogin = sessionStorage.getItem("is_login") === 'true';
+                console.log(!isLogin)
                 if(saleStatus === 'READY' && !isLogin){
                     //로그인 페이지 이동
-                }else if(saleStatus === 'READY' && isRegular && paddleNo < 1){
-                    //패들신청
+                    if(!checkLogin()) return;
+                }else if(saleStatus === 'READY' && ${isRegular} && paddleNo < 1){
+                    //패들 발급 신청
                     let isCustRequired = ${isCustRequired};
                     if(!isCustRequired){
                         if(confirm('패들 신청에 필요한 필수회원정보가 있습니다.\n회원정보를 수정하시겠습니까?')){
@@ -571,41 +573,6 @@
                     window.open("/auction/live/bidder/"+$scope.sale_no, "bidder", "resizable=no, status=no, menubar=no, toolbar=no, location=no, directories=no");
                     return;
                 }
-                /*if($scope.sale_status == 'ING' && $scope.liveCheckDt >= $scope.liveStartDt) {
-                    // 경매 당일 응찰하기
-                    window.open("/auction/live/bidder/"+$scope.sale_no, "bidder", "resizable=no, status=no, menubar=no, toolbar=no, location=no, directories=no");
-                    return;
-                } else if($scope.sale_status == 'ING' && $scope.nowTime == $scope.liveEnd && $scope.liveCheckDt < $scope.liveStartDt) {
-                    // 경매 당일 패들번호 출력
-                    return;
-                } else if($scope.sale_status == 'ING' && $scope.nowTime < $scope.liveEnd) {
-                    // 경매 당일 전 신청하기 자동생성
-                    if(!checkLogin()) return;
-
-                    let isRegular = ${isRegular};
-                    if(!isRegular){
-                        alert('정회원만 패들 신청이 가능합니다.');
-                        return;
-                    }
-
-                    let isCustRequired = ${isCustRequired};
-                    if(!isCustRequired){
-                        if(confirm('패들 신청에 필요한 필수회원정보가 있습니다.\n회원정보를 수정하시겠습니까?')){
-                            location.href = '/mypage/custModify';
-                        }
-                        return;
-                    }
-
-                    if($scope.paddNo <= 0) {
-                        terms_required.open(this); // or false
-                        popup_fixation("#terms_required-wrap");
-
-                        $("body").on("click", "#terms_required-wrap .js-closepop, #terms_required-wrap .popup-dim", function($e) {
-                            $e.preventDefault();
-                            terms_required.close();
-                        });
-                    }
-                }*/
             }
 
             $scope.goLiveBidAgree = function() {
