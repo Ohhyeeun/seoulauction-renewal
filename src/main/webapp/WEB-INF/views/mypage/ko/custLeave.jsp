@@ -69,7 +69,7 @@
                                                 </article>
                                                 <article class="button-area">
                                                     <div class="btn_set-float tac">
-                                                        <button class="btn btn_default btn_lg"><span>취소</span></button>
+                                                        <button onclick="window.history.back()" class="btn btn_default btn_lg"><span>취소</span></button>
                                                         <button id="leaveButton" onclick="custLeave()" class="btn btn_gray btn_lg" disabled><span>회원탈퇴</span></button>
                                                     </div>
                                                 </article>
