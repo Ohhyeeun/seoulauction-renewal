@@ -709,7 +709,7 @@
         /*랏 목록*/
         const getLotList=(saleNo, type, cd_id)=>{
             try {
-                const paramQuery = cd_id !== 'all'? '?'+type+'='+cd_id : '';
+                const paramQuery = cd_id !== 'all'? '?'+type+'='+encodeURI(cd_id) : '';
                 return axios.get('/api/auction/live/sales/'+saleNo+'/lots'+paramQuery);
             } catch (error) {
                 console.error(error);
