@@ -1,5 +1,5 @@
 /**
- * [API Call] 관심작품 목록
+ * [API] 관심작품 목록
  * @method GET
  * @return {Promise<Array<Object>>}
  */
@@ -15,8 +15,7 @@ async function callApiGetFavoriteLots(saleNo) {
 }
 
 /**
- * [API Call] 관심작품 등록
- *
+ * [API] 관심작품 등록
  */
 async function callApiAddFavoriteLot(saleNo, lotNo) {
   try {
@@ -71,7 +70,7 @@ async function callApiBidList(saleNo, lotNo, page = 1, size = 20) {
 }
 
 /**
- * 랏 상세 데이터 구조
+ * [Type] 랏 상세 데이터 구조
  * @typedef {Object} LotDetail
  * @property {number} SALE_NO
  * @property {number} LOT_NO
@@ -130,7 +129,7 @@ async function callApiBidList(saleNo, lotNo, page = 1, size = 20) {
  */
 
 /**
- * 랏 상세 정보 조회
+ * [API] 랏 상세 정보 조회
  * @param {number} saleNo
  * @param {number} lotNo
  * @return {Promise<LotDetail>}
@@ -140,6 +139,72 @@ async function callApiGetLotInfo(saleNo, lotNo) {
     const { data: response } = await window.axios.get(`/api/auction/online/sales/${saleNo}/lots/${lotNo}`);
     const { success, data } = response;
     if (!success) throw new Error('Error');
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+/**
+ * [API] 경매 번호, 랏 번호의 마지막 자동응찰 내역을 조회
+ * @param saleNo
+ * @param lotNo
+ * @return {Promise<void>}
+ */
+async function callApiGetLastAutoBid(saleNo, lotNo) {
+  try {
+    const { data: response } = await window.axios.get(`/api/auction/online/last-auto-bid-req/sales/${saleNo}/lots/${lotNo}`);
+    console.log(response)
+    const { success, data } = response;
+    if (!success) throw new Error('Error');
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+/**
+ * [API] 자동응찰 등록
+ * @param {number} saleNo
+ * @param {number} lotNo
+ * @param {number} custNo
+ * @param {number | string} price
+ * @return {Promise<null|*>}
+ */
+async function callApiRegisterAutoBid({ saleNo, lotNo, custNo, price }) {
+  try {
+    const body = {
+      bid_price: Number(price),
+      cust_no: custNo,
+    }
+
+    const { data: response } = await window.axios.post(`/api/auction/online/bid-auto/sales/${saleNo}/lots/${lotNo}`, body);
+    const { success } = response;
+    return success;
+  } catch (error) {
+    return null;
+  }
+}
+
+/**
+ * [Type] 내 로그인 정보
+ * @typedef {Object} Me
+ * @property {number} CUST_NO
+ * @property {'Y' | 'N'} IS_EMPLOYEE
+ * @property {'Y' | 'N'} IS_LOGIN
+ * @property {'Y' | 'N'} IS_MEMBERSHIP
+ */
+
+/**
+ * [API] 내 로그인 정보 조회
+ * @return {Promise<Me>}
+ */
+async function callApiGetMe() {
+  try {
+    const { data: response } = await window.axios.get(`/api/auction/online/me`);
+    const { success, data } = response;
+    if (!success) throw new Error('Error');
+
     return data;
   } catch (error) {
     return null;

@@ -82,7 +82,7 @@
                                                 <strong>Contact</strong>
                                             </div>
                                             <div class="info-guide">
-                                                <div class="manager-box"> <span>Seoul Auction Exhibition Marketing </span> <em>Yoon Ga-ram</em> </div>
+                                                <div class="manager-box"> <span>Head of Sale, Exhibition Marketing </span> <em>Yoon Ga-ram</em> </div> 
                                                 <div class="contact-box">
                                                     <ul>
                                                         <li><span>T.</span> <a href="tel:02-2075-4422"><em>02-2075-4422</em></a></li>

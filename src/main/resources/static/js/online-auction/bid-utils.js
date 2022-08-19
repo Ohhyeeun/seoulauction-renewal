@@ -5,8 +5,29 @@
  * @param {number | string} lotNo
  */
 async function handleOpenBidPopup(saleNo, lotNo) {
+  let usePolling = true;
+  const me = await callApiGetMe();
   const lotData = await callApiGetLotInfo(saleNo, Number(lotNo));
   const popup = createBidPopupFromTemplate();
+
+  /**
+   * 랏 정보 Polling Worker
+   */
+  const fetcherWorker = new Worker('/js/online-auction/bid-fetcher.worker.js');
+  setInterval(() => {
+    if (usePolling) {
+      fetcherWorker.postMessage({
+        currency: lotData.CURR_CD || 'KRW',
+        saleNo: lotData.SALE_NO,
+        lotNo: lotData.LOT_NO,
+      });
+    }
+  }, 2000);
+
+  // 워커에서 데이터 수신
+  fetcherWorker.onmessage = (evt) => {
+    // TODO: HTML 렌더링(새로고침)
+  }
 
   /**
    * [Onload] 최초 데이터 바인딩 & 렌더링
@@ -19,6 +40,7 @@ async function handleOpenBidPopup(saleNo, lotNo) {
   popup.querySelector('.js-closepop').addEventListener('click', async e => {
     e.preventDefault();
     await toggleBidPopup(popup, false);
+    usePolling = false;
   });
 
   /**
@@ -43,11 +65,16 @@ async function handleOpenBidPopup(saleNo, lotNo) {
 
   /**
    * [Event] 자동응찰 금액 변경 셀렉트
+   * @see https://select2.org/programmatic-control/events
    */
-  $('.js-bidding_option').select2({ minimumResultsForSearch: -1 }).on('select2:select', (e) => {
-    const value = e.target.value;
-    // TODO: 응찰 금액 선택 시 처리
-  });
+  $('.js-bidding_option').select2({ minimumResultsForSearch: -1 })
+    .on('select2:opening', e => {
+      e.target.innerHTML = renderAutoBidPriceList(lotData);
+    })
+    .on('select2:select', (e) => {
+      const value = e.target.value;
+      // TODO: 응찰 금액 선택 시 처리
+    });
 
   /**
    * [Event] 1회 응찰
@@ -60,9 +87,25 @@ async function handleOpenBidPopup(saleNo, lotNo) {
   /**
    * [Event] 자동 응찰
    */
-  document.getElementById('bid-auto-btn').addEventListener('click', e => {
+  document.getElementById('bid-auto-btn').addEventListener('click', async e => {
     e.preventDefault();
-    // TODO: 자동 응찰 신청
+    const saleNo = lotData.SALE_NO;
+    const lotNo = lotData.LOT_NO;
+    const custNo = me.CUST_NO;
+    const isLogin = me.IS_LOGIN === 'Y';
+    const price = $('.js-bidding_option').val();
+
+    if (custNo < 1 || !isLogin) {
+      // TODO: 로그인 팝업 처리
+      return;
+    }
+
+    // 자동응찰 등록
+    await callApiRegisterAutoBid({ saleNo, lotNo, custNo, price });
+
+    // 팝업 데이터 렌더링 (응찰 목록)
+    const { rows: bidListData } = await callApiBidList(saleNo, lotNo);
+    await renderPopupContentBidList(popup, bidListData);
   });
 }
 
@@ -73,6 +116,9 @@ async function handleOpenBidPopup(saleNo, lotNo) {
  * @return {Promise<void>}
  */
 async function onLoadBidPopup(popup, data) {
+  // 로그인 여부
+  const isLogin = window.sessionStorage.getItem('is_login') === 'true' || false;
+
   // 만약 팝업이 열려있으면, 닫기
   if (popup.classList.contains('open')) {
     await toggleBidPopup(popup, false);
@@ -97,6 +143,16 @@ async function onLoadBidPopup(popup, data) {
 
   // 기본 Bid type 선택
   selectBidType('once');
+
+  // document.getElementById('bid-once-btn').
+  const lastAutoBid = await callApiGetLastAutoBid(data.SALE_NO, data.LOT_NO);
+  console.log(lastAutoBid);
+
+  // 1회 응찰 가격 텍스트 수정
+  document.getElementById('bid-once-btn-price').innerHTML = renderOnceBidPrice(data);
+
+  // 자동 응찰 셀렉트 초기화
+  document.querySelector('.js-bidding_option').innerHTML = renderAutoBidPriceList(data);
 }
 
 /**
@@ -202,28 +258,12 @@ async function renderPopupContentRightData(popup, data) {
 
   let toDate = new Date(data.TO_DT).getTime();
   let interval = setInterval(() => {
-    updateTimes(toDate);
+    renderRemainTimes(popup, toDate);
   }, 1000);
 
   if (isEndBid) {
     clearInterval(interval);
     popup.querySelector('.bid-lot-remain-times').innerHTML = `남은시간 종료`;
-  }
-
-  function updateTimes(targetDateTimestamp) {
-    const currentTimestamp = new Date().getTime();
-    const remainTime = timerFormat(targetDateTimestamp - currentTimestamp); // 남은 timestamp
-    if (!remainTime) return;
-
-    let remainTimeFormat = '';
-    const timesZf = remainTime.filter((_, index) => index > 0).map(time => zerofillNumber(time));
-
-    if (remainTime[0] > 0) {
-      remainTimeFormat += `${remainTime[0]}일 `;
-    }
-    remainTimeFormat += timesZf.join(':');
-
-    popup.querySelector('.bid-lot-remain-times').innerHTML = `남은시간: ${remainTimeFormat}`;
   }
 }
 
@@ -310,4 +350,115 @@ function selectBidType(value) {
     document.querySelector('.bid-type-once')?.classList.remove('active');
     document.querySelector('.bid-type-auto')?.classList.add('active');
   }
+}
+
+/**
+ * 시간 필드 업데이트
+ * @param {HTMLElement} popup
+ * @param {number} targetDateTimestamp
+ */
+function renderRemainTimes(popup, targetDateTimestamp) {
+  const currentTimestamp = new Date().getTime();
+  const remainTime = timerFormat(targetDateTimestamp - currentTimestamp); // 남은 timestamp
+  if (!remainTime) return;
+
+  let remainTimeFormat = '';
+  const timesZf = remainTime.filter((_, index) => index > 0).map(time => zerofillNumber(time));
+
+  if (remainTime[0] > 0) {
+    remainTimeFormat += `${remainTime[0]}일 `;
+  }
+  remainTimeFormat += timesZf.join(':');
+
+  popup.querySelector('.bid-lot-remain-times').innerHTML = `남은시간: ${remainTimeFormat}`;
+}
+
+/**
+ * 자동응찰 선책할 수 있는 가격 목록 계산 (호가단위로 추가)
+ *
+ * 경매전 우선순위
+ * 1) 0원 이상의 시작가 * 10
+ * 2) 낮은 추정가 * 10
+ * 3) 최소 호가 * 10
+ *
+ * 경매 진행중 (현재가가 있는 경우)
+ * 0) 현재가 * 10
+ *
+ * @param {Partial<LotDetail>} data
+ */
+function renderAutoBidPriceList(data) {
+
+  const { currency, minPrice, limitPrice, maxPrice } = calculateBidPrice(data);
+
+  // 가격 목록
+  let priceList = [];
+
+  // 루프 돌면서 금액을 추가
+  let currentPrice = minPrice;
+  let growPrice = 0;
+
+  while (currentPrice <= maxPrice) {
+    growPrice = getCurrentGrowPrice(currentPrice);
+    currentPrice = currentPrice + growPrice;
+    priceList.push(currentPrice);
+  }
+
+  // 최대가격보다 높으면 제거
+  priceList = priceList.filter(price => price <= limitPrice);
+
+  const optionsHtml = priceList.map(price => `
+    <option value="${price}">${currency} ${formatNumber(price)}</option>
+  `);
+
+  return optionsHtml.join('\n');
+}
+
+/**
+ * 1회 응찰 가격 할당
+ * @param {Partial<LotDetail>} data
+ */
+function renderOnceBidPrice(data) {
+  const { currency, minPrice } = calculateBidPrice(data);
+
+  const growPrice = getCurrentGrowPrice(minPrice);
+  let currentPrice = minPrice;
+  currentPrice = currentPrice + growPrice;
+
+  return `${currency} ${formatNumber(currentPrice)}`;
+}
+
+/**
+ * 응찰 최소 / 최대 가격 계산
+ * @param {Partial<LotDetail>} data
+ */
+function calculateBidPrice(data) {
+  const currency = data?.CURR_CD || 'KRW';
+  const expectRowPrice = JSON.parse(data.EXPE_PRICE_FROM_JSON)[currency] || 0;
+  const startPrice = data.START_PRICE || 0;
+  const lastPrice = data.LAST_PRICE;
+  const fromDate = moment(data.FROM_DT); // 응찰 시작 날짜
+  const isEndBid = data.END_YN === 'Y'; // 응찰 종료 여부
+  const isBeforeStart = moment().isBefore(fromDate); // 경매 시작전인지 여부
+
+  // 최소가 구하기
+  let minPrice = 0;
+
+  // 경매 진행중(현재가)
+  if (lastPrice != null) {
+    minPrice = lastPrice;
+  }
+  // 1) 0원 이상의 시작가 * 10
+  else if (startPrice && startPrice > 0) {
+    minPrice = startPrice;
+  }
+  // 2) 낮은 추정가 * 10
+  else if (expectRowPrice && expectRowPrice > 0) {
+    minPrice = expectRowPrice;
+  }
+
+  // 최대 가격
+  const limitPrice = minPrice * 10;
+  let maxPrice = getCurrentGrowPrice(limitPrice) + limitPrice;
+
+  return { currency, minPrice, limitPrice, maxPrice }
 }
