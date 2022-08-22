@@ -16,7 +16,7 @@
 						<div class="content-panel type_panel-member">
 							<div class="panel-header">
 								<div class="title txt_input">
-									<span class="tt2">Sign up</span>
+									<span class="tt2">Registration</span>
 								</div>
 								<div class="required">
 									<span class="tb2"><i>*</i> Required</span>
@@ -86,9 +86,9 @@
 											<input type="text" tabindex="4" ng-change="emailValidCheck()" ng-model="form_data.email" name="email" id="email" class="form-control" placeholder="">
 											<button class="btn btn_light_gray_line mt10" type="button" ng-click="emailDuplCheck()"><span>Check Availability</span></button>
 											<p class="error_text tb2">{{email_msg}}</p>
-											<ul class="mark_dot-list">
-												<li class="tb2">After application. In order to enjoy all of the benefits of your online account, please complete a one-time validation of your email address.</li>
-											</ul>
+<%--											<ul class="mark_dot-list">--%>
+<%--												<li class="tb2">After application. In order to enjoy all of the benefits of your online account, please complete a one-time validation of your email address.</li>--%>
+<%--											</ul>--%>
 										</div>
 									</li>
 
@@ -126,11 +126,11 @@
 											<div class="search-add">
 												<p class="add_txt tb1">Postal Code</p>
 												<input ng-blur="addrValidBlur()" type="text" tabindex="7" ng-model="form_data.zipno" name="zipno" id="zipno" class="form-control" placeholder="">
-												<p class="add_txt tb1">Address Line</p>
+												<p class="add_txt tb1">Street/building Number</p>
 												<input ng-blur="addrValidBlur()" type="text" tabindex="8" ng-model="form_data.addr" name="addr" id="addr" class="form-control" placeholder="">
-												<p class="add_txt tb1">Province / state. City</p>
+												<p class="add_txt tb1">Province/State and City</p>
 												<input ng-blur="addrValidBlur()" type="text" tabindex="9" ng-model="form_data.addr_dtl" name="addr_dtl" id="addr_dtl" class="form-control" placeholder="">
-											</div>
+											</div> 
 										</div>
 									</li>
 
