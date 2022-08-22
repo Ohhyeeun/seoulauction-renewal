@@ -108,7 +108,7 @@ async function chkIsAuthenticated(){
     let v = await getWebviewData('remember-me');
     let d = await getWebviewData('remember-me-date');
     // 데이타 확인
-    alert(d);
+    //alert(d);
 
     if (d !== undefined) {
       if (d.length > 0) {
