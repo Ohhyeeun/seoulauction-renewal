@@ -622,8 +622,12 @@ function loadPopup(){
                                 $('body').css('overflow','visible');
                             });
                         });
+                        //데이터가 없을때 팝업 닫음.
+                    } else {
+                        $('.main-popupBg').removeClass('on');
+                        $('.main-popupwrap').removeClass('on');
+                        $('body').css('overflow','visible');
                     }
-
                 }
             })
             .catch(function (error) {
@@ -634,6 +638,9 @@ function loadPopup(){
         $('.main-popupwrap').removeClass('on');
         $('body').css('overflow','visible');
     }
+
+    console.log('asdfasdf');
+
 }
 
 //경매 회차 필터
