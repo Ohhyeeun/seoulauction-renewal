@@ -325,6 +325,35 @@
 
 
 
+    <!-- [0728]비디오 세로사이즈 -->
+    <script>
+        var _videoAnchor = $(".video_img-box a");
+        var _videoAnchorImg = $(".video_img-box a img");
+        _videoAnchorImg.each(function() {
+            _videoAnchor = $(this).parent(_videoAnchor);
+
+            if ($(this).width() < $(this).height()) {
+                _videoAnchor.addClass("vertical");
+            } else {
+                _videoAnchor.removeClass("vertical");
+            }
+        })
+    </script>
+    <!-- //[0728]비디오 세로사이즈 -->
+
+    <!-- [0809]마이페이지 사이드 유저네임 글자수제한 -->
+    <script>
+        var asideUsername = $("aside .mem-name-wrap .tt2");
+        asideUsername.each(function() {
+            var asideUsernameTxt = $(this).text();
+            var asideUsernameLimit = 9;
+            if (asideUsernameTxt.length > asideUsernameLimit) {
+                $(this).text(asideUsernameTxt.substr(0, asideUsernameLimit) + "...")
+            }
+        })
+    </script>
+    <!-- //[0809]마이페이지 사이드 유저네임 글자수제한 -->
+
 
 
 
@@ -337,29 +366,29 @@
                         <div class="pop-header">
                             <a class="btn_close icon-pop_close js-closepop" href="#" title="closed">X</a>
                             <div class="title-box">
-                                <span class="txt_title">Online auction number verification</span>
+                                <span class="txt_title">Online auction authentication code</span>
                             </div>
                         </div>
                         <div class="pop-body scroll-type">
                             <section class="section">
                                 <div class="text-area">
-                                    <P class="text-base">You can participate in the auction after verifying the number once per online auction.</P>
+                                    <P class="text-base">Bidders must receive an authentication code to participate in each online auction.</P>
                                 </div>
                                 <div class="form-area">
                                     <div class="form_label">
-                                        <label for="name-1" class="mem_txt">Certification</label>
+                                        <label for="name-1" class="mem_txt">Mobile phone authentication</label>
                                         <i>*</i>
                                     </div>
                                     <div class="form_body">
                                         <div class="input-group">
                                             <input type="text" id="name-1" class="form-control" value="" placeholder="">
-                                            <button class="btn btn_light_gray_line" type="button"><span>Request Code</span></button>
+                                            <button class="btn btn_light_gray_line" type="button"><span>Certification</span></button>
                                         </div>
                                         <div class="re-check">
                                             <div class="form_body">
                                                 <div class="input-group">
-                                                    <input type="text" id="name-2" class="form-control" value="" placeholder="Certification No.">
-                                                    <button class="btn btn_light_gray_line" type="button"><span>Confirm</span></button>
+                                                    <input type="text" id="name-2" class="form-control" value="" placeholder="Enter authentication code">
+                                                    <button class="btn btn_light_gray_line" type="button"><span>Submit</span></button>
                                                 </div>
                                                 <p class="error_text tb2">안내 메시지 출력 영역</p>
                                             </div>
@@ -374,7 +403,7 @@
                                                 <div class="header-area">
                                                     <div class="accordion_name">
                                                         <div class="trp">
-                                                            <label for="checkbox_all">Online Bid Guide</label>
+                                                            <label for="checkbox_all">Guidelines on online bidding</label>
                                                         </div>
                                                     </div>
                                                     <a href="#" class="acc_btn">
@@ -385,15 +414,15 @@
                                                     <div class="con-body">
                                                         <div class="text-area">
                                                             <ul class="mark_dot-list">
-                                                                <li>When the bid is successful, a purchase fee of 18% (excluding VAT) of the winning bid is charged.</li>
-                                                                <li><em>Bids and winning bids are non-cancellable.</em></li>
-                                                                <li><em>In the event of a successful bid withdrawal, a successful bid withdrawal fee equal to 30% of the successful bid price will be charged. </em></li>
-                                                                <li>Bidding is based on the assumption that the condition of the work is confirmed and the frame condition is not included in the condition of the work. </li>
-                                                                <li>If there is a bid within 30 seconds of the deadline, it will be automatically extended by 30 seconds. </li>
-                                                                <li>Please note that there may be differences in the reflection speed depending on the visitor's computer and internet environment. </li>
-                                                                <li><em>If you click the [One-time bid] or [Automatic bid] button, the bid will be made immediately without confirmation and can be canceled.</em></li>
-                                                                <li><em>If the remaining time is less than 1 second, the bid may end before the server is reflected, so be careful.</em></li>
-                                                                <li>[Stop automatic bidding] is not an automatic bid ‘cancellation’. In addition, the cessation of automatic bidding takes effect when it is reflected on the server,<em> so it may be stopped at a higher price than when the bidder clicks the stop button, and a successful bid may be made at this amount.</em></li>
+                                                                <li>A winning bid is accompanied by a buyer’s premium of 18 percent of the hammer price (excluding surtax).</li>
+                                                                <li><em>Bids and successful bids cannot be cancelled.</em></li>
+                                                                <li><em>If the winning bidder withdraws his/her bid, he/she must pay 30 percent of the hammer price as a bid withdrawal fine. Please make your bid after careful consideration.</em></li>
+                                                                <li>Bidding is conducted based on the assumption that the bidder has seen the artwork and its current condition in person. The “condition of the artwork” does not include the condition of the frame.</li>
+                                                                <li>If a bid is made within 30 seconds of the closing time, the deadline will automatically be extended by 30 seconds.</li>
+                                                                <li>The speed at which bids are reflected may vary depending on the user’s computer or Internet environment. Please keep this in mind when bidding.</li>
+                                                                <li><em>Clicking the [Single bid] or [Automatic bid] button results in the automatic submission of the bid without a confirmation notification. Bids made in this way can be cancelled.</em></li>
+                                                                <li><em>Please refrain from making a bid within one second of the closing time, as the server may log out before the bid is reflected.</em></li>
+                                                                <li>[Suspend automatic bid] <em>does not mean that your automatic bid has been cancelled</em>. Even if you suspend your automatic bid, bidding and/or the successful bid history remain valid until the moment of suspension. Also, please note that an automatic bid is suspended after it has been reflected on the server. If the price at the time that the suspension is reflected on the server is higher than the price when you clicked the button, that higher price may be the hammer price.</li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -405,7 +434,7 @@
                                                         <div class="trp checkbox-box">
                                                             <input id="checkbox_all" class="js_all" type="checkbox" name="">
                                                             <i></i>
-                                                            <label for="checkbox_all">Agree to all terms and conditions</label>
+                                                            <label for="checkbox_all">I consent to the Terms in full.</label>
                                                         </div>
                                                     </div>
                                                     <a href="#" class="acc_btn">
@@ -420,28 +449,28 @@
                                                                     <div class="trp checkbox-box">
                                                                         <input id="checkbox_all1" class="js_item" type="checkbox" name="">
                                                                         <i></i>
-                                                                        <label for="checkbox_all1">I have read and understood all of the Seoul Auction Auction Terms and Conditions (<span><a href="#">shortcut</a></span>) and agree to their application.</label>
+                                                                        <label for="checkbox_all1">I fully understand and am aware of Seoul Auction’s Terms for auctions <span><a href="#">[Go to Terms]</a></span> and consent to their application.</label>
                                                                     </div>
                                                                 </li>
                                                                 <li>
                                                                     <div class="trp checkbox-box">
                                                                         <input id="checkbox_all2" class="js_item" type="checkbox" name="">
                                                                         <i></i>
-                                                                        <label for="checkbox_all2">Bidding is based on the assumption that the actual work and condition have been confirmed.</label>
+                                                                        <label for="checkbox_all2">Bidding is conducted based on the assumption that the bidder has seen the artwork and its current condition in person.</label>
                                                                     </div>
                                                                 </li>
                                                                 <li>
                                                                     <div class="trp checkbox-box">
                                                                         <input id="checkbox_all3" class="js_item" type="checkbox" name="">
                                                                         <i></i>
-                                                                        <label for="checkbox_all3">The successful bidder must deposit the amount including the purchase fee within 7 days (within 21 days if the winning bid price is 300 million won or more). The purchase fee is 18% of the successful bid price (excluding VAT).</label>
+                                                                        <label for="checkbox_all3">The winning bidder must make the payment (including buyer’s premium) within seven days (or 21 days, if the hammer price is KRW 300 million or more). The buyer’s premium is 18 percent (not including surtax) of the hammer price.</label>
                                                                     </div>
                                                                 </li>
                                                                 <li>
                                                                     <div class="trp checkbox-box">
                                                                         <input id="checkbox_all3" class="js_item" type="checkbox" name="">
                                                                         <i></i>
-                                                                        <label for="checkbox_all3"><em>When a successful bid is withdrawn, a successful bid withdrawal fee equal to 30% of the successful bid price is charged.</em></label>
+                                                                        <label for="checkbox_all3"><em>If the winning bidder withdraws his/her bid, he/she must pay 30 percent of the hammer price as a bid withdrawal fine.</em></label>
                                                                     </div>
                                                                 </li>
                                                             </ul>
@@ -452,7 +481,8 @@
                                         </ul>
                                     </div>
                                     <div class="text-area">
-                                        <p class="tb2">If you have any questions about bids, please contact your person in charge (<em>Hong Gil-dong 02-2075-4411</em>).
+                                        <p class="tb2">If you have any inquiries regarding bidding, please do not hesitate to contact the employee who has been assigned to you<br>
+                                            (<em>Hong Gil-dong: +82(0)2-1234-5678</em>).
                                         </p>
                                     </div>
                                 </div>
@@ -465,7 +495,7 @@
                                             <span>Cancel</span>
                                         </a>
                                         <a class="btn btn_point" href="#" role="button">
-                                            <span>Confirm</span>
+                                            <span>OK</span>
                                         </a>
                                         <!-- //[0523]a 버튼 href에 # 삽입 -->
                                     </div>

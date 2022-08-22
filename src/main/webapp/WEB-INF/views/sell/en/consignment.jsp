@@ -286,10 +286,10 @@
                                         <div class="cont-sub">
                                             <div class="sell_item-title">
                                                 <div class="step">STEP 04</div>
-                                                <div class="title">Payment of Commission fee after Winning Bid</div>
+                                                <div class="title">Payment</div>
                                             </div>
                                             <div class="info_txt tb1">
-                                                When the art works/objects get the winning bid through the auction, a letter of notification will dispatch to the consignor and the successful bidder at the same time by our team. When the purchase price completely paid by the winning bidder, the work will deliver to the winning bidder and pay the price of consignment. A bit of price of consignment will impose from the work of successful bid.
+                                                Once an artwork is sold, the Seoul Auction employee in charge will mail a successful bid notification to both the consignor and the successful bidder. After the successful bidder makes the payment, the artwork is sent to him/her. The consignment commission is also paid at this time.
                                             </div>
 
                                             <div class="sell_item-area">
@@ -305,10 +305,9 @@
                                                                 <dd class="">
                                                                     <span class="colorD tb1">Apply 10%(VAT excluded)of winning price.</span>
                                                                     <span class="notice tb2">
-                                                                            (Impose transfer tax: It targets the item whose transfer tax is over 60 million won from 2013. but it does not apply to the works made by living artists.
-                                                                            Please read the detail information at Terms and Conditions (Article 10) ).
-                                                                        </span>
-                                                                </dd>
+                                                                            10% of hammer price (not including surtax). (Since 2013, a transfer tax has been applied to transactions of amounts of KRW 60 million or more. This does not apply, however, to artworks of living artists (as of the date of transfer). For further information, please refer to Seoul Auction’s Terms of Offline Korea Sale (Article 9).)
+                                                                    </span>
+                                                                </dd> 
                                                             </dl>
                                                         </div>
                                                     </div>

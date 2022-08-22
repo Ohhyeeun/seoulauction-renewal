@@ -242,11 +242,15 @@
                                 <div class="article-header">
                                 </div>
                                 <div class="article-body">
-                                    <p class="title">This is finished lot.</p>
+                                    <!-- [0809]텍스트수정 -->
+                                    <p class="title">Closed LOT.</p>
+                                    <!-- [0809]//텍스트수정 -->
                                 </div>
                                 <div class="article-footer">
                                     <div class="tac">
-                                        <a class="btn btn_point" href="#" onclick="window.history.back()" role="button"><span>Go Previous page</span></a>
+                                        <!-- [0809]버튼텍스트,링크 수정
+											<a class="btn btn_point" href="#" onclick="window.history.back()" role="button"><span>Go Previous page</span></a> -->
+                                        <a class="btn btn_point" href="/" role="button"><span>Go Home</span></a>
                                     </div>
                                 </div>
                             </article>
@@ -339,6 +343,35 @@
 
 
 
+
+    <!-- [0728]비디오 세로사이즈 -->
+    <script>
+        var _videoAnchor = $(".video_img-box a");
+        var _videoAnchorImg = $(".video_img-box a img");
+        _videoAnchorImg.each(function() {
+            _videoAnchor = $(this).parent(_videoAnchor);
+
+            if ($(this).width() < $(this).height()) {
+                _videoAnchor.addClass("vertical");
+            } else {
+                _videoAnchor.removeClass("vertical");
+            }
+        })
+    </script>
+    <!-- //[0728]비디오 세로사이즈 -->
+
+    <!-- [0809]마이페이지 사이드 유저네임 글자수제한 -->
+    <script>
+        var asideUsername = $("aside .mem-name-wrap .tt2");
+        asideUsername.each(function() {
+            var asideUsernameTxt = $(this).text();
+            var asideUsernameLimit = 9;
+            if (asideUsernameTxt.length > asideUsernameLimit) {
+                $(this).text(asideUsernameTxt.substr(0, asideUsernameLimit) + "...")
+            }
+        })
+    </script>
+    <!-- //[0809]마이페이지 사이드 유저네임 글자수제한 -->
 
 
 

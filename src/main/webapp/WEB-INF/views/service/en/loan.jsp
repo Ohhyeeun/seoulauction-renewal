@@ -261,7 +261,7 @@
                                                 <strong>Contact</strong>
                                             </div>
                                             <div class="info-guide">
-                                                <div class="manager-box"> <em>Lee J.H</em> </div>
+                                                <div class="manager-box"> <span>Senior Director, art work Auction Team</span> <em>Lee J.H</em> </div> 
                                                 <div class="contact-box">
                                                     <ul>
                                                         <li><span>T.</span> <a href="tel:82-2-2075-4499"><em>+82 (0)2-2075-4499</em></a></li>

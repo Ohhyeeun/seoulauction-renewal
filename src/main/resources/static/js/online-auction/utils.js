@@ -136,27 +136,57 @@ function getLanguage() {
 }
 
 /**
- * 시간 포맷
- * @param {number} countDown
- * @return {[number, number, number, number] | null}
+ * 두 시간차 계산
+ * @param {Date | string | number} targetDate
  */
-function timerFormat(countDown) {
-  const second = 1000;
-  const minute = second * 60;
-  const hour = minute * 60;
-  const day = hour * 24;
+function fromNow(targetDate) {
+  const secondMs = 1000;
+  const minuteMs = secondMs * 60;
+  const hourMs = minuteMs * 60;
+  const dayMs = hourMs * 24;
 
-  if (countDown < 0) {
-    return null;
+  let targetDateMs;
+  if (targetDate instanceof Date) {
+    targetDateMs = targetDate.getTime();
+  } else if (typeof targetDate === 'string') {
+    targetDateMs = new Date(targetDate).getTime();
+  } else {
+    targetDateMs = targetDate;
   }
 
-  // calculate time left
-  return [
-    Math.floor(countDown / day), // days
-    Math.floor((countDown % day) / hour), // hours
-    Math.floor((countDown % hour) / minute), // minutes
-    Math.floor((countDown % minute) / second), // seconds
-  ];
+  const durationMs = targetDateMs - Date.now();
+
+  // Calculate duration 2 times
+  let durations = {
+    isAfter: durationMs >= 0,
+    day: Math.floor(durationMs / dayMs),
+    hour: Math.floor((durationMs % dayMs) / hourMs),
+    minute: Math.floor((durationMs % hourMs) / minuteMs),
+    second: Math.floor((durationMs % minuteMs) / secondMs),
+  };
+
+  durations.format = '';
+  if (durations.isAfter) {
+    if (durations.day > 0) {
+      durations.format += `${durations.day}일 `;
+    }
+    durations.format += [
+      zerofillNumber(durations.hour),
+      zerofillNumber(durations.minute),
+      zerofillNumber(durations.second),
+    ].join(':');
+  }
+
+  return durations;
+}
+
+/**
+ * Zerofill
+ * @param {number} num
+ * @param {number} length
+ */
+function zerofillNumber(num, length = 2) {
+  return String(num).padStart(length, '0');
 }
 
 /**
@@ -166,3 +196,44 @@ function timerFormat(countDown) {
 function sortCollator() {
   return new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
 }
+
+/**
+ * URL 에서 페이지 데이터 가져오기
+ * @requires {window.Qs}
+ * @param {string} urlPath
+ * @return {Partial<object>}
+ */
+function getDataFromUrl(urlPath = '') {
+  const pathname = window.location.pathname;
+  const pageParams = window.Qs.parse(window.location.search, { ignoreQueryPrefix: true });
+
+  let pathData = {}
+  if (urlPath) {
+    const pathArray = pathname.split('/').filter(Boolean);
+    const urlPathArray = urlPath.split('/').filter(Boolean);
+
+    urlPathArray.forEach((item, index) => {
+      if (item.match(/{(.+)}/g)) {
+        const name = item.replace(/{(.+)}/g, '$1');
+        if (pathArray[index]) {
+          pathData[name] = pathArray[index];
+        }
+      }
+    });
+  }
+
+  return {
+    ...pathData,
+    ...pageParams,
+  }
+}
+
+/**
+ * Dom 업데이트
+ * innerHTML vs ✅ createElement
+ * - innerHTML 은 DOM 을 직접적으로 수정 (Modify)하기 때문에, innerHTML 이 실행될 때마다
+ *   모든 DOM 요소가 전부 재분석 (reparse)되고 재생성 (recreate)된다.
+ * - innerHTML 로 추가된 요소는 자동으로 이벤트 등록이 되지 않는다.
+ * - cross-site scripting(XSS) 방지
+ * 결론: createElement, createDocumentFragment, appendChild 를 활용
+ */

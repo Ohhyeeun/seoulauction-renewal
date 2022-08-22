@@ -3,11 +3,11 @@
  * @param {Partial<{ data: Array<Object>; totalCount: number; append: boolean; }>} params
  */
 async function renderLotListSection(params) {
-  const pageData = loadPageData();
+  const urlData = getDataFromUrl(`/auction/online/{saleNo}`);
   const root = document.getElementById('lot-list');
   const lang = getLanguage();
   const currency = window.globalData.currency;
-  const saleNo = pageData.saleNo;
+  const saleNo = urlData?.saleNo;
 
   // State
   let state = createState({}, (target, key, value, receiver) => {
@@ -31,9 +31,11 @@ async function renderLotListSection(params) {
       // 응찰하기 버튼 클릭
       root.querySelectorAll('.go-bid-btn').forEach(item => {
         const lotNo = item.dataset.lotNo;
-        const lotData = value.find(lot => lot.LOT_NO === Number(lotNo));
-        const option = { saleNo, lang, currency };
-        item.addEventListener('click',e => handleOpenBidPopup(e, saleNo, lotData));
+
+        item.addEventListener('click',async e => {
+          e.preventDefault();
+          await handleOpenBidPopup(saleNo, lotNo);
+        });
       });
     }
 
@@ -112,18 +114,8 @@ function renderLotItem(data, option) {
 
   const currentPrice = data.LAST_PRICE >= 0 && data.END_YN === 'N' ? formatNumber(data.LAST_PRICE) : '-';
 
-  const remainTime = timerFormat(new Date(data?.TO_DT).getTime() - new Date().getTime()); // 남은 timestamp
-  let remainTimeFormat = '';
-  if (remainTime) {
-    remainTimeFormat = [
-      remainTime[0] > 0 ? remainTime[0] + '일 ' : '',
-      remainTime[1] > 0 ? `${toFixTen(remainTime[1])}:` : '',
-      remainTime[2] > 0 ? `${toFixTen(remainTime[2])}:` : '00:',
-      remainTime[3] > 0 ? toFixTen(remainTime[3]) : '00',
-    ].filter(Boolean).join('');
-  }
-
-  const isProcessing = ['online'].includes(data.SALE_KIND_CD) && data.END_YN === 'N'; // 진행중 여부
+  const times = fromNow(data?.TO_DT);
+  // const isProcessing = ['online'].includes(data.SALE_KIND_CD) && data.END_YN === 'N'; // 진행중 여부
   const isAuctioned = data.LAST_PRICE >= 0 && data.BID_CNT > 0 && data.END_YN === 'Y'; // 낙찰 여부
   const hammerPrice = data.LAST_PRICE; // 낙찰가
 
@@ -223,7 +215,7 @@ function renderLotItem(data, option) {
               <div class="bidding-box">
                 <div class="deadline_set">
                   <a href="#" id="data-lot-${lotNo}-remain-time">
-                    <span>${remainTime && remainTimeFormat ? remainTimeFormat : ''}</span>
+                    <span>${times ? times.format : ''}</span>
                   </a>
                 </div>
                 <div class="btn_set">

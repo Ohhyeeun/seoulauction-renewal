@@ -71,9 +71,9 @@ function PubUI() {
             }, 370);
         });
     }, o.mobileBack = function() {
-        // $(".js-history_back").click(function() {
-        //     window.history.back();
-        // });
+        $(".js-history_back").click(function() {
+            window.history.back();
+        });
     }, 
     /* 탑버튼 보이기 */
     $(window).scroll(function() {
@@ -128,7 +128,6 @@ function responsiveDevices() {
         var windowW = screen.availWidth;
         var windowH = screen.availHeight;
 
-
         // let z = ((parseFloat($(window).width() / 1024) >= 1)?1:parseFloat($(window).width() / 1024));
 
         // let h = (parseFloat(parseInt($(o[e]).attr("size1"))) / 250) * 500 * z;
@@ -147,7 +146,6 @@ function responsiveDevices() {
     }
     /// console.log("=========imgresize=========", _orgW, _orgH, $("body").hasClass("is_mb"))
 } 
-
 
 /* 팝업높이계산 */function popup_fixation(o) {
     var n = o, e = $(".pop-body>.section", n).outerHeight() + 166, t = $(window).height();

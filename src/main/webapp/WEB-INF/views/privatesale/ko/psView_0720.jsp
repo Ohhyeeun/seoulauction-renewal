@@ -162,23 +162,23 @@
                                         <div class="info-box">
                                             <div class="title">작품정보</div>
                                             <div class="desc">
-                                                {{saleInfo.MATE_NM}} <br />
+                                                <%--                                                {{saleInfo.MATE_NM}} <br />--%>
                                                 <span ng-bind="saleInfo | size_text_cm"></span> <span>{{saleInfo.MAKE_YEAR_KO}}</span> <br />
                                                 <span bind-html-compile="saleInfo.SIGN_INFO_KO"><br /></span>
 
                                                 <%--에디션--%>
                                                 <div ng-show="saleInfo.EDITION">
-                                                    <span> {{saleInfo.EDITION}} </span>
+                                                    <%--                                                    <span> {{saleInfo.EDITION}} </span>--%>
                                                 </div>
 
                                                 <%--제작년도--%>
                                                 <div ng-show="isNotObjectEmpty(saleInfo.MAKE_YEAR_JSON)">
-                                                    <span title="{{saleInfo.MAKE_YEAR_JSON | locale_format }}">{{saleInfo.MAKE_YEAR_JSON | locale_format }}</span>
+                                                    <%--                                                    <span title="{{saleInfo.MAKE_YEAR_JSON | locale_format }}">{{saleInfo.MAKE_YEAR_JSON | locale_format }}</span>--%>
                                                 </div>
 
                                                 <%--서명 정보--%>
                                                 <div ng-show="isNotObjectEmpty(saleInfo.SIGN_INFO_JSON)">
-                                                    <span title="{{saleInfo.SIGN_INFO_JSON | locale_format }}">{{saleInfo.SIGN_INFO_JSON | locale_format }}</span>
+                                                    <%--                                                    <span title="{{saleInfo.SIGN_INFO_JSON | locale_format }}">{{saleInfo.SIGN_INFO_JSON | locale_format }}</span>--%>
                                                 </div>
                                             </div>
                                             <!-- [0714]작품정보 하위댑스 추가 -->
@@ -198,28 +198,28 @@
                                                 <%--LITERATURE--%>
                                                 <div ng-show="isNotObjectEmpty(saleInfo.LITE_INFO_JSON)" class="info-sub-box">
                                                     <div class="tit tt5">LITERATURE</div>
-                                                    <div class="desc">{{saleInfo.LITE_INFO_JSON | locale_format }}</div>
+                                                    <%--                                                    <div class="desc">{{saleInfo.LITE_INFO_JSON | locale_format }}</div>--%>
                                                 </div>
 
                                                 <%--EXHIBITED--%>
                                                 <div ng-show="isNotObjectEmpty(saleInfo.EXHI_INFO_JSON)" class="info-sub-box">
                                                     <div class="tit tt5">EXHIBITED</div>
-                                                    <div class="desc">{{saleInfo.EXHI_INFO_JSON | locale_format }}</div>
+                                                    <%--                                                    <div class="desc">{{saleInfo.EXHI_INFO_JSON | locale_format }}</div>--%>
                                                 </div>
                                             </div>
                                             <!-- //[0714]작품정보 하위댑스 추가 -->
                                         </div>
 
-<%--                                        <div class="info-box">--%>
-<%--                                            <div class="title">Condition Report</div>--%>
-<%--                                            <div class="desc">--%>
-<%--                                            </div>--%>
-<%--                                        </div>--%>
+                                        <%--                                        <div class="info-box">--%>
+                                        <%--                                            <div class="title">Condition Report</div>--%>
+                                        <%--                                            <div class="desc">--%>
+                                        <%--                                            </div>--%>
+                                        <%--                                        </div>--%>
 
                                         <!-- [0714]작품설명 추가 -->
                                         <div ng-show="isNotObjectEmpty(saleInfo.CMMT_JSON)" class="info-box">
                                             <div class="title">작품 설명</div>
-                                            <div class="desc txt-pre-line">{{saleInfo.CMMT_JSON | locale_format }}</div>
+                                            <%--                                            <div class="desc txt-pre-line">{{saleInfo.CMMT_JSON | locale_format }}</div>--%>
                                         </div>
                                         <!-- //[0714]작품설명 추가 -->
 
@@ -241,18 +241,18 @@
                                         <div id="artist_layer" class="info-box">
                                             <div class="title">작가정보</div>
                                             <%--0728 삭제--%>
-<%--                                            <div class="desc txt-pre-line" id="artistName">--%>
-<%--                                            </div>--%>
-<%--                                            <div class="desc txt-pre-line" id="artistProfile">--%>
-<%--                                            </div>--%>
-                                        <%--//0728 삭제--%>
+                                            <%--                                            <div class="desc txt-pre-line" id="artistName">--%>
+                                            <%--                                            </div>--%>
+                                            <%--                                            <div class="desc txt-pre-line" id="artistProfile">--%>
+                                            <%--                                            </div>--%>
+                                            <%--//0728 삭제--%>
                                             <%--0728 추가--%>
                                             <div class="desc txt-pre-line" id="artistArticle">
                                                 <a href="#" class="sub-links">“날지 못해 멸종된 모리셔스 도도새 그리며 꿈과 자유를 본다”</a><%--
                                                     --%><a href="#" class="sub-links">“날지 못해 멸종된 모리셔스 도도새 그리며 꿈과 자유를 본다”</a><%--
                                                     --%><a href="#" class="sub-links">“날지 못해 멸종된 모리셔스 도도새 그리며 꿈과 자유를 본다”</a><%----%>
                                             </div>
-                                            <%--//0728 추가--%> 
+                                            <%--//0728 추가--%>
                                             <div class="desc" id="artistMedia">
                                             </div>
                                         </div>
@@ -277,7 +277,7 @@
         <!-- //container -->
 
         <!-- footer -->
-        <jsp:include page="../../include/ko/footer.jsp" flush="false"/> 
+        <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
         <!-- //footer -->
 
         <!-- stykey -->
@@ -293,7 +293,7 @@
 </div>
 
 
-<%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></script>--%>
+<%--<script type="text/javascript" src="/js/plugin/jquery.min.js"></--%>
 <%--<!--[if lt IE 9]> --><script src="/js/plugin/html5shiv.js"></script> <![endif]-->--%>
 <%--<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
 <%--<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
@@ -324,9 +324,9 @@
                                 </button>
                             </div>
                             <div class="view_paging-area">
-<%--                                <button class="page_prev"><i class="icon-view_paging_left"></i></button>--%>
-<%--                                <span id="view_lot_no"></span>--%>
-<%--                                <button class="page_next"><i class="icon-view_paging_right"></i></button>--%>
+                                <%--                                <button class="page_prev"><i class="icon-view_paging_left"></i></button>--%>
+                                <%--                                <span id="view_lot_no"></span>--%>
+                                <%--                                <button class="page_next"><i class="icon-view_paging_right"></i></button>--%>
                             </div>
                         </article>
                     </div>
@@ -452,19 +452,6 @@
             }
         }
     }
-    const locale = document.documentElement.lang;
-
-    app.filter('locale_format', function(){
-        return function(val) {
-            if (val === undefined) {
-                return '';
-            }
-            let parse = JSON.parse(val);
-
-
-            return locale === 'ko' ? parse.ko : parse.en;
-        };
-    });
 
     app.controller('ctl', function ($scope, consts, common, is_login, locale) {
 
@@ -497,15 +484,6 @@
             }
         };
 
-        const getViewScaleList = (saleAsNo) => {
-            console.log("getViewScaleList : ", saleAsNo);
-            try {
-                return axios.get('/api/privatesale/viewScaleList/${saleAsNo}');
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
         $scope.goLot = function (saleAsNo) {
             window.location.href = '/privatesale/psView/' + saleAsNo;
         }
@@ -531,35 +509,20 @@
             $temp.remove();
             alert('URL이 복사되었습니다.');
         }
-        //오브젝트 or 배열 비었는지 확인
-        $scope.isNotObjectEmpty = function (param) {
-
-            if(param === undefined){
-                return false;
-            }
-
-            let object = JSON.parse(param);
-
-            if(object === undefined){
-                return false;
-            }
-            return object.constructor === Object && Object.keys(object).length !== 0;
-        }
 
         // 호출 부
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3, r4] = await Promise.all([getPrivateSaleInfo($scope.saleAsNo),
+                let [r1, r2, r3] = await Promise.all([getPrivateSaleInfo($scope.saleAsNo),
                     getPrivateSaleImages($scope.saleAsNo),
-                    getSaleList(),
-                    getViewScaleList($scope.saleAsNo)]);
+                    getSaleList()]);
 
                 $scope.saleInfo = r1.data.data;
                 $scope.saleImages = r2.data.data;
                 $scope.saleList = r3.data.data;
-                $scope.viewScaleList = r4.data.data;
 
                 $scope.activeIndex = 0;
+
                 // popup setting
 
                 let imgUrl = $scope.saleImages[0].IMAGE_URL +
@@ -575,53 +538,6 @@
 
                 //artist 번호
                 $scope.artistNo = $scope.saleInfo.ARTIST_NO;
-
-                //작가 정보 admin에서 가져오도록 변경
-                axios.get('/api/auction/artist_info/' + $scope.artistNo)
-                    .then(function(response) {
-                        const data = response.data;
-                        let success = data.success;
-
-                        if(success){
-                            let artistData = data.data;
-
-                            if(!artistData){
-                                $("#artist_layer").css("display", "none");
-                            }
-                            else{
-                                let articlesList = JSON.parse(artistData.articles).articles;
-                                let artistYoutubeImages = JSON.parse(artistData.media).youtube;
-                                let artistImageList = artistData.images;
-
-                                let title = '';
-                                $.each(articlesList, function (index, el) {
-                                    if(locale == 'ko'){
-                                        title += el.titleKo + '</br>';
-                                    }else{
-                                        title += el.titleEn + '</br>';
-                                    }
-                                });
-
-                                $("#artistName").html(JSON.parse(artistData.name).ko + ' ' +  artistData.birth + '~' + artistData.death);
-                                $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
-
-                                let html = '<div class="video_img-box">';
-                                $.each(artistYoutubeImages, function (index, el) {
-                                    $.each(artistImageList, function (s3Index, el) {
-                                        //일단은 youtube만 뿌리기로
-                                        if(artistImageList[s3Index].tag == 'youtube' + index){
-                                            html += '<a href="' + artistYoutubeImages[index] + '"><img src=" '+ artistImageList[s3Index].cdn_url + ' " alt="" /></a>';
-                                        }
-                                    });
-                                });
-                                html += '</div>';
-                                $("#artistMedia").html(html);
-                            }
-                        }
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                    });
 
                 // 카카오 init
                 Kakao.init('cf2233f55e74d6d0982ab74909c97835');
@@ -683,13 +599,11 @@
                 });
 
                 let sale_list = $scope.saleList;
-                let viewScaleList = $scope.viewScaleList;
                 let sale_images = $scope.saleImages;
                 let firstCheck = 0;
 
-                // $.each(sale_list, function (index, el) {
+                $.each(sale_list, function (index, el) {
 
-                const el = viewScaleList[0];
                     let size1 = 0;
                     let size2 = 0;
                     let unitCd = '';
@@ -704,54 +618,26 @@
                     let img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
 
                     let swiper_slide_item = '';
-                    // if (firstCheck == 0) {
-                    //     $scope.chk = parseInt(sale_as_no) - index -1;
-                    // }
-                    // firstCheck++;
+                    if (firstCheck == 0) {
+                        $scope.chk = parseInt(sale_as_no) - index -1;
+                    }
+                    firstCheck++;
                     //if(size1 > 160) {
-                    //     swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
-                    //                            <div class="img-area">
-                    //                             <div class="img-box">
-                    //                                 <div class="size_x"><span>` + size1 + unitCd + `</span></div>
-                    //                                 <div class="size_y"><span>` + size2 + unitCd + `</span></div>
-                    //                                 <div class="images">
-                    //                                     <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + sale_as_no + `" />
-                    //                                 </div>
-                    //                             </div>
-                    //                         </div>
-                    //     </div>`
-                    //     if(['traditional_painting'].indexOf($scope.saleInfo.CATE_CD) > -1){
-                    //         swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
-                    //                             <div class="img-area">
-                    //                                 <div class="img-box">
-                    //                                     <div class="size_x"><span>` + size1 + unitCd + `</span></div>
-                    //                                     <div class="size_y"><span>` + size2 + unitCd + `</span></div>
-                    //                                     <div class="images">
-                    //                                         <img class="imageViewer" src="` + img_url + `" alt="" " size-x="` + size1 + `" size-y="` + size2 + `" lot_no="` + sale_as_no + `"/>
-                    //                                     </div>
-                    //                                 </div>
-                    //                             </div>
-                    //                         </div>`;
-                    //     }
-                        if(['local_painting', 'foreign_painting'].indexOf($scope.saleInfo.CATE_CD) > -1) {
-                            swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
-                                                <div class="img-area">
-                                                    <div class="img-box">
-                                                        <div class="size_x"><span>` + size2 + unitCd + `</span></div>
-                                                        <div class="size_y"><span>` + size1 + unitCd + `</span></div>
-                                                        <div class="images">
-                                                            <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size2 + `" size-y="` + size1 + `" lot_no="` + sale_as_no + `"/>
-                                                        </div>
+                    swiper_slide_item = `<div class="swiper-slide" id="swiper-private">
+                                               <div class="img-area">
+                                                <div class="img-box">
+                                                    <div class="size_x"><span>` + size1 + unitCd + `</span></div>
+                                                    <div class="size_y"><span>` + size2 + unitCd + `</span></div>
+                                                    <div class="images">
+                                                        <img class="imageViewer" src="` + img_url + `" alt="" size1="` + size1 + `" size2="` + size2 + `" lot_no="` + sale_as_no + `" />
                                                     </div>
                                                 </div>
-                                            </div>`;
-                        }
-                        $("#popup_image_viewer-wrap .gallery_center").html(swiper_slide_item);
-                        // $("#swiper-wrapper").html(swiper_slide_item);
-                        // $("#swiper-wrapper").append(swiper_slide_item);
+                                            </div>
+                        </div>`
+                    $("#swiper-wrapper").append(swiper_slide_item);
                     //}
 
-                // });
+                });
 
                 $.each(sale_images, function (index, el) {
 
@@ -970,7 +856,7 @@
                             imagesResizePcMb();
                             thumbnailActive();
                         }
-                    } 
+                    }
                 })
 
                 // 좌우버튼
@@ -986,44 +872,85 @@
                 })
 
 
+                //작가 정보 admin에서 가져오도록 변경
+                axios.get('/api/auction/artist_info/' + $scope.artistNo)
+                    .then(function(response) {
+                        const data = response.data;
+                        let success = data.success;
+
+                        if(success){
+                            let artistData = data.data;
+                            if(!artistData){
+                            }
+                            else{
+                                let articlesList = JSON.parse(artistData.articles).articles;
+                                let artistYoutubeImages = JSON.parse(artistData.media).youtube;
+                                let artistImageList = artistData.images;
+
+                                let title = '';
+                                $.each(articlesList, function (index, el) {
+                                    if(locale == 'ko'){
+                                        title += el.titleKo + '</br>';
+                                    }else{
+                                        title += el.titleEn + '</br>';
+                                    }
+                                });
+
+                                $("#artistName").html(JSON.parse(artistData.name).ko + ' ' +  artistData.birth + '~' + artistData.death);
+                                $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
+
+                                let html = '<div class="vide_img-box">';
+                                $.each(artistYoutubeImages, function (index, el) {
+                                    $.each(artistImageList, function (s3Index, el) {
+                                        //일단은 youtube만 뿌리기로
+                                        if(artistImageList[s3Index].tag == 'youtube' + index){
+                                            html += '<a href="' + artistYoutubeImages[index] + '"><img src=" '+ artistImageList[s3Index].cdn_url + ' " alt="" /></a>';
+                                        }
+                                    });
+                                });
+                                html += '</div>';
+                                $("#artistMedia").html(html);
+                            }
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+
                 /* === zoom ===  panzoom.reset()*/
-                // var zoom_range = document.querySelector('.js-zoom_inout');
-                // var panzoom = "";
-                //
-                // function panzoom_set() {
-                //     console.log("=====================>panzoom_set");
-                //
-                //     panzoom = Panzoom(zoom_range, {
-                //         /* disablePan: true, */
-                //         maxScale: 4, // (Default: 4)
-                //         minScale: 1 // (Default: 0.125)
-                //     });
-                //     $(".js-zoomin").on("click", function() {
-                //         panzoom.zoomIn();
-                //     });
-                //     $(".js-zoomout").on("click", function() {
-                //         panzoom.zoomOut();
-                //     });
-                //     document.addEventListener("wheel", function (e) {
-                //         if (e.deltaY > 0) panzoom.zoomOut();
-                //         else panzoom.zoomIn();
-                //     });
-                //     panzoom.zoom(1, {
-                //         animate: true
-                //     })
-                // }
-                //
-                // function panzoom_reset() {
-                //     console.log("-------------------------->panzoom_reset");
-                //     panzoom.reset();
-                //     panzoom.destroy();
-                //     panzoom = "";
-                //     $(".js-zoomin").off("click");
-                //     $(".js-zoomout").off("click");
-                // }
-                // if ($("body").hasClass("is_pc")) {
-                //     panzoom_set();
-                // }
+                var zoom_range = document.querySelector('.js-zoom_inout');
+                var panzoom = "";
+
+                function panzoom_set() {
+                    console.log("=====================>panzoom_set");
+
+                    panzoom = Panzoom(zoom_range, {
+                        /* disablePan: true, */
+                        maxScale: 4, // (Default: 4)
+                        minScale: 1 // (Default: 0.125)
+                    });
+                    $(".js-zoomin").on("click", function() {
+                        panzoom.zoomIn();
+                    });
+                    $(".js-zoomout").on("click", function() {
+                        panzoom.zoomOut();
+                    });
+                    panzoom.zoom(1, {
+                        animate: true
+                    })
+                }
+
+                function panzoom_reset() {
+                    console.log("-------------------------->panzoom_reset");
+                    panzoom.reset();
+                    panzoom.destroy();
+                    panzoom = "";
+                    $(".js-zoomin").off("click");
+                    $(".js-zoomout").off("click");
+                }
+                if ($("body").hasClass("is_pc")) {
+                    panzoom_set();
+                }
 
                 /* 섭네일 클릭 */
                 $(".js-thumbnail-list a").on("click", function($e) {
@@ -1093,10 +1020,6 @@
             });
             $(".js-zoomout").on("click", function() {
                 panzoom.zoomOut();
-            });
-            document.addEventListener("wheel", function (e) {
-                if (e.deltaY > 0) panzoom.zoomOut();
-                else panzoom.zoomIn();
             });
             panzoom.zoom(1, {
                 animate: true

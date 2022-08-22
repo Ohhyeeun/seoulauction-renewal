@@ -177,7 +177,8 @@
             , L.TO_DT AS SALE_TO_DT
             , L.START_PRICE
             , L.GROW_PRICE
-            , COLUMN_JSON(L.TITLE_BLOB) TITLE_JSON
+            , COLUMN_GET(L.TITLE_BLOB, 'ko' as CHAR) TITLE_KO_TXT
+            , COLUMN_GET(L.TITLE_BLOB, 'en' as CHAR) TITLE_EN_TXT
             , COLUMN_JSON(L.STITLE_BLOB) STITLE_JSON
             , L.EDITION
             , COLUMN_JSON(L.MAKE_YEAR_BLOB) MAKE_YEAR_JSON
@@ -257,6 +258,30 @@
         where LI.SALE_NO = #{sale_no}
             and LI.LOT_NO = #{lot_no}
         order by LI.LOT_NO, LI.DISP_ORD
+    </select>
+
+    <select id="selectLotRefreshInfo" parameterType="CommonMap" resultType="CommonMap">
+        select L.LOT_NO, L.STAT_CD, L.FROM_DT, L.TO_DT, L.START_PRICE
+             , COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON
+             , COLUMN_JSON(L.EXPE_PRICE_TO_BLOB) EXPE_PRICE_TO_JSON
+             , ifnull(BD.LAST_PRICE, 0) LAST_PRICE
+             , ifnull(BD.BID_CNT, 0) as BID_CNT
+             , now() DB_NOW
+             , if(L.TO_DT &lt; now(), 'Y', 'N') as END_YN
+             , ifnull(L.GROW_PRICE, 0) as GROW_PRICE
+        from LOT L
+            left outer join (
+                select BD.SALE_NO, BD.LOT_NO, BD.BID_PRICE as LAST_PRICE
+                    , (select count(A.BID_NO) from BID A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO) as BID_CNT
+                from LOT L
+                    inner join BID BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+                        and BD.BID_NO = (select A.BID_NO from BID A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.BID_PRICE desc, A.BID_DT asc, A.BID_NO asc limit 1)
+                where L.SALE_NO = #{sale_no}
+                    and L.LOT_NO = #{lot_no}
+            ) BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+        where L.WWW_DISP_YN = 'Y'
+            and L.SALE_NO = #{sale_no}
+            and L.LOT_NO = #{lot_no}
     </select>
 
     <select id="selectManager" parameterType="int" resultType="CommonMap">
