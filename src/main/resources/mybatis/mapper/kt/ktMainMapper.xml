@@ -94,7 +94,7 @@
 	<select id="selectSaleSqaureImage" parameterType="CommonMap" resultType="CommonMap">
 		select * from SALE_IMG
 		where SALE_NO = #{sale_no}
-		and DISP_ORD = 2
+		and GNB_YN = 'Y'
 		limit 1;
 	</select>
 
