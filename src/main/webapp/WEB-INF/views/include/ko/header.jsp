@@ -80,35 +80,6 @@
         sessionStorage.setItem("is_login", "false" );
         </sec:authorize>
 
-        // 네이티브 로그인 유지
-        let f = async function(){
-            if (await isNativeApp()) {
-                let v = await getWebviewData('remember-me');
-                let d = await getWebviewData('remember-me-date');
-                // 데이타 확인
-                alert(d);
-                if (d !== undefined && d !== "no data" ) {
-                    if (d.length > 0) {
-                        let dd = parseInt(d);
-                        let expYear = 1
-                        // 1년 더함
-                        let cd = new Date(new Date(dd).setFullYear(new Date(dd.getFullYear() + expYear)));
-                        if (cd > new Date()) {
-                            let rc = getCookie('remember-me')
-                            if (rc === undefined || rc === null || rc.length <= 0) {
-                                setCookie('remember-me', v, 365);
-                                sessionStorage.setItem("is_login", "true" );
-                                window.location.reload();
-                            }
-                        } else {
-                            // 쿠키 삭제
-                            document.cookie = "remember-me=;expires=Thu, 01 Jan 1999 00:00:10 GMT;";
-                        }
-                    }
-                }
-            }
-        }
-        f();
     </script>
 </head>
 
