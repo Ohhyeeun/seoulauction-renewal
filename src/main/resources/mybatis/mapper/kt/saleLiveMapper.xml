@@ -411,66 +411,67 @@
     </select>
 
     <select id="selectSaleListCount" parameterType="CommonMap" resultType="int">
-        SELECT  count(*) as CNT
+        SELECT
+            COUNT(*) as CNT
         FROM
-        (SELECT L.LOT_NO,
-        COLUMN_JSON(D.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON,
-        COLUMN_JSON(L.TITLE_BLOB)           LOT_TITLE_JSON,
-        COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON,
-        COLUMN_JSON(L.EXPE_PRICE_TO_BLOB)   EXPE_PRICE_TO_JSON,
-        (SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = L.SALE_NO AND LOT_NO = L.LOT_NO) MAX_BID_PRICE,
-        COLUMN_JSON(L.MAKE_YEAR_BLOB)       MAKE_YEAR_JSON,
-        ( SELECT C.CD_NM FROM CODE C WHERE C.CD_ID = L.MATE_CD AND GRP_ID ='material') MATE_CD_KO,
-        ( SELECT C.CD_NM_EN FROM CODE C WHERE C.CD_ID = L.MATE_CD AND GRP_ID ='material') MATE_CD_EN,
-        LI.FILE_PATH                        LOT_IMG_PATH,
-        LI.FILE_NAME                        LOT_IMG_NAME,
-        concat('[',
-        GROUP_CONCAT('{',
-        '"UNIT_CD":"', ifnull(E.UNIT_CD, 'cm') ,'",',
-        '"SIZE1":', ifnull(E.SIZE1,0) ,',',
-        '"SIZE2":', ifnull(E.SIZE2,0) ,',',
-        '"SIZE3":', ifnull(E.SIZE3,0) ,',',
-        '"CANVAS":', ifnull(E.CANVAS,0) ,',',
-        '"DIAMETER_YN":"', ifnull(E.DIAMETER_YN,'N') ,'",',
-        '"PREFIX":"', ifnull(E.PREFIX,'') ,'",',
-        '"SUFFIX":"', ifnull(E.SUFFIX,'') ,'",',
-        '"MIX_CD":"', ifnull(E.MIX_CD,'h') ,'",',
-        '"CANVAS_EXT_YN":"', ifnull(E.CANVAS_EXT_YN,'N'), '"',
-        '}')
-        ,']') AS LOT_SIZE_ARRAY,
-        IF ((select COUNT(*) from CUST_INTE_LOT CIL where CIL.SALE_NO =
-        L.SALE_NO and CIL.LOT_NO = L.LOT_NO and CUST_NO = #{cust_no} ) <![CDATA[ > ]]> 0 , 'Y' , 'N') FAVORITE_YN,
-        L.CLOSE_YN,
-        L.EXPE_PRICE_INQ_YN,
-        L.STAT_CD -- 출품취소여부
-        FROM LOT L
-        LEFT OUTER JOIN LOT_SIZE E ON L.SALE_NO = E.SALE_NO AND L.LOT_NO = E.LOT_NO
-        LEFT OUTER JOIN LOT_IMG LI ON L.SALE_NO = LI.SALE_NO AND L.LOT_NO = LI.LOT_NO
-        AND LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
-        LEFT OUTER JOIN ARTIST D ON L.ARTIST_NO = D.ARTIST_NO
-        LEFT OUTER JOIN CODE H ON H.GRP_ID = 'artwork_category' AND H.CD_ID = (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = (SELECT IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = L.CATE_CD))
-        WHERE L.SALE_NO = #{sale_no}
-        AND L.WWW_DISP_YN = 'Y'
-        <if test="category !=null">
-            AND H.CD_ID = #{category}
-        </if>
-        <if test="tag !=null">
-            AND L.LOT_TAG = #{tag}
-        </if>
-        <if test="search != null and lang != null">
-            AND (COLUMN_GET(D.ARTIST_NAME_BLOB, #{lang} AS CHAR) like concat('%', #{search}, '%')
-            OR COLUMN_GET(L.TITLE_BLOB, #{lang} AS CHAR) like concat('%', #{search}, '%'))
-        </if>
-        GROUP BY L.LOT_NO
-        ORDER BY
-        <choose>
-            <when test="sort_by == 'LOTAS'">L.LOT_NO</when>
-            <when test="sort_by == 'ESTDE'">COLUMN_GET(L.EXPE_PRICE_FROM_BLOB, 'KRW' as double) desc, L.LOT_NO</when>
-            <when test="sort_by == 'ESTAS'">COLUMN_GET(L.EXPE_PRICE_FROM_BLOB, 'KRW' as double), L.LOT_NO</when>
-            <otherwise>L.LOT_NO</otherwise>
-        </choose>
-        limit
-        #{offset} , #{size}) A
+        (
+            SELECT L.LOT_NO,
+                COLUMN_JSON(D.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON,
+                COLUMN_JSON(L.TITLE_BLOB)           LOT_TITLE_JSON,
+                COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON,
+                COLUMN_JSON(L.EXPE_PRICE_TO_BLOB)   EXPE_PRICE_TO_JSON,
+                (SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = L.SALE_NO AND LOT_NO = L.LOT_NO) MAX_BID_PRICE,
+                COLUMN_JSON(L.MAKE_YEAR_BLOB)       MAKE_YEAR_JSON,
+                ( SELECT C.CD_NM FROM CODE C WHERE C.CD_ID = L.MATE_CD AND GRP_ID ='material') MATE_CD_KO,
+                ( SELECT C.CD_NM_EN FROM CODE C WHERE C.CD_ID = L.MATE_CD AND GRP_ID ='material') MATE_CD_EN,
+                LI.FILE_PATH                        LOT_IMG_PATH,
+                LI.FILE_NAME                        LOT_IMG_NAME,
+                concat('[',
+                GROUP_CONCAT('{',
+                '"UNIT_CD":"', ifnull(E.UNIT_CD, 'cm') ,'",',
+                '"SIZE1":', ifnull(E.SIZE1,0) ,',',
+                '"SIZE2":', ifnull(E.SIZE2,0) ,',',
+                '"SIZE3":', ifnull(E.SIZE3,0) ,',',
+                '"CANVAS":', ifnull(E.CANVAS,0) ,',',
+                '"DIAMETER_YN":"', ifnull(E.DIAMETER_YN,'N') ,'",',
+                '"PREFIX":"', ifnull(E.PREFIX,'') ,'",',
+                '"SUFFIX":"', ifnull(E.SUFFIX,'') ,'",',
+                '"MIX_CD":"', ifnull(E.MIX_CD,'h') ,'",',
+                '"CANVAS_EXT_YN":"', ifnull(E.CANVAS_EXT_YN,'N'), '"',
+                '}')
+                ,']') AS LOT_SIZE_ARRAY,
+                IF ((select COUNT(*) from CUST_INTE_LOT CIL where CIL.SALE_NO =
+                L.SALE_NO and CIL.LOT_NO = L.LOT_NO and CUST_NO = #{cust_no} ) <![CDATA[ > ]]> 0 , 'Y' , 'N') FAVORITE_YN,
+                L.CLOSE_YN,
+                L.EXPE_PRICE_INQ_YN,
+                L.STAT_CD -- 출품취소여부
+                FROM LOT L
+                LEFT OUTER JOIN LOT_SIZE E ON L.SALE_NO = E.SALE_NO AND L.LOT_NO = E.LOT_NO
+                LEFT OUTER JOIN LOT_IMG LI ON L.SALE_NO = LI.SALE_NO AND L.LOT_NO = LI.LOT_NO
+                AND LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
+                LEFT OUTER JOIN ARTIST D ON L.ARTIST_NO = D.ARTIST_NO
+                LEFT OUTER JOIN CODE H ON H.GRP_ID = 'artwork_category' AND H.CD_ID = (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = (SELECT IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = L.CATE_CD))
+                WHERE L.SALE_NO = #{sale_no}
+                AND L.WWW_DISP_YN = 'Y'
+                <if test="category !=null">
+                    AND H.CD_ID = #{category}
+                </if>
+                <if test="tag !=null">
+                    AND L.LOT_TAG = #{tag}
+                </if>
+                <if test="search != null and lang != null">
+                    AND (COLUMN_GET(D.ARTIST_NAME_BLOB, #{lang} AS CHAR) like concat('%', #{search}, '%')
+                    OR COLUMN_GET(L.TITLE_BLOB, #{lang} AS CHAR) like concat('%', #{search}, '%'))
+                </if>
+                GROUP BY L.LOT_NO
+                ORDER BY
+                <choose>
+                    <when test="sort_by == 'LOTAS'">L.LOT_NO</when>
+                    <when test="sort_by == 'ESTDE'">COLUMN_GET(L.EXPE_PRICE_FROM_BLOB, 'KRW' as double) desc, L.LOT_NO</when>
+                    <when test="sort_by == 'ESTAS'">COLUMN_GET(L.EXPE_PRICE_FROM_BLOB, 'KRW' as double), L.LOT_NO</when>
+                    <otherwise>L.LOT_NO</otherwise>
+                </choose>
+       ) A
     </select>
 
 
