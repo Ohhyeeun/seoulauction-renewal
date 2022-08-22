@@ -308,7 +308,7 @@
                                             </div>
                                         </div>
                                         <!-- 더보기 -->
-                                        <div id="add_layer" class="only-mb2" >
+                                        <div id="add_layer" class="only-mb2 view-more-area" >
                                             <button class="btn btn_gray_line" type="button" ng-click="addpage(curpage + 1);"><span>더보기</span></button>
                                         </div>
                                         <!-- 더보기 -->
@@ -457,7 +457,10 @@
             }
 
             $scope.getSearchLotList = async function () {
-                await $scope.loadLotList();
+                const pageData = loadPageData();
+                pageData.search = $scope.searchKeyword;
+                pageData.page = 1;
+                window.location.href = makeUrl(pageData);
             }
 
             $scope.goLot = function (saleNo, lotNo) {
@@ -689,29 +692,33 @@
                 }
             };
 
-            const getLotList = () => {
+            const getLotList = (pageData) => {
                 try {
-                    /* const pagingParam = '?page='+$scope.currentPage+'&size='+$scope.pageSize;
-                     const categoryParam = $scope.selectedCategory !== 'all'? '&'+$scope.selectedType+'='+encodeURI($scope.selectedCategory) : '';
-                     const searchParam = $scope.searchKeyword ? '&search='+encodeURI($scope.searchKeyword) : '';
-                     const sortParam = '&sortBy='+$scope.sortBy;
-
-                     const paramQuery = pagingParam + categoryParam + searchParam + sortParam;
-                     */
-
                     let params = {
-                        page: $scope.currentPage,
-                        size: $scope.pageSize,
-                        sortBy: $scope.sortBy,
+                        page: $scope.currentPage || 1,
+                        size: $scope.pageSize || 20,
+                        sortBy: $scope.sortBy || 'LOTAS',
+                    };
+
+                    if (pageData.search) {
+                        params.search = pageData.search;
                     }
 
-                    if ($scope.searchKeyword) {
-                        params.searchText = encodeURI($scope.searchKeyword);
+                    if(pageData.category && pageData.category !== 'all'){
+                        params.category = pageData.category;
+                        // params.type = 'category';
+                        delete params.tag;
+                    }else{
+                        delete params.category;
                     }
 
-                   if($scope.selectedCategory !== 'all'){
-                       params[$scope.selectedType] = $scope.selectedCategory;
-                   }
+                    if(pageData.tag){
+                        params.tag = pageData.tag;
+                        // params.type = 'tag';
+                        delete params.category;
+                    }else{
+                        delete params.tag;
+                    }
 
                     console.log(params);
                     const paramString = "?" + window.Qs.stringify(params);
@@ -779,11 +786,11 @@
                     delete pageData.category;
                     delete pageData.tag;
                 } else if (categoryType === 'category') {
-                    pageData.category = encodeURI(categoryVal);
+                    pageData.category = categoryVal;
                     delete pageData.tag;
                 } else if (categoryType === 'tag') {
                     delete pageData.category;
-                    pageData.tag = encodeURI(categoryVal);
+                    pageData.tag = categoryVal;
                 }
                 pageData.page = 1;
                 window.location.href = makeUrl(pageData);
@@ -794,7 +801,7 @@
                 let run = async function () {
                     let [saleInfoData, lotListData, lotNaviData, categories, paddleInfoData] = await Promise.all([
                         getSaleInfo($scope.sale_no),
-                        getLotList(),
+                        getLotList(pageData),
                         getSaleImages($scope.sale_no),
                         getCategories($scope.sale_no),
                         getPaddleNumber($scope.sale_no),
@@ -811,11 +818,9 @@
                     await setSaleData($scope.saleInfoData);
                     await setLotListData($scope.lotList);
                     await setPaddleButtonMsg($scope.sale_status, $scope.paddNo);
-
-                    $scope.saleInfo = $scope.lotList.slice(0, $scope.itemsize);
-
                     await renderPaginationSection($scope.currentPage, $scope.lotTotalCount, $scope.pageSize);
 
+                    $scope.saleInfo = $scope.lotList.slice(0, $scope.itemsize);
 
                     $scope.$apply();
 
@@ -855,16 +860,61 @@
             }
 
             $scope.chgViewType = function () {
-                let sst = parseInt($("#viewType option:selected").val())
-                switch (sst) {
-                    case 'page':
-                        $scope.pageing($scope.curpage)
-                        break;
-                    case 'more':
-                        $scope.addpage($scope.curpage);
-                        break;
-                }
-                $scope.selectViewType = sst;
+                const typeVal = $("#viewType option:selected").val();
+
+                $scope.selectViewType = typeVal;
+                const pageData = loadPageData();
+                pageData.view = typeVal;
+                window.location.href = makeUrl(pageData);
+            }
+
+            // Polling Observer
+         /*   const pollingObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        window.globalData.visibleLots.add(entry.target.dataset.lotNo);
+                    } else {
+                        window.globalData.visibleLots.delete(entry.target.dataset.lotNo);
+                    }
+                });
+            }, {
+                threshold: 0.5, // 겹침 정도 (1: 전체보임)
+            });*/
+
+            // ViewMore Observer
+            let viewMorePage = 2;
+            let viewMoreSize = 20;
+            const viewMoreObserver = new IntersectionObserver(entries => {
+                console.log("viewMoreObserver");
+                entries.forEach(async entry => {
+                    if (entry.isIntersecting) {
+                        const pageData = loadPageData();
+                        pageData.page = viewMorePage;
+                        pageData.size = viewMoreSize;
+                        const resultData = await getLotList(pageData);
+                        const lotListData = resultData.data.data;
+                        // viewMoreButton.style.display = 'none';
+
+                        console.log(lotListData);
+
+                        if (lotListData.count > viewMorePage * viewMoreSize) {
+                            await setLotListData(); //addData
+                            document.getElementById('product-list').querySelectorAll('li').forEach(el => {
+                                viewMoreObserver.observe(el);
+                            });
+
+                            viewMorePage += 1;
+                            // viewMoreButton.style.display = 'block';
+                        }
+                    }
+                });
+            });
+
+            const viewMoreButton = document.querySelector('.view-more-area');
+            if ($scope.selectViewType === 'page') {
+                viewMoreObserver.unobserve(viewMoreButton);
+            } else {
+                viewMoreObserver.observe(viewMoreButton);
             }
 
             $scope.changeSortByList = async function (value) {
@@ -880,8 +930,8 @@
                 window.open(url);
             }
 
-            $scope.loadLotList = async () =>{
-                const lotListData = await getLotList();
+           /* $scope.loadLotList = async () =>{
+                const lotListData = await getLotList(pageData);
                 $scope.lotList = lotListData.data.data.list;
                 $scope.lotTotalCount = lotListData.data.data.count;
 
@@ -889,7 +939,7 @@
                 await renderPaginationSection($scope.currentPage, $scope.lotTotalCount, $scope.pageSize);
 
                 $scope.$apply();
-            }
+            }*/
         });
 
 
