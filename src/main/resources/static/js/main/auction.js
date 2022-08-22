@@ -3,18 +3,28 @@ $(document).ready(function(){
 
     let auctionData = [];
     let currentLotData = [];
-    let SaleData = [];
+    let currentLotCounts = [];
     let curruentTab = 0;
     let initCount = 12;
     let currentSaleNo;
     let locale = document.documentElement.lang;
     let saleKind;
+    let intervalTime = 3000; // 3초에 1번씩 새로고침.
+    let isInterval = true;
     init();
 
     //초기작업.
     function init(){
+        console.log('!!!![참고] 메인 - 옥션 3초에 한번씩 데이터 갱신 중!!!!')
         auctionDataInit();
         auctionEvent();
+
+        //3초에 경매 데이터 재 갱신.
+        if(isInterval) {
+            setInterval(function () {
+                auctionDataInit();
+            }, intervalTime);
+        }
     }
 
     //옥션 데이터 가져오기!
@@ -26,12 +36,12 @@ $(document).ready(function(){
 
                 let success = data.success;
                 if(success){
+                    $(".auctionTab").empty();
+                    
+                    $("#auction_contents").empty();
 
                     auctionData = data.data.list;
                     //TODO 인클루드 작업.
-
-                    console.log(auctionData);
-
                     //초기 sale_kind 설정.
                     saleKind = auctionData[0].SALE_KIND;
 
@@ -42,16 +52,25 @@ $(document).ready(function(){
                         let name = locale === 'ko' ? title.ko : title.en;
 
                         //sale html
-                        let saleHtml = idx === 0 ? `<span class="auctionTab-btn on"><span class="text-over">${name}</span></span>`
+                        let saleHtml = idx === curruentTab ? `<span class="auctionTab-btn on"><span class="text-over">${name}</span></span>`
                                                 : `<span class="auctionTab-btn"><span class="text-over">${name}</span></span>`;
 
                         $(".auctionTab").append(saleHtml);
-                        $("#auction_contents").append(idx === 0 ? `<div class="flex_wrap auctionTab-contents on"></div>` : `<div class="flex_wrap auctionTab-contents"></div>`);
+                        $("#auction_contents").append(idx === curruentTab ? `<div class="flex_wrap auctionTab-contents on"></div>` : `<div class="flex_wrap auctionTab-contents"></div>`);
+
+                        if(!currentLotCounts[idx]) {
+                            currentLotCounts[idx] = {
+                                'start': 0,
+                                'end': initCount
+                            };
+                        }
+
+                        let CuCountObjs = currentLotCounts[idx];
 
                         //lot data
                         currentLotData[idx] = el.lots;
-                        // 처음은 0부터 10
-                        addLot(el.SALE_KIND , idx , currentLotData[idx].slice(0 , initCount));
+                        // 처음은 0부터 12
+                        addLot(el.SALE_KIND , idx , currentLotData[idx].slice(CuCountObjs.start , CuCountObjs.end));
                     });
                     //초기 sale_NO 설정.
                     currentSaleNo = currentLotData[curruentTab][0].SALE_NO;
@@ -79,24 +98,57 @@ $(document).ready(function(){
             let lotName = locale === 'ko' ? lotTitle.ko : lotTitle.en;
             let priceToJson =  JSON.parse(el.EXPE_PRICE_TO_JSON);
             let priceFromJson =  JSON.parse(el.EXPE_PRICE_FROM_JSON);
-
+            let currentStarting = starting;
             let price = "";
             if (kind === "ONLINE") {
 
-                price = numberWithCommas(el.START_PRICE);
+                price = el.MAX_BID_PRICE != null ? numberWithCommas(el.MAX_BID_PRICE) : numberWithCommas(el.START_PRICE);
 
-                // if (locale === 'ko') {
-                //
-                // }
+                //낙찰이 되었다면.
+                if(el.SB_YN === 'Y') {
+                    currentStarting = locale === 'ko' ? '낙찰가' : 'Hanmmer';
+                } else {
+                    if(el.MAX_BID_PRICE != null){
+
+                        currentStarting = locale === 'ko' ? '현재가' : 'Current';
+
+                        let count = locale === 'ko' ? '회' : 'bid';
+
+                        if( el.BID_COUNT !==0 ){
+                            currentStarting += '(' + el.BID_COUNT + count + ')';
+                        }
+                    }
+                }
+
             } else {
+
                 if (locale === 'ko') {
                     if(priceFromJson.KRW) {
+
                         price = numberWithCommas(priceFromJson.KRW) + '~' + numberWithCommas(priceToJson.KRW);
                     }
                 } else {
                     if(priceFromJson.USD) {
                         price = numberWithCommas(priceFromJson.USD) + '~' + numberWithCommas(priceToJson.USD);
                     }
+                }
+
+                //오프라인 전용 현재가 측정 ( 오프라인 경매 중 일경우 )
+                if(el.LAST_PRICE){
+                    currentStarting = locale === 'ko' ? '현재가' : 'Current';
+                    price = numberWithCommas(el.LAST_PRICE);
+
+                    let count = locale === 'ko' ? '회' : 'bid';
+
+                    if( el.BID_COUNT !==0 ){
+                        currentStarting += '(' + el.BID_COUNT + count + ')';
+                    }
+                }
+
+                //낙찰이 된경우 !
+                if(el.SB_YN === 'Y') {
+                    currentStarting = locale === 'ko' ? '낙찰가' : 'Hanmmer';
+                    price = numberWithCommas(el.MAX_BID_PRICE);
                 }
             }
 
@@ -113,7 +165,7 @@ $(document).ready(function(){
                                         <a>
                                             <p class="auction-thumb-txt">
                                                 <span>${lotName}</span>
-                                                <span>${starting} ${price}</span>
+                                                <span>${currentStarting} ${price}</span>
                                             </p>
                                         </a>
                                     </figcaption>
@@ -122,7 +174,6 @@ $(document).ready(function(){
         });
 
         $(".auctionTab-contents.on").css('height','100%')
-
         dynamicEvent();
     }
 
@@ -144,17 +195,24 @@ $(document).ready(function(){
                 return;
             }
 
-            curruentTab = $(this).index()
-            currentSaleNo = currentLotData[curruentTab][0].SALE_NO;
 
+            curruentTab = $(this).index();
+            currentSaleNo = currentLotData[curruentTab][0].SALE_NO;
             saleKind = auctionData[curruentTab].SALE_KIND;
+
+            let countObj = currentLotCounts[curruentTab];
+
+            if ( countObj.end === initCount ) {
+                $('#AllAuction').hide();
+                $('#MoreAuction').show();
+            } else {
+                $('#AllAuction').show();
+                $('#MoreAuction').hide();
+            }
 
             //기존 데이터 초기화.
             $('.auctionTab-btn').removeClass('on');
             $('.auctionTab-contents').removeClass('on');
-
-            $('#AllAuction').hide();
-            $('#MoreAuction').show();
 
             $(this).addClass('on');
             $(".auctionTab-contents").eq(curruentTab).addClass('on');
@@ -166,6 +224,7 @@ $(document).ready(function(){
         if (matchMedia("all and (min-width: 1024px)").matches) {
 
             $('.auction-thumbbox').on('mouseenter', function () {
+
                 $('.auction-thumbbox>.auction-thumb').removeClass('on');
                 $(this).children('.auction-thumb').addClass('on');
 
@@ -269,9 +328,13 @@ $(document).ready(function(){
 
             $('#AllAuction').show();
             $('#MoreAuction').hide();
+
+            let countObj = currentLotCounts[curruentTab];
+            countObj.end = countObj.end + initCount;
+            currentLotCounts[curruentTab] = countObj;
             //$(".auctionTab-contents.on").css('height', '100%');
 
-            addLot(saleKind , curruentTab , currentLotData[curruentTab].slice(initCount , initCount * 2 )  );
+            addLot(saleKind , curruentTab , currentLotData[curruentTab].slice(countObj.start + initCount , countObj.end ));
             //bidstart();
             //auctionDataInit();
         });

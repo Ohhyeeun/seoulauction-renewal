@@ -69,11 +69,8 @@ public class MainService {
             mainMapper.insertNewsletter(map);
             mainMapper.insertNewsletterHistory(map);
         }
-        
-
     }
 
-    //어떤 테이블을 참조할지 모르기때문 우선 더미데이텨 리턴.
     public CommonMap selectAuctions(CommonMap map){
 
         CommonMap resultMap = new CommonMap();
@@ -102,7 +99,9 @@ public class MainService {
                         k.put("IMAGE_URL", "");
                         k.put("FILE_PATH", "");
                         k.put("FILE_NAME", "images/bg/no_image.jpg");
+                        k.put("REAL_IMAGE_YN", "Y");
                     } else {
+                        k.put("REAL_IMAGE_YN", "N");
                         k.put("IMAGE_URL", IMAGE_URL);
                     }
                 }).collect(Collectors.toList());
@@ -110,12 +109,6 @@ public class MainService {
                 c.put("lots" , customLots );
         });
 
-//        List<CommonMap> test2 = new ArrayList<>();
-//        if(!saleList.isEmpty()) {
-//            test2.add(saleList.get(0));
-//            test2.add(saleList.get(0));
-//            test2.add(saleList.get(0));
-//        }
         resultMap.put("list" , saleList);
         resultMap.put("count" , counts);
 
