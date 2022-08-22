@@ -117,7 +117,7 @@
 
                                             <li>
                                                 <div class="li-inner">
-                                                    <a href="/service/academyList?academyCd=artculture" title="아트 마켓">
+                                                    <a href="/service/academyList?academyCd=artculture" title="아트마켓">
                                                         <div class="item-area">
                                                             <div class="item-header">
                                                                 <div class="icon-box">
@@ -125,7 +125,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="item-body">
-                                                                <div class="title"><span class="">아트 마켓</span></div>
+                                                                <div class="title"><span class="">아트마켓</span></div> 
                                                                 <!-- <div class="desc"><span>ART MARKET</span></div> -->
                                                             </div>
                                                             <div class="item-footer">
@@ -148,27 +148,6 @@
                                                             <div class="item-body">
                                                                 <div class="title"><span class="">작가론</span></div>
                                                                 <!-- <div class="desc"><span>AUTHORISM</span></div> -->
-                                                            </div>
-                                                            <div class="item-footer">
-                                                                <i class="icon-academy_linkarrow"></i>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </li>
-
-                                            <li>
-                                                <div class="li-inner">
-                                                    <a href="/service/academyList?academyCd=artbrunch" title="CEO">
-                                                        <div class="item-area">
-                                                            <div class="item-header">
-                                                                <div class="icon-box">
-                                                                    <i class="icon-academy_ceo"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="item-body">
-                                                                <div class="title"><span class="">프라이빗</span></div>
-                                                                <!-- <div class="desc"><span>CEO</span></div> -->
                                                             </div>
                                                             <div class="item-footer">
                                                                 <i class="icon-academy_linkarrow"></i>
@@ -220,6 +199,26 @@
                                                 </div>
                                             </li>
 
+                                            <li>
+                                                <div class="li-inner">
+                                                    <a href="/service/academyList?academyCd=artbrunch" title="프라이빗">
+                                                        <div class="item-area">
+                                                            <div class="item-header">
+                                                                <div class="icon-box">
+                                                                    <i class="icon-academy_ceo"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div class="item-body">
+                                                                <div class="title"><span class="">프라이빗</span></div>
+                                                                <!-- <div class="desc"><span>CEO</span></div> -->
+                                                            </div>
+                                                            <div class="item-footer">
+                                                                <i class="icon-academy_linkarrow"></i>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </li>
                                         </ul>
                                     </article>
 

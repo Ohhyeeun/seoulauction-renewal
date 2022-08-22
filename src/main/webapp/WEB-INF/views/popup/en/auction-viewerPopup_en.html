@@ -329,6 +329,35 @@
 
 
 
+    <!-- [0728]비디오 세로사이즈 -->
+    <script>
+        var _videoAnchor = $(".video_img-box a");
+        var _videoAnchorImg = $(".video_img-box a img");
+        _videoAnchorImg.each(function() {
+            _videoAnchor = $(this).parent(_videoAnchor);
+
+            if ($(this).width() < $(this).height()) {
+                _videoAnchor.addClass("vertical");
+            } else {
+                _videoAnchor.removeClass("vertical");
+            }
+        })
+    </script>
+    <!-- //[0728]비디오 세로사이즈 -->
+
+    <!-- [0809]마이페이지 사이드 유저네임 글자수제한 -->
+    <script>
+        var asideUsername = $("aside .mem-name-wrap .tt2");
+        asideUsername.each(function() {
+            var asideUsernameTxt = $(this).text();
+            var asideUsernameLimit = 9;
+            if (asideUsernameTxt.length > asideUsernameLimit) {
+                $(this).text(asideUsernameTxt.substr(0, asideUsernameLimit) + "...")
+            }
+        })
+    </script>
+    <!-- //[0809]마이페이지 사이드 유저네임 글자수제한 -->
+
 
     <!-- 이미지 뷰어 -->
     <div id="popup_image_viewer-wrap" class="trp popupfixed-wrap image_viewer-popup">
@@ -453,15 +482,22 @@
 
 
             /* 스와이퍼 */
+            /* [2022-0708] 수정 */
             var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
                 loop: true,
-                onSlideChangeStart: function(swiper) { // 움직임이 끝나면 실행
-                    imagesResizePcMb();
-                },
-                onSlideChangeEnd: function(swiper) { // 움직임이 끝나면 실행
-                    imagesResizePcMb();
+                on: {
+                    transitionStart: function() {
+                        // 움직임이 시작하면 실행
+                        imagesResizePcMb();
+                    },
+                    transitionEnd: function() {
+                        // 움직임이 끝나면 실행
+                        imagesResizePcMb();
+                    }
                 }
             })
+            /* // [2022-0708] 수정 */
+
             // 좌우버튼
             $('.view_paging-area .page_prev').on('click', function($e) {
                 $e.preventDefault();
@@ -498,8 +534,12 @@
                         </div>
                         <div class="pop-body">
 
-                            <article class="viewer-article js-zoom_inout">
-                                <div class="gallery_view js-imagesSwiper" style="">
+                            <!-- [0725]zoom관련 클래스 위치 변경
+								<article class="viewer-article js-zoom_inout">
+								<div class="gallery_view js-imagesSwiper" style=""> -->
+                            <article class="viewer-article">
+                                <div class="gallery_view js-imagesSwiper js-zoom_inout" style="">
+                                    <!-- //[0725]zoom관련 클래스 위치 변경 -->
                                     <div class="gallery_center">
                                         <div class="swiper-wrapper">
 
@@ -507,7 +547,8 @@
                                                 <div class="img-area">
                                                     <div class="img-box">
                                                         <div class="images">
-                                                            <img class="imageViewer" src="/images/temp/img_viewer.jpg" alt="" />
+                                                            <!-- <img class="imageViewer" src="/images/temp/img_viewer.jpg" alt="" /> -->
+                                                            <img class="imageViewer" src="/images/temp/prduct_result-05.jpg" alt="" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -640,7 +681,6 @@
             // imagesResizePcMb();
 
 
-
             /* === zoom ===  panzoom.reset()*/
             var zoom_range = document.querySelector('.js-zoom_inout');
             var panzoom = "";
@@ -677,11 +717,16 @@
             }
 
             /* === 스와이퍼 === */
-            console.log("스와이퍼 set");
+            /* [0708]  스크립트 수정 */
+            var imagesSwiperIndex = 0;
             var imagesSwiper = new Swiper('.js-imagesSwiper .gallery_center', {
                 loop: true,
-                simulateTouch: false,
-                pagination: ".js-imagesSwiper_pagination",
+                simulateTouch: true,
+                //pagination: ".js-imagesSwiper_pagination",				
+                pagination: {
+                    el: '.js-imagesSwiper_pagination',
+                    type: 'bullets',
+                },
                 paginationClickable: true,
                 breakpoints: {
                     1023: {
@@ -691,18 +736,25 @@
                         spaceBetween: 10
                     }
                 },
-                onSlideChangeStart: function(swiper) { // 움직임이 시작하면 실행
-                    imagesResizePcMb();
-                    if ($("body").hasClass("is_pc")) {
-                        panzoom.reset(); // zoom reset
+                on: {
+                    transitionStart: function() {
+                        // 움직임이 시작하면 실행
+                        imagesResizePcMb();
+                        if ($("body").hasClass("is_pc")) {
+                            panzoom.reset(); // zoom reset
+                        }
+                    },
+                    transitionEnd: function() {
+                        // 움직임이 끝나면 실행						
+                        if (imagesSwiper != undefined) {
+                            imagesSwiperIndex = imagesSwiper.realIndex;
+                        }
+                        imagesResizePcMb();
+                        thumbnailActive();
                     }
-                },
-                onSlideChangeEnd: function(swiper) { // 움직임이 끝나면 실행
-                    imagesResizePcMb();
-                    thumbnailActive(swiper.realIndex);
-                    console.log(">>> ", swiper.realIndex)
                 }
-            })
+            });
+
             // 좌우버튼
             $('.images-popup .page_prev').on('click', function($e) {
                 $e.preventDefault();
@@ -710,22 +762,22 @@
             })
             $('.images-popup .page_next').on('click', function($e) {
                 $e.preventDefault();
-                console.log("next")
                 imagesSwiper.slideNext();
             })
 
             /* 섭네일 클릭 */
             $(".js-thumbnail-list a").on("click", function($e) {
                 $e.preventDefault();
-                var _index = $(this).closest("li").index();
-                imagesSwiper.slideTo(_index + 1);
-                thumbnailActive(_index);
+                imagesSwiperIndex = $(this).closest("li").index();
+                imagesSwiper.slideTo(imagesSwiperIndex + 1);
+                thumbnailActive(imagesSwiperIndex);
             })
 
-            function thumbnailActive($index) {
-                $(".js-thumbnail-list li").removeClass("active")
-                $(".js-thumbnail-list li").eq($index).addClass("active");
+            function thumbnailActive() {
+                $(".js-thumbnail-list li").removeClass("active");
+                $(".js-thumbnail-list li").eq(imagesSwiperIndex).addClass("active");
             }
+            /* // [0708]  스크립트 수정 */
 
 
             /* PC,MB images resize */
@@ -742,6 +794,21 @@
                     }
                 }
             });
+
+            /* [0725] */
+            zoom_range.addEventListener('wheel', function($e) {
+                $e.preventDefault();
+                //if (!event.shiftKey) return
+                panzoom.zoomWithWheel(event);
+                zoom_rangeFN(panzoom.getScale())
+            });
+
+            function zoom_rangeFN($per) {
+                var _zoom = trpRangeRatio(1, 4, $per, 0, 100);
+                ///console.log("$per : " + _zoom);
+                $(".js-slider").slider("value", _zoom);
+            }
+            /* // [0725] */
 
 
 

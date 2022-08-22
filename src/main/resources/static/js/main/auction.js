@@ -56,7 +56,7 @@ $(document).ready(function(){
                     currentSaleNo = currentLotData[curruentTab][0].SALE_NO;
 
 
-                    bidstart();
+                    //bidstart();
                 }
             })
             .catch(function(error) {
@@ -148,7 +148,7 @@ $(document).ready(function(){
 
             saleKind = auctionData[curruentTab].SALE_KIND;
 
-            bidstart();
+            //bidstart();
 
             //기존 데이터 초기화.
             $('.auctionTab-btn').removeClass('on');
@@ -273,7 +273,7 @@ $(document).ready(function(){
             //$(".auctionTab-contents.on").css('height', '100%');
 
             addLot(curruentTab , currentLotData[curruentTab].slice(initCount , initCount * 2 )  );
-            bidstart();
+            //bidstart();
             //auctionDataInit();
         });
         //auction 전체 보기 버튼

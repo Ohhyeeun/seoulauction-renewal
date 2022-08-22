@@ -62,7 +62,7 @@ $(function() {
                         const path = `${item.SALE_KIND === 'LIVE'? 'live/' : ''}`;
                         const returnDom = `<a href='/auction/${path}list/${item.SALE_NO}' class="Ingbanner" >
                                             <figure class="border-txt-darkg Ingbanner-img">
-                                                <img src="${item.DEFAULT_IMAGE_PATH !== "" ? item.DEFAULT_IMAGE_PATH : ``}" 
+                                                <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/${item.FILE_NAME}" 
                                                      onerror="${item.DEFAULT_IMAGE_PATH}"
                                                     alt="ing_auction01">
                                             </figure>

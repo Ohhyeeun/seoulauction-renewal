@@ -179,11 +179,11 @@ console.log('${sessionScope.SPRING_SECURITY_CONTEXT.authentication}')
                                                             <div>
                                                                 <input onblur="addrValidBlur()" type="text" tabindex="7" name="zipno" id="zipno" class="form-control" placeholder="">
                                                             </div>
-                                                            <span class="mem_text address_text">Address Line</span>
+                                                            <span class="mem_text address_text">Street/building Number</span>
                                                             <div>
                                                                 <input onblur="addrValidBlur()" type="text" tabindex="8" name="addr" id="addr" class="form-control" placeholder="">
 															</div>
-                                                            <span class="mem_text address_text">Province / state. City</span>
+                                                            <span class="mem_text address_text">Province/State and City</span>
                                                             <div>
                                                                 <input onblur="addrValidBlur()" type="text" tabindex="9" name="addr_dtl" id="addr_dtl" class="form-control" placeholder="">
                                                             </div>

@@ -469,7 +469,7 @@
         const getViewScaleImages = (saleNo, lotNo) => {
             console.log("getViewScaleImages : ", saleNo, lotNo);
             try {
-                return axios.get('/api/auction/viewscale_image/${saleNo}/${lotNo}');
+                return axios.get('/api/auction/getViewScaleImage/${saleNo}/${lotNo}');
             } catch (error) {
                 console.error(error);
             }
@@ -933,6 +933,10 @@
                     });
                     $(".js-zoomout").on("click", function() {
                         panzoom.zoomOut();
+                    });
+                    document.addEventListener("wheel", function (e) {
+                        if (e.deltaY > 0) panzoom.zoomOut();
+                        else panzoom.zoomIn();
                     });
                     panzoom.zoom(1, {
                         animate: true
