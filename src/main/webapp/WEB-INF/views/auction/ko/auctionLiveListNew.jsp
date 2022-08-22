@@ -149,15 +149,14 @@
                                                 <div class="select-box">
                                                     <select id="sortType" class="select2Basic42 select2-hidden-accessible"
                                                             ng-model="sortBy"
-<%--                                                            onselect="changeSortByList()"--%>
                                                             onchange="angular.element(this).scope().changeSortByList(this.value)">
                                                         <option ng-repeat="item in modelSortType" value="{{item.value}}">{{item.name}}</option>
                                                     </select>
                                                 </div>
                                                 <div class="select-box">
-                                                    <select id="viewType" class="select2Basic42 js-select_page select2-hidden-accessible"
-                                                            ng-modal="viewType"
-                                                            onchange="angular.element(this).scope().chgViewType();">
+                                                    <select id="viewType" class="select2Basic42 select2-hidden-accessible"
+                                                            ng-modal="selectViewType"
+                                                            onchange="angular.element(this).scope().changeViewType(this.value);">
                                                         <option ng-repeat="item in modelViewType" value="{{item.value}}">{{item.name}}</option>
                                                     </select>
                                                 </div>
@@ -292,7 +291,7 @@
 
                                 <div class="panel-footer">
                                     <div class="set-pc_mb">
-                                        <div id="page_layer">
+                                        <div id="page_layer" ng-show="selectViewType === 'page'">
                                             <div class="paging-area">
                                                 <!-- paging -->
                                                 <div class="paging">
@@ -308,7 +307,7 @@
                                             </div>
                                         </div>
                                         <!-- 더보기 -->
-                                        <div id="add_layer" class="only-mb2 view-more-area" >
+                                        <div id="add_layer" class="only-mb2 view-more-area" ng-show="selectViewType === 'more'">
                                             <button class="btn btn_gray_line" type="button" ng-click="addpage(curpage + 1);"><span>더보기</span></button>
                                         </div>
                                         <!-- 더보기 -->
@@ -416,8 +415,8 @@
         app.value('is_login', true);
         app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
         app.controller('ctl', function ($scope, consts, common, is_login, locale, $filter) {
-            let pageData = loadPageData();
-            console.log('angular', pageData)
+            const pageData = loadPageData();
+            console.log('angular', pageData);
             $scope.is_login = is_login;
             $scope.locale = locale;
             $scope.sale_no = SALE_NO;
@@ -428,7 +427,7 @@
             $scope.selectedType = pageData.type || '';
             $scope.selectedCategory = pageData.category || pageData.tag || 'all';
             $scope.sortBy = pageData.sort || 'LOTAS'; //LOTAS | ESTDE | ESTAS
-            $scope.veiwType = pageData.view; //LOTAS | ESTDE | ESTAS
+            $scope.selectViewType = pageData.view || 'more'; // page | more
             $scope.currentPage = pageData.page;
             $scope.pageSize = pageData.size;
 
@@ -695,9 +694,9 @@
             const getLotList = (pageData) => {
                 try {
                     let params = {
-                        page: $scope.currentPage || 1,
-                        size: $scope.pageSize || 20,
-                        sortBy: $scope.sortBy || 'LOTAS',
+                        page: pageData.page || 1,
+                        size: pageData.size || 20,
+                        sortBy: pageData.sort || 'LOTAS',
                     };
 
                     if (pageData.search) {
@@ -753,6 +752,7 @@
             }
 
             const setLotListData = async (dataList) => {
+                console.log(dataList)
                 let baseCurrency = $scope.base_currency;
                 let subCurrency = $scope.sub_currency;
 
@@ -773,6 +773,7 @@
 
                 } );
 
+                $scope.$apply();
             }
 
 
@@ -859,27 +860,15 @@
 
             }
 
-            $scope.chgViewType = function () {
-                const typeVal = $("#viewType option:selected").val();
+            $scope.changeViewType = function (value) {
+                console.log(value)
+                $scope.selectViewType = value;
 
-                $scope.selectViewType = typeVal;
                 const pageData = loadPageData();
-                pageData.view = typeVal;
+                pageData.page = 1;
+                pageData.view = value;
                 window.location.href = makeUrl(pageData);
             }
-
-            // Polling Observer
-         /*   const pollingObserver = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        window.globalData.visibleLots.add(entry.target.dataset.lotNo);
-                    } else {
-                        window.globalData.visibleLots.delete(entry.target.dataset.lotNo);
-                    }
-                });
-            }, {
-                threshold: 0.5, // 겹침 정도 (1: 전체보임)
-            });*/
 
             // ViewMore Observer
             let viewMorePage = 2;
@@ -889,22 +878,26 @@
                 entries.forEach(async entry => {
                     if (entry.isIntersecting) {
                         const pageData = loadPageData();
-                        pageData.page = viewMorePage;
-                        pageData.size = viewMoreSize;
+                        pageData.page = 1;
+                        pageData.size = viewMorePage * viewMoreSize;
                         const resultData = await getLotList(pageData);
                         const lotListData = resultData.data.data;
-                        // viewMoreButton.style.display = 'none';
+                        viewMoreButton.style.display = 'none';
 
                         console.log(lotListData);
+                        $scope.lotList = lotListData.list;
+                        $scope.lotTotalCount = lotListData.count
 
                         if (lotListData.count > viewMorePage * viewMoreSize) {
-                            await setLotListData(); //addData
-                            document.getElementById('product-list').querySelectorAll('li').forEach(el => {
-                                viewMoreObserver.observe(el);
-                            });
+                            setTimeout(async ()=>{
+                                await setLotListData($scope.lotList);
+                            }, 300);
+                            // document.getElementById('product-list').querySelectorAll('li').forEach(el => {
+                                // viewMoreObserver.observe(el);
+                            // });
 
                             viewMorePage += 1;
-                            // viewMoreButton.style.display = 'block';
+                            viewMoreButton.style.display = 'block';
                         }
                     }
                 });

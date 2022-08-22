@@ -34,6 +34,7 @@ function loadPageData() {
   const tag = pageParams.tag || '';
   const category = pageParams.category || '';
   const view = pageParams.view || 'page'; // page | more
+
   let type = '';
   if(category === 'all'){
     type = '';
