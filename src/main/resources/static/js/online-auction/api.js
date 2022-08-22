@@ -154,10 +154,9 @@ async function callApiGetLotInfo(saleNo, lotNo) {
 async function callApiGetLastAutoBid(saleNo, lotNo) {
   try {
     const { data: response } = await window.axios.get(`/api/auction/online/last-auto-bid-req/sales/${saleNo}/lots/${lotNo}`);
-    console.log(response)
     const { success, data } = response;
     if (!success) throw new Error('Error');
-    return data;
+    return data || null;
   } catch (error) {
     return null;
   }
@@ -173,16 +172,36 @@ async function callApiGetLastAutoBid(saleNo, lotNo) {
  */
 async function callApiRegisterAutoBid({ saleNo, lotNo, custNo, price }) {
   try {
-    const body = {
+    const { data: response } = await window.axios.post(`/api/auction/online/bid-auto/sales/${saleNo}/lots/${lotNo}`, {
       bid_price: Number(price),
       cust_no: custNo,
-    }
-
-    const { data: response } = await window.axios.post(`/api/auction/online/bid-auto/sales/${saleNo}/lots/${lotNo}`, body);
+    });
     const { success } = response;
     return success;
   } catch (error) {
     return null;
+  }
+}
+
+/**
+ * [API] 1회 응찰
+ * @param {number} saleNo
+ * @param {number} lotNo
+ * @param {number} custNo
+ * @param {number | string} price
+ * @return {Promise<boolean>}
+ */
+async function callApiBidOnce({ saleNo, lotNo, custNo, price }) {
+  try {
+    const { data: response } = await window.axios.post(`/api/auction/online/bid/sales/${saleNo}/lots/${lotNo}`, {
+      bid_price: Number(price),
+      cust_no: custNo,
+    });
+    const { success } = response;
+    return success;
+  } catch (error) {
+    console.log(error);
+    return false;
   }
 }
 
@@ -210,3 +229,4 @@ async function callApiGetMe() {
     return null;
   }
 }
+

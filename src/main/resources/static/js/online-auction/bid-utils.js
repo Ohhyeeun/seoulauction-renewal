@@ -1,3 +1,5 @@
+// TODO: HTML 이 중복으로 로드되면서, 이벤트가 중복으로 호출되는 문제가 발생
+
 /**
  * [Event] 온라인 응찰팝업 열기(목록 / 상세)
  * @param {Event<HTMLButtonElement> | null} e
@@ -5,17 +7,21 @@
  * @param {number | string} lotNo
  */
 async function handleOpenBidPopup(saleNo, lotNo) {
-  let usePolling = true;
+  window.usePolling = true;
   const me = await callApiGetMe();
   const lotData = await callApiGetLotInfo(saleNo, Number(lotNo));
+
   const popup = createBidPopupFromTemplate();
+  // TODO: 자동응찰 / 취소 컨펌 처리
+  const confirmPopup = createPopupFromTemplate('#bidding_go-wrap', '#go-bidding-popup-template');
+  const cancelPopup = createPopupFromTemplate('#bidding_stop-wrap', '#stop-bidding-popup-template');
 
   /**
    * 랏 정보 Polling Worker
    */
   const fetcherWorker = new Worker('/js/online-auction/bid-fetcher.worker.js');
   setInterval(() => {
-    if (usePolling) {
+    if (window.usePolling) {
       fetcherWorker.postMessage({
         currency: lotData.CURR_CD || 'KRW',
         saleNo: lotData.SALE_NO,
@@ -30,9 +36,17 @@ async function handleOpenBidPopup(saleNo, lotNo) {
   }
 
   /**
-   * [Onload] 최초 데이터 바인딩 & 렌더링
+   * [Onload] 팝업 로드 시, 데이터 바인딩 & 렌더링
    */
   await onLoadBidPopup(popup, lotData);
+
+  /**
+   * [Onunload]
+   */
+  const unload = async () => {
+    document.getElementById('bid-once-btn').removeEventListener('click', bidOnce);
+    window.usePolling = false;
+  }
 
   /**
    * [Event] 팝업 닫기 버튼
@@ -40,15 +54,16 @@ async function handleOpenBidPopup(saleNo, lotNo) {
   popup.querySelector('.js-closepop').addEventListener('click', async e => {
     e.preventDefault();
     await toggleBidPopup(popup, false);
-    usePolling = false;
+    await unload();
   });
 
   /**
    * [Event] 배경 클릭 시 닫기
    */
-  popup.querySelector('.popup-dim').addEventListener('click', e => {
+  popup.querySelector('.popup-dim').addEventListener('click', async e => {
     e.preventDefault();
-    popup.querySelector('.js-closepop').click();
+    await toggleBidPopup(popup, false);
+    await unload();
   });
 
   /**
@@ -79,13 +94,39 @@ async function handleOpenBidPopup(saleNo, lotNo) {
   /**
    * [Event] 1회 응찰
    */
-  document.getElementById('bid-once-btn').addEventListener('click', e => {
+  document.getElementById('bid-once-btn').addEventListener('click', bidOnce);
+
+  async function bidOnce(e) {
     e.preventDefault();
-    // TODO: 1회 응찰 신청
-  });
+    e.stopPropagation();
+
+    const saleNo = lotData.SALE_NO;
+    const lotNo = lotData.LOT_NO;
+    const custNo = me.CUST_NO;
+    const isLogin = me.IS_LOGIN === 'Y';
+    const price = Number(document.getElementById('bid-once-btn-price').dataset.price) || 0;
+
+    if (custNo < 1 || !isLogin) {
+      // TODO: 로그인 팝업 처리
+      window.alert(`로그인이 필요합니다`);
+      return;
+    }
+
+    // 1회응찰 신청
+    const result = await callApiBidOnce({ saleNo, lotNo, custNo, price });
+    if (result) {
+      window.alert('성공');
+    } else {
+      window.alert('실패');
+    }
+
+    // 팝업 데이터 렌더링 (응찰 목록)
+    const { rows: bidListData } = await callApiBidList(saleNo, lotNo);
+    await renderPopupContentBidList(popup, bidListData);
+  }
 
   /**
-   * [Event] 자동 응찰
+   * [Event] 자동 응찰 등록 / 중지
    */
   document.getElementById('bid-auto-btn').addEventListener('click', async e => {
     e.preventDefault();
@@ -97,6 +138,7 @@ async function handleOpenBidPopup(saleNo, lotNo) {
 
     if (custNo < 1 || !isLogin) {
       // TODO: 로그인 팝업 처리
+      window.alert(`로그인이 필요합니다`);
       return;
     }
 
@@ -110,7 +152,7 @@ async function handleOpenBidPopup(saleNo, lotNo) {
 }
 
 /**
- * 팝업 최초 로딩
+ * 팝업 로딩 시 실행
  * @param {HTMLElement} popup
  * @param {LotDetail} data
  * @return {Promise<void>}
@@ -144,23 +186,21 @@ async function onLoadBidPopup(popup, data) {
   // 기본 Bid type 선택
   selectBidType('once');
 
-  // document.getElementById('bid-once-btn').
+  // 선택한 랏의 자동응찰 정보(내가 걸어놓은 자동응찰 정보)
   const lastAutoBid = await callApiGetLastAutoBid(data.SALE_NO, data.LOT_NO);
-  console.log(lastAutoBid);
+  await renderAutoBidButtons(lastAutoBid);
 
   // 1회 응찰 가격 텍스트 수정
-  document.getElementById('bid-once-btn-price').innerHTML = renderOnceBidPrice(data);
+  await renderOnceBidPrice(data);
 
   // 자동 응찰 셀렉트 초기화
   document.querySelector('.js-bidding_option').innerHTML = renderAutoBidPriceList(data);
 }
 
 /**
- * 새로운 팝업을 생성 ( FROM: template#online-bid-popup )
+ * 새로운 응찰 팝업을 생성
  */
 function createBidPopupFromTemplate() {
-  const popup = document.getElementById('popup_biddingPopup2-wrap');
-
   // select2의 z-index 변경하는 스타일 시트를 추가
   const dynamicStyle = document.querySelector('#select2-style');
   if (!dynamicStyle) {
@@ -170,14 +210,40 @@ function createBidPopupFromTemplate() {
     document.head.appendChild(style);
   }
 
+  return createPopupFromTemplate('#popup_biddingPopup2-wrap', '#online-bid-popup');
+}
+
+/**
+ * 팝업 생성
+ * @param {string} $popup
+ * @param {string} $template
+ * @return {*}
+ */
+function createPopupFromTemplate($popup, $template) {
   // 만약에 팝업이 없을 경우, 팝업을 추가
-  if (!popup) {
-    const popupTemplate = document.querySelector('#online-bid-popup');
+  if (!document.querySelector($popup)) {
+    const popupTemplate = document.querySelector($template);
     const clone = document.importNode(popupTemplate.content, true);
     document.body.appendChild(clone);
   }
 
-  return document.getElementById('popup_biddingPopup2-wrap');
+  return document.querySelector($popup);
+}
+
+/**
+ * 자동응찰 버튼 렌더링
+ * @param {Object | null} data
+ * @return {Promise<void>}
+ */
+async function renderAutoBidButtons(data) {
+  const button = document.getElementById('bid-auto-btn');
+  if (data) {
+    button.dataset.dataType = 'stop';
+    button.innerHTML = `<span>자동응찰 중지</span>`;
+  } else {
+    button.dataset.dataType = 'bid';
+    button.innerHTML = `<span>응찰 하기</span>`;
+  }
 }
 
 /**
@@ -228,14 +294,14 @@ async function renderPopupContentLeftInfo(popup, data) {
     }
   }
 
-  popup.querySelector('.bid-lot-no').innerHTML = `LOT ${lotNo}`;
+  popup.querySelector('.bid-lot-no').textContent = `LOT ${lotNo}`;
   popup.querySelector('.bid-lot-image').src = imagePath;
-  popup.querySelector('.bid-lot-artist').innerHTML = artist;
-  popup.querySelector('.bid-lot-artist-born').innerHTML = born ? `b. ${born}` : '&nbsp;';
-  popup.querySelector('.bid-lot-title').innerHTML = title;
-  popup.querySelector('.bid-lot-material').innerHTML = material;
-  popup.querySelector('.bid-lot-size').innerHTML = lotSizeHtml;
-  popup.querySelector('.bid-lot-year').innerHTML = createdYear;
+  popup.querySelector('.bid-lot-artist').textContent = artist;
+  popup.querySelector('.bid-lot-artist-born').textContent = born ? `b. ${born}` : '&nbsp;';
+  popup.querySelector('.bid-lot-title').textContent = title;
+  popup.querySelector('.bid-lot-material').textContent = material;
+  popup.querySelector('.bid-lot-size').textContent = lotSizeHtml;
+  popup.querySelector('.bid-lot-year').textContent = createdYear;
 }
 
 /**
@@ -358,19 +424,8 @@ function selectBidType(value) {
  * @param {number} targetDateTimestamp
  */
 function renderRemainTimes(popup, targetDateTimestamp) {
-  const currentTimestamp = new Date().getTime();
-  const remainTime = timerFormat(targetDateTimestamp - currentTimestamp); // 남은 timestamp
-  if (!remainTime) return;
-
-  let remainTimeFormat = '';
-  const timesZf = remainTime.filter((_, index) => index > 0).map(time => zerofillNumber(time));
-
-  if (remainTime[0] > 0) {
-    remainTimeFormat += `${remainTime[0]}일 `;
-  }
-  remainTimeFormat += timesZf.join(':');
-
-  popup.querySelector('.bid-lot-remain-times').innerHTML = `남은시간: ${remainTimeFormat}`;
+  const times = fromNow(targetDateTimestamp);
+  popup.querySelector('.bid-lot-remain-times').innerHTML = `남은시간: ${times.format}`;
 }
 
 /**
@@ -417,21 +472,24 @@ function renderAutoBidPriceList(data) {
  * 1회 응찰 가격 할당
  * @param {Partial<LotDetail>} data
  */
-function renderOnceBidPrice(data) {
-  const { currency, minPrice } = calculateBidPrice(data);
+async function renderOnceBidPrice(data) {
+  const { currency, minPrice } = await calculateBidPrice(data);
 
   const growPrice = getCurrentGrowPrice(minPrice);
-  let currentPrice = minPrice;
-  currentPrice = currentPrice + growPrice;
+  const currentPrice = minPrice;
+  const nextPrice = minPrice + growPrice;
+  const priceValue = !data.LAST_PRICE ? currentPrice : nextPrice;
 
-  return `${currency} ${formatNumber(currentPrice)}`;
+  const $bidPrice = document.getElementById('bid-once-btn-price');
+  $bidPrice.dataset.price = priceValue;
+  $bidPrice.innerHTML = `${currency} ${formatNumber(priceValue)}`;
 }
 
 /**
  * 응찰 최소 / 최대 가격 계산
  * @param {Partial<LotDetail>} data
  */
-function calculateBidPrice(data) {
+async function calculateBidPrice(data) {
   const currency = data?.CURR_CD || 'KRW';
   const expectRowPrice = JSON.parse(data.EXPE_PRICE_FROM_JSON)[currency] || 0;
   const startPrice = data.START_PRICE || 0;
