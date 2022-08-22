@@ -84,7 +84,7 @@
                                     <div class="tab-wrap">
                                         <div class="tab-area type-left">
                                             <ul class="tab-list js-list_tab">
-                                                <li ng-class="{active: item.CD_ID === selectCategory}" ng-repeat="item in categories">
+                                                <li ng-class="{active: item.CD_ID === selectedCategory}" ng-repeat="item in categories">
                                                     <a href="" ng-click="changeCategory(item.TYPE, item.CD_ID);"><span ng-bind="item.CD_NM"></span></a>
                                                 </li>
                                             </ul>
@@ -141,15 +141,16 @@
                                             <%--검색, 정렬필터, 페이지 방식--%>
                                             <div class="col_item mb-col2">
                                                 <div class="search-box">
-                                                    <input type="search" placeholder="작가/작품명" id="search_value"
-                                                           ng-model="searchValue"
-                                                           ng-keyup="searchArtist(event=$event)" class="h42">
-                                                    <i class="form-search_md" ng-click="searchArtist2()"></i>
+                                                    <input type="search" placeholder="작가/작품명"
+                                                           ng-model="searchKeyword"
+                                                           ng-keypress="$event.keyCode === 13 && getSearchLotList();" class="h42">
+                                                    <i class="form-search_md" ng-click="getSearchLotList()"></i>
                                                 </div>
                                                 <div class="select-box">
                                                     <select id="sortType" class="select2Basic42 select2-hidden-accessible"
-                                                            ng-init="selectSortType = selectSortType || options[0].value"
-                                                            onchange="angular.element(this).scope().rerange();">
+                                                            ng-model="sortBy"
+<%--                                                            onselect="changeSortByList()"--%>
+                                                            onchange="angular.element(this).scope().changeSortByList(this.value)">
                                                         <option ng-repeat="item in modelSortType" value="{{item.value}}">{{item.name}}</option>
                                                     </select>
                                                 </div>
@@ -208,7 +209,7 @@
                                                         <div class="area-inner">
                                                             <i class="icon-cancle_box"></i>
                                                             <div class="typo">
-                                                                <div class="name"><span>LOT 1</span></div>
+                                                                <div class="name"><span>LOT {{item.LOT_NO}}</span></div>
                                                                 <div class="msg"><span>출품이 취소되었습니다.</span></div>
                                                             </div>
                                                         </div>
@@ -272,7 +273,7 @@
                                                                     </div>
                                                                 </dl>
                                                             </div>
-                                                            <div id="biding_req2" ng-show="sale_status === 'READY'" class="bidding-box col_2"> <%--ng-show="item.showBtn === 1"  --%>
+                                                            <div id="biding_req2" ng-show="sale_status === 'READY'" class="bidding-box col_2">
                                                                 <div class="deadline_set"><span>신청마감 {{ displayBidCloseDate }}</span></div>
                                                                 <div class="btn_set">
                                                                     <a class="btn btn_point" href="" ng-click="moveToBidding(item)" role="button">
@@ -420,20 +421,20 @@
             $scope.base_currency = 'KRW';
             $scope.sub_currency = 'USD';
 
-            $scope.pagesize = 10;
-            $scope.itemsize = 20;
-            $scope.curpage = 1;
-            $scope.change_size = false;
+            $scope.searchKeyword = '';
+            $scope.selectedType='category';
+            $scope.selectedCategory='all';
+            $scope.sortBy = 'LOTAS'; //LOTAS | ESTDE | ESTAS
 
             $scope.modelSortType = [{
                 name: "LOT 번호순",
-                value: 1
+                value: 'LOTAS'
             }, {
                 name: "추정가 높은순",
-                value: 2
+                value: "ESTDE"
             }, {
                 name: "추정가 낮은순",
-                value: 3
+                value: "ESTAS"
             }];
 
             $scope.modelViewType = [{
@@ -444,40 +445,17 @@
                 value: 'more'
             }];
 
-            $scope.selectSortType = 1;
-            $scope.selectViewType = 'page';
-            $scope.searchValue = "";
-            $scope.searchlotList = [];
-            $scope.selectCategory = 'all';
-
-            $scope.searchInit = function (event) {
-                $scope.searchValue = '';
-                $scope.searchArtist2();
+            $scope.searchInit = function () {
+                $scope.searchKeyword = '';
+                $scope.getSearchLotList();
             }
 
-            $scope.searchArtist = function (event) {
-                if (event.keyCode === 13 || $scope.searchValue.length <= 0) {
-                    $scope.searchArtist2();
-                }
-            }
-
-            $scope.searchArtist2 = function () {
-                let pp = [];
-                for (let i = 0; i < $scope.lotList.length; i++) {
-
-                    if($scope.lotList[i].ARTIST_NAME_JSON !=null && $scope.lotList[i].LOT_TITLE_JSON) {
-
-                        if ($scope.lotList[i].ARTIST_NAME_JSON.ko.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1 ||
-                            $scope.lotList[i].LOT_TITLE_JSON.ko.toLowerCase().indexOf($scope.searchValue.toLowerCase()) > -1) {
-                            pp.push($scope.lotList[i]);
-                        }
-                    }
-                }
-
-                $scope.lotTotalCount = pp.length;
-                $scope.searchlotList = pp;
-                $scope.pageing(1);
-
+            $scope.getSearchLotList = async function () {
+                const lotListData = await getLotList();
+                $scope.lotList = lotListData.data.data.list;
+                $scope.lotTotalCount = lotListData.data.data.count;
+                setLotListData($scope.lotList);
+                $scope.$apply();
             }
 
             $scope.goLot = function (saleNo, lotNo) {
@@ -653,7 +631,6 @@
                 const paddleNo = paddNo;
                 const sale_status = saleStatus;
 
-                // console.log(sale_status, isLogin, isRegular, paddleNo);
                 if(sale_status === 'READY') {
                     /* 로그인 & 준회원 & 정회원(패들x) */
                     if (!isLogin || !isRegular || (isRegular && paddleNo < 1)) {
@@ -701,7 +678,6 @@
                 $scope.$apply();
             }
 
-
             // 호출 부
             const getSaleInfo = (saleNo) => {
                 try {
@@ -711,11 +687,18 @@
                 }
             };
 
-            const getLotList = (type, cd_id) => {
+            $scope.currentPage = 1;
+            $scope.pageSize = 20;
+            const getLotList = () => {
                 const saleNo = ${saleNo};
                 try {
-                    const paramQuery = cd_id !== 'all'? '?'+type+'='+cd_id : '';
-                    return axios.get('/api/auction/live/list/'+saleNo+paramQuery);
+                    const pagingParam = '?page='+$scope.currentPage+'&size='+$scope.pageSize;
+                    const categoryParam = $scope.selectedCategory !== 'all'? '&'+$scope.selectedType+'='+encodeURI($scope.selectedCategory) : '';
+                    const searchParam = $scope.searchKeyword ? '&search='+encodeURI($scope.searchKeyword) : '';
+                    const sortParam = '&sortBy='+$scope.sortBy;
+
+                    const paramQuery = pagingParam + categoryParam + searchParam + sortParam;
+                    return axios.get('/api/auction/live/list/'+ saleNo + paramQuery);
                 } catch (error) {
                     console.error(error);
                 }
@@ -740,12 +723,6 @@
             const getPaddleNumber = async (saleNo) =>{
                 try {
                     return axios.get('/api/auction/paddles/'+saleNo);
-                        /*.then(function(response) {
-                            if (response.data.success) {
-                                const paddleNumber = response.data.data;
-                                return paddleNumber > 0? paddleNumber : 0;
-                            }
-                        });*/
                 } catch (error) {
                     console.error(error);
                 }
@@ -774,14 +751,16 @@
             }
 
 
-
             $scope.changeCategory = async function (type, category){
-                $scope.selectCategory = category;
-                const lotListData = await getLotList(type, category);
-                $scope.lotList = lotListData.data.data;
-                $scope.lotTotalCount = $scope.lotList.length;
+                $scope.selectedType = type;
+                $scope.selectedCategory = category;
+
+                const lotListData = await getLotList();
+                $scope.lotList = lotListData.data.data.list;
+                $scope.lotTotalCount = lotListData.data.data.count;
                 setLotListData($scope.lotList);
-                $scope.pageing(1);
+
+                $scope.$apply();
             }
 
             // 호출 부
@@ -789,15 +768,16 @@
                 let run = async function () {
                     let [saleInfoData, lotListData, lotNaviData, categories, paddleInfoData] = await Promise.all([
                         getSaleInfo($scope.sale_no),
-                        getLotList('category', $scope.selectCategory),
+                        getLotList(),
                         getSaleImages($scope.sale_no),
                         getCategories($scope.sale_no),
                         getPaddleNumber($scope.sale_no),
                     ]);
 
                     $scope.saleInfoData = saleInfoData.data.data;
-                    $scope.lotList = lotListData.data.data;
-                    $scope.lotTotalCount = $scope.lotList.length;
+                    console.log(lotListData.data.data)
+                    $scope.lotList = lotListData.data.data.list;
+                    $scope.lotTotalCount = lotListData.data.data.count;
                     $scope.saleImages = lotNaviData.data.data;
                     $scope.categories = categories.data.data;
                     $scope.categories.unshift({CD_ID : 'all', CD_NM : '전체', CD_NM_EN: 'All'});
@@ -809,7 +789,7 @@
 
                     $scope.saleInfo = $scope.lotList.slice(0, $scope.itemsize);
 
-                    let p = [];
+                    /*let p = [];
                     let endVal = 0;
                     let page = 1;
 
@@ -826,12 +806,9 @@
                         p.push(i);
                     }
 
-
-
-                    $scope.pageingdata = p;
+                    $scope.pageingdata = p;*/
 
                     $scope.$apply();
-
 
 
                     // lot
@@ -878,6 +855,15 @@
                         break;
                 }
                 $scope.selectViewType = sst;
+            }
+
+            $scope.changeSortByList = async function (value) {
+                $scope.sortBy = value;
+                const lotListData = await getLotList();
+                $scope.lotList = lotListData.data.data.list;
+                $scope.lotTotalCount = lotListData.data.data.count;
+                setLotListData($scope.lotList);
+                $scope.$apply();
             }
 
             $scope.rerange = function () {
