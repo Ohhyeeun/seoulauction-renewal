@@ -80,7 +80,7 @@
                                             <article class="item-article">
                                                 <div class="image-area">
                                                     <figure class="img-ratio">
-                                                        <a href="javascript:void(0);" class="img-align" ng-click="goSale(auction.SALE_KIND_CD, auction.SALE_NO);">
+                                                        <a href="javascript:void(0);" class="img-align" ng-click="goSale(auction);">
                                                             <img ng-src="<spring:eval expression="@environment.getProperty('image.root.path')" />{{auction.SALE_IMG_NAME ? (auction.SALE_IMG_PATH + '/' + auction.SALE_IMG_NAME)  : (auction.LOT_IMG_NAME | imagePath : auction.LOT_IMG_PATH : true)}}" alt="경매 결과 이미지">
                                                         </a>
                                                     </figure>
@@ -107,7 +107,7 @@
                                                             </dl>
                                                             <%-- 결과보기 --%>
                                                             <div class="btn-box">
-                                                                <div class="btn_set" ng-if="EMP_GB === 'Y' || (IS_LOGIN === 'Y' && ((['main','hongkong','plan'].indexOf(auction.SALE_KIND_CD) > -1 && auction.IS_OLD_SALE === 'N') || (['main','hongkong','plan'].indexOf(auction.SALE_KIND_CD) <= 0 && today <= (auction.TO_DT | date:'yyyyMMdd'))))"><a class="btn btn_default" role="button" ng-click="goSale(auction.SALE_KIND_CD, auction.SALE_NO);"><span>결과보기</span></a></div>
+                                                                <div class="btn_set"><a class="btn btn_default" role="button" ng-click="goSale(auction);"><span>결과보기</span></a></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -181,10 +181,6 @@ app.controller('auctionCtl', function($scope, consts, common, locale, $filter) {
     $scope.currentPage = 1;
     $scope.totalCount = 0;
     $scope.EMP_GB = '${authorities}';
-    $scope.IS_LOGIN = 'N';
-    if (sessionStorage.getItem("is_login") === "true") {
-        $scope.IS_LOGIN = 'Y';
-    }
 
     $scope.init = function(){
         $scope.loadSaleList(1, '');
@@ -243,11 +239,26 @@ app.controller('auctionCtl', function($scope, consts, common, locale, $filter) {
         $scope.loadSaleList(1, sale_kind_cd);
     }
 
-    $scope.goSale = function(sale_kind_cd, sale_no) {
-        if(['online','online_zb'].indexOf(sale_kind_cd) > -1) {
-            location.href = "/auction/list/"+sale_no;
+    $scope.goSale = function(auction) {
+        if (sessionStorage.getItem("is_login") !== "true") {
+            location.href= "/login";
+            return;
+        }
+
+        if(['main','hongkong','plan'].indexOf(auction.SALE_KIND_CD) > -1 && auction.IS_OLD_SALE === 'Y') {
+            alert("라이브 경매결과는 5년이내만 \"결과보기\"가 가능합니다.");
+            return;
+        }
+
+        if(['online','online_zb'].indexOf(auction.SALE_KIND_CD) > -1 && $scope.today > $filter('date')(auction.TO_DT, 'yyyyMMdd')) {
+            alert("온라인 경매결과는 경매당일까지만 \"결과보기\"가 가능합니다.");
+            return;
+        }
+
+        if(['online','online_zb'].indexOf(auction.SALE_KIND_CD) > -1) {
+            location.href = "/auction/list/"+auction.SALE_NO;
         } else {
-            location.href = "/auction/live/list/"+sale_no;
+            location.href = "/auction/live/list/"+auction.SALE_NO;
         }
     }
 
