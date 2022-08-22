@@ -79,18 +79,33 @@ $(document).ready(function(){
             let lotName = locale === 'ko' ? lotTitle.ko : lotTitle.en;
             let priceToJson =  JSON.parse(el.EXPE_PRICE_TO_JSON);
             let priceFromJson =  JSON.parse(el.EXPE_PRICE_FROM_JSON);
-
+            let currentStarting = starting;
             let price = "";
             if (kind === "ONLINE") {
 
-                price = numberWithCommas(el.START_PRICE);
+                price = el.MAX_BID_PRICE != null ? numberWithCommas(el.MAX_BID_PRICE) : numberWithCommas(el.START_PRICE);
 
-                // if (locale === 'ko') {
-                //
-                // }
+                //낙찰이 되었다면.
+                if(el.SB_YN === 'Y') {
+                    currentStarting = locale === 'ko' ? '낙찰가' : 'Hanmmer';
+                } else {
+                    if(el.MAX_BID_PRICE != null){
+
+                        currentStarting = locale === 'ko' ? '현재가' : 'Current';
+
+                        let count = locale === 'ko' ? '회' : 'bid';
+
+                        if( el.BID_COUNT !==0 ){
+                            currentStarting += '(' + el.BID_COUNT + count + ')';
+                        }
+                    }
+                }
+
             } else {
+
                 if (locale === 'ko') {
                     if(priceFromJson.KRW) {
+
                         price = numberWithCommas(priceFromJson.KRW) + '~' + numberWithCommas(priceToJson.KRW);
                     }
                 } else {
@@ -98,6 +113,26 @@ $(document).ready(function(){
                         price = numberWithCommas(priceFromJson.USD) + '~' + numberWithCommas(priceToJson.USD);
                     }
                 }
+
+                //오프라인 전용 현재가 측정 ( 오프라인 경매 중 일경우 )
+                if(el.LAST_PRICE){
+                    currentStarting = locale === 'ko' ? '현재가' : 'Current';
+                    price = numberWithCommas(el.LAST_PRICE);
+
+                    let count = locale === 'ko' ? '회' : 'bid';
+
+                    if( el.BID_COUNT !==0 ){
+                        currentStarting += '(' + el.BID_COUNT + count + ')';
+                    }
+                }
+
+                //낙찰이 된경우 !
+                if(el.SB_YN === 'Y') {
+                    currentStarting = locale === 'ko' ? '낙찰가' : 'Hanmmer';
+                    price = numberWithCommas(el.MAX_BID_PRICE);
+                }
+
+
             }
 
             let saleNo = el.SALE_NO;
@@ -113,7 +148,7 @@ $(document).ready(function(){
                                         <a>
                                             <p class="auction-thumb-txt">
                                                 <span>${lotName}</span>
-                                                <span>${starting} ${price}</span>
+                                                <span>${currentStarting} ${price}</span>
                                             </p>
                                         </a>
                                     </figcaption>
@@ -166,6 +201,8 @@ $(document).ready(function(){
         if (matchMedia("all and (min-width: 1024px)").matches) {
 
             $('.auction-thumbbox').on('mouseenter', function () {
+
+
                 $('.auction-thumbbox>.auction-thumb').removeClass('on');
                 $(this).children('.auction-thumb').addClass('on');
 

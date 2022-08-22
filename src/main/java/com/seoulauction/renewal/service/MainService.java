@@ -69,11 +69,8 @@ public class MainService {
             mainMapper.insertNewsletter(map);
             mainMapper.insertNewsletterHistory(map);
         }
-        
-
     }
 
-    //어떤 테이블을 참조할지 모르기때문 우선 더미데이텨 리턴.
     public CommonMap selectAuctions(CommonMap map){
 
         CommonMap resultMap = new CommonMap();
@@ -110,12 +107,6 @@ public class MainService {
                 c.put("lots" , customLots );
         });
 
-//        List<CommonMap> test2 = new ArrayList<>();
-//        if(!saleList.isEmpty()) {
-//            test2.add(saleList.get(0));
-//            test2.add(saleList.get(0));
-//            test2.add(saleList.get(0));
-//        }
         resultMap.put("list" , saleList);
         resultMap.put("count" , counts);
 
