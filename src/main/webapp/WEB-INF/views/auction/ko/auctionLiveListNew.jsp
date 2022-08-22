@@ -6,12 +6,12 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 <c:set var="isRegular" value="false" />
-<c:set var="isEmployee" value="false" />
+<c:set var="IS_EMPLOYEE" value="false" />
 <sec:authorize access="hasAuthority('ROLE_REGULAR_USER')">
     <c:set var="isRegular" value="true" />
 </sec:authorize>
 <sec:authorize access="hasAuthority('ROLE_EMPLOYEE_USER')">
-    <c:set var="isEmployee" value="true" />
+    <c:set var="IS_EMPLOYEE" value="true" />
 </sec:authorize>
 <body class="">
     <div class="wrapper">
@@ -156,6 +156,7 @@
                                                 </div>
                                                 <div class="select-box">
                                                     <select id="viewType" class="select2Basic42 js-select_page select2-hidden-accessible"
+                                                            ng-modal="viewType"
                                                             onchange="angular.element(this).scope().chgViewType();">
                                                         <option ng-repeat="item in modelViewType" value="{{item.value}}">{{item.name}}</option>
                                                     </select>
@@ -291,23 +292,23 @@
 
                                 <div class="panel-footer">
                                     <div class="set-pc_mb">
-                                        <div id="page_layer" ng-show="selectViewType == 'page'">
+                                        <div id="page_layer">
                                             <div class="paging-area">
                                                 <!-- paging -->
                                                 <div class="paging">
-                                                    <a href="javascript:void(0);" ng-click="pageing(1);" class="prev_end icon-page_prevprev">FIRST</a>
+                                                  <%--  <a href="javascript:void(0);" ng-click="pageing(1);" class="prev_end icon-page_prevprev">FIRST</a>
                                                     <a href="javascript:void(0);" ng-click="pageingPrev();" class="prev icon-page_prev">PREV</a>
                                                     <a href="javascript:void(0);" ng-click="pageing(item);" ng-repeat="item in pageingdata" ng-class="{'on':item === curpage}">
                                                         <strong ng-if="item === curpage" ng-bind="item"></strong>
                                                         <span ng-if="item != curpage" ng-bind="item"></span></a>
                                                     <a href="javascript:void(0);" ng-click="pageingNext();" class="next icon-page_next">NEXT</a>
-                                                    <a href="javascript:void(0);" ng-click="pageing(pagelast);" class="next_end icon-page_nextnext">LAST</a>
+                                                    <a href="javascript:void(0);" ng-click="pageing(pagelast);" class="next_end icon-page_nextnext">LAST</a>--%>
                                                 </div>
                                                 <!-- paging -->
                                             </div>
                                         </div>
                                         <!-- 더보기 -->
-                                        <div id="add_layer" class="only-mb2" ng-show="selectViewType == 'more'">
+                                        <div id="add_layer" class="only-mb2" >
                                             <button class="btn btn_gray_line" type="button" ng-click="addpage(curpage + 1);"><span>더보기</span></button>
                                         </div>
                                         <!-- 더보기 -->
@@ -342,10 +343,13 @@
     </div>
 
 
+    <script src="/js/auction/auctionLiveList.js" defer></script>
+    <script src="/js/live-auction-list/utils.js" defer></script>
+    <script src="/js/live-auction-list/renderPaging.js" defer></script>
+<%--    <script src="/js/live-auction-list/live-auction-list.js" defer></script>--%>
 
-<%--    <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
-    <script type="text/javascript" src="/js/auction/auctionLiveList.js" type="text/javascript"></script>
-    <script>
+    <script defer>
+
         Date.prototype.format = function (f) {
             if (!this.valueOf()) return " ";
 
@@ -394,37 +398,39 @@
             return this.toString().zf(len);
         };
 
-
         var terms_required = $(".js-terms_required").trpLayerFixedPopup("#terms_required-wrap");
         var paddle_number = $(".js-paddle_number").trpLayerFixedPopup("#paddle_number-wrap");
 
+        (function(){
+            //약관체크
+            $(".js_all-terms").trpCheckBoxAllsImg(".js_all", ".js_item");
+        })();
+
+
+        const IS_REGULAR = ${isRegular};
+        const IS_CUST_REQUIRED = ${isCustRequired};
+        const IS_EMPLOYEE = ${IS_EMPLOYEE};
+        const SALE_NO = ${saleNo};
+
         app.value('locale', 'ko');
         app.value('is_login', true);
-
         app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
-
-        // 현재가 처리
-        app.filter('date_format', function(){
-            return function(val) {
-                if (val === undefined) {
-                    return '';
-                }
-                return (val === '')?'':new Date(val).format('MM/dd(E)');
-            };
-        })
-
-
         app.controller('ctl', function ($scope, consts, common, is_login, locale, $filter) {
+            let pageData = loadPageData();
+            console.log('angular', pageData)
             $scope.is_login = is_login;
             $scope.locale = locale;
-            $scope.sale_no = "${saleNo}";
+            $scope.sale_no = SALE_NO;
             $scope.base_currency = 'KRW';
             $scope.sub_currency = 'USD';
 
-            $scope.searchKeyword = '';
-            $scope.selectedType='category';
-            $scope.selectedCategory='all';
-            $scope.sortBy = 'LOTAS'; //LOTAS | ESTDE | ESTAS
+            $scope.searchKeyword = pageData.search;
+            $scope.selectedType = pageData.type || '';
+            $scope.selectedCategory = pageData.category || pageData.tag || 'all';
+            $scope.sortBy = pageData.sort || 'LOTAS'; //LOTAS | ESTDE | ESTAS
+            $scope.veiwType = pageData.view; //LOTAS | ESTDE | ESTAS
+            $scope.currentPage = pageData.page;
+            $scope.pageSize = pageData.size;
 
             $scope.modelSortType = [{
                 name: "LOT 번호순",
@@ -451,11 +457,7 @@
             }
 
             $scope.getSearchLotList = async function () {
-                const lotListData = await getLotList();
-                $scope.lotList = lotListData.data.data.list;
-                $scope.lotTotalCount = lotListData.data.data.count;
-                setLotListData($scope.lotList);
-                $scope.$apply();
+                await $scope.loadLotList();
             }
 
             $scope.goLot = function (saleNo, lotNo) {
@@ -497,15 +499,15 @@
                 }
 
                 //정회원 여부.
-                let isRegular = ${isRegular};
+                let isRegular = isRegular;
                 if(!isRegular){
                     alert('정회원만 서면/전화 응찰 신청이 가능합니다.')
                     return;
                 }
 
                 //필수 값 있는지 여부. ( 생년월일 , 성별 )
-                let isCustRequired = ${isCustRequired};
-                if(!isCustRequired){
+                let IS_CUST_REQUIRED = IS_CUST_REQUIRED;
+                if(!IS_CUST_REQUIRED){
                     if(confirm('서면/전화 응찰 신청에 필요한 필수회원정보가 있습니다.\n회원정보를 수정하시겠습니까?')){
                         location.href = '/mypage/custModify';
                     }
@@ -523,10 +525,10 @@
                 if(saleStatus === 'READY' && !isLogin){
                     //로그인 페이지 이동
                     if(!checkLogin()) return;
-                }else if(saleStatus === 'READY' && ${isRegular} && paddleNo < 1){
+                }else if(saleStatus === 'READY' && isRegular && paddleNo < 1){
                     //패들 발급 신청
-                    let isCustRequired = ${isCustRequired};
-                    if(!isCustRequired){
+                    let IS_CUST_REQUIRED = IS_CUST_REQUIRED;
+                    if(!IS_CUST_REQUIRED){
                         if(confirm('패들 신청에 필요한 필수회원정보가 있습니다.\n회원정보를 수정하시겠습니까?')){
                             location.href = '/mypage/custModify';
                         }
@@ -555,7 +557,7 @@
 
             $scope.goLiveBidAgree = function() {
                 if($(".js_all-terms #checkbox_all").is(":checked")) {
-                    axios.post('/api/auction/paddle', { sale_no : '${saleNo}'})
+                    axios.post('/api/auction/paddle', { sale_no : SALE_NO})
                         .then(function (response) {
                             if (response.data.success) {
                                 $scope.paddNo = response.data.data;
@@ -608,7 +610,7 @@
                     saleStatus = 'LIVE_ING';
                 }else if((NOW_DATETIME > LIVE_BID_DT) && saleData.CLOSE_YN){
                     saleStatus = "END";
-                    if (!${isEmployee} && sessionStorage.getItem("is_login") === 'false') {
+                    if (!IS_EMPLOYEE && sessionStorage.getItem("is_login") === 'false') {
                         alert("권한이 없거나 허용되지 않은 접근입니다.");
                     }
                 }
@@ -627,7 +629,7 @@
                 $scope.btnPaddleNo = '';
 
                 const isLogin = sessionStorage.getItem("is_login");
-                const isRegular = '${isRegular}';
+                const isRegular = 'isRegular';
                 const paddleNo = paddNo;
                 const sale_status = saleStatus;
 
@@ -687,18 +689,33 @@
                 }
             };
 
-            $scope.currentPage = 1;
-            $scope.pageSize = 20;
             const getLotList = () => {
-                const saleNo = ${saleNo};
                 try {
-                    const pagingParam = '?page='+$scope.currentPage+'&size='+$scope.pageSize;
-                    const categoryParam = $scope.selectedCategory !== 'all'? '&'+$scope.selectedType+'='+encodeURI($scope.selectedCategory) : '';
-                    const searchParam = $scope.searchKeyword ? '&search='+encodeURI($scope.searchKeyword) : '';
-                    const sortParam = '&sortBy='+$scope.sortBy;
+                    /* const pagingParam = '?page='+$scope.currentPage+'&size='+$scope.pageSize;
+                     const categoryParam = $scope.selectedCategory !== 'all'? '&'+$scope.selectedType+'='+encodeURI($scope.selectedCategory) : '';
+                     const searchParam = $scope.searchKeyword ? '&search='+encodeURI($scope.searchKeyword) : '';
+                     const sortParam = '&sortBy='+$scope.sortBy;
 
-                    const paramQuery = pagingParam + categoryParam + searchParam + sortParam;
-                    return axios.get('/api/auction/live/list/'+ saleNo + paramQuery);
+                     const paramQuery = pagingParam + categoryParam + searchParam + sortParam;
+                     */
+
+                    let params = {
+                        page: $scope.currentPage,
+                        size: $scope.pageSize,
+                        sortBy: $scope.sortBy || 'LOTAS',
+                    }
+
+                    if ($scope.searchKeyword) {
+                        params.searchText = encodeURI($scope.searchKeyword);
+                    }
+
+                   if($scope.selectedCategory !== 'all'){
+                       params[$scope.selectedType] = $scope.selectedCategory;
+                   }
+
+                    console.log(params);
+                    const paramString = "?" + window.Qs.stringify(params);
+                    return axios.get('/api/auction/live/list/'+ SALE_NO + paramString);
                 } catch (error) {
                     console.error(error);
                 }
@@ -728,7 +745,7 @@
                 }
             }
 
-            const setLotListData = (dataList) => {
+            const setLotListData = async (dataList) => {
                 let baseCurrency = $scope.base_currency;
                 let subCurrency = $scope.sub_currency;
 
@@ -741,26 +758,36 @@
                     item.EXPE_PRICE_TO_JSON[subCurrency] = numberWithCommas(item.EXPE_PRICE_TO_JSON[subCurrency]);
                     item.MAX_BID_PRICE = item.MAX_BID_PRICE !== null? numberWithCommas(parseInt(item.MAX_BID_PRICE)) : null;
 
-                    if ($scope.sale_status === 'LIVE_ING' && item.CLOSE_YN && item.MAX_BID_PRICE !== null && ${isRegular}) {
+                    if ($scope.sale_status === 'LIVE_ING' && item.CLOSE_YN && item.MAX_BID_PRICE !== null && IS_REGULAR) {
                         item.isShowBidPrice = true;
                     } else {
                         item.isShowBidPrice = false;
                     }
 
                 } );
+
             }
 
 
-            $scope.changeCategory = async function (type, category){
-                $scope.selectedType = type;
-                $scope.selectedCategory = category;
+            $scope.changeCategory = async function (categoryType, categoryVal){
+                $scope.selectedType = categoryVal === 'all'? '' : categoryType;
+                $scope.selectedCategory = categoryVal;
 
-                const lotListData = await getLotList();
-                $scope.lotList = lotListData.data.data.list;
-                $scope.lotTotalCount = lotListData.data.data.count;
-                setLotListData($scope.lotList);
+                const pageData = loadPageData();
 
-                $scope.$apply();
+                if (categoryVal === 'all') {
+                    delete pageData.category;
+                    delete pageData.tag;
+                } else if (categoryType === 'category') {
+                    pageData.category = encodeURI(categoryVal);
+                    delete pageData.tag;
+                } else if (categoryType === 'tag') {
+                    delete pageData.category;
+                    pageData.tag = encodeURI(categoryVal);
+                }
+
+                console.log("2",pageData);
+                window.location.href = makeUrl(pageData);
             }
 
             // 호출 부
@@ -775,7 +802,6 @@
                     ]);
 
                     $scope.saleInfoData = saleInfoData.data.data;
-                    console.log(lotListData.data.data)
                     $scope.lotList = lotListData.data.data.list;
                     $scope.lotTotalCount = lotListData.data.data.count;
                     $scope.saleImages = lotNaviData.data.data;
@@ -789,24 +815,8 @@
 
                     $scope.saleInfo = $scope.lotList.slice(0, $scope.itemsize);
 
-                    /*let p = [];
-                    let endVal = 0;
-                    let page = 1;
+                    await renderPaginationSection($scope.currentPage, $scope.lotTotalCount, $scope.pageSize);
 
-                    let etc = ($scope.lotTotalCount % $scope.itemsize > 0) ? 1 : 0;
-                    let end = parseInt($scope.lotTotalCount / $scope.itemsize) + etc;
-
-                    if (end < (parseInt(page / $scope.pagesize) + 1) + $scope.pagesize) {
-                        endVal = end;
-                    } else {
-                        endVal = $scope.pagesize + (parseInt(page / $scope.pagesize) + 1);
-                    }
-
-                    for (let i = 1; i <= endVal; i++) {
-                        p.push(i);
-                    }
-
-                    $scope.pageingdata = p;*/
 
                     $scope.$apply();
 
@@ -842,6 +852,7 @@
 
                 }
                 run();
+
             }
 
             $scope.chgViewType = function () {
@@ -859,184 +870,30 @@
 
             $scope.changeSortByList = async function (value) {
                 $scope.sortBy = value;
-                const lotListData = await getLotList();
-                $scope.lotList = lotListData.data.data.list;
-                $scope.lotTotalCount = lotListData.data.data.count;
-                setLotListData($scope.lotList);
-                $scope.$apply();
-            }
-
-            $scope.rerange = function () {
-                let sst = parseInt($("#sortType").val())
-                let v;
-
-                for (let i = 0 ; i < $scope.lotTotalCount;i++ ){
-                    if ($scope.lotList[i].EXPE_PRICE_TO_JSON.KRW === undefined) {
-                        $scope.lotList[i].EXPE_PRICE_TO_JSON.KRW = 0;
-                    }
-                    if ($scope.lotList[i].EXPE_PRICE_FROM_JSON.KRW === undefined) {
-                        $scope.lotList[i].EXPE_PRICE_FROM_JSON.KRW = 0;
-                    }
-                }
-                v = $scope.lotList;
-
-                for (let i = 0 ; i < $scope.searchlotList.length; i++){
-                    if ($scope.searchlotList[i].EXPE_PRICE_TO_JSON.KRW === undefined) {
-                        $scope.searchlotList[i].EXPE_PRICE_TO_JSON.KRW = 0;
-                    }
-                    if ($scope.searchlotList[i].EXPE_PRICE_FROM_JSON.KRW === undefined) {
-                        $scope.searchlotList[i].EXPE_PRICE_FROM_JSON.KRW = 0;
-                    }
-                }
-                switch (sst) {
-                    case 1:
-                        // lot 번호 순
-                        v.sort(function (a, b) {
-                            if (a.LOT_NO > b.LOT_NO) return 1;
-                            if (a.LOT_NO === b.LOT_NO) return 0;
-                            if (a.LOT_NO < b.LOT_NO) return -1;
-                        });
-                        break;
-                    case 2:
-                        // lot 추정가 높은 순
-                        v.sort(function (a, b) {
-                            if (parseInt(a.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,"")) > parseInt(b.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,""))) {
-                                return -1;
-                            }
-                            if (parseInt(a.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,"")) === parseInt(b.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,""))) return 0;
-                            if (parseInt(a.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,"")) < parseInt(b.EXPE_PRICE_TO_JSON.KRW.toString().replace(/,/gi,""))) return 1;
-                        });
-                        break;
-                    case 3:
-                        // lot 추정가 낮은 순
-                        v.sort(function (a, b) {
-                            if (parseInt(a.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,"")) > parseInt(b.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,""))) return 1;
-                            if (parseInt(a.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,"")) === parseInt(b.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,""))) return 0;
-                            if (parseInt(a.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,"")) < parseInt(b.EXPE_PRICE_FROM_JSON.KRW.toString().replace(/,/gi,""))) return -1;
-                        });
-                        break;
-                }
-
-                $scope.curpage = 1;
-                $scope.pageing($scope.curpage);
-            }
-            $scope.addpage = function (page) {
-                let v = $scope.lotList;
-
-                if ($scope.searchValue.length > 0) {
-                    v = $scope.searchlotList;
-                } else {
-                    if ($scope.searchlotList != null && $scope.searchlotList.length > 0) {
-                        v = $scope.searchlotList;
-                    }
-                }
-
-                $scope.saleInfo = v.slice(0, $scope.itemsize * (page));
-                $scope.curpage = page;
-                //let token = $scope.token;
-                //$scope.popSet();
-            }
-
-            //페이징
-            $scope.pageingPrev = function () {
-                if ($scope.curpage == 1) {
-                    return;
-                }
-                let v = $scope.lotList;
-                if ($scope.searchValue.length > 0) {
-                    v = $scope.searchlotList;
-                } else {
-                    if ($scope.searchlotList != null && $scope.searchlotList.length > 0) {
-                        v = $scope.searchlotList;
-                    }
-                }
-                $scope.saleInfo = v.slice(($scope.itemsize * (($scope.curpage - 1) - 1)), $scope.itemsize * ($scope.curpage - 1));
-
-                let pp = $scope.makePageing(v, ($scope.curpage - 1));
-                $scope.pageingdata = pp;
-                $scope.curpage = $scope.curpage - 1;
-                //let token = $scope.token;
-                //$scope.popSet();
-            }
-            //페이징
-            $scope.pageingNext = function () {
-                let v = $scope.lotList;
-                let etc = (v.length % $scope.itemsize > 0) ? 1 : 0;
-                let end = parseInt(v.length / $scope.itemsize) + etc;
-                if ($scope.curpage + 1 > end) {
-                    return;
-                }
-                if ($scope.searchValue.length > 0) {
-                    v = $scope.searchlotList;
-                } else {
-                    if ($scope.searchlotList != null && $scope.searchlotList.length > 0) {
-                        v = $scope.searchlotList;
-                    }
-                }
-                $scope.saleInfo = v.slice(($scope.itemsize * (($scope.curpage + 1) - 1)), $scope.itemsize * ($scope.curpage + 1));
-
-                let pp = $scope.makePageing(v, ($scope.curpage + 1));
-                $scope.pageingdata = pp;
-                $scope.curpage = $scope.curpage + 1;
-                //let token = $scope.token;
-                //$scope.popSet();
-            }
-            $scope.pageing = function (page) {
-                let v = $scope.lotList;
-                if ($scope.searchValue.length > 0) {
-                    v = $scope.searchlotList;
-                } else {
-                    if ($scope.searchlotList != null && $scope.searchlotList.length > 0) {
-                        v = $scope.searchlotList;
-                    }
-                }
-                $scope.saleInfo = v.slice(($scope.itemsize * (page - 1)), $scope.itemsize * page);
-
-                let pp = $scope.makePageing(v, page);
-
-                $scope.pageingdata = pp;
-                $scope.curpage = page;
-                if(!$scope.$$phase) {
-                    $scope.$apply();
-                }
-            }
-            //paging
-            //페이징 리스트 생성
-            $scope.makePageing = function (v, page) {
-                let p = [];
-                let endVal = 0;
-                let etc = (v.length % $scope.itemsize > 0) ? 1 : 0;
-                let end = parseInt(v.length / $scope.itemsize) + etc;
-
-
-                $scope.pagefirst = 1;
-                $scope.pageprev = (page < $scope.pagesize)? - 1: ($scope.pagesize * parseInt((page - 1) / $scope.pagesize));
-
-                if (end < (parseInt(page / $scope.pagesize) + 1) + $scope.pagesize) {
-                    endVal = end;
-                    $scope.pagelast = -1;
-                    $scope.pagenext = -1;
-                } else {
-                    endVal = $scope.pagesize + (parseInt(page / $scope.pagesize) + 1);
-                    $scope.pagelast = end;
-                    $scope.pagenext = endVal + 1;
-                }
-                for (let i = ($scope.pagesize * parseInt((page - 1) / $scope.pagesize)) + 1; i <= endVal; i++) {
-                    p.push(i);
-                }
-                return p;
+                await $scope.loadLotList();
             }
 
             $scope.goBrochure = function (id, url) {
                 axios.post('/api/auction/brochure/read', {id: id});
                 window.open(url);
             }
+
+            $scope.loadLotList = async () =>{
+                const lotListData = await getLotList();
+                $scope.lotList = lotListData.data.data.list;
+                $scope.lotTotalCount = lotListData.data.data.count;
+
+                await setLotListData($scope.lotList);
+                await renderPaginationSection($scope.currentPage, $scope.lotTotalCount, $scope.pageSize);
+
+                $scope.$apply();
+            }
         });
 
-    (function() {
-        //약관체크
-        $(".js_all-terms").trpCheckBoxAllsImg(".js_all", ".js_item");
-    })();
+
+
+ /*   (function() {
+    })();*/
 
 
     </script>
