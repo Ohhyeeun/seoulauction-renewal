@@ -165,8 +165,8 @@
                                                 <strong>Contact</strong>
                                             </div>
                                             <div class="info-guide">
-                                                <div class="manager-box"> <span>Exhibition & Operations</span> <em>JISEOK Lee</em> </div>
-                                                <div class="contact-box">
+                                                <div class="manager-box"> <span>Head of Sale, Brand Planning Team</span> <em>JISEOK Lee</em> </div>
+                                                <div class="contact-box"> 
                                                     <ul>
                                                         <li><span>T.</span> <a href="tel:82-2-2075-4450"><em>+82 (0)2-2075-4450</em></a></li>
                                                         <li><span>E.</span> <a href="mailto:a7885@seoulauction.com"><em>a7885@seoulauction.com</em></a></li>
