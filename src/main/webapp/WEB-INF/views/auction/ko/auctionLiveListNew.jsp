@@ -702,7 +702,7 @@
                     let params = {
                         page: $scope.currentPage,
                         size: $scope.pageSize,
-                        sortBy: $scope.sortBy || 'LOTAS',
+                        sortBy: $scope.sortBy,
                     }
 
                     if ($scope.searchKeyword) {
@@ -786,7 +786,6 @@
                     pageData.tag = encodeURI(categoryVal);
                 }
 
-                console.log("2",pageData);
                 window.location.href = makeUrl(pageData);
             }
 
@@ -870,7 +869,10 @@
 
             $scope.changeSortByList = async function (value) {
                 $scope.sortBy = value;
-                await $scope.loadLotList();
+                const pageData = loadPageData();
+                pageData.sort = value;
+                window.location.href = makeUrl(pageData);
+                // await $scope.loadLotList();
             }
 
             $scope.goBrochure = function (id, url) {
