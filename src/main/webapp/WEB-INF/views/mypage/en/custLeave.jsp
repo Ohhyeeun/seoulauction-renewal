@@ -68,7 +68,7 @@
                                                 </article>
                                                 <article class="button-area">
                                                     <div class="btn_set-float tac">
-                                                        <button class="btn btn_default btn_lg"><span>Cancel</span></button>
+                                                        <button id="histBack" class="btn btn_default btn_lg"><span>Cancel</span></button>
                                                         <button id="leaveButton" onclick="custLeave()" class="btn btn_gray btn_lg" disabled><span>Delete Account</span></button>
                                                     </div>
                                                 </article>
@@ -113,6 +113,10 @@
    	    f.setAttribute('action', '/mypage/custModify');
    	    document.body.appendChild(f);
    	    f.submit();
+    })
+
+    $("#histBack").click(function() {
+        window.location.href="/mypage/custModify";
     })
 </script>
 </html>
