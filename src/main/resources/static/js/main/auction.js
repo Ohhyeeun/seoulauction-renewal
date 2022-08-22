@@ -18,11 +18,11 @@ $(document).ready(function(){
         auctionDataInit();
         auctionEvent();
 
-        // setInterval(function (){
-        //     auctionDataInit();
-        //     auctionEvent();
-        //    // $('#auction_contents').load(location.href+' #auction_contents');
-        // } , intervalTime);
+        setInterval(function (){
+            auctionDataInit();
+            auctionEvent();
+           // $('#auction_contents').load(location.href+' #auction_contents');
+        } , intervalTime);
     }
 
     //옥션 데이터 가져오기!
@@ -35,12 +35,14 @@ $(document).ready(function(){
                 let success = data.success;
                 if(success){
                     $(".auctionTab").empty();
+                    
                     $("#auction_contents").empty();
 
                     auctionData = data.data.list;
                     //TODO 인클루드 작업.
 
                     console.log(auctionData);
+                    console.log(currentLotCounts);
 
                     //초기 sale_kind 설정.
                     saleKind = auctionData[0].SALE_KIND;
@@ -195,16 +197,24 @@ $(document).ready(function(){
                 return;
             }
 
+
             curruentTab = $(this).index();
             currentSaleNo = currentLotData[curruentTab][0].SALE_NO;
             saleKind = auctionData[curruentTab].SALE_KIND;
 
+            let countObj = currentLotCounts[curruentTab];
+
+            if ( countObj.start === 0 ) {
+                $('#AllAuction').hide();
+                $('#MoreAuction').show();
+            } else {
+                $('#AllAuction').show();
+                $('#MoreAuction').hide();
+            }
+
             //기존 데이터 초기화.
             $('.auctionTab-btn').removeClass('on');
             $('.auctionTab-contents').removeClass('on');
-
-            $('#AllAuction').hide();
-            $('#MoreAuction').show();
 
             $(this).addClass('on');
             $(".auctionTab-contents").eq(curruentTab).addClass('on');
@@ -318,23 +328,13 @@ $(document).ready(function(){
         //auction 더보기 버튼
         $('#MoreAuction').click(function () {
 
+            $('#AllAuction').show();
+            $('#MoreAuction').hide();
+
             let countObj = currentLotCounts[curruentTab];
-
-            if(countObj.start === 0 ){
-                $('#AllAuction').show();
-                $('#MoreAuction').hide();
-            } else {
-                $('#AllAuction').hide();
-                $('#MoreAuction').show();
-            }
-
             countObj.start = countObj.start + initCount;
             countObj.end = countObj.end + initCount;
-
             currentLotCounts[curruentTab] = countObj;
-
-            console.log(countObj);
-
             //$(".auctionTab-contents.on").css('height', '100%');
 
             addLot(saleKind , curruentTab , currentLotData[curruentTab].slice(countObj.start , countObj.end ));
