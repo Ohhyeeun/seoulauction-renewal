@@ -69,13 +69,12 @@
                                                         </div>
                                                     </div>
                                                     <div class="item-body">
-                                                        <div class="title"><span class="tt4">Isothermal-Isohumidity System</span></div>
                                                         <div class="desc tb1">
-                                                            <p>Maintains optimal condition for each and every artwork for 24 hours a day, 7 days a week.</p>
+                                                            <p>24-hour maintenance of optimum temperature and humidity levels per artwork</p>
                                                         </div>
                                                         <ul class="info tb1">
-                                                            <li><i class="icon-system_arrow"></i>Constant temperature (18~22°c) </li>
-                                                            <li><i class="icon-system_arrow"></i>Constant humidity (45~55%)</li>
+                                                            <li><i class="icon-system_arrow"></i>Temperature: 18 to 22 degrees Celsius / Humidity: 45 to 55%</li>
+                                                            <li><i class="icon-system_arrow"></i>Maintained year-round (figures can be adjusted if necessary)</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -86,15 +85,15 @@
                                                         </div>
                                                     </div>
                                                     <div class="item-body">
-                                                        <div class="title"><span class="tt4">Fire Protection System</span></div>
+                                                        <div class="title"><span class="tt4">Emergency ventilation system</span></div>
                                                         <!-- [0516]줄바꿈수정 -->
                                                         <div class="desc tb1">
-                                                            <p>A cutting-edge Halon gas fire extinguisher puts out fire without damaging artworks.</p>
+                                                            <p>Extinguishing of fires (with halon gas) without damaging artworks</p>
                                                         </div>
                                                         <!-- // [0516]줄바꿈수정 -->
                                                         <ul class="info tb1">
-                                                            <li><i class="icon-system_arrow"></i>Central fire-alarm system</li>
-                                                            <li><i class="icon-system_arrow"></i>Automatic heat sensors / smoke detectors.</li>
+                                                            <li><i class="icon-system_arrow"></i>Centralized fire alarm system</li>
+                                                            <li><i class="icon-system_arrow"></i>Automatically-activated heat/smoke detectors</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -105,13 +104,13 @@
                                                         </div>
                                                     </div>
                                                     <div class="item-body ">
-                                                        <div class="title"><span class="tt4">Security System</span></div>
+                                                        <div class="title"><span class="tt4">Security system</span></div>
                                                         <div class="desc tb1">
-                                                            <p>A cutting-edge 24 hours security system with the Korea's top security company, SECOM</p>
+                                                            <p>Cutting-edge security system operated on 24-hour basis in partnership with Secom, Korea’s top security service provider</p>
                                                         </div>
                                                         <ul class="info tb1">
-                                                            <li><i class="icon-system_arrow"></i>Operates CCTV 24-hour-a-day for the security monitoring </li>
-                                                            <li><i class="icon-system_arrow"></i>Strictly controls all visitors</li>
+                                                            <li><i class="icon-system_arrow"></i>CCTV surveillance (recorded on 24-hour basis)</li>
+                                                            <li><i class="icon-system_arrow"></i>Strict control/management of all who enter or exit</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -246,13 +245,13 @@
                                                         </div>
                                                     </div>
                                                     <div class="item-body">
-                                                        <div class="title"><span class="tt4">Isothermal-Isohumidity System</span></div>
+                                                        <div class="title"><span class="tt4">HVAC system</span></div>
                                                         <div class="desc tb1">
-                                                            <p>Maintains optimal condition for each and every artwork for 24 hours a day, 7 days a week.</p>
+                                                            <p>24-hour maintenance of optimum temperature and humidity levels per artwork</p>
                                                         </div>
                                                         <ul class="info tb1">
-                                                            <li><i class="icon-system_arrow"></i>Constant temperature (18~22°c) </li>
-                                                            <li><i class="icon-system_arrow"></i>Constant humidity (45~55%)</li>
+                                                            <li><i class="icon-system_arrow"></i>Temperature: 18 to 22 degrees Celsius / Humidity: 45 to 55%</li>
+                                                            <li><i class="icon-system_arrow"></i>Maintained year-round (figures can be adjusted if necessary)</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -263,15 +262,15 @@
                                                         </div>
                                                     </div>
                                                     <div class="item-body">
-                                                        <div class="title"><span class="tt4">Fire Protection System</span></div>
+                                                        <div class="title"><span class="tt4">Emergency ventilation system</span></div>
                                                         <!-- [0516]줄바꿈수정 -->
                                                         <div class="desc tb1">
-                                                            <p>A cutting-edge Halon gas fire extinguisher puts out fire without damaging artworks.</p>
+                                                            <p>Extinguishing of fires (with halon gas) without damaging artworks</p>
                                                         </div>
                                                         <!-- // [0516]줄바꿈수정 -->
                                                         <ul class="info tb1">
-                                                            <li><i class="icon-system_arrow"></i>Central fire-alarm system</li>
-                                                            <li><i class="icon-system_arrow"></i>Automatic heat sensors / smoke detectors.</li>
+                                                            <li><i class="icon-system_arrow"></i>Centralized fire alarm system</li>
+                                                            <li><i class="icon-system_arrow"></i>Automatically-activated heat/smoke detectors</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -282,13 +281,13 @@
                                                         </div>
                                                     </div>
                                                     <div class="item-body ">
-                                                        <div class="title"><span class="tt4">Security System</span></div>
+                                                        <div class="title"><span class="tt4">Security system</span></div>
                                                         <div class="desc tb1">
-                                                            <p>A cutting-edge 24 hours security system with the Korea's top security company, SECOM</p>
+                                                            <p>Cutting-edge security system operated on 24-hour basis in partnership with Secom, Korea’s top security service provider</p>
                                                         </div>
                                                         <ul class="info tb1">
-                                                            <li><i class="icon-system_arrow"></i>Operates CCTV 24-hour-a-day for the security monitoring </li>
-                                                            <li><i class="icon-system_arrow"></i>Strictly controls all visitors</li>
+                                                            <li><i class="icon-system_arrow"></i>CCTV surveillance (recorded on 24-hour basis)</li>
+                                                            <li><i class="icon-system_arrow"></i>Strict control/management of all who enter or exit</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -362,13 +361,13 @@
                                                         </div>
                                                     </div>
                                                     <div class="item-body">
-                                                        <div class="title"><span class="tt4">Isothermal-Isohumidity System</span></div>
+                                                        <div class="title"><span class="tt4">HVAC system</span></div>
                                                         <div class="desc tb1">
-                                                            <p>Maintains optimal condition for each and every artwork for 24 hours a day, 7 days a week.</p>
+                                                            <p>24-hour maintenance of optimum temperature and humidity levels per artwork</p>
                                                         </div>
                                                         <ul class="info tb1">
-                                                            <li><i class="icon-system_arrow"></i>Constant temperature (18~22°c) </li>
-                                                            <li><i class="icon-system_arrow"></i>Constant humidity (45~55%)</li>
+                                                            <li><i class="icon-system_arrow"></i>Temperature: 18 to 22 degrees Celsius / Humidity: 45 to 55%</li>
+                                                            <li><i class="icon-system_arrow"></i>Maintained year-round (figures can be adjusted if necessary)</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -379,15 +378,15 @@
                                                         </div>
                                                     </div>
                                                     <div class="item-body">
-                                                        <div class="title"><span class="tt4">Fire Protection System</span></div>
+                                                        <div class="title"><span class="tt4">Emergency ventilation system</span></div>
                                                         <!-- [0516]줄바꿈수정 -->
                                                         <div class="desc tb1">
-                                                            <p>A cutting-edge Halon gas fire extinguisher puts out fire without damaging artworks.</p>
+                                                            <p>Extinguishing of fires (with halon gas) without damaging artworks</p>
                                                         </div>
                                                         <!-- // [0516]줄바꿈수정 -->
                                                         <ul class="info tb1">
-                                                            <li><i class="icon-system_arrow"></i>Central fire-alarm system</li>
-                                                            <li><i class="icon-system_arrow"></i>Automatic heat sensors / smoke detectors.</li>
+                                                            <li><i class="icon-system_arrow"></i>Centralized fire alarm system</li>
+                                                            <li><i class="icon-system_arrow"></i>Automatically-activated heat/smoke detectors</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -398,14 +397,14 @@
                                                         </div>
                                                     </div>
                                                     <div class="item-body ">
-                                                        <div class="title"><span class="tt4">Security System</span></div>
+                                                        <div class="title"><span class="tt4">Security system</span></div>
                                                         <div class="desc tb1">
-                                                            <p>A cutting-edge 24 hours security system with the Korea's top security company, SECOM</p>
+                                                            <p>Cutting-edge security system operated on 24-hour basis in partnership with Secom, Korea’s top security service provider</p>
                                                         </div>
                                                         <ul class="info tb1">
-                                                            <li><i class="icon-system_arrow"></i>Operates CCTV 24-hour-a-day for the security monitoring </li>
-                                                            <li><i class="icon-system_arrow"></i>Strictly controls all visitors</li>
-                                                        </ul>
+                                                            <li><i class="icon-system_arrow"></i>CCTV surveillance (recorded on 24-hour basis)</li>
+                                                            <li><i class="icon-system_arrow"></i>Strict control/management of all who enter or exit</li>
+                                                        </ul> 
                                                     </div>
                                                 </div>
                                             </div>
@@ -509,7 +508,7 @@
                                                 <strong>Contact</strong>
                                             </div>
                                             <div class="info-guide">
-                                                <div class="manager-box"> <span>Team Leader, Art Storage Team</span> <em>Kyoungsoon Kim</em> </div>
+                                                <div class="manager-box"> <span>Head of Team, Art Storage Team</span> <em>Kim Kyoungsoon</em> </div>
                                                 <div class="contact-box">
                                                     <ul>
                                                         <li><span>T.</span> <a href="tel:82-10-4703-0481"><em>+82-10-4703-0481</em></a></li>

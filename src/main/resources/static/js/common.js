@@ -1,5 +1,37 @@
 $(function() {
     const locale = document.documentElement.lang;
+
+    // 네이티브 로그인 유지
+    let f = async function(){
+        let result = await isNativeApp();
+        if (result) {
+            let v = await getWebviewData('remember-me');
+            let d = await getWebviewData('remember-me-date');
+            // 데이타 확인
+            //alert(d);
+
+            if (d !== undefined) {
+                if (d.length > 0) {
+                    let dd = parseInt(d);
+                    let expYear = 1
+                    // 1년 더함
+                    let cd = new Date(new Date(dd).setFullYear(new Date(dd.getFullYear() + expYear)));
+                    if (cd > new Date()) {
+                        let rc = getCookie('remember-me')
+                        if (rc === undefined || rc === null || rc.length <= 0) {
+                            setCookie('remember-me', v, 365);
+                            window.location.reload();
+                        }
+                    } else {
+                        // 쿠키 삭제
+                        document.cookie = "remember-me=;expires=Thu, 01 Jan 1999 00:00:10 GMT;";
+                    }
+                }
+            }
+        }
+    }
+    f();
+
     const sleep = (ms) => new Promise(resolve => {
         setTimeout(resolve, ms)
     });
@@ -30,7 +62,7 @@ $(function() {
                         const path = `${item.SALE_KIND === 'LIVE'? 'live/' : ''}`;
                         const returnDom = `<a href='/auction/${path}list/${item.SALE_NO}' class="Ingbanner" >
                                             <figure class="border-txt-darkg Ingbanner-img">
-                                                <img src="${item.DEFAULT_IMAGE_PATH !== "" ? item.DEFAULT_IMAGE_PATH : ``}" 
+                                                <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/${item.FILE_NAME}" 
                                                      onerror="${item.DEFAULT_IMAGE_PATH}"
                                                     alt="ing_auction01">
                                             </figure>

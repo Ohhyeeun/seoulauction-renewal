@@ -18,10 +18,10 @@
                             <div class="content-panel type_panel-payment">
                                 <div class="panel-header">
                                     <div class="title">
-                                        <span class="tt1">Membership’s Payment</span>
+                                        <span class="tt1">Payment</span>
                                     </div>
                                     <div class="guide_box">
-                                        <span class="tb2">Currency : KRW</span>
+                                        <span class="tb2">Currency : USD</span>
                                     </div>
                                 </div>
 
@@ -31,7 +31,7 @@
                                         <li>
                                             <div class="table_box">
                                                 <div class="guide">
-                                                    <p class="list_tit tt4">Notice</p>
+                                                    <p class="list_tit tt4">Notice</p> 
                                                     <ul class="dot_list tb1">
                                                         <li>You can participate in the Seoul Auction offline auction bid.</li>
                                                         <li>You cans receive publications (various catalogs, exhibition guides, etc.) issued by Seoul Auction.</li>
@@ -39,18 +39,18 @@
                                                 </div>
                                                 <div class="member_pay">
                                                     <p>
-                                                        <span class="tit tt5">Cost</span>
-                                                        <span class="won tt3"><fmt:formatNumber type="number" maxFractionDigits="3" value="${price}" /><i class="tb1">KRW</i></span>
+                                                        <span class="tit tt5">Price</span>
+                                                        <span class="won tt3"><fmt:formatNumber type="number" maxFractionDigits="3" value="${price}" /><i class="tb1">USD</i></span>
                                                     </p>
                                                     <p class="fees">
                                                         <span class="tit tb1">Fees</span>
-                                                        <span class="won tb1">0<i class="tb2">KRW</i></span>
+                                                        <span class="won tb1">0<i class="tb2">USD</i></span>
                                                     </p>
                                                 </div>
                                             </div>
                                         </li>
                                         <li>
-                                            <p class="list_tit tt4">Buyer’s Information</p>
+                                            <p class="list_tit tt4">My information</p>
                                             <ul class="pay_info tb1">
                                                 <li>
                                                     <span class="th">Name</span>
@@ -67,10 +67,11 @@
                                             </ul>
                                         </li>
                                         <li>
-                                            <p class="list_tit tt4">Payment Method</p>
+                                            <p class="list_tit tt4">Payment options</p>
                                             <div id="payMethod" class="btn_wrap">
-                                                <a class="btn btn_black" role="button" data="CARD" onclick="changePayMethod(this);"><span>Credit card</span></a>
-                                                <a class="btn btn_default" role="button" data="VBANK" onclick="changePayMethod(this);"><span>Virtual Account</span></a>
+                                                <a class="btn btn_black" role="button" data="CARD" onclick="changePayMethod(this);"><span>International credit card</span></a>
+                                                <%-- 0812 영문 가상계좌 삭제 --%>
+<%--                                                <a class="btn btn_default" role="button" data="VBANK" onclick="changePayMethod(this);"><span>Virtual Account</span></a>--%>
                                             </div>
                                             <div class="text_wrap">
                                                 <dl>
@@ -80,11 +81,11 @@
                                             </div>
                                         </li>
                                         <li class="no-line">
-                                            <p class="list_tit tt4">Total payment amount</p>
+                                            <p class="list_tit tt4">Checkout total</p>
                                             <div class="total_pay_box tt3">
-                                                Membership <fmt:formatNumber type="number" maxFractionDigits="3" value="${price}" /> <i class="tb1">KRW</i><i class="br-mo"></i>
-                                                + Fees 0 <i class="tb1">KRW</i> <i class="br-mo"></i>
-                                                = <span>Total <fmt:formatNumber type="number" maxFractionDigits="3" value="${price}" /> <i class="tb1">KRW</i></span>
+                                                Membership <fmt:formatNumber type="number" maxFractionDigits="3" value="${price}" /> <i class="tb1">USD</i><i class="br-mo"></i>
+                                                + Fees 0 <i class="tb1">USD</i> <i class="br-mo"></i>
+                                                = <span>Total <fmt:formatNumber type="number" maxFractionDigits="3" value="${price}" /> <i class="tb1">USD</i></span>
                                             </div>
                                         </li>
 
@@ -93,8 +94,7 @@
                                                 <span class="trp checkbox-box">
                                                     <input id="checkboxall" type="checkbox" name="">
                                                     <i></i>
-                                                    <label for="checkboxall" class="tb1"><span class="colorP">I agree to all member benefits, information, and auction terms and conditions.</span>
-                                                    </label>
+                                                    <label for="checkboxall" class="tb1"><span class="colorP">I accept</span></label>
                                                 </span>
                                             </p>
                                             <ul class="check-body mark_dot-list tb1">
@@ -120,7 +120,7 @@
                                     <article class="button-area">
                                         <div class="btn_set-float tac">
                                             <%@ include file="../include/payForm.jsp" %>
-                                            <a id="paymentStartBtn" class="btn btn_point btn_lg" role="button"><span>Payment</span></a>
+                                            <a id="paymentStartBtn" class="btn btn_point btn_lg" role="button"><span>Proceed to checkout</span></a>
                                         </div>
                                     </article>
                                 </div>

@@ -50,8 +50,7 @@ public class ApiSaleLiveController {
 
 
     @RequestMapping(value="/sale_info/{sale_no}", method = RequestMethod.GET)
-    public ResponseEntity<RestResponse> saleInfo(HttpServletRequest req, HttpServletResponse res, Locale locale,
-                                                 @PathVariable("sale_no") int saleNo) {
+    public ResponseEntity<RestResponse> saleInfo(@PathVariable("sale_no") int saleNo) {
         CommonMap c = new CommonMap();
         c.put("sale_no", saleNo);
 
@@ -76,19 +75,16 @@ public class ApiSaleLiveController {
     }
 
     @RequestMapping(value="/exch_rate_list", method = RequestMethod.GET)
-    public ResponseEntity<RestResponse> exchRateList(@RequestParam CommonMap map,
-                                                     HttpServletRequest req, HttpServletResponse res) {
+    public ResponseEntity<RestResponse> exchRateList(@RequestParam CommonMap map) {
         List<CommonMap> exchRateList = saleService.selectExchRateList(map);
         return ResponseEntity.ok(RestResponse.ok());
     }
 
 
     @RequestMapping(value="/lot_info/{sale_no}/{lot_no}", method = RequestMethod.GET)
-    public ResponseEntity<RestResponse> lotInfo(HttpServletRequest req,
-                                                HttpServletResponse res,
-                                                Locale locale,
-                                                @PathVariable("sale_no") int saleNo,
-                                                @PathVariable("lot_no") int lotNo) {
+    public ResponseEntity<RestResponse> lotInfo(@PathVariable("sale_no") int saleNo,
+                                                @PathVariable("lot_no") int lotNo,
+                                                Locale locale) {
 
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
 
@@ -212,10 +208,7 @@ public class ApiSaleLiveController {
     }
 
     @RequestMapping(value="/getViewScaleImage/{sale_no}/{lot_no}", method = RequestMethod.GET)
-    public ResponseEntity<RestResponse> saleViewScaleImages(HttpServletRequest req,
-                                                   HttpServletResponse res,
-                                                   Locale locale,
-                                                   @PathVariable("sale_no") int saleNo,
+    public ResponseEntity<RestResponse> saleViewScaleImages(@PathVariable("sale_no") int saleNo,
                                                    @PathVariable("lot_no") int lotNo) {
 
         // 필터를 적용한 새로운 랏이미지 정보
@@ -283,22 +276,16 @@ public class ApiSaleLiveController {
     }
 
     @RequestMapping(value="/sale_images/{sale_no}", method = RequestMethod.GET)
-    public ResponseEntity<RestResponse> saleImages(HttpServletRequest req,
-                                                  HttpServletResponse res,
-                                                  Locale locale,
-                                                  @PathVariable("sale_no") int saleNo) {
+    public ResponseEntity<RestResponse> saleImages(@PathVariable("sale_no") int saleNo) {
 
         CommonMap map = new CommonMap();
         map.put("sale_no", saleNo);
 
         // 랏 이미지 정보 가져오기
-        List<CommonMap> lotImages = saleService.selectSaleLotImages(map);
+        List<CommonMap> lotImages = saleLiveService.selectSaleLotImages(map);
 
         // 필터를 적용한 새로운 랏이미지 정보
         List<CommonMap> lotImagesNew = new ArrayList<>();
-
-        String[] listKeys = {"LOT_SIZE_JSON"};
-        ObjectMapper mapper  = new ObjectMapper();
 
         //로그인한 정보를 가져온다.
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
@@ -310,44 +297,29 @@ public class ApiSaleLiveController {
         }
 
         // 랏 디스플레이 필터
-        try{
-            for (var item : lotImages) {
-                CommonMap lotImagesNewItem = new CommonMap();
-                for (var k : new ArrayList<>(item.keySet())){
-                    lotImagesNewItem.put(k, item.get(k));
-                }
-                lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
-                // 리스트 변환
-                for(var item2 : listKeys) {
-                    lotImagesNewItem.put(item2,
-                            mapper.readValue(String.valueOf(lotImagesNewItem.get(item2)), List.class));
-                }
-
-                if (item.get("IMG_DISP_YN").equals("N") && !isEmployee) {
-                    lotImagesNewItem.put("IMAGE_URL", "");
-                    lotImagesNewItem.put("FILE_PATH", "");
-                    lotImagesNewItem.put("FILE_NAME", "images/bg/no_image.jpg");
-                } else {
-                    lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
-                }
-
-                lotImagesNew.add(lotImagesNewItem);
+        for (var item : lotImages) {
+            CommonMap lotImagesNewItem = new CommonMap();
+            for (var k : new ArrayList<>(item.keySet())){
+                lotImagesNewItem.put(k, item.get(k));
             }
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
+            lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
 
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            if (item.get("IMG_DISP_YN").equals("N") && !isEmployee) {
+                lotImagesNewItem.put("IMAGE_URL", "");
+                lotImagesNewItem.put("FILE_PATH", "");
+                lotImagesNewItem.put("FILE_NAME", "images/bg/no_image.jpg");
+            } else {
+                lotImagesNewItem.put("IMAGE_URL", IMAGE_URL);
+            }
+
+            lotImagesNew.add(lotImagesNewItem);
         }
         return ResponseEntity.ok(RestResponse.ok(lotImagesNew));
     }
 
 
     @RequestMapping(value="/lot_images/{sale_no}/{lot_no}", method = RequestMethod.GET)
-    public ResponseEntity<RestResponse> lotImages(HttpServletRequest req,
-                                                  HttpServletResponse res,
-                                                  Locale locale,
-                                                  @PathVariable("sale_no") int saleNo,
+    public ResponseEntity<RestResponse> lotImages(@PathVariable("sale_no") int saleNo,
                                                   @PathVariable("lot_no") int lotNo) {
 
         CommonMap map = new CommonMap();
@@ -397,21 +369,19 @@ public class ApiSaleLiveController {
     }
 
     @RequestMapping(value="/lot_artist_other_lots", method = RequestMethod.GET)
-    public ResponseEntity<RestResponse> artistOtherLots(@RequestParam CommonMap map, HttpServletRequest req, HttpServletResponse res) {
+    public ResponseEntity<RestResponse> artistOtherLots(@RequestParam CommonMap map) {
         List<CommonMap> lotArtistOtherLots = saleService.selectlotArtistOtherLots(map);
         return ResponseEntity.ok(RestResponse.ok());
     }
 
     @RequestMapping(value="/get_customer_by_cust_no", method = RequestMethod.GET)
-    public ResponseEntity<RestResponse> custInfo(@RequestParam CommonMap map,
-                                                 HttpServletRequest req, HttpServletResponse res) {
+    public ResponseEntity<RestResponse> custInfo(@RequestParam CommonMap map) {
         CommonMap customerByCustNo = saleService.selectCustomerByCustNo(map);
         return ResponseEntity.ok(RestResponse.ok());
     }
 
     @RequestMapping(value="/sale_cert_info", method = RequestMethod.GET)
-    public ResponseEntity<RestResponse> certInfo(@RequestParam CommonMap map,
-                                                 HttpServletRequest req, HttpServletResponse res) {
+    public ResponseEntity<RestResponse> certInfo(@RequestParam CommonMap map) {
 
         CommonMap saleCertInfo = saleService.selectSaleCertInfo(map);
         return ResponseEntity.ok(RestResponse.ok());
@@ -420,8 +390,7 @@ public class ApiSaleLiveController {
 
     @PostMapping(value="/insertRecentlyView")
     @ResponseBody
-    public ResponseEntity<RestResponse> insertRecentlyView(@RequestBody CommonMap map,
-                                                     HttpServletRequest req, HttpServletResponse res) {
+    public ResponseEntity<RestResponse> insertRecentlyView(@RequestBody CommonMap map) {
 
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
         if (saUserDetails != null) {
@@ -431,10 +400,7 @@ public class ApiSaleLiveController {
     }
 
     @RequestMapping(value="/recently/{sale_no}/{lot_no}", method = RequestMethod.GET)
-    public ResponseEntity<RestResponse> selectRecentlyView(HttpServletRequest req,
-                                                  HttpServletResponse res,
-                                                  Locale locale,
-                                                  @PathVariable("sale_no") int saleNo,
+    public ResponseEntity<RestResponse> selectRecentlyView(@PathVariable("sale_no") int saleNo,
                                                   @PathVariable("lot_no") int lotNo) {
 
         // 필터를 적용한 새로운 랏이미지 정보
@@ -538,59 +504,14 @@ public class ApiSaleLiveController {
     @GetMapping(value="/list/{saleNo}")
     public ResponseEntity<RestResponse> list(
             @PathVariable("saleNo") int saleNo,
-            @RequestParam(value = "is_live" ,defaultValue = "N") String isLive
+            @RequestParam(value = "category" , required = false) String category,
+            @RequestParam(value = "tag" , required = false) String tag
     ) {
-
-        boolean isEmployee = false;
-
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
-        commonMap.put("is_live" , isLive);
-
-        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
-        if (saUserDetails != null ) {
-            commonMap.put("cust_no", saUserDetails.getUserNo());
-            isEmployee = saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER"));
-        } else {
-            commonMap.put("cust_no", 0);
-        }
-
-        List<CommonMap> lotImages = saleService.selectSaleList(commonMap);
-
-        String[] mapKeys = {"SALE_TITLE_JSON", "LOT_TITLE_JSON",
-                "MAKE_YEAR_JSON", "ARTIST_NAME_JSON", "EXPE_PRICE_FROM_JSON", "EXPE_PRICE_TO_JSON"};
-
-        String[] listKeys = {"LOT_SIZE_JSON"};
-
-
-        // 맵 형태 거름
-        ObjectMapper mapper  = new ObjectMapper();
-        try{
-            // 맵 변환
-            for (var i = 0; i < lotImages.size(); i++) {
-                for (var item : mapKeys) {
-                    lotImages.get(i).put(item, mapper.readValue(String.valueOf(lotImages.get(i).get(item)),
-                            Map.class));
-                }
-                for(var item2 : listKeys) {
-                    lotImages.get(i).put(item2,
-                            mapper.readValue(String.valueOf(lotImages.get(i).get(item2)), List.class));
-                }
-
-                if (lotImages.get(i).get("IMG_DISP_YN").equals("N") && !isEmployee) {
-                    lotImages.get(i).put("IMAGE_URL", "");
-                    lotImages.get(i).put("FILE_PATH", "");
-                    lotImages.get(i).put("FILE_NAME", "images/bg/no_image.jpg");
-                }else {
-                    lotImages.get(i).put("IMAGE_URL", IMAGE_URL);
-                }
-            }
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-
-        return ResponseEntity.ok(RestResponse.ok(lotImages));
+        commonMap.put("category", category);
+        commonMap.put("tag", tag);
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectSaleList(commonMap)));
    }
     @RequestMapping(value = "/lotTag/{saleNo}", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> selectLotTagList(
@@ -627,8 +548,7 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok(saleService.getCustomerByCustNo(paramMap)));
     }
     @RequestMapping(value="/artist_info/{artist_no}", method = RequestMethod.GET)
-    public ResponseEntity<RestResponse> artistInfo(HttpServletRequest req, HttpServletResponse res, Locale locale,
-                                                 @PathVariable("artist_no") int artistNo) {
+    public ResponseEntity<RestResponse> artistInfo(@PathVariable("artist_no") int artistNo) {
         CommonMap map = new CommonMap();
         map.put("artist_no", artistNo);
 
@@ -639,8 +559,7 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok(artistInfoMap));
     }
     @RequestMapping(value="/sale/maxbid/{sale_no}/{lot_no}", method = RequestMethod.GET)
-    public ResponseEntity<RestResponse> maxBid(HttpServletRequest req, HttpServletResponse res, Locale locale,
-                                                   @PathVariable("sale_no") int saleNo,
+    public ResponseEntity<RestResponse> maxBid(@PathVariable("sale_no") int saleNo,
                                                    @PathVariable("lot_no") int lotNo) {
         CommonMap map = new CommonMap();
         map.put("sale_no", saleNo);

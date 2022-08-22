@@ -3,7 +3,7 @@
  * @param {Object} data
  */
 async function renderSaleTitleSection(data) {
-  const pageData = loadPageData();
+  const urlData = getDataFromUrl(`/auction/online/{saleNo}`);
   const root = document.querySelector('#contents');
   const lang = getLanguage();
 
@@ -11,21 +11,21 @@ async function renderSaleTitleSection(data) {
     e.preventDefault();
     const target = e.currentTarget;
     const { categoryType, categoryValue } = target.dataset;
-    let pageData = loadPageData();
-    pageData.page = 1;
+    const urlData = getDataFromUrl(`/auction/online/{saleNo}`);
+    urlData.page = 1;
 
     if (categoryType === 'category' && categoryValue === 'ALL') {
-      pageData.category = '';
-      pageData.tag = '';
+      urlData.category = '';
+      urlData.tag = '';
     } else if (categoryType === 'category') {
-      pageData.category = categoryValue;
-      pageData.tag = '';
+      urlData.category = categoryValue;
+      urlData.tag = '';
     } else if (categoryType === 'tag') {
-      pageData.category = '';
-      pageData.tag = categoryValue;
+      urlData.category = '';
+      urlData.tag = categoryValue;
     }
 
-    window.location.href = makeUrl(pageData);
+    window.location.href = makeUrl(urlData);
   }
 
   let state = createState({}, (target, key, value, receiver) => {
@@ -37,7 +37,7 @@ async function renderSaleTitleSection(data) {
       case 'categories':
         const categoriesHtml = value.map(item => {
           if (item.type === 'category' && item.value === 'ALL') {
-            const isAllTypeActive = pageData.category === '' && pageData.tag === '' ? 'active' : '';
+            const isAllTypeActive = urlData.category === '' && urlData.tag === '' ? 'active' : '';
             return `
               <li class="${isAllTypeActive}">
                 <a href="#" data-category-type="${item.type}" data-category-value="${item.value}">
@@ -47,7 +47,7 @@ async function renderSaleTitleSection(data) {
             `;
           }
 
-          const isActive = (item.value === pageData.category || item.value === pageData.tag) ? 'active' : '';
+          const isActive = (item.value === urlData.category || item.value === urlData.tag) ? 'active' : '';
           return `
             <li class="${isActive}">
               <a href="#" data-category-type="${item.type}" data-category-value="${item.value}">

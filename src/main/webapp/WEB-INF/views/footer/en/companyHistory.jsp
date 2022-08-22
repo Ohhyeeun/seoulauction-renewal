@@ -50,6 +50,7 @@
                                                 <h4 class="tt4">Seoul Auction is the first auction house of south Korea.</h4>
                                                 <div class="select-box">
                                                     <select class="select2Basic42" name="history-change" id="history-change">
+                                                        <option value="history-body-all">All</option>
                                                         <option value="history-body-1">2021 ~ 2018</option>
                                                         <option value="history-body-2">2017 ~ 2010</option>
                                                         <option value="history-body-3">2008 ~ 1998</option>
@@ -181,7 +182,7 @@
                                             </div>
                                             <!--// history-body-1 -->
                                             <!-- history-body-2 -->
-                                            <div class="history-body" id="history-body-2">
+                                            <div class="history-body active" id="history-body-2">
                                                 <div class="history-item_area">
                                                     <h5>2017</h5>
                                                     <div class="history-item_list">
@@ -330,7 +331,7 @@
                                             </div>
                                             <!--// history-body-2 -->
                                             <!-- history-body-3 -->
-                                            <div class="history-body" id="history-body-3">
+                                            <div class="history-body active" id="history-body-3">
                                                 <div class="history-item_area">
                                                     <h5>2008</h5>
                                                     <div class="history-item_list">
@@ -484,9 +485,15 @@
     <script>
         $('#history-change').on('change', function() {
 
-            var id = '#' + $(this).val();
+            let id = '#' + $(this).val();
             $('.history-body').removeClass('active');
-            $(id).addClass('active');
+            if(id === '#history-body-all'){
+                $('#history-body-1').addClass('active');
+                $('#history-body-2').addClass('active');
+                $('#history-body-3').addClass('active');
+            } else {
+                $(id).addClass('active');
+            }
         }).trigger('change');
     </script>
 

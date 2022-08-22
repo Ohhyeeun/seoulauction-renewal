@@ -331,6 +331,35 @@
 
 
 
+    <!-- [0728]비디오 세로사이즈 -->
+    <script>
+        var _videoAnchor = $(".video_img-box a");
+        var _videoAnchorImg = $(".video_img-box a img");
+        _videoAnchorImg.each(function() {
+            _videoAnchor = $(this).parent(_videoAnchor);
+
+            if ($(this).width() < $(this).height()) {
+                _videoAnchor.addClass("vertical");
+            } else {
+                _videoAnchor.removeClass("vertical");
+            }
+        })
+    </script>
+    <!-- //[0728]비디오 세로사이즈 -->
+
+    <!-- [0809]마이페이지 사이드 유저네임 글자수제한 -->
+    <script>
+        var asideUsername = $("aside .mem-name-wrap .tt2");
+        asideUsername.each(function() {
+            var asideUsernameTxt = $(this).text();
+            var asideUsernameLimit = 9;
+            if (asideUsernameTxt.length > asideUsernameLimit) {
+                $(this).text(asideUsernameTxt.substr(0, asideUsernameLimit) + "...")
+            }
+        })
+    </script>
+    <!-- //[0809]마이페이지 사이드 유저네임 글자수제한 -->
+
 
     <!-- seoul auction 안내 -->
     <div id="auction_info-wrap" class="trp popupfixed-wrap auction_info-popup  ">
@@ -350,10 +379,10 @@
                                         <img class="only_ib-pc" src="/images/pc/auction/symbol-none_data.png" alt="안내" />
                                         <img class="only_ib-mb" src="/images/pc/auction/symbol-none_data.png" alt="안내" />
                                     </div>
-                                    <div class="title"><span>SEOULAUCTION Guide</span></div>
-                                    <div class="desc"><span>please try again after logging in.</span></div>
+                                    <div class="title"><span>Notification from Seoul Auction</span></div>
+                                    <div class="desc"><span>Please log in.</span></div>
                                     <div class="btn_set-float tac">
-                                        <a class="btn btn_point" href="#" role="button"><span>Confirm</span></a>
+                                        <a class="btn btn_point" href="#" role="button"><span>OK</span></a>
                                     </div>
                                 </article>
                             </section>
@@ -396,7 +425,7 @@
 
                                 <article class="paddle_number-article">
                                     <div class="header-article">
-                                        <div class="title"><span>Paddle Number Assigned</span></div>
+                                        <div class="title"><span>Paddle number designation</span></div>
                                     </div>
                                     <div class="body-article">
                                         <div class="paddle-box">
@@ -404,15 +433,15 @@
                                         </div>
                                         <div class="gray-box">
                                             <ul class="mark_dot-list">
-                                                <li>Online real-time bidding cannot be withdrawn.</li>
-                                                <li>Bid priorities are in the following order: written > on-site > online.</li>
-                                                <li>There may be a time difference in the amount of the video, so please check the bid price on the bid screen before making a bid.</li>
+                                                <li>Real-time online bids cannot be retracted.</li>
+                                                <li>Bids are considered in the order of: absentee > on-site > online.</li>
+                                                <li>The amount displayed in the video feed may not be accurate due to time differences. Please check the price on the bidding screen before making your bid.</li>
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="footer-article">
                                         <div class="btn_set-float tac">
-                                            <a class="btn btn_point" href="#" role="button"><span>Confirm</span></a>
+                                            <a class="btn btn_point" href="#" role="button"><span>OK</span></a>
                                         </div>
                                     </div>
                                 </article>
@@ -453,7 +482,10 @@
                         <div class="pop-header">
                             <a class="btn_close icon-pop_close js-closepop" href="#" title="closed">X</a>
                             <div class="title-box">
-                                <span class="txt_title">Agreement to terms and conditions (required check)</span>
+                                <!-- <span class="txt_title">Consent to Terms (required)</span> -->
+                                <!-- [0812]텍스트변경 -->
+                                <span class="txt_title">I agree to all of the Terms & Conditions.</span>
+                                <!-- //[0812]텍스트변경 -->
                             </div>
                         </div>
                         <div class="pop-body">
@@ -467,7 +499,7 @@
                                                     <span class="trp checkbox-box">
                                                         <input id="checkbox_all" class="js_all" type="checkbox" name="">
                                                         <i></i>
-                                                        <label for="checkbox_all">All Agree</label>
+                                                        <label for="checkbox_all">Consent to Terms (in full)</label>
                                                     </span>
                                                 </th>
                                             </tr>
@@ -478,9 +510,9 @@
                                                     <div class="trp checkbox-box">
                                                         <input id="checkbox_all1" class="js_item" type="checkbox" name="">
                                                         <i></i>
-                                                        <label for="checkbox_all1">I have read and understood all of the Seoul Auction Auction Terms and Conditions and agree to their application.</label>
+                                                        <label for="checkbox_all1">I fully understand and am aware of Seoul Auction’s Terms and consent to their application.</label>
                                                         <!-- [0523]약관 바로보기 링크 삽입 -->
-                                                        <a href="#">[shortcut]</a>
+                                                        <a href="#">[Go to Terms]</a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -489,7 +521,7 @@
                                                     <div class="trp checkbox-box">
                                                         <input id="checkbox_all2" class="js_item" type="checkbox" name="">
                                                         <i></i>
-                                                        <label for="checkbox_all2">Bidding is based on the assumption that the actual work and condition have been confirmed.</label>
+                                                        <label for="checkbox_all2">Bidding is conducted based on the assumption that the bidder has seen the artwork and its current condition in person.</label>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -498,7 +530,7 @@
                                                     <div class="trp checkbox-box">
                                                         <input id="checkbox_all3" class="js_item" type="checkbox" name="">
                                                         <i></i>
-                                                        <label for="checkbox_all3">The successful bidder must deposit the amount including the purchase fee within 7 days (within 21 days if the winning bid price is 300 million won or more).</label>
+                                                        <label for="checkbox_all3">The winning bidder must make the payment (including buyer’s premium) within seven days (or 21 days, if the hammer price is KRW 300 million or more). The buyer’s premium is 18 percent (not including surtax) of the hammer price.</label>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -507,8 +539,7 @@
                                                     <div class="trp checkbox-box">
                                                         <input id="checkbox_all4" class="js_item" type="checkbox" name="">
                                                         <i></i>
-                                                        <label for="checkbox_all4">If the successful bidder (1) fails to pay the winning bid by the specified date, or (2) withdraws the successful bid inevitably,
-                                                            an amount equivalent to 30% of the successful bid must be paid as a cancellation fee (penalty).</label>
+                                                        <label for="checkbox_all4">If the winning bidder 1) fails to pay the hammer price by the designated deadline or 2) must withdraw his/her bid, he/she must pay 30 percent of the hammer price as a bid withdrawal fine.</label>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -520,7 +551,9 @@
                                 <article class="button-area">
                                     <div class="btn_bottom">
                                         <div class="btn_set">
+                                            <!-- [0812]텍스트변경 -->
                                             <a class="btn btn_point" href="#" role="button"><span>Agree</span></a>
+                                            <!-- //[0812]텍스트변경 -->
                                         </div>
                                     </div>
                                 </article>

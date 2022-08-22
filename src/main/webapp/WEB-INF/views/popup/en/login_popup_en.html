@@ -340,6 +340,35 @@
 
 
 
+    <!-- [0728]비디오 세로사이즈 -->
+    <script>
+        var _videoAnchor = $(".video_img-box a");
+        var _videoAnchorImg = $(".video_img-box a img");
+        _videoAnchorImg.each(function() {
+            _videoAnchor = $(this).parent(_videoAnchor);
+
+            if ($(this).width() < $(this).height()) {
+                _videoAnchor.addClass("vertical");
+            } else {
+                _videoAnchor.removeClass("vertical");
+            }
+        })
+    </script>
+    <!-- //[0728]비디오 세로사이즈 -->
+
+    <!-- [0809]마이페이지 사이드 유저네임 글자수제한 -->
+    <script>
+        var asideUsername = $("aside .mem-name-wrap .tt2");
+        asideUsername.each(function() {
+            var asideUsernameTxt = $(this).text();
+            var asideUsernameLimit = 9;
+            if (asideUsernameTxt.length > asideUsernameLimit) {
+                $(this).text(asideUsernameTxt.substr(0, asideUsernameLimit) + "...")
+            }
+        })
+    </script>
+    <!-- //[0809]마이페이지 사이드 유저네임 글자수제한 -->
+
     <!-- 아이디찾기-아이디 검색 결과 -->
     <div id="popup_idsearch1-wrap" class="trp popupfixed-wrap login-popup">
         <div class="popup-dim"></div>
@@ -851,9 +880,11 @@
                                 <img class="only_ib-mb" src="/images/mobile/login/search_ico_01.png">
                             </div>
                             <div class="title-box_tac title_concurrent">
-                                <span class="title_tac">You are automatically logged out by simultaneously accessing from another PC with the same ID as the member.<br>
+                                <!-- [0728]텍스트수정 -->
+                                <span class="title_tac">You are automatically logged out by simultaneously accessing from another PC or mobile environment with the same ID as the member.<br>
                                     If you are not the person, please log in again or contact the customer center.
                                 </span>
+                                <!-- //[0728]텍스트수정 -->
                             </div>
                         </div>
                         <div class="pop-body">

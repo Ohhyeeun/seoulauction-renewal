@@ -52,7 +52,8 @@
                                                         </ul>
                                                     </div>
                                                 </article>
-                                                <article class="academy-list-wrap"  ng-if="academyCnt != 0">
+<%--                                                <article class="academy-list-wrap"  ng-if="academyCnt != 0">--%>
+                                                <article class="academy-list-wrap">
                                                      <div class="table-wrap only-pc">
                                                          <table class="table_base data-table academy-list">
                                                             <thead>
@@ -63,19 +64,72 @@
                                                                     <th>결제일시</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody ng-repeat="art in academyList">
-                                                                <tr>
-                                                                    <td ng-if="art.CANCEL_YN != 'Y'" class="bbs-subject" ><a href="#" ng-click="academyPayHis({'parent':this, 'academy':art});">{{art.TITLE_KO}}</a></td>
-                                                                    <td ng-if="art.CANCEL_YN == 'Y'" class="bbs-subject" >{{art.TITLE_KO}}</td>
-                                                                    <td ng-bind="art.pay_price | number : 0"></td>
-                                                                    <td ng-if="art.CANCEL_YN != 'Y'">
-                                                                    	<a class="pay complete" href="#" ng-click="academyPayHis({'parent':this, 'academy':art});" class="ng-scope" >결제완료</a>
-                                                                        <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="0" ng-if="art.receipt_card == 'Y'" onclick="receiptPopup(this)"><span>카드영수증</span></button>
-                                                                        <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="1" ng-if="art.receipt_vbank == 'Y'" onclick="receiptPopup(this)"><span>현금영수증</span></button>
-                                                                    </td>
-                                                                     <td ng-if="art.CANCEL_YN == 'Y'"><span class="pay cancel">결제취소</span></td>
-                                                                    <td>{{art.REG_DT}}</td>
-                                                                </tr>
+<%--                                                            <tbody ng-repeat="art in academyList">--%>
+                                                            <tbody>
+<%--                                                                <tr>--%>
+<%--                                                                    <td ng-if="art.CANCEL_YN != 'Y'" class="bbs-subject" ><a href="#" ng-click="academyPayHis({'parent':this, 'academy':art});">{{art.TITLE_KO}}</a></td>--%>
+<%--                                                                    <td ng-if="art.CANCEL_YN == 'Y'" class="bbs-subject" >{{art.TITLE_KO}}</td>--%>
+<%--                                                                    <td ng-bind="art.pay_price | number : 0"></td>--%>
+<%--                                                                    <td ng-if="art.CANCEL_YN != 'Y'">--%>
+<%--                                                                    	<a class="pay complete" href="#" ng-click="academyPayHis({'parent':this, 'academy':art});" class="ng-scope" >결제완료</a>--%>
+<%--                                                                        <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="0" ng-if="art.receipt_card == 'Y'" onclick="receiptPopup(this)"><span>카드영수증</span></button>--%>
+<%--                                                                        <button class="btn btn_gray_line btn_sm"  type="button" data-id="{{art.PG_TRANS_ID}}" data-type="1" ng-if="art.receipt_vbank == 'Y'" onclick="receiptPopup(this)"><span>현금영수증</span></button>--%>
+<%--                                                                    </td>--%>
+<%--                                                                     <td ng-if="art.CANCEL_YN == 'Y'"><span class="pay cancel">결제취소</span></td>--%>
+<%--                                                                    <td>{{art.REG_DT}}</td>--%>
+<%--                                                                </tr>--%>
+
+                                                                    <!-- [0617]제목 a태그 -->
+                                                                    <tr>
+                                                                        <td class="bbs-subject"><a href="#">[아트마켓] 4</a></td>
+                                                                        <td>600,000</td>
+                                                                        <td><a class="pay complete" href="#">결제완료</a></td>
+                                                                        <td>2022.04.28</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="bbs-subject"><a href="#">[아트마켓] 3</a></td>
+                                                                        <td>900,000</td>
+                                                                        <td><span class="pay cancel">결제취소</span></td>
+                                                                        <td>2022.03.28</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="bbs-subject"><a href="#">[아트마켓] 2</a></td>
+                                                                        <td>600,000</td>
+                                                                        <td>
+                                                                            <a class="pay complete" href="#">결제완료</a>
+                                                                            <button class="btn btn_gray_line btn_sm" type="button"><span>현금영수증</span></button>
+                                                                        </td>
+                                                                        <td>2022.02.20</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="bbs-subject"><a href="#">[아트마켓] </a></td>
+                                                                        <td>600,000</td>
+                                                                        <td><a class="pay complete" href="#">결제완료</a></td>
+                                                                        <td>2022.01.15</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="bbs-subject">
+                                                                            <a href="#">[대학생아카데미</a>
+                                                                        </td>
+                                                                        <td>300,000</td>
+                                                                        <td>
+                                                                            <a class="pay complete" href="#">결제완료</a>
+                                                                            <button class="btn btn_gray_line btn_sm" type="button"><span>카드영수증</span></button>
+                                                                        </td>
+                                                                        <td>2022.01.01</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="bbs-subject"><a href="#">[작가론] </a></td>
+                                                                        <td>600,000</td>
+                                                                        <td><span class="pay cancel">결제취소</span></td>
+                                                                        <td>2021.12.13</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="bbs-subject"><a href="#">[작가론] </a></td>
+                                                                        <td>900,000</td>
+                                                                        <td><span class="pay cancel">결제취소</span></td>
+                                                                        <td>2021.11.09</td>
+                                                                    </tr>
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -128,11 +182,11 @@
                                                         </div> <%-- //paging --%>
                                                     </div> <%-- //paging-area --%>
                                                 </article>
-                                                <article class="academy-list-wrap" ng-if="academyCnt == 0">
-                                                    <div class="data-empty">
-                                                        <p class="txt_empty">신청 내역이 존재하지 않습니다.</p>
-                                                    </div>
-                                                </article>
+<%--                                                <article class="academy-list-wrap" ng-if="academyCnt == 0">--%>
+<%--                                                    <div class="data-empty">--%>
+<%--                                                        <p class="txt_empty">신청 내역이 존재하지 않습니다.</p>--%>
+<%--                                                    </div>--%>
+<%--                                                </article>--%>
                                             </div>
                                         </div>
 

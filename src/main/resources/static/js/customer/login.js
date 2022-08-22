@@ -6,10 +6,14 @@ window.onload = async function(){
 	var result = await isNativeApp();
 	if(result){
 		console.log("isNativeApp() : true");
+		$("#checkedID").prop("checked", true);
+		$("#checkedIDLabel").text("자동 로그인");
 		$("#remember-me").prop("checked", true);
 		isApp = true;
 	}else{
 		console.log("isNativeApp() : false");
+		$("#checkedID").prop("checked", false);
+		$("#checkedIDLabel").text("아이디 저장");
 		$("#remember-me").remove();
 	}
 }
@@ -115,7 +119,7 @@ app.controller('loginCtl', function($scope, consts, common, ngDialog) {
 				deleteCookie("LoginID");   
 			}  
 			var rememberMeCookie = getCookie('remember-me');
-			if(isApp){
+			if(isApp && $("#checkedID").is(":checked")){
 				setWebviewData('remember-me', rememberMeCookie);
 				setWebviewData('remember-me-date', new Date().getTime().toString());
 			}

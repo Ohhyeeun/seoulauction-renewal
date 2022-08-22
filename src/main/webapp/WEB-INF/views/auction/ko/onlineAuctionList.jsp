@@ -219,8 +219,8 @@
   </div>
 </div>
 
-<jsp:include page="./onlineAuctionListPopup.jsp" />
-<jsp:include page="./onlineAuctionBidPopup.jsp" />
+<jsp:include page="popup/onlineAuctionListPopup.jsp" />
+<jsp:include page="popup/onlineAuctionBidPopup.jsp" />
 
 <!-- 순차적으로 실행 -->
 <script src="/js/online-auction/api.js" defer></script>

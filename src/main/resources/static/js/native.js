@@ -102,6 +102,35 @@ $(function() {
 // Native 연동 인터페이스
 // ----------------------------------------------------------------------------
 
+async function chkIsAuthenticated(){
+  let result = await isNativeApp();
+  if (result) {
+    let v = await getWebviewData('remember-me');
+    let d = await getWebviewData('remember-me-date');
+    // 데이타 확인
+    //alert(d);
+
+    if (d !== undefined) {
+      if (d.length > 0) {
+        let dd = parseInt(d);
+        let expYear = 1
+        // 1년 더함
+        let cd = new Date(new Date(dd).setFullYear(new Date(dd.getFullYear() + expYear)));
+        if (cd > new Date()) {
+          let rc = getCookie('remember-me')
+          if (rc === undefined || rc === null || rc.length <= 0) {
+            setCookie('remember-me', v, 365);
+            window.location.reload();
+          }
+        } else {
+          // 쿠키 삭제
+          document.cookie = "remember-me=;expires=Thu, 01 Jan 1999 00:00:10 GMT;";
+        }
+      }
+    }
+  }
+}
+
 /**
  * [Webview -> Native]
  * 접속한 기기가 앱이 맞는지 정보
@@ -190,6 +219,7 @@ async function nativeGetAppStatus(status) {
 
     case 'resumed': // 앱 재진입
       console.log('앱 다시 실행');
+      await chkIsAuthenticated();
       break;
 
     case 'inactive': // 비활성

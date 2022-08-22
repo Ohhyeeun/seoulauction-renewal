@@ -112,25 +112,9 @@
                                 <ul class="product-list">
                                     <li class="" ng-if="lotList !== null" ng-repeat="item in lotList">
                                         <div class="li-inner">
-                                            <!-- [0809]검색결과 result클래스추가 -->
-                                            <article class="item-article result">
-                                                <div class="image-area">
-                                                    <figure class="img-ratio">
-                                                        <a href="#" ng-click="goDetail(item.SALE_NO, item.LOT_NO, item.SALE_KIND_CD, item.END_YN);">
-                                                            <div class="img-align" ng-if="item.STAT_CD != 'reentry' && item.IMG_DISP_YN == 'Y'">
-                                                                <img src="{{item.IMAGE_URL}}{{item.LOT_IMG_PATH}}/{{item.LOT_IMG_NAME}}"
-                                                                     alt="{{item.TITLE_JSON.ko | trimSameCheck : item.TITLE_JSON[locale]}}">
-                                                            </div>
-                                                            <div class="img-align" ng-if="item.STAT_CD != 'reentry' && item.IMG_DISP_YN != 'Y'">
-                                                                <img src="/images/bg/no_image.jpg">
-                                                            </div>
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                            </article>
-                                            <!-- //[0809]검색결과 result클래스추가 --> 
-
-                                            <article class="item-article">
+                                            <!-- 경매 마감 일 때 "result" 클래스 추가 하면 됨. <article class="item-article result"> -->
+                                            <article class="item-article"> <!-- //[0809]검색결과 result클래스추가 하면 이미지 100* 100 나옴-->
+                                                <!-- 경매 마감 일 때 "result" 클래스 추가 하면 됨. <article class="item-article result"> -->
                                                 <div class="image-area" ng-if="item.STAT_CD != 'reentry' && (item.IMG_DISP_YN == 'Y' || custInfo.EMP_GB == 'Y')" ng-click="goDetail(item.SALE_NO, item.LOT_NO, item.SALE_KIND_CD, item.END_YN);">
                                                     <a href="#" ng-click="goDetail(item.SALE_NO, item.LOT_NO, item.SALE_KIND_CD, item.END_YN);">
                                                         <figure class="img-ratio">

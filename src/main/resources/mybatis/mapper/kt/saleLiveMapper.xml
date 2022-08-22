@@ -332,5 +332,80 @@
             SALE_NO = #{sale_no} AND LOT_NO = #{lot_no}
     </select>
 
+    <!-- 경매 List 및 상세 페이지 내 LOT별 검색 Combo Box -->
+    <select id="selectSaleLotImages" resultType="CommonMap" parameterType="commonMap">
+        SELECT B.SALE_NO               SALE_NO,
+               B.LOT_NO                LOT_NO,
+               B.IMG_DISP_YN           IMG_DISP_YN,
+               C.FILE_PATH             FILE_PATH,
+               C.FILE_NAME             FILE_NAME
+        FROM LOT B INNER JOIN LOT_IMG C ON B.SALE_NO = C.SALE_NO AND B.LOT_NO = C.LOT_NO AND C.DISP_ORD = 1
+        WHERE B.SALE_NO =  #{sale_no}
+          AND B.CLOSE_YN = 'N'
+          AND B.STAT_CD = 'entry'
+        GROUP BY B.SALE_NO, B.LOT_NO, C.FILE_PATH, C.FILE_NAME
+        ORDER BY B.LOT_NO ASC
+    </select>
+
+    <!-- 경매 List 조회 -->
+    <select id="selectSaleList" parameterType="CommonMap" resultType="CommonMap">
+        SELECT L.LOT_NO,
+        COLUMN_JSON(D.ARTIST_NAME_BLOB)     ARTIST_NAME_JSON,
+        COLUMN_JSON(L.TITLE_BLOB)           LOT_TITLE_JSON,
+        COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON,
+        COLUMN_JSON(L.EXPE_PRICE_TO_BLOB)   EXPE_PRICE_TO_JSON,
+        (SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = L.SALE_NO AND LOT_NO = L.LOT_NO) MAX_BID_PRICE,
+        COLUMN_JSON(L.MAKE_YEAR_BLOB)       MAKE_YEAR_JSON,
+        ( SELECT C.CD_NM FROM CODE C WHERE C.CD_ID = L.MATE_CD AND GRP_ID ='material') MATE_CD_KO,
+        ( SELECT C.CD_NM_EN FROM CODE C WHERE C.CD_ID = L.MATE_CD AND GRP_ID ='material') MATE_CD_EN,
+        LI.FILE_PATH                        LOT_IMG_PATH,
+        LI.FILE_NAME                        LOT_IMG_NAME,
+        concat('[',
+        GROUP_CONCAT('{',
+        '"UNIT_CD":"', ifnull(E.UNIT_CD, 'cm') ,'",',
+        '"SIZE1":', ifnull(E.SIZE1,0) ,',',
+        '"SIZE2":', ifnull(E.SIZE2,0) ,',',
+        '"SIZE3":', ifnull(E.SIZE3,0) ,',',
+        '"CANVAS":', ifnull(E.CANVAS,0) ,',',
+        '"DIAMETER_YN":"', ifnull(E.DIAMETER_YN,'N') ,'",',
+        '"PREFIX":"', ifnull(E.PREFIX,'') ,'",',
+        '"SUFFIX":"', ifnull(E.SUFFIX,'') ,'",',
+        '"MIX_CD":"', ifnull(E.MIX_CD,'h') ,'",',
+        '"CANVAS_EXT_YN":"', ifnull(E.CANVAS_EXT_YN,'N'), '"',
+        '}')
+        ,']') AS LOT_SIZE_JSON,
+        ifnull(E.UNIT_CD, 'cm')             UNIT_CD,
+        ifnull(E.SIZE1, '0')                SIZE1,
+        ifnull(E.SIZE2, '0')                SIZE2,
+        ifnull(E.SIZE3, '0')                SIZE3,
+        ifnull(E.CANVAS, '0')               CANVAS,
+        ifnull(E.DIAMETER_YN, 'N')          DIAMETER_YN,
+        ifnull(E.PREFIX, '')                PREFIX,
+        ifnull(E.SUFFIX, '')                SUFFIX,
+        ifnull(E.MIX_CD, 'h')               MIX_CD,
+        ifnull(E.CANVAS_EXT_YN, 'N')        CANVAS_EXT_YN,
+        IF ((select COUNT(*) from CUST_INTE_LOT CIL where CIL.SALE_NO =
+        L.SALE_NO and CIL.LOT_NO = L.LOT_NO and CUST_NO = #{cust_no} ) <![CDATA[ > ]]> 0 , 'Y' , 'N') FAVORITE_YN,
+        DATE_FORMAT(L.TO_DT,'%Y-%m-%d') 	LOT_EXPIRE_DATE,
+        L.LIVE_CLOSE_YN,
+        L.CLOSE_YN,
+        L.EXPE_PRICE_INQ_YN
+        FROM LOT L
+        LEFT OUTER JOIN LOT_SIZE E ON L.SALE_NO = E.SALE_NO AND L.LOT_NO = E.LOT_NO
+        LEFT OUTER JOIN LOT_IMG LI ON L.SALE_NO = LI.SALE_NO AND L.LOT_NO = LI.LOT_NO
+        AND LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
+        LEFT OUTER JOIN ARTIST D ON L.ARTIST_NO = D.ARTIST_NO
+        LEFT OUTER JOIN CODE H ON H.GRP_ID = 'artwork_category' AND H.CD_ID = (SELECT  IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = (SELECT IFNULL(P_CD_ID, CD_ID) FROM CODE WHERE GRP_ID = 'artwork_category' AND CD_ID = L.CATE_CD))
+        WHERE L.SALE_NO = #{sale_no}
+          AND L.WWW_DISP_YN = 'Y'
+        <if test="category !=null">
+          AND H.CD_ID = #{category}
+        </if>
+        <if test="tag !=null">
+          AND L.LOT_TAG = #{tag}
+        </if>
+        GROUP BY L.LOT_NO
+    </select>
+
 
 </mapper>
