@@ -785,7 +785,7 @@
                     delete pageData.category;
                     pageData.tag = encodeURI(categoryVal);
                 }
-
+                pageData.page = 1;
                 window.location.href = makeUrl(pageData);
             }
 
@@ -870,9 +870,9 @@
             $scope.changeSortByList = async function (value) {
                 $scope.sortBy = value;
                 const pageData = loadPageData();
+                pageData.page = 1;
                 pageData.sort = value;
                 window.location.href = makeUrl(pageData);
-                // await $scope.loadLotList();
             }
 
             $scope.goBrochure = function (id, url) {
