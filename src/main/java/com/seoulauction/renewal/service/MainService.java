@@ -99,7 +99,9 @@ public class MainService {
                         k.put("IMAGE_URL", "");
                         k.put("FILE_PATH", "");
                         k.put("FILE_NAME", "images/bg/no_image.jpg");
+                        k.put("REAL_IMAGE_YN", "Y");
                     } else {
+                        k.put("REAL_IMAGE_YN", "N");
                         k.put("IMAGE_URL", IMAGE_URL);
                     }
                 }).collect(Collectors.toList());

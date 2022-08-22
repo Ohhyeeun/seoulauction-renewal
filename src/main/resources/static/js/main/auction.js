@@ -10,19 +10,21 @@ $(document).ready(function(){
     let locale = document.documentElement.lang;
     let saleKind;
     let intervalTime = 3000; // 3초에 1번씩 새로고침.
+    let isInterval = true;
     init();
 
     //초기작업.
     function init(){
-
+        console.log('!!!![참고] 메인 - 옥션 3초에 한번씩 데이터 갱신 중!!!!')
         auctionDataInit();
         auctionEvent();
 
-        setInterval(function (){
-            auctionDataInit();
-            auctionEvent();
-           // $('#auction_contents').load(location.href+' #auction_contents');
-        } , intervalTime);
+        //3초에 경매 데이터 재 갱신.
+        if(isInterval) {
+            setInterval(function () {
+                auctionDataInit();
+            }, intervalTime);
+        }
     }
 
     //옥션 데이터 가져오기!
@@ -40,10 +42,6 @@ $(document).ready(function(){
 
                     auctionData = data.data.list;
                     //TODO 인클루드 작업.
-
-                    console.log(auctionData);
-                    console.log(currentLotCounts);
-
                     //초기 sale_kind 설정.
                     saleKind = auctionData[0].SALE_KIND;
 
@@ -204,7 +202,7 @@ $(document).ready(function(){
 
             let countObj = currentLotCounts[curruentTab];
 
-            if ( countObj.start === 0 ) {
+            if ( countObj.end === initCount ) {
                 $('#AllAuction').hide();
                 $('#MoreAuction').show();
             } else {
@@ -332,12 +330,11 @@ $(document).ready(function(){
             $('#MoreAuction').hide();
 
             let countObj = currentLotCounts[curruentTab];
-            countObj.start = countObj.start + initCount;
             countObj.end = countObj.end + initCount;
             currentLotCounts[curruentTab] = countObj;
             //$(".auctionTab-contents.on").css('height', '100%');
 
-            addLot(saleKind , curruentTab , currentLotData[curruentTab].slice(countObj.start , countObj.end ));
+            addLot(saleKind , curruentTab , currentLotData[curruentTab].slice(countObj.start + initCount , countObj.end ));
             //bidstart();
             //auctionDataInit();
         });
