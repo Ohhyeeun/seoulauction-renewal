@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>페이지명 | Seoul Auction</title>
+    <title>결제 | Seoul Auction</title>
     <link rel="stylesheet" href="/css/plugin/csslibrary.css">
     <link rel="stylesheet" href="/css/common.css" type="text/css" />
     <link rel="stylesheet" href="/css/pages_common_en.css">
@@ -237,13 +237,14 @@
                     <section class="basis-section last-section">
                         <div class="section-inner">
 
+                            <!-- [0812]텍스트변경(전체) -->
                             <div class="content-panel type_panel-payment">
                                 <div class="panel-header">
                                     <div class="title">
-                                        <span class="tt1">Piece of work Payment</span>
+                                        <span class="tt1">Payment</span>
                                     </div>
                                     <div class="guide_box">
-                                        <span class="tb2">Currency : KRW</span>
+                                        <span class="tb2">Currency : USD</span>
                                     </div>
                                 </div>
 
@@ -278,33 +279,32 @@
                                                 <div class="member_pay">
                                                     <p>
                                                         <span class="tit tt5">Bid</span>
-                                                        <span class="won tt3">200,000<i class="tb1">KRW</i></span>
+                                                        <span class="won tt3">40.90<i class="tb1">USD</i></span>
                                                     </p>
                                                     <p class="fees">
                                                         <span class="tit tb1">Fees</span>
-                                                        <span class="won tb1">0<i class="tb2">KRW</i></span>
+                                                        <span class="won tb1">9.95<i class="tb2">USD</i></span>
                                                     </p>
                                                 </div>
                                             </div>
                                         </li>
                                         <li>
-                                            <p class="list_tit tt4">Buyer’s Information</p>
+                                            <p class="list_tit tt4">My information</p>
                                             <ul class="pay_info tb1">
                                                 <li>
-                                                    <span class="th">name</span>
+                                                    <span class="th">Name</span>
                                                     <span class="td">Gildong Hong</span>
                                                 </li>
                                                 <li>
-                                                    <span class="th">Call</span>
+                                                    <span class="th">Mobile</span>
                                                     <span class="td">+82-10-1234-5678</span>
                                                 </li>
                                             </ul>
                                         </li>
                                         <li>
-                                            <p class="list_tit tt4">Payment Method</p>
+                                            <p class="list_tit tt4">Payment options</p>
                                             <div class="btn_wrap ">
-                                                <a class="btn btn_black" href="#" role="button"><span>Credit card</span></a>
-                                                <a class="btn btn_default" href="#" role="button"><span>Virtual Account </span></a>
+                                                <a class="btn btn_black" href="#" role="button"><span>International credit card</span></a>
                                             </div>
                                             <!-- [0617]텍스트 삽입 -->
                                             <div class="text_wrap">
@@ -316,11 +316,11 @@
                                             <!-- //[0617]텍스트 삽입 -->
                                         </li>
                                         <li class="no-line">
-                                            <p class="list_tit tt4">Total payment amount</p>
+                                            <p class="list_tit tt4">Checkout total</p>
                                             <div class="total_pay_box tt3">
-                                                Bid 200,000 <i class="tb1">KRW</i><i class="br-mo"></i>
-                                                + Fees 0 <i class="tb1">KRW</i> <i class="br-mo"></i>
-                                                = <span>Total 200,000 <i class="tb1">KRW</i></span>
+                                                Bid 40.90 <i class="tb1">USD</i><i class="br-mo"></i>
+                                                + Fees 9.95 <i class="tb1">USD</i> <i class="br-mo"></i>
+                                                = <span>Total 50.85 <i class="tb1">USD</i></span>
                                             </div>
                                         </li>
                                     </ul>
@@ -330,12 +330,13 @@
                                 <div class="panel-footer">
                                     <article class="button-area">
                                         <div class="btn_set-float tac">
-                                            <a class="btn btn_point btn_lg" href="#" role="button"><span>Payment</span></a>
+                                            <a class="btn btn_point btn_lg" href="#" role="button"><span>Proceed to checkout</span></a>
                                         </div>
                                     </article>
                                 </div>
 
                             </div>
+                            <!-- //[0812]텍스트변경(전체) -->
 
                         </div>
                     </section>
@@ -425,6 +426,35 @@
 
 
 
+
+    <!-- [0728]비디오 세로사이즈 -->
+    <script>
+        var _videoAnchor = $(".video_img-box a");
+        var _videoAnchorImg = $(".video_img-box a img");
+        _videoAnchorImg.each(function() {
+            _videoAnchor = $(this).parent(_videoAnchor);
+
+            if ($(this).width() < $(this).height()) {
+                _videoAnchor.addClass("vertical");
+            } else {
+                _videoAnchor.removeClass("vertical");
+            }
+        })
+    </script>
+    <!-- //[0728]비디오 세로사이즈 -->
+
+    <!-- [0809]마이페이지 사이드 유저네임 글자수제한 -->
+    <script>
+        var asideUsername = $("aside .mem-name-wrap .tt2");
+        asideUsername.each(function() {
+            var asideUsernameTxt = $(this).text();
+            var asideUsernameLimit = 9;
+            if (asideUsernameTxt.length > asideUsernameLimit) {
+                $(this).text(asideUsernameTxt.substr(0, asideUsernameLimit) + "...")
+            }
+        })
+    </script>
+    <!-- //[0809]마이페이지 사이드 유저네임 글자수제한 -->
 
 
 

@@ -31,7 +31,7 @@
                                         <li>
                                             <div class="table_box">
                                                 <div class="guide">
-                                                    <p class="list_tit tt4">Notice</p>
+                                                    <p class="list_tit tt4">Notice</p> 
                                                     <ul class="dot_list tb1">
                                                         <li>You can participate in the Seoul Auction offline auction bid.</li>
                                                         <li>You cans receive publications (various catalogs, exhibition guides, etc.) issued by Seoul Auction.</li>

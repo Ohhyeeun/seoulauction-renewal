@@ -239,17 +239,24 @@
 
                             <div class="content-panel type_panel-payment">
                                 <div class="panel-header">
+                                    <!-- [0812]텍스트변경 -->
                                     <div class="title">
-                                        <span class="tt1">Payment complete</span>
+                                        <span class="tt1">Payment</span>
                                     </div>
                                     <div class="guide_box">
-                                        <span class="tb2">Currency : KRW</span>
+                                        <span class="tb2">Currency : USD</span>
                                     </div>
+                                    <!-- //[0812]텍스트변경 -->
                                 </div>
 
                                 <div class="panel-body">
 
                                     <ul class="form_table_pay">
+                                        <!-- [0812]결제완료코멘트 추가 -->
+                                        <li class="comment_pay">
+                                            <p class="tt1">Payment has been completed.</p>
+                                        </li>
+                                        <!-- //[0812]결제완료코멘트 추가 -->
                                         <li>
                                             <div class="account_info">
                                                 <p class="tit">Guide to successful bid works</p>
@@ -259,7 +266,7 @@
                                                 </ul>
                                             </div>
                                         </li>
-
+                                        <!-- [0812]텍스트변경 -->
                                         <li>
                                             <div class="table_box">
                                                 <div class="guide">
@@ -299,33 +306,34 @@
                                         </li>
 
                                         <li>
-                                            <p class="list_tit tt4">Buyer’s Information</p>
+                                            <p class="list_tit tt4">My information</p>
                                             <ul class="pay_info tb1">
                                                 <li>
                                                     <span class="th">Name</span>
                                                     <span class="td">Gildong Hong</span>
                                                 </li>
                                                 <li>
-                                                    <span class="th">Call</span>
+                                                    <span class="th">Mobile</span>
                                                     <span class="td">+82-10-1234-5678</span>
                                                 </li>
                                             </ul>
                                         </li>
                                         <li>
-                                            <p class="list_tit tt4">Payment Information</p>
+                                            <p class="list_tit tt4">Billing Summary</p>
                                             <ul class="pay_info tb1 td_item">
                                                 <li>
                                                     <span class="th">Total</span>
-                                                    <span class="td pay">Bid 200,000 KRW
-                                                        <br class="only-mb" />+ Fees 0 KRW
-                                                        <br class="only-mb" /></i>= <i class="total">Total 200,000 KRW</i></span>
+                                                    <span class="td pay">Bid 40.90 USD
+                                                        <br class="only-mb" />+ Fees 9.95 USD
+                                                        <br class="only-mb" /></i>= <i class="total">TOTAL 50.85 USD</i></span>
                                                 </li>
                                                 <li>
-                                                    <span class="th">Payment Method</span>
-                                                    <span class="td">Credit card</span>
+                                                    <span class="th">Payment options</span>
+                                                    <span class="td">International credit card</span>
                                                 </li>
                                             </ul>
                                         </li>
+                                        <!-- //[0812]텍스트변경 -->
                                     </ul>
 
                                 </div>
@@ -429,6 +437,35 @@
 
 
 
+
+    <!-- [0728]비디오 세로사이즈 -->
+    <script>
+        var _videoAnchor = $(".video_img-box a");
+        var _videoAnchorImg = $(".video_img-box a img");
+        _videoAnchorImg.each(function() {
+            _videoAnchor = $(this).parent(_videoAnchor);
+
+            if ($(this).width() < $(this).height()) {
+                _videoAnchor.addClass("vertical");
+            } else {
+                _videoAnchor.removeClass("vertical");
+            }
+        })
+    </script>
+    <!-- //[0728]비디오 세로사이즈 -->
+
+    <!-- [0809]마이페이지 사이드 유저네임 글자수제한 -->
+    <script>
+        var asideUsername = $("aside .mem-name-wrap .tt2");
+        asideUsername.each(function() {
+            var asideUsernameTxt = $(this).text();
+            var asideUsernameLimit = 9;
+            if (asideUsernameTxt.length > asideUsernameLimit) {
+                $(this).text(asideUsernameTxt.substr(0, asideUsernameLimit) + "...")
+            }
+        })
+    </script>
+    <!-- //[0809]마이페이지 사이드 유저네임 글자수제한 -->
 
 
 
