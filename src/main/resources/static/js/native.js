@@ -218,7 +218,7 @@ async function nativeGetAppStatus(status) {
       let d = await getWebviewData('remember-me-date');
       let flg = false;
 
-      alert('d - ' + d);
+      alert('d - ' + d + 'c - ' + getCookie("remember-me"));
       if (d !== "no data") {
         let dd = parseInt(d);
         let expYear = 1;
