@@ -13,7 +13,6 @@ window.onload = async function(){
 		} else {
 			$("#checkedIDLabel").text("Log in automatically");
 		}
-		//$("#checkedIDLabel").text("자동 로그인");
 		$("#remember-me").prop("checked", true);
 		isApp = true;
 	}else{
@@ -24,7 +23,6 @@ window.onload = async function(){
 			$("#checkedIDLabel").text("Save ID");
 		}
 		$("#checkedID").prop("checked", false);
-		//$("#checkedIDLabel").text("아이디 저장");
 		$("#remember-me").remove();
 	}
 }
