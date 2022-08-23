@@ -216,20 +216,16 @@ async function nativeGetAppStatus(status) {
       console.log('앱 최초 실행');
       // 스토리지 값을 가져온다.
       let d = await getWebviewData('remember-me-date');
-      let dd = -1;
       let flg = false;
 
       alert('d - ' + d);
-
-      if (d !== undefined) {
-        dd = parseInt(d);
-      }
-
-      let expYear = 1;
-      let cd = new Date(new Date(dd).setFullYear(new Date(dd.getFullYear() + expYear)));
-
-      if (cd > new Date()) {
-        flg = true;
+      if (d !== "no data") {
+        let dd = parseInt(d);
+        let expYear = 1;
+        let cd = new Date(new Date(dd).setFullYear(new Date(dd.getFullYear() + expYear)));
+        if (cd > new Date()) {
+          flg = true;
+        }
       }
 
       if (getCookie("remember-me") !== "" && !flg)  {
