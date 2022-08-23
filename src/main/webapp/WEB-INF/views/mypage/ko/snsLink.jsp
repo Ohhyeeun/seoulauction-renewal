@@ -3,12 +3,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 <spring:eval expression="@environment.getProperty('social.service.domain')" var="socialServiceDomain" />
+<sec:authentication property="details.socialYn" var="socialYn"/>
+<sec:authentication property="Details.userKind" var="userKind"/>
+
 <script>
 	var socialServiceDomain = '${socialServiceDomain}'
 </script>
+
+
+<c:if test="${socialYn == 'Y' || userKind == 'company'}">
+    <script>
+        alert("권한이 없거나 허용되지 않은 접근입니다.");
+        window.location.href="/mypage/main";
+    </script>
+</c:if>
 
 <body class="">
 	<div class="wrapper">

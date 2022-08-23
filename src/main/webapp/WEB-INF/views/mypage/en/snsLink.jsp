@@ -3,9 +3,20 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <jsp:include page="../../include/en/header.jsp" flush="false"/>
 <spring:eval expression="@environment.getProperty('social.service.domain')" var="socialServiceDomain" />
+<sec:authentication property="details.socialYn" var="socialYn"/>
+<sec:authentication property="Details.userKind" var="userKind"/>
+
+<c:if test="${socialYn == 'Y' || userKind == 'company'}">
+    <script>
+        alert("not authentication or Unauthorized Access.");
+        window.location.href="/mypage/main";
+    </script>
+</c:if>
+
 <script>
 	var socialServiceDomain = '${socialServiceDomain}'
 </script>
