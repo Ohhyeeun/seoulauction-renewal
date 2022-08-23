@@ -230,7 +230,7 @@ async function nativeGetAppStatus(status) {
 
       if (getCookie("remember-me") !== "" && !flg)  {
         document.cookie = "remember-me=;expires=Thu, 01 Jan 1999 00:00:10 GMT;";
-        window.location.reload();
+        location.href = "/processLogout";
       }
 
       await saveDeviceInfo();
