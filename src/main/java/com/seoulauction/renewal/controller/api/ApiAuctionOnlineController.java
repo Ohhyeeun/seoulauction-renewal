@@ -29,7 +29,7 @@ public class ApiAuctionOnlineController {
 
     @ApiOperation(value = "온라인 랏 정보 조회", notes = "경매번호를 통해 랏 정보를 조회한다.")
     @GetMapping(value="/sales/{saleNo}/lots")
-    public ResponseEntity<RestResponse> lots(@PathVariable int saleNo
+    public ResponseEntity<RestResponse> lots(@PathVariable int saleNo, @RequestParam int[] lotList
             , @RequestParam(required = false) String cateCd, @RequestParam(required = false) String lotTag
             , @RequestParam(required = false) String sortBy, @RequestParam(required = false) String searchText
             , @RequestParam(required = false, defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page
@@ -37,6 +37,7 @@ public class ApiAuctionOnlineController {
             ) {
         CommonMap commonMap = CommonMap.create(page, size);
         commonMap.put("sale_no", saleNo);
+        commonMap.put("lot_list", lotList);
         commonMap.put("cate_cd", cateCd);
         commonMap.put("lot_tag", lotTag);
         commonMap.put("sort_by", sortBy);
