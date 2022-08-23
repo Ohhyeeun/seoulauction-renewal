@@ -13,18 +13,16 @@ window.onload = async function(){
 		} else  {
 			$("#checkedIDLabel").text("Log in automatically");
 		}
-
 		$("#remember-me").prop("checked", true);
 		isApp = true;
 	}else{
 		console.log("isNativeApp() : false");
-		$("#checkedID").prop("checked", false);
 		if (locale === "ko") {
 			$("#checkedIDLabel").text("아이디 저장");
-		} else  {
+		} else {
 			$("#checkedIDLabel").text("Save ID");
 		}
-		$("#checkedIDLabel").text("");
+		$("#checkedID").prop("checked", false);
 		$("#remember-me").remove();
 	}
 }
