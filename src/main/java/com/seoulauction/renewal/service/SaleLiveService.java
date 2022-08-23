@@ -9,10 +9,14 @@ import com.seoulauction.renewal.mapper.kt.SaleLiveMapper;
 import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -240,7 +244,6 @@ public class SaleLiveService {
             //json stringify -> object
             map.settingJsonStrToObject();
             map.settingYNValueToBoolean();
-
             //이미지
             map.put("IMAGE_FULL_PATH", "");
             if (map.get("LOT_IMG_PATH") != null && map.get("LOT_IMG_NAME") != null) {
@@ -260,6 +263,17 @@ public class SaleLiveService {
 
                 map.put("MATE_CD", mateMap);
             }
+
+            //작가 필터
+            HashMap<String,Object> artistMap = (HashMap<String,Object>) map.get("ARTIST_NAME_JSON");
+
+            List<String> artistFilters = new ArrayList<>();
+            artistFilters.add("김환기");
+            artistFilters.add("박수근");
+
+            //작가 정보가 안비어있고, 결과값이 있을경우.
+            map.put("IMAGE_MAGNIFY" , MapUtils.isNotEmpty(artistMap) && artistFilters.stream().anyMatch(f->f.equals(artistMap.get("ko"))));
+
 
             map.remove("MATE_CD_KO");
             map.remove("MATE_CD_EN");
