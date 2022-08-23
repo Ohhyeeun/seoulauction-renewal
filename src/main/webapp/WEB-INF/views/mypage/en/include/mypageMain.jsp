@@ -6,8 +6,8 @@
 
 <sec:authentication property="details.socialYn" var="socialYn"/> 
 <sec:authentication property="Details.userNm" var="userName"/>
-<sec:authentication property="Details.validDate" var="validDate"/> 
-
+<sec:authentication property="Details.validDate" var="validDate"/>
+<sec:authentication property="Details.userKind" var="userKind"/>
 <jsp:include page="../../../include/en/header.jsp" flush="false"/>
 
 <body class="" ng-controller="myPageCtl"  ng-init="loadMemberInfo()" ng-cloak>
@@ -103,7 +103,9 @@
 																	<li class="" id="custModify"><a href="/mypage/custModify">Change Information</a></li>
 																	<c:if test="${socialYn == 'N' }">
 																	<li class="" id="passwordModify"><a href="/mypage/passwordModify">Change Password</a></li>
+																	<c:if test="${userKind != 'company' }">
 																	<li class="" id="snsLink"><a href="/mypage/snsLink">SNS Setting</a></li>
+																	</c:if>
 																	</c:if>
 																</ul></li>
 														</ul>
