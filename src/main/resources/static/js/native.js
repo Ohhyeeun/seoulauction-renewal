@@ -116,7 +116,7 @@ async function chkIsAuthenticated(){
         let expYear = 1
         // 1년 더함
         let cd = new Date(new Date(dd).setFullYear(new Date(dd.getFullYear() + expYear)));
-        if (cd > new Date()) {
+        if (cd >= new Date()) {
           let rc = getCookie('remember-me')
           if (rc === undefined || rc === null || rc.length <= 0) {
             setCookie('remember-me', v, 365);
@@ -125,6 +125,7 @@ async function chkIsAuthenticated(){
         } else {
           // 쿠키 삭제
           document.cookie = "remember-me=;expires=Thu, 01 Jan 1999 00:00:10 GMT;";
+          location.href = "/processLogout";
         }
       }
     }
@@ -218,7 +219,6 @@ async function nativeGetAppStatus(status) {
       let d = await getWebviewData('remember-me-date');
       let flg = false;
 
-      alert('d - ' + d + 'c - ' + getCookie("remember-me"));
       if (d !== "no data") {
         let dd = parseInt(d);
         let expYear = 1;
