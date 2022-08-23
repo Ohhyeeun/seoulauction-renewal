@@ -66,7 +66,7 @@
         ) A
     </select>
     <sql id="selectLotList">
-        select 	L.LOT_NO
+        select L.LOT_NO
             , L.STAT_CD, L.FROM_DT, L.TO_DT
             , L.START_PRICE
             , L.GROW_PRICE
@@ -119,6 +119,13 @@
                 from LOT L inner join BID BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
                     and BD.BID_NO = (select A.BID_NO from BID A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.BID_PRICE desc, A.BID_DT asc, A.BID_NO asc limit 1)
                 where L.SALE_NO = #{sale_no}
+                <if test="lot_list != null">
+                    and L.LOT_NO in (
+                    <foreach collection="lot_list" item="item" separator=",">
+                        #{item}
+                    </foreach>
+                    )
+                </if>
             ) BD on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
             left outer join ARTIST AT on AT.ARTIST_NO = L.ARTIST_NO
             left outer join CODE CD	on CD.grp_id = 'material' and CD.CD_ID = L.MATE_CD
@@ -128,6 +135,13 @@
             left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
         where L.WWW_DISP_YN = 'Y'
             and L.SALE_NO = #{sale_no}
+        <if test="lot_list != null">
+            and L.LOT_NO in (
+            <foreach collection="lot_list" item="item" separator=",">
+                #{item}
+            </foreach>
+            )
+        </if>
         <if test="lot_tag != null">
             and L.LOT_TAG = #{lot_tag}
         </if>
@@ -336,7 +350,7 @@
             <foreach collection="lot_list" item="item" separator=",">
                 #{item}
             </foreach>
-        )
+            )
         order by L.LOT_NO
     </select>
 
