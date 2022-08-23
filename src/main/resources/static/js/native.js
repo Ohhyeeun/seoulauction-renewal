@@ -218,6 +218,9 @@ async function nativeGetAppStatus(status) {
       let d = await getWebviewData('remember-me-date');
       let dd = -1;
       let flg = false;
+
+      alert('d - ' + d);
+
       if (d !== undefined) {
         dd = parseInt(d);
       }
