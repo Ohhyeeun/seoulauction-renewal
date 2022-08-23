@@ -1,6 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <!-- 오른쪽 상단 랏 바로가기 셀렉트 팝업 -->
-<template id="online-direct-lot-select-template">
+<template id="online-direct-lot-select-popup">
   <div id="online-direct-lot-select" class="trp-dropdown_list-box" data-trp-focusid="js-user_support">
     <div class="search-box">
       <input type="search" placeholder="LOT 번호 입력" class="">

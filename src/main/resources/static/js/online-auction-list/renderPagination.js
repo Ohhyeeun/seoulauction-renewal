@@ -21,7 +21,7 @@ async function renderPaginationSection(currentPage = 1, totalCount = 0, perPage 
     urlData.page = target.dataset.page || 1;
 
     // 동기적으로 처리(페이지 리로드)
-    window.location.href = makeUrl(urlData);
+    window.location.href = makeListPageUrl(urlData);
   }
 
   const pageList = Array.from({ length: endPage - startPage + 1 }).map((_, index) => {

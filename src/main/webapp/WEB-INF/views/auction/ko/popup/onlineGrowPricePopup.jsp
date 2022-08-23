@@ -1,7 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <!-- 경매 호가표 팝업 -->
-<template id="auction-grow-price-popup-template">
-  <div id="auction-grow-price-popup" class="trp popupfixed-wrap default-popup" style="display: block;">
+<template id="auction-grow-price-popup">
+  <div class="trp popupfixed-wrap default-popup" style="display: block;">
     <div class="popup-dim"></div>
     <div class="popup-align mode-md mode-mb_fixed">
       <div class="popup-vertical">

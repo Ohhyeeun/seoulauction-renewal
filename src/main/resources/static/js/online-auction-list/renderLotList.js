@@ -6,7 +6,7 @@ async function renderLotListSection(params) {
   const urlData = getDataFromUrl(`/auction/online/{saleNo}`);
   const root = document.getElementById('lot-list');
   const lang = getLanguage();
-  const currency = window.globalData.currency;
+  const currency = getCurrency();
   const saleNo = urlData?.saleNo;
 
   // State
@@ -25,14 +25,15 @@ async function renderLotListSection(params) {
       // 관심작품 토글
       root.querySelectorAll('li .favorite-btn').forEach(item => {
         const lotNo = item.dataset.lotNo;
-        item.addEventListener('click', e => handleToggleFavoriteLots(e, saleNo, Number(lotNo)));
+        attachEvent(item, 'click', e => {
+          handleToggleFavoriteLots(e, saleNo, Number(lotNo));
+        });
       });
 
       // 응찰하기 버튼 클릭
       root.querySelectorAll('.go-bid-btn').forEach(item => {
         const lotNo = item.dataset.lotNo;
-
-        item.addEventListener('click',async e => {
+        attachEvent(item, 'click', async e => {
           e.preventDefault();
           await handleOpenBidPopup(saleNo, lotNo);
         });
@@ -59,7 +60,7 @@ async function handleToggleFavoriteLots(e, saleNo, lotNo) {
   e.preventDefault();
 
   // 로그인 체크
-  if (!window.globalData.isLogin) {
+  if (!isLogin()) {
     // TODO: 얼럿 확인
     window.alert('로그인이 필요합니다');
     return;

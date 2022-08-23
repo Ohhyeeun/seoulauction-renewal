@@ -84,7 +84,7 @@ $(function() {
   });
 
   // 앱 업데이트 하러 가기(OS에 따른 앱 링크 추가)
-  document.querySelector('.app-update-popup-link').addEventListener('click', async (e) => {
+  document.querySelector('.app-update-popup-link')?.addEventListener('click', async (e) => {
     e.preventDefault();
     const deviceInfo = await getDeviceInfo();
     if (deviceInfo?.os === 'android') {

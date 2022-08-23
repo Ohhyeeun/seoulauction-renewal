@@ -22,15 +22,6 @@ function formatNumber(num, precision) {
 }
 
 /**
- * 자릿수 10자리로 고정
- * @param {number} num
- * @return {string}
- */
-function toFixTen(num) {
-  return num >= 10 ? num.toString() : `0${num}`;
-}
-
-/**
  * 현재가 기준의 호가
  * @param {number} price
  */
@@ -60,7 +51,7 @@ function getCurrentGrowPrice(price) {
 /**
  * 절삭
  * @param {number} num
- * @param {number?} precision - 자릿수
+ * @param {number} precision - 자릿수
  * @example
  * const value1 = floor(1_999_999.12345)      // 1,999,999
  * const value2 = floor(1_999_999.12345, 2)   // 1,999,999.12
@@ -69,62 +60,6 @@ function getCurrentGrowPrice(price) {
 function floor(num, precision = 0) {
   const modifier = 10 ** precision;
   return Math.floor(num * modifier) / modifier;
-}
-
-/**
- * 팝업 생성
- * - template#popup-id-template > #popup-id 사전에 존재해야 함
- * @param {string} id
- */
-function createPopupWithTemplate(id) {
-  // <template> 값 레이어 Dom 으로 추가
-  if (!document.getElementById(id)) {
-    const popupTemplate = document.getElementById(`${id}-template`);
-    const clone = document.importNode(popupTemplate.content, true);
-    document.body.appendChild(clone);
-  }
-
-  const popup = document.getElementById(id);
-  popup.style.height = `${window.innerHeight}px`;
-  popup.style.position = 'fixed';
-  return popup;
-}
-
-/**
- * createPopupWithTemplate 으로 생성된 팝업 토글
- * @param {HTMLElement} popup
- * @param {boolean} isOpen
- */
-function togglePopup(popup, isOpen) {
-  const popupContentBg = popup.querySelector('.popup-dim');
-  if (popupContentBg) {
-    popupContentBg.style.backgroundColor = '#000';
-  }
-
-  if (isOpen) {
-    if (popupContentBg) {
-      popupContentBg.style.opacity = 0.7;
-    }
-    popup.style.display = 'block';
-    document.body.style.overflow = 'hidden';
-    document.body.style.touchAction = 'none';
-  } else {
-    if (popupContentBg) {
-      popupContentBg.style.opacity = 0;
-    }
-    popup.style.display = 'none';
-    document.body.style.overflow = 'visible';
-    document.body.style.touchAction = 'auto';
-  }
-}
-
-/**
- * Sleep
- * @param {number} ms
- * @return {Promise<any>}
- */
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 /**
@@ -229,11 +164,311 @@ function getDataFromUrl(urlPath = '') {
 }
 
 /**
- * Dom 업데이트
- * innerHTML vs ✅ createElement
- * - innerHTML 은 DOM 을 직접적으로 수정 (Modify)하기 때문에, innerHTML 이 실행될 때마다
- *   모든 DOM 요소가 전부 재분석 (reparse)되고 재생성 (recreate)된다.
- * - innerHTML 로 추가된 요소는 자동으로 이벤트 등록이 되지 않는다.
- * - cross-site scripting(XSS) 방지
- * 결론: createElement, createDocumentFragment, appendChild 를 활용
+ * 중복으로 등록되지 않는 이벤트
+ * @param {Element | string} element
+ * @param {string} eventName
+ * @param callback
  */
+function attachEvent(element, eventName, callback) {
+  let target;
+  if (typeof element === 'string') {
+    target = document.querySelector(element);
+  } else {
+    target = element;
+  }
+
+  if (target && eventName && target.getAttribute('listener') !== 'true') {
+    target.setAttribute('listener', 'true');
+    target.addEventListener(eventName, callback);
+  }
+}
+
+/**
+ * 랜덤 문자열 생성
+ * @param {number} length - 결과 문자열 길이
+ * @param {string} words - 포함되는 문자열
+ * @return {string}
+ */
+function randomString(length = 8, words = 'abcdefghijklmnopqrstuvwxyz0123456789') {
+  return Array.from({ length })
+    .map((_) => {
+      return words.charAt(~~(Math.random() * words.length));
+    })
+    .join('');
+}
+
+/**
+ * Thread.sleep for Promise
+ * @param {number} ms
+ * @return {Promise<any>}
+ */
+function sleep(ms = 1000) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * URL 생성
+ * @param {Partial<PageData>} data
+ */
+ function makeListPageUrl(data) {
+  const { page, size, search, sort, tag, category, view } = data;
+  const pathname = window.location.pathname;
+  let params = window.Qs.parse(window.location.search, { ignoreQueryPrefix: true });
+
+  // page
+  if (page !== 1) {
+    params.page = page;
+  } else {
+    delete params.page;
+  }
+
+  // size
+  if (size !== 20) {
+    params.size = size;
+  } else {
+    delete params.size;
+  }
+
+  // search
+  if (search) {
+    params.search = search;
+  } else {
+    delete params.search;
+  }
+
+  // sort
+  if (sort) {
+    params.sort = sort;
+  } else {
+    delete params.sort;
+  }
+
+  // tag
+  if (tag) {
+    params.tag = tag;
+  } else {
+    delete params.tag;
+  }
+
+  // category
+  if (category) {
+    params.category = category;
+  } else {
+    delete params.category;
+  }
+
+  // view
+  if (view && view === 'more') {
+    params.view = 'more';
+  } else {
+    delete params.view;
+  }
+
+  // Return
+  if (Object.keys(params).length < 1) {
+    return pathname;
+  }
+
+  return `${pathname}?${window.Qs.stringify(params)}`;
+}
+
+/**
+ * State(Proxy Object)
+ * @param {object} initialState
+ * @param {SetHandler} setHandler
+ * @param {GetHandler} getHandler
+ */
+function createState(initialState = {}, setHandler, getHandler) {
+  return new Proxy(initialState, {
+    set(target, key, value, receiver) {
+      setHandler && setHandler(target, key, value, receiver);
+      return Reflect.set(target, key, value, receiver);
+    },
+    get(target, key, receiver) {
+      getHandler && getHandler(target, key, receiver);
+      return Reflect.get(target, key, receiver);
+    }
+  });
+}
+
+/**
+ * 로그인 여부
+ * @returns {boolean}
+ */
+function isLogin() {
+  return Boolean(window.sessionStorage.getItem('is_login')) || false; // 로그인 유무
+}
+
+/**
+ * 통화
+ */
+let currency = 'KRW';
+function getCurrency() {
+  return currency;
+}
+function setCurrency(value) {
+  currency = value;
+}
+
+/**
+ * debounce
+ * @param callback
+ * @param limit
+ * @return {(function(...[*]): void)|*}
+ */
+function debounce(callback, limit = 100) {
+  let timeout
+  return function(...args) {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => {
+      callback.apply(this, args)
+    }, limit)
+  }
+}
+
+/**
+ * throttle
+ * @param callback
+ * @param limit
+ * @return {(function(): void)|*}
+ */
+function throttle(callback, limit = 100) {
+  let waiting = false
+  return function() {
+    if(!waiting) {
+      callback.apply(this, arguments)
+      waiting = true
+      setTimeout(() => {
+        waiting = false
+      }, limit)
+    }
+  }
+}
+
+/**
+ * <template> 태그로 부터 팝업을 생성하는 함수
+ * @param {{
+ *   selector: string;
+ *   useBackdrop?: boolean;
+ *   useBodyFix?: boolean;
+ *   useDelay?: number;
+ *   onCloseSelector?: string | null;
+ *   beforeClose?: (popup: Element) => void;
+ * }} params
+ */
+async function createModal({
+  selector,
+  useBackdrop = true,
+  useBodyFix = true,
+  useDelay = 150,
+  onCloseSelector = null,
+  beforeClose,
+}) {
+  const popupTemplate = document.querySelector(selector);
+  if (!popupTemplate) return null;
+
+  const popupIdPrefix = 'custom-template-modal';
+  const popupId = `${popupIdPrefix}-${randomString(6)}`;
+  const templatePopupContent = /** @type {HTMLTemplateElement} */ document.importNode(popupTemplate.content, true);
+
+  let popupContent;
+  let popupStyle;
+
+  // 배경 사용
+  if (useBackdrop) {
+    const wrapperDiv = document.createElement('div');
+    wrapperDiv.classList.add(popupId);
+    wrapperDiv.appendChild(templatePopupContent);
+
+    popupContent = wrapperDiv;
+
+    const styleTag = document.createElement('style');
+    styleTag.textContent = `
+      .${popupId} {
+        background: rgba(0, 0, 0, 0.7);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        transition: all 120ms;
+        
+        display: none;
+        opacity: 0;
+      }
+      .${popupId}.open {
+        display: block;
+        opacity: 1;
+        z-index: 5;
+      }
+    `;
+    popupStyle = styleTag;
+  } else {
+    popupContent = templatePopupContent;
+    popupStyle = null;
+  }
+
+  const root = popupContent;
+
+  const init = async () => {
+    popupStyle && await document.head.appendChild(popupStyle);
+    await document.body.appendChild(popupContent);
+  }
+
+  const destroy = async () => {
+    await document.body.removeChild(popupContent);
+    popupStyle && await document.head.removeChild(popupStyle);
+  }
+
+  /**
+   * @param {(root: HTMLElement) => void} onOpen
+   */
+  const open = async (onOpen) => {
+    if (useBodyFix) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+    }
+
+    if (useDelay) await sleep(useDelay);
+    root.classList.add('open');
+
+    if (onOpen) await onOpen(root);
+  }
+
+  /**
+   * @param {((root: HTMLElement) => void) | null} onClose
+   */
+  const close = async (onClose) => {
+    if (beforeClose) await beforeClose(root);
+    if (onClose) await onClose(root);
+    if (useDelay) await sleep(useDelay);
+
+    if (useBodyFix) {
+      // 열려있는 팝업이 있으면, Skip
+      const openedPopups = document.querySelectorAll(`div[class^="${popupIdPrefix}-"].open`);
+      if (openedPopups.length < 2) {
+        document.body.style.overflow = 'auto';
+        document.body.style.touchAction = 'auto';
+      }
+    }
+
+    root.classList.remove('open');
+    await destroy();
+  }
+
+  // 백그라운드 클릭 시, 팝업을 닫기
+  popupContent.addEventListener('click', async e => {
+    e.preventDefault();
+    if (!onCloseSelector) return;
+
+    const target = /** @type {HTMLElement} */ e.target;
+    const isClicked = target.closest(onCloseSelector);
+
+    if (!isClicked) {
+      await close(null);
+    }
+  });
+
+  return { root, init, destroy, open, close };
+}

@@ -1,7 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <!-- 낙찰 수수료 팝업 -->
-<template id="auction-fee-popup-template">
-  <div id="auction-fee-popup" class="trp popupfixed-wrap default-popup">
+<template id="auction-fee-popup">
+  <div class="trp popupfixed-wrap default-popup">
     <div class="popup-dim"></div>
     <div class="popup-align mode-md mode-mb_fixed">
       <div class="popup-vertical">
