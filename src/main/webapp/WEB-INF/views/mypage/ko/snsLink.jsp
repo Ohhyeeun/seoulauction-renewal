@@ -18,6 +18,7 @@
 <c:if test="${socialYn == 'Y' || userKind == 'company'}">
     <script>
         alert("권한이 없거나 허용되지 않은 접근입니다.");
+        window.location.href="/mypage/main";
     </script>
 </c:if>
 

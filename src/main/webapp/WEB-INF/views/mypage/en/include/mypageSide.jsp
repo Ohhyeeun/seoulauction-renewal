@@ -5,10 +5,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%-- <jsp:include page="../../../common/commonJs.jsp" flush="false"/> --%>
 <script type="text/javascript" src="/js/mypage/mypageSide.js"></script>
-
 <sec:authentication property="details.socialYn" var="socialYn"/> 
 <sec:authentication property="Details.userNm" var="userName"/>
-<sec:authentication property="Details.validDate" var="validDate"/> 
+<sec:authentication property="Details.validDate" var="validDate"/>
+<sec:authentication property="Details.userKind" var="userKind"/>
 
 <!-- 마이페이지 싸이드 메뉴 -->
 <aside class="aside-area"  ng-controller="myPageCtl" ng-init="loadMemberInfo()" ng-cloak>
@@ -83,7 +83,9 @@
 							<li class="" id="custModify"><a href="/mypage/custModify">Change Information</a></li>
 							<c:if test="${socialYn == 'N' }">
 							<li class="" id="passwordModify"><a href="/mypage/passwordModify">Change Password</a></li>
+							<c:if test="${userKind != 'company' }">
 							<li class="" id="snsLink"><a href="/mypage/snsLink">SNS Setting</a></li>
+							</c:if>
 							</c:if>
 						</ul></li>
 				</ul>
