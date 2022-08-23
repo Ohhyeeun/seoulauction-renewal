@@ -73,7 +73,15 @@
                                             <div class="table_box">
                                                 <div class="guide">
                                                     <div class="product-box">
-                                                        <p class="img"><img src="/images/temp/temp_img5.jpg" alt="" /></p>
+<%--                                                        <p class="img"><img src="/images/temp/temp_img5.jpg" alt="" /></p>--%>
+                                                        <%--0823 이미지, 텍스트 분리 --%>
+                                                        <figure class="img paythumb">
+                                                            <img src="/images/pc/service/academy-thum_student.jpg" alt="아카데미 결제 썸네일 이미지">
+                                                            <figcaption class="paythumb-text">
+                                                                대학생 아카데미
+                                                            </figcaption>
+                                                        </figure>
+                                                        <%-- //0823 이미지, 텍스트 분리 --%>  
                                                         <dl class="product_info">
                                                             <dt class="tt4">
                                                                 ${ct:getJSONString(resultMap.TITLE_JSON, 'ko')}
