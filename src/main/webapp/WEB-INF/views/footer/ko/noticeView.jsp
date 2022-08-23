@@ -96,6 +96,8 @@
     <script>
         $(function(){
 
+            let locale = document.documentElement.lang;
+
             init();
             function init(){
                 axios.get('/api/footer/notices/${id}')
@@ -119,11 +121,13 @@
                                 let images = data.images;
 
                                 $.each(images , function(idx , el){
+                                    if(locale === el.tag) {
 
-                                    let html = `<a href=/fileDownload?fileKey=` + el.path + `&downloadFileName=` + el.name  + `>`
-                                                + `<i class="icon_down"></i> <span>` + el.name + `</span></a><br>`;
+                                        let html = `<a href=/fileDownload?fileKey=` + el.path + `&downloadFileName=` + el.name + `>`
+                                            + `<i class="icon_down"></i> <span>` + el.name + `</span></a><br>`;
 
-                                    $("#notice_file_list").append(html);
+                                        $("#notice_file_list").append(html);
+                                    }
                                 });
                             }
                         }

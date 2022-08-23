@@ -4,6 +4,7 @@ app.value('is_login', 'false');
 let isApp = false;
 window.onload = async function(){
 	var result = await isNativeApp();
+	var LoginID = getCookie("LoginID");
 	const locale = document.documentElement.lang;
 	if(result){
 		console.log("isNativeApp() : true");
@@ -22,7 +23,11 @@ window.onload = async function(){
 		} else {
 			$("#checkedIDLabel").text("Save ID");
 		}
-		$("#checkedID").prop("checked", false);
+		if(LoginID != '') {
+			$("#checkedID").prop("checked", true);
+		}else{
+			$("#checkedID").prop("checked", false);
+		}
 		$("#remember-me").remove();
 	}
 }

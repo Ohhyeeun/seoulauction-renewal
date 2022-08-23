@@ -5,7 +5,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <sec:authentication property="details.socialYn" var="socialYn"/> 
 <sec:authentication property="Details.userNm" var="userName"/>
-<sec:authentication property="Details.validDate" var="validDate"/> 
+<sec:authentication property="Details.validDate" var="validDate"/>
+<sec:authentication property="Details.userKind" var="userKind"/>
 <jsp:include page="../../../include/ko/header.jsp" flush="false"/>
 <body class="" ng-controller="myPageCtl" ng-init="loadMemberInfo()" ng-cloak>
     <div class="wrapper">
@@ -100,7 +101,9 @@
 														<li class="" id="custModify"><a href="/mypage/custModify">회원정보수정</a></li>
 														<c:if test="${socialYn == 'N' }">
 														<li class="" id="passwordModify"><a href="/mypage/passwordModify">비밀번호수정</a></li>
+														<c:if test="${userKind != 'company' }">
 														<li class="" id="snsLink"><a href="/mypage/snsLink">SNS연동설정</a></li>
+														</c:if>
 														</c:if>
 													</ul></li>
 											</ul>
