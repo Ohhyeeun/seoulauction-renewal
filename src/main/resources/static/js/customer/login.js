@@ -10,7 +10,7 @@ window.onload = async function(){
 		$("#checkedID").prop("checked", true);
 		if (locale === "ko") {
 			$("#checkedIDLabel").text("자동 로그인");
-		} else {
+		} else  {
 			$("#checkedIDLabel").text("Log in automatically");
 		}
 		$("#remember-me").prop("checked", true);
