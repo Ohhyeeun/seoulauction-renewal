@@ -214,7 +214,6 @@
                     $("#current_file").html(html);
 
                     $("#add_file").on('click' , function (){
-                        console.log('asdfasdfasdf');
                         $("#current_file").empty();
                         $("#recruit_file").val('');
                     });
@@ -262,7 +261,7 @@
                 //     alert('휴대폰 11자리를 입력해주세요.');
                 //     return;
                 // }
-                if(!current_file){
+                if(!current_file || !current_file[0].files[0]){
                     alert('파일을 등록해주세요.');
                     return;
                 }
@@ -282,25 +281,27 @@
                 frm.append('file', current_file[0].files[0]);
                 frm.append('key', new Blob([JSON.stringify(obj)] , { type: "application/json" }));
 
-                    axios.post('/api/footer/recruits/${id}/form',frm ,{
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
-                    .then(function(response) {
-                        const data = response.data;
-                        let success = data.success;
-                        if(success){
 
-                            alert('정상 접수 되었습니다. \n지원해주셔서 감사합니다.');
-                            location.href= '/footer/recruit';
-                        } else {
-                            alert('서버에서 오류가 발생 하였습니다.');
-                        }
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                    });
+
+                axios.post('/api/footer/recruits/${id}/form',frm ,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then(function(response) {
+                    const data = response.data;
+                    let success = data.success;
+                    if(success){
+
+                        alert('정상 접수 되었습니다. \n지원해주셔서 감사합니다.');
+                        location.href= '/footer/recruit';
+                    } else {
+                        alert('서버에서 오류가 발생 하였습니다.');
+                    }
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
             }
         });
     </script>
