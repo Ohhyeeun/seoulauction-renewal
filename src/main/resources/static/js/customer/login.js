@@ -4,16 +4,27 @@ app.value('is_login', 'false');
 let isApp = false;
 window.onload = async function(){
 	var result = await isNativeApp();
+	const locale = document.documentElement.lang;
 	if(result){
 		console.log("isNativeApp() : true");
 		$("#checkedID").prop("checked", true);
-		$("#checkedIDLabel").text("자동 로그인");
+		if (locale === "ko") {
+			$("#checkedIDLabel").text("자동 로그인");
+		} else {
+			$("#checkedIDLabel").text("Log in automatically");
+		}
+		//$("#checkedIDLabel").text("자동 로그인");
 		$("#remember-me").prop("checked", true);
 		isApp = true;
 	}else{
 		console.log("isNativeApp() : false");
+		if (locale === "ko") {
+			$("#checkedIDLabel").text("아이디 저장");
+		} else {
+			$("#checkedIDLabel").text("Save ID");
+		}
 		$("#checkedID").prop("checked", false);
-		$("#checkedIDLabel").text("아이디 저장");
+		//$("#checkedIDLabel").text("아이디 저장");
 		$("#remember-me").remove();
 	}
 }
