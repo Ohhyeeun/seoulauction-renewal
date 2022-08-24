@@ -28,4 +28,5 @@ public interface SaleLiveMapper {
     List<CommonMap> selectSaleLotImages(CommonMap commonMap);
     List<CommonMap> selectSaleList(CommonMap map);
     int selectSaleListCount(CommonMap map);
+    CommonMap selectLotInfo(CommonMap map);
 }

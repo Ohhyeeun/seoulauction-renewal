@@ -246,6 +246,31 @@ public class SaleLiveService {
 
     }
 
+    public CommonMap selectLotInfo(CommonMap map){
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if(saUserDetails !=null){
+            map.put("cust_no" , saUserDetails.getUserNo());
+        } else {
+            map.put("cust_no" , 0);
+        }
+
+        CommonMap lotInfoMap = settingLotData(saleLiveMapper.selectLotInfo(map));
+        //직원 여부
+        boolean isEmployee = false;
+        //만약 로그인을 했고 직원 이면.
+        if( saUserDetails !=null) {
+            isEmployee = saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER"));
+        }
+        if (lotInfoMap.get("IMG_DISP_YN").equals("N") && !isEmployee) {
+            lotInfoMap.put("IMAGE_URL", "");
+            lotInfoMap.put("LOT_IMG_PATH", "");
+            lotInfoMap.put("LOT_IMG_NAME", "/images/bg/no_image.jpg");
+        } else {
+            lotInfoMap.put("IMAGE_URL", IMAGE_URL);
+        }
+        return lotInfoMap;
+    }
+
     //랏 데이터를 세팅 ( 이미지 PATH , MATE )
     private CommonMap settingLotData(CommonMap map){
 

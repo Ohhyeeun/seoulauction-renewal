@@ -426,6 +426,66 @@
             <include refid="saleLiveList"></include>
         ) A
     </select>
+    <!-- 경매 LOT정보 조회 -->
+    <select id="selectLotInfo" resultType="CommonMap" parameterType="commonMap">
+        SELECT
+            L.LOT_NO
+            , L.STAT_CD
+            , L.CATE_CD
+            , L.START_PRICE
+            , L.GROW_PRICE
+            , COLUMN_JSON(L.TITLE_BLOB)             TITLE_JSON
+            , COLUMN_JSON(L.MAKE_YEAR_BLOB)         MAKE_YEAR_JSON
+            , COLUMN_JSON(AT.ARTIST_NAME_BLOB)      ARTIST_NAME_JSON
+            , AT.BORN_YEAR
+            , ( SELECT C.CD_NM FROM CODE C WHERE C.CD_ID = L.MATE_CD AND GRP_ID ='material') MATE_CD_KO
+            , ( SELECT C.CD_NM_EN FROM CODE C WHERE C.CD_ID = L.MATE_CD AND GRP_ID ='material') MATE_CD_EN
+            , L.CLOSE_YN
+            , L.EXPE_PRICE_INQ_YN
+            , COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB)   EXPE_PRICE_FROM_JSON
+            , COLUMN_JSON(L.EXPE_PRICE_TO_BLOB)     EXPE_PRICE_TO_JSON
+            , CONCAT('['
+            , GROUP_CONCAT('{',
+            '"UNIT_CD":"', ifnull(LS.UNIT_CD, 'cm') ,'",',
+            '"SIZE1":', ifnull(LS.SIZE1,0) ,',',
+            '"SIZE2":', ifnull(LS.SIZE2,0) ,',',
+            '"SIZE3":', ifnull(LS.SIZE3,0) ,',',
+            '"CANVAS":', ifnull(LS.CANVAS,0) ,',',
+            '"DIAMETER_YN":"', ifnull(LS.DIAMETER_YN,'N') ,'",',
+            '"PREFIX":"', ifnull(LS.PREFIX,'') ,'",',
+            '"SUFFIX":"', ifnull(LS.SUFFIX,'') ,'",',
+            '"MIX_CD":"', ifnull(LS.MIX_CD,'h') ,'",',
+            '"CANVAS_EXT_YN":"', ifnull(LS.CANVAS_EXT_YN,'N') , '"',
+            '}')
+            ,']') AS LOT_SIZE_ARRAY
+            , LI.FILE_PATH                          LOT_IMG_PATH
+            , LI.FILE_NAME                          LOT_IMG_NAME
+            , L.IMG_DISP_YN
+            , if(CD_ART.CD_ID in('traditional_painting', 'local_painting', 'foreign_painting'), 'Y', 'N') AS VIEW_SCALE_YN
+            , L.TO_DT LOT_EXPIRE_DATE
+            , IF ((select COUNT(*) from CUST_INTE_LOT CIL where CIL.SALE_NO =
+            L.SALE_NO and CIL.LOT_NO = L.LOT_NO and CUST_NO = #{cust_no} ) > 0 , 'Y' , 'N') FAVORITE_YN
+            , COLUMN_JSON(L.CMMT_BLOB)              CMMT_JSON -- 작품설명
+            , (SELECT COLUMN_JSON(NOTICE_DTL_BLOB) FROM SALE WHERE SALE_NO = 713) NOTICE_DTL_JSON -- NOTICE
+            , L.EDITION -- 에디션
+            , COLUMN_JSON(L.SIGN_INFO_BLOB)         SIGN_INFO_JSON -- 서명 값
+            , COLUMN_JSON(L.COND_RPT_BLOB)          COND_RPT_JSON -- CONDITION
+            , COLUMN_JSON(L.LITE_INFO_BLOB)         LITE_INFO_JSON -- LITERATURE
+            , COLUMN_JSON(L.EXHI_INFO_BLOB)         EXHI_INFO_JSON -- EXHIBITED
+            , COLUMN_JSON(L.PROV_INFO_BLOB)         PROV_INFO_JSON -- PROVENANCE
+        FROM LOT L
+        left outer join (<include refid="com.seoulauction.renewal.mapper.kt.CommonMapper.saleLastBidInfos"/>) BD
+            on BD.SALE_NO = L.SALE_NO and BD.LOT_NO = L.LOT_NO
+        left outer join ARTIST AT on AT.ARTIST_NO = L.ARTIST_NO
+        left outer join (SELECT * FROM CODE WHERE GRP_ID = 'artwork_category') CD_ART on CD_ART.CD_ID = L.CATE_CD
+        left outer join LOT_IMG LI on LI.SALE_NO = L.SALE_NO and LI.LOT_NO = L.LOT_NO
+        and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by
+        A.DISP_ORD limit 1)
+        left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
+        where L.SALE_NO = #{sale_no}
+        and L.LOT_NO = #{lot_no}
+        group by L.SALE_NO, L.LOT_NO
+    </select>
 
 
 </mapper>
