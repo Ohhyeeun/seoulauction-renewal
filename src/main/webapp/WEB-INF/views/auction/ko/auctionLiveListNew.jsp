@@ -117,7 +117,7 @@
                                                                             <div class="image-area">
                                                                                 <figure class="img-ratio">
                                                                                     <div class="img-align">
-                                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="LOT {{item.LOT_NO}}">
+                                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/list/{{item.FILE_NAME}}" alt="LOT {{item.LOT_NO}}">
                                                                                     </div>
                                                                                 </figure>
                                                                             </div>
@@ -221,7 +221,8 @@
                                                         <figure class="img-ratio">
                                                             <a href="/auction/live/view/{{sale_no}}/{{item.LOT_NO}}">
                                                                 <div class="img-align">
-                                                                    <img src="{{item.IMAGE_FULL_PATH}}"  alt="LOT {{item.LOT_NO}}">
+<%--                                                                    <img ng-src="{{item.IMAGE_FULL_PATH}}"  alt="LOT {{item.LOT_NO}}">--%>
+                                                                    <img ng-src="{{'https://www.seoulauction.com/nas_img'+item.LOT_IMG_PATH+'/list/'+item.LOT_IMG_NAME}}"  alt="LOT {{item.LOT_NO}}">
                                                                 </div>
                                                             </a>
                                                         </figure>
@@ -585,7 +586,7 @@
                 //contents
                 $scope.base_currency = $scope.saleInfoData.CURR_CD;
 
-                $scope.bid_close_date =  moment($scope.saleInfoData.TO_DT).add('days', -1);
+                $scope.bid_close_date =  moment($scope.saleInfoData.TO_DT).add(-1,'days');
                 $scope.displayBidCloseDate = $scope.bid_close_date.format('MM/DD(ddd) 24:00');
 
                 saleData.displayBidDate = moment(saleData.TO_DT).format('MM.DD(ddd) HH:ss');
@@ -891,7 +892,7 @@
                         if (lotListData.count > viewMorePage * viewMoreSize) {
                             setTimeout(async ()=>{
                                 await setLotListData($scope.lotList);
-                            }, 300);
+                            }, 100);
                             // document.getElementById('product-list').querySelectorAll('li').forEach(el => {
                                 // viewMoreObserver.observe(el);
                             // });
