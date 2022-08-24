@@ -216,7 +216,7 @@
                                                     </div>
                                                 </article>
                                                 <%--출품--%>
-                                                <article ng-if="item.STAT_CD !== 'reentry'" class="item-article">
+                                                <article ng-if="item.STAT_CD !== 'reentry'" class="item-article" ng-class="{result:sale_status === 'END'}">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
                                                             <a href="/auction/live/view/{{sale_no}}/{{item.LOT_NO}}">
@@ -417,7 +417,6 @@
         app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
         app.controller('ctl', function ($scope, consts, common, is_login, locale, $filter) {
             const pageData = loadPageData();
-            console.log('angular', pageData);
             $scope.is_login = is_login;
             $scope.locale = locale;
             $scope.sale_no = SALE_NO;
@@ -429,7 +428,6 @@
             $scope.selectedCategory = pageData.category || pageData.tag || 'all';
             $scope.sortBy = pageData.sort || 'LOTAS'; //LOTAS | ESTDE | ESTAS
             $scope.selectViewType = pageData.view || 'page'; // page | more
-            console.log($scope.selectViewType, pageData.view);
             $scope.currentPage = pageData.page;
             $scope.pageSize = pageData.size;
 
@@ -519,7 +517,6 @@
                 const saleStatus = $scope.sale_status;
                 const paddleNo = $scope.paddNo;
                 const isLogin = sessionStorage.getItem("is_login") === 'true';
-                console.log(!isLogin)
                 if(saleStatus === 'READY' && !isLogin){
                     //로그인 페이지 이동
                     if(!checkLogin()) return;
@@ -599,13 +596,15 @@
                 const NOW_DATETIME = moment();
                 const NOW_DATE = moment().format('YYYYMMDD');
 
+                console.log(NOW_DATE, TO_DT_MMDD, NOW_DATETIME > LIVE_BID_DT, saleData.CLOSE_YN);
+
                 if(NOW_DATE < TO_DT_MMDD) {
                     saleStatus = 'READY';
                 }else if((NOW_DATE >= TO_DT_MMDD) && (NOW_DATETIME < LIVE_BID_DT)) {
                     saleStatus = 'BID_END';
                 }else if((NOW_DATE >= TO_DT_MMDD) && (NOW_DATETIME >= LIVE_BID_DT)) {
                     saleStatus = 'LIVE_ING';
-                }else if((NOW_DATETIME > LIVE_BID_DT) && saleData.CLOSE_YN){
+                }else if(saleData.CLOSE_YN){
                     saleStatus = "END";
                     if (!IS_EMPLOYEE && sessionStorage.getItem("is_login") === 'false') {
                         alert("권한이 없거나 허용되지 않은 접근입니다.");
@@ -613,7 +612,6 @@
                 }
 
                 $scope.sale_status = saleStatus;
-
                 $scope.$apply();
             }
 
