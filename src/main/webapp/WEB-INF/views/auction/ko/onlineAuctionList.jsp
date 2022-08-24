@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <jsp:include page="../../include/ko/header.jsp" />
+<jsp:include page="./onlineAuctionListHeadJs.jsp" />
+</head>
 <body>
 <div class="wrapper online-auction">
   <div class="sub-wrap pageclass type-width_list">
@@ -12,8 +14,51 @@
         <section class="page_title-section list_page-section">
           <div class="section-inner full_size">
             <div class="padding-inner">
-              <jsp:include page="online/list-title.jsp" />
-              <jsp:include page="online/list-title-ongoing.jsp" />
+              <!-- 헤더 -->
+              <article class="auction_head_info-article">
+                <div class="center-box ing">
+                  <h2 class="page_title">
+                    <span class="th1" id="data-sale-name">&nbsp;</span>
+                  </h2>
+                  <ul class="event_day-list">
+                    <li>
+                      <span class="colorB2">프리뷰</span>
+                      <span class="preview-date" id="data-preview-date"> : &nbsp;</span>
+                    </li>
+                    <li>
+                      <span class="colorB2">경매일</span>
+                      <span class="to-date" id="data-to-dt"> : &nbsp;</span>
+                    </li>
+                  </ul>
+                  <div class="btn_set">
+                    <a class="btn btn_white" href="#" role="button">
+                      <span>안내사항</span>
+                    </a>
+                  </div>
+                </div>
+              </article>
+              <!-- 헤더 //-->
+
+              <!-- 마감중 헤더 -->
+              <article class="proceeding-article">
+                <a href="#" title="진행중 Lot 10|김선우">
+                  <div class="article-inner">
+                    <div class="column ing">
+                      <strong class="note_msg">진행중 Lot</strong>
+                      <ul class="ac-list">
+                        <li>
+                          <span class="count">10</span>
+                        </li>
+                        <li>
+                          <span class="name">김선우</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <i class="icon-link_arrow"></i>
+                  </div>
+                </a>
+              </article>
+              <!-- 마감중 헤더 //-->
             </div>
           </div>
         </section>
@@ -106,7 +151,14 @@
     <jsp:include page="../../include/ko/footer.jsp" />
   </div>
 </div>
-<jsp:include page="online/scroll-top.jsp" />
+
+<div class="scroll_top-box">
+  <div class="box-inner">
+    <a href="#" class="btn-scroll_top js-scroll_top">
+      <i class="icon-scroll_top"></i>
+    </a>
+  </div>
+</div>
 
 <!-- Popup List -->
 <jsp:include page="popup/onlineLotListPopupMobile.jsp" />
@@ -116,19 +168,6 @@
 <jsp:include page="popup/onlineAutoBidStopPopup.jsp" />
 <!-- Popup List //-->
 
-
-<script src="/js/online-auction/types.js" defer></script>
-<script src="/js/online-auction/api.js" defer></script>
-<script src="/js/online-auction/bid-fetcher.worker.js" defer></script>
-<script src="/js/online-auction/bid-online.js" defer></script>
-<script src="/js/online-auction/lot-dropdown.js" defer></script>
-<script src="/js/online-auction/utils.js" defer></script>
-<script src="/js/online-auction/utils-bid.js" defer></script>
-<script src="/js/online-auction/utils-recent-view.js" defer></script>
-
-<script src="/js/online-auction-list/renderTitle.js" defer></script>
-<script src="/js/online-auction-list/renderLotList.js" defer></script>
-<script src="/js/online-auction-list/renderPagination.js" defer></script>
-<script src="/js/online-auction-list/index.js" defer></script>
+<jsp:include page="./onlineAuctionListBodyJs.jsp" />
 </body>
 </html>
