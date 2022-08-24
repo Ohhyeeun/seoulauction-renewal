@@ -17,6 +17,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,38 +31,6 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
 
 	private final LoginMapper loginMapper;
 
-	/**
-	 * 클라이언트의 IP 주소는 HttpServletRequest.getRemoteAddr() 메서드를 이용하여 알아낼 수 있다.
-	 * 그러나 Proxy, Caching server, Load Balancer 등을 거쳐올 경우 getRemoteAddr()를 이용하여 IP 주소를 가지고 오지 못하게 된다.
-	 * 이걸 위한 별도의 처리가 필요
-	 */
-	private String getIp(ServletRequestAttributes attr) {
-		HttpServletRequest request = attr.getRequest();
-		String ip = request.getHeader("X-Forwarded-For");
-
-		if (ip == null) {
-			ip = request.getHeader("Proxy-Client-IP");
-		}
-
-		if (ip == null) {
-			ip = request.getHeader("WL-Proxy-Client-IP"); // 웹로직
-		}
-
-		if (ip == null) {
-			ip = request.getHeader("HTTP_CLIENT_IP");
-		}
-
-		if (ip == null) {
-			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-		}
-
-		if (ip == null) {
-			ip = request.getRemoteAddr();
-		}
-
-		return ip;
-	}
-	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String loginId = (String)authentication.getPrincipal();
@@ -137,7 +107,11 @@ public class FrontAuthenticationProvider implements AuthenticationProvider {
         }
 
         // 접속이력추가
-        paramMap.put("ip", userIPAddress);
+		try{
+			userIPAddress = java.net.Inet4Address.getLocalHost().getHostAddress();
+		}catch(UnknownHostException e) {}
+
+		paramMap.put("ip", userIPAddress);
         paramMap.put("user_no", resultMap.get("CUST_NO"));
         paramMap.put("user_kind_cd", "customer");
         int insertResult = loginMapper.insertConnHist(paramMap);
