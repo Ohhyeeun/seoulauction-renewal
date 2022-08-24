@@ -252,8 +252,8 @@ public class SaleLiveService {
             } else {
                 map.remove("IMAGE_FULL_PATH");
             }
-            map.remove("LOT_IMG_PATH");
-            map.remove("LOT_IMG_NAME");
+//            map.remove("LOT_IMG_PATH");
+//            map.remove("LOT_IMG_NAME");
 
             //재질
             if (map.get("MATE_CD_KO") != null && map.get("MATE_CD_EN") != null) {
