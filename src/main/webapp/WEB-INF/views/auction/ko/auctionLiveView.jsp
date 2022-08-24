@@ -447,28 +447,14 @@
                             <div class="lotlist-wrap">
                                 <div class="lotlist-header">
                                     <div class="header_top">
-                                        <p class="totalcount"><span class="num" ng-bind="lotLength"></span> <span class="unit">LOT</span></p>
+                                        <p class="totalcount"><span class="num" ng-bind="lotTotalCount"></span> <span class="unit">LOT</span></p>
                                     </div>
                                     <div class="lotlist-tabmenu">
-                                        <div class="btn_item">
-                                            <a href="#"
-                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on':'전체' === selectLotTag}"
-                                               ng-click="searchLotTags('전체');" role="button">
-                                                <span>전체</span>
-                                            </a>
-                                        </div>
-                                        <div class="btn_item" ng-repeat="ci in categories">
-                                            <a href="#"
-                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': ci.CD_NM === selectLotTag}"
-                                               ng-click="searchLotTags(ci.CD_NM);">
-                                                <span ng-bind="ci.CD_NM"></span>
-                                            </a>
-                                        </div>
-                                        <div class="btn_item" ng-repeat="li in lotTags">
-                                            <a href="#"
-                                               ng-class="{'lot-btn_tabmenu': '1' === '1', 'on': li.LOT_TAG === selectLotTag}"
-                                               ng-click="searchLotTags(li.LOT_TAG);">
-                                                <span ng-bind="li.LOT_TAG"></span>
+                                        <div class="btn_item" ng-repeat="item in moCategories">
+                                            <a href="#" class="lot-btn_tabmenu"
+                                               ng-class="{'on': item.CD_ID === selectCategory}"
+                                               ng-click="changeCategory(item.TYPE, item.CD_ID);">
+                                                <span ng-bind="item.CD_NM"></span>
                                             </a>
                                         </div>
                                     </div>
@@ -477,9 +463,12 @@
                                     <div class="mobile_scroll-type">
                                         <div class="lotlist-box">
                                             <ul class="lotlist-inner">
-                                                <li class="lotitem" ng-repeat="item in searchSaleLotList"
-                                                    data-index="{{item.LOT_NO}}" ng-click="goLot(item.SALE_NO, item.LOT_NO)">
-                                                    <div class="js-select_lotitem lotitem_wrap">
+                                                <li class="lotitem" ng-class="{cancel:item.STAT_CD === 'reentry'}" ng-repeat="item in moLotList" data-index="{{item.LOT_NO}}" ng-click="goLot(item.SALE_NO, item.LOT_NO)">
+                                                    <p class="txt" ng-if="item.STAT_CD === 'reentry'">
+                                                        LOT {{item.LOT_NO}}<br>
+                                                        출품이 취소되었습니다.
+                                                    </p>
+                                                    <div class="js-select_lotitem lotitem_wrap" ng-if="item.STAT_CD !== 'reentry'">
                                                         <div class="view-img">
                                                             <div class="img-box">
                                                                 <div class="box-inner">
@@ -502,12 +491,6 @@
                                                         </div>
                                                     </div>
                                                 </li>
-                                                <!-- <li class="lotitem cancel">
-                            <p class="txt">
-                              LOT 4 <br>
-                              출품이 취소되었습니다.
-                            </p>
-                          </li> -->
                                             </ul>
                                         </div>
                                     </div>
@@ -907,9 +890,10 @@
     }
 
     /* 모바일용 API */
-    const getLotListInfo = () => {
+    const getLotListInfo = (params) => {
         try {
-            return axios.get('/api/auction/list/${saleNo}');
+            const paramString = "?"+window.Qs.stringify(params);
+            return axios.get('/api/auction/list/${saleNo}'+paramString);
         } catch (error) {
             console.error(error);
         }
@@ -954,7 +938,9 @@
         $scope.locale = locale;
         $scope.sale_no = SALE_NO;
         $scope.lot_no = LOT_NO;
-        $scope.selectLotTag = "전체";
+
+        $scope.selectedType = '';
+        $scope.selectCategory = "all";
 
         /* event handler */
         $scope.goLot = function (saleNo, lotNo) {
@@ -982,6 +968,19 @@
             }
 
             window.location.href = '/auction/live/sale/' + SALE_NO + '/lot/' + LOT_NO + '/biding';
+        }
+
+        $scope.changeCategory = async function (categoryType, categoryVal){
+            $scope.selectedType = categoryVal === 'all'? '' : categoryType;
+            $scope.selectCategory = categoryVal;
+
+            const params = categoryVal === 'all' ? {} : { [categoryType] : categoryVal };
+
+            const result = await getLotListInfo(params);
+            console.log(result);
+            $scope.moLotList = result.data.data;
+            $scope.lotTotalCount = $scope.moLotList.length;
+
         }
 
         $scope.urlCopy = function () {
@@ -1019,20 +1018,21 @@
 
                 //mo
                 $scope.moCategories = r6.data.data;
+                $scope.moCategories.unshift({CD_ID : 'all', CD_NM : '전체', CD_NM_EN: 'All'});
                 $scope.moLotList = r7.data.data;
-
+                $scope.lotTotalCount = $scope.moLotList.length;
                 let pp = [];
-                for (let i = 0 ; i < $scope.moLotList.length; i++){
-                    pp.push($scope.moLotList[i])
+                for (let i = 0 ; i < $scope.lotTotalCount; i++){
+                    pp.push($scope.moLotList[i]);
                 }
                 $scope.searchSaleLotList = pp;
 
+
+                //랏 정보 셋팅
                 $scope.lotInfo.EXPE_PRICE_FROM_JSON.KRW = numberWithCommas($scope.lotInfo.EXPE_PRICE_FROM_JSON.KRW);
                 $scope.lotInfo.EXPE_PRICE_TO_JSON.KRW = numberWithCommas($scope.lotInfo.EXPE_PRICE_TO_JSON.KRW);
                 $scope.lotInfo.EXPE_PRICE_FROM_JSON.USD = numberWithCommas($scope.lotInfo.EXPE_PRICE_FROM_JSON.USD);
                 $scope.lotInfo.EXPE_PRICE_TO_JSON.USD = numberWithCommas($scope.lotInfo.EXPE_PRICE_TO_JSON.USD);
-
-                $scope.recentlyViews = r6.data.data;
 
                 //artist 번호
                 $scope.artistNo = $scope.lotInfo.ARTIST_NO;
@@ -1123,11 +1123,11 @@
                     // }
                 });
 
-                // $(".js-view_thumnail .slide").on("click", function () {
-                //     var _index = $(this).index();
-                //     view_thumnailActive(_index);
-                //     view_visualActive(_index, view_visual);
-                // });
+                $(".js-view_thumnail .slide").on("click", function () {
+                    var _index = $(this).index();
+                    view_thumnailActive(_index);
+                    view_visualActive(_index, view_visual);
+                });
 
                 // $(window).on("resize", function () {
                 //     view_visual.update();
@@ -1153,16 +1153,16 @@
                     let swiper_slide_item = '';
 
                     swiper_slide_item = `<div class="swiper-slide">
-                        <div class="img-area">
-                            <div class="img-box">
-                                <div class="size_x"><span>` + size2 + unitCd + `</span></div>
-                                <div class="size_y"><span>` + size1 + unitCd + `</span></div>
-                                <div class="images">
-                                    <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size2 + `" size-y="` + size1 + `" lot_no="` + lot_no + `"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
+                                            <div class="img-area">
+                                                <div class="img-box">
+                                                    <div class="size_x"><span>` + size2 + unitCd + `</span></div>
+                                                    <div class="size_y"><span>` + size1 + unitCd + `</span></div>
+                                                    <div class="images">
+                                                        <img class="imageViewer" src="` + img_url + `" alt="" size-x="` + size2 + `" size-y="` + size1 + `" lot_no="` + lot_no + `"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>`;
 
                     $("#popup_image_viewer-wrap .gallery_center").html(swiper_slide_item);
                 }
