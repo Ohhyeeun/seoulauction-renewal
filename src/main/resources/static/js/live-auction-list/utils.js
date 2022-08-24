@@ -19,7 +19,7 @@
 function loadPageData() {
   const pathname = window.location.pathname;
   const pageParams = window.Qs.parse(window.location.search, { ignoreQueryPrefix: true });
-  const pathSaleNo = pathname.replace(/^\/auction\/live\/list\/new\/(\d+).*/, '$1');
+  const pathSaleNo = pathname.replace(/^\/auction\/live\/list\/(\d+).*/, '$1');
   const saleNo = pathSaleNo ? Number(pathSaleNo) : null;
 
   let page = pageParams.page ? Number(pageParams.page) : 1;
