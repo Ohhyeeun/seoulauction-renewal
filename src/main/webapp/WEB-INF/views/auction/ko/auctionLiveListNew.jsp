@@ -155,7 +155,7 @@
                                                 </div>
                                                 <div class="select-box">
                                                     <select id="viewType" class="select2Basic42 select2-hidden-accessible"
-                                                            ng-modal="selectViewType"
+                                                            ng-model="selectViewType"
                                                             onchange="angular.element(this).scope().changeViewType(this.value);">
                                                         <option ng-repeat="item in modelViewType" value="{{item.value}}">{{item.name}}</option>
                                                     </select>
@@ -231,8 +231,8 @@
                                                         <div class="product_info">
                                                             <div class="num_heart-box">
                                                                 <span class="num">{{item.LOT_NO}}</span>
-                                                                <button class="heart js-work_heart">
-                                                                    <i ng-class="item.FAVORITE_YN ? 'icon-heart_on' : 'icon-heart_off'"ng-click="favorite(item);"></i>
+                                                                <button class="heart js-work_heart" ng-click="toggleFavoriteLot(item)">
+                                                                    <i ng-class="item.FAVORITE_YN ? 'icon-heart_on' : 'icon-heart_off'"></i>
                                                                 </button>
                                                             </div>
                                                             <div class="info-box">
@@ -428,7 +428,8 @@
             $scope.selectedType = pageData.type || '';
             $scope.selectedCategory = pageData.category || pageData.tag || 'all';
             $scope.sortBy = pageData.sort || 'LOTAS'; //LOTAS | ESTDE | ESTAS
-            $scope.selectViewType = pageData.view || 'more'; // page | more
+            $scope.selectViewType = pageData.view || 'page'; // page | more
+            console.log($scope.selectViewType, pageData.view);
             $scope.currentPage = pageData.page;
             $scope.pageSize = pageData.size;
 
@@ -467,31 +468,27 @@
                 window.location.href = '/auction/live/view/' + saleNo + '/' + lotNo;
             }
 
-            $scope.favorite = function(item , $e) {
+            $scope.toggleFavoriteLot = async function(item) {
                 if(!checkLogin()){
                     return;
                 }
 
-                let url = item.FAVORITE_YN ==='N' ? "/api/auction/delCustInteLot" : "/api/auction/addCustInteLot";
+                const url = item.FAVORITE_YN? '/api/auction/live/delCustInteLot' : '/api/auction/live/addCustInteLot';
 
                 try {
                     axios.post(url, {
-                        sale_no: item.SALE_NO,
+                        sale_no: SALE_NO,
                         lot_no: item.LOT_NO
                     }).then(function(response) {
                         if(response.data.success){
-                            item.FAVORITE_YN = item.FAVORITE_YN ==='N' ? 'Y' : 'N';
+                            item.FAVORITE_YN = !item.FAVORITE_YN;
                             $scope.$apply();
                         }
                     });
-
                 } catch (error) {
                     console.error(error);
                 }
 
-                if($e !==undefined) {
-                    $e.stopPropagation();
-                }
             }
 
             $scope.moveToBidding = function(item) {
@@ -502,14 +499,12 @@
                 }
 
                 //정회원 여부.
-                let isRegular = isRegular;
-                if(!isRegular){
+                if(!IS_REGULAR){
                     alert('정회원만 서면/전화 응찰 신청이 가능합니다.')
                     return;
                 }
 
                 //필수 값 있는지 여부. ( 생년월일 , 성별 )
-                let IS_CUST_REQUIRED = IS_CUST_REQUIRED;
                 if(!IS_CUST_REQUIRED){
                     if(confirm('서면/전화 응찰 신청에 필요한 필수회원정보가 있습니다.\n회원정보를 수정하시겠습니까?')){
                         location.href = '/mypage/custModify';
@@ -528,9 +523,8 @@
                 if(saleStatus === 'READY' && !isLogin){
                     //로그인 페이지 이동
                     if(!checkLogin()) return;
-                }else if(saleStatus === 'READY' && isRegular && paddleNo < 1){
+                }else if(saleStatus === 'READY' && IS_REGULAR && paddleNo < 1){
                     //패들 발급 신청
-                    let IS_CUST_REQUIRED = IS_CUST_REQUIRED;
                     if(!IS_CUST_REQUIRED){
                         if(confirm('패들 신청에 필요한 필수회원정보가 있습니다.\n회원정보를 수정하시겠습니까?')){
                             location.href = '/mypage/custModify';
@@ -632,7 +626,7 @@
                 $scope.btnPaddleNo = '';
 
                 const isLogin = sessionStorage.getItem("is_login");
-                const isRegular = 'isRegular';
+                const isRegular = IS_REGULAR;
                 const paddleNo = paddNo;
                 const sale_status = saleStatus;
 
