@@ -30,9 +30,7 @@ public class SaleLiveService {
     private String IMAGE_URL;
 
     public CommonMap selectLiveSale(CommonMap map){
-
-        CommonMap result = saleLiveMapper.selectLiveSale(map);
-        return settingLotData(result);
+        return settingLotData(saleLiveMapper.selectLiveSale(map));
     }
     public List<CommonMap> selectLiveSaleLots(CommonMap map){
 
@@ -48,7 +46,7 @@ public class SaleLiveService {
     public CommonMap selectLiveSaleLotByOne(CommonMap map){
 
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
-        if(saUserDetails !=null){
+        if(saUserDetails !=null) {
             map.put("cust_no" , saUserDetails.getUserNo());
         } else {
             map.put("cust_no" , 0);
@@ -57,7 +55,7 @@ public class SaleLiveService {
         CommonMap result = saleLiveMapper.selectLiveSaleLotByOne(map);
 
         //만약 라이브경매값이 없는경우 첫번째 랏을 리턴.
-        if(result == null){
+        if(result == null) {
             map.put("lot_no" , 1);
             result = saleLiveMapper.selectLiveSaleLotByOne(map);
             result.settingJsonStrToObject();
@@ -76,7 +74,6 @@ public class SaleLiveService {
                  //타입이 같다면 compareTo 역순.
                  if(s1.getString("TYPE").equals(s2.getString("TYPE"))) {
                     return s2.getString("CD_NM").compareTo(s1.getString("CD_NM"));
-
                  //기본적으로 compareTo.
                 }else {
                     return s1.getString("CD_NM").compareTo(s2.getString("CD_NM"));
