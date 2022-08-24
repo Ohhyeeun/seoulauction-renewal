@@ -53,7 +53,7 @@
                                                             </div>
                                                             <div class="list-box scroll-type">
                                                                 <ul id="sale_lot_list">
-                                                                    <li ng-repeat="item in saleImages"
+                                                                    <li ng-repeat="item in lotNaviList"
                                                                         data-index="{{item.LOT_NO}}">
                                                                         <a href="javascript:void(0);" ng-click="goLot(item.SALE_NO, item.LOT_NO)">
                                                                             <div class="image-area">
@@ -210,35 +210,29 @@
                                             </div>
                                             <div class="button-area">
                                                 <div class="btn_set only-pc">
-                                                    <div class="btn_item" id="show_btn" style="display:none;">
-                                                        <a class="btn btn_point btn_lg" href="#" role="button"
-                                                           ng-click="moveToBidding(lotInfo)"
-                                                        ><span>서면/전화 응찰 신청</span></a>
+                                                    <div class="btn_item" id="show_btn">
+                                                        <a class="btn btn_point btn_lg" href="#" role="button" ng-click="moveToBidding(lotInfo)">
+                                                            <span>서면/전화 응찰 신청</span>
+                                                        </a>
                                                     </div>
                                                 </div>
                                                 <div class="btn_set cols_2">
                                                     <div class="btn_item hover_change only-pc">
                                                         <div class="op_default">
-                                                            <a class="btn btn_default btn_lg js-popup_alert1" href="#"
-                                                               role="button"><span>낙찰수수료</span></a>
+                                                            <a class="btn btn_default btn_lg js-popup_alert1" href="#" role="button">
+                                                                <span>낙찰수수료</span>
+                                                            </a>
                                                         </div>
-                                                        <%--                                                        <div class="op_hover">--%>
-                                                        <%--                                                            <a class="btn btn_black btn_2 btn_lg js-popup_alert1"--%>
-                                                        <%--                                                               role="button">--%>
-                                                        <%--                                                                <em>현재가 기준</em>--%>
-                                                        <%--                                                                <strong>1,584,000</strong>--%>
-                                                        <%--                                                            </a>--%>
-                                                        <%--                                                        </div>--%>
                                                     </div>
                                                     <div class="btn_item only-mb">
-                                                        <a class="btn btn_default btn_lg js-delivery_price js-popup_alert1"
-                                                           href="#"
-                                                           role="button"><span>낙찰수수료</span></a>
+                                                        <a class="btn btn_default btn_lg js-delivery_price js-popup_alert1" href="#" role="button">
+                                                            <span>낙찰수수료</span>
+                                                        </a>
                                                     </div>
                                                     <div class="btn_item">
-                                                        <%--                                                        <a class="btn btn_default btn_lg" href="#" role="button"><span>배송비안내</span></a> --%>
-                                                        <a class="btn btn_default btn_lg js-popup_alert3" role="button"><span>경매 호가표</span></a>
-
+                                                        <a class="btn btn_default btn_lg js-popup_alert3" role="button">
+                                                            <span>경매 호가표</span>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -872,7 +866,7 @@
 
     /* API 호출 */
 
-    const getSaleInfo = (saleNo) => {
+    const getSaleInfo = () => {
         try {
             return axios.get('/api/auction/live/sales/${saleNo}/one');
         } catch (error) {
@@ -880,7 +874,7 @@
         }
     };
 
-    const getLotInfo = (saleNo, lotNo) => {
+    const getLotInfo = () => {
         try {
             return axios.get('/api/auction/live/lot_info/${saleNo}/${lotNo}');
         } catch (error) {
@@ -888,7 +882,7 @@
         }
     };
 
-    const getLotImages = (saleNo, lotNo) => {
+    const getLotImages = () => {
         try {
             return axios.get('/api/auction/live/lot_images/${saleNo}/${lotNo}');
         } catch (error) {
@@ -896,25 +890,24 @@
         }
     };
 
-    const getLotNavigation = (saleNo) => {
+    const getLotNavigation = () => {
         try {
-            return axios.get('/api/auction/live/sale_images/'+saleNo);
+            return axios.get('/api/auction/live/sale_images/'+ ${saleNo});
         } catch (error) {
             console.error(error);
         }
     }
 
-    const getViewScaleImages = (saleNo, lotNo) => {
-        console.log("getViewScaleImages : ", saleNo, lotNo);
+    const getViewScaleImages = () => {
         try {
-            return axios.get('/api/auction/live/getViewScaleImage/'+saleNo+'/'+lotNo);
+            return axios.get('/api/auction/live/getViewScaleImage/'+ ${saleNo}+'/'+ ${lotNo});
         } catch (error) {
             console.error(error);
         }
     }
 
     /* 모바일용 API */
-    const getLotListInfo = (saleNo) => {
+    const getLotListInfo = () => {
         try {
             return axios.get('/api/auction/list/${saleNo}');
         } catch (error) {
@@ -922,9 +915,9 @@
         }
     };
 
-    const getCategories = (saleNo) => {
+    const getCategories = () => {
         try {
-            return axios.get('/api/auction/live/categories/' + saleNo);
+            return axios.get('/api/auction/live/sales/' + ${saleNo}+'/types');
         } catch (error) {
             console.error(error);
         }
@@ -934,6 +927,27 @@
     app.value('is_login', true);
 
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
+
+    // 현재가 처리
+    app.filter('date_format', function(){
+        return function(val) {
+            if (val === undefined) {
+                return '';
+            }
+            return (val === '')?'':new Date(val).format('MM/dd(E)');
+        };
+    });
+
+
+    app.filter('locale_format', function(){
+        return function(val) {
+            if (val === undefined) {
+                return '';
+            }
+            return locale === 'ko' ? val.ko : val.en;
+        };
+    });
+
     app.controller('ctl', function ($scope, consts, common, is_login, locale, $filter) {
 
         $scope.is_login = is_login;
@@ -947,7 +961,7 @@
             window.location.href = '/auction/live/view/' + saleNo + '/' + lotNo;
         }
 
-        $scope.moveToBidding = function(item) {
+        $scope.moveToBidding = function() {
             //로그인 했는지 여부.
             if(!checkLogin()) {
                 return;
@@ -967,7 +981,7 @@
                 return;
             }
 
-            location.href = '/auction/live/sale/' + $scope.sale_no + '/lot/' + item.LOT_NO + '/biding';
+            window.location.href = '/auction/live/sale/' + SALE_NO + '/lot/' + LOT_NO + '/biding';
         }
 
         $scope.urlCopy = function () {
@@ -984,11 +998,11 @@
         $scope.load = function () {
             let run = async function () {
                 let [r1, r2, r3, r4, r5, r6, r7] = await Promise.all([
-                    getSaleInfo($scope.sale_no), //1
-                    getLotInfo($scope.sale_no, $scope.lot_no), //2
-                    getLotImages($scope.sale_no, $scope.lot_no), //3
-                    getViewScaleImages($scope.sale_no, $scope.lot_no), //4
-                    getLotNavigation($scope.sale_no), //5
+                    getSaleInfo(), //1
+                    getLotInfo(), //2
+                    getLotImages(), //3
+                    getViewScaleImages(), //4
+                    getLotNavigation(), //5
                     /*for mobile*/
                     getCategories($scope.sale_no), //6
                     getLotListInfo($scope.sale_no), //7
