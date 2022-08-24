@@ -638,9 +638,6 @@ function loadPopup(){
         $('.main-popupwrap').removeClass('on');
         $('body').css('overflow','visible');
     }
-
-    console.log('asdfasdf');
-
 }
 
 //경매 회차 필터
@@ -688,7 +685,9 @@ if (matchMedia("all and (min-width: 1024px)").matches) {
 
 } else {
     /* 메인팝업 mobile 있음 */
-    $('.main-popupBg').addClass('on');
+    if (isMainPopup) {
+        $('.main-popupBg').addClass('on');
+    }
     $('.main-popupwrap').addClass('on');
 
     /* 띠배너 beltbanner */
