@@ -268,15 +268,15 @@ public class SaleLiveService {
             map.remove("MATE_CD_KO");
             map.remove("MATE_CD_EN");
 
-
             //작가 필터
-            HashMap<String,Object> artistMap = (HashMap<String,Object>) map.get("ARTIST_NAME_JSON");
-            List<String> artistFilters = new ArrayList<>();
-            artistFilters.add("김환기");
-            artistFilters.add("박수근");
-            //작가 정보가 안비어있고, 결과값이 있을경우.
-            map.put("IMAGE_MAGNIFY" , MapUtils.isNotEmpty(artistMap) && artistFilters.stream().anyMatch(f->f.equals(artistMap.get("ko"))));
-
+            if(map.get("ARTIST_NAME_JSON") !=null) {
+                HashMap<String, Object> artistMap = (HashMap<String, Object>) map.get("ARTIST_NAME_JSON");
+                List<String> artistFilters = new ArrayList<>();
+                artistFilters.add("김환기");
+                artistFilters.add("박수근");
+                //작가 정보가 안비어있고, 결과값이 있을경우.
+                map.put("IMAGE_MAGNIFY", MapUtils.isNotEmpty(artistMap) && artistFilters.stream().anyMatch(f -> f.equals(artistMap.get("ko"))));
+            }
 
         }
         return map;

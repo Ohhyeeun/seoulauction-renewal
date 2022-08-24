@@ -149,6 +149,7 @@
                      WHERE SALE_NO = #{sale_no}
                        AND LOT_TAG IS NOT NULL
                      GROUP BY LOT_TAG
+                     ORDER BY LOT_TAG
                  )
                  UNION ALL
                  (
