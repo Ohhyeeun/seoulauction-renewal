@@ -216,7 +216,7 @@
                                                     </div>
                                                 </article>
                                                 <%--출품--%>
-                                                <article ng-if="item.STAT_CD !== 'reentry'" class="item-article" ng-class="{result:sale_status === 'END'}">
+                                                <article ng-if="item.STAT_CD !== 'reentry'" class="item-article" ng-class="{result:sale_status === 'END' || item.IMAGE_MAGNIFY}">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
                                                             <a href="/auction/live/view/{{sale_no}}/{{item.LOT_NO}}">
