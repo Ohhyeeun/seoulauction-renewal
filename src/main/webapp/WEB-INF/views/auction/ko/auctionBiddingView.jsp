@@ -987,10 +987,10 @@
                                             </div>
                                             \${classForDevice === '.pcVer' ?
                                                 `<div class="item-cont">
-                        <div class="num"><span class="snum">\${item.LOT_NO}</span>\${isCurrent? liveBadge : ``}</div>
-                    <div class="title"><span>\${ artistName }</span></div>
-                    <div class="desc"><span>\${ lotTitle }</span></div>
-                    <div class="price ">
+                                                    <div class="num"><span class="snum">\${item.LOT_NO}</span>\${isCurrent? liveBadge : ``}</div>
+                                                <div class="title"><span>\${ artistName }</span></div>
+                                                <div class="desc"><span>\${ lotTitle }</span></div>
+                                                <div class="price ">
                         \${ isClosed ? `<span style='color:#DB1B1B'>낙찰가 \${baseCurrency} \${numberWithCommas(item.MAX_BID_PRICE)}</span>` : `<span>\${baseCurrency} \${numberWithCommas(item.EXPE_PRICE_FROM_JSON[baseCurrency])}~\${numberWithCommas(item.EXPE_PRICE_TO_JSON[baseCurrency])}</span>`}
                                                     </div>
                                                 </div>`
