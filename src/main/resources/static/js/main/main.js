@@ -72,6 +72,20 @@ function reAlarm(){
             console.log(error);
         });
 }
+//일정기간뒤 팝업 닫기 누르면 session 삭제 하는 API
+function sleepAlarmNow(){
+    axios.get('/api/main/sleepAlarmNow')
+        .then(function(response) {
+            var success = response.data.success;
+            if(!success){
+                alert(response.data.data.msg);
+            }
+            popup_pwsearch5.close();
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+}
 //지금변경하기
 function goModPassword(){
 	location.href = '/mypage/passwordModify';
