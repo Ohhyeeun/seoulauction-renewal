@@ -585,7 +585,24 @@ public class ApiSaleLiveController {
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
 
-        return ResponseEntity.ok(RestResponse.ok());
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectAdminSaleInfo(commonMap)));
+    }
+
+    /**
+     *
+     * @param saleNo
+     * @param lotNo
+     * 관리자용 오프라인 비드 가져오기.
+     */
+    @GetMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/off-bids")
+    public ResponseEntity<RestResponse> adminOffBidList(
+            @PathVariable("saleNo") int saleNo
+            , @PathVariable("lotNo") int lotNo) {
+        CommonMap map = new CommonMap();
+       map.put("sale_no", saleNo);
+       map.put("lot_no", lotNo);
+
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectAdminOffBid(map)));
     }
 
 

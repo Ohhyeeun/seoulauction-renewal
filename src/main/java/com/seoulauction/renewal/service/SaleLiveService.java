@@ -217,10 +217,9 @@ public class SaleLiveService {
     @Transactional("ktTransactionManager")
     public void lotSync(CommonMap map){
         //lot no 가 있을경우에는 lot 전용 sync 실행.
+        saleLiveMapper.updateLotSync1(map);
         if(map.get("lot_no") !=null){
             saleLiveMapper.updateLotSync2(map);
-        } else {
-            saleLiveMapper.updateLotSync1(map);
         }
     }
 
@@ -274,6 +273,13 @@ public class SaleLiveService {
             lotInfoMap.put("IMAGE_URL", IMAGE_URL);
         }
         return lotInfoMap;
+    }
+    public CommonMap selectAdminSaleInfo(CommonMap map){
+        return settingLotData(saleLiveMapper.selectAdminSaleInfo(map));
+    }
+
+    public List<CommonMap> selectAdminOffBid(CommonMap map){
+        return saleLiveMapper.selectAdminOffBid(map);
     }
 
     public CommonMap selectArtistInfo(CommonMap commonMap) {
@@ -344,6 +350,8 @@ public class SaleLiveService {
         }
         return map;
     }
+
+
 
 }
 

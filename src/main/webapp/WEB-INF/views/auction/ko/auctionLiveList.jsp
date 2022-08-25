@@ -265,7 +265,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </dl>
-                                                                <dl class="price-list" ng-show="item.isShowBidPrice" >
+ㅎ                                                                <dl class="price-list" ng-if="item.isShowBidPrice" >
                                                                     <dt>낙찰가</dt>
                                                                     <div>
                                                                         <div>
@@ -274,7 +274,7 @@
                                                                     </div>
                                                                 </dl>
                                                             </div>
-                                                            <div id="biding_req2" ng-show="sale_status === 'READY'" class="bidding-box col_2">
+                                                            <div id="biding_req2" ng-if="sale_status === 'READY'" class="bidding-box col_2">
                                                                 <div class="deadline_set"><span>신청마감 {{ displayBidCloseDate }}</span></div>
                                                                 <div class="btn_set">
                                                                     <a class="btn btn_point" href="" ng-click="moveToBidding(item)" role="button">

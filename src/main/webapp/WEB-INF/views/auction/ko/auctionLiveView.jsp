@@ -34,7 +34,7 @@
                                                     <a href="/auction/live/list/${saleNo}" title="목록보기">
                                                         <i class="icon-page_back"></i>
                                                     </a>
-                                                    <span ng-bind="displaySaleTitle"></span>
+                                                    <span ng-bind="saleInfo.displaySaleTitle"></span>
                                                 </div>
                                             </div>
                                             <div class="col_item">
@@ -42,19 +42,17 @@
                                                 <div class="select-box">
                                                     <div class="trp-dropdown-area h42-lines">
                                                         <button class="js-dropdown-btn">
-                                                            <span ng-bind="'LOT ' + lotInfo.LOT_NO"></span><i
-                                                                class="form-select_arrow_md"></i>
+                                                            <span ng-bind="'LOT ' + lotInfo.LOT_NO"></span>
+                                                            <i class="form-select_arrow_md"></i>
                                                         </button>
-                                                        <div class="trp-dropdown_list-box"
-                                                             data-trp-focusid="js-user_support">
+                                                        <div class="trp-dropdown_list-box" data-trp-focusid="js-user_support">
                                                             <div class="search-box">
                                                                 <input id="search_lot" type="search" placeholder="LOT 번호 입력">
                                                                 <i class="form-search_md"></i>
                                                             </div>
                                                             <div class="list-box scroll-type">
                                                                 <ul id="sale_lot_list">
-                                                                    <li ng-repeat="item in lotNaviList"
-                                                                        data-index="{{item.LOT_NO}}">
+                                                                    <li ng-repeat="item in lotNaviList" data-index="{{item.LOT_NO}}">
                                                                         <a href="javascript:void(0);" ng-click="goLot(item.SALE_NO, item.LOT_NO)">
                                                                             <div class="image-area">
                                                                                 <figure class="img-ratio">
@@ -97,8 +95,7 @@
                                                                     <div class="image-area">
                                                                         <figure class="img-ratio">
                                                                             <div class="img-align">
-                                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                                     alt="">
+                                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
                                                                             </div>
                                                                         </figure>
                                                                     </div>
@@ -138,7 +135,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="view_scale-area" ng-if="lotInfo.IMAGE_MAGNIFY && lotInfo.VIEW_SCALE_YN == 'Y' && ['traditional_painting', 'local_painting', 'foreign_painting'].indexOf(lotInfo.CATE_CD) > -1">
+                                            <div class="view_scale-area" ng-if="isUseViewScale">
                                                 <a class="js-popup_image_viewer" href="#">
                                                     <i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
@@ -147,14 +144,16 @@
                                     <div class="col_item">
                                         <article class="product_detail-article js-product_detail-article">
                                             <div class="index-area">
-                                                <div class="index-box"><span ng-bind="lotInfo.LOT_NO"></span></div>
+                                                <div class="index-box"><span ng-bind="lotInfo.LOT_NO">lotNo</span></div>
                                                 <div class="btn-box">
-                                                    <a href="#" title="" class="sns_share js-sns_share"><i
-                                                            class="icon-view_sns"></i></a>
-                                                    <a id="heart" title=""
-
-                                                       ng-class="lotInfo.FAVORITE_YN === 'Y' ? 'work_heart js-work_heart on' : 'work_heart js-work_heart'"
-                                                       ng-click="favorite(lotInfo.SALE_NO, lotInfo.LOT_NO);"><i class="icon-view_heart_off"></i></a>
+                                                    <a href="#" title="" class="sns_share js-sns_share">
+                                                        <i class="icon-view_sns"></i>
+                                                    </a>
+                                                    <a id="heart"
+                                                       class="work_heart js-work_heart" ng-class="{on : lotInfo.FAVORITE_YN}"
+                                                       ng-click="toggleFavoriteLot(lotInfo);">
+                                                        <i class="icon-view_heart_off"></i>
+                                                    </a>
 
                                                     <div class="sns_layer-area">
                                                         <div class="sns-layer">
@@ -176,42 +175,40 @@
                                             </div>
                                             <div class="artist-area">
                                                 <div class="name">
-                                                    <strong ng-bind="lotInfo.ARTIST_NAME_KO_TXT"></strong>
-                                                    <span ng-show="lotInfo.BORN_YEAR"
-                                                          ng-bind="'b.' + lotInfo.BORN_YEAR"></span>
+                                                    <strong ng-bind="displayLotInfo.artistName"></strong>
+                                                    <span ng-bind="displayLotInfo.birthOfDeath"></span>
                                                 </div>
                                                 <div class="desc">
-                                                    <span class="text-over span_block"
-                                                          ng-bind="lotInfo.TITLE_KO_TXT"></span>
+                                                    <span class="text-over span_block" ng-bind="displayLotInfo.lotTitle">작품명</span>
                                                 </div>
                                             </div>
                                             <div class="price-area">
                                                 <dl class="price-list">
                                                     <dt>추정가</dt>
-                                                    <div ng-show="lotInfo.EXPE_PRICE_INQ_YN === 'N'">
-                                                        <dd>KRW {{lotInfo.EXPE_PRICE_FROM_JSON.KRW}} ~ {{lotInfo.EXPE_PRICE_TO_JSON.KRW}}</dd>
-                                                        <dd>USD {{lotInfo.EXPE_PRICE_FROM_JSON.USD}} ~ {{lotInfo.EXPE_PRICE_TO_JSON.USD}}</dd>
+                                                    <div ng-if="!lotInfo.EXPE_PRICE_INQ_YN">
+                                                        <dd>{{base_currency}} {{displayLotInfo.EXPE_PRICE_FROM_JSON}} ~ {{displayLotInfo.EXPE_PRICE_TO_JSON}}</dd>
+                                                        <dd>{{sub_currency}} {{displayLotInfo.SUB_EXPE_PRICE_FROM_JSON}} ~ {{displayLotInfo.SUB_EXPE_PRICE_TO_JSON}}</dd>
                                                     </div>
-                                                    <div ng-show="lotInfo.EXPE_PRICE_INQ_YN === 'Y'">
+                                                    <div ng-if="lotInfo.EXPE_PRICE_INQ_YN">
                                                         <dd>별도 문의</dd>
                                                     </div>
                                                 </dl>
-                                                <dl class="price-list">
-                                                    <dt>마감일</dt>
-                                                    <dd><b id="end_date_time" ng-bind="lotInfo.LOT_EXPIRE_DATE_SUB | date_format"><!--WEB SOCKET--></b></dd>
-                                                </dl>
-
-                                                <dl class="price-list" ng-show="lotInfo.OFFLINE_MAX_BID_PRICE">
+                                                <dl class="price-list" ng-if="item.isShowBidPrice">
                                                     <dt>낙찰가</dt>
                                                     <div>
-                                                        <dd><strong>KRW {{lotInfo.OFFLINE_MAX_BID_PRICE}}</strong></dd>
+                                                        <dd><strong>KRW {{displayLotInfo.maxBidPrice}}</strong></dd>
                                                     </div>
+                                                </dl>
+
+                                                <dl class="price-list" ng-if="sale_status === 'READY'">
+                                                    <dt>마감일</dt>
+                                                    <dd><b id="end_date_time" ng-bind="displayBidCloseDate"></b></dd>
                                                 </dl>
                                             </div>
                                             <div class="button-area">
-                                                <div class="btn_set only-pc">
-                                                    <div class="btn_item" id="show_btn">
-                                                        <a class="btn btn_point btn_lg" href="#" role="button" ng-click="moveToBidding(lotInfo)">
+                                                <div class="btn_set only-pc" ng-if="sale_status === 'READY'">
+                                                    <div class="btn_item" >
+                                                        <a class="btn btn_point btn_lg" href="#" role="button" ng-click="moveToBidding()">
                                                             <span>서면/전화 응찰 신청</span>
                                                         </a>
                                                     </div>
@@ -243,7 +240,7 @@
                                                 </div>
                                                 <div class="print-box">
                                                     <button class="print-btn">
-                                                        <a href="/auction/view/print/{{lotInfo.SALE_NO}}/{{lotInfo.LOT_NO}}"
+                                                        <a href="/auction/view/print/{{sale_no}}/{{lot_no}}"
                                                            target="_blank">
                                                             <i class="icon-view_print"></i>
                                                         </a>
@@ -259,52 +256,51 @@
                                         <div class="info-box">
                                             <div class="title">작품정보</div>
                                             <div class="desc">
-                                                <span ng-bind="lotInfo.MATE_NM_EN"></span>
+                                                <%-- 재질 --%>
+                                                <span ng-bind="displayLotInfo.mate"></span>
                                                 <br/>
-
-                                                <%--재질 규격--%>
-                                                <span ng-repeat="size in lotInfo.LOT_SIZE_JSON">
+                                                <%-- 규격--%>
+                                                <span ng-repeat="size in displayLotInfo.sizeArray">
                                                         <span ng-bind="size | size_text_cm"></span>
                                                 </span>
+
                                                 <%--에디션--%>
-                                                <div ng-show="lotInfo.EDITION">
-                                                    <span> {{lotInfo.EDITION}} </span>
+                                                <div ng-if="displayLotInfo.edition">
+                                                    <span ng-bind="displayLotInfo.edition"></span>
                                                 </div>
 
                                                 <%--년도--%>
-                                                <div ng-show="isNotObjectEmpty(lotInfo.MAKE_YEAR_JSON)">
-                                                    <span> {{lotInfo.MAKE_YEAR_JSON | locale_format }}</span>
+                                                <div ng-if="displayLotInfo.edition">
+                                                    <span ng-bind="displayLotInfo.makeYear"></span>
                                                 </div>
 
                                                 <%--서명 값--%>
-                                                <span> {{lotInfo.SIGN_INFO_JSON | locale_format }}</span>
+                                                <span ng-bind="displayLotInfo.sign"></span>
                                             </div>
 
-
-                                            <!-- [0714]작품정보 하위댑스 추가 -->
                                             <div class="info-sub-wrap">
                                                 <div class="info-sub-box">
                                                     <%--CONDITION --%>
-                                                    <div class="info-sub-box" ng-show="isNotObjectEmpty(lotInfo.COND_RPT_JSON)">
+                                                    <div ng-if="displayLotInfo.condition" class="info-sub-box">
                                                         <div class="tit tt5">CONDITION</div>
-                                                        <div class="desc">{{lotInfo.COND_RPT_JSON | locale_format }}</div>
+                                                        <div class="desc" ng-bind="displayLotInfo.condition"></div>
                                                     </div>
                                                     <%--PROVENANCE--%>
-                                                    <div ng-show="isNotObjectEmpty(lotInfo.PROV_INFO_JSON)" class="info-sub-box">
+                                                    <div ng-if="displayLotInfo.provenance" class="info-sub-box">
                                                         <div class="tit tt5">PROVENANCE</div>
-                                                        <div class="desc">{{lotInfo.PROV_INFO_JSON | locale_format }}</div>
+                                                        <div class="desc">{{displayLotInfo.provenance}}</div>
                                                     </div>
 
                                                     <%--LITERATURE--%>
-                                                    <div ng-show="isNotObjectEmpty(lotInfo.LITE_INFO_JSON)" class="info-sub-box">
+                                                    <div ng-show="displayLotInfo.literature" class="info-sub-box">
                                                         <div class="tit tt5">LITERATURE</div>
-                                                        <div class="desc">{{lotInfo.LITE_INFO_JSON | locale_format }}</div>
+                                                        <div class="desc">{{displayLotInfo.literature}}</div>
                                                     </div>
 
                                                     <%--EXHIBITED--%>
-                                                    <div ng-show="isNotObjectEmpty(lotInfo.EXHI_INFO_JSON)" class="info-sub-box">
+                                                    <div ng-show="displayLotInfo.exhibited" class="info-sub-box">
                                                         <div class="tit tt5">EXHIBITED</div>
-                                                        <div class="desc">{{lotInfo.EXHI_INFO_JSON | locale_format }}</div>
+                                                        <div class="desc">{{displayLotInfo.exhibited}}</div>
                                                     </div>
 
                                                     <%--Condition Report--%>
@@ -314,36 +310,29 @@
                                                     <%--                                        </div>--%>
                                                 </div>
                                             </div>
-                                            <!-- //[0714]작품정보 하위댑스 추가 -->
                                         </div>
 
-                                        <!-- [0714]작품설명 추가 -->
-                                        <div ng-show="isNotObjectEmpty(lotInfo.CMMT_JSON)" class="info-box">
+                                        <div ng-if="displayLotInfo.comment" class="info-box">
                                             <div class="title">작품 설명</div>
-                                            <div class="desc txt-pre-line">{{lotInfo.CMMT_JSON | locale_format }}</div>
+                                            <div class="desc txt-pre-line">{{displayLotInfo.comment}}</div>
                                         </div>
-                                        <!-- //[0714]작품설명 추가 -->
 
-                                        <!-- [0613]notice 추가 -->
-                                        <div ng-show="isNotObjectEmpty(lotInfo.NOTICE_DTL_JSON)" class="info-box">
-                                            <!-- [0714]텍스트 대소문자 수정 -->
-                                            <div class="title">NOTICE</div>
-                                            <!-- //[0714]텍스트 대소문자 수정 -->
-                                            <div class="desc">
-                                                <ul class="mark_dot-list">
-                                                    <li ng-bind-html="lotInfo.NOTICE_DTL_JSON_VALUE" class="txt-pre-line"></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <!-- //[0613]notice 추가 -->
-
-                                        <div id="artist_layer" class="info-box">
+                                        <div id="artist_layer" ng-show="artistNo > 0" class="info-box">
                                             <div class="title">작가정보</div>
-                                            <div class="desc txt-pre-line" id="artistName">
+                                            <div class="desc txt-pre-line" data-artist-info>
                                             </div>
-                                            <div class="desc txt-pre-line" id="artistProfile">
+                                            <div class="desc txt-pre-line" data-artist-profile>
                                             </div>
-                                            <div class="desc txt-pre-line" id="artistMedia">
+                                            <div class="desc" >
+                                                <b>참고자료</b><br>
+                                                <span data-article-list>
+                                                    <%-- 참고자료 데이터 바인딩 영역--%>
+                                                </span>
+                                            </div>
+                                            <div class="desc">
+                                                <div class="video_img-box" data-media-list>
+                                                    <%-- video 데이터 바인딩 영억--%>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -515,118 +504,6 @@
         </div>
         <!-- stykey -->
 
-    </div>
-</div>
-<!--  응찰하기(온라인)  -->
-<div id="popup_biddingPopup1-wrap" class="trp popupfixed-wrap bidding-online-popup">
-    <div class="popup-dim"></div>
-    <div class="popup-align mode-lg mode-mb_full">
-        <div class="popup-vertical">
-            <div class="popup-layer">
-                <div class="pop-panel">
-                    <div class="pop-header">x
-                        <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
-                        <div class="title-box">
-                            <span id="lot_title" class="txt_title">LOT </span>
-                        </div>
-                    </div>
-                    <div class="pop-body scroll-type">
-                        <section class="section  " style="display: block;">
-                            <div class="bidding-online-wrap">
-                                <article class="bidding-online-left">
-                                    <figure class="view-area">
-                                        <div class="view-img">
-                                            <div class="img-box">
-                                                <div class="box-inner">
-                                                    <img id="img_url" alt="LOT 02">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <figcaption class="view-typo">
-                                            <div class="typo-header">
-                                                <div class="title"><span id="artist_nm"></span><em id="born_year"></em>
-                                                </div>
-                                                <div class="desc"><span id="bidding_title">Air (From The Series The Elements)</span>
-                                                </div>
-                                            </div>
-                                            <div class="typo-body">
-                                                <span>spray paint on canvas</span>
-                                                <ul>
-                                                    <li>80.9 X73.4cm</li>
-                                                    <li>2021</li>
-                                                </ul>
-                                            </div>
-                                        </figcaption>
-                                    </figure>
-                                </article>
-                                <article class="bidding-online-right js-bidding_tab">
-                                    <div class="legend-area">
-                                        <div class="side_time">
-                                            <span id="bid_tick"></span>
-                                        </div>
-                                        <div class="unit">
-                                            <span>호가단위 : </span>
-                                            <em id="quote_unit"></em>
-                                        </div>
-                                    </div>
-                                    <div class="product-list-area">
-                                        <div class="list-header">
-                                            <div class="price-name"><span>현재가</span></div>
-                                            <div class="price-amount"><em id="bid_cost_val"></em> <span
-                                                    id="bid_cost_cnt"></span></div>
-                                        </div>
-                                        <div class="list-body scroll-type">
-                                            <ul id="bid_lst" class="product-list">
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="topbtn-area">
-                                        <div class="btn_set">
-                                            <div class="btn_item"><a class="btn btn_default btn_lg" href="#"
-                                                                     role="button"><span>1회 응찰</span></a></div>
-                                            <div class="btn_item"><a class="btn btn_gray btn_lg" href="#" role="button"><span>자동응찰</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="caution-area">
-                                        <ul class="mark_char-list">
-                                            <li class="accent"><span>응찰하기 버튼을 누르시면 취소가 불가능합니다.</span></li>
-                                            <li class=""><span>동시 응찰자 경우, 서버시각 기준 우선순위가 부여됩니다.</span></li>
-                                        </ul>
-                                    </div>
-                                    <div class="bottombtn-area">
-                                        <div class="btn_set active">
-                                            <div class="btn_item"><a class="btn btn_point btn_lg typo-pc_mb-line"
-                                                                     id="bid_new_cost_val" href="javascript:bid();"
-                                                                     role="button" value=""><span
-                                                    id="bid_new_cost"></span> <span>응찰하기</span></a></div>
-                                        </div>
-                                        <div class="btn_set type-pc_mb-column">
-                                            <div class="btn_item">
-                                                <div class="select-box ">
-                                                    <!-- disabled 옵션 -->
-                                                    <select class="select2Basic56_line" id="reservation_bid">
-                                                        <option value="1800000">KRW 1,800,000</option>
-                                                        <option value="1900000">KRW 1,900,000</option>
-                                                        <option value="2000000">KRW 2,000,000</option>
-                                                        <option value="2100000">KRW 2,100,000</option>
-                                                        <option value="2200000">KRW 2,200,000</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="btn_item"><a class="btn btn_point btn_lg"
-                                                                     href="javascript:autoBid();"
-                                                                     role="button"><span>응찰하기</span></a></div>
-                                        </div>
-                                    </div>
-                                </article>
-                            </div>
-                        </section>
-                    </div>
-                </div>
-
-            </div>
-        </div>
     </div>
 </div>
 
@@ -889,6 +766,14 @@
         }
     }
 
+    const getArtistInfo = (artistNo) =>{
+        try {
+            return axios.get('/api/auction/live/artist_info/'+ artistNo);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     /* 모바일용 API */
     const getLotListInfo = (params) => {
         try {
@@ -906,6 +791,10 @@
             console.error(error);
         }
     }
+
+    /* */
+
+
 
     app.value('locale', 'ko');
     app.value('is_login', true);
@@ -938,6 +827,9 @@
         $scope.locale = locale;
         $scope.sale_no = SALE_NO;
         $scope.lot_no = LOT_NO;
+
+        $scope.base_currency = 'KRW';
+        $scope.sub_currency = 'USD';
 
         $scope.selectedType = '';
         $scope.selectCategory = "all";
@@ -983,6 +875,29 @@
 
         }
 
+        $scope.toggleFavoriteLot = async function(item) {
+            if(!checkLogin()){
+                return;
+            }
+
+            const url = item.FAVORITE_YN? '/api/auction/live/delCustInteLot' : '/api/auction/live/addCustInteLot';
+
+            try {
+                axios.post(url, {
+                    sale_no: $scope.sale_no,
+                    lot_no: $scope.lot_no
+                }).then(function(response) {
+                    if(response.data.success){
+                        item.FAVORITE_YN = !item.FAVORITE_YN;
+                        $scope.$apply();
+                    }
+                });
+            } catch (error) {
+                console.error(error);
+            }
+
+        }
+
         $scope.urlCopy = function () {
             let url = location.href;
             let $temp = $('<input>');
@@ -993,6 +908,151 @@
             alert('URL이 복사되었습니다.');
         }
 
+        /* set data */
+        const setSaleInfo = (saleData) => {
+            //contents
+            $scope.base_currency = saleData.CURR_CD;
+
+            $scope.bid_close_date =  moment(saleData.TO_DT).add(-1,'days');
+            $scope.displayBidCloseDate = $scope.bid_close_date.format('MM/DD(ddd) 24:00');
+
+            saleData.displayBidDate = moment(saleData.TO_DT).format('MM.DD(ddd) HH:ss');
+
+            saleData.TITLE_JSON = JSON.parse(saleData.TITLE_JSON);
+            saleData.displaySaleTitle = localeOrdinal(saleData.SALE_TH, locale) + saleData.TITLE_JSON[locale];
+
+            //status
+             let saleStatus = 'READY';
+             const TO_DT_MMDD = moment(saleData.TO_DT).format('YYYYMMDD');
+             const LIVE_BID_DT = moment(saleData.LIVE_BID_DT);
+             const NOW_DATETIME = moment();
+             const NOW_DATE = moment().format('YYYYMMDD');
+
+             if(NOW_DATE < TO_DT_MMDD) {
+                 saleStatus = 'READY';
+             }else if((NOW_DATE >= TO_DT_MMDD) && (NOW_DATETIME < LIVE_BID_DT)) {
+                 saleStatus = 'BID_END';
+             }else if((NOW_DATE >= TO_DT_MMDD) && (NOW_DATETIME >= LIVE_BID_DT)) {
+                 saleStatus = 'LIVE_ING';
+             }else if(saleData.CLOSE_YN){ //LOT 종료여부도 체크?-lot.close_yn
+                 saleStatus = "END";
+                 if (!IS_EMPLOYEE && sessionStorage.getItem("is_login") === 'false') {
+                     alert("권한이 없거나 허용되지 않은 접근입니다.");
+                     window.location.href = "/";
+                 }
+             }
+
+             $scope.sale_status = saleStatus;
+             $scope.$apply();
+
+        }
+
+        const setLotInfo = (lotData) => {
+            const displayLot = {};
+            const baseCurrency = $scope.base_currency;
+            const subCurrency = $scope.sub_currency;
+
+            displayLot.artistName = lotData.ARTIST_NAME_JSON[locale];
+
+            const birthOfDeath = lotData.DIE_YEAR ? lotData.BORN_YEAR +  "-" + lotData.DIE_YEAR : lotData.BORN_YEAR;
+            displayLot.birthOfDeath = "b."+ birthOfDeath;
+
+            displayLot.lotTitle = lotData.TITLE_JSON[locale];
+
+
+            //추정가
+            displayLot.EXPE_PRICE_FROM_JSON = numberWithCommas(lotData.EXPE_PRICE_FROM_JSON[baseCurrency]);
+            displayLot.EXPE_PRICE_TO_JSON = numberWithCommas(lotData.EXPE_PRICE_TO_JSON[baseCurrency]);
+            displayLot.SUB_EXPE_PRICE_FROM_JSON = numberWithCommas(lotData.EXPE_PRICE_FROM_JSON[subCurrency]);
+            displayLot.SUB_EXPE_PRICE_TO_JSON = numberWithCommas(lotData.EXPE_PRICE_TO_JSON[subCurrency]);
+
+            //낙찰가
+            if ($scope.sale_status === 'LIVE_ING' && lotData.CLOSE_YN && lotData.MAX_BID_PRICE !== null && IS_REGULAR) {
+                displayLot.isShowBidPrice = true;
+                displayLot.maxBidPrice = numberWithCommas(lotData.MAX_BID_PRICE);
+            } else {
+                displayLot.isShowBidPrice = false;
+            }
+
+            //마감일
+            displayLot.lotExpireDate = lotData.TITLE_JSON[locale];
+            
+            //작품정보
+            displayLot.mate = lotData.MATE_CD[locale]; //재질
+            displayLot.sizeArray = JSON.parse(lotData.LOT_SIZE_ARRAY); //규격
+            displayLot.edition = lotData.EDITION; //에디션
+            displayLot.makeYear = lotData.MAKE_YEAR_JSON[locale]; //제작년도
+            displayLot.sign = lotData.SIGN_INFO_JSON[locale]; //서명
+
+            displayLot.condition = lotData.COND_RPT_JSON[locale];
+            displayLot.provenance = lotData.PROV_INFO_JSON[locale];
+            displayLot.literature = lotData.LITE_INFO_JSON[locale];
+            displayLot.exhibited = lotData.EXHI_INFO_JSON[locale];
+
+            //작품설명
+            displayLot.comment = lotData.CMMT_JSON[locale];
+
+            //artist 번호
+            $scope.artistNo = lotData.ARTIST_NO;
+
+            // ? $scope.activeIndex = 0;
+
+            $scope.displayLotInfo = displayLot;
+            $scope.$apply();
+        }
+
+        const setArtistInfo = (artistData) =>{
+            // console.log(artistData)
+            if(artistData){
+                const artistLayer = document.getElementById('artist_layer');
+                const artistNameJSON = JSON.parse(artistData.name);
+                const artistName = artistNameJSON['ko'] + ' ' + artistNameJSON['en'];
+                const birthOfDeath =  artistData.death ? artistData.birth + "~" + artistData.death : artistData.birth;
+                artistLayer.querySelector('[data-artist-info]').innerHTML = artistName + ' ' + birthOfDeath;
+
+                const profile = JSON.parse(artistData.profile)[locale];
+                artistLayer.querySelector('[data-artist-profile]').innerHTML = profile + '</br>';
+
+                const articleList = JSON.parse(artistData.articles).articles;
+                let articleDom = '';
+                articleList.forEach(item => {
+                    const text = locale === 'ko'? item.titleKo : item.titleEn;
+                    articleDom += `<a href="\${item.url}" target="_blank" class="sub-links">“\${text}”</a>`
+                });
+                artistLayer.querySelector('[data-article-list]').innerHTML = articleDom;
+
+
+                const mediaContents = JSON.parse(artistData.media);
+                const mediaImageList = artistData.images;
+                let mediaList = [];
+
+                mediaImageList.forEach(item => {
+                    const tagText =  item.tag.replace(/[0-9]/g,"");
+                    const tagIdx =  item.tag.replace(/[^0-9]/g,"");
+
+                    let media = {};
+                    media.url = mediaContents[tagText][tagIdx];
+                    media.imageSrc = item.cdn_url;
+
+                    mediaList.push(media);
+                })
+
+                let mediaDom = '';
+                mediaList.forEach(item => {
+                    mediaDom += `<a href="\${item.url}" target="_blank">
+                                    <div class="dim">
+                                        <i class="icon-video_play_white"></i>
+                                    </div>
+                                    <img src="\${item.imageSrc}" alt="">
+                                </a>`
+                })
+
+                artistLayer.querySelector('[data-media-list]').innerHTML = mediaDom;
+
+            }else{
+                document.getElementById("artist_layer").style.display = 'none';
+            }
+        }
 
         $scope.load = function () {
             let run = async function () {
@@ -1028,44 +1088,24 @@
                 $scope.searchSaleLotList = pp;
 
 
-                //랏 정보 셋팅
-                $scope.lotInfo.EXPE_PRICE_FROM_JSON.KRW = numberWithCommas($scope.lotInfo.EXPE_PRICE_FROM_JSON.KRW);
-                $scope.lotInfo.EXPE_PRICE_TO_JSON.KRW = numberWithCommas($scope.lotInfo.EXPE_PRICE_TO_JSON.KRW);
-                $scope.lotInfo.EXPE_PRICE_FROM_JSON.USD = numberWithCommas($scope.lotInfo.EXPE_PRICE_FROM_JSON.USD);
-                $scope.lotInfo.EXPE_PRICE_TO_JSON.USD = numberWithCommas($scope.lotInfo.EXPE_PRICE_TO_JSON.USD);
 
-                //artist 번호
-                $scope.artistNo = $scope.lotInfo.ARTIST_NO;
+                //데이터 셋팅
+                await setSaleInfo($scope.saleInfo);
+                await setLotInfo($scope.lotInfo);
 
-                $scope.activeIndex = 0;
+                //작가 정보 호출&셋팅
+                if($scope.artistNo > 0){
+                    const res = await getArtistInfo($scope.artistNo);
+                    $scope.artistInfo = res.data.data;
+                    setArtistInfo($scope.artistInfo);
+                }
 
-                if($scope.lotInfo.OFFLINE_MAX_BID_PRICE > 0)
-                    $scope.lotInfo.OFFLINE_MAX_BID_PRICE = numberWithCommas($scope.lotInfo.OFFLINE_MAX_BID_PRICE);
-
-
-                $scope.displaySaleTitle = $filter('localeOrdinal')($scope.saleInfo.SALE_TH)+' '+JSON.parse($scope.saleInfo.TITLE_JSON)[locale];
-
-
-                // $scope.lotInfo.NOTICE_DTL_JSON_VALUE =  $scope.locale === 'ko' ? $scope.lotInfo.NOTICE_DTL_JSON.ko : $scope.lotInfo.NOTICE_DTL_JSON.en;
-
-                // popup setting
 
                 let imgUrl;
                 if($scope.lotImages[0]) {
                     imgUrl = $scope.lotImages[0].IMAGE_URL +
                         $scope.lotImages[0].FILE_PATH + "/" + $scope.lotImages[0].FILE_NAME;
                 }
-
-                $("#bidding_title").html($scope.lotInfo.TITLE_KO_TXT);
-                $("#img_url").attr("src", imgUrl);
-                $("#artist_nm").html($scope.lotInfo.ARTIST_NAME_KO_TXT);
-                $("#born_year").html("(" + $scope.lotInfo.BORN_YEAR + ")");
-
-                $("#lot_title").html("LOT " + $scope.lotInfo.LOT_NO);
-                // 시작
-                /*startBidProcess($scope.lotInfo.SALE_NO, $scope.lotInfo.LOT_NO, 2,
-                    '${member.loginId}', ${member.userNo});*/
-                $scope.$apply();
 
                 // 카카오 init
                 Kakao.init('cf2233f55e74d6d0982ab74909c97835');
@@ -1074,8 +1114,8 @@
                     container: "#kakao-share",
                     objectType: "feed",
                     content: {
-                        title: $scope.saleInfo.SALE_TITLE_KO,
-                        description: $scope.lotInfo.TITLE_KO_TXT,
+                        title: $scope.saleInfo.displaySaleTitle,
+                        description: $scope.displayLotInfo.lotTitle,
                         imageUrl: imgUrl,
                         link: {
                             mobileWebUrl: window.location.href,
@@ -1175,29 +1215,29 @@
 
                     //if (size1 > 160) {
                     popup_swiper_slide_item = `<div class="swiper-slide">
-                                            <div class="img-area">
-                                                <div class="img-box">
-                                                    <div class="images">
-                                                        <img class="imageViewerpopup" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
+                                                    <div class="img-area">
+                                                        <div class="img-box">
+                                                            <div class="images">
+                                                                <img class="imageViewerpopup" src="` + popup_img_url + `" alt="" lot_no="` + popup_lot_no + `" />
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                        </div>`
+                                                 </div>`
                     $("#swiper-wrapper_popup").append(popup_swiper_slide_item);
 
 
                     popup_swiper_mini_slide_item = `<li class="active">
-                                            <a href="#">
-                                                <div class="imgs-item">
-                                                    <figure class="img-ratio">
-                                                        <div class="img-align">
-                                                            <img src="` + popup_img_url + `" alt="" />
-                                                        </div>
-                                                    </figure>
-                                                    <div class="line"></div>
-                                                    </div>
-                                                </a>
-                                            </li>`
+                                                        <a href="#">
+                                                            <div class="imgs-item">
+                                                                <figure class="img-ratio">
+                                                                    <div class="img-align">
+                                                                        <img src="` + popup_img_url + `" alt="" />
+                                                                    </div>
+                                                                </figure>
+                                                                <div class="line"></div>
+                                                            </div>
+                                                        </a>
+                                                    </li>`
                     $("#thumbnail_image").append(popup_swiper_mini_slide_item);
                 });
 
@@ -1311,49 +1351,8 @@
                     toggle_sns.toggleAllSet(false);
                 })
 
-                //작가 정보 admin에서 가져오도록 변경
-                axios.get('/api/auction/artist_info/' + $scope.artistNo)
-                    .then(function (response) {
-                        const data = response.data;
-                        let success = data.success;
 
-                        if (success) {
-                            let artistData = data.data;
-                            if (!artistData) {
-                                $("#artist_layer").css("display", "none");
-                            } else {
-                                let articlesList = JSON.parse(artistData.articles).articles;
-                                let artistYoutubeImages = JSON.parse(artistData.media).youtube;
-                                let artistImageList = artistData.images;
-                                let title = '';
-                                $.each(articlesList, function (index, el) {
-                                    if (locale == 'ko') {
-                                        title += el.titleKo + '</br>';
-                                    } else {
-                                        title += el.titleEn + '</br>';
-                                    }
-                                });
 
-                                $("#artistName").html(JSON.parse(artistData.name).ko + ' ' + artistData.birth + '~' + artistData.death);
-                                $("#artistProfile").html(JSON.parse(artistData.profile).ko + '</br>' + title);
-
-                                let html = '<div class="vide_img-box">';
-                                $.each(artistYoutubeImages, function (index, el) {
-                                    $.each(artistImageList, function (s3Index, el) {
-                                        //일단은 youtube만 뿌리기로
-                                        if (artistImageList[s3Index].tag == 'youtube' + index) {
-                                            html += '<a href="' + artistYoutubeImages[index] + '"><img src=" ' + artistImageList[s3Index].cdn_url + ' " alt="" /></a>';
-                                        }
-                                    });
-                                });
-                                html += '</div>';
-                                $("#artistMedia").html(html);
-                            }
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
 
                 var popup_images = $(".js-popup_images").trpLayerFixedPopup("#popup_images-wrap");
                 $(".js-popup_images").on("click", function ($e) {

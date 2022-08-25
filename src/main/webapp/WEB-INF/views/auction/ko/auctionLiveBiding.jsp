@@ -270,9 +270,10 @@
     <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
     <script>
+        const locale = document.documentElement.lang;
         $(function() {
-
             init();
+            let baseCurrency='KRW';
             let currentPrice;
             let currentBidKind;
             let growPrice;
@@ -285,9 +286,11 @@
                         let data = response.data.data;
                         let sale_title;
                         sale_title = data.SALE_TH !== undefined ? ( '제' + data.SALE_TH + '회 ' ) : '';
-                        sale_title += data.TITLE_JSON.ko;
+                        sale_title += data.TITLE_JSON[locale];
 
                         $("#sale_title").html(sale_title);
+
+                        baseCurrency = data.CURR_CD;
                     })
                     .catch(function(error){
                         console.log(error);
@@ -299,8 +302,8 @@
 
                     $("#bidding_lot_img").attr('src' , data.IMAGE_URL + data.LOT_IMG_PATH + '/' +data.LOT_IMG_NAME);
                     $("#lot_id").html(data.LOT_NO);
-                    $("#artist_name").html(data.ARTIST_NAME_KO_TXT);
-                    $("#lot_title").html(data.TITLE_KO_TXT);
+                    $("#artist_name").html(data.ARTIST_NAME_JSON[locale]);
+                    $("#lot_title").html(data.TITLE_JSON[locale]);
 
                     let current_price = data.START_PRICE;
                     let MAX_PRICE = current_price * 10; // 추청가의 10배가 최대치.
@@ -330,7 +333,7 @@
 
                     let expe_text =
                         data.EXPE_PRICE_INQ_YN == 'Y' ?  '별도 문의' :
-                            ('KRW ' + numberWithCommas(data.EXPE_PRICE_FROM_JSON.KRW) + '<br> ~ ' + numberWithCommas(data.EXPE_PRICE_TO_JSON.KRW))
+                            (baseCurrency +' ' + numberWithCommas(data.EXPE_PRICE_FROM_JSON[baseCurrency]) + '<br> ~ ' + numberWithCommas(data.EXPE_PRICE_TO_JSON[baseCurrency]))
 
                     $("#expe_price").html(expe_text);
 
