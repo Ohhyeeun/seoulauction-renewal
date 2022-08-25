@@ -143,6 +143,7 @@
                         <div ng-show="lot.LOT_NO != null"
                              style="display:table; margin:auto; position:relative; overflow:hidden;" align="center">
                             <div class="bid_live_img_box" align="center">
+
                                 <img oncontextmenu="return false"
                                      ng-src="{{curLot.IMAGE_URL}}{{curLot.FILE_NAME | imagePath1 : curLot.FILE_NAME : 'detail'}}"
                                      alt="{{curLot.TITLE}}"
@@ -377,6 +378,8 @@
     app.filter('currency', function(){
         return function(val) {
             return val.toLocaleString('ko-KR');
+
+
         };
     })
 

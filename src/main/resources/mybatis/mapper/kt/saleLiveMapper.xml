@@ -488,5 +488,38 @@
         group by L.SALE_NO, L.LOT_NO
     </select>
 
-
+    <!--관리자용 Sale 가져오기.-->
+    <select id="selectAdminSaleInfo" resultType="CommonMap" parameterType="commonMap">
+        SELECT
+                S.SALE_NO
+             ,	S.SALE_KIND_CD
+             ,	IF(S.SALE_TH_DSP_YN = 'N', '', S.SALE_TH) SALE_TH
+             ,	IF(S.SALE_TH_DSP_YN = 'N', '', f_ordinal_number(S.SALE_TH)) SALE_TH_DSP
+             ,	S.TO_DT
+             ,	S.CURR_CD
+             ,	COLUMN_JSON(S.TITLE_BLOB) TITLE_JSON
+             , (SELECT MAX(LOT_NO) FROM LOT WHERE SALE_NO = S.SALE_NO) MAX_LOT_NO
+             , (SELECT LOT_NO FROM LOT WHERE SALE_NO = S.SALE_NO AND LIVE_ING_YN = 'Y') ING_LOT_NO
+        FROM
+            SALE S
+        WHERE
+            S.SALE_NO = #{sale_no}
+            AND
+            S.SALE_KIND_CD IN ('main','plan','honkong')
+        ORDER BY
+            S.TO_DT ASC
+        LIMIT
+            1
+    </select>
+    <!--관리자용 오프라인 비드 정보 가져오기.-->
+    <select id="selectAdminOffBid" resultType="CommonMap" parameterType="commonMap">
+        SELECT BD_OFF.*, PADD.PADD_NO as ONLINE_BID_ID
+        FROM BID_OFFLINE BD_OFF
+                 LEFT OUTER JOIN CUST C ON BD_OFF.CUST_NO = C.CUST_NO
+                 LEFT OUTER JOIN SALE_PADD PADD ON BD_OFF.SALE_NO = PADD.SALE_NO AND BD_OFF.CUST_NO = PADD.CUST_NO AND PADD.PADD_NO > 600
+        WHERE 1 = 1
+          AND BD_OFF.SALE_NO = #{sale_no}
+          AND BD_OFF.LOT_NO  = #{lot_no}
+        ORDER BY BD_OFF.BID_NO DESC
+    </select>
 </mapper>
