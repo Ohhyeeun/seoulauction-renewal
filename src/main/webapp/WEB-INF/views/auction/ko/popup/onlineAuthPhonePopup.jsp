@@ -26,16 +26,16 @@
                   </div>
                   <div class="form_body">
                     <div class="input-group">
-                      <input type="text" id="name-1" class="form-control" value="" placeholder="">
+                      <input type="text" id="auth-request-hp" class="form-control" value="" placeholder="">
                       <button class="btn btn_light_gray_line" type="button"><span>인증번호 요청</span></button>
                     </div>
                     <div class="re-check">
                       <div class="form_body">
                         <div class="input-group">
-                          <input type="text" id="name-2" class="form-control" value="" placeholder="인증번호 입력">
+                          <input type="text" id="auth-confirm-code" class="form-control" value="" placeholder="인증번호 입력">
                           <button class="btn btn_light_gray_line" type="button"><span>인증</span></button>
                         </div>
-                        <p class="error_text tb2">안내 메시지 출력 영역</p>
+                        <p id="auth-input-message" class="error_text tb2" style="visibility: hidden;">안내 메시지 출력 영역</p>
                       </div>
                     </div>
                   </div>
@@ -67,7 +67,10 @@
                                 <li>접속자의 컴퓨터, 인터넷 환경에 따라 반영 속도 차이가 있을 수 있으니 비딩 시 유의해 주시기 바랍니다.</li>
                                 <li><em>[1회 응찰] 또는 [자동 응찰] 버튼을 누르시면 ‘확인안내 없이’ 바로 응찰이 되어 취소가 가능합니다.</em></li>
                                 <li><em>남은 시간 1초 미만 시 응찰은 서버 반영 전 종료 될 수 있으니, 주의가 필요합니다.</em></li>
-                                <li>[자동 응찰 중지하기]는 자동 응찰 ‘취소가 아닙니다’, 응찰자가 자동응찰을 중지하는 경우 중지 전까지의 응찰 및 낙찰은 유효합니다. 또한 자동응찰의 중지는 서버에 반영이 되는 시점에 효력이 발생하므로,<br class="only-pc"> <em>응찰자가 중지버튼을 클릭한 시점보다 더 높은 금액에 중지되고 이 금액에 낙찰 될 수 있습니다.</em></li>
+                                <li>
+                                  [자동 응찰 중지하기]는 자동 응찰 ‘취소가 아닙니다’, 응찰자가 자동응찰을 중지하는 경우 중지 전까지의 응찰 및 낙찰은 유효합니다. 또한 자동응찰의 중지는 서버에 반영이 되는 시점에 효력이 발생하므로,<br class="only-pc">
+                                  <em>응찰자가 중지버튼을 클릭한 시점보다 더 높은 금액에 중지되고 이 금액에 낙찰 될 수 있습니다.</em>
+                                </li>
                               </ul>
                             </div>
                           </div>
@@ -88,7 +91,7 @@
                         </div>
                         <div class="con-area">
                           <div class="con-body">
-                            <div class="text-area  check_item">
+                            <div class="text-area check_item">
                               <ul class="">
                                 <li>
                                   <div class="trp checkbox-box">
