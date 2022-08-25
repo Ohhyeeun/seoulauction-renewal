@@ -437,6 +437,7 @@
             , COLUMN_JSON(L.TITLE_BLOB)             TITLE_JSON
             , COLUMN_JSON(L.MAKE_YEAR_BLOB)         MAKE_YEAR_JSON
             , COLUMN_JSON(AT.ARTIST_NAME_BLOB)      ARTIST_NAME_JSON
+            , L.ARTIST_NO
             , AT.BORN_YEAR
             , ( SELECT C.CD_NM FROM CODE C WHERE C.CD_ID = L.MATE_CD AND GRP_ID ='material') MATE_CD_KO
             , ( SELECT C.CD_NM_EN FROM CODE C WHERE C.CD_ID = L.MATE_CD AND GRP_ID ='material') MATE_CD_EN
