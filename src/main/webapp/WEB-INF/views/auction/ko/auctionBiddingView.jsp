@@ -981,7 +981,7 @@
                                             <div class="view-img">
                                                 <div class="img-box">
                                                     <div class="box-inner">
-                                                        <img src="\${item.IMAGE_FULL_PATH}" alt="LOT \${item.LOT_NO}">
+                                                        <img src="https://www.seoulauction.com/nas_img/\${item.LOT_IMG_PATH}/\${item.LOT_IMG_NAME}" alt="LOT \${item.LOT_NO}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1048,7 +1048,7 @@
                 document.getElementById("btnMoveCurrentLot").style.display = 'block';
             }
 
-            el_lotImage.src = data.IMAGE_FULL_PATH;
+            el_lotImage.src = `https://www.seoulauction.com/nas_img/\${data.LOT_IMG_PATH}/\${data.LOT_IMG_NAME}`
             el_lotInfo.querySelector(".num span").innerHTML = data.LOT_NO;
             el_lotInfo.querySelector(".title span").innerHTML = isNotObjectEmpty(data.ARTIST_NAME_JSON) ? data.ARTIST_NAME_JSON[locale] : '';
             el_lotInfo.querySelector(".desc span").innerHTML = data.LOT_TITLE_JSON[locale];
@@ -1065,7 +1065,7 @@
 
         const bindingCurrentLotInfo = (data) =>{
             const el_nowLotImg = document.querySelector(`\${classForDevice} [now-lot-image]`);
-            el_nowLotImg.src = data.IMAGE_FULL_PATH;
+            el_nowLotImg.src = `https://www.seoulauction.com/nas_img/\${data.LOT_IMG_PATH}/\${data.LOT_IMG_NAME}`;
             el_nowLotImg.alt = "LOT "+ data.LOT_NO;
 
             const el_nowLotNo = document.querySelector(`\${classForDevice} [now-lot-no]`);
