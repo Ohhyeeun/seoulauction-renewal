@@ -151,7 +151,7 @@
                                                     </a>
                                                     <a id="heart"
                                                        class="work_heart js-work_heart" ng-class="{on : lotInfo.FAVORITE_YN}"
-                                                       ng-click="favorite(lotInfo.SALE_NO, lotInfo.LOT_NO);">
+                                                       ng-click="toggleFavoriteLot(lotInfo);">
                                                         <i class="icon-view_heart_off"></i>
                                                     </a>
 
@@ -193,21 +193,21 @@
                                                         <dd>별도 문의</dd>
                                                     </div>
                                                 </dl>
-                                                <dl class="price-list">
+                                                <dl class="price-list" ng-if="item.isShowBidPrice">
+                                                    <dt>낙찰가</dt>
+                                                    <div>
+                                                        <dd><strong>KRW {{displayLotInfo.maxBidPrice}}</strong></dd>
+                                                    </div>
+                                                </dl>
+
+                                                <dl class="price-list" ng-if="sale_status === 'READY'">
                                                     <dt>마감일</dt>
                                                     <dd><b id="end_date_time" ng-bind="displayBidCloseDate"></b></dd>
                                                 </dl>
-
-                                                <dl class="price-list" ng-show="">
-                                                    <dt>낙찰가</dt>
-                                                    <div>
-                                                        <dd><strong>KRW {{displayLotInfo.OFFLINE_MAX_BID_PRICE}}</strong></dd>
-                                                    </div>
-                                                </dl>
                                             </div>
                                             <div class="button-area">
-                                                <div class="btn_set only-pc">
-                                                    <div class="btn_item" id="show_btn">
+                                                <div class="btn_set only-pc" ng-if="sale_status === 'READY'">
+                                                    <div class="btn_item" >
                                                         <a class="btn btn_point btn_lg" href="#" role="button" ng-click="moveToBidding()">
                                                             <span>서면/전화 응찰 신청</span>
                                                         </a>
@@ -875,6 +875,29 @@
 
         }
 
+        $scope.toggleFavoriteLot = async function(item) {
+            if(!checkLogin()){
+                return;
+            }
+
+            const url = item.FAVORITE_YN? '/api/auction/live/delCustInteLot' : '/api/auction/live/addCustInteLot';
+
+            try {
+                axios.post(url, {
+                    sale_no: $scope.sale_no,
+                    lot_no: $scope.lot_no
+                }).then(function(response) {
+                    if(response.data.success){
+                        item.FAVORITE_YN = !item.FAVORITE_YN;
+                        $scope.$apply();
+                    }
+                });
+            } catch (error) {
+                console.error(error);
+            }
+
+        }
+
         $scope.urlCopy = function () {
             let url = location.href;
             let $temp = $('<input>');
@@ -944,8 +967,12 @@
             displayLot.SUB_EXPE_PRICE_TO_JSON = numberWithCommas(lotData.EXPE_PRICE_TO_JSON[subCurrency]);
 
             //낙찰가
-            if(lotData.OFFLINE_MAX_BID_PRICE > 0)
-                displayLot.OFFLINE_MAX_BID_PRICE = numberWithCommas(lotData.OFFLINE_MAX_BID_PRICE);
+            if ($scope.sale_status === 'LIVE_ING' && lotData.CLOSE_YN && lotData.MAX_BID_PRICE !== null && IS_REGULAR) {
+                displayLot.isShowBidPrice = true;
+                displayLot.maxBidPrice = numberWithCommas(lotData.MAX_BID_PRICE);
+            } else {
+                displayLot.isShowBidPrice = false;
+            }
 
             //마감일
             displayLot.lotExpireDate = lotData.TITLE_JSON[locale];
