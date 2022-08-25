@@ -265,7 +265,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </dl>
-ㅎ                                                                <dl class="price-list" ng-if="item.isShowBidPrice" >
+                                                                <dl class="price-list" ng-if="item.isShowBidPrice" >
                                                                     <dt>낙찰가</dt>
                                                                     <div>
                                                                         <div>
