@@ -1002,18 +1002,16 @@
         }
 
         const setArtistInfo = (artistData) =>{
-            // console.log(artistData)
+            console.log(artistData)
             if(artistData){
                 const artistLayer = document.getElementById('artist_layer');
-                const artistNameJSON = JSON.parse(artistData.name);
-                const artistName = artistNameJSON['ko'] + ' ' + artistNameJSON['en'];
+                const artistName = artistData.NAME_JSON['ko'] + ' ' + artistData.NAME_JSON['en'];
                 const birthOfDeath =  artistData.death ? artistData.birth + "~" + artistData.death : artistData.birth;
                 artistLayer.querySelector('[data-artist-info]').innerHTML = artistName + ' ' + birthOfDeath;
 
-                const profile = JSON.parse(artistData.profile)[locale];
-                artistLayer.querySelector('[data-artist-profile]').innerHTML = profile + '</br>';
+                artistLayer.querySelector('[data-artist-profile]').innerHTML = artistData.PROFILE_JSON[locale] + '</br>';
 
-                const articleList = JSON.parse(artistData.articles).articles;
+                const articleList = artistData.ARTICLES_JSON.articles;
                 let articleDom = '';
                 articleList.forEach(item => {
                     const text = locale === 'ko'? item.titleKo : item.titleEn;
@@ -1022,7 +1020,7 @@
                 artistLayer.querySelector('[data-article-list]').innerHTML = articleDom;
 
 
-                const mediaContents = JSON.parse(artistData.media);
+                const mediaContents = artistData.MEDIA_JSON;
                 const mediaImageList = artistData.images;
                 let mediaList = [];
 
