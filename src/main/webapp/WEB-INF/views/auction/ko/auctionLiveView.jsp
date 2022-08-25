@@ -1200,17 +1200,17 @@
 
 
                     popup_swiper_mini_slide_item = `<li class="active">
-                                            <a href="#">
-                                                <div class="imgs-item">
-                                                    <figure class="img-ratio">
-                                                        <div class="img-align">
-                                                            <img src="` + popup_img_url + `" alt="" />
-                                                        </div>
-                                                    </figure>
-                                                    <div class="line"></div>
-                                                    </div>
-                                                </a>
-                                            </li>`
+                                                        <a href="#">
+                                                            <div class="imgs-item">
+                                                                <figure class="img-ratio">
+                                                                    <div class="img-align">
+                                                                        <img src="` + popup_img_url + `" alt="" />
+                                                                    </div>
+                                                                </figure>
+                                                                <div class="line"></div>
+                                                            </div>
+                                                        </a>
+                                                    </li>`
                     $("#thumbnail_image").append(popup_swiper_mini_slide_item);
                 });
 
