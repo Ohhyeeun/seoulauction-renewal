@@ -254,7 +254,7 @@
             <div class="popup-layer">
                 <div class="pop-panel">
                     <div class="pop-header">
-                        <a class="btn_close icon-pop_close js-closepop" href="javascript:void(0);" title="닫기">X</a>
+                        <a class="btn_close icon-pop_close js-closepop" onclick="sleepAlarmNow();"  href="javascript:void(0);" title="닫기">X</a>
                         <div class="ico_box change_ico">
                             <img class="only_ib-pc" src="/images/mobile/login/search_ico_04_pc.png">
                             <img class="only_ib-mb" src="/images/mobile/login/search_ico_04.png">

@@ -156,6 +156,18 @@ public class ApiMainController {
         return ResponseEntity.ok(RestResponse.ok());
     }
 
+    @GetMapping(value="/sleepAlarmNow")
+    public ResponseEntity<RestResponse> sleepAlarmNow(Principal principal, HttpServletRequest request) {
+        CommonMap paramMap = new CommonMap();
+        if(principal != null) {
+            request.getSession().removeAttribute("PASSWD_MOD_NECESSARY_YN");
+        }else {
+            throw new SAException("로그인이 필요합니다.");
+        }
+
+        return ResponseEntity.ok(RestResponse.ok());
+    }
+
     @RequestMapping(value = "/bigBanners", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> bigBanners(){
         return ResponseEntity.ok(RestResponse.ok(mainService.selectBigBanners()));
