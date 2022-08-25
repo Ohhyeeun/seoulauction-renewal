@@ -212,10 +212,9 @@ public class SaleLiveService {
     @Transactional("ktTransactionManager")
     public void lotSync(CommonMap map){
         //lot no 가 있을경우에는 lot 전용 sync 실행.
+        saleLiveMapper.updateLotSync1(map);
         if(map.get("lot_no") !=null){
             saleLiveMapper.updateLotSync2(map);
-        } else {
-            saleLiveMapper.updateLotSync1(map);
         }
     }
 
